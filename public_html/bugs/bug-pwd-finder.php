@@ -44,7 +44,7 @@ if (isset($_GET['bug_id'])) {
             if (empty($row['passwd'])) {
                 $errors[] = "No password found for #$bug_id bug report, sorry.";
             } else {
-                $passwd = stripslashes($row['passwd']);
+                $passwd = $row['passwd'];
 
                 $resp = mail($row['email'],
                              'Password for PEAR bug report #' . $bug_id,
