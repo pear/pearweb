@@ -40,10 +40,10 @@ if (empty($format)) {
 
 include_once "pear-format-$format.php";
 
-require_once "DB.php";
-require_once "DB/storage.php";
-require_once "pear-auth.php";
-require_once "pear-database.php";
+include_once "DB.php";
+include_once "DB/storage.php";
+include_once "pear-auth.php";
+include_once "pear-database.php";
 
 function get($name)
 {
