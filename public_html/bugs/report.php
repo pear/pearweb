@@ -252,7 +252,7 @@ if (isset($_POST['in'])) {
                 // mail to reporter
                 @mail($email, "[PEAR-BUG] $type #$cid: $sdesc",
                       $ascii_report . "2\n",
-                      "From: PHP Bug Database <$mailfrom>\n" .
+                      "From: PEAR Bug Database <$mailfrom>\n" .
                       "X-PHP-Bug: $cid\n" .
                       "Message-ID: <bug-$cid@pear.php.net>",
                       '-fpear-sys@php.net');

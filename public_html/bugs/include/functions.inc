@@ -730,7 +730,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
             @mail($bug[email],
                   '[PEAR-BUG] ' . rinse($subj) . txfield('sdesc'),
                   $user_text,
-                  "From: PHP Bug Database <$mailfrom>\n".
+                  "From: PEAR Bug Database <$mailfrom>\n".
                   "X-PHP-Bug: $bug[id]\n".
                   "In-Reply-To: <bug-$bug[id]@pear.php.net>",
                   "-fbounces-ignored@php.net");
