@@ -790,19 +790,25 @@ class package
      * @static
      * @param boolean Only list released packages?
      * @param boolean If listing released packages only, only list stable releases?
+     * @param boolean List also PECL packages
+     * @param boolean Only list PECL packages
      * @return array
      */
-    function listAll($released_only = true, $stable_only = true, $include_pecl=false)
+    function listAll($released_only = true, $stable_only = true, $include_pecl = false, $only_pecl = false)
     {
         global $dbh, $HTTP_RAW_POST_DATA;
 
         if (isset($HTTP_RAW_POST_DATA)) {
             $include_pecl = true;
         }
-        if ($include_pecl) {
-            $package_type = "";
-        } else {
+        
+        $package_type = '';
+        if (!$include_pecl && !$only_pecl) {
             $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
+        }
+        
+        if ($only_pecl) {
+            $package_type = "p.package_type = 'pecl' AND p.approved = 1 AND ";
         }
 
         $packageinfo = $dbh->getAssoc("SELECT p.name, p.id AS packageid, ".
@@ -2587,6 +2593,7 @@ class user
                     $users[$id]['type'] = 0;
                 }
 
+                // Returned 'type' is 1 for PEAR, 2 for PECL or 3 for both
                 switch ($users[$id]['type']) {
                 case '3':
                     break;
