@@ -40,7 +40,7 @@ team works can be found in the
   echo '<li>' . user_link('thesaur') . "</li>\n";
   echo '<li>' . user_link('arnaud') . "</li>\n";
   echo '<li>' . user_link('toby') . "</li>\n";
-  echo '<li>' . user_link('schist') . "</li>\n";
+  echo '<li>' . user_link('schst') . "</li>\n";
   echo '<li>' . user_link('davey') . "</li>\n";
   echo '<li>' . user_link('lsmith') . "</li>\n";
 
