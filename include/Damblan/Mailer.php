@@ -56,13 +56,13 @@
          * @access private
          * @return void
          */
-        function Damblan_Mail ()
+        function Damblan_Mailer ()
         {
         }
 
         /**
          * Create a new mail from a template.
-         * This static method will create a new Damblan_Mail instance for you. The
+         * This static method will create a new Damblan_Mailer instance for you. The
          * given parameters represent the $_template and $_data variables of this class.
          * See their documentation for further information.
          *
@@ -77,8 +77,8 @@
          *
          * @param array $data     The data to set in the template (in the formate 'variable' => 'value').
          *
-         * @see Damblan_Mail::$_data
-         * @see Damblan_Mail::$_template
+         * @see Damblan_Mailer::$_data
+         * @see Damblan_Mailer::$_template
          *
          * @static
          *
@@ -95,7 +95,7 @@
             if (!is_array($data)) {
                 return PEAR::raiseError('Data not in correct format, has to be array.');
             }
-            $mailer = new Damblan_Mail();
+            $mailer = new Damblan_Mailer();
             $mailer->_template = $tpl;
             $mailer->_data = $data;
             return $mailer;
