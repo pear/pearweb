@@ -13,7 +13,7 @@
 # | license@php.net so we can mail you a copy immediately.               |
 # +----------------------------------------------------------------------+
 # | Authors: Tomas V.V.Cox <cox@idecnet.com>                             |
-# |          Stig Sæther Bakken <stig@php.net>                           |
+# |          Stig Sï¿½ther Bakken <stig@php.net>                           |
 # |			 Christian Dickmann <dickmann@php.net>						 |
 # |			 Pierre-Alain Joye <pajoye@pearfr.org>						 |
 # +----------------------------------------------------------------------+
@@ -79,16 +79,16 @@ $sapi_name = php_sapi_name();
 set_time_limit(0);
 @ob_end_clean();
 ob_implicit_flush(true);
-define('WEBINSTALLER', (php_sapi_name() != 'cli' && !( substr(php_sapi_name(),0,3)=='cgi' && !isset($_SERVER['GATEWAY_INTERFACE']))));
+define('WEBINSTALLER', ($sapi_name != 'cli' && !(substr($sapi_name,0,3)=='cgi' && !isset($_SERVER['GATEWAY_INTERFACE']))));
 
 ini_set('track_errors', true);
 ini_set('html_errors', WEBINSTALLER);
 ini_set('magic_quotes_runtime', false);
 error_reporting( E_ALL & ~E_NOTICE);
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
-define('GO_PEAR_VER', '0.2.3');
+define('GO_PEAR_VER', '0.2.2');
 
-define('WIN32GUI', !WEBINSTALLER && WINDOWS && php_sapi_name()== 'cli' && which('cscript'));
+define('WIN32GUI', !WEBINSTALLER && WINDOWS && $sapi_name=='cli' && which('cscript'));
 
 /**
  * See bug #23069
@@ -152,25 +152,16 @@ if (WEBINSTALLER) {
 	$installer_packages[] = 'PEAR_Frontend_Web';
 }
 $version_n = explode(".",phpversion());
-if ($version_n[0]=="4") {
-    $pfc_packages = array(
-        'DB',
-        'Net_Socket',
-        'Net_SMTP',
-        'Mail',
-        'XML_Parser',
-        'PHPUnit'
-        );
-} else {
-    $pfc_packages = array(
-        'DB',
-        'Net_Socket',
-        'Net_SMTP',
-        'Mail',
-        'XML_Parser',
-        'PHPUnit2'
-        );
-}
+
+$pfc_packages = array(
+    'DB',
+    'Net_Socket',
+    'Net_SMTP',
+    'Mail',
+    'XML_Parser',
+    'PHPUnit'
+    );
+
 $config_desc = array(
     'prefix' => 'Installation prefix',
     'bin_dir' => 'Binaries directory',
@@ -258,7 +249,9 @@ if (WEBINSTALLER) {
                 if( ereg(' ', $_POST['config'][$key]) ) {
                     $www_errors[$key] = 'Spaces are not allowed in pathes. Please choose another path.';
                 } elseif ( empty($_POST['config'][$key]) ) {
-                    $www_errors[$key] = 'Please fill this path, you can use $prefix, $php_dir or a full path.';
+                    if (WEBINSTALLER && $key!='php_bin' ) {
+                        $www_errors[$key] = 'Please fill this path, you can use $prefix, $php_dir or a full path.';
+                    }
                 }
             }
         }
@@ -616,7 +609,7 @@ foreach ($installer_packages as $pkg) {
 print 'Bootstrapping: PEAR...................';
 $r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['PEAR'], 5), 0, -4));
 $url = "http://cvs.php.net/co.php/php-src/pear/PEAR.php?p=1&r=$r";
-if (in_array('Getopt.php', $local_dir)) {
+if (in_array('PEAR.php', $local_dir)) {
 	copy(dirname(__FILE__).'/go-pear-bundle/PEAR.php', 'PEAR.php');
 	echo "(local) ";
 } else {
@@ -632,7 +625,7 @@ $r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['Arch
 $url = "http://cvs.php.net/co.php/pear/Archive_Tar/Archive/Tar.php?p=1&r=$r";
 mkdir('Archive', 0700);
 
-if (in_array('Getopt.php', $local_dir)) {
+if (in_array('Tar.php', $local_dir)) {
 	copy(dirname(__FILE__).'/go-pear-bundle/Tar.php', 'Archive/Tar.php');
 	echo "(local) ";
 } else {
@@ -1044,12 +1037,10 @@ function bail($msg = '')
 
 function mkdir_p($dir, $mode = 0777)
 {
-    $lastdir = '';
     if (@is_dir($dir)) {
         return true;
     }
     $parent = dirname($dir);
-    $parent_exists = (int)@is_dir($parent);
     $ok = true;
     if (!@is_dir($parent) && $parent != $dir) {
         $ok = mkdir_p(dirname($dir), $mode);
@@ -1095,6 +1086,7 @@ function rm_rf($path)
  */
 function tmp_dir()
 {
+    global $ptmp;
     if (WINDOWS){
         if ( my_env('TEMP') ) {
             $_temp = my_env('TEMP');
@@ -1111,7 +1103,7 @@ function tmp_dir()
         if(strpos($_temp, ":") != 1) {
             unset($_temp);
             $_dirs = array();
-            foreach($dirs as $key => $val) {
+            foreach($dirs as $val) {
                 if((boolean)$val ) {
                     $_dirs[] = str_replace("/", "",  $val);
                 }
@@ -1498,7 +1490,7 @@ function displayHTML($page = 'Welcome', $data = array())
 
        <img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=smallpear" border="0">
 <?php if ($page == 'install') echo '<span class="green">'; ?>
- 	     Complete installation<br/>
+ 	     Complete installtion<br/>
 <?php if ($page == 'install') echo '</span>'; ?>
 
      </td>
@@ -2121,7 +2113,10 @@ Double-click this file to add it to the current user registry.
  */
 function win32DetectPHPSAPI()
 {
-    global $php_bin;
+    global $php_bin,$phpsapiname;
+    if (WEBINSTALLER) {
+        return $phpsapiname;
+    }
     if($php_bin!=''){
         exec($php_bin.' -v', $res);
         if(is_array($res)) {
@@ -2135,6 +2130,7 @@ function win32DetectPHPSAPI()
             }
         }
     }
+    return 'unknown';
 }
 
 // }}}
