@@ -391,7 +391,7 @@ if ($warnings) {
 <tr valign="top">
   <th>Status</th>
   <td style="white-space: nowrap">
-   <label for="status" accesskey="n">Retur<span class="underline">n</span> only bugs
+   <label for="status" accesskey="n">Retur<span class="underline">n</span> bugs
    with <b>status</b></label>
   </td>
   <td><select id="status" name="status"><?php show_state_options($status);?></select></td>
@@ -399,7 +399,7 @@ if ($warnings) {
 <tr valign="top">
   <th>Type</th>
   <td style="white-space: nowrap">
-   <label for="bug_type">Return only bugs with <b>type</b></label>
+   <label for="bug_type">Return bugs with <b>type</b></label>
   </td>
   <td><select id="bug_type" name="bug_type"><?php show_type_options($bug_type, true);?></select></td>
 </tr>
@@ -408,12 +408,12 @@ if ($warnings) {
 <table>
 <tr valign="top">
   <th><label for="category" accesskey="c"><span class="underline">C</span>ategory</label></th>
-  <td style="white-space: nowrap">Return only bugs in <b>categories</b></td>
+  <td style="white-space: nowrap">Return bugs in <b>categories</b></td>
   <td><select id="category" name="package_name[]" multiple="multiple" size="6"><?php show_types($package_name,2);?></select></td>
 </tr>
 <tr valign="top">
   <th>&nbsp;</th>
-  <td style="white-space: nowrap">Return only bugs <b>NOT</b> in <b>categories</b></td>
+  <td style="white-space: nowrap">Return bugs <b>NOT</b> in <b>categories</b></td>
   <td><select name="package_nname[]" multiple="multiple" size="6"><?php show_types($package_nname,2);?></select></td>
 </tr>
 <tr valign="top">
@@ -428,7 +428,7 @@ if ($warnings) {
 </tr>
 <tr valign="top">
   <th>Assigned</th>
-  <td style="white-space: nowrap">Return only bugs <b>assigned</b> to</td>
+  <td style="white-space: nowrap">Return bugs <b>assigned</b> to</td>
   <td><input type="text" name="assign" value="<?php echo htmlspecialchars(stripslashes($assign));?>" />
 <?php
     if (!empty($_COOKIE['PEAR_USER'])) {
@@ -440,7 +440,7 @@ if ($warnings) {
 </tr>
 <tr valign="top">
   <th>Author e<span class="underline">m</span>ail</th>
-  <td style="white-space: nowrap">Return only bugs with author email</td>
+  <td style="white-space: nowrap">Return bugs with author email</td>
   <td><input accesskey="m" type="text" name="author_email" value="<?php echo htmlspecialchars(stripslashes($author_email)); ?>" /></td>
 </tr>
 <tr valign="top">
@@ -458,7 +458,7 @@ function show_prev_next($begin, $rows, $total_rows, $link, $limit)
 {
     echo "<!-- BEGIN PREV/NEXT -->\n";
     echo " <tr>\n";
-    echo '  <td class="search-prev_next" colspan="8">' . "\n";
+    echo '  <td class="search-prev_next" colspan="9">' . "\n";
 
     if ($limit=='All') {
         echo "$total_rows Bugs</td></tr>\n";
