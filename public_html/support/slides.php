@@ -52,6 +52,18 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
+  <p><cite><a href="http://www.schlitt.info/download/PEAR_Powerworkshop_Fall_2004.tar.gz">
+  PEAR</cite></a></p>
+  <ul>
+    <li>Date: 2004-11-07</li>
+    <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
+    <li>Venue: PEAR Powerworkshop, Internation PHP Conference, 
+    Frankfurt, Germany</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+ 
+ <li>
   <p><cite>
    <a href="http://www.schlitt.info/index.php/content.publications_phpworld2004">PEAR von A-Z</a>
   </cite></p>
