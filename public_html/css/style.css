@@ -306,6 +306,11 @@ th.others {
     text-align: left;
 }
 
+td.textcell {
+    padding-left: 1.2em;
+    padding-bottom: 1em;
+}
+
 em {
     font-weight: bold;
     font-style: italic;
