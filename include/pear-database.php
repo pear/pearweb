@@ -1505,6 +1505,7 @@ class release
      * @param string Filename
      * @param boolean Uncompress file before downloading?
      * @return mixed
+     * @static
      */
     function HTTPdownload($package, $version = null, $file = null, $uncompress = false)
     {
@@ -1529,7 +1530,7 @@ class release
             if (PEAR::isError($row)) {
                 return $row;
             } elseif ($row === null) {
-                return $this->raiseError("File '$file' not found");
+                return PEAR::raiseError("File '$file' not found");
             }
             $path = $row['fullpath'];
             $log_release = $row['release'];
