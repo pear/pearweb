@@ -348,6 +348,15 @@ if (!package_exists($_REQUEST['package'])) {
     if (!empty($_REQUEST['package'])) {
         echo '<input type="hidden" name="in[package_name]" value="';
         echo $_REQUEST['package'] . '" />' . $_REQUEST['package'];
+        if ($_REQUEST['package'] == 'Bug System') {
+            echo '<p><strong>WARNING: You are saying the <em>package';
+            echo ' affected</em> is the &quot;Bug System.&quot; This';
+            echo ' category is <em>only</em> for telling us about problems';
+            echo ' that the PEAR website\'s bug user interface is having. If';
+            echo ' your bug is about a PEAR package or other aspect of the';
+            echo ' website, please hit the back button and actually read that';
+            echo ' page so you can properly categorize your bug.</strong></p>';
+        }
     } else {
         echo '<select name="in[package_name]">' . "\n";
         show_types(null, 0, $_REQUEST['package']);
