@@ -43,7 +43,7 @@ if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
 $GLOBALS['main_menu'] = array(
     '/index.php'           => 'Home',
     '/news/'               => 'News',
-    '/qa/'                 => 'The QA Team',
+    '/qa/'                 => 'Quality Assurance',
     '/group/'              => 'The PEAR Group',
 );
 
