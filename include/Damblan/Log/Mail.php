@@ -21,6 +21,8 @@
 require_once "Log.php";
 require_once "Log/observer.php";
 
+require_once "Mail.php";
+
 /**
  * Observer class for logging via email
  *
@@ -31,11 +33,19 @@ require_once "Log/observer.php";
  */
 class Damblan_Log_Mail extends Log_observer {
 
-    var $_recipients = "";
-    var $_from = "\"PEAR System Administrators\" <pear-sys@php.net>";
-    var $_reply_to = "";
-    var $_subject = "";
+    var $_mailer = null;
 
+    var $_headers = array();
+    var $_recipients = "";
+
+    function Damblan_Log_Mail() {
+        $this->Log_observer();
+
+        $this->_mailer =& Mail::factory("mail", "-f pear-sys@php.net");
+
+        $this->_headers['From'] = "\"PEAR System Administrators\" <pear-sys@php.net>";
+    }
+    
     /**
      * Generate logging email
      *
@@ -43,13 +53,7 @@ class Damblan_Log_Mail extends Log_observer {
      * @return void
      */
     function notify($event) {
-        $headers = "From: " . $this->_from;
-        if (!empty($this->_reply_to)) {
-            $headers .= "\r\nReply-To: " . $this->_reply_to;
-        }
-
-        $ok = mail($this->_recipients, $this->_subject, $event['message'], 
-                   $headers, "-f pear-sys@php.net");
+        $ok = $this->_mailer->send($this->_recipients, $this->_headers, $event['message']);
 
         if ($ok === false) {
             trigger_error("Email notification routine failed.", 
@@ -69,36 +73,15 @@ class Damblan_Log_Mail extends Log_observer {
     }
 
     /**
-     * Set mail sender
+     * Set header line
      *
      * @access public
-     * @param  string From line
+     * @param  string Name of the header (e.g. "From")
+     * @param  string Value of the header
      * @return void
      */
-    function setFrom($f) {
-        $this->_from = $f;
-    }
-
-    /**
-     * Set mail sender
-     *
-     * @access public
-     * @param  string From line
-     * @return void
-     */
-    function setReplyTo($r) {
-        $this->_reply_to = $r;
-    }
-
-    /**
-     * Set mail subject
-     *
-     * @access public
-     * @param  string Subject
-     * @return void
-     */
-    function setSubject($s) {
-        $this->_subject = $s;
+    function setHeader($name, $value) {
+        $this->_headers[$name] = $value;
     }
 }
 ?>
