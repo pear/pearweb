@@ -128,7 +128,7 @@ minimum.
     $bb->horizHeadRow("Summary", $form->returnText("summary", get("summary"), $width));
     $bb->horizHeadRow("Full description", $form->returnTextarea("desc", get("desc"), $width, 3));
     $bb->horizHeadRow("Additional project homepage", $form->returnText("homepage", get("homepage"), 40));
-    $bb->horizHeadRow("CVS Web Url", $form->returnText("cvs_link", get("cvs_link"), 40) .
+    $bb->horizHeadRow("CVS Web URL", $form->returnText("cvs_link", get("cvs_link"), 40) .
                                      '<br /><small>For example: http://cvs.php.net/cvs.php/pear/XML_Parser</small>');
     $bb->fullRow($form->returnSubmit("Submit Request", "submit"));
     $bb->end();
