@@ -148,8 +148,12 @@ if (isset($_POST['submit'])) {
 } else {
     echo '<p>If you want to get in contact with one of the PEAR contributors,'
         . ' you can do this by filling out the following form.</p>';
-    echo '<p style="font-weight: bold; font-size: 110%;">If you need support for a package, then we recommend'
-        . ' emailing pear-general@lists.php.net</p>';
+    echo '<p style="font-weight: bold; font-size: 110%; color: red;">'
+        . 'Do not send email to this developer if you are in need of support for'
+        . ' any of his/her package(s), instead we recommend'
+        . ' emailing pear-general@lists.php.net where you are more likely to get answer.<br />'
+        . ' You can subscribe to the pear-general mailinglist from the ' .
+        make_link('/support/lists.php', 'Support - Mailinglist') . ' page.</p>';
 
     // Guess the user if he is logged in
     if (isset($_COOKIE['PEAR_USER'])) {
