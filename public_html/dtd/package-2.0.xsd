@@ -15,6 +15,17 @@
     <xs:element ref="license"/>
     <xs:element ref="notes"/>
     <xs:element ref="contents"/>
+    <xs:element name="compatibility" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="package" type="xs:string" use="required"/>
+      <xs:attribute name="channel" type="xs:string" use="required"/>
+      <xs:attribute name="min" type="version" use="required"/>
+      <xs:attribute name="max" type="version" use="required"/>
+     </xs:complexType>
+    </xs:element>
     <xs:element ref="dependencies" minOccurs="0"/>
     <xs:choice>
      <xs:element ref="phprelease" maxOccurs="unbounded"/>
@@ -213,6 +224,7 @@
       <xs:attribute name="max" type="version"/>
       <xs:attribute name="recommended" type="version"/>
       <xs:attribute name="not" type="xs:boolean" default="false"/>
+      <xs:attribute name="url" type="xs:anyURI"/>
      </xs:complexType>
     </xs:element>
     <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
@@ -297,6 +309,7 @@
    <xs:attribute name="max" type="version"/>
    <xs:attribute name="recommended" type="version"/>
    <xs:attribute name="not" type="xs:boolean" default="false"/>
+   <xs:attribute name="url" type="xs:anyURI"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="pearinstaller">
