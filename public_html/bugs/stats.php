@@ -4,6 +4,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 response_header('Bugs Stat');
 
+$where = '';
 if (($_GET['category'] && $_GET['category'] != '') 
     || ($_GET['developer'] && $_GET['developer'] != '')) {
     $where = 'WHERE';
@@ -16,18 +17,35 @@ if ($_GET['category'] && $_GET['category'] != '') {
 if ($_GET['developer'] && $_GET['developer'] != '') {
     $where .= ' maintains.handle = ' .  $dbh->quoteSmart($_GET['developer']);
 }
+$where == '' ? $extra = 'WHERE ' : $extra = 'AND ';
+switch ($_SERVER['SERVER_NAME']) {
+    case 'pear.php.net':
+        $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pear') . ' 
+                        OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
+                                                  '.$dbh->quoteSmart('Documentation').', '.$dbh->quoteSmart('PEPr').')';
+        break;
+        
+    case 'pecl.php.net':
+        $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pecl') . ' 
+                        OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
+                                                  '.$dbh->quoteSmart('Documentation').')';
+        break;
+        
+    default:
+        $type = '';
+        break;
+}
 
 $query = 'SELECT bugdb.status, bugdb.package_name, bugdb.email, bugdb.php_version, bugdb.php_os 
         FROM bugdb
         LEFT JOIN packages ON packages.name = bugdb.package_name
         LEFT JOIN maintains ON packages.id = maintains.package
-        LEFT JOIN categories ON packages.category = categories.id
-        ' . $where . '
-         ORDER BY categories.name ASC, packages.name ASC';
+        ' . $where . $type .'
+         ORDER BY bugdb.package_name ASC';
 
 $result = $dbh->query($query);
 
-while($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) {
+while($row = $result->fetchRow()) {
     $package_name['all'][$row['package_name']]++;
     $status_str = strtolower($row['status']);
     $package_name[$status_str][$row['package_name']]++;
@@ -117,8 +135,9 @@ echo    '</select>
 /**
 * Fetch list of users/maintainers
 */
-$users = $dbh->getAll('SELECT u.handle, u.name FROM users u, maintains m WHERE u.handle = m.handle GROUP BY handle ORDER BY u.name', DB_FETCHMODE_ASSOC);
-for ($i=0; $i<count($users); $i++) {
+$users = $dbh->getAll('SELECT u.handle, u.name FROM users u, maintains m WHERE u.handle = m.handle 
+                        GROUP BY handle ORDER BY u.name');
+for ($i = 0; $i < count($users); $i++) {
     if (empty($users[$i]['name'])) {
         $users[$i]['name'] = $users[$i]['handle'];
     }
@@ -141,8 +160,8 @@ if ($total == 0) {
     exit;
 }
 
-$result = $dbh->query('SELECT count(id) AS total FROM bugdb');
-$entries = $result->fetchRow();
+$res = $dbh->query('SELECT count(id) AS total FROM bugdb');
+$entries = $res->fetchRow();
 
 echo '<tr id="bug_header"><td>
     <strong style="text-align: right;">Total bug entries in system:</strong></td>
@@ -160,8 +179,7 @@ echo '<tr id="bug_header"><td>
     <td><strong>' . sort_url('bogus')       . '</strong></td>
     </tr>' . "\n";
 
-echo '<tr><td class="bug_head">
-    <strong>All:</strong></td>
+echo '<tr><td class="bug_head"><strong>All:</strong></td>
     <td class="bug_bg1">' . $total . '</td>
     <td class="bug_bg2">'. bugstats('closed',      'all') .'&nbsp;</td>
     <td class="bug_bg1">'. bugstats('open',        'all') .'&nbsp;</td>
