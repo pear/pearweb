@@ -47,9 +47,8 @@ if (!isset($_POST['confirm'])) {
     echo '&nbsp;';
     $form->displaySubmit('no', 'confirm');
 
-    echo '<br /><br /><font color="#ff0000"><b>Warning:</b> Deleting
-          the package will remove all package information and all
-          releases!</font>';
+    report_error('Deleting the package will remove all package information'
+                 . ' and all releases!', 'warnings', 'WARNING:');
 
     $form->end();
 
