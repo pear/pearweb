@@ -31,18 +31,17 @@ response_header('PEAR Package Proposals');
 
 <h2>PEAR Package Proposals</h2>
 
-<h3>Introduction</h3>
-
 <p>Welcome to the <b>PEAR Package Proposals</b> system. Via this website,
-the PEAR project manages all new projects, which should be added to
-the repository.</p>
+the PEAR project manages all new packages, which should be added to the
+repository.</p>
 
 <h3>Current proposals</h3>
 
 <p>This is the list of the package prosals that are currently
 open. If you like one of the projects mentioned in the list, feel
 free give it a positive vote. If you do not like a package for
-some reason, give it a negative vote.</p>
+some reason, give it a negative vote. (You need to be a PEAR developer
+with a valid account on pear.php.net to participate in the voting.)</p>
 
 <?php
 $bb = new BorderBox("Currently open");
@@ -67,37 +66,39 @@ if (count($list) == 0) {
   <th>neg.</th>
 </tr>
 <?php
-}
 
-$votes = 0;
+     $votes = 0;
 
-foreach ($list as $id => $proposal) {
-    list ($days, $hours, $minutes) = proposal::formatDuration($proposal['duration']);
-    if ($days == 0) {
-        $end_date = $hours . ' hours, ' . $minutes . ' minutes';
-    } else {
-        $end_date = $days . ' days, ' . $hours . ' hours';
-    }
+     foreach ($list as $id => $proposal) {
+         list ($days, $hours, $minutes) = proposal::formatDuration($proposal['duration']);
+         if ($days == 0) {
+             $end_date = $hours . ' hours, ' . $minutes . ' minutes';
+         } else {
+             $end_date = $days . ' days, ' . $hours . ' hours';
+         }
 
-    echo '<tr bgcolor="#cccccc">';
-    echo '  <td>' . $proposal['name'] . '</td>';
-    echo '  <td>' . $proposal['category'] . '</td>';
-    echo '  <td>' . $proposal['summary'] . '</td>';
-    echo '  <td>' . $end_date . '</td>';
-    echo '  <td style="color: #00f">+' . $proposal['votes_pos'] . '<br /></td>';
-    echo '  <td style="color: #f00">-' . $proposal['votes_neg'] . '</td>';
-    echo '  <td>';
-    echo make_link("info.php/" . $id, "Info/Vote");
-    echo delim();
-    echo make_link("edit.php/" . $id, "Edit");
-    echo '  </td>';
-    echo '</tr>';
-}
+         echo '<tr bgcolor="#cccccc">';
+         echo '  <td>' . $proposal['name'] . '</td>';
+         echo '  <td>' . $proposal['category'] . '</td>';
+         echo '  <td>' . $proposal['summary'] . '</td>';
+         echo '  <td>' . $end_date . '</td>';
+         echo '  <td style="color: #00f">+' . $proposal['votes_pos'] . '<br /></td>';
+         echo '  <td style="color: #f00">-' . $proposal['votes_neg'] . '</td>';
+         echo '  <td>';
+         echo make_link("info.php/" . $id, "Info/Vote");
+         echo delim();
+         echo make_link("edit.php/" . $id, "Edit");
+         echo '  </td>';
+         echo '</tr>';
+     }
 ?>
 
 </table>
 
-<?php $bb->end(); ?>
+<?php 
+}
+
+$bb->end(); ?>
 
 <h3>Quicklinks</h3>
 

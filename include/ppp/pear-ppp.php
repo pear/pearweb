@@ -35,7 +35,7 @@ class proposal {
      *
      * @return array
      */
-    function listAll($where = "status = 'open' AND date_ends >= NOW()")
+    function listAll($where = "status = 'open' AND date_end >= NOW()")
     {
         global $dbh;
         $proposals = array();
@@ -44,10 +44,10 @@ class proposal {
          * Merge together the proposal and their votes
          */
         $query = "SELECT p.*, c.name AS category, " .
-            "UNIX_TIMESTAMP(date_ends)-UNIX_TIMESTAMP(NOW()) AS duration " .
-            "FROM package_proposals p " .
+            "UNIX_TIMESTAMP(date_end)-UNIX_TIMESTAMP(NOW()) AS duration " .
+            "FROM packages_proposals p " .
             "LEFT JOIN categories c ON c.id = p.category " .
-            "WHERE " . $where . " ORDER BY date_created ASC";
+            "WHERE " . $where . " ORDER BY date_start ASC";
         $sth = $dbh->query($query);
 
         while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
@@ -56,16 +56,18 @@ class proposal {
             $proposals[$row['id']]['votes_neg'] = 0;
         }
 
-        $query = "SELECT v.* FROM package_votes v, package_proposals p " .
-            "WHERE p.id = v.package AND p.status = 'open'";
+        $query = "SELECT v.* FROM packages_proposals_votes v, packages_proposals p " .
+            "WHERE p.id = v.proposal AND p.status = 'open'";
         $votes = $dbh->getAll($query, DB_FETCHMODE_ASSOC);
 
         foreach ($votes as $vote) {
-            if (!empty($proposals[$vote['package']])) {
-                if ((int)$vote['vote_value'] == 1) {
-                    $proposals[$vote['package']]['votes_pos']++;
+            if (!empty($proposals[$vote['proposal']])) {
+                $vote_value = (int)$vote['vote_value'];
+
+                if ($vote_value == -1) {
+                    $proposals[$vote['proposal']]['votes_neg']++;
                 } else {
-                    $proposals[$vote['package']]['votes_neg']++;
+                    $proposals[$vote['proposal']]['votes_pos']++;
                 }
             }
         }
@@ -82,8 +84,8 @@ class proposal {
     function listOne($id)
     {
         global $dbh;
-        $query = "SELECT p.*, u.email, u.name AS user_name FROM package_proposals p " .
-            "LEFT JOIN users u ON u.handle = p.handle " .
+        $query = "SELECT p.*, u.email, u.name AS user_name FROM packages_proposals p " .
+            "LEFT JOIN users u ON u.handle = p.user " .
             "WHERE id = '" . $id . "'";
         return $dbh->getRow($query, DB_FETCHMODE_ASSOC);
     }
@@ -158,7 +160,7 @@ class proposal {
         }
 
         $query = "INSERT INTO package_proposals VALUES " .
-            "(?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 14 DAY), ?, ?)";
+            "(?, ?, ?, ?, ?, ?, ?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 14 DAY), ?)";
         $sth   = $dbh->prepare($query);
         $id    = $dbh->nextId("package_proposals");
 
@@ -168,12 +170,12 @@ class proposal {
                                      $pkg['desc'],
                                      $pkg['homepage'],
                                      $pkg['source_links'],
-                                     "0000-00-00 00:00:00", "open"
+                                     "open"
                                      )
                                );
         if (!DB::isError($err)) {
             $pkg['id'] = $id;
-            proposal::sendMail("new", array_merge($set_vars, $pkg));
+            // proposal::sendMail("new", array_merge($set_vars, $pkg));
         }
         return $err;
     }
@@ -241,25 +243,22 @@ class proposal {
         global $dbh;
 
         // Check if the user has already voted for this proposal
-        if (!empty($_COOKIE['PEAR_VOTE_' . $data['id']])) {
-            return PEAR::raiseError("You have already given a vote for this proposal.");
+        $query = "SELECT COUNT(*) FROM packages_proposals_votes WHERE handle = ? AND proposal = ?";
+        $count = $dbh->getOne($query, array($_COOKIE['PEAR_USER'], $data['id']));
+        if ($count > 0) {
+            return PEAR::raiseError("You have already voted for this package proposal.");
         }
 
-        // The cookie expires in 15 days
-        $cookie_lifetime = time()+(60*60*24*15);
+        $id = $dbh->nextId("packages_proposals_votes");
 
-        $admin = (user::isAdmin(@$_COOKIE['PEAR_USER']) ? true : false);
-
-        $query = "INSERT INTO package_votes VALUES (?, NOW(), ?, ?, ?)";
+        $query = "INSERT INTO packages_proposals_votes VALUES (?, ?, ?, NOW(), ?, ?)";
         $sth   = $dbh->prepare($query);
-        $err   = $dbh->execute($sth, array($data['id'], (int)$admin,
+        $err   = $dbh->execute($sth, array($id, $data['id'],
+                                           $_COOKIE['PEAR_USER'],
                                            $data['val'], 
-                                           substr($data['comment'], 0, 1000)
+                                           $data['comment']
                                            )
                                );
-        if (!DB::isError($err)) {
-            setcookie("PEAR_VOTE_" . $data['id'], $data['id'], $cookie_lifetime);
-        }
         return $err;
     }
 

@@ -18,13 +18,8 @@
    $Id$
 */
 
-auth_require(true);
 require_once "HTML/Form.php";
 require_once "ppp/pear-ppp.php";
-
-if (!defined('PEAR_COMMON_PACKAGE_NAME_PREG')) {
-    define('PEAR_COMMON_PACKAGE_NAME_PREG', '/^([A-Z][a-zA-Z0-9_]+|[a-z][a-z0-9_]+)$/');
-}
 
 $display_form = true;
 $width = 60;
@@ -113,18 +108,21 @@ if ($display_form) {
               make_link("/login.php", "login now") . 
               ".</p>";
 
-        print "<p>If you are unsure about the category and the name for your ";
-        print "proposal, please ask on the " . 
-              make_mailto_link("pear-dev@lists.php.net", "mailinglist") .
-              "</p>";
+        print "<p>You are expected to have followed the proposal rules " .
+            "which are described in the manual before going on from " .
+            "here.</p>";
     }
 
-    $categories = $dbh->getAssoc("SELECT id,name FROM categories ORDER BY name");
+    $categories = category::listAll();
+    foreach ($categories as $cat) {
+        $cats[$cat['id']] = $cat['name'];
+    }
+
     $form =& new HTML_Form($_SERVER['PHP_SELF'], "POST");
 
     $bb = new BorderBox("Propose package", "100%");
     $form->addText("name", "Package Name", null, 20);
-    $form->addSelect("category", "Category", $categories, '', 1,
+    $form->addSelect("category", "Category", $cats, '', 1,
                      '--Select Category--');
     $form->addText("summary", "One-liner description", null, $width);
     $form->addTextarea("desc", "Full description", null, $width, 3);
@@ -137,6 +135,8 @@ if ($display_form) {
        $form->addText("user_lastname", "Your lastname", null, 20);
        $form->addPassword("user_password", "Your password", null, 20);
        $form->addText("user_email", "Your email address", null, 20);
+       $form->addCheckbox("user_email_checked", "Show email address?", 0);
+       $form->addTextarea("moreinfo", "More relevant information<br />about you (optional):", "", $width, 6);
     }
 
     $form->addText("homepage", "Additional project homepage", null, 20);
