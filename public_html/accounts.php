@@ -82,7 +82,7 @@ foreach ($firstletters as $fl) {
 }
 print '</td><td rowspan="2" align="right">';
 print '<form><input type="button" onclick="';
-$gourl = "http://" . $_SERVER['SERVER_NAME'];
+$gourl = "http://" . $_SERVER['HTTP_HOST'];
 if ($_SERVER['SERVER_PORT'] != 80) {
 	$gourl .= ":".$_SERVER['SERVER_PORT'];
 }
