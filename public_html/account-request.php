@@ -46,9 +46,9 @@ do {
         }
 
         if (!isset($_SESSION['captcha']) ||
-            $_SESSION['captcha'] != $_POST['captcha'])
+            $_SESSION['captcha'] != strtoupper($_POST['captcha']))
         {
-            $errors[] = 'Incorrect Confirmation Number';
+            $errors[] = 'Incorrect CAPTCHA';
             $display_form = true;
         } else {
             unset($_SESSION['captcha']);
@@ -188,7 +188,7 @@ MSG;
     $form->addPassword('password', 'Password:',
             '', 10, null, '',
             'class="form-label_left"', 'class="form-input"');
-    $form->addPlaintext('Confirmation Number:',
+    $form->addPlaintext('CAPTCHA:',
             generate_captcha(),
             'class="form-label_left"', 'class="form-input"');
     $form->addText('email', 'Email Address:',

@@ -120,9 +120,9 @@ if ($_POST['in'] && $edit == 3) {
     // Submission of additional comment by others
 
     if (!isset($_SESSION['captcha']) ||
-        $_SESSION['captcha'] != $_POST['captcha'])
+        $_SESSION['captcha'] != strtoupper($_POST['captcha']))
     {
-        $errors[] = 'Incorrect Confirmation Number';
+        $errors[] = 'Incorrect CAPTCHA';
     } else {
         unset($_SESSION['captcha']);
     }
@@ -740,7 +740,7 @@ if ($edit == 3) {
       </td>
      </tr>
      <tr>
-      <th class="details">Confirmation Number:</th>
+      <th class="details">CAPTCHA:</th>
       <td>
        <?php echo generate_captcha() ?>
 

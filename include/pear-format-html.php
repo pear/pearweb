@@ -908,14 +908,31 @@ function print_tabbed_navigation($items)
 }
 
 /**
- * Produces a CAPTCHA image, form input and sets $_SESSION['captcha']
+ * Sets <var>$_SESSION['captcha']</var> then produces a CAPTCHA image
+ * and form input
+ *
+ * Only generate a new <var>$_SESSION['captcha']</var> if it doesn't exist
+ * yet.  This avoids the problem of the CAPTCHA value being changed but the
+ * old image remaining in the browser's cache.  This is necessary because
+ * caching can not be reliably disabled.
+ *
+ * Use upper case letters to reduce confusion with some of these fonts.
+ * Input is passed through strtoupper() before comparison.
+ *
+ * Don't use "I" or "O" to avoid confusion with numbers.  Don't use digits
+ * because some of the fonts don't handle them.
  *
  * @return string  the CAPTCHA image and form intut
  */
 function generate_captcha() {
-    $captcha = substr(microtime(), 4, 4);
-    $_SESSION['captcha'] = $captcha;
-    $out  = 'Type &quot;' . $captcha . '&quot; into this box... ';
+    if (!isset($_SESSION['captcha'])) {
+        $_SESSION['captcha'] = '';
+        $useable = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        for ($i = 0; $i < 4; $i++) {
+            $_SESSION['captcha'] .= substr($useable, mt_rand(0, 23), 1);
+        }
+    }
+    $out  = 'Type &quot;' . $_SESSION['captcha'] . '&quot; into this box... ';
     $out .= '<input type="text" size="4" maxlength="4" name="captcha" />';
     return $out;
 }
