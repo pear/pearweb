@@ -8,6 +8,7 @@
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="name"/>
+    <xs:element ref="extends" minOccurs="0"/>
     <xs:element ref="summary"/>
     <xs:element name="description" type="xs:string"/>
     <xs:element ref="lead" maxOccurs="unbounded"/>
@@ -507,4 +508,5 @@
    </xs:choice>
   </xs:complexType>
  </xs:element>
+ <xs:element name="extends" type="xs:string"/>
 </xs:schema>
