@@ -1664,7 +1664,7 @@ class release
 
         $query = "INSERT INTO downloads (id, file, package, release, dl_when, dl_who, dl_host) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        $err = $dbh->query($query, array($id, $file, $package,
+        $err = $dbh->query($query, array($id, (int)$file, $package,
                                          $release_id, date("Y-m-d H:i:s"),
                                          $_SERVER['REMOTE_ADDR'],
                                          gethostbyaddr($_SERVER['REMOTE_ADDR'])
