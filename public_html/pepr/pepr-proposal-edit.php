@@ -69,7 +69,7 @@
 	$form->addElement('text', 'pkg_name', 'Package name:');
 	
 	$form->addElement('textarea', 'pkg_describtion', 'Package describtion:', array('rows' => 6, 'cols' => '40'));
-	$form->addElement('link', 'help_bbcode', '', 'pepr-proposal-bbcode-help.php', 'You can use BBCode inside your describtion');
+	$form->addElement('link', 'help_bbcode', '', 'pepr-bbcode-help.php', 'You can use BBCode inside your describtion');
 	
 	$form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '40'));
 	$form->addElement('static', '', '', 'List seperated by linefeeds.');
