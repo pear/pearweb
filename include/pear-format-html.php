@@ -172,10 +172,12 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
                        'Login', false, 'class="menuBlack"');
         }
     } else {
-        print '<small>';
-        print '<a class="menuWhite" href="/account-edit.php?handle=' . $_COOKIE['PEAR_USER'] . '">Logged in as ';
-        print strtoupper($_COOKIE['PEAR_USER']);
-        print "</a></small><br />\n";
+        print '<small class="menuWhite">';
+        print 'Logged in as ' . strtoupper($_COOKIE['PEAR_USER']) . ' (';
+        print '<a href="/account-info.php?handle=' . $_COOKIE['PEAR_USER'] . '">Info</a> | ';
+        print '<a href="/account-edit.php?handle=' . $_COOKIE['PEAR_USER'] . '">Profile</a> | ';
+        print '<a href="/bugs/search.php?maintain=' . $_COOKIE['PEAR_USER'] . '&amp;cmd=display">Bugs</a>';
+        print ")</small><br />\n";
 
         if (empty($_SERVER['QUERY_STRING'])) {
             print_link('?logout=1', 'Logout', false, 'class="menuBlack"');
