@@ -22,14 +22,14 @@
  * Send mail to PEAR contributor
  */
 
-/**
+/*
  * Redirect to the accounts list if no handle was specified
  */
 if (!isset($_GET['handle'])) {
     localRedirect('/accounts.php');
 } else {
     $handle = $_GET['handle'];
-    $message = '';
+    $errors = array();
 }
 
 require_once 'HTML/Form.php';
@@ -48,17 +48,30 @@ function printForm($data = array())
         }
     }
 
-    $bb = new BorderBox('Send email');
-    $form = new HTML_Form($_SERVER['PHP_SELF'] . '?handle=' . $_GET['handle'], 'post', 'contact');
+    $th = 'class="form-label_left"';
+    $td = 'class="form-input"';
 
-    $form->addText('name', 'Your name:', $data['name'], 30);
-    $form->addText('email', 'EMail address:', $data['email'], 30);
-    $form->addText('subject', 'Subject:', $data['subject'], 30);
-    $form->addTextarea('text', 'Text:', $data['text'], 35, 10);
-    $form->addSubmit('submit', 'Submit');
-    $form->display();
+    $form = new HTML_Form($_SERVER['PHP_SELF'] . '?handle=' . $_GET['handle'],
+                          'post', 'contact');
 
-    $bb->end();
+    $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
+            $data['name'], 40, null, 'accesskey="o"',
+            $th, $td);
+    $form->addText('email', 'Email Address:',
+            $data['email'], 40, null, '',
+            $th, $td);
+    $form->addText('subject', 'Subject:',
+            $data['subject'], 40, null, '',
+            $th, $td);
+    $form->addTextarea('text', 'Text:',
+            $data['text'], 35, 10, null, '',
+            $th, $td);
+    $form->addSubmit('submit', 'Submit', '',
+            $th, $td);
+    $form->display('class="form-holder"'
+                   . ' cellspacing="1"',
+                   'Send Email', 'class="form-caption"');
+
 
     echo "<script language=\"JavaScript\">\n";
     echo "<!--\n";
@@ -86,40 +99,44 @@ if (isset($_POST['submit'])) {
 
     //XXX: Add email validation here
     if ($_POST['name'] == '') {
-        $message .= '<li>You have to specify your name.</li>';
+        $errors[] = 'You have to specify your name.';
     }
 
     if ($_POST['email'] == '') {
-        $message .= '<li>You have to specify your email address.</li>';
+        $errors[] = 'You have to specify your email address.';
     }
 
     if ($_POST['subject'] == '') {
-        $message .= '<li>You have to specify the subject of your correspondence.</li>';
+        $errors[] = 'You have to specify the subject of your correspondence.';
     }
 
     if ($_POST['text'] == '') {
-        $message .= '<li>You have to specify the text of your correspondence.</li>';
+        $errors[] = 'You have to specify the text of your correspondence.';
     }
 
-    if ($message == '') {
+    if (!report_error($errors)) {
         $text = "[This message has been brought to you via pear.php.net.]\n\n";
         $text .= wordwrap($_POST['text'], 72);
 
-        if (@mail($row['email'], $_POST['subject'], $text, 'From: "' . $_POST['name'] . '" <' . $_POST['email'] . '>', '-f pear-sys@php.net')) {
-            echo '<p>Your message has been sent successfully.</p>';
+        if (@mail($row['email'], $_POST['subject'], $text,
+                  'From: "' . $_POST['name'] . '" <' . $_POST['email'] . '>',
+                  '-f pear-sys@php.net'))
+        {
+            echo '<div class="success">';
+            echo 'Your message was successfully sent.';
+            echo '</div>';
         } else {
-            PEAR::raiseError('An error occured while sending the message!');
+            report_error('The server could not send your message, sorry.');
         }
     } else {
-        echo '<p><font color=\'#FF0000\'>An error has occurred:<ul>'
-            . $message . '</ul></font></p>';
         printForm($_POST);
     }
+
 } else {
     echo '<p>If you want to get in contact with one of the PEAR contributors,'
         . ' you can do this by filling out the following form.</p>';
 
-    /** Guess the user if he is logged in */
+    // Guess the user if he is logged in
     if (isset($_COOKIE['PEAR_USER'])) {
         $user =& new PEAR_User($dbh, $_COOKIE['PEAR_USER']);
         $data = array('email' => $user->email, 'name' => $user->name);
@@ -131,4 +148,5 @@ if (isset($_POST['submit'])) {
 }
 
 response_footer();
+
 ?>
