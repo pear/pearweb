@@ -103,6 +103,6 @@ found on this server.</p>
 
 <p>If you think that this error message is caused by an error in the
 configuration of the server, please contact
-<?php echo make_mailto_link('pear-webmaster@lists.php.net'); ?>.
+<?php echo make_mailto_link(PEAR_WEBMASTER_EMAIL); ?>.
 
 <?php response_footer(); ?>

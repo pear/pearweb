@@ -58,7 +58,7 @@ and may not be copied or imitated in whole or in part.</li>
 
 <p>
 You can contact the webmaster at
-<?php echo make_mailto_link('pear-webmaster@lists.php.net'); ?>.
+<?php echo make_mailto_link(PEAR_WEBMASTER_EMAIL); ?>.
 </p>
 
 <p>

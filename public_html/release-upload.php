@@ -300,9 +300,11 @@ if ($display_verification) {
                 $errors[] = "Versions < 1.0.0 may not be 'stable'";
             }
         }
-        if ($info->getChannel() != 'pear.php.net') {
-            $errors[] = 'Only channel pear.php.net packages may be released at pear.php.net';
+        if ($info->getChannel() != PEAR_CHANNELNAME) {
+            $errors[] = 'Only channel ' . PEAR_CHANNELNAME .
+                ' packages may be released at ' . PEAR_CHANNELNAME;
         }
+        // this next switch may never be used, but is here in case it turns out to be a good move
         switch ($info->getPackageType()) {
             case 'php' :
                 $type = 'PHP package';
@@ -314,9 +316,6 @@ if ($display_verification) {
                 $type = 'Extension Binary package';
             break;
             default :
-                $errors[] = 'Release type ' . $info->getPackageType() . ' is not ' .
-                    'supported at pear.php.net, only php source releases are supported.  ' .
-                    'pecl.php.net supports extension packages';
         }
         report_error($errors, 'errors','ERRORS:<br />'
                      . 'You must correct your package.xml file:');

@@ -323,6 +323,8 @@ print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
     <?php
      if ($_SERVER['SERVER_NAME'] == 'pear.php.net') {
          print_link('http://www.pair.com/', 'pair Networks');
+     } elseif ($_SERVER['SERVER_NAME'] == PEAR_CHANNELNAME) {
+         print PEAR_CHANNELNAME;
      } else {
          print '<i>This is an unofficial mirror!</i>';
      }

@@ -42,9 +42,9 @@ class Damblan_Mailer {
      * @since
      */
     var $_defaultHeaders = array(
-        'To'        => 'pear-webmaster@lists.php.net',
+        'To'        => PEAR_WEBMASTER_EMAIL,
         'From'      => 'pear-sys@php.net',
-        'Reply-To'  => 'pear-webmaster@lists.php.net',
+        'Reply-To'  => PEAR_WEBMASTER_EMAIL,
         'X-Mailer'  => 'PEARWeb - http://pear.php.net'
     ); 
 

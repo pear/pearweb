@@ -53,9 +53,9 @@ For Windows:
 'This bug has been fixed in CVS.
 
 In case this was a documentation problem, the fix will show up at the
-end of next Sunday (CET) on pear.php.net.
+end of next Sunday (CET) on ' . PEAR_CHANNELNAME . '.
 
-In case this was a pear.php.net website problem, the change will show
+In case this was a ' . PEAR_CHANNELNAME . ' website problem, the change will show
 up on the website in short time.
  
 Thank you for the report, and for helping us make PEAR better.',
@@ -66,7 +66,7 @@ Thank you for the report, and for helping us make PEAR better.',
     'message' =>
 'Thank you for your bug report. This issue has been fixed
 in the latest released version of the package, which you can download at
-http://pear.php.net/get/' . @txfield('package_name'),
+http://' . PEAR_CHANNELNAME . '/get/' . @txfield('package_name'),
   ),
   'needtrace' => array(
     'status' => 'Feedback',
@@ -88,7 +88,7 @@ us make PEAR better.',
 'Thank you for taking the time to report a problem with the package.
 Unfortunately you are not using a current version of the package -- 
 the problem might already be fixed. Please download a new
-version from http://pear.php.net/packages.php
+version from http://' . PEAR_CHANNELNAME . '/packages.php
 
 If you are able to reproduce the bug with one of the latest
 versions, please change the package version on this bug report
@@ -115,7 +115,7 @@ Again, thank you for your continued support of PEAR.'
     'message' =>
 'Sorry, but your problem does not imply a bug in PEAR itself.  For a
 list of more appropriate places to ask for help using PEAR, please
-visit http://pear.php.net/support/ as this bug system is not the
+visit http://' . PEAR_CHANNELNAME . '/support/ as this bug system is not the
 appropriate forum for asking support questions. 
 
 Thank you for your interest in PEAR.',

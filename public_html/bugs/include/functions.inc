@@ -945,9 +945,9 @@ function get_package_mail($package_name)
         case 'Bug System':
         case 'PEPr':
         case 'Web Site':
-            return array('pear-webmaster@lists.php.net', 'pear-webmaster@lists.php.net');
+            return array(PEAR_WEBMASTER_EMAIL, PEAR_WEBMASTER_EMAIL);
         case 'Documentation':
-            return array('pear-doc@lists.php.net', 'pear-doc@lists.php.net');
+            return array(PEAR_DOC_EMAIL, PEAR_DOC_EMAIL);
     }
 
     $maintainers = package::info($package_name, 'authors');

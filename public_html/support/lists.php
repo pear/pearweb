@@ -156,7 +156,7 @@ if (isset($_POST['action'])) {
             mail("$list-$request-$sub@lists.php.net",
                  'Website Subscription',
                  'This was a request generated from the form at'
-                 . 'http://pear.php.net/support/lists.php.',
+                 . 'http://' . PEAR_CHANNELNAME . '/support/lists.php.',
                  "From: {$_POST['email']}\r\n");
         }
 

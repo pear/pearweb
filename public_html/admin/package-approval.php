@@ -50,7 +50,8 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
         $logger = new Damblan_Log;
         $observer = new Damblan_Log_Mail;
         $observer->setRecipients("pear-group@php.net");
-        $observer->setHeader("In-Reply-To", "<approve-request-" . $row['id'] . "@pear.php.net>");
+        $observer->setHeader("In-Reply-To", "<approve-request-" . $row['id'] . "@" . PEAR_CHANNELNAME
+            . ">");
         $observer->setHeader("Subject", "[PEAR Group] Package " . $row['name'] . " has been " . $action);
 
         $logger->attach($observer);

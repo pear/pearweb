@@ -25,7 +25,7 @@ response_header('About this site');
 <p>This site has been created and is maintained by a number of people,
 which are listed on the <a href="/credits.php">credits page</a>.
 If you would like to contact them, you can write to
-<?php echo make_mailto_link('pear-webmaster@lists.php.net', 'pear-webmaster@lists.php.net'); ?>.
+<?php echo make_mailto_link(PEAR_WEBMASTER_EMAIL, PEAR_WEBMASTER_EMAIL); ?>.
 </p>
 
 <p>It has been built with <a href="http://httpd.apache.org/">Apache</a>,
@@ -69,7 +69,7 @@ Some third-party code such as <a href="http://www.aditnus.no/jpgraph/">jpgraph</
 is bundled with the website in CVS and may be available under a 
 different license.  If you are uncertain about the license or copyright
 constraints, please get in touch with the
-<?php echo make_mailto_link('pear-webmaster@lists.php.net', 'webmaster mailing list'); ?>.</p>
+<?php echo make_mailto_link(PEAR_WEBMASTER_EMAIL, 'webmaster mailing list'); ?>.</p>
 
 <?php
 response_footer();

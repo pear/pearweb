@@ -357,8 +357,8 @@ class package
         }
 
         $event = $auth_user->handle . " (" . $auth_user->name . ") has added a new package " . $name;
-        $mailtext = $event . "\n\nApprove: http://pear.php.net/admin/package-approval.php?approve=" . $id;
-        $mailtext .= "\nReject: http://pear.php.net/admin/package-approval.php?reject=" . $id;
+        $mailtext = $event . "\n\nApprove: http://" . PEAR_CHANNELNAME . "/admin/package-approval.php?approve=" . $id;
+        $mailtext .= "\nReject: http://" . PEAR_CHANNELNAME . "/admin/package-approval.php?reject=" . $id;
 
         // {{{ Logging mechanism
         require_once "Damblan/Log.php";
@@ -372,7 +372,7 @@ class package
         $logger = new Damblan_Log_Mail;
         $logger->setRecipients("pear-group@php.net");
         $logger->setHeader("From", $auth_user->email);
-        $logger->setHeader("Message-Id", "<approve-request-" . $id . "@pear.php.net>");
+        $logger->setHeader("Message-Id", "<approve-request-" . $id . "@" . PEAR_CHANNELNAME . ">");
         $logger->setHeader("Subject", "New package");
         $logger->log($mailtext);
         // }}}
@@ -410,8 +410,8 @@ class package
             return PEAR::raiseError('getDownloadURL parameter $packageinfo must ' .
                 'contain a "package" index');
         }
-        if (isset($packageinfo['channel']) && $packageinfo['channel'] != 'pear.php.net') {
-            return PEAR::raiseError('getDownloadURL channel must be pear.php.net');
+        if (isset($packageinfo['channel']) && $packageinfo['channel'] != PEAR_CHANNELNAME) {
+            return PEAR::raiseError('getDownloadURL channel must be ' . PEAR_CHANNELNAME);
         }
         $states = release::betterStates($prefstate, true);
         if (!$states) {
@@ -543,7 +543,7 @@ class package
         $min = $max = $recommended = false;
         if ($xsdversion == '1.0') {
             $pinfo['package'] = $dependency['name'];
-            $pinfo['channel'] = 'pear.php.net';
+            $pinfo['channel'] = 'pear.php.net'; // this is always true - don't change this
             switch ($dependency['rel']) {
                 case 'ge' :
                     $min = $dependency['version'];
@@ -568,8 +568,8 @@ class package
             }
         } elseif ($xsdversion == '2.0') {
             $pinfo['package'] = $dependency['name'];
-            if ($dependency['channel'] != 'pear.php.net') {
-                return PEAR::raiseError('getDepDownloadURL channel must be pear.php.net');
+            if ($dependency['channel'] != PEAR_CHANNELNAME) {
+                return PEAR::raiseError('getDepDownloadURL channel must be ' . PEAR_CHANNELNAME);
             }
             $min = isset($dependency['min']) ? $dependency['min'] : false;
             $max = isset($dependency['max']) ? $dependency['max'] : false;
@@ -1240,8 +1240,8 @@ class maintainer
     function getByUser($user)
     {
         global $dbh;
-        $query = 'SELECT p.name, m.role FROM packages p, maintains m WHERE p.package_type = \'pear\' AND p.approved = 1 AND m.package = p.id AND m.handle = ?';
-        return $dbh->getAssoc($query, false, array($user));
+        $query = 'SELECT p.name, m.role FROM packages p, maintains m WHERE p.package_type = ? AND p.approved = 1 AND m.package = p.id AND m.handle = ?';
+        return $dbh->getAssoc($query, array('pear'), array($user));
     }
 
     // }}}
@@ -1601,11 +1601,18 @@ class release
     }
 
     // }}}
-    // {{{ +proto bool   release::confirmUpload(string) API 1.0
+    // {{{ +proto bool   release::confirmUpload(string, string, string, string, string, int, binary) API 1.0
 
     /**
      * Confirm release upload
      *
+     * @param string Package name
+     * @param string Package version
+     * @param string Package state
+     * @param string Release notes
+     * @param string md5
+     * @param int    Package id from database
+     * @param string package contents
      * @static
      * @return string  the file name of the upload or PEAR_Error object if problems
      */
@@ -2017,7 +2024,7 @@ class release
      */
     function promote($pkginfo, $upload)
     {
-        if ($_SERVER['SERVER_NAME'] != 'pear.php.net') {
+        if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
             return;
         }
         $pacid   = package::info($pkginfo['package'], 'packageid');
@@ -2032,8 +2039,9 @@ class release
         }
         $upload = basename($upload);
         $release = "{$pkginfo['package']}-{$pkginfo['version']} ({$pkginfo['release_state']})";
+        $channel = PEAR_CHANNELNAME;
         $txtanounce =<<<END
-The new PEAR package $release has been released at http://pear.php.net/.
+The new PEAR package $release has been released at http://$channel/.
 
 Release notes
 -------------
@@ -2045,22 +2053,23 @@ Package Info
 
 Related Links
 -------------
-Package home: http://pear.php.net/package/$pkginfo[package]
-   Changelog: http://pear.php.net/package/$pkginfo[package]/download/$pkginfo[version]
-    Download: http://pear.php.net/get/$upload
+Package home: http://$channel/package/$pkginfo[package]
+   Changelog: http://$channel/package/$pkginfo[package]/download/$pkginfo[version]
+    Download: http://$channel/get/$upload
 
 Authors
 -------------
 $txt_authors
 END;
 
-        $to   = '"PEAR general list" <pear-general@lists.php.net>';
-        $from = '"PEAR Announce" <pear-dev@lists.php.net>';
+        $to   = '"PEAR general list" ' . PEAR_GENERAL_EMAIL;
+        $from = '"PEAR Announce" ' . PEAR_ANNOUNCE_EMAIL;
         $subject = "[ANNOUNCEMENT] $release Released.";
         mail($to, $subject, $txtanounce, "From: $from", "-f pear-sys@php.net");
     }
 
-    // }}}    // {{{ +proto string release::promote_v2(array, string) API 1.0
+    // }}}
+    // {{{ +proto string release::promote_v2(array, string) API 1.0
 
     /**
      * Promote new release
@@ -2071,7 +2080,7 @@ END;
      */
     function promote_v2($pkginfo, $upload)
     {
-        if ($_SERVER['SERVER_NAME'] != 'pear.php.net') {
+        if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
             return;
         }
         $pacid   = package::info($pkginfo->getPackage(), 'packageid');
@@ -2087,7 +2096,8 @@ END;
         $upload = basename($upload);
         $release = $pkginfo->getPackage() . '-' . $pkginfo->getVersion() .
              ' (' . $pkginfo->getState() . ')';
-        $txtanounce ='The new PEAR package ' . $release . ' has been released at http://pear.php.net/.
+        $txtanounce ='The new PEAR package ' . $release . ' has been released at http://' .
+        PEAR_CHANNELNAME . '/.
 
 Release notes
 -------------
@@ -2099,17 +2109,17 @@ Package Info
 
 Related Links
 -------------
-Package home: http://pear.php.net/package/' . $pkginfo->getPackage() . '
-   Changelog: http://pear.php.net/package/' . $pkginfo->getPackage() . '/download/' .
+Package home: http://' . PEAR_CHANNELNAME . '/package/' . $pkginfo->getPackage() . '
+   Changelog: http://' . PEAR_CHANNELNAME . '/package/' . $pkginfo->getPackage() . '/download/' .
         $pkginfo->getVersion() . '
-    Download: http://pear.php.net/get/' . $upload . '
+    Download: http://' . PEAR_CHANNELNAME . '/get/' . $upload . '
 
 Authors
 -------------
 ' . $txt_authors;
 
-        $to   = '"PEAR general list" <pear-general@lists.php.net>';
-        $from = '"PEAR Announce" <pear-dev@lists.php.net>';
+        $to   = '"PEAR general list" ' . PEAR_GENERAL_EMAIL;
+        $from = '"PEAR Announce" ' . PEAR_ANNOUNCE_EMAIL;
         $subject = "[ANNOUNCEMENT] $release Released.";
         mail($to, $subject, $txtanounce, "From: $from", "-f pear-sys@php.net");
     }
@@ -2305,7 +2315,7 @@ class user
         $karma->grant($user->handle, $karmalevel);
         note::add("uid", $uid, "Account opened");
         $msg = "Your PEAR account request has been opened.\n".
-             "To log in, go to http://pear.php.net/ and click on \"login\" in\n".
+             "To log in, go to http://" . PEAR_CHANNELNAME . "/ and click on \"login\" in\n".
              "the top-right menu.\n";
         $xhdr = "From: " . $_COOKIE['PEAR_USER'] . "@php.net";
         mail($user->email, "Your PEAR Account Request", $msg, $xhdr, "-f pear-sys@php.net");
@@ -2566,13 +2576,16 @@ class user
             $msg .= "\nMore info:\n{$data['moreinfo']}\n";
         }
 
-        $xhdr = "From: $name <{$data['email']}>\nMessage-Id: <account-request-{$handle}@pear.php.net>\n";
+        $xhdr = "From: $name <{$data['email']}>\nMessage-Id: <account-request-{$handle}@" .
+            PEAR_CHANNELNAME . ">\n";
         // $xhdr .= "\nBCC: pear-group@php.net";
         $subject = "PEAR Account Request: {$handle}";
 
         if (DEVBOX == false) {
-            $ok = @mail('pear-group@php.net', $subject, $msg, $xhdr,
-                        '-f pear-sys@php.net');
+            if (PEAR_CHANNELNAME == 'pear.php.net') {
+                $ok = @mail('pear-group@php.net', $subject, $msg, $xhdr,
+                            '-f pear-sys@php.net');
+            }
         } else {
             $ok = true;
         }

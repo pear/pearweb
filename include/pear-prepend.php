@@ -17,8 +17,7 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-
-if ($_SERVER['SERVER_NAME'] != 'pear.php.net') {
+if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
     error_reporting(E_ALL);
     define('DEVBOX', true);
 } else {
@@ -34,9 +33,9 @@ require_once "pear-database.php";
 
 if (empty($format)) {
     if (basename($_SERVER['PHP_SELF']) == "xmlrpc.php") {
-        $format = "xmlrpc";
+        $format = 'xmlrpc';
     } else {
-        $format = "html";
+        $format = 'html';
     }
 }
 

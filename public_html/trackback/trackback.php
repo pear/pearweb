@@ -86,7 +86,7 @@ if (!DEVBOX) {
 }
 
 if (PEAR::isError($res)) {
-    echo Services_Trackback::getResponseError('The notification email for your trackback could not be send. Please inform pear-webmaster@lists.php.net.', 1);
+    echo Services_Trackback::getResponseError('The notification email for your trackback could not be send. Please inform ' . PEAR_WEBMASTER_EMAIL . '.', 1);
     exit;
 }
 

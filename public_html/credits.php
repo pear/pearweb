@@ -45,7 +45,7 @@ response_header('Credits');
 <small>(In alphabetic order)</small>
 
 <p>The website team can be reached at
-<?php echo make_mailto_link("pear-webmaster@lists.php.net"); ?>.</p>
+<?php echo make_mailto_link(PEAR_WEBMASTER_EMAIL); ?>.</p>
 
 <p>More information about the website can be found on a
 <a href="/about/">dedicated page</a>.</p>

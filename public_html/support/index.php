@@ -67,7 +67,7 @@ journals. Some of them are aggregated through
 mailing lists in <a href="http://php-mag.net/itr/psecom,id,207,nodeid,207.html">PHPBarnstormer</a>.</p>
 
 <p>If you have questions concering this website, you can contact
-<a href="mailto:pear-webmaster@lists.php.net">pear-webmaster@lists.php.net</a>.
+<a href="mailto:<?php echo PEAR_WEBMASTER_EMAIL; ?>"><?php echo PEAR_WEBMASTER_EMAIL; ?></a>.
 </p>
 
 <?php

@@ -68,7 +68,8 @@ $mailData = array(
     'user' => $_COOKIE['PEAR_USER'],
 );
 
-$relocator = '<meta http-equiv="refresh" content="5; URL=http://pear.php.net/package/'.$id.'/trackbacks">';
+$relocator = '<meta http-equiv="refresh" content="5; URL=http://' . PEAR_CHANNELNAME.
+    '/package/'.$id.'/trackbacks">';
 
 switch ($action) {
 case 'approve':
@@ -104,5 +105,5 @@ default:
 
 response_header('Trackback admin', null, $relocator);
 echo $msg;
-echo '<p>You should be redirected to the packages trackback page in 5 seconds. if this does not work, please click <a href="http://pear.php.net/package/'.$id.'/trackbacks">here</a>.</p>';
+echo '<p>You should be redirected to the packages trackback page in 5 seconds. if this does not work, please click <a href="http://' . PEAR_CHANNELNAME . '/package/'.$id.'/trackbacks">here</a>.</p>';
 response_footer();

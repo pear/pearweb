@@ -44,10 +44,10 @@ class Damblan_RSS_Common {
         $this->_root->setAttribute("xmlns:dc", "http://purl.org/dc/elements/1.1/");
 
         $this->_channel = &$this->_root->addChild("channel");
-        $this->_channel->setAttribute("rdf:about", "http://pear.php.net/");
-        $this->_channel->addChild("link", "http://pear.php.net/");
-        $this->_channel->addChild("dc:creator", "pear-webmaster@lists.php.net");
-        $this->_channel->addChild("dc:publisher", "pear-webmaster@lists.php.net");
+        $this->_channel->setAttribute("rdf:about", "http://" . PEAR_CHANNELNAME . "/");
+        $this->_channel->addChild("link", "http://" . PEAR_CHANNELNAME . "/");
+        $this->_channel->addChild("dc:creator", PEAR_WEBMASTER_EMAIL);
+        $this->_channel->addChild("dc:publisher", PEAR_WEBMASTER_EMAIL);
         $this->_channel->addChild("dc:language", "en-us");
 
         $c_items = &$this->_channel->addChild("items");
@@ -121,7 +121,7 @@ class Damblan_RSS_Common {
     function __addItems($list) {
         foreach ($list as $item) {
             $date = date("Y-m-d\TH:i:s-05:00", strtotime($item['releasedate']));
-            $url = 'http://pear.php.net/package/' . $item['name'] . '/download/' . $item['version'] . '/';
+            $url = 'http://' . PEAR_CHANNELNAME . '/package/' . $item['name'] . '/download/' . $item['version'] . '/';
             $title = $item['name'] . ' ' . $item['version'];
             $node = $this->newItem($title, $url, $item['releasenotes'], $date);
             $this->addItem($node);

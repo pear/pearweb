@@ -44,7 +44,7 @@ switch ($_POST['search_in']) {
         break;
 
     case 'site':
-        header('Location: http://google.com/search?as_sitesearch=pear.php.net'
+        header('Location: http://google.com/search?as_sitesearch=' . PEAR_CHANNELNAME
                . '&as_q=' . urlencode($_POST['search_string']));
         break;
 

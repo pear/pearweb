@@ -233,7 +233,7 @@ $reasons = array("You don't need a PEAR account to use PEAR or PEAR packages.\n\
                  "hearing what could be added  on the form to prevent someone making a\n" .
                  "similar mistake.",
 
-                 "Please fill out a bug report at http://pear.php.net/bugs/ for all\n" .
+                 "Please fill out a bug report at http://" . PEAR_CHANNELNAME . "/bugs/ for all\n" .
                  "bugs or patches.",
 
                  "Please supply valid credentials, including your full name and a\n" .

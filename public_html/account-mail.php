@@ -121,7 +121,7 @@ if (isset($_POST['submit'])) {
     }
 
     if (!report_error($errors)) {
-        $text = "[This message has been brought to you via pear.php.net.]\n\n";
+        $text = "[This message has been brought to you via " . PEAR_CHANNELNAME . ".]\n\n";
         $text .= wordwrap($_POST['text'], 72);
 
         if (@mail($row['email'], $_POST['subject'], $text,

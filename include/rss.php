@@ -3,12 +3,12 @@
 /**
  * PEAR PWN URI
  */
-define('PEAR_SITE','http://pear.php.net');
+define('PEAR_SITE','http://' . PEAR_CHANNELNAME);
 
 /**
  * PEAR PWN URI
  */
-define('PEAR_SITE_PWN','http://pear.php.net/weeklynews.php#');
+define('PEAR_SITE_PWN','http://' . PEAR_CHANNELNAME . '/weeklynews.php#');
 
 /**
  * PEAR Weekly news HTML files
@@ -35,15 +35,15 @@ $head = '<?xml version="1.0" encoding="{encoding}"?>
 >
 <image>
     <title>PEAR</title>
-    <url>http://pear.php.net/gifs/pear-icon.gif</url>
-    <link>http://pear.php.net</link>
+    <url>http://' . PEAR_CHANNELNAME . '/gifs/pear-icon.gif</url>
+    <link>http://' . PEAR_CHANNELNAME . '</link>
     <width>32</width>
     <height>32</height>
 </image>
-<channel rdf:about="http://pear.php.net/">
-    <title>PEAR: PHP Extension and Application Repository</title>
-    <link>http://pear.php.net/</link>
-    <description>PEAR PHP Extension and Application Repository</description>
+<channel rdf:about="http://' . PEAR_CHANNELNAME . '/">
+    <title>' . PEAR_CHANNEL_SUMMARY . '</title>
+    <link>http://' . PEAR_CHANNELNAME . '/</link>
+    <description>' . PEAR_CHANNEL_SUMMARY . '</description>
     <pubDate>{pub_date}</pubDate>
     <items>
         <rdf:Seq>

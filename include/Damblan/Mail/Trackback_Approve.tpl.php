@@ -14,7 +14,7 @@
      */
 
     $tpl = array(
-        'Reply-To' => array('PEAR Webmaster <pear-webmaster@lists.php.net>'),
+        'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
         'From' => 'pear-sys@php.net',
         'Subject' => '[Trackback] Trackback approved for %id%',
         'Body' => 'Dear maintainer,
@@ -32,7 +32,7 @@ Excerpt:
 Executor:   %user%
 
 You can choose one of the following actions:
-Delete: http://pear.php.net/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%'
+Delete: http://' . PEAR_CHANNELNAME . '/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%'
      );
 
 ?>

@@ -169,7 +169,7 @@ MSG;
         'Download PEAR Packages.',
         'Submit patches/bugs.',
         'Suggest new features.',
-        'Browse pear.php.net.'
+        'Browse ' . PEAR_CHANNELNAME . '.'
         );
     $purposechecks = '';
     foreach ($invalid_purposes as $i => $purposeKey)
