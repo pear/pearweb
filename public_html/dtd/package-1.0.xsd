@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
  <xs:element name="package">
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="name"/>
+    <xs:element ref="extends" minOccurs="0"/>
     <xs:element ref="summary"/>
     <xs:element ref="description"/>
     <xs:element ref="license" minOccurs="0"/>
@@ -27,12 +29,11 @@
  <xs:element name="name">
   <xs:complexType>
    <xs:simpleContent>
-    <xs:extension base="xs:string">
-     <xs:attribute name="extends" type="xs:string"/>
-    </xs:extension>
+    <xs:extension base="xs:string"/>
    </xs:simpleContent>
   </xs:complexType>
  </xs:element>
+ <xs:element name="extends" type="xs:string"/>
  <xs:element name="summary" type="xs:string"/>
  <xs:element name="description" type="xs:string"/>
  <xs:element name="license" type="xs:string"/>
