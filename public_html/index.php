@@ -59,6 +59,7 @@ echo menu_link("About PEAR", "/manual/en/about-pear.php");
 echo menu_link("Manual", "/manual/");
 echo menu_link("Frequently Asked Questions", "/manual/en/faq.php");
 echo menu_link("Mailing Lists & Support Resources", "/support.php");
+echo menu_link("The PEAR Group", "/group/");
 echo '</div>';
 echo '<h2>Downloads</h2>';
 echo '<div class="indent">';
