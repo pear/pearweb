@@ -260,6 +260,7 @@ $state_types =  array (
     'Duplicate'    => 2,
     'Critical'     => 1,
     'Assigned'     => 1,
+    'Not Assigned' => 1,
     'Analyzed'     => 1,
     'Verified'     => 1,
     'Suspended'    => 1,
