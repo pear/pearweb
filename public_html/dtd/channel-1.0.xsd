@@ -74,13 +74,6 @@
       <element name="xmlrpc" type="functions" minOccurs="0"/>
       <element name="soap" type="functions" minOccurs="0"/>
     </sequence>
-    <attribute name="host" use="required">
-     <simpleType>
-      <restriction base="string">
-       <pattern value="[A-Za-z][a-zA-Z0-9_\.]+"/>
-      </restriction>
-     </simpleType>
-    </attribute>
   </complexType>
 
   <complexType name="validatepackage">
