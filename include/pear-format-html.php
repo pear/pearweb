@@ -50,9 +50,7 @@ $GLOBALS['developer_menu'] = array(
 );
 
 $GLOBALS['admin_menu'] = array(
-    '/admin/'                     => 'Overview',
-    '/admin/package-maintainers.php' => 'Maintainers',
-    '/admin/category-manager.php' => 'Categories'
+    '/admin/'                     => 'Overview'
 );
 
 $GLOBALS['_style'] = '';

@@ -64,8 +64,6 @@ if (isset($_COOKIE['PEAR_USER'])) {
         echo '<h2>Administrators</h2>';
         echo '<div class="indent">';
         echo menu_link("Overview", "/admin/");
-        echo menu_link("Maintainers", "/admin/package-maintainers.php");
-        echo menu_link("Categories", "/admin/category-manager.php");
         echo '</div>';
     }
 }
