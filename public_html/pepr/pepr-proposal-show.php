@@ -124,6 +124,7 @@
 	
 	$bb->horizHeadRow("Package name:", $proposal->pkg_name);
 	$bb->horizHeadRow("Package category:", $proposal->pkg_category);
+	$bb->horizHeadRow("Package License:", $proposal->pkg_license);
 	if (!empty($proposal->pkg_deps)) {
 		$bb->horizHeadRow("Dependencies:", nl2br($proposal->pkg_deps));
 	}

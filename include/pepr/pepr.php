@@ -34,6 +34,8 @@ class proposal {
     var $pkg_category;
 	 
     var $pkg_name;
+    
+    var $pkg_license;
 	 
     var $pkg_describtion;
 	 
@@ -128,6 +130,7 @@ class proposal {
             $sql = "UPDATE package_proposals SET
 					pkg_category = ".$dbh->quote($this->pkg_category).",
 					pkg_name = ".$dbh->quote($this->pkg_name).",
+                    pkg_license = ".$dbh->quote($this->pkg_license).",
 					pkg_describtion = ".$dbh->quote($this->pkg_describtion).",
 					pkg_deps = ".$dbh->quote($this->pkg_deps).",
 					draft_date = FROM_UNIXTIME({$this->draft_date}),
@@ -142,10 +145,11 @@ class proposal {
                 return $res;
             }
         } else {
-            $sql = "INSERT INTO package_proposals (pkg_category, pkg_name, pkg_describtion,
+            $sql = "INSERT INTO package_proposals (pkg_category, pkg_name, pkg_license, pkg_describtion,
 						pkg_deps, draft_date, status, user_handle) VALUES (
 						".$dbh->quote($this->pkg_category).",
 						".$dbh->quote($this->pkg_name).",
+                        ".$dbh->quote($this->pkg_license).",
 						".$dbh->quote($this->pkg_describtion).",
 						".$dbh->quote($this->pkg_deps).",
 						FROM_UNIXTIME(".time()."),

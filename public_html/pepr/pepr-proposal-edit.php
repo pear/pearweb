@@ -52,6 +52,7 @@
 	$categoryNew = $form->addGroup($categoryNewElements, 'pkg_category_new', 'New category:', '<br />');
 
 	$form->addElement('text', 'pkg_name', 'Package name:');
+	$form->addElement('text', 'pkg_license', 'License:');
 	
 	$form->addElement('textarea', 'pkg_describtion', 'Package description:', array('rows' => 6, 'cols' => '40'));
 	$form->addElement('link', 'help_bbcode', '', 'pepr-bbcode-help.php', 'You can use BBCode inside your description');
@@ -81,6 +82,7 @@
 	
 	if (isset($proposal)) {
 		$defaults = array('pkg_name' 	=> $proposal->pkg_name,
+		                  'pkg_license'	=> $proposal->pkg_license,
 						  'pkg_describtion' => $proposal->pkg_describtion,
 					      'pkg_deps' 	=> $proposal->pkg_deps);
 		if (isset($mapCategories[$proposal->pkg_category])) {
@@ -136,6 +138,7 @@
 	
 	$form->addRule('pkg_category', 'You have to select a package category!', 'required', '', 'client');
 	$form->addRule('pkg_name', 'You have to select a package name!', 'required', '', 'client');
+	$form->addRule('pkg_license', 'you have to specify the license of your package!', 'required', '', 'client');
 	$form->addRule('pkg_describtion', 'You have to enter a package description!', 'required', '', 'client');
 	$form->addRule('link[0]', '2 links are required as minimum!', 'required', '', 'client');
 	$form->addRule('link[1]', '2 links are required as minimum!', 'required', '', 'client');
