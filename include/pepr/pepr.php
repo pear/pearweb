@@ -550,8 +550,8 @@ class proposal {
             $vote->value = ($vote->value > 0) ? "+".$vote->value : $vote->value;
             if ($vote->is_conditional) {
                 $vote_conditional = "\n\nThis vote is conditional. The condition is:\n\n".$vote->comment;
-            } else {
-                $vote_conditional = "";
+            } elseif ($vote->comment) {
+                $comment = "\n\nComment:\n\n" . $vote->comment;
             }
 
             $vote_url = "http://pear.php.net/pepr/pepr-vote-show.php?id=".$this->id."&handle=".$user_handle;
