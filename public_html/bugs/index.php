@@ -40,16 +40,18 @@ response_header('Bugs');
 
 <p>Now that you are ready to proceed:</p>
 
-<ul>
-  <li>
+<dl>
+  <dt>Package Bugs</dt>
+  <dd>
    If you want to report a bug for a <strong>specific package</strong>,
    please go to the package home page using the
    <?php print_link('/packages.php', 'Browse&nbsp;Packages');?> tool
    or the <?php print_link('/package-search.php', 'Package&nbsp;Search'); ?>
    system.
-  </li>
+  </dd>
 
-  <li>
+  <dt style="margin-top: 1em;">Website Bugs</dt>
+  <dd>
    If the bug you found does not relate to a package, one of the following
    categories should be appropriate:
    <?php print make_bug_link('Web Site', 'report', '<strong>Web&nbsp;Site</strong>');?>,
@@ -61,8 +63,8 @@ response_header('Bugs');
    <strong>user interface</strong> for reporting, searching and
    editing the bugs, so is <strong>not</strong> for reporting bugs
    about packages or other parts of the website.
-  </li>
-</ul>
+  </dd>
+</dl>
 
 <p>
 You may find the
