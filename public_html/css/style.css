@@ -166,6 +166,7 @@ table.form-holder {
 
 caption.form-caption {
     font-weight: bold;
+    color: #FFFFFF;
     background-color: #339900;
     padding: 0.3em;
     border-left: 1px solid #FFFFFF;
@@ -175,9 +176,11 @@ caption.form-caption {
 
 /* Labels on the left side of form and table rows */
 th.form-label_left {
+    padding: 3px;
     text-align: left;
     vertical-align: top;
     font-weight: bold;
+    color: #FFFFFF;
     background-color: #339900;
     width: 25%;
 }
@@ -185,21 +188,25 @@ th.form-label_left {
 /* Labels on the top of form and table columns */
 th.form-label_top,
 th.form-label_top_center {
+    padding: 3px;
     text-align: center;
     font-weight: bold;
-    background-color: #99CC99;
+    color: #FFFFFF;
+    background-color: #339900;
 }
 
 td.form-input {
+    padding: 3px;
     text-align: left;
     vertical-align: top;
     background-color: #e8e8e8;
 }
 
 td.form-input_center {
+    padding: 3px;
     text-align: center;
     vertical-align: center;
-    background-color: #DBFFDB;
+    background-color: #e8e8e8;
 }
 
 td.form-input input, 
