@@ -1,6 +1,27 @@
 <?php /* vim: set noet ts=4 sw=4 ft=php : */
 
-// $Id$
+/**
+ * @category pearweb
+ * @package Bugs
+ * @version $Id$
+ */
+
+// used in mail_bug_updates(), below, and class for search results
+$tla = array(
+    'Open'        => 'Opn',
+    'Bogus'       => 'Bgs',
+    'Feedback'    => 'Fbk',
+    'No Feedback' => 'NoF',
+    'Wont fix'    => 'WFx',
+    'Duplicate'   => 'Dup',
+    'Critical'    => 'Ctl',
+    'Assigned'    => 'Asn',
+    'Analyzed'    => 'Ana',
+    'Verified'    => 'Ver',
+    'Suspended'   => 'Sus',
+    'Closed'      => 'Csd',
+    'Feature/Change Request' => 'Fea',
+);
 
 /**
  * Obfuscates email addresses to hinder spammer's spiders
@@ -10,6 +31,7 @@
  *
  * @param string $txt     the email address to be obfuscated
  * @param string $format  how the output will be displayed ('html', 'text')
+ *
  * @return string  the altered email address
  */
 function spam_protect($txt, $format = 'html')
@@ -28,23 +50,48 @@ function spam_protect($txt, $format = 'html')
     return strtr($txt, $translate);
 }
 
-/* scrub user input so it can be re-output */
-function clean($in)
-{
-    return htmlspecialchars(get_magic_quotes_gpc()?stripslashes($in):$in);
-}
-
-/* just rinse out any slashes. :) */
-function rinse($in)
-{
-    return get_magic_quotes_gpc()?stripslashes($in):$in;
-}
-
 /**
- * Escape string so it can be used as a literal in a query.
+ * Escape string so it can be used as HTML
  *
  * If magic_quotes_gpc is on, the slashes are stripped out
  * then the escaping is done.
+ *
+ * @param string $in  the string to be sanitized
+ *
+ * @return string  the sanitized string
+ *
+ * @see rinse(), escapeSQL(), oneof(), field(), txfield()
+ */
+function clean($in)
+{
+    return htmlspecialchars(get_magic_quotes_gpc() ? stripslashes($in) : $in);
+}
+
+/**
+ * Remove slashes from a string if magic_quotes_gpc is on
+ *
+ * @param string $in  the string to be sanitized
+ *
+ * @return string  the sanitized string
+ *
+ * @see clean(), escapeSQL(), oneof(), field(), txfield()
+ */
+function rinse($in)
+{
+    return get_magic_quotes_gpc() ? stripslashes($in) : $in;
+}
+
+/**
+ * Escape string so it can be used as a literal in a query
+ *
+ * If magic_quotes_gpc is on, the slashes are stripped out
+ * then the escaping is done.
+ *
+ * @param string $in  the string to be sanitized
+ *
+ * @return string  the sanitized string
+ *
+ * @see clean(), rinse(), oneof(), field(), txfield()
  */
 function escapeSQL($in)
 {
@@ -56,14 +103,84 @@ function escapeSQL($in)
     }
 }
 
-/* handy function for when you're dealing with user input or a default. */
+/**
+ * Goes through each variable submitted and returns the value
+ * from the first variable which has a non-empty value
+ *
+ * Handy function for when you're dealing with user input or a default.
+ *
+ * @param mixed  as many variables as you wish to check
+ *
+ * @return mixed  the value, if any
+ *
+ * @see clean(), rinse(), escapeSQL(), field(), txfield()
+ */
 function oneof()
 {
     foreach (func_get_args() as $arg) {
-        if ($arg) return $arg;
+        if ($arg) {
+            return $arg;
+        }
     }
 }
 
+/**
+ * Returns the data from the field requested and sanitizes
+ * it for use as HTML
+ *
+ * If the data from a form submission exists, that is used.
+ * But if that's not there, the info is obtained from the database.
+ *
+ * @param string $n  the name of the field to be looked for
+ *
+ * @return mixed  the data requested
+ *
+ * @see clean(), rinse(), escapeSQL(), oneof(), txfield()
+ */
+function field($n) {
+    return oneof(clean($_POST['in'][$n]),
+                 htmlspecialchars($GLOBALS['bug'][$n]));
+}
+
+/**
+ * Returns the data from the field requested and sanitizes
+ * it for use as plain text
+ *
+ * If the data from a form submission exists, that is used.
+ * But if that's not there, the info is obtained from the database.
+ *
+ * @param string $n  the name of the field to be looked for
+ *
+ * @return mixed  the data requested
+ *
+ * @see clean(), rinse(), escapeSQL(), oneof(), field()
+ */
+function txfield($n)
+{
+    return oneof(rinse($_POST['in'][$n]),
+                 $GLOBALS['bug'][$n]);
+}
+
+/**
+ * Checks if the data submitted from the form is different than the
+ * info in the database
+ *
+ * @param string $n  the name of the field to be examined
+ *
+ * @return bool  true if the data is different, false if it's the same
+ */
+function changed($n) {
+    return $_POST['in'][$n]
+        && (stripslashes(trim($_POST['in'][$n])) != trim($GLOBALS['bug'][$n]));
+}
+
+/**
+ * Prints age <option>'s for use in a <select>
+ *
+ * @param string $current  the field's current value
+ *
+ * @return void
+ */
 function show_byage_options($current)
 {
     $opts = array(
@@ -80,13 +197,29 @@ function show_byage_options($current)
     }
 }
 
-function show_limit_options($limit=30)
+/**
+ * Prints a list of <option>'s for use in a <select> element
+ * asking how many bugs to display
+ *
+ * @param int $limit  the presently selected limit to be used as the default
+ *
+ * @return void
+ */
+function show_limit_options($limit = 30)
 {
-    for($i=10;$i<100;) {
-        echo "<option value=\"$i\"", ($limit==$i ? ' selected="selected"' : ''),">$i bugs</option>\n";
-        $i=$i+10;
+    for ($i = 10; $i < 100; $i += 10) {
+        echo '<option value="' . $i . '"';
+        if ($limit == $i) {
+            echo ' selected="selected"';
+        }
+        echo ">$i bugs</option>\n";
     }
-    echo '<option value="All"', ($limit=='All' ? ' selected="selected"': ''),">All</option>\n";
+
+    echo '<option value="All"';
+    if ($limit == 'All') {
+        echo ' selected="selected"';
+    }
+    echo ">All</option>\n";
 }
 
 $state_types =  array (
@@ -108,31 +241,43 @@ $state_types =  array (
     'All'          => 0
 );
 
-function show_state_options($state, $user_mode=0, $default="")
+/**
+ * Prints bug state <option>'s for use in a <select> list
+ *
+ * @param string $state      the bug's present state
+ * @param int    $user_mode  the 'edit' mode
+ * @param string $default    the default value
+ *
+ * @return void
+ */
+function show_state_options($state, $user_mode = 0, $default = '')
 {
     global $state_types;
 
     if (!$state && !$default) {
         $state = 'Open';
-    }
-    elseif (!$state) {
+    } elseif (!$state) {
         $state = $default;
     }
 
     /* regular users can only pick states with type 2 for unclosed bugs */
-    if($state != 'All' && $state_types[$state] == 1 && $user_mode == 2) {
+    if ($state != 'All' && $state_types[$state] == 1 && $user_mode == 2) {
         /* If state was 'Feedback', set state to 'Open' automatically. */
-        if($state == 'Feedback' || $state == 'No Feedback') {
+        if ($state == 'Feedback' || $state == 'No Feedback') {
             echo "<option>Open</option>\n";
         } else {
             echo "<option>$state</option>\n";
         }
-        if($state != 'Bogus') echo "<option>Closed</option>\n";
+        if ($state != 'Bogus') {
+            echo "<option>Closed</option>\n";
+        }
     } else {
         foreach($state_types as $type => $mode) {
             if ($mode >= $user_mode) {
-                echo "<option";
-                if($type == $state) echo ' selected="selected"';
+                echo '<option';
+                if ($type == $state) {
+                    echo ' selected="selected"';
+                }
                 echo ">$type</option>\n";
             }
         }
@@ -140,10 +285,38 @@ function show_state_options($state, $user_mode=0, $default="")
 }
 
 /**
- * Prints a list of <options> containing PHP version numbers
+ * Prints bug resolution <option>'s for use in a <select> list
+ *
+ * @param string $current   the bug's present state
+ * @param int    $expanded  whether or not a longer explanation should be
+ *                          displayed
+ *
+ * @return void
+ */
+function show_reason_types($current = '', $expanded = 0)
+{
+	if ($expanded) {
+        echo '<option value=""></option>' . "\n";
+    }
+	while (list($k,$v) = each($GLOBALS['RESOLVE_REASONS'])) {
+		echo '<option value="' . $k . '"';
+        if ($current==$k) {
+            echo ' selected="selected"';
+        }
+		echo ">$v[desc]";
+        if ($expanded) {
+            echo " ($v[status])";
+        }
+        echo "</option>\n";
+	}
+}
+
+/**
+ * Prints PHP version number <option>'s for use in a <select> list
  *
  * @param string $current  the bug's current version number
  * @param string $default  a version number that should be the default
+ *
  * @return void
  */
 function show_version_options($current, $default = '')
@@ -186,65 +359,56 @@ function show_version_options($current, $default = '')
     echo '<option value="earlier">Earlier? Upgrade first!</option>' . "\n";
 }
 
-function display_errors($errors)
-{
-    echo '<div class="errors">';
-    if (count($errors) > 1) {
-        echo 'You need to do the following before your submission will be accepted:<ul>';
-        foreach ($errors as $error) {
-            echo "<li>$error</li>\n";
-        }
-        echo '</ul>';
-    }
-    else {
-        echo $errors[0];
-    }
-    echo '</div>';
-}
-
-function display_warnings($warnings)
-{
-    echo '<div class="warnings">';
-    if (count($warnings) > 1) {
-        echo "Please notice the following:<ul>\n";
-        foreach ($warnings as $warning) {
-            echo "<li>$warning</li>\n";
-        }
-        echo '</ul>';
-    }
-    else {
-        echo $warnings[0];
-    }
-    echo '</div>';
-}
-
-function show_types($current,$show_any,$default="")
+/**
+ * Prints package name <option>'s for use in a <select> list
+ *
+ * @param string $current   the bug's present state
+ * @param int    $show_any  whether or not 'Any' should be an option.  'Any'
+ *                          will only be printed if no $current value exists.
+ * @param string $default   the default value
+ *
+ * @return void
+ */
+function show_types($current, $show_any, $default = '')
 {
     include 'bugtypes.inc';
+    $use = 0;
 
     if (!$current && !$default && !$show_any) {
         echo "<option value=\"none\">--Please Select--</option>\n";
-    }
-    elseif (!$current && $show_any == 1) {
+    } elseif (!$current && $show_any == 1) {
         $current = 'Any';
-    }
-    elseif (!$current) {
+    } elseif (!$current) {
         $current = $default;
     }
 
     while (list($key,$value) = each($items)) {
         if ($show_any == 1 || $key != 'Any') {
-            echo "<option value=\"$key\"",
-            ((is_array($current) && in_array($key, $current)) || ($key == $current) ? " selected" : ""),
-            ">$value</option>\n";
-            if ($key == $current) $use++;
+            echo "<option value=\"$key\"";
+            if ((is_array($current) && in_array($key, $current)) ||
+                ($key == $current))
+            {
+                echo ' selected="selected"';
+            }
+            echo ">$value</option>\n";
+            if ($key == $current) {
+                $use++;
+            }
         }
     }
-    if (!$use && $current && !is_array ($current)) {
-        echo "<option selected>$current</option>\n";
+    if (!$use && $current && !is_array($current)) {
+        echo '<option selected="selected">' . $current . "</option>\n";
     }
 }
 
+/**
+ * Prints a series of radio inputs to determine how the search
+ * term should be looked for
+ *
+ * @param string $current   the users present selection
+ *
+ * @return void
+ */
 function show_boolean_options($current)
 {
     $options = array('any', 'all', 'raw');
@@ -257,8 +421,61 @@ function show_boolean_options($current)
     }
 }
 
-function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
+/**
+ * Prints a message explaining the errors found in the users's submission
+ *
+ * @param array $errors  an array of the errors found
+ *
+ * @return void
+ */
+function display_errors($errors)
 {
+    echo '<div class="errors">';
+    if (count($errors) > 1) {
+        echo 'You need to do the following before your submission will be accepted:<ul>';
+        foreach ($errors as $error) {
+            echo "<li>$error</li>\n";
+        }
+        echo '</ul>';
+    } else {
+        echo $errors[0];
+    }
+    echo '</div>';
+}
+
+/**
+ * Prints a message explaining the warnings found in the users's submission
+ *
+ * @param array $warnings  an array of the warnings found
+ *
+ * @return void
+ */
+function display_warnings($warnings)
+{
+    echo '<div class="warnings">';
+    if (count($warnings) > 1) {
+        echo "Please notice the following:<ul>\n";
+        foreach ($warnings as $warning) {
+            echo "<li>$warning</li>\n";
+        }
+        echo '</ul>';
+    } else {
+        echo $warnings[0];
+    }
+    echo '</div>';
+}
+
+/**
+ * Send an email notice about bug aditions and edits
+ *
+ * @param
+ *
+ * @return void
+ */
+function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
+{
+    global $tla;
+
     $text = array();
     $headers = array();
 
@@ -267,21 +484,6 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
 
     /* Get rid of slashes in bug status */
     $bug['status'] = stripslashes($bug['status']);
-
-    $tla = array(
-        'Open'        => 'Opn',
-        'Bogus'       => 'Bgs',
-        'Feedback'    => 'Fbk',
-        'No Feedback' => 'NoF',
-        'Wont fix'    => 'WFx',
-        'Duplicate'   => 'Dup',
-        'Critical'    => 'Ctl',
-        'Assigned'    => 'Asn',
-        'Analyzed'    => 'Ana',
-        'Verified'    => 'Ver',
-        'Suspended'   => 'Sus',
-        'Closed'      => 'Csd',
-    );
 
     $headers[] = array(" ID", $bug['id']);
 
@@ -436,33 +638,33 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
                   "-fpear-sys@php.net");
         }
     }
-
 }
 
-function changed($n) {
-    return $_POST['in'][$n]
-        && stripslashes(trim($_POST['in'][$n])) != trim($GLOBALS['bug'][$n]);
-}
-
-function field($n) {
-    return oneof(clean($_POST['in'][$n]),
-                 htmlspecialchars($GLOBALS['bug'][$n]));
-}
-
+/**
+ * Turns a unix timestamp into a uniformly formatted date
+ *
+ * If the date is during the current year, the year is omitted.
+ *
+ * @param int $date  the unix timestamp to be formatted
+ *
+ * @return string  the formatted date
+ */
 function format_date($date) {
-  if (date("Y") != date("Y", $date)) {
-    return date("j M Y g:ia T", $date);
-  }
-  return date("j M g:ia T", $date);
+    if (date('Y') != date('Y', $date)) {
+        return date('j M Y g:ia T', $date);
+    }
+    return date('j M g:ia T', $date);
 }
 
-function txfield($n)
-{
-    return oneof(rinse($_POST['in'][$n]),
-                 $GLOBALS['bug'][$n]);
-}
-
-function get_old_comments ($bug_id, $all = 0)
+/**
+ * Produces a string containing the bug's prior comments
+ *
+ * @param int $bug_id  the bug's id number
+ * @param int $all     should all existing comments be returned?
+ *
+ * @return string  the comments
+ */
+function get_old_comments($bug_id, $all = 0)
 {
     global $dbh;
     $divider = str_repeat("-", 72);
@@ -475,7 +677,9 @@ function get_old_comments ($bug_id, $all = 0)
     # skip the most recent unless the caller wanted all comments
     if (!$all) {
         $row =& $res->fetchRow(DB_FETCHMODE_ORDERED);
-        if (!$row) return "";
+        if (!$row) {
+            return '';
+        }
     }
 
     while (($row =& $res->fetchRow(DB_FETCHMODE_ORDERED)) && strlen($output) < $max_message_length && $count++ < $max_comments) {
@@ -484,18 +688,28 @@ function get_old_comments ($bug_id, $all = 0)
 
     if (strlen($output) < $max_message_length && $count < $max_comments) {
         $res =& $dbh->query("SELECT ts1,email,ldesc FROM bugdb WHERE id=$bug_id");
-        if (!$res) return $output;
+        if (!$res) {
+            return $output;
+        }
         $row =& $res->fetchRow(DB_FETCHMODE_ORDERED);
-        if (!$row) return $output;
+        if (!$row) {
+            return $output;
+        }
         return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "[$row[0]] ". spam_protect($row[1], 'text') ."\n\n$row[2]\n\n$divider\n\n");
-    }
-    else {
+    } else {
         return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "The remainder of the comments for this report are too long. To view\nthe rest of the comments, please view the bug report online at\n    http://pear.php.net/bugs/bug.php?id=$bug_id\n");
     }
 
-    return "";
+    return '';
 }
 
+/**
+ * Converts any URI's found in the string to hyperlinks
+ *
+ * @param string $text  the text to be examined
+ *
+ * @return string  the converted string
+ */
 function addlinks($text)
 {
     $text = htmlspecialchars($text);
@@ -504,8 +718,15 @@ function addlinks($text)
     $text = preg_replace("/[.,]?-=-\"/", '"', $text);
     return $text;
 }
-/* validate a package */
-function package_exists ($type)
+
+/**
+ * Determine if the given package name is legitimate
+ *
+ * @param string $type  the name of the package
+ *
+ * @return bool
+ */
+function package_exists($type)
 {
     global $dbh;
 
@@ -519,8 +740,14 @@ function package_exists ($type)
     return $found == 1 ? true : false;
 }
 
-/* validate an incoming bug report */
-function incoming_details_are_valid ($in, $initial=0)
+/**
+ * Validate an incoming bug report
+ *
+ * @param
+ *
+ * @return void
+ */
+function incoming_details_are_valid($in, $initial = 0)
 {
     global $bug, $dbh;
 
@@ -561,6 +788,13 @@ function incoming_details_are_valid ($in, $initial=0)
     return $errors;
 }
 
+/**
+ * Produces an array of eamil addresses the report should go to
+ *
+ * @param string $package_name  the package's name
+ *
+ * @return array  an array of eamil addresses
+ */
 function get_package_mail($package_name)
 {
     // XXX Change to pear-bugs when it gets opened
@@ -574,53 +808,24 @@ function get_package_mail($package_name)
         case 'Documentation':
             return array('pear-doc@lists.php.net', 'pear-doc@lists.php.net');
     }
+
     $maintainers = package::info($package_name, 'authors');
+
     $to = array();
     foreach ($maintainers as $data) {
         $to[] = $data['email'];
     }
+
     return array(implode(', ', $to), 'pear-dev@lists.php.net');
 }
 
-function get_row_color($row)
-{
-    if ($row['package_name']=='Feature/Change Request') {
-        return '#aaaaaa';
-    }
-    switch($row['status']) {
-        case 'Open':
-            return '#ffbbaa';
-            break;
-        case 'Critical':
-            return '#ff0000';
-            break;
-        case 'Closed':
-            return '#aaffbb';
-            break;
-        case 'No Feedback':
-            return '#bbffcc';
-            break;
-        case 'Suspended':
-            return '#ffccbb';
-            break;
-        case 'Assigned':
-            return '#bbaaff';
-            break;
-        case 'Feedback':
-            return '#bbeeff';
-            break;
-        case 'Analyzed':
-            return '#99bbaa';
-            break;
-        case 'Duplicate':
-            return '#bbbbbb';
-            break;
-        default:
-            return '#aaaaaa';
-            break;
-    }
-}
-
+/**
+ * Prepare a query string with the search terms
+ *
+ * @param string $search  the term to be searched for
+ *
+ * @return array
+ */
 function format_search_string($search)
 {
     // Function will be updated to make results more relevant.
@@ -633,10 +838,10 @@ function format_search_string($search)
     $words = preg_split("/\s+/", stripslashes($search));
     $ignored = $used = array();
     foreach($words AS $match) {
-        if(strlen($match) < $min_word_len) {
+        if (strlen($match) < $min_word_len) {
             array_push($ignored, $match);
         } else {
-                array_push($used, $match);
+            array_push($used, $match);
         }
     }
 
@@ -658,7 +863,17 @@ function format_search_string($search)
     return array(" AND MATCH (bugdb.email,sdesc,ldesc) AGAINST ('" . addslashes($search) . "')", $ignored);
 }
 
-// PEAR Related only
+/**
+ * Print the bug navigation menu
+ *
+ * The package home page and report new bug links are only displayed
+ * if the bug/search being looked at only covers a single package.
+ *
+ * @param string|array $pkgname  the names of the packages the user is
+ *                               presently viewing bugs for
+ *
+ * @return void
+ */
 function show_bugs_menu($pkgname)
 {
     global $dbh;
@@ -683,7 +898,7 @@ function show_bugs_menu($pkgname)
     $pkgs = 'package_name[]=' . implode('&amp;package_name[]=', $pkgname);
 
     echo "\n\n<!-- BEGIN BUG NAV -->\n\n";
-    echo '<table width="100%" align="center" border="0"><tr><td>' . "\n ";
+    echo '<table width="100%" border="0"><tr><td>' . "\n ";
 
     if (count($pkgname) == 1) {
         if ($home) {
@@ -712,15 +927,6 @@ function show_bugs_menu($pkgname)
     echo "\n</td></tr></table>\n";
     echo '<hr />';
     echo "\n\n<!-- END BUG NAV -->\n\n";
-}
-
-function show_reason_types($current="", $expanded=0)
-{
-	if ($expanded) echo "<option value=\"\"></option>\n";
-	while (list($k,$v) = each($GLOBALS['RESOLVE_REASONS'])) {
-		echo "<option value=\"$k\"", ($current==$k ? " selected" : ""),
-		     ">$v[desc]",($expanded?" ($v[status])":""),"</option>\n";
-	}
 }
 
 ?>
