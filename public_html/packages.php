@@ -102,9 +102,14 @@ response_header($category_title);
 $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
 
 // 1) Show categories of this level
-$sth = $dbh->query("SELECT c.*, COUNT(p.id) AS npackages FROM categories c LEFT JOIN packages p ON p.category = c.id ".
-                    "WHERE p.package_type = 'pear' AND c.parent $category_where ".
-                    "GROUP BY c.id ORDER BY name");
+$sth = $dbh->query('SELECT c.*, COUNT(p.id) AS npackages' .
+                   ' FROM categories c' .
+                   ' LEFT JOIN packages p ON p.category = c.id ' .
+                   " WHERE p.package_type = 'pear'" .
+                   '  AND p.approved = 1' .
+                   "  AND c.parent $category_where " .
+                   ' GROUP BY c.id ' . 
+                   'ORDER BY name');
 
 $table   = new HTML_Table('border="0" cellpadding="6" cellspacing="2" width="100%"');
 $nrow    = 0;
@@ -121,6 +126,7 @@ $subcats = $dbh->getAssoc("SELECT p.id AS pid, c.id AS id, c.name AS name, c.sum
 $subpkgs = $dbh->getAssoc("SELECT p.category, p.id AS id, p.name AS name, p.summary AS summary".
                           "  FROM packages p, categories c".
                           " WHERE c.parent $category_where ".
+                          '   AND p.approved = 1' .
                           "   AND p.package_type = 'pear' ".
                           "   AND p.category = c.id ORDER BY p.name",
                           false, null, DB_FETCHMODE_ASSOC, true);
