@@ -2277,7 +2277,7 @@ class user
     }
 
     // }}}
-    // {{{ * proto array   user::getZendWhoIsWho() API 1.0
+    // {{{ * proto array   user::getZendWhoIsWho([bool]) API 1.0
 
     /**
      * Get list of current developers and the packages they maintain.
@@ -2288,6 +2288,8 @@ class user
      * of IP addresses.
      *
      * @access public
+	 * @param  bool   Whether to return PECL developers (true) or PEAR
+	 *                developers (false)
      * @return array
      */
     function getZendWhoIsWho($pecl_only = false) {
