@@ -128,7 +128,10 @@ while (is_array($row = $sth->fetchRow(DB_FETCHMODE_ASSOC))) {
     print "  <td>" . make_link("/user/" . $handle, $handle) . "</td>\n";
     print "  <td>$name</td>\n";
 
-    if ($showemail) {
+    if ($showemail &&
+        !empty($auth_user) &&
+        !empty($auth_user->registered))
+    {
         print "  <td><a href=\"mailto:$email\">$email</a></td>\n";
     } else {
         print "  <td>(not shown)</td>\n";

@@ -97,8 +97,8 @@ function response_header($title = 'The PHP Extension and Application Repository'
         init_auth_user();
         if (!empty($auth_user)) {
             if (!empty($auth_user->registered)) {
-                global $developer_menu;
                 if (auth_check('pear.dev')) {
+                    global $developer_menu;
                     $SIDEBAR_DATA .= draw_navigation($developer_menu, 'Developers:');
                 }
             }
@@ -106,6 +106,10 @@ function response_header($title = 'The PHP Extension and Application Repository'
                 global $admin_menu;
                 $SIDEBAR_DATA .= draw_navigation($admin_menu, 'Administrators:');
             }
+        } else {
+            global $developer_menu;
+            $tmp = array_slice($developer_menu, 0, 1);
+            $SIDEBAR_DATA .= draw_navigation($tmp, 'Developers:');
         }
     }
 
