@@ -9,17 +9,17 @@ $where = '';
 if (($_GET['category'] && $_GET['category'] != '') 
     || ($_GET['developer'] && $_GET['developer'] != '')) {
     $where = 'WHERE';
+    $sql .= 'LEFT JOIN packages ON packages.name = bugdb.package_name ';
 }
 if ($_GET['category'] && $_GET['category'] != '') {
     !empty($_GET['developer']) ? $and = ' AND ' : '';
     $where .= ' categories.name = ' .  $dbh->quoteSmart($_GET['category']) . $and;
-    $sql .= '';
+    $sql .= ' LEFT JOIN categories ON packages.category = categories.id';
 }
 
 if ($_GET['developer'] && $_GET['developer'] != '') {
     $where .= ' maintains.handle = ' .  $dbh->quoteSmart($_GET['developer']);
-    $sql .= 'LEFT JOIN packages ON packages.name = bugdb.package_name
-            LEFT JOIN maintains ON packages.id = maintains.package';
+    $sql .= ' LEFT JOIN maintains ON packages.id = maintains.package';
 
 }
 $where == '' ? $extra = 'WHERE ' : $extra = 'AND ';
