@@ -141,7 +141,7 @@ function version_compare_firstelem($a, $b)
  */
 class category
 {
-    // {{{ *proto int    category::add(struct)
+    // {{{ *proto int    category::add(struct) API 1.0
 
     /**
      * Add new category
@@ -235,7 +235,7 @@ class category
     }
 
     // }}}
-    // {{{  proto array  category::listAll()
+    // {{{  proto array  category::listAll() API 1.0
 
     /**
      * List all categories
@@ -250,7 +250,7 @@ class category
     }
 
     // }}}
-    // {{{  proto array  category::getRecent(int, string)
+    // {{{  proto array  category::getRecent(int, string) API 1.0
 
     /**
      * Get list of recent releases for the given category
@@ -285,7 +285,7 @@ class category
     }
 
     // }}}
-    // {{{ *proto bool   category::isValid(string)
+    // {{{ *proto bool   category::isValid(string) API 1.0
 
     /**
      * Determines if the given category is valid
@@ -316,7 +316,7 @@ class category
  */
 class package
 {
-    // {{{ *proto int    package::add(struct)
+    // {{{ *proto int    package::add(struct) API 1.0
 
     /**
      * Add new package
@@ -390,7 +390,7 @@ class package
      * packageid, authors
      */
 
-    // {{{  proto struct package::info(string|int, [string], [bool])
+    // {{{  proto struct package::info(string|int, [string], [bool]) API 1.0
 
     /**
      * Get package information
@@ -507,7 +507,7 @@ class package
     }
 
     // }}}
-    // {{{  proto struct package::listAll([bool], [bool])
+    // {{{  proto struct package::listAll([bool], [bool]) API 1.0
 
     /**
      * List all packages
@@ -618,7 +618,7 @@ class package
 
     // }}}
 
-    // {{{  proto struct package::listAllwithReleases()
+    // {{{  proto struct package::listAllwithReleases() API 1.0
 
     /**
      * Get list of packages and their releases
@@ -650,7 +650,7 @@ class package
     }
 
     // }}}
-    // {{{  proto struct package::listLatestReleases([string])
+    // {{{  proto struct package::listLatestReleases([string]) API 1.0
 
     /**
      * List latest releases
@@ -698,7 +698,7 @@ class package
     }
 
     // }}}
-    // {{{  proto struct package::listUpgrades(struct)
+    // {{{  proto struct package::listUpgrades(struct) API 1.0
 
     /**
      * List available upgrades
@@ -736,7 +736,7 @@ class package
     }
 
     // }}}
-    // {{{ +proto bool   package::updateInfo(string|int, struct)
+    // {{{ +proto bool   package::updateInfo(string|int, struct) API 1.0
     /**
      * Updates fields of an existant package
      *
@@ -794,7 +794,7 @@ class package
     }
 
     // }}}
-    // {{{  proto array  package::getRecent(int, string)
+    // {{{  proto array  package::getRecent(int, string) API 1.0
 
     /**
      * Get list of recent releases for the given package
@@ -829,7 +829,7 @@ class package
     }
 
     // }}}
-    // {{{ *proto bool   package::isValid(string)
+    // {{{ *proto bool   package::isValid(string) API 1.0
 
     /**
      * Determines if the given package is valid
@@ -878,7 +878,7 @@ class package
  */
 class maintainer
 {
-    // {{{ +proto int    maintainer::add(int|string, string, string)
+    // {{{ +proto int    maintainer::add(int|string, string, string) API 1.0
 
     /**
      * Add new maintainer
@@ -909,7 +909,7 @@ class maintainer
     }
 
     // }}}
-    // {{{  proto struct maintainer::get(int|string, [bool])
+    // {{{  proto struct maintainer::get(int|string, [bool]) API 1.0
 
     /**
      * Get maintainer(s) for package
@@ -935,7 +935,7 @@ class maintainer
     }
 
     // }}}
-    // {{{  proto struct maintainer::getByUser(string)
+    // {{{  proto struct maintainer::getByUser(string) API 1.0
 
     /**
      * Get the roles of a specific user
@@ -952,7 +952,7 @@ class maintainer
     }
 
     // }}}
-    // {{{  proto bool   maintainer::isValidRole(string)
+    // {{{  proto bool   maintainer::isValidRole(string) API 1.0
 
     /**
      * Check if role is valid
@@ -971,7 +971,7 @@ class maintainer
     }
 
     // }}}
-    // {{{ +proto bool   maintainer::remove(int|string, string)
+    // {{{ +proto bool   maintainer::remove(int|string, string) API 1.0
 
     /**
      * Remove user from package
@@ -995,7 +995,7 @@ class maintainer
     }
 
     // }}}
-    // {{{ +proto bool   maintainer::updateAll(int, array)
+    // {{{ +proto bool   maintainer::updateAll(int, array) API 1.0
 
     /**
      * Update user and roles of a package
@@ -1096,7 +1096,7 @@ class maintainer
  */
 class release
 {
-    // {{{  proto array  release::getRecent([int])
+    // {{{  proto array  release::getRecent([int]) API 1.0
 
     /**
      * Get recent releases
@@ -1130,7 +1130,7 @@ class release
     }
 
     // }}}
-    // {{{  proto array  release::getDateRange(int,int)
+    // {{{  proto array  release::getDateRange(int,int) API 1.0
 
     /**
      * Get release in a specific time range
@@ -1175,7 +1175,7 @@ class release
     }
 
     // }}}
-    // {{{ +proto string release::upload(string, string, string, string, binary, string)
+    // {{{ +proto string release::upload(string, string, string, string, binary, string) API 1.0
 
     /**
      * Upload new release
@@ -1204,7 +1204,7 @@ class release
     }
 
     // }}}
-    // {{{ +proto string release::validateUpload(string, string, string, string, binary, string)
+    // {{{ +proto string release::validateUpload(string, string, string, string, binary, string) API 1.0
 
     /**
      * Determine if uploaded file is a valid release
@@ -1271,7 +1271,7 @@ class release
     }
 
     // }}}
-    // {{{ +proto bool   release::confirmUpload(string)
+    // {{{ +proto bool   release::confirmUpload(string) API 1.0
 
     /**
      * Confirm release upload
@@ -1364,7 +1364,7 @@ class release
     }
 
     // }}}
-    // {{{ +proto bool   release::dismissUpload(string)
+    // {{{ +proto bool   release::dismissUpload(string) API 1.0
 
     /**
      * Dismiss release upload
@@ -1493,7 +1493,7 @@ class release
     }
 
     // }}}
-    // {{{  proto bool   release::isValidState(string)
+    // {{{  proto bool   release::isValidState(string) API 1.0
 
     /**
      * Determine if release state is valid
@@ -1509,7 +1509,7 @@ class release
     }
 
     // }}}
-    // {{{  proto array  release::betterStates(string)
+    // {{{  proto array  release::betterStates(string) API 1.0
 
     /**
      * ???
@@ -1560,7 +1560,7 @@ class release
     }
 
     // }}}
-    // {{{ +proto string release::promote(array, string)
+    // {{{ +proto string release::promote(array, string) API 1.0
 
     /**
      * Promote new release
@@ -1700,7 +1700,7 @@ END;
  */
 class note
 {
-    // {{{ +proto bool   note::add(string, int, string, string)
+    // {{{ +proto bool   note::add(string, int, string, string) API 1.0
 
     function add($key, $value, $note, $author = "")
     {
@@ -1720,7 +1720,7 @@ class note
     }
 
     // }}}
-    // {{{ +proto bool   note::remove(int)
+    // {{{ +proto bool   note::remove(int) API 1.0
 
     function remove($id)
     {
@@ -1734,7 +1734,7 @@ class note
     }
 
     // }}}
-    // {{{ +proto bool   note::removeAll(string, int)
+    // {{{ +proto bool   note::removeAll(string, int) API 1.0
 
     function removeAll($key, $value)
     {
@@ -1751,7 +1751,7 @@ class note
 
 class user
 {
-    // {{{ *proto bool   user::remove(string)
+    // {{{ *proto bool   user::remove(string) API 1.0
 
     function remove($uid)
     {
@@ -1762,7 +1762,7 @@ class user
     }
 
     // }}}
-    // {{{ *proto bool   user::rejectRequest(string, string)
+    // {{{ *proto bool   user::rejectRequest(string, string) API 1.0
 
     function rejectRequest($uid, $reason)
     {
@@ -1778,7 +1778,7 @@ class user
     }
 
     // }}}
-    // {{{ *proto bool   user::activate(string)
+    // {{{ *proto bool   user::activate(string) API 1.0
 
     function activate($uid, $karmalevel = 'pear.dev')
     {
@@ -1813,7 +1813,7 @@ class user
     }
 
     // }}}
-    // {{{ +proto bool   user::isAdmin(string)
+    // {{{ +proto bool   user::isAdmin(string) API 1.0
 
     function isAdmin($handle)
     {
@@ -1826,7 +1826,7 @@ class user
     }
 
     // }}}
-    // {{{  proto bool   user::listAdmins()
+    // {{{  proto bool   user::listAdmins() API 1.0
 
     function listAdmins()
     {
@@ -1839,7 +1839,7 @@ class user
     }
 
     // }}}
-    // {{{ +proto bool   user::exists(string)
+    // {{{ +proto bool   user::exists(string) API 1.0
 
     function exists($handle)
     {
@@ -1850,7 +1850,7 @@ class user
     }
 
     // }}}
-    // {{{ +proto string user::maintains(string|int, [string])
+    // {{{ +proto string user::maintains(string|int, [string]) API 1.0
 
     function maintains($user, $pkgid, $role = 'any')
     {
@@ -1869,7 +1869,7 @@ class user
     }
 
     // }}}
-    // {{{  proto string user::info(string, [string])
+    // {{{  proto string user::info(string, [string]) API 1.0
 
     function info($user, $field = null)
     {
@@ -2116,7 +2116,7 @@ class statistics
     // }}}
 }
 
-// {{{ +proto string logintest()
+// {{{ +proto string logintest() API 1.0
 
 function logintest()
 {
