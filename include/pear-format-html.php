@@ -743,7 +743,7 @@ function make_link($url, $linktext = '', $target = '', $extras = '')
         $url,
         ($target ? ' target="'.$target.'"' : ''),
         ($extras ? ' '.$extras : ''),
-        ($linktext ? $linktext : $url)
+        ($linktext != '' ? $linktext : $url)
     );
 }
 
@@ -799,7 +799,7 @@ function make_mailto_link($email, $linktext = '', $extras = '')
     }
 
     return '<a ' . $extras . ' href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;'
-           . $tmp . '">' . ($linktext ? $linktext : $tmp) . '</a>';
+           . $tmp . '">' . ($linktext != '' ? $linktext : $tmp) . '</a>';
 }
 
 /**
