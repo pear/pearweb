@@ -31,23 +31,24 @@ response_header('Bugs Stats');
 $dbh->setFetchMode(DB_FETCHMODE_ASSOC);
 
 $titles = array(
-    'closed'      => 'Closed',
-    'open'        => 'Open',
-    'critical'    => 'Crit',
-    'verified'    => 'Verified',
-    'analyzed'    => 'Analyzed',
-    'assigned'    => 'Assigned',
-    'duplicate'   => 'Dupe',
-    'feedback'    => 'Fdbk',
-    'no feedback' => 'No&nbsp;Fdbk',
-    'bogus'       => 'Bogus',
-    'suspended'   => 'Susp',
+    'Closed'      => 'Closed',
+    'Open'        => 'Open',
+    'Critical'    => 'Crit',
+    'Verified'    => 'Verified',
+    'Analyzed'    => 'Analyzed',
+    'Assigned'    => 'Assigned',
+    'Feedback'    => 'Fdbk',
+    'No Feedback' => 'No&nbsp;Fdbk',
+    'Suspended'   => 'Susp',
+    'Bogus'       => 'Bogus',
+    'Duplicate'   => 'Dupe',
+    'Wont fix'    => 'Wont&nbsp;Fix',
 );
 
 $category  = isset($_GET['category']) ? $_GET['category'] : '';
 $developer = isset($_GET['developer']) ? $_GET['developer'] : '';
 $rev       = isset($_GET['rev']) ? $_GET['rev'] : 1;
-$sort_by   = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'open';
+$sort_by   = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'Open';
 $total     = 0;
 $row       = array();
 $pkg       = array();
@@ -57,7 +58,11 @@ $pkg_names = array();
 $all       = array();
 $pseudo    = true;
 
-$query  = 'SELECT b.package_name, LOWER(b.status) AS status, COUNT(*) AS quant'
+if (!array_key_exists($sort_by, $titles)) {
+    $sort_by = 'Open';
+}
+
+$query  = 'SELECT b.package_name, b.status, COUNT(*) AS quant'
         . ' FROM bugdb AS b';
 
 $from = ' LEFT JOIN packages AS p ON p.name = b.package_name';
@@ -284,7 +289,7 @@ function bugstats($status, $name)
     if ($name == 'all') {
         if (isset($all[$status])) {
             return '<a href="search.php?cmd=display&amp;status=' .
-                   ucwords($status) .
+                   $status .
                    '&amp;by=Any&amp;limit=10'.$string.'">' .
                    $all[$status] . "</a>\n";
         }
@@ -293,7 +298,7 @@ function bugstats($status, $name)
             return '&nbsp';
         } else {
             return '<a href="search.php?cmd=display&amp;status=' .
-                   ucwords($status) .
+                   $status .
                    '&amp;package_name%5B%5D=' . urlencode($name) .
                    '&amp;by=Any&amp;limit=10'.$string.'">' .
                    $pkg[$status][$name] . "</a>\n";
