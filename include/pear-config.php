@@ -232,21 +232,6 @@ if (isset($_SERVER['PROPOSAL_MAIL_PEAR_GROUP'])) {
     define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>');
 }
 
-if (isset($_SERVER['PROPOSAL_MAIL_FROM'])) {
-    /**
-     * @ignore
-     */
-    define('PROPOSAL_MAIL_FROM', $_SERVER['PROPOSAL_MAIL_FROM']);
-} else {
-    /**
-     * PEPr: the email address used as the From header
-     *
-     * To override default, set the value in $_SERVER['PROPOSAL_MAIL_FROM']
-     * before this file is included.
-     */
-    define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>');
-}
-
 /**
  * PEPr: the string prepended to the subject lines of emails
  */
