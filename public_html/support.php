@@ -156,9 +156,9 @@ while ( list(, $listinfo) = each($mailing_lists)) {
 
 <p align="center">
 <b>Email:</b>
-<input type=text name="email" width=40 value="user@example.com" />
-<input type=submit name="action" value="Subscribe" />
-<input type=submit name="action" value="Unsubscribe" />
+<input type="text" name="email" width="40" value="user@example.com" />
+<input type="submit" name="action" value="Subscribe" />
+<input type="submit" name="action" value="Unsubscribe" />
 </p>
 
 </form>
@@ -275,11 +275,11 @@ be discussed.</p>
     International PHP Conference - Teach Yourself PEAR in 6 Hours</a>
     by Stig S. Bakken.</li>
 
-    <li><a href="http://conf.php.net/pres/slides/pres/index.php?p=slides%2Fpear%2Flt2002&id=pearlt2002">
+    <li><a href="http://conf.php.net/pres/slides/pres/index.php?p=slides%2Fpear%2Flt2002&amp;id=pearlt2002">
     2002-06-08 Karlsruhe - LinuxTag - The State of (the) PEAR </a> by Stig S. Bakken.</li>
 
 
-    <li><a href="http://conf.php.net/pres/index.php?p=slides%2Fpear&id=pear">A presentation</a> by Stig Bakken,
+    <li><a href="http://conf.php.net/pres/index.php?p=slides%2Fpear&amp;id=pear">A presentation</a> by Stig Bakken,
     who is leading PEAR development, at ApacheCon 2001 on PEAR.</li>
 
     <li><a href="http://talks.php.net/show/sdphp_using_tools"><q>Making your (coding) life simpler</q></a>
@@ -328,14 +328,14 @@ echo '<table cellpadding="5" cellspacing="1">';
 foreach ($icons as $file => $desc) {
     echo '<tr bgcolor="e0e0e0">';
     echo '<td>' . make_image($file,$desc) . '<br /></td>';
-    echo '<td>' . $desc . '<br><small>';
+    echo '<td>' . $desc . '<br /><small>';
     $size = @getimagesize($HTTP_SERVER_VARS['DOCUMENT_ROOT'].'/gifs/'.$file);
     if ($size) {
-        echo $size[0] . ' x ' . $size[1] . ' pixels<br>';
+        echo $size[0] . ' x ' . $size[1] . ' pixels<br />';
     }
     $size = @filesize($HTTP_SERVER_VARS['DOCUMENT_ROOT'].'/gifs/'.$file);
     if ($size) {
-        echo $size . ' bytes<br>';
+        echo $size . ' bytes<br />';
     }
     echo '</small>';
     echo '</td></tr>';
