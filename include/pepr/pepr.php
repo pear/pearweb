@@ -29,7 +29,6 @@
  * Load necessary classes.
  */
 require_once 'Damblan/Karma.php';
-require_once 'HTML/QuickForm.php';
 require_once 'Mail.php';
 /**#@-*/
 
