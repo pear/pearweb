@@ -53,18 +53,18 @@ if (!isset($_SESSION['captcha'])) {
  * SETTINGS  ===========================
  */
 $arc_count        = 8;
-$arc_pad_min      = 5;
-$arc_pad_max      = $arc_pad_min * 4;
 $arc_deg_vary     = 30;
-$font_size_min    = 25;
-$font_size_max    = 18;
-$font_angle_min   = -20;
-$font_angle_max   = 20;
-$char_padding     = 2;
-$color_bg_min     = 4;
+$arc_pad_max      = 20;
+$arc_pad_min      = 5;
 $color_bg_max     = 5;
-$color_fg_min     = 1;
+$color_bg_min     = 4;
 $color_fg_max     = 2;
+$color_fg_min     = 1;
+$font_angle_max   = 20;
+$font_angle_min   = -20;
+$font_padding     = 2;
+$font_size_max    = 25;
+$font_size_min    = 18;
 
 /*
  * Use full path to the fonts to avoid problems.
@@ -120,7 +120,7 @@ for ($i = 0; $i < strlen($_SESSION['captcha']); $i++) {
     $width  = max($bbox[2], $bbox[4]) - min($bbox[0], $bbox[6]);
     $height = max($bbox[1], $bbox[3]) - min($bbox[7], $bbox[5]);
 
-    $image_width += $width + $char_padding;
+    $image_width += $width + $font_padding;
     $image_height = max($image_height, $height);
 
     $data[] = array(
@@ -133,7 +133,7 @@ for ($i = 0; $i < strlen($_SESSION['captcha']); $i++) {
     );
 }
 
-$image_width -= $char_padding;
+$image_width -= $font_padding;
 
 /*
  * BASE IMAGE  =========================
@@ -173,7 +173,7 @@ foreach ($data as $d) {
     $pos_y  = mt_rand($y_min, $y_max);
     imagettftext($im, $d['size'], $d['angle'], $pos_x, $pos_y,
                  $colors[mt_rand(1, $color_max)], $d['font'], $d['char']);
-    $pos_x += $d['width'] + $char_padding;
+    $pos_x += $d['width'] + $font_padding;
 }
 
 /*
