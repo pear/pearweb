@@ -29,10 +29,10 @@
  * Requesting something like /~foobar will redirect to the account
  * information page of the user "foobar".
  */
-if ($_SERVER['REDIRECT_URL']{1} == '~') {
+if (strlen($_SERVER['REDIRECT_URL']) > 0 && $_SERVER['REDIRECT_URL']{1} == '~') {
     $user = substr($_SERVER['REDIRECT_URL'], 2);
     if (preg_match(PEAR_COMMON_USER_NAME_REGEX, $user) && user::exists($user)) {
-        localRedirect("/account-info.php?handle=" . urlencode($user));
+        localRedirect("/user/" . urlencode($user));
     }
 }
 
@@ -68,7 +68,7 @@ response_header("Error 404");
 <p>The requested document <i><?php echo $_SERVER['REQUEST_URI']; ?></i> was not
 found on this server.</p>
 
-<?php if(is_array($packages)) { ?>
+<?php if(is_array($packages) && count($packages) > 0) { ?>
 	Searching the current list of packages for
 	<i><?php echo basename($_SERVER['REQUEST_URI']); ?></i> included the
 	following results:
