@@ -96,11 +96,11 @@ if (@sizeof($recent) > 0) {
             $desc .= '...';
         }
         $desc = htmlentities($desc);
-        $RSIDEBAR_DATA .= "<tr><td valign='top' class='compact'>";
+        $RSIDEBAR_DATA .= "<tr><td valign=\"top\" class=\"compact\">";
         $RSIDEBAR_DATA .= "<a href=\"/package/" . $name . "/\">";
         $RSIDEBAR_DATA .= "$name $version</a><br /><i>$releasedate:</i> $desc</td></tr>";
     }
-    $feed_link = make_link("/feeds/", "Syndicate this");
+    $feed_link = "<a href=\"/feeds/\">Syndicate this</a>";
     $RSIDEBAR_DATA .= "<tr><td>&nbsp;</td></tr>\n";
     $RSIDEBAR_DATA .= "<tr><td width=\"100%\" align=\"right\">" . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";

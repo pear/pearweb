@@ -40,16 +40,15 @@ response_header('Credits');
 <?php echo make_mailto_link("pear-webmaster@lists.php.net"); ?>.</p>
 
 <p>More information about the website can be found on a
-<?php print_link("/about/", "dedicated page"); ?>.</p>
+<a href="/about/">dedicated page</a>.</p>
 
 <h3>PEAR documentation team</h3>
 
 <p>The authors of the documentation are listed on a
-<?php print_link("/manual/en/authors.php", "special page"); ?> in 
+<a href="/manual/en/authors.php">special page</a> in 
 the manual. The team can be reached via the mailing list 
-<?php echo make_mailto_link("pear-doc@lists.php.net"); ?> 
-(<?php echo make_link("/support.php", "Subscription Information"); ?>)
-.</p>
+<a href="mailto:pear-doc@lists.php.net">pear-doc@lists.php.net</a>
+(<a href="/support.php">Subscription Information</a>).</p>
 
 <?php
 response_footer();
