@@ -180,6 +180,7 @@ th.form-label_left {
 }
 
 /* Labels on the top of form and table columns */
+th.form-label_top,
 th.form-label_top_center {
     text-align: center;
     font-weight: bold;
@@ -408,4 +409,8 @@ hr.greyline {
 
 .accesskey {
     text-decoration: underline;
+}
+
+ul {
+    margin-top: 0em;
 }
