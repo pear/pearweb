@@ -61,10 +61,10 @@ function show_byage_options($current)
 function show_limit_options($limit=30)
 {
 	for($i=10;$i<100;) {
-		echo "<option value=\"$i\"", ($limit==$i ? " selected" : ""),">$i bugs</option>\n";
+		echo "<option value=\"$i\"", ($limit==$i ? ' selected="selected"' : ''),">$i bugs</option>\n";
 		$i=$i+10;
 	}
-	echo '<option value="All"', ($limit=='All' ? " selected": ""),">All</option>\n";
+	echo '<option value="All"', ($limit=='All' ? ' selected="selected"': ''),">All</option>\n";
 }
 
 $state_types = 	array (
@@ -105,12 +105,12 @@ function show_state_options($state, $user_mode=0, $default="")
 		} else {
 			echo "<option>$state</option>\n";
 		}
-		if($state != "Bogus") echo "<option>Closed</option>\n";
+		if($state != 'Bogus') echo "<option>Closed</option>\n";
 	} else {
 		foreach($state_types as $type => $mode) {
 			if ($mode >= $user_mode) {
 				echo "<option";
-				if($type == $state) echo " selected";
+				if($type == $state) echo ' selected="selected"';
 				echo ">$type</option>\n";
 			}
 		}
@@ -136,11 +136,11 @@ function display_errors($errors)
 {
 	echo '<div class="errors">';
 	if (count($errors) > 1) {
-		echo "You need to do the following before your submission will be accepted:<ul>";
+		echo 'You need to do the following before your submission will be accepted:<ul>';
 		foreach ($errors as $error) {
 			echo "<li>$error</li>\n";
 		}
-		echo "</ul>";
+		echo '</ul>';
 	}
 	else {
 		echo $errors[0];
@@ -156,7 +156,7 @@ function display_warnings($warnings)
 		foreach ($warnings as $warning) {
 			echo "<li>$warning</li>\n";
 		}
-		echo "</ul>";
+		echo '</ul>';
 	}
 	else {
 		echo $warnings[0];
@@ -172,14 +172,14 @@ function show_types($current,$show_any,$default="")
 		echo "<option value=\"none\">--Please Select--</option>\n";
 	}
 	elseif (!$current && $show_any == 1) {
-		$current = "Any";
+		$current = 'Any';
 	}
 	elseif (!$current) {
 		$current = $default;
 	}
 
 	while (list($key,$value) = each($items)) {
-		if ($show_any == 1 || $key != "Any") {
+		if ($show_any == 1 || $key != 'Any') {
 			echo "<option value=\"$key\"",
 			((is_array($current) && in_array($key, $current)) || ($key == $current) ? " selected" : ""),
 			">$value</option>\n";
@@ -471,37 +471,37 @@ function incoming_details_are_valid ($in, $initial=0)
 	global $bug, $dbh;
 
 	$errors = array();
-	if (empty ($in['package_name']) || $in['package_name'] == "none") {
-		$errors[] = "Please select an appropriate bug type.";
+	if (empty ($in['package_name']) || $in['package_name'] == 'none') {
+		$errors[] = 'Please select an appropriate bug type.';
 	} else if (!package_exists($in['package_name'])) {
-		$errors[] = "Please select an appropriate bug type.";;
+		$errors[] = 'Please select an appropriate bug type.';
 	}
 
 	if ($initial || (!empty($in[email]) && $bug[email] != $in[email])) {
 		if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",$in['email'])) {
-			$errors[] = "Please provide a valid email address.";
+			$errors[] = 'Please provide a valid email address.';
 		}
 	}
 
 
 	if (isset($in['php_version']) && $in['php_version'] == 'earlier') {
-		$errors[] = "Please select a valid PHP version. If your PHP version is too old, please upgrade first and see if the problem has not already been fixed.";
+		$errors[] = 'Please select a valid PHP version. If your PHP version is too old, please upgrade first and see if the problem has not already been fixed.';
 	}
 
 	if (empty($in['php_version'])) {
-		$errors[] = "Please select a valid PHP version.";
+		$errors[] = 'Please select a valid PHP version.';
 	}
 
 	if (empty($in['sdesc'])) {
-		$errors[] = "You must supply a short description of the bug you are reporting.";
+		$errors[] = 'You must supply a short description of the bug you are reporting.';
 	}
 
 	if ($initial && empty($in['ldesc'])) {
-		$errors[] = "You must supply a long description of the bug you are reporting.";
+		$errors[] = 'You must supply a long description of the bug you are reporting.';
 	}
 
 	if ($initial && empty($in['passwd'])) {
-		$errors[] = "You must supply a password for this bug report.";
+		$errors[] = 'You must supply a password for this bug report.';
 	}
 
 	return $errors;
@@ -525,44 +525,44 @@ function get_package_mail($package_name)
     foreach ($maintainers as $data) {
         $to[] = $data['email'];
     }
-    return array(implode(', ', $to), "pear-dev@lists.php.net");
+    return array(implode(', ', $to), 'pear-dev@lists.php.net');
 }
 
 function get_row_color($row)
 {
-	if ($row["package_name"]=="Feature/Change Request") {
-		return "#aaaaaa";
+	if ($row['package_name']=='Feature/Change Request') {
+		return '#aaaaaa';
 	}
-	switch($row["status"]) {
-		case "Open":
-			return "#ffbbaa";
+	switch($row['status']) {
+		case 'Open':
+			return '#ffbbaa';
 			break;
-		case "Critical":
-			return "#ff0000";
+		case 'Critical':
+			return '#ff0000';
 			break;
-		case "Closed":
-			return "#aaffbb";
+		case 'Closed':
+			return '#aaffbb;
 			break;
-		case "No Feedback":
-			return "#bbffcc";
+		case 'No Feedback':
+			return '#bbffcc';
 			break;
-		case "Suspended":
-			return "#ffccbb";
+		case 'Suspended':
+			return '#ffccbb';
 			break;
-		case "Assigned":
-			return "#bbaaff";
+		case 'Assigned':
+			return '#bbaaff';
 			break;
-		case "Feedback":
-			return "#bbeeff";
+		case 'Feedback':
+			return '#bbeeff';
 			break;
-		case "Analyzed":
-			return "#99bbaa";
+		case 'Analyzed':
+			return '#99bbaa';
 			break;
-		case "Duplicate":
-			return "#bbbbbb";
+		case 'Duplicate':
+			return '#bbbbbb';
 			break;
 		default:
-			return "#aaaaaa";
+			return '#aaaaaa';
 			break;
 	}
 }
