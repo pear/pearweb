@@ -1798,6 +1798,118 @@ class user
     }
 
     // }}}
+    // {{{ add()
+
+    /**
+     * Add a new user account
+     *
+     * @access public
+     * @param  array Information about the user
+     * @return mixed PEAR_Error or true
+     */
+    function add(&$data)
+    {
+        global $dbh;
+
+        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, "display_error");
+
+        $required = array("handle"    => "your desired username",
+                          "firstname" => "your first name",
+						  "lastname"  => "your last name",
+                          "email"     => "your email address",
+                          "purpose"   => "the purpose of your PEAR account");
+
+		$name = $data['firstname'] . " " . $data['lastname'];
+
+        foreach ($required as $field => $desc) {
+            if (empty($data[$field])) {
+                $data['jumpto'] = $field;
+                return PEAR::raiseError("Please enter $desc!");
+            }
+        }
+
+        if (!preg_match(PEAR_COMMON_USER_NAME_REGEX, $data['handle'])) {
+            return PEAR::raiseError("Username must start with a letter and contain only letters and digits.");
+        }
+
+        if ($data['password'] != $data['password2']) {
+            $data['password'] = $data['password2'] = "";
+            $data['jumpto'] = "password";
+            return PEAR::raiseError("Passwords did not match");
+        }
+
+        if (!$data['password']) {
+            $data['jumpto'] = "password";
+            return PEAR::raiseError("Empty passwords not allowed");
+        }
+
+        $handle = strtolower($data['handle']);
+        $obj =& new PEAR_User($dbh, $handle);
+
+        if (isset($obj->created)) {
+            $data['jumpto'] = "handle";
+            return PEAR::raiseError("Sorry, that username is already taken");
+        }
+
+        $err = $obj->insert($handle);
+
+        if (DB::isError($err)) {
+            display_error("$handle: " . DB::errorMessage($err));
+            $data['jumpto'] = "handle";
+            return PEAR::raiseError($handle . ": " . DB::errorMessage($err));
+        }
+
+        $data['display_form'] = false;
+        $md5pw = md5($data['password']);
+        $showemail = @(bool)$data['showemail'];
+        // hack to temporarily embed the "purpose" in
+        // the user's "userinfo" column
+        $userinfo = serialize(array($data['purpose'], $data['moreinfo']));
+        $set_vars = array('name' => $name,
+                          'email' => $data['email'],
+                          'homepage' => $data['homepage'],
+                          'showemail' => $showemail,
+                          'password' => $md5pw,
+                          'registered' => 0,
+                          'userinfo' => $userinfo);
+        $errors = 0;
+        foreach ($set_vars as $var => $value) {
+            $err = $obj->set($var, $value);
+            if (PEAR::isError($err)) {
+                print "Failed setting $var: ";
+                print $err->getMessage();
+                print "<br />\n";
+                $errors++;
+            }
+        }
+        if ($errors > 0) {
+            return PEAR::setError("There were errors while storing the user information.");
+        }
+
+        $msg = "Requested from:   {$_SERVER['REMOTE_ADDR']}\n".
+               "Username:         {$handle}\n".
+               "Real Name:        {$name}\n".
+               "Email:            {$data['email']}" .
+               (@$showemail ? " (show address)" : " (hide address)") . "\n".
+               "Password (MD5):   {$md5pw}\n\n".
+               "Purpose:\n".
+               "{$data['purpose']}\n\n".
+               "To handle: http://{$_SERVER['SERVER_NAME']}/admin/?acreq={$handle}\n";
+
+        if ($data['moreinfo']) {
+            $msg .= "\nMore info:\n{$data['moreinfo']}\n";
+        }
+
+        $xhdr = "From: $name <{$data['email']}>\nMessage-Id: <account-request-{$handle}@pear.php.net>";
+        $subject = "PEAR Account Request: {$handle}";
+        $ok = mail("pear-group@php.net", $subject, $msg, $xhdr, "-f pear-sys@php.net");
+
+        PEAR::popErrorHandling();
+
+        return $ok;
+    }
+
+    // }}}
 }
 
 class statistics
