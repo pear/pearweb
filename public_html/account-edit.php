@@ -182,14 +182,14 @@ $form->display('class="form-holder" style="margin-bottom: 2em;"'
 
 
 print '<a name="password"></a>' . "\n";
-
+print '<h2>&raquo; Manage your password</h2>' . "\n";
 
 $form = new HTML_Form($_SERVER['PHP_SELF'], 'post');
-$form->addPlaintext('<span class="accesskey">O</span>ld Password:',
+$form->addPlaintext('Old Password:',
         $form->returnPassword('password_old', '', 40, 0,
                               'accesskey="o"'),
         $th, $td);
-$form->addPassword('password', 'Password:',
+$form->addPassword('password', 'Password',
         '', 10, null, '',
         $th, $td);
 $form->addCheckbox('PEAR_PERSIST', 'Remember username and password?',
