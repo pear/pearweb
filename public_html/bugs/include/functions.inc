@@ -705,8 +705,8 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
     /* send mail if status was changed or there is a comment */
     if ($in[status] != $bug[status] || $ncomment != "") {
 
-        if ($in['bug_type'] != $bug['bug_type']) {
-            $subj = $types[$bug['bug_type']] . '->' . @$types[$in['bug_type']];
+        if (isset($in['bug_type']) && $in['bug_type'] != $bug['bug_type']) {
+            $subj = $types[$bug['bug_type']] . '->' . $types[$in['bug_type']];
         } else {
             $subj = $types[$bug['bug_type']];
         }
