@@ -42,10 +42,6 @@ class Damblan_Karma {
         global $auth_user;
 
         $this->_dbh = $dbh;
-
-        if ($this->has($auth_user->handle, "global.karma.manager") == false) {
-            return PEAR::raiseError("Insufficient privileges");
-        }
     }
 
     /**
@@ -106,6 +102,8 @@ class Damblan_Karma {
     function grant($user, $level) {
         global $auth_user;
 
+        $this->_requireKarma();
+
         $id = $this->_dbh->nextId("karma");
 
         $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
@@ -123,6 +121,8 @@ class Damblan_Karma {
      * @return boolean
      */
     function remove($user, $level) {
+        $this->_requireKarma();
+
         $query = "DELETE FROM karma WHERE user = ? AND level = ?";
         return $this->_dbh->query($query, array($user, $level));
     }
@@ -149,6 +149,19 @@ class Damblan_Karma {
     function getUsers($level) {
         $query = "SELECT * FROM karma WHERE level = ?";
         return $this->_dbh->getAll($query, array($handle), DB_FETCHMODE_ASSOC);
+    }
+
+    /**
+     * Require global.karma.manager level for write operations
+     *
+     * @access private
+     */
+    function _requireKarma() {
+        global $auth_user;
+
+        if ($this->has($auth_user->handle, "global.karma.manager") == false) {
+            return PEAR::raiseError("Insufficient privileges");
+        }
     }
 }
 ?>
