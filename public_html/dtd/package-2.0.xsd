@@ -484,7 +484,7 @@
  <xs:element name="compatible">
   <xs:complexType>
    <xs:sequence>
-    <xs:element name="package"/>
+    <xs:element name="name"/>
     <xs:element name="channel"/>
     <xs:element ref="min"/>
     <xs:element ref="max"/>
