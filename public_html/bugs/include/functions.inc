@@ -479,7 +479,8 @@ function incoming_details_are_valid ($in, $initial=0)
 
 function get_bugtype_mail($bug_type)
 {
-    $to[] = "pear-dev@lists.php.net";
+    // XXX Change to pear-bugs when it gets opened
+    //$to[] = "pear-dev@lists.php.net";
 
     switch ($bug_type) {
         case 'Web Site':
