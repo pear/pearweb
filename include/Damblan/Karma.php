@@ -59,6 +59,10 @@ class Damblan_Karma {
         $levels = array();
 
         switch ($level) {
+        case "pear.pepr" :
+        	$levels = array("pear.pepr", "pear.user", "pear.dev", "pear.admin", "pear.group" );
+            break;
+            
         case "pear.user" :
             $levels = array("pear.user", "pear.dev", "pear.admin", "pear.group");
             break;
