@@ -1,80 +1,271 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
-<xs:schema targetNamespace="http://pear.php.net/dtd/package-2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:task="http://pear.php.net/dtd/tasks-1.0">
+<xs:schema targetNamespace="http://pear.php.net/dtd/package-2.0" elementFormDefault="qualified" xml:lang="EN" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://pear.php.net/dtd/package-2.0">
  <xs:element name="package">
-  <xs:annotation>
-   <xs:documentation>PEAR package.xml version 2.0</xs:documentation>
-  </xs:annotation>
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="name"/>
-    <xs:element ref="extends" minOccurs="0"/>
     <xs:element ref="summary"/>
-    <xs:element name="description" type="xs:string"/>
+    <xs:element ref="description"/>
     <xs:element ref="lead" maxOccurs="unbounded"/>
     <xs:element ref="maintainer" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="date"/>
     <xs:element ref="version"/>
-    <xs:element ref="license"/>
     <xs:element ref="stability"/>
+    <xs:element ref="license"/>
     <xs:element ref="notes"/>
-    <xs:element ref="bundle" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element ref="filelist"/>
+    <xs:element ref="contents"/>
+    <xs:element ref="dependencies" minOccurs="0"/>
     <xs:choice>
-     <xs:element ref="php" maxOccurs="unbounded"/>
-     <xs:element ref="extsrc" maxOccurs="unbounded"/>
-     <xs:element ref="extbin" maxOccurs="unbounded"/>
+     <xs:element ref="phprelease" maxOccurs="unbounded"/>
+     <xs:element ref="extsrcrelease" maxOccurs="unbounded"/>
+     <xs:element ref="extbinrelease" maxOccurs="unbounded"/>
+     <xs:element ref="bundle" maxOccurs="unbounded"/>
     </xs:choice>
-    <xs:element name="changelog" minOccurs="0">
-     <xs:complexType>
-      <xs:choice>
-       <xs:element name="release" maxOccurs="unbounded">
-        <xs:complexType>
-         <xs:sequence>
-          <xs:element ref="version"/>
-          <xs:element ref="date"/>
-          <xs:element ref="license"/>
-          <xs:element ref="stability"/>
-          <xs:element ref="notes"/>
-         </xs:sequence>
-        </xs:complexType>
-       </xs:element>
-       <xs:element name="file">
-        <xs:complexType>
-         <xs:attribute name="name" type="xs:string" use="required"/>
-        </xs:complexType>
-       </xs:element>
-      </xs:choice>
-     </xs:complexType>
-    </xs:element>
+    <xs:element ref="changelog" minOccurs="0"/>
    </xs:sequence>
-   <xs:attribute name="version" type="xs:string" use="required" fixed="2.0"/>
-   <xs:attribute name="packager-version" type="xs:string">
-    <xs:annotation>
-     <xs:documentation>version of PEAR package used to package this release</xs:documentation>
-    </xs:annotation>
+   <xs:attribute name="version" type="xs:string" fixed="2.0"/>
+   <xs:attribute name="pearversion" type="version"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="name">
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="xs:string">
+     <xs:attribute name="channel" type="xs:string" use="required"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="summary" type="xs:string"/>
+ <xs:element name="description" type="xs:string"/>
+ <xs:element name="lead">
+  <xs:complexType>
+   <xs:attributeGroup ref="maintainer"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="maintainer">
+  <xs:complexType>
+   <xs:attribute name="role" use="required">
+    <xs:simpleType>
+     <xs:restriction base="xs:string">
+      <xs:enumeration value="developer"/>
+      <xs:enumeration value="contributor"/>
+      <xs:enumeration value="helper"/>
+      <xs:enumeration value="documentor"/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attributeGroup ref="maintainer"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="date">
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="xs:date">
+     <xs:attribute name="time" type="xs:time"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="version">
+  <xs:complexType>
+   <xs:attribute name="api" type="version" use="required"/>
+   <xs:attribute name="package" type="version" use="required"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="license">
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="xs:string">
+     <xs:attribute name="uri" type="xs:anyURI"/>
+     <xs:attribute name="filesource" type="xs:string"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="stability">
+  <xs:complexType>
+   <xs:attribute name="api" use="required">
+    <xs:simpleType>
+     <xs:restriction base="xs:string">
+      <xs:enumeration value="stable"/>
+      <xs:enumeration value="beta"/>
+      <xs:enumeration value="alpha"/>
+      <xs:enumeration value="devel"/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+   <xs:attribute name="package" use="required">
+    <xs:simpleType>
+     <xs:restriction base="xs:string">
+      <xs:enumeration value="stable"/>
+      <xs:enumeration value="beta"/>
+      <xs:enumeration value="alpha"/>
+      <xs:enumeration value="devel"/>
+      <xs:enumeration value="snapshot"/>
+     </xs:restriction>
+    </xs:simpleType>
    </xs:attribute>
   </xs:complexType>
  </xs:element>
- <xs:element name="php" type="release">
-  <xs:annotation>
-   <xs:documentation>PHP source package (PEAR-style)</xs:documentation>
-  </xs:annotation>
+ <xs:element name="notes" type="xs:string"/>
+ <xs:element name="contents">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="dir" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
  </xs:element>
- <xs:element name="extsrc" type="extsrcrelease">
-  <xs:annotation>
-   <xs:documentation>PHP extension source package (PECL-style)</xs:documentation>
-  </xs:annotation>
+ <xs:element name="dir">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="dir" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="file" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+   <xs:attribute name="baseinstalldir" type="xs:string"/>
+   <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
  </xs:element>
- <xs:element name="extbin" type="extbinrelease">
-  <xs:annotation>
-   <xs:documentation>PHP extension binary package</xs:documentation>
-  </xs:annotation>
+ <xs:element name="file">
+  <xs:complexType>
+   <xs:choice>
+    <xs:any namespace="http://pear.php.net/dtd/tasks-1.0" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:choice>
+   <xs:attribute name="name" type="xs:string" use="required"/>
+   <xs:attribute name="role" type="xs:string" use="required"/>
+   <xs:attribute name="baseinstalldir" type="xs:string"/>
+   <xs:attribute name="md5sum" type="xs:string"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="install">
+  <xs:complexType>
+   <xs:attribute name="name" type="xs:string" use="required"/>
+   <xs:attribute name="as" type="xs:string"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="ignore">
+  <xs:complexType>
+   <xs:attribute name="name" type="xs:string"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="phprelease">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="installconditions"/>
+    <xs:element ref="filelist"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="extsrcrelease">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="installconditions"/>
+    <xs:element ref="filelist"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="extbinrelease">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="installconditions"/>
+    <xs:element ref="filelist"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="bundle">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="installconditions" minOccurs="0"/>
+    <xs:element ref="filelist"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="filelist">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="install" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="ignore" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="dependencies">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="required" minOccurs="0"/>
+    <xs:element ref="group" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="required">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="php"/>
+    <xs:element ref="pearinstaller"/>
+    <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="channel" type="xs:string" use="required"/>
+      <xs:attribute name="min" type="version"/>
+      <xs:attribute name="max" type="version"/>
+      <xs:attribute name="recommended" type="version"/>
+      <xs:attribute name="not" type="xs:boolean" default="false"/>
+     </xs:complexType>
+    </xs:element>
+    <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="not" type="xs:boolean" default="false"/>
+     </xs:complexType>
+    </xs:element>
+    <xs:element name="platform" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:attribute name="pattern" type="xs:string" use="required"/>
+      <xs:attribute name="not" type="xs:boolean" default="false"/>
+     </xs:complexType>
+    </xs:element>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="group">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="channel" type="xs:string" use="required"/>
+      <xs:attribute name="min" type="version"/>
+      <xs:attribute name="max" type="version"/>
+      <xs:attribute name="recommended" type="version" use="required"/>
+     </xs:complexType>
+    </xs:element>
+    <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+   <xs:attribute name="name" type="xs:string" use="required"/>
+   <xs:attribute name="hint" type="xs:string" use="required"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="changelog">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="lead" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="maintainer" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="date"/>
+    <xs:element ref="version"/>
+    <xs:element ref="stability"/>
+    <xs:element ref="license"/>
+    <xs:element ref="notes"/>
+   </xs:sequence>
+  </xs:complexType>
  </xs:element>
  <xs:attributeGroup name="maintainer">
-  <xs:annotation>
-   <xs:documentation>standard maintainer attributes</xs:documentation>
-  </xs:annotation>
   <xs:attribute name="user" type="xs:string" use="required"/>
   <xs:attribute name="email" type="xs:string" use="required"/>
   <xs:attribute name="name" type="xs:string" use="required"/>
@@ -87,63 +278,6 @@
    </xs:simpleType>
   </xs:attribute>
  </xs:attributeGroup>
- <xs:element name="lead">
-  <xs:annotation>
-   <xs:documentation>primary package maintainers</xs:documentation>
-  </xs:annotation>
-  <xs:complexType>
-   <xs:attributeGroup ref="maintainer"/>
-  </xs:complexType>
- </xs:element>
- <xs:element name="maintainer">
-  <xs:annotation>
-   <xs:documentation>secondary package maintainers</xs:documentation>
-  </xs:annotation>
-  <xs:complexType>
-   <xs:attributeGroup ref="maintainer"/>
-   <xs:attribute name="role" use="required">
-    <xs:simpleType>
-     <xs:restriction base="xs:string">
-      <xs:enumeration value="developer"/>
-      <xs:enumeration value="contributor"/>
-      <xs:enumeration value="helper"/>
-     </xs:restriction>
-    </xs:simpleType>
-   </xs:attribute>
-  </xs:complexType>
- </xs:element>
- <xs:complexType name="release">
-  <xs:annotation>
-   <xs:documentation>generic release</xs:documentation>
-  </xs:annotation>
-  <xs:sequence>
-   <xs:element ref="dependencies"/>
-   <xs:element ref="globaltasks" minOccurs="0" maxOccurs="unbounded"/>
-   <xs:element name="filelist" type="releasefilelist" minOccurs="0"/>
-  </xs:sequence>
-  <xs:attribute name="id" type="xs:ID" use="optional"/>
- </xs:complexType>
- <xs:element name="date">
-  <xs:annotation>
-   <xs:documentation>release date</xs:documentation>
-  </xs:annotation>
-  <xs:complexType>
-   <xs:simpleContent>
-    <xs:extension base="xs:date">
-     <xs:attribute name="time" type="xs:time"/>
-    </xs:extension>
-   </xs:simpleContent>
-  </xs:complexType>
- </xs:element>
- <xs:element name="version">
-  <xs:annotation>
-   <xs:documentation>release version</xs:documentation>
-  </xs:annotation>
-  <xs:complexType>
-   <xs:attribute name="api" type="version" use="required"/>
-   <xs:attribute name="package" type="version" use="required"/>
-  </xs:complexType>
- </xs:element>
  <xs:simpleType name="version">
   <xs:annotation>
    <xs:documentation>version string regex</xs:documentation>
@@ -152,369 +286,73 @@
    <xs:pattern value="[0-9]+(\.[0-9]+)*([a-zA-Z]+[0-9]*)?"/>
   </xs:restriction>
  </xs:simpleType>
- <xs:element name="license">
-  <xs:annotation>
-   <xs:documentation>release license</xs:documentation>
-  </xs:annotation>
-  <xs:complexType>
-   <xs:simpleContent>
-    <xs:extension base="xs:string">
-     <xs:attribute name="uri" type="xs:anyURI"/>
-     <xs:attribute name="filesource" type="xs:string"/>
-    </xs:extension>
-   </xs:simpleContent>
-  </xs:complexType>
- </xs:element>
- <xs:element name="stability">
-  <xs:annotation>
-   <xs:documentation>release stability</xs:documentation>
-  </xs:annotation>
-  <xs:complexType>
-   <xs:attributeGroup ref="stability"/>
-  </xs:complexType>
- </xs:element>
- <xs:attributeGroup name="stability">
-  <xs:annotation>
-   <xs:documentation>attributes for stability tag</xs:documentation>
-  </xs:annotation>
-  <xs:attribute name="api" use="required">
-   <xs:simpleType>
-    <xs:restriction base="xs:string">
-     <xs:enumeration value="devel"/>
-     <xs:enumeration value="alpha"/>
-     <xs:enumeration value="beta"/>
-     <xs:enumeration value="stable"/>
-    </xs:restriction>
-   </xs:simpleType>
-  </xs:attribute>
-  <xs:attribute name="package" use="required">
-   <xs:simpleType>
-    <xs:restriction base="xs:string">
-     <xs:enumeration value="snapshot"/>
-     <xs:enumeration value="devel"/>
-     <xs:enumeration value="alpha"/>
-     <xs:enumeration value="beta"/>
-     <xs:enumeration value="stable"/>
-    </xs:restriction>
-   </xs:simpleType>
-  </xs:attribute>
- </xs:attributeGroup>
- <xs:element name="notes">
-  <xs:annotation>
-   <xs:documentation>release notes</xs:documentation>
-  </xs:annotation>
- </xs:element>
- <xs:element name="dependencies" type="dependenciesType">
-  <xs:annotation>
-   <xs:documentation>release dependencies</xs:documentation>
-  </xs:annotation>
- </xs:element>
- <xs:element name="bundle">
-  <xs:annotation>
-   <xs:documentation>release package/extension bundles</xs:documentation>
-  </xs:annotation>
+ <xs:element name="extension">
   <xs:complexType>
    <xs:sequence>
-    <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
-     <xs:complexType>
-      <xs:complexContent>
-       <xs:extension base="packageDependencyType"/>
-      </xs:complexContent>
-     </xs:complexType>
-    </xs:element>
-    <xs:element name="extension" type="extensionDependencyType" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
    <xs:attribute name="name" type="xs:string" use="required"/>
+   <xs:attribute name="channel" type="xs:string"/>
+   <xs:attribute name="min" type="version"/>
+   <xs:attribute name="max" type="version"/>
+   <xs:attribute name="recommended" type="version"/>
+   <xs:attribute name="not" type="xs:boolean" default="false"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="pearinstaller">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+   <xs:attribute name="min" type="version" use="required"/>
+   <xs:attribute name="max" type="version"/>
+   <xs:attribute name="recommended" type="version"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="php">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+   <xs:attribute name="min" type="version" use="required"/>
+   <xs:attribute name="max" type="version" use="required"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="installconditions">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="php" minOccurs="0"/>
+    <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="channel" type="xs:string" use="required"/>
+      <xs:attribute name="min" type="version"/>
+      <xs:attribute name="max" type="version"/>
+      <xs:attribute name="not" type="xs:boolean" default="false"/>
+     </xs:complexType>
+    </xs:element>
+    <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="os" minOccurs="0">
+     <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="not" type="xs:boolean" default="false"/>
+     </xs:complexType>
+    </xs:element>
+    <xs:element name="platform" minOccurs="0">
+     <xs:complexType>
+      <xs:attribute name="pattern" type="xs:string" use="required"/>
+      <xs:attribute name="not" type="xs:boolean" default="false"/>
+     </xs:complexType>
+    </xs:element>
+   </xs:sequence>
   </xs:complexType>
  </xs:element>
  <xs:element name="exclude">
-  <xs:annotation>
-   <xs:documentation>exclude a version</xs:documentation>
-  </xs:annotation>
   <xs:complexType>
    <xs:attribute name="version" type="version" use="required"/>
   </xs:complexType>
- </xs:element>
- <xs:attributeGroup name="depattributes">
-  <xs:annotation>
-   <xs:documentation>dependency attributes</xs:documentation>
-  </xs:annotation>
-  <xs:attribute name="min" type="version"/>
-  <xs:attribute name="max" type="version"/>
-  <xs:attribute name="recommended" type="version"/>
-  <xs:attribute name="optional" default="no">
-   <xs:simpleType>
-    <xs:restriction base="xs:string">
-     <xs:enumeration value="yes"/>
-     <xs:enumeration value="no"/>
-    </xs:restriction>
-   </xs:simpleType>
-  </xs:attribute>
- </xs:attributeGroup>
- <xs:complexType name="phpDependencyType">
-  <xs:sequence>
-   <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-  </xs:sequence>
-  <xs:attributeGroup ref="depattributes"/>
- </xs:complexType>
- <xs:complexType name="packageDependencyType">
-  <xs:sequence>
-   <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-  </xs:sequence>
-  <xs:attributeGroup ref="depattributes"/>
-  <xs:attribute name="channel" type="xs:string" use="required"/>
-  <xs:attribute name="name" type="xs:string" use="required"/>
-  <xs:attribute name="bundle" type="xs:string"/>
- </xs:complexType>
- <xs:complexType name="extensionDependencyType">
-  <xs:sequence>
-   <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-  </xs:sequence>
-  <xs:attributeGroup ref="depattributes"/>
-  <xs:attribute name="channel" type="xs:string"/>
-  <xs:attribute name="name" type="xs:string" use="required"/>
-  <xs:attribute name="bundle" type="xs:string"/>
- </xs:complexType>
- <xs:complexType name="sapiDependencyType">
-  <xs:sequence>
-   <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-  </xs:sequence>
-  <xs:attributeGroup ref="depattributes"/>
-  <xs:attribute name="name" type="xs:string" use="required"/>
- </xs:complexType>
- <xs:complexType name="osDependencyType">
-  <xs:sequence>
-   <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-  </xs:sequence>
-  <xs:attributeGroup ref="depattributes"/>
-  <xs:attribute name="name" type="xs:string" use="required"/>
- </xs:complexType>
- <xs:element name="filelist">
-  <xs:complexType>
-   <xs:sequence>
-    <xs:element ref="dir"/>
-   </xs:sequence>
-  </xs:complexType>
- </xs:element>
- <xs:element name="dir">
-  <xs:complexType>
-   <xs:choice>
-    <xs:element ref="dir" maxOccurs="unbounded"/>
-    <xs:element ref="file" maxOccurs="unbounded"/>
-    <xs:sequence>
-     <xs:element ref="dir" maxOccurs="unbounded"/>
-     <xs:element ref="file" maxOccurs="unbounded"/>
-    </xs:sequence>
-   </xs:choice>
-   <xs:attribute name="baseinstalldir" type="xs:string"/>
-   <xs:attribute name="name" type="xs:string" use="required"/>
-  </xs:complexType>
- </xs:element>
- <xs:element name="file">
-  <xs:complexType>
-   <xs:choice>
-    <xs:any namespace="http://pear.php.net/dtd/tasks-1.0" minOccurs="0" maxOccurs="unbounded"/>
-   </xs:choice>
-   <xs:attribute name="name" type="xs:string" use="required"/>
-   <xs:attribute name="role" type="xs:string" use="required"/>
-   <xs:attribute name="install-as" type="xs:string"/>
-   <xs:attribute name="baseinstalldir" type="xs:string"/>
-   <xs:attribute name="md5sum"/>
-   <xs:attribute name="platform"/>
-  </xs:complexType>
- </xs:element>
- <xs:element name="globaltasks">
-  <xs:annotation>
-   <xs:documentation>global installation task</xs:documentation>
-  </xs:annotation>
-  <xs:complexType>
-   <xs:sequence>
-    <xs:any namespace="http://pear.php.net/dtd/globaltasks-1.0" minOccurs="0" maxOccurs="unbounded"/>
-   </xs:sequence>
-   <xs:attribute name="type" type="xs:string" use="required"/>
-   <xs:anyAttribute namespace="##any"/>
-  </xs:complexType>
- </xs:element>
- <xs:complexType name="phprelease">
-  <xs:complexContent>
-   <xs:extension base="release">
-    <xs:sequence>
-     <xs:element ref="filelist"/>
-    </xs:sequence>
-   </xs:extension>
-  </xs:complexContent>
- </xs:complexType>
- <xs:complexType name="extsrcrelease">
-  <xs:complexContent>
-   <xs:extension base="release">
-    <xs:sequence>
-     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-   </xs:extension>
-  </xs:complexContent>
- </xs:complexType>
- <xs:complexType name="extbinrelease">
-  <xs:complexContent>
-   <xs:extension base="release">
-    <xs:sequence>
-     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
-   </xs:extension>
-  </xs:complexContent>
- </xs:complexType>
- <xs:element name="configureoption">
-  <xs:complexType>
-   <xs:attribute name="name" type="xs:string" use="required"/>
-   <xs:attribute name="default" type="xs:string"/>
-   <xs:attribute name="prompt" type="xs:string" use="required"/>
-  </xs:complexType>
- </xs:element>
- <xs:element name="summary" type="xs:string"/>
- <xs:element name="name">
-  <xs:complexType>
-   <xs:simpleContent>
-    <xs:extension base="xs:string">
-     <xs:attribute name="channel" type="xs:string" use="required"/>
-    </xs:extension>
-   </xs:simpleContent>
-  </xs:complexType>
- </xs:element>
- <xs:complexType name="releasefilelist">
-  <xs:annotation>
-   <xs:documentation>filelist for differing between releases</xs:documentation>
-  </xs:annotation>
-  <xs:sequence>
-   <xs:element name="dir">
-    <xs:complexType>
-     <xs:complexContent>
-      <xs:extension base="releasedir"/>
-     </xs:complexContent>
-    </xs:complexType>
-   </xs:element>
-  </xs:sequence>
- </xs:complexType>
- <xs:complexType name="releasedir">
-  <xs:choice>
-   <xs:element name="dir" maxOccurs="unbounded">
-    <xs:complexType>
-     <xs:complexContent>
-      <xs:extension base="releasedir"/>
-     </xs:complexContent>
-    </xs:complexType>
-   </xs:element>
-   <xs:choice maxOccurs="unbounded">
-    <xs:element name="file">
-     <xs:complexType>
-      <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="install-as" type="xs:string"/>
-     </xs:complexType>
-    </xs:element>
-    <xs:element name="ignorefile">
-     <xs:complexType>
-      <xs:attribute name="name" type="xs:string" use="required"/>
-     </xs:complexType>
-    </xs:element>
-   </xs:choice>
-   <xs:sequence maxOccurs="unbounded">
-    <xs:element name="dir" maxOccurs="unbounded">
-     <xs:complexType>
-      <xs:complexContent>
-       <xs:extension base="releasedir"/>
-      </xs:complexContent>
-     </xs:complexType>
-    </xs:element>
-    <xs:choice maxOccurs="unbounded">
-     <xs:element name="file">
-      <xs:complexType>
-       <xs:attribute name="name" use="required">
-        <xs:simpleType>
-         <xs:restriction base="xs:string">
-          <xs:enumeration value="yes"/>
-          <xs:enumeration value="no"/>
-         </xs:restriction>
-        </xs:simpleType>
-       </xs:attribute>
-       <xs:attribute name="install-as" type="xs:string"/>
-      </xs:complexType>
-     </xs:element>
-     <xs:element name="ignorefile">
-      <xs:complexType>
-       <xs:attribute name="name" type="xs:string" use="required"/>
-      </xs:complexType>
-     </xs:element>
-    </xs:choice>
-   </xs:sequence>
-  </xs:choice>
-  <xs:attribute name="name" type="xs:string" use="required"/>
- </xs:complexType>
- <xs:complexType name="dependenciesType">
-  <xs:sequence>
-   <xs:element name="pearinstaller" minOccurs="0">
-    <xs:annotation>
-     <xs:documentation>PEAR installer version required</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-     <xs:sequence>
-      <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-     </xs:sequence>
-     <xs:attribute name="min" type="version" use="required"/>
-     <xs:attribute name="max" type="version"/>
-    </xs:complexType>
-   </xs:element>
-   <xs:element name="php" type="phpDependencyType">
-    <xs:annotation>
-     <xs:documentation>PHP version dependency</xs:documentation>
-    </xs:annotation>
-   </xs:element>
-   <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
-    <xs:annotation>
-     <xs:documentation>PHP package dependency</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-     <xs:complexContent>
-      <xs:extension base="packageDependencyType"/>
-     </xs:complexContent>
-    </xs:complexType>
-   </xs:element>
-   <xs:element name="extension" minOccurs="0" maxOccurs="unbounded">
-    <xs:annotation>
-     <xs:documentation>PHP extension dependency</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-     <xs:complexContent>
-      <xs:extension base="extensionDependencyType"/>
-     </xs:complexContent>
-    </xs:complexType>
-   </xs:element>
-   <xs:element name="sapi" minOccurs="0" maxOccurs="unbounded">
-    <xs:annotation>
-     <xs:documentation>PHP executable type - is this really practical?</xs:documentation>
-    </xs:annotation>
-    <xs:complexType>
-     <xs:complexContent>
-      <xs:extension base="sapiDependencyType"/>
-     </xs:complexContent>
-    </xs:complexType>
-   </xs:element>
-   <xs:element name="os" type="osDependencyType" minOccurs="0" maxOccurs="unbounded">
-    <xs:annotation>
-     <xs:documentation>operating system dependency</xs:documentation>
-    </xs:annotation>
-   </xs:element>
-   <xs:element ref="or" minOccurs="0" maxOccurs="unbounded"/>
-  </xs:sequence>
- </xs:complexType>
- <xs:element name="or">
-  <xs:complexType>
-   <xs:choice minOccurs="2" maxOccurs="unbounded">
-    <xs:element name="package" type="packageDependencyType"/>
-    <xs:element name="extension" type="extensionDependencyType"/>
-   </xs:choice>
-  </xs:complexType>
- </xs:element>
- <xs:element name="extends" type="xs:string">
-  <xs:annotation>
-   <xs:documentation>for BC-breaking releases, this defines a link between this package and the earlier version</xs:documentation>
-  </xs:annotation>
  </xs:element>
 </xs:schema>
