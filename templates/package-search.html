@@ -240,139 +240,140 @@
 </p>
 
 <!-- This class prints stuff as part of it's constructor. -->
-<?$bb = new Borderbox('Search Options')?>
 
 <form action="<?=$_SERVER['PHP_SELF']?>" method="get" name="search_form" onsubmit="validate_form()">
-<table border="0">
-    <tr>
-        <td>Package name:</td>
-        <td valign="middle">
-               <?php $form->displayText("pkg_name", @$_GET['pkg_name']); ?>
-        </td>
-        <td>
-            Match:
-            <input type="radio" name="bool" value="AND" id="bool_and" <?=$bool_and_checked?> />
-            <label for="bool_and">All words</label>
-            <input type="radio" name="bool" value="OR" id="bool_or" <?=$bool_or_checked?> />
-            <label for="bool_or">Any word</label>
-        </td>
-    </tr>
 
-    <tr>
-        <td>Maintainer:</td>
-        <td colspan="2">
-            <input name="pkg_maintainer" type="text" value="<?=$_GET['pkg_maintainer']?>" />
-            <select onchange="document.forms['search_form'].pkg_maintainer.value = this.options[this.selectedIndex].value; this.selectedIndex = 0">
-                <option value="">Select user...</option>
-                <?foreach($users as $u):?>
-                    <option value="<?=$u['handle']?>"><?=$u['name']?></option>
-                <?endforeach?>
-            </select>
-        </td>
-    </tr>
+<table class="form-holder" cellspacing="1">
+ <caption class="form-caption">Search Options</caption>
+ <tr>
+  <th class="form-label_left">Pa<span class="accesskey">c</span>kage name:</th>
+  <td class="form-input">
+   <?php $form->displayText('pkg_name', @$_GET['pkg_name'], 0, 0, 'accesskey="c"'); ?>
+   <br />
+   <small>
+    Match:
+    <input type="radio" name="bool" value="AND" id="bool_and" <?=$bool_and_checked?> />
+    <label for="bool_and">All words</label>
+    <input type="radio" name="bool" value="OR" id="bool_or" <?=$bool_or_checked?> />
+    <label for="bool_or">Any word</label>
+   </small>
+  </td>
+ </tr>
 
-    <tr>
-        <td valign="top">Category:</td>
-        <td>
-            <select name="pkg_category" style="width: 100%">
-                <option value=""></option>
-                <?foreach($category_rows as $c):?>
-                    <option value="<?=$c['id']?>" <?=$c['selected']?>><?=$c['name']?></option>
-                <?endforeach?>
-            </select>
-        </td>
-        <td>&nbsp;</td>
-    </tr>
+ <tr>
+  <th class="form-label_left">Maintainer:</th>
+  <td class="form-input">
+   <input name="pkg_maintainer" type="text" value="<?=$_GET['pkg_maintainer']?>" />
+   <select onchange="document.forms['search_form'].pkg_maintainer.value = this.options[this.selectedIndex].value; this.selectedIndex = 0">
+    <option value="">Select user...</option>
+    <?foreach($users as $u):?>
+     <option value="<?=$u['handle']?>"><?=$u['name']?></option>
+    <?endforeach?>
+   </select>
+  </td>
+ </tr>
 
-    <tr><td colspan="3">&nbsp;</td></tr>
+ <tr>
+  <th class="form-label_left">Category:</th>
+  <td class="form-input">
+   <select name="pkg_category">
+    <option value=""></option>
+    <?foreach($category_rows as $c):?>
+     <option value="<?=$c['id']?>" <?=$c['selected']?>><?=$c['name']?></option>
+    <?endforeach?>
+   </select>
+  </td>
+ </tr>
 
-    <tr>
-        <td colspan="3"><strong>With a release:</strong></td>
-    </tr>
+ <tr><td class="form-input" colspan="2">&nbsp;</td></tr>
 
-    <tr>
-        <td>On:</td>
-        <td colspan="2">
-            <input type="text" name="released_on_year" value="" size="5" onkeyup="update_date('released_on', 'year')" />
-            <select name="released_on_month" onchange="update_date('released_on', 'month')">
-                <option value=""></option>
-                <?foreach($months as $num => $text):?>
-                    <option value="<?=$num?>"><?=$text?></option>
-                <?endforeach?>
-            </select>
-            <select name="released_on_day" onchange="update_date('released_on', 'day')">
-                <option value=""></option>
-                <?foreach(range(1, 31) as $value):?>
-                    <option value="<?=$value?>"><?=$value?></option>
-                <?endforeach?>
-            </select>
-            <script language="JavaScript" type="text/javascript">
-            <!--
-                calendarReleasedOn = new dynCalendar('calendarReleasedOn', 'setDateFromCalendar_released_on', 'gifs/');
-            //-->
-            </script>
-        </td>
-    </tr>
+ <tr>
+  <th class="form-label_left" colspan="2">With a release...</th>
+ </tr>
 
-    <tr>
-        <td>Before:</td>
-        <td colspan="2">
-            <input type="text" name="released_before_year" value="" size="5" onkeyup="update_date('released_before', 'year')" />
-            <select name="released_before_month" onchange="update_date('released_before', 'month')">
-                <option value=""></option>
-                <?foreach($months as $num => $text):?>
-                    <option value="<?=$num?>"><?=$text?></option>
-                <?endforeach?>
-            </select>
-            <select name="released_before_day" onchange="update_date('released_before', 'day')">
-                <option value=""></option>
-                <?foreach(range(1, 31) as $value):?>
-                    <option value="<?=$value?>"><?=$value?></option>
-                <?endforeach?>
-            </select>
-            <script language="JavaScript" type="text/javascript">
-            <!--
-                calendarReleasedBefore = new dynCalendar('calendarReleasedBefore', 'setDateFromCalendar_released_before', 'gifs/');
-            //-->
-            </script>
-        </td>
-    </tr>
+ <tr>
+  <th class="form-label_left">On:</th>
+  <td class="form-input">
+   <input type="text" name="released_on_year" value="" size="5" onkeyup="update_date('released_on', 'year')" />
+   <select name="released_on_month" onchange="update_date('released_on', 'month')">
+    <option value=""></option>
+    <?foreach($months as $num => $text):?>
+     <option value="<?=$num?>"><?=$text?></option>
+    <?endforeach?>
+   </select>
+   <select name="released_on_day" onchange="update_date('released_on', 'day')">
+    <option value=""></option>
+    <?foreach(range(1, 31) as $value):?>
+     <option value="<?=$value?>"><?=$value?></option>
+    <?endforeach?>
+   </select>
+   <script language="JavaScript" type="text/javascript">
+    <!--
+     calendarReleasedOn = new dynCalendar('calendarReleasedOn', 'setDateFromCalendar_released_on', 'gifs/');
+    //-->
+   </script>
+  </td>
+ </tr>
 
-    <tr>
-        <td>Since:</td>
-        <td colspan="2">
-            <input type="text" name="released_since_year" value="" size="5" onkeyup="update_date('released_since', 'year')" />
-            <select name="released_since_month" onchange="update_date('released_since', 'month')">
-                <option value=""></option>
-                <?foreach($months as $num => $text):?>
-                    <option value="<?=$num?>"><?=$text?></option>
-                <?endforeach?>
-            </select>
-            <select name="released_since_day" onchange="update_date('released_since', 'day')">
-                <option value=""></option>
-                <?foreach(range(1, 31) as $value):?>
-                    <option value="<?=$value?>"><?=$value?></option>
-                <?endforeach?>
-            </select>
-            <script language="JavaScript" type="text/javascript">
-            <!--
-                calendarReleasedSince = new dynCalendar('calendarReleasedSince', 'setDateFromCalendar_released_since', 'gifs/');
-            //-->
-            </script>
-        </td>
-    </tr>
+ <tr>
+  <th class="form-label_left">Before:</th>
+  <td class="form-input">
+   <input type="text" name="released_before_year" value="" size="5" onkeyup="update_date('released_before', 'year')" />
+   <select name="released_before_month" onchange="update_date('released_before', 'month')">
+    <option value=""></option>
+    <?foreach($months as $num => $text):?>
+     <option value="<?=$num?>"><?=$text?></option>
+    <?endforeach?>
+   </select>
+   <select name="released_before_day" onchange="update_date('released_before', 'day')">
+    <option value=""></option>
+    <?foreach(range(1, 31) as $value):?>
+     <option value="<?=$value?>"><?=$value?></option>
+    <?endforeach?>
+   </select>
+   <script language="JavaScript" type="text/javascript">
+    <!--
+     calendarReleasedBefore = new dynCalendar('calendarReleasedBefore', 'setDateFromCalendar_released_before', 'gifs/');
+    //-->
+   </script>
+  </td>
+ </tr>
 
+ <tr>
+  <th class="form-label_left">Since:</th>
+  <td class="form-input">
+   <input type="text" name="released_since_year" value="" size="5" onkeyup="update_date('released_since', 'year')" />
+   <select name="released_since_month" onchange="update_date('released_since', 'month')">
+    <option value=""></option>
+    <?foreach($months as $num => $text):?>
+     <option value="<?=$num?>"><?=$text?></option>
+    <?endforeach?>
+   </select>
+   <select name="released_since_day" onchange="update_date('released_since', 'day')">
+    <option value=""></option>
+    <?foreach(range(1, 31) as $value):?>
+     <option value="<?=$value?>"><?=$value?></option>
+    <?endforeach?>
+   </select>
+   <script language="JavaScript" type="text/javascript">
+   <!--
+    calendarReleasedSince = new dynCalendar('calendarReleasedSince', 'setDateFromCalendar_released_since', 'gifs/');
+   //-->
+   </script>
+  </td>
+ </tr>
 
-    <tr>
-        <td>&nbsp;</td>
-        <td colspan="2">
-            <input type="reset" value="Clear" onclick="return form_reset()" />
-            <input type="submit" name="submitButton" value="Search" />
-        </td>
-    </tr>
+ <tr>
+  <th class="form-label_left">&nbsp;</th>
+  <td class="form-input">
+   <input type="submit" name="submitButton" value="Search" />
+   <input type="reset" value="Clear" onclick="return form_reset()" />
+  </td>
+ </tr>
 </table>
+
 </form>
-<?$bb->end()?>
+
 
 <script language="JavaScript" type="text/javascript">
 <!--
