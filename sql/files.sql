@@ -12,5 +12,6 @@ CREATE TABLE files (
   md5sum varchar(32) default NULL,
   basename varchar(100) default NULL,
   fullpath varchar(250) default NULL,
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  UNIQUE KEY pkg_rel_plat (package,release,platform)
 );
