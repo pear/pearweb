@@ -417,6 +417,7 @@ function show_reason_types($current = '', $expanded = 0)
 function show_version_options($current, $default = '')
 {
     $versions = array(
+        '4.3.8',
         '4.3.7',
         '4.3.6',
         '4.3.5',
