@@ -4,7 +4,7 @@ body {
     background-color: white;
     color: black;
     font-family: verdana,arial,helvetica,sans-serif;
-    font-size: 85%;
+    font-size: 90%;
 }
 
 p {
@@ -16,7 +16,7 @@ a:link {
 }
 
 a:visited {
-    color: #006600;
+    color: #030;
 }
 
 a:hover {
@@ -148,12 +148,10 @@ a.small {
 
 input {
     font-family: verdana,arial,helvetica,sans-serif;
-    font-size: 85%
 }
 
 textarea {
     font-family: verdana,arial,helvetica,sans-serif;
-    font-size: 85%
 }
 
 input.small, select.small {
