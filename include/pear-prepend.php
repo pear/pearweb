@@ -18,6 +18,8 @@
    $Id$
 */
 
+require_once "pear-cache.php";
+
 require_once "DB.php";
 require_once "DB/storage.php";
 require_once "pear-config.php";
