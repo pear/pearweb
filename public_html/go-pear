@@ -498,7 +498,8 @@ If you have a CLI (or CGI) php.exe available, we strongly recommand to use it.
 }
 
 foreach ($config_vars as $n => $var) {
-    foreach ($config_vars as $m => $var2) {
+    for ($m = 1; $m <= count($config_vars); $m++) {
+        $var2 = $config_vars[$m];
         $$var = str_replace('$'.$var2, $$var2, $$var);
     }
 }
@@ -2168,9 +2169,9 @@ Double-click this file to add it to the current user registry.
  */
 function win32DetectPHPSAPI()
 {
-    global $php_bin,$phpsapiname;
+    global $php_bin,$php_sapi_name;
     if (WEBINSTALLER) {
-        return $phpsapiname;
+        return $php_sapi_name;
     }
     if($php_bin!=''){
         exec($php_bin.' -v', $res);
