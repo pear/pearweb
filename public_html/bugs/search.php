@@ -1,14 +1,23 @@
 <?php /* vim: set noet ts=4 sw=4: : */
+
+// $Id$
+
 require_once './include/prepend.inc';
 error_reporting(E_ALL ^ E_NOTICE);
 
-if (isset($MAGIC_COOKIE) && !isset($user) && !isset($pw)) {
-  list($user,$pw) = explode(":", base64_decode($MAGIC_COOKIE));
-}
-
-if ($search_for && !preg_match("/\\D/",trim($search_for))) {
-    $x = $pw ? ($user ? "&edit=1" : "&edit=2") : '';
-    header("Location: bug.php?id=$search_for$x");
+if (!empty($_GET['search_for']) &&
+    !preg_match('/\\D/', trim($_GET['search_for'])))
+{
+    if (isset($_COOKIE['PEAR_USER'])) {
+        $x = '&edit=1';
+    } else {
+        if (isset($_COOKIE['MAGIC_COOKIE'])) {
+            $x = '&edit=2';
+        } else {
+            $x = '';
+        }
+    }
+    localRedirect('bug.php?id=' . $_GET['search_for'] . $x);
     exit;
 }
 
@@ -16,18 +25,25 @@ response_header('Search');
 
 $errors = array();
 $warnings = array();
+$order_options = array(
+    ''             => 'relevance',
+    'id'           => 'ID',
+    'package_name' => 'package',
+    'status'       => 'status',
+    'php_version'  => 'version',
+    'php_os'       => 'os',
+    'sdesc'        => 'summary',
+    'assign'       => 'assignment',
+);
 
-define('BOOLEAN_SEARCH', @intval($boolean));
+define('BOOLEAN_SEARCH', @intval($_GET['boolean']));
 
-if (isset($cmd) && $cmd == 'display') {
+if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     @mysql_connect('localhost','pear','pear')
         or die('Unable to connect to SQL server.');
     @mysql_select_db('pear');
 
     $mysql4 = version_compare(mysql_get_server_info(), '4.0.0', 'ge');
-
-    if (!$_GET['package_name'] || !is_array($_GET['package_name'])) $_GET['package_name']  = array();
-    if (!$_GET['package_nname']) $_GET['package_nname'] = array();
 
     if ($mysql4) {
         $query = 'SELECT SQL_CALC_FOUND_ROWS ';
@@ -37,143 +53,233 @@ if (isset($cmd) && $cmd == 'display') {
     
     $query .= "*, TO_DAYS(NOW())-TO_DAYS(ts2) AS unchanged FROM bugdb ";
 
-    if (count($_GET['package_name']) == 0) {
+    if (empty($_GET['package_name']) || !is_array($_GET['package_name'])) {
+        $_GET['package_name']  = array();
         $where_clause = "WHERE package_name != 'Feature/Change Request'";
     } else {
-        $where_clause = "WHERE package_name IN ('" . join("','", $_GET['package_name']) . "')";
+        $where_clause = "WHERE package_name IN ('" .
+                        join("','", $_GET['package_name']) . "')";
     }
 
-    if (count($_GET['package_nname']) > 0) {
-        $where_clause.= " AND package_name NOT IN ('" . join("','", $_GET['package_nname']) . "')";
+    if (empty($_GET['package_nname']) || !is_array($_GET['package_nname'])) {
+        $_GET['package_nname'] = array();
+    } else {
+        $where_clause.= " AND package_name NOT IN ('" .
+                        join("','", $_GET['package_nname']) . "')";
     }
 
-    /* Treat assigned, analyzed, critical and verified bugs as open */
-    if ($_GET['status'] == "Open") {
-        $where_clause .= " AND (status='Open' OR status='Assigned' OR status='Analyzed' OR status='Critical' OR status='Verified')";
-    } elseif ($_GET['status'] == "Old Feedback") {
-        $where_clause .= " AND status='Feedback' AND TO_DAYS(NOW())-TO_DAYS(ts2)>60";
-    } elseif ($_GET['status'] == "Fresh") {
-        $where_clause .= " AND status != 'Closed' AND status != 'Duplicate' AND status != 'Bogus' AND TO_DAYS(NOW())-TO_DAYS(ts2) < 30";
-    } elseif ($_GET['status'] == "Stale") {
-        $where_clause .= " AND status != 'Closed' AND status != 'Duplicate' AND status != 'Bogus' AND TO_DAYS(NOW())-TO_DAYS(ts2) > 30";
-    } elseif ($_GET['status'] && $_GET['status'] != "All") {
-        $where_clause .= " AND status='$status'";
+    /*
+     * Ensure status is valid and tweak search clause
+     * to treat assigned, analyzed, critical and verified bugs as open
+     */
+    if (empty($_GET['status'])) {
+        $status = 'Open';
+    } else {
+        $status = $_GET['status'];
+    }
+    switch ($status) {
+        case 'Closed':
+        case 'Duplicate':
+        case 'Critical':
+        case 'Assigned':
+        case 'Analyzed':
+        case 'Verified':
+        case 'Suspended':
+        case 'Wont fix':
+        case 'No Feedback':
+        case 'Feedback':
+        case 'Bogus':
+            $where_clause .= " AND status='$status'";
+            break;
+        case 'Old Feedback':
+            $where_clause .= " AND status='Feedback'" .
+                             " AND TO_DAYS(NOW())-TO_DAYS(ts2) > 60";
+            break;
+        case 'Fresh':
+            $where_clause .= " AND status NOT IN" .
+                             " ('Closed', 'Duplicate', 'Bogus')" .
+                             " AND TO_DAYS(NOW())-TO_DAYS(ts2) < 30";
+            break;
+        case 'Stale':
+            $where_clause .= " AND status NOT IN" .
+                             " ('Closed', 'Duplicate', 'Bogus')" .
+                             " AND TO_DAYS(NOW())-TO_DAYS(ts2) > 30";
+            break;
+        case 'All':
+            break;
+        case 'Open':
+        default:
+            $status = 'Open';
+            $where_clause .= " AND status IN ('Open', 'Assigned', " .
+                             " 'Analyzed', 'Critical', 'Verified')";
     }
 
-    if (strlen($search_for)) {
+    if (empty($_GET['search_for'])) {
+        $search_for = '';
+    } else {
+        $search_for = $_GET['search_for'];
         list($sql_search, $ignored) = format_search_string($search_for);
         $where_clause .= $sql_search;
         if (count($ignored) > 0 ) {
-            array_push($warnings, "The following words were ignored: " . htmlentities(implode(', ', array_unique($ignored))));
+            array_push($warnings, 'The following words were ignored: ' .
+                    htmlentities(implode(', ', array_unique($ignored))));
         }
     }
 
-    $bug_age = (int)$bug_age;
-    if ($bug_age) {
+    if (empty($_GET['bug_age']) || !(int)$_GET['bug_age']) {
+        $bug_age = 0;
+    } else {
+        $bug_age = $_GET['bug_age'];
         $where_clause .= " AND ts1 >= DATE_SUB(NOW(), INTERVAL $bug_age DAY)";
     }
 
-    if ($php_os) {
+    if (empty($_GET['php_os'])) {
+        $php_os = '';
+    } else {
+        $php_os = $_GET['php_os'];
         $where_clause .= " AND php_os like '%$php_os%'";
     }
 
-    if (empty($phpver)) {
+    if (empty($_GET['phpver'])) {
+        $phpver = '';
         $where_clause .= " AND (SUBSTRING(php_version,1,1) = '4' OR SUBSTRING(php_version,1,1) = '5' OR php_version = 'Irrelevant')";
     } else {
+        $phpver = $_GET['phpver'];
         // there's an index on php_version(1) to speed this up.
         if (strlen($phpver) == 1) {
             $where_clause .= " AND SUBSTRING(php_version,1,1) = '$phpver'";
-        }
-        else {
+        } else {
             $where_clause .= " AND php_version LIKE '$phpver%'";
         }
     }
 
-    if (!empty($assign)) {
+    if (empty($_GET['assign'])) {
+        $assign = '';
+    } else {
+        $assign = $_GET['assign'];
         $where_clause .= " AND assign = '$assign'";
     }
 
-    if (!empty($author_email)) {
+    if (empty($_GET['author_email'])) {
+        $author_email = '';
+    } else {
+        $author_email = $_GET['author_email'];
         $where_clause .= " AND bugdb.email = '$author_email' ";
     }
 
     $query .= "$where_clause ";
 
-    $allowed_order = array('id', 'package_name', 'status', 'php_version', 'php_os', 'sdesc', 'assign');
+    if ($_GET['direction'] != 'DESC') {
+        $direction = 'ASC';
+    } else {
+        $direction = 'DESC';
+    }
 
-    /* we avoid adding an order by clause if using the full text search */
-    if ($order_by || $reorder_by || !strlen($search_for)) {
-        if (!in_array($order_by,$allowed_order)) $order_by = 'id';
-        if (isset($reorder_by) && !in_array($reorder_by,$allowed_order)) $reorder_by = 'id';
-        if ($direction != 'DESC') $direction = 'ASC';
+    if (empty($_GET['order_by']) ||
+        !array_key_exists($_GET['order_by'], $order_options))
+    {
+        $order_by = 'id';
+    } else {
+        $order_by = $_GET['order_by'];
+    }
 
-        if ($reorder_by) {
-            if ($order_by == $reorder_by) {
-                $direction = $direction == 'ASC' ? 'DESC' : 'ASC';
-            }
-            else {
-                $direction = 'ASC';
-            }
+    if (empty($_GET['reorder_by']) ||
+        !array_key_exists($_GET['reorder_by'], $order_options))
+    {
+        $reorder_by = '';
+    } else {
+        $reorder_by = $_GET['reorder_by'];
+        if ($order_by == $reorder_by) {
+            $direction = $direction == 'ASC' ? 'DESC' : 'ASC';
+        } else {
+            $direction = 'ASC';
             $order_by = $reorder_by;
         }
-        $query .= " ORDER BY $order_by $direction";
     }
 
-    $begin = (int)$begin;
-    if ($limit != 'All' && !(int)$limit) $limit = 30;
+    /* we avoid adding an order by clause if using the full text search */
+    if (!strlen($search_for)) {
+        $query .= ' ORDER BY ' . $order_by . ' ' . $direction;
+    }
 
-    if($limit!='All') $query .= " LIMIT $begin,".(int)$limit;
+    if (empty($_GET['begin']) || !(int)$_GET['begin']) {
+        $begin = 0;
+    } else {
+        $begin = (int)$_GET['begin'];
+    }
 
-    if(stristr($query, ";")) {
+    if (empty($_GET['limit']) || !(int)$_GET['limit']) {
+        if ($_GET['limit'] == 'All') {
+            $limit = 'All';
+        } else {
+            $limit = 30;
+            $query .= " LIMIT $begin, $limit";
+        }
+    } else {
+        $limit  = (int)$_GET['limit'];
+        $query .= " LIMIT $begin, $limit";
+    }
+
+    if (stristr($query, ';')) {
         $errors[] = '<b>BAD HACKER!!</b> No database cracking for you today!';
     } else {
-
-    $res = @mysql_query($query);
-    if (!$res) die(htmlspecialchars($query).'<br />'.mysql_error());
-
-    $rows = mysql_num_rows($res);
-
-    if ($mysql4) {
-        $total_rows = mysql_get_one("SELECT FOUND_ROWS()");
-     } else { /* lame mysql 3 compatible attempt to allow browsing the search */
-        $total_rows = $rows < 10 ? $rows : $begin + $rows + 10;
-    }
-
-    if (!$rows) {
-        show_bugs_menu($_GET['package_name'][0]);
-        $errors[] = 'No bugs were found.';
-        display_errors($errors);
-    } else {
-
-        $package_name_string = '';
-        if (count($_GET['package_name']) > 0) {
-            foreach ($_GET['package_name'] as $type_str) {
-                $package_name_string.= '&amp;package_name[]=' . urlencode($type_str);
-            }
+        $res = @mysql_query($query);
+        if (!$res) {
+            die(htmlspecialchars($query).'<br />'.mysql_error());
         }
 
-        $package_nname_string = '';
-        if (count($_GET['package_nname']) > 0) {
-            foreach ($_GET['package_nname'] as $type_str) {
-                $package_nname_string.= '&amp;package_nname[]=' . urlencode($type_str);
-            }
+        $rows = mysql_num_rows($res);
+
+        if ($mysql4) {
+            $total_rows = mysql_get_one("SELECT FOUND_ROWS()");
+        } else {
+            /* lame mysql 3 compatible attempt to allow browsing the search */
+            $total_rows = $rows < 10 ? $rows : $begin + $rows + 10;
         }
 
-        $link = "$PHP_SELF?cmd=display" .
-                $package_name_string   .
-                $package_nname_string  .
-                "&amp;status="     . urlencode(stripslashes($status)) .
-                "&amp;search_for=" . urlencode(stripslashes($search_for)) .
-                "&amp;php_os="     . urlencode(stripslashes($php_os)) .
-                "&amp;boolean="    . BOOLEAN_SEARCH .
-                "&amp;author_email=". urlencode(stripslashes($author_email)) .
-                "&amp;bug_age=$bug_age&amp;by=$by&amp;order_by=$order_by&amp;direction=$direction&amp;phpver=$phpver&amp;limit=$limit&amp;assign=$assign";
-        if (isset($_GET['package_name']) && count($_GET['package_name']) == 1) {
+        if (!$rows) {
             show_bugs_menu($_GET['package_name'][0]);
-        }
-?>
+            $errors[] = 'No bugs were found.';
+            display_errors($errors);
+        } else {
+            $package_name_string = '';
+            if (count($_GET['package_name']) > 0) {
+                foreach ($_GET['package_name'] as $type_str) {
+                    $package_name_string.= '&amp;package_name[]=' . urlencode($type_str);
+                }
+            }
+
+            $package_nname_string = '';
+            if (count($_GET['package_nname']) > 0) {
+                foreach ($_GET['package_nname'] as $type_str) {
+                    $package_nname_string.= '&amp;package_nname[]=' . urlencode($type_str);
+                }
+            }
+
+            $link = $_SERVER['PHP_SELF'] .
+                    '?cmd=display' .
+                    $package_name_string  .
+                    $package_nname_string .
+                    '&amp;status='      . urlencode(stripslashes($status)) .
+                    '&amp;search_for='  . urlencode(stripslashes($search_for)) .
+                    '&amp;php_os='      . urlencode(stripslashes($php_os)) .
+                    '&amp;boolean='     . BOOLEAN_SEARCH .
+                    '&amp;author_email='. urlencode(stripslashes($author_email)) .
+                    '&amp;bug_age='     . $bug_age .
+                    '&amp;by='          . $by .
+                    '&amp;order_by='    . $order_by .
+                    '&amp;direction='   . $direction .
+                    '&amp;phpver='      . $phpver .
+                    '&amp;limit='       . $limit .
+                    '&amp;assign='      . $assign;
+
+            if (isset($_GET['package_name']) && count($_GET['package_name']) == 1) {
+                show_bugs_menu($_GET['package_name'][0]);
+            }
+
+            ?>
 <table align="center" border="0" cellspacing="2" width="95%">
-<?php show_prev_next($begin,$rows,$total_rows,$link,$limit);?>
+<?php show_prev_next($begin, $rows, $total_rows, $link, $limit);?>
 <tr bgcolor="#aaaaaa">
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">ID#</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">Date</a></th>
@@ -184,42 +290,47 @@ if (isset($cmd) && $cmd == 'display') {
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=sdesc">Summary</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=assign">Assigned</a></th>
 </tr>
-<?php
-        if ($warnings) display_warnings($warnings);
-        while ($row = mysql_fetch_array($res)) {
-            echo '<tr valign="top" bgcolor="', get_row_color($row), '">';
+            <?php
 
-            /* Bug ID */
-            echo '<td align="center"><a href="bug.php?id='.$row['id'].'">'.$row['id'].'</a>';
-            echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>';
-
-            /* Date */
-            echo '<td align="center">'.date ('Y-m-d H:i:s', strtotime ($row['ts1'])).'</td>';
-            echo '<td>', htmlspecialchars($row['package_name']), '</td>';
-            echo '<td>', htmlspecialchars($row['status']);
-            if ($row['status'] == 'Feedback' && $row['unchanged'] > 0) {
-                printf ("<br />%d day%s", $row['unchanged'], $row['unchanged'] > 1 ? 's' : '');
+            if ($warnings) {
+                display_warnings($warnings);
             }
-            echo '</td>';
-            echo '<td>', htmlspecialchars($row['php_version']), '</td>';
-            echo '<td>', $row['php_os'] ? htmlspecialchars($row['php_os']) : '&nbsp;', '</td>';
-            echo '<td>', $row['sdesc']  ? clean($row['sdesc'])             : '&nbsp;', '</td>';
-            echo '<td>', $row['assign'] ? htmlspecialchars($row['assign']) : '&nbsp;', '</td>';
-            echo "</tr>\n";
+
+            while ($row = mysql_fetch_array($res)) {
+                echo '<tr valign="top" bgcolor="', get_row_color($row), '">';
+
+                /* Bug ID */
+                echo '<td align="center"><a href="bug.php?id='.$row['id'].'">'.$row['id'].'</a>';
+                echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>';
+
+                /* Date */
+                echo '<td align="center">'.date ('Y-m-d H:i:s', strtotime ($row['ts1'])).'</td>';
+                echo '<td>', htmlspecialchars($row['package_name']), '</td>';
+                echo '<td>', htmlspecialchars($row['status']);
+                if ($row['status'] == 'Feedback' && $row['unchanged'] > 0) {
+                    printf ("<br />%d day%s", $row['unchanged'], $row['unchanged'] > 1 ? 's' : '');
+                }
+                echo '</td>';
+                echo '<td>', htmlspecialchars($row['php_version']), '</td>';
+                echo '<td>', $row['php_os'] ? htmlspecialchars($row['php_os']) : '&nbsp;', '</td>';
+                echo '<td>', $row['sdesc']  ? clean($row['sdesc'])             : '&nbsp;', '</td>';
+                echo '<td>', $row['assign'] ? htmlspecialchars($row['assign']) : '&nbsp;', '</td>';
+                echo "</tr>\n";
+            }
+
+            show_prev_next($begin, $rows, $total_rows, $link, $limit);
+
+            echo "</table>\n\n";
         }
 
-        show_prev_next($begin,$rows,$total_rows,$link,$limit);
-?>
-</table>
-<?php
-    }
         response_footer();
         exit;
-}
+    }
 }
 
-if ($errors) display_errors($errors);
-if ($warnings) display_warnings($warnings);
+if ($errors) { display_errors($errors); }
+if ($warnings) { display_warnings($warnings); }
+
 ?>
 <form id="asearch" method="get" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 <table id="primary" width="95%">
@@ -273,8 +384,8 @@ if ($warnings) display_warnings($warnings);
   <td nowrap="nowrap">Return only bugs <b>assigned</b> to</td>
   <td><input type="text" name="assign" value="<?php echo htmlspecialchars(stripslashes($assign));?>" />
 <?php
-    if (!empty($user)) {
-    $u = stripslashes($user);
+    if (!empty($_COOKIE['PEAR_USER'])) {
+        $u = stripslashes($_REQUEST['PEAR_USER']);
         print "<input type=\"button\" value=\"set to $u\" onclick=\"form.assign.value='$u'\" />";
     }
 ?>
@@ -296,9 +407,13 @@ if ($warnings) display_warnings($warnings);
 <?php
 response_footer();
 
-function show_prev_next($begin,$rows,$total_rows,$link,$limit) {
-    if($limit=='All') return;
-    echo "<tr bgcolor=\"#cccccc\"><td align=\"center\" colspan=\"8\">";
+function show_prev_next($begin, $rows, $total_rows, $link, $limit)
+{
+    echo '<tr bgcolor="#cccccc"><td align="center" colspan="8">' . "\n";
+    if ($limit=='All') {
+        echo "$total_rows Bugs</td></tr>\n";
+        return;
+    }
     echo '<table border="0" cellspacing="0" cellpadding="0" width="100%"><tr>';
     if ($begin > 0) {
         echo "<td align=\"left\" width=\"33%\"><a href=\"$link&amp;begin=",max(0,$begin-$limit),"\">&laquo; Show Previous $limit Entries</a></td>";
@@ -316,18 +431,10 @@ function show_prev_next($begin,$rows,$total_rows,$link,$limit) {
     echo "</tr></table></td></tr>";
 }
 
-function show_order_options ($current) {
-    $opts = array(
-        ''             => 'relevance',
-        'id'           => 'ID',
-        'package_name' => 'package',
-        'status'       => 'status',
-        'php_version'  => 'version',
-        'php_os'       => 'os',
-        'sdesc'        => 'summary',
-        'assign'       => 'assignment',
-    );
-    foreach ($opts as $k => $v) {
+function show_order_options($current)
+{
+    global $order_options;
+    foreach ($order_options as $k => $v) {
         echo '<option value="', $k, '"',
              ($v == $current ? ' selected="selected"' : ''),
              '>Sort by ', $v, "</option>\n";
