@@ -113,6 +113,3 @@ users.res:
 notes.res: packages.res users.res
 categories.res:
 cvs_acl.res: users.res cvs_groups.res
-cvs_groups.res:
-cvs_group_membership.res: users.res cvs_groups.res
-state_order.res:
