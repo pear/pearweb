@@ -2,6 +2,10 @@
 
 @import url(/css/bugs-controls.css);
 
+td.content {
+    font-size: 95%;
+}
+
 .headertop {
     background: #5b69a6;
 }
