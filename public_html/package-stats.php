@@ -47,7 +47,7 @@ function reloadMe()
 <?php
 $query = "SELECT * FROM packages"
          . (!empty($_GET['cid']) ? " WHERE category = '" . $_GET['cid'] . "' AND " : " WHERE ")
-         . " packages.package_type='pear'"
+         . " packages.package_type = 'pear'"
          . " ORDER BY name";
 
 $sth = $dbh->query($query);
@@ -60,34 +60,34 @@ $bb = new Borderbox('Select Package');
 
 // Don't use HTML_Form here since we need to use some custom javascript here
 
-echo' <form action="package-stats.php" method="get">'."\n";
-echo' <table>'."\n";
-echo'  <tr>'."\n";
-echo'  <td>'."\n";
-echo'   <select name="cid" onchange="javascript:reloadMe();">'."\n";
-echo'    <option>Select category ...</option>'."\n";
+echo ' <form action="package-stats.php" method="get">'."\n";
+echo ' <table>'."\n";
+echo '  <tr>'."\n";
+echo '  <td>'."\n";
+echo '   <select name="cid" onchange="javascript:reloadMe();">'."\n";
+echo '    <option value="">Select category ...</option>'."\n";
 foreach (category::listAll() as $value) {
+    $selected = '';
     if (isset($_GET['cid']) && $_GET['cid'] == $value['id']) {
-        echo '    <option value="' . $value['id'] . '" selected="selected">' . $value['name'] . "</option>\n";
-    } else {
-        echo '    <option value="' . $value['id'] . '">' . $value['name'] . "</option>\n";
+        $selected = ' selected="selected"';
     }
+    echo '    <option value="' . $value['id'] . '"' . $selected . '>' . $value['name'] . "</option>\n";
 }
 
 echo "  </select>\n";
 echo "  </td>\n";
 echo "  <td>\n";
 
-if (isset($_GET['cid']) && $_GET['cid'] != "") {
+if (isset($_GET['cid']) && $_GET['cid'] != '') {
     echo "  <select name=\"pid\" onchange=\"javascript:reloadMe();\">\n";
-    echo "    <option>Select package ...</option>\n";
+    echo '    <option value="">Select package ...</option>'."\n";
 
     foreach ($packages as $value => $name) {
+        $selected = '';
         if (isset($_GET['pid']) && $_GET['pid'] == $value) {
-            echo '    <option value="' . $value . '" selected="selected">' . $name . "</option>\n";
-        } else {
-            echo '    <option value="' . $value . '">' . $name . "</option>\n";
+            $selected = ' selected="selected"';
         }
+        echo '    <option value="' . $value . '"' . $selected . '>' . $name . "</option>\n";
     }
 
     echo "</select>\n";
@@ -100,30 +100,29 @@ echo "  <td>\n";
 
 if (isset($_GET['pid']) && (int)$_GET['pid']) {
     echo "  <select onchange=\"javascript:reloadMe();\" name=\"rid\" size=\"1\">\n";
-    echo "  <option>Select release ...</option>\n";
-    echo "  <option>All releases</option>\n";
+    echo '   <option value="">All releases</option>'."\n";
 
     $query = "SELECT id, version FROM releases WHERE package = '" . $_GET['pid'] . "'";
     $rows = $dbh->getAll($query, DB_FETCHMODE_ASSOC);
 
     foreach ($rows as $row) {
+        $selected = '';
         if (isset($_GET['rid']) && $_GET['rid'] == $row['id']) {
-            echo '    <option value="' . $row['id'] . '" selected="selected">' . $row['version'] . "</option>\n";
-        } else {
-            echo '    <option value="' . $row['id'] . '">' . $row['version'] . "</option>\n";
+            $selected = ' selected="selected"';
         }
+        echo '    <option value="' . $row['id'] . '"' . $selected . '>' . $row['version'] . "</option>\n";
     }
 
     echo "  </select>\n";
 } else {
-    echo "<input type=\"hidden\" name=\"rid\" value=\"\" />\n";
+    echo '<input type="hidden" name="rid" value="" />'."\n";
 }
 
 echo "  </td>\n";
 
 echo "</tr>\n";
 echo "<tr>\n";
-echo "  <td><input type=\"submit\" name=\"submit\" value=\"Go\" /></td>\n";
+echo '  <td><input type="submit" name="submit" value="Go" /></td>'."\n";
 echo "</tr>\n";
 echo "</table>\n";
 echo "</form>\n";
@@ -164,17 +163,17 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
         foreach ($release_statistics as $key => $value) {
             $version = make_link('/package/' . $info['name'] .
                 '/download/' . $value['release'], $value['release']);
-            echo '<tr>';
-            echo ' <td>' . $version . "</td>\n";
-            echo ' <td>' . number_format($value['dl_number'], 0, '.', ',');
-            echo "</td>\n";
-            echo ' <td>';
+            echo ' <tr>';
+            echo '  <td>' . $version . "</td>\n";
+            echo '  <td>' . number_format($value['dl_number'], 0, '.', ',');
+            echo "  </td>\n";
+            echo '  <td>';
             echo make_utc_date(strtotime($value['releasedate']), 'Y-m-d');
-            echo "</td>\n";
-            echo ' <td>';
+            echo "  </td>\n";
+            echo '  <td>';
             echo make_utc_date(strtotime($value['last_dl']));
-            echo "</td>\n";
-            echo "</tr>\n";
+            echo "  </td>\n";
+            echo " </tr>\n";
         }
         echo "</table>\n";
         $bb->end();
@@ -244,7 +243,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
                 }
             }
             graphForm.update.value = 'Updating...';
-            document.images['stats_graph'].src = 'package-stats-graph.php?pid=<?=$_GET['pid']?>&amp;releases=' + releases_qs;
+            document.images['stats_graph'].src = 'package-stats-graph.php?pid=<?php echo $_GET['pid']; ?>&amp;releases=' + releases_qs;
             graphForm.update.value = 'Update graph';
 
         } else {
@@ -255,48 +254,48 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 </script>
 
 <form name="graph_control" action="#">
-<input type="hidden" name="pid" value="<?php echo @$_GET['pid']; ?>" />
-<input type="hidden" name="rid" value="<?php echo @$_GET['rid']; ?>" />
-<input type="hidden" name="cid" value="<?php echo @$_GET['cid']; ?>" />
-<table border="0">
-    <tr>
-        <td colspan="2">
-            Show graph of:<br />
-            <select style="width: 543px" name="graph_list" size="5">
-            </select>
-        </td>
-    </tr>
-    <tr>
-        <td valign="top">
-            Release:
-            <select name="releases">
-                <option value="">Select...</option>
-                <option value="0">All</option>
-                <?foreach($releases as $r):?>
-                    <option value="<?=$r['id']?>"><?=$r['version']?></option>
-                <?endforeach?>
-            </select>
-            Colour:
-            <select name="colours">
-                <option>Select...</option>
-                <option value="339900">Green</option>
-                <option value="dd0000">Red</option>
-                <option value="003399">Blue</option>
-                <option value="000000">Black</option>
-                <option value="999900">Yellow</option>
-            </select>
-        </td>
-        <td align="right">
-            <input type="submit" style="width: 100px" name="add" value="Add" onclick="addGraphItem(); return false;" />
-            <input type="submit" style="width: 100px" name="remove" value="Remove" onclick="removeGraphItem(); return false" />
-        </td>
-    </tr>
-    <tr>
-        <td align="center" colspan="2">
-            <input type="submit" name="update" value="Update graph" onclick="updateGraph(); return false" />
-        </td>
-    </tr>
-</table>
+ <input type="hidden" name="pid" value="<?php echo @$_GET['pid']; ?>" />
+ <input type="hidden" name="rid" value="<?php echo @$_GET['rid']; ?>" />
+ <input type="hidden" name="cid" value="<?php echo @$_GET['cid']; ?>" />
+ <table border="0">
+  <tr>
+   <td colspan="2">
+    Show graph of:<br />
+    <select style="width: 543px" name="graph_list" size="5">
+    </select>
+   </td>
+  </tr>
+  <tr>
+   <td valign="top">
+    Release:
+    <select name="releases">
+     <option value="">Select...</option>
+     <option value="0">All</option>
+     <?foreach($releases as $r):?>
+      <option value="<?php echo $r['id']; ?>"><?php echo $r['version']; ?></option>
+     <?endforeach?>
+    </select>
+    Colour:
+    <select name="colours">
+     <option>Select...</option>
+     <option value="339900">Green</option>
+     <option value="dd0000">Red</option>
+     <option value="003399">Blue</option>
+     <option value="000000">Black</option>
+     <option value="999900">Yellow</option>
+    </select>
+   </td>
+   <td align="right">
+    <input type="submit" style="width: 100px" name="add" value="Add" onclick="addGraphItem(); return false;" />
+    <input type="submit" style="width: 100px" name="remove" value="Remove" onclick="removeGraphItem(); return false" />
+   </td>
+  </tr>
+  <tr>
+   <td align="center" colspan="2">
+    <input type="submit" name="update" value="Update graph" onclick="updateGraph(); return false" />
+   </td>
+  </tr>
+ </table>
 </form>
 <br />
         <?php
@@ -314,7 +313,10 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 	$total_categories  = $dbh->getOne(sprintf("SELECT COUNT(*) FROM categories WHERE parent = %d", $_GET['cid']));
 
 	// Query to get package list from package_stats_table
-	$query = sprintf("SELECT dl_number, package, release, pid, rid, cid FROM package_stats WHERE cid = %s ORDER BY dl_number DESC",
+	$query = sprintf("SELECT ps.dl_number, ps.package, ps.release, ps.pid, ps.rid, ps.cid 
+	                  FROM package_stats ps, packages p 
+	                  WHERE p.package_type = 'pear' AND p.id = ps.pid AND
+	                  p.category = %s GROUP BY ps.pid ORDER BY ps.dl_number DESC",
                      $_GET['cid']
                      );
 
@@ -328,7 +330,10 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 	$total_releases    = number_format($dbh->getOne('SELECT COUNT(*) FROM releases'), 0, '.', ',');
 	$total_categories  = number_format($dbh->getOne('SELECT COUNT(*) FROM categories'), 0, '.', ',');
     $total_downloads   = number_format($dbh->getOne('SELECT COUNT(*) FROM downloads'), 0, '.', ',');
-	$query             = "SELECT sum(dl_number) as dl_number, package, max(release) as release, pid, rid, cid FROM package_stats GROUP BY pid ORDER BY dl_number DESC";
+	$query             = "SELECT sum(ps.dl_number) as dl_number, ps.package, ps.pid, ps.rid, ps.cid 
+	                      FROM package_stats ps, packages p
+	                      WHERE p.id = ps.pid AND p.package_type = 'pear'
+	                      GROUP BY ps.pid ORDER BY ps.dl_number DESC";
 
 }
 
@@ -340,21 +345,21 @@ if (@!$_GET['pid']) {
 	$bb = new BorderBox(!empty($_GET['cid']) ? 'Category Statistics for: <i><a href="packages.php?catpid='.$_GET['cid'].'&amp;catname='.str_replace(' ', '+', $category_name).'">' . $category_name . '</a></i>' : 'Global Statistics');
 	?>
 <table border="0" width="100%">
-	<tr>
-		<td style="width: 25%;">Total&nbsp;Packages:</td>
-		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_packages?></td>
-		<td style="width: 25%;">Total&nbsp;Releases:</td>
-		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_releases?></td>
-	</tr>
-	<tr>
-		<td style="width: 25%;">Total&nbsp;Maintainers:</td>
-		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_maintainers?></td>
-		<td style="width: 25%;">Total&nbsp;Categories:</td>
-		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_categories?></td>
-	</tr>
+ <tr>
+  <td style="width: 25%;">Total&nbsp;Packages:</td>
+  <td align="center" style="width: 25%; background-color: #CCCCCC;"><?php echo $total_packages; ?></td>
+  <td style="width: 25%;">Total&nbsp;Releases:</td>
+  <td align="center" style="width: 25%; background-color: #CCCCCC;"><?php echo $total_releases; ?></td>
+ </tr>
+ <tr>
+  <td style="width: 25%;">Total&nbsp;Maintainers:</td>
+  <td align="center" style="width: 25%; background-color: #CCCCCC;"><?php echo $total_maintainers; ?></td>
+  <td style="width: 25%;">Total&nbsp;Categories:</td>
+  <td align="center" style="width: 25%; background-color: #CCCCCC;"><?php echo $total_categories; ?></td>
+ </tr>
     <?php
      if(empty($_GET['cid'])) {
-         echo "<tr>\n<td width=\"25%\">\nTotal&nbsp;Downloads:</td>\n<td width=\"25%\" align=\"center\" bgcolor=\"#cccccc\">$total_downloads</td>\n</tr>\n";
+         echo " <tr>\n  <td width=\"25%\">Total&nbsp;Downloads:</td>\n  <td width=\"25%\" align=\"center\" bgcolor=\"#cccccc\">$total_downloads</td>\n </tr>\n";
      }
    ?>
 </table>
@@ -368,19 +373,19 @@ if (@!$_GET['pid']) {
 	$sth  = $dbh->query($query); //$query defined above
 	$rows = $sth->numRows();
 
-	if (DB::isError($sth)) {
+	if (PEAR::isError($sth)) {
 	    PEAR::raiseError('unable to generate stats');
 	}
 
 	if ($rows > 12) {
 		echo '<div id="jabba" style="height: 300px; overflow: auto">';
 	}
-	echo "<table border=\"0\" width=\"100%\" cellpadding=\"2\" cellspacing=\"2\">\n";
-	echo "<tr align=\"left\" bgcolor=\"#cccccc\">\n";
-	echo "<th>Package Name</th>\n";
-	echo '<th><span class="accesskey"># of downloads</span></th>' . "\n";
-	echo "<th>&nbsp;</th>\n";
-	echo "</tr>\n";
+	echo " <table border=\"0\" width=\"100%\" cellpadding=\"2\" cellspacing=\"2\">\n";
+	echo "  <tr align=\"left\" bgcolor=\"#cccccc\">\n";
+	echo "   <th>Package Name</th>\n";
+	echo '   <th><span class="accesskey"># of downloads</span></th>' . "\n";
+	echo "   <th>&nbsp;</th>\n";
+	echo "  </tr>\n";
 
 	$lastPackage = "";
 
@@ -391,16 +396,16 @@ if (@!$_GET['pid']) {
 	        $lastPackage = $row['package'];
 	        $row['package'] = '<a href="/package/' .
 	                            $row['package'] . '">' .
-	                            $row['package'] . "</a>\n";
+	                            $row['package'] . "</a>";
 	    }
 
-	    echo "<tr bgcolor=\"#eeeeee\">\n";
-	    echo "<td>\n" . $row['package'] .  "</td>\n";
-	    echo "<td>" . number_format($row['dl_number'], 0, '.', ',') . "</td>\n";
-	    echo "<td>[". make_link("/package-stats.php?cid=" . $row['cid'] . "&amp;pid=" . $row['pid'] , 'Details') . "]</td>\n";
-	    echo "</tr>\n";
+	    echo "  <tr bgcolor=\"#eeeeee\">\n";
+	    echo "   <td>" . $row['package'] .  "</td>\n";
+	    echo "   <td>" . number_format($row['dl_number'], 0, '.', ',') . "</td>\n";
+	    echo "   <td>[". make_link("/package-stats.php?cid=" . $row['cid'] . "&amp;pid=" . $row['pid'] , 'Details') . "]</td>\n";
+	    echo "  </tr>\n";
 	}
-	echo "</table>\n";
+	echo " </table>\n";
 
 	$bb->end();
 
