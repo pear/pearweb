@@ -71,7 +71,7 @@ complete your request.
   // array of lists (list, name, short desc., moderated, archive, digest, newsgroup)
   $mailing_lists = array(
 
-    'PEAR mailinglists',
+    'PEAR mailing lists',
 
     array (
       'pear-general', 'PEAR general list',
@@ -92,12 +92,6 @@ complete your request.
     ),
 
     array (
-      'pecl-cvs', 'PECL CVS list',
-      'All the commits of the cvs PECL code repository are posted to this list automatically',
-      false, true, false, "php.pecl.cvs"
-    ),
-
-    array (
       'pear-doc', 'PEAR documentation list',
       'A list for discussing topics related to the PEAR documentation.',
       false, true, true, "php.pear.doc"
@@ -107,7 +101,21 @@ complete your request.
       'pear-qa', 'PEAR QA list',
       'A list for managing the PEAR Quality Assurance',
       false, false, true, "php.pear.qa"
-    )
+    ),
+
+    'PECL mailing lists',
+
+    array (
+      'pecl-cvs', 'PECL developers list',
+      'A list for developers of PECL',
+      false, true, false, "php.pecl.dev"
+    ),
+
+    array (
+      'pecl-cvs', 'PECL CVS list',
+      'All the commits of the cvs PECL code repository are posted to this list automatically',
+      false, true, false, "php.pecl.cvs"
+    ),
 
   );
 ?>
