@@ -18,7 +18,7 @@
    $Id$
 */
 
-if (!isset($HTTP_RAW_POST_DATA)) {
+if (!isset($_SERVER['HTTP_RAW_POST_DATA'])) {
     die('invalid XML RPC request');
 }
 set_error_handler("xmlrpc_error_handler");
@@ -32,7 +32,7 @@ pear_register_xmlrpc_methods($xs);
 
 $method   = "";
 $response = null;
-$params   = xmlrpc_decode_request($HTTP_RAW_POST_DATA, &$method);
+$params   = xmlrpc_decode_request($_SERVER['HTTP_RAW_POST_DATA'], &$method);
 
 // Read cache
 if (isset($_GET['maxAge']) && ((int)$_GET['maxAge']) > 0) {
