@@ -42,7 +42,6 @@ the <acronym title="Quality Assurance">QA</acronym> Team:</p>
   echo '<li>' . user_link('toby', true) . "</li>\n";
   echo '<li>' . user_link('schst', true) . "</li>\n";
   echo '<li>' . user_link('davey', true) . "</li>\n";
-  echo '<li>' . user_link('lsmith', true) . "</li>\n";
 
 ?>
 
