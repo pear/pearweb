@@ -95,11 +95,11 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $where_clause = ' WHERE bugdb.package_name';
         if (count($_GET['package_name']) > 1) {
             $where_clause .= " IN ('"
-                           . join("', '", escapeSQL($_GET['package_name']))
+                           . join("', '", $dbh->escapeSimple($_GET['package_name']))
                            . "')";
         } else {
-            $where_clause .= " = '"
-                           . escapeSQL($_GET['package_name'][0]) . "'";
+            $where_clause .= ' = '
+                               . $dbh->quoteSmart($_GET['package_name'][0]);
         }
     }
 
@@ -112,8 +112,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                            . join("', '", escapeSQL($_GET['package_nname']))
                            . "')";
         } else {
-            $where_clause .= " <> '"
-                           . escapeSQL($_GET['package_nname'][0]) . "'";
+            $where_clause .= ' <> '
+                           . $dbh->quoteSmart($_GET['package_nname'][0]);
         }
     }
 
@@ -184,7 +184,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $bug_type = '';
     } else {
         $bug_type = $_GET['bug_type'];
-        $where_clause .= " AND bugdb.bug_type = '" . escapeSQL($bug_type) . "'";
+        $where_clause .= ' AND bugdb.bug_type = ' . $dbh->quoteSmart($bug_type);
     }
 
     if (empty($_GET['bug_age']) || !(int)$_GET['bug_age']) {
@@ -200,7 +200,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     } else {
         $php_os = $_GET['php_os'];
         $where_clause .= " AND bugdb.php_os LIKE '%"
-                       . escapeSQL($php_os) . "%'";
+                       . $dbh->escapeSimple($php_os) . "%'";
     }
 
     if (empty($_GET['phpver'])) {
@@ -208,34 +208,34 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     } else {
         $phpver = $_GET['phpver'];
         $where_clause .= " AND bugdb.php_version LIKE '"
-                       . escapeSQL($phpver) . "%'";
+                       . $dbh->escapeSimple($phpver) . "%'";
     }
 
     if (empty($_GET['assign'])) {
         $assign = '';
     } else {
         $assign = $_GET['assign'];
-        $where_clause .= " AND bugdb.assign = '" . escapeSQL($assign) . "'";
+        $where_clause .= ' AND bugdb.assign = ' . $dbh->quoteSmart($assign);
     }
 
     if (empty($_GET['maintain'])) {
         $maintain = '';
     } else {
         $maintain = $_GET['maintain'];
-        $where_clause .= " AND maintains.handle = '"
-                       . escapeSQL($maintain) . "'";
+        $where_clause .= ' AND maintains.handle = '
+                       . $dbh->quoteSmart($maintain);
     }
 
     if (empty($_GET['author_email'])) {
         $author_email = '';
     } else {
         $author_email = $_GET['author_email'];
-        $where_clause .= " AND bugdb.email = '"
-                       . escapeSQL($author_email) . "'";
+        $where_clause .= ' AND bugdb.email = '
+                       . $dbh->quoteSmart($author_email);
     }
 
-    $where_clause .= " AND (packages.package_type = '"
-                   . escapeSQL($site) . "'";
+    $where_clause .= ' AND (packages.package_type = '
+                   . $dbh->quoteSmart($site);
 
     if ($pseudo = array_intersect($pseudo_pkgs, $_GET['package_name'])) {
         $where_clause .= " OR bugdb.package_name";
