@@ -214,9 +214,25 @@ if ($display_verification) {
     $util->validatePackageInfo($info, $errors, $warnings);
 
     // XXX ADD MASSIVE SANITY CHECKS HERE
-    
-    if (!preg_match('/^\d+\.\d+\.\d+(?:\.\d+)?(?:[a-zA-Z]+\d*)?$/', $info['version'])) {
-        $errors[] = 'Version must in format digit.digit.digit[.digit][alpha[digits]]';
+
+    if (!preg_match('/^\d+\.\d+\.\d+(?:[a-zA-Z]+\d*)?$/', $info['version'])) {
+        $errors[] = 'Version must in format digit.digit.digit[alpha[digits]]';
+    }
+
+    if ($info['release_state'] == 'stable') {
+        // see if this is the first release
+        $releases = package::info($info['name'], 'releases');
+        if (!count($releases)) {
+            $errors[] = 'The first release of a package must be alpha or beta, not stable.' .
+                '  Try releasing version 1.0.0RC1, state beta';
+        }
+        if ($info['version']{0} != '1') {
+            $errors[] = 'Versions < 1.0.0 may not be stable';
+        }
+        $verinfo = explode('.', $info['version']);
+        if (!preg_match('/^\d+$/', $verinfo[2])) {
+            $errors[] = 'Stable versions must not have a post-fix (use beta for RC postfix)';
+        }
     }
 
     report_error($errors, 'errors','ERRORS:<br />'
