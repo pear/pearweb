@@ -226,11 +226,11 @@ if ($display_verification) {
         }
     }
 
-    print "<tr><th align=\"right\" valign=\"top\">Summary:</th><td>" . $info['summary'] . "</td></tr>\n";
-    print "<tr><th align=\"right\" valign=\"top\">Description:</th><td>" . nl2br($info['description']) . "</td></tr>\n";
+    print "<tr><th align=\"right\" valign=\"top\">Summary:</th><td>" . htmlspecialchars($info['summary']) . "</td></tr>\n";
+    print "<tr><th align=\"right\" valign=\"top\">Description:</th><td>" . nl2br(htmlspecialchars($info['description'])) . "</td></tr>\n";
     print "<tr><th align=\"right\" valign=\"top\">Release State:</th><td>" . $info['release_state'] . "</td></tr>\n";
     print "<tr><th align=\"right\" valign=\"top\">Release Date:</th><td>" . $info['release_date'] . "</td></tr>\n";
-    print "<tr><th align=\"right\" valign=\"top\">Release Notes:</th><td>" . nl2br($info['release_notes']) . "</td></tr>\n";
+    print "<tr><th align=\"right\" valign=\"top\">Release Notes:</th><td>" . nl2br(htmlspecialchars($info['release_notes'])) . "</td></tr>\n";
 
     print "</table>\n";
     $form->display();
