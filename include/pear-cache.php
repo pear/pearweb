@@ -59,7 +59,7 @@ if ($no_cache == 0) {
 
     // Initiate caching
     $options = array('cacheDir' => PEAR_TMPDIR . "/webcache/",
-                     'lifeTime' => 3600);
+                     'lifeTime' => CACHE_LIFETIME);
     $cache = new Cache_lite($options);
 
     $id = $_SERVER['PHP_SELF'];
