@@ -1,6 +1,6 @@
 <?php
 
-$extra_styles[] = 'bugs.css';
+$extra_styles[] = '/css/bugs.css';
 
 //require_once './include/layout.inc';
 require_once './include/functions.inc';

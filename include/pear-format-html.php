@@ -29,7 +29,7 @@ $extra_styles = array();
 // Handling things related to the manual
 if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
     require_once 'pear-manual.php';
-    $extra_styles[] = 'manual.css';
+    $extra_styles[] = '/css/manual.css';
 
     // The Japanese manual translation needs UTF-8 encoding
     if (preg_match("=^/manual/ja=", $_SERVER['PHP_SELF'])) {
@@ -134,7 +134,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
  <link rel="stylesheet" href="/css/style.css" />
 <?php
     foreach ($extra_styles as $style_file) {
-        echo ' <link rel="stylesheet" href="/css/' . $style_file . "\" />\n";
+        echo ' <link rel="stylesheet" href="' . $style_file . "\" />\n";
     }
 ?>
  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/feeds/latest.rss" />
