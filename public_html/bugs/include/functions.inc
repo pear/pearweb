@@ -39,6 +39,27 @@ $types = array(
     'Feature/Change Request'  => 'Req',
 );
 
+// Used in show_state_options()
+$state_types =  array (
+    'Open'         => 2,
+    'Closed'       => 2,
+    'Duplicate'    => 2,
+    'Critical'     => 1,
+    'Assigned'     => 1,
+    'Not Assigned' => 1,
+    'Analyzed'     => 1,
+    'Verified'     => 1,
+    'Suspended'    => 1,
+    'Wont fix'     => 1,
+    'No Feedback'  => 1,
+    'Feedback'     => 1,
+    'Old Feedback' => 0,
+    'Stale'        => 0,
+    'Fresh'        => 0,
+    'Bogus'        => 2,
+    'All'          => 0
+);
+
 
 /**
  * Obfuscates email addresses to hinder spammer's spiders
@@ -253,26 +274,6 @@ function show_limit_options($limit = 30)
     }
     echo ">All</option>\n";
 }
-
-$state_types =  array (
-    'Open'         => 2,
-    'Closed'       => 2,
-    'Duplicate'    => 2,
-    'Critical'     => 1,
-    'Assigned'     => 1,
-    'Not Assigned' => 1,
-    'Analyzed'     => 1,
-    'Verified'     => 1,
-    'Suspended'    => 1,
-    'Wont fix'     => 1,
-    'No Feedback'  => 1,
-    'Feedback'     => 1,
-    'Old Feedback' => 0,
-    'Stale'        => 0,
-    'Fresh'        => 0,
-    'Bogus'        => 2,
-    'All'          => 0
-);
 
 /**
  * Prints bug type <option>'s for use in a <select>
