@@ -359,6 +359,12 @@ while (list(, $listinfo) = each($mailing_lists)) {
 
 <ul class="spaced">
  <li>
+  <a href="http://www.schlitt.info/index.php/content.publications_linuxtag2004">2004-06-25
+  Karlsruhe - Linuxtag 2004
+  - <cite>PEAR - An introduction</cite></a>
+  by Lukas Smith and Tobias Schlitt.
+ </li>
+ <li>
   <a href="http://www.schlitt.info/download/PEAR_Powerworkshop_Spring_2004.tar.gz">2004-05-03
   Amsterdam - International PHP Conference Spring edition - PEAR Powerworkshop
   - <cite>PEAR not just a fleshy pome</cite></a>
