@@ -209,17 +209,18 @@ class proposal {
         return true;
     }
 		
-    function mayEdit ( $handle ) {
+    function mayEdit ( $handle = '' ) {
+        global $dbh;
         $karma = new Damblan_Karma($dbh);
         switch ($this->status) {
             case 'draft':
             case 'proposal':
-                if ($this->isOwner($handle) || $karma->has($handlel, 'pear.pepr.admin')) {
+                if ($this->isOwner($handle) || $karma->has($handle, 'pear.pepr.admin')) {
                     return true;
                 }
               break;
             default:
-                if (!$this->isOwner($handle) && $karma->has($handlel, 'pear.pepr.admin')) {
+                if (!$this->isOwner($handle) && $karma->has($handle, 'pear.pepr.admin')) {
                     return true;
                 }
                 break;
