@@ -2,17 +2,22 @@
 
 // $Id$
 
-/* Email spam protection */
+/**
+ * Obfuscates email addresses to hinder spammer's spiders
+ *
+ * Turns "@" into character entities that get interpreted as "at" and
+ * turns "." into character entities that get interpreted as "dot".
+ *
+ * @param string $txt  the email address to be obfuscated
+ * @return string  the altered email address
+ */
 function spam_protect($txt)
 {
-    $translate = array('@' => ' at ', '.' => ' dot ');
-
-    /* php.net addresses are not protected! */
-    if (preg_match('/^(.+)@php\.net/i', $txt)) {
-        return $txt;
-    } else {
-        return strtr($txt, $translate);
-    }
+    $translate = array(
+        '@' => ' &#x61;&#116; ',
+        '.' => ' &#x64;&#111;&#x74; ',
+    );
+    return strtr($txt, $translate);
 }
 
 /* scrub user input so it can be re-output */
