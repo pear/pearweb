@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
-<xs:schema targetNamespace="http://pear.php.net/dtd/package-2.0" elementFormDefault="qualified" xml:lang="EN" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://pear.php.net/dtd/package-2.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://pear.php.net/dtd/package-2.0" targetNamespace="http://pear.php.net/dtd/package-2.0" elementFormDefault="qualified" xml:lang="EN">
  <xs:element name="package">
   <xs:complexType>
    <xs:sequence>
@@ -514,7 +515,14 @@
  </xs:element>
  <xs:element name="uri" type="xs:anyURI"/>
  <xs:element name="pattern" type="xs:string"/>
- <xs:element name="conflicts"/>
+ <xs:element name="conflicts" default="no">
+  <xs:simpleType>
+   <xs:restriction base="xs:string">
+    <xs:enumeration value="yes"/>
+    <xs:enumeration value="no"/>
+   </xs:restriction>
+  </xs:simpleType>
+ </xs:element>
  <xs:element name="os">
   <xs:complexType>
    <xs:sequence>
