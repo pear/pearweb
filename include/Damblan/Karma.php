@@ -138,5 +138,17 @@ class Damblan_Karma {
         $query = "SELECT * FROM karma WHERE user = ?";
         return $this->_dbh->getAll($query, array($user), DB_FETCHMODE_ASSOC);
     }
+
+    /**
+     * Get all users with given karma level
+     *
+     * @access public
+     * @param  string Level
+     * @return array
+     */
+    function getUsers($level) {
+        $query = "SELECT * FROM karma WHERE level = ?";
+        return $this->_dbh->getAll($query, array($handle), DB_FETCHMODE_ASSOC);
+    }
 }
 ?>

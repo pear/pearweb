@@ -79,7 +79,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
                 global $developer_menu;
                 $SIDEBAR_DATA .= draw_navigation($developer_menu, 'Developers:');
             }
-            if (!empty($auth_user->admin)) {
+            if ($auth_user->isAdmin()) {
                 global $admin_menu;
                 $SIDEBAR_DATA .= draw_navigation($admin_menu, 'Administrators:');
             }

@@ -683,7 +683,7 @@ class package
         if (PEAR::isError($package_id) || empty($package_id)) {
             return PEAR::raiseError("Package not registered. Please register it first with \"New Package\"");
         }
-        if (empty($auth_user->admin)) {
+        if ($auth_user->isAdmin() == false) {
             $role = user::maintains($auth_user->handle, $package_id);
             if ($role != 'lead' && $role != 'developer') {
                 return PEAR::raiseError('package::updateInfo: insufficient privileges');
@@ -806,11 +806,7 @@ class maintainer
     function add($package, $user, $role)
     {
         global $dbh, $auth_user;
-        /*
-        That breaks package-new.php, as the new package do not have any lead assigned
-        if (empty($auth_user->admin) && !user::maintains($auth_user->handle, $package, 'lead')) {
-            return PEAR::raiseError('maintainer::add: insufficient privileges');
-        }*/
+
         if (!user::exists($user)) {
             return PEAR::raiseError("User $user does not exist");
         }
@@ -899,7 +895,7 @@ class maintainer
     function remove($package, $user)
     {
         global $dbh, $auth_user;
-        if (empty($auth_user->admin) && !user::maintains($auth_user->handle, $package, 'lead')) {
+        if (!$auth_user->isAdmin() && !user::maintains($auth_user->handle, $package, 'lead')) {
             return PEAR::raiseError('maintainer::drop: insufficient privileges');
         }
         if (is_string($package)) {
@@ -925,7 +921,9 @@ class maintainer
     {
         // Only admins and leads can do this.
         global $dbh, $auth_user;
-        if (empty($auth_user->admin) && !user::maintains($auth_user->handle, $pkgid, 'lead')) {
+        $admin = $auth_user->isAdmin();
+
+        if (!$admin && !user::maintains($auth_user->handle, $pkgid, 'lead')) {
             return PEAR::raiseError('maintainer::updateAll: insufficient privileges');
         }
         $sql = "SELECT handle, role FROM maintains WHERE package = ?";
@@ -935,7 +933,7 @@ class maintainer
         }
         $old_users = array_keys($old);
         $new_users = array_keys($users);
-        if (!$auth_user->admin && !in_array($auth_user->handle, $new_users)) {
+        if (!$admin && !in_array($auth_user->handle, $new_users)) {
             return PEAR::raiseError("You can not delete your own maintainer role or you will not ".
                                     "be able to complete the update process. Set your name ".
                                     "in package.xml or let the new lead developer upload ".
@@ -1083,7 +1081,7 @@ class release
     {
         global $auth_user;
         $role = user::maintains($auth_user->handle, $package);
-        if ($role != 'lead' && $role != 'developer' && !$auth_user->admin) {
+        if ($role != 'lead' && $role != 'developer' && !$auth_user->isAdmin()) {
             return PEAR::raiseError('release::upload: insufficient privileges');
         }
         $ref = release::validateUpload($package, $version, $state, $relnotes, $tarball, $md5sum);
@@ -1111,7 +1109,7 @@ class release
     {
         global $dbh, $auth_user;
         $role = user::maintains($auth_user->handle, $package);
-        if ($role != 'lead' && $role != 'developer' && !$auth_user->admin) {
+        if ($role != 'lead' && $role != 'developer' && !$auth_user->isAdmin()) {
             return PEAR::raiseError('release::validateUpload: insufficient privileges');
         }
         // (2) verify that package exists
@@ -1195,7 +1193,7 @@ class release
         @unlink($upload_ref);
 
         $role = user::maintains($auth_user->handle, $package_id);
-        if ($role != 'lead' && $role != 'developer' && !$auth_user->admin) {
+        if ($role != 'lead' && $role != 'developer' && !$auth_user->isAdmin()) {
             return PEAR::raiseError('release::confirmUpload: insufficient privileges');
         }
 
@@ -1524,7 +1522,7 @@ END;
     function remove($package, $release)
     {
         global $dbh, $auth_user;
-        if (empty($auth_user->admin) &&
+        if (!$auth_user->isAdmin() &&
             !user::maintains($auth_user->handle, $package, 'lead')) {
             return PEAR::raiseError('release::remove: insufficient privileges');
         }
@@ -1563,6 +1561,25 @@ END;
         }
     }
 
+    // }}}
+    // {{{ getFAQ()
+
+    /**
+     * Get FAQ items for given package version
+     *
+     * @param string Name of the package
+     * @param string Version string of the package
+     * @return mixed PEAR_Error or Array
+     */
+    function getFAQ($package, $version)
+    {
+        global $dbh;
+
+        $query = "SELECT f.* FROM packages_faq f, packages p, releases r "
+            . "WHERE p.name = ? AND p.id = r.package AND r.version = ? AND r.id = f.release";
+
+        return $dbh->getAll($query, array($package, $version), DB_FETCHMODE_ASSOC);
+    }
     // }}}
 }
 
@@ -1657,9 +1674,13 @@ class user
 
     function activate($uid)
     {
+        require_once "Damblan/Karma.php";
+
         global $dbh;
 
         $user =& new PEAR_User($dbh, $uid);
+        $karma = new Damblan_Karma($dbh);
+
         if (@$user->registered) {
             return false;
         }
@@ -1673,6 +1694,7 @@ class user
         $user->set('created', gmdate('Y-m-d H:i'));
         $user->set('createdby', $_COOKIE['PEAR_USER']);
         $user->store();
+        $karma->grant($user->handle, "pear.dev");
         note::add("uid", $uid, "Account opened");
         $msg = "Your PEAR account request has been opened.\n".
              "To log in, go to http://pear.php.net/ and click on \"login\" in\n".
@@ -1687,12 +1709,12 @@ class user
 
     function isAdmin($handle)
     {
+        require_once "Damblan/Karma.php";
+
         global $dbh;
+        $karma = new Karma($dbh);
 
-        $query = "SELECT handle FROM users WHERE handle = ? AND admin = 1";
-        $sth = $dbh->query($query, array($handle));
-
-        return ($sth->numRows() > 0);
+        return $karma->has($handle, "pear.admin");
     }
 
     // }}}
@@ -1700,10 +1722,12 @@ class user
 
     function listAdmins()
     {
-        global $dbh;
+        require_once "Damblan/Karma.php";
 
-        $query = "SELECT email FROM users WHERE admin = 1";
-        return $dbh->getCol($query);
+        global $dbh;
+        $karma = new Karma($dbh);
+
+        return $karma->getUser("pear.admin");
     }
 
     // }}}
@@ -1825,29 +1849,6 @@ function logintest()
 
 // }}}
 
-// {{{ mail_pear_admins()
-
-function mail_pear_admins($subject = "PEAR Account Request", $msg, $xhdr = '')
-{
-    global $dbh;
-    $admins = $dbh->getAll("SELECT name,email FROM users WHERE admin = 1",
-                           DB_FETCHMODE_ASSOC);
-    if (count($admins) > 0) {
-        foreach ($admins as $value) {
-            if ($value['name'] == "") {
-                $rcpt[] = "<" . $value['email'] . ">";
-            } else {
-                $rcpt[] = "\"" . $value['name'] . "\" <" . $value['email'] . ">";
-            }
-        }
-        $rcpt = implode(", ", $rcpt);
-        return mail($rcpt, $subject, $msg, $xhdr, "-f pear-sys@php.net");
-    }
-    return false;
-}
-
-// }}}
-
 // {{{ class PEAR_User
 
 class PEAR_User extends DB_storage
@@ -1872,7 +1873,7 @@ class PEAR_User extends DB_storage
 
     function isAdmin()
     {
-        return ($this->admin == 1);
+        return (user::isAdmin($this->handle));
     }
 }
 
