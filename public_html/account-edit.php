@@ -33,7 +33,9 @@ if (isset($_GET['handle'])) {
 ob_start();
 response_header('Edit Account: ' . $handle);
 
-print '<h1>Edit Account &quot;' . $handle . "&quot;</h1>\n";
+print '<h1>Edit Account &quot;';
+print '<a href="/user/'. $handle . '">' . $handle . '</a>&quot;</h1>' . "\n";
+
 print "<ul><li><a href=\"#password\">Manage your password</a></li></ul>";
 
 $admin = $auth_user->isAdmin();
@@ -149,20 +151,24 @@ $td = 'class="form-input"';
 
 $form = new HTML_Form($_SERVER['PHP_SELF'], 'post');
 
-$form->addPlaintext('Handle:', $handle,
-        $th, $td);
 $form->addText('name', '<span class="accesskey">N</span>ame:',
         $row['name'], 40, null, 'accesskey="n"',
         $th, $td);
 $form->addText('email', 'Email:',
         $row['email'], 40, null, '',
         $th, $td);
-$form->addText('pgpkeyid', 'PGP Key ID:'
-        . '<p class="cell_note">(Without leading 0x)</p>',
-        $row['pgpkeyid'], 40, 8, '',
+$form->addCheckbox('showemail', 'Show email address?',
+        $row['showemail'], '',
         $th, $td);
 $form->addText('homepage', 'Homepage:',
         $row['homepage'], 40, null, '',
+        $th, $td);
+$form->addText('wishlist', 'Wishlist URI:',
+        $row['wishlist'], 40, null, '',
+        $th, $td);
+$form->addText('pgpkeyid', 'PGP Key ID:'
+        . '<p class="cell_note">(Without leading 0x)</p>',
+        $row['pgpkeyid'], 40, 8, '',
         $th, $td);
 $form->addTextarea('userinfo',
         'Additional User Information:',
@@ -171,12 +177,6 @@ $form->addTextarea('userinfo',
 $form->addTextarea('cvs_acl',
         'CVS Access:',
         $cvs_acl, 40, 5, null, '',
-        $th, $td);
-$form->addText('wishlist', 'Wishlist URI:',
-        $row['wishlist'], 40, null, '',
-        $th, $td);
-$form->addCheckbox('showemail', 'Show email address?',
-        $row['showemail'], '',
         $th, $td);
 $form->addSubmit('submit', 'Submit', '',
         $th, $td);
