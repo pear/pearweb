@@ -47,7 +47,7 @@
 		
 	$bb->end();
 	
-	echo make_link('/pepr/pepr-proposal-show.php?id='.$id, 'Back');
+	echo make_link('/pepr/pepr-proposal-show.php?id='.$id, 'Back to proposal');
 	
 	response_footer();
 ?>

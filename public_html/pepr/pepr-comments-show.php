@@ -30,7 +30,7 @@
         $commentsHTML = "Sorry, there are no comments available.";
     }
     
-    echo make_link("/pepr/pepr-proposal-show.php?id=".$_GET['id'], "Back");
+    echo make_link("/pepr/pepr-proposal-show.php?id=".$_GET['id'], "Back to proposal");
     
     $bb = new BorderBox("Proposal comments", "50%", "", 2, true);
     
@@ -42,7 +42,7 @@
     
     $bb->end();
     
-    echo make_link("/pepr/pepr-proposal-show.php?id=".$_GET['id'], "Back");
+    echo make_link("/pepr/pepr-proposal-show.php?id=".$_GET['id'], "Back to proposal");
     
     response_footer();
 
