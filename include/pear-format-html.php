@@ -181,7 +181,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 
   <!-- Middle section -->
 
- <tr valign="top">
+ <tr style="vertical-align: top;">
 <?php if (isset($SIDEBAR_DATA)) { ?>
   <td colspan="2" class="sidebar_left" style="width: 149px; background-color: #F0F0F0;">
    <table cellpadding="4" cellspacing="0" style="width: 149px;">
@@ -194,7 +194,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
   <td>
    <table cellpadding="10" cellspacing="0" style="width: 100%;">
     <tr>
-     <td valign="top">
+     <td style="vertical-align: top;">
 <?php
 }
 
@@ -240,7 +240,7 @@ function response_footer($style = false)
 <?php if (isset($RSIDEBAR_DATA)) { ?>
   <td class="sidebar_right" style="background-color: #F0F0F0; width: 149px;">
     <table cellpadding="4" cellspacing="0" style="width: 149px;">
-     <tr valign="top">
+     <tr style="vertical-align: top;">
       <td><?php echo $RSIDEBAR_DATA; ?><br />
      </td>
     </tr>
@@ -268,24 +268,24 @@ print_link('/credits.php', 'CREDITS', false);
 
   <tr style="background-color: #CCCCCC; vertical-align: top;">
     <td colspan="5" style="height: 1px;">
-	  <table cellspacing="0" cellpadding="5" style="width: 100%; border: 0px;">
-	  	<tr>
-		 <td>
-		  <small>
+            <table cellspacing="0" cellpadding="5" style="width: 100%; border: 0px;">
+                <tr>
+                    <td>
+                        <small>
 	      <?php print_link('/copyright.php', 'Copyright &copy; 2001-2004 The PHP Group'); ?><br />
 	      All rights reserved.<br />
-	      </small>
+                        </small>
 		 </td>
 		 <td style="text-align: right; vertical-align: top;">
 		  <small>
 	      Last updated: <?php echo $LAST_UPDATED; ?><br />
 	      Bandwidth and hardware provided by: <?php ($_SERVER['SERVER_NAME'] == 'pear.php.net' ? print_link('http://www.pair.com/', 'pair Networks') : print '<i>This is an unofficial mirror!</i>'); ?>
-	      </small>
-		 </td>
-		</tr>
-      </table>
-    </td>
-  </tr>
+                        </small>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 
 </body>
@@ -347,7 +347,7 @@ class BorderBox {
     function start() {
         $title = $this->title;
         if (is_array($title)) {
-            $title = implode("</th><th>", $title);
+            $title = implode('</th><th>', $title);
         }
         $i = $this->indent;
         print "<!-- border box starts -->\n";
