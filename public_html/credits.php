@@ -37,6 +37,7 @@ response_header('Credits');
 <ul>
   <li><?php echo user_link('ssb'); ?></li>
   <li><?php echo user_link('cox'); ?></li>
+  <li><?php echo user_link('richard'); ?></li>
   <li><?php echo user_link('cmv'); ?></li>
 </ul>
 
