@@ -83,7 +83,7 @@
 		$form->addElement('textarea', 'comment', null, array('cols' => 70, 'rows' => 6));
 		$form->addElement('static', '', '', '<small>Your comment will also be sent to the <b>pear-dev</b> mailing list.<br />
 		      <b>Please do not respond to other developers comments</b>.<br />
-		      The autor himself is responsible to reflect comments in an acceptable way.</small>');
+		      The author himself is responsible to reflect comments in an acceptable way.</small>');
 		$form->addElement('submit', 'submit', 'Add New Comment');
 		
 		$form->addRule('comment', 'A comment is required!', 'required', null, 'client');
@@ -214,10 +214,6 @@
 	echo spacer(1, 20);
 	
 	echo "<table width='90%'>";
-	
-	echo "<tr><td cellspacing='2' align='center'>";
-	echo make_link("/pepr/pepr-comments-show.php?id=".$proposal->id, "View comments on this proposal.");
-	echo "</td></tr>";
 	
 	echo "<tr><td width='50%' valign='top'>";
 	
