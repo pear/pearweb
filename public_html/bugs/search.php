@@ -73,20 +73,32 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $query = 'SELECT ';
     }
     
-    $query .= "*, TO_DAYS(NOW())-TO_DAYS(ts2) AS unchanged FROM bugdb ";
+    $query .= "bugdb.*, TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged FROM bugdb ";
 
+    if (!empty($site)) {
+        $query .= " LEFT JOIN packages ON packages.name = bugdb.package_name ";
+    }
+
+    if (empty($site) && !empty($_GET['maintain'])) {
+        $query .= ' LEFT JOIN packages ON packages.name = bugdb.package_name';
+    }
+
+    if (!empty($_GET['maintain'])) {
+        $query .= ' LEFT JOIN maintains ON packages.id = maintains.package ';
+    }
+    
     if (empty($_GET['package_name']) || !is_array($_GET['package_name'])) {
         $_GET['package_name']  = array();
-        $where_clause = "WHERE package_name != 'Feature/Change Request'";
+        $where_clause = "WHERE bugdb.package_name != 'Feature/Change Request'";
     } else {
-        $where_clause = "WHERE package_name IN ('" .
+        $where_clause = "WHERE bugdb.package_name IN ('" .
                         join("', '", escapeSQL($_GET['package_name'])) . "')";
     }
 
     if (empty($_GET['package_nname']) || !is_array($_GET['package_nname'])) {
         $_GET['package_nname'] = array();
     } else {
-        $where_clause.= " AND package_name NOT IN ('" .
+        $where_clause.= " AND bugdb.package_name NOT IN ('" .
                         join("', '", escapeSQL($_GET['package_nname'])) . "')";
     }
 
@@ -111,28 +123,32 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         case 'No Feedback':
         case 'Feedback':
         case 'Bogus':
-            $where_clause .= " AND status='$status'";
+            $where_clause .= " AND bugdb.status='$status'";
             break;
         case 'Old Feedback':
-            $where_clause .= " AND status='Feedback'" .
-                             " AND TO_DAYS(NOW())-TO_DAYS(ts2) > 60";
+            $where_clause .= " AND bugdb.status='Feedback'" .
+                             " AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 60";
             break;
         case 'Fresh':
-            $where_clause .= " AND status NOT IN" .
+            $where_clause .= " AND bugdb.status NOT IN" .
                              " ('Closed', 'Duplicate', 'Bogus')" .
-                             " AND TO_DAYS(NOW())-TO_DAYS(ts2) < 30";
+                             " AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) < 30";
             break;
         case 'Stale':
-            $where_clause .= " AND status NOT IN" .
+            $where_clause .= " AND bugdb.status NOT IN" .
                              " ('Closed', 'Duplicate', 'Bogus')" .
-                             " AND TO_DAYS(NOW())-TO_DAYS(ts2) > 30";
+                             " AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 30";
             break;
         case 'All':
+            break;
+        case 'Not Assigned':
+            $where_clause .= " AND bugdb.status NOT IN" .
+                             " ('Closed', 'Duplicate', 'Bogus', 'Assigned')";
             break;
         case 'Open':
         default:
             $status = 'Open';
-            $where_clause .= " AND status IN ('Open', 'Assigned', " .
+            $where_clause .= " AND bugdb.status IN ('Open', 'Assigned', " .
                              " 'Analyzed', 'Critical', 'Verified')";
     }
 
@@ -152,35 +168,42 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $bug_type = '';
     } else {
         $bug_type = $_GET['bug_type'];
-        $where_clause .= " AND bug_type = '" . escapeSQL($bug_type) . "'";
+        $where_clause .= " AND bugdb.bug_type = '" . escapeSQL($bug_type) . "'";
     }
 
     if (empty($_GET['bug_age']) || !(int)$_GET['bug_age']) {
         $bug_age = 0;
     } else {
         $bug_age = $_GET['bug_age'];
-        $where_clause .= " AND ts1 >= DATE_SUB(NOW(), INTERVAL $bug_age DAY)";
+        $where_clause .= " AND bugdb.ts1 >= DATE_SUB(NOW(), INTERVAL $bug_age DAY)";
     }
 
     if (empty($_GET['php_os'])) {
         $php_os = '';
     } else {
         $php_os = $_GET['php_os'];
-        $where_clause .= " AND php_os like '%" . escapeSQL($php_os) . "%'";
+        $where_clause .= " AND bugdb.php_os like '%" . escapeSQL($php_os) . "%'";
     }
 
     if (empty($_GET['phpver'])) {
         $phpver = '';
     } else {
         $phpver = $_GET['phpver'];
-        $where_clause .= " AND php_version LIKE '" . escapeSQL($phpver) . "%'";
+        $where_clause .= " AND bugdb.php_version LIKE '" . escapeSQL($phpver) . "%'";
     }
 
     if (empty($_GET['assign'])) {
         $assign = '';
     } else {
         $assign = $_GET['assign'];
-        $where_clause .= " AND assign = '" . escapeSQL($assign) . "'";
+        $where_clause .= " AND bugdb.assign = '" . escapeSQL($assign) . "'";
+    }
+
+    if (empty($_GET['maintain'])) {
+        $maintain = '';
+    } else {
+        $maintain = $_GET['maintain'];
+        $where_clause .= " AND maintains.handle = '$maintain'";
     }
 
     if (empty($_GET['author_email'])) {
@@ -188,6 +211,14 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     } else {
         $author_email = $_GET['author_email'];
         $where_clause .= " AND bugdb.email = '" . escapeSQL($author_email) . "' ";
+    }
+
+    if (empty($site)) {
+        $search_site = '';
+    } else {
+        $search_site = $site;
+        $where_clause .= " AND packages.package_type = '".escapeSQL($search_site)."'";
+            
     }
 
     $query .= "$where_clause ";
@@ -424,6 +455,18 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
 ?>
   </td>
 </tr>
+  <tr valign="top">
+  <th>Maintainer</th>
+  <td nowrap="nowrap">Return only bugs in packages <b>maintained</b> by</td>
+  <td><input type="text" name="maintain" value="<?php echo htmlspecialchars(stripslashes($maintain));?>" />
+<?php
+    if (!empty($_COOKIE['PEAR_USER'])) {
+        $u = stripslashes($_REQUEST['PEAR_USER']);
+        print "<input type=\"button\" value=\"set to $u\" onclick=\"form.assign.value='$u'\" />";
+    }
+?>
+  </td>
+ </tr>
 <tr valign="top">
   <th>Author e<span class="accesskey">m</span>ail</th>
   <td style="white-space: nowrap">Return bugs with author email</td>
