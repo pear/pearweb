@@ -26,6 +26,7 @@
 	$proposal = proposal::get($dbh, $id);
 	
 	$vote = ppVote::get($dbh, $proposal->id, $handle);
+	$voteVal = ($vote->value > 0) ? '+'.$vote->value : $vote->value;
 	
 	$conditional = ($vote->is_conditional) ? "This vote is conditional." : "This vote is not conditional.";
 	
@@ -35,7 +36,7 @@
 	
 	$bb->horizHeadRow('Package:', $proposal->pkg_category.'::'.$proposal->pkg_name);
 	$bb->horizHeadRow('Voter:', user_link($handle));
-	$bb->horizHeadRow('Vote:', $vote->value);
+	$bb->horizHeadRow('Vote:', $voteVal);
 	$bb->horizHeadRow('', $conditional);
 	$label = "Reviews:";
 	foreach ($vote->getReviews(true) as $review) {
