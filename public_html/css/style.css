@@ -161,6 +161,7 @@ td.foot-source {
 
 table.form-holder {
     background-color: #000000;
+    width: auto;
 }
 
 th.form-label_left {
@@ -168,6 +169,7 @@ th.form-label_left {
     vertical-align: top;
     font-weight: bold;
     background-color: #CCCCCC;
+    width: 25%;
 }
 
 td.form-input {

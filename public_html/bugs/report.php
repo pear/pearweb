@@ -421,7 +421,7 @@ if (!package_exists($package)) {
   <th class="form-label_left">
    Description:
   </th>
-  <td>
+  <td class="form-input">
    <textarea cols="60" rows="15" name="in[ldesc]"
     wrap="physical"><?php echo clean($_POST['in']['ldesc']); ?></textarea>
   </td>
@@ -435,7 +435,7 @@ if (!package_exists($package)) {
     code that will reproduce the bug.
    </p>
   </th>
-  <td class="form-input" valign="top">
+  <td class="form-input">
    <textarea cols="60" rows="15" name="in[repcode]"
     wrap="no"><?php echo clean($_POST['in']['repcode']); ?></textarea>
   </td>
@@ -447,7 +447,7 @@ if (!package_exists($package)) {
     What do you expect to happen or see when you run the code above?
    </p>
   </th>
-  <td class="form-input" valign="top">
+  <td class="form-input">
    <textarea cols="60" rows="15" name="in[expres]"
     wrap="physical"><?php echo clean($_POST['in']['expres']); ?></textarea>
   </td>
@@ -462,7 +462,7 @@ if (!package_exists($package)) {
     Try to keep it as short as possible without leaving anything relevant out.
    </p>
   </th>
-  <td class="form-input" valign="top">
+  <td class="form-input">
    <textarea cols="60" rows="15" name="in[actres]"
     wrap="physical"><?php echo clean($_POST['in']['actres']); ?></textarea>
   </td>
@@ -471,7 +471,7 @@ if (!package_exists($package)) {
   <th class="form-label_left">
    Submit:
   </th>
-  <td class="form-input" align="center">
+  <td class="form-input">
    <input type="submit" value="Send bug report" />
   </td>
  </tr>
