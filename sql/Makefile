@@ -68,16 +68,13 @@ nothing:
 	@$(ECHO) "   'make destroy'  to destroy database"
 	@$(ECHO)
 
-create: createdb $(SQL_TARGETS) prime
+create: createdb $(SQL_TARGETS)
 	@echo "Looking for errors..."
 	@if grep -s Error *.res; then \
 	    echo "Fix these errors, run 'make destroy' and try again." ; \
 	else \
 	    echo "No errors found." ; \
 	fi
-
-prime:
-	@php -q data.php $(SQL_TYPE) $(SQL_USER) $(SQL_PW) $(SQL_DB)
 
 createdb:
 	@$(SQL_ADMIN_COMMAND) < createdb.sql
