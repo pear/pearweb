@@ -12,18 +12,18 @@ define('PROPOSAL_STATUS_VOTE_TIMELINE', (60 * 60 * 24 * 7), true); // 1 week
 // define('PROPOSAL_STATUS_PROPOSAL_TIMELINE', (60), true); // 1 hour
 // define('PROPOSAL_STATUS_VOTE_TIMELINE', (60), true); // 1 hour
 	
-/*
+
  // This runs PEPr in production mode
 define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <pear-dev@lists.php.net>', true);
 define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>', true);
 define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
-*/
-	
+
+/*	
 // This runs PEPr in testing mode
 define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <dotxp@php-applications.de>', true);
 define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <dotxp@php-applications.de>', true);
 define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
-	
+*/	
 // define('PROPOSAL_EMAIL_PREFIX', '[PEPr][TEST]', true);
 define('PROPOSAL_EMAIL_PREFIX', '[PEPr]', true);
 define('PROPOSAL_EMAIL_POSTFIX', "\n\n\nSent by PEPr\nAutomatic proposal system at http://pear.php.net", true);
