@@ -52,7 +52,7 @@ the <acronym title="Quality Assurance">QA</acronym> Team:</p>
 concerning the <acronym title="Quality Assurance">QA</acronym> 
 initiative, you can contact the team using the mailing list
 <?php echo make_mailto_link('pear-qa@lists.php.net'); ?>
- (<a href="/support.php">subscription information</a>).</p>
+ (<a href="/support/lists.php">subscription information</a>).</p>
 
 <?php
 response_footer();

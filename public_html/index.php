@@ -67,7 +67,7 @@ automatically <b>install</b> packages. The manual <a href="/manual/en/installati
 describes this procedure</a> in detail.</p>
 
 <p>In case you need <b>support</b> for PEAR in general or a package
-in special, we have compiled a list of the <a href="/support.php">available
+in special, we have compiled a list of the <a href="/support/">available
 support resources</a>.</p>
 
 <?php

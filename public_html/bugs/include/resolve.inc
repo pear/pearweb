@@ -101,7 +101,7 @@ Again, thank you for your continued support of PEAR.',
     'message' =>
 'Sorry, but your problem does not imply a bug in PEAR itself.  For a
 list of more appropriate places to ask for help using PEAR, please
-visit http://pear.php.net/support.php as this bug system is not the
+visit http://pear.php.net/support/ as this bug system is not the
 appropriate forum for asking support questions. 
 
 Thank you for your interest in PEAR.',
