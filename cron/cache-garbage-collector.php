@@ -3,7 +3,7 @@
  * +----------------------------------------------------------------------+
  * | PEAR Web site version 1.0                                            |
  * +----------------------------------------------------------------------+
- * | Copyright (c) 2003 The PEAR Group                                    |
+ * | Copyright (c) 2004 The PEAR Group                                    |
  * +----------------------------------------------------------------------+
  * | This source file is subject to version 2.02 of the PHP license,      |
  * | that is bundled with this package in the file LICENSE, and is        |
@@ -28,9 +28,9 @@ $basepath = PEAR_TMPDIR . "/webcache/";
 
 $vfs = new VFS_file(array("vfsroot" => $basepath));
 
-// {{{ readFolder()
+// {{{ cleanFolder()
 
-function readFolder($folder) {
+function cleanFolder($folder) {
     global $vfs, $basepath;
 
     static $level;
@@ -53,4 +53,4 @@ function readFolder($folder) {
 
 // }}}
 
-readfolder(".");
+cleanFolder(".");
