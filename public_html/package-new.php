@@ -28,7 +28,7 @@ auth_require('pear.dev');
 
 $display_form = true;
 $width = 60;
-$errorMsg = "";
+$errors = array();
 $jumpto = "name";
 
 do {
@@ -40,16 +40,16 @@ do {
                           "category" => "choose a category");
         foreach ($required as $field => $_desc) {
             if (empty($_POST[$field])) {
-                display_error("Please $_desc!");
+                $errors[] = "Please $_desc!";
                 $jumpto = $field;
                 break 2;
             }
         }
 
         if (!preg_match(PEAR_COMMON_PACKAGE_NAME_PREG, $_POST['name'])) {
-            display_error("Invalid package name.  PEAR package names must start ".
-                          "with a capital letter and contain only letters, ".
-                          "digits and underscores.");
+            $errors[] = 'Invalid package name.  PEAR package names must start'
+                        . ' with a capital letter and contain only letters,'
+                        . ' digits and underscores.';
             break;
         }
 
@@ -83,34 +83,30 @@ if ($display_form) {
     $title = "New Package";
     response_header($title);
 
-    print "<h1>$title</h1>
+    print "<h1>$title</h1>\n";
 
-Use this form to register a new package.
+    report_error($errors);
 
-<p />
+    ?>
 
-<b>Before proceeding</b>, make sure you pick the right name for your
-package.  This is usually done through \"community consensus\", which
-means posting a suggestion to the pear-dev mailing list and have
-people agree with you.
+<p>
+  Use this form to register a new package.
+</p>
 
-<p />
+<p>
+ <strong>Before proceeding</strong>, make sure you pick the right name for
+ your package.  This is usually done through &quot;community consensus,&quot;
+ which means posting a suggestion to the pear-dev mailing list and have
+ people agree with you.
+</p>
 
-Note that if you don't follow this simple rule and break
-established naming conventions, your package will be taken hostage.
-So please play nice, that way we can keep the bureaucracy at a
-minimum.
+<p>
+ Note that if you don't follow this simple rule and break
+ established naming conventions, your package will be taken hostage.
+ So please play nice, that way we can keep the bureaucracy at a minimum.
+</p>
 
-";
-
-    if (isset($errorMsg)) {
-        print "<table>\n";
-        print " <tr>\n";
-        print "  <td>&nbsp;</td>\n";
-        print "  <td><b>$errorMsg</b></td>\n";
-        print " </tr>\n";
-        print "</table>\n";
-    }
+    <?php
 
     $categories = $dbh->getAssoc("SELECT id,name FROM categories ORDER BY name");
     $form =& new HTML_Form($_SERVER['PHP_SELF'], "POST");
@@ -142,12 +138,5 @@ minimum.
 }
 
 response_footer();
-
-function display_error($msg)
-{
-    global $errorMsg;
-
-    $errorMsg .= "<font color=\"#cc0000\" size=\"+1\">$msg</font><br />\n";
-}
 
 ?>
