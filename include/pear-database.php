@@ -686,11 +686,11 @@ class package
             $what = "name";
         }
 
-        if ($allow_pecl) {
-             $package_type = "((p.package_type = 'pear' AND p.approved = 1) OR p.package_type = 'pecl') AND ";
-        } else {
-             $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
+        $package_type = '';
+        if (!$allow_pecl) {
+            $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
         }
+        
         $pkg_sql = "SELECT p.id AS packageid, p.name AS name, ".
              "p.package_type AS type, ".
              "c.id AS categoryid, c.name AS category, ".
@@ -791,10 +791,9 @@ class package
      * @param boolean Only list released packages?
      * @param boolean If listing released packages only, only list stable releases?
      * @param boolean List also PECL packages
-     * @param boolean Only list PECL packages
      * @return array
      */
-    function listAll($released_only = true, $stable_only = true, $include_pecl = false, $only_pecl = false)
+    function listAll($released_only = true, $stable_only = true, $include_pecl = false)
     {
         global $dbh, $HTTP_RAW_POST_DATA;
 
@@ -803,12 +802,8 @@ class package
         }
         
         $package_type = '';
-        if (!$include_pecl && !$only_pecl) {
+        if (!$include_pecl) {
             $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
-        }
-        
-        if ($only_pecl) {
-            $package_type = "p.package_type = 'pecl' AND p.approved = 1 AND ";
         }
 
         $packageinfo = $dbh->getAssoc("SELECT p.name, p.id AS packageid, ".
@@ -910,7 +905,11 @@ class package
     {
         global $dbh;
 
-        $query = "SELECT p.id AS pid, p.name, r.id AS rid, r.version, r.state FROM packages p, releases r WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package ORDER BY p.name, r.version DESC";
+        $query = "SELECT
+                      p.id AS pid, p.name, r.id AS rid, r.version, r.state 
+                  FROM packages p, releases r 
+                  WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package
+                  ORDER BY p.name, r.version DESC";
         $sth = $dbh->query($query);
 
         if (DB::isError($sth)) {
