@@ -63,7 +63,7 @@
 		echo "<li>";
 		echo make_link('pepr-proposal-show.php?id='.$proposal->id, $proposal->pkg_category." :: ".$proposal->pkg_name);
 		echo " by ";
-		echo make_link('../account-info.php?handle='.$proposal->user_handle, $users[$proposal->user_handle]['name']);
+		echo make_link('/user/'.$proposal->user_handle, $users[$proposal->user_handle]['name']);
 		if (in_array($proposal->getStatus(), array('vote', 'finished'))) {
 		    $voteSums = ppVote::getSum($dbh, $proposal->id);
 			echo " (Vote sum: <b>".$voteSums['all']."</b><small>, ".$voteSums['conditional']." conditional</small>)";
