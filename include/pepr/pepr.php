@@ -279,9 +279,9 @@ Proposer:                '.user_link($this->user_handle).'<br />
     function &search($searchString) {
         global $dbh;
         $replacers = array(
-            '/ /', '/%/', '/_/', '/\*/', '/\?/');
+            '/%/', '/_/', '/ /', '/\*/', '/\?/');
         $replacements = array(
-            '%', '\%', '\_', '%', '_');
+            '\%', '\_', '%', '%', '_');
         $searchString = "%".preg_replace($replacers, $replacements, $searchString)."%";
 
         $sql = "SELECT *, UNIX_TIMESTAMP(draft_date) as draft_date,
@@ -292,7 +292,6 @@ Proposer:                '.user_link($this->user_handle).'<br />
                 WHERE pkg_describtion LIKE ".$dbh->quoteSmart($searchString)."
                       OR pkg_name LIKE ".$dbh->quoteSmart($searchString)."
                       OR pkg_category LIKE ".$dbh->quoteSmart($searchString);
-        
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
