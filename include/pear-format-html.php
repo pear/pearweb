@@ -73,19 +73,18 @@ function response_header($title = 'The PHP Extension and Application Repository'
     if (substr($rts, -1) == '-') {
         $SIDEBAR_DATA = substr($rts, 0, -1);
     } else {
-        global $main_menu, $docu_menu, $downloads_menu, $auth_user;
+        global $main_menu, $docu_menu, $downloads_menu, $auth_user, $proposal_menu;
         $SIDEBAR_DATA .= draw_navigation($main_menu);
         $SIDEBAR_DATA .= draw_navigation($docu_menu, 'Documentation:');
         $SIDEBAR_DATA .= draw_navigation($downloads_menu, 'Downloads:');
+        $SIDEBAR_DATA .= draw_navigation($proposal_menu, 'Package Proposals:');
         init_auth_user();
         if (!empty($auth_user)) {
             if (!empty($auth_user->registered)) {
                 global $developer_menu;
-                global $proposal_menu;
                 if (auth_check('pear.dev')) {
                     $SIDEBAR_DATA .= draw_navigation($developer_menu, 'Developers:');
                 }
-                $SIDEBAR_DATA .= draw_navigation($proposal_menu, 'Package proposals:');
             }
             if ($auth_user->isAdmin()) {
                 global $admin_menu;
