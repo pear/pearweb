@@ -48,20 +48,20 @@ if (!empty($_POST['pw'])) {
 @mysql_select_db('pear');
 
 # fetch info about the bug into $bug
-$query = "SELECT id,package_name,email,passwd,sdesc,ldesc,"
-       . "php_version,php_os,status,ts1,ts2,assign,"
-       . "UNIX_TIMESTAMP(ts1) AS submitted, UNIX_TIMESTAMP(ts2) AS modified,"
-       . "COUNT(bug=id) AS votes,"
-       . "SUM(reproduced) AS reproduced,SUM(tried) AS tried,"
-       . "SUM(sameos) AS sameos, SUM(samever) AS samever,"
-       . "AVG(score)+3 AS average,STD(score) AS deviation"
-       . " FROM bugdb LEFT JOIN bugdb_votes ON id=bug WHERE id=$id"
-       . " GROUP BY bug";
+$query = 'SELECT id,package_name,email,passwd,sdesc,ldesc,
+        php_version,php_os,status,ts1,ts2,assign,
+        UNIX_TIMESTAMP(ts1) AS submitted, UNIX_TIMESTAMP(ts2) AS modified,
+        COUNT(bug=id) AS votes,
+        SUM(reproduced) AS reproduced,SUM(tried) AS tried,
+        SUM(sameos) AS sameos, SUM(samever) AS samever,
+        AVG(score)+3 AS average,STD(score) AS deviation
+        FROM bugdb LEFT JOIN bugdb_votes ON id=bug WHERE id='.(int)$id.'
+        GROUP BY bug';
 
-$res = mysql_query($query);
+$res = $dbh->query($query);
 
 if ($res) {
-    $bug = mysql_fetch_array($res,MYSQL_ASSOC);
+    $bug = $res->fetchRow();
 }
 
 if (!$res || !$bug) {
@@ -104,14 +104,14 @@ if ($_POST['in'] && $edit == 3) {
     # being authenticated (oh, the horror!)
     if (preg_match('/^(.+)@php\.net/i', stripslashes($_POST['in']['commentemail']), $m)) {
         if ($user != stripslashes($m[1]) || !verify_password($user,$pass)) {
-            $errors[] = "You have to be logged in as a developer to use your php.net email address.";
+            $errors[] = 'You have to be logged in as a developer to use your php.net email address.';
             $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
         }
     }
 
     $ncomment = trim($_POST['ncomment']);
     if (!$ncomment) {
-        $errors[] = "You must provide a comment.";
+        $errors[] = 'You must provide a comment.';
     }
 
     if (!$errors) {
@@ -121,7 +121,7 @@ if ($_POST['in'] && $edit == 3) {
                  " '" . escapeSQL($_POST['in']['commentemail']) . "'," .
                  ' NOW(),' .
                  " '" . escapeSQL($ncomment) . "')";
-        $success = @mysql_query($query);
+        $success = $dbh->query($query);
     }
     $from = stripslashes($_POST['in']['commentemail']);
 
@@ -170,7 +170,7 @@ if ($_POST['in'] && $edit == 3) {
                  " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                  ' ts2=NOW(), ' .
                  " email='" . escapeSQL($from) . "' WHERE id=$id";
-        $success = @mysql_query($query);
+        $success = $dbh->query($query);
 
         /* add comment */
         if ($success && !empty($ncomment)) {
@@ -180,7 +180,7 @@ if ($_POST['in'] && $edit == 3) {
                      " '" . escapeSQL($from) . "'," .
                      ' NOW(),' .
                      " '" . escapeSQL($ncomment) . "')";
-            $success = @mysql_query($query);
+            $success = $dbh->query($query);
         }
     }
 
@@ -220,11 +220,7 @@ if ($_POST['in'] && $edit == 3) {
 
     $from = $user . '@php.net';
     $query = "SELECT email FROM users WHERE handle = '" . $user . "'";
-    $success = @mysql_query($query);
-    if ($success) {
-        $row = @mysql_fetch_row($success);
-        $from = $row[0];
-    }
+    $from = $dbh->getOne($query);
     if (!$errors && !($errors = incoming_details_are_valid($_POST['in']))) {
         $query = 'UPDATE bugdb SET';
 
@@ -241,7 +237,7 @@ if ($_POST['in'] && $edit == 3) {
                   " php_version='" . escapeSQL($_POST['in']['php_version']) . "'," .
                   " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                   " ts2=NOW() WHERE id=$id";
-        $success = @mysql_query($query);
+        $success = $dbh->query($query);
         if ($success && !empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
                      ' (bug, email, ts, comment) VALUES (' .
@@ -249,7 +245,7 @@ if ($_POST['in'] && $edit == 3) {
                      " '" . escapeSQL($from) . "'," .
                      ' NOW(),' .
                      " '" . escapeSQL($ncomment) . "')";
-            $success = @mysql_query($query);
+            $success = $dbh->query($query);
         }
 
     }
@@ -271,13 +267,13 @@ if ($_POST['in']) {
 response_header("#$id: ".htmlspecialchars($bug['sdesc']));
 
 /* DISPLAY BUG */
-if ($thanks == 1 || $thanks == 2) {
+if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
     echo '<div class="thanks">The bug was updated successfully.</div>';
 
-} elseif ($thanks == 3) {
+} elseif ($_GET['thanks'] == 3) {
     echo '<div class="thanks">Your comment was added to the bug successfully.</div>';
 
-} elseif ($thanks == 4) {
+} elseif ($_GET['thanks'] == 4) {
     ?>
 
 <div class="thanks">
@@ -288,7 +284,7 @@ if ($thanks == 1 || $thanks == 2) {
 </div>
 
     <?php
-} elseif ($thanks == 6) {
+} elseif ($_GET['thanks'] == 6) {
     ?>
 
 <div class="thanks">
@@ -767,9 +763,9 @@ if ($bug['ldesc']) {
 /* DISPLAY COMMENTS */
 $query = "SELECT id,email,comment,UNIX_TIMESTAMP(ts) AS added"
        . " FROM bugdb_comments WHERE bug=$id ORDER BY ts";
-$res = @mysql_query($query);
+$res = $dbh->query($query);
 if ($res) {
-    while ($row = mysql_fetch_array($res,MYSQL_ASSOC)) {
+    while ($row = $res->fetchRow()) {
         output_note($row['id'], $row['added'], $row['email'], $row['comment']);
     }
 }
@@ -794,12 +790,12 @@ function output_note($com_id, $ts, $email, $comment)
 function delete_comment($id, $com_id)
 {
     $query = 'DELETE FROM bugdb_comments WHERE bug='.(int)$id.' AND id='.(int)$com_id;
-    $res = @mysql_query($query);
+    $res = $dbh->query($query);
 }
 
 function canvote()
 {
     return false;
-    global $thanks, $bug;
-    return ($thanks != 4 && $thanks != 6 && $bug['status'] != 'Closed' && $bug['status'] != 'Bogus' && $bug['status'] != 'Duplicate');
+    global $bug;
+    return ($_GET['thanks'] != 4 && $_GET['thanks'] != 6 && $bug['status'] != 'Closed' && $bug['status'] != 'Bogus' && $bug['status'] != 'Duplicate');
 }
