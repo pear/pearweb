@@ -71,7 +71,8 @@ function auth_reject($realm = null, $message = null)
         print "<p><b>Note:</b> If you just want to browse the website, ";
         print "you will not need to log in. For all tasks that require ";
         print "authentication, you will be redirected to this form ";
-        print "automatically.</p>";
+        print "automatically. You can sign up for an account ";
+        print "<a href=\"/account-request.php\">over here</a>.</p>";
     }
     response_footer();
     exit;
