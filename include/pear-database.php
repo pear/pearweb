@@ -2584,7 +2584,7 @@ class user
         global $dbh;
 
         // IP whitelist
-        if (!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1'))) {
+        if (!in_array($_SERVER['REMOTE_ADDR'], array('209.61.191.11'))) {
             return array();
         }
 
@@ -2597,12 +2597,10 @@ class user
                                . "FROM karma "
                                . "WHERE level = 'pear.group' AND user = ?");
 
-        /* Some pecl devs don't have pear.dev karma. Need to check every registered user. */
-        $query = "SELECT handle, name, homepage, userinfo, "
-            . "birthdate, locale, timezone, occupation, "
-            . "currentjob, available, certified, otherquals, "
-            . "spokenlangs, programlangs, otherphpnet, "
-            . "otheross, otherhobbies, anon "
+        /* The PECL developers don't have the "pear.dev" karma level.
+         * Thus every registered user needs to be checked.
+         */
+        $query = "SELECT handle, name, homepage, userinfo "
             . "FROM users WHERE registered = 1";
 
         $query_group = "SELECT user FROM karma WHERE level = 'pear.group'";
