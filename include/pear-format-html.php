@@ -728,10 +728,10 @@ function user_link($handle, $compact = false)
         return false;
     }
 
-    return sprintf("<a href=\"/user/%s\">%s</a>%s\n",
+    return sprintf("<a href=\"/user/%s\">%s</a>&nbsp;%s\n",
                    $handle,
                    $row['name'],
-                   ($row['wishlist'] != "" && $compact == false ? " [<a href=\"" . htmlentities($row['wishlist']) . "\">Wishlist</a>]" : '')
+                   ($row['wishlist'] != "" && $compact == false ? '['.make_link('http://' . $_SERVER['HTTP_HOST'] . '/wishlist.php/' . $handle, 'Wishlist').']' : '')
                    );
 }
 
@@ -981,7 +981,8 @@ function print_package_navigation($pacid, $name, $action)
  *
  * @see validate_captcha(), captcha-image.php
  */
-function generate_captcha() {
+function generate_captcha()
+{
     if (!isset($_SESSION['captcha'])) {
         $_SESSION['captcha'] = '';
         $useable = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
@@ -1025,7 +1026,8 @@ function generate_captcha() {
  *
  * @see generate_captcha(), captcha-image.php
  */
-function validate_captcha($max_age = 300) {
+function validate_captcha($max_age = 300)
+{
     if (!isset($_POST['captcha']) ||
         !isset($_SESSION['captcha']) ||
         (time() - $_SESSION['captcha_time']) > $max_age ||
@@ -1039,6 +1041,20 @@ function validate_captcha($max_age = 300) {
         unset($_SESSION['captcha_time']);
         return true;
     }
+}
+
+/**
+* Converts #343 into <a href="/bugs/343">#343</a>
+* 
+* @param string $text the text that should be checked if it contains
+*                     any #354, and if so, then convert into links
+* @return string returns the text that was scanned with the bug tickets
+*                        converted into links if any were found
+*/
+function make_ticket_links($text)
+{
+    $text = preg_replace('/#([0-9]+)/', '<a href="/bugs/\\1">#\\1</a>', $text);
+    return $text;
 }
 
 ?>
