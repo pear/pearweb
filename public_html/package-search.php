@@ -19,26 +19,26 @@
    $Id$
 */
 
-/**
-* Searches for packages matching various user definable
-* criteria including:
-*  o Name
-*  o Maintainer
-*  o Category
-*  o Release date (on/before/after)
-*/
+/*
+ * Searches for packages matching various user definable
+ * criteria including:
+ *  o Name
+ *  o Maintainer
+ *  o Category
+ *  o Release date (on/before/after)
+ */
 
 $template_dir = dirname(dirname(__FILE__)) . '/templates/';
 require_once "HTML/Form.php";
 
-/**
-* Setup code for the form
-*/
+/*
+ * Setup code for the form
+ */
 $form = new HTML_Form($_SERVER['PHP_SELF']);
     
-/**
-* Months for released date dropdowns
-*/
+/*
+ * Months for released date dropdowns
+ */
 $months     = array();
 $months[1]  = 'January';
 $months[2]  = 'February';
@@ -53,15 +53,15 @@ $months[10] = 'October';
 $months[11] = 'November';
 $months[12] = 'December';
 
-/**
-* Used for the Match: radio buttons
-*/
+/*
+ * Used for the Match: radio buttons
+ */
 $bool_and_checked = !isset($_GET['bool']) || $_GET['bool'] == "AND" ? 'checked="checked"' : '';
 $bool_or_checked  = @$_GET['bool'] == "OR" ? 'checked="checked"' : '';
 
-/**
-* Code to fetch the current category list
-*/
+/*
+ * Code to fetch the current category list
+ */
 $category_rows = category::listAll();
 if (!empty($_GET['pkg_category'])) {
     for ($i=0; $i<count($category_rows); $i++) {
@@ -71,9 +71,9 @@ if (!empty($_GET['pkg_category'])) {
     }
 }
 
-/**
-* Fetch list of users/maintainers
-*/
+/*
+ * Fetch list of users/maintainers
+ */
 $users = $dbh->getAll('SELECT u.handle, u.name FROM users u, maintains m WHERE u.handle = m.handle GROUP BY handle ORDER BY u.name', DB_FETCHMODE_ASSOC);
 for ($i=0; $i<count($users); $i++) {
     if (empty($users[$i]['name'])) {
@@ -81,10 +81,9 @@ for ($i=0; $i<count($users); $i++) {
     }
 }
 
-/**
-* Is form submitted? Do search and show
-* results.
-*/
+/*
+ * Is form submitted? Do search and show results.
+ */
 if (!empty($_GET)) {
     $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
     $where = array();
@@ -109,7 +108,7 @@ if (!empty($_GET)) {
         $where[] = sprintf("category = %s", $dbh->quote($_GET['pkg_category']));
     }
         
-    /**
+    /*
      * Any release date checking?
      */
     $release_join        = '';
@@ -193,10 +192,10 @@ if (!empty($_GET)) {
         // Row number
         $rownum = $from - 1;
 
-        /**
-        * Title html for results borderbox obj
-        * Eww.
-        */
+        /*
+         * Title html for results borderbox obj
+         * Eww.
+         */
         $title_html  = sprintf('<table border="0" width="100%%" cellspacing="0" cellpadding="0">
                                         <tr>
                                             <td align="left" width="50"><nobr>%s</nobr></td>
@@ -213,9 +212,9 @@ if (!empty($_GET)) {
         while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC, $rownum++) AND $rownum <= $to) {
             $row['raw_name'] = $row['name'];
 
-			/**
-            * If name was searched on, highlight the search string
-            */
+			/*
+             * If name was searched on, highlight the search string
+             */
 			if (!empty($_GET['pkg_name']) || !empty($_GET['pkg_maintainer'])) {
 				if (!empty($_GET['pkg_name'])) {
 				    $words = preg_replace('/\s+/', '|', preg_quote($_GET['pkg_name']));
@@ -235,4 +234,5 @@ if (!empty($_GET)) {
  * Template stuff
  */
 @include($template_dir . 'package-search.html');
+
 ?>
