@@ -119,7 +119,13 @@ function navigationBar($title,$id,$loc) {
     echo '  <td align="left">';
     echo "\n   ";
     if ($PREV[1]) {
-        print_link( $PREV[0] , make_image('caret-l.gif', 'previous') .  @htmlspecialchars($PREV[1],ENT_QUOTES,$CHARSET) ) ;
+        print_link($PREV[0],
+                   make_image('caret-l.gif', 'previous') .
+                           @htmlspecialchars($PREV[1], ENT_QUOTES, $CHARSET),
+                   false,
+                   'accesskey="r"'
+        );
+        echo '&nbsp;&nbsp;<small>(P<u>r</u>evious)</small>';
     }
     echo "\n";
     echo '  </td>';
@@ -128,7 +134,13 @@ function navigationBar($title,$id,$loc) {
     echo '  <td align="right">';
     echo "\n";
     if ($NEXT[1]) {
-        print_link( $NEXT[0] , @htmlspecialchars($NEXT[1],ENT_QUOTES,$CHARSET)  . make_image('caret-r.gif', 'next') ) ;
+        echo '<small>(Ne<u>x</u>t)</small>&nbsp;&nbsp;';
+        print_link($NEXT[0],
+                   @htmlspecialchars($NEXT[1], ENT_QUOTES, $CHARSET) .
+                           make_image('caret-r.gif', 'next'),
+                   false,
+                   'accesskey="x"'
+        );
     }
     echo "\n";
     echo '  </td>';
