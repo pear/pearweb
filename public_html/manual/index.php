@@ -45,16 +45,16 @@ foreach ($doc_languages as $domain => $name) {
 
 </ul>
 
-<p>If you prefer to have a offline version of the documentation, you can
+<p>If you prefer to have an offline version of the documentation, you can
 download it in a bunch of formats:</p>
 
 <?php
-$formats = array(   
+$formats = array(
     "pear_manual_{LANG}.tar.gz"      => array("Many HTML files",     "tar.gz"),
     "pear_manual_{LANG}.zip"         => array("Many HTML files",     "zip"),
     "pear_manual_{LANG}.tar.bz2"     => array("Many HTML files",     "tar.bz2"),
     "pear_manual_{LANG}.html.gz"     => array("One big HTML file",   "html.gz"),
-    "chm/pear_manual_{LANG}.chm"     => array("Windows HTML help",    "chm"),
+    "chm/pear_manual_{LANG}.chm"     => array("Windows HTML help",   "chm"),
     "pear_manual_{LANG}.txt.gz"      => array("Plain text file",     "txt.gz")
 );
 
