@@ -45,14 +45,9 @@ do {
             $display_form = true;
         }
 
-        if (!isset($_SESSION['captcha']) ||
-            $_SESSION['captcha'] != strtoupper($_POST['captcha']))
-        {
-            unset($_SESSION['captcha']);
+        if (!validate_captcha()) {
             $errors[] = 'Incorrect CAPTCHA';
             $display_form = true;
-        } else {
-            unset($_SESSION['captcha']);
         }
 
         if ($errors) {

@@ -962,16 +962,12 @@ function print_package_navigation($pacid, $name, $action)
 
 /**
  * Sets <var>$_SESSION['captcha']</var> then produces a CAPTCHA image
- * and form input
+ * and a form input element
  *
  * Only generate a new <var>$_SESSION['captcha']</var> if it doesn't exist
  * yet.  This avoids the problem of the CAPTCHA value being changed but the
  * old image remaining in the browser's cache.  This is necessary because
  * caching can not be reliably disabled.
- *
- * If the user's submission doesn't match <var>$_SESSION['captcha']</var>,
- * the form validation script in question should unset()
- * <var>$_SESSION['captcha']</var>.  This prevents brute force attacks.
  *
  * Use upper case letters to reduce confusion with some of these fonts.
  * Input is passed through strtoupper() before comparison.
@@ -992,6 +988,34 @@ function generate_captcha() {
     $out  = 'Type &quot;' . $_SESSION['captcha'] . '&quot; into this box... ';
     $out .= '<input type="text" size="4" maxlength="4" name="captcha" />';
     return $out;
+}
+
+/**
+ * Check if the CAPTCHA value submitted by the user in
+ * <var>$_POST['captcha']</var> matches <var>$_SESSION['captcha']</var>
+ *
+ * If the two values don't match, this function will unset()
+ * <var>$_SESSION['captcha']</var>.  Unsetting it will cause
+ * generate_captcha() to come up with a new CAPTCHA value and image.
+ * This prevents brute force attacks.
+ *
+ * Similarly, if the submission is correct <var>$_SESSION['captcha']</var>
+ * is unset() in order to keep robots from making multiple requests with
+ * a correctly guessed CAPTCHA value.
+ *
+ * @return bool  true if input matches captcha, false if not
+ */
+function validate_captcha() {
+    if (!isset($_POST['captcha']) ||
+        !isset($_SESSION['captcha']) ||
+        $_SESSION['captcha'] != strtoupper($_POST['captcha']))
+    {
+        unset($_SESSION['captcha']);
+        return false;
+    } else {
+        unset($_SESSION['captcha']);
+        return true;
+    }
 }
 
 ?>

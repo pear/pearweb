@@ -119,13 +119,8 @@ $errors = array();
 if ($_POST['in'] && $edit == 3) {
     // Submission of additional comment by others
 
-    if (!isset($_SESSION['captcha']) ||
-        $_SESSION['captcha'] != strtoupper($_POST['captcha']))
-    {
-        unset($_SESSION['captcha']);
+    if (!validate_captcha()) {
         $errors[] = 'Incorrect CAPTCHA';
-    } else {
-        unset($_SESSION['captcha']);
     }
 
     if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",
