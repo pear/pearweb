@@ -397,12 +397,15 @@ class package
     function getDownloadURL($channel, $package, $versionstate = null, $loc = null, $mirror = null)
     {
         $info = package::info($package, 'releases');
+        if (!count($info)) {
+            return false;
+        }
         $found = false;
         if ($versionstate !== null) {
             if (is_array($versionstate)) {
                 $state = $versionstate;
             } else {
-                if (false != release::betterStates($versionstate)) {
+                if (false != release::betterStates($versionstate, true)) {
                     $state = $versionstate;
                 } else {
                     $version = $versionstate;
@@ -435,13 +438,12 @@ class package
             $found = true;
         }
         if ($found) {
-            $release = $_SERVER['SERVER_NAME'] . '/get/' . $package . '-' . $ver;
+            return array($ver, $release, 'http://' . $_SERVER['SERVER_NAME'] . '/get/' . $package . '-' . $ver);
         } else {
             reset($info);
             list($ver, $release) = each($info);
-            $release = array($ver => $release);
+            return array($ver, $release);
         }
-        return $release;
     }
 
     // }}}
@@ -1595,7 +1597,7 @@ class release
         static $states = array('snapshot', 'devel', 'alpha', 'beta', 'stable');
         $i = array_search($state, $states);
         if ($include) {
-            $i++;
+            $i--;
         }
         if ($i === false) {
             return false;
