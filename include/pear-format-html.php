@@ -23,21 +23,21 @@ PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
 require_once 'pear-cache.php';
 require_once 'layout.php';
 
-$encoding = "iso-8859-1";
+$encoding = 'iso-8859-1';
 $extra_styles = array();
 
 // Handling things related to the manual
 if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
-    require_once "pear-manual.php";
+    require_once 'pear-manual.php';
     $extra_styles[] = '/style-manual.css';
 
     // The Japanese manual translation needs UTF-8 encoding
     if (preg_match("=^/manual/ja=", $_SERVER['PHP_SELF'])) {
-        $encoding = "utf-8";
+        $encoding = 'utf-8';
 
     // The Russian manual translation needs KOI8-R encoding
     } else if (preg_match("=^/manual/ru=", $_SERVER['PHP_SELF'])) {
-        $encoding = "KOI8-R";
+        $encoding = 'KOI8-R';
     }
 }
 
@@ -207,7 +207,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 
  <tr style="vertical-align: top;">
 <?php if (isset($SIDEBAR_DATA)) { ?>
-  <td colspan="2" class="sidebar_left" style="width: 149px; background-color: #F0F0F0;">
+  <td colspan="2" class="sidebar_left">
    <table cellpadding="4" cellspacing="0" style="width: 149px;">
     <tr style="vertical-align: top;">
      <td><?php echo $SIDEBAR_DATA?><br /></td>
@@ -262,7 +262,7 @@ function response_footer($style = false)
   </td>
 
 <?php if (isset($RSIDEBAR_DATA)) { ?>
-  <td class="sidebar_right" style="background-color: #F0F0F0; width: 149px;">
+  <td class="sidebar_right">
     <table cellpadding="4" cellspacing="0" style="width: 149px;">
      <tr style="vertical-align: top;">
       <td><?php echo $RSIDEBAR_DATA; ?><br />
