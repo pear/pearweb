@@ -22,7 +22,7 @@ $query = 'SELECT bugdb.status, bugdb.package_name, bugdb.email, bugdb.php_versio
         LEFT JOIN packages ON packages.name = bugdb.package_name
         LEFT JOIN maintains ON packages.id = maintains.package
         ' . $where . '
-         ORDER BY bugdb.bug_type';
+         ORDER BY packages.name ASC';
 
 $result = $dbh->query($query);
 
@@ -43,7 +43,7 @@ function bugstats($status, $name)
     global $package_name;
 
     if ($package_name[$status][$name] > 0) {
-        return '<a href="search.php?cmd=display&amp;status=' . ucfirst($status) . ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) . '&amp;by=Any">' . $package_name[$status][$name] . "</a>\n";
+        return '<a href="search.php?cmd=display&amp;status=' . ucfirst($status) . ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) . '&amp;by=Any&amp;limit=10">' . $package_name[$status][$name] . "</a>\n";
     }
 }
 
@@ -91,9 +91,7 @@ function sort_url ($name)
 /**
 * Fetch list of all categories
 */
-    $query = 'SELECT name FROM categories WHERE npackages > 0';
-    $res = $dbh->query($query);
-
+    $res = category::listAll();
     $_SERVER['QUERY_STRING'] ? $query_string = '?' . $_SERVER['QUERY_STRING'] : '';
 echo '<tr><td colspan="10"> 
         <form method="get" action="/bugs/stats.php' . $query_string . '">
@@ -102,7 +100,7 @@ echo '<tr><td colspan="10">
         <select name="category" id="category" onchange="this.form.submit();">';
             $_GET['category'] == '' ? $selected = ' selected="selected"' : $selected = '';
             echo '<option value=""' . $selected . '>All</option>' . "\n";
-                while($row = $res->fetchRow()) {
+                foreach ($res as $row) {
                     $_GET['category'] == $row['name'] ? $selected = ' selected="selected"' : $selected = '';
                     echo '<option value="' . $row['name'] . '"' . $selected .'>' . $row['name'] . '</option>' . "\n";
                 }
