@@ -1,44 +1,61 @@
-<?PHP
-/*
-   +----------------------------------------------------------------------+
-   | PEAR Web site version 1.0                                            |
-   +----------------------------------------------------------------------+
-   | Copyright (c) 2001-2004 The PHP Group                                |
-   +----------------------------------------------------------------------+
-   | This source file is subject to version 2.02 of the PHP license,      |
-   | that is bundled with this package in the file LICENSE, and is        |
-   | available at through the world-wide-web at                           |
-   | http://www.php.net/license/2_02.txt.                                 |
-   | If you did not receive a copy of the PHP license and are unable to   |
-   | obtain it through the world-wide-web, please send a note to          |
-   | license@php.net so we can mail you a copy immediately.               |
-   +----------------------------------------------------------------------+
-   | Authors: Tobias Schlitt <toby@php.net>                               |
-   +----------------------------------------------------------------------+
-   $Id$
-*/
+<?php
 
-
-ini_set("include_path", ini_get("include_path").PATH_SEPARATOR."/usr/local/www/pearweb/include");
-
-require_once('DB.php');
-	
 /**
- * DSN for pear packages database
+ * Automated tasks for the package proposal system (PEPr).
+ *
+ * 1) Checks if a proposal should automatically be finished.
+ *
+ * NOTE: Proposal constants are defined in pearweb/include/pear-config.php.
+ *
+ * This source file is subject to version 3.0 of the PHP license,
+ * that is bundled with this package in the file LICENSE, and is
+ * available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.
+ * If you did not receive a copy of the PHP license and are unable to
+ * obtain it through the world-wide-web, please send a note to
+ * license@php.net so we can mail you a copy immediately.
+ *
+ * @category  pearweb
+ * @package   PEPr
+ * @author    Tobias Schlitt <toby@php.net>
+ * @copyright Copyright (c) 1997-2004 The PHP Group
+ * @license   http://www.php.net/license/3_0.txt  PHP License
+ * @version   $Id$
  */
-$dsn = "mysql://pear:pear@localhost/pear";
-$dbh = DB::connect($dsn);
 
+
+ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR
+        . '/usr/local/www/pearweb/include');
+
+/**
+ * Get common settings.
+ */
+require_once 'pear-config.php';
+
+/**
+ * Obtain the system's common functions and classes.
+ */
+require_once 'pear-database.php';
+
+
+/**
+ * Get the database class.
+ */
+require_once 'DB.php';
+$dbh =& DB::connect(PEAR_DATABASE_DSN);
 if (DB::isError($dbh)) {
     die ("Failed to connect: $dsn\n");
 }
 
-require_once 'pear-config.php';
+
+/**
+ * Obtain PEPr's common functions and classes.
+ */
 require_once 'pepr/pepr.php';
+$proposals =& proposal::getAll($dbh, 'vote');
+
 
 // This checks if a proposal should automatically be finished
-	
-$proposals = proposal::getAll($dbh, "vote");
 
 foreach ($proposals AS $id => $proposal) {
     if ($proposal->getStatus() == "vote") {
@@ -61,4 +78,5 @@ foreach ($proposals AS $id => $proposal) {
         }
     }
 }
+
 ?>
