@@ -208,7 +208,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
     $headers = array();
 
 	/* Default addresses */
-	list($mailto,$mailfrom) = get_bugtype_mail(oneof($in['bug_type'],$bug['bug_type']));
+	list($mailto,$mailfrom) = get_package_mail(oneof($in['package_name'],$bug['package_name']));
 
 	/* Get rid of slashes in bug status */
 	$bug['status'] = stripslashes($bug['status']);
@@ -259,11 +259,11 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
 	}
 
 	$fields = array(
-		'status'      => 'Status',
-		'bug_type'    => 'Bug Type',
-		'php_os'      => 'Operating System',
-		'php_version' => 'PHP Version',
-		'assign'      => 'Assigned To'
+		'status'       => 'Status',
+		'package_name' => 'Package',
+		'php_os'       => 'Operating System',
+		'php_version'  => 'PHP Version',
+		'assign'       => 'Assigned To'
 	);
 
 	foreach ($fields as $name => $desc) {
@@ -348,9 +348,9 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
 		          $dev_text,
 		          "From: $from\n".
     		      "X-PHP-Bug: $bug[id]\n".
-	    	      "X-PHP-Version: "    . stripslashes((($edit != 3) ? $in['php_version'] : $bug['php_version'])) . "\n" .
-		          "X-PHP-Category: "   . stripslashes((($edit != 3) ? $in['bug_type']    : $bug['bug_type']))    . "\n" .
-		          "X-PHP-OS: "         . stripslashes((($edit != 3) ? $in['php_os']      : $bug['php_os']))      . "\n" .
+	    	      "X-PHP-Version: "    . stripslashes((($edit != 3) ? $in['php_version']  : $bug['php_version'])) . "\n" .
+		          "X-PHP-Category: "   . stripslashes((($edit != 3) ? $in['package_name'] : $bug['package_name']))    . "\n" .
+		          "X-PHP-OS: "         . stripslashes((($edit != 3) ? $in['php_os']       : $bug['php_os']))      . "\n" .
     		      "X-PHP-Status: "     . stripslashes($new_status) . "\n" .
 	    	      "X-PHP-Old-Status: " . stripslashes($old_status) . "\n" .
 		          "In-Reply-To: <bug-$bug[id]@pear.php.net>",
@@ -448,8 +448,8 @@ function addlinks($text)
     $text = preg_replace("/[.,]?-=-\"/", '"', $text);
 	return $text;
 }
-/* validate a bugtype */
-function bugtype_exists ($type)
+/* validate a package */
+function package_exists ($type)
 {
 	global $dbh;
 
@@ -469,9 +469,9 @@ function incoming_details_are_valid ($in, $initial=0)
 	global $bug, $dbh;
 
 	$errors = array();
-	if (empty ($in['bug_type']) || $in['bug_type'] == "none") {
+	if (empty ($in['package_name']) || $in['package_name'] == "none") {
 		$errors[] = "Please select an appropriate bug type.";
-	} else if (!bugtype_exists($in['bug_type'])) {
+	} else if (!package_exists($in['package_name'])) {
 		$errors[] = "Please select an appropriate bug type.";;
 	}
 
@@ -505,12 +505,12 @@ function incoming_details_are_valid ($in, $initial=0)
 	return $errors;
 }
 
-function get_bugtype_mail($bug_type)
+function get_package_mail($package_name)
 {
     // XXX Change to pear-bugs when it gets opened
     //$to[] = "pear-dev@lists.php.net";
 
-    switch ($bug_type) {
+    switch ($package_name) {
         case 'Web Site':
             return array('pear-webmaster@lists.php.net', 'pear-webmaster@lists.php.net');
         case 'Bug System':
@@ -518,7 +518,7 @@ function get_bugtype_mail($bug_type)
         case 'Documentation':
             return array('pear-doc@lists.php.net', 'pear-doc@lists.php.net');
     }
-    $maintainers = package::info($bug_type, 'authors');
+    $maintainers = package::info($package_name, 'authors');
     $to = array();
     foreach ($maintainers as $data) {
         $to[] = $data['email'];
@@ -528,7 +528,7 @@ function get_bugtype_mail($bug_type)
 
 function get_row_color($row)
 {
-	if ($row["bug_type"]=="Feature/Change Request") {
+	if ($row["package_name"]=="Feature/Change Request") {
 		return "#aaaaaa";
 	}
 	switch($row["status"]) {
@@ -621,13 +621,13 @@ function show_bugs_menu($pkgname)
     echo "&nbsp;|&nbsp;";
     echo make_link("/bugs/report.php?package=$pkgname", "Report a new bug");
     echo "&nbsp;|&nbsp;";
-    echo make_link("/bugs/search.php?cmd=display&bug_type[]=$pkgname&status=Open", "Bug list");
+    echo make_link("/bugs/search.php?cmd=display&package_name[]=$pkgname&status=Open", "Bug list");
     if (preg_match('/search.php/', $_SERVER['PHP_SELF'])) {
         // This could be changes by a SELECT box and JS
         echo '</td><td align="right">Status: ';
-        echo make_link("/bugs/search.php?cmd=display&bug_type[]=$pkgname&status=Open", 'Open');
+        echo make_link("/bugs/search.php?cmd=display&package_name[]=$pkgname&status=Open", 'Open');
         echo "&nbsp;|&nbsp;";
-        echo make_link("/bugs/search.php?cmd=display&bug_type[]=$pkgname&status=All", 'All');
+        echo make_link("/bugs/search.php?cmd=display&package_name[]=$pkgname&status=All", 'All');
         echo '</td></tr></table>';
     }
     echo "<hr/>";
