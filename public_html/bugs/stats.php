@@ -156,7 +156,6 @@ $res = category::listAll();
    <select class="small" name="category" id="category"
            onchange="this.form.submit(); return false;">
     <option value=""
-
 <?php
 
 if (!$category) {
@@ -180,7 +179,6 @@ foreach ($res as $row) {
    <select class="small" name="developer" id="developers"
            onchange="this.form.submit(); return false;">
     <option value=""
-
 <?php
 
 /*
@@ -212,7 +210,7 @@ while ($u = $users->fetchRow(DB_FETCHMODE_ASSOC)) {
 
    <strong>Bug Type:</strong>
    <select class="small" id="bug_type" name="bug_type"
-           onchange="this.form.submit(); return false;">';
+           onchange="this.form.submit(); return false;">
 
    <?php show_type_options($bug_type, true) ?>
 
@@ -295,7 +293,7 @@ function bugstats($status, $name)
         }
     } else {
         if (empty($pkg[$status][$name])) {
-            return '&nbsp';
+            return '&nbsp;';
         } else {
             return '<a href="search.php?cmd=display&amp;'.
                    'bug_type='.$bug_type.'&amp;status=' .
