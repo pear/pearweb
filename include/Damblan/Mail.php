@@ -4,7 +4,7 @@
      * Generic mailer class
      * This class enables you to create, fill and send templates of emails.
      */
-    require_once 'Mail.php';
+    require_once '/usr/php4/share/pear/Mail.php';
     
     class Damblan_Mail {
 
@@ -21,7 +21,7 @@
          * @var array
          * @since  
          */
-        private $_template = '';
+        var $_template = '';
 
         /**
          * The data to replace in the template.
@@ -31,7 +31,7 @@
          * @var array
          * @since
          */
-        private $_data = array(); 
+        var $_data = array(); 
 
         /**
          * Default headers.
@@ -41,9 +41,9 @@
          * @var array
          * @since
          */
-        private $_defaultHeaders = array(
+        var $_defaultHeaders = array(
             'To'        => 'pear-webmaster@lists.php.net',
-            'From'      => 'pear-sys@php.net'
+            'From'      => 'pear-sys@php.net',
             'Reply-To'  => 'pear-webmaster@lists.php.net',
             'X-Mailer'  => 'PEARWeb - http://pear.php.net'
         ); 
@@ -56,7 +56,7 @@
          * @access private
          * @return void
          */
-        private function __construct ()
+        function Damblan_Mail ()
         {
         }
 
@@ -86,14 +86,14 @@
          * @throws Exception If the template file chosen does not exist.
          * @throws Exception If the data submited is not an array.
          */
-        public static function create ($template, $data)
+        function &create ($template, $data)
         {
             require 'Damblan/Mail/'.$template.'.tpl.php';
             if (!isset($tpl)) {
-                throw new Exception('Template '.$template.' does not exist.');
+                return PEAR::raiseError('Template '.$template.' does not exist.');
             }
             if (!is_array($data)) {
-                throw new Exception('Data not in correct format, has to be array.');
+                return PEAR::raiseError('Data not in correct format, has to be array.');
             }
             $mailer = new Damblan_Mail();
             $mailer->_template = $tpl;
@@ -114,14 +114,23 @@
                                  the template. If a header already exists in the template
          * @return void
          */
-        public function send ( $headers )
+        function send ( $headers = array() )
         {
             // Compile the template
             $data = $this->_compile();
+            if (PEAR::isError($data)) {
+                return $data;
+            }
             // Merge additional header information to the generated data
             $data = $this->_mergeHeaders($data, $headers);
+            if (PEAR::isError($data)) {
+                return $data;
+            }
             // Check sanity of the email headers
             $data = $this->_sanitize($data);
+            if (PEAR::isError($data)) {
+                return $data;
+            }
             // Restructure data for use with PEAR::Mail (To-header and body are submitted directly)
             foreach ($data as $field => $content) {
                 switch (strtolower($field)) {
@@ -143,11 +152,11 @@
             // Attempt to send mail:
             $mail = Mail::factory('mail');
             if (PEAR::isError($mail)) {
-                throw new Exception('Could not create Mail instance. '.$mail->getMessage());
+                return PEAR::raiseError('Could not create Mail instance. '.$mail->getMessage());
             }
             $res = $mail->send($to, $data, $body);
             if (PEAR::isError($res)) {
-                throw new Exception('Unable to send mail. '.$res->getMessage());
+                return PEAR::raiseError('Unable to send mail. '.$res->getMessage());
             }
             return true;
         }
@@ -161,7 +170,7 @@
          * @access private
          * @return array $data The sanitized template data.
          */
-        private function _sanitize ($data)
+        function _sanitize ($data)
         {
             foreach ($this->_defaultHeaders as $headerName => $header) {
                 if (!isset($data[$headerName])) {
@@ -191,7 +200,7 @@
          * @param array $headers The new header data to merge.
          * @return array $data The merged template data.
          */
-        private function _mergeHeaders ( $data, $headers )
+        function _mergeHeaders ( $data, $headers )
         {
             foreach ($headers as $headerName => $header) {
                 // The new header is an array
@@ -226,7 +235,7 @@
          * @access private
          * @return array $data The compiled data.
          */
-        private function _compile ()
+        function _compile ()
         {
             // Prepare preg_replace() arrays
             $data['patterns'] = array();
