@@ -361,7 +361,7 @@
 			$headers .= "X-PEAR-Package: " . $this->pkg_name . "\n";
 			$headers .= "X-PEPr-Status: " . $this->getStatus() . "\n";
 
-            $res = mail($email['to'], $email['subject'], $email['text'], $headers, "-fpear-sys@php.net");
+            $res = mail($email['to'], $email['subject'], $email['text'], $headers, "-f pear-sys@php.net");
             if (!$res) {
             	return PEAR::raiseError("Could not send notification email.");
             }
