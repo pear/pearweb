@@ -1340,7 +1340,7 @@ class release
      * Confirm release upload
      *
      * @static
-     * @return boolean
+     * @return string  the file name of the upload or PEAR_Error object if problems
      */
     function confirmUpload($package, $version, $state, $relnotes, $md5sum, $package_id, $file)
     {
@@ -1410,7 +1410,7 @@ class release
                            $dbh->query("DELETE FROM deps WHERE release = $release_id");
                            $dbh->query("DELETE FROM releases WHERE id = $release_id");
                            @unlink($file);
-                           return $ok;
+                           return $res;
                        }
                    }
                 }
