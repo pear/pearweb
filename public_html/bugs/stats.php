@@ -51,6 +51,7 @@ $sort_by   = $_GET['sort_by'];
 
 $query        = 'SELECT p.name FROM packages p';
 $where_clause = '';
+$from         = '';
 
 switch ($site) {
     case 'pecl':
@@ -62,13 +63,15 @@ switch ($site) {
 }
 
 if ($_GET['category'] && $_GET['category'] != '') {
-    $where .= ' AND categories.name = ' .  $dbh->quoteSmart($_GET['category']);
-    $query .= ' LEFT JOIN categories ON p.category = categories.id';
+    $where .= ' AND p.category = c.id 
+                AND c.name = ' .  $dbh->quoteSmart($_GET['category']);
+    $from .= ', categories c';
 }
 
 if ($_GET['developer'] && $_GET['developer'] != '') {
-    $where .= ' AND maintains.handle = ' .  $dbh->quoteSmart($_GET['developer']);
-    $query .= ' LEFT JOIN maintains ON p.id = maintains.package';
+    $where .= ' AND p.id = m.package 
+                AND m.handle = ' .  $dbh->quoteSmart($_GET['developer']);
+    $from .= ', maintains m ';
 }
 
 if (empty($_GET['bug_type'])) {
@@ -81,7 +84,7 @@ if (empty($_GET['bug_type'])) {
     $where_clause = ' AND bug_type = ' . $dbh->quoteSmart($bug_type);
 }
 
-$query .= $where . ' GROUP BY p.name';
+$query .= $from.$where . ' GROUP BY p.name';
 $result =& $dbh->getAll($query);
 
 if ($_GET['developer'] == '' && $_GET['category'] == '') {
