@@ -66,3 +66,19 @@ td.man-nav_download {
 td.man-nav_languages {
     font-size: 75%;
 }
+
+/* === Examples === */
+
+code, pre, tt {
+    font-family: Courier, "Courier New", monospace;
+    margin: 0px;
+}
+
+table.EXAMPLE {
+    margin-top: 1em;
+}
+
+table.EXAMPLE p {
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
