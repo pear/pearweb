@@ -57,6 +57,9 @@ $bb->horizHeadRow("Name:", $row['name']);
 if ($row['showemail'] != 0) {
     $bb->horizHeadRow("Email:", "<a href=\"/account-mail.php?handle=" . $handle . "\">".str_replace(array("@", "."), array(" at ", " dot "), $row['email'])."</a>");
 }
+if (!empty($row['pgpkeyid'])) {
+    $bb->horizHeadRow("PGP Key:", make_link("http://keyserver.bu.edu:11371/pks/lookup?search=" . $row['pgpkeyid'] . "&op=get", $row['pgpkeyid']));
+}
 if ($row['homepage'] != "") {
 	$bb->horizHeadRow("Homepage:",
 					  "<a href=\"$row[homepage]\" target=\"_blank\">".
@@ -68,10 +71,6 @@ $bb->horizHeadRow("Additional information:", empty($row['userinfo'])?"&nbsp;":$r
 
 if ($row['wishlist'] != "") {
     $bb->horizHeadRow("Wishlist:", make_link("/wishlist.php/" . $row['handle'], "Click here to be redirected."));
-}
-
-if ($row['admin'] == 1) {
-	$bb->fullRow("$row[name] is a PEAR administrator.");
 }
 
 $bb->end();
