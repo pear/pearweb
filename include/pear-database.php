@@ -1097,7 +1097,7 @@ class maintainer
         $old_users = array_keys($old);
         $new_users = array_keys($users);
 
-        if (!$admin && !in_array($auth_user->handle, $new_users)) {
+        if (!$admin && !$qa && !in_array($auth_user->handle, $new_users)) {
             return PEAR::raiseError("You can not delete your own maintainer role or you will not ".
                                     "be able to complete the update process. Set your name ".
                                     "in package.xml or let the new lead developer upload ".
