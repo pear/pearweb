@@ -224,6 +224,8 @@ be discussed.</p>
     <li><a href="http://evolt.org/article/Abstract_PHP_s_database_code_with_PEAR_DB/17/21927/index.html">Abstract PHP's database code with PEAR::DB</a> on evolt.org</li>
 
     <li><a href="http://www.devshed.com/Server_Side/PHP/DBAbstraction">Database Abstraction With PHP</a> on devshed.com</li>
+
+    <li><a href="http://nyphp.org/content/presentations/db160/">PEAR DB: What's New in 1.6.0</a> by Daniel Convissor</li>
 </ul>
 
 <h4>Tutorials about some PEAR packages in German:</h4>
@@ -264,6 +266,7 @@ be discussed.</p>
 <ul>
     <li><a href="http://www.planet-php.net/">Planet PHP</a> - The news and weblog aggregation portal. Get all
     PHP/PEAR information in one place.</li>
+
     <li><a href="http://www.schlitt.info/index.php/content.publications_phpconf2003ffm">2003-11-04 Frankfurt - 
     International PHP Conference - PEAR im Einsatz</a>
     by Tobias Schlitt.</li>
