@@ -2,10 +2,8 @@ body {
     margin: 0px;
     padding: 0px;
     background-color: white;
-/*     color: black; */
-}
+    color: black;
 
-body, td, th {
     font-family: verdana,arial,helvetica,sans-serif;
     font-size: 95%;
 }
