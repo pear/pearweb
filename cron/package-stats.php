@@ -21,31 +21,37 @@
 * This short script populates the package_stats table and should be run
 * via cron.
 */
-	require_once('DB.php');
-/**
-* DSN for pear packages database
-*/
-	$dsn = "mysql://pear:pear@localhost/pear";
-	$db = DB::connect($dsn);
 
-	if (DB::isError($db)) {
-		die ("Failed to connect: $dsn\n");
-	}
+require_once('DB.php');
 
 /**
-* Query the packages info and insert the results into
-* the package_stats page. First deletes the current
-* data.
-*/
-	$db->query('DELETE FROM package_stats');
+ * DSN for pear packages database
+ */
+$dsn = "mysql://pear:pear@localhost/pear";
+$db = DB::connect($dsn);
 
-	$sql = 'INSERT INTO package_stats SELECT COUNT(d.id) AS dl_number, p.name AS package, r.version AS release, p.id AS pid, r.id AS rid, p.category AS cid
-	            FROM downloads d, packages p, releases r
-	            WHERE d.package = p.id AND d.release = r.id
-	          GROUP BY d.package, d.release ORDER BY dl_number DESC';
+if (DB::isError($db)) {
+    die ("Failed to connect: $dsn\n");
+}
 
-	if (DB::isError($db->query($sql))) {
-		die('Query failed');
-	}
+/**
+ * Query the packages info and insert the results into
+ * the package_stats page. First deletes the current
+ * data.
+ */
+$db->query('DELETE FROM package_stats');
 
-?>
+$sql = 'INSERT INTO package_stats '
+       . 'SELECT COUNT(d.id) AS dl_number, '
+       . '        p.name AS package, '
+       . '        r.version AS release, '
+       . '        p.id AS pid, '
+       . '        r.id AS rid, '
+       . '        p.category AS cid '
+       . 'FROM downloads d, packages p, releases r '
+       . 'WHERE d.package = p.id AND d.release = r.id '
+       . 'GROUP BY d.package, d.release ORDER BY dl_number DESC';
+
+if (DB::isError($db->query($sql))) {
+    die('Query failed');
+}
