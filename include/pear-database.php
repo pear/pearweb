@@ -2216,7 +2216,7 @@ class user
             if (!in_array($key, $fields)) {
                 continue;
             }
-            $user->set($key, addslashes($value));
+            $user->set($key, $value);
         }
         $user->store();
 
