@@ -94,13 +94,11 @@
 		if ($form->validate()) {
 			$values = $form->exportValues();
 			$proposal->sendActionEmail('proposal_comment', 'user', $_COOKIE['PEAR_USER'], $values['comment']);
+			$proposal->addComment($values['comment'], 'package_proposal_comments');
 			$form->removeElement('submit');
 			$form->addElement('static', '', '<b>Your comment has been sent successfully!</b>'); 
 			$form->freeze();
-			// if (!DEVBOX) {
-				localredirect("pepr-proposal-show.php?id=".$proposal->id."&comment=1");
-			// }
-			
+			localredirect("pepr-proposal-show.php?id=".$proposal->id."&comment=1");			
 		}
 	}
 	
@@ -140,7 +138,7 @@
 	$bb->fullRow("<small>Sorry, BBCode facilities of PEPr have been temporarily siwtched off, due to instabillities in BBCodeParser.</small>");
 	$bb->fullRow(nl2br($proposal->pkg_describtion));
 	
-	$changelog = @ppComment::getAll($dbh, $proposal->id);
+	$changelog = @ppComment::getAll($proposal->id, 'package_proposal_changelog');
 	$changeLogRow = "";
 	foreach ($changelog as $comment) {
 		if (!isset($userinfos[$comment->user_handle])) {
@@ -286,6 +284,7 @@
 			$bb->fullRow("Please login to comment or comment directly on ".make_link("pear-dev@lists.php.net", "pear-dev@lists.php.net").".");
 			$bb->end();
 		}
+		echo "<p align='center'>".make_link("/pepr/pepr-comments-show.php?id=".$proposal->id, "View comments on this proposal.")."</p>";
 	} else {
 		$bb = new BorderBox("Vote on this proposal", "100%", "", 2, true);
 		$bb->fullRow("Voting is only enabled during 'Call for votes phase'.");
