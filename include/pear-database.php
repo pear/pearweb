@@ -2395,6 +2395,32 @@ class user
                       . ' only letters and digits';
         }
 
+        // Basic name validation
+
+        // First- and lastname must be longer than 2 characters
+        if (strlen($data['firstname']) <= 2) {
+            $errors[] = 'Your firstname appears to be too short.';
+        }
+        if (strlen($data['lastname']) <= 2) {
+            $errors[] = 'Your lastname appears to be too short.';
+        }
+
+        // Firstname and lastname must start with an uppercase letter
+        if (!preg_match("/^[A-Z]/", $data['firstname'])) {
+            $errors[] = 'Your firstname must begin with an uppercase letter';
+        }
+        if (!preg_match("/^[A-Z]/", $data['lastname'])) {
+            $errors[] = 'Your lastname must begin with an uppercase letter';
+        }
+
+        // No names with only uppercase letters
+        if ($data['firstname'] === strtoupper($data['firstname'])) {
+            $errors[] = 'Your firstname must not consist of only uppercase letters.';
+        }
+        if ($data['lastname'] === strtoupper($data['lastname'])) {
+            $errors[] = 'Your lastname must not consist of only uppercase letters.';
+        }
+
         if ($data['password'] != $data['password2']) {
             $data['password'] = $data['password2'] = "";
             $data['jumpto'] = "password";
