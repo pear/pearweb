@@ -42,6 +42,7 @@ if (!empty($pacid)) {
 
 $version = 0;
 $action = '';
+$show_all = false;
 
 if (!empty($params['action'])) {
 
@@ -49,8 +50,10 @@ if (!empty($params['action'])) {
     case 'download' :
     case 'docs' :
         $action =  $params['action'];
-        if (!empty($params['version'])) {
+        if (!empty($params['version']) && $params['version'] != 'All') {
             $version = $params['version'];
+        } elseif ($params['version'] == 'All') {
+            $show_all = true;
         }
         break;
 
@@ -281,6 +284,7 @@ if (empty($action)) {
 
     $i = 0;
 
+    print '<a href="/package/' . htmlspecialchars($name) . '/download/All">Show All Changelogs</a>';
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     print ' <tr>';
     print '  <th class="headrow" style="width: 20%">&raquo; Version</th>';
@@ -290,7 +294,7 @@ if (empty($action)) {
     foreach ($pkg['releases'] as $release_version => $info) {
         print " <tr>\n";
 
-        if (($i++ == 0 && empty($version)) || $release_version === $version) {
+        if ($show_all || ($i++ == 0 && empty($version)) || $release_version === $version) {
             // Detailed view
 
             print '<td class="textcell">' . $release_version . '</td>';
