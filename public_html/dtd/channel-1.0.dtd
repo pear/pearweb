@@ -23,7 +23,7 @@
 
 <!ELEMENT subchannels (subchannel+)>
 
-<!ELEMENT subchannel (summary,deps?)>
+<!ELEMENT subchannel (summary,xmlrpc?,soap?,deps?)>
 <!ATTLIST subchannel name   CDATA #REQUIRED>
 
 <!ELEMENT deps (dep+)>
