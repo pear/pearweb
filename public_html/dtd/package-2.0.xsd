@@ -24,7 +24,7 @@
      <xs:element ref="extsrc" maxOccurs="unbounded"/>
      <xs:element ref="extbin" maxOccurs="unbounded"/>
     </xs:choice>
-    <xs:element name="changelog">
+    <xs:element name="changelog" minOccurs="0">
      <xs:complexType>
       <xs:choice>
        <xs:element name="release" maxOccurs="unbounded">
@@ -122,10 +122,17 @@
   </xs:sequence>
   <xs:attribute name="id" type="xs:ID" use="optional"/>
  </xs:complexType>
- <xs:element name="date" type="xs:dateTime">
+ <xs:element name="date">
   <xs:annotation>
    <xs:documentation>release date</xs:documentation>
   </xs:annotation>
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="xs:date">
+     <xs:attribute name="time" type="xs:time"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
  </xs:element>
  <xs:element name="version">
   <xs:annotation>
