@@ -52,6 +52,16 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
+  <p><cite><a href="http://www.sebastian-bergmann.de/talks/2004-11-10-PHPUnit.pdf">
+  Testgetriebene Entwicklung mit PHPUnit</cite></a></p>
+  <ul>
+    <li>Date: 2004-11-10</li>
+    <li>Presenter: <?php echo user_link("sebastian", true); ?></li>
+    <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Language: German</li>
+  </ul>
+ </li>
+ <li>
   <p><cite><a href="http://www.arachnion.de/conf2004/">
   Building Web clients using XUL and SOAP</cite></a></p>
   <ul>
@@ -139,6 +149,17 @@ that have been held about PEAR.</p>
  </li>
 
  <li>
+  <p><cite><a href="http://www.sebastian-bergmann.de/talks/2004-05-04-PHPUnit.pdf">
+  Testing Object-Oriented PHP Applications with PHPUnit</a></cite></p>
+  <ul>
+    <li>Date: 2004-05-04</li>
+    <li>Presenter: <?php echo user_link("sebastian", true); ?></li>
+    <li>Venue: Internation PHP Conference, Amsterdam, Netherlands</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+
+ <li>
   <p><cite><a href="http://www.schlitt.info/download/PEAR_Powerworkshop_Spring_2004.tar.gz">
   PEAR not just a fleshy pome</cite></a></p>
   <ul>
@@ -180,6 +201,28 @@ that have been held about PEAR.</p>
     <li>Presenter: <?php echo user_link("jmcastagnetto", true); ?></li>
     <li>Venue: SDPHP monthly meeting, San Diego, United States</li>
     <li>Language: English</li>
+  </ul>
+ </li>
+
+ <li>
+  <p><cite><a href="http://www.sebastian-bergmann.de/talks/2003-05-09-Transforming_XML_with_PHP.pdf">
+  Transforming XML with PHP</a></cite></p>
+  <ul>
+    <li>Date: 2003-05-09</li>
+    <li>Presenter: <?php echo user_link("sebastian", true); ?></li>
+    <li>Venue: Internation PHP Conference, Amsterdam, Netherlands</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+
+ <li>
+  <p><cite><a href="http://kris.koehntopp.de/artikel/xml-transformer/">
+  XML Transformationen mit PHP (und warum XSLT saugt)</a></cite></p>
+  <ul>
+    <li>Date: 2002-11-05</li>
+    <li>Presenter: <?php echo user_link("sebastian", true); ?> and <?php echo user_link("kk", true); ?></li>
+    <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Language: Germany</li>
   </ul>
  </li>
 
