@@ -5,28 +5,22 @@
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="name"/>
+    <xs:element ref="channel"/>
     <xs:element ref="extends" minOccurs="0"/>
     <xs:element ref="summary"/>
     <xs:element ref="description"/>
     <xs:element ref="lead" maxOccurs="unbounded"/>
-    <xs:element ref="maintainer" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="developer" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="contributor" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="helper" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="date"/>
+    <xs:element ref="time" minOccurs="0"/>
     <xs:element ref="version"/>
     <xs:element ref="stability"/>
     <xs:element ref="license"/>
     <xs:element ref="notes"/>
     <xs:element ref="contents"/>
-    <xs:element name="compatibility" minOccurs="0" maxOccurs="unbounded">
-     <xs:complexType>
-      <xs:sequence>
-       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-      </xs:sequence>
-      <xs:attribute name="package" type="xs:string" use="required"/>
-      <xs:attribute name="channel" type="xs:string" use="required"/>
-      <xs:attribute name="min" type="version" use="required"/>
-      <xs:attribute name="max" type="version" use="required"/>
-     </xs:complexType>
-    </xs:element>
+    <xs:element ref="compatible" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="dependencies" minOccurs="0"/>
     <xs:choice>
      <xs:element ref="phprelease" maxOccurs="unbounded"/>
@@ -42,50 +36,56 @@
    <xs:attribute name="pearversion" type="version"/>
   </xs:complexType>
  </xs:element>
- <xs:element name="name">
-  <xs:complexType>
-   <xs:simpleContent>
-    <xs:extension base="xs:string">
-     <xs:attribute name="channel" type="xs:string" use="required"/>
-    </xs:extension>
-   </xs:simpleContent>
-  </xs:complexType>
- </xs:element>
+ <xs:element name="name" type="xs:string"/>
  <xs:element name="summary" type="xs:string"/>
  <xs:element name="description" type="xs:string"/>
  <xs:element name="lead">
   <xs:complexType>
-   <xs:attributeGroup ref="maintainer"/>
+   <xs:sequence>
+    <xs:element ref="name"/>
+    <xs:element ref="user"/>
+    <xs:element ref="email"/>
+    <xs:element ref="active"/>
+   </xs:sequence>
   </xs:complexType>
  </xs:element>
- <xs:element name="maintainer">
+ <xs:element name="developer">
   <xs:complexType>
-   <xs:attribute name="role" use="required">
-    <xs:simpleType>
-     <xs:restriction base="xs:string">
-      <xs:enumeration value="developer"/>
-      <xs:enumeration value="contributor"/>
-      <xs:enumeration value="helper"/>
-      <xs:enumeration value="documentor"/>
-     </xs:restriction>
-    </xs:simpleType>
-   </xs:attribute>
-   <xs:attributeGroup ref="maintainer"/>
+   <xs:sequence>
+    <xs:element ref="name"/>
+    <xs:element ref="user"/>
+    <xs:element ref="email"/>
+    <xs:element ref="active"/>
+   </xs:sequence>
   </xs:complexType>
  </xs:element>
- <xs:element name="date">
+ <xs:element name="contributor">
   <xs:complexType>
-   <xs:simpleContent>
-    <xs:extension base="xs:date">
-     <xs:attribute name="time" type="xs:time"/>
-    </xs:extension>
-   </xs:simpleContent>
+   <xs:sequence>
+    <xs:element ref="name"/>
+    <xs:element ref="user"/>
+    <xs:element ref="email"/>
+    <xs:element ref="active"/>
+   </xs:sequence>
   </xs:complexType>
  </xs:element>
+ <xs:element name="helper">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="name"/>
+    <xs:element ref="user"/>
+    <xs:element ref="email"/>
+    <xs:element ref="active"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="date" type="xs:date"/>
  <xs:element name="version">
   <xs:complexType>
-   <xs:attribute name="api" type="version" use="required"/>
-   <xs:attribute name="package" type="version" use="required"/>
+   <xs:sequence>
+    <xs:element name="release" type="version"/>
+    <xs:element name="api" type="version"/>
+   </xs:sequence>
   </xs:complexType>
  </xs:element>
  <xs:element name="license">
@@ -100,6 +100,29 @@
  </xs:element>
  <xs:element name="stability">
   <xs:complexType>
+   <xs:sequence>
+    <xs:element name="release">
+     <xs:simpleType>
+      <xs:restriction base="xs:string">
+       <xs:enumeration value="snapshot"/>
+       <xs:enumeration value="devel"/>
+       <xs:enumeration value="alpha"/>
+       <xs:enumeration value="beta"/>
+       <xs:enumeration value="stable"/>
+      </xs:restriction>
+     </xs:simpleType>
+    </xs:element>
+    <xs:element name="api">
+     <xs:simpleType>
+      <xs:restriction base="xs:string">
+       <xs:enumeration value="devel"/>
+       <xs:enumeration value="alpha"/>
+       <xs:enumeration value="beta"/>
+       <xs:enumeration value="stable"/>
+      </xs:restriction>
+     </xs:simpleType>
+    </xs:element>
+   </xs:sequence>
    <xs:attribute name="api" use="required">
     <xs:simpleType>
      <xs:restriction base="xs:string">
@@ -225,38 +248,23 @@
     <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
      <xs:complexType>
       <xs:sequence>
-       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+       <xs:element ref="name"/>
+       <xs:choice>
+        <xs:sequence>
+         <xs:element ref="channel"/>
+         <xs:element ref="min" minOccurs="0"/>
+         <xs:element ref="max" minOccurs="0"/>
+         <xs:element ref="recommended" minOccurs="0"/>
+         <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:element ref="uri"/>
+       </xs:choice>
+       <xs:element ref="conflicts" minOccurs="0"/>
       </xs:sequence>
-      <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="channel" type="xs:string"/>
-      <xs:attribute name="url" type="xs:anyURI"/>
-      <xs:attribute name="min" type="version"/>
-      <xs:attribute name="max" type="version"/>
-      <xs:attribute name="recommended" type="version"/>
-      <xs:attribute name="not" default="no">
-       <xs:simpleType>
-        <xs:restriction base="xs:string">
-         <xs:enumeration value="yes"/>
-         <xs:enumeration value="no"/>
-        </xs:restriction>
-       </xs:simpleType>
-      </xs:attribute>
      </xs:complexType>
     </xs:element>
     <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
-     <xs:complexType>
-      <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="not" default="no">
-       <xs:simpleType>
-        <xs:restriction base="xs:string">
-         <xs:enumeration value="yes"/>
-         <xs:enumeration value="no"/>
-        </xs:restriction>
-       </xs:simpleType>
-      </xs:attribute>
-     </xs:complexType>
-    </xs:element>
+    <xs:element ref="os" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="arch" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
@@ -270,13 +278,19 @@
     <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
      <xs:complexType>
       <xs:sequence>
-       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+       <xs:element ref="name"/>
+       <xs:choice>
+        <xs:sequence>
+         <xs:element ref="channel"/>
+         <xs:element ref="min" minOccurs="0"/>
+         <xs:element ref="max" minOccurs="0"/>
+         <xs:element ref="recommended" minOccurs="0"/>
+         <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:element ref="uri"/>
+       </xs:choice>
+       <xs:element ref="conflicts" minOccurs="0"/>
       </xs:sequence>
-      <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="channel" type="xs:string" use="required"/>
-      <xs:attribute name="min" type="version"/>
-      <xs:attribute name="max" type="version"/>
-      <xs:attribute name="recommended" type="version" use="required"/>
      </xs:complexType>
     </xs:element>
     <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
@@ -294,26 +308,22 @@
     <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
      <xs:complexType>
       <xs:sequence>
-       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+       <xs:element ref="name"/>
+       <xs:choice>
+        <xs:sequence>
+         <xs:element ref="channel"/>
+         <xs:element ref="min" minOccurs="0"/>
+         <xs:element ref="max" minOccurs="0"/>
+         <xs:element ref="recommended" minOccurs="0"/>
+         <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:element ref="uri"/>
+       </xs:choice>
+       <xs:element ref="conflicts" minOccurs="0"/>
       </xs:sequence>
-      <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="channel" type="xs:string" use="required"/>
-      <xs:attribute name="min" type="version"/>
-      <xs:attribute name="max" type="version"/>
-      <xs:attribute name="recommended" type="version" use="required"/>
      </xs:complexType>
     </xs:element>
-    <xs:element name="extension" minOccurs="0" maxOccurs="unbounded">
-     <xs:complexType>
-      <xs:sequence>
-       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-      </xs:sequence>
-      <xs:attribute name="name" type="xs:string"/>
-      <xs:attribute name="min" type="version"/>
-      <xs:attribute name="max" type="version"/>
-      <xs:attribute name="recommended" type="version"/>
-     </xs:complexType>
-    </xs:element>
+    <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -321,7 +331,7 @@
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="lead" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element ref="maintainer" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="developer" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="date"/>
     <xs:element ref="version"/>
     <xs:element ref="stability"/>
@@ -330,19 +340,6 @@
    </xs:sequence>
   </xs:complexType>
  </xs:element>
- <xs:attributeGroup name="maintainer">
-  <xs:attribute name="user" type="xs:string" use="required"/>
-  <xs:attribute name="email" type="xs:string" use="required"/>
-  <xs:attribute name="name" type="xs:string" use="required"/>
-  <xs:attribute name="active" use="required">
-   <xs:simpleType>
-    <xs:restriction base="xs:string">
-     <xs:enumeration value="yes"/>
-     <xs:enumeration value="no"/>
-    </xs:restriction>
-   </xs:simpleType>
-  </xs:attribute>
- </xs:attributeGroup>
  <xs:simpleType name="version">
   <xs:annotation>
    <xs:documentation>version string regex</xs:documentation>
@@ -354,87 +351,45 @@
  <xs:element name="extension">
   <xs:complexType>
    <xs:sequence>
+    <xs:element ref="name"/>
+    <xs:element ref="min" minOccurs="0"/>
+    <xs:element ref="max" minOccurs="0"/>
+    <xs:element ref="recommended" minOccurs="0"/>
     <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="conflicts" minOccurs="0"/>
    </xs:sequence>
-   <xs:attribute name="name" type="xs:string" use="required"/>
-   <xs:attribute name="min" type="version"/>
-   <xs:attribute name="max" type="version"/>
-   <xs:attribute name="recommended" type="version"/>
-   <xs:attribute name="not" default="no">
-    <xs:simpleType>
-     <xs:restriction base="xs:string">
-      <xs:enumeration value="yes"/>
-      <xs:enumeration value="no"/>
-     </xs:restriction>
-    </xs:simpleType>
-   </xs:attribute>
   </xs:complexType>
  </xs:element>
  <xs:element name="pearinstaller">
   <xs:complexType>
    <xs:sequence>
+    <xs:element ref="min"/>
+    <xs:element ref="max" minOccurs="0"/>
+    <xs:element ref="recommended" minOccurs="0"/>
     <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
-   <xs:attribute name="min" type="version" use="required"/>
-   <xs:attribute name="max" type="version"/>
-   <xs:attribute name="recommended" type="version"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="php">
   <xs:complexType>
    <xs:sequence>
+    <xs:element ref="min"/>
+    <xs:element ref="max"/>
     <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
-   <xs:attribute name="min" type="version" use="required"/>
-   <xs:attribute name="max" type="version" use="required"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="installconditions">
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="php" minOccurs="0"/>
-    <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
-     <xs:complexType>
-      <xs:sequence>
-       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-      </xs:sequence>
-      <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="channel" type="xs:string" use="required"/>
-      <xs:attribute name="min" type="version"/>
-      <xs:attribute name="max" type="version"/>
-      <xs:attribute name="not" default="no">
-       <xs:simpleType>
-        <xs:restriction base="xs:string">
-         <xs:enumeration value="yes"/>
-         <xs:enumeration value="no"/>
-        </xs:restriction>
-       </xs:simpleType>
-      </xs:attribute>
-     </xs:complexType>
-    </xs:element>
     <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element name="os" minOccurs="0">
-     <xs:complexType>
-      <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="not" default="no">
-       <xs:simpleType>
-        <xs:restriction base="xs:string">
-         <xs:enumeration value="yes"/>
-         <xs:enumeration value="no"/>
-        </xs:restriction>
-       </xs:simpleType>
-      </xs:attribute>
-     </xs:complexType>
-    </xs:element>
+    <xs:element ref="os" minOccurs="0"/>
     <xs:element ref="arch" minOccurs="0"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
- <xs:element name="exclude">
-  <xs:complexType>
-   <xs:attribute name="version" type="version" use="required"/>
-  </xs:complexType>
- </xs:element>
+ <xs:element name="exclude" type="version"/>
  <xs:element name="configureoption">
   <xs:complexType>
    <xs:attribute name="name" type="xs:string" use="required"/>
@@ -444,16 +399,54 @@
  </xs:element>
  <xs:element name="arch">
   <xs:complexType>
-   <xs:attribute name="pattern" type="xs:string" use="required"/>
-   <xs:attribute name="not" default="no">
-    <xs:simpleType>
-     <xs:restriction base="xs:string">
-      <xs:enumeration value="yes"/>
-      <xs:enumeration value="no"/>
-     </xs:restriction>
-    </xs:simpleType>
-   </xs:attribute>
+   <xs:sequence>
+    <xs:element ref="pattern"/>
+    <xs:element ref="conflicts" minOccurs="0"/>
+   </xs:sequence>
   </xs:complexType>
  </xs:element>
  <xs:element name="extends" type="xs:string"/>
+ <xs:element name="time" type="xs:time"/>
+ <xs:element name="compatible">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="package"/>
+    <xs:element name="channel"/>
+    <xs:element ref="min"/>
+    <xs:element ref="max"/>
+    <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="min" type="version"/>
+ <xs:element name="max" type="version"/>
+ <xs:element name="user" type="xs:string"/>
+ <xs:element name="email" type="xs:string"/>
+ <xs:element name="active">
+  <xs:simpleType>
+   <xs:restriction base="xs:string">
+    <xs:enumeration value="yes"/>
+    <xs:enumeration value="no"/>
+   </xs:restriction>
+  </xs:simpleType>
+ </xs:element>
+ <xs:element name="recommended" type="version"/>
+ <xs:element name="channel">
+  <xs:simpleType>
+   <xs:restriction base="xs:string">
+    <xs:pattern value="[A-Za-z][a-zA-Z0-9_]+"/>
+   </xs:restriction>
+  </xs:simpleType>
+ </xs:element>
+ <xs:element name="uri" type="xs:anyURI"/>
+ <xs:element name="pattern" type="xs:string"/>
+ <xs:element name="conflicts"/>
+ <xs:element name="os">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="name"/>
+    <xs:element ref="conflicts" minOccurs="0"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
 </xs:schema>
