@@ -72,9 +72,9 @@
     role           %FileRoles;        'php'
     baseinstalldir CDATA              #IMPLIED>
 
-<!ELEMENT file (#PCDATA|replace)*>
+<!ELEMENT file (replace)*>
 <!ATTLIST file
-    name           CDATA              #IMPLIED
+    name           CDATA              #REQUIRED
     role           %FileRoles;        'php'
     debug          (na|on|off)        'na'
     threaded       (na|on|off)        'na'
