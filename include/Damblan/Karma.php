@@ -79,7 +79,7 @@ class Damblan_Karma {
             $levels = array("pear.group");
             break;
 
-        case "pear.doc.chm-upload" :
+        case "doc.chm-upload" :
             $levels = array("pear.doc.chm-upload", "pear.group");
             break;
 
