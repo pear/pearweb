@@ -277,6 +277,7 @@
    </xs:choice>
    <xs:attribute name="baseinstalldir" type="xs:string"/>
    <xs:attribute name="name" type="xs:string" use="required"/>
+   <xs:attribute name="role" type="xs:string"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="file">
@@ -353,12 +354,24 @@
    <xs:documentation>filelist for differing between releases</xs:documentation>
   </xs:annotation>
   <xs:sequence>
-   <xs:element name="dir" type="releasedir"/>
+   <xs:element name="dir">
+    <xs:complexType>
+     <xs:complexContent>
+      <xs:extension base="releasedir"/>
+     </xs:complexContent>
+    </xs:complexType>
+   </xs:element>
   </xs:sequence>
  </xs:complexType>
  <xs:complexType name="releasedir">
   <xs:choice>
-   <xs:element name="dir" type="releasedir" maxOccurs="unbounded"/>
+   <xs:element name="dir" maxOccurs="unbounded">
+    <xs:complexType>
+     <xs:complexContent>
+      <xs:extension base="releasedir"/>
+     </xs:complexContent>
+    </xs:complexType>
+   </xs:element>
    <xs:choice maxOccurs="unbounded">
     <xs:element name="file">
      <xs:complexType>
@@ -373,7 +386,13 @@
     </xs:element>
    </xs:choice>
    <xs:sequence maxOccurs="unbounded">
-    <xs:element name="dir" type="releasedir" maxOccurs="unbounded"/>
+    <xs:element name="dir" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:complexContent>
+       <xs:extension base="releasedir"/>
+      </xs:complexContent>
+     </xs:complexType>
+    </xs:element>
     <xs:choice maxOccurs="unbounded">
      <xs:element name="file">
       <xs:complexType>
