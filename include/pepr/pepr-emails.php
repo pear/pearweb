@@ -25,7 +25,7 @@
 				"admin" 	=> "{email_pear_dev}, {email_pear_group}, {owner_name} <{owner_email}>",
 				"user" 		=> "{email_pear_dev}, {owner_name} <{owner_email}>"),
 			"subject" 	=> "{pkg_category}::{pkg_name} deleted",
-			"text" 		=> "{actor_name} ({actor_link}) has deleted the proposal for {pkg_category}::{pkg_name}"
+			"text" 		=> "{actor_name} ({actor_link}) has deleted the proposal for {pkg_category}::{pkg_name}."
 		),
 		
 		// $proposal->sendActionEmail("change_status_proposal", $_COOKIE["PEAR_USER"], $proposal);
@@ -34,7 +34,7 @@
 				"admin" 	=> "{email_pear_dev}, {email_pear_group}, {owner_name} <{owner_email}>",
 				"user" 		=> "{email_pear_dev}, {owner_name} <{owner_email}>"),
 			"subject" 	=> 	"Proposal for {pkg_category}::{pkg_name}",
-			"text"		=>	"{actor_name} ({actor_link}) proposes the new package {pkg_category}::{pkg_name}.\nYou can find more detailed information here: {proposal_url}."
+			"text"		=>	"{actor_name} ({actor_link}) proposes the new package {pkg_category}::{pkg_name}.\n\nYou can find more detailed information here:\n {proposal_url}."
 		),
 		
 		// $proposal->sendActionEmail("change_status_vote", $_COOKIE["PEAR_USER"], $proposal);		
@@ -51,7 +51,7 @@
 			"to"		=> array (
 				"pearweb" 	=> "{email_pear_dev}, {email_pear_group}, {owner_name} <{owner_email}>"),
 			"subject" 	=> 	"Extended call for votes on {pkg_category}::{pkg_name}",
-			"text"		=>	"PEPr has automatically extended the voting time on {pkg_category}::{pkg_name} until {end_voting_time} because there where not enough votes.\n\nPlease review the package and give your vote here:\n{proposal_url} ."
+			"text"		=>	"PEPr has automatically extended the voting time on {pkg_category}::{pkg_name} until {end_voting_time} because there where not enough votes, yet.\n\nPlease review the package and give your vote here:\n{proposal_url}\n\nVoting time is extended only once per proposal."
 		),
 		
 		// $proposal->sendActionEmail("longened_timeline_admin", $_COOKIE["PEAR_USER"], $proposal);		
@@ -68,7 +68,7 @@
 				"pearweb" 	=> "{email_pear_dev}, {email_pear_group}, {owner_name} <{owner_email}>",
 				"user" 		=> "{email_pear_dev}, {owner_name} <{owner_email}>"),
 			"subject" 	=> 	"Proposal finished {pkg_category}::{pkg_name}",
-			"text"		=>	"PEPr has automatically finished the proposal on the package {pkg_category}::{pkg_name}.\n\nFurther details here:\n{proposal_url} ."
+			"text"		=>	"PEPr has automatically finished the proposal on the package {pkg_category}::{pkg_name}.\n\nFurther details on the status of the proposal and the votes can be found here:\n{proposal_url} ."
 		),
 		
 		// $proposal->sendActionEmail("edit_proposal", $_COOKIE["PEAR_USER"], $proposal);
@@ -83,9 +83,10 @@
 		// $proposal->sendActionEmail("proposal_vote", $_COOKIE["PEAR_USER"], $proposal);
 		"proposal_vote" => array(
 		"to"		    => array (
-				"user" 		=> "{email_pear_dev}, {actor_name} <{actor_email}>, {owner_name} <{owner_email}>"),
+				"user" 		=> "{email_pear_dev}, {actor_name} <{actor_email}>, {owner_name} <{owner_email}>",
+				"admin" 	=> "{email_pear_dev}, {actor_name} <{actor_email}>, {owner_name} <{owner_email}>"),
 			"subject" 	=> 	"{vote_value} for {pkg_category}::{pkg_name}",
-			"text"		=>	"{actor_name} ({actor_link}) has voted on the proposal for {pkg_category}::{pkg_name}. Proposal information:\n{proposal_url}\nVote information:\n{vote_url}"
+			"text"		=>	"{actor_name} ({actor_link}) has voted {vote_value} on the proposal for {pkg_category}::{pkg_name}. Proposal information:\n{proposal_url}\nVote information:\n{vote_url}"
 		),
 	);
 ?>
