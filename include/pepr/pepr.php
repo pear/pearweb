@@ -556,6 +556,21 @@ class proposal {
 
             $vote_url = "http://pear.php.net/pepr/pepr-vote-show.php?id=".$this->id."&handle=".$user_handle;
         }
+
+        if ($this->status == 'finished') {
+            $proposalVotesSum = ppVote::getSum($dbh, $this->id);
+            
+            $vote_result  = 'Sum of Votes: ' . $proposalVotesSum['all'];
+            $vote_result .= ' (' . $proposalVotesSum['conditional']
+                          . ' conditional)';
+
+            if ($proposalVotesSum['all'] >= 5) {
+                $vote_result .= "\nResult:       This proposal was accepted";
+            } else {
+                $vote_result .= "\nResult:       This proposal was rejected";
+            }
+        }
+
         $proposal_url = "http://pear.php.net/pepr/pepr-proposal-show.php?id=".$this->id;
         $end_voting_time = (@$this->longened_date > 0) ? $this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE : @$this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE;
 
@@ -584,6 +599,7 @@ class proposal {
                          "/\{email_pear_dev\}/",
                          "/\{email_pear_group\}/",
                          "/\{comment\}/",
+                         "/\{vote_result\}/",
                          "/\{vote_conditional\}/"
                          );
         $replacements = array(
@@ -602,6 +618,7 @@ class proposal {
                               PROPOSAL_MAIL_PEAR_DEV,
                               PROPOSAL_MAIL_PEAR_GROUP,
                               (isset($comment)) ? $comment : '',
+                              (isset($vote_result)) ? $vote_result : '',
                               (isset($vote_conditional)) ? $vote_conditional : ""
                               );
 
