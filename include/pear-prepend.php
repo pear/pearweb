@@ -26,10 +26,7 @@ if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
     define('DEVBOX', false);
 }
 
-require_once "DB.php";
-require_once "DB/storage.php";
-require_once "pear-auth.php";
-require_once "pear-database.php";
+require_once "PEAR.php";
 
 if (empty($format)) {
     if (basename($_SERVER['PHP_SELF']) == "xmlrpc.php") {
@@ -42,6 +39,11 @@ if (empty($format)) {
 }
 
 include_once "pear-format-$format.php";
+
+require_once "DB.php";
+require_once "DB/storage.php";
+require_once "pear-auth.php";
+require_once "pear-database.php";
 
 function get($name)
 {
