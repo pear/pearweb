@@ -125,8 +125,7 @@ searchable. The lists are described in more detail in the
 <a href="/manual/en/support.php">manual</a>.
 </p>
 
-<form method="POST" action="http://pear.php.net/support.php">
-<p>
+<form method="post" action="http://pear.php.net/support.php">
 <table cellpadding="5" cellspacing="1">
 <?php
 
@@ -158,11 +157,10 @@ while ( list(, $listinfo) = each($mailing_lists)) {
 
 ?>
 </table>
-</p>
 
 <p align="center">
 <b>Email:</b>
-<input type="text" name="email" width="40" value="user@example.com" />
+<input type="text" name="email" size="40" value="user@example.com" />
 <input type="submit" name="action" value="Subscribe" />
 <input type="submit" name="action" value="Unsubscribe" />
 </p>
