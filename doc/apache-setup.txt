@@ -38,7 +38,7 @@ installed in /usr/share/pear):
  #
  # Rewriting rule for the API documentation
  #
- RewriteRule   /package/([a-zA-z_]+)/docs/(.+)($/|$) /reference/$1-$2 [PT]
+ RewriteRule   /package/([a-zA-Z0-9_]+)/docs/(.+)($/|$) /reference/$1-$2 [PT]
 
  <Location /get>
   ForceType application/x-httpd-php
