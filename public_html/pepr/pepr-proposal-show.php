@@ -279,12 +279,13 @@
 			$bb->fullRow("Please login to comment or comment directly on ".make_link("pear-dev@lists.php.net", "pear-dev@lists.php.net").".");
 			$bb->end();
 		}
-		echo "<p align='center'>".make_link("/pepr/pepr-comments-show.php?id=".$proposal->id, "View comments on this proposal.")."</p>";
 	} else {
 		$bb = new BorderBox("Vote on this proposal", "100%", "", 2, true);
 		$bb->fullRow("Voting is only enabled during 'Call for votes phase'.");
 		$bb->end();
 	}
+	
+	echo "<p align='center'>".make_link("/pepr/pepr-comments-show.php?id=".$proposal->id, "View comments on this proposal.")."</p>";
 	
 	echo "</td></tr>";
 	echo "</table>";
