@@ -57,7 +57,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2004-11-10</li>
     <li>Presenter: <?php echo user_link("sebastian", true); ?></li>
-    <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Venue: International PHP Conference, Frankfurt, Germany</li>
     <li>Language: German</li>
   </ul>
  </li>
@@ -67,7 +67,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2004-11-10</li>
     <li>Presenter: Volker Goebbels</li>
-    <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Venue: International PHP Conference, Frankfurt, Germany</li>
     <li>Language: English</li>
   </ul>
  </li>
@@ -76,7 +76,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2004-11-09</li>
     <li>Presenter: <?php echo user_link("schst", true); ?></li>
-    <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Venue: International PHP Conference, Frankfurt, Germany</li>
     <li>Language: English</li>
   </ul>
  </li>
@@ -85,7 +85,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2004-11-09</li>
     <li>Presenter: <?php echo user_link("arnaud", true); ?></li>
-    <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Venue: International PHP Conference, Frankfurt, Germany</li>
     <li>Language: English</li>
   </ul>
  </li>
@@ -95,7 +95,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2004-11-07</li>
     <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
-    <li>Venue: PEAR Powerworkshop, Internation PHP Conference, 
+    <li>Venue: PEAR Powerworkshop, International PHP Conference, 
     Frankfurt, Germany</li>
     <li>Language: English</li>
   </ul>
@@ -154,7 +154,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2004-05-04</li>
     <li>Presenter: <?php echo user_link("sebastian", true); ?></li>
-    <li>Venue: Internation PHP Conference, Amsterdam, Netherlands</li>
+    <li>Venue: International PHP Conference, Amsterdam, Netherlands</li>
     <li>Language: English</li>
   </ul>
  </li>
@@ -165,7 +165,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2004-05-03</li>
     <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
-    <li>Venue: PEAR Powerworkshop, Internation PHP Conference Spring Edition, 
+    <li>Venue: PEAR Powerworkshop, International PHP Conference Spring Edition, 
     Amsterdam, Netherlands</li>
     <li>Language: English</li>
   </ul>
@@ -177,7 +177,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2003-11-04</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
-    <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Venue: International PHP Conference, Frankfurt, Germany</li>
     <li>Language: German</li>
   </ul>
  </li>
@@ -210,7 +210,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2003-05-09</li>
     <li>Presenter: <?php echo user_link("sebastian", true); ?></li>
-    <li>Venue: Internation PHP Conference, Amsterdam, Netherlands</li>
+    <li>Venue: International PHP Conference, Amsterdam, Netherlands</li>
     <li>Language: English</li>
   </ul>
  </li>
@@ -221,7 +221,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2002-11-05</li>
     <li>Presenter: <?php echo user_link("sebastian", true); ?> and <?php echo user_link("kk", true); ?></li>
-    <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Venue: International PHP Conference, Frankfurt, Germany</li>
     <li>Language: Germany</li>
   </ul>
  </li>
