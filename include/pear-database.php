@@ -2567,12 +2567,12 @@ class user
     }
 
     // }}}
-    // {{{ * proto array   user::getZendWhoIsWho() API 1.0
+    // {{{ * proto array   user::getWhoIsWho() API 1.0
 
     /**
      * Get list of current developers and the packages they maintain.
      *
-     * The output of this method is used on the Zend.com website for
+     * The output of this method is used on public websites for
      * a Who Is Who of the PEAR developers.  In order to avoid abuse,
      * access to this method via XML_RPC is granted based on a whitelist
      * of IP addresses.
@@ -2580,12 +2580,11 @@ class user
      * @access public
      * @return array
      */
-    function getZendWhoIsWho() {
-        return false; // until we can flag agreement I guess.
+    function getWhoIsWho() {
         global $dbh;
 
         // IP whitelist
-        if (!in_array($_SERVER['REMOTE_ADDR'], array("127.0.0.1", "209.61.191.11"))) {
+        if (!in_array($_SERVER['REMOTE_ADDR'], array('127.0.0.1'))) {
             return array();
         }
 
