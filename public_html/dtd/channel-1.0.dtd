@@ -1,4 +1,4 @@
-<!ELEMENT channel (name,summary,validatepackage?,xmlrpc,soap?,subchannels?,mirrors?,deps?)>
+<!ELEMENT channel (name,summary,validatepackage?,protocols,subchannels?,mirrors?,deps?)>
 <!ATTLIST channel version CDATA "1.0">
 
 <!ELEMENT name (#PCDATA)>
@@ -7,6 +7,8 @@
 
 <!ELEMENT validatepackage (#PCDATA)>
 <!ATTLIST validatepackage version CDATA #REQUIRED>
+
+<!ELEMENT protocols (xmlrpc, soap?)>
 
 <!ELEMENT xmlrpc (function+)>
 <!ATTLIST xmlrpc host     CDATA #REQUIRED
@@ -23,7 +25,7 @@
 
 <!ELEMENT subchannels (subchannel+)>
 
-<!ELEMENT subchannel (summary,xmlrpc?,soap?,deps?)>
+<!ELEMENT subchannel (summary,protocols?,deps?)>
 <!ATTLIST subchannel name   CDATA #REQUIRED>
 
 <!ELEMENT deps (dep+)>
@@ -35,6 +37,6 @@
 
 <!ELEMENT mirrors (mirror+)>
 
-<!ELEMENT mirror (xmlrpc?,soap?)>
+<!ELEMENT mirror (protocols)>
 <!ATTLIST mirror type CDATA #REQUIRED
                  name CDATA #REQUIRED>
