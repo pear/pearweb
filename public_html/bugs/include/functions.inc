@@ -445,22 +445,39 @@ function addlinks($text)
     $text = preg_replace("/[.,]?-=-\"/", '"', $text);
 	return $text;
 }
+/* validate a bugtype */
+function bugtype_exists ($type)
+{
+	global $dbh;
+
+    if (empty($type)) {
+		return false;
+	}
+	if (in_array($type, array('Web Site', 'Documentation', 'Bug System'))) {
+		return true;
+	}
+	$found = $dbh->getOne('SELECT count(*) FROM packages WHERE packages.name=' . "'" . $type ."'");
+	return $found==1?true:false;
+}
 
 /* validate an incoming bug report */
 function incoming_details_are_valid ($in, $initial=0)
 {
-	global $bug;
+	global $bug, $dbh;
 
 	$errors = array();
+	if (empty ($in['bug_type']) || $in['bug_type'] == "none") {
+		$errors[] = "Please select an appropriate bug type.";
+	} else if (!bugtype_exists($in['bug_type'])) {
+		$errors[] = "Please select an appropriate bug type.";;
+	}
+
 	if ($initial || (!empty($in[email]) && $bug[email] != $in[email])) {
 		if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",$in['email'])) {
 			$errors[] = "Please provide a valid email address.";
 		}
 	}
 
-	if ($in['bug_type'] == "none") {
-		$errors[] = "Please select an appropriate bug type.";
-	}
 
 	if (isset($in['php_version']) && $in['php_version'] == 'earlier') {
 		$errors[] = "Please select a valid PHP version. If your PHP version is too old, please upgrade first and see if the problem has not already been fixed.";
