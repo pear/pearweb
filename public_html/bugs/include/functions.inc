@@ -477,6 +477,8 @@ function incoming_details_are_valid ($in, $initial=0)
 
 function get_bugtype_mail($bug_type)
 {
+    $to[] = "pear-dev@lists.php.net";
+
     switch ($bug_type) {
         case 'Web Site':
             return array('pear-webmaster@php.net', 'pear-webmaster@php.net');
@@ -490,26 +492,6 @@ function get_bugtype_mail($bug_type)
         $to[] = $data['email'];
     }
     return array(implode(', ', $to), "pear-dev@lists.php.net");
-    /*
-    print_r($maintainers);exit;
-	global $mail_bugs_to;
-
-	if (eregi("documentation", $bug_type)) {
-		return array("phpdoc@lists.php.net", "phpdoc@lists.php.net");
-	}
-	elseif (eregi("website", $bug_type)) {
-		return array("php-mirrors@lists.php.net","php-mirrors@lists.php.net");
-	}
-	elseif (eregi("(pear)|(pecl)", $bug_type)) {
-		return array("pear-dev@lists.php.net","pear-dev@lists.php.net");
-	}
-	elseif (eregi("gtk", $bug_type)) {
-		return array("php-gtk-dev@lists.php.net","php-gtk-dev@lists.php.net");
-	}
-	else {
-		return array($mail_bugs_to,$mail_bugs_to);
-	}
-    */
 }
 
 function get_row_color($row)
