@@ -431,9 +431,9 @@ class package
              "WHERE package = ? ".
              "ORDER BY releasedate DESC";
         $notes_sql = "SELECT id, nby, ntime, note FROM notes WHERE pid = ?";
-        $deps_sql = "SELECT type, relation, version, name, release
+        $deps_sql = "SELECT type, relation, version, name, release, optional
                      FROM deps
-                     WHERE package = ?";
+                     WHERE package = ? ORDER BY optional ASC";
         if ($field === null) {
             $info =
                  $dbh->getRow($pkg_sql, array($pkg), DB_FETCHMODE_ASSOC);
@@ -1022,7 +1022,7 @@ class maintainer
 
         $query = "UPDATE maintains SET role = ?, active = ? " .
             "WHERE package = ? AND handle = ?";
-        return $dbh->query($query, array($role, $active, $package, $handle));
+        return $dbh->query($query, array($role, $active, $package, $user));
     }
 }
 
@@ -1140,7 +1140,8 @@ class release
         if (PEAR::isError($ref)) {
             return $ref;
         }
-        return release::confirmUpload($ref);
+
+        return release::confirmUpload($package, $version, $state, $relnotes, $md5sum, $ref['package_id'], $ref['file']);
     }
 
     // }}}
@@ -1205,22 +1206,9 @@ class release
             return PEAR::raiseError("bad md5 checksum (checksum=$testsum ($bytes bytes: $data), specified=$md5sum)");
         }
 
-        $info = array("package_id" => $package_id,
-                      "package" => $package,
-                      "version" => $version,
-                      "state" => $state,
-                      "relnotes" => $relnotes,
-                      "md5sum" => $md5sum,
-                      "file" => $file);
-        $infofile = sprintf("%s/%s%s-%s",
-                            PEAR_TARBALL_DIR, ".info.", $package, $version);
-        $fp = @fopen($infofile, "w");
-        if (!is_resource($fp)) {
-            return PEAR::raiseError("writing $infofile failed: $php_errormsg");
-        }
-        fwrite($fp, serialize($info));
-        fclose($fp);
-        return $infofile;
+        return array("package_id" => $package_id,
+                     "file" => $file
+                     );
     }
 
     // }}}
@@ -1230,33 +1218,19 @@ class release
      * Confirm release upload
      *
      * @static
-     * @param string Reference to upload file (?)
      * @return boolean
      */
-    function confirmUpload($upload_ref)
+    function confirmUpload($package, $version, $state, $relnotes, $md5sum, $package_id, $file)
     {
         global $dbh, $auth_user;
-        $fp = @fopen($upload_ref, "r");
-        if (!is_resource($fp)) {
-            return PEAR::raiseError("invalid upload reference: $upload_ref");
-        }
-        $info = unserialize(fread($fp, filesize($upload_ref)));
-        extract($info);
-        @unlink($upload_ref);
-
-        $role = user::maintains($auth_user->handle, $package_id);
-        if ($role != 'lead' && $role != 'developer' && !$auth_user->isAdmin()) {
-            return PEAR::raiseError('release::confirmUpload: insufficient privileges');
-        }
 
         // Update releases table
         $query = "INSERT INTO releases (id,package,version,state,doneby,".
-             "releasedate,releasenotes) VALUES(?,?,?,?,?,?,?)";
+             "releasedate,releasenotes) VALUES(?,?,?,?,?,NOW(),?)";
         $sth = $dbh->prepare($query);
         $release_id = $dbh->nextId("releases");
         $dbh->execute($sth, array($release_id, $package_id, $version, $state,
-                                  $_COOKIE['PEAR_USER'], gmdate('Y-m-d H:i'),
-                                  $relnotes));
+                                  $auth_user->handle, $relnotes));
         // Update files table
         $query = "INSERT INTO files ".
              "(id,package,release,md5sum,basename,fullpath) ".
@@ -1268,8 +1242,8 @@ class release
 
         // Update dependency table
         $query = "INSERT INTO deps " .
-            "(package, release, type, relation, version, name) " .
-            "VALUES (?,?,?,?,?,?)";
+            "(package, release, type, relation, version, name, optional) " .
+            "VALUES (?,?,?,?,?,?,?)";
         $sth = $dbh->prepare($query);
 
         /**
@@ -1278,14 +1252,19 @@ class release
          * a PEAR_Common object here.
          */
         $common = new PEAR_Common();
-        $pkg_info = $common->InfoFromTgzFile($info['file']);
+        $pkg_info = $common->InfoFromTgzFile($file);
 
         foreach ($pkg_info as $key => $value) {
             if ($key == "release_deps") {
                 foreach ($value as $dep) {
+                    $optional = 0;
+                    if (!empty($dep['optional']) && $dep['optional'] == "yes") {
+                        $optional = 1;
+                    }
                     $dbh->execute($sth, array($package_id, $release_id,
                                               @$dep['type'], @$dep['rel'],
-                                              @$dep['version'], @$dep['name'])
+                                              @$dep['version'], @$dep['name'],
+                                              $optional)
                                   );
                 }
             }

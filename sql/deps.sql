@@ -5,6 +5,7 @@ CREATE TABLE deps (
   relation   ENUM('has', 'eq', 'lt', 'le', 'gt', 'ge') DEFAULT 'has',
   version    varchar(20),
   name	     varchar(100),
+  optional   tinyint(4) DEFAULT '0' NOT NULL,
   INDEX (release),
   INDEX (package,version)
 );
