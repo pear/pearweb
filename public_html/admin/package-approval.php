@@ -37,6 +37,15 @@ if (!empty($_GET['approve'])) {
         $header = "In-Reply-To: <approve-request-" . $row['id'] . "@pear.php.net>";
         mail("pear-group@php.net", "Package " . $row['name'] . " has been approved", $mailtext, $header, "-f pear-sys@php.net");
 
+        $mailtext = "Your package \"" . $row['name'] . "\" has been approved by the PEAR Group.";
+        $mailtext = wordwrap($mailtext, 72);
+
+        $query = "SELECT u.email FROM users u, maintains m WHERE m.package = ? AND u.handle = m.handle";
+        $rows = $dbh->getAll($query, array($_GET['approve']), DB_FETCHMODE_ASSOC);
+        foreach ($rows as $u_row) {
+            mail($u_row['email'], "PEAR Package approved", $mailtext, "From: \"PEAR Package Approval System\" <pear-group@php.net>", "-f pear-sys@php.net");
+        }
+
         echo "Successfully <b>approved package</b>.<br /><br />";
     }
 }
