@@ -1,23 +1,26 @@
-# phpMyAdmin MySQL-Dump
-# version 2.4.0
-# http://www.phpmyadmin.net/ (download page)
-#
-# Host: localhost
-# Generation Time: Dec 19, 2003 at 04:38 PM
-# Server version: 3.23.49
-# PHP Version: 4.3.4
-# Database : `pear`
-# --------------------------------------------------------
-
 #
 # Table structure for table `package_proposal_changelog`
 #
 
 CREATE TABLE package_proposal_changelog (
   pkg_prop_id int(11) NOT NULL default '0',
-  timestamp timestamp(14) NOT NULL,
-  user_handle varchar(255) NOT NULL default '',
-  comment text
+  timestamp int(14) NOT NULL default '0',
+  user_handle varchar(20) NOT NULL default '',
+  comment text,
+  PRIMARY KEY  (pkg_prop_id,timestamp,user_handle)
+) TYPE=MyISAM;
+# --------------------------------------------------------
+
+#
+# Table structure for table `package_proposal_comments`
+#
+
+CREATE TABLE package_proposal_comments (
+  user_handle varchar(20) NOT NULL default '',
+  pkg_prop_id int(11) NOT NULL default '0',
+  timestamp int(14) NOT NULL default '0',
+  comment text NOT NULL,
+  PRIMARY KEY  (user_handle,pkg_prop_id,timestamp)
 ) TYPE=MyISAM;
 # --------------------------------------------------------
 
@@ -56,6 +59,7 @@ CREATE TABLE package_proposals (
   id int(11) NOT NULL auto_increment,
   pkg_category varchar(255) NOT NULL default '',
   pkg_name varchar(255) NOT NULL default '',
+  pkg_license varchar(100) NOT NULL default '',
   pkg_describtion text NOT NULL,
   pkg_deps text NOT NULL,
   draft_date datetime NOT NULL default '0000-00-00 00:00:00',
