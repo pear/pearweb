@@ -213,12 +213,30 @@ do {
    (will be emailed to <?= $requser->email ?>):<br />
    <textarea rows="3" cols="60" name="reason"></textarea><br />
 
+<?php
+$reasons = array("You don't need a PEAR account to use PEAR or PEAR packages.\n\n" .
+                 "As part of our ongoing Quality Assurance we would be interested in\n" .
+                 "hearing what could be added  on the form to prevent someone making a\n" .
+                 "similar mistake.",
+
+                 "Please propose all new packages to the mailing list\n" .
+                 "pear-dev@lists.php.net first.",
+
+                 "Please fill out a bug report at http://pear.php.net/bugs/ for all\n" .
+                 "bugs or patches.",
+
+                 "Please supply valid credentials, including your full name and a\n" .
+                 "descriptive reason for an account."
+                 );
+?>
+
     <select onchange="return updateRejectReason(this)">
    		<option>Select reason...</option>
-   		<option value="You don't need a PEAR account to use PEAR or PEAR packages.">You don't need a PEAR account to use PEAR or PEAR packages.</option>
-		<option value="Please propose all new packages to the mailing list pear-dev@lists.php.net first.">Please propose all new packages to the mailing list pear-dev@lists.php.net first.</option>
-		<option value="Please send all bug fixes to the mailing list pear-dev@lists.php.net.">Please send all bug fixes to the mailing list pear-dev@lists.php.net.</option>
-		<option value="Please supply valid credentials, including your full name and a descriptive reason for an account.">Please supply valid credentials, including your full name and a descriptive reason for an account.</option>
+<?php
+foreach ($reasons as $reason) {
+    echo "<option value=\"" . $reason . "\">" . substr($reason, 0, 90) . "</option>\n";
+}
+?>
    </select>
 
   </td>
