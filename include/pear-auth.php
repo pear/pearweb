@@ -28,7 +28,7 @@ function auth_reject($realm = null, $message = null)
         $message = "Please enter your username and password:";
     }
 
-    response_header($message);
+    response_header('Login');
     if ($format == 'xmlrpc') {
         Header("HTTP/1.0 401 Unauthorized");
         Header("WWW-authenticate: basic realm=\"$realm\"");
@@ -70,7 +70,7 @@ function auth_reject($realm = null, $message = null)
         } elseif (isset($_SERVER['REQUEST_URI'])) {
             print htmlspecialchars($_SERVER['REQUEST_URI']);
         } else {
-            print '/';
+            print 'login.php';
         }
         print "\" />\n";
         print "</form>\n";
