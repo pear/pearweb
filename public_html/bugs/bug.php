@@ -239,7 +239,7 @@ if ($_POST['in'] && $edit == 3) {
                 $_POST['in']['status'] = $RESOLVE_REASONS[$_POST['in']['resolve']]['status'];
             }
             require './include/resolve.inc';
-            $ncomment = escapeSQL($RESOLVE_REASONS[$_POST['in']['resolve']]['message'])
+            $ncomment = $RESOLVE_REASONS[$_POST['in']['resolve']]['message']
                       . "\n\n$ncomment";
         }
     }
