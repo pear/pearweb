@@ -7,7 +7,7 @@
 // Ver:		$Id$
 //
 // License:	This code is released under QPL 
-// Copyright (c) 2002 Johan Persson
+// Copyright (c) 2002-2005Johan Persson
 //========================================================================
 */
 

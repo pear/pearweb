@@ -1,7 +1,7 @@
 // +----------------------------------------------------------------------+
 // | PEAR Web site version 1.0                                            |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 2001-2003 The PHP Group                                |
+// | Copyright (c) 2001-2005 The PHP Group                                |
 // +----------------------------------------------------------------------+
 // | This source file is subject to version 2.02 of the PHP license,      |
 // | that is bundled with this package in the file LICENSE, and is        |
@@ -13,7 +13,7 @@
 // +----------------------------------------------------------------------+
 // | Authors: Martin Jansen <mj@php.net>                                  |
 // +----------------------------------------------------------------------+
-// $Id: package-maintainers.js,v 1.1 2003-07-05 09:03:55 mj Exp $
+// $Id: package-maintainers.js,v 1.2 2005-01-26 12:40:07 pajoye Exp $
 
 function stripName(name) {
     pos = name.indexOf("(");

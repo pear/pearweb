@@ -12,7 +12,7 @@
  * license@php.net so we can mail you a copy immediately.
  *
  * @category  pearweb
- * @copyright Copyright (c) 1997-2004 The PHP Group
+ * @copyright Copyright (c) 1997-2005 The PHP Group
  * @license   http://www.php.net/license/3_0.txt  PHP License
  * @version   $Id$
  */
