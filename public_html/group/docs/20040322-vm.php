@@ -17,18 +17,21 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-response_header("The PEAR Group: Handling Votings and Membership");
+response_header("The PEAR Group: Handling Votings and Membership (II)");
 ?>
 
 <h1>PEAR Group - Administrative Documents</h1>
 
-<h2>Handling Votings and Membership</h2>
+<h2>Handling Votings and Membership (II)</h2>
 
-<p>Published: 20th August 2003</p>
+<p>Published: 22nd March 2004</p>
 
-<p><b>Note:</b> On 22nd March 2004 this document has been superseded by 
-<?php print_link("20040322-vm.php", "Handling Votings and Membership (II)"); ?>.
-Please refer to the new document for up-to-date information.</p>
+<p><b>Note:</b> This document supersedes the administrative document
+titled &quot;<?php print_link("20030820-vm.php", "Handling Votings and Membership"); ?>
+&quot; from 20th August 2003. No formal voting process has been 
+initiated to back up the acceptance of this document, because no member 
+of the PEAR Group has raised any objections concerning the differences 
+between this document and its successor.</p>
 
 <ol>
   <li><h3>Voting</h3>
@@ -36,7 +39,7 @@ Please refer to the new document for up-to-date information.</p>
   <p>When a vote is called, each member can vote &quot;yes&quot;,
   &quot;no&quot; or &quot;abstain&quot;. In the case of a tie, the
   issue is considered unresolved until a compromise can be reached
-  and a positive re-vote is achieved.  If more than half of the voting
+  and a positive re-vote is achieved.  If half or more of the
   members choose to abstain, the vote is also considered unresolved.</p>
 
   <p>Outside of the Group, individual voting shall be anonymous.
