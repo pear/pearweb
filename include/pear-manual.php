@@ -127,7 +127,7 @@ function navigationBar($title,$id,$loc) {
         print_link($PREV[0], $link, false,
                    ($loc == 'top' ? 'accesskey="r"' : false)
         );
-        echo ' <small>(P<u>r</u>evious)</small>';
+        echo ' (P<u>r</u>evious)';
     }
     echo "\n";
     echo '  </td>';
@@ -140,7 +140,7 @@ function navigationBar($title,$id,$loc) {
         if (strlen($link) > 30) {
             $link = str_replace('::', '::<br />', $link);
         }
-        echo '<small>(Ne<u>x</u>t)</small> ';
+        echo '(Ne<u>x</u>t) ';
         print_link($NEXT[0], $link, false,
                    ($loc == 'top' ? 'accesskey="x"' : false)
         );
