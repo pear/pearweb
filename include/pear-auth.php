@@ -67,14 +67,11 @@ function auth_reject($realm = null, $message = null)
         }
         print "\" />\n";
         print "</form>\n";
-        print "<p>Authorization is required for the following actions:</p>";
-        print "<ul>";
-        print "<li>Propose new packages.</li>";
-        print "<li>Leave comments and vote on package proposals.</li>";
-        print "<li>Upload new package releases.</li>";
-        print "</ul>";
-        print "Commenting and voting, as well as uploading releases, is only possible if you already maintain a package.</p>";
-        print "<p>If you have no PEAR Website account, yet, feel free to request one ".make_link("/account-request.php", "here").".</p>";        
+        print hdelim();
+        print "<p><b>Note:</b> If you just want to browse the website, ";
+        print "you will not need to log in. For all tasks that require ";
+        print "authentication, you will be redirected to this form ";
+        print "automatically.</p>";
     }
     response_footer();
     exit;
