@@ -2058,8 +2058,8 @@ class statistics
     function package($id)
     {
         global $dbh;
-        $query = "SELECT COUNT(*) AS total FROM downloads WHERE package = ?";
-        return $dbh->getOne($query, array($id), DB_FETCHMODE_ASSOC);
+        $query = "SELECT COUNT(*) FROM downloads WHERE package = ?";
+        return $dbh->getOne($query, array($id));
     }
 
     // }}}
