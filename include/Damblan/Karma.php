@@ -39,8 +39,6 @@ class Damblan_Karma {
      * @param  object Instance of PEAR::DB
      */
     function Damblan_Karma(&$dbh) {
-        global $auth_user;
-
         $this->_dbh = $dbh;
     }
 
@@ -193,13 +191,16 @@ class Damblan_Karma {
      * Require global.karma.manager level for write operations
      *
      * @access private
+     * @return boolean False on error, true otherwise
      */
     function _requireKarma() {
         global $auth_user;
 
         if ($this->has($auth_user->handle, "global.karma.manager") == false) {
-            return PEAR::raiseError("Insufficient privileges");
+            PEAR::raiseError("Insufficient privileges");
+            return false;
         }
+        return true;
     }
 
     /**
