@@ -77,15 +77,27 @@ $GLOBALS['admin_menu'] = array(
 
 $GLOBALS['_style'] = '';
 
+
+/**
+ * Prints out the XHTML headers and top of the page.
+ *
+ * @param string $title  a string to go into the header's <title>
+ * @param string $style
+ * @return void
+ */
 function response_header($title = 'The PHP Extension and Application Repository', $style = false)
 {
-    global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $extra_styles;
+    global $_style, $_header_done, $SIDEBAR_DATA, $RSIDEBAR_DATA,
+           $encoding, $extra_styles;
+
     if ($_header_done) {
         return;
     }
-    $_header_done = true;
-    $_style = $style;
-    $rts = rtrim($SIDEBAR_DATA);
+
+    $_header_done    = true;
+    $_style          = $style;
+    $rts             = rtrim($SIDEBAR_DATA);
+
     if (substr($rts, -1) == '-') {
         $SIDEBAR_DATA = substr($rts, 0, -1);
     } else {
@@ -138,19 +150,14 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 <a id="TOP" />
 </div>
 
-<table class="main" cellspacing="0" cellpadding="0">
+<!-- START HEADER -->
 
- <!-- START HEADER -->
-
- <tr class="head">
-  <td class="head-logo" rowspan="2" colspan="2">
+<table class="head" cellspacing="0" cellpadding="0">
+ <tr>
+  <td class="head-logo">
    <?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
   </td>
- <td class="head-logo_space" colspan="3">&nbsp;</td>
- </tr>
-
- <tr class="head">
-  <td class="head-menu" colspan="3">
+  <td class="head-menu" colspan="2">
    <?php
 
     if (empty($_COOKIE['PEAR_USER'])) {
@@ -195,8 +202,8 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
   </td>
  </tr>
 
- <tr class="head">
-  <td class="head-search" colspan="5">
+ <tr>
+  <td class="head-search" colspan="3">
    <form method="post" action="/search.php">
     <small><u>S</u>earch for</small>
     <input class="small" type="text" name="search_string" value="" size="20" accesskey="s" />
@@ -213,26 +220,125 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
    </form>
   </td>
  </tr>
+</table>
 
- <!-- END HEADER -->
- <!-- Middle section -->
+<!-- END HEADER -->
+<!-- START MIDDLE -->
 
- <tr style="vertical-align: top;">
-<?php if (isset($SIDEBAR_DATA)) { ?>
-  <td colspan="2" class="sidebar_left">
-   <table cellpadding="4" cellspacing="0" style="width: 149px;">
-    <tr style="vertical-align: top;">
-     <td><?php echo $SIDEBAR_DATA?><br /></td>
-    </tr>
-   </table>
+<table class="middle" cellspacing="0" cellpadding="0">
+ <tr>
+
+    <?php
+
+    if (isset($SIDEBAR_DATA)) {
+        ?>
+
+<!-- START LEFT SIDEBAR -->
+  <td class="sidebar_left">
+   <?php echo $SIDEBAR_DATA ?>
   </td>
-<?php } ?>
-  <td style="vertical-align: top;">
-   <table cellpadding="10" cellspacing="0" style="width: 100%;">
-    <tr>
-     <td style="vertical-align: top;">
-<?php
+<!-- END LEFT SIDEBAR -->
+
+        <?php
+    }
+
+    ?>
+
+ <!-- START MAIN CONTENT -->
+
+  <td class="content">
+
+    <?php
 }
+
+
+function response_footer($style = false)
+{
+    global $LAST_UPDATED, $MIRRORS, $MYSITE, $COUNTRIES,$SCRIPT_NAME, $RSIDEBAR_DATA;
+
+    static $called;
+    if ($called) {
+        return;
+    }
+    $called = true;
+    if (!$style) {
+        $style = $GLOBALS['_style'];
+    }
+
+    ?>
+
+  </td>
+
+<!-- END MAIN CONTENT -->
+
+    <?php
+
+    if (isset($RSIDEBAR_DATA)) {
+        ?>
+
+<!-- START RIGHT SIDEBAR -->
+  <td class="sidebar_right">
+   <?php echo $RSIDEBAR_DATA; ?>
+  </td>
+<!-- END RIGHT SIDEBAR -->
+
+        <?php
+    }
+
+    ?>
+
+ </tr>
+</table>
+
+<!-- END MIDDLE -->
+<!-- START FOOTER -->
+
+<table class="foot" cellspacing="0" cellpadding="0">
+ <tr>
+  <td class="foot-bar" colspan="2">
+   <div class="menuBlack">
+<?php
+print_link('/about/privacy.php', 'PRIVACY POLICY', false);
+echo delim();
+print_link('/credits.php', 'CREDITS', false);
+?>
+   </div>
+  </td>
+ </tr>
+
+ <tr>
+  <td class="foot-copy">
+   <small>
+    <?php print_link('/copyright.php',
+                     'Copyright &copy; 2001-2004 The PHP Group'); ?><br />
+    All rights reserved.
+   </small>
+  </td>
+  <td class="foot-source">
+   <small>
+    Last updated: <?php echo $LAST_UPDATED; ?><br />
+    Bandwidth and hardware provided by:
+    <?php
+     if ($_SERVER['SERVER_NAME'] == 'pear.php.net') {
+         print_link('http://www.pair.com/', 'pair Networks');
+     } else {
+         print '<i>This is an unofficial mirror!</i>';
+     }
+    ?>
+ 
+   </small>
+  </td>
+ </tr>
+</table>
+
+<!-- END FOOTER -->
+
+</body>
+</html>
+
+    <?php
+}
+
 
 function &draw_navigation($data, $menu_title='')
 {
@@ -255,105 +361,6 @@ function &draw_navigation($data, $menu_title='')
 
     return $html;
 }
-
-function response_footer($style = false)
-{
-    global $LAST_UPDATED, $MIRRORS, $MYSITE, $COUNTRIES,$SCRIPT_NAME, $RSIDEBAR_DATA;
-
-    static $called;
-    if ($called) {
-        return;
-    }
-    $called = true;
-    if (!$style) {
-        $style = $GLOBALS['_style'];
-    }
-
-    ?>
-
-     </td>
-    </tr>
-   </table>
-  </td>
-
-    <?php
-
-    if (isset($RSIDEBAR_DATA)) {
-        ?>
-
-  <td class="sidebar_right">
-    <table cellpadding="4" cellspacing="0" style="width: 149px;">
-     <tr style="vertical-align: top;">
-      <td><?php echo $RSIDEBAR_DATA; ?><br />
-     </td>
-    </tr>
-   </table>
-  </td>
-
-        <?php
-    }
-
-    ?>
-
- </tr>
-
- <!-- START FOOTER -->
-
- <tr>
-  <td class="foot-bar" colspan="5">
-   <div class="menuBlack">
-<?php
-print_link('/about/privacy.php', 'PRIVACY POLICY', false);
-echo delim();
-print_link('/credits.php', 'CREDITS', false);
-?>
-   </div>
-  </td>
- </tr>
-
- <tr>
-  <td colspan="5">
-   <table class="foot-info">
-    <tr>
-     <td class="foot-copy">
-      <small>
-       <?php print_link('/copyright.php',
-                        'Copyright &copy; 2001-2004 The PHP Group'); ?><br />
-       All rights reserved.
-      </small>
-     </td>
-     <td class="foot-source">
-      <small>
-       Last updated: <?php echo $LAST_UPDATED; ?><br />
-       Bandwidth and hardware provided by:
-       <?php
-        if ($_SERVER['SERVER_NAME'] == 'pear.php.net') {
-            print_link('http://www.pair.com/', 'pair Networks');
-        } else {
-            print '<i>This is an unofficial mirror!</i>';
-        }
-       ?>
-
-      </small>
-     </td>
-    </tr>
-   </table>
-  </td>
- </tr>
-
- <!-- END FOOTER -->
-
-</table>
-
-</body>
-</html>
-
-    <?php
-}
-
-
-
-// DECLARE FUNCTIONS
 
 function menu_link($text, $url) {
     echo "<p>\n";
