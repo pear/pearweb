@@ -3,7 +3,7 @@
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2001-2003 The PHP Group                                |
+   | Copyright (c) 2001-2005 The PHP Group                                |
    +----------------------------------------------------------------------+
    | This source file is subject to version 2.02 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -312,7 +312,7 @@ print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
   <td class="foot-copy">
    <small>
     <?php print_link('/copyright.php',
-                     'Copyright &copy; 2001-2004 The PHP Group'); ?><br />
+                     'Copyright &copy; 2001-2005 The PHP Group'); ?><br />
     All rights reserved.
    </small>
   </td>
