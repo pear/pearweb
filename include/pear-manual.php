@@ -71,7 +71,7 @@ function makeBorderTOC($this)
 
     $SIDEBAR_DATA .= ' <ul class="man-side_top">' . "\n"
                    . '  <li class="man-side_top">'
-                   . make_link('./', $HOME[1]) . "\n"
+                   . make_link('./', $HOME[1]) . "</li>\n"
                    . ' </ul>' . "\n\n";
 
     $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
@@ -79,7 +79,7 @@ function makeBorderTOC($this)
     if (($HOME[1] != $UP[1]) && $UP[1]) {
         $SIDEBAR_DATA .= ' <ul class="man-side_up">' . "\n"
                        . '  <li class="man-side_up">'
-                       . make_link($UP[0], $UP[1]) . "\n"
+                       . make_link($UP[0], $UP[1]) . "</li>\n"
                        . ' </ul>' . "\n\n";
     }
 
@@ -108,7 +108,7 @@ function makeBorderTOC($this)
 
     $SIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n"
                    . '  <li class="man-side_download">'
-                   . make_link('/manual/', 'Download Documentation') . "\n"
+                   . make_link('/manual/', 'Download Documentation') . "</li>\n"
                    . ' </ul>' . "\n\n";
 
     $SIDEBAR_DATA .= "</td></tr></table></form>\n\n";
@@ -160,7 +160,7 @@ function navigationBar($title, $id, $loc)
     echo ' </tr>';
     echo "\n";
 
-    echo ' <tr class="man-nav_space" height="1">';
+    echo ' <tr class="man-nav_space">';
     echo "\n";
     echo '  <td class="man-nav_space" colspan="2" height="1">';
     echo '<hr class="greyline" width="100%" />';
@@ -217,7 +217,7 @@ function navigationBar($title, $id, $loc)
             echo "\n";
             echo join(delim(false, ' | '), $links);
             echo "\n";
-            echo '     </small></td>';
+            echo '     </td>';
             echo "\n";
             echo '    </tr>';
             echo "\n";
