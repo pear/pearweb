@@ -557,7 +557,7 @@ class proposal {
             $vote_url = "http://pear.php.net/pepr/pepr-vote-show.php?id=".$this->id."&handle=".$user_handle;
         }
 
-        if ($this->status == 'finished') {
+        if ($event == 'change_status_finished') {
             $proposalVotesSum = ppVote::getSum($dbh, $this->id);
             
             $vote_result  = 'Sum of Votes: ' . $proposalVotesSum['all'];
