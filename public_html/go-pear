@@ -605,29 +605,25 @@ $r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['PEAR
 $url = "http://cvs.php.net/co.php/pear-core/PEAR.php?p=1&r=$r";
 if (in_array('PEAR.php', $local_dir)) {
     copy(dirname(__FILE__).'/go-pear-bundle/PEAR.php', 'PEAR.php');
-    copy(dirname(__FILE__).'/go-pear-bundle/PEAR.php', $ptmp . '/PEAR.php');
     echo "(local) ";
 } else {
     download_url($url, 'PEAR.php', $http_proxy);
-    copy('PEAR.php', $ptmp . '/PEAR.php');
     echo "(remote) ";
 }
 
+include_once 'PEAR.php';   	 
 print "ok\n";
 
 print 'Bootstrapping: Archive_Tar............';
 $r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['Archive_Tar'], 12), 0, -4));
 $url = "http://cvs.php.net/co.php/pear/Archive_Tar/Archive/Tar.php?p=1&r=$r";
 mkdir('Archive', 0700);
-mkdir($ptmp . DIRECTORY_SEPARATOR . 'Archive');
 
 if (in_array('Tar.php', $local_dir)) {
     copy(dirname(__FILE__).'/go-pear-bundle/Tar.php', 'Archive/Tar.php');
-    copy('Archive/Tar.php', $ptmp . '/Archive/Tar.php');
     echo "(local) ";
 } else {
     download_url($url, 'Archive/Tar.php', $http_proxy);
-    copy('Archive/Tar.php', $ptmp . '/Archive/Tar.php');
     echo "(remote) ";
 }
 print "ok\n";
@@ -636,14 +632,11 @@ print 'Bootstrapping: Console_Getopt.........';
 $r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['Console_Getopt'], 15), 0, -4));
 $url = "http://cvs.php.net/co.php/pear-core/Console/Getopt.php?p=1&r=$r";
 mkdir('Console', 0700);
-mkdir($ptmp . DIRECTORY_SEPARATOR . 'Console');
 if (in_array('Getopt.php', $local_dir)) {
     copy(dirname(__FILE__).'/go-pear-bundle/Getopt.php', 'Console/Getopt.php');
-    copy('Console/Getopt.php', $ptmp . '/Console/Getopt.php');
     echo "(local) ";
 } else {
     download_url($url, 'Console/Getopt.php', $http_proxy);
-    copy('Console/Getopt.php', $ptmp . '/Console/Getopt.php');
     echo "(remote) ";
 }
 print "ok\n";
