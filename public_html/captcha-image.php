@@ -191,7 +191,8 @@ for ($i = 0; $i < $arc_count; $i++) {
 
     $half_w   = $image_width / 2;
     $center_x = mt_rand($half_w - $arc_pad_min, $half_w + $arc_pad_min);
-    $width    = ($half_w - abs($half_w - $center_x)) * 2 - $arc_pad_min;
+    $tmp_w    = ($half_w - abs($half_w - $center_x)) * 2;
+    $width    = mt_rand($tmp_w - $arc_pad_min, $tmp_w - $arc_pad_max);
     $center_y = mt_rand($image_height / 2, $image_height - $arc_pad_min);
     $height   = mt_rand(3, $center_y * 2 - $arc_pad_min);
 
@@ -204,7 +205,7 @@ for ($i = 0; $i < $arc_count; $i++) {
     }
 
     imagearc($im, $center_x, $center_y, $width, $height,
-             $start, $end, $colors[$i % $color_max]);
+             $start, $end, $colors[mt_rand(0, $color_max)]);
 }
 
 /*
