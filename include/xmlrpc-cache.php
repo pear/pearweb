@@ -20,6 +20,8 @@
 
 require_once "Cache.php";
 
+error_reporting(0);
+
 class XMLRPC_Cache
 {
     var $cache;
