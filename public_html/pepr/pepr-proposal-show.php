@@ -21,6 +21,9 @@
 
 	require_once 'pepr/pepr.php';
 	require_once 'HTML/BBCodeParser.php';
+	// Hopefully temporary in PEPr's include dir
+	// Patch sent to maintainer
+	require_once 'pepr/HTML_BBCodeParser_Filter_Extended.php';
 	require_once 'HTML/QuickForm.php';
 
 	if (empty($id)) {
@@ -106,7 +109,7 @@
 		$bb->horizHeadRow("Dependencies:", nl2br($proposal->pkg_deps));
 	}
 	$bb->horizHeadRow("Proposer:", user_link($proposal->user_handle));
-	$bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists'));
+	$bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
 	$bb->fullRow($bbparser->qparse(nl2br($proposal->pkg_describtion)));
 	
 	$changelog = @ppComment::getAll($dbh, $proposal->id);
