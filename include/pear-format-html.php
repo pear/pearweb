@@ -82,7 +82,9 @@ function response_header($title = 'The PHP Extension and Application Repository'
             if (!empty($auth_user->registered)) {
                 global $developer_menu;
                 global $proposal_menu;
-                $SIDEBAR_DATA .= draw_navigation($developer_menu, 'Developers:');
+                if (auth_check('pear.dev')) {
+                    $SIDEBAR_DATA .= draw_navigation($developer_menu, 'Developers:');
+                }
                 $SIDEBAR_DATA .= draw_navigation($proposal_menu, 'Package proposals:');
             }
             if ($auth_user->isAdmin()) {

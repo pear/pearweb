@@ -22,7 +22,7 @@
  * Interface to update package information.
  */
 
-auth_require();
+auth_require('pear.dev');
 
 require_once "HTML/Form.php";
 $form = new HTML_Form($_SERVER['PHP_SELF']);

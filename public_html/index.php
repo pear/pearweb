@@ -26,7 +26,7 @@ response_header();
 <p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
 is a framework and distribution system for reusable PHP
 components. More <b>information</b> about PEAR can be found in the
-<a href="/manual/en/">online manual</a> and the 
+<a href="/manual/en/">online manual</a> and the
 <a href="/manual/en/faq.php">FAQ</a>.</p>
 
 <p>If you are a first time user, you might be especially interested in
@@ -34,8 +34,8 @@ the manual chapter &quot;<a href="/manual/en/about-pear.php">About PEAR</a>&quot
 
 <p>Recent <b>news</b> about PEAR can be found <a href="/news/">here</a>.</p>
 
-<p>PEAR provides the above mentioned PHP components in the form of so 
-called &quot;Packages&quot;. If you would like to <b>download</b> PEAR 
+<p>PEAR provides the above mentioned PHP components in the form of so
+called &quot;Packages&quot;. If you would like to <b>download</b> PEAR
 packages, you can <a href="/packages.php">browse the complete list</a>
 here.  Alternatively you  can  search for packages by some keywords
 using the search box above. Apart from simply downloading a package,
@@ -44,21 +44,23 @@ automatically <b>install</b> packages. The manual <a href="/manual/en/installati
 describes this procedure</a> in detail.</p>
 
 <p>In case you need <b>support</b> for PEAR in general or a package
-in special, we have compiled a list of the <a href="/support.php">available 
+in special, we have compiled a list of the <a href="/support.php">available
 support resources</a>.</p>
 
 <?php
 echo hdelim();
 
 if (isset($_COOKIE['PEAR_USER'])) {
-	echo '<h2>Developers</h2>';
-    echo '<div class="indent">';
+    if (auth_check('pear.dev')) {
+        echo '<h2>Developers</h2>';
+        echo '<div class="indent">';
 
-    echo menu_link("Upload Release", "release-upload.php");
-    echo menu_link("New Package", "package-new.php");
-    
-    echo '</div>';
-    
+        echo menu_link("Upload Release", "release-upload.php");
+        echo menu_link("New Package", "package-new.php");
+
+        echo '</div>';
+    }
+
     echo '<h2>Package Proposals (PEPr)</h2>';
 	echo '<div class="indent">';
 	echo menu_link("Browse Proposals", "pepr/pepr-overview.php");

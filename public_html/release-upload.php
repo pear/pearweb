@@ -18,7 +18,7 @@
    $Id$
 */
 
-auth_require();
+auth_require("pear.dev");
 
 define('HTML_FORM_MAX_FILE_SIZE', 16 * 1024 * 1024); // 16 MB
 require_once "HTML/Form.php";
