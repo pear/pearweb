@@ -1498,7 +1498,7 @@ function displayHTML($page = 'Welcome', $data = array())
 
        <img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=smallpear" border="0">
 <?php if ($page == 'install') echo '<span class="green">'; ?>
- 	     Complete installtion<br/>
+ 	     Complete installation<br/>
 <?php if ($page == 'install') echo '</span>'; ?>
 
      </td>
