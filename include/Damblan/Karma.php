@@ -170,7 +170,7 @@ class Damblan_Karma {
      */
     function getUsers($level) {
         $query = "SELECT * FROM karma WHERE level = ?";
-        return $this->_dbh->getAll($query, array($handle), DB_FETCHMODE_ASSOC);
+        return $this->_dbh->getAll($query, array($level), DB_FETCHMODE_ASSOC);
     }
 
     /**
