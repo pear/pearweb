@@ -217,7 +217,9 @@ class proposal {
     }
 		
     function isFromUser ( $handle ) {
-        if ($this->user_handle != $handle) {
+    	var_dump($this->user_handle);
+    	var_dump($handle);
+        if (strtolower($this->user_handle) != strtolower($handle)) {
             return false;
         }
         return true;
