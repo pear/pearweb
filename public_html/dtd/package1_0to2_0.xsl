@@ -191,6 +191,7 @@
  <xsl:template name="filelist">
   <xsl:param name="dir"/>
   <xsl:param name="indent"/>
+  <xsl:param name="role"/>
   <xsl:for-each select="$dir">
    <xsl:sort select="@name"/>
    <xsl:choose>
@@ -205,6 +206,7 @@
       </xsl:if>
       <xsl:call-template name="dircontents">
        <xsl:with-param name="contents" select="."/>
+       <xsl:with-param name="role" select="@role"/>
        <xsl:with-param name="indent" select="concat($indent, ' ')"/>
       </xsl:call-template>
       <xsl:text>
@@ -215,6 +217,7 @@
     <xsl:otherwise>
      <xsl:call-template name="dircontents">
       <xsl:with-param name="contents" select="."/>
+      <xsl:with-param name="role" select="@role"/>
       <xsl:with-param name="indent" select="concat($indent, ' ')"/>
      </xsl:call-template>
     </xsl:otherwise>
@@ -224,6 +227,7 @@
  <xsl:template name="files">
   <xsl:param name="files"/>
   <xsl:param name="indent"/>
+  <xsl:param name="role"/>
   <xsl:for-each select="$files">
    <xsl:sort select="@name"/>
    <xsl:text>
@@ -231,7 +235,14 @@
    <xsl:value-of select="$indent"/>
    <xsl:element name="file">
     <xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute>
-    <xsl:attribute name="role"><xsl:value-of select="@role"/></xsl:attribute>
+    <xsl:if test="boolean(@role)=false">
+     <xsl:if test="$role">
+      <xsl:attribute name="role"><xsl:value-of select="$role"/></xsl:attribute>
+     </xsl:if>
+    </xsl:if>
+    <xsl:if test="@role">
+     <xsl:attribute name="role"><xsl:value-of select="@role"/></xsl:attribute>
+    </xsl:if>
     <xsl:if test="@install-as">
      <xsl:attribute name="install-as"><xsl:value-of select="@install-as"/></xsl:attribute>
     </xsl:if>
@@ -262,13 +273,16 @@
  <xsl:template name="dircontents">
   <xsl:param name="contents"/>
   <xsl:param name="indent"/>
+  <xsl:param name="role"/>
   <xsl:call-template name="filelist">
    <xsl:with-param name="dir" select="$contents/dir"/>
    <xsl:with-param name="indent" select="$indent"/>
+   <xsl:with-param name="role" select="$role"/>
   </xsl:call-template>
   <xsl:call-template name="files">
    <xsl:with-param name="files" select="$contents/file"/>
    <xsl:with-param name="indent" select="$indent"/>
+   <xsl:with-param name="role" select="$role"/>
   </xsl:call-template>
  </xsl:template>
  <xsl:template match="deps">
@@ -297,6 +311,9 @@
    <xsl:element name="package">
     <xsl:attribute name="channel">pear</xsl:attribute>
     <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
+    <xsl:if test="@optional">
+     <xsl:attribute name="optional"><xsl:value-of select="@optional"/></xsl:attribute>
+    </xsl:if>
     <xsl:if test="@rel='ge'">
      <xsl:attribute name="min"><xsl:value-of select="@version"/></xsl:attribute>
      <xsl:attribute name="recommended"><xsl:value-of select="@version"/></xsl:attribute>
@@ -310,6 +327,9 @@
    </xsl:text>
    <xsl:element name="extension">
     <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
+    <xsl:if test="@optional">
+     <xsl:attribute name="optional"><xsl:value-of select="@optional"/></xsl:attribute>
+    </xsl:if>
     <xsl:if test="@rel='ge'">
      <xsl:attribute name="min"><xsl:value-of select="@version"/></xsl:attribute>
      <xsl:attribute name="recommended"><xsl:value-of select="@version"/></xsl:attribute>
@@ -323,6 +343,9 @@
    </xsl:text>
    <xsl:element name="sapi">
     <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
+    <xsl:if test="@optional">
+     <xsl:attribute name="optional"><xsl:value-of select="@optional"/></xsl:attribute>
+    </xsl:if>
     <xsl:if test="@rel='ge'">
      <xsl:attribute name="min"><xsl:value-of select="@version"/></xsl:attribute>
      <xsl:attribute name="recommended"><xsl:value-of select="@version"/></xsl:attribute>
@@ -336,6 +359,9 @@
    </xsl:text>
    <xsl:element name="os">
     <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
+    <xsl:if test="@optional">
+     <xsl:attribute name="optional"><xsl:value-of select="@optional"/></xsl:attribute>
+    </xsl:if>
     <xsl:if test="@rel='ge'">
      <xsl:attribute name="min"><xsl:value-of select="@version"/></xsl:attribute>
      <xsl:attribute name="recommended"><xsl:value-of select="@version"/></xsl:attribute>

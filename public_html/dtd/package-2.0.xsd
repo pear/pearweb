@@ -277,7 +277,6 @@
    </xs:choice>
    <xs:attribute name="baseinstalldir" type="xs:string"/>
    <xs:attribute name="name" type="xs:string" use="required"/>
-   <xs:attribute name="role" type="xs:string"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="file">
