@@ -2048,10 +2048,19 @@ class user
     /**
      * Add a new user account
      *
+     * During most of this method's operation, PEAR's error handling
+     * is set to PEAR_ERROR_RETURN.
+     *
+     * But, during the DB_storage::set() phase error handling is set to
+     * PEAR_ERROR_CALLBACK the report_warning() function.  So, if an
+     * error happens a warning message is printed AND the incomplete
+     * user information is removed.
+     *
      * @param array $data  Information about the user
      *
      * @return mixed  true if there are no problems, false if sending the
-     *                email failed or an array of error messages if problems
+     *                email failed, 'set error' if DB_storage::set() failed
+     *                or an array of error messages for other problems
      *
      * @access public
      */
@@ -2117,7 +2126,7 @@ class user
                 $errors[] = 'Sorry, that username is already taken';
             } else {
                 $data['display_form'] = false;
-                $errors[] = $err->getMessage();
+                $errors[] = $err;
             }
             return $errors;
         }
@@ -2136,16 +2145,15 @@ class user
                           'registered' => 0,
                           'userinfo' => $userinfo);
 
+        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'report_warning');
         foreach ($set_vars as $var => $value) {
             $err = $obj->set($var, $value);
             if (PEAR::isError($err)) {
-                $errors[] = "Failed setting $var: " . $err->getMessage();
+                user::remove($data['handle']);
+                return 'set error';
             }
         }
-        if ($errors) {
-            array_unshift($errors, 'set');
-            return $errors;
-        }
+        PEAR::popErrorHandling();
 
         $msg = "Requested from:   {$_SERVER['REMOTE_ADDR']}\n".
                "Username:         {$handle}\n".

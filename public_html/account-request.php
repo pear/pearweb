@@ -20,44 +20,17 @@
 
 require_once 'HTML/Form.php';
 
-
-/**
- * Prints a message explaining the errors found in the users's submission
- *
- * @param array $errors  an array of the errors found
- *
- * @return void
- */
-function display_errors($errors)
-{
-    echo '<div class="errors">';
-    if (count($errors) > 1) {
-        echo 'You need to do the following before your submission ';
-        echo 'will be accepted:';
-        echo "<ul>\n";
-        foreach ($errors as $error) {
-            if (is_object($error)) {
-                $error = $error->getMessage();
-            }
-            echo '<li>' . $error . "</li>\n";
-        }
-        echo "</ul>\n";
-    } else {
-        echo $errors[0];
-    }
-    echo '</div>';
-}
-
-
 $display_form = true;
 $width        = 60;
 $errors       = array();
 $jumpto       = 'handle';
 
+response_header('Request Account');
+
+print '<h1>Request Account</h1>';
+
 do {
     if (isset($_POST['submit'])) {
-        response_header("Account Request Submitted");
-
         if (empty($_POST['comments_read'])) {
             $errors[] = 'Obviously you did not read all the comments'
                       . ' concerning the need for an account. Please read '
@@ -88,58 +61,33 @@ do {
         }
 
         if (is_array($ok)) {
-            if ($ok[0] == 'set') {
-                print '<div class="warnings">';
-                print '<h2>There were errors while storing the user ';
-                print "information.</h2>\n";
-                print "<ul>\n <li>";
-                array_shift($ok);
-                print implode("</li>\n <li>", $ok);
-                print "</li>\n</ul>";
-                print '<p>Please drop an email about this to the ';
-                print '<a href="mailto:pear-dev@lists.php.net">pear-dev</a> ';
-                print 'mailing list.</p>';
-                print "\n</div>\n";
-            } else {
-                $errors = $ok;
-            }
+            $errors = $ok;
             break;
-        } elseif ($ok == true) {
+        } elseif ($ok === true) {
             print '<div class="success">';
-            print "<h2>Account Request Submitted</h2>\n";
-            print "Your account request has been submitted, it will ".
-                "be reviewed by a human shortly.  This may take from two ".
-                "minutes to several days, depending on how much time people ".
-                "have.  ".
-                "You will get an email when your account is open, or if ".
-                "your request was rejected for some reason.";
-            print "\n</div>\n";
-        } else {
-            print '<div class="warnings">';
-            print "<h2>Possible Problem!</h2>\n";
-            print "Your account request has been submitted, but there ".
-                "were problems mailing one or more administrators.  ".
-                "If you don't hear anything about your account in a few ".
-                "days, please drop a mail about it to the <i>pear-dev</i> ".
-                "mailing list.";
-            print "\n</div>\n";
+            print 'Your account request has been submitted, it will'
+                  . ' be reviewed by a human shortly.  This may take from'
+                  . ' two minutes to several days, depending on how much'
+                  . ' time people have.'
+                  . ' You will get an email when your account is open,'
+                  . ' or if your request was rejected for some reason.';
+            print "</div>\n";
+        } elseif ($ok === false) {
+            $msg = 'Your account request has been submitted, but there'
+                 . ' were problems mailing one or more administrators.'
+                 . ' If you don\'t hear anything about your account in'
+                 . ' a few days, please drop a mail about it to the'
+                 . ' <i>pear-dev</i> mailing list.';
+            report_error($msg, 'warnings', 'WARNING:');
         }
 
-        print '<br />Click <a href="/">here</a>';
-        print ' to go back to the home page.' . "\n";
         $display_form = false;
     }
 } while (0);
 
 
 if ($display_form) {
-
-    response_header('Request Account');
-
     print <<<MSG
-
-<h1>Request Account</h1>
-
 <p>
  You only need to request an account if you:
 </p>
@@ -203,9 +151,7 @@ MSG;
 
     print '<a name="requestform" id="requestform"></a>';
 
-    if ($errors) {
-        display_errors($errors);
-    }
+    report_error($errors);
 
     $invalid_purposes = array(
         'Learn about PEAR.',
