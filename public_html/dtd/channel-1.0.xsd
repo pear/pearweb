@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pear.php.net/channel-1.0" elementFormDefault="qualified">
+
+  <element name="channel">
+    <complexType>
+      <sequence>
+        <element name="name" type="string"/>
+        <element name="summary" type="string"/>
+        <element name="validatepackage" type="validatepackage" minOccurs="0"/>
+        <element name="servers" type="server"/>
+        <element name="subchannel" type="subchannel" minOccurs="0" maxOccurs="unbounded"/>
+      </sequence>
+      <attribute name="version" use="required">
+       <simpleType>
+        <restriction base="string">
+         <pattern value="[0-9]+\.[0-9]+"/>
+        </restriction>
+       </simpleType>
+      </attribute>
+    </complexType>
+  </element>
+
+  <complexType name="server">
+   <sequence>
+    <element name="primary" type="serverinternals"/>
+    <element name="mirror" type="serverinternals" minOccurs="0" maxOccurs="unbounded"/>
+   </sequence>
+  </complexType>
+
+  <complexType name="serverinternals">
+    <sequence>
+      <element name="xmlrpc" type="functions"/>
+      <element name="soap" type="functions" minOccurs="0"/>
+    </sequence>
+  <attribute name="host" use="required">
+   <simpleType>
+    <restriction base="string">
+     <pattern value="[A-Za-z][a-zA-Z0-9_\.]+"/>
+    </restriction>
+   </simpleType>
+  </attribute>
+  </complexType>
+
+  <complexType name="subchannel">
+    <sequence>
+      <element name="summary" type="string"/>
+      <element name="server" type="subchannelserver"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="functions">
+    <sequence>
+      <element name="function" type="function" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="function">
+   <simpleContent>
+    <extension base="string">
+     <attribute name="version" use="required">
+      <simpleType>
+       <restriction base="string">
+        <pattern value="[0-9]+\.[0-9]+"/>
+       </restriction>
+      </simpleType>
+     </attribute>
+    </extension>
+   </simpleContent>
+  </complexType>
+
+  <complexType name="subchannelserver">
+    <sequence>
+      <element name="xmlrpc" type="functions" minOccurs="0"/>
+      <element name="soap" type="functions" minOccurs="0"/>
+    </sequence>
+    <attribute name="host" use="required">
+     <simpleType>
+      <restriction base="string">
+       <pattern value="[A-Za-z][a-zA-Z0-9_\.]+"/>
+      </restriction>
+     </simpleType>
+    </attribute>
+  </complexType>
+
+  <complexType name="validatepackage">
+   <simpleContent>
+    <extension base="string">
+     <attribute name="version" use="required">
+      <simpleType>
+       <restriction base="string">
+        <pattern value="[0-9]+(\.[0-9]+)*([a-zA-Z]+[0-9]*)?"/>
+       </restriction>
+      </simpleType>
+     </attribute>
+    </extension>
+   </simpleContent>
+  </complexType>
+
+</schema>
