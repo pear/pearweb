@@ -324,7 +324,7 @@ if ($bug['modified']) {
   </tr>
   <tr id="submitter">
    <th class="details">From:</th>
-   <td colspan="3"><?php echo htmlspecialchars(spam_protect($bug['email'])) ?></td>
+   <td colspan="3"><?php echo spam_protect(htmlspecialchars($bug['email'])) ?></td>
   </tr>
   <tr id="categorization">
    <th class="details">Status:</th>
@@ -765,7 +765,7 @@ function output_note($com_id, $ts, $email, $comment)
     global $edit, $id, $trusted_developers, $user;
 
     echo '<div class="comment">';
-    echo "<b>[",format_date($ts),"] ", htmlspecialchars(spam_protect($email)), "</b>\n";
+    echo "<b>[",format_date($ts),"] ", spam_protect(htmlspecialchars($email)), "</b>\n";
     echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"{$_SERVER['PHP_SELF']}?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
     echo '<pre class="note">';
     $note = addlinks(preg_replace("/(\r?\n){3,}/","\n\n",wordwrap($comment,72,"\n",1)));
