@@ -407,7 +407,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 echo ' <tr valign="top" class="' . $tla[$row['status']] . '">' . "\n";
 
                 /* Bug ID */
-                echo '  <td align="center"><a href="bug.php?id='.$row['id'].'">'.$row['id'].'</a>';
+                echo '  <td align="center"><a href="/bugs/'.$row['id'].'">'.$row['id'].'</a>';
                 echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>' . "\n";
 
                 /* Date */
