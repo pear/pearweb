@@ -135,8 +135,10 @@
 		$bb->horizHeadRow("Dependencies:", nl2br($proposal->pkg_deps));
 	}
 	$bb->horizHeadRow("Proposer:", user_link($proposal->user_handle));
-	$bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
-	$bb->fullRow($bbparser->qparse(nl2br($proposal->pkg_describtion)));
+//	$bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
+//	$bb->fullRow($bbparser->qparse(nl2br($proposal->pkg_describtion)));
+	$bb->fullRow("<small>Sorry, BBCode facilities of PEPr have been temporarily siwtched off, due to instabillities in BBCodeParser.</small>");
+	$bb->fullRow(nl2br($proposal->pkg_describtion));
 	
 	$changelog = @ppComment::getAll($dbh, $proposal->id);
 	$changeLogRow = "";
