@@ -26,7 +26,6 @@ response_header("The PEAR Group");
 of the following individuals (in no particular order):</p>
 
 <ul>
-  <li>Lukas Smith</li>
   <li>Pierre-Alain Joye</li>
   <li>Martin Jansen</li>
   <li>Jesus M. Castagnetto</li>
