@@ -8,6 +8,10 @@ td.content {
     font-size: 90%;
 }
 
+td.content table {
+    font-size: 100%;  /* make IE look normal */
+}
+
 .headertop {
     background: #5b69a6;
 }
@@ -106,7 +110,9 @@ form#asearch th {
 }
 
 form#asearch table#primary {
+    font-size: 100%;  /* make IE look normal */
     background: #eee;
+    padding: 4px;
 }
 
 
@@ -152,6 +158,10 @@ td.search-prev_next {
     background-color: #cccccc;
     text-align: center;
     padding-bottom: 0.4em;
+}
+
+td.search-prev_next table {
+    font-size: 100%;  /* make IE look normal */
 }
 
 td.search-prev {

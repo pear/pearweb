@@ -146,7 +146,7 @@ $res = category::listAll();
 
 <table>
  <tr>
-  <td style="font-size: 90%; white-space: nowrap">
+  <td style="white-space: nowrap">
    <form method="get" action="stats.php<?php echo $query_string ?>">
    <strong>
     <label for="category" accesskey="o">

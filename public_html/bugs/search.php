@@ -49,6 +49,7 @@ $warnings = array();
 $order_options = array(
     ''             => 'relevance',
     'id'           => 'ID',
+    'ts1'          => 'date',
     'package_name' => 'package',
     'bug_type'     => 'bug_type',
     'status'       => 'status',
@@ -197,6 +198,14 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $bug_age = (int)$_GET['bug_age'];
         $where_clause .= ' AND bugdb.ts1 >= '
                        . " DATE_SUB(NOW(), INTERVAL $bug_age DAY)";
+    }
+
+    if (empty($_GET['bug_updated']) || !(int)$_GET['bug_updated']) {
+        $bug_updated = 0;
+    } else {
+        $bug_updated = (int)$_GET['bug_updated'];
+        $where_clause .= ' AND bugdb.ts2 >= '
+                       . " DATE_SUB(NOW(), INTERVAL $bug_updated DAY)";
     }
 
     if (empty($_GET['php_os'])) {
@@ -361,6 +370,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;author_email='. urlencode(rinse($author_email)) .
                     '&amp;bug_type='    . $bug_type .
                     '&amp;bug_age='     . $bug_age .
+                    '&amp;bug_updated'  . $bug_updated .
                     '&amp;order_by='    . $order_by .
                     '&amp;direction='   . $direction .
                     '&amp;phpver='      . urlencode($phpver) .
@@ -380,7 +390,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
  <tr>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">ID#</a></th>
-  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">Date</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=ts1">Date</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=package_name">Package</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=bug_type">Type</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=status">Status</a></th>
@@ -439,13 +449,15 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
   </td>
   <td rowspan="3">
    <select name="limit"><?php show_limit_options($limit);?></select>
-   <br />
+   &nbsp;
    <select name="order_by"><?php show_order_options($limit);?></select>
    <br />
-   <input type="radio" name="direction" value="ASC" <?php if($direction != "DESC") { echo('checked="checked"'); }?>/>Ascending
-   <br />
-   <input type="radio" name="direction" value="DESC" <?php if($direction == "DESC") { echo('checked="checked"'); }?>/>Descending
-   <br />
+   <small>
+    <input type="radio" name="direction" value="ASC" <?php if($direction != "DESC") { echo('checked="checked"'); }?>/>Ascending
+    &nbsp;
+    <input type="radio" name="direction" value="DESC" <?php if($direction == "DESC") { echo('checked="checked"'); }?>/>Descending
+   </small>
+   <br /><br />
    <input type="hidden" name="cmd" value="display" />
    <label for="submit" accesskey="r">Sea<span class="accesskey">r</span>ch:</label>
    <input id="submit" type="submit" value="Search" />
@@ -468,7 +480,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
 </tr>
 </table>
 
-<table>
+<table style="font-size: 100%;">
 <tr valign="top">
   <th><label for="category" accesskey="c">Pa<span class="accesskey">c</span>kge</label></th>
   <td style="white-space: nowrap">Return bugs for these <b>packages</b></td>
@@ -522,6 +534,10 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
   <th>Date</th>
   <td style="white-space: nowrap">Return bugs submitted</td>
   <td><select name="bug_age"><?php show_byage_options($bug_age);?></select></td>
+ </tr>
+ <tr>
+  <td>&nbsp;</td><td style="white-space: nowrap">Return bugs updated</td>
+  <td><select name="bug_updated"><?php show_byage_options($bug_updated);?></select></td>
 </tr>
 </table>
 </form>
