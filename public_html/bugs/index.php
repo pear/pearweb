@@ -18,7 +18,7 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-response_header("Bugs");
+response_header('Bugs');
 ?>
 
 <h1>PEAR Bug Tracking System</h1>
@@ -33,6 +33,8 @@ response_header("Bugs");
   <li>If you want to report a bug for a <b>specific package</b>, please go to the
   package home using the <?php print_link('/packages.php', 'Browse packages');?> tool
   or the package <?php print_link('/package-search.php', 'Search System'); ?>.
+  </li>
+  <li><?php print_link('/bugs/stats.php', 'Statistics from PEAR bug database');?>
   </li>
 </ul>
 <p>If you need support or you don't really know if it is a bug or not, please

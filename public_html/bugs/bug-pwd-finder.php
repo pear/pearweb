@@ -1,12 +1,12 @@
 <?php
-require_once './include/prepend.inc';
+require_once 'bugs/prepend.inc';
 
 if (isset($_GET['bug_id'])) {
 
     // Clean up the bug id
-    $bug_id = ereg_replace ("[^0-9]+", "", $_GET['bug_id']);
+    $bug_id = ereg_replace ("[^0-9]+", '', $_GET['bug_id']);
 
-    if ($bug_id != "") {
+    if ($bug_id != '') {
         // Try to find the email and the password
         $query = "SELECT email, passwd FROM bugdb WHERE id = '" . $bug_id . "'";
 
@@ -35,7 +35,7 @@ if (isset($_GET['bug_id'])) {
     $msg = "";
 }
 
-response_header("Bug Report Password Finder");
+response_header('Bug Report Password Finder');
 
 ?>
 <h1>Bug Report Password Finder</h1>
