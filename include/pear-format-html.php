@@ -189,7 +189,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
     }
 
     echo delim();
-    print_link('/manual/', 'Docs', false, 'class="menuBlack"');
+    print_link('/manual/', 'Documentation', false, 'class="menuBlack"');
     echo delim();
     print_link('/packages.php', 'Packages', false, 'class="menuBlack"');
     echo delim();
