@@ -111,8 +111,8 @@ $versions = array_keys($pkg['releases']);
 
 $summary .= '<br /><br />Current Version: ';
 $summary .= '<a href="/get/' . $name . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
-$summary .= ' - ' . substr($pkg['releases'][$versions[0]]['releasedate'], 0, 10);
-$summary .= '&nbsp; (<a href="/package/' . $name . '/download/">Changelog</a>)';
+$summary .= ' (' . substr($pkg['releases'][$versions[0]]['releasedate'], 0, 10) . ';';
+$summary .= '&nbsp;<a href="/package/' . $name . '/download/">Changelog</a>)';
 // }}}
 // {{{ page header
 
