@@ -209,11 +209,15 @@
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="required" minOccurs="0"/>
+    <xs:element ref="optional" minOccurs="0"/>
     <xs:element ref="group" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
  <xs:element name="required">
+  <xs:annotation>
+   <xs:documentation>absolute required dependencies</xs:documentation>
+  </xs:annotation>
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="php"/>
@@ -258,6 +262,9 @@
   </xs:complexType>
  </xs:element>
  <xs:element name="group">
+  <xs:annotation>
+   <xs:documentation>all other optional dependency groups</xs:documentation>
+  </xs:annotation>
   <xs:complexType>
    <xs:sequence>
     <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
@@ -276,6 +283,38 @@
    </xs:sequence>
    <xs:attribute name="name" type="xs:string" use="required"/>
    <xs:attribute name="hint" type="xs:string" use="required"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="optional">
+  <xs:annotation>
+   <xs:documentation>simple optional dependencies</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="channel" type="xs:string" use="required"/>
+      <xs:attribute name="min" type="version"/>
+      <xs:attribute name="max" type="version"/>
+      <xs:attribute name="recommended" type="version" use="required"/>
+     </xs:complexType>
+    </xs:element>
+    <xs:element name="extension" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:string"/>
+      <xs:attribute name="min" type="version"/>
+      <xs:attribute name="max" type="version"/>
+      <xs:attribute name="recommended" type="version"/>
+     </xs:complexType>
+    </xs:element>
+   </xs:sequence>
   </xs:complexType>
  </xs:element>
  <xs:element name="changelog">
@@ -314,6 +353,9 @@
  </xs:simpleType>
  <xs:element name="extension">
   <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
    <xs:attribute name="name" type="xs:string" use="required"/>
    <xs:attribute name="min" type="version"/>
    <xs:attribute name="max" type="version"/>
