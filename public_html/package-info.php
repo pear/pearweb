@@ -134,10 +134,6 @@ $versions = array_keys($pkg['releases']);
 // Workaround for my dev-env (running on 81)
 $port = ($_SERVER['SERVER_PORT'] == 80) ? '' : ':'.$_SERVER['SERVER_PORT'];
 
-/*
-
-    Disabling trackbacks for the moment, because of Services_Trackback update.
-
 // Preparing trackback data
 $uri = (isset($redirected) && $redirected === true) ? preg_replace('@/package(/[^/]+)/redirected@', '\1', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
 $url = 'http://'.$_SERVER['SERVER_NAME'].$port.$uri;
@@ -151,10 +147,6 @@ $tmpTrackback = Services_Trackback::create(array(
 ));
 
 $trackbackRDF = $tmpTrackback->getAutodiscoveryCode();
-
-*/
-
-$trackbackRDF = '';
 
 // }}}
 // {{{ page header
@@ -429,10 +421,6 @@ if (empty($action)) {
 
 PEAR::raiseError('Sorry, the trackback section is temporarely disabled because of updates.');
 
-/*
-
-    Disabling trackbacks for the moment, because of Services_Trackback update.
-
     // Generate trackback list
     $trackbacks = Damblan_Trackback::listTrackbacks($dbh, $name, !$trackbackIsAdmin);
 
@@ -523,9 +511,6 @@ when a weblog entry is created, which is related to the package. If you want to 
 
     }
     print '</table>';
-
-*/
-
 }
 
 // }}}
