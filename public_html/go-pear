@@ -86,7 +86,7 @@ ini_set('html_errors', WEBINSTALLER);
 ini_set('magic_quotes_runtime', false);
 error_reporting( E_ALL & ~E_NOTICE);
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
-define('GO_PEAR_VER', '0.2.2');
+define('GO_PEAR_VER', '0.2.3');
 
 define('WIN32GUI', !WEBINSTALLER && WINDOWS && php_sapi_name()== 'cli' && which('cscript'));
 
@@ -159,7 +159,7 @@ if ($version_n[0]=="4") {
         'Net_SMTP',
         'Mail',
         'XML_Parser',
-        'PHPUnit-0.6.2'
+        'PHPUnit'
         );
 } else {
     $pfc_packages = array(
@@ -168,7 +168,7 @@ if ($version_n[0]=="4") {
         'Net_SMTP',
         'Mail',
         'XML_Parser',
-        'PHPUnit'
+        'PHPUnit2'
         );
 }
 $config_desc = array(
