@@ -159,7 +159,7 @@ if (!empty($_GET)) {
                      FROM packages p,
                           maintains m
                           $release_join
-                    WHERE p.approved = 1 AND p.id = m.package " . $where . "
+                    WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = m.package " . $where . "
                  GROUP BY p.id
                  ORDER BY p.name";
 

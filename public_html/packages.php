@@ -198,7 +198,7 @@ if (!empty($catpid)) {
     }
 	
     // Package list
-    $packages = $dbh->getAll("SELECT id, name, summary, license FROM packages WHERE approved = 1 AND category=$catpid ORDER BY name");
+    $packages = $dbh->getAll("SELECT id, name, summary, license FROM packages WHERE package_type = 'pear' AND approved = 1 AND category=$catpid ORDER BY name");
 		
     // Paging
     $total = count($packages);
