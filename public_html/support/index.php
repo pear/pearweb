@@ -63,14 +63,8 @@ web discussion boards, where questions concerning PEAR can be discussed.
 journals. Some of them are aggregated through 
 <a href="http://planet-php.net/">Planet PHP</a>.</p>
 
-<p>Zend Technologies, PHP Magazine and the weblog <q>of Pears and Pickles</q>
-are publishing roundups of the events on the PEAR and PECL mailing lists:</p>
-
-<ul>
-  <li><a href="http://zend.com/zend/pear/">Zend PEAR/PECL Weekly Summaries</a></li>
-  <li><a href="http://php-mag.net/itr/psecom,id,207,nodeid,207.html">PHPBarnstormer</a> by PHP Magazine</li>
-  <li>Weblog <q><a href="http://php.eckspee.com/">of Pears and Pickles</a></q></li>
-</ul>
+<p>PHP Magazine publishes a roundup of the events on the PEAR and PECL 
+mailing lists in <a href="http://php-mag.net/itr/psecom,id,207,nodeid,207.html">PHPBarnstormer</a>.</p>
 
 <p>If you have questions concering this website, you can contact
 <a href="mailto:pear-webmaster@lists.php.net">pear-webmaster@lists.php.net</a>.
