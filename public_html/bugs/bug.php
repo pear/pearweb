@@ -127,7 +127,7 @@ elseif ($in && $edit == 2) {
 }
 elseif ($in && $edit == 1) {
     if (!verify_password($user,stripslashes($pw))) {
-        $errors[] = "Please login first to web";
+        $errors[] = "You have to login first in order to edit the bug report.";
     }
 
     if ((($in['status'] == 'Bogus' && $bug['status'] != 'Bogus') || $RESOLVE_REASONS[$in['resolve']]['status'] == 'Bogus')
