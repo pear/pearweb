@@ -34,7 +34,7 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
 }
 
 response_header('PEPr :: Votes :: ' . htmlspecialchars($proposal->pkg_name));
-echo '<h1>Proposal Votes for ' . htmlspecialchars($proposal->pkg_name) . "</h1>\n";
+echo '<h1>Proposal Votes for "' . htmlspecialchars($proposal->pkg_name) . "\"</h1>\n";
 
 if ($proposal->mayVote($dbh, @$_COOKIE['PEAR_USER'])) {
     $form =& new HTML_QuickForm('vote', 'post',

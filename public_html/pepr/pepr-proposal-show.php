@@ -34,7 +34,7 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
 }
 
 response_header('PEPr :: Details :: ' . htmlspecialchars($proposal->pkg_name));
-echo '<h1>Proposal for ' . htmlspecialchars($proposal->pkg_name) . "</h1>\n";
+echo '<h1>Proposal for "' . htmlspecialchars($proposal->pkg_name) . "\"</h1>\n";
 
 display_pepr_nav($proposal);
 

@@ -49,7 +49,7 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
 ob_start();
 
 response_header('PEPr :: Delete :: ' . htmlspecialchars($proposal->pkg_name));
-echo '<h1>Delete Proposal ' . htmlspecialchars($proposal->pkg_name) . "</h1>\n";
+echo '<h1>Delete Proposal "' . htmlspecialchars($proposal->pkg_name) . "\"</h1>\n";
 
 if (!$proposal->mayEdit($_COOKIE['PEAR_USER'])) {
     report_error('You are not allowed to delete this proposal,'

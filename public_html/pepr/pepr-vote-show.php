@@ -39,7 +39,7 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id']) || !$handle)
 response_header('PEPr :: Vote Details :: '
                 . htmlspecialchars($proposal->pkg_name) . ' :: ' . $handle);
 
-echo '<h1>Vote Details for ' . htmlspecialchars($proposal->pkg_name) . ' by ';
+echo '<h1>Vote Details for "' . htmlspecialchars($proposal->pkg_name) . '" by ';
 echo $handle . "</h1>\n";
 
 display_pepr_nav($proposal);
