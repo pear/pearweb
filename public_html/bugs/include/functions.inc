@@ -473,8 +473,7 @@ function show_version_options($current, $default = '')
  */
 function show_types($current, $show_any, $default = '')
 {
-    global $dbh;
-    global $site;
+    global $site, $dbh;
     static $bug_items;
 
     if (!isset($bug_items)) {
@@ -486,7 +485,8 @@ function show_types($current, $show_any, $default = '')
 
         $sql = "
             SELECT name FROM packages
-            WHERE approved = 1 AND package_type = '$site'";
+            WHERE approved = 1 AND package_type = '$site'
+			ORDER BY name";
         $list = $dbh->getCol($sql);
         foreach ($list as $name) {
             $bug_items[$name] = $name;
