@@ -6,8 +6,8 @@
    description="PEAR Package Search"
    method="GET"
    action="http://pear.php.net/package-search.php"
-   update="http://pear.php.net/pear.src"
-   updateIcon="http://pear.php.net/gifs/pear_item.gif"
+   update="http://pear.php.net/sidebar/pear.src"
+   updateIcon="http://pear.php.net/sidebar/pear.gif"
    updateCheckDays=3
 >
 
