@@ -25,7 +25,7 @@ if (empty($prevsearch)) $prevsearch = '';
 //
 
 function spacer($width=1, $height=1, $align=false, $extras=false) {
-    printf('<img src="/gifs/spacer.gif" width="%d" height="%d" border="0" alt="" %s%s />',
+    printf('<img src="/gifs/spacer.gif" width="%d" height="%d" style="border: 0px;" alt="" %s%s />',
         $width,
         $height,
         ($align ? 'align="'.$align.'" ' : ''),
@@ -52,27 +52,29 @@ function resize_image($img, $width=1, $height=1) {
 // return an IMG tag for a given file (relative to the images dir)
 //
 
-function make_image($file, $alt=false, $align=false, $extras=false, $dir=false, $border=0) {
+function make_image($file, $alt=false, $align=false, $extras=false, $dir=false, $border=0, $styles = false) {
     if (!$dir) {
         $dir = '/gifs';
     }
     if ($size = @getimagesize($_SERVER['DOCUMENT_ROOT'].$dir.'/'.$file)) {
-        $image = sprintf('<img src="%s/%s" border="%d" %s alt="%s" %s%s />',
+        $image = sprintf('<img src="%s/%s" style="border: %d;%s%s" %s alt="%s" %s />',
             $dir,
             $file,
             $border,
+            ($styles ? ' '.$styles            : ''),
+            ($align  ? ' float: '.$align.';'  : ''),
             $size[3],
             ($alt    ? $alt : ''),
-            ($align  ? ' align="'.$align.'"'  : ''),
             ($extras ? ' '.$extras            : '')
         );
     } else {
-        $image = sprintf('<img src="%s/%s" border="%d" alt="%s" %s%s />',
+        $image = sprintf('<img src="%s/%s" style="border: %d;%s%s" alt="%s" %s />',
             $dir,
             $file,
             $border,
+            ($styles ? ' '.$styles            : ''),
+            ($align  ? ' float: '.$align.';'  : ''),
             ($alt    ? $alt : ''),
-            ($align  ? ' ALIGN="'.$align.'"'  : ''),
             ($extras ? ' '.$extras            : '')
         );
     }
@@ -97,7 +99,7 @@ function delim($color = false, $delimiter = '&nbsp;|&nbsp;') {
     if (!$color) {
         return $delimiter;
     }
-    return sprintf('<font color="%s">%s</font>', $color, $delimiter);
+    return sprintf('<span style="color: %s;">%s</span>', $color, $delimiter);
 }
 
 
@@ -117,7 +119,7 @@ function hdelim() {
 //
 
 function make_link ($url, $linktext=false, $target=false, $extras=false) {
-    return sprintf("<a href=\"%s\"%s%s>%s</a>",
+    return sprintf('<a href="%s"%s%s>%s</a>',
         $url,
         ($target ? ' target="'.$target.'"' : ''),
         ($extras ? ' '.$extras : ''),
@@ -130,7 +132,7 @@ function make_link ($url, $linktext=false, $target=false, $extras=false) {
 //
 
 function make_mailto_link ($url, $linktext=false, $extras=false) {
-    return make_link("mailto:" . $url, ($linktext ? $linktext : $url), false, $extras);
+    return make_link('mailto:' . $url, ($linktext ? $linktext : $url), false, $extras);
 }
 
 // print_link()
@@ -155,7 +157,7 @@ function make_bug_link($package, $type = 'list', $linktext = false) {
             if (!$linktext) {
                 $linktext = 'Report a new bug';
             }
-            return make_link("/bugs/report.php?package=" . urlencode($package), $linktext);
+            return make_link('/bugs/report.php?package=' . urlencode($package), $linktext);
     }
 
 }
