@@ -56,56 +56,13 @@ if (empty($id)) {
         exit();
     }
 
-    $all = maintainer::get($id);
-
-    // Transform
     $new_list = array();
     foreach ((array)$_GET['maintainers'] as $maintainer) {
         list($handle, $role) = explode("||", $maintainer);
-        $new_list[$handle] = $role;
+        $new_list[$handle] = array("role" => $role,
+                                   "active" => 1);
     }
-
-    // Perform databases operations
-    $query = "SELECT role FROM maintains WHERE handle = ? AND package = ?";
-    $check = $dbh->prepare($query);
-
-    $query  = "INSERT INTO maintains VALUES (?, ?, ?)";
-    $insert = $dbh->prepare($query);
-
-    $query  = "UPDATE maintains SET role = ? WHERE handle = ? AND package = ?";
-    $update = $dbh->prepare($query);
-
-    $query  = "DELETE FROM maintains WHERE handle = ? AND package = ?";
-    $delete = $dbh->prepare($query);
-
-    /**
-     * In a first run, we delete all maintainers which are not in the
-     * new list.
-     * This isn't the best solution, but for now it works.
-     */
-    foreach ($all as $handle => $role) {
-        if (isset($new_list[$handle])) {
-            continue;
-        }
-        echo 'Deleting user <b>' . $handle . '</b> ...<br />';
-        $result = $dbh->execute($delete, array($handle, $id));
-    }
-
-    // Update/Insert existing maintainers
-    foreach ($new_list as $handle => $role) {
-        $result = $dbh->execute($check, array($handle, $id));
-
-        $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-        if (!is_array($row)) {
-            // Insert new maintainer
-            echo 'Adding user <b>' . $handle . '</b> ...<br />';
-            $result = $dbh->execute($insert, array($handle, $id, $role));
-        } else if ($role != $row['role']) {
-            // Update role
-            echo 'Updating user <b>' . $handle . '</b> ...<br />';
-            $result = $dbh->execute($update, array($role, $handle, $id));
-        }
-    }
+    $res = maintainer::updateAll($id, $new_list);
 
     $url = $_SERVER['PHP_SELF'];
     if (!empty($_GET['pid'])) {
@@ -166,14 +123,14 @@ if (empty($id)) {
     echo '  <select multiple="yes" name="maintainers[]" onChange="activateRemove();" size="10">';
 
     $maintainers = maintainer::get($id);
-    foreach ($maintainers as $handle => $role) {
+    foreach ($maintainers as $handle => $row) {
         $info = user::info($handle, "name");   // XXX: This sucks
         printf('<option value="%s||%s">%s (%s, %s)</option>',
                $handle,
-               $role,
+               $row['role'],
                $info['name'],
                $handle,
-               $role
+               $row['role']
                );
     }
     echo '  </select>';

@@ -828,9 +828,10 @@ class maintainer
      * @param  mixed  Name of the package or it's ID
      * @param  string Handle of the user
      * @param  string Role of the user
+     * @param  integer Is the developer actively working on the project?
      * @return mixed True or PEAR error object
      */
-    function add($package, $user, $role)
+    function add($package, $user, $role, $active = 1)
     {
         global $dbh, $auth_user;
 
@@ -840,8 +841,8 @@ class maintainer
         if (is_string($package)) {
             $package = package::info($package, 'id');
         }
-        $err = $dbh->query("INSERT INTO maintains VALUES(?,?,?)",
-                           array($user, $package, $role));
+        $err = $dbh->query("INSERT INTO maintains VALUES(?,?,?,?)",
+                           array($user, $package, $role, $active));
         if (DB::isError($err)) {
             return $err;
         }
@@ -865,11 +866,13 @@ class maintainer
         if (is_string($package)) {
             $package = package::info($package, 'id');
         }
-        $query = "SELECT handle, role FROM maintains WHERE package = '" . $package . "'";
+        $query = "SELECT handle, role, active FROM maintains WHERE package = ?";
         if ($lead) {
             $query .= " AND role = 'lead'";
         }
-        return $dbh->getAssoc($query);
+        $query .= " ORDER BY active DESC";
+
+        return $dbh->getAssoc($query, true, array($package), DB_FETCHMODE_ASSOC);
     }
 
     // }}}
@@ -923,7 +926,7 @@ class maintainer
     {
         global $dbh, $auth_user;
         if (!$auth_user->isAdmin() && !user::maintains($auth_user->handle, $package, 'lead')) {
-            return PEAR::raiseError('maintainer::drop: insufficient privileges');
+            return PEAR::raiseError('maintainer::remove: insufficient privileges');
         }
         if (is_string($package)) {
             $package = package::info($package, 'id');
@@ -941,7 +944,7 @@ class maintainer
      * @static
      * @param int $pkgid The package id to update
      * @param array $users Assoc array containing the list of users
-     *                     in the form: '<user>' => '<role>'
+     *                     in the form: '<user>' => array('role' => '<role>', 'active' => '<active>')
      * @return mixed PEAR_Error or true
      */
     function updateAll($pkgid, $users)
@@ -953,35 +956,38 @@ class maintainer
         if (!$admin && !user::maintains($auth_user->handle, $pkgid, 'lead')) {
             return PEAR::raiseError('maintainer::updateAll: insufficient privileges');
         }
-        $sql = "SELECT handle, role FROM maintains WHERE package = ?";
-        $old = $dbh->getAssoc($sql, false, array($pkgid));
+
+        $old = maintainer::get($pkgid);
         if (DB::isError($old)) {
             return $old;
         }
         $old_users = array_keys($old);
         $new_users = array_keys($users);
+
         if (!$admin && !in_array($auth_user->handle, $new_users)) {
             return PEAR::raiseError("You can not delete your own maintainer role or you will not ".
                                     "be able to complete the update process. Set your name ".
                                     "in package.xml or let the new lead developer upload ".
                                     "the new release");
         }
-        foreach ($users as $user => $role) {
+        foreach ($users as $user => $u) {
+            $role = $u['role'];
+            $active = $u['active'];
+
             if (!maintainer::isValidRole($role)) {
                 return PEAR::raiseError("invalid role '$role' for user '$user'");
             }
             // The user is not present -> add him
             if (!in_array($user, $old_users)) {
-                $e = maintainer::add($pkgid, $user, $role);
+                $e = maintainer::add($pkgid, $user, $role, $active);
                 if (PEAR::isError($e)) {
                     return $e;
                 }
                 continue;
             }
             // Users exists but role has changed -> update it
-            if ($role != $old[$user]) {
-                $sql = "UPDATE maintains SET role=? WHERE package=? AND handle=?";
-                $res = $dbh->query($sql, array($role, $pkgid, $user));
+            if ($role != $old[$user]['role']) {
+                $res = maintainer::update($pkgid, $user, $role, $active);
                 if (DB::isError($res)) {
                     return $res;
                 }
@@ -990,8 +996,7 @@ class maintainer
         // Drop users who are no longer maintainers
         foreach ($old_users as $old_user) {
             if (!in_array($old_user, $new_users)) {
-                $sql = "DELETE FROM maintains WHERE package=? AND handle=?";
-                $res = $dbh->query($sql, array($pkgid, $old_user));
+                $res = maintainer::remove($pkgid, $old_user);
                 if (DB::isError($res)) {
                     return $res;
                 }
@@ -1001,6 +1006,24 @@ class maintainer
     }
 
     // }}}
+    // {{{
+
+    /**
+     * Update maintainer entry
+     *
+     * @access public
+     * @param  int Package ID
+     * @param  string Username
+     * @param  string Role
+     * @param  string Is the developer actively working on the package?
+     */
+    function update($package, $user, $role, $active) {
+        global $dbh;
+
+        $query = "UPDATE maintains SET role = ?, active = ? " .
+            "WHERE package = ? AND handle = ?";
+        return $dbh->query($query, array($role, $active, $package, $handle));
+    }
 }
 
 /**
