@@ -13,7 +13,8 @@
      */
 
     $tpl = array(
-        'To' => array('PEAR Webmaster <tobias@schlitt.info>'),
+        'To' => array('PEAR Webmaster <pear-webmaster@lists.php.net>'),
+        'Reply-To' => array('PEAR Webmaster <pear-webmaster@lists.php.net>'),
         'From' => 'pear-sys@php.net',
         'Subject' => '[Trackback] New trackback discovered for %id%',
         'Body' => 'Dear maintainer.
