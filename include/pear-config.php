@@ -48,6 +48,11 @@ if (isset($_SERVER['PEAR_CHM_DIR'])) {
 } else {
     define('PEAR_CHM_DIR', '/var/lib/pear/chm/'); 
 }
+if (isset($_SERVER['PEAR_APIDOC_DIR'])) {
+    define('PEAR_APIDOC_DIR', $_SERVER['PEAR_APIDOC_DIR']);
+} else {
+    define('PEAR_APIDOC_DIR', '/var/lib/pear/apidoc/'); 
+}
 if (isset($_SERVER['PEAR_PATCHES'])) {
     define('PEAR_PATCHES', $_SERVER['PEAR_PATCHES']);
 } else {
