@@ -49,5 +49,10 @@ if (auth_verify(@$_POST['PEAR_USER'], @$_POST['PEAR_PW'])) {
     exit();
 }
 
-auth_reject();
+$msg = "";
+if (isset($_POST['PEAR_USER']) || isset($_POST['PEAR_PW'])) {
+    $msg = "Invalid username or password.";
+}
+
+auth_reject(PEAR_AUTH_REALM, $msg);
 ?>
