@@ -26,6 +26,18 @@
     <xs:element ref="contents"/>
     <xs:element ref="compatible" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="dependencies"/>
+    <xs:element ref="providesextension" minOccurs="0"/>
+    <xs:choice minOccurs="0">
+     <xs:sequence>
+      <xs:element ref="srcpackage"/>
+      <xs:element ref="srcchannel"/>
+     </xs:sequence>
+     <xs:element name="srcuri" type="xs:anyURI">
+      <xs:annotation>
+       <xs:documentation>uri of the package that contains the source of this extension</xs:documentation>
+      </xs:annotation>
+     </xs:element>
+    </xs:choice>
     <xs:choice>
      <xs:element ref="phprelease" maxOccurs="unbounded"/>
      <xs:element ref="extsrcrelease"/>
@@ -189,7 +201,6 @@
   </xs:annotation>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="providesextension"/>
     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="binarypackage" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
@@ -201,18 +212,6 @@
   </xs:annotation>
   <xs:complexType>
    <xs:sequence>
-    <xs:choice>
-     <xs:sequence>
-      <xs:element ref="srcpackage"/>
-      <xs:element ref="srcchannel"/>
-     </xs:sequence>
-     <xs:element name="srcuri" type="xs:anyURI">
-      <xs:annotation>
-       <xs:documentation>uri of the package that contains the source of this extension</xs:documentation>
-      </xs:annotation>
-     </xs:element>
-    </xs:choice>
-    <xs:element ref="providesextension"/>
     <xs:element ref="installconditions"/>
     <xs:element ref="filelist"/>
    </xs:sequence>
