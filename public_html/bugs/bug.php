@@ -43,9 +43,6 @@ if (!empty($_POST['pw'])) {
     $pw   = '';
 }
 
-@mysql_connect('localhost','pear','pear')
-    or die('Unable to connect to SQL server.');
-@mysql_select_db('pear');
 
 # fetch info about the bug into $bug
 $query = "SELECT id,package_name,email,passwd,sdesc,ldesc,"
@@ -58,13 +55,9 @@ $query = "SELECT id,package_name,email,passwd,sdesc,ldesc,"
        . " FROM bugdb LEFT JOIN bugdb_votes ON id=bug WHERE id=$id"
        . " GROUP BY bug";
 
-$res = mysql_query($query);
+$bug =& $dbh->getRow($query, array(), DB_FETCHMODE_ASSOC);
 
-if ($res) {
-    $bug = mysql_fetch_array($res,MYSQL_ASSOC);
-}
-
-if (!$res || !$bug) {
+if (empty($bug) || !$bug) {
     response_header('No such bug.');
     echo '<h1 class="error">No such bug #'.$id.'!</h1>';
     response_footer();
@@ -83,7 +76,6 @@ if ($edit == 1 && isset($delete_comment)) {
 }
 
 # handle any updates, displaying errors if there were any
-$success = !isset($_POST['in']);
 $errors = array();
 
 if ($_POST['in'] && $edit == 3) {
@@ -121,7 +113,7 @@ if ($_POST['in'] && $edit == 3) {
                  " '" . escapeSQL($_POST['in']['commentemail']) . "'," .
                  ' NOW(),' .
                  " '" . escapeSQL($ncomment) . "')";
-        $success = @mysql_query($query);
+        $dbh->query($query);
     }
     $from = stripslashes($_POST['in']['commentemail']);
 
@@ -161,7 +153,6 @@ if ($_POST['in'] && $edit == 3) {
     }
 
     if (!$errors && !($errors = incoming_details_are_valid($_POST['in']))) {
-        /* update bug record */
         $query = 'UPDATE bugdb SET' .
                  " sdesc='" . escapeSQL($_POST['in']['sdesc']) . "'," .
                  " status='" . escapeSQL($_POST['in']['status']) . "'," .
@@ -170,17 +161,16 @@ if ($_POST['in'] && $edit == 3) {
                  " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                  ' ts2=NOW(), ' .
                  " email='" . escapeSQL($from) . "' WHERE id=$id";
-        $success = @mysql_query($query);
+        $dbh->query($query);
 
-        /* add comment */
-        if ($success && !empty($ncomment)) {
+        if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
                      ' (bug, email, ts, comment) VALUES (' .
                      " $id," .
                      " '" . escapeSQL($from) . "'," .
                      ' NOW(),' .
                      " '" . escapeSQL($ncomment) . "')";
-            $success = @mysql_query($query);
+            $dbh->query($query);
         }
     }
 
@@ -218,13 +208,12 @@ if ($_POST['in'] && $edit == 3) {
         }
     }
 
-    $from = $user . '@php.net';
     $query = "SELECT email FROM users WHERE handle = '" . $user . "'";
-    $success = @mysql_query($query);
-    if ($success) {
-        $row = @mysql_fetch_row($success);
-        $from = $row[0];
+    $from =& $dbh->getOne($query);
+    if (!$from) {
+        $from = $user . '@php.net';
     }
+
     if (!$errors && !($errors = incoming_details_are_valid($_POST['in']))) {
         $query = 'UPDATE bugdb SET';
 
@@ -241,18 +230,19 @@ if ($_POST['in'] && $edit == 3) {
                   " php_version='" . escapeSQL($_POST['in']['php_version']) . "'," .
                   " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                   " ts2=NOW() WHERE id=$id";
-        $success = @mysql_query($query);
-        if ($success && !empty($ncomment)) {
+        $dbh->query($query);
+
+        if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
                      ' (bug, email, ts, comment) VALUES (' .
                      " $id," .
                      " '" . escapeSQL($from) . "'," .
                      ' NOW(),' .
                      " '" . escapeSQL($ncomment) . "')";
-            $success = @mysql_query($query);
+            $dbh->query($query);
         }
-
     }
+
 } elseif ($_POST['in']) {
     $errors[] = 'Invalid edit mode.';
     $ncomment = '';
@@ -261,7 +251,7 @@ if ($_POST['in'] && $edit == 3) {
 }
 
 if ($_POST['in']) {
-    if (!$errors && $success) {
+    if (!$errors) {
         mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit);
         localRedirect($_SERVER['PHP_SELF'] . "?id=$id&thanks=$edit");
         exit;
@@ -397,19 +387,6 @@ control(2, 'Edit Submission');
 
 if ($errors) {
     display_errors($errors);
-}
-
-if (!$errors && !$success) {
-    ?>
-
-    <div class="errors">
-     Some sort of database error has happened. Maybe this will be illuminating:
-     <?php echo mysql_error() ?>
-     This was the last query attempted:
-     <tt><?php echo htmlspecialchars($query) ?></tt>
-    </div>
-
-    <?php
 }
 
 if ($edit == 1 || $edit == 2) {
@@ -767,9 +744,9 @@ if ($bug['ldesc']) {
 /* DISPLAY COMMENTS */
 $query = "SELECT id,email,comment,UNIX_TIMESTAMP(ts) AS added"
        . " FROM bugdb_comments WHERE bug=$id ORDER BY ts";
-$res = @mysql_query($query);
+$res =& $dbh->query($query);
 if ($res) {
-    while ($row = mysql_fetch_array($res,MYSQL_ASSOC)) {
+    while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
         output_note($row['id'], $row['added'], $row['email'], $row['comment']);
     }
 }
@@ -794,7 +771,7 @@ function output_note($com_id, $ts, $email, $comment)
 function delete_comment($id, $com_id)
 {
     $query = 'DELETE FROM bugdb_comments WHERE bug='.(int)$id.' AND id='.(int)$com_id;
-    $res = @mysql_query($query);
+    $res =& $dbh->query($query);
 }
 
 function canvote()
