@@ -25,6 +25,7 @@
 	// Patch sent to maintainer
 	require_once 'pepr/HTML_BBCodeParser_Filter_Extended.php';
 	require_once 'HTML/QuickForm.php';
+	require_once 'Damblan/Karma.php';
 
 	if (empty($id)) {
 		localRedirect("pepr-proposals.php");
@@ -35,6 +36,8 @@
 	$proposal->getLinks($dbh);
 	$proposal->getVotes($dbh);
 
+	$karma = new Damblan_Karma($dbh);
+	
 	if (isset($_COOKIE['PEAR_USER']) && ($proposal->getStatus() == 'vote')) {
 		$form = new HTML_QuickForm('vote', 'post', 'pepr-proposal-show.php?id='.$id);
 		$form->setDefaults(array('value' => 1));
@@ -229,8 +232,8 @@
 	if (($proposal->status == 'vote')) {
 	
 		$bb = new BorderBox("Vote on this proposal", "100%", "", 2, true);
-	
-		if (isset($_COOKIE['PEAR_USER'])) {
+		
+		if (isset($_COOKIE['PEAR_USER']) && $karma->has($_COOKIE['PEAR_USER'],'pear.dev')) {
 			if (!ppVote::hasVoted($dbh, $_COOKIE['PEAR_USER'], $proposal->id) && !$proposal->isFromUser($_COOKIE['PEAR_USER'])) {
 				$formArray = $form->toArray();
 				echo "<form ".$formArray['attributes'].">";
@@ -249,7 +252,7 @@
 			}
 			
 		} else {
-			$bb->fullRow("Please login to vote.");
+			$bb->fullRow("Only logged in, full featured PEAR developers may vote.");
 		}
 		
 		$bb->end();
