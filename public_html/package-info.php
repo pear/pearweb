@@ -48,6 +48,15 @@ if (!empty($version)) {
 }
 
 if (empty($pacid) || !isset($pkg['name'])) {
+    // Let's see if $pacid is a PECL package
+    if (!isset($pkg['name'])) {
+        $pkg_name = package::info($pacid, "name", true);
+        if (!empty($pkg_name)) {
+            header("Location: http://pecl.php.net/package/" . $pkg_name);
+            exit();
+        }
+    }
+
     $_SERVER['REDIRECT_URL'] = $_SERVER['REQUEST_URI'];
     include "error/404.php";
     exit();
