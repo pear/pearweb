@@ -48,20 +48,20 @@ if (!empty($_POST['pw'])) {
 @mysql_select_db('pear');
 
 # fetch info about the bug into $bug
-$query = 'SELECT id,package_name,email,passwd,sdesc,ldesc,
-        php_version,php_os,status,ts1,ts2,assign,
-        UNIX_TIMESTAMP(ts1) AS submitted, UNIX_TIMESTAMP(ts2) AS modified,
-        COUNT(bug=id) AS votes,
-        SUM(reproduced) AS reproduced,SUM(tried) AS tried,
-        SUM(sameos) AS sameos, SUM(samever) AS samever,
-        AVG(score)+3 AS average,STD(score) AS deviation
-        FROM bugdb LEFT JOIN bugdb_votes ON id=bug WHERE id='.(int)$id.'
-        GROUP BY bug';
+$query = "SELECT id,package_name,email,passwd,sdesc,ldesc,"
+       . "php_version,php_os,status,ts1,ts2,assign,"
+       . "UNIX_TIMESTAMP(ts1) AS submitted, UNIX_TIMESTAMP(ts2) AS modified,"
+       . "COUNT(bug=id) AS votes,"
+       . "SUM(reproduced) AS reproduced,SUM(tried) AS tried,"
+       . "SUM(sameos) AS sameos, SUM(samever) AS samever,"
+       . "AVG(score)+3 AS average,STD(score) AS deviation"
+       . " FROM bugdb LEFT JOIN bugdb_votes ON id=bug WHERE id=$id"
+       . " GROUP BY bug";
 
-$res = $dbh->query($query);
+$res = mysql_query($query);
 
 if ($res) {
-    $bug = $res->fetchRow();
+    $bug = mysql_fetch_array($res,MYSQL_ASSOC);
 }
 
 if (!$res || !$bug) {
@@ -104,14 +104,14 @@ if ($_POST['in'] && $edit == 3) {
     # being authenticated (oh, the horror!)
     if (preg_match('/^(.+)@php\.net/i', stripslashes($_POST['in']['commentemail']), $m)) {
         if ($user != stripslashes($m[1]) || !verify_password($user,$pass)) {
-            $errors[] = 'You have to be logged in as a developer to use your php.net email address.';
+            $errors[] = "You have to be logged in as a developer to use your php.net email address.";
             $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
         }
     }
 
     $ncomment = trim($_POST['ncomment']);
     if (!$ncomment) {
-        $errors[] = 'You must provide a comment.';
+        $errors[] = "You must provide a comment.";
     }
 
     if (!$errors) {
@@ -121,7 +121,7 @@ if ($_POST['in'] && $edit == 3) {
                  " '" . escapeSQL($_POST['in']['commentemail']) . "'," .
                  ' NOW(),' .
                  " '" . escapeSQL($ncomment) . "')";
-        $success = $dbh->query($query);
+        $success = @mysql_query($query);
     }
     $from = stripslashes($_POST['in']['commentemail']);
 
@@ -170,7 +170,7 @@ if ($_POST['in'] && $edit == 3) {
                  " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                  ' ts2=NOW(), ' .
                  " email='" . escapeSQL($from) . "' WHERE id=$id";
-        $success = $dbh->query($query);
+        $success = @mysql_query($query);
 
         /* add comment */
         if ($success && !empty($ncomment)) {
@@ -180,7 +180,7 @@ if ($_POST['in'] && $edit == 3) {
                      " '" . escapeSQL($from) . "'," .
                      ' NOW(),' .
                      " '" . escapeSQL($ncomment) . "')";
-            $success = $dbh->query($query);
+            $success = @mysql_query($query);
         }
     }
 
@@ -220,7 +220,11 @@ if ($_POST['in'] && $edit == 3) {
 
     $from = $user . '@php.net';
     $query = "SELECT email FROM users WHERE handle = '" . $user . "'";
-    $from = $dbh->getOne($query);
+    $success = @mysql_query($query);
+    if ($success) {
+        $row = @mysql_fetch_row($success);
+        $from = $row[0];
+    }
     if (!$errors && !($errors = incoming_details_are_valid($_POST['in']))) {
         $query = 'UPDATE bugdb SET';
 
@@ -237,7 +241,7 @@ if ($_POST['in'] && $edit == 3) {
                   " php_version='" . escapeSQL($_POST['in']['php_version']) . "'," .
                   " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                   " ts2=NOW() WHERE id=$id";
-        $success = $dbh->query($query);
+        $success = @mysql_query($query);
         if ($success && !empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
                      ' (bug, email, ts, comment) VALUES (' .
@@ -245,7 +249,7 @@ if ($_POST['in'] && $edit == 3) {
                      " '" . escapeSQL($from) . "'," .
                      ' NOW(),' .
                      " '" . escapeSQL($ncomment) . "')";
-            $success = $dbh->query($query);
+            $success = @mysql_query($query);
         }
 
     }
@@ -277,10 +281,10 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
     ?>
 
 <div class="thanks">
- Thank you for your help! If the status of the bug report you submitted changes,
- you will be notified. You may return here and check on the status or update
- your report at any time. That URL for your bug report is: <a
- href="/bugs/bug.php?id=<?php echo $id?>">http://pear.php.net/bugs/bug.php?id=<?php echo $id ?></a>.
+Thank you for your help! If the status of the bug report you submitted changes,
+you will be notified. You may return here and check on the status or update
+your report at any time. That URL for your bug report is: <a
+href="/bugs/bug.php?id=<?php echo $id?>">http://pear.php.net/bugs/bug.php?id=<?php echo $id ?></a>.
 </div>
 
     <?php
@@ -288,8 +292,8 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
     ?>
 
 <div class="thanks">
- Thanks for voting! Your vote should be reflected in the
- statistics below.
+Thanks for voting! Your vote should be reflected in the
+statistics below.
 </div>
 
     <?php
@@ -300,7 +304,7 @@ show_bugs_menu($bug['package_name']);
 ?>
 
 <div id="bugheader">
- <table id="details">
+<table id="details">
   <tr id="title">
    <th class="details" id="number">Bug&nbsp;#<?php echo $id ?></th>
    <td id="summary" colspan="3"><?php echo clean($bug['sdesc']) ?></td>
@@ -763,9 +767,9 @@ if ($bug['ldesc']) {
 /* DISPLAY COMMENTS */
 $query = "SELECT id,email,comment,UNIX_TIMESTAMP(ts) AS added"
        . " FROM bugdb_comments WHERE bug=$id ORDER BY ts";
-$res = $dbh->query($query);
+$res = @mysql_query($query);
 if ($res) {
-    while ($row = $res->fetchRow()) {
+    while ($row = mysql_fetch_array($res,MYSQL_ASSOC)) {
         output_note($row['id'], $row['added'], $row['email'], $row['comment']);
     }
 }
@@ -790,7 +794,7 @@ function output_note($com_id, $ts, $email, $comment)
 function delete_comment($id, $com_id)
 {
     $query = 'DELETE FROM bugdb_comments WHERE bug='.(int)$id.' AND id='.(int)$com_id;
-    $res = $dbh->query($query);
+    $res = @mysql_query($query);
 }
 
 function canvote()
