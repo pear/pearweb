@@ -327,7 +327,7 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
                         . ' notified. You may return here and check on the'
                         . ' status or update your report at any time. That URL'
                         . ' for your bug report is: <a href="/bugs/bug.php?id='
-                        . $id . '">http://pear.php.net/bugs/bug.php?id='
+                        . $id . '">http://'.$site.'.php.net/bugs/bug.php?id='
                         . $id . '</a>.');
 
 } elseif ($_GET['thanks'] == 6) {

@@ -209,7 +209,7 @@ if (isset($_POST['in'])) {
 
             $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
             $ascii_report .= "\n-- \nEdit bug report at ";
-            $ascii_report .= "http://pear.php.net/bugs/bug.php?id=$cid&edit=";
+            $ascii_report .= "http://$site.php.net/bugs/bug.php?id=$cid&edit=";
 
             list($mailto, $mailfrom) = get_package_mail(
                     $_POST['in']['package_name']);
@@ -240,21 +240,21 @@ if (isset($_POST['in'])) {
             $extra_headers .= 'X-PHP-Category: ' . rinse($_POST['in']['package_name']) . "\n";
             $extra_headers .= 'X-PHP-OS: '       . rinse($_POST['in']['php_os']) . "\n";
             $extra_headers .= 'X-PHP-Status: Open' . "\n";
-            $extra_headers .= 'Message-ID: <bug-' . $cid . '@pear.php.net>';
+            $extra_headers .= 'Message-ID: <bug-' . $cid . '@'.$site.'.php.net>';
 
             $type = @$types[$_POST['in']['bug_type']];
 
             if (DEVBOX == false) {
                 // mail to package developers
-                @mail($mailto, "[PEAR-BUG] $type #$cid [NEW]: $sdesc",
+                @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
                       $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
                       '-fpear-sys@php.net');
                 // mail to reporter
-                @mail($email, "[PEAR-BUG] $type #$cid: $sdesc",
+                @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
                       $ascii_report . "2\n",
-                      "From: PEAR Bug Database <$mailfrom>\n" .
+                      "From: $siteBig Bug Database <$mailfrom>\n" .
                       "X-PHP-Bug: $cid\n" .
-                      "Message-ID: <bug-$cid@pear.php.net>",
+                      "Message-ID: <bug-$cid@$site.php.net>",
                       '-fpear-sys@php.net');
             }
             localRedirect('bug.php?id=' . $cid . '&thanks=4');
@@ -352,8 +352,8 @@ if (!package_exists($_REQUEST['package'])) {
             echo '<p><strong>WARNING: You are saying the <em>package';
             echo ' affected</em> is the &quot;Bug System.&quot; This';
             echo ' category is <em>only</em> for telling us about problems';
-            echo ' that the PEAR website\'s bug user interface is having. If';
-            echo ' your bug is about a PEAR package or other aspect of the';
+            echo ' that the '.$siteBig.' website\'s bug user interface is having. If';
+            echo ' your bug is about a '.$siteBig.' package or other aspect of the';
             echo ' website, please hit the back button and actually read that';
             echo ' page so you can properly categorize your bug.</strong></p>';
         }
@@ -416,7 +416,7 @@ if (!package_exists($_REQUEST['package'])) {
   <td class="form-input">
    Please supply any information that may be helpful in fixing the bug:
    <ul>
-    <li>The version number of the PEAR package or files you are using.</li>
+    <li>The version number of the <?php echo $siteBig; ?> package or files you are using.</li>
     <li>A short script that reproduces the problem.</li>
     <li>The list of modules you compiled PHP with (your configure line).</li>
     <li>Any other information unique or specific to your setup.</li>

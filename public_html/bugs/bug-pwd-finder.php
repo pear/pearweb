@@ -47,8 +47,8 @@ if (isset($_GET['bug_id'])) {
                 $passwd = $row['passwd'];
 
                 $resp = mail($row['email'],
-                             'Password for PEAR bug report #' . $bug_id,
-                             'The password for PEAR bug report #' . $bug_id
+                             'Password for '.$siteBig.' bug report #' . $bug_id,
+                             'The password for '.$siteBig.' bug report #' . $bug_id
                              . ' is ' . $passwd . '.',
                              'From: noreply@php.net');
 

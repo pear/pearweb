@@ -28,6 +28,7 @@ $extra_styles[] = '/css/bugs.css';
 
 // For distinguishing this site from PECL
 $site = 'pear';
+$siteBig = 'PEAR';
 
 // used in mail_bug_updates(), below, and class for search results
 $tla = array(
@@ -603,7 +604,7 @@ function display_bug_success($in)
  */
 function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
 {
-    global $tla, $types;
+    global $tla, $types, $site, $siteBig;
 
     $text = array();
     $headers = array();
@@ -695,17 +696,17 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
     /* user text with attention, headers and previous messages */
     $user_text  = "ATTENTION! Do NOT reply to this email!\n" .
                   "To reply, use the web interface found at\n" .
-                  "http://pear.php.net/bugs/bug.php?id=$bug[id]&edit=2\n\n\n" .
+                  "http://$site.php.net/bugs/bug.php?id=$bug[id]&edit=2\n\n\n" .
                   $header_text .
                   $wrapped_text;
 
     /* developer text with headers, previous messages, and edit link */
     $dev_text = 'Edit report at ' .
-                "http://pear.php.net/bugs/bug.php?id=$bug[id]&edit=1\n\n" .
+                "http://$site.php.net/bugs/bug.php?id=$bug[id]&edit=1\n\n" .
                 $header_text .
                 $wrapped_text .
                 "\n-- \nEdit this bug report at " .
-                "http://pear.php.net/bugs/bug.php?id=$bug[id]&edit=1\n";
+                "http://$site.php.net/bugs/bug.php?id=$bug[id]&edit=1\n";
 
     /* send mail if status was changed or there is a comment */
     if ($in[status] != $bug[status] || $ncomment != "") {
@@ -731,15 +732,15 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
         # the user gets sent mail with an envelope sender that ignores bounces
         if (DEVBOX == false) {
             @mail($bug[email],
-                  '[PEAR-BUG] ' . rinse($subj) . txfield('sdesc'),
+                  "[$siteBig-BUG] " . rinse($subj) . txfield('sdesc'),
                   $user_text,
-                  "From: PEAR Bug Database <$mailfrom>\n".
+                  "From: $siteBig Bug Database <$mailfrom>\n".
                   "X-PHP-Bug: $bug[id]\n".
-                  "In-Reply-To: <bug-$bug[id]@pear.php.net>",
+                  "In-Reply-To: <bug-$bug[id]@$site.php.net>",
                   "-fbounces-ignored@php.net");
             # but we go ahead and let the default sender get used for the list
             @mail($mailto,
-                  "[PEAR-BUG] " . rinse($subj) . txfield('sdesc'),
+                  "[$siteBig-BUG] " . rinse($subj) . txfield('sdesc'),
                   $dev_text,
                   "From: $from\n".
                   "X-PHP-Bug: $bug[id]\n".
@@ -749,7 +750,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
                   "X-PHP-OS: "         . rinse((($edit != 3) ? $in['php_os']       : $bug['php_os']))      . "\n" .
                   "X-PHP-Status: "     . rinse($new_status) . "\n" .
                   "X-PHP-Old-Status: " . rinse($old_status) . "\n" .
-                  "In-Reply-To: <bug-$bug[id]@pear.php.net>",
+                  "In-Reply-To: <bug-$bug[id]@$site.php.net>",
                   "-fpear-sys@php.net");
         }
     }
@@ -771,7 +772,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
                   $dev_text,
                   "From: $from\n".
                   "X-PHP-Bug: $bug[id]\n".
-                  "In-Reply-To: <bug-$bug[id]@pear.php.net>",
+                  "In-Reply-To: <bug-$bug[id]@$site.php.net>",
                   "-fpear-sys@php.net");
         }
     }
@@ -800,7 +801,7 @@ function format_date($date) {
  */
 function get_old_comments($bug_id, $all = 0)
 {
-    global $dbh;
+    global $dbh, $site;
     $divider = str_repeat("-", 72);
     $max_message_length = 10 * 1024;
     $max_comments = 5;
@@ -831,7 +832,7 @@ function get_old_comments($bug_id, $all = 0)
         }
         return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "[$row[0]] ". spam_protect($row[1], 'text') ."\n\n$row[2]\n\n$divider\n\n");
     } else {
-        return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "The remainder of the comments for this report are too long. To view\nthe rest of the comments, please view the bug report online at\n    http://pear.php.net/bugs/bug.php?id=$bug_id\n");
+        return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "The remainder of the comments for this report are too long. To view\nthe rest of the comments, please view the bug report online at\n    http://$site.php.net/bugs/bug.php?id=$bug_id\n");
     }
 
     return '';
@@ -934,6 +935,7 @@ function incoming_details_are_valid($in, $initial = 0)
  */
 function get_package_mail($package_name)
 {
+    global $site;
     // XXX Change to pear-bugs when it gets opened
     //$to[] = "pear-dev@lists.php.net";
 
@@ -953,7 +955,7 @@ function get_package_mail($package_name)
         $to[] = $data['email'];
     }
 
-    return array(implode(', ', $to), 'pear-dev@lists.php.net');
+    return array(implode(', ', $to), $site.'-dev@lists.php.net');
 }
 
 /**
