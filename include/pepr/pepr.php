@@ -18,7 +18,7 @@ define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <pear-dev@lists.php
 define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>', true);
 define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
 
-/*	
+/*
 // This runs PEPr in testing mode
 define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <dotxp@php-applications.de>', true);
 define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <dotxp@php-applications.de>', true);
@@ -145,16 +145,16 @@ class proposal {
     function store ( $dbh ) {
         if (isset($this->id)) {
             $sql = "UPDATE package_proposals SET
-					pkg_category = '{$this->pkg_category}',
-					pkg_name = '{$this->pkg_name}',
-					pkg_describtion = '".mysql_escape_string($this->pkg_describtion)."',
-					pkg_deps = '".mysql_escape_string($this->pkg_deps)."',
+					pkg_category = ".$dbh->quote($this->pkg_category).",
+					pkg_name = ".$dbh->quote($this->pkg_name).",
+					pkg_describtion = ".$dbh->quote($this->pkg_describtion).",
+					pkg_deps = ".$dbh->quote($this->pkg_deps).",
 					draft_date = FROM_UNIXTIME({$this->draft_date}),
 					proposal_date = FROM_UNIXTIME({$this->proposal_date}),
 					vote_date = FROM_UNIXTIME({$this->vote_date}),
 					longened_date = FROM_UNIXTIME({$this->longened_date}),
-					status = '{$this->status}',
-					user_handle = '{$this->user_handle}'
+					status = ".$dbh->quote($this->status).",
+					user_handle = ".$dbh->quote($this->user_handle)."
 					WHERE id = ".$this->id;
             $res = $dbh->query($sql);
             if (DB::isError($dbh)) {
@@ -163,13 +163,13 @@ class proposal {
         } else {
             $sql = "INSERT INTO package_proposals (pkg_category, pkg_name, pkg_describtion,
 						pkg_deps, draft_date, status, user_handle) VALUES (
-						'{$this->pkg_category}',
-						'{$this->pkg_name}',
-						'".mysql_escape_string($this->pkg_describtion)."',
-						'{$this->pkg_deps}',
+						".$dbh->quote($this->pkg_category).",
+						".$dbh->quote($this->pkg_name).",
+						".$dbh->quote($this->pkg_describtion).",
+						".$dbh->quote($this->pkg_deps).",
 						FROM_UNIXTIME(".time()."),
-						'".mysql_escape_string($this->status)."',
-						'{$this->user_handle}')";
+						".$dbh->quote($this->status).",
+						".$dbh->quote($this->user_handle).")";
             $res = $dbh->query($sql);
             if (DB::isError($dbh)) {
                 return $res;
@@ -435,7 +435,7 @@ class ppComment {
             return PEAR::raiseError("Not initialized");
         }
         $sql = "INSERT INTO package_proposal_changelog (pkg_prop_id, user_handle, comment)
-					VALUES (".$proposalId.", '".$this->user_handle."', '".mysql_escape_string($this->comment)."')";
+					VALUES (".$proposalId.", ".$dbh->quote($this->user_handle).", ".$dbh->quote($this->comment).")";
         $res = $dbh->query($sql);
         return $res;
     }		
@@ -501,7 +501,7 @@ class ppVote {
             return PEAR::raiseError("Not initialized");
         }
         $sql = "INSERT INTO package_proposal_votes (pkg_prop_id, user_handle, value, is_conditional, comment, reviews)
-					VALUES (".$proposalId.", '".$this->user_handle."', ".$this->value.", ".(int)$this->is_conditional.", '".mysql_escape_string($this->comment)."', '".serialize($this->reviews)."')";
+					VALUES (".$proposalId.", ".$dbh->quote($this->user_handle).", ".$this->value.", ".(int)$this->is_conditional.", ".$dbh->quote($this->comment).", ".$dbh->quote(serialize($this->reviews)).")";
         $res = $dbh->query($sql);
         return $res;
     }
@@ -556,6 +556,7 @@ class ppLink {
 		
     function ppLink ( $dbhResArr ) {
         foreach ($dbhResArr as $name => $value) {
+        	$value = (is_string($value)) ? stripslashes($value) : $value;
             $this->$name = $value;
         }
     }
@@ -581,7 +582,7 @@ class ppLink {
 		
     function store ( $dbh, $proposalId ) {
         $sql = "INSERT INTO package_proposal_links (pkg_prop_id, type, url)
-					VALUES (".$proposalId.", '".$this->type."', '".mysql_escape_string($this->url)."')";
+					VALUES (".$proposalId.", ".$dbh->quote($this->type).", ".$dbh->quote($this->url).")";
         $res = $dbh->query($sql);
         return $res;
     }
