@@ -53,12 +53,33 @@ that have been held about PEAR.</p>
 <ul>
  <li>
   <p><cite>
+   <a href="http://www.php-tools.net/site.php?file=/about/presentations.xml">
+   PEAR for the masses</a></cite></p>
+  <ul>
+    <li>Date: 2004-07-30</li>
+    <li>Presenters: <?php echo user_link("schst", true); ?></li>
+    <li>Venue: O'Reilly Open Source Conference 2004, Portland/Oregon, United States</li>
+  </ul>
+ </li>
+
+ <li>
+  <p><cite>
    <a href="http://www.schlitt.info/index.php/content.publications_linuxtag2004">PEAR - An introduction</a>
   </cite></p>
   <ul>
     <li>Date: 2004-06-25</li>
     <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
     <li>Venue: Linuxtag 2004, Karlsruhe, Germany</li>
+  </ul>
+ </li>
+
+ <li>
+  <p><cite><a href="http://www.phpconf.hu/rsduf/media/eloadasok/PEAR.pdf">
+  PEAR</cite></a></p>
+  <ul>
+    <li>Date: 2004-05-29</li>
+    <li>Presenter: <?php echo user_link("norbert", true); ?></li>
+    <li>Venue: First Hungarian PHP Roadshow 2004, Dunaujvaros, Hungary</li>
   </ul>
  </li>
 
@@ -80,6 +101,16 @@ that have been held about PEAR.</p>
     <li>Date: 2003-11-04</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
     <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+  </ul>
+ </li>
+
+ <li>
+  <p><cite><a href="http://www.php-con.com/2003/west/pdf/christian_wenz_archive.pdf">
+  Tour de PEAR</a></cite></p>
+  <ul>
+    <li>Date: 2003-10-24</li>
+    <li>Presenter: <?php echo user_link("wenz", true); ?></li>
+    <li>Venue: php{con West 2003, Santa Clara, United States</li>
   </ul>
  </li>
 
