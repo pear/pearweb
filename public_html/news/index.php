@@ -24,6 +24,7 @@ echo "<h1>PEAR News</h1>\n";
 
 echo '<h2>&raquo; <a name="yr2004" id="yr2004">Year 2004</a></h2>' . "\n";
 echo "<ul>\n";
+echo ' <li>' . make_link('nm-guide.php', 'New Maintainer&#39;s Guide') . " (August)</li>\n";
 echo ' <li>' . make_link('weekly-summaries.php', 'Weekly Summaries') . " (April)</li>\n";
 echo ' <li>' . make_link('pepr.php', 'Announcing PEPr') . " (January)</li>\n";
 echo "</ul>\n";
