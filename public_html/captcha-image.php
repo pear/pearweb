@@ -102,7 +102,13 @@ for ($i = 0; $i < strlen($_SESSION['captcha']); $i++) {
     $font      = $font_dir . $font_name;
 
     $size  = mt_rand($font_size_min, $font_size_max) * $fonts[$font_name];
-    $angle = mt_rand($font_angle_min, $font_angle_max);
+    switch ($char) {
+        case 'Q':
+            $angle = mt_rand(0, $font_angle_max);
+            break;
+        default:
+            $angle = mt_rand($font_angle_min, $font_angle_max);
+    }
 
     $bbox   = imagettfbbox($size, $angle, $font, $char);
     $width  = max($bbox[2], $bbox[4]) - min($bbox[0], $bbox[6]);
