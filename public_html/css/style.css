@@ -164,6 +164,12 @@ table.form-holder {
     width: auto;
 }
 
+caption.form-caption {
+    font-weight: bold;
+    background-color: #CCCCCC;
+    padding: 0.3em;
+}
+
 th.form-label_left {
     text-align: left;
     vertical-align: top;
@@ -207,6 +213,40 @@ form {
 
 submit {
     border: 0px;
+}
+
+div.errors {
+    border: 1px dashed #660000;
+    background: #fee;
+    color: #660000;
+    margin: 4px;
+    padding: 6px;
+    clear: both;
+}
+
+div.warnings {
+    border: 1px dashed #ff8c00;
+    background: #ffa;
+    color: #ff8c00;
+    margin: 4px;
+    padding: 6px;
+    clear: both;
+}
+
+div.explain {
+    border: 1px dashed #000066;
+    color: #000066;
+    margin: 4px;
+    padding: 6px;
+    clear: both;
+}
+
+div.thanks {
+    border: 1px dashed #006600;
+    color: #006600;
+    margin: 4px;
+    padding: 6px;
+    clear: both;
 }
 
 
