@@ -33,26 +33,9 @@
 			PEAR::raiseError("Package proposal not found.");
 		}
 		
-		if (!$proposal->isFromUser($_COOKIE['PEAR_USER']) && !$karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")) {
-			PEAR::raiseError("You did not create this proposal!");
+		if (!$proposal->mayEdit($_COOKIE['PEAR_USER'])) {
+			PEAR::raiseError("Proposal can not be edited.");
 		}
-		
-		if (
-			(
-					(
-						($proposal->status == "vote") || ($proposal->status == "finished")
-					) 
-					&& (
-							!$karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")
-			 				|| ($proposal->user_handle == $_COOKIE['PEAR_USER'])
-			 			)
-			 	)
-			 	
-		 	&& empty($next_stage)
-		) {
-			PEAR::raiseError("This proposal can not be edited, because it's status is later than proposal.");
-		}
-
 		$proposal->getLinks($dbh);	
 	}
 	
@@ -166,29 +149,32 @@
 		} 
 		if (isset($values['next_stage'])) {
 			switch ($proposal->status) {
-				case 'draft':	if ($proposal->checkTimeLine()) {
-					$values['proposal_date'] = time();
-					$proposal->status = 'proposal';
-					$proposal->sendActionEmail('change_status_proposal', 'mixed', $_COOKIE['PEAR_USER']);
-				} else {
-					PEAR::raiseError("You can not change the status now.");
-				}
+				case 'draft':	
+				    if ($proposal->checkTimeLine()) {
+					   $values['proposal_date'] = time();
+					   $proposal->status = 'proposal';
+					   $proposal->sendActionEmail('change_status_proposal', 'mixed', $_COOKIE['PEAR_USER']);
+				    } else {
+					   PEAR::raiseError("You can not change the status now.");
+				    }
 				break;
 				
-				case 'proposal':	if ($proposal->checkTimeLine()) {
-					$values['vote_date'] = time();
-					$proposal->status = 'vote';
-					$proposal->sendActionEmail('change_status_vote', 'mixed', $_COOKIE['PEAR_USER']);
-				} else {
-					PEAR::raiseError("You can not change the status now.");
-				}
+				case 'proposal':	
+				    if ($proposal->checkTimeLine()) {
+					   $values['vote_date'] = time();
+					   $proposal->status = 'vote';
+					   $proposal->sendActionEmail('change_status_vote', 'mixed', $_COOKIE['PEAR_USER']);
+				    } else {
+					   PEAR::raiseError("You can not change the status now.");
+    				}
 				break;
 				
-				default:		if ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")) {
-					$values['longened_date'] = time();
-					$proposal->status = 'vote';
-					$proposal->sendActionEmail('longened_timeline_admin', 'mixed', $_COOKIE['PEAR_USER']);
-				}
+				default:
+				    if ($proposal->mayEdit($_COOKIE['PEAR_USER'])) {
+					   $values['longened_date'] = time();
+					   $proposal->status = 'vote';
+					   $proposal->sendActionEmail('longened_timeline_admin', 'mixed', $_COOKIE['PEAR_USER']);
+				    }
 				break;
 			}
 		} else {
@@ -242,7 +228,7 @@
 				case 'vote':
 					$bbox['header'] = "Call for votes";
 					$bbox['text'] = "For your package has been called for votes on pear-dev. No further changes are allowed.";	
-					if ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
+					if ($proposal->mayEdit($_COOKIE['PEAR_USER'])) {
 						$form->addElement('link', 'link_package_edit', '', 'pepr-proposal-edit.php?id='.$id, 'Edit the proposal');
 					}
 				break;
