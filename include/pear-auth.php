@@ -39,8 +39,8 @@ function auth_reject($realm = null, $message = null)
         print "<form name=\"login\" action=\"/login.php\" method=\"post\">\n";
         print "<table>\n";
         print " <tr>\n";
-        print "  <td>U<u>s</u>ername:</td>\n";
-        print "  <td><input size=\"20\" name=\"PEAR_USER\" accesskey=\"s\" /></td>\n";
+        print "  <td>Use<u>r</u>name:</td>\n";
+        print "  <td><input size=\"20\" name=\"PEAR_USER\" accesskey=\"r\" /></td>\n";
         print " </tr>\n";
         print " <tr>\n";
         print "  <td>Password:</td>\n";
@@ -200,6 +200,14 @@ function auth_logout()
     if (isset($_COOKIE['PEAR_PW'])) {
         setcookie('PEAR_PW', '', 0, '/');
         unset($_COOKIE['PEAR_PW']);
+    }
+
+    if ($_SERVER['QUERY_STRING'] == 'logout=1') {
+        localRedirect($_SERVER['PHP_SELF']);
+    } else {
+        localRedirect($_SERVER['PHP_SELF'] . '?' .
+                   preg_replace('/logout=1/',
+                                '', $_SERVER['QUERY_STRING']));
     }
 }
 

@@ -291,8 +291,8 @@ your password here</a>.
 <?php }?>
 <table>
 <tr>
-  <th class="details">Password:</th>
-  <td><input type="password" name="pw" value="<?php echo clean($pw)?>" size="10" maxlength="20" /></td>
+  <th class="details">Passw<u>o</u>rd:</th>
+  <td><input type="password" name="pw" value="<?php echo clean($pw)?>" size="10" maxlength="20" accesskey="o" /></td>
   <th class="details">
    <label for="save">Check to remember your password for next time:</label>
   </th>
@@ -346,13 +346,16 @@ $_SERVER['PHP_SELF'].'?id='.$id.'&amp;edit=2'?>">edit this bug over here</a>.
 <table>
 <?php if ($edit == 1) {?>
 <tr>
-  <th class="details"><a href="http://bugs.php.net/quick-fix-desc.php">Quick Fix:</a></th>
-  <td colspan="5"><select name="in[resolve]"><?php show_reason_types($in['resolve'],1);?></select><?php if ($in['resolve']) {?><input type="hidden" name="trytoforce" value="1" /><?php }?></td>
+  <th class="details"><label for="in" accesskey="c">Qui<u>c</u>k Fix:</label></th>
+  <td colspan="5">
+   <select name="in[resolve]" id="in"><?php show_reason_types($in['resolve'],1);?></select><?php if ($in['resolve']) {?><input type="hidden" name="trytoforce" value="1" /><?php }?>
+   <small>(<a href="http://bugs.php.net/quick-fix-desc.php">description</a>)</small>
+  </td>
 </tr>
 <?php }?>
 <tr>
-  <th class="details"><label for="statuslist" accesskey="s"><u>S</u>tatus:</label></th>
-  <td><select name="in[status]" id="statuslist"><?php show_state_options($in['status'],$edit,$bug['status'])?></select></td>
+  <th class="details">Status:</th>
+  <td><select name="in[status]"><?php show_state_options($in['status'],$edit,$bug['status'])?></select></td>
 <?php if ($edit == 1) {?>
   <th class="details">Assign to:</th>
   <td><input type="text" size="10" maxlength="16" name="in[assign]" value="<?php echo field('assign')?>" /></td>
@@ -400,8 +403,8 @@ the database with that please
 <?php }?>
 <table>
 <tr>
-  <th class="details">Your email address:</th>
-  <td><input type="text" size="40" maxlength="40" name="in[commentemail]" value="<?php echo clean($in['commentemail'])?>" /></td>
+  <th class="details">Y<u>o</u>ur email address:</th>
+  <td><input type="text" size="40" maxlength="40" name="in[commentemail]" value="<?php echo clean($in['commentemail'])?>" accesskey="o" /></td>
   <td><input type="hidden" name="id" value="<?php echo $id?>" /><input type="hidden" name="edit" value="<?php echo $edit?>" /><input type="submit" value="Submit" /></td>
 </tr>
 </table>

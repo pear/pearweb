@@ -193,8 +193,8 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
     <td colspan="5" style="height: 1px; text-align: right; vertical-align: top;" class="menuWhite">
     <form method="post" action="/search.php">
     <div>
-    <small>Search for</small>
-    <input class="small" type="text" name="search_string" value="" size="20" />
+    <small><u>S</u>earch for</small>
+    <input class="small" type="text" name="search_string" value="" size="20" accesskey="s" />
     <small>in the</small>
     <select name="search_in" class="small">
         <option value="packages">Packages</option>

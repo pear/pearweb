@@ -220,9 +220,9 @@ simply being marked as "bogus".</strong></p>
 <input type="hidden" name="in[did_luser_search]" value="<?php echo $in['did_luser_search'] ? 1 : 0; ?>" />
 <table>
 <tr>
-  <th align="right">Your email address:</th>
+  <th align="right">Y<u>o</u>ur email address:</th>
   <td colspan="2">
-   <input type="text" size="20" maxlength="40" name="in[email]" value="<?php echo clean($in['email']);?>" />
+   <input type="text" size="20" maxlength="40" name="in[email]" value="<?php echo clean($in['email']);?>" accesskey="o" />
   </td>
 </tr><tr>
   <th align="right">PHP version:</th>

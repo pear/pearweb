@@ -25,7 +25,7 @@
 	require_once 'Damblan/Karma.php';
 
 	if (empty($id)) {
-		localRedirect('pepr-proposals.php');
+		localRedirect('pepr-overview.php');
 	}
 	
 	$proposal = proposal::get($dbh, $id);

@@ -225,8 +225,8 @@ if ($warnings) display_warnings($warnings);
 <table id="primary" width="95%">
 <tr valign="top">
   <th>Find bugs</th>
-  <td nowrap="nowrap">with all or any of the words</td>
-  <td><input type="text" name="search_for" value="<?php echo htmlspecialchars(stripslashes($search_for));?>" size="20" maxlength="255" />
+  <td nowrap="nowrap">with all or any of the w<u>o</u>rds</td>
+  <td><input type="text" name="search_for" value="<?php echo htmlspecialchars(stripslashes($search_for));?>" size="20" maxlength="255" accesskey="o" />
       <br><?php show_boolean_options(BOOLEAN_SEARCH) ?> (<?php print_link('http://bugs.php.net/search-howto.php', '?', true);?>)</td>
   <td rowspan="2">
    <select name="limit"><?php show_limit_options($limit);?></select>
