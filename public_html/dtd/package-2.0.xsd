@@ -265,6 +265,7 @@
   <xs:attributeGroup ref="depattributes"/>
   <xs:attribute name="channel" type="xs:string" use="required"/>
   <xs:attribute name="name" type="xs:string" use="required"/>
+  <xs:attribute name="bundle" type="xs:string"/>
  </xs:complexType>
  <xs:complexType name="extensionDependencyType">
   <xs:sequence>
@@ -273,6 +274,7 @@
   <xs:attributeGroup ref="depattributes"/>
   <xs:attribute name="channel" type="xs:string"/>
   <xs:attribute name="name" type="xs:string" use="required"/>
+  <xs:attribute name="bundle" type="xs:string"/>
  </xs:complexType>
  <xs:complexType name="sapiDependencyType">
   <xs:sequence>
@@ -374,11 +376,6 @@
    <xs:simpleContent>
     <xs:extension base="xs:string">
      <xs:attribute name="channel" type="xs:string" use="required"/>
-     <xs:attribute name="subpackageof" type="xs:string">
-      <xs:annotation>
-       <xs:documentation>name of the parent package if this is a subpackage</xs:documentation>
-      </xs:annotation>
-     </xs:attribute>
     </xs:extension>
    </xs:simpleContent>
   </xs:complexType>
@@ -476,16 +473,7 @@
     </xs:annotation>
     <xs:complexType>
      <xs:complexContent>
-      <xs:extension base="packageDependencyType">
-       <xs:attribute name="subpackage" default="no">
-        <xs:simpleType>
-         <xs:restriction base="xs:string">
-          <xs:enumeration value="yes"/>
-          <xs:enumeration value="no"/>
-         </xs:restriction>
-        </xs:simpleType>
-       </xs:attribute>
-      </xs:extension>
+      <xs:extension base="packageDependencyType"/>
      </xs:complexContent>
     </xs:complexType>
    </xs:element>
