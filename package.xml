@@ -374,8 +374,6 @@
         <file role="php" name="create2drop"/>
         <file role="php" name="createdb.sql"/>
         <file role="php" name="cvs_acl.sql"/>
-        <file role="php" name="cvs_groups.sql"/>
-        <file role="php" name="cvs_group_membership.sql"/>
         <file role="php" name="data.php"/>
         <file role="php" name="deps.sql"/>
         <file role="php" name="design.txt"/>
