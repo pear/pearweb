@@ -182,7 +182,7 @@ $form->displaySelect("category", $rows, $row['categoryid']);
 <tr>
     <td>&nbsp;</td>
     <td><input type="submit" name="submit" value="Save changes" />&nbsp;
-    <input type="reset" name="cancel" value="Cancel" onClick="javascript:window.location.href='/package-info.php?pacid=<?php echo $_GET['id']; ?>'; return false" />
+    <input type="reset" name="cancel" value="Cancel" onClick="javascript:window.location.href='/package/<?php echo $_GET['id']; ?>'; return false" />
     </td>
 </tr>
 </table>

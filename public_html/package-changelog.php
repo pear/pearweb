@@ -45,7 +45,7 @@ if (count($pkg['releases']) == 0) {
     $bb->headRow("Release", "What has changed?");
 
     foreach ($pkg['releases'] as $version => $release) {
-        $link = make_link("package-info.php?package=" . $pkg['name'] .
+        $link = make_link('/package/' . $pkg['name'] .
                           "&amp;version=" . urlencode($version), $version);
 
         $notes = nl2br(htmlentities($release['releasenotes']));
