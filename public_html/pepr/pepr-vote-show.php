@@ -47,7 +47,7 @@
 		
 	$bb->end();
 	
-	echo make_link('javascript:back();', 'Back');
+	echo make_link('/pepr/pepr-proposal-show.php?id='.$id, 'Back');
 	
 	response_footer();
 ?>
