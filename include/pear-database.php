@@ -2502,6 +2502,11 @@ class PEAR_User extends DB_storage
         return (user::isAdmin($this->handle));
     }
 
+    function isQA()
+    {
+        return user::isQA($this->handle);
+    }
+
     /**
      * Generate link for user
      *
