@@ -118,7 +118,14 @@ function response_header($title = 'The PHP Extension and Application Repository'
       <?php
 
     if (empty($_COOKIE['PEAR_USER'])) {
-        print_link('/login.php?redirect=' . $_SERVER['PHP_SELF'], 'Login', false, 'class="menuBlack"');
+        if ($_SERVER['QUERY_STRING']) {
+            print_link('/login.php?redirect=' . urlencode(
+                       "{$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']}"),
+                       'Login', false, 'class="menuBlack"');
+        } else {
+            print_link('/login.php?redirect=' . $_SERVER['PHP_SELF'],
+                       'Login', false, 'class="menuBlack"');
+        }
     } else {
         print '<span class="menuWhite"><small>';
         print '<a href="/user/' . $_COOKIE['PEAR_USER'] . '">logged in as ';
