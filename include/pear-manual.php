@@ -96,7 +96,7 @@ function makeBorderTOC($this)
         }
 
         $SIDEBAR_DATA .= '  <li class="man-side_page">'
-                . (($title == $this) ? $title_fmt : make_link($url, $title_fmt))
+                . (($title == $this) ? "<strong>$title_fmt</strong>" : make_link($url, $title_fmt))
                 . "</li>\n";
     }
 
