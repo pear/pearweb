@@ -30,6 +30,7 @@
     <tr>
         <th valign="top" align="left">
             Contents of :: <?html_category_urhere($catpid, false)?>
+            (Page <?=$currentPage?> of <?=$numPages?>)
         </th>
         <td valign="top" align="right">
             <?=$showempty_link?>
@@ -60,7 +61,13 @@
 		border-bottom: 1px solid black;
 		font-weight: bold;
 	}
-	
+
+    td.tableFooter {
+        background-color: #cccccc;
+        border-top: 1px solid black;
+        font-weight: bold;
+    }	
+
 	td.moreInfo {
 		background-color: #f0f0f0;
 		border: 1px dashed #c0c0c0;
@@ -110,7 +117,7 @@
 						<th class="pkgListHeader">#</td>
 						<th class="pkgListHeader"><nobr>Package name</nobr></td>
 						<th class="pkgListHeader">Description</td>
-						<td>&nbsp;</td>
+                        <th class="pkgListHeader">&nbsp;</td>
 					</tr>
 			
 					<?php $nr = $first; foreach($packages as $p):?>
@@ -177,6 +184,18 @@
 				</table>
 			</td> 
 		</tr>
+        <tr>
+          <td>
+           <table border="0" width="100%" cellspacing="0">
+             <tr>
+               <td class="tableFooter" width="50" align="left">&nbsp;<?=$prev?></td>
+               <td class="tableFooter" align="center">Packages
+               (<?=$first?> - <?=$last?> of <?=$total?>)</td>
+               <td class="tableFooter" width="50" align="right"><?=$next?>&nbsp;</td>
+             </tr>
+           </table>
+          </td>
+         </tr>
 	</table>
 
 <?elseif($catpid):?>

@@ -215,6 +215,8 @@ if (!empty($catpid)) {
     list($first, $last) = $pager->getOffsetByPageId();
     list($prev, $pages, $next) = $pager->getLinks('<nobr><img src="gifs/prev.gif" width="10" height="10" border="0" alt="&lt;&lt;" />Back</nobr>', '<nobr>Next<img src="gifs/next.gif" width="10" height="10" border="0" alt="&gt;&gt;" /></nobr>');
 
+    $currentPage = $pager->getCurrentPageID();
+    $numPages    = $pager->numPages();
     $packages = array_slice($packages, $first - 1, 15);
 
     foreach ($packages as $key => $pkg) {
