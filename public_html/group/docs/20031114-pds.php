@@ -42,7 +42,7 @@ etc.), the dir tree would look like:</p>
         |   `-- examples
         |-- misc
         |-- scripts
-            `-- tests
+        `-- tests
 </pre>
 
 <p>&quot;Name&quot; refers to the last part of the &quot;The_Package_Name&quot;, 
