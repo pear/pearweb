@@ -14,6 +14,7 @@ body {
 table.head,
 table.middle,
 table.foot {
+    font-size: 100%;  /* make IE look normal */
     width: 100%;
     border: 0px;
 }
@@ -102,6 +103,10 @@ td.sidebar_right {
     font-size: 90%;
     border-left: 1px dashed #ccc;
     padding: 0.1em 0.3em 0.3em 0.3em;
+}
+
+table.sidebar-releases {
+    font-size: 100%;  /* make IE look normal */
 }
 
 ul.side_pages {

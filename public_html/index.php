@@ -22,7 +22,7 @@
 $recent = release::getRecent();
 if (@sizeof($recent) > 0) {
     $RSIDEBAR_DATA = "<h3>Recent&nbsp;Releases</h3>\n";
-    $RSIDEBAR_DATA .= "<table>";
+    $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
     foreach ($recent as $release) {
         extract($release);
         $releasedate = substr($releasedate, 0, 10);
