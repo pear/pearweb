@@ -419,8 +419,6 @@ if (empty($action)) {
     // }}}
 } elseif ($action == 'trackbacks') {
 
-PEAR::raiseError('Sorry, the trackback section is temporarely disabled because of updates.');
-
     // Generate trackback list
     $trackbacks = Damblan_Trackback::listTrackbacks($dbh, $name, !$trackbackIsAdmin);
 
