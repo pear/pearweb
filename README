@@ -1,0 +1,84 @@
+DEVELOPER'S GUIDE FOR ``pearweb´´ CODE
+========================================================================
+
+$Id$
+
+Read this before starting to hack on the PEAR website.
+
+1) Coding Standards
+------------------------------------------------------------------------
+
+    Code for the PEAR website strictly follows the PEAR Coding Standards 
+    [1].
+
+    If changes that do not follow these standards are committed to the 
+    repository, they will be reverted.
+
+2) Only commit working code
+------------------------------------------------------------------------
+
+    People constantly committing code that makes (parts of) the website 
+    unaccessable will loose their CVS karma.
+
+    Test your changes before committing them.  If you are unable to set 
+    up a test environment, you must not commit anything!
+
+
+3) Usage of header comment blocks
+------------------------------------------------------------------------
+
+    Every newly added text file has to carry a header comment block
+    similar to the following:
+
+    /*
+       +----------------------------------------------------------------------+
+       | PEAR Web site version 1.0                                            |
+       +----------------------------------------------------------------------+
+       | Copyright (c) 2005 The PEAR Group                                    |
+       +----------------------------------------------------------------------+
+       | This source file is subject to version 2.02 of the PHP license,      |
+       | that is bundled with this package in the file LICENSE, and is        |
+       | available at through the world-wide-web at                           |
+       | http://www.php.net/license/2_02.txt.                                 |
+       | If you did not receive a copy of the PHP license and are unable to   |
+       | obtain it through the world-wide-web, please send a note to          |
+       | license@php.net so we can mail you a copy immediately.               |
+       +----------------------------------------------------------------------+
+       | Author: Martin Jansen <mj@php.net>                                   |
+       +----------------------------------------------------------------------+
+       $Id$
+    */
+
+4) Performance
+------------------------------------------------------------------------
+
+    The PEAR website can be considered a high traffic website, which is
+    why a content cache is employed.  If new sections/pages are added, 
+    one has to make sure that they get cached if it makes sense.  (Most
+    of the time it makes sense.)
+
+    Also one has to ensure that newly added code does not lead to 
+    performance issues or bottlenecks.
+
+5) Dependencies
+------------------------------------------------------------------------
+
+    If new dependencies are introduced, they must be written down in
+    pearweb/package.xml.
+
+    If possible, non-PEAR dependencies and dependencies on packages with
+    only beta- or alpha-releases must be avoided.
+
+6) Talk first, code later
+------------------------------------------------------------------------
+
+    If you want to implement new features, ask the PEAR webmaster team 
+    [2] first.  Otherwise you may run into serious trouble.
+
+
+
+References
+------------------------------------------------------------------------
+
+[1] http://pear.php.net/manual/en/standards.php
+[2] mailto:pear-webmaster@lists.php.net
