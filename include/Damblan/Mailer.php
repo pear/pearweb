@@ -138,7 +138,7 @@ class Damblan_Mailer {
             }
         }
         // Attempt to send mail:
-        $mail = Mail::factory('mail');
+        $mail = Mail::factory('mail', array('-f pear-sys@php.net'));
         if (PEAR::isError($mail)) {
             return PEAR::raiseError('Could not create Mail instance. '.$mail->getMessage());
         }
