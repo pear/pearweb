@@ -35,10 +35,16 @@
       <email>cellog@php.net</email>
       <role>developer</role>
     </maintainer>
+    <maintainer>
+      <user>danielc</user>
+      <name>Daniel Convissor</name>
+      <email>danielc@php.net</email>
+      <role>developer</role>
+    </maintainer>
   </maintainers>
   <release>
-    <version>0.1</version>
-    <date>2004-02-20</date>
+    <version>0.1.1</version>
+    <date>2004-07-21</date>
     <license>PHP License</license>
     <state>devel</state>
     <notes>Initial attempt to package the core elements of the PEAR website</notes>
@@ -47,18 +53,19 @@
       <dep type="pkg" rel="ge" version="1.3">PEAR</dep>
       <dep type="pkg" rel="ge" version="1.1">Archive_Tar</dep>
       <dep type="pkg" rel="ge" version="1.0.4">XML_RPC</dep>
-      <dep type="pkg" rel="ge" version="1.2">HTTP_Request</dep>
+      <dep type="pkg" rel="ge" version="1.2.2">HTTP_Request</dep>
       <dep type="pkg" rel="ge" version="1.2">VFS</dep>
-      <dep type="pkg" rel="ge" version="1.6.0">DB</dep>
+      <dep type="pkg" rel="ge" version="1.6.5">DB</dep>
 <!-- not sure about this one      <dep type="pkg" rel="ge" version="2.1">HTML_Menu</dep> -->
-      <dep type="pkg" rel="ge" version="1.2">HTTP</dep>
+      <dep type="pkg" rel="ge" version="1.3.1">HTTP</dep>
       <dep type="pkg" rel="ge" version="1.2">Cache</dep>
       <dep type="ext" rel="has">xml</dep>
       <dep type="ext" rel="has">pcre</dep>
-      <dep type="pkg" rel="ge" version="1.0.1">HTML_Form</dep>
+      <dep type="ext" rel="has">mysql</dep>
+      <dep type="pkg" rel="ge" version="1.1.0RC2">HTML_Form</dep>
       <dep type="pkg" rel="ge" version="1.5">HTML_Table</dep>
       <dep type="pkg" rel="ge" version="2.2.0">Pager</dep>
-      <dep type="pkg" rel="ge" version="1.0.11">Net_URL</dep>
+      <dep type="pkg" rel="ge" version="1.0.14">Net_URL</dep>
       <dep type="pkg" rel="ge" version="0.8.1">HTTP_Upload</dep>
 
       <!-- Damblan deps -->
@@ -68,7 +75,7 @@
 
       <!-- PEPr deps -->
       <dep type="pkg" rel="ge" version="1.0">HTML_BBCodeParser</dep>
-      <dep type="pkg" rel="ge" version="3.2.1">HTML_QuickForm</dep>
+      <dep type="pkg" rel="ge" version="3.2.3">HTML_QuickForm</dep>
       <!-- also depends on Mail -->
     </deps>
     <filelist>
@@ -175,7 +182,6 @@
         <file role="php" name="release-upload.php"/>
         <file role="php" name="robots.txt"/>
         <file role="php" name="search.php"/>
-        <file role="php" name="support.php"/>
         <file role="php" name="weeklynews.php"/>
         <file role="php" name="wishlist.php"/>
         <file role="php" name="xmlrpc.php"/>
@@ -344,6 +350,13 @@
         <dir name="sidebar">
          <file role="php" name="pear.src"/>
         </dir> <!-- public_html/sidebar -->
+        <dir name="support">
+         <file role="php" name="icons.php"/>
+         <file role="php" name="index.php"/>
+         <file role="php" name="lists.php"/>
+         <file role="php" name="slides.php"/>
+         <file role="php" name="tutorials.php"/>
+        </dir> <!-- public_html/support -->
        </dir> <!-- public_html -->
        <dir name="rfc">
         <file role="php" name="003-dependencies.txt"/>
