@@ -385,7 +385,7 @@ class package
      * @param  string Single field to fetch
      * @return mixed
      */
-    function info($pkg, $field = null)
+    function info($pkg, $field = null, $allow_pecl=false)
     {
         global $dbh;
 
@@ -393,6 +393,12 @@ class package
             $what = "id";
         } else {
             $what = "name";
+        }
+
+        if ($allow_pecl) {
+             $package_type = '';
+        } else {
+             $package_typ = "p.package_type = 'pear' AND ";
         }
         $pkg_sql = "SELECT p.id AS packageid, p.name AS name, ".
              "p.package_type AS type, ".
@@ -402,7 +408,7 @@ class package
              "p.description AS description, p.cvs_link AS cvs_link, ".
              "p.doc_link as doc_link".
              " FROM packages p, categories c ".
-             "WHERE p.package_type = 'pear' AND p.approved = 1 AND c.id = p.category AND p.{$what} = ?";
+             "WHERE ".$package_type." p.approved = 1 AND c.id = p.category AND p.{$what} = ?";
         $rel_sql = "SELECT version, id, doneby, license, summary, ".
              "description, releasedate, releasenotes, state ".
              "FROM releases ".
@@ -1292,7 +1298,7 @@ class release
     function HTTPdownload($package, $version = null, $file = null, $uncompress = false)
     {
         global $dbh;
-        $package_id = package::info($package, 'packageid');
+        $package_id = package::info($package, 'packageid', true);
 
         if (!$package_id) {
             return PEAR::raiseError("release download:: package '".htmlspecialchars($package).
