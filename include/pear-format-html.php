@@ -126,6 +126,8 @@ function response_header($title = 'The PHP Extension and Application Repository'
       <?php
 
     if (empty($_COOKIE['PEAR_USER'])) {
+        print_link('/account-request.php', 'Register', false, 'class="menuBlack"');
+        echo delim();
         if ($_SERVER['QUERY_STRING'] && $_SERVER['QUERY_STRING'] != "logout=1") {
             print_link('/login.php?redirect=' . urlencode(
                        "{$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']}"),
