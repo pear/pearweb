@@ -46,6 +46,16 @@ switch ($HTTP_POST_VARS['search_in']) {
         
         break;
 
+    case "site" :
+        /**
+         * We forward the query to google.com 
+         */
+        $location = "http://google.com/search?as_sitesearch=pear.php.net";
+        $query = "&as_q=" . urlencode($_POST['search_string']);
+        header("Location: " . $location . $query);
+
+        break;
+
     default :
         response_header("Search");
         echo "<h2>Search</h2>\n";

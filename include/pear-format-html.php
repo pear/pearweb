@@ -165,6 +165,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
     <small>in the</small>
     <select name="search_in" class="small">
 	<option value="packages">Packages</option>
+	<option value="site">This site (using Google)</option>
     <option value="pear-dev">Developer mailing list</option>
     <option value="pear-general">General mailing list</option>
     <option value="pear-cvs">CVS commits mailing list</option>
