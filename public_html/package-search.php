@@ -207,6 +207,7 @@ if (!empty($_GET)) {
 				} else {
 				    $words = "";
 				}
+                                $row['package_name'] = $row['name'];
 				$row['name'] = preg_replace('/(' . $words . ')/i', '<span style="background-color: #d5ffc1">\1</span>', $row['name']);
 			}
 
