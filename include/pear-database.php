@@ -2273,7 +2273,7 @@ class user
      * @access public
      * @return array
      */
-    function getZendWhoIsWho() {
+    function getZendWhoIsWho($pecl_only = false) {
         global $dbh;
 
         // IP whitelist
@@ -2281,10 +2281,18 @@ class user
             return array();
         }
 
-        $maintainers = $dbh->prepare("SELECT p.name, m.role "
-                                     . "FROM maintains m, packages p "
-                                     . "WHERE m.package = p.id AND m.handle = ?"
-                                     );
+        if ($pecl_only) {
+            $query_maintainers = "SELECT p.name, m.role, p.package_type "
+                    . "FROM maintains m, packages p "
+                    . "WHERE m.package = p.id AND p.package_type='pecl' AND  m.handle = ?";
+        } else {
+            $query_maintainers = "SELECT p.name, m.role, p.package_type "
+                    . "FROM maintains m, packages p "
+                    . "WHERE m.package = p.id AND p.package_type='pear' AND m.handle = ?";
+        }
+        $maintainers = $dbh->prepare($query_maintainers);
+
+
         $group = $dbh->prepare("SELECT COUNT(id) "
                                . "FROM karma "
                                . "WHERE level = 'pear.group' AND user = ?");
@@ -2293,6 +2301,14 @@ class user
         $query = "SELECT u.handle, u.name, u.homepage, u.userinfo "
             . "FROM users u, karma k "
             . "WHERE k.user = u.handle AND k.level = 'pear.dev' AND u.registered = 1";
+
+        $query_group = "SELECT user "
+                               . "FROM karma "
+                               . "WHERE level = 'pear.group'";
+
+        $group_ids = $dbh->getCol($query_group);
+        $group_ids = array_flip($group_ids);
+
         $users = $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
 
         foreach ($users as $id => $user) {
@@ -2307,12 +2323,11 @@ class user
 
             while ($row =& $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
                 $users[$id]['maintains'][] = $row;
+                if ($pecl_only && !isset($users[$id]['pecl']) && $row['package_type'] == 'pecl') {
+                    $users[$id]['pecl'] = 1;
+                }
             }
-
-            // Figure out if the user is a member of the PEAR Group
-            $sth = $dbh->execute($group, array($user['handle']));
-            $row =& $sth->fetchRow();
-            if ($row[0] > 0) {
+            if (isset($group_ids[$user['handle']])) {
                 $users[$id]['group'] = 1;
             } else {
                 $users[$id]['group'] = 0;
