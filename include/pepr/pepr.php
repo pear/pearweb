@@ -173,10 +173,33 @@ class proposal {
             'desc'          => '
 Proposed package:        '.$this->pkg_category.'::'.$this->pkg_name.'<br />
 Proposer:                '.user_link($this->user_handle).'<br />
-'.$this->pkg_describtion,
+'.$this->getParsedDescribtion(),
             'date'          => date("Y-m-d\TH:i:s-05:00", $this->draft_date)
          );
     }
+
+    function getParsedDescribtion ( ) {
+        if (empty($this->pkg_describtion)) {
+            return '';
+        }
+        // Switching markup types
+        switch ($this->markup) {
+            case 'wiki':
+               require_once 'Text/Wiki.php';
+               $wiki =& new Text_Wiki();
+               $wiki->disableRule('wikilink');
+               $describtion = $wiki->transform($this->pkg_describtion);
+               break;
+            case 'bbcode':
+            default:
+               require_once 'HTML/BBCodeParser.php';
+               $bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
+               $describtion = $bbparser->qparse(nl2br(htmlentities($this->pkg_describtion)));
+               break;
+        }
+        return $describtion;
+    }
+    
     /**
      * Look up proposal information based on the proposal ID number
      *
