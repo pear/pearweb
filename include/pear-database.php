@@ -2058,7 +2058,7 @@ class statistics
     function package($id)
     {
         global $dbh;
-        $query = "SELECT dl_number FROM package_stats WHERE pid = " . (int)$id;
+        $query = "SELECT SUM(dl_number) FROM package_stats WHERE pid = " . (int)$id;
         return $dbh->getOne($query);
     }
 
