@@ -472,6 +472,7 @@ function show_version_options($current, $default = '')
  */
 function show_types($current, $show_any, $default = '')
 {
+    global $site;
     static $bug_items;
 
     if (!isset($bug_items)) {
@@ -481,7 +482,11 @@ function show_types($current, $show_any, $default = '')
         $bug_items['PEPr']          = '&nbsp;&nbsp;&nbsp;PEPr';
         $bug_items['Documentation'] = 'Documentation';
 
-        $list = package::listAll(false);
+        if ($site == 'pecl') {
+            $list = package::listAll(false, true, true, true);
+        } else {
+            $list = package::listAll(false);
+        }
         foreach ($list as $name => $data) {
             $bug_items[$name] = $name;
         }
