@@ -1,5 +1,5 @@
 <?php
-$list = package::listAll();
+$list = package::listAll(true);
 $items = array();
 $items['Web Site']      = 'Web Site';
 $items['Bug System']    = '&nbsp;&nbsp;&nbsp;Bug System';
