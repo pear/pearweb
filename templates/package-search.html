@@ -182,7 +182,6 @@ response_header('Package Search');
         } else {
             disableDateOptions(prefix);
         }
-
         yearElement  = searchForm.elements[prefix + '_year'].value = (year == '0' ? '' : year);
         monthElement = searchForm.elements[prefix + '_month'].value = (month == '0' ? '' : month);
         dayElement   = searchForm.elements[prefix + '_day'].value = (date == '0' ? '' : date);
@@ -327,11 +326,6 @@ response_header('Package Search');
      <option value="<?php echo $num; ?>"><?php echo $text; ?></option>
     <?php endforeach?>
    </select>
-   <select name="released_before_day" onc<option value=""></option>
-    <?php foreach($months as $num => $text):?>
-     <option value="<?php echo $num; ?>"><?php echo $text; ?></option>
-    <?php endforeach?>
-   </select>
    <select name="released_before_day" onchange="update_date('released_before', 'day')">
     <option value=""></option>
     <?php foreach(range(1, 31) as $value):?>
@@ -402,4 +396,18 @@ response_header('Package Search');
             <td>
                 <!-- resultItemStart --><a href="/package/<?php echo $row['raw_name']; ?>"><?php echo $row['name']; ?></a><!-- resultItemEnd -->
             </td>
-            <td><?php echo $row['sum
+            <td><?php echo $row['summary']; ?></td>
+        </tr>
+
+    <?php endforeach?>
+<!-- resultListEnd -->
+</table>
+
+    <?php $bb->end()?>
+<?php elseif($numrows === 0):?>
+
+    <p><b>No results found</b></p>
+
+<?php endif?>
+
+<?php response_footer(); ?>
