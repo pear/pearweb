@@ -207,7 +207,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 
  <tr style="vertical-align: top;">
 <?php if (isset($SIDEBAR_DATA)) { ?>
-  <td colspan="2" class="sidebar_left" style="width: 149px; background-color: #F0F0F0;">
+  <td colspan="2" class="sidebar_left">
    <table cellpadding="4" cellspacing="0" style="width: 149px;">
     <tr style="vertical-align: top;">
      <td><?php echo $SIDEBAR_DATA?><br /></td>
@@ -262,7 +262,7 @@ function response_footer($style = false)
   </td>
 
 <?php if (isset($RSIDEBAR_DATA)) { ?>
-  <td class="sidebar_right" style="background-color: #F0F0F0; width: 149px;">
+  <td class="sidebar_right">
     <table cellpadding="4" cellspacing="0" style="width: 149px;">
      <tr style="vertical-align: top;">
       <td><?php echo $RSIDEBAR_DATA; ?><br />
