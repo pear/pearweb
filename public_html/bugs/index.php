@@ -18,30 +18,49 @@
  * @version   $Id$
  */
 
-response_header("Bugs");
+response_header('Bugs');
+
 ?>
 
 <h1>PEAR Bug Tracking System</h1>
-<p>The following options are avaible:</p>
+
+<p>
+ If you need support or you don't really know if the problem you found
+ is a bug, please use our
+ <?php print_link('/support.php', 'support channels'); ?>.
+</p>
+
+<p>
+ Before submitting a bug, please make sure nobody has already reported it by
+ <?php print_link('search.php', 'searching the existing bugs'); ?>.
+ Also, read the tips on how to
+ <?php print_link('http://bugs.php.net/how-to-report.php',
+                  'report a bug that someone will want to help fix', 'top'); ?>.
+</p>
+
+<p>Now that you are ready to proceed:</p>
+
 <ul>
-  <li><?php print_link('/bugs/search.php', 'Search for <b>existing bugs</b>'); ?></li>
-  <li>Report a new bug for the:
-      <?php print make_bug_link('Web Site', 'report', '<b>Web Site</b>');?>,
-      <?php print make_bug_link('PEPr', 'report', '<b>PEPr</b>');?>,
-      <?php print make_bug_link('Documentation', 'report', '<b>Documentation</b>');?> or
-      <?php print make_bug_link('Bug System', 'report', '<b>Bug System</b>');?>
+  <li>
+   If you want to report a bug for a <strong>specific package</strong>,
+   please go to the package home page using the
+   <?php print_link('/packages.php', 'Browse&nbsp;Packages');?> tool
+   or the <?php print_link('/package-search.php', 'Package&nbsp;Search'); ?>
+   system.
   </li>
-  <li>If you want to report a bug for a <b>specific package</b>, please go to the
-  package home using the <?php print_link('/packages.php', 'Browse packages');?> tool
-  or the package <?php print_link('/package-search.php', 'Search System'); ?>.
+
+  <li>
+   If the bug you found does not relate to a package, one of the following
+   categories should be appropriate:
+   <?php print make_bug_link('Web Site', 'report', '<strong>Web&nbsp;Site</strong>');?>,
+   <?php print make_bug_link('PEPr', 'report', '<strong>PEPr</strong>');?>,
+   <?php print make_bug_link('Documentation', 'report', '<strong>Documentation</strong>'); ?> or
+   <?php print make_bug_link('Bug System', 'report', '<strong>Bug&nbsp;System</strong>'); ?>.
   </li>
 </ul>
-<p>If you need support or you don't really know if it is a bug or not, please
-use our <? print_link('/support.php', 'support channels');?>.</p>
 
-<p>Before submitting a bug, please make sure nobody has already reported it.
-Read our tips on how to <?php print_link('http://bugs.php.net/how-to-report.php', 'report a bug that someone will want to help fix', 'top');?>.
-</p>
 <?php
+
 response_footer();
+
 ?>
