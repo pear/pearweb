@@ -88,6 +88,7 @@ if (isset($_COOKIE['PEAR_USER'])) {
 	echo '<div class="indent">';
 	echo menu_link("Browse Proposals", "pepr/pepr-overview.php");
 	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
+    echo '</div>';
 
     if (user::isAdmin($_COOKIE['PEAR_USER'])) {
         echo '<h2>&raquo; Administrators</h2>';
@@ -96,7 +97,6 @@ if (isset($_COOKIE['PEAR_USER'])) {
         echo '</div>';
     }
 
-    echo '</div>';
 } else {
 ?>
 
