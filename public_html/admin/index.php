@@ -60,9 +60,10 @@ if (!empty($_REQUEST['cmd'])) {
          * Open account
          */
 
+        $karmalevel = (empty($_REQUEST['karma'])) ? 'pear.pepr' : $_REQUEST['karma'];
         // another hack to remove the temporary "purpose" field
         // from the user's "userinfo"
-        if (user::activate($_REQUEST['uid'])) {
+        if (user::activate($_REQUEST['uid'], $karmalevel)) {
             print "<p>Opened account $uid...</p>\n";
         }
 		
@@ -205,6 +206,17 @@ do {
 <input type="hidden" name="uid" value="<?= $requser->handle ?>" />
 <table cellpadding="3" cellspacing="0" border="0" width="90%">
  <tr>
+ <td align="left" colspan="3">
+ Select Karma Level:
+ </td>
+ </tr>
+ <tr>
+  <td align="left" colspan="3"><input type="radio" value="pear.pepr" name="karma" checked="checked" /> PEAR Proposer</td>
+ </tr>
+ <tr>
+  <td align="left" colspan="3"><input type="radio" value="pear.dev" name="karma" /> PEAR Developer</td>
+ </tr>
+ <tr>
   <td align="center"><input type="button" value="Open Account" onclick="confirmed_submit(this, 'open this account')" /></td>
   <td align="center"><input type="button" value="Reject Request" onclick="confirmed_submit(this, 'reject this request', this.form.reason, 'You must give a reason for rejecting the request.')" /></td>
   <td align="center"><input type="button" value="Delete Request" onclick="confirmed_submit(this, 'delete this request')" /></td>
@@ -220,9 +232,6 @@ $reasons = array("You don't need a PEAR account to use PEAR or PEAR packages.\n\
                  "As part of our ongoing Quality Assurance we would be interested in\n" .
                  "hearing what could be added  on the form to prevent someone making a\n" .
                  "similar mistake.",
-
-                 "Please propose all new packages to the mailing list\n" .
-                 "pear-dev@lists.php.net first.",
 
                  "Please fill out a bug report at http://pear.php.net/bugs/ for all\n" .
                  "bugs or patches.",
@@ -253,7 +262,7 @@ foreach ($reasons as $reason) {
 		<script language="JavaScript" type="text/javascript">
         <!--
 			/**
-            * This code is *nasty* (nastyCode™)
+            * This code is *nasty* (nastyCode)
             */
 
         	function highlightAccountRow(spanObj)
