@@ -34,7 +34,7 @@
 		echo "<b>Proposal deleted successfully!</b>";;
 		echo "</p>";
 		echo "<p>";
-		echo make_link("pepr-proposal-show.php", "Back");
+		echo make_link("/pepr/pepr-overview.php", "Back");
 		echo "</p>";
 		response_footer();
 		exit;
