@@ -22,6 +22,7 @@ installed in /usr/share/pear):
  Alias /user    /usr/local/www/pearweb/public_html/account-info.php
  Alias /sidebar/pear.gif /usr/local/www/pearweb/public_html/gifs/pear_item.gif
  Alias /distributions/manual/chm /var/lib/pear/chm
+ Alias /reference /var/lib/pear/apidoc
 
  RedirectPermanent /download-docs.php          http://pear.php.net/manual/
  RedirectPermanent /rss.php                    http://pear.php.net/feeds/latest.rss
@@ -33,6 +34,11 @@ installed in /usr/share/pear):
  # Rewriting rules for the RSS feeds
  #
  RewriteRule   /feeds/(.+)\.rss$ /feeds/feeds.php?type=$1
+
+ #
+ # Rewriting rule for the API documentation
+ #
+ RewriteRule   /package/([a-zA-z_]+)/docs/(.+)($/|$) /reference/$1-$2 [PT]
 
  <Location /get>
   ForceType application/x-httpd-php
