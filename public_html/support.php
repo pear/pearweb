@@ -277,7 +277,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
  </li>
 </ul>
 
-<h3>PEAR DB Tutorials:</h3>
+<h3>PEAR DB Tutorials</h3>
 
 <ul class="spaced">
  <li>
@@ -316,7 +316,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
  </li>
 </ul>
 
-<h3>PEAR Package Tutorials in German:</h3>
+<h3>PEAR Package Tutorials in German</h3>
 
 <ul class="spaced">
  <li>
@@ -337,7 +337,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
  </li>
 </ul>
 
-<h3>Other Tutorials:</h3>
+<h3>Other Tutorials</h3>
 
 <ul class="spaced">
  <li>
