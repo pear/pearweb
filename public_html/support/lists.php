@@ -101,7 +101,7 @@ $mailing_lists = array(
         'PEAR QA list',
         'A list for managing the PEAR Quality Assurance',
         false,
-        false,
+        true,
         true,
         'php.pear.qa'
     ),
