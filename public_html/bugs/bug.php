@@ -350,9 +350,9 @@ show_bugs_menu(txfield('package_name'));
 
 if ($bug['modified']) {
     echo '   <th class="details">Submitted:</th>' . "\n";
-    echo '   <td>' . format_date($bug['submitted']) . "</td>\n";
+    echo '   <td style="white-space: nowrap;">' . format_date($bug['submitted']) . "</td>\n";
     echo '   <th class="details">Modified:</th>' . "\n";
-    echo '   <td>' . format_date($bug['modified']) . '</td>';
+    echo '   <td style="white-space: nowrap;">' . format_date($bug['modified']) . '</td>';
 } else {
     echo '   <th class="details">Submitted:</th>' . "\n";
     echo '   <td colspan="3">' . format_date($bug['submitted']) . '</td>';
@@ -363,7 +363,7 @@ if ($bug['modified']) {
   </tr>
   <tr id="submitter">
    <th class="details">From:</th>
-   <td colspan="3">
+   <td>
    <?php 
     if ($bug['showemail'] == '0') {
         echo $bug['handle'];
@@ -371,6 +371,8 @@ if ($bug['modified']) {
         echo spam_protect(htmlspecialchars($bug['email']));
     }
     ?></td>
+   <th class="details">Assigned:</th>
+   <td><?php echo htmlspecialchars($bug['assign']) ?></td>
   </tr>
   <tr id="categorization">
    <th class="details">Status:</th>
