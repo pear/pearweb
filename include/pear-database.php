@@ -1695,7 +1695,8 @@ class release
                         );
         } else {
             $query = "UPDATE package_stats "
-                . " SET dl_number = dl_number + 1 "
+                . ' SET dl_number = dl_number + 1, '
+                . " last_dl = '" . date('Y-m-d H:i:s') . "'"
                 . " WHERE pid = ? AND rid = ?";
             $dbh->query($query, array($package, $release_id));
         }
