@@ -59,6 +59,7 @@
       <dep type="pkg" rel="ge" version="1.3">PEAR</dep>
       <dep type="pkg" rel="ge" version="1.1">Archive_Tar</dep>
       <dep type="pkg" rel="ge" version="1.0.4">XML_RPC</dep>
+      <dep type="pkg" rel="has">HTTP</dep>
       <dep type="pkg" rel="ge" version="1.2.2">HTTP_Request</dep>
       <dep type="pkg" rel="ge" version="1.2">VFS</dep>
       <dep type="pkg" rel="ge" version="1.6.5">DB</dep>
