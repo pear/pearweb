@@ -269,6 +269,8 @@ function show_type_options($current = 'Bug', $all = false)
             echo ' selected="selected"';
         }
         echo ">All</option>\n";
+    } elseif (!$current) {
+        $current = 'Bug';
     }
 
     foreach ($types as $k => $v) {
