@@ -76,6 +76,6 @@ define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <pear-dev@lists.php
 define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>', true);
 define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
 define('PROPOSAL_EMAIL_PREFIX', '[PEPr]', true);
-define('PROPOSAL_EMAIL_POSTFIX', "\n\n\nSent by PEPr\nAutomatic proposal system at http://pear.php.net", true);
+define('PROPOSAL_EMAIL_POSTFIX', "\n\n-- \nSent by PEPr, the automatic proposal system at http://pear.php.net", true);
 
 ?>
