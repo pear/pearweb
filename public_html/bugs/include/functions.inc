@@ -29,6 +29,7 @@ $extra_styles[] = '/css/bugs.css';
 // For distinguishing this site from PECL
 $site = 'pear';
 $siteBig = 'PEAR';
+$bugEmail = 'pear-qa@lists.php.net';
 
 // used in mail_bug_updates(), below, and class for search results
 $tla = array(
@@ -936,7 +937,7 @@ function incoming_details_are_valid($in, $initial = 0)
  */
 function get_package_mail($package_name)
 {
-    global $site;
+    global $site, $bugEmail;
     // XXX Change to pear-bugs when it gets opened
     //$to[] = "pear-dev@lists.php.net";
 
@@ -956,7 +957,7 @@ function get_package_mail($package_name)
         $to[] = $data['email'];
     }
 
-    return array(implode(', ', $to), $site.'-dev@lists.php.net');
+    return array(implode(', ', $to), $bugEmail);
 }
 
 /**
