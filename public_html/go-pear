@@ -86,7 +86,7 @@ ini_set('html_errors', WEBINSTALLER);
 ini_set('magic_quotes_runtime', false);
 error_reporting( E_ALL & ~E_NOTICE);
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
-define('GO_PEAR_VER', '0.3.0');
+define('GO_PEAR_VER', '0.4.0');
 
 define('WIN32GUI', !WEBINSTALLER && WINDOWS && $sapi_name=='cli' && which('cscript'));
 
@@ -151,7 +151,6 @@ if (WEBINSTALLER) {
 	$installer_packages[] = 'Net_UserAgent_Detect';
 	$installer_packages[] = 'PEAR_Frontend_Web';
 }
-$version_n = explode(".",phpversion());
 
 $pfc_packages = array(
     'DB',
@@ -160,7 +159,7 @@ $pfc_packages = array(
     'Mail',
     'XML_Parser',
     'PHPUnit'
-    );
+);
 
 $config_desc = array(
     'prefix' => 'Installation prefix',
@@ -212,20 +211,19 @@ if (WEBINSTALLER) {
     }
 
 	if (!isset($_SESSION['go-pear']) || isset($_GET['restart'])) {
-		$sep = WINDOWS ? "\\" : '/';
 		$_SESSION['go-pear'] = array(
 			'http_proxy' => $http_proxy,
 			'config' => array(
 				'prefix' => dirname(__FILE__),
 				'bin_dir' => $bin_dir,
                 'php_bin' => $php_bin,
-				'php_dir' => '$prefix'.$sep.'PEAR',
+				'php_dir' => '$prefix/PEAR',
 				'doc_dir' => $doc_dir,
 				'data_dir' => $data_dir,
 				'test_dir' => $test_dir,
-				'cache_dir' => '$php_dir'.$sep.'cache',
+				'cache_dir' => '$php_dir/cache',
 				'cache_ttl' => 300,
-				'webfrontend_file' => '$prefix'.$sep.'index.php',
+				'webfrontend_file' => '$prefix/index.php',
 				),
 			'install_pfc' => true,
             'DHTML' => true,
@@ -246,9 +244,7 @@ if (WEBINSTALLER) {
 		foreach($_POST['config'] as $key => $value) {
 			$_POST['config'][$key] = strip_magic_quotes($value);
             if($key!='cache_ttl'){
-                if( ereg(' ', $_POST['config'][$key]) ) {
-                    $www_errors[$key] = 'Spaces are not allowed in pathes. Please choose another path.';
-                } elseif ( empty($_POST['config'][$key]) ) {
+                if ( empty($_POST['config'][$key]) ) {
                     if (WEBINSTALLER && $key!='php_bin' ) {
                         $www_errors[$key] = 'Please fill this path, you can use $prefix, $php_dir or a full path.';
                     }
@@ -397,34 +393,6 @@ rm_rf($ptmp);
 mkdir_p($ptmp, 0700);
 $ok = @chdir($ptmp);
 
-// If for some reason the user has no rights to access to
-// the standard tempdir, we assume that he has the right
-// to access his prefix and choose $prefix/tmp as tempdir
-if (!$ok) {
-	print "System's Tempdir failed, trying to use \$prefix/tmp ...";
-	$res = mkdir_p($prefix.'/tmp');
-	if (!$res) {
-		bail('mkdir '.$prefix.'/tmp'.' ... failed');
-	}
-	$ptmp = tempnam($prefix.'/tmp', 'gope');
-
-	rm_rf($ptmp);
-	mkdir_p($ptmp, 0700);
-	$ok = @chdir($ptmp);
-
-	if (!$ok) { // This should not happen, really ;)
-		bail('chdir '.$ptmp.' ... failed');
-	}
-
-	print "ok\n";
-
-	// Adjust TEMPDIR envvars
-	if (!isset($_ENV)) {
-		$_ENV = array();
-	};
-	$_ENV['TMPDIR'] = $_ENV['TEMP'] = $prefix.'/tmp';
-}
-
 while (!WEBINSTALLER) {
     print "
 Below is a suggested file layout for your new PEAR installation.  To
@@ -433,12 +401,11 @@ directory.  Type 'all' to change all of them or simply press Enter to
 accept these locations.
 
 ";
-    if( WINDOWS && $php_bin=='' ){
 
-    }
     foreach ($config_vars as $n => $var) {
         printf("%2d. $descfmt : %s\n", $n, $config_desc[$var], $$var);
     }
+
     print "\n$first-$last, 'all' or Enter to continue: ";
     $tmp = trim(fgets($tty, 1024));
     if ( empty($tmp) ) {
@@ -515,9 +482,11 @@ foreach ($config_vars as $n => $var) {
 
 foreach ($config_vars as $var) {
     $dir = $$var;
+
 	if (!preg_match('/_dir$/', $var)) {
 		continue;
-	};
+	}
+
     if (!@is_dir($dir)) {
         if (!mkdir_p($dir)) {
             $root = WINDOWS ? 'administrator' : 'root';
@@ -784,17 +753,17 @@ Currently used php.ini (guess) : $php_ini
     }
 
     $pear_cmd = $bin_dir . DIRECTORY_SEPARATOR . 'pear';
-    $pear_cmd .= WINDOWS?'.bat':'';
+    $pear_cmd = WINDOWS ? strtolower($pear_cmd).'.bat' : $pear_cmd;
 
     // check that the installed pear and the one in tha path are the same (if any)
     $pear_old = which('pear', $bin_dir);
     if ($pear_old && $pear_old != $pear_cmd) {
         // check if it is a link or symlink
-        $islink = WINDOWS ? is_link($pear_old) : false;
+        $islink = WINDOWS ? false : is_link($pear_old) ;
         if ($islink && readlink($pear_old) != $pear_cmd) {
             print "\n** WARNING! The link $pear_old does not point to the " .
                   "installed $pear_cmd\n";
-        } elseif (is_writable($pear_old)) {
+        } elseif (is_writable($pear_old) && !is_dir($pear_old)) {
             rename($pear_old, "{$pear_old}_old");
             print "\n** WARNING! Backed up old pear to {$pear_old}_old\n";
         } else {
@@ -992,7 +961,7 @@ function which($program, $dont_search_in = false)
                 file_exists($ret = "$tmp.com") ||
                 file_exists($ret = "$tmp.bat") ||
                 file_exists($ret = "$tmp.cmd")) {
-                return $ret;
+                return strtolower($ret);
             }
         }
     } else {
@@ -1059,7 +1028,7 @@ function mkdir_p($dir, $mode = 0777)
 
 function rm_rf($path)
 {
-    if (@is_dir($path)) {
+    if (@is_dir($path) && is_writable($path)) {
         $dp = opendir($path);
         while ($ent = readdir($dp)) {
             if ($ent == '.' || $ent == '..') {
@@ -1068,8 +1037,11 @@ function rm_rf($path)
             $file = $path . DIRECTORY_SEPARATOR . $ent;
             if (@is_dir($file)) {
                 rm_rf($file);
-            } else {
+            } elseif (is_writable($file)) {
                 unlink($file);
+            } else {
+                echo $file . "is not writable and cannot be removed.
+Please fix the permission or select a new path.\n";
             }
         }
         closedir($dp);
@@ -1087,6 +1059,7 @@ function rm_rf($path)
 function tmp_dir()
 {
     global $ptmp;
+    $_temp = false;
     if (WINDOWS){
         if ( my_env('TEMP') ) {
             $_temp = my_env('TEMP');
@@ -1117,12 +1090,44 @@ function tmp_dir()
             }
         }
         $ptmp = $_temp;
-        return $_temp;
+    } else {
+        $_temp = my_env('TMPDIR');
+        if (!$_temp) {
+            if (is_writable('/tmp')) {
+                $_temp = '/tmp';
+            }
+        }
     }
-    if (my_env('TMPDIR')) {
-        return my_env('TMPDIR');
+
+    // If for some reason the user has no rights to access to
+    // the standard tempdir, we assume that he has the right
+    // to access his prefix and choose $prefix/tmp as tempdir
+    if (!$_temp) {
+        print "System's Tempdir failed, trying to use \$prefix/tmp ...";
+        $res = mkdir_p($prefix.'/tmp');
+        if (!$res) {
+            bail('mkdir '.$prefix.'/tmp'.' ... failed');
+        }
+
+        $_temp = tempnam($prefix.'/tmp', 'gope');
+
+        rm_rf($_temp);
+        mkdir_p($_temp, 0700);
+        $ok = @chdir($ptmp);
+
+        if (!$ok) { // This should not happen, really ;)
+            bail('chdir '.$ptmp.' ... failed');
+        }
+
+        print "ok\n";
+
+        // Adjust TEMPDIR envvars
+        if (!isset($_ENV)) {
+            $_ENV = array();
+        };
+        $_ENV['TMPDIR'] = $_ENV['TEMP'] = $prefix.'/tmp';
     }
-    return '/tmp';
+    $ptmp = $_temp;
 }
 
 // }}}
@@ -2014,7 +2019,7 @@ function displayHTMLSetDownload($file)
  * - Replace WSH with calls to w32 as soon as callbacks work
  * @Author Pierrre-Alain Joye
  */
-function win32BrowseForFolder ( $label )
+function win32BrowseForFolder($label)
 {
     global $ptmp;
     static $wshSaved=false;
@@ -2074,7 +2079,8 @@ End If
  * This addon set PEAR environment variables
  * @Author Pierrre-Alain Joye
  */
-function win32CreateRegEnv(){
+function win32CreateRegEnv()
+{
     global $prefix, $bin_dir, $php_dir, $php_bin, $doc_dir, $data_dir, $test_dir;
     $nl = "\r\n";
     $reg ='REGEDIT4'.$nl.
@@ -2086,7 +2092,7 @@ function win32CreateRegEnv(){
             '"PHP_PEAR_DATA_DIR"="'.addslashes($data_dir).'"'.$nl.
             '"PHP_PEAR_PHP_BIN"="'.addslashes($php_bin).'"'.$nl.
             '"PHP_PEAR_TEST_DIR"="'.addslashes($test_dir).'"'.$nl;
-    //$path = dirname(__FILE__).DIRECTORY_SEPARATOR;
+
     $fh = fopen($prefix.DIRECTORY_SEPARATOR.'PEAR_ENV.reg','wb');
     if($fh){
         fwrite($fh, $reg ,strlen($reg));
