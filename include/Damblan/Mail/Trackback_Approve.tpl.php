@@ -14,7 +14,6 @@
      */
 
     $tpl = array(
-        'To' => array('PEAR Webmaster <pear-webmaster@lists.php.net>'),
         'Reply-To' => array('PEAR Webmaster <pear-webmaster@lists.php.net>'),
         'From' => 'pear-sys@php.net',
         'Subject' => '[Trackback] Trackback approved for %id%',
