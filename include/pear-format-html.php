@@ -18,9 +18,6 @@
    $Id$
 */
 
-/* Send charset */
-header('Content-Type: text/html; charset=iso-8859-1');
-
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
 
 require_once 'layout.php';
@@ -63,7 +60,7 @@ $GLOBALS['_style'] = '';
 
 function response_header($title = 'The PHP Extension and Application Repository', $style = false)
 {
-    global $_style, $_header_done, $SIDEBAR_DATA;
+    global $_style, $_header_done, $SIDEBAR_DATA, $encoding;
     if ($_header_done) {
         return;
     }
@@ -93,7 +90,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
         }
     }
 
-echo '<?xml version="1.0" encoding="iso-8859-1" ?>';
+echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
