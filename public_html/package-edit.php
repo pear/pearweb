@@ -18,16 +18,16 @@
    $Id$
 */
 
-/**
+/*
  * Interface to update package information.
  */
 
 auth_require('pear.dev');
 
-require_once "HTML/Form.php";
+require_once 'HTML/Form.php';
 $form = new HTML_Form($_SERVER['PHP_SELF']);
 
-response_header("Edit package");
+response_header('Edit Package');
 ?>
 
 <script language="javascript">
@@ -42,74 +42,68 @@ function confirmed_goto(url, message) {
 </script>
 
 <?php
-echo "<h1>Edit package</h1>";
+echo '<h1>Edit package</h1>';
 
 if (!isset($_GET['id'])) {
-    PEAR::raiseError("No package ID specified.");
+    report_error('No package ID specified.');
     response_footer();
-    exit();
+    exit;
 }
 
-/**
- * The user has to be either a lead developer of the package or
- * a PEAR administrator.
- */
-$lead = user::maintains($_COOKIE['PEAR_USER'], $_GET['id'], "lead");
-$admin = user::isAdmin($_COOKIE['PEAR_USER']);
-
-if (!$lead && !$admin) {
-    PEAR::raiseError("Only the lead maintainer of the package or PEAR
-                      administrators can edit the package.");
+if (!user::maintains($_COOKIE['PEAR_USER'], $_GET['id'], 'lead') &&
+    !user::isAdmin($_COOKIE['PEAR_USER']) &&
+    !user::isQA($_COOKIE['PEAR_USER']))
+{
+    report_error('Editing only permitted by package leads, PEAR Admins'
+                 . ' or PEAR QA');
     response_footer();
-    exit();
+    exit;
 }
 
-/** Update */
+
+// Update
 if (isset($_POST['submit'])) {
-
     if (!$_POST['name'] || !$_POST['license'] || !$_POST['summary']) {
-        PEAR::raiseError("You have to enter values for name, license and summary!");
-    }
-
-    $query = 'UPDATE packages SET name = ?, license = ?,
-              summary = ?, description = ?, category = ?,
-              homepage = ?, package_type = ?, cvs_link = ?
-              WHERE id = ?';
-
-    $qparams = array(
-                  $_POST['name'],
-                  $_POST['license'],
-                  $_POST['summary'],
-                  $_POST['description'],
-                  $_POST['category'],
-                  $_POST['homepage'],
-                  "pear",
-                  $_POST['cvs_link'],
-                  $_GET['id']
-                );
-
-    $sth = $dbh->query($query, $qparams);
-
-    if (PEAR::isError($sth)) {
-        PEAR::raiseError("Unable to save data!");
+        report_error('You have to enter values for name, license and summary!');
     } else {
-        echo "<b>Package information successfully updated.</b><br /><br />\n";
+        $query = 'UPDATE packages SET name = ?, license = ?,
+                  summary = ?, description = ?, category = ?,
+                  homepage = ?, package_type = ?, cvs_link = ?
+                  WHERE id = ?';
+
+        $qparams = array(
+                      $_POST['name'],
+                      $_POST['license'],
+                      $_POST['summary'],
+                      $_POST['description'],
+                      $_POST['category'],
+                      $_POST['homepage'],
+                      'pear',
+                      $_POST['cvs_link'],
+                      $_GET['id']
+                    );
+
+        $sth = $dbh->query($query, $qparams);
+
+        if (PEAR::isError($sth)) {
+            report_error('Unable to save data!');
+        } else {
+            echo "<b>Package information successfully updated.</b><br /><br />\n";
+        }
     }
+
 } else if (isset($_GET['action'])) {
-
     switch ($_GET['action']) {
-
-        case "release_remove" :
+        case 'release_remove':
             if (!isset($_GET['release'])) {
-                PEAR::raiseError("Missing package ID!");
+                report_error('Missing package ID!');
                 break;
             }
 
             if (release::remove($_GET['id'], $_GET['release'])) {
                 echo "<b>Release successfully deleted.</b><br /><br />\n";
             } else {
-                PEAR::raiseError("An error occured while deleting the
-                                  release!");
+                report_error('An error occured while deleting the release!');
             }
 
             break;
@@ -119,12 +113,12 @@ if (isset($_POST['submit'])) {
 $row = package::info((int)$_GET['id']);
 
 if (empty($row['name'])) {
-    PEAR::raiseError("Illegal package id");
+    report_error('Illegal package id');
     response_footer();
-    exit();
+    exit;
 }
 
-$bb = new Borderbox("Edit package information");
+$bb = new Borderbox('Edit Package Information');
 ?>
 
 <form action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $_GET['id']; ?>" method="POST">
@@ -193,7 +187,7 @@ $bb->end();
 
 echo "<br /><br />\n";
 
-$bb = new Borderbox("Manage releases");
+$bb = new Borderbox('Manage Releases');
 
 echo "<table border=\"0\">\n";
 
@@ -201,17 +195,17 @@ echo "<tr><th>Version</th><th>Releasedate</th><th>Actions</th></tr>\n";
 
 foreach ($row['releases'] as $version => $release) {
     echo "<tr>\n";
-    echo "  <td>" . $version . "</td>\n";
-    echo "  <td>" . $release['releasedate'] . "</td>\n";
+    echo '  <td>' . $version . "</td>\n";
+    echo '  <td>' . $release['releasedate'] . "</td>\n";
     echo "  <td>\n";
 
-    $url = $_SERVER['PHP_SELF'] . "?id=" .
-                     $_GET['id'] . "&release=" .
-                     $release['id'] . "&action=release_remove";
-    $msg = "Are you sure that you want to delete the release?";
+    $url = $_SERVER['PHP_SELF'] . '?id=' .
+            $_GET['id'] . '&amp;release=' .
+            $release['id'] . '&amp;action=release_remove';
+    $msg = 'Are you sure that you want to delete the release?';
 
     echo "<a href=\"javascript:confirmed_goto('$url', '$msg')\">"
-         . make_image("delete.gif")
+         . make_image('delete.gif')
          . "</a>\n";
 
     echo "</td>\n";
@@ -224,8 +218,8 @@ $bb->end();
 
 echo "<br /><br />\n";
 
-$bb = new Borderbox("Delete Package");
-print_link("/package-delete.php?id=" . $_GET['id'], make_image("delete.gif") . " Delete the package from the website.");
+$bb = new Borderbox('Delete Package');
+print_link('/package-delete.php?id=' . $_GET['id'], make_image('delete.gif') . ' Delete the package from the website.');
 $bb->end();
 
 response_footer();
