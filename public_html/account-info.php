@@ -27,9 +27,9 @@ $site = new Damblan_URL();
 $params = array("handle" => "");
 $site->getElements($params);
 
-$handle = $params['handle'];
+$handle = strtolower($params['handle']);
 
-/**
+/*
  * Redirect to the accounts list if no handle was specified
  */
 if (empty($handle)) {
@@ -49,7 +49,7 @@ response_header($row['name']);
 print "<h1>" . $row['name'] . "</h1>\n";
 
 print "<table border=\"0\" cellspacing=\"4\" cellpadding=\"0\">\n";
-print "<tr><td valign=\"top\">\n";
+print ' <tr><td valign="top" colspan="2">' . "\n\n";
 
 $bb = new BorderBox("Account Details", "100%", "", 2, true);
 $bb->horizHeadRow("Handle:", $handle);
@@ -64,24 +64,29 @@ if (!empty($row['pgpkeyid'])) {
                                 '&amp;op=get', $row['pgpkeyid']));
 }
 if ($row['homepage'] != "") {
-	$bb->horizHeadRow("Homepage:",
-					  "<a href=\"$row[homepage]\" target=\"_blank\">".
-					  "$row[homepage]</a>");
+    $bb->horizHeadRow("Homepage:",
+                      "<a href=\"$row[homepage]\" target=\"_blank\">".
+                      "$row[homepage]</a>");
 }
 
-$bb->horizHeadRow("Registered since:", $row['created']);
+$bb->horizHeadRow('Registered Since:', $row['created']);
+
 if ($row['userinfo'] != "") {
-    $bb->horizHeadRow("Additional information:", empty($row['userinfo']) ? "&nbsp;" : stripslashes($row['userinfo']));
+    $bb->horizHeadRow('Additional Information:', empty($row['userinfo']) ? '&nbsp;' : stripslashes($row['userinfo']));
 }
 
 if ($row['wishlist'] != "") {
     $bb->horizHeadRow("Wishlist:", make_link("/wishlist.php/" . $row['handle'], "Click here to be redirected."));
 }
 
-$bb->fullRow("Get the " . make_link("/feeds/user_" . strtolower($handle) . ".rss", "RSS feed"));
+$bb->fullRow(make_link('/account-edit.php?handle=' . $handle,
+                       make_image('edit.gif', 'Edit', 'right')) .
+             'Get the ' .
+             make_link('/feeds/user_' . $handle . '.rss', 'RSS feed'));
+
 $bb->end();
 
-print "</td><td valign=\"top\">\n";
+print '</td></tr><tr><td valign="top">' . "\n";
 
 $query = "SELECT p.id, p.name, m.role
           FROM packages p, maintains m
@@ -90,23 +95,21 @@ $query = "SELECT p.id, p.name, m.role
           ORDER BY p.name";
 $maintained_pkg = $dbh->getAll($query, array($handle), DB_FETCHMODE_ASSOC);
 
-$bb = new BorderBox("Maintaining These Packages:", "100%", "", 2, true);
+$bb = new BorderBox('Maintains These Packages', '100%', '', 2, true);
 
 if (count($maintained_pkg) > 0) {
     $bb->headRow("Package Name", "Role");
     foreach ($maintained_pkg as $row) {
-		$bb->plainRow("<a href=\"/package/" . $row['name'] . "\">" . $row['name'] . "</a>",
-					  $row['role']);
+        $bb->plainRow("<a href=\"/package/" . $row['name'] . "\">" . $row['name'] . "</a>",
+                      $row['role']);
     }
 }
 
 $bb->end();
 
-print "<br />\n";
+print '</td><td valign="top">' . "\n";
 
 display_user_notes($handle, "100%");
-
-print "<br /><a href=\"/account-edit.php?handle=$handle\">". make_image("edit.gif", "Edit") . "</a>";
 
 print "</td></tr></table>\n";
 
