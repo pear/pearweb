@@ -19,4 +19,9 @@
    </xs:attribute>
   </xs:complexType>
  </xs:element>
+ <xs:element name="postinstallscript">
+  <xs:annotation>
+   <xs:documentation>standard PEAR post-installation script - must be used in a role="php" file</xs:documentation>
+  </xs:annotation>
+ </xs:element>
 </xs:schema>
