@@ -14,8 +14,8 @@ Read this before starting to hack on the PEAR website.
     If changes that do not follow these standards are committed to the 
     repository, they will be reverted.
 
-	Usage of '@' to silent warnings/notices are strongly not recommanded.
-	Use it only if no clean solution exists.
+    Usage of '@' to silence warnings and notices is discouraged.  Use it
+    only if no clean solution exists.
 
 2) Only commit working code
 ------------------------------------------------------------------------
