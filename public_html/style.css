@@ -35,11 +35,17 @@ th.others {
 }
 
 td.sidebar_left {
+    width: 149px;
+    background-color: #F0F0F0;
+    vertical-align: top;
     font-size: 90%;
     border-right: 1px dashed #ccc;
 }
 
 td.sidebar_right {
+    width: 149px;
+    background-color: #F0F0F0;
+    vertical-align: top;
     font-size: 90%;
     border-left: 1px dashed #ccc;
 }
@@ -186,4 +192,10 @@ form {
 
 .indent {
     margin-left: 20px;
+}
+
+hr.greyline {
+    border-top: thin solid #CCCCCC;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
