@@ -22,7 +22,7 @@ table.foot {
 td.content {
     width: 100%;
     vertical-align: top;
-    padding: 0em 0.5em;
+    padding: 1em 0.5em 0.3em 0.5em;
 }
 
 
@@ -102,7 +102,7 @@ td.sidebar_right {
     vertical-align: top;
     font-size: 90%;
     border-left: 1px dashed #ccc;
-    padding: 0.1em 0.3em 0.3em 0.3em;
+    padding: 1em 0.3em 0.3em 0.3em;
 }
 
 table.sidebar-releases {
@@ -217,6 +217,7 @@ h1 {
     font-size: 140%;
     font-weight: bold;
     color: #006600;
+    margin-top: 0em;
 }
 
 h2 {

@@ -101,7 +101,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
         $SIDEBAR_DATA = substr($rts, 0, -1);
     } else {
         global $main_menu, $docu_menu, $downloads_menu, $auth_user, $proposal_menu;
-        $SIDEBAR_DATA .= draw_navigation($main_menu);
+        $SIDEBAR_DATA .= draw_navigation($main_menu, 'Main:');
         $SIDEBAR_DATA .= draw_navigation($docu_menu, 'Documentation:');
         $SIDEBAR_DATA .= draw_navigation($downloads_menu, 'Downloads:');
         $SIDEBAR_DATA .= draw_navigation($proposal_menu, 'Package Proposals:');
