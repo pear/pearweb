@@ -48,9 +48,14 @@ td.head-search {
     border-top: 1px solid #003300;
     border-bottom: 1px solid #003300;
     padding-right: 0.5em;
-    padding-bottom: 0.1em;
     text-align: right;
     vertical-align: middle;
+}
+
+p.head-search {
+    font-size: 80%;
+    margin-top: 0.1em;
+    margin-bottom: 0.1em;
 }
 
 td.head-menu {
@@ -283,4 +288,8 @@ hr.greyline {
     border-top: thin solid #CCCCCC;
     margin-top: 0px;
     margin-bottom: 0px;
+}
+
+.underline {
+    text-decoration: underline;
 }

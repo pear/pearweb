@@ -202,9 +202,9 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
  <tr>
   <td class="head-search" colspan="2">
    <form method="post" action="/search.php">
-    <small><u>S</u>earch for</small>
+    <p class="head-search"><span class="underline">S</span>earch for
     <input class="small" type="text" name="search_string" value="" size="20" accesskey="s" />
-    <small>in the</small>
+    in the
     <select name="search_in" class="small">
         <option value="packages">Packages</option>
         <option value="site">This site (using Google)</option>
@@ -214,6 +214,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
         <option value="pear-cvs">CVS commits mailing list</option>
     </select>
     <input type="image" src="/gifs/small_submit_white.gif" alt="search" style="vertical-align: middle;" />
+    </p>
    </form>
   </td>
  </tr>

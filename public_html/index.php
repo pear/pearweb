@@ -37,7 +37,7 @@ if (@sizeof($recent) > 0) {
     }
     $feed_link = "<a href=\"/feeds/\">Syndicate this</a>";
     $RSIDEBAR_DATA .= "<tr><td>&nbsp;</td></tr>\n";
-    $RSIDEBAR_DATA .= "<tr><td width=\"100%\" align=\"right\">" . $feed_link . "</td></tr>\n";
+    $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
 }
 
