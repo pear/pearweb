@@ -1,3 +1,5 @@
+@import url("tabs.css");
+
 body {
     margin: 0px;
     padding: 0px;
@@ -27,6 +29,11 @@ th.pack {
     color: #FFFFFF;
     background: #009933;
     text-align: right;
+}
+
+th.headrow {
+    text-align: left;
+    border-bottom: 1px solid #000;
 }
 
 th.others {

@@ -3,7 +3,7 @@
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2001-2003 The PHP Group                                |
+   | Copyright (c) 2001-2004 The PHP Group                                |
    +----------------------------------------------------------------------+
    | This source file is subject to version 2.02 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -24,7 +24,7 @@ $site = new Damblan_URL;
 
 // {{{ setup, queries
 
-$params = array("package|pacid" => "", "version" => "");
+$params = array("package|pacid" => "", "action" => "", "version" => "");
 $site->getElements($params);
 
 $pacid = $params['package|pacid'];
@@ -32,19 +32,34 @@ $pacid = $params['package|pacid'];
 // Package data
 if (!empty($pacid)) {
     $pkg = package::info($pacid);
+
+    $rel_count = count($pkg['releases']);
 }
 
-$version = $params['version'];
-$relid = null;
-if (!empty($version)) {
-    foreach ($pkg['releases'] as $ver => $release) {
-        if ($ver == $version) {
-            $relid = $release['id'];
-            break;
+$version = 0;
+$action = "";
+
+if (!empty($params['action'])) {
+
+    switch ($params['action']) {
+    case "download" :
+    case "docs" :
+        $action =  $params['action'];
+        if (!empty($params['version'])) {
+            $version = $params['version'];
         }
+        break;
+
+    case "bugs" :
+        // Redirect to the bug database
+        localRedirect("/bugs/search.php?direction=ASC&cmd=display&status=Open&bug_type%5B%5D=" . urlencode($pkg['name']));
+        break;
+
+    default :
+        $action = "";
+        $version = $params['action'];
+        break;
     }
-} else {
-    $relid = (isset($_GET['relid'])) ? (int) $_GET['relid'] : null;
 }
 
 if (empty($pacid) || !isset($pkg['name'])) {
@@ -64,8 +79,6 @@ if (empty($pacid) || !isset($pkg['name'])) {
     exit();
 }
 
-$dbh->setFetchmode(DB_FETCHMODE_ASSOC);
-
 $name        = $pkg['name'];
 $type        = $pkg['type'];
 $summary     = stripslashes($pkg['summary']);
@@ -79,33 +92,19 @@ $doc_link    = $pkg['doc_link'];
 
 // Maintainer information
 $maintainers = maintainer::get($pacid);
-$accounts  = '';
+$accounts  = '<ul>';
 
 foreach ($maintainers as $handle => $row) {
+    $accounts .= '<li>';
     $accounts .= user_link($handle);
     $accounts .= sprintf("(%s%s)<br />",
                          ($row['active'] == 0 ? "inactive " : ""),
                          $row['role']
                          );
+    $accounts .= '</li>';
 }
 
-if (!$relid) {
-    $downloads = array();
-
-    $sth = $dbh->query("SELECT f.id AS id, f.release AS release,".
-                       " f.platform AS platform, f.format AS format,".
-                       " f.md5sum AS md5sum, f.basename AS basename,".
-                       " f.fullpath AS fullpath, r.version AS version".
-                       " FROM files f, releases r".
-                       " WHERE f.package = $pacid AND f.release = r.id");
-    $rel_count = $sth->numRows();
-
-    while ($sth->fetchInto($row)) {
-        $downloads[$row['version']][] = $row;
-    }
-} else {
-    $rel_count = 1;
-}
+$accounts .= '</ul>';
 
 // }}}
 // {{{ page header
@@ -118,266 +117,264 @@ if ($version) {
 
 html_category_urhere($pkg['categoryid'], true);
 
-print "<h2 align=\"center\">$name";
+print "<h2>Package Information: $name";
 if ($version) {
     print " $version";
 }
 
 print "</h2>\n";
 
-// }}}
-// {{{ "Package Information" box
-
-$bb = new BorderBox("Package Information", "90%", "", 2, true);
-
-$bb->horizHeadRow("Summary", $summary);
-$bb->horizHeadRow("Maintainers", $accounts);
-$bb->horizHeadRow("License", get_license_link($license));
-$bb->horizHeadRow("Description", nl2br($description));
-
-if (!empty($homepage)) {
-    $bb->horizHeadRow("Homepage", make_link($homepage));
-}
-
-if ($relid) {
-    // Find correct version for given release id
-    foreach ($pkg['releases'] as $r_version => $release) {
-        if ($release['id'] != $relid) {
-            continue;
-        }
-
-        $bb->horizHeadRow("Release notes for<br />Version " . $version, nl2br($release['releasenotes']));
-        break;
-    }
-}
+$nav_items = array("Main" => array("url" => "",
+                                   "title" => ""),
+                   "Download" => array("url" => "download",
+                                       "title" => "Download releases of this package"),
+                   "Documentation" => array("url" => "docs",
+                                            "title" => "Read the available documentation"),
+                   "Bugs" => array("url" => "bugs",
+                                   "title" => "View/Report Bugs")
+                   );
 
 if (isset($auth_user) && is_object($auth_user)) {
-    $bb->fullRow("<div align=\"right\">" .
-                 make_link("/package-edit.php?id=$pacid",
-                           make_image("edit.gif", "Edit package information")) .
-                 "&nbsp;" . make_link("/package-delete.php?id=$pacid",
-                                      make_image("delete.gif", "Delete package")) .
-                 "&nbsp;[" . make_link("/admin/package-maintainers.php?pid=$pacid",
-                                       "Edit maintainers") .
-                 "]</div>");
+    $nav_items['Edit'] = array("url" => "/package-edit.php?id=$pacid",
+                               "title" => "Edit this package");
+    $nav_items['Delete'] = array("url" => "/package-delete.php?id=$pacid",
+                                 "title" => "Delete this package");
+    $nav_items['Edit Maintainers'] = array("url" => "/admin/package-maintainers.php?pid=$pacid",
+                                           "title" => "Edit the maintainers of this package");
 }
 
-$bb->end();
+print '<div id="nav">';
+
+foreach ($nav_items as $title => $item) {
+    if (!empty($item['url']) && $item['url']{0} == '/') {
+        $url = $item['url'];
+    } else {
+        $url = '/package/' . $name . '/' . $item['url'];
+    }
+    print '<a href="' . $url . '"'
+        . ' title="' . $item['title'] . '" '
+        . ($action == $item['url'] ? ' class="active" ' : '')
+        . '">'
+        . $title
+        . '</a>';
+}
+
+print '</div><br clear="all" />';
 
 // }}}
-// {{{ latest/cvs/changelog links
+// {{{ Package Information
 
-if ($rel_count > 0) {
-?>
+if (empty($action)) {
 
-<br />
-<table border="0" cellspacing="3" cellpadding="3" height="48" width="90%" align="center">
-<tr>
-<?php
-if ($rel_count > 0) {    
-    $get_link = "[ " . make_link("/get/$name", 'Download Latest') . " ]";
-} else {
-    $get_link = "&nbsp;";
-}
+    // {{{ General information
 
-if ($version) {
-    $changelog_link = make_link("/package-changelog.php?package=" .
-                                $pkg['name'] . '&amp;release=' . $version,
-                                'ChangeLog');
-} else {
-    $changelog_link = make_link("/package-changelog.php?package=" . $pkg['name'],
-                                'ChangeLog');
-}
-$stats_link = make_link("/package-stats.php?pid=" . $pacid . "&amp;rid=&amp;cid=" . $pkg['categoryid'],
-                        "View package statistics");
-?>
-    <td align="center"><?php print $get_link; ?></td>
-    <td align="center">[ <?php print $changelog_link; ?> ]</td>
-    <td align="center">[ <?php print $stats_link; ?> ]</td>
-</tr>
-<tr>
-<td align="center">
-<?php
-if (!empty($cvs_link)) {
-    print '[ ' . make_link($cvs_link, 'Browse CVS', 'top') . ' ]';
-}
-print '&nbsp;</td>';
-print '<td align="center">[ ' . make_bug_link($pkg['name']) . ' ]</td>';
-if (!empty($doc_link)) {
-    print '<td align="center">[ ' . make_link($doc_link, "View documentation") . ' ]</td>';
-} else {
-    print '<td />';
-}
-?>
-</tr>
-</table>
+    print '<table border="0" cellspacing="0" cellpadding="2" width="90%">';
+    print '<tr>';
+    print '<th class="headrow" width="50%">&raquo; Summary:</th>';
+    print '<th class="headrow" width="50%">&raquo; License:</th>';
+    print '</tr>';
+    print '<tr>';
+    print '<td valign="top">' . $summary . '</td>';
+    print '<td valign="top">' . get_license_link($license) . '</td>';
+    print '</tr>';
 
-<br />
+    print '<tr><td>&nbsp;</td></tr>';
 
-<?php
-}
+    print '<tr>';
+    print '<th class="headrow" width="50%">&raquo; Description:</th>';
+    print '<th class="headrow">&raquo; More Information:</th>';
+    print '</tr>';
+    print '<tr>';
+    print '<td valign="top">' . nl2br($description) . '</td>';
+    print '<td valign="top">';
 
-// }}}
-// {{{ "Available Releases"
+    print '<ul>';
 
-if (!$relid && $rel_count > 0) {
-    $bb = new BorderBox("Available Releases", "90%", "", 5, true);
-
-    $bb->headRow("Version", "State", "Release Date", "Downloads", "");
-
-    foreach ($pkg['releases'] as $r_version => $r) {
-        if (empty($r['state'])) {
-            $r['state'] = 'devel';
-        }
-        $r['releasedate'] = substr($r['releasedate'], 0, 10);
-        $dl = $downloads[$r_version];
-        $downloads_html = '';
-        foreach ($downloads[$r_version] as $dl) {
-            $downloads_html .= "<a href=\"/get/$dl[basename]\">".
-                "$dl[basename]</a> (".sprintf("%.1fkB",@filesize($dl['fullpath'])/1024.0).")";
-            }
-
-        $link_changelog = "<small>[" . make_link("/package-changelog.php?package=" .
-                                                 $pkg['name'] . "&release=" .
-                                                 $r_version, "Changelog")
-            . "]</small>";
-
-        $href_release = "/package/" . $pkg['name'] . "/" . $r_version;
-
-        $bb->horizHeadRow(make_link($href_release, $r_version), $r['state'],
-                          $r['releasedate'], $downloads_html, $link_changelog);
-
+    if (!empty($homepage)) {
+        print '<li>Homepage: ' . make_link($homepage) . '</li>';
     }
-
-    $bb->end();
-
-    print "<br /><br />\n";
-}
-
-if ($rel_count == 0) {
-    echo "<br /><br /><b>Note:</b> This package has not published any releases yet.";
-}
-
-// }}}
-
-if ($rel_count > 0) {
-
-    // {{{ "Dependencies"
-
-    $title = "Dependencies";
-    if ($relid) {
-        $title .= " for release $version";
+    if (!empty($cvs_link)) {
+        print '<li><a href="' . $cvs_link . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
     }
-    $bb = new Borderbox($title, "90%", "", 2, true);
+    print '<li><a href="/feeds/pkg_' . strtolower($name) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>';
+    print '</td>';
 
-    $rels =& $pkg['releases'];
+    print '</tr>';
 
-    // Check if there are too much things to show
-    $too_much = false;
-    if (count ($rels) > 3) {
-        $too_much = true;
-        $rels = array_slice($rels, 0, 3);
-    }
+    print '<tr><td>&nbsp;</td></tr>';
 
-    $rel_trans = array(
-        'lt' => 'older than %s',
-        'le' => 'version %s or older',
-        'eq' => 'version %s',
-        'ne' => 'any version but %s',
-        'gt' => 'newer than %s',
-        'ge' => '%s or newer',
-/*      'lt' => '<',
-        'le' => '<=',
-        'eq' => '=',
-        'ne' => '!=',
-        'gt' => '>',
-        'ge' => '>=', */
-        );
-    $dep_type_desc = array(
-        'pkg'    => 'PEAR Package',
-        'ext'    => 'PHP Extension',
-        'php'    => 'PHP Version',
-        'prog'   => 'Program',
-        'ldlib'  => 'Development Library',
-        'rtlib'  => 'Runtime Library',
-        'os'     => 'Operating System',
-        'websrv' => 'Web Server',
-        'sapi'   => 'SAPI Backend',
-        );
+    print '<tr>';
+    print '<th class="headrow" width="50%">&raquo; Maintainers:</th>';
+    print '<th class="headrow">&raquo; Packages that depend on ' . $name . ':</th>';
+    print '</tr>';
+    print '<tr>';
+    print '<td valign="top">' . $accounts . '</td>';
 
-    // Loop per version
-    foreach ($rels as $r_version => $rel) {
-        $dep_text = "";
-
-        if (!empty($version) && $r_version != $version) {
-            continue;
-        }
-        if (empty($version)) {
-            $title = "Release " . $r_version . ":";
-        } else {
-            $title = "";
-        }
-
-        $deps =& $pkg['releases'][$r_version]['deps'];
-
-        if (count($deps) > 0) {
-            foreach ($deps as $row) {
-                // Print link if it's a PEAR package and it's in the db
-                if ($row['type'] == 'pkg') {
-                    $dep_pkg =& new PEAR_Package($dbh, $row['name']);
-                    if (!empty($dep_pkg->name) && $dep_pkg->package_type = 'pear' && $dep_pkg->approved = 1) {
-                        $row['name'] = $dep_pkg->makeLink();
-                    }
-                }
-
-                if (isset($rel_trans[$row['relation']])) {
-                    $rel = sprintf($rel_trans[$row['relation']], $row['version']);
-                    $dep_text .= sprintf("%s: %s %s",
-                                          $dep_type_desc[$row['type']], $row['name'], $rel);
-                } else {
-                    $dep_text .= sprintf("%s: %s", $dep_type_desc[$row['type']], $row['name']);
-                }
-                if ($row['optional'] == 1) {
-                    $dep_text .= " (optional)";
-                }
-                $dep_text .= "<br />";
-            }
-            $bb->horizHeadRow($title, $dep_text);
-
-        } else {
-            $bb->horizHeadRow($title, "No dependencies registered.");
-        }
-    }
-    if ($too_much && empty($version)) {
-        $bb->fullRow("Dependencies for older releases can be found on the release overview page.");
-    }
-    $bb->end();
-
-    // }}}
     // {{{ Dependants
 
+    echo '<td>';
+
     $dependants = package::getDependants($name);
+    if ($rel_count > 0 && count($dependants) > 0) {
 
-    if (count($dependants) > 0) {
-
-        echo "<br /><br />";
-        $bb = new BorderBox("Packages that depend on " . $name);
+        echo '<ul>';
 
         foreach ($dependants as $dep) {
             $obj =& new PEAR_Package($dbh, $dep['p_name']);
-            $bb->plainRow($obj->makeLink());
+            echo '<li>' . $obj->makeLink() . '</li>';
         }
 
-        $bb->end();
+        echo '</ul>';
+
     }
+
+    echo '</td>';
 
     // }}}
 
+    print '</tr>';
+
+    print '</table>';
+
+    // }}}
+
+} else if ($action == "download") {
+
+    // {{{ Download
+
+    $i = 0;
+
+    print '<table border="0" cellspacing="0" cellpadding="2" width="90%">';
+    print '<tr>';
+    print '<th class="headrow" width="20%">&raquo; Version:</th>';
+    print '<th class="headrow">&raquo; Information:</th>';
+    print '</tr>';
+
+    foreach ($pkg['releases'] as $release_version => $info) {
+        print '<tr>';
+
+        if (($i++ == 0 && empty($version)) || ($release_version == $version)) {
+            // Detailed view
+
+            print '<td valign="top">' . $release_version . '</td>';
+            print '<td>';
+            print '<a href="/get/' . $name . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
+            print '<b>Release date:</b> ' . date("d M Y, H:i A", strtotime($info['releasedate'])) . '<br />'; 
+            print '<b>Release state:</b> ' . $info['state'] . '<br /><br />'; 
+            print '<b>Changelog:</b><br /><br />' . nl2br($info['releasenotes']) . '<br /><br />';
+
+            if (!empty($info['deps']) && count($info['deps']) > 0) {
+                print '<b>Dependencies:</b>';
+
+                $rel_trans = array('lt' => 'older than %s',
+                                   'le' => 'version %s or older',
+                                   'eq' => 'version %s',
+                                   'ne' => 'any version but %s',
+                                   'gt' => 'newer than %s',
+                                   'ge' => '%s or newer',
+                                   );
+                $dep_type_desc = array('pkg'    => 'PEAR Package',
+                                       'ext'    => 'PHP Extension',
+                                       'php'    => 'PHP Version',
+                                       'prog'   => 'Program',
+                                       'ldlib'  => 'Development Library',
+                                       'rtlib'  => 'Runtime Library',
+                                       'os'     => 'Operating System',
+                                       'websrv' => 'Web Server',
+                                       'sapi'   => 'SAPI Backend',
+                                       );
+
+                $dep_text = "";
+                foreach ($info['deps'] as $dependency) {
+
+                    // Print link if it's a PEAR package and it's in the db
+                    if ($dependency['type'] == 'pkg') {
+                        $dep_pkg =& new PEAR_Package($dbh, $dependency['name']);
+                        if (!empty($dep_pkg->name) && $dep_pkg->package_type = 'pear' && $dep_pkg->approved = 1) {
+                            $dependency['name'] = $dep_pkg->makeLink();
+                        }
+                    }
+
+                    if (isset($rel_trans[$dependency['relation']])) {
+                        $rel = sprintf($rel_trans[$dependency['relation']], $dependency['version']);
+                        $dep_text .= sprintf("<li>%s: %s %s",
+                                             $dep_type_desc[$dependency['type']], $dependency['name'], $rel);
+                    } else {
+                        $dep_text .= sprintf("<li>%s: %s", $dep_type_desc[$dependency['type']], $dependency['name']);
+                    }
+                    if ($dependency['optional'] == 1) {
+                        $dep_text .= " (optional)";
+                    }
+
+                    $dep_text .= "</li>";
+                }
+
+                print '<ul>' . $dep_text . '</ul>';
+
+            }
+
+            print '</td>';
+
+        } else {
+            // Simple view
+            print '<td colspan="2"><a href="/package/' . $name . '/download/' . $release_version . '">' . $release_version . '</a></td>';
+        }
+
+        print '</tr>';
+    }
+
+    print '</table>';
+
+    // }}}
+
+} else if ($action == "docs") {
+
+    // {{{ Documentation
+
+    print '<table border="0" cellspacing="0" cellpadding="2" width="90%">';
+    print '<tr>';
+    print '<th class="headrow" width="50%">&raquo; End-user documentation:</th>';
+    print '<th class="headrow" width="50%">&raquo; API documentation:</th>';
+    print '</tr>';
+    print '<tr>';
+    print '<td valign="top">';
+
+    if (!empty($doc_link)) {
+        print '<ul><li><a href="' . $doc_link . '">End-user Documentation</a></li></ul>';
+    } else {
+        print '<p>No end-user documentation is available for this package.</p>';
+    }
+
+    print '</td>';
+    print '<td valign="top">';
+
+    if ($rel_count > 0) {
+        print '<p>Auto-generated API documentation for each ';
+        print 'release is available.</p>';
+        
+        print '<ul>';
+
+        foreach ($pkg['releases'] as $r_version => $release) {
+            print '<li><a href="/package/' . $name . '/docs/' . $r_version . '/">' . $r_version . '</a></li>';
+        }
+
+        print '</ul>';
+        print '<p>This documentation has been generated from the ';
+        print 'inline comments in the source code using ';
+        print '<a href="/package/phpDocumentor/">phpDocumentor</a>.</p>';
+    } else {
+        print '<p>Auto-generated API documentation will be available ';
+        print 'once that this package has rolled a release.</p>';
+    }
+
+    print '</td>';
+    print '</tr>';
+    print '</table>';
+
+    // }}}
 }
 
-// {{{ page footer
+// }}}
 
 response_footer();
-
-// }}}
 ?>
