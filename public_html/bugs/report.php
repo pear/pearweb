@@ -317,7 +317,7 @@ simply being marked as "bogus".</strong></p>
   <td valign="top">
    <b>Actual result:</b><br />
    <font size="-1">
-    This could be a <a href="bugs-generating-backtrace.php">backtrace</a> for example.<br />
+    This could be a <a href="http://bugs.php.net/bugs-generating-backtrace.php">backtrace</a> for example.<br />
     Try to keep it as short as possible without leaving anything relevant out.
    </font>
   </td>
