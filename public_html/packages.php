@@ -26,9 +26,15 @@
 
 $template_dir = dirname(dirname(__FILE__)) . '/templates/';
 
-require_once('HTML/Table.php');
-require_once('Pager/Pager.php');
-require_once('Net/URL.php');
+require_once 'browser.php';
+require_once 'HTML/Table.php';
+require_once 'Pager/Pager.php';
+require_once 'Net/URL.php';
+
+/**
+* Browser detection
+*/
+$_browser = &new browser();
 
 /**
 * Returns an appropriate query string

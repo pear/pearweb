@@ -23,7 +23,6 @@ require_once "DB/storage.php";
 require_once "pear-config.php";
 require_once "pear-auth.php";
 require_once "pear-database.php";
-require_once "browser.php";
 
 if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
     require_once "pear-manual.php";
@@ -57,7 +56,7 @@ function get($name)
         return "";
     }
 }
-    
+
 if (empty($dbh)) {
     $dbh = DB::connect(PEAR_DATABASE_DSN, array('persistent' => false));
 }
@@ -93,9 +92,4 @@ if (!function_exists('file_get_contents')) {
 }
 
 session_start();
-
-/**
-* Browser detection
-*/
-$_browser = &new browser();
 ?>
