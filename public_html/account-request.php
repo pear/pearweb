@@ -87,7 +87,7 @@ if ($display_form) {
 <p>
 You only need to request an account if you:
 <ul>
-<li>Are planning to contribute a new package to PEAR repository and want to propose this to the PEAR developers, or</li>
+<li>Are planning to contribute a new package to PEAR and want to propose this to the PEAR developers, or</li>
 <li>Are going to contribute a new package to PEAR CVS and that has been discussed
 and approved in the pear-dev mailing list, or</li>
 <li>Will help in the maintainance of an existing package (after approval by the
@@ -110,7 +110,7 @@ the pear-dev mailing list for doing that first.</li>
 These are not the only reasons that will get your request rejected, just the most common ones.
 </p>
 
-<p>If you want to contributing a package to PEAR, make sure that you have followed all rules concernuing
+<p>If you want to contributing a package to PEAR, make sure that you have followed all rules concerning
 PAER packages. Make also sure that if you are going to include code
 in PEAR CVS, that this complies with the PEAR code standards before it is
 released.</p>
