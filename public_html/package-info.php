@@ -421,7 +421,11 @@ when a weblog entry is created, which is related to the package. If you want to 
     if ($trackbackIsAdmin) {
         print '<div class="explain">You may manipulate the trackbacks of this package. In contrast to normal users, you see approved and pending trackbacks </div>';
     }
-   
+ 
+    if (count($trackbacks) == 0) {
+        print '<p>Sorry, there are no trackbacks for this package, yet.</p>';
+    }
+ 
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     foreach ($trackbacks as $trackback) {
         print '<tr>';
