@@ -242,7 +242,7 @@ function display_error($msg)
 {
     global $errorMsg;
 
-    $errorMsg .= "<font color=\"#cc0000\" size=\"+1\">$msg</font><br />\n";
+    $errorMsg .= "<span class=\"error\">$msg</span><br />\n";
 }
 
 function checkUser($user, $pacid = null)
