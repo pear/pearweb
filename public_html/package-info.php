@@ -174,7 +174,12 @@ $bb->end();
 <table border="0" cellspacing="3" cellpadding="3" height="48" width="90%" align="center">
 <tr>
 <?php
-$get_link = make_link("/get/$name", 'Download Latest');
+if (count($pkg['releases']) > 0) {
+    $get_link = "[ " . make_link("/get/$name", 'Download Latest') . " ]";
+} else {
+    $get_link = "&nbsp;";
+}
+
 if ($version) {
     $changelog_link = make_link("/package-changelog.php?package=" .
                                 $pkg['name'] . '&amp;release=' . $version,
@@ -186,7 +191,7 @@ if ($version) {
 $stats_link = make_link("/package-stats.php?pid=" . $pacid . "&amp;rid=&amp;cid=" . $pkg['categoryid'],
                         "View package statistics");
 ?>
-    <td align="center">[ <?php print $get_link; ?> ]</td>
+    <td align="center"><?php print $get_link; ?></td>
     <td align="center">[ <?php print $changelog_link; ?> ]</td>
     <td align="center">[ <?php print $stats_link; ?> ]</td>
 </tr>
@@ -218,7 +223,7 @@ if (!$relid) {
     $bb = new BorderBox("Available Releases", "90%", "", 5, true);
 
     if (count($pkg['releases']) == 0) {
-        print "<i>No releases for this package.</i>";
+        $bb->fullRow("<i>No releases for this package.</i>");
     } else {
         $bb->headRow("Version", "State", "Release Date", "Downloads", "");
 
@@ -271,7 +276,7 @@ if (count ($rels) > 3) {
 }
 
 if ($sth->numRows() == 0) {
-    print "<i>No releases yet.</i>";
+    $bb->fullRow("<i>No releases yet.</i>");
 } else {
     $rel_trans = array(
         'lt' => 'older than %s',
