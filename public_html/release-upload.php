@@ -216,6 +216,14 @@ if ($display_verification) {
                  . 'You may want to correct your package.xml file:');
 
     // XXX ADD MASSIVE SANITY CHECKS HERE
+    
+    $version = $info['version'];
+    if (!preg_match('/^\d+\.\d+\.\d+(?:[a-z]+\d*)?$/', $version)) {
+        report_error('Version must in format digit.digit.digit[lower-case alpha[digits]]', 'errors','ERRORS:<br />'
+                 . 'You must correct your package.xml file:');
+        // dummy, used to prevent the verification button from being shown
+        $errors[] = 1;
+    }
 
     $check = array(
         'summary',
