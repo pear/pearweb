@@ -84,7 +84,7 @@ do {
             break;
         }
         if (!user::isAdmin($_COOKIE['PEAR_USER']) &&
-            !user::isQA($_COOKIE['PEAR_USER'])) &&
+            !user::isQA($_COOKIE['PEAR_USER']) &&
             !user::maintains($_COOKIE['PEAR_USER'], $pacid, 'lead')) {
             $errors[] = 'You don\'t have permissions to upload this release.';
             break;
