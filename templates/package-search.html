@@ -299,7 +299,7 @@ response_header('Package Search');
    <select name="released_on_month" onchange="update_date('released_on', 'month')">
     <option value=""></option>
     <?php foreach($months as $num => $text):?>
-     <option value="<?php echo $num; ?>"><?php echo $tex; t?></option>
+     <option value="<?php echo $num; ?>"><?php echo $text; ?></option>
     <?php endforeach?>
    </select>
    <select name="released_on_day" onchange="update_date('released_on', 'day')">
