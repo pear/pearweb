@@ -19,14 +19,14 @@
    $Id$
  */
 
-require_once "HTML/Form.php";
+require_once 'HTML/Form.php';
 
-response_header("Package statistics");
+response_header('Package statistics');
 ?>
 
 <h1>Package statistics</h1>
 
-<script language="JavaScript">
+<script language="JavaScript" type="text/javascript">
 <!--
 function reloadMe()
 {
@@ -56,16 +56,17 @@ while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
     $packages[$row['id']] = $row['name'];
 }
 
-$bb = new Borderbox("Select package");
+$bb = new Borderbox('Select package');
 
 // Don't use HTML_Form here since we need to use some custom javascript here
-echo "<form action=\"package-stats.php\" method=\"get\">\n";
-echo "<table>\n";
-echo "<tr>\n";
-echo "  <td>\n";
-echo "  <select name=\"cid\" onchange=\"javascript:reloadMe();\">\n";
-echo "    <option>Select category ...</option>\n";
-
+?>
+    <form action="package-stats.php" method="get">
+        <table>
+            <tr>
+                <td>
+                    <select name="cid" onchange="javascript:reloadMe();">
+                        <option>Select category ...</option>
+<?php
 foreach (category::listAll() as $value) {
     if (isset($_GET['cid']) && $_GET['cid'] == $value['id']) {
         echo "    <option value=\"" . $value['id'] . "\" selected>" . $value['name'] . "</option>\n";
@@ -123,7 +124,7 @@ echo "  </td>\n";
 
 echo "</tr>\n";
 echo "<tr>\n";
-echo "  <td><input type=\"submit\" name=\"submit\" value=\"Go\"></td>\n";
+echo "  <td><input type=\"submit\" name=\"submit\" value=\"Go\" /></td>\n";
 echo "</tr>\n";
 echo "</table>\n";
 echo "</form>\n";
@@ -137,23 +138,23 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     if (isset($info['releases']) && sizeof($info['releases'])>0) {
         echo "<h2>Statistics for package \"<a href=\"/" . $info['name'] . "\">" . $info['name'] . "</a>\"</h2>\n";
         $bb = new Borderbox("General statistics");
-        echo "Number of releases: <b>" . count($info['releases']) . "</b><br />\n";
-        echo "Total downloads: <b>" . number_format(statistics::package($_GET['pid']), 0, '.', ',') . "</b><br />\n";
+        echo "Number of releases: <strong>" . count($info['releases']) . "</strong><br />\n";
+        echo "Total downloads: <strong>" . number_format(statistics::package($_GET['pid']), 0, '.', ',') . "</strong><br />\n";
         $bb->end();
     } else {
-        $bb = new Borderbox("General statistics");
-        echo "No package or release found.";
+        $bb = new Borderbox('General statistics');
+        echo 'No package or release found.';
         $bb->end();
     }
 
     if (count($info['releases']) > 0) {
         echo "<br />\n";
-        $bb = new Borderbox("Release statistics");
+        $bb = new Borderbox('Release statistics');
 ?>
-    <table border="0" cellspacing="0" cellpadding="3" width="100%">
+    <table cellspacing="0" cellpadding="3" style="border: 0px; width: 100%;">
     <tr>
-        <th align="left">Version</th>
-        <th align="left">Downloads</th>
+        <th style="text-align: left;">Version</th>
+        <th style="text-align: left;">Downloads</th>
     </tr>
 <?php
         $release_statistics = statistics::release($_GET['pid'],
@@ -314,11 +315,11 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 */
 } else {
 
-	$total_packages    = number_format($dbh->getOne("SELECT COUNT(DISTINCT pid) FROM package_stats"), 0, '.', ',');
-	$total_maintainers = number_format($dbh->getOne("SELECT COUNT(DISTINCT handle) FROM maintains"), 0, '.', ',');
-	$total_releases    = number_format($dbh->getOne("SELECT COUNT(*) FROM package_stats"), 0, '.', ',');
-	$total_categories  = number_format($dbh->getOne("SELECT COUNT(*) FROM categories"), 0, '.', ',');
-    $total_downloads   = number_format($dbh->getOne("SELECT COUNT(*) FROM downloads"), 0, '.', ',');
+	$total_packages    = number_format($dbh->getOne('SELECT COUNT(DISTINCT pid) FROM package_stats'), 0, '.', ',');
+	$total_maintainers = number_format($dbh->getOne('SELECT COUNT(DISTINCT handle) FROM maintains'), 0, '.', ',');
+	$total_releases    = number_format($dbh->getOne('SELECT COUNT(*) FROM package_stats'), 0, '.', ',');
+	$total_categories  = number_format($dbh->getOne('SELECT COUNT(*) FROM categories'), 0, '.', ',');
+    $total_downloads   = number_format($dbh->getOne('SELECT COUNT(*) FROM downloads'), 0, '.', ',');
 	$query             = "SELECT sum(dl_number) as dl_number, package, max(release) as release, pid, rid, cid FROM package_stats GROUP BY pid ORDER BY dl_number DESC";
 
 }
@@ -332,16 +333,16 @@ if (@!$_GET['pid']) {
 	?>
 <table border="0" width="100%">
 	<tr>
-		<td width="25%">Total Packages:</td>
-		<td width="25%" align="center" bgcolor="#cccccc"><?=$total_packages?></td>
-		<td width="25%">Total Releases:</td>
-		<td width="25%" align="center" bgcolor="#cccccc"><?=$total_releases?></td>
+		<td style="width: 25%;">Total Packages:</td>
+		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_packages?></td>
+		<td style="width: 25%;">Total Releases:</td>
+		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_releases?></td>
 	</tr>
 	<tr>
-		<td width="25%">Total Maintainers:</td>
-		<td width="25%" align="center" bgcolor="#cccccc"><?=$total_maintainers?></td>
-		<td width="25%">Total Categories:</td>
-		<td width="25%" align="center" bgcolor="#cccccc"><?=$total_categories?></td>
+		<td style="width: 25%;">Total Maintainers:</td>
+		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_maintainers?></td>
+		<td style="width: 25%;">Total Categories:</td>
+		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_categories?></td>
 	</tr>
     <?php
      if(empty($_GET['cid'])) {
@@ -354,13 +355,13 @@ if (@!$_GET['pid']) {
 
 	echo '<br />';
 
-	$bb = new BorderBox("Package statistics");
+	$bb = new BorderBox('Package statistics');
 
 	$sth  = $dbh->query($query); //$query defined above
 	$rows = $sth->numRows();
 
 	if (DB::isError($sth)) {
-	    PEAR::raiseError("unable to generate stats");
+	    PEAR::raiseError('unable to generate stats');
 	}
 
 	if ($rows > 12) {
@@ -378,7 +379,7 @@ if (@!$_GET['pid']) {
 
 	while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
 	    if ($row['package'] == $lastPackage) {
-	        $row['package'] = "";
+	        $row['package'] = '';
 	    } else {
 	        $lastPackage = $row['package'];
 	        $row['package'] = "<a href=\"package-info.php?package=" .
@@ -390,7 +391,7 @@ if (@!$_GET['pid']) {
 	    echo "<td>\n" . $row['package'] .  "</td>\n";
 	    echo "<td>" . $row['release'] . "</td>\n";
 	    echo "<td>" . number_format($row['dl_number'], 0, '.', ',') . "</td>\n";
-	    echo "<td>[". make_link("/package-stats.php?cid=" . $row['cid'] . "&pid=" . $row['pid'] , "Details") . "]</td>\n";
+	    echo "<td>[". make_link("/package-stats.php?cid=" . $row['cid'] . "&amp;pid=" . $row['pid'] , 'Details') . "]</td>\n";
 	    echo "</tr>\n";
 	}
 	echo "</table>\n";
