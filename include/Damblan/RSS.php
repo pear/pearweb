@@ -53,7 +53,7 @@ class Damblan_RSS {
         if ($prefix == "user" || $prefix == "pepr") {
             $cache = $type;
             $value = substr($type, 5);
-            $type = $prefix_test;
+            $type = $prefix;
         } else if ($type != "latest") {
             $cache = $type;
             $value = substr($type, 4);
