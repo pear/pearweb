@@ -206,39 +206,39 @@ show_bugs_menu($bug['bug_type']);
 <div id="bugheader">
  <table id="details">
   <tr id="title">
-   <th id="number">Bug&nbsp;#<?php echo $id?></th>
+   <th class="details" id="number">Bug&nbsp;#<?php echo $id?></th>
    <td id="summary" colspan="5"><?php echo htmlspecialchars($bug['sdesc'])?></td>
   </tr>
   <tr id="submission">
    <th>Submitted:</th><td><?php echo format_date($bug['submitted'])?></td>
 <?php if ($bug['modified']) {?>
-   <th>Modified:</th><td> <?php echo format_date($bug['modified'])?></td>
+   <th class="details">Modified:</th><td> <?php echo format_date($bug['modified'])?></td>
 <?php }?>
   </tr>
   <tr id="submitter">
-   <th>From:</th><td><?php echo htmlspecialchars(spam_protect($bug['email']))?></td>
+   <th class="details">From:</th><td><?php echo htmlspecialchars(spam_protect($bug['email']))?></td>
   </tr>
   <tr id="categorization">
-   <th>Status:</th><td><?php echo htmlspecialchars($bug['status'])?></td>
-<?php/*   <th>Type:</th><td><?php echo htmlspecialchars($bug['type'])?></td> */?>
-   <th>Package:</th><td colspan="3"><?php echo htmlspecialchars($bug['bug_type'])?></td>
+   <th class="details">Status:</th><td><?php echo htmlspecialchars($bug['status'])?></td>
+<?php/*   <th class="details">Type:</th><td><?php echo htmlspecialchars($bug['type'])?></td> */?>
+   <th class="details">Package:</th><td colspan="3"><?php echo htmlspecialchars($bug['bug_type'])?></td>
   </tr>
   <tr id="situation">
-   <th>Version:</th><td><?php echo htmlspecialchars($bug['php_version'])?></td>
-   <th>OS:</th><td colspan="3"><?php echo htmlspecialchars($bug['php_os'])?></td>
+   <th class="details">Version:</th><td><?php echo htmlspecialchars($bug['php_version'])?></td>
+   <th class="details">OS:</th><td colspan="3"><?php echo htmlspecialchars($bug['php_os'])?></td>
   </tr>
 
 <?php if ($bug['votes']) {?>
   <tr id="votes">
-   <th>Votes:</th><td><?php echo $bug['votes'];?></td>
-   <th>Avg. Score:</th><td><?php printf("%.1f &plusmn; %.1f", $bug['average'], $bug['deviation'])?></td>
-   <th>Reproduced:</th><td><?php printf("%d of %d (%.1f%%)",$bug['reproduced'],$bug['tried'],$bug['tried']?($bug['reproduced']/$bug['tried'])*100:0);?></td>
+   <th class="details">Votes:</th><td><?php echo $bug['votes'];?></td>
+   <th class="details">Avg. Score:</th><td><?php printf("%.1f &plusmn; %.1f", $bug['average'], $bug['deviation'])?></td>
+   <th class="details">Reproduced:</th><td><?php printf("%d of %d (%.1f%%)",$bug['reproduced'],$bug['tried'],$bug['tried']?($bug['reproduced']/$bug['tried'])*100:0);?></td>
   </tr>
 <?php if ($bug['reproduced']) {?>
   <tr id="reproduced">
    <td colspan="2"></td>
-   <th>Same Version:</th><td><?php printf("%d (%.1f%%)",$bug['samever'],($bug['samever']/$bug['reproduced'])*100);?></td>
-   <th>Same OS:</th><td><?php printf("%d (%.1f%%)",$bug['sameos'],($bug['sameos']/$bug['reproduced'])*100);?></td>
+   <th class="details">Same Version:</th><td><?php printf("%d (%.1f%%)",$bug['samever'],($bug['samever']/$bug['reproduced'])*100);?></td>
+   <th class="details">Same OS:</th><td><?php printf("%d (%.1f%%)",$bug['sameos'],($bug['sameos']/$bug['reproduced'])*100);?></td>
   </tr>
 <?php }?>
 <?php }?>
@@ -297,9 +297,9 @@ your password here</a>.
 <?php }?>
 <table>
  <tr>
-  <th>Password:</th>
+  <th class="details">Password:</th>
   <td><input type="password" name="pw" value="<?php echo clean($pw)?>" size="10" maxlength="20" /></td>
-  <th>
+  <th class="details">
    <label for="save">Check to remember your password for next time:</label>
   </th>
   <td>
@@ -331,11 +331,11 @@ this link</a> or if you reported this bug, you can <a href="<?php echo
 <!--
 <table>
  <tr>
-  <th>CVS Username:</th>
+  <th class="details">CVS Username:</th>
   <td><input type="text" name="user" value="<?php echo clean($user)?>" size="10" maxlength="20" /></td>
-  <th>CVS Password:</th>
+  <th class="details">CVS Password:</th>
   <td><input type="password" name="pw" value="<?php echo clean($pw)?>" size="10" maxlength="20" /></td>
-  <th>
+  <th class="details">
    <label for="save">Remember:</label>
   </th>
   <td>
@@ -352,40 +352,40 @@ this link</a> or if you reported this bug, you can <a href="<?php echo
 <table>
 <?php if ($edit == 1) {?>
  <tr>
-  <th><a href="http://bugs.php.net/quick-fix-desc.php">Quick Fix:</a></th>
+  <th class="details"><a href="http://bugs.php.net/quick-fix-desc.php">Quick Fix:</a></th>
   <td colspan="5"><select name="in[resolve]"><?php show_reason_types($in['resolve'],1);?></select><?php if ($in['resolve']) {?><input type="hidden" name="trytoforce" value="1" /><?php }?></td>
  </tr>
 <?php }?>
  <tr>
-  <th><label for="statuslist" accesskey="s"><u>S</u>tatus:</label></th>
+  <th class="details"><label for="statuslist" accesskey="s"><u>S</u>tatus:</label></th>
   <td><select name="in[status]" id="statuslist"><?php show_state_options($in['status'],$edit,$bug['status'])?></select></td>
 <?php if ($edit == 1) {?>
-  <th>Assign to:</th>
+  <th class="details">Assign to:</th>
   <td><input type="text" size="10" maxlength="16" name="in[assign]" value="<?php echo field('assign')?>" /></td>
 <?php }?>
   <td><input type="hidden" name="id" value="<?php echo $id?>" /><input type="hidden" name="edit" value="<?php echo $edit?>" /><input type="submit" value="Submit" /></td>
  </tr>
  <tr>
-  <th>Category:</th>
+  <th class="details">Category:</th>
   <td colspan="3"><select name="in[bug_type]"><?php show_types($in['bug_type'],0,$bug['bug_type'])?></select></td>
 <?php /* severity goes here. */ ?>
  </tr>
  <tr>
-  <th>Summary:</th>
+  <th class="details">Summary:</th>
   <td colspan="5"><input type="text" size="60" maxlength="80" name="in[sdesc]" value="<?php echo field('sdesc')?>" /></td>
  </tr>
  <tr>
-  <th>From:</th>
+  <th class="details">From:</th>
   <td colspan="5"><?php echo spam_protect(field('email')); ?></td>
  </tr>
  <tr>
-  <th>New email:</th>
+  <th class="details">New email:</th>
   <td colspan="5"><input type="text" size="40" maxlength="40" name="in[email]" value="" /></td>
  </tr>
  <tr>
-  <th>Version:</th>
+  <th class="details">Version:</th>
   <td><input type="text" size="20" maxlength="100" name="in[php_version]" value="<?php echo field('php_version')?>" /></td>
-  <th>OS:</th>
+  <th class="details">OS:</th>
   <td colspan="3"><input type="text" size="20" maxlength="32" name="in[php_os]" value="<?php echo field('php_os')?>" /></td>
  </tr>
 </table>
@@ -406,7 +406,7 @@ the database with that please
 <?php }?>
 <table>
  <tr>
-  <th>Your email address:</th>
+  <th class="details">Your email address:</th>
   <td><input type="text" size="40" maxlength="40" name="in[commentemail]" value="<?php echo clean($in['commentemail'])?>" /></td>
   <td><input type="hidden" name="id" value="<?php echo $id?>" /><input type="hidden" name="edit" value="<?php echo $edit?>" /><input type="submit" value="Submit" /></td>
  </tr>

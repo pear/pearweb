@@ -154,8 +154,11 @@ font-weight: bold;
 td#summary {
 font-weight: bold;
 }
-th {
+th.details {
 text-align: right;
+}
+th.results {
+text-align: left;
 }
 
 div#bugheader {

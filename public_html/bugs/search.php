@@ -177,14 +177,14 @@ if (isset($cmd) && $cmd == "display") {
 <table align="center" border="0" cellspacing="2" width="95%">
  <?php show_prev_next($begin,$rows,$total_rows,$link,$limit);?>
  <tr bgcolor="#aaaaaa">
-  <th><a href="<?php echo $link;?>&amp;reorder_by=id">ID#</a></th>
-  <th><a href="<?php echo $link;?>&amp;reorder_by=id">Date</a></th>
-  <th><a href="<?php echo $link;?>&amp;reorder_by=bug_type">Type</a></th>
-  <th><a href="<?php echo $link;?>&amp;reorder_by=status">Status</a></th>
-  <th><a href="<?php echo $link;?>&amp;reorder_by=php_version">Version</a></th>
-  <th><a href="<?php echo $link;?>&amp;reorder_by=php_os">OS</a></th>
-  <th><a href="<?php echo $link;?>&amp;reorder_by=sdesc">Summary</a></th>
-  <th><a href="<?php echo $link;?>&amp;reorder_by=assign">Assigned</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">ID#</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">Date</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=bug_type">Type</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=status">Status</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=php_version">Version</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=php_os">OS</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=sdesc">Summary</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=assign">Assigned</a></th>
  </tr>
 <?php
 		if ($warnings) display_warnings($warnings);
