@@ -24,8 +24,7 @@
 <!ELEMENT subchannels (subchannel+)>
 
 <!ELEMENT subchannel (summary,deps?)>
-<!ATTLIST subchannel name   CDATA #REQUIRED
-                     server CDATA #IMPLIED>
+<!ATTLIST subchannel name   CDATA #REQUIRED>
 
 <!ELEMENT deps (dep+)>
 
