@@ -71,5 +71,7 @@ such as /usr/local/bin.</p>
 this new standard.</p>
 
 <?php
+
+echo make_link('/group/', 'Back');
+
 response_footer();
-?>

@@ -74,8 +74,7 @@ between this document and its successor.</p>
 </ol>
 
 <?php
-echo make_link("/group/", "Back");
+
+echo make_link('/group/', 'Back');
 
 response_footer();
-?>
-

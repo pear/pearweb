@@ -70,5 +70,7 @@ PECL folks rely on our infrastructure for their website and distribution
 process, which is on our best interest to get more feedback and help.</p>
 
 <?php
+
+echo make_link('/group/', 'Back');
+
 response_footer();
-?>

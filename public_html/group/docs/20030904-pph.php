@@ -111,8 +111,7 @@ rights management and counting aspects.</p>
 </ol>
 
 <?php
-echo make_link("/group/", "Back");
+
+echo make_link('/group/', 'Back');
 
 response_footer();
-?>
-

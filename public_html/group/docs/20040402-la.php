@@ -58,8 +58,7 @@ the future using the RFC proposal methodology.</p>
 licenses, do not need to follow this regulation.</p>
 
 <?php
-echo make_link("/group/", "Back");
+
+echo make_link('/group/', 'Back');
 
 response_footer();
-?>
-

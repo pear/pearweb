@@ -64,7 +64,8 @@ version 1 simply says 'pear install Foo' - if the system would then install
 with the above mentioned exceptions. The names of these new packages are
 derived using one of the above mentioned naming conventions.</p>
 
-
 <?php
+
+echo make_link('/group/', 'Back');
+
 response_footer();
-?>

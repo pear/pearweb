@@ -71,8 +71,7 @@ Please refer to the new document for up-to-date information.</p>
 </ol>
 
 <?php
-echo make_link("/group/", "Back");
+
+echo make_link('/group/', 'Back');
 
 response_footer();
-?>
-

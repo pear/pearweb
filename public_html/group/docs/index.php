@@ -18,5 +18,4 @@
    $Id$
 */
 
-localRedirect("/group/");
-?>
+localRedirect('/group/');

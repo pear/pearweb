@@ -188,5 +188,7 @@ functionality validate the version name based on relevant metadata set
 in the package.xml and by comparing the package API with prior versions.</p>
 
 <?php
+
+echo make_link('/group/', 'Back');
+
 response_footer();
-?>

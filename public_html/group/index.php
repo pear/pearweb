@@ -56,6 +56,5 @@ contact with the members, you can write to
 </ul>
 
 <?php
-response_footer();
-?>
 
+response_footer();
