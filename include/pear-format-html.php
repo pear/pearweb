@@ -352,16 +352,18 @@ function error_handler($errobj, $title = 'Error')
 
 class BorderBox {
     function BorderBox($title, $width = '90%', $indent = '', $cols = 1,
-                       $open = false) {
-        $this->title = $title;
-        $this->width = $width;
+                       $open = false) 
+    {
+        $this->title  = $title;
+        $this->width  = $width;
         $this->indent = $indent;
-        $this->cols = $cols;
-        $this->open = $open;
+        $this->cols   = $cols;
+        $this->open   = $open;
         $this->start();
     }
 
-    function start() {
+    function start() 
+    {
         $title = $this->title;
         if (is_array($title)) {
             $title = implode('</th><th>', $title);
@@ -385,7 +387,8 @@ class BorderBox {
         }
     }
 
-    function end() {
+    function end() 
+    {
         $i = $this->indent;
         if (!$this->open) {
             print "$i     </td>\n";
@@ -398,7 +401,8 @@ class BorderBox {
         print "<!-- border box ends -->\n";
     }
 
-    function horizHeadRow($heading /* ... */) {
+    function horizHeadRow($heading /* ... */) 
+    {
         $i = $this->indent;
         print "$i    <tr>\n";
         print "$i     <th style=\"vertical-align: top; background-color: #CCCCCC;\">$heading</th>\n";
@@ -416,7 +420,8 @@ class BorderBox {
 
     }
 
-    function headRow() {
+    function headRow() 
+    {
         $i = $this->indent;
         print "$i    <tr>\n";
         for ($j = 0; $j < $this->cols; $j++) {
@@ -432,7 +437,8 @@ class BorderBox {
         print "$i    </tr>\n";
     }
 
-    function plainRow(/* ... */) {
+    function plainRow(/* ... */) 
+    {
         $i = $this->indent;
         print "$i    <tr>\n";
         for ($j = 0; $j < $this->cols; $j++) {
@@ -448,7 +454,8 @@ class BorderBox {
         print "$i    </tr>\n";
     }
 
-    function fullRow($text) {
+    function fullRow($text) 
+    {
         $i = $this->indent;
         print "$i    <tr>\n";
         print "$i     <td style=\"background-color: #E8E8E8;\"";
