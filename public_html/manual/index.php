@@ -54,11 +54,11 @@ $formats = array(
     "pear_manual_{LANG}.zip"         => array("Many HTML files",     "zip"),
     "pear_manual_{LANG}.tar.bz2"     => array("Many HTML files",     "tar.bz2"),
     "pear_manual_{LANG}.html.gz"     => array("One big HTML file",   "html.gz"),
-    // "chm/pear_manual_{LANG}.chm"     => array("Windows HTML help",    "chm"),
+    "chm/pear_manual_{LANG}.chm"     => array("Windows HTML help",    "chm"),
     "pear_manual_{LANG}.txt.gz"      => array("Plain text file",     "txt.gz")
 );
 
-$bb = new BorderBox("Download documentation", "70%", "", 3, true);
+$bb = new BorderBox("Download documentation", "70%", "", 2, true);
 $bb->HeadRow("Type", "Format", "Size");
 
 foreach ($doc_languages as $domain => $name) {
@@ -68,8 +68,7 @@ foreach ($doc_languages as $domain => $name) {
         $filename = str_replace("{LANG}", $domain, $filename);
 
         $link = make_link("/distributions/manual/" . $filename, $information[0]);
-        $bb->plainRow($link, $information[1],
-                      (int) (@filesize("../distributions/manual/" . $filename)/1024) . "KB");
+        $bb->plainRow($link, $information[1]);
     }
 
 }
