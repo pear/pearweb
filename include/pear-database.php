@@ -541,7 +541,7 @@ class package
                 case 'le' :
                     $max = $dependency['version'];
                 break;
-                case 'not' :
+                case 'ne' :
                     $exclude = array($dependency['version']);
                 break;
             }
@@ -1632,6 +1632,14 @@ class release
         global $dbh, $auth_user, $_PEAR_Common_dependency_types,
                $_PEAR_Common_dependency_relations;
 
+        require_once 'Archive/Tar.php';
+        $tar = &new Archive_Tar($file);
+        if (($packagexml = $tar->extractInString('package2.xml')) ||
+              ($packagexml = $tar->extractInString('package.xml'))) {
+            // success
+        } else {
+            return PEAR::raiseError('Archive uploaded does not appear to contain a package.xml!');
+        }
         // Update releases table
         $query = "INSERT INTO releases (id,package,version,state,doneby,".
              "releasedate,releasenotes) VALUES(?,?,?,?,?,NOW(),?)";
@@ -1641,12 +1649,12 @@ class release
                                   $auth_user->handle, $relnotes));
         // Update files table
         $query = "INSERT INTO files ".
-             "(id,package,release,md5sum,basename,fullpath) ".
-             "VALUES(?,?,?,?,?,?)";
+             "(id,package,release,md5sum,basename,fullpath,packagexml) ".
+             "VALUES(?,?,?,?,?,?,?)";
         $sth = $dbh->prepare($query);
         $file_id = $dbh->nextId("files");
         $ok = $dbh->execute($sth, array($file_id, $package_id, $release_id,
-                                        $md5sum, basename($file), $file));
+                                        $md5sum, basename($file), $file, $packagexml));
         /*
          * Code duplication with deps error
          * Should be droped soon or later using transaction
@@ -2725,7 +2733,7 @@ class channel
         $cache->remove('channel.listAll', array());
     }
 
-    // {{{ proto array   channel::listAll() API 1.0
+    // {{{ proto array channel::listAll() API 1.0
     /**
      * List all registered channels
      * @return array Format: array(array(channel server), array(channel server),... )
