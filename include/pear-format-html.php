@@ -317,7 +317,7 @@ function error_handler($errobj, $title = "Error")
     }
     response_header($title);
     $report = "Error: $msg";
-    if ($info) {
+    if ((DEVBOX || !empty($_GET['__debug'])) && $info) {
         $report .= ": $info";
     }
     print "<span class=\"error\">$report</span><br />\n";

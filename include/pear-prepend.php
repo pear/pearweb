@@ -19,8 +19,10 @@
 */
 
 if ($_SERVER['SERVER_NAME'] != 'pear.php.net') {
+    error_reporting(E_ALL);
     define('DEVBOX', true);
 } else {
+    error_reporting(E_ALL ^ E_NOTICE);
     define('DEVBOX', false);
 }
 
@@ -35,8 +37,6 @@ require_once "pear-database.php";
 if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
     require_once "pear-manual.php";
 }
-
-error_reporting(E_ALL);
 
 if (empty($format)) {
     if (basename($_SERVER['PHP_SELF']) == "xmlrpc.php") {
