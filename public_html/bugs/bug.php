@@ -309,7 +309,7 @@ else {
     if ($user && $pw && verify_password($user,stripslashes($pw))) {
         if (!$in) {?>
 <div class="explain">
-Welcome back, <?php echo $user?>! (Not <?php echo $user?>? <a href="logout.php">Log out.</a>)
+Welcome back, <?php echo $user?>! (Not <?php echo $user?>? <a href="/?logout=1">Log out.</a>)
 </div>
 <?php
         }
