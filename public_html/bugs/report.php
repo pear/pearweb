@@ -192,7 +192,7 @@ you can scroll down and click the submit button to really enter the details into
     }
 }
 if (!package_exists($package)) {
-    $errors[] = 'Package "' . $package . '" does not exist.';
+    $errors[] = 'Package &quot;' . $package . '&quot; does not exist.';
     response_header("Report - Invalid bug type");
     display_errors($errors);
 } else {
