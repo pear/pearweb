@@ -289,7 +289,7 @@ statistics below.
     <?php
 }
 
-show_bugs_menu($bug['package_name']);
+show_bugs_menu(txfield('package_name'));
 
 ?>
 
