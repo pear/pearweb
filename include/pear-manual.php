@@ -238,6 +238,13 @@ function navigationBar($title, $id, $loc)
         echo "\n";
         echo '    </tr>';
         echo "\n";
+        echo '    <tr><td colspan="2" class="man-nav_bug" align="left">';
+        echo "\n";
+        echo '    Do you think that something on this page is wrong?';
+        echo '    Please <a href="/bugs/report.php?package=Documentation">file a bug report</a>.';
+        echo "\n";
+        echo '   </td></tr>';
+        echo "\n";
     }
 
     echo '   </table>';

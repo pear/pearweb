@@ -57,7 +57,8 @@ td.man-nav_next {
 
 td.man-nav_view,
 td.man-nav_updated,
-td.man-nav_download {
+td.man-nav_download,
+td.man-nav_bug {
     font-size: 75%;
 }
 
