@@ -385,12 +385,12 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
 }
 
 function changed($n) {
-	return $GLOBALS['in'][$n]
-	    && stripslashes(trim($GLOBALS['in'][$n])) != trim($GLOBALS['bug'][$n]);
+	return $_POST['in'][$n]
+	    && stripslashes(trim($_POST['in'][$n])) != trim($GLOBALS['bug'][$n]);
 }
 
 function field($n) {
-	return oneof(clean($GLOBALS['in'][$n]),
+	return oneof(clean($_POST['in'][$n]),
 	             htmlspecialchars($GLOBALS['bug'][$n]));
 }
 
@@ -403,7 +403,7 @@ function format_date($date) {
 
 function txfield($n)
 {
-	return oneof(rinse($GLOBALS['in'][$n]),
+	return oneof(rinse($_POST['in'][$n]),
 	             $GLOBALS['bug'][$n]);
 }
 
