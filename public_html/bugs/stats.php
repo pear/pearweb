@@ -137,6 +137,7 @@ if ($total > 0) {
     reset($package_name);
 }
 
+
 /*
  * Fetch list of all categories
  */
@@ -188,17 +189,17 @@ echo display_stat_header($total, true);
 
 echo '<tr><td class="bug_head"><strong>All</strong></td>
     <td class="bug_bg1">' . $total . '</td>
-    <td class="bug_bg2">'. bugstats('closed',      'all') .'&nbsp;</td>
-    <td class="bug_bg1">'. bugstats('open',        'all') .'&nbsp;</td>
-    <td class="bug_bg2">'. bugstats('critical',    'all') .'&nbsp;</td>
-    <td class="bug_bg1">'. bugstats('verified',    'all') .'&nbsp;</td>
-    <td class="bug_bg2">'. bugstats('analyzed',    'all') .'&nbsp;</td>
-    <td class="bug_bg1">'. bugstats('assigned',    'all') .'&nbsp;</td>
-    <td class="bug_bg2">'. bugstats('duplicate',   'all') .'&nbsp;</td>
-    <td class="bug_bg1">'. bugstats('feedback',    'all') .'&nbsp;</td>
-    <td class="bug_bg2">'. bugstats('no feedback', 'all') .'&nbsp;</td>
-    <td class="bug_bg1">'. bugstats('bogus',       'all') .'&nbsp;</td>
-    <td class="bug_bg2">'. bugstats('suspended',   'all') .'&nbsp;</td>
+    <td class="bug_bg2">'. bugstats('closed',      'all') .'</td>
+    <td class="bug_bg1">'. bugstats('open',        'all') .'</td>
+    <td class="bug_bg2">'. bugstats('critical',    'all') .'</td>
+    <td class="bug_bg1">'. bugstats('verified',    'all') .'</td>
+    <td class="bug_bg2">'. bugstats('analyzed',    'all') .'</td>
+    <td class="bug_bg1">'. bugstats('assigned',    'all') .'</td>
+    <td class="bug_bg2">'. bugstats('duplicate',   'all') .'</td>
+    <td class="bug_bg1">'. bugstats('feedback',    'all') .'</td>
+    <td class="bug_bg2">'. bugstats('no feedback', 'all') .'</td>
+    <td class="bug_bg1">'. bugstats('bogus',       'all') .'</td>
+    <td class="bug_bg2">'. bugstats('suspended',   'all') .'</td>
     </tr>' . "\n";
 
 $stat_row = 1;
@@ -211,17 +212,17 @@ foreach ($package_name[$sort_by] as $name => $value) {
         echo '<tr><td class="bug_head">
             <strong>' . package_link($name) . '</strong></td>
             <td class="bug_bg1">'. $package_name['all'][$name]['total'] .'</td>
-            <td class="bug_bg2">'. bugstats('closed',      $name) .'&nbsp;</td>
-            <td class="bug_bg1">'. bugstats('open',        $name) .'&nbsp;</td>
-            <td class="bug_bg2">'. bugstats('critical',    $name) .'&nbsp;</td>
-            <td class="bug_bg1">'. bugstats('verified',    $name) .'&nbsp;</td>
-            <td class="bug_bg2">'. bugstats('analyzed',    $name) .'&nbsp;</td>
-            <td class="bug_bg1">'. bugstats('assigned',    $name) .'&nbsp;</td>
-            <td class="bug_bg2">'. bugstats('duplicate',   $name) .'&nbsp;</td>
-            <td class="bug_bg1">'. bugstats('feedback',    $name) .'&nbsp;</td>
-            <td class="bug_bg2">'. bugstats('no feedback', $name) .'&nbsp;</td>
-            <td class="bug_bg1">'. bugstats('bogus',       $name) .'&nbsp;</td>
-            <td class="bug_bg2">'. bugstats('suspended',   $name) .'&nbsp;</td>
+            <td class="bug_bg2">'. bugstats('closed',      $name) .'</td>
+            <td class="bug_bg1">'. bugstats('open',        $name) .'</td>
+            <td class="bug_bg2">'. bugstats('critical',    $name) .'</td>
+            <td class="bug_bg1">'. bugstats('verified',    $name) .'</td>
+            <td class="bug_bg2">'. bugstats('analyzed',    $name) .'</td>
+            <td class="bug_bg1">'. bugstats('assigned',    $name) .'</td>
+            <td class="bug_bg2">'. bugstats('duplicate',   $name) .'</td>
+            <td class="bug_bg1">'. bugstats('feedback',    $name) .'</td>
+            <td class="bug_bg2">'. bugstats('no feedback', $name) .'</td>
+            <td class="bug_bg1">'. bugstats('bogus',       $name) .'</td>
+            <td class="bug_bg2">'. bugstats('suspended',   $name) .'</td>
             </tr>' . "\n";
     }
 }
@@ -241,7 +242,13 @@ function bugstats($status, $name)
     global $package_name;
 
     if ($package_name[$status][$name] > 0) {
-        return '<a href="search.php?cmd=display&amp;status=' . ucfirst($status) . ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) . '&amp;by=Any&amp;limit=10'.$string.'">' . $package_name[$status][$name] . "</a>\n";
+        return '<a href="search.php?cmd=display&amp;status=' .
+               ucfirst($status) .
+               ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) .
+               '&amp;by=Any&amp;limit=10'.$string.'">' .
+               $package_name[$status][$name] . "</a>\n";
+    } else {
+        return '&nbsp';
     }
 }
 
@@ -270,7 +277,8 @@ function package_link($name)
     global $pseudo_pkgs;
 
     if (!in_array($name, $pseudo_pkgs)) {
-        return '<a href="/package/'.$name.'" style="color: black;">'.$name.'</a>';
+        return '<a href="/package/' . $name . '" style="color: black;">' .
+               $name.'</a>';
     } else {
         return $name;
     }
