@@ -12,7 +12,7 @@
     date_updated_released_on     = false;
     date_updated_released_before = false;
     date_updated_released_since  = false;
-    
+
     released_on_disabled     = false;
     released_before_disabled = false;
     released_since_disabled  = false;
@@ -31,22 +31,22 @@
             date_updated_released_on     = false;
             date_updated_released_before = false;
             date_updated_released_since  = false;
-    
+
             /**
             * Re-enable date dropdowns
             */
             searchForm.released_before_year.disabled  = false;
             searchForm.released_before_month.disabled = false;
             searchForm.released_before_day.disabled   = false;
-    
+
             searchForm.released_since_year.disabled  = false;
             searchForm.released_since_month.disabled = false;
             searchForm.released_since_day.disabled   = false;
-    
+
             searchForm.released_on_year.disabled  = false;
             searchForm.released_on_month.disabled = false;
             searchForm.released_on_day.disabled   = false;
-    
+
             released_on_disabled     = false;
             released_before_disabled = false;
             released_since_disabled  = false;
@@ -110,7 +110,7 @@
             if (<?=(int)$set_released_before?>) {
                 setDateFromCalendar_released_before('<?=$_GET['released_before_day']?>', '<?=$_GET['released_before_month']?>', '<?=$_GET['released_before_year']?>');
             }
-    
+
             if (<?=(int)$set_released_since?>) {
                 setDateFromCalendar_released_since('<?=$_GET['released_since_day']?>', '<?=$_GET['released_since_month']?>', '<?=$_GET['released_since_year']?>');
             }
@@ -118,7 +118,7 @@
     }
 
     /**
-    * Function to disable date dropdowns when the 
+    * Function to disable date dropdowns when the
     * others are selected.
     */
     function disableDateOptions(prefix)
@@ -210,14 +210,34 @@
             alert('Cannot combine Released On and Released Before or Since!');
             return false;
         }
-        
+
         document.forms['search_form'].submitButton.value    = 'Sending request...';
         document.forms['search_form'].submitButton.disabled = true;
+    }
+
+    function addEngine()
+    {
+        if ((typeof window.sidebar == "object") && (typeof window.sidebar.addSearchEngine == "function"))
+        {
+            window.sidebar.addSearchEngine(
+                "http://pear.php.net/pear.src",            /* engine URL */
+                "http://pear.php.net/gifs/pear_item.gif",  /* icon URL */
+                "PEAR",                                    /* engine name */
+                "Web" );                                   /* category name */
+        }
+        else
+        {
+            alert("Mozilla M15 or later is required to add a search engine.");
+        }
     }
 
 // -->
 </script>
 
+<p>
+<small>Add PEAR Package Search to Mozilla Search
+ tab <a href="javascript:addEngine()">here</a>!</small>
+</p>
 
 <!-- This class prints stuff as part of it's constructor. -->
 <?$bb = new Borderbox("Search options")?>
@@ -293,7 +313,7 @@
             </script>
         </td>
     </tr>
-    
+
     <tr>
         <td>Before:</td>
         <td colspan="2">
@@ -317,7 +337,7 @@
             </script>
         </td>
     </tr>
-    
+
     <tr>
         <td>Since:</td>
         <td colspan="2">
@@ -341,8 +361,8 @@
             </script>
         </td>
     </tr>
-    
-    
+
+
     <tr>
         <td>&nbsp;</td>
         <td colspan="2">
@@ -366,15 +386,19 @@
 <?if($numrows):?>
 <br /><br />
     <?$bb = new Borderbox($title_html)?>
-<table border="0" cellpadding="2" cellspacing="2">
 
+<table border="0" cellpadding="2" cellspacing="2">
+<!-- resultListStart -->
     <?foreach($search_results as $row):?>
         <tr>
-            <td><a href="/package/<?=$row['raw_name']?>"><?=$row['name']?></a></td>
+            <td>
+                <!-- resultItemStart --><a href="/package/<?=$row['raw_name']?>"><?=$row['name']?></a><!-- resultItemEnd -->
+            </td>
             <td><?=$row['summary']?></td>
         </tr>
-    <?endforeach?>
 
+    <?endforeach?>
+<!-- resultListEnd -->
 </table>
 
     <?$bb->end()?>

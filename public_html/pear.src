@@ -1,0 +1,23 @@
+# PEAR Web Mozilla Search Tab plug-in
+# Tomas V.V.Cox <cox idecnet.com>
+
+<search
+   name="PEAR"
+   description="PEAR Package Search"
+   method="GET"
+   action="http://pear.php.net/package-search.php"
+   update="http://pear.php.net/pear.src"
+   updateIcon="http://pear.php.net/gifs/pear_item.gif"
+   updateCheckDays=3
+>
+
+<input name="pkg_name" user>
+
+<interpret
+    browserResultType="result"
+    resultListStart="<!-- resultListStart -->"
+    resultListEnd="<!-- resultListEnd -->"
+    resultItemStart="<!-- resultItemStart -->"
+    resultItemEnd="<!-- resultItemEnd -->"
+>
+</search>
