@@ -150,21 +150,6 @@ if (isset($_SERVER['PEAR_CVS'])) {
     define('PEAR_CVS', '/var/lib/pear/patches/cvs/');
 }
 
-if (isset($_SERVER['PHP_CVS_REPO_DIR'])) {
-    /**
-     * @ignore
-     */
-    define('PHP_CVS_REPO_DIR', $_SERVER['PHP_CVS_REPO_DIR']);
-} else {
-    /**
-     * The CVS repository directory
-     *
-     * To override default, set the value in $_SERVER['PHP_CVS_REPO_DIR']
-     * before this file is included.
-     */
-    define('PHP_CVS_REPO_DIR', '/repository/pear'); 
-}
-
 /**
  * A preg regular expression for validating user names
  */
