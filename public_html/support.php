@@ -178,7 +178,7 @@ ezmlm <a href="http://www.ezmlm.org/ezman-0.32/ezman1.html">here</a>.
 
 <p>
 If you have questions concering this website, you can contact
-<a href="mailto:pear-webmaster@php.net">pear-webmaster@php.net</a>.
+<a href="mailto:pear-webmaster@lists.php.net">pear-webmaster@lists.php.net</a>.
 </p>
 
 <p>
