@@ -21,7 +21,6 @@
 */
 
 require_once 'DB/storage.php';
-require_once 'PEAR/Common.php';
 require_once 'HTTP.php';
 
 // {{{ validate()
@@ -1257,6 +1256,8 @@ class maintainer
      */
     function isValidRole($role)
     {
+        require_once "PEAR/Common.php";
+
         static $roles;
         if (empty($roles)) {
             $roles = PEAR_Common::getUserRoles();
@@ -1619,6 +1620,7 @@ class release
      */
     function confirmUpload($package, $version, $state, $relnotes, $md5sum, $package_id, $file)
     {
+        require_once "PEAR/Common.php";
 
         global $dbh, $auth_user, $_PEAR_Common_dependency_types,
                $_PEAR_Common_dependency_relations;
