@@ -315,7 +315,7 @@ if (!package_exists($_REQUEST['package'])) {
 <form method="post"
  action="<?php echo $_SERVER['PHP_SELF'] . '?package='
  . $_REQUEST['package']; ?>">
-<table class="form-holder" cellspacing="1" border="1">
+<table class="form-holder" cellspacing="1">
  <tr>
   <th class="form-label_left">
    Y<span class="accesskey">o</span>ur email address:
