@@ -33,9 +33,9 @@ function reloadMe()
     var newLocation = '<?php echo $_SERVER['PHP_SELF']; ?>?'
                       + 'cid='
                       + document.forms[1].cid.value
-                      + '&pid='
+                      + '&amp;pid='
                       + document.forms[1].pid.value
-                      + '&rid='
+                      + '&amp;rid='
                       + document.forms[1].rid.value;
 
     document.location.href = newLocation;
@@ -68,9 +68,9 @@ echo'   <select name="cid" onchange="javascript:reloadMe();">'."\n";
 echo'    <option>Select category ...</option>'."\n";
 foreach (category::listAll() as $value) {
     if (isset($_GET['cid']) && $_GET['cid'] == $value['id']) {
-        echo "    <option value=\"" . $value['id'] . "\" selected>" . $value['name'] . "</option>\n";
+        echo '    <option value="' . $value['id'] . '" selected="selected">' . $value['name'] . "</option>\n";
     } else {
-        echo "    <option value=\"" . $value['id'] . "\">" . $value['name'] . "</option>\n";
+        echo '    <option value="' . $value['id'] . '">' . $value['name'] . "</option>\n";
     }
 }
 
@@ -84,9 +84,9 @@ if (isset($_GET['cid']) && $_GET['cid'] != "") {
 
     foreach ($packages as $value => $name) {
         if (isset($_GET['pid']) && $_GET['pid'] == $value) {
-            echo "    <option value=\"" . $value . "\" selected>" . $name . "</option>\n";
+            echo '    <option value="' . $value . '" selected="selected">' . $name . "</option>\n";
         } else {
-            echo "    <option value=\"" . $value . "\">" . $name . "</option>\n";
+            echo '    <option value="' . $value . '">' . $name . "</option>\n";
         }
     }
 
@@ -108,9 +108,9 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 
     foreach ($rows as $row) {
         if (isset($_GET['rid']) && $_GET['rid'] == $row['id']) {
-            echo "    <option value=\"" . $row['id'] . "\" selected>" . $row['version'] . "</option>\n";
+            echo '    <option value="' . $row['id'] . '" selected="selected">' . $row['version'] . "</option>\n";
         } else {
-            echo "    <option value=\"" . $row['id'] . "\">" . $row['version'] . "</option>\n";
+            echo '    <option value="' . $row['id'] . '">' . $row['version'] . "</option>\n";
         }
     }
 
@@ -135,10 +135,10 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     $info = package::info($_GET['pid'],null,false);
 
     if (isset($info['releases']) && sizeof($info['releases'])>0) {
-        echo "<h2>Statistics for package \"<a href=\"/package/" . $info['name'] . "\">" . $info['name'] . "</a>\"</h2>\n";
+        echo '<h2>Statistics for package &quot;<a href="/package/' . $info['name'] . '">' . $info['name'] . "</a>&quot;</h2>\n";
         $bb = new Borderbox("General statistics");
         echo "Number of releases: <strong>" . count($info['releases']) . "</strong><br />\n";
-        echo "Total downloads: <strong>" . number_format(statistics::package($_GET['pid']), 0, '.', ',') . "</strong><br />\n";
+        echo 'Total downloads: <strong>' . number_format(statistics::package($_GET['pid']), 0, '.', ',') . "</strong><br />\n";
         $bb->end();
     } else {
         $bb = new Borderbox('General statistics');
@@ -170,17 +170,17 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
         echo "</table>\n";
         $bb->end();
 
-        /**
+        /*
          * Print the graph
          */
-        printf('<br /><img src="package-stats-graph.php?pid=%s&releases=%s_339900" name="stats_graph" width="543" height="200" alt="" />',
+        printf('<br /><img src="package-stats-graph.php?pid=%s&amp;releases=%s_339900" name="stats_graph" width="543" height="200" alt="" />',
                $_GET['pid'],
                isset($_GET['rid']) ? (int)$_GET['rid'] : ''
                );
 
-    /**
-    * Print the graph control stuff
-    */
+    /*
+     * Print the graph control stuff
+     */
     $releases = $dbh->getAll('SELECT id, version FROM releases WHERE package = ' . $_GET['pid'], DB_FETCHMODE_ASSOC);
     ?>
 <br /><br />
@@ -235,7 +235,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
                 }
             }
             graphForm.update.value = 'Updating...';
-            document.images['stats_graph'].src = 'package-stats-graph.php?pid=<?=$_GET['pid']?>&releases=' + releases_qs;
+            document.images['stats_graph'].src = 'package-stats-graph.php?pid=<?=$_GET['pid']?>&amp;releases=' + releases_qs;
             graphForm.update.value = 'Update graph';
 
         } else {
@@ -260,7 +260,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     <tr>
         <td valign="top">
             Release:
-            <select align="absmiddle" name="releases">
+            <select name="releases">
                 <option value="">Select...</option>
                 <option value="0">All</option>
                 <?foreach($releases as $r):?>
@@ -268,7 +268,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
                 <?endforeach?>
             </select>
             Colour:
-            <select align="absmiddle" name="colours">
+            <select name="colours">
                 <option>Select...</option>
                 <option value="339900">Green</option>
                 <option value="dd0000">Red</option>
@@ -278,7 +278,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
             </select>
         </td>
         <td align="right">
-            <input type="submit" style="width: 100px" name="add" value="Add" onclick="addGraphItem(); return false;">
+            <input type="submit" style="width: 100px" name="add" value="Add" onclick="addGraphItem(); return false;" />
             <input type="submit" style="width: 100px" name="remove" value="Remove" onclick="removeGraphItem(); return false" />
         </td>
     </tr>
@@ -293,9 +293,9 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
         <?php
     }
 
-/**
-* Category based statistics
-*/
+/*
+ * Category based statistics
+ */
 } elseif (!empty($_GET['cid'])) {
 
 	$category_name     = $dbh->getOne(sprintf("SELECT name FROM categories WHERE id = %d", $_GET['cid']));
@@ -309,9 +309,9 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
                      $_GET['cid']
                      );
 
-/**
-* Global stats
-*/
+/*
+ * Global stats
+ */
 } else {
 
 	$total_packages    = number_format($dbh->getOne('SELECT COUNT(DISTINCT id) FROM packages'), 0, '.', ',');
@@ -323,12 +323,12 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 
 }
 
-/**
-* Display this for Global and Category stats pages only
-*/
+/*
+ * Display this for Global and Category stats pages only
+ */
 if (@!$_GET['pid']) {
 	echo '<br />';
-	$bb = new BorderBox(!empty($_GET['cid']) ? 'Category statistics for: <i><a href="packages.php?catpid='.$_GET['cid'].'&catname='.str_replace(' ', '+', $category_name).'">' . $category_name . '</a></i>' : 'Global statistics');
+	$bb = new BorderBox(!empty($_GET['cid']) ? 'Category statistics for: <i><a href="packages.php?catpid='.$_GET['cid'].'&amp;catname='.str_replace(' ', '+', $category_name).'">' . $category_name . '</a></i>' : 'Global statistics');
 	?>
 <table border="0" width="100%">
 	<tr>
@@ -382,7 +382,7 @@ if (@!$_GET['pid']) {
 	    } else {
 	        $lastPackage = $row['package'];
 	        $row['package'] = '<a href="/package/' .
-	                            $row['package'] . "\">" .
+	                            $row['package'] . '">' .
 	                            $row['package'] . "</a>\n";
 	    }
 
