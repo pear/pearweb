@@ -34,7 +34,8 @@ $GLOBALS['docu_menu'] = array(
     '/manual/en/about-pear.php' => 'About PEAR',
     '/manual/index.php'    => 'Manual',
     '/manual/en/faq.php'   => 'FAQ',
-    '/support.php'         => 'Support'
+    '/support.php'         => 'Support',
+    '/group/'              => 'The PEAR Group'
 );
 
 $GLOBALS['downloads_menu'] = array(
