@@ -290,7 +290,7 @@ if (empty($action)) {
     foreach ($pkg['releases'] as $release_version => $info) {
         print " <tr>\n";
 
-        if (($i++ == 0 && empty($version)) || ($release_version == $version)) {
+        if (($i++ == 0 && empty($version)) || $release_version === $version) {
             // Detailed view
 
             print '<td class="textcell">' . $release_version . '</td>';
