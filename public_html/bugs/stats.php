@@ -125,11 +125,11 @@ if ($total > 0) {
     if (!isset($sort_by)) {
         $sort_by = 'open';
     }
-    if (!isset($_GET['rev'])) {
-        $rev = 0;
+    if (!isset($rev)) {
+        $rev = 1;
     }
 
-    if ($_GET['rev'] == 1) {
+    if ($rev == 1) {
         arsort($package_name[$sort_by]);
     } else {
         asort($package_name[$sort_by]);
