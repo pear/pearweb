@@ -36,7 +36,7 @@ feeds available for your viewing pleasure:</p>
       <li>For all other categories, the same scheme as shown above applies</li>
     </ul>
   </li>
-  <li>Pakcgae feeds per package:
+  <li>Package feeds per package:
     <ul>
       <li><?php echo make_link('/feeds/pkg_auth.rss'); ?>: Auth</li>
       <li><?php echo make_link('/feeds/pkg_mail_mime.rss'); ?>: Mail_Mime</li>
