@@ -76,6 +76,7 @@ do {
         response_header("Package Registered");
         print "The package `" . $_POST['name'] . "' has been registered in PEAR.<br />\n";
         print "You have been assigned as lead developer.<br />\n";
+        print "The " . make_link("/group/", "PEAR Group") . " has been notified and the package will be approved soon.<br />\n";
     }
 } while (false);
 

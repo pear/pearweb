@@ -42,7 +42,7 @@ $pinfo_url = '/package/';
 // Check strictly
 $sql = "SELECT name
             FROM packages
-            WHERE name = ?";
+            WHERE approved = 1 AND name = ?";
 $name = $dbh->getOne($sql, array(basename($pkg)));
 if (!DB::isError($name) && !empty($name)) {
     localRedirect($pinfo_url . $name);
@@ -51,7 +51,7 @@ if (!DB::isError($name) && !empty($name)) {
 // Check less strictly if nothing has been found previously
 $sql = "SELECT p.id, p.name, p.summary
             FROM packages p
-            WHERE name LIKE ?
+            WHERE approved = 1 AND name LIKE ?
             ORDER BY p.name";
 $term = "%" . basename($pkg) . "%";
 $packages = $dbh->getAll($sql, array($term), DB_FETCHMODE_ASSOC);
