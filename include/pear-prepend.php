@@ -34,7 +34,7 @@ require_once "pear-config.php";
 require_once "pear-auth.php";
 require_once "pear-database.php";
 
-$encoding = "iso-8559-1";
+$encoding = "iso-8859-1";
 
 if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
     require_once "pear-manual.php";
