@@ -63,13 +63,16 @@ if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
     }
 
     $proposal->getLinks($dbh);
+    $id = $proposal->id;
 } else {
     response_header('PEPr :: Editor :: New Proposal');
     echo '<h1>New Package Proposal</h1>' . "\n";
+    $id = 0;
+    $proposal = null;
 }
 
 $form =& new HTML_QuickForm('proposal_edit', 'post',
-                            'pepr-proposal-edit.php?id=' . $proposal->id);
+                            'pepr-proposal-edit.php?id=' . $id);
 
 $categories = category::listAll();
 $mapCategories['RFC'] = 'RFC (No package category!)';
@@ -106,7 +109,7 @@ for ($i = 0; $i < $max; $i++) {
 
 $form->addElement('static', '', '', '<small>To add more links, fill out all link forms and hit save. To delete a link leave the URL field blank.</small>');
 
-if (isset($proposal) && ($proposal->getStatus() != 'draft')) {
+if ($proposal != null && ($proposal->getStatus() != 'draft')) {
     $form->addElement('static', '', '', '<strong>If you add any text to the Changelog comment textarea,<br />then a mail will be sent to pear-dev about this update.</strong>');
     $form->addElement('textarea', 'action_comment', 'Changelog comment:', array('cols' => 80, 'rows' => 10));
 }
@@ -115,7 +118,7 @@ if (isset($proposal) && ($proposal->getStatus() != 'draft')) {
 $form->addElement('submit', 'submit', 'Save');
 
 
-if (isset($proposal)) {
+if ($proposal != null) {
     $defaults = array('pkg_name'    => $proposal->pkg_name,
                       'pkg_license' => $proposal->pkg_license,
                       'pkg_describtion' => $proposal->pkg_describtion,
@@ -254,7 +257,7 @@ if (isset($_POST['submit'])) {
             $nextStage = 1;
         }
 
-        localRedirect("/pepr/pepr-proposal-edit.php?id={$proposal->id}&saved=1&next_stage=".@$nextStage);
+        localRedirect("/pepr/pepr-proposal-edit.php?id={$id}&saved=1&next_stage=".@$nextStage);
     } else {
         $pepr_form = $form->toArray();
         report_error($pepr_form['errors']);

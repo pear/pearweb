@@ -55,24 +55,29 @@ function display_pepr_nav(&$proposal)
                         ),
     );
 
-    if (isset($_COOKIE['PEAR_USER']) &&
-        $proposal->mayEdit($_COOKIE['PEAR_USER']))
-    {
-        $items['Edit'] = array(
-            'url'   => 'pepr-proposal-edit.php',
-            'title' => 'Edit this proposal'
-        );
-        $items['Delete'] = array(
-            'url'   => 'pepr-proposal-delete.php',
-            'title' => 'Delete this proposal'
-        );
+    if ($proposal == null) {
+        $id = 0;
+    } else {
+        $id = $proposal->id;
+        if (isset($_COOKIE['PEAR_USER']) &&
+            $proposal->mayEdit($_COOKIE['PEAR_USER']))
+        {
+            $items['Edit'] = array(
+                'url'   => 'pepr-proposal-edit.php',
+                'title' => 'Edit this proposal'
+            );
+            $items['Delete'] = array(
+                'url'   => 'pepr-proposal-delete.php',
+                'title' => 'Delete this proposal'
+            );
+        }
     }
 
     $page = basename($_SERVER['PHP_SELF']);
 
     echo '<div id="nav">' . "\n";
     foreach ($items as $title => $item) {
-        echo '<a href="' . $item['url'] . '?id=' . $proposal->id
+        echo '<a href="' . $item['url'] . '?id=' . $id
              . '" title="' . $item['title'] . '"';
         if ($page == $item['url']) {
             echo ' class="active"';
