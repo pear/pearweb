@@ -170,8 +170,8 @@ if (isset($cmd) && $cmd == "display") {
                 "&amp;boolean="    . BOOLEAN_SEARCH .
                 "&amp;author_email=". urlencode(stripslashes($author_email)) .
                 "&amp;bug_age=$bug_age&amp;by=$by&amp;order_by=$order_by&amp;direction=$direction&amp;phpver=$phpver&amp;limit=$limit&amp;assign=$assign";
-        if (isset($package_name) && count($package_name) == 1) {
-            show_bugs_menu($package_name[0]);
+        if (isset($_GET['package_name']) && count($_GET['package_name']) == 1) {
+            show_bugs_menu($_GET['package_name'][0]);
         }
 ?>
 <table align="center" border="0" cellspacing="2" width="95%">
