@@ -257,7 +257,8 @@ if (isset($_POST['submit'])) {
             $nextStage = 1;
         }
 
-        localRedirect("/pepr/pepr-proposal-edit.php?id={$id}&saved=1&next_stage=".@$nextStage);
+        localRedirect('/pepr/pepr-proposal-edit.php?id='
+                      . $proposal->id . '&saved=1&next_stage=' . @$nextStage);
     } else {
         $pepr_form = $form->toArray();
         report_error($pepr_form['errors']);
