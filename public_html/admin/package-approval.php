@@ -29,10 +29,10 @@ if (!empty($_GET['approve'])) {
     $query = "SELECT * FROM packages WHERE id = ?";
     $row = $dbh->getRow($query, array($_GET['approve']), DB_FETCHMODE_ASSOC);
 
-    $query = "UPDATE packages SET approved = 1 WHERE id = ?";
+    $query = "UPDATE packages SET approved = 1 WHERE id = ? AND approved = 0";
     $res = $dbh->query($query, array($_GET['approve']));
 
-    if (!PEAR::isError($res)) {
+    if (!PEAR::isError($res) && $dbh->affectedRows() > 0) {
         $mailtext = $auth_user->handle . " approved " . $row['name'];
         $header = "In-Reply-To: <approve-request-" . $row['id'] . "@pear.php.net>";
         mail("pear-group@php.net", "Package " . $row['name'] . " has been approved", $mailtext, $header, "-f pear-sys@php.net");
@@ -47,6 +47,10 @@ if (!empty($_GET['approve'])) {
         }
 
         echo "Successfully <b>approved package</b>.<br /><br />";
+    } else {
+        echo "There have been problems: Either an error occured while "
+            . "updating the database or the package has already been "
+            . "approved by someone else.<br /><br />";
     }
 }
 
