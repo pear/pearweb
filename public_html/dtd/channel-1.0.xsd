@@ -1,93 +1,95 @@
 <?xml version="1.0"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pear.php.net/channel-1.0" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:ch="http://pear.php.net/channel-1.0"
+           targetNamespace="http://pear.php.net/channel-1.0"
+           elementFormDefault="qualified">
 
-  <element name="channel">
-    <complexType>
-      <sequence>
-        <element name="name" type="string"/>
-        <element name="summary" type="string"/>
-        <element name="validatepackage" type="validatepackage" minOccurs="0"/>
-        <element name="servers" type="server"/>
-        <element name="subchannel" type="subchannel" minOccurs="0" maxOccurs="unbounded"/>
-      </sequence>
-      <attribute name="version" use="required">
-       <simpleType>
-        <restriction base="string">
-         <pattern value="[0-9]+\.[0-9]+"/>
-        </restriction>
-       </simpleType>
-      </attribute>
-    </complexType>
-  </element>
+  <xs:complexType name="function">
+   <xs:simpleContent>
+    <xs:extension base="xs:string">
+     <xs:attribute name="version" use="required">
+      <xs:simpleType>
+       <xs:restriction base="xs:string">
+        <xs:pattern value="[0-9]+\.[0-9]+"/>
+       </xs:restriction>
+      </xs:simpleType>
+     </xs:attribute>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
 
-  <complexType name="server">
-   <sequence>
-    <element name="primary" type="serverinternals"/>
-    <element name="mirror" type="serverinternals" minOccurs="0" maxOccurs="unbounded"/>
-   </sequence>
-  </complexType>
+  <xs:complexType name="functions">
+    <xs:sequence>
+      <xs:element name="function" type="ch:function" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
 
-  <complexType name="serverinternals">
-    <sequence>
-      <element name="xmlrpc" type="functions"/>
-      <element name="soap" type="functions" minOccurs="0"/>
-    </sequence>
-  <attribute name="host" use="required">
-   <simpleType>
-    <restriction base="string">
-     <pattern value="[A-Za-z][a-zA-Z0-9_\.]+"/>
-    </restriction>
-   </simpleType>
-  </attribute>
-  </complexType>
+  <xs:complexType name="serverinternals">
+   <xs:sequence>
+    <xs:element name="xmlrpc" type="ch:functions"/>
+    <xs:element name="soap" type="ch:functions" minOccurs="0"/>
+   </xs:sequence>
+   <xs:attribute name="host" use="required">
+     <xs:simpleType>
+     <xs:restriction base="xs:string">
+      <xs:pattern value="[A-Za-z][a-zA-Z0-9_\.]+"/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
+  </xs:complexType>
 
-  <complexType name="subchannel">
-    <sequence>
-      <element name="summary" type="string"/>
-      <element name="server" type="subchannelserver"/>
-    </sequence>
-    <attribute name="name" type="string" use="required"/>
-  </complexType>
+  <xs:complexType name="server">
+   <xs:sequence>
+    <xs:element name="primary" type="ch:serverinternals"/>
+    <xs:element name="mirror" type="ch:serverinternals" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
 
-  <complexType name="functions">
-    <sequence>
-      <element name="function" type="function" maxOccurs="unbounded"/>
-    </sequence>
-  </complexType>
+  <xs:complexType name="subchannelserver">
+   <xs:sequence>
+    <xs:element name="xmlrpc" type="ch:functions" minOccurs="0"/>
+    <xs:element name="soap" type="ch:functions" minOccurs="0"/>
+   </xs:sequence>
+  </xs:complexType>
 
-  <complexType name="function">
-   <simpleContent>
-    <extension base="string">
-     <attribute name="version" use="required">
-      <simpleType>
-       <restriction base="string">
-        <pattern value="[0-9]+\.[0-9]+"/>
-       </restriction>
-      </simpleType>
-     </attribute>
-    </extension>
-   </simpleContent>
-  </complexType>
+  <xs:complexType name="subchannel">
+   <xs:sequence>
+    <xs:element name="summary" type="xs:string"/>
+    <xs:element name="server" type="ch:subchannelserver"/>
+   </xs:sequence>
+   <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
 
-  <complexType name="subchannelserver">
-    <sequence>
-      <element name="xmlrpc" type="functions" minOccurs="0"/>
-      <element name="soap" type="functions" minOccurs="0"/>
-    </sequence>
-  </complexType>
+  <xs:complexType name="validatepackage">
+   <xs:simpleContent>
+    <xs:extension base="xs:string">
+     <xs:attribute name="version" use="required">
+      <xs:simpleType>
+       <xs:restriction base="xs:string">
+        <xs:pattern value="[0-9]+(\.[0-9]+)*([a-zA-Z]+[0-9]*)?"/>
+       </xs:restriction>
+      </xs:simpleType>
+     </xs:attribute>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
 
-  <complexType name="validatepackage">
-   <simpleContent>
-    <extension base="string">
-     <attribute name="version" use="required">
-      <simpleType>
-       <restriction base="string">
-        <pattern value="[0-9]+(\.[0-9]+)*([a-zA-Z]+[0-9]*)?"/>
-       </restriction>
-      </simpleType>
-     </attribute>
-    </extension>
-   </simpleContent>
-  </complexType>
-
-</schema>
+  <xs:element name="channel">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="name" type="xs:string"/>
+        <xs:element name="summary" type="xs:string"/>
+        <xs:element name="validatepackage" type="ch:validatepackage" minOccurs="0"/>
+        <xs:element name="servers" type="ch:server"/>
+        <xs:element name="subchannel" type="ch:subchannel" minOccurs="0" maxOccurs="unbounded"/>
+      </xs:sequence>
+      <xs:attribute name="version" use="required">
+       <xs:simpleType>
+        <xs:restriction base="xs:string">
+         <xs:pattern value="[0-9]+\.[0-9]+"/>
+        </xs:restriction>
+       </xs:simpleType>
+      </xs:attribute>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
