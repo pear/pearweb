@@ -92,7 +92,7 @@ $bug =& $dbh->getRow($query, array(), DB_FETCHMODE_ASSOC);
 
 if (!$bug) {
     response_header('No such bug.');
-    echo '<h1 class="error">No such bug #'.$id.'!</h1>';
+    echo '<div class="errors"><h1>No such bug #' . $id . '!</h1></div>';
     response_footer();
     exit;
 }

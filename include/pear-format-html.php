@@ -375,7 +375,7 @@ function report_error($error)
             $error .= " : $info";
         }
     }
-    print "<span style=\"color: #990000;\"><strong>$error</strong></span><br />\n";
+    print '<div class="errors">' . $error . "</div>\n";
 }
 
 function error_handler($errobj, $title = 'Error')
@@ -392,7 +392,7 @@ function error_handler($errobj, $title = 'Error')
     if ((DEVBOX || !empty($_GET['__debug'])) && $info) {
         $report .= ": $info";
     }
-    print "<span class=\"error\">$report</span><br />\n";
+    print '<div class="errors">' . $report. "</div>\n";
     response_footer();
     exit;
 }

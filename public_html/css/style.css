@@ -363,11 +363,6 @@ a.small {
     color: #FFFFFF;
 }
 
-.error {
-    font-weight: bold;
-    color: #900;
-}
-
 .tip {
     border: 1px solid #00c;
     color: #006;

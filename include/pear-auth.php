@@ -35,9 +35,11 @@ function auth_reject($realm = null, $message = null)
         report_error($message);
     } elseif ($format == 'html') {
         $GLOBALS['ONLOAD'] = "document.login.PEAR_USER.focus();";
-        report_error($message);
+        if ($message) {
+            report_error($message);
+        }
         print "<form name=\"login\" action=\"/login.php\" method=\"post\">\n";
-        print '<table class="form-holder" cellspacing="1" border="1">' . "\n";
+        print '<table class="form-holder" cellspacing="1">' . "\n";
         print " <tr>\n";
         print '  <th class="form-label_left">';
         print 'Use<span class="accesskey">r</span>name:</th>' . "\n";
