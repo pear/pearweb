@@ -1,6 +1,6 @@
 <?php
 
-require_once '../pear-database.php';
+require_once 'pear-database.php';
 
 require_once 'PEAR.php';
 require_once 'HTML/QuickForm.php';
