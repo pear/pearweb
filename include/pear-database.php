@@ -358,6 +358,7 @@ class package
 
         $event = $auth_user->handle . " (" . $auth_user->name . ") has added a new package " . $name;
         $mailtext = $event . "\n\nApprove: http://pear.php.net/admin/package-approval.php?approve=" . $id;
+        $mailtext .= "\nReject: http://pear.php.net/admin/package-approval.php?reject=" . $id;
 
         // {{{ Logging mechanism
         require_once "Damblan/Log.php";
