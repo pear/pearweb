@@ -57,7 +57,7 @@ $query = "SELECT id,package_name,email,passwd,sdesc,ldesc,"
 
 $bug =& $dbh->getRow($query, array(), DB_FETCHMODE_ASSOC);
 
-if (empty($bug) || !$bug) {
+if (!$bug) {
     response_header('No such bug.');
     echo '<h1 class="error">No such bug #'.$id.'!</h1>';
     response_footer();
