@@ -39,7 +39,9 @@
    <xsl:text>
  </xsl:text>
    <xsl:apply-templates select="release/license"/>
-   <xsl:apply-templates select="/package/license"/>
+   <xsl:if test="boolean(release/license)=false">
+    <xsl:apply-templates select="/package/license"/>
+   </xsl:if>
    <xsl:text>
  </xsl:text>
    <xsl:element name="stability">
