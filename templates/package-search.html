@@ -107,14 +107,14 @@ response_header('Package Search');
     function setReleaseDropdowns()
     {
         if (<?php echo (int)$set_released_on; ?>) {
-            setDateFromCalendar_released_on('<?php echo $_GET['released_on_day'] ?>', '<?php echo $_GET['released_on_month']; ?>', '<?php echo $_GET['released_on_year']; ?>');
+            setDateFromCalendar_released_on('<?php echo htmlspecialchars($_GET['released_on_day']) ?>', '<?php echo  htmlspecialchars($_GET['released_on_month']); ?>', '<?php  echo htmlspecialchars($_GET['released_on_year']); ?>');
         } else {
             if (<?php echo (int)$set_released_before?>) {
-                setDateFromCalendar_released_before('<?php echo $_GET['released_before_day']; ?>', '<?php echo $_GET['released_before_month']; ?>', '<?php echo $_GET['released_before_year']; ?>');
+                setDateFromCalendar_released_before('<?php echo htmlspecialchars($_GET['released_before_day']); ?>', '<?php echo htmlspecialchars($_GET['released_before_month']); ?>', '<?php echo htmlspecialchars($_GET['released_before_year']); ?>');
             }
 
             if (<?php echo (int)$set_released_since; ?>) {
-                setDateFromCalendar_released_since('<?php echo $_GET['released_since_day']; ?>', '<?php echo $_GET['released_since_month']; ?>', '<?php echo $_GET['released_since_year']; ?>');
+                setDateFromCalendar_released_since('<?php echo htmlspecialchars($_GET['released_since_day']); ?>', '<?php echo htmlspecialchars($_GET['released_since_month']); ?>', '<?php echo htmlspecialchars($_GET['released_since_year']); ?>');
             }
         }
     }
@@ -250,7 +250,7 @@ response_header('Package Search');
  <tr>
   <th class="form-label_left">Pa<span class="accesskey">c</span>kage Name:</th>
   <td class="form-input">
-   <?php $form->displayText('pkg_name', @$_GET['pkg_name'], 0, 0, 'accesskey="c"'); ?>
+   <?php $form->displayText('pkg_name', htmlspecialchars(@$_GET['pkg_name']), 0, 0, 'accesskey="c"'); ?>
    <br />
    <small>
     Match:
@@ -265,7 +265,7 @@ response_header('Package Search');
  <tr>
   <th class="form-label_left">Maintainer:</th>
   <td class="form-input">
-   <input name="pkg_maintainer" type="text" value="<?php echo $_GET['pkg_maintainer']; ?>" />
+   <input name="pkg_maintainer" type="text" value="<?php echo htmlspecialchars($_GET['pkg_maintainer']); ?>" />
    <select onchange="document.forms['search_form'].pkg_maintainer.value = this.options[this.selectedIndex].value; this.selectedIndex = 0">
     <option value="">Select user...</option>
     <?php foreach($users as $u):?>
