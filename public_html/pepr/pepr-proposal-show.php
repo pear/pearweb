@@ -83,8 +83,8 @@
 	if (isset($_COOKIE['PEAR_USER']) && ($proposal->getStatus() == 'proposal')) {
 		$form = new HTML_QuickForm('comment', 'post', 'pepr-proposal-show.php?id='.$id);
 		$form->addElement('textarea', 'comment', null, array('cols' => 30, 'rows' => 6));
-		$form->addElement('static', '', '', '<small>Your comment will be send to pear-dev mailinglist. Comments on proposals are only allowed during proposal phase!</small>');
-		$form->addElement('submit', 'submit', 'Send');
+		$form->addElement('static', '', '', '<small>Your comment will also be sent to the <b>pear-dev</b> mailing list.</small>');
+		$form->addElement('submit', 'submit', 'Add New Comment');
 		
 		$form->addRule('comment', 'A comment is required!', 'required', null, 'client');
 		
