@@ -74,6 +74,14 @@ code, pre, tt {
     margin: 0px;
 }
 
+pre.php {
+    border-color:       black;
+    border-style:       dashed;
+    border-width:       1px;
+    background-color:   #eee;
+    padding:            5px;
+}
+
 table.EXAMPLE {
     margin-top: 1em;
 }

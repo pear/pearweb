@@ -355,14 +355,6 @@ code, pre, tt {
     font-size: 90%;
 }
 
-pre.php {
-    border-color:       black;
-    border-style:       dashed;
-    border-width:       1px;
-    background-color:   #eeeeee;
-    padding:            5px;
-}
-
 h1 {
     font-size: 140%;
     font-weight: bold;
