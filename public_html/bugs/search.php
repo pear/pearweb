@@ -78,16 +78,20 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
     if (!empty($site)) {
         $query .= ' LEFT JOIN packages ON packages.name = bugdb.package_name';
-    }
-
-    if (empty($site) && !empty($_GET['maintain'])) {
+    } elseif (!empty($_GET['maintain']) || !empty($_GET['handle'])) {
         $query .= ' LEFT JOIN packages ON packages.name = bugdb.package_name';
     }
 
-    if (!empty($_GET['maintain'])) {
+    if (!empty($_GET['maintain']) || !empty($_GET['handle'])) {
         $query .= ' LEFT JOIN maintains ON packages.id = maintains.package';
+        $query .= ' AND maintains.handle = ';
+        if (!empty($_GET['maintain'])) {
+            $query .= $dbh->quoteSmart($_GET['maintain']);
+        } else {
+            $query .= $dbh->quoteSmart($_GET['handle']);
+        }
     }
-    
+
     if (empty($_GET['package_name']) || !is_array($_GET['package_name'])) {
         $_GET['package_name'] = array();
         $where_clause = ' WHERE 1=1';
@@ -211,19 +215,28 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                        . $dbh->escapeSimple($phpver) . "%'";
     }
 
-    if (empty($_GET['assign'])) {
-        $assign = '';
+    if (empty($_GET['handle'])) {
+        $handle = '';
+        if (empty($_GET['assign'])) {
+            $assign = '';
+        } else {
+            $assign = $_GET['assign'];
+            $where_clause .= ' AND bugdb.assign = '
+                           . $dbh->quoteSmart($assign);
+        }
+        if (empty($_GET['maintain'])) {
+            $maintain = '';
+        } else {
+            $maintain = $_GET['maintain'];
+            $where_clause .= ' AND maintains.handle = '
+                           . $dbh->quoteSmart($maintain);
+        }
     } else {
-        $assign = $_GET['assign'];
-        $where_clause .= ' AND bugdb.assign = ' . $dbh->quoteSmart($assign);
-    }
-
-    if (empty($_GET['maintain'])) {
-        $maintain = '';
-    } else {
-        $maintain = $_GET['maintain'];
-        $where_clause .= ' AND maintains.handle = '
-                       . $dbh->quoteSmart($maintain);
+        $handle = $_GET['handle'];
+        $where_clause .= ' AND (maintains.handle = '
+                       . $dbh->quoteSmart($handle)
+                       . ' OR bugdb.assign = '
+                       . $dbh->quoteSmart($handle). ')';
     }
 
     if (empty($_GET['author_email'])) {
@@ -352,6 +365,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;direction='   . $direction .
                     '&amp;phpver='      . $phpver .
                     '&amp;limit='       . $limit .
+                    '&amp;handle='      . $handle .
                     '&amp;assign='      . $assign .
                     '&amp;maintain='    . $maintain;
 

@@ -176,7 +176,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
         print 'Logged in as ' . strtoupper($_COOKIE['PEAR_USER']) . ' (';
         print '<a class="menuWhite" href="/user/' . $_COOKIE['PEAR_USER'] . '">Info</a> | ';
         print '<a class="menuWhite" href="/account-edit.php?handle=' . $_COOKIE['PEAR_USER'] . '">Profile</a> | ';
-        print '<a class="menuWhite" href="/bugs/search.php?maintain=' . $_COOKIE['PEAR_USER'] . '&amp;cmd=display">Bugs</a>';
+        print '<a class="menuWhite" href="/bugs/search.php?handle=' . $_COOKIE['PEAR_USER'] . '&amp;cmd=display">Bugs</a>';
         print ")</small><br />\n";
 
         if (empty($_SERVER['QUERY_STRING'])) {
