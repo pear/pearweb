@@ -25,9 +25,9 @@ function getDays($date) {
     return ceil((time() - $date) / 60 / 60 / 24);
 }
 
-// {{{ SQL for orphan drafts
+// {{{ Fetch for orphan drafts
 
-$sql['orphan_drafts'] = <<<EOS
+$sql = <<<EOS
 SELECT 
     p.id AS id,
     p.pkg_name AS pkg_name,
@@ -41,40 +41,54 @@ WHERE
 ORDER BY draft_date DESC
 EOS;
 
-// }}}
-// {{{ SQL for orphan proposals
+$res['orphan_drafts'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 
-$sql['orphan_proposals'] = <<<EOS
-SELECT 
+// }}}
+// {{{ Fetch orphan proposals
+
+// Fetch proposals with proposal date before 30 days ago
+
+// Get IDs from proposals with comments in the last 30 days
+$sql = "SELECT pkg_prop_id FROM package_proposal_comments ppc WHERE FROM_UNIXTIME(timestamp) > DATE_ADD(NOW(), INTERVAL - 30 DAY);";
+
+$resProposals = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+
+$proposalIds = array(0 => 0);
+
+foreach ($resProposals as $proposal) {
+    $proposalIds[$proposal['id']] = $proposal['id'];
+}
+
+// Get IDs from proposals with changes in the last 30 days
+$sql = "SELECT pkg_prop_id FROM package_proposal_changelog ppc WHERE FROM_UNIXTIME(timestamp) > DATE_ADD(NOW(), INTERVAL - 30 DAY);";
+
+$resProposals = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+
+
+foreach ($resProposals as $proposal) {
+    $proposalIds[$proposal['id']] = $proposal['id'];
+}
+
+$sql = "SELECT
     p.id AS id,
     p.pkg_name AS pkg_name,
     p.user_handle AS user_handle,
     UNIX_TIMESTAMP(p.draft_date) AS draft_date,
-    UNIX_TIMESTAMP(p.proposal_date) as proposal_date,
-    MAX(pcl.timestamp) as latest_change,
-    MAX(pcm.timestamp) as latest_comment
-FROM 
-    package_proposals AS p,
-    package_proposal_changelog AS pcl,
-    package_proposal_comments AS pcm 
-WHERE 
-    p.id = pcl.pkg_prop_id 
-    AND p.id = pcm.pkg_prop_id 
-    AND p.status = "proposal" 
+    UNIX_TIMESTAMP(p.proposal_date) as proposal_date
+FROM
+    package_proposals AS p
+WHERE
+    p.status = 'proposal'
+    AND p.id NOT IN (".implode(',', $proposalIds).")
     AND p.proposal_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
-    AND pcl.timestamp < DATE_ADD(NOW(), INTERVAL -30 DAY)
-    AND pcm.timestamp < DATE_ADD(NOW(), INTERVAL -30 DAY)
-GROUP BY pcl.pkg_prop_id, pcm.pkg_prop_id
-ORDER BY proposal_date DESC
-EOS;
+    ORDER BY draft_date DESC;";
+
+$res['orphan_proposals'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+
 
 // }}}
 // {{{ Fetch results
 
-$res = array();
-foreach ($sql as $name => $sqlSt) {
-    $res[$name] = $dbh->getAll($sqlSt, DB_FETCHMODE_ASSOC);
-}
 
 // }}} 
 
@@ -105,8 +119,8 @@ echo '<tr>';
 echo '<th>Name</th>';
 echo '<th>Draft-Date</th>';
 echo '<th>Proposal-Date</th>';
-echo '<th>Last change</th>';
-echo '<th>Last comment</th>';
+// echo '<th>Last change</th>';
+// echo '<th>Last comment</th>';
 echo '<th>Proposer</th>';
 echo '</tr>';
 $i = 0;
@@ -115,8 +129,8 @@ foreach ($res['orphan_proposals'] as $set) {
     echo '<td class="textcell"><a href="/pepr/pepr-proposal-show.php?id='.$set['id'].'">'.$set['pkg_name'].'</a></td>';
     echo '<td class="textcell">'.getDays($set['draft_date']).' days ago<br />('.make_utc_date($set['draft_date']).')</td>';
     echo '<td class="textcell">'.getDays($set['proposal_date']).' days ago<br /> ('.make_utc_date($set['proposal_date']).')</td>';
-    echo '<td class="textcell">'.getDays($set['latest_change']).' days ago<br /> ('.make_utc_date($set['latest_change']).')</td>';
-    echo '<td class="textcell">'.getDays($set['latest_comment']).' days ago<br /> (<a href="/pepr-comment-show.php?id='.$set['id'].'">'.make_utc_date($set['latest_comment']).'</a>)</td>';
+//    echo '<td class="textcell">'.getDays($set['latest_change']).' days ago<br /> ('.make_utc_date($set['latest_change']).')</td>';
+//    echo '<td class="textcell">'.getDays($set['latest_comment']).' days ago<br /> (<a href="/pepr-comment-show.php?id='.$set['id'].'">'.make_utc_date($set['latest_comment']).'</a>)</td>';
     echo '<td class="textcell">'.user_link($set['user_handle']).'</td>';
     
     echo '</tr>';
