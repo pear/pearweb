@@ -19,8 +19,12 @@
    $Id$
 */
 
+require_once 'Damblan/Trackback.php';
+require_once 'Damblan/Karma.php';
 require_once 'Damblan/URL.php';
+
 $site = new Damblan_URL;
+
 
 // {{{ setup, queries
 
@@ -54,7 +58,15 @@ if (!empty($params['action'])) {
         // Redirect to the bug database
         localRedirect("/bugs/search.php?direction=ASC&cmd=display&status=Open&package_name%5B%5D=" . urlencode($pkg['name']));
         break;
-
+        
+    case 'trackbacks' :
+       $action = $params['action'];
+       break;
+    
+    case 'redirected' :
+        $redirected = true;
+        $params['action']= '';
+    
     default :
         $action = '';
         $version = $params['action'];
@@ -109,13 +121,29 @@ $accounts .= '</ul>';
 // Information about the latest release below the summary
 $versions = array_keys($pkg['releases']);
 
+$url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/';
+if (!isset($redirected) && ($redirected !== true)) {
+    $url .= 'package/';
+}
+$url .= $params['package|pacid'];
+
+// Get trackback autodiscovery code
+$tmpTrackback = Services_Trackback::create(array(
+    'id'            => $name,
+    'url'           => $url,
+    'title'         => 'Package :: ' . htmlspecialchars($name),
+    'trackback_url' => 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/trackback/trackback.php?id='.$name,
+));
+
+$trackbackRDF = $tmpTrackback->getAutodiscoveryCode();
+
 // }}}
 // {{{ page header
 
 if ($version) {
-    response_header('Package :: ' . htmlspecialchars($name) . ' :: ' . $version);
+    response_header('Package :: ' . htmlspecialchars($name) . ' :: ' . $version, null, $trackbackRDF);
 } else {
-    response_header('Package :: ' . htmlspecialchars($name));
+    response_header('Package :: ' . htmlspecialchars($name), null, $trackbackRDF);
 }
 
 html_category_urhere($pkg['categoryid'], true);
@@ -377,6 +405,77 @@ if (empty($action)) {
     print '</table>';
 
     // }}}
+} elseif ($action == 'trackbacks') {
+    // Determine administrative user
+    $karma =& new Damblan_Karma($dbh);
+    $trackbackIsAdmin = (isset($_COOKIE['PEAR_USER']) && $karma->has($_COOKIE['PEAR_USER'], 'pear.dev'));
+    // Generate trackback list
+    $trackbacks = Damblan_Trackback::listTrackbacks($dbh, $name, !$trackbackIsAdmin);
+    
+    print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
+    foreach ($trackbacks as $trackback) {
+        print '<tr>';
+        print '<th class="others">';
+        print 'Weblog:';
+        print '</th>';
+        print '<td class="ulcell" style="width:100%">';
+        print $trackback->blog_name;
+        print '</td>';
+        print '</tr>';
+        
+        if ($trackbackIsAdmin) {
+            print '<tr>';
+            print '<th class="others">';
+            print 'Approved:';
+            print '</th>';
+            print '<td class="ulcell">';
+            print ($trackback->approved) ? '<b>yes</b>' : '<b>no</b>';
+            print '</td>';
+            print '</tr>';
+        }
+        print '<tr>';
+        print '<th class="others">';
+        print 'Title:';
+        print '</th>';
+        print '<td class="ulcell">';
+        print '<a href="'.$trackback->url.'">'.$trackback->title.'</a>';
+        print '</td>';
+        print '</tr>';
+        
+        print '<tr>';
+        print '<th class="others">';
+        print 'Date:';
+        print '</th>';
+        print '<td class="ulcell">';
+        print make_utc_date($trackback->timestamp, 'Y-m-d'); 
+        print '</td>';
+        print '</tr>';
+        
+        print '<tr>';
+        print '<th class="others">';
+        print '</th>';
+        print '<td class="ulcell">';
+        print  $trackback->excerpt;
+        print '</td>';
+        print '</tr>';
+
+        if ($trackbackIsAdmin) {
+            print '<tr>';
+            print '<th class="others">';
+            print '</th>';
+            print '<td class="ulcell">';
+            if (!$trackback->approved) {
+                print '[<a href="/trackback/trackback-admin.php?action=approve&id='.$trackback->id.'&timestamp='.$trackback->timestamp.'">Approve</a>] ';
+            }
+            print '[<a href="/trackback/trackback-admin.php?action=delete&id='.$trackback->id.'&timestamp='.$trackback->timestamp.'">Delete</a>]';
+            print '</td>';
+            print '</tr>';
+        }
+
+        print '<tr><td colspan="2" style="height: 20px;">&nbsp;</td></tr>';
+        
+    }
+    print '</table>';
 }
 
 // }}}

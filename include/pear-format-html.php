@@ -85,7 +85,7 @@ $GLOBALS['_style'] = '';
  * @param string $style
  * @return void
  */
-function response_header($title = 'The PHP Extension and Application Repository', $style = false)
+function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '')
 {
     global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $extra_styles;
 
@@ -129,6 +129,9 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
+<?php
+echo $extraHeaders;
+?>
  <title>PEAR :: <?php echo $title; ?></title>
  <link rel="shortcut icon" href="/gifs/favicon.ico" />
  <link rel="stylesheet" href="/css/style.css" />
@@ -930,7 +933,9 @@ function print_package_navigation($pacid, $name, $action)
                        'Documentation' => array('url'   => 'docs',
                                                 'title' => 'Read the available documentation'),
                        'Bugs'          => array('url'   => 'bugs',
-                                                'title' => 'View/Report Bugs')
+                                                'title' => 'View/Report Bugs'),
+                       'Trackbacks'    => array('url'   => 'trackbacks',
+                                                'title' => 'Show Related Sites'),
                        );
 
     if (isset($auth_user) && is_object($auth_user)) {

@@ -43,7 +43,7 @@ $pinfo_url = '/package/';
 $name = package::info(basename($pkg), 'name');
 if (!DB::isError($name)) {
     if (!empty($name)) {
-        localRedirect($pinfo_url . $name);
+        localRedirect($pinfo_url . basename($pkg) . '/redirected');
     } else {
         $name = package::info(basename($pkg), 'name', true);
         if (!empty($name)) {
