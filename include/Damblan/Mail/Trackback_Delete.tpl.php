@@ -20,7 +20,7 @@
         'Subject' => '[Trackback] Trackback deleted for %id%',
         'Body' => 'Dear maintainer.
 
-A trackback has been deleted for the package %id%. See the details below:
+A TrackBack for %id% has been removed:
 
 Weblog:     %blog_name%
 Title:      %title%
@@ -30,10 +30,7 @@ Date:       %date%
 Excerpt:
 %excerpt%
 
-Deleter:    %user%
-
-Kind regards,
-the PEAR Website Team.
+Executor:    %user%
 -- 
 This Email is brought to you by http://pear.php.net',
      );

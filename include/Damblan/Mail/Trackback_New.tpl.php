@@ -19,7 +19,7 @@
         'Subject' => '[Trackback] New trackback discovered for %id%',
         'Body' => 'Dear maintainer.
 
-A new trackback has been discovered for the package %id%. See the details below:
+A new trackback has been discovered for the package %id%:
 
 Weblog:     %blog_name%
 Title:      %title%
@@ -32,9 +32,6 @@ Excerpt:
 Please choose one of the following actions:
 Approve - http://pear.php.net/trackback/trackback-admin.php?action=approve&id=%id%&timestamp=%timestamp%.
 Delete - http://pear.php.net/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%.
-    
-Kind regards,
-the PEAR Website Team.
 -- 
 This Email is brought to you by http://pear.php.net',
      );

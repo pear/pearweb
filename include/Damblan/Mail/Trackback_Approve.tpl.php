@@ -20,7 +20,7 @@
         'Subject' => '[Trackback] Trackback approved for %id%',
         'Body' => 'Dear maintainer.
 
-The following trackback has been approved for the package %id%. See the details below:
+The following trackback has been approved for the package %id%:
 
 Weblog:     %blog_name%
 Title:      %title%
@@ -30,13 +30,10 @@ Date:       %date%
 Excerpt:
 %excerpt%
 
-Approver:   %user%
+Executor:   %user%
 
 You can choose one of the following actions:
 Delete - http://pear.php.net/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%.
-    
-Kind regards,
-the PEAR Website Team.
 -- 
 This Email is brought to you by http://pear.php.net',
      );
