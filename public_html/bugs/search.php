@@ -143,7 +143,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             break;
         case 'Not Assigned':
             $where_clause .= " AND bugdb.status NOT IN" .
-                             " ('Closed', 'Duplicate', 'Bogus', 'Assigned')";
+                             " ('Closed', 'Duplicate', 'Bogus', 'Assigned', 
+                                'Wont Fix', 'Suspended')";
             break;
         case 'Open':
         default:
@@ -462,7 +463,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
 <?php
     if (!empty($_COOKIE['PEAR_USER'])) {
         $u = stripslashes($_REQUEST['PEAR_USER']);
-        print "<input type=\"button\" value=\"set to $u\" onclick=\"form.assign.value='$u'\" />";
+        print "<input type=\"button\" value=\"set to $u\" onclick=\"form.maintain.value='$u'\" />";
     }
 ?>
   </td>
