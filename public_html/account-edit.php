@@ -54,14 +54,13 @@ switch ($HTTP_POST_VARS['command']) {
 
     case "update" : {
 
-        $query = sprintf("UPDATE users SET name = '%s', email = '%s', homepage = '%s', userinfo = '%s', wishlist = '%s', showemail = '%s', admin = '%s'",
+        $query = sprintf("UPDATE users SET name = '%s', email = '%s', homepage = '%s', userinfo = '%s', wishlist = '%s', showemail = '%s'",
                          $HTTP_POST_VARS['name'],
                          $HTTP_POST_VARS['email'],
                          $HTTP_POST_VARS['homepage'],
                          addslashes($HTTP_POST_VARS['userinfo']),
                          $HTTP_POST_VARS['wishlist'],
-                         isset($HTTP_POST_VARS['showemail']) ? 1 : 0,
-                         $admin && isset($HTTP_POST_VARS['admin']) ? 1 : 0);
+                         isset($HTTP_POST_VARS['showemail']) ? 1 : 0);
         $query .= " WHERE handle = '" . $HTTP_POST_VARS['handle'] . "'";
         $sth = $dbh->query($query);
 
@@ -209,15 +208,6 @@ switch ($HTTP_POST_VARS['command']) {
         print "   </td>\n";
         print " </tr>\n";
         
-        if ($admin)    { /* show the admin checkbox only when the visitor is admin */
-            print " <tr>\n";
-            print "  <th bgcolor=\"#CCCCCC\">Administrator:</th>\n";
-            print "  <td bgcolor=\"#e8e8e8\">";
-            HTML_Form::displayCheckbox("admin", $row['admin']);
-            print "   </td>\n";
-            print " </tr>\n";
-        }  
-
         print " <tr>\n";
         print "  <th bgcolor=\"#CCCCCC\">&nbsp;</th>\n";
         print "  <td bgcolor=\"#e8e8e8\"><input type=\"submit\" value=\"Submit\" name=\"submit\" />&nbsp;<input type=\"reset\" name=\"reset\" value=\"Reset\" /></td>\n";
