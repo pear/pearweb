@@ -86,7 +86,7 @@ $proposalEmailTexts = array(
             'user'    => '{email_pear_dev}, {owner_name} {owner_email}'
         ),
         'subject'   => 'Changes in proposal for {pkg_category}::{pkg_name}',
-        'text'      => "{actor_name} ({actor_link}) has edited the proposal for {pkg_category}::{pkg_name}.\n\nChange comment:\n\n{comment}\n\nPlease re-review the proposal:\n{proposal_url}"
+        'text'      => "{actor_name} ({actor_link}) has edited the proposal for {pkg_category}::{pkg_name}.\n\nChange comment:\n\n{comment}\n\nPlease review the proposal:\n{proposal_url}"
     ),
 
     // $proposal->sendActionEmail("proposal_vote", $_COOKIE["PEAR_USER"], $proposal);
