@@ -73,7 +73,7 @@
 	$form->addElement('static', '', '', '<small>To add more links, fill out all link forms and hit save. To delete a link leave the URL field blank.</small>');
 	
 	if (isset($proposal) && ($proposal->getStatus() != 'draft')) {
-			$form->addElement('static', '', '', '<strong>If you add any text to the Update Comment textarea,<br /> then a mail to pear-dev will be sent about this update</strong>');
+			$form->addElement('static', '', '', '<strong>If you add any text to the Update Comment textarea,<br /> then a mail will be sent to pear-dev about this update</strong>');
 			$form->addElement('textarea', 'action_comment', 'Update comment:', array('cols' => 80, 'rows' => 10));
 	}
 	
