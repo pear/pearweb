@@ -1,12 +1,86 @@
 <?php
 
-require_once 'PEAR.php';
-require_once 'pear-format-html.php';
-require_once 'pear-database.php';
-require_once 'Damblan/Karma.php';
+/**
+ * Establishes the procedures, objects and variables used throughout PEPr.
+ *
+ * The <var>$proposalStatiMap</var> and <var>$proposalTypeMap</var> arrays
+ * are also defined here.
+ *
+ * NOTE: Proposal constants are defined in pearweb/include/pear-config.php.
+ *
+ * This source file is subject to version 3.0 of the PHP license,
+ * that is bundled with this package in the file LICENSE, and is
+ * available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.
+ * If you did not receive a copy of the PHP license and are unable to
+ * obtain it through the world-wide-web, please send a note to
+ * license@php.net so we can mail you a copy immediately.
+ *
+ * @category  pearweb
+ * @package   PEPr
+ * @author    Tobias Schlitt <toby@php.net>
+ * @author    Daniel Convissor <danielc@php.net>
+ * @copyright Copyright (c) 1997-2004 The PHP Group
+ * @license   http://www.php.net/license/3_0.txt  PHP License
+ * @version   $Id$
+ */
 
+/**#@+
+ * Load necessary classes.
+ */
+require_once 'Damblan/Karma.php';
 require_once 'HTML/QuickForm.php';
 require_once 'Mail.php';
+/**#@-*/
+
+
+/**
+ * Prints the navigation tabs
+ *
+ * @param object $proposal  the current proposal object
+ *
+ * @return void
+ */
+function display_pepr_nav(&$proposal)
+{
+    $items = array(
+        'Main'       => array('url'   => 'pepr-proposal-show.php',
+                              'title' => 'View proposal details'
+                        ),
+        'Comments'   => array('url'   => 'pepr-comments-show.php',
+                              'title' => 'View and/or enter comments'
+                        ),
+        'Votes'      => array('url'   => 'pepr-votes-show.php',
+                              'title' => 'View and/or enter votes'
+                        ),
+    );
+
+    if (isset($_COOKIE['PEAR_USER']) &&
+        $proposal->mayEdit($_COOKIE['PEAR_USER']))
+    {
+        $items['Edit'] = array(
+            'url'   => 'pepr-proposal-edit.php',
+            'title' => 'Edit this proposal'
+        );
+        $items['Delete'] = array(
+            'url'   => 'pepr-proposal-delete.php',
+            'title' => 'Delete this proposal'
+        );
+    }
+
+    $page = basename($_SERVER['PHP_SELF']);
+
+    echo '<div id="nav">' . "\n";
+    foreach ($items as $title => $item) {
+        echo '<a href="' . $item['url'] . '?id=' . $proposal->id
+             . '" title="' . $item['title'] . '"';
+        if ($page == $item['url']) {
+            echo ' class="active"';
+        }
+        echo '>' . $title . "</a>\n";
+    }
+    echo '</div>';
+}
 
 
 function shorten_string ( $string ) {
@@ -21,11 +95,12 @@ function shorten_string ( $string ) {
 
 global $proposalStatiMap;
 $proposalStatiMap = array(
-                          'draft'   => 'Draft',
-                          'proposal'    => 'Proposed',
-                          'vote'        => 'Called for votes',
-                          'finished'    => 'Finished'
+                          'draft'    => 'Draft',
+                          'proposal' => 'Proposed',
+                          'vote'     => 'Called for Votes',
+                          'finished' => 'Finished'
                           );
+
 
 class proposal {
 
@@ -68,20 +143,39 @@ class proposal {
             return false;
         }
         foreach ($dbhResArr as $name => $value) {
-            $value = (is_string($value)) ? stripslashes($value) : $value;
             $this->$name = $value;
         }
         return true;
     }
 
+    /**
+     * Look up proposal information based on the proposal ID number
+     *
+     * @param object $dbh  the current DB object
+     * @param int    $id   the ID number of the proposal being looked for
+     *
+     * @return object  a new proposal object.  false if the $id provided is
+     *                 not numeric.  null if the $id doesn't refer to
+     *                 an actual proposal.
+     *
+     * @access public
+     */
     function &get ( &$dbh, $id ) {
+        if (!is_numeric($id)) {
+            $res = false;
+            return $res;
+        }
+        $id  = (int)$id;
         $sql = "SELECT *, UNIX_TIMESTAMP(draft_date) as draft_date,
                         UNIX_TIMESTAMP(proposal_date) as proposal_date,
                         UNIX_TIMESTAMP(vote_date) as vote_date,
                         UNIX_TIMESTAMP(longened_date) as longened_date
-                    FROM package_proposals WHERE id = ".$id;
-        $res = $dbh->getRow($sql, null, DB_FETCHMODE_ASSOC);
+                 FROM package_proposals WHERE id = ".$id;
+        $res =& $dbh->getRow($sql, null, DB_FETCHMODE_ASSOC);
         if (DB::isError($res)) {
+            return $res;
+        }
+        if (!$res) {
             return $res;
         }
         return new proposal($res);
@@ -130,18 +224,18 @@ class proposal {
     function store ( $dbh ) {
         if (isset($this->id)) {
             $sql = "UPDATE package_proposals SET
-                    pkg_category = ".$dbh->quote($this->pkg_category).",
-                    pkg_name = ".$dbh->quote($this->pkg_name).",
-                    pkg_license = ".$dbh->quote($this->pkg_license).",
-                    pkg_describtion = ".$dbh->quote($this->pkg_describtion).",
-                    pkg_deps = ".$dbh->quote($this->pkg_deps).",
+                    pkg_category = ".$dbh->quoteSmart($this->pkg_category).",
+                    pkg_name = ".$dbh->quoteSmart($this->pkg_name).",
+                    pkg_license = ".$dbh->quoteSmart($this->pkg_license).",
+                    pkg_describtion = ".$dbh->quoteSmart($this->pkg_describtion).",
+                    pkg_deps = ".$dbh->quoteSmart($this->pkg_deps).",
                     draft_date = FROM_UNIXTIME({$this->draft_date}),
                     proposal_date = FROM_UNIXTIME({$this->proposal_date}),
                     vote_date = FROM_UNIXTIME({$this->vote_date}),
                     longened_date = FROM_UNIXTIME({$this->longened_date}),
-                    status = ".$dbh->quote($this->status).",
-                    user_handle = ".$dbh->quote($this->user_handle).",
-                    markup = ".$dbh->quote($this->markup)."
+                    status = ".$dbh->quoteSmart($this->status).",
+                    user_handle = ".$dbh->quoteSmart($this->user_handle).",
+                    markup = ".$dbh->quoteSmart($this->markup)."
                     WHERE id = ".$this->id;
             $res = $dbh->query($sql);
             if (DB::isError($dbh)) {
@@ -150,15 +244,15 @@ class proposal {
         } else {
             $sql = "INSERT INTO package_proposals (pkg_category, pkg_name, pkg_license, pkg_describtion,
                         pkg_deps, draft_date, status, user_handle, markup) VALUES (
-                        ".$dbh->quote($this->pkg_category).",
-                        ".$dbh->quote($this->pkg_name).",
-                        ".$dbh->quote($this->pkg_license).",
-                        ".$dbh->quote($this->pkg_describtion).",
-                        ".$dbh->quote($this->pkg_deps).",
+                        ".$dbh->quoteSmart($this->pkg_category).",
+                        ".$dbh->quoteSmart($this->pkg_name).",
+                        ".$dbh->quoteSmart($this->pkg_license).",
+                        ".$dbh->quoteSmart($this->pkg_describtion).",
+                        ".$dbh->quoteSmart($this->pkg_deps).",
                         FROM_UNIXTIME(".time()."),
-                        ".$dbh->quote($this->status).",
-                        ".$dbh->quote($this->user_handle).",
-                        ".$dbh->quote($this->markup).")";
+                        ".$dbh->quoteSmart($this->status).",
+                        ".$dbh->quoteSmart($this->user_handle).",
+                        ".$dbh->quoteSmart($this->markup).")";
             $res = $dbh->query($sql);
             if (DB::isError($dbh)) {
                 return $res;
@@ -214,8 +308,12 @@ class proposal {
     }
 
     function mayEdit ( $handle = '' ) {
-        global $dbh;
-        $karma = new Damblan_Karma($dbh);
+        global $dbh, $karma;
+
+        if (empty($karma)) {
+            $karma =& new Damblan_Karma($dbh);
+        }
+
         switch ($this->status) {
             case 'draft':
             case 'proposal':
@@ -232,11 +330,82 @@ class proposal {
         return false;
     }
 
+    /**
+     * Determine if the current user can vote on the current proposal
+     *
+     * Rules:
+     *   + Proposal must be in the "Called for Votes" phase.
+     *   + User must be logged in.
+     *   + User must be a full-featured PEAR developer.
+     *   + Only one vote can be cast.
+     *   + Proposers can't vote on their own package, though can for RFC's.
+     *
+     * @param object $dbh         the current DB object
+     * @param string $userHandle  the user's handle
+     *
+     * @return bool
+     *
+     * @access public
+     */
+    function mayVote(&$dbh, $userHandle)
+    {
+        global $karma;
+
+        if (empty($karma)) {
+            $karma =& new Damblan_Karma($dbh);
+        }
+
+        if ($this->getStatus() == 'vote' &&
+            $karma->has($userHandle, 'pear.dev') &&
+            !ppVote::hasVoted($dbh, $userHandle, $this->id) &&
+            (!$this->isOwner($userHandle) ||
+             ($this->isOwner($userHandle) &&
+              $this->pkg_category == 'RFC')))
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function getStatus ( $humanReadable = false ) {
         if ($humanReadable) {
             return $GLOBALS['proposalStatiMap'][$this->status];
         }
         return $this->status;
+    }
+
+    /**
+     * Answers the question "Is this proposal $operator than $status?"
+     *
+     * @param string $operator  the operator (<, <=, ==, >=, >, !=)
+     * @param string $status    the status ('draft', 'vote', 'finished', etc)
+     *
+     * @return bool
+     */
+    function compareStatus($operator, $status) {
+        $num = array(
+            'draft'    => 1,
+            'proposal' => 2,
+            'vote'     => 3,
+            'finished' => 4,
+        );
+        switch ($operator) {
+            case '<':
+                return ($num[$this->status] < $num[$status]);
+            case '<=':
+                return ($num[$this->status] <= $num[$status]);
+            case '==':
+                return ($num[$this->status] == $num[$status]);
+            case '>=':
+                return ($num[$this->status] >= $num[$status]);
+            case '>':
+                return ($num[$this->status] > $num[$status]);
+            case '!=':
+                return ($num[$this->status] != $num[$status]);
+            default:
+                PEAR::raiseError('Invalid $operator passed to compareStatus()');
+        }
     }
 
     function isEditable ( ) {
@@ -312,10 +481,11 @@ class proposal {
     }
 
     function sendActionEmail($event, $userType, $user_handle = null, $comment = "") {
+        global $dbh, $karma;
 
-        global $dbh;
-
-        $karma = new Damblan_Karma($dbh);
+        if (empty($karma)) {
+            $karma =& new Damblan_Karma($dbh);
+        }
 
         require 'pepr/pepr-emails.php';
         $email = $proposalEmailTexts[$event];
@@ -353,6 +523,7 @@ class proposal {
         }
         $proposal_url = "http://pear.php.net/pepr/pepr-proposal-show.php?id=".$this->id;
         $end_voting_time = (@$this->longened_date > 0) ? $this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE : @$this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE;
+
         if (!isset($user_handle)) {
             $email['to'] = $email['to']['pearweb'];
         } else if ($karma->has($user_handle, "pear.pepr.admin")) {
@@ -360,6 +531,7 @@ class proposal {
         } else {
             $email['to'] = $email['to']['user'];
         }
+
         $email['subject'] = $prefix . $email['subject'];
         $replace = array(
                          "/\{pkg_category\}/",
@@ -383,22 +555,24 @@ class proposal {
                               $this->pkg_category,
                               $this->pkg_name,
                               (isset($ownerinfo['name'])) ? $ownerinfo['name'] : "",
-                              (isset($ownerinfo['email'])) ? $ownerinfo['email'] : "",
+                              (isset($ownerinfo['email'])) ? "<{$ownerinfo['email']}>" : '',
                               (isset($ownerinfo['handle'])) ? user_link($ownerinfo['handle']) : "",
                               (isset($actorinfo['name'])) ? $actorinfo['name'] : "",
                               (isset($actorinfo['email'])) ? $actorinfo['email'] : "",
                               (isset($actorinfo['handle'])) ? "http://pear.php.net/user/".$actorinfo['handle'] : "",
                               $proposal_url,
-                              date("Y-m-d", $end_voting_time),
+                              make_utc_date($end_voting_time),
                               (isset($vote)) ? $vote->value : 0,
                               (isset($vote)) ? $vote_url : "",
                               PROPOSAL_MAIL_PEAR_DEV,
                               PROPOSAL_MAIL_PEAR_GROUP,
-                              (isset($comment)) ? stripslashes($comment) : "",
+                              (isset($comment)) ? $comment : '',
                               (isset($vote_conditional)) ? $vote_conditional : ""
                               );
+
         $email = preg_replace($replace, $replacements, $email);
         $email['text'] .= PROPOSAL_EMAIL_POSTFIX;
+
         $to = explode(", ", $email['to']);
         $email['to'] = array_shift($to);
         $headers = "CC: ". implode(", ", $to) . "\n";
@@ -409,9 +583,10 @@ class proposal {
         $headers .= "X-PEAR-Package: " . $this->pkg_name . "\n";
         $headers .= "X-PEPr-Status: " . $this->getStatus() . "\n";
 
-        $res = mail($email['to'], $email['subject'], $email['text'], $headers, "-f pear-sys@php.net");
+        $res = mail($email['to'], $email['subject'], $email['text'],
+                    $headers, '-f pear-sys@php.net');
         if (!$res) {
-            return PEAR::raiseError("Could not send notification email.");
+            return PEAR::raiseError('Could not send notification email.');
         }
         return true;
     }
@@ -433,7 +608,6 @@ class ppComment {
 
     function ppComment ( $dbhResArr, $table = 'package_proposal_changelog' ) {
         foreach ($dbhResArr as $name => $value) {
-            $value = (is_string($value)) ? stripslashes($value) : $value;
             $this->$name = $value;
         }
         $this->table = $table;
@@ -446,7 +620,6 @@ class ppComment {
         if (DB::isError($res)) {
             return $res;
         }
-        $set['comment'] = stripslashes($set['comment']);
         $set = $res->fetchRow(DB_FETCHMODE_ASSOC);
         $comment =& new ppComment($set);
         return $comment;
@@ -461,7 +634,6 @@ class ppComment {
         }
         $comments = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-            $set['comment'] = stripslashes($set['comment']);
             $comments[] =& new ppVote($set);
         }
         return $comments;
@@ -473,7 +645,7 @@ class ppComment {
             return PEAR::raiseError("Not initialized");
         }
         $sql = "INSERT INTO ".$this->table." (pkg_prop_id, user_handle, comment, timestamp)
-                    VALUES (".$proposalId.", ".$dbh->quote($this->user_handle).", ".$dbh->quote($this->comment).", ".time().")";
+                    VALUES (".$proposalId.", ".$dbh->quoteSmart($this->user_handle).", ".$dbh->quoteSmart($this->comment).", ".time().")";
         $res = $dbh->query($sql);
         return $res;
     }
@@ -513,7 +685,6 @@ class ppVote {
 
     function ppVote ( $dbhResArr ) {
         foreach ($dbhResArr as $name => $value) {
-            $value = (is_string($value)) ? stripslashes($value) : $value;
             $this->$name = $value;
         }
     }
@@ -523,6 +694,9 @@ class ppVote {
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
+        }
+        if (!$res->numRows()) {
+            return null;
         }
         $set = $res->fetchRow(DB_FETCHMODE_ASSOC);
         $set['reviews'] = unserialize($set['reviews']);
@@ -549,7 +723,7 @@ class ppVote {
             return PEAR::raiseError("Not initialized");
         }
         $sql = "INSERT INTO package_proposal_votes (pkg_prop_id, user_handle, value, is_conditional, comment, reviews)
-                    VALUES (".$proposalId.", ".$dbh->quote($this->user_handle).", ".$this->value.", ".(int)$this->is_conditional.", ".$dbh->quote($this->comment).", ".$dbh->quote(serialize($this->reviews)).")";
+                    VALUES (".$proposalId.", ".$dbh->quoteSmart($this->user_handle).", ".$this->value.", ".(int)$this->is_conditional.", ".$dbh->quoteSmart($this->comment).", ".$dbh->quoteSmart(serialize($this->reviews)).")";
         $res = $dbh->query($sql);
         return $res;
     }
@@ -608,7 +782,6 @@ class ppLink {
 
     function ppLink ( $dbhResArr ) {
         foreach ($dbhResArr as $name => $value) {
-            $value = (is_string($value)) ? stripslashes($value) : $value;
             $this->$name = $value;
         }
     }
@@ -634,7 +807,7 @@ class ppLink {
 
     function store ( $dbh, $proposalId ) {
         $sql = "INSERT INTO package_proposal_links (pkg_prop_id, type, url)
-                    VALUES (".$proposalId.", ".$dbh->quote($this->type).", ".$dbh->quote($this->url).")";
+                    VALUES (".$proposalId.", ".$dbh->quoteSmart($this->type).", ".$dbh->quoteSmart($this->url).")";
         $res = $dbh->query($sql);
         return $res;
     }
