@@ -3,42 +3,45 @@
 -- passwd  user password
 
 CREATE TABLE bugdb (
-  id int(8) NOT NULL AUTO_INCREMENT,
-  bug_type char(32),
-  email varchar(40) NOT NULL,
-  sdesc varchar(80) NOT NULL,
+  id int(8) NOT NULL auto_increment,
+  package_name varchar(32) default NULL,
+  bug_type varchar(32) NOT NULL default 'Bug',
+  email varchar(40) NOT NULL default '',
+  sdesc varchar(80) NOT NULL default '',
   ldesc text NOT NULL,
-  php_version char(100),
-  php_os varchar(32),
-  status varchar(16),
-  ts1 datetime,
-  ts2 datetime,
-  assign varchar(16),
-  passwd varchar(20),
-  PRIMARY KEY (id),
-  INDEX (php_version(1)),
-  FULLTEXT (email,sdesc,ldesc)
-);
+  php_version varchar(100) default NULL,
+  php_os varchar(32) default NULL,
+  status varchar(16) default NULL,
+  ts1 datetime default NULL,
+  ts2 datetime default NULL,
+  assign varchar(16) default NULL,
+  passwd varchar(20) default NULL,
+  PRIMARY KEY  (id),
+  KEY php_version (php_version(1)),
+  FULLTEXT KEY email (email,sdesc,ldesc)
+) TYPE=MyISAM;
+
+
 
 CREATE TABLE bugdb_comments (
-  id int(8) NOT NULL AUTO_INCREMENT,
-  bug int(8) NOT NULL,
-  email varchar(40) NOT NULL,
-  ts datetime NOT NULL,
+  id int(8) NOT NULL auto_increment,
+  bug int(8) NOT NULL default '0',
+  email varchar(40) NOT NULL default '',
+  ts datetime NOT NULL default '0000-00-00 00:00:00',
   comment text NOT NULL,
-  PRIMARY KEY (id),
-  FULLTEXT (comment)
-);
+  PRIMARY KEY  (id),
+  FULLTEXT KEY comment (comment)
+) TYPE=MyISAM;
 
 -- score's value can be 1 through 5
 
 CREATE TABLE bugdb_votes (
-  bug int(8) NOT NULL,
-  ts timestamp NOT NULL,
-  ip int unsigned NOT NULL,
-  score int(3) NOT NULL,
-  reproduced int(1) NOT NULL,
-  tried int(1) NOT NULL,
-  sameos int(1),
-  samever int(1)
-);
+  bug int(8) NOT NULL default '0',
+  ts timestamp(14) NOT NULL,
+  ip int(10) unsigned NOT NULL default '0',
+  score int(3) NOT NULL default '0',
+  reproduced int(1) NOT NULL default '0',
+  tried int(1) NOT NULL default '0',
+  sameos int(1) default NULL,
+  samever int(1) default NULL
+) TYPE=MyISAM;

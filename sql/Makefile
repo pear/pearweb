@@ -19,23 +19,24 @@
 
 TABLE_FILES=\
     bugs.sql \
-	cvs_acl.sql \
-	cvs_groups.sql \
-	cvs_group_membership.sql \
-	downloads.sql \
-	files.sql \
-	package_acl.sql \
-	maintains.sql \
-	categories.sql \
-	packages.sql \
-	package_stats.sql \
-	releases.sql \
-	deps.sql \
-	notes.sql \
-	users.sql \
+    cvs_acl.sql \
+    cvs_groups.sql \
+    cvs_group_membership.sql \
+    downloads.sql \
+    files.sql \
+    package_acl.sql \
+    maintains.sql \
+    categories.sql \
+    packages.sql \
+    package_stats.sql \
+    releases.sql \
+    deps.sql \
+    notes.sql \
+    users.sql \
     pepr.sql \
-	apidoc_queue.sql \
-#	state_order.sql
+    apidoc_queue.sql \
+    karma.sql \
+    state_order.sql
 SQL_TYPE=mysql
 SQL_USER=pear
 SQL_PW=pear

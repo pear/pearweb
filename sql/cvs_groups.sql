@@ -1,6 +1,5 @@
 CREATE TABLE cvs_groups (
-    groupname       VARCHAR(20) NOT NULL,
-    description	    VARCHAR(250) NOT NULL,
-
-    UNIQUE INDEX(groupname)
+  groupname varchar(20) NOT NULL default '',
+  description varchar(250) NOT NULL default '',
+  UNIQUE KEY groupname (groupname)
 );
