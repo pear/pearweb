@@ -113,16 +113,16 @@ $versions = array_keys($pkg['releases']);
 // {{{ page header
 
 if ($version) {
-    response_header('Package :: '.$name.' :: '.$version);
+    response_header('Package :: ' . htmlspecialchars($name) . ' :: ' . $version);
 } else {
-    response_header('Package :: '.$name);
+    response_header('Package :: ' . htmlspecialchars($name));
 }
 
 html_category_urhere($pkg['categoryid'], true);
 
-print '<h1>Package Information: '.$name;
+print '<h1>Package Information: ' . htmlspecialchars($name);
 if ($version) {
-    print " $version";
+    print ' ' .  htmlspecialchars($version);
 }
 
 print "</h1>\n";
@@ -150,7 +150,7 @@ foreach ($nav_items as $title => $item) {
     if (!empty($item['url']) && $item['url']{0} == '/') {
         $url = $item['url'];
     } else {
-        $url = '/package/' . $name . '/' . $item['url'];
+        $url = '/package/' . htmlspecialchars($name) . '/' . $item['url'];
     }
     print '<a href="' . $url . '"'
         . ' title="' . $item['title'] . '" '
@@ -175,7 +175,7 @@ if (empty($action)) {
     print '<th class="headrow" style="width: 50%">&raquo; License:</th>';
     print '</tr>';
     print '<tr>';
-    print '<td class="textcell">' . $summary . '</td>';
+    print '<td class="textcell">' . htmlspecialchars($summary) . '</td>';
     print '<td class="textcell">' . get_license_link($license) . '</td>';
     print '</tr>';
 
@@ -185,10 +185,10 @@ if (empty($action)) {
     print '<tr>';
     print '<td colspan="2" class="textcell">';
     if (isset($versions[0])) {
-        print '<a href="/get/' . $name . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
+        print '<a href="/get/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
         print ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
         print ' was released on ' . substr($pkg['releases'][$versions[0]]['releasedate'], 0, 10);
-        print ' (<a href="/package/' . $name . '/download/">Changelog</a>)';
+        print ' (<a href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
     } else {
         print 'No releases have been made yet.';
     }
@@ -199,7 +199,7 @@ if (empty($action)) {
     print '<th colspan="2" class="headrow">&raquo; Description:</th>';
     print '</tr>';
     print '<tr>';
-    print '<td colspan="2" class="textcell">' . nl2br($description) . '</td>';
+    print '<td colspan="2" class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
     print '</tr>';
 
     print '<tr>';
@@ -213,12 +213,13 @@ if (empty($action)) {
     print '<ul>';
 
     if (!empty($homepage)) {
-        print '<li>' . make_link($homepage, 'External Package Homepage') . '</li>';
+        print '<li>' . make_link(htmlspecialchars($homepage),
+                                 'External Package Homepage') . '</li>';
     }
     if (!empty($cvs_link)) {
-        print '<li><a href="' . $cvs_link . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
+        print '<li><a href="' . htmlspecialchars($cvs_link) . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
     }
-    print '<li><a href="/feeds/pkg_' . strtolower($name) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>';
+    print '<li><a href="/feeds/pkg_' . strtolower(htmlspecialchars($name)) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>';
     print '<li><a href="/package-stats.php?pid=' . $pkg['packageid'] . '" title="Download statstics for this package">Download Statistics</a></li>';
     print '</ul>';
     print '</td>';
@@ -229,7 +230,7 @@ if (empty($action)) {
     $dependants = package::getDependants($name);
     if ($rel_count > 0 && count($dependants) > 0) {
         print '<tr>';
-        print '<th colspan="2" class="headrow">&raquo; Packages that depend on ' . $name . ':</th>';
+        print '<th colspan="2" class="headrow">&raquo; Packages that depend on ' . htmlspecialchars($name) . ':</th>';
         print '</tr>';
         print '<tr>';
 
@@ -273,9 +274,9 @@ if (empty($action)) {
 
             print '<td class="textcell">' . $release_version . '</td>';
             print '<td>';
-            print '<a href="/get/' . $name . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
+            print '<a href="/get/' . htmlspecialchars($name) . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
             print '<b>Release date:</b> ' . date("d M Y, H:i A", strtotime($info['releasedate'])) . '<br />'; 
-            print '<b>Release state:</b> ' . $info['state'] . '<br /><br />'; 
+            print '<b>Release state:</b> ' . htmlspecialchars($info['state']) . '<br /><br />'; 
             print '<b>Changelog:</b><br /><br />' . nl2br(htmlspecialchars($info['releasenotes'])) . '<br /><br />';
 
             if (!empty($info['deps']) && count($info['deps']) > 0) {
@@ -332,8 +333,8 @@ if (empty($action)) {
 
         } else {
             // Simple view
-            print '  <td><a href="/package/' . $name . '/download/' . $release_version . '">' . $release_version . "</a></td>\n";
-            print '  <td>' . substr($info['releasedate'], 0, 10) . ' &nbsp; &nbsp; ' . $info['state'] . "</td>\n";
+            print '  <td><a href="/package/' . htmlspecialchars($name) . '/download/' . $release_version . '">' . $release_version . "</a></td>\n";
+            print '  <td>' . substr($info['releasedate'], 0, 10) . ' &nbsp; &nbsp; ' . htmlspecialchars($info['state']) . "</td>\n";
         }
 
         print " </tr>\n";
@@ -356,7 +357,7 @@ if (empty($action)) {
     print '<td class="ulcell">';
 
     if (!empty($doc_link)) {
-        print '<ul><li><a href="' . $doc_link . '">End-user Documentation</a></li></ul>';
+        print '<ul><li><a href="' . htmlspecialchars($doc_link) . '">End-user Documentation</a></li></ul>';
     } else {
         print '<p>No end-user documentation is available for this package.</p>';
     }
@@ -371,7 +372,7 @@ if (empty($action)) {
         print '<ul>';
 
         foreach ($pkg['releases'] as $r_version => $release) {
-            print '<li><a href="/package/' . $name . '/docs/' . $r_version . '/">' . $r_version . '</a></li>';
+            print '<li><a href="/package/' . htmlspecialchars($name) . '/docs/' . $r_version . '/">' . $r_version . '</a></li>';
         }
 
         print '</ul>';
