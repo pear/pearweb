@@ -152,7 +152,7 @@ $form = new HTML_Form($_SERVER['PHP_SELF'], 'post');
 $form->addPlaintext('Handle:', $handle,
         $th, $td);
 $form->addText('name', '<span class="accesskey">N</span>ame:',
-        $row['name'], 40, null, '',
+        $row['name'], 40, null, 'accesskey="n"',
         $th, $td);
 $form->addText('email', 'Email:',
         $row['email'], 40, null, '',
