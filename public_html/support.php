@@ -219,6 +219,8 @@ Eris Free Net</a>.
 <h4>Tutorials about some PEAR packages in German:</h4>
 
 <ul>
+    <li>&quot;<a href="http://www.heise.de/ix/artikel/2003/12/124/">XML Transformer kann XSLT ersetzen</a>&quot;</li>
+
     <li>IT[X]:
     <a href="http://www.ulf-wendel.de/projekte/itx/index.php">http://www.ulf-wendel.de/projekte/itx/index.php</a>
     </li>
