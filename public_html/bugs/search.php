@@ -95,7 +95,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $where_clause = ' WHERE bugdb.package_name';
         if (count($_GET['package_name']) > 1) {
             $where_clause .= " IN ('"
-                           . join("', '", $dbh->escapeSimple($_GET['package_name']))
+                           . join("', '", escapeSQL($_GET['package_name']))
                            . "')";
         } else {
             $where_clause .= ' = '
