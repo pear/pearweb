@@ -3,7 +3,7 @@
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2001-2003 The PHP Group                                |
+   | Copyright (c) 2001-2004 The PHP Group                                |
    +----------------------------------------------------------------------+
    | This source file is subject to version 2.02 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -26,13 +26,17 @@ response_header('Credits');
 <h3>PEAR website team</h3>
 
 <ul>
-  <li><?php echo user_link('ssb'); ?></li>
   <li><?php echo user_link('danielc'); ?></li>
-  <li><?php echo user_link('cox'); ?></li>
-  <li><?php echo user_link('richard');?></li>
   <li><?php echo user_link('mj'); ?></li>
   <li><?php echo user_link('toby'); ?></li>
   <li><?php echo user_link('dufuz'); ?></li>
+</ul>
+
+<h4>Emeritus</h4>
+
+<ul>
+  <li><?php echo user_link('ssb'); ?></li>
+  <li><?php echo user_link('cox'); ?></li>
   <li><?php echo user_link('cmv'); ?></li>
 </ul>
 
