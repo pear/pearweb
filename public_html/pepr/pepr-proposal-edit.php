@@ -42,11 +42,11 @@
 	$form = new HTML_QuickForm('proposal_edit', 'post', 'pepr-proposal-edit.php?id='.@$id);
 	
 	$categories = category::listAll();
-	$mapCategories['RFC'] = "RFC (No package categorie!)";
+	$mapCategories['RFC'] = "RFC (No package category!)";
 	foreach ($categories as $categorie) {
 		$mapCategories[$categorie['name']] = $categorie['name'];
 	}
-	
+
 	$form->addElement('select', 'pkg_category', 'Category:', $mapCategories);
 	$categoryNewElements[] =& HTML_QuickForm::createElement('checkbox', 'pkg_category_new_do', '');
 	$categoryNewElements[] =& HTML_QuickForm::createElement('text', 'pkg_category_new_text', '');
