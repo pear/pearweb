@@ -268,8 +268,14 @@ if ($_POST['in'] && $edit == 3) {
             $query .=  "email='{$_POST['in']['email']}',";
         }
 
+        if (!empty($_POST['in']['assign']) && $_POST['in']['status'] == 'Open') {
+            $status = 'Assigned';
+        } else {
+            $status = $_POST['in']['status'];
+        }
+
         $query .= " sdesc='" . escapeSQL($_POST['in']['sdesc']) . "'," .
-                  " status='" . escapeSQL($_POST['in']['status']) . "'," .
+                  " status='" . escapeSQL($status) . "'," .
                   " package_name='" . escapeSQL($_POST['in']['package_name']) . "'," .
                   " bug_type='" . escapeSQL($_POST['in']['bug_type']) . "'," .
                   " assign='" . escapeSQL($_POST['in']['assign']) . "'," .
