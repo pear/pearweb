@@ -140,10 +140,10 @@ Please upgrade PHP to a newer version, and try again.  See you then.
 }
 
 $installer_packages = array(
-    'PEAR',
-    'Archive_Tar',
-    'Console_Getopt',
-    'XML_RPC'
+    'PEAR-stable',
+    'Archive_Tar-stable',
+    'Console_Getopt-stable',
+    'XML_RPC-stable'
     );
 if (WEBINSTALLER) {
     $installer_packages[] = 'Pager';
@@ -557,7 +557,8 @@ if ($dh) {
 
 foreach ($installer_packages as $pkg) {
     foreach($local_dir as $file) {
-        if (substr($file, 0, strlen($pkg)) == $pkg) {
+        if (substr($file, 0, strlen(str_replace('-stable', '', $pkg))) == str_replace('-stable', '', $pkg)) {
+            $pkg = str_replace('-stable', '', $pkg);
             echo str_pad("Using local package: $pkg", max(38,21+strlen($pkg)+4), '.');
             copy(dirname(__FILE__).'/go-pear-bundle/'.$file, $file);
             $tarball[$pkg] = $file;
@@ -570,6 +571,7 @@ foreach ($installer_packages as $pkg) {
     $msg = str_pad("Downloading package: $pkg", max(38,21+strlen($pkg)+4), '.');
     print $msg;
     $url = sprintf($urltemplate, $pkg);
+    $pkg = str_replace('-stable', '', $pkg);
     $tarball[$pkg] = download_url($url, null, $http_proxy);
     print "ok\n";
     displayHTMLProgress($progress += round(65 / count($to_install)));
@@ -577,7 +579,7 @@ foreach ($installer_packages as $pkg) {
 
 print 'Bootstrapping: PEAR...................';
 $r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['PEAR'], 5), 0, -4));
-$url = "http://cvs.php.net/co.php/php-src/pear/PEAR.php?p=1&r=$r";
+$url = "http://cvs.php.net/co.php/pear-core/PEAR.php?p=1&r=$r";
 if (in_array('PEAR.php', $local_dir)) {
     copy(dirname(__FILE__).'/go-pear-bundle/PEAR.php', 'PEAR.php');
     echo "(local) ";
@@ -605,7 +607,7 @@ print "ok\n";
 
 print 'Bootstrapping: Console_Getopt.........';
 $r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['Console_Getopt'], 15), 0, -4));
-$url = "http://cvs.php.net/co.php/php-src/pear/Console/Getopt.php?p=1&r=$r";
+$url = "http://cvs.php.net/co.php/pear-core/Console/Getopt.php?p=1&r=$r";
 mkdir('Console', 0700);
 if (in_array('Getopt.php', $local_dir)) {
     copy(dirname(__FILE__).'/go-pear-bundle/Getopt.php', 'Console/Getopt.php');
