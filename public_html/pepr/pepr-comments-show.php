@@ -131,8 +131,8 @@ if ($proposal->getStatus() == 'proposal') {
         echo make_mailto_link('pear-dev@lists.php.net') . '.';
     }
 } else {
-    echo 'Comments only accepted during the &quot;Proposal&quot; phase.';
-    echo ' This proposal is currently in the &quot;';
+    echo 'Comments are only accepted during the &quot;Proposal&quot; phase. ';
+    echo 'This proposal is currently in the &quot;';
     echo $proposal->getStatus(true) . '&quot; phase.';
 }
 
