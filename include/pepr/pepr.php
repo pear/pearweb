@@ -369,8 +369,8 @@ class proposal {
                               (isset($vote)) ? $vote_url : "",
                               PROPOSAL_MAIL_PEAR_DEV,
                               PROPOSAL_MAIL_PEAR_GROUP,
-                              stripslashes($comment),
-                              $vote_conditional
+                              (isset($comment)) ? stripslashes($comment) : "",
+                              (isset($vote_conditional)) ? $vote_conditional : ""
                               );
         $email = preg_replace($replace, $replacements, $email);
         $email['text'] .= PROPOSAL_EMAIL_POSTFIX;
