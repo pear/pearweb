@@ -23,6 +23,8 @@
  */
 require_once './include/prepend.inc';
 
+$errors  = array();
+$success = '';
 
 if (isset($_GET['bug_id'])) {
 
@@ -37,31 +39,45 @@ if (isset($_GET['bug_id'])) {
         $row = $dbh->getRow($query, null, DB_FETCHMODE_ASSOC);
 
         if (is_null($row)) {
-            $msg = "No password found for #$bug_id bug report, sorry.";
+            $errors[] = 'Invalid bug id provided: #' . $bug_id;
         } else {
             if (empty($row['passwd'])) {
-                $msg = "No password found for #$bug_id bug report, sorry.";
+                $errors[] = "No password found for #$bug_id bug report, sorry.";
             } else {
                 $passwd = stripslashes($row['passwd']);
 
-                mail ($row['email'], "Password for PEAR bug report #$bug_id", "The password for PEAR bug report #$bug_id is $passwd.", "From: noreply@php.net")
-                    or die ("Sorry. Mail could not be sent at this time. Please try again later.");
+                $resp = mail($row['email'],
+                             'Password for PEAR bug report #' . $bug_id,
+                             'The password for PEAR bug report #' . $bug_id
+                             . ' is ' . $passwd . '.',
+                             'From: noreply@php.net');
 
-                $msg = "The password for bug report #$bug_id has been sent to " . $row['email'];
+                if ($resp) {
+                    $success = 'The password for bug report #' . $bug_id
+                               . ' has been sent to '
+                               . spam_protect($row['email'], 'text');
+                } else {
+                    $errors[] = 'Sorry. Mail can not be sent at this time.'
+                                . 'Please try again later.';
+                }
             }
         }
-
     } else {
-        $msg = "The provided #$bug_id bug id is invalid.";
+        $errors[] = 'Invalid bug id provided: #' . $bug_id;
     }
-} else {
-    $msg = "";
 }
 
 response_header("Bug Report Password Finder");
 
+echo '<h1>Bug Report Password Finder</h1>' . "\n";
+
+report_errors($errors);
+
+if ($success) {
+    display_bug_success($success);
+}
+
 ?>
-<h1>Bug Report Password Finder</h1>
 
 <p>
 If you need to modify a bug report that you submitted, but have
@@ -73,8 +89,6 @@ Enter in the number of the bug report, press the Send button
 and the password will be mailed to the email address specified
 in the bug report.
 </p>
-
-<?php if ($msg) { echo "<p><font color=\"#cc0000\">$msg</font></p>"; } ?>
 
 <form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 <p><b>Bug Report ID:</b> #<input type="text" size="20" name="bug_id">
