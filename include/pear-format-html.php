@@ -199,6 +199,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
     <select name="search_in" class="small">
         <option value="packages">Packages</option>
         <option value="site">This site (using Google)</option>
+        <option value="developers">Developers</option>
         <option value="pear-dev">Developer mailing list</option>
         <option value="pear-general">General mailing list</option>
         <option value="pear-cvs">CVS commits mailing list</option>

@@ -33,6 +33,11 @@ switch ($_POST['search_in']) {
 		exit;
 		break;
 
+    case "developers":
+        // XXX: Enable searching for names instead of handles
+        localRedirect('/user/' . urlencode($_POST['search_string']));
+        exit;
+
     case "pear-dev" :
     case "pear-cvs" :
     case "pear-general" :
