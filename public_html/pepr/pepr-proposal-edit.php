@@ -42,8 +42,8 @@ ob_start();
 if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
     response_header('PEPr :: Editor :: '
                     . htmlspecialchars($proposal->pkg_name));
-    echo '<h1>Proposal Editor for "' . htmlspecialchars($proposal->pkg_name);
-    echo '" (' . $proposal->getStatus(true) . ")</h1>\n";
+    echo '<h1>Proposal Editor for &quot;' . htmlspecialchars($proposal->pkg_name);
+    echo '&quot; (' . $proposal->getStatus(true) . ")</h1>\n";
 
     if (!$proposal->mayEdit($_COOKIE['PEAR_USER']) && empty($_GET['next_stage'])) {
         report_error('You are not allowed to edit this proposal,'

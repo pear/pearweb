@@ -34,7 +34,7 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
 }
 
 response_header('PEPr :: Comments :: ' . htmlspecialchars($proposal->pkg_name));
-echo '<h1>Comments for "' . htmlspecialchars($proposal->pkg_name) . "\"</h1>\n";
+echo '<h1>Comments for $quot;' . htmlspecialchars($proposal->pkg_name) . "&quot;</h1>\n";
 
 if (isset($_COOKIE['PEAR_USER']) &&
     $proposal->getStatus() == 'proposal')
