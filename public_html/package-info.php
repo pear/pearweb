@@ -206,6 +206,7 @@ if (empty($action)) {
         print '<li><a href="' . $cvs_link . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
     }
     print '<li><a href="/feeds/pkg_' . strtolower($name) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>';
+    print '<li><a href="/package-stats.php?pid=' . $pkg['packageid'] . '" title="Download statstics for this package">Download Statistics</a></li>';
     print '</ul>';
     print '</td>';
     print '</tr>';
