@@ -244,14 +244,30 @@ if (isset($_POST['submit'])) {
             $proposal->user_handle = $_COOKIE['PEAR_USER'];
         }
 
+if (@$_COOKIE['PEAR_USER'] == 'danielc') {
+    echo "<pre>post...\n";
+    print_r($_POST['link']);
+    echo "\nlinksData\n";
+    print_r($linksData);
+}
         unset($proposal->links);
         for ($i = 0; $i < count($linksData); $i++) {
             $linkData['type'] = $linksData[$i]['type'];
             $linkData['url']  = $linksData[$i]['url'];
+
             if ($linksData[$i]['url']) {
+if (@$_COOKIE['PEAR_USER'] == 'danielc') {
+    echo "\nlinkData\n";
+    print_r($linkData);
+}
                 $proposal->addLink($dbh, new ppLink($linkData));
             }
         }
+
+if (@$_COOKIE['PEAR_USER'] == 'danielc') {
+    echo '</pre>';
+    exit;
+}
 
         $proposal->store($dbh);
 
