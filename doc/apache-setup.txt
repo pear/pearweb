@@ -44,7 +44,7 @@ installed in /usr/share/pear):
  #
  # Rewriting rule for the Bug system
  #
- RewriteRule   /bugs/([0-9]+/*$) /bugs/bug.php?id=$1
+ RewriteRule   /bugs/([0-9]+)/*$ /bugs/bug.php?id=$1 [R]
 
  <Location /get>
   ForceType application/x-httpd-php
