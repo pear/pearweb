@@ -67,7 +67,7 @@ if (isset($_POST['submit'])) {
     } else {
         $query = 'UPDATE packages SET name = ?, license = ?,
                   summary = ?, description = ?, category = ?,
-                  homepage = ?, package_type = ?, cvs_link = ?
+                  homepage = ?, package_type = ?, doc_link = ?, cvs_link = ?
                   WHERE id = ?';
 
         $qparams = array(
@@ -78,6 +78,7 @@ if (isset($_POST['submit'])) {
                       $_POST['category'],
                       $_POST['homepage'],
                       'pear',
+                      $_POST['doc_link'],
                       $_POST['cvs_link'],
                       $_GET['id']
                     );
@@ -170,7 +171,13 @@ $form->displaySelect("category", $rows, $row['categoryid']);
     </td>
 </tr>
 <tr>
-    <td>Web CVS Url:</td>
+    <td>Documentation URI:</td>
+    <td valign="middle">
+    <?php $form->displayText("doc_link", $row['doc_link'], 30); ?>
+    </td>
+</tr>
+<tr>
+    <td>Web CVS URI:</td>
     <td valign="middle">
     <?php $form->displayText("cvs_link", $row['cvs_link'], 30); ?>
     </td>
