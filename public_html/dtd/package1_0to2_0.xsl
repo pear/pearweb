@@ -39,6 +39,7 @@
    <xsl:text>
  </xsl:text>
    <xsl:apply-templates select="release/license"/>
+   <xsl:apply-templates select="/package/license"/>
    <xsl:text>
  </xsl:text>
    <xsl:element name="stability">
@@ -129,7 +130,7 @@
    </xsl:if>
   </xsl:for-each>
  </xsl:template>
- <xsl:template match="release/license">
+ <xsl:template match="license">
   <xsl:element name="license">
    <xsl:choose>
     <xsl:when test=".='PHP License'">
