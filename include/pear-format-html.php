@@ -289,48 +289,63 @@ function response_footer($style = false)
 
  </tr>
 
- <!-- Lower bar -->
+ <!-- START FOOTER -->
 
-  <tr style="background-color: #003300"><td colspan="5" style="height: 1px;"><?php spacer(1,1);?><br /></td></tr>
-  <tr style="background-color: #339900">
-      <td colspan="5" style="height: 1px; text-align: right; vertical-align: bottom;">
-      <div class="menuBlack" style="padding-right: 5px;">
+ <tr>
+  <td class="foot-bar" colspan="5">
+   <div class="menuBlack">
 <?php
 print_link('/about/privacy.php', 'PRIVACY POLICY', false);
 echo delim();
 print_link('/credits.php', 'CREDITS', false);
 ?>
-    </div>
-      </td>
-  </tr>
-  <tr style="background-color: #003300"><td colspan="5" style="height: 1px;"><?php spacer(1,1); ?><br /></td></tr>
+   </div>
+  </td>
+ </tr>
 
-  <tr style="background-color: #CCCCCC; vertical-align: top;">
-    <td colspan="5" style="height: 1px;">
-            <table cellspacing="0" cellpadding="5" style="width: 100%; border: 0px;">
-                <tr>
-                    <td>
-                        <small>
-	      <?php print_link('/copyright.php', 'Copyright &copy; 2001-2004 The PHP Group'); ?><br />
-	      All rights reserved.<br />
-                        </small>
-		 </td>
-		 <td style="text-align: right; vertical-align: top;">
-		  <small>
-	      Last updated: <?php echo $LAST_UPDATED; ?><br />
-	      Bandwidth and hardware provided by: <?php ($_SERVER['SERVER_NAME'] == 'pear.php.net' ? print_link('http://www.pair.com/', 'pair Networks') : print '<i>This is an unofficial mirror!</i>'); ?>
-                        </small>
-                    </td>
-                </tr>
-            </table>
-        </td>
+ <tr>
+  <td colspan="5">
+   <table class="foot-info">
+    <tr>
+     <td class="foot-copy">
+      <small>
+       <?php print_link('/copyright.php',
+                        'Copyright &copy; 2001-2004 The PHP Group'); ?><br />
+       All rights reserved.
+      </small>
+     </td>
+     <td class="foot-source">
+      <small>
+       Last updated: <?php echo $LAST_UPDATED; ?><br />
+       Bandwidth and hardware provided by:
+       <?php
+        if ($_SERVER['SERVER_NAME'] == 'pear.php.net') {
+            print_link('http://www.pair.com/', 'pair Networks');
+        } else {
+            print '<i>This is an unofficial mirror!</i>';
+        }
+       ?>
+
+      </small>
+     </td>
     </tr>
+   </table>
+  </td>
+ </tr>
+
+ <!-- END FOOTER -->
+
 </table>
 
 </body>
 </html>
 <?php
+
 }
+
+
+
+// DECLARE FUNCTIONS
 
 function menu_link($text, $url) {
     echo "<p>\n";

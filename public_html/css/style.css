@@ -14,6 +14,7 @@ table.main {
     border: 0px;
 }
 
+
 /* === Header === */
 
 td.head-logo {
@@ -104,6 +105,35 @@ li.side_page {
     white-space: nowrap;
 }
 
+
+/* === Footer === */
+
+td.foot-bar {
+    background-color: #339900;
+    border-top: 1px solid #003300;
+    border-bottom: 1px solid #003300;
+    text-align: right;
+    vertical-align: bottom;
+    padding-right: 0.3em;
+}
+
+table.foot-info {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td.foot-copy {
+    background-color: #CCCCCC;
+    vertical-align: top;
+    padding: 0.3em;
+}
+
+td.foot-source {
+    background-color: #CCCCCC;
+    vertical-align: top;
+    text-align: right;
+    padding: 0.3em;
+}
 
 /* === Other === */
 
