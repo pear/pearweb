@@ -126,7 +126,7 @@ if ($total > 0) {
         $sort_by = 'open';
     }
     if (!isset($_GET['rev'])) {
-        $rev = 1;
+        $rev = 0;
     }
 
     if ($_GET['rev'] == 1) {
@@ -170,7 +170,9 @@ $users =& $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, m
         $_GET['developer'] == $u['handle'] ? $selected = ' selected="selected"' : $selected = '';
         echo '<option value="' . $u['handle'] . '"' . $selected . '>' . $u['name'] . '</option>'."\n";
     }
-    echo '</select>   <strong>Bug Type:</strong><select id="bug_type" name="bug_type" onchange="this.form.submit(); return false;">';
+    echo '</select>
+        <strong>Bug Type:</strong>
+        <select id="bug_type" name="bug_type" onchange="this.form.submit(); return false;">';
             show_type_options($_GET['bug_type'], true);
     echo '</select>
         <input type="submit" name="submitStats" value="Search" />
