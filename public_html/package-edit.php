@@ -127,15 +127,15 @@ print_package_navigation($row['packageid'], $row['name'],
 <table class="form-holder" style="margin-bottom: 2em;" cellspacing="1">
 <caption class="form-caption">Edit Package Information</caption>
 <tr>
-    <th class="form-label_left">Package Name:</th>
+    <th class="form-label_left">Pa<span class="accesskey">c</span>kage Name:</th>
     <td class="form-input">
-    <?php $form->displayText("name", $row['name'], 30); ?>
+    <?php $form->displayText('name', $row['name'], 50, 80, 'accesskey="c"'); ?>
     </td>
 </tr>
 <tr>
     <th class="form-label_left">License:</th>
     <td class="form-input">
-    <?php $form->displayText("license", $row['license'], 30); ?>
+    <?php $form->displayText('license', $row['license'], 50, 20); ?>
     </td>
 </tr>
 <tr>
@@ -165,21 +165,21 @@ $form->displaySelect("category", $rows, $row['categoryid']);
     </td>
 </tr>
 <tr>
-    <th class="form-label_left">Homepage:</th>
+    <th class="form-label_left">H<span class="accesskey">o</span>mepage:</th>
     <td class="form-input">
-    <?php $form->displayText("homepage", $row['homepage'], 30); ?>
+    <?php $form->displayText('homepage', $row['homepage'], 50, 255, 'accesskey="o"'); ?>
     </td>
 </tr>
 <tr>
     <th class="form-label_left">Documentation URI:</th>
     <td class="form-input">
-    <?php $form->displayText("doc_link", $row['doc_link'], 30); ?>
+    <?php $form->displayText('doc_link', $row['doc_link'], 50, 255); ?>
     </td>
 </tr>
 <tr>
     <th class="form-label_left">Web CVS URI:</th>
     <td class="form-input">
-    <?php $form->displayText("cvs_link", $row['cvs_link'], 30); ?>
+    <?php $form->displayText('cvs_link', $row['cvs_link'], 50, 255); ?>
     </td>
 </tr>
 <tr>
