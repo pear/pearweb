@@ -19,9 +19,9 @@
 */
 
 /* Send charset */
-header("Content-Type: text/html; charset=iso-8859-1");
+header('Content-Type: text/html; charset=iso-8859-1');
 
-PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, "error_handler");
+PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
 
 require_once 'layout.php';
 
@@ -93,7 +93,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
         }
     }
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
  <title>PEAR :: <?php echo $title; ?></title>
@@ -104,91 +104,96 @@ function response_header($title = 'The PHP Extension and Application Repository'
 
 <body <?php
     if (!empty($GLOBALS['ONLOAD'])) {
-        print "onload=\"" . $GLOBALS['ONLOAD']. "\"";
+        print 'onload="' . $GLOBALS['ONLOAD']. '"';
     }
-?>
-        bgcolor="#ffffff"
-        text="#000000"
-        link="#006600"
-        alink="#cccc00"
-        vlink="#003300"
-><a name="TOP" />
-<table border="0" cellspacing="0" cellpadding="0" width="100%">
-  <tr bgcolor="#339900">
-    <td align="left" rowspan="2" width="120" colspan="2" height="1">
-<?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, 'vspace="5" hspace="5"') ); ?><br />
+?>>
+<div>
+<a id="TOP" />
+</div>
+<table cellspacing="0" cellpadding="0" style="width: 100%; border: 0px;">
+  <tr style="background-color: #339900;">
+    <td rowspan="2" colspan="2" style="width: 120px; height: 1px; text-align: left;">
+<?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
     </td>
-    <td align="right" valign="top" colspan="3" height="1">&nbsp;</td>
+    <td colspan="3" style="height: 1px; text-align: right; vertical-align: top;">&nbsp;</td>
   </tr>
 
-  <tr bgcolor="#339900">
-    <td align="right" valign="bottom" colspan="3" height="1">
+  <tr style="background-color: #339900;">
+    <td colspan="3" style="height: 1px; text-align: right; vertical-align: bottom;">
       <?php
 
     if (empty($_COOKIE['PEAR_USER'])) {
-        print_link('/account-request.php', 'Register', false, 'class="menuBlack"');
+        echo '<div class="menuBlack">';
+        print_link('/account-request.php', 'Register', false);
         echo delim();
-        if ($_SERVER['QUERY_STRING'] && $_SERVER['QUERY_STRING'] != "logout=1") {
+        if ($_SERVER['QUERY_STRING'] && $_SERVER['QUERY_STRING'] != 'logout=1') {
             print_link('/login.php?redirect=' . urlencode(
                        "{$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']}"),
-                       'Login', false, 'class="menuBlack"');
+                       'Login', false);
         } else {
             print_link('/login.php?redirect=' . $_SERVER['PHP_SELF'],
-                       'Login', false, 'class="menuBlack"');
+                       'Login', false);
         }
     } else {
         print '<span class="menuWhite"><small>';
         print '<a href="/user/' . $_COOKIE['PEAR_USER'] . '">logged in as ';
         print strtoupper($_COOKIE['PEAR_USER']);
         print '</a>&nbsp;</small></span><br />';
-        print_link('/?logout=1', 'Logout', false, 'class="menuBlack"');
+        echo '<div class="menuBlack">';
+        print_link('/?logout=1', 'Logout', false);
     }
+
     echo delim();
-    print_link('/manual/', 'Docs', false, 'class="menuBlack"');
+    print_link('/manual/', 'Docs', false);
     echo delim();
-    print_link('/packages.php', 'Packages', false, 'class="menuBlack"');
+    print_link('/packages.php', 'Packages', false);
     echo delim();
-    print_link('/support.php','Support',false,'class="menuBlack"');
+    print_link('/support.php','Support',false);
     echo delim();
-    print_link('/bugs/','Bugs',false,'class="menuBlack"');
+    print_link('/bugs/','Bugs',false);
       ?>&nbsp;<br />
-      <?php spacer(2,2); ?><br />
+      <?php spacer(2,2); ?>
+      </div>
     </td>
   </tr>
 
-  <tr bgcolor="#003300"><td colspan="5" height="1"><?php spacer(1,1);?><br /></td></tr>
+  <tr style="background-color: #003300;"><td colspan="5" style="height: 1px;"><?php spacer(1,1);?><br /></td></tr>
 
-  <tr bgcolor="#006600">
-    <td align="right" valign="top" colspan="5" height="1" class="menuWhite">
+  <tr style="background-color: #006600;">
+    <td colspan="5" style="height: 1px; text-align: right; vertical-align: top;" class="menuWhite">
     <form method="post" action="/search.php">
+    <div>
     <small>Search for</small>
     <input class="small" type="text" name="search_string" value="" size="20" />
     <small>in the</small>
     <select name="search_in" class="small">
-	<option value="packages">Packages</option>
-	<option value="site">This site (using Google)</option>
-    <option value="pear-dev">Developer mailing list</option>
-    <option value="pear-general">General mailing list</option>
-    <option value="pear-cvs">CVS commits mailing list</option>
+        <option value="packages">Packages</option>
+        <option value="site">This site (using Google)</option>
+        <option value="pear-dev">Developer mailing list</option>
+        <option value="pear-general">General mailing list</option>
+        <option value="pear-cvs">CVS commits mailing list</option>
     </select>
-    <input type="image" src="/gifs/small_submit_white.gif" alt="search" align="bottom" />&nbsp;<br /></form></td></tr>
+    <input type="image" src="/gifs/small_submit_white.gif" alt="search" style="vertical-align: middle;" />&nbsp;<br />
+    </div>
+    </form>
+    </td></tr>
 
-  <tr bgcolor="#003300"><td colspan="5" height="1"><?php spacer(1,1);?><br /></td></tr>
+  <tr style="background-color: #003300;"><td colspan="5" style="height: 1px;"><?php spacer(1,1);?><br /></td></tr>
 
   <!-- Middle section -->
 
  <tr valign="top">
 <?php if (isset($SIDEBAR_DATA)) { ?>
-  <td colspan="2" class="sidebar_left" bgcolor="#f0f0f0" width="149">
-   <table width="149" cellpadding="4" cellspacing="0">
-    <tr valign="top">
+  <td colspan="2" class="sidebar_left" style="width: 149px; background-color: #F0F0F0;">
+   <table cellpadding="4" cellspacing="0" style="width: 149px;">
+    <tr style="vertical-align: top;">
      <td><?php echo $SIDEBAR_DATA?><br /></td>
     </tr>
    </table>
   </td>
 <?php } ?>
   <td>
-   <table width="100%" cellpadding="10" cellspacing="0">
+   <table cellpadding="10" cellspacing="0" style="width: 100%;">
     <tr>
      <td valign="top">
 <?php
@@ -198,16 +203,16 @@ function &draw_navigation($data, $menu_title='')
 {
     $html = "<br />\n";
     if (!empty($menu_title)) {
-        $html .= "<b>$menu_title</b>\n";
+        $html .= "<strong>$menu_title</strong>\n";
         $html .= "<br />\n";
     }
 
     foreach ($data as $url => $tit) {
-        $tt = str_replace(" ", "&nbsp;", $tit);
+        $tt = str_replace(' ', '&nbsp;', $tit);
         if ($url == $_SERVER['PHP_SELF']) {
-            $html .= make_image("box-1.gif") . "<b>$tt</b><br />\n";
+            $html .= make_image('box-1.gif') . "<strong>$tt</strong><br />\n";
         } else {
-            $html .= make_image("box-0.gif") . "<a href=\"$url\">$tt</a><br />\n";
+            $html .= make_image('box-0.gif') . "<a href=\"$url\">$tt</a><br />\n";
         }
     }
     return $html;
@@ -234,8 +239,8 @@ function response_footer($style = false)
   </td>
 
 <?php if (isset($RSIDEBAR_DATA)) { ?>
-  <td class="sidebar_right" width="149" bgcolor="#f0f0f0">
-    <table width="149" cellpadding="4" cellspacing="0">
+  <td class="sidebar_right" style="background-color: #F0F0F0; width: 149px;">
+    <table cellpadding="4" cellspacing="0" style="width: 149px;">
      <tr valign="top">
       <td><?php echo $RSIDEBAR_DATA; ?><br />
      </td>
@@ -248,22 +253,23 @@ function response_footer($style = false)
 
  <!-- Lower bar -->
 
-  <tr bgcolor="#003300"><td colspan="5" height="1"><?php spacer(1,1);?><br /></td></tr>
-  <tr bgcolor="#339900">
-      <td align="right" valign="bottom" colspan="5" height="1">
+  <tr style="background-color: #003300"><td colspan="5" style="height: 1px;"><?php spacer(1,1);?><br /></td></tr>
+  <tr style="background-color: #339900">
+      <td colspan="5" style="height: 1px; text-align: right; vertical-align: bottom;">
+      <div class="menuBlack" style="padding-right: 5px;">
 <?php
-print_link('/about/privacy.php', 'PRIVACY POLICY', false, 'class="menuBlack"');
+print_link('/about/privacy.php', 'PRIVACY POLICY', false);
 echo delim();
-print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
+print_link('/credits.php', 'CREDITS', false);
 ?>
-      <br />
+    </div>
       </td>
   </tr>
-  <tr bgcolor="#003300"><td colspan="5" height="1"><?php spacer(1,1); ?><br /></td></tr>
+  <tr style="background-color: #003300"><td colspan="5" style="height: 1px;"><?php spacer(1,1); ?><br /></td></tr>
 
-  <tr valign="top" bgcolor="#cccccc">
-    <td colspan="5" height="1">
-	  <table border="0" cellspacing="0" cellpadding="5" width="100%">
+  <tr style="background-color: #CCCCCC; vertical-align: top;">
+    <td colspan="5" style="height: 1px;">
+	  <table cellspacing="0" cellpadding="5" style="width: 100%; border: 0px;">
 	  	<tr>
 		 <td>
 		  <small>
@@ -271,10 +277,10 @@ print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
 	      All rights reserved.<br />
 	      </small>
 		 </td>
-		 <td align="right" valign="top">
+		 <td style="text-align: right; vertical-align: top;">
 		  <small>
 	      Last updated: <?php echo $LAST_UPDATED; ?><br />
-	      Bandwidth and hardware provided by: <?php ($_SERVER['SERVER_NAME'] == "pear.php.net" ? print_link("http://www.pair.com/", "pair Networks") : print "<i>This is an unofficial mirror!</i>"); ?>
+	      Bandwidth and hardware provided by: <?php ($_SERVER['SERVER_NAME'] == 'pear.php.net' ? print_link('http://www.pair.com/', 'pair Networks') : print '<i>This is an unofficial mirror!</i>'); ?>
 	      </small>
 		 </td>
 		</tr>
@@ -292,7 +298,7 @@ function menu_link($text, $url) {
     echo "<p>\n";
     print_link($url, make_image('pear_item.gif', $text) );
     echo '&nbsp;';
-    print_link($url, '<b>' . $text . '</b>' );
+    print_link($url, '<strong>' . $text . '</strong>' );
     echo "</p>\n";
 }
 
@@ -305,10 +311,10 @@ function report_error($error)
             $error .= " : $info";
         }
     }
-    print "<font color=\"#990000\"><b>$error</b></font><br />\n";
+    print "<span style=\"color: #990000;\"><strong>$error</strong></span><br />\n";
 }
 
-function error_handler($errobj, $title = "Error")
+function error_handler($errobj, $title = 'Error')
 {
     if (PEAR::isError($errobj)) {
         $msg = $errobj->getMessage();
@@ -329,7 +335,7 @@ function error_handler($errobj, $title = "Error")
 
 
 class BorderBox {
-    function BorderBox($title, $width = "90%", $indent = "", $cols = 1,
+    function BorderBox($title, $width = '90%', $indent = '', $cols = 1,
                        $open = false) {
         $this->title = $title;
         $this->width = $width;
@@ -346,11 +352,11 @@ class BorderBox {
         }
         $i = $this->indent;
         print "<!-- border box starts -->\n";
-        print "$i<table cellpadding=\"0\" cellspacing=\"1\" border=\"0\" width=\"$this->width\">\n";
+        print "$i<table cellpadding=\"0\" cellspacing=\"1\" style=\"width: $this->width; border: 0px;\">\n";
         print "$i <tr>\n";
-        print "$i  <td bgcolor=\"#000000\">\n";
-        print "$i   <table cellpadding=\"2\" cellspacing=\"1\" border=\"0\" width=\"100%\">\n";
-        print "$i    <tr bgcolor=\"#cccccc\">\n";
+        print "$i  <td style=\"background-color: #000000;\">\n";
+        print "$i   <table cellpadding=\"2\" cellspacing=\"1\" style=\"width: 100%; border: 0px;\">\n";
+        print "$i    <tr style=\"background-color: #CCCCCC;\">\n";
         print "$i     <th";
         if ($this->cols > 1) {
             print " colspan=\"$this->cols\"";
@@ -358,7 +364,7 @@ class BorderBox {
         print ">$title</th>\n";
         print "$i    </tr>\n";
         if (!$this->open) {
-            print "$i    <tr bgcolor=\"#ffffff\">\n";
+            print "$i    <tr style=\"background-color: #FFFFFF;\">\n";
             print "$i     <td>\n";
         }
     }
@@ -379,9 +385,9 @@ class BorderBox {
     function horizHeadRow($heading /* ... */) {
         $i = $this->indent;
         print "$i    <tr>\n";
-        print "$i     <th valign=\"top\" bgcolor=\"#cccccc\">$heading</th>\n";
+        print "$i     <th style=\"vertical-align: top; background-color: #CCCCCC;\">$heading</th>\n";
         for ($j = 0; $j < $this->cols-1; $j++) {
-            print "$i     <td valign=\"top\" bgcolor=\"#e8e8e8\">";
+            print "$i     <td style=\"vertical-align: top; background-color: #E8E8E8\">";
             $data = @func_get_arg($j + 1);
             if (empty($data)) {
                 print "&nbsp;";
@@ -398,10 +404,10 @@ class BorderBox {
         $i = $this->indent;
         print "$i    <tr>\n";
         for ($j = 0; $j < $this->cols; $j++) {
-            print "$i     <th valign=\"top\" bgcolor=\"#ffffff\">";
+            print "$i     <th style=\"vertical-align: top; background-color: #FFFFFF;\">";
             $data = @func_get_arg($j);
             if (empty($data)) {
-                print "&nbsp;";
+                print '&nbsp;';
             } else {
                 print $data;
             }
@@ -414,10 +420,10 @@ class BorderBox {
         $i = $this->indent;
         print "$i    <tr>\n";
         for ($j = 0; $j < $this->cols; $j++) {
-            print "$i     <td valign=\"top\" bgcolor=\"#ffffff\">";
+            print "$i     <td style=\"vertical-align: top; background-color: #FFFFFF;\">";
             $data = @func_get_arg($j);
             if (empty($data)) {
-                print "&nbsp;";
+                print '&nbsp;';
             } else {
                 print $data;
             }
@@ -429,7 +435,7 @@ class BorderBox {
     function fullRow($text) {
         $i = $this->indent;
         print "$i    <tr>\n";
-        print "$i     <td bgcolor=\"#e8e8e8\"";
+        print "$i     <td style=\"background-color: #E8E8E8;\"";
         if ($this->cols > 1) {
             print " colspan=\"$this->cols\"";
         }
@@ -446,7 +452,7 @@ class BorderBox {
 */
 function html_category_urhere($id, $link_lastest = false)
 {
-    $html = "<a href=\"/packages.php\">Top Level</a>";
+    $html = '<a href="/packages.php">Top Level</a>';
     if ($id !== null) {
         global $dbh;
         $res = $dbh->query("SELECT c.id, c.name
@@ -461,12 +467,12 @@ function html_category_urhere($id, $link_lastest = false)
                 break;
             }
             $html .= "  :: ".
-                     "<a href=\"/packages.php?catpid={$row['id']}&catname={$row['name']}\">".
+                     "<a href=\"/packages.php?catpid={$row['id']}&amp;catname={$row['name']}\">".
                      "{$row['name']}</a>";
             $i++;
         }
         if (!$link_lastest) {
-            $html .= "  :: <b>".$row['name']."</b>";
+            $html .= '  :: <strong>' . $row['name'] . '</strong>';
         }
     }
     print $html;
@@ -480,7 +486,7 @@ function html_category_urhere($id, $link_lastest = false)
 */
 function getURL($url)
 {
-	include_once('Net/URL.php');
+	include_once 'Net/URL.php';
 	$obj = new Net_URL($url);
 	return $obj->getURL();
 }
@@ -510,41 +516,41 @@ function get_license_link($license = "")
 {
     switch ($license) {
 
-        case "PHP License" :
-        case "PHP 2.02" :
-            $link = "http://www.php.net/license/2_02.txt";
+        case 'PHP License' :
+        case 'PHP 2.02' :
+            $link = 'http://www.php.net/license/2_02.txt';
             break;
 
-        case "GPL" :
-        case "GNU General Public License" :
-            $link = "http://www.gnu.org/licenses/gpl.html";
+        case 'GPL' :
+        case 'GNU General Public License' :
+            $link = 'http://www.gnu.org/licenses/gpl.html';
             break;
 
-        case "LGPL" :
-        case "GNU Lesser General Public License" :
-            $link = "http://www.gnu.org/licenses/lgpl.html";
+        case 'LGPL' :
+        case 'GNU Lesser General Public License' :
+            $link = 'http://www.gnu.org/licenses/lgpl.html';
             break;
 
         default :
-            $link = "";
+            $link = '';
             break;
     }
 
-    return ($link != "" ? "<a href=\"" . $link . "\">" . $license . "</a>\n" : $license);
+    return ($link != '' ? '<a href="' . $link . '">' . $license . "</a>\n" : $license);
 }
 
-function display_user_notes($user, $width = "50%")
+function display_user_notes($user, $width = '50%')
 {
     global $dbh;
     $bb = new BorderBox("Notes for user $user", $width);
-    $notes = $dbh->getAssoc("SELECT id,nby,ntime,note FROM notes ".
-                "WHERE uid = ? ORDER BY ntime", true, array($user));
+    $notes = $dbh->getAssoc("SELECT id,nby,ntime,note FROM notes 
+                WHERE uid = ? ORDER BY ntime", true, array($user));
     if (!empty($notes)) {
-        print "<table cellpadding=\"2\" cellspacing=\"0\" border=\"0\">\n";
+        print '<table cellpadding="2" cellspacing="0" style="border: 0px;">' . "\n";
         foreach ($notes as $nid => $data) {
         print " <tr>\n";
         print "  <td>\n";
-        print "   <b>{$data['nby']} {$data['ntime']}:</b>";
+        print "   <strong>{$data['nby']} {$data['ntime']}:</strong>";
         print "<br />\n";
         print "   ".htmlspecialchars($data['note'])."\n";
         print "  </td>\n";
@@ -553,7 +559,7 @@ function display_user_notes($user, $width = "50%")
         }
         print "</table>\n";
     } else {
-        print "No notes.";
+        print 'No notes.';
     }
     $bb->end();
     return sizeof($notes);
@@ -582,7 +588,7 @@ function user_link($handle, $compact = false)
     return sprintf("<a href=\"/user/%s\">%s</a>%s\n",
                    $handle,
                    $row['name'],
-                   ($row['wishlist'] != "" && $compact == false ? " [<a href=\"" . htmlentities($row['wishlist']) . "\">Wishlist</a>]" : "")
+                   ($row['wishlist'] != "" && $compact == false ? " [<a href=\"" . htmlentities($row['wishlist']) . "\">Wishlist</a>]" : '')
                    );
 }
 
