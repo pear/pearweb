@@ -59,4 +59,9 @@ installed in /usr/share/pear):
  <Location /bugs/include>
     deny from all
  </Location>
+
+ <Location /trackback>
+    DirectoryIndex trackback.php
+ </Location>
+
 </VirtualHost>
