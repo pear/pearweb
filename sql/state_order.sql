@@ -1,6 +1,6 @@
 CREATE TABLE state_order (
        state     VARCHAR(10) NOT NULL,
-       order     INTEGER NOT NULL,
+       orderno   INTEGER NOT NULL,
        PRIMARY KEY(state)
 );
 
