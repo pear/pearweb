@@ -29,21 +29,21 @@ feeds available for your viewing pleasure:</p>
 
 <ul>
   <li><?php echo make_link('/feeds/latest.rss'); ?>: The latest 10 releases</li>
-  <li>Feeds per category:
+  <li>Package feeds per category:
     <ul>
       <li><?php echo make_link('/feeds/cat_authentication.rss'); ?>: Authentication</li>
       <li><?php echo make_link('/feeds/cat_benchmarking.rss'); ?>: Benchmarking</li>
       <li>For all other categories, the same scheme as shown above applies</li>
     </ul>
   </li>
-  <li>Feeds per package:
+  <li>Pakcgae feeds per package:
     <ul>
       <li><?php echo make_link('/feeds/pkg_auth.rss'); ?>: Auth</li>
       <li><?php echo make_link('/feeds/pkg_mail_mime.rss'); ?>: Mail_Mime</li>
       <li>For all other packages, the same scheme as shown above applies</li>
     </ul>
   </li>
-  <li>Feeds per user:
+  <li>Package feeds per user:
     <ul>
       <li><?php echo make_link('/feeds/user_jon.rss'); ?>: Jon Parise (jon)</li>
       <li><?php echo make_link('/feeds/user_mj.rss'); ?>: Martin Jansen (mj)</li>
