@@ -412,9 +412,9 @@ class package
         }
 
         if ($allow_pecl) {
-             $package_type = "";
+             $package_type = "((p.package_type = 'pear' AND p.approved = 1) OR p.package_type = 'pecl') AND ";
         } else {
-             $package_type = "p.package_type = 'pear' AND ";
+             $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
         }
         $pkg_sql = "SELECT p.id AS packageid, p.name AS name, ".
              "p.package_type AS type, ".
@@ -424,7 +424,7 @@ class package
              "p.description AS description, p.cvs_link AS cvs_link, ".
              "p.doc_link as doc_link".
              " FROM packages p, categories c ".
-             "WHERE " . $package_type . " p.approved = 1 AND c.id = p.category AND p.{$what} = ?";
+             "WHERE " . $package_type . " c.id = p.category AND p.{$what} = ?";
         $rel_sql = "SELECT version, id, doneby, license, summary, ".
              "description, releasedate, releasenotes, state ".
              "FROM releases ".
@@ -466,7 +466,7 @@ class package
             if ($field == 'releases' || $field == 'notes') {
                 if ($what == "name") {
                     $pid = $dbh->getOne("SELECT p.id FROM packages p ".
-                                        "WHERE " . $package_type . " p.approved = 1 AND p.name = ?", array($pkg));
+                                        "WHERE " . $package_type . " p.name = ?", array($pkg));
                 } else {
                     $pid = $pkg;
                 }
@@ -479,15 +479,15 @@ class package
                 }
             } elseif ($field == 'category') {
                 $sql = "SELECT c.name FROM categories c, packages p ".
-                     "WHERE c.id = p.category AND " . $package_type . " p.approved = 1 AND p.{$what} = ?";
+                     "WHERE c.id = p.category AND " . $package_type . " p.{$what} = ?";
                 $info = $dbh->getAssoc($sql, false, array($pkg));
             } elseif ($field == 'description') {
-                $sql = "SELECT description FROM packages p WHERE " . $package_type . " p.approved = 1 AND p.{$what} = ?";
+                $sql = "SELECT description FROM packages p WHERE " . $package_type . " p.{$what} = ?";
                 $info = $dbh->query($sql, array($pkg));
             } elseif ($field == 'authors') {
                 $sql = "SELECT u.handle, u.name, u.email, u.showemail, m.role
                         FROM maintains m, users u, packages p
-                        WHERE " . $package_type ." p.approved = 1 AND m.package = p.id
+                        WHERE " . $package_type ." m.package = p.id
                         AND p.$what = ?
                         AND m.handle = u.handle";
                 $info = $dbh->getAll($sql, array($pkg), DB_FETCHMODE_ASSOC);
@@ -499,7 +499,7 @@ class package
                 } else {
                     $dbfield = $field;
                 }
-                $sql = "SELECT $dbfield FROM packages p WHERE " . $package_type ." p.approved = 1 AND p.{$what} = ?";
+                $sql = "SELECT $dbfield FROM packages p WHERE " . $package_type ." p.{$what} = ?";
                 $info = $dbh->getOne($sql, array($pkg));
             }
         }
