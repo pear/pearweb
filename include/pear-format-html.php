@@ -961,8 +961,9 @@ function print_package_navigation($pacid, $name, $action)
 }
 
 /**
- * Sets <var>$_SESSION['captcha']</var> then produces a CAPTCHA image
- * and a form input element
+ * Sets <var>$_SESSION['captcha']</var> and
+ * <var>$_SESSION['captcha_time']</var> then prints the XHTML that
+ * displays a CAPTCHA image and a form input element
  *
  * Only generate a new <var>$_SESSION['captcha']</var> if it doesn't exist
  * yet.  This avoids the problem of the CAPTCHA value being changed but the
@@ -986,6 +987,7 @@ function generate_captcha() {
         for ($i = 0; $i < 4; $i++) {
             $_SESSION['captcha'] .= substr($useable, mt_rand(0, 23), 1);
         }
+        $_SESSION['captcha_time'] = time();
     }
     $out  = 'Type &quot;' . $_SESSION['captcha'] . '&quot; into this box... ';
     $out .= '<input type="text" size="4" maxlength="4" name="captcha" />';
@@ -995,8 +997,11 @@ function generate_captcha() {
 /**
  * Check if the CAPTCHA value submitted by the user in
  * <var>$_POST['captcha']</var> matches <var>$_SESSION['captcha']</var>
+ * and that the submission was made within the allowed time frame
+ * of the CAPTCHA being generated
  *
- * If the two values don't match, this function will unset()
+ * If the two values aen't the same or the length of time between CAPTCHA
+ * generation and form submission is too long, this function will unset()
  * <var>$_SESSION['captcha']</var>.  Unsetting it will cause
  * generate_captcha() to come up with a new CAPTCHA value and image.
  * This prevents brute force attacks.
@@ -1005,19 +1010,27 @@ function generate_captcha() {
  * is unset() in order to keep robots from making multiple requests with
  * a correctly guessed CAPTCHA value.
  *
+ * @param int $max_age  the length of time in seconds since the CAPTCHA was
+ *                      generated during which a submission should be
+ *                      considered valid.  Default is 300 seconds
+ *                      (aka 5 minutes).
+ *
  * @return bool  true if input matches captcha, false if not
  *
  * @see generate_captcha(), captcha-image.php
  */
-function validate_captcha() {
+function validate_captcha($max_age = 300) {
     if (!isset($_POST['captcha']) ||
         !isset($_SESSION['captcha']) ||
+        (time() - $_SESSION['captcha_time']) > $max_age ||
         $_SESSION['captcha'] != strtoupper($_POST['captcha']))
     {
         unset($_SESSION['captcha']);
+        unset($_SESSION['captcha_time']);
         return false;
     } else {
         unset($_SESSION['captcha']);
+        unset($_SESSION['captcha_time']);
         return true;
     }
 }
