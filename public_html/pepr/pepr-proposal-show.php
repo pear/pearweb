@@ -32,8 +32,6 @@
 	
 	$proposal->getLinks($dbh);
 	$proposal->getVotes($dbh);
-
-	$karma = new Damblan_Karma($dbh);
 	
 	if (isset($_COOKIE['PEAR_USER']) && ($proposal->getStatus() == 'vote')) {
 		$form = new HTML_QuickForm('vote', 'post', 'pepr-proposal-show.php?id='.$id);
@@ -105,10 +103,10 @@
 	
 	$proposalVotesSum = ppVote::getSum($dbh, $proposal->id);
 	
-	if (($proposal->isEditable() && $proposal->isFromUser(@$_COOKIE['PEAR_USER'])) || ($karma->has(@$_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
-		$proposalEditRow = "<div align='right'>".make_link("pepr-proposal-edit.php?id=".$proposal->id, make_image("edit.gif", "Edit"))." ".make_link("pepr-proposal-delete.php?id=".$proposal->id, make_image("delete.gif", "Delete package"))."</div>";
-	} else if ($proposal->isEditable() && empty($_COOKIE['PEAR_USER'])) {
+	if (empty($_COOKIE['PEAR_USER'])) {
 		$proposalEditRow = "<div align='right'><small>[You are the author? Login to edit!]</small></div>";
+	} else if ($proposal->mayEdit($_COOKIE['PEAR_USER'])) {
+		$proposalEditRow = "<div align='right'>".make_link("pepr-proposal-edit.php?id=".$proposal->id, make_image("edit.gif", "Edit"))." ".make_link("pepr-proposal-delete.php?id=".$proposal->id, make_image("delete.gif", "Delete package"))."</div>";
 	}
 	
 	$proposer = user::info($proposal->user_handle);
