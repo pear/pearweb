@@ -32,7 +32,8 @@ if (auth_verify(@$_POST['PEAR_USER'], @$_POST['PEAR_PW'])) {
 	* crypt()ed.
     */
 	if (strlen(@$auth_user->password) == 13) { // $auth_user comes from auth_verify() function
-		$dbh->query(sprintf("UPDATE users SET password = '%s' WHERE handle = '%s'", md5($_POST['PEAR_PW']), $_POST['PEAR_USER']));
+        $query = "UPDATE users SET password = ? WHERE handle = ?";
+		$dbh->query($query, array(md5($_POST['PEAR_PW']), $_POST['PEAR_USER']));
 	}
 	
 	/**
@@ -44,7 +45,8 @@ if (auth_verify(@$_POST['PEAR_USER'], @$_POST['PEAR_PW'])) {
         $gotourl = '/';
     }
 
-	localRedirect($gotourl);
+    localRedirect($gotourl);
+    exit();
 }
 
 auth_reject();
