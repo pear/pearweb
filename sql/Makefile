@@ -18,6 +18,7 @@
 #
 
 TABLE_FILES=\
+    bugs.sql \
 	cvs_acl.sql \
 	cvs_groups.sql \
 	cvs_group_membership.sql \
@@ -33,6 +34,7 @@ TABLE_FILES=\
 	deps.sql \
 	notes.sql \
 	users.sql \
+    pepr.sql \
 	apidoc_queue.sql \
 #	state_order.sql
 SQL_TYPE=mysql
