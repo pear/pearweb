@@ -487,7 +487,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
   <tr valign="top">
   <th>Maintainer</th>
   <td nowrap="nowrap">Return only bugs in packages <b>maintained</b> by</td>
-  <td><input type="text" name="maintain" value="<?php echo htmlspecialchars(stripslashes($maintain));?>" />
+  <td><input type="text" name="maintain" value="<?php echo clean($maintain);?>" />
 <?php
     if (!empty($_COOKIE['PEAR_USER'])) {
         $u = stripslashes($_REQUEST['PEAR_USER']);
