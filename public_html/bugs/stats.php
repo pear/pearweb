@@ -75,10 +75,12 @@ switch ($site) {
         $where = ' WHERE p.package_type = ' . $dbh->quoteSmart($site);
         break;
     case 'pear':
-        $where = " WHERE p.package_type = 'pear'";
         if ($pseudo) {
-            $where .= " OR b.package_name IN ('"
-                   . implode("', '", $pseudo_pkgs) . "')";
+            $where .= " WHERE (p.package_type = 'pear'"
+                    . " OR b.package_name IN ('"
+                    . implode("', '", $pseudo_pkgs) . "'))";
+        } else {
+            $where = " WHERE p.package_type = 'pear'";
         }
         break;
     default:
@@ -98,6 +100,8 @@ if (empty($_GET['bug_type'])) {
 $query .= $from . $where;
 $query .= ' GROUP BY b.package_name, b.status';
 $query .= ' ORDER BY b.package_name, b.status';
+
+echo $query;
 
 $result =& $dbh->query($query);
 
