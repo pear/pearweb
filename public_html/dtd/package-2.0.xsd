@@ -273,6 +273,20 @@
      </xs:complexType>
     </xs:element>
     <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+      <xs:attribute name="not" default="no">
+       <xs:simpleType>
+        <xs:restriction base="xs:string">
+         <xs:enumeration value="yes"/>
+         <xs:enumeration value="no"/>
+        </xs:restriction>
+       </xs:simpleType>
+      </xs:attribute>
+     </xs:complexType>
+    </xs:element>
+    <xs:element ref="arch" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
    <xs:attribute name="name" type="xs:string" use="required"/>
    <xs:attribute name="hint" type="xs:string" use="required"/>
@@ -314,9 +328,6 @@
  </xs:simpleType>
  <xs:element name="extension">
   <xs:complexType>
-   <xs:sequence>
-    <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-   </xs:sequence>
    <xs:attribute name="name" type="xs:string" use="required"/>
    <xs:attribute name="min" type="version"/>
    <xs:attribute name="max" type="version"/>
