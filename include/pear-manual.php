@@ -20,6 +20,15 @@
 
 require_once "site.php";
 
+$doc_languages = array("en" => "English", 
+                       "fr" => "French",
+                       /*
+                         "de" => "German", 
+                         "it" => "Italian", 
+                       */
+                       "nl" => "Dutch", 
+                       "ru" => "Russian");
+
 $NEXT = $PREV = $UP = $HOME = array(false, false);
 $TOC = array();
 

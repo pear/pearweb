@@ -19,15 +19,6 @@
 */
 
 response_header("Documentation");
-
-$languages = array("en" => "English", 
-                   "fr" => "French",
-                   /*
-                   "de" => "German", 
-                   "it" => "Italian", 
-                   */
-                   "nl" => "Dutch", 
-                   "ru" => "Russian");
 ?>
 
 <h1>Documentation</h1>
@@ -41,7 +32,7 @@ add the documentation for their package.</p>
 
 <?php
 $i = 0;
-foreach ($languages as $domain => $name) {
+foreach ($doc_languages as $domain => $name) {
     echo "<li>";
     if ($i++ == 0) {
         echo "<b>" . make_link("/manual/" . $domain . "/", $name) . "</b>";
@@ -63,13 +54,14 @@ $formats = array(
     "pear_manual_{LANG}.zip"         => array("Many HTML files",     "zip"),
     "pear_manual_{LANG}.tar.bz2"     => array("Many HTML files",     "tar.bz2"),
     "pear_manual_{LANG}.html.gz"     => array("One big HTML file",   "html.gz"),
+    "pear_manual_{LANG}.chm"         => array("Windows HTML help",    "chm"),
     "pear_manual_{LANG}.txt.gz"      => array("Plain text file",     "txt.gz")
 );
 
 $bb = new BorderBox("Download documentation", "70%", "", 3, true);
 $bb->HeadRow("Type", "Format", "Size");
 
-foreach ($languages as $domain => $name) {
+foreach ($doc_languages as $domain => $name) {
     $bb->fullRow("<b>" . $name . "</b>");
 
     foreach ($formats as $filename => $information) {
