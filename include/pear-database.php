@@ -390,7 +390,7 @@ class package
      * packageid, authors
      */
 
-    // {{{  proto struct package::info(string|int, [string])
+    // {{{  proto struct package::info(string|int, [string], [bool])
 
     /**
      * Get package information
@@ -513,29 +513,37 @@ class package
      * List all packages
      *
      * @static
-     * @param boolean Only list releases packages?
+     * @param boolean Only list released packages?
      * @return array
      */
     function listAll($released_only = true)
     {
-        global $dbh;
+        global $dbh, $HTTP_RAW_POST_DATA;
 
-        $packageinfo = $dbh->getAssoc(
-            "SELECT p.name, p.id AS packageid, ".
+        $include_pecl = false;
+        if (isset($HTTP_RAW_POST_DATA)) {
+            $include_pecl = true;
+        }
+
+        $packageinfo = $dbh->getAssoc("SELECT p.name, p.id AS packageid, ".
             "c.id AS categoryid, c.name AS category, ".
             "p.license AS license, ".
             "p.summary AS summary, ".
             "p.description AS description, ".
             "m.handle AS lead ".
             " FROM packages p, categories c, maintains m ".
-            "WHERE p.package_type = 'pear' AND p.approved = 1 AND c.id = p.category ".
+            "WHERE " .
+            (($include_pecl == false) ? " p.package_type = 'pear' AND p.approved = 1 AND " : "") .
+            " c.id = p.category ".
             "  AND p.id = m.package ".
             "  AND m.role = 'lead' ".
             "ORDER BY p.name", false, null, DB_FETCHMODE_ASSOC);
         $stablereleases = $dbh->getAssoc(
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
             "FROM packages p, releases r ".
-            "WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package ".
+            "WHERE " .
+            (($include_pecl == false) ? "p.package_type = 'pear' AND p.approved = 1 AND " : "") .
+            "p.id = r.package ".
             ($released_only ? "AND r.state = 'stable' " : "").
             "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
         $deps = $dbh->getAll(
@@ -803,6 +811,24 @@ class package
         $query = "SELECT id FROM packages WHERE package_type = 'pear' AND approved = 1 AND name = ?";
         $sth = $dbh->query($query, array($package));
         return ($sth->numRows() > 0);
+    }
+
+    // }}}
+    // {{{ getNotes()
+
+    /**
+     * Get all notes for given package
+     *
+     * @access public
+     * @param  int ID of the package
+     * @return array
+     */
+    function getNotes($package)
+    {
+        global $dbh;
+
+        $query = "SELECT * FROM notes WHERE pid = ? ORDER BY ntime";
+        return $dbh->getAll($query, array($package), DB_FETCHMODE_ASSOC);
     }
 
     // }}}
@@ -1626,15 +1652,18 @@ END;
  */
 class note
 {
-    // {{{ +proto bool   note::add(string, int, string)
+    // {{{ +proto bool   note::add(string, int, string, string)
 
-    function add($key, $value, $note)
+    function add($key, $value, $note, $author = "")
     {
         global $dbh;
+        if (empty($author)) {
+            $author = $_COOKIE['PEAR_USER'];
+        }
         $nid = $dbh->nextId("notes");
         $stmt = $dbh->prepare("INSERT INTO notes (id,$key,nby,ntime,note) ".
                               "VALUES(?,?,?,?,?)");
-        $res = $dbh->execute($stmt, array($nid, $value, $_COOKIE['PEAR_USER'],
+        $res = $dbh->execute($stmt, array($nid, $value, $author,
                              gmdate('Y-m-d H:i'), $note));
         if (DB::isError($res)) {
             return $res;
