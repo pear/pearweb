@@ -381,78 +381,336 @@ class package
     }
 
     // }}}
-    // {{{ proto string package::getDownloadURL(string, string, [string|array], [string], [string]) API 1.0
+    // {{{ proto array package::getDownloadURL(struct, [string], [string], [string]) API 1.0
 
     /**
-     * Get a download URL, or an array containing the latest version and its release info.
-     * @param string channel name (not used in pear)
-     * @param string package name
-     * @param string|array version to retrieve, or state
-     * @param string user IP address, used to retrieve the closest mirror (not implemented)
-     * @param string preferred mirror (not implemented)
-     * @return string|array
+     * Get a download URL, or an array containing the latest version and its
+     * release info.
+     *
+     * If a bundle is specified, then an array of information from getDownloadURL()
+     * will be returned
+     * @param array an array in format:
+     *              array(
+     *                'channel' => channel name (not used in pear),
+     *                'package' => package name,
+     *                ['version' => specific version to retrieve,]
+     *                ['state' => specific state to retrieve,]
+     *                ['bundle' => specific bundle to retrieve,]
+     *              )
+     * @param string preferred_state configuration value
+     * @param string user IP address, used to retrieve the closest mirror
+     *               (not implemented)
+     * @param string preferred mirror
+     *               (not implemented)
+     * @return bool|array
      */
-    function getDownloadURL($channel, $package, $versionstate = null, $loc = null, $mirror = null)
+    function getDownloadURL($packageinfo, $prefstate = 'stable', $loc = null, $mirror = null)
     {
-        $info = package::info($package, 'releases');
+        if (!isset($packageinfo['package'])) {
+            return PEAR::raiseError('getDownloadURL parameter $packageinfo must ' .
+                'contain a "package" index');
+        }
+        if (isset($packageinfo['channel']) && $packageinfo['channel'] != 'pear.php.net') {
+            return PEAR::raiseError('getDownloadURL channel must be pear.php.net');
+        }
+        $states = release::betterStates($prefstate, true);
+        if (!$states) {
+            return PEAR::raiseError("getDownloadURL: preferred state '$prefstate' " .
+                'is not a valid stability state');
+        }
+        $package = $packageinfo['package'];
+        $state = $version = null;
+        if (isset($packageinfo['state'])) {
+            $state = $packageinfo['state'];
+        }
+        if (isset($packageinfo['version'])) {
+            $version = $packageinfo['version'];
+        }
+        $info = package::info($package); // get deps too
+        $info = $info['releases'];
         if (!count($info)) {
             return false;
         }
         $found = false;
-        if ($versionstate !== null) {
-            if (is_array($versionstate)) {
-                $state = $versionstate;
+        $release = false;
+        foreach ($info as $ver => $release) {
+            if (isset($state)) {
+                if ($release['state'] == $state) {
+                    $found = true;
+                    break;
+                }
+            } elseif (isset($version)) {
+                if ($ver == $version) {
+                    $found = true;
+                    break;
+                }
             } else {
-                if (false != release::betterStates($versionstate, true)) {
-                    $state = $versionstate;
-                } else {
-                    $version = $versionstate;
+                if (in_array($release['state'], $states)) {
+                    $found = true;
+                    break;
                 }
             }
-            $release = false;
-            foreach ($info as $ver => $release) {
-                if (isset($state)) {
-                    if (is_array($state)) {
-                        if (in_array($release['state'], $state)) {
-                            $found = true;
-                            break;
-                        } else {
-                        }
-                    } else {
-                        if ($release['state'] == $state) {
-                            $found = true;
-                            break;
-                        }
-                    }
-                } else {
-                    if ($ver == $version) {
-                        $found = true;
-                        break;
-                    }
-                }
-            }
-        } else {
-            list($ver, $release) = each($info);
-            $found = true;
         }
         if ($found) {
-            return array($ver, $release, 'http://' . $_SERVER['SERVER_NAME'] . '/get/' . $package . '-' . $ver);
+            if (isset($packageinfo['group'])) {
+                $bundlepackages = package::optionalGroups($packageinfo, $ver);
+                if (!is_array($bundlepackages)) {
+                    return PEAR::raiseError("getDownloadURL: package '$package' " .
+                        "version '$ver' has no optional dependency groups");
+                }
+                $release['package'] = $packageinfo['package'];
+                $release['channel'] = 'pear.php.net';
+                if (isset($release['deps'])) {
+                    foreach ($release['deps'] as $i => $dep) {
+                        $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
+                        $dep['rel'] = $dep['relation'];
+                        unset($dep['relation']);
+                        $release['deps'][$i] = $dep;
+                    }
+                }
+                $ret = array(array('version' => $ver,
+                      'info' => $release, 
+                      'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
+                               $package . '-' . $ver));
+                foreach ($bundlepackages as $bundle) {
+                    $ret['multiple'][] = $this->getDownloadURL($bundle, $prefstate, $loc, $mirror);
+                }
+                return $ret;
+            }
+            $release['package'] = $packageinfo['package'];
+            $release['channel'] = 'pear.php.net';
+            if (isset($release['deps'])) {
+                foreach ($release['deps'] as $i => $dep) {
+                    $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
+                    $dep['rel'] = $dep['relation'];
+                    unset($dep['relation']);
+                    $release['deps'][$i] = $dep;
+                }
+            }
+            return 
+                array('version' => $ver,
+                      'info' => $release, 
+                      'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
+                               $package . '-' . $ver);
         } else {
             reset($info);
             list($ver, $release) = each($info);
-            return array($ver, $release);
+            $release['package'] = $packageinfo['package'];
+            $release['channel'] = 'pear.php.net';
+            if (isset($release['deps'])) {
+                foreach ($release['deps'] as $i => $dep) {
+                    $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
+                    $dep['rel'] = $dep['relation'];
+                    unset($dep['relation']);
+                    $release['deps'][$i] = $dep;
+                }
+            }
+            return array('version' => $ver,
+                         'info' => $release);
+        }
+    }
+
+    // }}}
+    // {{{ proto array package::getDepDownloadURL(string, struct, struct, [string], [string], [string]) API 1.0
+
+    /**
+     * Get a download URL for a dependency, or an array containing the
+     * latest version and its release info.
+     *
+     * If a bundle is specified, then an array of information
+     * will be returned
+     * @param string package.xml version for the dependency (1.0 or 2.0)
+     * @param array dependency information
+     * @param array dependent package information
+     * @param string preferred state
+     * @param string version_compare() relation to use for checking version
+     * @param string user IP address, used to retrieve the closest mirror
+     *               (not implemented)
+     * @param string preferred mirror
+     *               (not implemented)
+     * @return bool|array
+     */
+    function getDepDownloadURL($xsdversion, $dependency, $deppackage,
+                               $prefstate = 'stable', $loc = null, $mirror = null)
+    {
+        $info = package::info($dependency['name']);
+        $info = $info['releases'];
+        if (!count($info)) {
+            return false;
+        }
+        $states = release::betterStates($prefstate, true);
+        if (!$states) {
+            return PEAR::raiseError("getDownloadURL: preferred state '$prefstate' " .
+                'is not a valid stability state');
+        }
+        $exclude = array();
+        $min = $max = $recommended = false;
+        if ($xsdversion == '1.0') {
+            $pinfo['package'] = $dependency['name'];
+            $pinfo['channel'] = 'pear.php.net';
+            switch ($dependency['rel']) {
+                case 'ge' :
+                    $min = $dependency['version'];
+                break;
+                case 'gt' :
+                    $min = $dependency['version'];
+                    $exclude = array($dependency['version']);
+                break;
+                case 'eq' :
+                    $recommended = $dependency['version'];
+                break;
+                case 'lt' :
+                    $max = $dependency['version'];
+                    $exclude = array($dependency['version']);
+                break;
+                case 'le' :
+                    $max = $dependency['version'];
+                break;
+                case 'not' :
+                    $exclude = array($dependency['version']);
+                break;
+            }
+        } elseif ($xsdversion == '2.0') {
+            $pinfo['package'] = $dependency['attribs']['name'];
+            if ($dependency['attribs']['channel'] != 'pear.php.net') {
+                return PEAR::raiseError('getDepDownloadURL channel must be pear.php.net');
+            }
+            $min = isset($dependency['attribs']['min']) ? $dependency['attribs']['min'] : false;
+            $max = isset($dependency['attribs']['max']) ? $dependency['attribs']['max'] : false;
+            $recommended = isset($dependency['attribs']['recommended']) ?
+                $dependency['attribs']['recommended'] : false;
+            if (isset($dependency['exclude'])) {
+                if (isset($dependency['exclude']['attribs'])) {
+                    $exclude = array($dependency['exclude']['attribs']['version']);
+                } else {
+                    $exclude = array();
+                    foreach ($dependency['exclude'] as $exc) {
+                        $exclude[] = $exc['attribs']['version'];
+                    }
+                }
+            }
+        }
+        $found = false;
+        $release = false;
+        foreach ($info as $ver => $release) {
+            if (in_array($ver, $exclude)) { // skip excluded versions
+                continue;
+            }
+            // allow newer releases to say "I'm OK with the dependent package"
+            if ($xsdversion == '2.0' && isset($release['compatibility'])) {
+                if (isset($release['compatibility'][$deppackage['channel']]
+                      [$deppackage['package']]) && in_array($ver,
+                        $release['compatibility'][$deppackage['channel']]
+                        [$deppackage['package']])) {
+                    $recommended = $ver;
+                }
+            }
+            if ($recommended) {
+                if ($ver != $recommended) { // if we want a specific
+                    // version, then skip all others
+                    continue;
+                } else {
+                    if (!in_array($release['state'], $states)) {
+                        $release['package'] = $dependency['attribs']['name'];
+                        $release['channel'] = 'pear.php.net';
+                        if (isset($release['deps'])) {
+                            foreach ($release['deps'] as $i => $dep) {
+                                $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
+                                $dep['rel'] = $dep['relation'];
+                                unset($dep['relation']);
+                                $release['deps'][$i] = $dep;
+                            }
+                        }
+                        // the stability is too low, but we must return the
+                        // recommended version if possible
+                        return array('version' => $ver,
+                                     'info' => $release);
+                    }
+                }
+            }
+            if ($min && version_compare($ver, $min, 'lt')) { // skip too old versions
+                continue;
+            }
+            if ($max && version_compare($ver, $max, 'gt')) { // skip too new versions
+                continue;
+            }
+            if (in_array($release['state'], $states)) { // if in the preferred state...
+                $found = true; // ... then use it
+                break;
+            }
+        }
+        if ($found) {
+            $release['package'] = $dependency['name'];
+            $release['channel'] = 'pear.php.net';
+            if (isset($release['deps'])) {
+                foreach ($release['deps'] as $i => $dep) {
+                    $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
+                    $dep['rel'] = $dep['relation'];
+                    unset($dep['relation']);
+                    $release['deps'][$i] = $dep;
+                }
+            }
+            if ($xsdversion == '2.0' && isset($dependency['group'])) {
+                $bundlepackages = package::optionalGroups($dependency, $ver);
+                if (!is_array($bundlepackages)) {
+                    return PEAR::raiseError("getDepDownloadURL: package '$package' " .
+                        "version '$ver' has no optional dependency groups");
+                }
+                $ret = array(array('version' => $ver,
+                      'info' => $release, 
+                      'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
+                               $pinfo['package'] . '-' . $ver));
+                foreach ($bundlepackages as $bundle) {
+                    $ret['multiple'][] = $this->getDownloadURL($bundle, $prefstate, $loc, $mirror);
+                }
+                return $ret;
+            }
+            return
+                array('version' => $ver,
+                      'info' => $release, 
+                      'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
+                               $pinfo['package'] . '-' . $ver);
+        } else {
+            reset($info);
+            list($ver, $release) = each($info);
+            $release['package'] = $dependency['name'];
+            $release['channel'] = 'pear.php.net';
+            if (isset($release['deps'])) {
+                foreach ($release['deps'] as $i => $dep) {
+                    $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
+                    $dep['rel'] = $dep['relation'];
+                    unset($dep['relation']);
+                    $release['deps'][$i] = $dep;
+                }
+            }
+            return array('version' => $ver,
+                         'info' => $release);
         }
     }
 
     // }}}
 
+    // {{{  proto struct package::optionalGroups(string, string) API 1.0
+
+    /**
+     * @param array array containing indexes "package" and "group" to determine which
+     *              package and which optional dependency group to retrieve
+     * @param string version to retrieve bundles from
+     */
+    function optionalGroups($package, $version)
+    {
+        // implement this later
+        return array();
+    }
+
+    // }}}
+
+    // {{{  proto struct package::info(string|int, [string], [bool]) API 1.0
     /*
      * Implemented $field values:
      * releases, notes, category, description, authors, categoryid,
      * packageid, authors
      */
-
-    // {{{  proto struct package::info(string|int, [string], [bool]) API 1.0
 
     /**
      * Get package information
@@ -1669,7 +1927,7 @@ class release
     // {{{  proto array  release::betterStates(string) API 1.0
 
     /**
-     * ???
+     * Convert a state into an array of less stable states
      *
      * @param string Release state
      * @param boolean include the state in the array returned
