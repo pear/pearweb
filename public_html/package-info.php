@@ -154,7 +154,7 @@ foreach ($nav_items as $title => $item) {
     print '<a href="' . $url . '"'
         . ' title="' . $item['title'] . '" '
         . ($action == $item['url'] ? ' class="active" ' : '')
-        . '">'
+        . '>'
         . $title
         . '</a>';
 }
@@ -178,14 +178,23 @@ if (empty($action)) {
     print '<td valign="top">' . get_license_link($license) . '</td>';
     print '</tr>';
 
+    print '<tr><td colspan="2">&nbsp;</td></tr>';
+
+    print '<tr>';
+    print '<th colspan="2" class="headrow" width="50%">&raquo; Description:</th>';
+    print '</tr>';
+    print '<tr>';
+    print '<td colspan="2" valign="top">' . nl2br($description) . '</td>';
+    print '</tr>';
+
     print '<tr><td>&nbsp;</td></tr>';
 
     print '<tr>';
-    print '<th class="headrow" width="50%">&raquo; Description:</th>';
+    print '<th class="headrow" width="50%">&raquo; Maintainers:</th>';
     print '<th class="headrow">&raquo; More Information:</th>';
     print '</tr>';
     print '<tr>';
-    print '<td valign="top">' . nl2br($description) . '</td>';
+    print '<td valign="top">' . $accounts . '</td>';
     print '<td valign="top">';
 
     print '<ul>';
@@ -197,26 +206,20 @@ if (empty($action)) {
         print '<li><a href="' . $cvs_link . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
     }
     print '<li><a href="/feeds/pkg_' . strtolower($name) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>';
+    print '</ul>';
     print '</td>';
-
     print '</tr>';
-
-    print '<tr><td>&nbsp;</td></tr>';
-
-    print '<tr>';
-    print '<th class="headrow" width="50%">&raquo; Maintainers:</th>';
-    print '<th class="headrow">&raquo; Packages that depend on ' . $name . ':</th>';
-    print '</tr>';
-    print '<tr>';
-    print '<td valign="top">' . $accounts . '</td>';
 
     // {{{ Dependants
 
-    echo '<td>';
-
     $dependants = package::getDependants($name);
     if ($rel_count > 0 && count($dependants) > 0) {
+        print '<tr>';
+        print '<th colspan="2" class="headrow">&raquo; Packages that depend on ' . $name . ':</th>';
+        print '</tr>';
+        print '<tr>';
 
+        echo '<td colspan="2">';
         echo '<ul>';
 
         foreach ($dependants as $dep) {
@@ -225,14 +228,12 @@ if (empty($action)) {
         }
 
         echo '</ul>';
+        echo '</td>';
 
+        print '</tr>';
     }
 
-    echo '</td>';
-
     // }}}
-
-    print '</tr>';
 
     print '</table>';
 
