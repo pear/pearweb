@@ -223,7 +223,6 @@
      </xs:complexType>
     </xs:element>
     <xs:element name="extension" type="extensionDependencyType" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element ref="or" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
    <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
