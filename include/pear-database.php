@@ -1684,7 +1684,7 @@ class release
                 $deps['required']['package'] = array($deps['required']['package']);
             }
             foreach ($deps['required']['package'] as $pkgdep) {
-                if ($pkgdep['channel'] == 'pear.php.net' && strtolower($pkgdep['package']) == 'pear') {
+                if ($pkgdep['channel'] == 'pear.php.net' && strtolower($pkgdep['name']) == 'pear') {
                     $pearused = true;
                 }
             }
