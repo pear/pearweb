@@ -152,6 +152,7 @@ WHERE
     AND pp.id IN('.implode(', ', $resProposals).')
     AND pp.vote_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
     AND pp.longened_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
+    AND pp.pkg_name NOT LIKE "[QA-ORPHAN]%"
 ORDER BY pp.draft_date DESC';
 
 $res['orphan_finished'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
