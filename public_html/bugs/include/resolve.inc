@@ -1,6 +1,7 @@
 <?php
 
 $RESOLVE_REASONS = array(
+/*
   'trysnapshot4' => array(
     'status' => 'Feedback',
     'desc' => 'Try a CVS snapshot (php4)',
@@ -26,32 +27,28 @@ For Windows:
  
   http://snaps.php.net/win32/php5-win32-latest.zip',
   ),
-
+*/
   'fixedcvs' => array(
     'status' => 'Closed',
     'desc' => 'Fixed in CVS',
     'message' =>
 'This bug has been fixed in CVS.
 
-In case this was a PHP problem, snapshots of the sources are packaged
-every three hours; this change will be in the next snapshot. You can
-grab the snapshot at http://snaps.php.net/.
- 
-In case this was a documentation problem, the fix will show up soon at
-http://www.php.net/manual/.
+In case this was a documentation problem, the fix will show up at the
+end of next Sunday (CET) on pear.php.net.
 
-In case this was a PHP.net website problem, the change will show
-up on the PHP.net site and on the mirror sites in short time.
+In case this was a pear.php.net website problem, the change will show
+up on the website in short time.
  
-Thank you for the report, and for helping us make PHP better.',
+Thank you for the report, and for helping us make PEAR better.',
   ),
   'alreadyfixed' => array(
     'status' => 'Closed',
     'desc' => 'Fixed in release',
     'message' =>
 'Thank you for your bug report. This issue has already been fixed
-in the latest released version of PHP, which you can download at 
-http://www.php.net/downloads.php',
+in the latest released version of the package, which you can download at 
+http://pear.php.net/packages.php',
   ),
   'needtrace' => array(
     'status' => 'Feedback',
@@ -64,32 +61,32 @@ http://bugs.php.net/bugs-generating-backtrace.php
 
 Once you have generated a backtrace, please submit it to this bug
 report and change the status back to "Open". Thank you for helping
-us make PHP better.',
+us make PEAR better.',
   ),
   'oldversion' => array(
     'status' => 'Bogus',
     'desc' => 'Try newer version',
     'message' =>
-'Thank you for taking the time to report a problem with PHP.
-Unfortunately you are not using a current version of PHP -- 
+'Thank you for taking the time to report a problem with the package.
+Unfortunately you are not using a current version of the package -- 
 the problem might already be fixed. Please download a new
-PHP version from http://www.php.net/downloads.php
+version from http://pear.php.net/packages.php
 
 If you are able to reproduce the bug with one of the latest
-versions of PHP, please change the PHP version on this bug report
+versions, please change the package version on this bug report
 to the version you tested and change the status back to "Open".
-Again, thank you for your continued support of PHP.',
+Again, thank you for your continued support of PEAR.',
   ),
   'support' => array(
     'status' => 'Bogus',
     'desc' => 'Not developer issue',
     'message' =>
-'Sorry, but your problem does not imply a bug in PHP itself.  For a
-list of more appropriate places to ask for help using PHP, please
-visit http://www.php.net/support.php as this bug system is not the
+'Sorry, but your problem does not imply a bug in PEAR itself.  For a
+list of more appropriate places to ask for help using PEAR, please
+visit http://pear.php.net/support.php as this bug system is not the
 appropriate forum for asking support questions. 
 
-Thank you for your interest in PHP.',
+Thank you for your interest in PEAR.',
   ),
   'nofeedback' => array(
     'status' => 'No Feedback',
@@ -107,9 +104,7 @@ change the status of the bug back to "Open". Thank you.',
     'desc' => 'Expected behavior',
     'message' =>
 'Thank you for taking the time to write to us, but this is not
-a bug. Please double-check the documentation available at
-http://www.php.net/manual/ and the instructions on how to report
-a bug at http://bugs.php.net/how-to-report.php',
+a bug.'
   ),
   'notenoughinfo' => array(
     'status' => 'Feedback',
@@ -122,7 +117,7 @@ http://bugs.php.net/how-to-report.php
 If you can provide more information, feel free to add it
 to this bug and change the status back to "Open".
 
-Thank you for your interest in PHP.
+Thank you for your interest in PEAR.
 ',
   ),
   'submittedtwice' => array(
@@ -135,61 +130,8 @@ that your issue is somewhat different, the resolution is likely
 to be the same. Because of this, we hope you add your comments
 to the existing bug instead.
 
-Thank you for your interest in PHP.',
-  ),
-  'globals' => array(
-    'status' => 'Bogus',
-    'desc' => 'register_globals',
-    'message' =>
-'In PHP 4.2.0, the \'register_globals\' setting default changed to
-\'off\'. See http://www.php.net/release_4_2_0.php for more info.
-We are sorry about the inconvenience, but this change was a necessary
-part of our efforts to make PHP scripting more secure and portable.',
-  ),
-  'php3' => array(
-    'status' => 'Wont Fix',
-    'desc' => 'PHP 3 support discontinued',
-    'message' =>
-'We are sorry, but can not support PHP 3 related problems anymore.
-Momentum is gathering for PHP 5, and we think supporting PHP 3 will
-lead to a waste of resources which we want to put into getting PHP 5
-ready. Ofcourse PHP 4 will will continue to be supported for the
-forseeable future.',
-  ),
-  'dst' => array(
-    'status' => 'Bogus',
-    'desc' => 'Daylight Savings',
-    'message' =>
-'We are happy to tell you that you just discovered Daylight Savings
-Time. For more information see:
-http://webexhibits.org/daylightsaving/b.html
-Instead of using mktime/date consider using gmmktime and gmdate which do
-not suffer from DST.',
-  ),
-    'isapi' => array(
-    'status' => 'Bogus',
-    'desc' => 'IIS Stability',
-    'message' =>
-'We are aware of PHP\'s problems with stability under IIS and are working 
-to rectify the problem. Unfortunatly your bug report does not contain any
-extra useful information and we already have enough bug reports open about
-this issue. If you can provide more detailed information such as a 
-reproducable crash or a backtrace please do so and reopen this bug. 
-Otherwise please keep trying new releases as we are working to resolve 
-the problems on this platform
- 
-Thanks for your interest in PHP.',
-  ),
-    'gnused' => array(
-    'status' => 'Bogus',
-    'desc' => 'Install GNU Sed',
-    'message' =>
-'Due to a bug in the installed sed on your system the build
-fails. Install GNU sed and it should be okay.
- 
-Thank you for your interest in PHP.',
-  ),
-
+Thank you for your interest in PEAR.',
+  )
 );
 
 function show_reason_types($current="", $expanded=0)
