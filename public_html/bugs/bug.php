@@ -770,6 +770,7 @@ function output_note($com_id, $ts, $email, $comment)
 
 function delete_comment($id, $com_id)
 {
+    global $dbh;
     $query = 'DELETE FROM bugdb_comments WHERE bug='.(int)$id.' AND id='.(int)$com_id;
     $res =& $dbh->query($query);
 }
