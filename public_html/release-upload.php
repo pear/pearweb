@@ -77,45 +77,100 @@ do {
         include_once 'PEAR/Common.php';
         $util =& new PEAR_Common;
         $info = $util->infoFromTgzFile($distfile);
-
-        $pacid = package::info($info['package'], 'id');
-        if (PEAR::isError($pacid)) {
-            $errors[] = $pacid->getMessage();
-            break;
+        if (class_exists('PEAR_PackageFile')) {
+            $config = &PEAR_Config::singleton();
+            $pkg = &new PEAR_PackageFile($config);
+            $info = &$pkg->fromTgzFile($distfile, PEAR_VALIDATE_NORMAL);
+            if (PEAR::isError($info)) {
+                if (is_array($info->getUserInfo())) {
+                    foreach ($info->getUserInfo() as $err) {
+                        $errors[] = $err['message'];
+                    }
+                    $errors[] = $info->getMessage();
+                }
+                break;
+            } else {
+                $pacid = package::info($info->getPackage(), 'id');
+                if (PEAR::isError($pacid)) {
+                    $errors[] = $pacid->getMessage();
+                    break;
+                }
+                if (!user::isAdmin($_COOKIE['PEAR_USER']) &&
+                    !user::maintains($_COOKIE['PEAR_USER'], $pacid, 'lead')) {
+                    $errors[] = 'You don\'t have permissions to upload this release.';
+                    break;
+                }
+                $license = $info->getLicense();
+                if (is_array($license)) {
+                    $license = $license['_content'];
+                }
+                $e = package::updateInfo($pacid,
+                        array(
+                            'summary'     => $info->getSummary(),
+                            'description' => $info->getDescription(),
+                            'license'     => $license,
+                        ));
+                if (PEAR::isError($e)) {
+                    $errors[] = $e->getMessage();
+                    break;
+                }
+                $users = array();
+                foreach ($info->getMaintainers() as $user) {
+                    $users[strtolower($user['handle'])] = array(
+                                                            'role'   => $user['role'],
+                                                            'active' => $user['active'] == 'yes',
+                                                          );
+                }
+                $e = maintainer::updateAll($pacid, $users);
+                if (PEAR::isError($e)) {
+                    $errors[] = $e->getMessage();
+                    break;
+                }
+                $file = release::upload($info->getPackage(), $info->getVersion(),
+                                        $info->getState(), $info->getNotes(),
+                                        $distfile, md5_file($distfile));
+            }
+        } else {
+    
+            $pacid = package::info($info['package'], 'id');
+            if (PEAR::isError($pacid)) {
+                $errors[] = $pacid->getMessage();
+                break;
+            }
+            if (!user::isAdmin($_COOKIE['PEAR_USER']) &&
+                !user::maintains($_COOKIE['PEAR_USER'], $pacid, 'lead')) {
+                $errors[] = 'You don\'t have permissions to upload this release.';
+                break;
+            }
+    
+            $e = package::updateInfo($pacid,
+                    array(
+                        'summary'     => $info['summary'],
+                        'description' => $info['description'],
+                        'license'     => $info['release_license'],
+                    ));
+            if (PEAR::isError($e)) {
+                $errors[] = $e->getMessage();
+                break;
+            }
+    
+            $users = array();
+            foreach ($info['maintainers'] as $user) {
+                $users[strtolower($user['handle'])] = array(
+                                                        'role'   => $user['role'],
+                                                        'active' => 1,
+                                                      );
+            }
+    
+            $e = maintainer::updateAll($pacid, $users);
+            if (PEAR::isError($e)) {
+                $errors[] = $e->getMessage();
+                break;
+            }
+            $file = release::upload($info['package'], $info['version'],
+                                    $info['release_state'], $info['release_notes'],
+                                    $distfile, md5_file($distfile));
         }
-        if (!user::isAdmin($_COOKIE['PEAR_USER']) &&
-            !user::maintains($_COOKIE['PEAR_USER'], $pacid, 'lead')) {
-            $errors[] = 'You don\'t have permissions to upload this release.';
-            break;
-        }
-
-        $e = package::updateInfo($pacid,
-                array(
-                    'summary'     => $info['summary'],
-                    'description' => $info['description'],
-                    'license'     => $info['release_license'],
-                ));
-        if (PEAR::isError($e)) {
-            $errors[] = $e->getMessage();
-            break;
-        }
-
-        $users = array();
-        foreach ($info['maintainers'] as $user) {
-            $users[strtolower($user['handle'])] = array(
-                                                    'role'   => $user['role'],
-                                                    'active' => 1,
-                                                  );
-        }
-
-        $e = maintainer::updateAll($pacid, $users);
-        if (PEAR::isError($e)) {
-            $errors[] = $e->getMessage();
-            break;
-        }
-        $file = release::upload($info['package'], $info['version'],
-                                $info['release_state'], $info['release_notes'],
-                                $distfile, md5_file($distfile));
         if (PEAR::isError($file)) {
             $ui = $file->getUserInfo();
             $errors[] = 'Error while uploading package: ' .
@@ -125,7 +180,11 @@ do {
         @unlink($distfile);
 
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'report_warning');
-        release::promote($info, $file);
+        if (is_a($info, 'PEAR_PackageFile_v1') || is_a($info, 'PEAR_PackageFile_v2')) {
+            release::promote_v2($info, $file);
+        } else {
+            release::promote($info, $file);
+        }
         PEAR::popErrorHandling();
 
         $success              = true;
@@ -160,11 +219,17 @@ if ($display_form) {
     echo '<h1>' . $title . "</h1>\n";
 
     if ($success) {
-        report_success('Version ' . $info['version'] . ' of '
-                       . $info['package'] . ' has been successfully released, '
-                       . 'and its promotion cycle has started.');
-        print '<p>';
-        print make_link('/package/' . $info['package'], 'Visit package home');
+        if (is_array($info)) {
+            report_success('Version ' . $info['version'] . ' of '
+                           . $info['package'] . ' has been successfully released, '
+                           . 'and its promotion cycle has started.');
+            print '<p>';
+            print make_link('/package/' . $info['package'], 'Visit package home');
+        } else {
+            report_success('Version ' . $info->getVersion() . ' of '
+                           . $info->getPackage() . ' has been successfully released, '
+                           . 'and its promotion cycle has started.');
+        }
         print '</p>';
         print '</div>';
     } else {
@@ -206,61 +271,120 @@ if ($display_verification) {
     // XXX this will leave files in PEAR_UPLOAD_TMPDIR if users don't
     // complete the next screen.  Janitor cron job recommended!
     $info = $util->infoFromTgzFile(PEAR_UPLOAD_TMPDIR . '/' . $tmpfile);
-
-    // packge.xml conformance
-    $errors   = array();
-    $warnings = array();
-
-    $util->validatePackageInfo($info, $errors, $warnings);
-
-    // XXX ADD MASSIVE SANITY CHECKS HERE
-
-    if (!preg_match('/^\d+\.\d+\.\d+(?:[a-zA-Z]+\d*)?$/', $info['version'])) {
-        $errors[] = 'Version must match format: digit.digit.digit[alpha[digits]]';
+    if (class_exists('PEAR_PackageFile')) {
+        $config = &PEAR_Config::singleton();
+        $pkg = &new PEAR_PackageFile($config);
+        $info = &$pkg->fromTgzFile(PEAR_UPLOAD_TMPDIR . '/' . $tmpfile, PEAR_VALIDATE_NORMAL);
+        $errors = $warnings = array();
+        if (PEAR::isError($info)) {
+            if (is_array($info->getUserInfo())) {
+                foreach ($info->getUserInfo() as $err) {
+                    if ($err['level'] == 'error') {
+                        $errors[] = $err['message'];
+                    } else {
+                        $warnings[] = $err['message'];
+                    }
+                }
+            }
+            $errors[] = $info->getMessage();
+        } else {
+            if ($info->getState() == 'stable') {
+                $releases = package::info($info->getPackage(), 'releases');
+                if (!count($releases)) {
+                    $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
+                    "  Try releasing version 1.0.0RC1, state 'beta'";
+                }
+            }
+            $version = $info->getVersion();
+            if ($version{0} < '1') {
+                $errors[] = "Versions < 1.0.0 may not be 'stable'";
+            }
+        }
+        switch ($info->getPackageType()) {
+            case 'php' :
+                $type = 'PHP package';
+            break;
+            case 'extsrc' :
+                $type = 'Extension Source package';
+            break;
+            case 'extbin' :
+                $type = 'Extension Binary package';
+            break;
+            default :
+                $errors[] = 'Release type ' . $info->getPackageType() . ' is not ' .
+                    'supported at pear.php.net, only php source releases are supported.  ' .
+                    'pecl.php.net supports extension packages';
+        }
+        report_error($errors, 'errors','ERRORS:<br />'
+                     . 'You must correct your package.xml file:');
+        report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
+                     . 'You may want to correct your package.xml file:');
+        $form =& new HTML_Form($_SERVER['PHP_SELF'], 'post');
+        $form->addPlaintext('Package:', $info->getPackage());
+        $form->addPlaintext('Version:', $info->getVersion());
+        $form->addPlaintext('Summary:', htmlspecialchars($info->getSummary()));
+        $form->addPlaintext('Description:', nl2br(htmlspecialchars($info->getDescription())));
+        $form->addPlaintext('Release State:', $info->getState());
+        $form->addPlaintext('Release Date:', $info->getDate());
+        $form->addPlaintext('Release Notes:', nl2br(htmlspecialchars($info->getNotes())));
+        $form->addPlaintext('Package Type:', $type);
+    } else {
+    
+        // packge.xml conformance
+        $errors   = array();
+        $warnings = array();
+    
+        $util->validatePackageInfo($info, $errors, $warnings);
+    
+        // XXX ADD MASSIVE SANITY CHECKS HERE
+    
+        if (!preg_match('/^\d+\.\d+\.\d+(?:[a-zA-Z]+\d*)?$/', $info['version'])) {
+            $errors[] = 'Version must match format: digit.digit.digit[alpha[digits]]';
+        }
+    
+        if ($info['release_state'] == 'stable') {
+            // see if this is the first release
+            $releases = package::info($info['package'], 'releases');
+            if (!count($releases)) {
+                $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
+                    "  Try releasing version 1.0.0RC1, state 'beta'";
+            }
+            if ($info['version']{0} < '1') {
+                $errors[] = "Versions < 1.0.0 may not be 'stable'";
+            }
+            $verinfo = explode('.', $info['version']);
+            if (!preg_match('/^\d+$/', $verinfo[2])) {
+                $errors[] = "Stable versions must not have a postfix (use 'beta' for RC postfix)";
+            }
+        }
+    
+        report_error($errors, 'errors','ERRORS:<br />'
+                     . 'You must correct your package.xml file:');
+        report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
+                     . 'You may want to correct your package.xml file:');
+    
+        $check = array(
+            'summary',
+            'description',
+            'release_state',
+            'release_date',
+            'releases_notes',
+        );
+        foreach ($check as $key) {
+            if (!isset($info[$key])) {
+                $info[$key] = 'n/a';
+            }
+        }
+    
+        $form =& new HTML_Form($_SERVER['PHP_SELF'], 'post');
+        $form->addPlaintext('Package:', $info['package']);
+        $form->addPlaintext('Version:', $info['version']);
+        $form->addPlaintext('Summary:', htmlspecialchars($info['summary']));
+        $form->addPlaintext('Description:', nl2br(htmlspecialchars($info['description'])));
+        $form->addPlaintext('Release State:', $info['release_state']);
+        $form->addPlaintext('Release Date:', $info['release_date']);
+        $form->addPlaintext('Release Notes:', nl2br(htmlspecialchars($info['release_notes'])));
     }
-
-    if ($info['release_state'] == 'stable') {
-        // see if this is the first release
-        $releases = package::info($info['package'], 'releases');
-        if (!count($releases)) {
-            $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
-                "  Try releasing version 1.0.0RC1, state 'beta'";
-        }
-        if ($info['version']{0} < '1') {
-            $errors[] = "Versions < 1.0.0 may not be 'stable'";
-        }
-        $verinfo = explode('.', $info['version']);
-        if (!preg_match('/^\d+$/', $verinfo[2])) {
-            $errors[] = "Stable versions must not have a postfix (use 'beta' for RC postfix)";
-        }
-    }
-
-    report_error($errors, 'errors','ERRORS:<br />'
-                 . 'You must correct your package.xml file:');
-    report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
-                 . 'You may want to correct your package.xml file:');
-
-    $check = array(
-        'summary',
-        'description',
-        'release_state',
-        'release_date',
-        'releases_notes',
-    );
-    foreach ($check as $key) {
-        if (!isset($info[$key])) {
-            $info[$key] = 'n/a';
-        }
-    }
-
-    $form =& new HTML_Form($_SERVER['PHP_SELF'], 'post');
-    $form->addPlaintext('Package:', $info['package']);
-    $form->addPlaintext('Version:', $info['version']);
-    $form->addPlaintext('Summary:', htmlspecialchars($info['summary']));
-    $form->addPlaintext('Description:', nl2br(htmlspecialchars($info['description'])));
-    $form->addPlaintext('Release State:', $info['release_state']);
-    $form->addPlaintext('Release Date:', $info['release_date']);
-    $form->addPlaintext('Release Notes:', nl2br(htmlspecialchars($info['release_notes'])));
 
     // Don't show the next step button when errors found
     if (!count($errors)) {
