@@ -429,6 +429,7 @@ function show_version_options($current, $default = '')
         '4.2.1',
         '4.2.0',
         '4CVS-'.date('Y-m-d').' (stable)',
+        '5.0.0',
         '5.0.0RC3 (Release Candidate 3)',
         '5.0.0RC2 (Release Candidate 2)',
         '5.0.0RC1 (Release Candidate 1)',
