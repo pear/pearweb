@@ -199,3 +199,16 @@ hr.greyline {
     margin-top: 0px;
     margin-bottom: 0px;
 }
+
+ul.side_pages {
+    margin-top: 0.1em;
+    margin-bottom: 1.5em;
+    margin-left: 1em;
+    padding-left: 1em;
+    list-style: url(http://pear.php.net/gifs/box-0.gif) square;
+}
+
+li.side_page {
+    text-indent: -0.4em;
+    white-space: nowrap;
+}
