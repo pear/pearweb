@@ -18,7 +18,7 @@
    $Id$
 */
 
-response_header("ActiveState Active Award for Stig Bakken");
+response_header("Announcing the PEAR Group");
 ?>
 
 <h1>Announcing the PEAR Group</h1>
