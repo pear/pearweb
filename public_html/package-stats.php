@@ -46,8 +46,8 @@ function reloadMe()
 
 <?php
 $query = "SELECT * FROM packages"
-         . (!empty($_GET['cid']) ? " WHERE category = '" . $_GET['cid'] . "'" : "")
-         . " AND packages.package_type='pear'"
+         . (!empty($_GET['cid']) ? " WHERE category = '" . $_GET['cid'] . "' AND " : " WHERE ")
+         . " packages.package_type='pear'"
          . " ORDER BY name";
 
 $sth = $dbh->query($query);
