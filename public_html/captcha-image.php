@@ -16,12 +16,15 @@
  *     location and appear at random angles.
  *   + Allow characters to sometimes overlap a little and flow a bit off
  *     the canvas.
- *   + Use two random colors for the foreground (text and lines).
+ *   + Use two random colors for the foreground (text and arcs).
  *   + The foreground color must contrast with the background color.
- *   + The colors of the text and lines should be the same.
- *   + Keep the lines from starting or ending at the edge.
- *   + Have the lines run from left to right as to not look like 1 or l.
- *   + Make sure each line crosses through at least some of the text.
+ *   + The foreground arc colors must be the same as the text in order to
+ *     make them harder to remove.
+ *   + Some arcs will also be the background color, causing them to cut up
+ *     the foreground items.
+ *   + Try to keep the arcs from touching the edges.
+ *   + Have the arcs run from left to right as to not look like 1 or l.
+ *   + Make sure each arc crosses through at least some of the text.
  *
  * More obfuscation techniques could be used, but hey, is spamming us
  * THAT big a deal?
@@ -31,13 +34,11 @@
  *   + http://lists.nyphp.org/pipermail/talk/2004-June/010218.html
  *   + http://lists.nyphp.org/pipermail/talk/2004-July/010996.html
  *
- * This source file is subject to version 3.0 of the PHP license,
- * that is bundled with this package in the file LICENSE, and is
- * available through the world-wide-web at the following URI:
- * http://www.php.net/license/3_0.txt.
- * If you did not receive a copy of the PHP license and are unable to
- * obtain it through the world-wide-web, please send a note to
- * license@php.net so we can mail you a copy immediately.
+ * LICENSE: This source file is subject to version 3.0 of the PHP license
+ * that is available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.  If you did not receive a copy of
+ * the PHP License and are unable to obtain it through the web, please
+ * send a note to license@php.net so we can mail you a copy immediately.
  *
  * @category  pearweb
  * @package   pearweb
@@ -54,9 +55,10 @@ if (!isset($_SESSION['captcha'])) {
 /*
  * SETTINGS  ===========================
  */
-$line_count       = 7;
-$line_pad_min     = 5;
-$line_pad_max     = $line_pad_min * 4;
+$arc_count        = 8;
+$arc_pad_min      = 5;
+$arc_pad_max      = $arc_pad_min * 4;
+$arc_deg_vary     = 30;
 $font_size_min    = 25;
 $font_size_max    = 18;
 $font_angle_min   = -20;
@@ -66,6 +68,14 @@ $color_bg_min     = 4;
 $color_bg_max     = 5;
 $color_fg_min     = 1;
 $color_fg_max     = 2;
+
+/*
+ * Use full path to the fonts to avoid problems.
+ * The fonts are located in pearweb/include/fonts.
+ * Ease dev box configuration by doing this funky string replace.
+ */
+$font_dir = strtr($_SERVER['DOCUMENT_ROOT'],
+                  array('public_html' => 'include')) . '/fonts/';
 
 /*
  * This array contains the list of font names and the number the base
@@ -84,12 +94,10 @@ $fonts = array(
     'stanky.ttf'        => 1,    // by Isabelle Solar Sister
 );
 
-// The fonts are located in pearweb/include/fonts
-$font_dir = strtr($_SERVER['DOCUMENT_ROOT'],
-                  array('public_html' => 'include')) . '/fonts/';
+
 
 /*
- * TEXT MEASUREMENTS  ==================
+ * CALCULATE THE TEXT MEASUREMENTS  ====
  */
 $image_width  = 0;
 $image_height = 0;
@@ -135,17 +143,16 @@ $image_width -= $char_padding;
 $im = imagecreate($image_width, $image_height);
 
 /*
- * BACKGROUND COLORS  ==================
+ * COLORS  =============================
+ *
+ * 0 is the background color.
+ * 1 through x are the foreground colors.
  */
-imagecolorallocate($im,
-                   51 * mt_rand($color_bg_min, $color_bg_max),
-                   51 * mt_rand($color_bg_min, $color_bg_max),
-                   51 * mt_rand($color_bg_min, $color_bg_max));
-
-/*
- * FOREGROUND COLORS  ==================
- */
-$colors_bg = array(
+$colors = array(
+    imagecolorallocate($im,
+                       51 * mt_rand($color_bg_min, $color_bg_max),
+                       51 * mt_rand($color_bg_min, $color_bg_max),
+                       51 * mt_rand($color_bg_min, $color_bg_max)),
     imagecolorallocate($im,
                        51 * mt_rand($color_fg_min, $color_fg_max),
                        51 * mt_rand($color_fg_min, $color_fg_max),
@@ -155,11 +162,10 @@ $colors_bg = array(
                        51 * mt_rand($color_fg_min, $color_fg_max),
                        51 * mt_rand($color_fg_min, $color_fg_max)),
 );
-
-$color_max = count($colors_bg) - 1;
+$color_max = count($colors) - 1;
 
 /*
- * TEXT DISPLAY  =======================
+ * DISPLAY TEXT  =======================
  */
 $pos_x = 0;
 $y_min = $image_height - 15;
@@ -168,20 +174,37 @@ $y_max = $image_height - 3;
 foreach ($data as $d) {
     $pos_y  = mt_rand($y_min, $y_max);
     imagettftext($im, $d['size'], $d['angle'], $pos_x, $pos_y,
-                 $colors_bg[mt_rand(0, $color_max)], $d['font'], $d['char']);
+                 $colors[mt_rand(1, $color_max)], $d['font'], $d['char']);
     $pos_x += $d['width'] + $char_padding;
 }
 
 /*
- * LINES  ==============================
+ * ARCS ================================
  */
-for ($i = 0; $i < $line_count; $i++) {
-    imageline($im,
-              mt_rand($line_pad_min, $line_pad_max),
-              mt_rand($line_pad_min, $image_height - $line_pad_min),
-              mt_rand($image_width - $line_pad_max, $image_width - $line_pad_min),
-              mt_rand($line_pad_min, $image_height - $line_pad_min),
-              $colors_bg[mt_rand(0, $color_max)]);
+for ($i = 0; $i < $arc_count; $i++) {
+    // Start on left side, arc upward, then ending on the right side.
+    $start = mt_rand(180 - $arc_deg_vary, 180 + $arc_deg_vary);
+    $end   = mt_rand(0 - $arc_deg_vary, $arc_deg_vary);
+    if ($end < 0) {
+        $end = 360 - $end;
+    }
+
+    $half_w   = $image_width / 2;
+    $center_x = mt_rand($half_w - $arc_pad_min, $half_w + $arc_pad_min);
+    $width    = ($half_w - abs($half_w - $center_x)) * 2 - $arc_pad_min;
+    $center_y = mt_rand($image_height / 2, $image_height - $arc_pad_min);
+    $height   = mt_rand(3, $center_y * 2 - $arc_pad_min);
+
+    if ($i % 2) {
+        // Flip arc to a downward one.
+        $tmp      = $end;
+        $end      = $start;
+        $start    = $tmp;
+        $center_y = $image_height - $center_y;
+    }
+
+    imagearc($im, $center_x, $center_y, $width, $height,
+             $start, $end, $colors[$i % $color_max]);
 }
 
 /*
