@@ -154,7 +154,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 <table class="head" cellspacing="0" cellpadding="0">
  <tr>
   <td class="head-logo">
-   <?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
+   <?php print_link('/', make_image('pearsmall.gif', 'PEAR :: The PHP Extension and Application Repository', false, false, false, false, 'margin: 5px;') ); ?><br />
   </td>
   <td class="head-menu">
    <?php
@@ -1055,10 +1055,10 @@ function validate_captcha($max_age = 300)
  */
 function make_ticket_links($text)
 {
-    $text = preg_replace('/(?<=php)\s*(bug|request)\s*#?([0-9]+)/i',
+    $text = preg_replace('/(?<=php)\s*(bug|request)\s*#([0-9]+)/i',
                          ' <a href="http://bugs.php.net/\\2">\\1 \\2</a>',
                          $text);
-    $text = preg_replace('/(?<!>)(bug|request)\s*#?([0-9]+)/i',
+    $text = preg_replace('/(?<!>)(bug|request)\s*#([0-9]+)/i',
                          '<a href="/bugs/\\2">\\0</a>', $text);
     return $text;
 }
