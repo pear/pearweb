@@ -20,6 +20,7 @@
 
 require_once "Damblan/Karma.php";
 require_once "HTML/Form.php";
+require_once "pear-format-html-form.php";
 
 auth_require("global.karma.manager");
 
@@ -29,16 +30,19 @@ response_header("PEAR Administration :: Karma Management");
 
 echo "<h1>Karma Management</h1>\n";
 
-if (empty($_POST['handle']) && empty($_GET['handle'])) {
-    $form = new HTML_Form($_SERVER['PHP_SELF'], "post");
-    $form->addText("handle", "Handle: ");
+$handle = null;
+if (!empty($_POST['handle'])) {
+    $handle = trim($_POST['handle']);
+} else if (!empty($_GET['handle'])) {
+    $handle = trim($_GET['handle']);
+}
+
+if ($handle === null || empty($handle)) {
+    $form = new PEAR_Web_Form($_SERVER['PHP_SELF'], "post");
+    $form->addUserSelect("handle", "Handle: ");
+    $form->addSubmit();
     $form->display();
 } else {
-    if (!empty($_POST['handle'])) {
-        $handle = trim($_POST['handle']);
-    } else {
-        $handle = trim($_GET['handle']);
-    }
 
     if (!empty($_GET['action'])) {
         switch ($_GET['action']) {
@@ -70,7 +74,9 @@ if (empty($_POST['handle']) && empty($_GET['handle'])) {
                               $handle, $item['level']);
 
             $bb->plainRow($item['level'], $item['granted_by'], 
-                          $item['granted_at'], make_link($remove, make_image("delete.gif")));
+                          $item['granted_at'], make_link($remove, make_image("delete.gif"),
+                                                         false, 
+                                                         'onclick="javascript:return confirm(\'Do you really want to remove the karma level ' . $item['level' ] . '?\');"'));
         }
         $bb->end();
     }
