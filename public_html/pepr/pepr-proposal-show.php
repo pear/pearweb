@@ -80,8 +80,10 @@
 	
 	if (isset($_COOKIE['PEAR_USER']) && ($proposal->getStatus() == 'proposal')) {
 		$form = new HTML_QuickForm('comment', 'post', 'pepr-proposal-show.php?id='.$id);
-		$form->addElement('textarea', 'comment', null, array('cols' => 30, 'rows' => 6));
-		$form->addElement('static', '', '', '<small>Your comment will also be sent to the <b>pear-dev</b> mailing list.</small>');
+		$form->addElement('textarea', 'comment', null, array('cols' => 70, 'rows' => 6));
+		$form->addElement('static', '', '', '<small>Your comment will also be sent to the <b>pear-dev</b> mailing list.<br />
+		      <b>Please do not respond to other developers comments</b>.<br />
+		      The autor himself is responsible to reflect comments in an acceptable way.</small>');
 		$form->addElement('submit', 'submit', 'Add New Comment');
 		
 		$form->addRule('comment', 'A comment is required!', 'required', null, 'client');
@@ -187,9 +189,36 @@
 	
 	$bb->end();
 	
+	if ($proposal->getStatus() == 'proposal') {
+		if (isset($_COOKIE['PEAR_USER'])) {
+			$formArray = $form->toArray();
+			echo "<form ".$formArray['attributes'].">";
+			$bb = new BorderBox("Comment on this proposal", "90%", "", 2, true);
+			$bb->horizHeadRow("Comment:", $formArray['elements'][0]['html']);
+			$bb->horizHeadRow("", $formArray['elements'][1]['html']);
+			$bb->horizHeadRow("", $formArray['elements'][2]['html']);
+			if (isset($_GET['comment']) && ($_GET['comment'] == 1)) {
+				$bb->horizHeadRow("", "Comment sent successfully.");
+			}
+			$bb->end();
+			echo "</form>";
+		} else {
+			$bb = new BorderBox("Comment on this proposal", "90%", "", 2, true);
+			$bb->fullRow("Please login to comment or comment directly on ".make_link("pear-dev@lists.php.net", "pear-dev@lists.php.net").".");
+			$bb->end();
+		}
+	}
+    
+	echo "<p align='center' width='90%'>".make_link("/pepr/pepr-comments-show.php?id=".$proposal->id, "View comments on this proposal.")."</p>";
+	
 	echo spacer(1, 20);
 	
 	echo "<table width='90%'>";
+	
+	echo "<tr><td cellspacing='2' align='center'>";
+	echo make_link("/pepr/pepr-comments-show.php?id=".$proposal->id, "View comments on this proposal.");
+	echo "</td></tr>";
+	
 	echo "<tr><td width='50%' valign='top'>";
 	
 	$bb = new BorderBox("Votes", "100%", "", 2, true);
@@ -260,31 +289,11 @@
 			$bb->fullRow("This proposal has not been accepted.");
 		}
 		$bb->end();
-	} else if ($proposal->getStatus() == 'proposal') {
-		if (isset($_COOKIE['PEAR_USER'])) {
-			$formArray = $form->toArray();
-			echo "<form ".$formArray['attributes'].">";
-			$bb = new BorderBox("Comment on this proposal", "100%", "", 2, true);
-			$bb->horizHeadRow("Comment:", $formArray['elements'][0]['html']);
-			$bb->horizHeadRow("", $formArray['elements'][1]['html']);
-			$bb->horizHeadRow("", $formArray['elements'][2]['html']);
-			if (isset($_GET['comment']) && ($_GET['comment'] == 1)) {
-				$bb->horizHeadRow("", "Comment sent successfully.");
-			}
-			$bb->end();
-			echo "</form>";
-		} else {
-			$bb = new BorderBox("Comment on this proposal", "100%", "", 2, true);
-			$bb->fullRow("Please login to comment or comment directly on ".make_link("pear-dev@lists.php.net", "pear-dev@lists.php.net").".");
-			$bb->end();
-		}
 	} else {
 		$bb = new BorderBox("Vote on this proposal", "100%", "", 2, true);
 		$bb->fullRow("Voting is only enabled during 'Call for votes phase'.");
 		$bb->end();
 	}
-	
-	echo "<p align='center'>".make_link("/pepr/pepr-comments-show.php?id=".$proposal->id, "View comments on this proposal.")."</p>";
 	
 	echo "</td></tr>";
 	echo "</table>";
