@@ -54,8 +54,7 @@ $res['orphan_drafts'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 // Get IDs from proposals with comments in the last 30 days
 $sql = <<<EOS
 SELECT 
-    ppc.pkg_prop_id,
-    MAX(ppc.timestamp) AS latest
+    ppc.pkg_prop_id
 FROM 
     package_proposal_comments ppc 
 WHERE 
@@ -93,7 +92,7 @@ WHERE
     p.status = 'proposal'
     AND p.id NOT IN (".implode(',', $proposalIds).")
     AND p.proposal_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
-    ORDER BY draft_date DESC;";
+ORDER BY draft_date DESC;";
 
 $res['orphan_proposals'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 
@@ -166,7 +165,7 @@ echo '<tr>';
 echo '<td width="50%" valign="top">';
 
 // {{{ HTML for orphan drafts
-echo '<h1>Status &quot;draft&quot;</h1>';
+echo '<h1>Status &quot;draft&quot; ('.count($res['orphan_drafts']).')</h1>';
 
 echo '<table border="0" cellspacing="0">';
 echo '<tr>';
@@ -190,7 +189,7 @@ echo '</td>';
 echo '<td width="50%" valign="top">';
 
 // {{{ HTML for orphan proposals
-echo '<h1>Status &quot;proposal&quot;</h1>';
+echo '<h1>Status &quot;proposal&quot; ('.count($res['orphan_proposals']).')</h1>';
 echo '<table border="0" cellspacing="0">';
 echo '<tr>';
 echo '<th>Name</th>';
@@ -220,7 +219,7 @@ echo '</tr>';
 echo '</table>';
 
 // {{{ HTML for orphan finished proposals
-echo '<h1>Status &quot;finished&quot;</h1>';
+echo '<h1>Status &quot;finished&quot; ('.count($res['orphan_finished']).')</h1>';
 echo '<table border="0" cellspacing="0">';
 echo '<tr>';
 echo '<th>Name</th>';
@@ -247,7 +246,9 @@ foreach ($res['orphan_finished'] as $set) {
     }
     
     echo '<td class="textcell">'.user_link($set['user_handle']).'</td>';
-    echo '<td class="textcell"><a href="/package/'.$set['pkg_name'].'">Search</a></td>';
+    echo '<td class="textcell"><a href="/package-search.php?pkg_name='.
+            urlencode(str_replace('_', ' ', strtolower($set['pkg_name']))).
+                    '&bool=AND&submit=Search#results">Search registered package</a></td>';
     echo '</tr>';
 }
 echo '</table>';
