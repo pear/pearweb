@@ -163,7 +163,7 @@ if ($version_n[0]=="4") {
         'Net_SMTP',
         'Mail',
         'XML_Parser',
-        'phpUnit-0.6.2'
+        'PHPUnit-0.6.2'
         );
 } else {
     $pfc_packages = array(
@@ -172,7 +172,7 @@ if ($version_n[0]=="4") {
         'Net_SMTP',
         'Mail',
         'XML_Parser',
-        'phpUnit'
+        'PHPUnit'
         );
 }
 $config_desc = array(
