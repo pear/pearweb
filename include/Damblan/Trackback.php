@@ -122,7 +122,7 @@ class Damblan_Trackback extends Services_Trackback {
         if (PEAR::isError($necessaryData)) {
             return $necessaryData;
         }
-        if (!isset($this->_timestamp) || !is_int($this->_timestamp)) {
+        if (!isset($this->_timestamp)) {
             return PEAR::raiseError('Necessary attribute timestamp missing.');
         }
         $this->_checkData($necessaryData);
@@ -132,7 +132,7 @@ class Damblan_Trackback extends Services_Trackback {
                     AND timestamp = ".$dbh->quoteSmart($this->_timestamp);
         $res = $dbh->getRow($sql, null, DB_FETCHMODE_ASSOC);
         if (DB::isError($res) || !is_array($res) || !count($res)) {
-            return PEAR::raiseError('Unable to load trackback: '.$res->getMessage());
+            return PEAR::raiseError('Unable to load trackback.');
         }
         foreach ($res as $key => $val) {
             if (($key != 'timestamp') && ($key != 'approved')) {
@@ -332,6 +332,30 @@ class Damblan_Trackback extends Services_Trackback {
         }
         print '</table>';
     }
+
+    /**
+     * Get maintainers to inform of a trackback (the lead maintainers of a package).
+     *  
+     *  
+     * @since
+     * @access public
+     * @param  
+     * @return array(string) The list of maintainer emails.
+     */
+    function getMaintainers ()
+    {
+        $maintainers = maintainer::get($this->id, true);
+        $res = array();
+        foreach ($maintainers as $maintainer => $data) {
+            $tmpUser = user::info($maintainer, 'email');
+            if (empty($tmpUser['email'])) {
+                continue;
+            }
+            $res[] = $tmpUser['email'];
+        }
+        return $res;
+    }
+    
 }
 
 overload('Damblan_Trackback');
