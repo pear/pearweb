@@ -187,7 +187,7 @@ if (empty($action)) {
     if (isset($versions[0])) {
         print '<a href="/get/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
         print ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
-        print ' was released on ' . substr($pkg['releases'][$versions[0]]['releasedate'], 0, 10);
+        print ' was released on ' . make_utc_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
         print ' (<a href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
     } else {
         print 'No releases have been made yet.';
@@ -275,7 +275,7 @@ if (empty($action)) {
             print '<td class="textcell">' . $release_version . '</td>';
             print '<td>';
             print '<a href="/get/' . htmlspecialchars($name) . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
-            print '<b>Release date:</b> ' . date("d M Y, H:i A", strtotime($info['releasedate'])) . '<br />'; 
+            print '<b>Release date:</b> ' . make_utc_date(strtotime($info['releasedate'])) . '<br />'; 
             print '<b>Release state:</b> ' . htmlspecialchars($info['state']) . '<br /><br />'; 
             print '<b>Changelog:</b><br /><br />' . nl2br(htmlspecialchars($info['releasenotes'])) . '<br /><br />';
 
@@ -334,7 +334,7 @@ if (empty($action)) {
         } else {
             // Simple view
             print '  <td><a href="/package/' . htmlspecialchars($name) . '/download/' . $release_version . '">' . $release_version . "</a></td>\n";
-            print '  <td>' . substr($info['releasedate'], 0, 10) . ' &nbsp; &nbsp; ' . htmlspecialchars($info['state']) . "</td>\n";
+            print '  <td>' . make_utc_date(strtotime($info['releasedate']), 'Y-m-d') . ' &nbsp; &nbsp; ' . htmlspecialchars($info['state']) . "</td>\n";
         }
 
         print " </tr>\n";
