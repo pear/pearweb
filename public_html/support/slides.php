@@ -55,7 +55,7 @@ that have been held about PEAR.</p>
   <p><cite><a href="http://www.arachnion.de/conf2004/">
   Building Web clients using XUL and SOAP</cite></a></p>
   <ul>
-<!--    <li>Date: 2004-11-xx</li> -->
+    <li>Date: 2004-11-10</li>
     <li>Presenter: Volker Goebbels</li>
     <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
     <li>Language: English</li>
