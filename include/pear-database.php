@@ -1992,8 +1992,7 @@ class user
         $msg = "Requested from:   {$_SERVER['REMOTE_ADDR']}\n".
                "Username:         {$handle}\n".
                "Real Name:        {$name}\n".
-               "Email:            {$data['email']}" .
-               (@$showemail ? " (show address)" : " (hide address)") . "\n".
+               (isset($data['showemail']) ? "Email:            {$data['email']}\n" : "") .
                "Purpose:\n".
                "{$data['purpose']}\n\n".
                "To handle: http://{$_SERVER['SERVER_NAME']}/admin/?acreq={$handle}\n";
