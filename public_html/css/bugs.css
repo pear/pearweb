@@ -1,6 +1,6 @@
 /* STYLES FOR THE BUG SYSTEM */
 
-@import url(/css/manual-controls.css);
+@import url(/css/bugs-controls.css);
 
 body, ul, td, th {
     font-family: verdana,arial,helvetica,sans-serif;
