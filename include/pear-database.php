@@ -2014,10 +2014,10 @@ class user
             $msg .= "\nMore info:\n{$data['moreinfo']}\n";
         }
 
-        $xhdr = "From: $name <{$data['email']}>\nMessage-Id: <account-request-{$handle}@pear.php.net>";
-        $xhdr .= "\nBCC: pear-group@php.net";
+        $xhdr = "From: $name <{$data['email']}>\nMessage-Id: <account-request-{$handle}@pear.php.net>\n";
+        // $xhdr .= "\nBCC: pear-group@php.net";
         $subject = "PEAR Account Request: {$handle}";
-        $ok = mail("pear-dev@lists.php.net", $subject, $msg, $xhdr, "-f pear-sys@php.net");
+        $ok = mail("pear-group@php.net", $subject, $msg, $xhdr, "-f pear-sys@php.net");
 
         PEAR::popErrorHandling();
 
