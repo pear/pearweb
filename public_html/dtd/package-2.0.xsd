@@ -227,7 +227,7 @@
       <xs:attribute name="min" type="version"/>
       <xs:attribute name="max" type="version"/>
       <xs:attribute name="recommended" type="version"/>
-      <xs:attribute name="not" default="false">
+      <xs:attribute name="not" default="no">
        <xs:simpleType>
         <xs:restriction base="xs:string">
          <xs:enumeration value="yes"/>
@@ -241,7 +241,7 @@
     <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
      <xs:complexType>
       <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="not" default="false">
+      <xs:attribute name="not" default="no">
        <xs:simpleType>
         <xs:restriction base="xs:string">
          <xs:enumeration value="yes"/>
@@ -319,7 +319,7 @@
    <xs:attribute name="min" type="version"/>
    <xs:attribute name="max" type="version"/>
    <xs:attribute name="recommended" type="version"/>
-   <xs:attribute name="not" default="false">
+   <xs:attribute name="not" default="no">
     <xs:simpleType>
      <xs:restriction base="xs:string">
       <xs:enumeration value="yes"/>
@@ -361,7 +361,7 @@
       <xs:attribute name="channel" type="xs:string" use="required"/>
       <xs:attribute name="min" type="version"/>
       <xs:attribute name="max" type="version"/>
-      <xs:attribute name="not" default="false">
+      <xs:attribute name="not" default="no">
        <xs:simpleType>
         <xs:restriction base="xs:string">
          <xs:enumeration value="yes"/>
@@ -375,7 +375,7 @@
     <xs:element name="os" minOccurs="0">
      <xs:complexType>
       <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="not" default="false">
+      <xs:attribute name="not" default="no">
        <xs:simpleType>
         <xs:restriction base="xs:string">
          <xs:enumeration value="yes"/>
@@ -404,7 +404,7 @@
  <xs:element name="arch">
   <xs:complexType>
    <xs:attribute name="pattern" type="xs:string" use="required"/>
-   <xs:attribute name="not" default="false">
+   <xs:attribute name="not" default="no">
     <xs:simpleType>
      <xs:restriction base="xs:string">
       <xs:enumeration value="yes"/>
