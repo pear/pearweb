@@ -32,10 +32,10 @@ response_header("Support");
 
 <b>Table of Contents</b>
 <ul>
-  <li><a href="#lists">Mailing Lists</a></li>
-  <li><a href="#tutorials">Tutorials</a></li>
-  <li><a href="#resources">Resources</a></li>
-  <li><a href="#icons">PEAR Icons</a></li>
+  <li><a href="support.php#lists">Mailing Lists</a></li>
+  <li><a href="support.php#tutorials">Tutorials</a></li>
+  <li><a href="support.php#resources">Resources</a></li>
+  <li><a href="support.php#icons">PEAR Icons</a></li>
 </ul>
 
 <a name="lists" /><h3>Mailing Lists</h3>
