@@ -41,7 +41,7 @@ if (!empty($_GET['approve'])) {
         $observer = new Damblan_Log_Mail;
         $observer->setRecipients("pear-group@php.net");
         $observer->setHeader("In-Reply-To", "<approve-request-" . $row['id'] . "@pear.php.net>");
-        $observer->setHeader("Subject", "Package " . $row['name'] . " has been approved");
+        $observer->setHeader("Subject", "[PEAR Group] Package " . $row['name'] . " has been approved");
 
         $logger->attach($observer);
         $logger->log($auth_user->handle . " approved " . $row['name']);

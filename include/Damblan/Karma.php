@@ -204,7 +204,7 @@ class Damblan_Karma {
             $observer->setRecipients("pear-group@php.net");
             $observer->setHeader("From", "\"PEAR Karma Manager\" <pear-sys@php.net>");
             $observer->setHeader("Reply-To", "<pear-group@php.net>");
-            $observer->setHeader("Subject", "Karma update");
+            $observer->setHeader("Subject", "[PEAR Group] Karma update");
             $logger->attach($observer);
         }
 
