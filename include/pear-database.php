@@ -1383,13 +1383,32 @@ class release
         $common = new PEAR_Common();
         $pkg_info = $common->InfoFromTgzFile($file);
 
+        $dep_type_desc = array('pkg',
+                               'ext',
+                               'php',
+                               'prog',
+                               'ldlib',
+                               'rtlib',
+                               'os',
+                               'websrv',
+                               'sapi',
+                              );
+
+        $rel_trans = array('lt',
+                           'le',
+                           'eq',
+                           'ne',
+                           'gt',
+                           'ge',
+                          );
+
         foreach ($pkg_info as $key => $value) {
             if ($key == "release_deps") {
                 foreach ($value as $dep) {
                     $prob = array();
 
                     if (empty($dep['type']) ||
-                        $dep['type'] != strtolower($dep['type']))
+                        !in_array($dep['type'], $dep_type_desc))
                     {
                         $prob[] = 'type';
                     }
@@ -1410,7 +1429,7 @@ class release
                     }
 
                     if (empty($dep['rel']) ||
-                        $dep['rel'] != strtolower($dep['rel']))
+                        !in_array($dep['rel'], $rel_trans))
                     {
                         $prob[] = 'rel';
                     }
@@ -1430,7 +1449,7 @@ class release
 
                     if (count($prob)) {
                         $res = PEAR::raiseError('The following attribute(s) ' .
-                                'were missing or need lowercased values: ' .
+                                'were missing or need proper values: ' .
                                 implode(', ', $prob));
                     } else {
                         $res = $dbh->execute($sth,
