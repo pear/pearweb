@@ -218,9 +218,7 @@
 			$nextStage = 1;	
 		}
 		
-		if (!DEVBOX) {
-			localRedirect("/pepr/pepr-proposal-edit.php?id={$proposal->id}&saved=1&next_stage=".@$nextStage);
-		}
+	    localRedirect("/pepr/pepr-proposal-edit.php?id={$proposal->id}&saved=1&next_stage=".@$nextStage);
 	}
 
 	if (!empty($next_stage)) {
