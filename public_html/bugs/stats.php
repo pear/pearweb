@@ -156,7 +156,7 @@ echo    '</select>
 /**
 * Fetch list of users/maintainers
 */
-$users = $dbh->query('SELECT u.handle, u.name FROM users u, maintains m WHERE u.handle = m.handle 
+$users = $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, maintains m WHERE u.handle = m.handle 
                         GROUP BY handle ORDER BY u.name');
     $_GET['developer'] == '' ? $selected = ' selected="selected"' : $selected = '';
     echo '<option value=""' . $selected . '>Select user...</option>'."\n";
