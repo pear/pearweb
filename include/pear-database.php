@@ -1752,7 +1752,7 @@ class user
     // }}}
     // {{{ *proto bool   user::activate(string)
 
-    function activate($uid)
+    function activate($uid, $karmalevel = 'pear.dev')
     {
         require_once "Damblan/Karma.php";
 
@@ -1774,7 +1774,8 @@ class user
         $user->set('created', gmdate('Y-m-d H:i'));
         $user->set('createdby', $_COOKIE['PEAR_USER']);
         $user->store();
-        $karma->grant($user->handle, "pear.dev");
+        // $karma->grant($user->handle, "pear.dev");
+        $karma->grant($user->handle, $karmalevel);
         note::add("uid", $uid, "Account opened");
         $msg = "Your PEAR account request has been opened.\n".
              "To log in, go to http://pear.php.net/ and click on \"login\" in\n".
