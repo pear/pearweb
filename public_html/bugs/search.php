@@ -253,7 +253,7 @@ if ($warnings) display_warnings($warnings);
 <tr valign="top">
   <th>Category</th>
   <td nowrap="nowrap">Return only bugs in <b>categories</b></td>
-  <td><select name="bug_type[]" multiple size=6><?php show_types($package_name,2);?></select></td>
+  <td><select name="package_name[]" multiple size=6><?php show_types($package_name,2);?></select></td>
 </tr>
 <tr valign="top">
   <th>&nbsp;</th>
