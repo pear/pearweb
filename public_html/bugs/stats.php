@@ -27,6 +27,8 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 $category  = $_GET['category'];
 $developer = $_GET['developer'];
+$rev       = $_GET['rev'];
+$sort_by   = $_GET['sort_by'];
 
 $dbh->setFetchMode(DB_FETCHMODE_ASSOC);
 
@@ -96,15 +98,6 @@ foreach ($result as $package) {
     }
 }
 
-function bugstats($status, $name)
-{
-    global $package_name;
-
-    if ($package_name[$status][$name] > 0) {
-        return '<a href="search.php?cmd=display&amp;status=' . ucfirst($status) . ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) . '&amp;by=Any&amp;limit=10'.$string.'">' . $package_name[$status][$name] . "</a>\n";
-    }
-}
-
 if ($total > 0) {
     /* prepare for sorting by bug report count */
     foreach($package_name['all'] as $name => $value) {
@@ -121,31 +114,47 @@ if ($total > 0) {
         if (!isset($package_name['feedback'][$name])) {    $package_name['feedback'][$name]    = 0; }
     }
     
-    if (!isset($_GET['sort_by'])) { 
-        $_GET['sort_by'] = 'open'; 
+    if (!isset($sort_by)) { 
+        $sort_by = 'open'; 
     }   
     if (!isset($_GET['rev'])) { 
-        $_GET['rev'] = 1; 
+        $rev = 1; 
     }
     
     if ($_GET['rev'] == 1) {
-        arsort($package_name[$_GET['sort_by']]);
+        arsort($package_name[$sort_by]);
     } else {
-        asort($package_name[$_GET['sort_by']]);
+        asort($package_name[$sort_by]);
     }
     reset($package_name);
 }
+
+function bugstats($status, $name)
+{
+    global $package_name;
+
+    if ($package_name[$status][$name] > 0) {
+        return '<a href="search.php?cmd=display&amp;status=' . ucfirst($status) . ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) . '&amp;by=Any&amp;limit=10'.$string.'">' . $package_name[$status][$name] . "</a>\n";
+    }
+}
+
 
 function sort_url ($name)
 {
     global $sort_by,$rev,$phpver,$category,$developer;
 
-    if ($type == $_GET['sort_by']) {
-        $reve = ($_GET['rev'] == 1) ? 0 : 1;        
+    if ($name == $sort_by) {
+        $reve = ($rev == 1) ? 0 : 1;        
     } else {
         $reve = 1;
     }
-    return '<a href="./stats.php?sort_by='.urlencode($name).'&amp;rev='.$reve.'&amp;category='.$category.'&amp;developer='.$developer.'">'.ucfirst($name).'</a>';
+    if ($sort_by != $name) {
+        $attr = '';
+    } else {
+        $attr = 'class="bug_stats_choosen"';
+    }
+    return '<a href="./stats.php?sort_by='.urlencode($name).'&amp;rev='.$reve.'&amp;category='.$category.'&amp;developer='.$developer.'" '.$attr.'>'.ucfirst($name).'</a>';
+
 }
 
 function package_link ($name)
@@ -164,10 +173,10 @@ function package_link ($name)
 function display_stat_header($total, $grandtotal = true) {
     global $dbh;
     if ($grandtotal) {
-        $stat_head = '<tr id="bug_header"><td><strong>Name</strong></td>
+        $stat_head = '<tr class="bug_header"><td><strong>Name</strong></td>
             <td>&nbsp;</td>';
     } else {
-        $stat_head = '<tr id="bug_header"><td>&nbsp;</td><td>&nbsp;</td>';
+        $stat_head = '<tr class="bug_header"><td>&nbsp;</td><td>&nbsp;</td>';
     }
     $stat_head .= '<td><strong>' . sort_url('closed')      . '</strong></td>
     <td><strong>' . sort_url('open')        . '</strong></td>
@@ -187,7 +196,7 @@ function display_stat_header($total, $grandtotal = true) {
 /**
 * Fetch list of all categories
 */
-echo '<table>'."\n";
+echo '<table style="font-size: 90%;">'."\n";
     $res = category::listAll();
     $_SERVER['QUERY_STRING'] ? $query_string = '?' . $_SERVER['QUERY_STRING'] : '';
 echo '<tr><td colspan="13"> 
@@ -249,7 +258,7 @@ echo '<tr><td class="bug_head"><strong>All</strong></td>
     </tr>' . "\n";
 
 $stat_row = 1;
-foreach ($package_name[$_GET['sort_by']] as $name => $value) {
+foreach ($package_name[$sort_by] as $name => $value) {
     if ($name != 'all') {
         /* Output a new header row every 40 lines */
         if (($stat_row++ % 40) == 0) { 
