@@ -43,48 +43,39 @@ require_once 'Mail.php';
  */
 function display_pepr_nav(&$proposal)
 {
-    $items = array(
-        'Main'       => array('url'   => 'pepr-proposal-show.php',
-                              'title' => 'View proposal details'
-                        ),
-        'Comments'   => array('url'   => 'pepr-comments-show.php',
-                              'title' => 'View and/or enter comments'
-                        ),
-        'Votes'      => array('url'   => 'pepr-votes-show.php',
-                              'title' => 'View and/or enter votes'
-                        ),
-    );
-
     if ($proposal == null) {
         $id = 0;
     } else {
         $id = $proposal->id;
-        if (isset($_COOKIE['PEAR_USER']) &&
-            $proposal->mayEdit($_COOKIE['PEAR_USER']))
-        {
-            $items['Edit'] = array(
-                'url'   => 'pepr-proposal-edit.php',
-                'title' => 'Edit this proposal'
-            );
-            $items['Delete'] = array(
-                'url'   => 'pepr-proposal-delete.php',
-                'title' => 'Delete this proposal'
-            );
-        }
     }
 
-    $page = basename($_SERVER['PHP_SELF']);
+    $items = array(
+        'Main'       => array('url'   => 'pepr-proposal-show.php?id=' . $id,
+                              'title' => 'View proposal details'
+                        ),
+        'Comments'   => array('url'   => 'pepr-comments-show.php?id=' . $id,
+                              'title' => 'View and/or enter comments'
+                        ),
+        'Votes'      => array('url'   => 'pepr-votes-show.php?id=' . $id,
+                              'title' => 'View and/or enter votes'
+                        ),
+    );
 
-    echo '<div id="nav">' . "\n";
-    foreach ($items as $title => $item) {
-        echo '<a href="' . $item['url'] . '?id=' . $id
-             . '" title="' . $item['title'] . '"';
-        if ($page == $item['url']) {
-            echo ' class="active"';
-        }
-        echo '>' . $title . "</a>\n";
+    if ($proposal != null &&
+        isset($_COOKIE['PEAR_USER']) &&
+        $proposal->mayEdit($_COOKIE['PEAR_USER']))
+    {
+        $items['Edit'] = array(
+            'url'   => 'pepr-proposal-edit.php?id=' . $id,
+            'title' => 'Edit this proposal'
+        );
+        $items['Delete'] = array(
+            'url'   => 'pepr-proposal-delete.php?id=' . $id,
+            'title' => 'Delete this proposal'
+        );
     }
-    echo '</div>';
+
+    print_tabbed_navigation($items);
 }
 
 
