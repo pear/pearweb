@@ -150,6 +150,13 @@ $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing li
  Bogus, incomplete or incorrect requests will be summarily denied.
 </p>
 
+<p>
+If your first name or last name begins with a non-latin character like
+vowels with accents you cannot use those due to strict validation 
+routines. Please use the &quot;latin counterparts&quot; of those
+characters instead.
+</p>
+
 MSG;
 
     print '<a name="requestform" id="requestform"></a>';
