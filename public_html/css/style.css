@@ -166,7 +166,7 @@ table.form-holder {
 
 caption.form-caption {
     font-weight: bold;
-    background-color: #8bca8b;
+    background-color: #339900;
     padding: 0.3em;
     border-left: 1px solid #FFFFFF;
     border-right: 1px solid #FFFFFF;
@@ -178,7 +178,7 @@ th.form-label_left {
     text-align: left;
     vertical-align: top;
     font-weight: bold;
-    background-color: #8bca8b;
+    background-color: #339900;
     width: 25%;
 }
 
