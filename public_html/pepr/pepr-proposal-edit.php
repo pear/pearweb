@@ -56,7 +56,8 @@ if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
     }
 
     if ($proposal->compareStatus('>', 'proposal') &&
-        $karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin'))
+        $karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') &&
+        empty($_GET['next_stage']))
     {
         report_error('This proposal has reached the "'
                      . $proposal->getStatus(true) . '" phase.'
@@ -301,7 +302,7 @@ if (!empty($_GET['next_stage'])) {
             break;
     }
     if ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin')) {
-        $bbox[] = 'Your changes were recorded and necesary emails'
+        $bbox[] = 'Your changes were recorded and necessary emails'
                 . ' were sent.';
     }
     if ($bbox) {
