@@ -116,15 +116,23 @@
 		$form->setDefaults($defaults);
 		
 		switch ($proposal->status) {
-			case 'draft':		$next_stage_text = "Change status to 'Proposal'";
+			case 'draft':
+			    $next_stage_text = "Change status to 'Proposal'";
 				break;
-			case 'proposal':	$next_stage_text = "Change status to 'Call for votes'";
+
+			case 'proposal':
+			    $next_stage_text = "Change status to 'Call for votes'";
 				break;
-			case 'vote': if (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
-								$next_stage_text = "Extend vote time";
+
+			case 'vote': 
+			    if (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
+                    $next_stage_text = "Extend vote time";
 				}
 				break;
-				
+
+            default:
+                $next_stage_text = "";
+                break;
 		}
 				
 		$timeline = $proposal->checkTimeLine();
