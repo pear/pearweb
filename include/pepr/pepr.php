@@ -12,22 +12,24 @@ define('PROPOSAL_STATUS_VOTE_TIMELINE', (60 * 60 * 24 * 7), true); // 1 week
 // define('PROPOSAL_STATUS_PROPOSAL_TIMELINE', (60), true); // 1 hour
 // define('PROPOSAL_STATUS_VOTE_TIMELINE', (60), true); // 1 hour
 	
-
- // This runs PEPr in production mode
-define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <pear-dev@lists.php.net>', true);
-define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>', true);
-define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
-
-/*
-// This runs PEPr in testing mode
-define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <dotxp@php-applications.de>', true);
-define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <dotxp@php-applications.de>', true);
-define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
-*/	
-// define('PROPOSAL_EMAIL_PREFIX', '[PEPr][TEST]', true);
-define('PROPOSAL_EMAIL_PREFIX', '[PEPr]', true);
-define('PROPOSAL_EMAIL_POSTFIX', "\n\n\nSent by PEPr\nAutomatic proposal system at http://pear.php.net", true);
+if (DEVBOX) {
+	// This runs PEPr in testing mode
+	// define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <'.$_SERVER['SERVER_ADMIN'].'>', true);
+	define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <'.$_SERVER['SERVER_ADMIN'].'>', true);
+	define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <'.$_SERVER['SERVER_ADMIN'].'>', true);
+	define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
+	define('PROPOSAL_EMAIL_PREFIX', '[PEPr][TEST]', true);
+	define('PROPOSAL_EMAIL_POSTFIX', "\n\n\nSent by PEPr\nAutomatic proposal system at http://pear.php.net", true);
+} else {
+	 // This runs PEPr in production mode
+	define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <pear-dev@lists.php.net>', true);
+	define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>', true);
+	define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
+	define('PROPOSAL_EMAIL_PREFIX', '[PEPr]', true);
+	define('PROPOSAL_EMAIL_POSTFIX', "\n\n\nSent by PEPr\nAutomatic proposal system at http://pear.php.net", true);
+}
 	
+
 function shorten_string ( $string ) {
     if (strlen($string) < 80) {
         return $string;
@@ -288,9 +290,6 @@ class proposal {
     }
 				
     function sendActionEmail($event, $userType, $user_handle = null, $comment = "") {
-        if (DEVBOX) {
-            return true;
-        }
 
         global $dbh;
         require 'pepr/pepr-emails.php';
@@ -319,8 +318,14 @@ class proposal {
         $vote = @$this->votes[$user_handle];
         if (isset($vote)) {
             $vote->value = ($vote->value > 0) ? "+".$vote->value : $vote->value;
+            if ($vote->is_conditional) {
+            	$vote_conditional = "\n\nThis vote is conditional. The condition is:\n\n".$vote->comment;
+            } else {
+            	$vote_conditional = "";
+            }
+            
+            $vote_url = "http://".$_SERVER['SERVER_NAME']."/pepr/pepr-vote-show.php?id=".$this->id."&handle=".$user_handle;
         }
-        $vote_url = "http://".$_SERVER['SERVER_NAME']."/pepr/pepr-vote-show.php?id=".$this->id."&handle=".$user_handle;
         $proposal_url = "http://".$_SERVER['SERVER_NAME']."/pepr/pepr-proposal-show.php?id=".$this->id;
         $end_voting_time = (@$this->longened_date > 0) ? $this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE : @$this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE;
         if (!isset($user_handle)) {
@@ -346,7 +351,8 @@ class proposal {
                          "/\{vote_url\}/",
                          "/\{email_pear_dev\}/",
                          "/\{email_pear_group\}/",
-                         "/\{comment\}/"
+                         "/\{comment\}/",
+                         "/\{vote_conditional\}/"
                          );
         $replacements = array(
                               $this->pkg_category,
@@ -363,7 +369,8 @@ class proposal {
                               (isset($vote)) ? $vote_url : "",
                               PROPOSAL_MAIL_PEAR_DEV,
                               PROPOSAL_MAIL_PEAR_GROUP,
-                              stripslashes($comment)
+                              stripslashes($comment),
+                              $vote_conditional
                               );
         $email = preg_replace($replace, $replacements, $email);
         $email['text'] .= PROPOSAL_EMAIL_POSTFIX;

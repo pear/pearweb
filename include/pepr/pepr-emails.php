@@ -51,7 +51,7 @@
 			"to"		=> array (
 				"pearweb" 	=> "{email_pear_dev}, {email_pear_group}, {owner_name} <{owner_email}>"),
 			"subject" 	=> 	"Extended call for votes on {pkg_category}::{pkg_name}",
-			"text"		=>	"PEPr has automatically extended the voting time on {pkg_category}::{pkg_name} until {end_voting_time} because there where not enough votes, yet.\n\nPlease review the package and give your vote here:\n{proposal_url}\n\nVoting time is extended only once per proposal."
+			"text"		=>	"PEPr has automatically extended the voting time on {pkg_category}::{pkg_name} until {end_voting_time} because there were not enough votes, yet.\n\nPlease review the package and give your vote here:\n{proposal_url}\n\nVoting time is extended only once per proposal."
 		),
 		
 		// $proposal->sendActionEmail("longened_timeline_admin", $_COOKIE["PEAR_USER"], $proposal);		
@@ -86,7 +86,7 @@
 				"user" 		=> "{email_pear_dev}, {actor_name} <{actor_email}>, {owner_name} <{owner_email}>",
 				"admin" 	=> "{email_pear_dev}, {actor_name} <{actor_email}>, {owner_name} <{owner_email}>"),
 			"subject" 	=> 	"{vote_value} for {pkg_category}::{pkg_name}",
-			"text"		=>	"{actor_name} ({actor_link}) has voted {vote_value} on the proposal for {pkg_category}::{pkg_name}. Proposal information:\n{proposal_url}\nVote information:\n{vote_url}"
+			"text"		=>	"{actor_name} ({actor_link}) has voted {vote_value} on the proposal for {pkg_category}::{pkg_name}.\n\nProposal information:\n{proposal_url}\nVote information:\n{vote_url}{vote_conditional}"
 		),
 	);
 ?>
