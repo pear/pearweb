@@ -156,7 +156,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
   <td class="head-logo">
    <?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
   </td>
-  <td class="head-menu" colspan="2">
+  <td class="head-menu">
    <?php
 
     if (empty($_COOKIE['PEAR_USER'])) {
@@ -202,7 +202,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
  </tr>
 
  <tr>
-  <td class="head-search" colspan="3">
+  <td class="head-search" colspan="2">
    <form method="post" action="/search.php">
     <small><u>S</u>earch for</small>
     <input class="small" type="text" name="search_string" value="" size="20" accesskey="s" />
