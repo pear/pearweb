@@ -294,7 +294,9 @@ function checkUser($user, $pacid = null)
         return true;
     }
     // Try to see if the user is an admin or QA core
-    $res = (user::isAdmin($user) || user::isQA($user)));
+    if (user::isAdmin($user) || user::isQA($user)) {
+        $res = true;
+    }
     return ($res === true);
 }
 
