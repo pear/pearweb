@@ -60,7 +60,10 @@ $query = "SELECT id,package_name,email,passwd,sdesc,ldesc,"
 
 $res = mysql_query($query);
 
-if ($res) $bug = mysql_fetch_array($res,MYSQL_ASSOC);
+if ($res) {
+    $bug = mysql_fetch_array($res,MYSQL_ASSOC);
+}
+
 if (!$res || !$bug) {
     response_header('No such bug.');
     echo '<h1 class="error">No such bug #'.$id.'!</h1>';
@@ -84,6 +87,8 @@ $success = !isset($_POST['in']);
 $errors = array();
 
 if ($_POST['in'] && $edit == 3) {
+    // Submission of additional comment by others
+
     if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",
                     $_POST['in']['commentemail'])) {
         $errors[] = "You must provide a valid email address.";
@@ -100,6 +105,7 @@ if ($_POST['in'] && $edit == 3) {
     if (preg_match('/^(.+)@php\.net/i', stripslashes($_POST['in']['commentemail']), $m)) {
         if ($user != stripslashes($m[1]) || !verify_password($user,$pass)) {
             $errors[] = "You have to be logged in as a developer to use your php.net email address.";
+            $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
         }
     }
 
@@ -118,7 +124,10 @@ if ($_POST['in'] && $edit == 3) {
         $success = @mysql_query($query);
     }
     $from = stripslashes($_POST['in']['commentemail']);
+
 } elseif ($_POST['in'] && $edit == 2) {
+    // Edits submitted by original reporter
+
     if (!$bug['passwd'] || $bug['passwd'] != stripslashes($pw)) {
         $errors[] = 'The password you supplied was incorrect.';
     }
@@ -139,6 +148,7 @@ if ($_POST['in'] && $edit == 3) {
     if (preg_match('/^(.+)@php\.net/i', $_POST['in']['email'], $m)) {
         if ($user != $m[1] || !verify_password($user,$pass)) {
             $errors[] = 'You have to be logged in as a developer to use your php.net email address.';
+            $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
         }
     }
 
@@ -173,9 +183,13 @@ if ($_POST['in'] && $edit == 3) {
             $success = @mysql_query($query);
         }
     }
+
 } elseif ($_POST['in'] && $edit == 1) {
-    if (!verify_password($user,stripslashes($pw))) {
+    // Edits submitted by developer
+
+    if (!verify_password($user, stripslashes($pw))) {
         $errors[] = "You have to login first in order to edit the bug report.";
+        $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
     }
 
     if (empty($_POST['ncomment'])) {
@@ -251,8 +265,6 @@ if ($_POST['in']) {
         mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit);
         localRedirect($_SERVER['PHP_SELF'] . "?id=$id&thanks=$edit");
         exit;
-    } else {
-        $bug = array_merge($bug, $_POST['in']);
     }
 }
 
@@ -262,159 +274,255 @@ echo '<style type="text/css">'; include('./style.css'); echo '</style>';
 
 /* DISPLAY BUG */
 if ($thanks == 1 || $thanks == 2) {
-  echo '<div class="thanks">The bug was updated successfully.</div>';
+    echo '<div class="thanks">The bug was updated successfully.</div>';
+
 } elseif ($thanks == 3) {
-  echo '<div class="thanks">Your comment was added to the bug successfully.</div>';
-} elseif ($thanks == 4) {?>
+    echo '<div class="thanks">Your comment was added to the bug successfully.</div>';
+
+} elseif ($thanks == 4) {
+    ?>
+
 <div class="thanks">
-Thank you for your help! If the status of the bug report you submitted changes,
-you will be notified. You may return here and check on the status or update
-your report at any time. That URL for your bug report is: <a
-href="/bugs/bug.php?id=<?php echo $id?>">http://pear.php.net/bugs/bug.php?id=<?php echo $id; ?></a>.
+ Thank you for your help! If the status of the bug report you submitted changes,
+ you will be notified. You may return here and check on the status or update
+ your report at any time. That URL for your bug report is: <a
+ href="/bugs/bug.php?id=<?php echo $id?>">http://pear.php.net/bugs/bug.php?id=<?php echo $id ?></a>.
 </div>
-<?php
-} elseif ($thanks == 6) {?>
+
+    <?php
+} elseif ($thanks == 6) {
+    ?>
+
 <div class="thanks">
-Thanks for voting! Your vote should be reflected in the
-statistics below.
+ Thanks for voting! Your vote should be reflected in the
+ statistics below.
 </div>
-<?php
+
+    <?php
 }
+
 show_bugs_menu($bug['package_name']);
+
 ?>
 
 <div id="bugheader">
  <table id="details">
   <tr id="title">
-   <th class="details" id="number">Bug&nbsp;#<?php echo $id?></th>
-   <td id="summary" colspan="5"><?php echo clean($bug['sdesc'])?></td>
+   <th class="details" id="number">Bug&nbsp;#<?php echo $id ?></th>
+   <td id="summary" colspan="3"><?php echo clean($bug['sdesc']) ?></td>
   </tr>
   <tr id="submission">
-   <th>Submitted:</th><td><?php echo format_date($bug['submitted'])?></td>
-<?php if ($bug['modified']) {?>
-   <th class="details">Modified:</th><td> <?php echo format_date($bug['modified'])?></td>
-<?php }?>
+
+<?php
+
+if ($bug['modified']) {
+    echo '   <th class="details">Submitted:</th>' . "\n";
+    echo '   <td>' . format_date($bug['submitted']) . "</td>\n";
+    echo '   <th class="details">Modified:</th>' . "\n";
+    echo '   <td>' . format_date($bug['modified']) . '</td>';
+} else {
+    echo '   <th class="details">Submitted:</th>' . "\n";
+    echo '   <td colspan="3">' . format_date($bug['submitted']) . '</td>';
+}
+
+?>
+
   </tr>
   <tr id="submitter">
-   <th class="details">From:</th><td><?php echo htmlspecialchars(spam_protect($bug['email']))?></td>
+   <th class="details">From:</th>
+   <td colspan="3"><?php echo htmlspecialchars(spam_protect($bug['email'])) ?></td>
   </tr>
   <tr id="categorization">
-   <th class="details">Status:</th><td><?php echo htmlspecialchars($bug['status'])?></td>
-<?php/*   <th class="details">Type:</th><td><?php echo htmlspecialchars($bug['type'])?></td> */?>
-   <th class="details">Package:</th><td colspan="3"><?php echo htmlspecialchars($bug['package_name'])?></td>
+   <th class="details">Status:</th>
+   <td><?php echo htmlspecialchars($bug['status']) ?></td>
+   <th class="details">Package:</th>
+   <td><?php echo htmlspecialchars($bug['package_name']) ?></td>
   </tr>
   <tr id="situation">
-   <th class="details">Version:</th><td><?php echo htmlspecialchars($bug['php_version'])?></td>
-   <th class="details">OS:</th><td colspan="3"><?php echo htmlspecialchars($bug['php_os'])?></td>
+   <th class="details">Version:</th>
+   <td><?php echo htmlspecialchars($bug['php_version']) ?></td>
+   <th class="details">OS:</th>
+   <td><?php echo htmlspecialchars($bug['php_os']) ?></td>
   </tr>
 
 <?php if ($bug['votes']) {?>
   <tr id="votes">
-   <th class="details">Votes:</th><td><?php echo $bug['votes'];?></td>
-   <th class="details">Avg. Score:</th><td><?php printf("%.1f &plusmn; %.1f", $bug['average'], $bug['deviation'])?></td>
-   <th class="details">Reproduced:</th><td><?php printf("%d of %d (%.1f%%)",$bug['reproduced'],$bug['tried'],$bug['tried']?($bug['reproduced']/$bug['tried'])*100:0);?></td>
+   <th class="details">Votes:</th><td><?php echo $bug['votes'] ?></td>
+   <th class="details">Avg. Score:</th><td><?php printf("%.1f &plusmn; %.1f", $bug['average'], $bug['deviation']) ?></td>
+   <th class="details">Reproduced:</th><td><?php printf("%d of %d (%.1f%%)",$bug['reproduced'],$bug['tried'],$bug['tried']?($bug['reproduced']/$bug['tried'])*100:0) ?></td>
   </tr>
 <?php if ($bug['reproduced']) {?>
   <tr id="reproduced">
    <td colspan="2"></td>
-   <th class="details">Same Version:</th><td><?php printf("%d (%.1f%%)",$bug['samever'],($bug['samever']/$bug['reproduced'])*100);?></td>
-   <th class="details">Same OS:</th><td><?php printf("%d (%.1f%%)",$bug['sameos'],($bug['sameos']/$bug['reproduced'])*100);?></td>
+   <th class="details">Same Version:</th><td><?php printf("%d (%.1f%%)",$bug['samever'],($bug['samever']/$bug['reproduced'])*100) ?></td>
+   <th class="details">Same OS:</th><td><?php printf("%d (%.1f%%)",$bug['sameos'],($bug['sameos']/$bug['reproduced'])*100) ?></td>
   </tr>
-<?php }?>
-<?php }?>
+<?php } ?>
+<?php } ?>
 </table>
 </div>
 
+
 <div id="controls">
+
 <?php
-function control($num,$desc) {
-  $active = ($GLOBALS['edit'] == $num);
-  echo "<span id=\"control_$num\" class=\"control", ($active ? ' active' : ''), "\">",
-       !$active ? "<a href=\"{$_SERVER['PHP_SELF']}?id=$GLOBALS[id]".($num ? "&amp;edit=$num" : "")."\">" : "",
-       $desc, !$active ? "</a>" : "", "</span> ";
+
+function control($num, $desc)
+{
+    echo '<span id="control_' . $num . '" class="control';
+    if ($GLOBALS['edit'] == $num) {
+        echo ' active">';
+        echo $desc;
+    } else {
+        echo '">';
+        echo '<a href="' . $_SERVER['PHP_SELF'] . '?id=' . $GLOBALS[id];
+        echo ($num ? "&amp;edit=$num" : '');
+        echo '">' . $desc . '</a>';
+    }
+    echo "</span>\n";
 }
 
-control(0,'View');
+control(0, 'View');
 if ($edit != 2) {
-    control(3,'Add Comment');
+    control(3, 'Add Comment');
 }
-control(1,'Developer');
-control(2,'Edit Submission');
+control(1, 'Developer');
+control(2, 'Edit Submission');
+
 ?>
+
 </div>
+
 <br clear="all" />
 
 <?php
-if ($errors) display_errors($errors);
-if (!$errors && !$success) {?>
-<div class="errors">
-Some sort of database error has happened. Maybe this will be illuminating:
-<?php echo mysql_error();?> This was the last query attempted: <tt><?php echo htmlspecialchars($query)?></tt>
-</div>
-<?php
+
+if ($errors) {
+    display_errors($errors);
 }
 
-if ($edit == 1 || $edit == 2) {?>
-<form id="update" action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
-<?php
-if ($edit == 2) {
-    if (!$_POST['in'] && $pw && $bug['passwd'] && stripslashes($pw)==$bug['passwd']) {?>
-<div class="explain">
-Welcome back! Since you opted to store your bug's password in a cookie, you can
-just go ahead and add more information to this bug or edit the other fields.
-</div>
-<?php
-    }
-    else {?>
-<div class="explain">
-<?php if (!$_POST['in']) {?>
-Welcome back! If you're the original bug submitter, here's where you can edit
-the bug or add additional notes. If this is not your bug, you can <a
-href="<?php echo $_SERVER['PHP_SELF'].'?id='.$id.'&amp;edit=3'?>">add a comment by following
-this link</a>. If this is your bug,
-but you forgot your password, <a href="bug-pwd-finder.php">you can retrieve
-your password here</a>.
-<?php }?>
-<table>
-<tr>
-  <th class="details">Passw<u>o</u>rd:</th>
-  <td><input type="password" name="pw" value="<?php echo clean($pw)?>" size="10" maxlength="20" accesskey="o" /></td>
-  <th class="details">
-   <label for="save">Check to remember your password for next time:</label>
-  </th>
-  <td>
-   <input type="checkbox" id="save" name="save"<?php if ($_POST['save']) echo ' checked="checked"'?> />
-  </td>
-</tr>
-</table>
-</div>
-<?php
-    }
-} else {
-    if ($user && $pw && verify_password($user,stripslashes($pw))) {
-        if (!$_POST['in']) {?>
-<div class="explain">
-Welcome back, <?php echo $user?>! (Not <?php echo $user?>?
-<a href="?logout=1&amp;id=<?php echo $id ?>&amp;edit=1">Log out.</a>)
-</div>
-<?php
+if (!$errors && !$success) {
+    ?>
+
+    <div class="errors">
+     Some sort of database error has happened. Maybe this will be illuminating:
+     <?php echo mysql_error() ?>
+     This was the last query attempted:
+     <tt><?php echo htmlspecialchars($query) ?></tt>
+    </div>
+
+    <?php
+}
+
+if ($edit == 1 || $edit == 2) {
+    ?>
+
+    <form id="update" action=
+     "<?php echo $_SERVER['PHP_SELF'] . '?id=' . $id . '&amp;edit=' . $edit ?>"
+     method="post">
+
+    <?php
+
+    if ($edit == 2) {
+        if (!$_POST['in'] && $pw && $bug['passwd'] &&
+            stripslashes($pw) == $bug['passwd']) {
+
+            ?>
+
+            <div class="explain">
+             Welcome back! Since you opted to store your bug's password in a
+             cookie, you can just go ahead and add more information to this
+             bug or edit the other fields.
+            </div>
+
+            <?php
+        } else {
+            ?>
+
+            <div class="explain">
+
+            <?php
+
+            if (!$_POST['in']) {
+                ?>
+
+                Welcome back! If you're the original bug submitter, here's
+                where you can edit the bug or add additional notes. If this
+                is not your bug, you can <a href=
+                "<?php echo "{$_SERVER['PHP_SELF']}?id=$id&amp;edit=3" ?>"
+                >add a comment by following this link</a>. If this is your
+                bug, but you forgot your password, <a
+                href="bug-pwd-finder.php">you can retrieve your password
+                here</a>.
+
+                <?php
+            }
+            ?>
+
+             <table>
+              <tr>
+               <th class="details">Passw<u>o</u>rd:</th>
+               <td>
+                <input type="password" name="pw"
+                 value="<?php echo clean($pw) ?>" size="10" maxlength="20"
+                 accesskey="o" />
+               </td>
+               <th class="details">
+                <label for="save">
+                 Check to remember your password for next time:
+                </label>
+               </th>
+               <td>
+                <input type="checkbox" id="save" name="save"
+                 <?php if ($_POST['save']) echo ' checked="checked"'?> />
+               </td>
+              </tr>
+             </table>
+
+            </div>
+
+            <?php
         }
-    }
-    else {?>
-<div class="explain">
-<?php if (!$_POST['in']) {?>
-Welcome! If you don't have a CVS account, you can't do anything here. You can
-<a href="<?php echo $_SERVER['PHP_SELF'].'?id='.$id.'&amp;edit=3'?>">add a comment by following
-this link</a> or if you reported this bug, you can <a href="<?php echo
-$_SERVER['PHP_SELF'].'?id='.$id.'&amp;edit=2'?>">edit this bug over here</a>.
-<?php }?>
+    } else {
+        if ($user && $pw && verify_password($user, stripslashes($pw))) {
+            if (!$_POST['in']) {
+                ?>
+
+                <div class="explain">
+                 Welcome back, <?php echo $user?>! (Not <?php echo $user?>?
+                 <a href="?logout=1&amp;id=<?php echo $id ?>&amp;edit=1">Log out.</a>)
+                </div>
+
+                <?php
+            }
+        } else {
+            ?>
+
+            <div class="explain">
+
+            <?php
+                if (!$_POST['in']) {
+                    ?>
+
+                    Welcome! If you don't have a CVS account, you can't do
+                    anything here. You can <a href=
+                    "<?php echo "{$_SERVER['PHP_SELF']}?id=$id&amp;edit=3" ?>"
+                    >add a comment by following this link</a> or if you
+                    reported this bug, you can <a href=
+                    "<?php echo "{$_SERVER['PHP_SELF']}?id=$id&amp;edit=2" ?>"
+                    >edit this bug over here</a>.
+
+                    <?php
+                }
+
+                ?>
 <!--
 <table>
 <tr>
   <th class="details">CVS Username:</th>
-  <td><input type="text" name="user" value="<?php echo clean($user)?>" size="10" maxlength="20" /></td>
+  <td><input type="text" name="user" value="<?php echo clean($user) ?>" size="10" maxlength="20" /></td>
   <th class="details">CVS Password:</th>
-  <td><input type="password" name="pw" value="<?php echo clean($pw)?>" size="10" maxlength="20" /></td>
+  <td><input type="password" name="pw" value="<?php echo clean($pw) ?>" size="10" maxlength="20" /></td>
   <th class="details">
    <label for="save">Remember:</label>
   </th>
@@ -424,83 +532,185 @@ $_SERVER['PHP_SELF'].'?id='.$id.'&amp;edit=2'?>">edit this bug over here</a>.
 </tr>
 </table>
 -->
-</div>
-<?php
-  }
+            </div>
+
+            <?php
+        }
+    }
+    ?>
+
+    <table>
+
+    <?php
+
+    if ($edit == 1) {
+        // Developer Edit Form
+        ?>
+
+        <tr>
+         <th class="details">
+          <label for="in" accesskey="c">Qui<u>c</u>k Fix:</label>
+         </th>
+         <td colspan="3">
+          <select name="in[resolve]" id="in">
+           <?php show_reason_types($_POST['in']['resolve'], 1) ?>
+          </select>
+
+          <?php
+          if ($_POST['in']['resolve']) {
+              ?>
+
+              <input type="hidden" name="trytoforce" value="1" />
+
+              <?php
+          }
+          ?>
+
+          <small>(<a href="http://bugs.php.net/quick-fix-desc.php">description</a>)</small>
+         </td>
+        </tr>
+
+        <?php
+    }
+    ?>
+
+     <tr>
+      <th class="details">Status:</th>
+      <td <?php echo (($edit != 1) ? 'colspan="3"' : '' ) ?>>
+       <select name="in[status]">
+        <?php show_state_options($_POST['in']['status'], $edit, $bug['status']) ?>
+       </select>
+
+    <?php
+    if ($edit == 1) {
+        ?>
+
+        </td>
+        <th class="details">Assign to:</th>
+        <td>
+         <input type="text" size="10" maxlength="16" name="in[assign]"
+          value="<?php echo field('assign') ?>" />
+
+        <?php
+    }
+    ?>
+
+       <input type="hidden" name="id" value="<?php echo $id ?>" />
+       <input type="hidden" name="edit" value="<?php echo $edit ?>" />
+       <input type="submit" value="Submit" />
+      </td>
+     </tr>
+     <tr>
+      <th class="details">Category:</th>
+      <td colspan="3">
+       <select name="in[package_name]">
+        <?php show_types($_POST['in']['package_name'], 0, $bug['package_name']) ?>
+       </select>
+      </td>
+     </tr>
+     <tr>
+      <th class="details">Summary:</th>
+      <td colspan="3">
+       <input type="text" size="60" maxlength="80" name="in[sdesc]"
+        value="<?php echo field('sdesc') ?>" />
+      </td>
+     </tr>
+     <tr>
+      <th class="details">From:</th>
+      <td colspan="3">
+       <?php echo spam_protect(field('email')) ?>
+      </td>
+     </tr>
+     <tr>
+      <th class="details">New email:</th>
+      <td colspan="3">
+       <input type="text" size="40" maxlength="40" name="in[email]"
+        value="<?php echo ($_POST['in']['email'] ? $_POST['in']['email'] : '') ?>" />
+      </td>
+     </tr>
+     <tr>
+      <th class="details">Version:</th>
+      <td>
+       <input type="text" size="20" maxlength="100" name="in[php_version]"
+        value="<?php echo field('php_version') ?>" />
+      </td>
+      <th class="details">OS:</th>
+      <td>
+       <input type="text" size="20" maxlength="32" name="in[php_os]"
+        value="<?php echo field('php_os') ?>" />
+      </td>
+     </tr>
+    </table>
+
+    <label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<u>m</u>ment:</b></label>
+    <br />
+    <textarea cols="60" rows="8" name="ncomment" id="ncomment"
+     wrap="physical"><?php echo clean($ncomment) ?></textarea>
+    <br /><input type="submit" value="Submit" />
+
+    </form>
+
+    <?php
+
 }
-?>
-<table>
-<?php if ($edit == 1) {?>
-<tr>
-  <th class="details"><label for="in" accesskey="c">Qui<u>c</u>k Fix:</label></th>
-  <td colspan="5">
-   <select name="in[resolve]" id="in"><?php show_reason_types($_POST['in']['resolve'],1);?></select><?php if ($_POST['in']['resolve']) {?><input type="hidden" name="trytoforce" value="1" /><?php }?>
-   <small>(<a href="http://bugs.php.net/quick-fix-desc.php">description</a>)</small>
-  </td>
-</tr>
-<?php }?>
-<tr>
-  <th class="details">Status:</th>
-  <td><select name="in[status]"><?php show_state_options($_POST['in']['status'],$edit,$bug['status'])?></select></td>
-<?php if ($edit == 1) {?>
-  <th class="details">Assign to:</th>
-  <td><input type="text" size="10" maxlength="16" name="in[assign]" value="<?php echo field('assign')?>" /></td>
-<?php }?>
-  <td><input type="hidden" name="id" value="<?php echo $id?>" /><input type="hidden" name="edit" value="<?php echo $edit?>" /><input type="submit" value="Submit" /></td>
-</tr>
-<tr>
-  <th class="details">Category:</th>
-  <td colspan="3"><select name="in[package_name]"><?php show_types($_POST['in']['package_name'],0,$bug['package_name'])?></select></td>
-<?php /* severity goes here. */ ?>
-</tr>
-<tr>
-  <th class="details">Summary:</th>
-  <td colspan="5"><input type="text" size="60" maxlength="80" name="in[sdesc]" value="<?php echo field('sdesc')?>" /></td>
-</tr>
-<tr>
-  <th class="details">From:</th>
-  <td colspan="5"><?php echo spam_protect(field('email')); ?></td>
-</tr>
-<tr>
-  <th class="details">New email:</th>
-  <td colspan="5"><input type="text" size="40" maxlength="40" name="in[email]" value="" /></td>
-</tr>
-<tr>
-  <th class="details">Version:</th>
-  <td><input type="text" size="20" maxlength="100" name="in[php_version]" value="<?php echo field('php_version')?>" /></td>
-  <th class="details">OS:</th>
-  <td colspan="3"><input type="text" size="20" maxlength="32" name="in[php_os]" value="<?php echo field('php_os')?>" /></td>
-</tr>
-</table>
-<label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<u>m</u>ment:</b></label><br />
-<textarea cols="60" rows="8" name="ncomment" id="ncomment" wrap="physical"><?php echo clean($ncomment)?></textarea>
-<br /><input type="submit" value="Submit" />
-</form>
-<?php }?>
-<?php if ($edit == 3) {?>
-<form id="comment" action="<?php echo $_SERVER['PHP_SELF']?>" method="post">
-<?php if (!$_POST['in']) {?>
-<div class="explain">
-Anyone can comment on a bug. Have a simpler test case? Does it work for you on
-a different platform? Let us know! Just going to say 'Me too!'? Don't clutter
-the database with that please
-<?php if (canvote()) { echo " &mdash; but make sure to <a href=\"{$_SERVER['PHP_SELF']}?id=$id\">vote on the bug</a>"; } ?>!
-</div>
-<?php }?>
-<table>
-<tr>
-  <th class="details">Y<u>o</u>ur email address:</th>
-  <td><input type="text" size="40" maxlength="40" name="in[commentemail]" value="<?php echo clean($_POST['in']['commentemail'])?>" accesskey="o" /></td>
-  <td><input type="hidden" name="id" value="<?php echo $id?>" /><input type="hidden" name="edit" value="<?php echo $edit?>" /><input type="submit" value="Submit" /></td>
-</tr>
-</table>
-<div>
-<textarea cols="60" rows="10" name="ncomment" wrap="physical"><?php echo clean($ncomment);?></textarea>
-<br /><input type="submit" value="Submit" />
-</div>
-</form>
-<?php }?>
-<?php if (!$edit && canvote()) {?>
+
+if ($edit == 3) {
+    ?>
+
+    <form id="comment" action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post">
+
+    <?php
+    if (!$_POST['in']) {
+        ?>
+
+        <div class="explain">
+         Anyone can comment on a bug. Have a simpler test case? Does it
+         work for you on a different platform? Let us know! Just going to
+         say 'Me too!'? Don't clutter the database with that please
+
+         <?php
+         if (canvote()) {
+             echo ' &mdash; but make sure to <a href="';
+             echo $_SERVER['PHP_SELF'] . '?id=' . $id . '">vote on the bug</a>';
+         }
+         ?>!
+
+        </div>
+
+        <?php
+    }
+    ?>
+
+    <table>
+     <tr>
+      <th class="details">Y<u>o</u>ur email address:</th>
+      <td>
+       <input type="text" size="40" maxlength="40" name="in[commentemail]"
+        value="<?php echo clean($_POST['in']['commentemail']) ?>"
+        accesskey="o" />
+      </td>
+      <td>
+       <input type="hidden" name="id" value="<?php echo $id ?>" />
+       <input type="hidden" name="edit" value="<?php echo $edit?>" />
+       <input type="submit" value="Submit" /></td>
+     </tr>
+    </table>
+
+    <div>
+     <textarea cols="60" rows="10" name="ncomment"
+      wrap="physical"><?php echo clean($ncomment) ?></textarea>
+     <br /><input type="submit" value="Submit" />
+    </div>
+
+    </form>
+
+    <?php
+}
+
+
+if (!$edit && canvote()) {
+    ?>
+
   <form id="vote" method="post" action="vote.php">
   <div class="sect">
    <fieldset>
@@ -546,14 +756,17 @@ the database with that please
   </div>
   </form>
   <br clear="all" />
-<?php }
 
-/* ORIGINAL REPORT */
-if ($bug['ldesc']) {
-  output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc']);
+<?php
 }
 
-/* COMMENTS */
+
+/* DISPLAY ORIGINAL REPORT */
+if ($bug['ldesc']) {
+    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc']);
+}
+
+/* DISPLAY COMMENTS */
 $query = "SELECT id,email,comment,UNIX_TIMESTAMP(ts) AS added"
        . " FROM bugdb_comments WHERE bug=$id ORDER BY ts";
 $res = @mysql_query($query);
@@ -564,6 +777,7 @@ if ($res) {
 }
 
 response_footer();
+
 
 function output_note($com_id, $ts, $email, $comment)
 {
