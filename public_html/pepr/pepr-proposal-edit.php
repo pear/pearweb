@@ -125,13 +125,12 @@
 				break;
 
 			case 'vote': 
-			    if (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
-                    $next_stage_text = "Extend vote time";
-				}
-				break;
-
             default:
-                $next_stage_text = "";
+                if (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
+                    $next_stage_text = "Extend vote time";
+				} else {
+                    $next_stage_text = "";
+				}
                 break;
 		}
 				
