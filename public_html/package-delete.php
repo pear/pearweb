@@ -18,23 +18,22 @@
    $Id$
 */
 
-/**
+/*
  * Interface to delete a package.
  */
 
-auth_require(true);
+response_header('Delete Package');
+echo '<h1>Delete Package</h1>';
 
-require_once 'HTML/Form.php';
-
-response_header('Delete package');
-echo '<h1>Delete package</h1>';
+auth_require('pear.qa', 'pear.admin', 'pear.group');
 
 if (!isset($_GET['id'])) {
-    PEAR::raiseError('No package ID specified.');
+    report_error('No package ID specified.');
     response_footer();
-    exit();
+    exit;
 }
 
+require_once 'HTML/Form.php';
 $form = new HTML_Form($_SERVER['PHP_SELF'] . '?id=' . $_GET['id'], 'POST');
 
 if (!isset($_POST['confirm'])) {
