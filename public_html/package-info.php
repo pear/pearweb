@@ -77,22 +77,16 @@ $pacid       = $pkg['packageid'];
 $cvs_link    = $pkg['cvs_link'];
 $doc_link    = $pkg['doc_link'];
 
-// Accounts data
-$sth = $dbh->query("SELECT u.handle, u.name, u.email, u.showemail, u.wishlist, m.role".
-                   " FROM maintains m, users u".
-                   " WHERE m.package = $pacid".
-                   " AND m.handle = u.handle");
+// Maintainer information
+$maintainers = maintainer::get($pacid);
 $accounts  = '';
-while ($row = $sth->fetchRow()) {
-    $accounts .= "{$row['name']}";
-    if ($row['showemail'] == 1) {
-        $accounts .= " &lt;<a href=\"mailto:{$row['email']}\">{$row['email']}</a>&gt;";
-    }
-    $accounts .= " ({$row['role']})";
-    if (!empty($row['wishlist'])) {
-        $accounts .= " [<a href=\"/wishlist.php/{$row['handle']}\">wishlist</a>]";
-    }
-    $accounts .= " [<a href=\"/user/{$row['handle']}\">details</a>]<br />";
+
+foreach ($maintainers as $handle => $row) {
+    $accounts .= user_link($handle);
+    $accounts .= sprintf("(%s%s)<br />",
+                         ($row['active'] == 0 ? "inactive " : ""),
+                         $row['role']
+                         );
 }
 
 if (!$relid) {
