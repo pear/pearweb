@@ -143,8 +143,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         list($sql_search, $ignored) = format_search_string($search_for);
         $where_clause .= $sql_search;
         if (count($ignored) > 0 ) {
-            array_push($warnings, 'The following words were ignored: ' .
-                    htmlentities(implode(', ', array_unique($ignored))));
+            $warnings[] = 'The following words were ignored: ' .
+                    rinse(implode(', ', array_unique($ignored)));
         }
     }
 
@@ -244,7 +244,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     }
 
     if (stristr($query, ';')) {
-        $errors[] = '<b>BAD HACKER!!</b> No database cracking for you today!';
+        $errors[] = 'BAD HACKER!! No database cracking for you today!';
     } else {
         $res  =& $dbh->query($query);
         $rows =  $res->numRows();
@@ -257,9 +257,9 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         }
 
         if (!$rows) {
-            show_bugs_menu($_GET['package_name'][0]);
             $errors[] = 'No bugs were found.';
             display_bug_error($errors);
+            show_bugs_menu($_GET['package_name'][0]);
         } else {
             $package_name_string = '';
             if (count($_GET['package_name']) > 0) {
@@ -279,11 +279,11 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '?cmd=display' .
                     $package_name_string  .
                     $package_nname_string .
-                    '&amp;status='      . urlencode(stripslashes($status)) .
-                    '&amp;search_for='  . urlencode(stripslashes($search_for)) .
-                    '&amp;php_os='      . urlencode(stripslashes($php_os)) .
+                    '&amp;status='      . urlencode(rinse($status)) .
+                    '&amp;search_for='  . urlencode(rinse($search_for)) .
+                    '&amp;php_os='      . urlencode(rinse($php_os)) .
                     '&amp;boolean='     . BOOLEAN_SEARCH .
-                    '&amp;author_email='. urlencode(stripslashes($author_email)) .
+                    '&amp;author_email='. urlencode(rinse($author_email)) .
                     '&amp;bug_type='    . $bug_type .
                     '&amp;bug_age='     . $bug_age .
                     '&amp;order_by='    . $order_by .
@@ -292,6 +292,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;limit='       . $limit .
                     '&amp;assign='      . $assign;
 
+            display_bug_error($warnings, 'warnings', 'WARNING:');
             show_bugs_menu($_GET['package_name']);
 
             ?>
@@ -312,8 +313,6 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=assign">Assigned</a></th>
  </tr>
             <?php
-
-            display_bug_error($warnings, 'warnings', 'WARNING:');
 
             while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
                 echo ' <tr valign="top" class="' . $tla[$row['status']] . '">' . "\n";
@@ -357,7 +356,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
 <tr valign="top">
   <th>Find bugs</th>
   <td style="white-space: nowrap">with all or any of the w<span class="accesskey">o</span>rds</td>
-  <td style="white-space: nowrap"><input type="text" name="search_for" value="<?php echo htmlspecialchars(stripslashes($search_for));?>" size="20" maxlength="255" accesskey="o" />
+  <td style="white-space: nowrap"><input type="text" name="search_for" value="<?php echo clean($search_for);?>" size="20" maxlength="255" accesskey="o" />
       <br /><small><?php show_boolean_options(BOOLEAN_SEARCH) ?>
       (<?php print_link('http://bugs.php.net/search-howto.php', '?', true);?>)</small>
   </td>
@@ -406,20 +405,20 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
 <tr valign="top">
   <th>OS</th>
   <td style="white-space: nowrap">Return bugs with <b>operating system</b></td>
-  <td><input type="text" name="php_os" value="<?php echo htmlspecialchars(stripslashes($php_os));?>" /></td>
+  <td><input type="text" name="php_os" value="<?php echo clean($php_os);?>" /></td>
 </tr>
 <tr valign="top">
   <th>Version</th>
   <td style="white-space: nowrap">Return bugs reported with <b>PHP version</b></td>
-  <td><input type="text" name="phpver" value="<?php echo htmlspecialchars(stripslashes($phpver));?>" /></td>
+  <td><input type="text" name="phpver" value="<?php echo clean($phpver);?>" /></td>
 </tr>
 <tr valign="top">
   <th>Assigned</th>
   <td style="white-space: nowrap">Return bugs <b>assigned</b> to</td>
-  <td><input type="text" name="assign" value="<?php echo htmlspecialchars(stripslashes($assign));?>" />
+  <td><input type="text" name="assign" value="<?php echo clean($assign);?>" />
 <?php
     if (!empty($_COOKIE['PEAR_USER'])) {
-        $u = stripslashes($_REQUEST['PEAR_USER']);
+        $u = rinse($_REQUEST['PEAR_USER']);
         print "<input type=\"button\" value=\"set to $u\" onclick=\"form.assign.value='$u'\" />";
     }
 ?>
@@ -428,7 +427,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
 <tr valign="top">
   <th>Author e<span class="accesskey">m</span>ail</th>
   <td style="white-space: nowrap">Return bugs with author email</td>
-  <td><input accesskey="m" type="text" name="author_email" value="<?php echo htmlspecialchars(stripslashes($author_email)); ?>" /></td>
+  <td><input accesskey="m" type="text" name="author_email" value="<?php echo clean($author_email); ?>" /></td>
 </tr>
 <tr valign="top">
   <th>Date</th>

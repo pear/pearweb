@@ -203,7 +203,7 @@ function txfield($n)
  */
 function changed($n) {
     return $_POST['in'][$n]
-        && (stripslashes(trim($_POST['in'][$n])) != trim($GLOBALS['bug'][$n]));
+        && (rinse(trim($_POST['in'][$n])) != trim($GLOBALS['bug'][$n]));
 }
 
 /**
@@ -566,7 +566,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
     list($mailto,$mailfrom) = get_package_mail(oneof($in['package_name'],$bug['package_name']));
 
     /* Get rid of slashes in bug status */
-    $bug['status'] = stripslashes($bug['status']);
+    $bug['status'] = rinse($bug['status']);
 
     $headers[] = array(" ID", $bug['id']);
 
@@ -638,7 +638,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
     }
 
     if ($ncomment) {
-        $text[] = " New Comment:\n\n".stripslashes($ncomment);
+        $text[] = " New Comment:\n\n".rinse($ncomment);
     }
 
     $text[] = get_old_comments($bug['id'], empty($ncomment));
@@ -697,12 +697,12 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
                   $dev_text,
                   "From: $from\n".
                   "X-PHP-Bug: $bug[id]\n".
-                  "X-PHP-Type: "       . stripslashes((($edit != 3) ? $in['bug_type']     : $bug['bug_type']))    . "\n" .
-                  "X-PHP-Version: "    . stripslashes((($edit != 3) ? $in['php_version']  : $bug['php_version'])) . "\n" .
-                  "X-PHP-Category: "   . stripslashes((($edit != 3) ? $in['package_name'] : $bug['package_name']))    . "\n" .
-                  "X-PHP-OS: "         . stripslashes((($edit != 3) ? $in['php_os']       : $bug['php_os']))      . "\n" .
-                  "X-PHP-Status: "     . stripslashes($new_status) . "\n" .
-                  "X-PHP-Old-Status: " . stripslashes($old_status) . "\n" .
+                  "X-PHP-Type: "       . rinse((($edit != 3) ? $in['bug_type']     : $bug['bug_type']))    . "\n" .
+                  "X-PHP-Version: "    . rinse((($edit != 3) ? $in['php_version']  : $bug['php_version'])) . "\n" .
+                  "X-PHP-Category: "   . rinse((($edit != 3) ? $in['package_name'] : $bug['package_name']))    . "\n" .
+                  "X-PHP-OS: "         . rinse((($edit != 3) ? $in['php_os']       : $bug['php_os']))      . "\n" .
+                  "X-PHP-Status: "     . rinse($new_status) . "\n" .
+                  "X-PHP-Old-Status: " . rinse($old_status) . "\n" .
                   "In-Reply-To: <bug-$bug[id]@pear.php.net>",
                   "-fpear-sys@php.net");
         }
@@ -928,7 +928,7 @@ function format_search_string($search)
 
     $min_word_len=3;
 
-    $words = preg_split("/\s+/", stripslashes($search));
+    $words = preg_split("/\s+/", $search);
     $ignored = $used = array();
     foreach($words AS $match) {
         if (strlen($match) < $min_word_len) {
