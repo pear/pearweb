@@ -165,6 +165,18 @@ class proposal {
         return true;
     }
 
+    function toRSSArray ( $full = false )
+    {
+        return array(
+            'title'         => 'PEPr Proposal ['.$this->id.']: '.$this->pkg_category.'::'.$this->pkg_name,
+            'link'          => 'http://pear.php.net/pepr/pepr-proposal-show.php?id='. $this->id,
+            'desc'          => '
+Proposed package:        '.$this->pkg_category.'::'.$this->pkg_name.'<br />
+Proposer:                '.user_link($this->user_handle).'<br />
+'.$this->pkg_describtion,
+            'date'          => date("Y-m-d\TH:i:s-05:00", $this->draft_date)
+         );
+    }
     /**
      * Look up proposal information based on the proposal ID number
      *
