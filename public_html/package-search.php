@@ -171,7 +171,7 @@ if (!empty($_GET)) {
     if(1 == $numrows) {
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
         if(isset($row['name'])) {
-            header('Location: http://pear.php.net/package/'.$row['name']);
+            localRedirect('/package/'.$row['name']);
         } else {
             // shoudn't happen. Just in case something goes wrong, set $numrows to 0
             // to have a "No Results found" Message later on.
@@ -222,7 +222,7 @@ if (!empty($_GET)) {
 				} else {
 				    $words = "";
 				}
-                                $row['package_name'] = $row['name'];
+                $row['package_name'] = $row['name'];
 				$row['name'] = preg_replace('/(' . $words . ')/i', '<span style="background-color: #d5ffc1">\1</span>', $row['name']);
 			}
 
