@@ -516,7 +516,7 @@ class proposal {
     function sendActionEmail($event, $userType, $user_handle = null,
                              $comment = '')
     {
-        global $dbh, $karma;
+        global $dbh, $karma, $auth_user;
 
         if (empty($karma)) {
             $karma =& new Damblan_Karma($dbh);
@@ -617,7 +617,7 @@ class proposal {
                               (isset($vote)) ? $vote_url : "",
                               PROPOSAL_MAIL_PEAR_DEV,
                               PROPOSAL_MAIL_PEAR_GROUP,
-                              (isset($comment)) ? $comment : '',
+                              (isset($comment)) ? wordwrap($comment) : '',
                               (isset($vote_result)) ? $vote_result : '',
                               (isset($vote_conditional)) ? $vote_conditional : ""
                               );
@@ -625,15 +625,21 @@ class proposal {
         $email = preg_replace($replace, $replacements, $email);
         $email['text'] .= PROPOSAL_EMAIL_POSTFIX;
 
+        $from = '"' . $auth_user->name . '" <' . $auth_user->email . '>';
         $to = explode(", ", $email['to']);
         $email['to'] = array_shift($to);
         $headers = "CC: ". implode(", ", $to) . "\n";
-        $headers .= "From: " . PROPOSAL_MAIL_FROM . "\n";
-        $headers .= "Reply-To: " . $actorinfo['email'] . "\n";
+        $headers .= "From: " . $from . "\n";
         $headers .= "X-Mailer: " . "PEPr, PEAR Proposal System" . "\n";
         $headers .= "X-PEAR-Category: " . $this->pkg_category . "\n";
         $headers .= "X-PEAR-Package: " . $this->pkg_name . "\n";
         $headers .= "X-PEPr-Status: " . $this->getStatus() . "\n";
+
+        if ($event == "change_status_proposal") {
+            $headers .= "Message-ID: <proposal-" . $this->id . "@pear.php.net>\n";
+        } else {
+            $headers .= "In-Reply-To: <proposal-" . $this->id . "@pear.php.net>\n";
+        }
 
         $res = mail($email['to'], $email['subject'], $email['text'],
                     $headers, '-f pear-sys@php.net');
