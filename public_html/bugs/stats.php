@@ -160,8 +160,7 @@ $users = $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, ma
                         GROUP BY handle ORDER BY u.name');
     $_GET['developer'] == '' ? $selected = ' selected="selected"' : $selected = '';
     echo '<option value=""' . $selected . '>Select user...</option>'."\n";
-    while ($u = $users->fetchRow()) {
-        var_dump($u);
+    while ($u = $users->fetchRow(DB_FETCHMODE_ASSOC)) {
         $_GET['developer'] == $u['handle'] ? $selected = ' selected="selected"' : $selected = '';
         echo '<option value="' . $u['handle'] . '"' . $selected . '>' . $u['name'] . '</option>'."\n";
     }
