@@ -46,7 +46,7 @@ if (count($pkg['releases']) == 0) {
 
     foreach ($pkg['releases'] as $version => $release) {
         $link = make_link('/package/' . $pkg['name'] .
-                          '&amp;version=' . urlencode($version), $version);
+                          '/download/' . urlencode($version), $version);
 
         $notes = nl2br(htmlentities($release['releasenotes']));
         if (!empty($_GET['release']) && $version == $_GET['release']) {

@@ -222,7 +222,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
    </table>
   </td>
 <?php } ?>
-  <td>
+  <td style="vertical-align: top;">
    <table cellpadding="10" cellspacing="0" style="width: 100%;">
     <tr>
      <td style="vertical-align: top;">

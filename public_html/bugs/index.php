@@ -27,6 +27,7 @@ response_header("Bugs");
   <li><?php print_link('/bugs/search.php', 'Search for <b>existing bugs</b>'); ?></li>
   <li>Report a new bug for the:
       <?php print make_bug_link('Web Site', 'report', '<b>Web Site</b>');?>,
+      <?php print make_bug_link('PEPr', 'report', '<b>PEPr</b>');?>,
       <?php print make_bug_link('Documentation', 'report', '<b>Documentation</b>');?> or
       <?php print make_bug_link('Bug System', 'report', '<b>Bug System</b>');?>
   </li>

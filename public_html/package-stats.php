@@ -161,7 +161,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 
         foreach ($release_statistics as $key => $value) {
             $version = make_link('/package/' . $info['name'] .
-                '&release=' . $value['release'], $value['release']);
+                '/download/' . $value['release'], $value['release']);
             echo '<tr>';
             echo '<td>' . $version . '</td>';
             echo '<td>' . number_format($value['dl_number'], 0, '.', ',') . '</td>';
