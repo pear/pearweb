@@ -56,6 +56,8 @@ class proposal {
     var $links;
 	 	
     var $votes;
+    
+    var $markup;
 	 	
     function proposal ( $dbhResArr ) {
         $this->fromArray($dbhResArr);
@@ -138,7 +140,8 @@ class proposal {
 					vote_date = FROM_UNIXTIME({$this->vote_date}),
 					longened_date = FROM_UNIXTIME({$this->longened_date}),
 					status = ".$dbh->quote($this->status).",
-					user_handle = ".$dbh->quote($this->user_handle)."
+					user_handle = ".$dbh->quote($this->user_handle).",
+                    markup = ".$dbh->quote($this->markup)."
 					WHERE id = ".$this->id;
             $res = $dbh->query($sql);
             if (DB::isError($dbh)) {
@@ -146,7 +149,7 @@ class proposal {
             }
         } else {
             $sql = "INSERT INTO package_proposals (pkg_category, pkg_name, pkg_license, pkg_describtion,
-						pkg_deps, draft_date, status, user_handle) VALUES (
+						pkg_deps, draft_date, status, user_handle, markup) VALUES (
 						".$dbh->quote($this->pkg_category).",
 						".$dbh->quote($this->pkg_name).",
                         ".$dbh->quote($this->pkg_license).",
@@ -154,7 +157,8 @@ class proposal {
 						".$dbh->quote($this->pkg_deps).",
 						FROM_UNIXTIME(".time()."),
 						".$dbh->quote($this->status).",
-						".$dbh->quote($this->user_handle).")";
+						".$dbh->quote($this->user_handle).",
+                        ".$dbh->quote($this->markup).")";
             $res = $dbh->query($sql);
             if (DB::isError($dbh)) {
                 return $res;
