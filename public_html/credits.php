@@ -29,6 +29,7 @@ response_header('Credits');
   <li><?php echo user_link("ssb"); ?></li>
   <li><?php echo user_link("cox"); ?></li>
   <li><?php echo user_link("mj"); ?></li>
+  <li><?php echo user_link("toby"); ?></li>
   <li><?php echo user_link("cmv"); ?></li>
   <li><?php echo user_link("richard");?></li>
 </ul>
