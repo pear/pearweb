@@ -1994,7 +1994,6 @@ class user
                "Real Name:        {$name}\n".
                "Email:            {$data['email']}" .
                (@$showemail ? " (show address)" : " (hide address)") . "\n".
-               "Password (MD5):   {$md5pw}\n\n".
                "Purpose:\n".
                "{$data['purpose']}\n\n".
                "To handle: http://{$_SERVER['SERVER_NAME']}/admin/?acreq={$handle}\n";
