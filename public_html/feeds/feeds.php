@@ -18,12 +18,12 @@
    $Id$
 */
 
-require_once "Damblan/RSS.php";
+require_once 'Damblan/RSS.php';
 
 if (empty($_GET['type'])) {
-    require_once "Damblan/Site.php";
+    require_once 'Damblan/Site.php';
     $site = &Damblan_Site::factory();
-    $site->error404("");
+    $site->error404('');
     exit();
 }
 

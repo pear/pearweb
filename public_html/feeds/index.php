@@ -17,43 +17,43 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-response_header("Syndication feeds");
+response_header('Syndication feeds');
 ?>
 
 <h1>Syndication feeds</h1>
 
 <h2>RSS</h2>
 
-<p>We have a number of <?php echo make_link("http://web.resource.org/rss/1.0/", "RSS"); ?> 
+<p>We have a number of <?php echo make_link('http://web.resource.org/rss/1.0/', 'RSS'); ?> 
 feeds available for your viewing pleasure:</p>
 
 <ul>
-  <li><?php echo make_link("/feeds/latest.rss"); ?>: The latest 10 releases</li>
+  <li><?php echo make_link('/feeds/latest.rss'); ?>: The latest 10 releases</li>
   <li>Feeds per category:
     <ul>
-      <li><?php echo make_link("/feeds/cat_authentication.rss"); ?>: Authentication</li>
-      <li><?php echo make_link("/feeds/cat_benchmarking.rss"); ?>: Benchmarking</li>
+      <li><?php echo make_link('/feeds/cat_authentication.rss'); ?>: Authentication</li>
+      <li><?php echo make_link('/feeds/cat_benchmarking.rss'); ?>: Benchmarking</li>
       <li>For all other categories, the same scheme as shown above applies</li>
     </ul>
   </li>
   <li>Feeds per package:
     <ul>
-      <li><?php echo make_link("/feeds/pkg_auth.rss"); ?>: Auth</li>
-      <li><?php echo make_link("/feeds/pkg_mail_mime.rss"); ?>: Mail_Mime</li>
+      <li><?php echo make_link('/feeds/pkg_auth.rss'); ?>: Auth</li>
+      <li><?php echo make_link('/feeds/pkg_mail_mime.rss'); ?>: Mail_Mime</li>
       <li>For all other packages, the same scheme as shown above applies</li>
     </ul>
   </li>
   <li>Feeds per user:
     <ul>
-      <li><?php echo make_link("/feeds/user_jon.rss"); ?>: Jon Parise (jon)</li>
-      <li><?php echo make_link("/feeds/user_mj.rss"); ?>: Martin Jansen (mj)</li>
+      <li><?php echo make_link('/feeds/user_jon.rss'); ?>: Jon Parise (jon)</li>
+      <li><?php echo make_link('/feeds/user_mj.rss'); ?>: Martin Jansen (mj)</li>
       <li>For all other users, the same scheme as shown above applies</li>
     </ul>
   </li>
 </ul>
 
 <p>If you have questions or suggestions about the RSS service, please
-contact the <?php echo make_mailto_link("pear-webmaster@lists.php.net", "webmasters"); ?>.</p>
+contact the <?php echo make_mailto_link('pear-webmaster@lists.php.net', 'webmasters'); ?>.</p>
 
 <?php
 response_footer();
