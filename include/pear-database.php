@@ -617,17 +617,6 @@ class package
     }
 
     // }}}
-    
-    // {{{  proto bool package::clearDebugCache()
-    
-    function clearDebugCache()
-    {
-        // debug - clear cache as no one will use this until 1.3.1 is released
-        include_once 'xmlrpc-cache.php';
-        XMLRPC_Cache::remove('package.listAll', array(true, false));
-    }
-    
-    // }}}
 
     // {{{  proto struct package::listAllwithReleases()
 
