@@ -154,8 +154,6 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     <tr>
         <th align="left">Version</th>
         <th align="left">Downloads</th>
-        <th align="left">First Download</th>
-        <th align="left">Last Download</th>
     </tr>
 <?php
         $release_statistics = statistics::release($_GET['pid'],
@@ -163,12 +161,10 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 
         foreach ($release_statistics as $key => $value) {
             $version = make_link('package-info.php?package=' . $info['name'] .
-                '&release=' . $value['version'], $value['version']);
+                '&release=' . $value['release'], $value['release']);
             echo '<tr>';
             echo '<td>' . $version . '</td>';
-            echo '<td>' . number_format($value['total'], 0, '.', ',') . '</td>';
-            echo '<td>' . $value['first_download'] . '</td>';
-            echo '<td>' . $value['last_download'] . '</td>';
+            echo '<td>' . number_format($value['dl_number'], 0, '.', ',') . '</td>';
             echo "</tr>\n";
         }
         echo "</table>\n";

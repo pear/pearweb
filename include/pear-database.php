@@ -2058,8 +2058,8 @@ class statistics
     function package($id)
     {
         global $dbh;
-        $query = "SELECT COUNT(*) FROM downloads WHERE package = ?";
-        return $dbh->getOne($query, array($id));
+        $query = "SELECT dl_number FROM package_stats WHERE pid = " . (int)$id;
+        return $dbh->getOne($query);
     }
 
     // }}}
@@ -2069,22 +2069,14 @@ class statistics
     {
         global $dbh;
 
-        $query = "SELECT r.version, d.release, COUNT(d.id) AS total,"
-                 . " MAX(d.dl_when) AS last_download,"
-                 . " MIN(d.dl_when) AS first_download"
-                 . " FROM downloads d, releases r"
-                 . " WHERE d.package = '" . $id . "'"
-                 . " AND d.release = r.id"
-                 . ($rid != "" ? " AND d.release = '" . $rid . "'" : "")
-                 . " GROUP BY d.release";
-
-        $rows = $dbh->getAll($query, DB_FETCHMODE_ASSOC);
-
-        if (DB::isError($rows)) {
-            return PEAR::raiseError($rows->getMessage());
-        } else {
-            return $rows;
+        $query = "SELECT release, dl_number FROM package_stats "
+            . "WHERE pid = " . (int)$id;
+        if (!empty($rid)) {
+            $query .= " AND rid = " . (int)$rid;
         }
+        $query .= " GROUP BY pid";
+
+        return $dbh->getAll($query, DB_FETCHMODE_ASSOC);
     }
 
     // }}}
