@@ -57,6 +57,13 @@
    </xs:element>
   </xs:sequence>
   <xs:attribute name="port" type="xs:int" default="80"/>
+  <xs:attribute name="ssl">
+   <xs:simpleType>
+    <xs:restriction base="xs:string">
+     <xs:enumeration value="yes"/>
+    </xs:restriction>
+   </xs:simpleType>
+  </xs:attribute>
  </xs:complexType>
  <xs:complexType name="mirrorinternals">
   <xs:sequence>
@@ -96,6 +103,13 @@
   </xs:sequence>
   <xs:attribute name="port" type="xs:int" default="80"/>
   <xs:attribute name="host" use="required"/>
+  <xs:attribute name="ssl">
+   <xs:simpleType>
+    <xs:restriction base="xs:string">
+     <xs:enumeration value="yes"/>
+    </xs:restriction>
+   </xs:simpleType>
+  </xs:attribute>
  </xs:complexType>
  <xs:complexType name="server">
   <xs:sequence>
