@@ -1,0 +1,18 @@
+Logging Policy for pear.php.net
+=====================================
+
+Author:  Martin Jansen <mj@php.net>
+Date:    2003-10-24
+Version: $Revision$
+
+Whenever a component on pear.php.net triggers a write operation on the
+database or on other storage resources, the change has to be logged, in
+order to allow tracking changes or abuse.
+
+Usually the log message will go to syslog(3). Additionally it may make
+sense in some situations to additionally generate an email containing
+the log message.
+
+Pear.php.net does offer the Damblan namespace Damblan_Log_* for
+this, which is derived from PEAR::Log. Every component must use
+Damblan_Log_* for logging!
