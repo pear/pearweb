@@ -101,6 +101,13 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
     <li><a href="http://www.phpconcept.net/articles/article.en.php?id=1">Configure WinCVS for PEAR</a> by Vincent Blavet</li>
 
     <li><a href="http://www.macdevcenter.com/pub/a/mac/2003/01/21/pear_macosx.html">O&apos;Reilly Network: PHP&apos;s PEAR on Mac OS X</a></li>
+ <li>
+  <cite>
+   <a href="http://www.devshed.com/c/a/PHP/Configuration-Manipulation-With-PHP-Config/">
+    Configuration Manipulation With PHP Config 
+   </a>
+  </cite>
+ </li>
 </ul>
 
 <h3>DB Tutorials</h3>
@@ -153,6 +160,15 @@ IT[X]: <a href="http://www.ulf-wendel.de/projekte/itx/index.php">http://www.ulf-
   <a href="http://www.ulf-wendel.de/projekte/menu/tutorial.php">Menu.php
   Tutorial</a>. This package generates a HTML menu from a multidimensional
   array.
+ </li>
+ <li>
+  <cite>
+   <a href="http://www.phpmag.de/itr/online_artikel/psecom,id,563,nodeid,62.html">
+    Ein Colt f&uuml;r alle F&auml;lle
+   </a>
+  </cite>
+  is an article from PHP Magazin about the 
+  <a href="/package/Config/">Config</a> package.
  </li>
 </ul>
 
