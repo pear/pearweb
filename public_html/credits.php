@@ -26,7 +26,6 @@ response_header('Credits');
 <h2>PEAR Website Team</h2>
 
 <ul>
-  <li><?php echo user_link('cox'); ?></li>
   <li><?php echo user_link('danielc'); ?></li>
   <li><?php echo user_link('mj'); ?></li>
   <li><?php echo user_link('pajoye'); ?></li>
@@ -37,6 +36,7 @@ response_header('Credits');
 <h3>Emeritus</h3>
 
 <ul>
+  <li><?php echo user_link('cox'); ?></li>
   <li><?php echo user_link('ssb'); ?></li>
   <li><?php echo user_link('richard'); ?></li>
   <li><?php echo user_link('cmv'); ?></li>
