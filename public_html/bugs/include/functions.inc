@@ -617,46 +617,51 @@ function show_bugs_menu($pkgname)
 {
     global $dbh;
 
-    if (empty($pkgname) ||
-        !preg_match('/^[A-Za-z0-9_ ]+$/', $pkgname))
-    {
+    if (empty($pkgname)) {
         return;
     }
 
-    if (in_array($pkgname, array('Web Site', 'Documentation', 'Bug System', 'PEPr'))) {
-        $pkgname = strtr($pkgname, ' ', '+');
-        $full = false;
-    } else {
-        if (1 != $dbh->getOne('SELECT count(*) FROM packages WHERE' .
-                              " packages.name='$pkgname'")) {
+    $pkgname = (array)$pkgname;
+    $webpkgs = array('Web Site', 'Documentation', 'Bug System', 'PEPr');
+    $home    = true;
+
+    foreach ($pkgname as $key => &$value) {
+        if (!preg_match('/^[A-Za-z0-9_ ]+$/', $value)) {
             return;
         }
-        $full = true;
+        if (in_array($value, $webpkgs)) {
+            $home = false;
+            $pkgname[$key] = strtr($value, ' ', '+');
+        }
     }
+    $pkgs = 'package_name[]=' . implode('&amp;package_name[]=', $pkgname);
 
     echo "\n\n<!-- BEGIN BUG NAV -->\n\n";
     echo '<table width="100%" align="center" border="0"><tr><td>' . "\n ";
-    
-    if ($full) {
-        echo make_link('/package/'.$pkgname, 'Package home');
+
+    if (count($pkgname) == 1) {
+        if ($home) {
+            echo make_link('/package/' . $pkgname[0], 'Package home');
+            echo delim();
+        }
+        echo make_link('/bugs/report.php?package=' . $pkgname[0],
+                       'Report new bug');
         echo delim();
     }
-
-    echo make_link('/bugs/report.php?package='.$pkgname, 'Report a new bug');
-    echo delim();
-
-    echo make_link('/bugs/search.php?cmd=display&package_name[]='.$pkgname.'&amp;status=Open', 'Bug list');
-    echo delim();
 
     echo make_link('/bugs/search.php', 'New search');
 
-    if (preg_match('/search.php/', $_SERVER['PHP_SELF'])) {
-        echo "\n</td>";
-        echo '<td style="text-align: right;">' . "\n Status: ";
-        echo make_link('/bugs/search.php?cmd=display&package_name[]='.$pkgname.'&amp;status=Open', 'Open');
-        echo delim();
-        echo make_link('/bugs/search.php?cmd=display&package_name[]='.$pkgname.'&amp;status=All', 'All');
-    }
+    echo "\n</td>\n";
+
+    echo '<td style="text-align: right;">' . "\n Status: ";
+    echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
+                   '&amp;status=Open', 'Open');
+    echo delim();
+    echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
+                   '&amp;status=Feedback', 'Feedback');
+    echo delim();
+    echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
+                   '&amp;status=All', 'All');
 
     echo "\n</td></tr></table>\n";
     echo '<hr />';

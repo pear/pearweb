@@ -269,9 +269,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;limit='       . $limit .
                     '&amp;assign='      . $assign;
 
-            if (isset($_GET['package_name']) && count($_GET['package_name']) == 1) {
-                show_bugs_menu($_GET['package_name'][0]);
-            }
+            show_bugs_menu($_GET['package_name']);
 
             ?>
 <table align="center" border="0" cellspacing="2" width="95%">
