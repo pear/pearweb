@@ -1014,6 +1014,7 @@ class release
                                 "releases.state AS state ".
                                 "FROM packages, releases ".
                                 "WHERE packages.id = releases.package ".
+                                "AND packages.approved = 1 ".
                                 "ORDER BY releases.releasedate DESC", 0, $n);
         $recent = array();
         // XXX Fixme when DB gets limited getAll()
