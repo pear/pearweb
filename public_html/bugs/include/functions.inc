@@ -617,30 +617,50 @@ function show_bugs_menu($pkgname)
 {
     global $dbh;
 
-    if (empty($pkgname) ||  in_array($pkgname, array('Web Site', 'Documentation', 'Bug System'))) {
-        return;
-    }
-    $found = $dbh->getOne('SELECT count(*) FROM packages WHERE packages.name='."'$pkgname'");
-    if ($found!=1)
+    if (empty($pkgname) ||
+        !preg_match('/^[A-Za-z0-9_ ]+$/', $pkgname))
     {
         return;
     }
 
-    echo '<table width="100%" align="center" border="0"><tr><td>';
-    echo make_link('/package/' . $pkgname, 'Package home');
-    echo delim();
+    if (in_array($pkgname, array('Web Site', 'Documentation', 'Bug System', 'PEPr'))) {
+        $pkgname = strtr($pkgname, ' ', '+');
+        $full = false;
+    } else {
+        if (1 != $dbh->getOne('SELECT count(*) FROM packages WHERE' .
+                              " packages.name='$pkgname'")) {
+            return;
+        }
+        $full = true;
+    }
+
+    echo "\n\n<!-- BEGIN BUG NAV -->\n\n";
+    echo '<table width="100%" align="center" border="0"><tr><td>' . "\n ";
+    
+    if ($full) {
+        echo make_link('/package/'.$pkgname, 'Package home');
+        echo delim();
+    }
+
     echo make_link('/bugs/report.php?package='.$pkgname, 'Report a new bug');
     echo delim();
+
     echo make_link('/bugs/search.php?cmd=display&package_name[]='.$pkgname.'&amp;status=Open', 'Bug list');
+    echo delim();
+
+    echo make_link('/bugs/search.php', 'New search');
+
     if (preg_match('/search.php/', $_SERVER['PHP_SELF'])) {
-        // This could be changes by a SELECT box and JS
-        echo '</td><td style="text-align: right;">Status: ';
+        echo "\n</td>";
+        echo '<td style="text-align: right;">' . "\n Status: ";
         echo make_link('/bugs/search.php?cmd=display&package_name[]='.$pkgname.'&amp;status=Open', 'Open');
         echo delim();
         echo make_link('/bugs/search.php?cmd=display&package_name[]='.$pkgname.'&amp;status=All', 'All');
     }
-    echo '</td></tr></table>';
+
+    echo "\n</td></tr></table>\n";
     echo '<hr />';
+    echo "\n\n<!-- END BUG NAV -->\n\n";
 }
 
 ?>
