@@ -570,6 +570,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
 
     $fields = array(
         'status'       => 'Status',
+        'bug_type'     => 'Type',
         'package_name' => 'Package',
         'php_os'       => 'Operating System',
         'php_version'  => 'PHP Version',
@@ -623,8 +624,8 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
                   $wrapped_text;
 
     /* developer text with headers, previous messages, and edit link */
-    $dev_text = ' Edit report at:   ' .
-                "http://pear.php.net/bugs/bug.php?id=$bug[id]&edit=1\n" .
+    $dev_text = 'Edit report at ' .
+                "http://pear.php.net/bugs/bug.php?id=$bug[id]&edit=1\n\n" .
                 $header_text .
                 $wrapped_text .
                 "\n-- \nEdit this bug report at " .
