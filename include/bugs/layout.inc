@@ -33,7 +33,7 @@ function clean_note($text) {
 		$text=str_replace(htmlspecialchars($f), $f, $text);
 		$text=str_replace(htmlspecialchars(strtoupper($f)), $f, $text);
 	}
-	$text = "<tt>".nl2br($text)."</tt>";
+	$text = '<tt>'.nl2br($text).'</tt>';
 	return $text;
 }
 
