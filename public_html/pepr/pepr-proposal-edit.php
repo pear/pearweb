@@ -73,8 +73,23 @@ if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
     $proposal = null;
 }
 
+
 $form =& new HTML_QuickForm('proposal_edit', 'post',
                             'pepr-proposal-edit.php?id=' . $id);
+
+$renderer =& $form->defaultRenderer();
+$renderer->setElementTemplate('
+ <tr>
+  <th class="form-label_left">
+   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
+   {label}
+  </th>
+  <td class="form-input">
+   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
+   {element}
+  </td>
+ </tr>
+');
 
 $categories = category::listAll();
 $mapCategories['RFC'] = 'RFC (No package category!)';
