@@ -132,7 +132,7 @@
 	}
 	$bb->horizHeadRow('Proposer:', user_link($proposal->user_handle));
 	$bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
-	$bb->fullRow($bbparser->qparse(nl2br($proposal->pkg_describtion)));
+	$bb->fullRow($bbparser->qparse(nl2br(htmlentities($proposal->pkg_describtion))));
 	
 	$changelog = @ppComment::getAll($proposal->id, 'package_proposal_changelog');
 	$changeLogRow = "";
