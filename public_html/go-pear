@@ -524,7 +524,7 @@ if (!extension_loaded('zlib') && !WEBINSTALLER) { // In Web context we could be 
 }
 if (!extension_loaded('zlib')) {
     $urltemplate = 'http://pear.php.net/get/%s?uncompress=yes';
-    $have_gzip = false;
+    $have_gzip = null;
 } else {
     $urltemplate = 'http://pear.php.net/get/%s';
     $have_gzip = true;
