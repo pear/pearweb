@@ -79,15 +79,19 @@ if (!empty($_POST['pw'])) {
 
 
 # fetch info about the bug into $bug
-$query = "SELECT id,package_name,bug_type,email,passwd,sdesc,ldesc,"
-       . "php_version,php_os,status,ts1,ts2,assign,"
-       . "UNIX_TIMESTAMP(ts1) AS submitted, UNIX_TIMESTAMP(ts2) AS modified,"
-       . "COUNT(bug=id) AS votes,"
-       . "SUM(reproduced) AS reproduced,SUM(tried) AS tried,"
-       . "SUM(sameos) AS sameos, SUM(samever) AS samever,"
-       . "AVG(score)+3 AS average,STD(score) AS deviation"
-       . " FROM bugdb LEFT JOIN bugdb_votes ON id=bug WHERE id=$id"
-       . " GROUP BY bug";
+$query = 'SELECT b.id, b.package_name, b.bug_type, b.email,
+        b.passwd, b.sdesc, b.ldesc, b.php_version, b.php_os,
+        b.status, b.ts1, b.ts2, b.assign, UNIX_TIMESTAMP(b.ts1) AS submitted, 
+        UNIX_TIMESTAMP(b.ts2) AS modified,
+        COUNT(bug=b.id) AS votes,
+        SUM(reproduced) AS reproduced,SUM(tried) AS tried,
+        SUM(sameos) AS sameos, SUM(samever) AS samever,
+        AVG(score)+3 AS average,STD(score) AS deviation,
+        users.showemail, users.handle
+        FROM bugdb b LEFT JOIN bugdb_votes ON b.id=bug 
+        LEFT JOIN users ON users.email = b.email 
+        WHERE b.id='.(int)$id.'
+        GROUP BY bug';
 
 $bug =& $dbh->getRow($query, array(), DB_FETCHMODE_ASSOC);
 
@@ -361,9 +365,8 @@ if ($bug['modified']) {
    <th class="details">From:</th>
    <td colspan="3">
    <?php 
-    $handle =& $dbh->getOne('SELECT handle FROM users WHERE email = '.$dbh->quoteSmart($bug['email']).' AND showemail = 0');
-    if (!is_null($handle)) {
-        echo $handle;
+    if ($bug['showemail'] == '0') {
+        echo $bug['handle'];
     } else {
         echo spam_protect(htmlspecialchars($bug['email']));
     }
@@ -795,30 +798,32 @@ if (!$edit && canvote()) {
 
 /* DISPLAY ORIGINAL REPORT */
 if ($bug['ldesc']) {
-    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc']);
+    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['handle']);
 }
 
 /* DISPLAY COMMENTS */
-$query = "SELECT id,email,comment,UNIX_TIMESTAMP(ts) AS added"
-       . " FROM bugdb_comments WHERE bug=$id ORDER BY ts";
+$query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, 
+        users.showemail, users.handle
+        FROM bugdb_comments c
+        LEFT JOIN users ON users.email = c.email       
+        WHERE c.bug='.(int)$id.' GROUP BY c.id ORDER BY c.ts';
 $res =& $dbh->query($query);
 if ($res) {
     while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-        output_note($row['id'], $row['added'], $row['email'], $row['comment']);
+        output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['handle']);
     }
 }
 
 response_footer();
 
 
-function output_note($com_id, $ts, $email, $comment)
+function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = null)
 {
     global $edit, $id, $trusted_developers, $user, $dbh;
 
     echo '<div class="comment">';
-    echo "<strong>[",format_date($ts),"] "; 
-    $handle =& $dbh->getOne('SELECT handle FROM users WHERE email = '.$dbh->quoteSmart($email).' AND showemail = 0');
-    if (!is_null($handle)) {
+    echo "<strong>[",format_date($ts),"] ";
+    if ($showemail == '0' && !is_null($handle)) {
         echo $handle."</strong>\n";
     } else {
         echo spam_protect(htmlspecialchars($email))."</strong>\n";
