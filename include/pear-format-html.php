@@ -990,9 +990,13 @@ function generate_captcha() {
         }
         $_SESSION['captcha_time'] = time();
     }
-    $out  = 'Type &quot;' . $_SESSION['captcha'] . '&quot; into this box... ';
-    $out .= '<input type="text" size="4" maxlength="4" name="captcha" />';
-    return $out;
+    return 'Type <img src="/captcha-image.php" alt="If you are unable to'
+           . ' read this image, click the help link to the right of'
+           . ' the input box" align="top" /> into this box...'
+           . ' <input type="text" size="4" maxlength="4" name="captcha" />'
+           . ' (<a href="/captcha-help.php" target="_blank">help</a>)'
+           . ' <br />If this image is hard to read, reload the page.';
+
 }
 
 /**
