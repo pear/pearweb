@@ -1,4 +1,7 @@
 <?php /* vim: set noet ts=4 sw=4: : */
+
+// $Id$
+
 require_once './include/prepend.inc';
 require_once './include/cvs-auth.inc';
 
@@ -42,9 +45,9 @@ if ($in) {
 
             $query = "SELECT * from bugdb $where_clause LIMIT 5";
 
-            $res = mysql_query($query) or die(htmlspecialchars($query) . "<br>" . mysql_error());
+            $res =& $dbh->query($query);
 
-            if (mysql_num_rows($res) == 0) {
+            if ($res->numRows() == 0) {
                 $ok_to_submit_report = 1;
             } else {
                 response_header("Report - Confirm");
@@ -67,9 +70,11 @@ you can scroll down and click the submit button to really enter the details into
 </tr>
 <?php
 
-                while ($row = mysql_fetch_array($res)) {
+                while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
 
-                    $resolution = mysql_get_one("SELECT comment from bugdb_comments where bug = " . $row['id'] . " order by id desc limit 1");
+                    $resolution =& $dbh->getOne('SELECT comment FROM' .
+                            ' bugdb_comments where bug = ' .
+                            $row['id'] . ' ORDER BY id DESC LIMIT 1');
 
                     if ($resolution) {
                         $resolution = htmlspecialchars($resolution);
@@ -120,10 +125,11 @@ you can scroll down and click the submit button to really enter the details into
             }
 
             $query = "INSERT INTO bugdb (package_name,email,sdesc,ldesc,php_version,php_os,status,ts1,passwd) VALUES ('$in[package_name]','$in[email]','$in[sdesc]','$fdesc','$in[php_version]','$in[php_os]','Open',NOW(),'$in[passwd]')";
-            if (!$ret = mysql_query($query)) {
-                die("could not insert ** $query **': " . mysql_error());
-            }
+            $dbh->query($query);
 
+/*
+ * need to move this to DB eventually...
+ */
             $cid = mysql_insert_id();
 
             $report = "";
@@ -177,9 +183,9 @@ you can scroll down and click the submit button to really enter the details into
                 mail($mailto, "[PEAR-BUG] #$cid [NEW]: $sdesc", $ascii_report."1\n-- \n$dev_extra", $extra_headers, "-fpear-sys@php.net");
                 // mail to reporter
                 mail($email, "[PEAR-BUG] Bug #$cid: $sdesc", $ascii_report."2\n", "From: PHP Bug Database <$mailfrom>\nX-PHP-Bug: $cid\nMessage-ID: <bug-$cid@pear.php.net>", "-fpear-sys@php.net");
-                header("Location: bug.php?id=$cid&thanks=4");
-                exit;
             }
+            localRedirect('bug.php?id=' . $cid . '&thanks=4');
+            exit;
         }
     } else {
         response_header("Report - Problems");

@@ -39,10 +39,10 @@ $order_options = array(
 define('BOOLEAN_SEARCH', @intval($_GET['boolean']));
 
 if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
-    @mysql_connect('localhost','pear','pear')
-        or die('Unable to connect to SQL server.');
-    @mysql_select_db('pear');
 
+/*
+ * need to move this to DB eventually...
+ */
     $mysql4 = version_compare(mysql_get_server_info(), '4.0.0', 'ge');
 
     if ($mysql4) {
@@ -223,15 +223,11 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     if (stristr($query, ';')) {
         $errors[] = '<b>BAD HACKER!!</b> No database cracking for you today!';
     } else {
-        $res = @mysql_query($query);
-        if (!$res) {
-            die(htmlspecialchars($query).'<br />'.mysql_error());
-        }
-
-        $rows = mysql_num_rows($res);
+        $res  =& $dbh->query($query);
+        $rows =  $res->numRows();
 
         if ($mysql4) {
-            $total_rows = mysql_get_one("SELECT FOUND_ROWS()");
+            $total_rows =& $dbh->getOne('SELECT FOUND_ROWS()');
         } else {
             /* lame mysql 3 compatible attempt to allow browsing the search */
             $total_rows = $rows < 10 ? $rows : $begin + $rows + 10;
@@ -296,7 +292,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 display_warnings($warnings);
             }
 
-            while ($row = mysql_fetch_array($res)) {
+            while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
                 echo '<tr valign="top" bgcolor="', get_row_color($row), '">';
 
                 /* Bug ID */

@@ -1,5 +1,7 @@
 <?php /* vim: set noet ts=4 sw=4 ft=php : */
 
+// $Id$
+
 /* Email spam protection */
 function spam_protect($txt)
 {
@@ -47,15 +49,6 @@ function oneof()
     foreach (func_get_args() as $arg) {
         if ($arg) return $arg;
     }
-}
-
-function mysql_get_one($query)
-{
-    $res = mysql_query($query);
-    if ($res && mysql_num_rows($res)) {
-        return mysql_result($res,0);
-    }
-    return false;
 }
 
 function show_byage_options($current)
@@ -425,29 +418,28 @@ function txfield($n)
 
 function get_old_comments ($bug_id, $all = 0)
 {
+    global $dbh;
     $divider = str_repeat("-", 72);
     $max_message_length = 10 * 1024;
     $max_comments = 5;
     $output = ""; $count = 0;
 
-    $res = @mysql_query("SELECT ts, email, comment FROM bugdb_comments WHERE bug=$bug_id ORDER BY ts DESC");
-
-    if (!$res) return "";
+    $res =& $dbh->query("SELECT ts, email, comment FROM bugdb_comments WHERE bug=$bug_id ORDER BY ts DESC");
 
     # skip the most recent unless the caller wanted all comments
     if (!$all) {
-        $row = mysql_fetch_row($res);
+        $row =& $res->fetchRow(DB_FETCHMODE_ORDERED);
         if (!$row) return "";
     }
 
-    while (($row = mysql_fetch_row($res)) && strlen($output) < $max_message_length && $count++ < $max_comments) {
+    while (($row =& $res->fetchRow(DB_FETCHMODE_ORDERED)) && strlen($output) < $max_message_length && $count++ < $max_comments) {
         $output .= "[$row[0]] ". spam_protect($row[1]) ."\n\n$row[2]\n\n$divider\n\n";
     }
 
     if (strlen($output) < $max_message_length && $count < $max_comments) {
-        $res=@mysql_query("SELECT ts1,email,ldesc FROM bugdb WHERE id=$bug_id");
+        $res =& $dbh->query("SELECT ts1,email,ldesc FROM bugdb WHERE id=$bug_id");
         if (!$res) return $output;
-        $row = mysql_fetch_row($res);
+        $row =& $res->fetchRow(DB_FETCHMODE_ORDERED);
         if (!$row) return $output;
         return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "[$row[0]] ". spam_protect($row[1]) ."\n\n$row[2]\n\n$divider\n\n");
     }
