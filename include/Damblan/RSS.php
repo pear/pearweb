@@ -38,10 +38,22 @@ class Damblan_RSS {
      * @return mixed  String or PEAR_Error
      */
     function getFeed($type) {
-        if (substr($type, 0, 4) == "user") {
+        // Maps URLs to classnames
+        $objectMap = array("latest" => "Latest",
+                           "pkg"    => "Package",
+                           "cat"    => "Category",
+                           "user"   => "User",
+                           "pepr"   => "PEPr"
+                           );
+
+        $type = str_replace("/", "_", $type);
+
+        $prefix = substr($type, 0, 4);
+
+        if ($prefix == "user" || $prefix == "pepr") {
             $cache = $type;
             $value = substr($type, 5);
-            $type = substr($type, 0, 4);
+            $type = $prefix_test;
         } else if ($type != "latest") {
             $cache = $type;
             $value = substr($type, 4);
@@ -58,29 +70,22 @@ class Damblan_RSS {
         $site = &Damblan_Site::factory();
         PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$site, "error404"));
 
-        if ($type == "latest") {
-            require_once "Damblan/RSS/Latest.php";
-            $rss_obj = new Damblan_RSS_Latest();
-        } else if ($type == "cat") {
-            require_once "Damblan/RSS/Category.php";
-            $rss_obj = new Damblan_RSS_Category($value);
-        } else if ($type == "pkg") {
-            require_once "Damblan/RSS/Package.php";
-            $rss_obj = new Damblan_RSS_Package($value);
-        } else if ($type == "user") {
-            require_once "Damblan/RSS/User.php";
-            $rss_obj = new Damblan_RSS_User($value);
+        $type = strtolower($type);
+        if (!isset($objectMap[$type])) {
+            PEAR::raiseError("The requested URL " . $_SERVER['REQUEST_URI'] . " was not found on this server.");            
         }
 
-        if (isset($rss_obj)) {
-            if (!PEAR::isError($rss_obj)) {
-                Damblan_RSS_Cache::write($cache, $rss_obj->toString());
-            }
+        $filename  = "Damblan/RSS/" . $objectMap[$type] . ".php";
+        $classname = "Damblan_RSS_" . $objectMap[$type];
 
-            return $rss_obj->toString();
-        } else {
-            PEAR::raiseError("The requested URL " . $_SERVER['REQUEST_URI'] . " was not found on this server.");
+        require_once $filename;
+        $rss_obj = new $classname($value);
+
+        if (!PEAR::isError($rss_obj)) {
+            Damblan_RSS_Cache::write($cache, $rss_obj->toString());
         }
+
+        return $rss_obj->toString();
     }
 
     /**
