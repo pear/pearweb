@@ -265,7 +265,7 @@ MSG;
     $form->addSubmit('submit', 'Submit Query', '',
             'class="form-label_left"', 'class="form-input"');
 
-    $form->display('class="form-holder" cellspacing="1" border="1"',
+    $form->display('class="form-holder" cellspacing="1"',
                    'Request Account', 'class="form-caption"');
 
     if ($jumpto) {
