@@ -46,6 +46,7 @@
       <element name="summary" type="string"/>
       <element name="server" type="subchannelserver"/>
     </sequence>
+    <attribute name="name" type="string" use="required"/>
   </complexType>
 
   <complexType name="functions">
