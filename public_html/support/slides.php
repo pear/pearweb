@@ -59,9 +59,26 @@ that have been held about PEAR.</p>
     <li>Presenter: Volker Goebbels</li>
     <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
     <li>Language: English</li>
-</ul>
+  </ul>
  </li>
-
+ <li>
+  <p><cite><a href="http://www.php-tools.net/site.php?file=/about/presentations.xml">HTTP_SessionServer - Maintaining state across different Servers</cite></a></p>
+  <ul>
+    <li>Date: 2004-11-09</li>
+    <li>Presenter: <?php echo user_link("schst", true); ?></li>
+    <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+ <li>
+  <p><cite><a href="http://www.limbourg.com/pres/2004/francfort_liveuser/">PEAR::LiveUser - Integrating into new and existing applications</a></p>
+  <ul>
+    <li>Date: 2004-11-09</li>
+    <li>Presenter: <?php echo user_link("arnaud", true); ?></li>
+    <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
  <li>
   <p><cite><a href="http://www.schlitt.info/download/PEAR_Powerworkshop_Fall_2004.tar.gz">
   PEAR</cite></a></p>
