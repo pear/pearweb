@@ -31,6 +31,7 @@ $cache_files = array("/credits.php" => "",
                      "/feeds/index.php" => "",
                      "/download-docs.php" => "",
                      "/account-info.php" => $_SERVER['PHP_SELF'],
+                     "/accounts.php" => @$_GET['letter'] . "__" . @$_GET['offset'],
                      // "/packages.php" => @$_GET['catpid'] . @$_GET['showempty'] . "__" . @$_GET['hideMoreInfo'] . "__" . @$_GET['showMoreInfo']
                      );
 
