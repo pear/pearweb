@@ -1957,6 +1957,33 @@ class user
     }
 
     // }}}
+    // {{{ update
+
+    /**
+     * Update user information
+     *
+     * @access public
+     * @param  array User information
+     * @return object Instance of PEAR_User
+     */
+    function update($data) {
+        global $dbh;
+
+        $fields = array("name", "email", "homepage", "showemail", "userinfo", "pgpkeyid", "wishlist");
+
+        $user =& new PEAR_User($dbh, $data['handle']);
+        foreach ($data as $key => $value) {
+            if (!in_array($key, $fields)) {
+                continue;
+            }
+            $user->set($key, addslashes($value));
+        }
+        $user->store();
+
+        return $user;
+    }
+
+    // }}}
 }
 
 class statistics
@@ -2038,6 +2065,17 @@ class PEAR_User extends DB_storage
     function isAdmin()
     {
         return (user::isAdmin($this->handle));
+    }
+
+    /**
+     * Generate link for user
+     *
+     * @access public
+     * @return string
+     */
+    function makeLink()
+    {
+        return make_link("/user/" . $this->handle . "/", $this->name);
     }
 }
 
