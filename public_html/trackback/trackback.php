@@ -79,7 +79,11 @@ $mailData = array(
 
 $mailer = Damblan_Mailer::create('Trackback_New', $mailData);
 $additionalHeaders['To'] = $trackback->getMaintainers();
-$res = $mailer->send($additionalHeaders);
+if (!DEVBOX) {
+    $res = $mailer->send($additionalHeaders);
+} else {
+    $res = true;
+}
 
 if (PEAR::isError($res)) {
     echo Services_Trackback::getResponseError('The notification email for your trackback could not be send. Please inform pear-webmaster@lists.php.net.', 1);
