@@ -2048,44 +2048,51 @@ class user
     /**
      * Add a new user account
      *
+     * @param array $data  Information about the user
+     *
+     * @return mixed  true if there are no problems, false if sending the
+     *                email failed or an array of error messages if problems
+     *
      * @access public
-     * @param  array Information about the user
-     * @return mixed PEAR_Error or true
      */
     function add(&$data)
     {
         global $dbh;
 
-        PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, "display_error");
+        PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
+        $errors = array();
 
-        $required = array("handle"    => "your desired username",
-                          "firstname" => "your first name",
-                          "lastname"  => "your last name",
-                          "email"     => "your email address",
-                          "purpose"   => "the purpose of your PEAR account");
+        $required = array(
+            'handle'     => 'Username',
+            'firstname'  => 'First Name',
+            'lastname'   => 'Last Name',
+            'email'      => 'Email address',
+            'purpose'    => 'Intended purpose',
+        );
 
         $name = $data['firstname'] . " " . $data['lastname'];
 
         foreach ($required as $field => $desc) {
             if (empty($data[$field])) {
                 $data['jumpto'] = $field;
-                return PEAR::raiseError("Please enter $desc!");
+                $errors[] = 'Please enter ' . $desc;
             }
         }
 
         if (!preg_match(PEAR_COMMON_USER_NAME_REGEX, $data['handle'])) {
-            return PEAR::raiseError("Username must start with a letter and contain only letters and digits.");
+            $errors[] = 'Username must start with a letter and contain'
+                      . ' only letters and digits';
         }
 
         if ($data['password'] != $data['password2']) {
             $data['password'] = $data['password2'] = "";
             $data['jumpto'] = "password";
-            return PEAR::raiseError("Passwords did not match");
+            $errors[] = 'Passwords did not match';
         }
 
         if (!$data['password']) {
             $data['jumpto'] = "password";
-            return PEAR::raiseError("Empty passwords not allowed");
+            $errors[] = 'Empty passwords not allowed';
         }
 
         $handle = strtolower($data['handle']);
@@ -2093,15 +2100,26 @@ class user
 
         if (isset($obj->created)) {
             $data['jumpto'] = "handle";
-            return PEAR::raiseError("Sorry, that username is already taken");
+            $errors[] = 'Sorry, that username is already taken';
+        }
+
+        if ($errors) {
+            $data['display_form'] = true;
+            return $errors;
         }
 
         $err = $obj->insert($handle);
 
         if (DB::isError($err)) {
-            display_error("$handle: " . DB::errorMessage($err));
-            $data['jumpto'] = "handle";
-            return PEAR::raiseError($handle . ": " . DB::errorMessage($err));
+            if ($err->getCode() == DB_ERROR_ALREADY_EXISTS) {
+                $data['display_form'] = true;
+                $data['jumpto'] = 'handle';
+                $errors[] = 'Sorry, that username is already taken';
+            } else {
+                $data['display_form'] = false;
+                $errors[] = $err->getMessage();
+            }
+            return $errors;
         }
 
         $data['display_form'] = false;
@@ -2117,18 +2135,16 @@ class user
                           'password' => $md5pw,
                           'registered' => 0,
                           'userinfo' => $userinfo);
-        $errors = 0;
+
         foreach ($set_vars as $var => $value) {
             $err = $obj->set($var, $value);
             if (PEAR::isError($err)) {
-                print "Failed setting $var: ";
-                print $err->getMessage();
-                print "<br />\n";
-                $errors++;
+                $errors[] = "Failed setting $var: " . $err->getMessage();
             }
         }
-        if ($errors > 0) {
-            return PEAR::setError("There were errors while storing the user information.");
+        if ($errors) {
+            array_unshift($errors, 'set');
+            return $errors;
         }
 
         $msg = "Requested from:   {$_SERVER['REMOTE_ADDR']}\n".
