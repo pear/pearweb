@@ -1,5 +1,10 @@
 @import url(controls.css);
 
+body, ul, td, th {
+font-family: verdana,arial,helvetica,sans-serif;
+font-size: 95%;
+}
+
 div#content {
 margin: 4px;
 }
@@ -66,12 +71,12 @@ color: #000066;
 
 small {
 font-family: verdana, arial,helvetica,sans-serif;
-font-size: 85%;
+font-size: 75%;
 }
 
 a.small {
 font-family: verdana, arial,helvetica,sans-serif;
-font-size: 85%;
+font-size: 75%;
 text-decoration: none;
 }
 
@@ -82,7 +87,7 @@ color: #ffffff;
 }
 A.menuBlack {
 font-family: verdana, arial,helvetica,sans-serif;
-font-size: 85%;
+font-size: 75%;
 color: #000000;
 }
 
@@ -97,12 +102,12 @@ font-family: "andale mono", "monotype.com", "courier new", monospace;
 
 input.small, select.small {
 font-family: verdana, arial,helvetica,sans-serif;
-font-size: 85%;
+font-size: 75%;
 }
 
 textarea.small {
 font-family: "andale mono", "monotype.com", "courier new", monospace;
-font-size: 85%;
+font-size: 75%;
 }
 
 div.errors {
