@@ -17,7 +17,7 @@
         'Reply-To' => array('PEAR Webmaster <pear-webmaster@lists.php.net>'),
         'From' => 'pear-sys@php.net',
         'Subject' => '[Trackback] Trackback approved for %id%',
-        'Body' => 'Dear maintainer.
+        'Body' => 'Dear maintainer,
 
 The following trackback has been approved for the package %id%:
 
@@ -32,7 +32,7 @@ Excerpt:
 Executor:   %user%
 
 You can choose one of the following actions:
-Delete - http://pear.php.net/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%.'
+Delete: http://pear.php.net/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%'
      );
 
 ?>

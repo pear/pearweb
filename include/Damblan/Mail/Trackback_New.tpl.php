@@ -16,7 +16,7 @@
         'Reply-To' => array('PEAR Webmaster <pear-webmaster@lists.php.net>'),
         'From' => 'pear-sys@php.net',
         'Subject' => '[Trackback] New trackback discovered for %id%',
-        'Body' => 'Dear maintainer.
+        'Body' => 'Dear maintainer,
 
 A new trackback has been discovered for the package %id%:
 
@@ -29,8 +29,8 @@ Excerpt:
 %excerpt%
 
 Please choose one of the following actions:
-Approve - http://pear.php.net/trackback/trackback-admin.php?action=approve&id=%id%&timestamp=%timestamp%.
-Delete - http://pear.php.net/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%.'
+Approve: http://pear.php.net/trackback/trackback-admin.php?action=approve&id=%id%&timestamp=%timestamp%
+Delete: http://pear.php.net/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%'
      );
 
 ?>

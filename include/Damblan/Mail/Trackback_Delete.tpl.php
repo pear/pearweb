@@ -17,7 +17,7 @@
         'Reply-To' => 'PEAR Webmaster <pear-webmaster@lists.php.net>',
         'From' => 'pear-sys@php.net',
         'Subject' => '[Trackback] Trackback deleted for %id%',
-        'Body' => 'Dear maintainer.
+        'Body' => 'Dear maintainer,
 
 A TrackBack for %id% has been removed:
 
