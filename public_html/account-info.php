@@ -44,6 +44,8 @@ if ($row === null) {
     error_handler($handle . ' is not a valid account name.', 'Invalid Account');
 }
 
+$handle = htmlspecialchars($handle);
+
 response_header('User Information: ' . $handle);
 
 echo '<h1>User Information: ' . $handle . "</h1>\n";
@@ -52,14 +54,16 @@ echo '<h1>User Information: ' . $handle . "</h1>\n";
 
 <table border="0" cellspacing="0" cellpadding="2" width="100%">
  <tr>
-  <th class="headrow" colspan="2">&raquo; <?php echo $row['name']; ?></th>
+  <th class="headrow" colspan="2">&raquo;
+  <?php echo htmlspecialchars($row['name']); ?></th>
  </tr>
 
 <?php
 
 if ($row['userinfo']) {
     echo ' <tr>' . "\n";
-    echo '  <td class="textcell" colspan="2">' . $row['userinfo'] . "</td>\n";
+    echo '  <td class="textcell" style="white-space: pre" colspan="2">';
+    echo htmlspecialchars($row['userinfo']) . "</td>\n";
     echo ' </tr>' . "\n";
 }
 
@@ -76,7 +80,8 @@ if ($row['showemail']) {
                                 array(' at ', ' dot '),
                                 $row['email']);
     echo '<li>Email: &nbsp;';
-    print_link('/account-mail.php?handle=' . $handle, $row['email']);
+    print_link('/account-mail.php?handle=' . $handle,
+               htmlspecialchars($row['email']));
     echo "</li>\n";
 } else {
     echo '<li>Email: &nbsp;';
@@ -86,7 +91,7 @@ if ($row['showemail']) {
 
 if ($row['homepage']) {
     echo '<li>Homepage: &nbsp;';
-    print_link($row['homepage'], $row['homepage']);
+    print_link(htmlspecialchars($row['homepage']));
     echo "</li>\n";
 }
 
@@ -99,8 +104,8 @@ if ($row['wishlist']) {
 if ($row['pgpkeyid']) {
     echo '<li>PGP Key: &nbsp;';
     print_link('http://pgp.mit.edu:11371/pks/lookup?search=0x'
-               . $row['pgpkeyid'] . '&amp;op=get',
-               $row['pgpkeyid']);
+               . htmlspecialchars($row['pgpkeyid']) . '&amp;op=get',
+               htmlspecialchars($row['pgpkeyid']));
     echo "</li>\n";
 }
 
@@ -133,8 +138,9 @@ $maintained_pkg = $dbh->getAll($query, array($handle));
 
 foreach ($maintained_pkg as $row) {
     echo '<li>';
-    print_link('/package/' . $row['name'], $row['name']);
-    echo ' &nbsp;(' . $row['role'] . ")</li>\n";
+    print_link('/package/' . htmlspecialchars($row['name']),
+               htmlspecialchars($row['name']));
+    echo ' &nbsp;(' . htmlspecialchars($row['role']) . ")</li>\n";
 }
 
 ?>
