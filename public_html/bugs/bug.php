@@ -2,7 +2,7 @@
 error_reporting(E_ALL ^ E_NOTICE);
 $id = (int)$id;
 if (!$id) {
-    header("Location: /");
+    header('Location: /');
     exit;
 }
 $edit = (int)$edit;
@@ -16,9 +16,9 @@ if (isset($_COOKIE['PEAR_USER']) && isset($_COOKIE['PEAR_PW'])) {
     $pw = $_COOKIE['PEAR_PW'];
 }
 
-@mysql_connect("localhost","pear","pear")
-    or die("Unable to connect to SQL server.");
-@mysql_select_db("pear");
+@mysql_connect('localhost','pear','pear')
+    or die('Unable to connect to SQL server.');
+@mysql_select_db('pear');
 
 # fetch info about the bug into $bug
 $query = "SELECT id,package_name,email,passwd,sdesc,ldesc,"
@@ -35,8 +35,8 @@ $res = mysql_query($query);
 
 if ($res) $bug = mysql_fetch_array($res,MYSQL_ASSOC);
 if (!$res || !$bug) {
-    response_header("No such bug.");
-    echo "<h1 class=\"error\">No such bug #$id!</h1>";
+    response_header('No such bug.');
+    echo '<h1 class="error">No such bug #'.$id.'!</h1>';
     response_header();
     exit;
 }
@@ -86,32 +86,31 @@ if ($in && $edit == 3) {
         $success = @mysql_query($query);
     }
     $from = stripslashes($in['commentemail']);
-}
-elseif ($in && $edit == 2) {
-    if (!$bug[passwd] || $bug[passwd] != stripslashes($pw)) {
-        $errors[] = "The password you supplied was incorrect.";
+} elseif ($in && $edit == 2) {
+    if (!$bug['passwd'] || $bug['passwd'] != stripslashes($pw)) {
+        $errors[] = 'The password you supplied was incorrect.';
     }
 
     $ncomment = trim($ncomment);
     if (!$ncomment) {
-        $errors[] = "You must provide a comment.";
+        $errors[] = 'You must provide a comment.';
     }
 
     # check that they aren't being bad and setting a status they
     # aren't allowed to (oh, the horrors.)
     if ($in['status'] != $bug['status'] && $state_types[$in['status']] != 2) {
-        $errors[] = "You aren't allowed to change a bug to that state.";
+        $errors[] = 'You aren\'t allowed to change a bug to that state.';
     }
 
     # check that they aren't changing the mail to a php.net address
     # (gosh, somebody might be fooled!)
     if (preg_match('/^(.+)@php\.net/i', $in['email'], $m)) {
         if ($user != $m[1] || !verify_password($user,$pass)) {
-            $errors[] = "You have to be logged in as a developer to use your php.net email address.";
+            $errors[] = 'You have to be logged in as a developer to use your php.net email address.';
         }
     }
 
-    $from = ($bug[email] != $in[email] && !empty($in[email])) ? $in[email] : $bug[email];
+    $from = ($bug['email'] != $in['email'] && !empty($in['email'])) ? $in['email'] : $bug['email'];
 
     if (!$errors && !($errors = incoming_details_are_valid($in))) {
         /* update bug record */
@@ -124,8 +123,7 @@ elseif ($in && $edit == 2) {
             $success = @mysql_query($query);
         }
     }
-}
-elseif ($in && $edit == 1) {
+} elseif ($in && $edit == 1) {
     if (!verify_password($user,stripslashes($pw))) {
         $errors[] = "You have to login first in order to edit the bug report.";
     }
@@ -135,7 +133,7 @@ elseif ($in && $edit == 1) {
         $errors[] = "You must provide a comment when marking a bug 'Bogus'";
     } elseif ($in['resolve']) {
         if (!$trytoforce && $RESOLVE_REASONS[$in['resolve']]['status'] == $bug['status']) {
-            $errors[] = "The bug is already marked '$bug[status]'. (Submit again to ignore this.)";
+            $errors[] = 'The bug is already marked "'.$bug['status'].'". (Submit again to ignore this.)';
         }
         elseif (!$errors)  {
             if ($in['status'] == $bug['status']) {
@@ -146,7 +144,7 @@ elseif ($in && $edit == 1) {
         }
     }
 
-    $from = $user . "@php.net";
+    $from = $user . '@php.net';
     $query = "SELECT email FROM users WHERE handle = '" . $user . "'";
     $success = @mysql_query($query);
     if ($success) {
@@ -174,26 +172,22 @@ if ($in && !$errors && $success) {
 
 response_header("#$id: ".htmlspecialchars($bug['sdesc']));
 # the lol
-echo "<style>"; include('./style.css'); echo "</style>";
+echo '<style type="text/css">'; include('./style.css'); echo '</style>';
 
 /* DISPLAY BUG */
 if ($thanks == 1 || $thanks == 2) {
   echo '<div class="thanks">The bug was updated successfully.</div>';
-}
-elseif ($thanks == 3) {
+} elseif ($thanks == 3) {
   echo '<div class="thanks">Your comment was added to the bug successfully.</div>';
-}
-elseif ($thanks == 4) {?>
+} elseif ($thanks == 4) {?>
 <div class="thanks">
 Thank you for your help! If the status of the bug report you submitted changes,
 you will be notified. You may return here and check on the status or update
 your report at any time. That URL for your bug report is: <a
-href="/bugs/bug.php?id=<?php echo $id?>">http://pear.php.net/bugs/bug.php?id=<?php echo
-$id?></a>.
+href="/bugs/bug.php?id=<?php echo $id?>">http://pear.php.net/bugs/bug.php?id=<?php echo $id; ?></a>.
 </div>
 <?php
-}
-elseif ($thanks == 6) {?>
+} elseif ($thanks == 6) {?>
 <div class="thanks">
 Thanks for voting! Your vote should be reflected in the
 statistics below.
@@ -204,10 +198,10 @@ show_bugs_menu($bug['package_name']);
 ?>
 
 <div id="bugheader">
-<table id="details">
+ <table id="details">
   <tr id="title">
    <th class="details" id="number">Bug&nbsp;#<?php echo $id?></th>
-   <td id="summary" colspan="5"><?php echo htmlspecialchars($bug['sdesc'])?></td>
+   <td id="summary" colspan="5"><?php echo clean($bug['sdesc'])?></td>
   </tr>
   <tr id="submission">
    <th>Submitted:</th><td><?php echo format_date($bug['submitted'])?></td>
@@ -290,7 +284,7 @@ just go ahead and add more information to this bug or edit the other fields.
 <?php if (!$in) {?>
 Welcome back! If you're the original bug submitter, here's where you can edit
 the bug or add additional notes. If this is not your bug, you can <a
-href="<?php echo "$PHP_SELF?id=$id&amp;edit=3"?>">add a comment by following
+href="<?php echo $_SERVER['PHP_SELF'].'?id='.$id.'&amp;edit=3'?>">add a comment by following
 this link</a>. If this is your bug,
 but you forgot your password, <a href="bug-pwd-finder.php">you can retrieve
 your password here</a>.
@@ -310,8 +304,7 @@ your password here</a>.
 </div>
 <?php
     }
-}
-else {
+} else {
     if ($user && $pw && verify_password($user,stripslashes($pw))) {
         if (!$in) {?>
 <div class="explain">
@@ -325,9 +318,9 @@ Welcome back, <?php echo $user?>! (Not <?php echo $user?>?
 <div class="explain">
 <?php if (!$in) {?>
 Welcome! If you don't have a CVS account, you can't do anything here. You can
-<a href="<?php echo "$PHP_SELF?id=$id&amp;edit=3"?>">add a comment by following
+<a href="<?php echo $_SERVER['PHP_SELF'].'?id='.$id.'&amp;edit=3'?>">add a comment by following
 this link</a> or if you reported this bug, you can <a href="<?php echo
-"$PHP_SELF?id=$id&amp;edit=2"?>">edit this bug over here</a>.
+$_SERVER['PHP_SELF'].'?id='.$id.'&amp;edit=2'?>">edit this bug over here</a>.
 <?php }?>
 <!--
 <table>
@@ -487,19 +480,19 @@ function output_note($com_id, $ts, $email, $comment)
 {
     global $edit, $id, $trusted_developers, $user;
 
-    echo "<div class=\"comment\">";
+    echo '<div class="comment">';
     echo "<b>[",format_date($ts),"] ", htmlspecialchars(spam_protect($email)), "</b>\n";
     echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"$PHP_SELF?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
-    echo "<pre class=\"note\">";
+    echo '<pre class="note">';
     $note = addlinks(preg_replace("/(\r?\n){3,}/","\n\n",wordwrap($comment,72,"\n",1)));
     echo preg_replace('/(bug\ *#([0-9]+))/i', "<a href=\"$PHP_SELF?id=\\2\">\\1</a>", $note);
     echo "</pre>\n";
-    echo "</div>";
+    echo '</div>';
 }
 
 function delete_comment($id, $com_id)
 {
-    $query = "DELETE FROM bugdb_comments WHERE bug=$id AND id=$com_id";
+    $query = 'DELETE FROM bugdb_comments WHERE bug='.(int)$id.' AND id='.(int)$com_id;
     $res = @mysql_query($query);
 }
 
@@ -507,5 +500,5 @@ function canvote()
 {
     return false;
     global $thanks, $bug;
-    return ($thanks != 4 && $thanks != 6 && $bug['status'] != "Closed" && $bug['status'] != "Bogus" && $bug['status'] != 'Duplicate');
+    return ($thanks != 4 && $thanks != 6 && $bug['status'] != 'Closed' && $bug['status'] != 'Bogus' && $bug['status'] != 'Duplicate');
 }
