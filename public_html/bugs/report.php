@@ -187,10 +187,15 @@ you can scroll down and click the submit button to really enter the details into
 	    response_header("Report - Problems");
 	}
 }
+if (!bugtype_exists($package)) {
+	$errors[] = 'Package "' . $package . '" does not exist.';
+	response_header("Report - Invalid bug type");
+	display_errors($errors);
+} else {
 
-if (!isset($in)) {
-    response_header("Report - New");
-    show_bugs_menu($package);
+	if (!isset($in)) {
+	    response_header("Report - New");
+	    show_bugs_menu($package);
 ?>
 
 <p>Before you report a bug, make sure to search for similar bugs using the
@@ -207,9 +212,9 @@ simply being marked as "bogus".</strong></p>
 <a href="mailto:pear-group@php.net?subject=%5BSECURITY%5D+possible+new+bug%21">pear-group@php.net</a> who will assess the situation. </strong></p>
 
 <?php
-}
+	}
 
-if ($errors) display_errors($errors);
+	if ($errors) display_errors($errors);
 ?>
 <form method="post" action="<?php echo "$PHP_SELF?package=$package";?>">
 <input type="hidden" name="in[did_luser_search]" value="<?php echo $in['did_luser_search'] ? 1 : 0; ?>" />
@@ -329,4 +334,5 @@ if ($errors) display_errors($errors);
 </form>
 </table>
 <?php
+}
 response_footer();
