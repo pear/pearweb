@@ -197,14 +197,32 @@ class proposal {
         $this->links[] =& $link;
         return true;
     }
-		
-    function isFromUser ( $handle ) {
+    
+    function isOwner ($handle) {
         if (strtolower($this->user_handle) != strtolower($handle)) {
             return false;
         }
         return true;
     }
 		
+    function mayEdit ( $handle ) {
+        $karma = new Damblan_Karma($dbh);
+        switch ($this->status) {
+            case 'draft':
+            case 'proposal':
+                if ($this->isOwner($handle) || $karma->has($handlel, 'pear.pepr.admin')) {
+                    return true;
+                }
+              break;
+            default:
+                if (!$this->isOwner($handle) && $karma->has($handlel, 'pear.pepr.admin')) {
+                    return true;
+                }
+                break;
+        }
+        return false;
+    }
+    
     function getStatus ( $humanReadable = false ) {
         if ($humanReadable) {
             return $GLOBALS['proposalStatiMap'][$this->status];
