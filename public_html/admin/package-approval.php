@@ -33,9 +33,19 @@ if (!empty($_GET['approve'])) {
     $res = $dbh->query($query, array($_GET['approve']));
 
     if (!PEAR::isError($res) && $dbh->affectedRows() > 0) {
-        $mailtext = $auth_user->handle . " approved " . $row['name'];
-        $header = "In-Reply-To: <approve-request-" . $row['id'] . "@pear.php.net>";
-        mail("pear-group@php.net", "Package " . $row['name'] . " has been approved", $mailtext, $header, "-f pear-sys@php.net");
+        // {{{ Logging mechanism
+        require_once "Damblan/Log.php";
+        require_once "Damblan/Log/Mail.php";
+
+        $logger = new Damblan_Log;
+        $observer = new Damblan_Log_Mail;
+        $observer->setRecipients("pear-group@php.net");
+        $observer->setHeader("In-Reply-To", "<approve-request-" . $row['id'] . "@pear.php.net>");
+        $observer->setHeader("Subject", "Package " . $row['name'] . " has been approved");
+
+        $logger->attach($observer);
+        $logger->log($auth_user->handle . " approved " . $row['name']);
+        // }}}
 
         $mailtext = "Your package \"" . $row['name'] . "\" has been approved by the PEAR Group.";
         $mailtext = wordwrap($mailtext, 72);

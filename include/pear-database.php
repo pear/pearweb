@@ -359,10 +359,25 @@ class package
             return $err;
         }
 
-        $mailtext = $auth_user->handle . " (" . $auth_user->name . ") has added a new package " . $name . ".\n\n"
-            . "Approve: http://pear.php.net/admin/package-approval.php?approve=" . $id;
-        $header = "From: " . $auth_user->email . "\nMessage-Id: <approve-request-" . $id . "@pear.php.net>";
-        mail("pear-group@php.net", "New package " . $name, $mailtext, $header, "-f pear-sys@php.net");
+        $event = $auth_user->handle . " (" . $auth_user->name . ") has added a new package " . $name;
+        $mailtext = $event . "\n\nApprove: http://pear.php.net/admin/package-approval.php?approve=" . $id;
+
+        // {{{ Logging mechanism
+        require_once "Damblan/Log.php";
+        require_once "Damblan/Log/Mail.php";
+
+        // Syslog
+        $logger = new Damblan_Log;
+        $logger->log($event);
+
+        // Logging via email
+        $logger = new Damblan_Log_Mail;
+        $logger->setRecipients("pear-group@php.net");
+        $logger->setHeader("From", $auth_user->email);
+        $logger->setHeader("Message-Id", "<approve-request-" . $id . "@pear.php.net>");
+        $logger->setHeader("Subject", "New package");
+        $logger->log($mailtext);
+        // }}}
 
         return $id;
     }
