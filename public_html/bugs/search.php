@@ -238,12 +238,14 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                    . escapeSQL($site) . "'";
 
     if ($pseudo = array_intersect($pseudo_pkgs, $_GET['package_name'])) {
+        print_r($pseudo);
         $where_clause .= " OR bugdb.package_name";
         if (count($pseudo) > 1) {
             $where_clause .= " IN ('"
                            . join("', '", escapeSQL($pseudo)) . "')";
         } else {
-            $where_clause .= " = '" . escapeSQL($pseudo[0]) . "'";
+            $search_pseudo = reset($pseudo);
+            $where_clause .= " = '" . escapeSQL($search_pseudo) . "'";
         }
     }
 
@@ -305,6 +307,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     if (stristr($query, ';')) {
         $errors[] = 'BAD HACKER!! No database cracking for you today!';
     } else {
+    echo $query;
         $res  =& $dbh->query($query);
         $rows =  $res->numRows();
 
