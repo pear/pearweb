@@ -119,10 +119,10 @@ function show_state_options($state, $user_mode=0, $default="")
 
 function show_version_options($current,$default="")
 {
-	$versions = array("4.3.4", "4.3.3", "4.3.2", "4.3.1", "4.3.0",
+	$versions = array("4.3.6", "4.3.5", "4.3.4", "4.3.3", "4.3.2", "4.3.1", "4.3.0",
 					"4.2.2", "4.2.1", "4.2.0",
 					"4CVS-".date("Y-m-d")." (stable)",
-					"5.0.0b4 (beta4)", "5CVS-".date("Y-m-d")." (dev)", "Irrelevant");
+					"5.0.0RC1 (Release Candidate 1)", "5CVS-".date("Y-m-d")." (dev)", "Irrelevant");
 	echo "<option value=\"\">--Please Select--</option>\n";
 	while (list(,$v) = each($versions)) {
 		echo "<option", ($current == $v ? " selected" : ""), ">$v</option>\n";
