@@ -50,6 +50,17 @@ if (isset($_ENV['PEAR_DOC_EMAIL'])) {
      */
     define('PEAR_DOC_EMAIL', 'pear-doc@lists.php.net');
 }
+if (isset($_ENV['PEAR_ANNOUNCE_EMAIL'])) {
+    /**
+     * @ignore
+     */
+    define('PEAR_ANNOUNCE_EMAIL', $_ENV['PEAR_ANNOUNCE_EMAIL']);
+} else {
+    /**
+     * The channel webmaster email
+     */
+    define('PEAR_ANNOUNCE_EMAIL', 'pear-dev@lists.php.net');
+}
 if (isset($_ENV['PEAR_CHANNEL_SUMMARY'])) {
     /**
      * @ignore
