@@ -186,6 +186,10 @@ Of course don't forget to visit the <i>#pear</i> IRC channel at the <a href="htt
 Eris Free Net</a>.
 </p>
 
+<p>For german-speaking PEAR users <a href="http://www.pear-forum.de/">PEAR.forum</a>
+provides web discussion boards, where questions concerning PEAR can
+be discussed.</p>
+
 <div class="listing">
 
 <a name="tutorials" /><h3>PEAR Tutorials</h3>
