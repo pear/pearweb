@@ -21,6 +21,9 @@
  * @version   $Id$
  */
 
+// Should require pear.qa karma later.
+// auth_require('pear.admin');
+
 function getDays($date) {
     return ceil((time() - $date) / 60 / 60 / 24);
 }
@@ -53,10 +56,10 @@ $sql = "SELECT pkg_prop_id FROM package_proposal_comments ppc WHERE FROM_UNIXTIM
 
 $resProposals = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 
-$proposalIds = array(0 => 0);
+$proposalIds = array(0 => 0, 1 => 1);
 
 foreach ($resProposals as $proposal) {
-    $proposalIds[$proposal['id']] = $proposal['id'];
+    $proposalIds[$proposal['id']] = $proposal['pkg_prop_id'];
 }
 
 // Get IDs from proposals with changes in the last 30 days
@@ -64,9 +67,8 @@ $sql = "SELECT pkg_prop_id FROM package_proposal_changelog ppc WHERE FROM_UNIXTI
 
 $resProposals = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 
-
 foreach ($resProposals as $proposal) {
-    $proposalIds[$proposal['id']] = $proposal['id'];
+    $proposalIds[$proposal['pkg_prop_id']] = $proposal['pkg_prop_id'];
 }
 
 $sql = "SELECT
@@ -87,15 +89,36 @@ $res['orphan_proposals'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 
 
 // }}}
-// {{{ Fetch results
+// {{{ Fetch for orphan finished proposals
+/*
+$sql = <<<EOS
+SELECT 
+    p.id AS id,
+    p.pkg_name AS pkg_name,
+    p.user_handle AS user_handle,
+    UNIX_TIMESTAMP(p.draft_date) AS draft_date
+FROM 
+    package_proposals AS p
+WHERE 
+    p.status = "finished" 
+    AND p.vote_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
+    AND p._date < DATE_ADD(NOW(), INTERVAL -30 DAY)
+ORDER BY draft_date DESC
+EOS;
 
-
-// }}} 
+$res['orphan_drafts'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+*/
+// }}}
 
 response_header('PEPr :: Propably orphan proposals');
 
+echo '<table border="0" width="100%">';
+echo '<tr>';
+echo '<td width="50%" valign="top">';
+
 // {{{ HTML for orphan drafts
 echo '<h1>Status &quot;draft&quot;</h1>';
+
 echo '<table border="0" cellspacing="0">';
 echo '<tr>';
 echo '<th>Name</th>';
@@ -111,7 +134,12 @@ foreach ($res['orphan_drafts'] as $set) {
     echo '</tr>';
 }
 echo '</table>';
+
 // }}}
+
+echo '</td>';
+echo '<td width="50%" valign="top">';
+
 // {{{ HTML for orphan proposals
 echo '<h1>Status &quot;proposal&quot;</h1>';
 echo '<table border="0" cellspacing="0">';
@@ -138,3 +166,6 @@ foreach ($res['orphan_proposals'] as $set) {
 echo '</table>';
 // }}}
 
+echo '</td>';
+echo '</tr>';
+echo '</table>';
