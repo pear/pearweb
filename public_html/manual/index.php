@@ -54,7 +54,7 @@ $formats = array(
     "pear_manual_{LANG}.zip"         => array("Many HTML files",     "zip"),
     "pear_manual_{LANG}.tar.bz2"     => array("Many HTML files",     "tar.bz2"),
     "pear_manual_{LANG}.html.gz"     => array("One big HTML file",   "html.gz"),
-    // "pear_manual_{LANG}.chm"         => array("Windows HTML help",    "chm"),
+    // "chm/pear_manual_{LANG}.chm"     => array("Windows HTML help",    "chm"),
     "pear_manual_{LANG}.txt.gz"      => array("Plain text file",     "txt.gz")
 );
 
