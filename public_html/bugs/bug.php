@@ -2,8 +2,8 @@
 error_reporting(E_ALL ^ E_NOTICE);
 $id = (int)$id;
 if (!$id) {
-  header("Location: /");
-  exit;
+    header("Location: /");
+    exit;
 }
 $edit = (int)$edit;
 
@@ -17,7 +17,7 @@ if (isset($_COOKIE['PEAR_USER']) && isset($_COOKIE['PEAR_PW'])) {
 }
 
 @mysql_connect("localhost","pear","pear")
-	or die("Unable to connect to SQL server.");
+    or die("Unable to connect to SQL server.");
 @mysql_select_db("pear");
 
 # fetch info about the bug into $bug
@@ -35,21 +35,21 @@ $res = mysql_query($query);
 
 if ($res) $bug = mysql_fetch_array($res,MYSQL_ASSOC);
 if (!$res || !$bug) {
-  response_header("No such bug.");
-  echo "<h1 class=\"error\">No such bug #$id!</h1>";
-  response_header();
-  exit;
+    response_header("No such bug.");
+    echo "<h1 class=\"error\">No such bug #$id!</h1>";
+    response_header();
+    exit;
 }
 
 # Delete comment
 if ($edit == 1 && isset($delete_comment)) {
-	$addon = '';
-	if (in_array($user, $trusted_developers) && verify_password($user,stripslashes($pw))) {
-		delete_comment($id, $delete_comment);
-		$addon = '&thanks=1';
-	}
-	header("Location: $PHP_SELF?id=$id&edit=1$addon");
-	exit();
+    $addon = '';
+    if (in_array($user, $trusted_developers) && verify_password($user,stripslashes($pw))) {
+        delete_comment($id, $delete_comment);
+        $addon = '&thanks=1';
+    }
+    header("Location: $PHP_SELF?id=$id&edit=1$addon");
+    exit();
 }
 
 # handle any updates, displaying errors if there were any
@@ -57,113 +57,113 @@ $success = !isset($in);
 $errors = array();
 
 if ($in && $edit == 3) {
-	if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",$in['commentemail'])) {
-		$errors[] = "You must provide a valid email address.";
-	}
+    if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",$in['commentemail'])) {
+        $errors[] = "You must provide a valid email address.";
+    }
 
-	# Don't allow comments by the original report submitter
-	if (stripslashes($in['commentemail']) == $bug['email']) {
-		header("Location: $PHP_SELF?id=$id&edit=2");
-		exit();
-	}
+    # Don't allow comments by the original report submitter
+    if (stripslashes($in['commentemail']) == $bug['email']) {
+        header("Location: $PHP_SELF?id=$id&edit=2");
+        exit();
+    }
 
-	# check that they aren't using a php.net mail address without
-	# being authenticated (oh, the horror!)
-	if (preg_match('/^(.+)@php\.net/i', stripslashes($in['commentemail']), $m)) {
-		if ($user != stripslashes($m[1]) || !verify_password($user,$pass)) {
-			$errors[] = "You have to be logged in as a developer to use your php.net email address.";
-		}
-	}
+    # check that they aren't using a php.net mail address without
+    # being authenticated (oh, the horror!)
+    if (preg_match('/^(.+)@php\.net/i', stripslashes($in['commentemail']), $m)) {
+        if ($user != stripslashes($m[1]) || !verify_password($user,$pass)) {
+            $errors[] = "You have to be logged in as a developer to use your php.net email address.";
+        }
+    }
 
-	$ncomment = trim($ncomment);
-	if (!$ncomment) {
-		$errors[] = "You must provide a comment.";
-	}
+    $ncomment = trim($ncomment);
+    if (!$ncomment) {
+        $errors[] = "You must provide a comment.";
+    }
 
-	if (!$errors) {
-		$query = "INSERT INTO bugdb_comments (bug,email,ts,comment) VALUES"
-		       . " ('$id','$in[commentemail]',NOW(),'$ncomment')";
-		$success = @mysql_query($query);
-	}
-	$from = stripslashes($in['commentemail']);
+    if (!$errors) {
+        $query = "INSERT INTO bugdb_comments (bug,email,ts,comment) VALUES"
+               . " ('$id','$in[commentemail]',NOW(),'$ncomment')";
+        $success = @mysql_query($query);
+    }
+    $from = stripslashes($in['commentemail']);
 }
 elseif ($in && $edit == 2) {
-	if (!$bug[passwd] || $bug[passwd] != stripslashes($pw)) {
-		$errors[] = "The password you supplied was incorrect.";
-	}
+    if (!$bug[passwd] || $bug[passwd] != stripslashes($pw)) {
+        $errors[] = "The password you supplied was incorrect.";
+    }
 
-	$ncomment = trim($ncomment);
-	if (!$ncomment) {
-		$errors[] = "You must provide a comment.";
-	}
+    $ncomment = trim($ncomment);
+    if (!$ncomment) {
+        $errors[] = "You must provide a comment.";
+    }
 
-	# check that they aren't being bad and setting a status they
-	# aren't allowed to (oh, the horrors.)
-	if ($in['status'] != $bug['status'] && $state_types[$in['status']] != 2) {
-		$errors[] = "You aren't allowed to change a bug to that state.";
-	}
+    # check that they aren't being bad and setting a status they
+    # aren't allowed to (oh, the horrors.)
+    if ($in['status'] != $bug['status'] && $state_types[$in['status']] != 2) {
+        $errors[] = "You aren't allowed to change a bug to that state.";
+    }
 
-	# check that they aren't changing the mail to a php.net address
-	# (gosh, somebody might be fooled!)
-	if (preg_match('/^(.+)@php\.net/i', $in['email'], $m)) {
-		if ($user != $m[1] || !verify_password($user,$pass)) {
-			$errors[] = "You have to be logged in as a developer to use your php.net email address.";
-		}
-	}
+    # check that they aren't changing the mail to a php.net address
+    # (gosh, somebody might be fooled!)
+    if (preg_match('/^(.+)@php\.net/i', $in['email'], $m)) {
+        if ($user != $m[1] || !verify_password($user,$pass)) {
+            $errors[] = "You have to be logged in as a developer to use your php.net email address.";
+        }
+    }
 
-	$from = ($bug[email] != $in[email] && !empty($in[email])) ? $in[email] : $bug[email];
+    $from = ($bug[email] != $in[email] && !empty($in[email])) ? $in[email] : $bug[email];
 
-	if (!$errors && !($errors = incoming_details_are_valid($in))) {
-		/* update bug record */
-		$query = "UPDATE bugdb SET sdesc='$in[sdesc]',status='$in[status]', bug_type='$in[bug_type]', php_version='$in[php_version]', php_os='$in[php_os]', ts2=NOW(), email='$from' WHERE id=$id";
-		$success = @mysql_query($query);
+    if (!$errors && !($errors = incoming_details_are_valid($in))) {
+        /* update bug record */
+        $query = "UPDATE bugdb SET sdesc='$in[sdesc]',status='$in[status]', bug_type='$in[bug_type]', php_version='$in[php_version]', php_os='$in[php_os]', ts2=NOW(), email='$from' WHERE id=$id";
+        $success = @mysql_query($query);
 
-		/* add comment */
-		if ($success && !empty($ncomment)) {
-			$query = "INSERT INTO bugdb_comments (bug, email, ts, comment) VALUES ($id,'$from',NOW(),'$ncomment')";
-			$success = @mysql_query($query);
-		}
-	}
+        /* add comment */
+        if ($success && !empty($ncomment)) {
+            $query = "INSERT INTO bugdb_comments (bug, email, ts, comment) VALUES ($id,'$from',NOW(),'$ncomment')";
+            $success = @mysql_query($query);
+        }
+    }
 }
 elseif ($in && $edit == 1) {
-	if (!verify_password($user,stripslashes($pw))) {
-		$errors[] = "Please login first to web";
-	}
+    if (!verify_password($user,stripslashes($pw))) {
+        $errors[] = "Please login first to web";
+    }
 
-	if ((($in['status'] == 'Bogus' && $bug['status'] != 'Bogus') || $RESOLVE_REASONS[$in['resolve']]['status'] == 'Bogus')
-			&& strlen(trim($ncomment)) == 0) {
-		$errors[] = "You must provide a comment when marking a bug 'Bogus'";
-	} elseif ($in['resolve']) {
-		if (!$trytoforce && $RESOLVE_REASONS[$in['resolve']]['status'] == $bug['status']) {
-			$errors[] = "The bug is already marked '$bug[status]'. (Submit again to ignore this.)";
-		}
-		elseif (!$errors)  {
-			if ($in['status'] == $bug['status']) {
-				$in['status'] = $RESOLVE_REASONS[$in['resolve']]['status'];
-			}
-			$ncomment = addslashes($RESOLVE_REASONS[$in['resolve']]['message'])
-			          . "\n\n$ncomment";
-		}
-	}
+    if ((($in['status'] == 'Bogus' && $bug['status'] != 'Bogus') || $RESOLVE_REASONS[$in['resolve']]['status'] == 'Bogus')
+            && strlen(trim($ncomment)) == 0) {
+        $errors[] = "You must provide a comment when marking a bug 'Bogus'";
+    } elseif ($in['resolve']) {
+        if (!$trytoforce && $RESOLVE_REASONS[$in['resolve']]['status'] == $bug['status']) {
+            $errors[] = "The bug is already marked '$bug[status]'. (Submit again to ignore this.)";
+        }
+        elseif (!$errors)  {
+            if ($in['status'] == $bug['status']) {
+                $in['status'] = $RESOLVE_REASONS[$in['resolve']]['status'];
+            }
+            $ncomment = addslashes($RESOLVE_REASONS[$in['resolve']]['message'])
+                      . "\n\n$ncomment";
+        }
+    }
 
-	if (!$errors && !($errors = incoming_details_are_valid($in))) {
-		$query = 'UPDATE bugdb SET ';
-		$query.= ($bug[email] != $in[email] && !empty($in[email])) ? "email='$in[email]', " : '';
-		$query.= "sdesc='$in[sdesc]', status='$in[status]', bug_type='$in[bug_type]', assign='$in[assign]', php_version='$in[php_version]', php_os='$in[php_os]', ts2=NOW() WHERE id=$id";
-		$success = @mysql_query($query);
-		if ($success && !empty($ncomment)) {
-			$query = "INSERT INTO bugdb_comments (bug, email, ts, comment) VALUES ($id,'$user@php.net',NOW(),'$ncomment')";
-			$success = @mysql_query($query);
-		}
+    if (!$errors && !($errors = incoming_details_are_valid($in))) {
+        $query = 'UPDATE bugdb SET ';
+        $query.= ($bug[email] != $in[email] && !empty($in[email])) ? "email='$in[email]', " : '';
+        $query.= "sdesc='$in[sdesc]', status='$in[status]', bug_type='$in[bug_type]', assign='$in[assign]', php_version='$in[php_version]', php_os='$in[php_os]', ts2=NOW() WHERE id=$id";
+        $success = @mysql_query($query);
+        if ($success && !empty($ncomment)) {
+            $query = "INSERT INTO bugdb_comments (bug, email, ts, comment) VALUES ($id,'$user@php.net',NOW(),'$ncomment')";
+            $success = @mysql_query($query);
+        }
 
-	}
-	$from = "$user@php.net";
+    }
+    $from = "$user@php.net";
 }
 
 if ($in && !$errors && $success) {
-	mail_bug_updates($bug,$in,$from,$ncomment,$edit);
-	header("Location: $PHP_SELF?id=$id&thanks=$edit");
-	exit;
+    mail_bug_updates($bug,$in,$from,$ncomment,$edit);
+    header("Location: $PHP_SELF?id=$id&thanks=$edit");
+    exit;
 }
 
 response_header("#$id: ".htmlspecialchars($bug['sdesc']));
@@ -250,7 +250,7 @@ function control($num,$desc) {
 
 control(0,'View');
 if ($edit != 2) {
-	control(3,'Add Comment');
+    control(3,'Add Comment');
 }
 control(1,'Developer');
 control(2,'Edit Submission');
@@ -272,14 +272,14 @@ if ($edit == 1 || $edit == 2) {?>
 <form id="update" action="<?php echo $PHP_SELF?>" method="post">
 <?php
 if ($edit == 2) {
-	if (!$in && $pw && $bug['passwd'] && stripslashes($pw)==$bug['passwd']) {?>
+    if (!$in && $pw && $bug['passwd'] && stripslashes($pw)==$bug['passwd']) {?>
 <div class="explain">
 Welcome back! Since you opted to store your bug's password in a cookie, you can
 just go ahead and add more information to this bug or edit the other fields.
 </div>
 <?php
-	}
-	else {?>
+    }
+    else {?>
 <div class="explain">
 <?php if (!$in) {?>
 Welcome back! If you're the original bug submitter, here's where you can edit
@@ -303,18 +303,18 @@ your password here</a>.
 </table>
 </div>
 <?php
-	}
+    }
 }
 else {
-	if ($user && $pw && verify_password($user,stripslashes($pw))) {
-		if (!$in) {?>
+    if ($user && $pw && verify_password($user,stripslashes($pw))) {
+        if (!$in) {?>
 <div class="explain">
 Welcome back, <?php echo $user?>! (Not <?php echo $user?>? <a href="logout.php">Log out.</a>)
 </div>
 <?php
-		}
-	}
-	else {?>
+        }
+    }
+    else {?>
 <div class="explain">
 <?php if (!$in) {?>
 Welcome! If you don't have a CVS account, you can't do anything here. You can
@@ -417,37 +417,37 @@ the database with that please
    <fieldset>
     <legend>Have you experienced this issue?</legend>
     <div>
-	 <input type="radio" id="rep-y" name="reproduced" value="1" onchange="show('canreproduce')" /> <label for="rep-y">yes</label>
-	 <input type="radio" id="rep-n" name="reproduced" value="0" onchange="hide('canreproduce')" /> <label for="rep-n">no</label>
-	 <input type="radio" id="rep-d" name="reproduced" value="2" onchange="hide('canreproduce')" checked="checked" /> <label for="rep-d">don't know</label>
+     <input type="radio" id="rep-y" name="reproduced" value="1" onchange="show('canreproduce')" /> <label for="rep-y">yes</label>
+     <input type="radio" id="rep-n" name="reproduced" value="0" onchange="hide('canreproduce')" /> <label for="rep-n">no</label>
+     <input type="radio" id="rep-d" name="reproduced" value="2" onchange="hide('canreproduce')" checked="checked" /> <label for="rep-d">don't know</label>
     </div>
    </fieldset>
    <fieldset>
-	<legend>Rate the importance of this bug to you:</legend>
+    <legend>Rate the importance of this bug to you:</legend>
     <div>
-	 <label for="score-5">high</label>
-	 <input type="radio" id="score-5" name="score" value="2" />
-	 <input type="radio" id="score-4" name="score" value="1" />
-	 <input type="radio" id="score-3" name="score" value="0" checked="checked" />
-	 <input type="radio" id="score-2" name="score" value="-1" />
-	 <input type="radio" id="score-1" name="score" value="-2" />
-	 <label for="score-1">low</label>
+     <label for="score-5">high</label>
+     <input type="radio" id="score-5" name="score" value="2" />
+     <input type="radio" id="score-4" name="score" value="1" />
+     <input type="radio" id="score-3" name="score" value="0" checked="checked" />
+     <input type="radio" id="score-2" name="score" value="-1" />
+     <input type="radio" id="score-1" name="score" value="-2" />
+     <label for="score-1">low</label>
     </div>
    </fieldset>
   </div>
   <div id="canreproduce" class="sect" style="display: none">
    <fieldset>
-	<legend>Are you using the same PHP version?</legend>
+    <legend>Are you using the same PHP version?</legend>
     <div>
-	 <input type="radio" id="ver-y" name="samever" value="1" /> <label for="ver-y">yes</label>
-	 <input type="radio" id="ver-n" name="samever" value="0" checked="checked" /> <label for="ver-n">no</label>
+     <input type="radio" id="ver-y" name="samever" value="1" /> <label for="ver-y">yes</label>
+     <input type="radio" id="ver-n" name="samever" value="0" checked="checked" /> <label for="ver-n">no</label>
     </div>
    </fieldset>
    <fieldset>
-	<legend>Are you using the same operating system?</legend>
+    <legend>Are you using the same operating system?</legend>
     <div>
-	 <input type="radio" id="os-y" name="sameos" value="1" /> <label for="os-y">yes</label>
-	 <input type="radio" id="os-n" name="sameos" value="0" checked="checked" /> <label for="os-n">no</label>
+     <input type="radio" id="os-y" name="sameos" value="1" /> <label for="os-y">yes</label>
+     <input type="radio" id="os-n" name="sameos" value="0" checked="checked" /> <label for="os-n">no</label>
     </div>
    </fieldset>
   </div>
@@ -469,36 +469,36 @@ $query = "SELECT id,email,comment,UNIX_TIMESTAMP(ts) AS added"
        . " FROM bugdb_comments WHERE bug=$id ORDER BY ts";
 $res = @mysql_query($query);
 if ($res) {
-	while ($row = mysql_fetch_array($res,MYSQL_ASSOC)) {
-		output_note($row['id'], $row['added'], $row['email'], $row['comment']);
-	}
+    while ($row = mysql_fetch_array($res,MYSQL_ASSOC)) {
+        output_note($row['id'], $row['added'], $row['email'], $row['comment']);
+    }
 }
 echo "</table>";
 response_footer();
 
 function output_note($com_id, $ts, $email, $comment)
 {
-	global $edit, $id, $trusted_developers, $user;
+    global $edit, $id, $trusted_developers, $user;
 
-	echo "<div class=\"comment\">";
-	echo "<b>[",format_date($ts),"] ", htmlspecialchars(spam_protect($email)), "</b>\n";
-	echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"$PHP_SELF?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
-	echo "<pre class=\"note\">";
-	$note = addlinks(preg_replace("/(\r?\n){3,}/","\n\n",wordwrap($comment,72,"\n",1)));
-	echo preg_replace('/(bug\ *#([0-9]+))/i', "<a href=\"$PHP_SELF?id=\\2\">\\1</a>", $note);
-	echo "</pre>\n";
-	echo "</div>";
+    echo "<div class=\"comment\">";
+    echo "<b>[",format_date($ts),"] ", htmlspecialchars(spam_protect($email)), "</b>\n";
+    echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"$PHP_SELF?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
+    echo "<pre class=\"note\">";
+    $note = addlinks(preg_replace("/(\r?\n){3,}/","\n\n",wordwrap($comment,72,"\n",1)));
+    echo preg_replace('/(bug\ *#([0-9]+))/i', "<a href=\"$PHP_SELF?id=\\2\">\\1</a>", $note);
+    echo "</pre>\n";
+    echo "</div>";
 }
 
 function delete_comment($id, $com_id)
 {
-	$query = "DELETE FROM bugdb_comments WHERE bug=$id AND id=$com_id";
-	$res = @mysql_query($query);
+    $query = "DELETE FROM bugdb_comments WHERE bug=$id AND id=$com_id";
+    $res = @mysql_query($query);
 }
 
 function canvote()
 {
     return false;
-	global $thanks, $bug;
-	return ($thanks != 4 && $thanks != 6 && $bug['status'] != "Closed" && $bug['status'] != "Bogus" && $bug['status'] != 'Duplicate');
+    global $thanks, $bug;
+    return ($thanks != 4 && $thanks != 6 && $bug['status'] != "Closed" && $bug['status'] != "Bogus" && $bug['status'] != 'Duplicate');
 }
