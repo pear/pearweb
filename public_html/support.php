@@ -262,6 +262,8 @@ be discussed.</p>
 <a name="resources" /><h3>PEAR resources</h3>
 
 <ul>
+    <li><a href="http://www.planet-php.net/">Planet PHP</a> - The news and weblog aggregation portal. Get all
+    PHP/PEAR information in one place.</li>
     <li><a href="http://www.schlitt.info/index.php/content.publications_phpconf2003ffm">2003-11-04 Frankfurt - 
     International PHP Conference - PEAR im Einsatz</a>
     by Tobias Schlitt.</li>
