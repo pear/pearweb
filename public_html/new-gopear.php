@@ -24,7 +24,7 @@
 # based on go-pear
 #
 # Automatically download all the files needed to run the "pear" command
-# (the PEAR package installer).  Requires PHP 4.1.0 or newer.
+# (the PEAR package installer).  Requires PHP 4.2.0 or newer.
 #
 # Installation: Linux
 #
@@ -239,26 +239,45 @@ setupZlibAndPackages($urltemplate, $have_gzip, $install_pfc, $to_install, $insta
 displayHTMLProgress($progress = 5);
 
 mergeGoPearBundle($local_dir);
-downloadPackages($installer_packages, $local_dir, $tarball, $to_install, $urltemplate, $progress);
-if ($install_pfc) {
-    downloadPackages($pfc_packages, $local_dir, $tarball, $to_install, $urltemplate, $progress);
+if (!$install_pfc) {
+    $basicprogressgoal = 70;
+} else {
+    $basicprogressgoal = 70 - round((70 - $progress) *
+            (count($installer_packages) / count($to_install)));
 }
+downloadPackages($installer_packages, $local_dir, $tarball, $to_install, $urltemplate, $progress,
+    $basicprogressgoal);
+
+if ($progress < $basicprogressgoal) {
+    displayHTMLProgress($progress = $basicprogressgoal);
+}
+
+if ($install_pfc) {
+    downloadPackages($pfc_packages, $local_dir, $tarball, $to_install, $urltemplate, $progress,
+        70);
+}
+
+displayHTMLProgress($progress = 70);
 
 
 bootStrap('PEAR', $tarball, 'pear-core/PEAR.php', 'PEAR.php', $local_dir);
 include_once 'PEAR.php';   	 
 print "ok\n";
 
+displayHTMLProgress($progress = 71);
+
 mkdir('Archive', 0700);
 bootStrap('Archive_Tar', $tarball, 'pear/Archive_Tar/Archive/Tar.php', 'Archive/Tar.php', $local_dir);
 print "ok\n";
+
+displayHTMLProgress($progress = 72);
 
 mkdir('Console', 0700);
 bootStrap('Console_Getopt', $tarball, 'pear-core/Console/Getopt.php', 'Console/Getopt.php',
           $local_dir);
 print "ok\n";
 
-displayHTMLProgress($progress = 70);
+displayHTMLProgress($progress = 73);
 
 PEAR::setErrorHandling(PEAR_ERROR_DIE, "\n%s\n");
 print 'Extracting installer..................';
@@ -307,7 +326,7 @@ foreach ($tarball as $pkg => $src) {
 
     $install->run('install', $options, array($src));
 
-    displayHTMLProgress($progress += round(29 / count($tarball)));
+    displayHTMLProgress($progress += round(26 / count($tarball)));
 }
 
 displayHTMLProgress($progress = 99);
@@ -319,7 +338,7 @@ ini_restore("include_path");
 if (!WEBINSTALLER) {
     finishCLIInstall($bin_dir, $php_dir, $tty);
 } else {
-    finishWebInstall($webfrontend_file, $doc_dir);
+    finishWebInstall($webfrontend_file, $doc_dir, $progress);
 }
 // Set of functions following
 
@@ -1034,8 +1053,8 @@ function displayHTML($page = 'Welcome', $data = array())
             Go-pear will install the Web Frontend of the PEAR Installer and all the needed <br/>
             files. This frontend is your tool for PEAR installation and maintenance.<br/>
             <br/>
-            Go-pear also lets you download and install the PEAR packages bundled<br/>
-            with PHP: <?php echo implode(', ', $GLOBALS['pfc_packages']); ?>.<br/>
+            Go-pear also lets you download and install these PEAR packages: <?php
+            echo implode(', ', $GLOBALS['pfc_packages']); ?>.<br/>
             <br/>
             <a href="<?php echo basename(__FILE__); ?>?step=config" class="green">Next &gt;&gt;</a>
 <?php
@@ -1065,6 +1084,17 @@ function displayHTML($page = 'Welcome', $data = array())
                   </span>
                 </TD>
               </TR>
+            <tr>
+             <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" border="0"></td>
+                <td>
+                  <span class="green">
+                    <b>Hint:</b> $prefix and $php_dir work just like PHP variables<br />
+                    $prefix is the value of &quot;1. Installation prefix&quot;<br />
+                    (the current value of $prefix is <em><?php echo $GLOBALS['prefix']; ?></em>.<br />
+                    and so $prefix/PEAR is <em><?php echo $GLOBALS['prefix']; ?>/PEAR</em>).
+                  </span>
+                </td>
+            </tr>
             </table>
             <TABLE border="0">
 <?php
@@ -1617,7 +1647,7 @@ function win32DetectPHPSAPI()
         return $php_sapi_name;
     }
     if($php_bin!=''){
-        //exec('"' . $php_bin . '" -v', $res);
+        exec('"' . $php_bin . '" -v', $res);
         if(is_array($res)) {
             if( isset($res[0]) && strpos($res[0],"(cli)")) {
                 return 'cli';
@@ -2264,9 +2294,10 @@ function mergeGoPearBundle(&$local_dir)
 }
 
 function downloadPackages($installer_packages, $local_dir, &$tarball, $to_install, $urltemplate,
-                          &$progress)
+                          &$progress, $progressgoal)
 {
-    global $tarball, $to_install, $urltemplate, $progress;
+    $start = $progress;
+    $increment = ($progressgoal - $start - 0.5) / count($installer_packages);
     foreach ($installer_packages as $pkg) {
         foreach($local_dir as $file) {
             if (substr($file, 0, strlen(str_replace('-stable', '', $pkg))) ==
@@ -2276,7 +2307,8 @@ function downloadPackages($installer_packages, $local_dir, &$tarball, $to_instal
                 copy(dirname(__FILE__).'/go-pear-bundle/'.$file, $file);
                 $tarball[$pkg] = $file;
                 echo "ok\n";
-                displayHTMLProgress($progress += round(65 / count($to_install)));
+                $progress = (int) round($progress + $increment);
+                displayHTMLProgress($progress);
                 continue 2;
             };
         };
@@ -2287,7 +2319,8 @@ function downloadPackages($installer_packages, $local_dir, &$tarball, $to_instal
         $pkg = str_replace('-stable', '', $pkg);
         $tarball[$pkg] = download_url($url, null, $http_proxy);
         print "ok\n";
-        displayHTMLProgress($progress += round(65 / count($to_install)));
+        $progress = (int) round($progress + $increment);
+        displayHTMLProgress($progress);
     }
 }
 
@@ -2417,7 +2450,7 @@ Thanks for using go-pear!
     }
 }
 
-function finishWebInstall($webfrontend_file, $doc_dir)
+function finishWebInstall($webfrontend_file, $doc_dir, &$progress)
 {
     print "Writing WebFrontend file ... ";
     @unlink($webfrontend_file); //Delete old one
