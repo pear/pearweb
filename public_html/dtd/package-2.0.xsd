@@ -21,14 +21,12 @@
     <xs:element ref="notes"/>
     <xs:element ref="contents"/>
     <xs:element ref="compatible" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element ref="dependencies" minOccurs="0"/>
+    <xs:element ref="dependencies"/>
     <xs:choice>
      <xs:element ref="phprelease" maxOccurs="unbounded"/>
-     <xs:element ref="bundle" maxOccurs="unbounded"/>
-     <xs:choice maxOccurs="unbounded">
-      <xs:element ref="extsrcrelease"/>
-      <xs:element ref="extbinrelease"/>
-     </xs:choice>
+     <xs:element ref="extsrcrelease"/>
+     <xs:element ref="extbinrelease" maxOccurs="unbounded"/>
+     <xs:element ref="bundle"/>
     </xs:choice>
     <xs:element ref="changelog" minOccurs="0"/>
    </xs:sequence>
@@ -36,7 +34,11 @@
    <xs:attribute name="pearversion" type="version"/>
   </xs:complexType>
  </xs:element>
- <xs:element name="name" type="xs:string"/>
+ <xs:element name="name" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>this is ignored if the release type is bundle</xs:documentation>
+  </xs:annotation>
+ </xs:element>
  <xs:element name="summary" type="xs:string"/>
  <xs:element name="description" type="xs:string"/>
  <xs:element name="lead">
@@ -149,9 +151,10 @@
  <xs:element name="notes" type="xs:string"/>
  <xs:element name="contents">
   <xs:complexType>
-   <xs:sequence>
+   <xs:choice>
     <xs:element ref="dir" maxOccurs="unbounded"/>
-   </xs:sequence>
+    <xs:element ref="bundledpackage" maxOccurs="unbounded"/>
+   </xs:choice>
   </xs:complexType>
  </xs:element>
  <xs:element name="dir">
@@ -187,25 +190,34 @@
   </xs:complexType>
  </xs:element>
  <xs:element name="phprelease">
+  <xs:annotation>
+   <xs:documentation>for php script releases</xs:documentation>
+  </xs:annotation>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="installconditions"/>
-    <xs:element ref="filelist"/>
+    <xs:element ref="installconditions" minOccurs="0"/>
+    <xs:element ref="filelist" minOccurs="0"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
  <xs:element name="extsrcrelease">
+  <xs:annotation>
+   <xs:documentation>for extension source releases</xs:documentation>
+  </xs:annotation>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="installconditions"/>
-    <xs:element ref="filelist"/>
     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
  <xs:element name="extbinrelease">
+  <xs:annotation>
+   <xs:documentation>for compiled extension source releases</xs:documentation>
+  </xs:annotation>
   <xs:complexType>
    <xs:sequence>
+    <xs:element ref="srcchannel"/>
+    <xs:element ref="srcpackage"/>
     <xs:element ref="installconditions"/>
     <xs:element ref="filelist"/>
     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
@@ -213,6 +225,9 @@
   </xs:complexType>
  </xs:element>
  <xs:element name="bundle">
+  <xs:annotation>
+   <xs:documentation>for bundling several releases together in one release</xs:documentation>
+  </xs:annotation>
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="installconditions" minOccurs="0"/>
@@ -231,7 +246,7 @@
  <xs:element name="dependencies">
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="required" minOccurs="0"/>
+    <xs:element ref="required"/>
     <xs:element ref="optional" minOccurs="0"/>
     <xs:element ref="group" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
@@ -449,4 +464,25 @@
    </xs:sequence>
   </xs:complexType>
  </xs:element>
+ <xs:element name="srcpackage" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>name of the package that contains the source of this extension (can be the same if the source and binaries are in the same package)</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="srcchannel" type="xs:string"/>
+ <xs:element name="bundledpackage">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="filename"/>
+    <xs:choice>
+     <xs:element ref="uri"/>
+     <xs:sequence>
+      <xs:element ref="channel"/>
+      <xs:element ref="name"/>
+     </xs:sequence>
+    </xs:choice>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="filename" type="xs:string"/>
 </xs:schema>
