@@ -230,9 +230,11 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         if ($site == 'pear' && in_array('PEPr', $_GET['package_name'])) {
             $pseudo[] = 'PEPr';
         }
-        $where_clause .= " AND packages.package_type = '".escapeSQL($search_site)."'
-                            OR bugdb.package_name IN ('".join("', '", escapeSQL($pseudo)) . "')";
-            
+        $where_clause .= " AND (packages.package_type = '".escapeSQL($search_site)."'";
+        if (!empty($pseudo)) { 
+            $where_clause .= "OR bugdb.package_name IN ('".join("', '", escapeSQL($pseudo)) . "')";
+        }
+        $where_clause .= ')';
     }
 
     $query .= "$where_clause ";
