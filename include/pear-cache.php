@@ -41,9 +41,11 @@ $cache_dirs  = array("/news" => "",
                      "/group/docs" => "",
                      "/manual" => "",
                      "/manual/en" => "",
+                     "/manual/fr" => "",
+                     "/manual/hu" => "",
                      "/manual/ja" => "",
                      "/manual/nl" => "",
-                     "/manual/ri" => "",
+                     "/manual/ru" => "",
                      "/user" => $_SERVER['PHP_SELF']
                      );
 
