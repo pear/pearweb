@@ -86,7 +86,6 @@ $font_dir = strtr($_SERVER['DOCUMENT_ROOT'],
 $fonts = array(
     'bjredrum.ttf'      => 1,    // by b.j. harvey (Halloween Fontpack)
     'dirtyuncle.ttf'    =>  .8,  // by Jeremy Sinon
-    'sonicreverb.ttf'   =>  .8,  // by Jess Latham
 );
 
 
