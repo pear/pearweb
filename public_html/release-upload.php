@@ -33,7 +33,7 @@ $td                   = 'class="form-input"';
 PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
 
 do {
-    if (isset($upload)) {
+    if (isset($_POST['upload'])) {
         // Upload Button
 
         include_once 'HTTP/Upload.php';
@@ -43,6 +43,7 @@ do {
             $errors[] = $file->getMessage();
             break;
         }
+
         if ($file->isValid()) {
             $file->setName('uniq', 'pear-');
             $file->setValidExtensions('tgz', 'accept');
@@ -63,10 +64,10 @@ do {
         $display_form = false;
         $display_verification = true;
 
-    } elseif (isset($verify)) {
+    } elseif (isset($_POST['verify'])) {
         // Verify Button
 
-        $distfile = PEAR_UPLOAD_TMPDIR . '/' . basename($distfile);
+        $distfile = PEAR_UPLOAD_TMPDIR . '/' . basename($_POST['distfile']);
         if (!@is_file($distfile)) {
             $errors[] = 'No verified file found.';
             break;
@@ -209,22 +210,19 @@ if ($display_verification) {
     // packge.xml conformance
     $errors   = array();
     $warnings = array();
+
     $util->validatePackageInfo($info, $errors, $warnings);
+
+    // XXX ADD MASSIVE SANITY CHECKS HERE
+    
+    if (!preg_match('/^\d+\.\d+\.\d+(?:[a-zA-Z]+\d*)?$/', $info['version'])) {
+        $errors[] = 'Version must in format digit.digit.digit[alpha[digits]]';
+    }
+
     report_error($errors, 'errors','ERRORS:<br />'
                  . 'You must correct your package.xml file:');
     report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
                  . 'You may want to correct your package.xml file:');
-
-    // XXX ADD MASSIVE SANITY CHECKS HERE
-    
-    $version = $info['version'];
-    if (!preg_match('/^\d+\.\d+\.\d+(?:[a-zA-Z]+\d*)?$/', $version)) {
-        report_error('Version must in format digit.digit.digit[alpha[digits]]',
-                     'errors', 'ERRORS:<br />'
-                     . 'You must correct your package.xml file:');
-        // dummy, used to prevent the verification button from being shown
-        $errors[] = 1;
-    }
 
     $check = array(
         'summary',
