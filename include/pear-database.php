@@ -2288,8 +2288,8 @@ class user
      * of IP addresses.
      *
      * @access public
-	 * @param  bool   Whether to return PECL developers (true) or PEAR
-	 *                developers (false)
+     * @param  bool   Whether to return PECL developers (true) or PEAR
+     *                developers (false)
      * @return array
      */
     function getZendWhoIsWho($pecl_only = false) {
