@@ -782,10 +782,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
  * @return string  the formatted date
  */
 function format_date($date) {
-    if (date('Y') != date('Y', $date)) {
-        return date('j M Y g:ia T', $date);
-    }
-    return date('j M g:ia T', $date);
+    return date('Y-m-d H:i', $date - date('Z', $date)) . ' UTC';
 }
 
 /**
