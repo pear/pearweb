@@ -2146,7 +2146,11 @@ class user
         $xhdr = "From: $name <{$data['email']}>\nMessage-Id: <account-request-{$handle}@pear.php.net>\n";
         // $xhdr .= "\nBCC: pear-group@php.net";
         $subject = "PEAR Account Request: {$handle}";
-        $ok = mail("pear-group@php.net", $subject, $msg, $xhdr, "-f pear-sys@php.net");
+
+        if (DEVBOX == false) {
+            $ok = @mail('pear-group@php.net', $subject, $msg, $xhdr,
+                        '-f pear-sys@php.net');
+        }
 
         PEAR::popErrorHandling();
 
