@@ -68,6 +68,7 @@
       <dep type="pkg" rel="ge" version="1.0.14">Net_URL</dep>
       <dep type="pkg" rel="ge" version="0.8.1">HTTP_Upload</dep>
       <dep type="pkg" rel="ge" version="0.7">DB_Pager</dep>
+      <dep type="pkg" rel="ge" version="0.0.1">Services_Trackback</dep>
 
       <!-- Damblan deps -->
       <dep type="pkg" rel="ge" version="1.8.4">Log</dep>
