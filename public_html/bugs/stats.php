@@ -288,8 +288,8 @@ function bugstats($status, $name)
 
     if ($name == 'all') {
         if (isset($all[$status])) {
-            return '<a href="search.php?cmd=display&amp;
-                   bug_type='.$bug_type.'&amp;status=' .$status .
+            return '<a href="search.php?cmd=display&amp;' .
+                   'bug_type='.$bug_type.'&amp;status=' .$status .
                    '&amp;by=Any&amp;limit=30'.$string.'">' .
                    $all[$status] . "</a>\n";
         }
@@ -297,7 +297,8 @@ function bugstats($status, $name)
         if (empty($pkg[$status][$name])) {
             return '&nbsp';
         } else {
-            return '<a href="search.php?cmd=display&amp;status=' .
+            return '<a href="search.php?cmd=display&amp;'.
+                   'bug_type='.$bug_type.'&amp;status=' .
                    $status .
                    '&amp;package_name%5B%5D=' . urlencode($name) .
                    '&amp;by=Any&amp;limit=30'.$string.'">' .
