@@ -1,1 +1,1 @@
-<?php Header("Location: http://pear.php.net/manual/en/"); ?>
+<?php header('Location: http://pear.php.net/manual/en/'); ?>
