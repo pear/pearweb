@@ -300,11 +300,11 @@ Eris Free Net</a>.
 <?php
 
 $icons = Array(
-	'pear-power.gif'	=> 'Powered by PEAR, GIF format',
-	'pear-power.png'	=> 'Powered by PEAR, PNG format',
-	'pear-icon.gif'		=> '32x32 PEAR icon, GIF format',
-	'pear-icon.png'		=> '32x32 PEAR icon, PNG format',
-	'pear-blogbutton1.png'		=> '80x15 PEAR blog button, PNG format',
+    'pear-power.gif'	=> 'Powered by PEAR, GIF format',
+    'pear-power.png'	=> 'Powered by PEAR, PNG format',
+    'pear-icon.gif'		=> '32x32 PEAR icon, GIF format',
+    'pear-icon.png'		=> '32x32 PEAR icon, PNG format',
+    'pear-blogbutton1.png'		=> '80x15 PEAR blog button, PNG format',
     'pear-blogbutton2.png'		=> '80x15 PEAR blog button, PNG format',
 );
 
