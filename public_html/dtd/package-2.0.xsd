@@ -128,27 +128,6 @@
      </xs:simpleType>
     </xs:element>
    </xs:sequence>
-   <xs:attribute name="api" use="required">
-    <xs:simpleType>
-     <xs:restriction base="xs:string">
-      <xs:enumeration value="stable"/>
-      <xs:enumeration value="beta"/>
-      <xs:enumeration value="alpha"/>
-      <xs:enumeration value="devel"/>
-     </xs:restriction>
-    </xs:simpleType>
-   </xs:attribute>
-   <xs:attribute name="package" use="required">
-    <xs:simpleType>
-     <xs:restriction base="xs:string">
-      <xs:enumeration value="stable"/>
-      <xs:enumeration value="beta"/>
-      <xs:enumeration value="alpha"/>
-      <xs:enumeration value="devel"/>
-      <xs:enumeration value="snapshot"/>
-     </xs:restriction>
-    </xs:simpleType>
-   </xs:attribute>
   </xs:complexType>
  </xs:element>
  <xs:element name="notes" type="xs:string"/>
