@@ -270,6 +270,8 @@ if ($_POST['in'] && $edit == 3) {
 
         if (!empty($_POST['in']['assign']) && $_POST['in']['status'] == 'Open') {
             $status = 'Assigned';
+        } elseif (empty($_POST['in']['assign']) && $_POST['in']['status'] == 'Assigned') {
+            $status = 'Open';
         } else {
             $status = $_POST['in']['status'];
         }
