@@ -6,7 +6,7 @@ class Damblan_Trackback extends Services_Trackback {
 
     /**
      * The time the trackback has been discovered.
-     *  
+     *
      * @var int
      * @since
      */
@@ -14,19 +14,19 @@ class Damblan_Trackback extends Services_Trackback {
 
     /**
      * Boolean flag, if the trackback has been improved by a PEAR developer, yet.
-     *  
+     *
      * @var bool
-     * @since  
+     * @since
      */
     var $_approved;
 
     /**
-     * __construct 
+     * __construct
      * Overwriten constructor to get the timestamp while creating a trackback.
-     * The timestamp is used as the primary key for the trackback table, in 
+     * The timestamp is used as the primary key for the trackback table, in
      * combination with the trackback ID (which is the package name).
-     *  
-     * @since  
+     *
+     * @since
      * @access public
      * @param array $data       The trackback data, an associative array of string values,
      *                          that may/has to contain the following keys, depending on the
@@ -50,10 +50,10 @@ class Damblan_Trackback extends Services_Trackback {
     }
 
     /**
-     * __get 
+     * __get
      * Overwritten __get() to receive timestamp and improved state correctly.
-     *  
-     * @since  
+     *
+     * @since
      * @access public
      * @param   mixed $key The name of the property to receive.
      * @return  mixed $val The value of the property.
@@ -76,8 +76,8 @@ class Damblan_Trackback extends Services_Trackback {
      * This method saves a trackback into the database. BEWARE: It
      * does not update exististing database entries! The trackback is
      * just inserted.
-     *  
-     * @since  
+     *
+     * @since
      * @access public
      * @param object DB $dbh Database connection object (PEAR::DB).
      * @return void
@@ -109,8 +109,8 @@ class Damblan_Trackback extends Services_Trackback {
      * Load a trackback from the database.
      * Load a trackback from the database. At least the ID and timestamp
      * of the trackback have to be set.
-     *  
-     * @since  
+     *
+     * @since
      * @access public
      * @param object DB $dbh The database connection.
      * @param int $timestamp The timestamp of the trackback to load.
@@ -122,18 +122,27 @@ class Damblan_Trackback extends Services_Trackback {
         if (PEAR::isError($necessaryData)) {
             return $necessaryData;
         }
+
         if (!isset($this->_timestamp)) {
             return PEAR::raiseError('Necessary attribute timestamp missing.');
         }
+
         $this->_checkData($necessaryData);
+
         $data = $this->_getDecodedData($necessaryData);
+
         $sql = "SELECT id, title, excerpt, blog_name, url, timestamp, approved FROM trackbacks WHERE
                     id = ".$dbh->quoteSmart($data['id'])."
                     AND timestamp = ".$dbh->quoteSmart($this->_timestamp);
+
         $res = $dbh->getRow($sql, null, DB_FETCHMODE_ASSOC);
-        if (DB::isError($res) || !is_array($res) || !count($res)) {
-            return PEAR::raiseError('Unable to load trackback.');
+
+        if (DB::isError($res)) {
+            return $res;
+        } elseif (!is_array($res) || !count($res)) {
+            return false;
         }
+
         foreach ($res as $key => $val) {
             if (($key != 'timestamp') && ($key != 'approved')) {
                 $this->_data[$key] = $val;
@@ -155,8 +164,8 @@ class Damblan_Trackback extends Services_Trackback {
      * Approves a trackback.
      * Sets the approved flag for the trackback to true and saves that to
      * the database.
-     *  
-     * @since  
+     *
+     * @since
      * @access public
      * @param object DB $dbh The database connection.
      * @param int $timestamp The timestamp of the trackback to load.
@@ -184,12 +193,12 @@ class Damblan_Trackback extends Services_Trackback {
     }
 
     /**
-     * delete 
+     * delete
      * Delete a trackback
-     *  
-     * @since  
+     *
+     * @since
      * @access public
-     * @param  
+     * @param
      * @return void
      */
     function delete(&$dbh)
@@ -214,11 +223,11 @@ class Damblan_Trackback extends Services_Trackback {
     }
 
     /**
-     * listTrackbacks 
+     * listTrackbacks
      * Get a list of trackbacks for an ID. The list can be influenced through
      * several parameters of this method.
-     *  
-     * @since  
+     *
+     * @since
      * @access public
      * @static
      * @param object(DB)    $dbh            The database connection object (PEAR::DB).
@@ -252,14 +261,14 @@ class Damblan_Trackback extends Services_Trackback {
         }
         return $ret;
     }
-    
+
     /**
      * Get maintainers to inform of a trackback (the lead maintainers of a package).
-     *  
-     *  
+     *
+     *
      * @since
      * @access public
-     * @param  
+     * @param
      * @return array(string) The list of maintainer emails.
      */
     function getMaintainers ()
@@ -275,7 +284,7 @@ class Damblan_Trackback extends Services_Trackback {
         }
         return $res;
     }
-    
+
 }
 
 overload('Damblan_Trackback');
