@@ -297,6 +297,25 @@
       </xs:sequence>
      </xs:complexType>
     </xs:element>
+    <xs:element name="subpackage" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="name"/>
+       <xs:choice>
+        <xs:sequence>
+         <xs:element ref="channel"/>
+         <xs:element ref="min" minOccurs="0"/>
+         <xs:element ref="max" minOccurs="0"/>
+         <xs:element ref="recommended" minOccurs="0"/>
+         <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="nodefault" minOccurs="0"/>
+        </xs:sequence>
+        <xs:element ref="uri"/>
+       </xs:choice>
+       <xs:element ref="conflicts" minOccurs="0"/>
+      </xs:sequence>
+     </xs:complexType>
+    </xs:element>
     <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="os" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="arch" minOccurs="0" maxOccurs="unbounded"/>
@@ -327,6 +346,25 @@
       </xs:sequence>
      </xs:complexType>
     </xs:element>
+    <xs:element name="subpackage" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="name"/>
+       <xs:choice>
+        <xs:sequence>
+         <xs:element ref="channel"/>
+         <xs:element ref="min" minOccurs="0"/>
+         <xs:element ref="max" minOccurs="0"/>
+         <xs:element ref="recommended" minOccurs="0"/>
+         <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="nodefault" minOccurs="0"/>
+        </xs:sequence>
+        <xs:element ref="uri"/>
+       </xs:choice>
+       <xs:element ref="conflicts" minOccurs="0"/>
+      </xs:sequence>
+     </xs:complexType>
+    </xs:element>
     <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
    <xs:attribute name="name" type="xs:string" use="required"/>
@@ -354,6 +392,25 @@
         </xs:sequence>
         <xs:element ref="uri"/>
        </xs:choice>
+      </xs:sequence>
+     </xs:complexType>
+    </xs:element>
+    <xs:element name="subpackage" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="name"/>
+       <xs:choice>
+        <xs:sequence>
+         <xs:element ref="channel"/>
+         <xs:element ref="min" minOccurs="0"/>
+         <xs:element ref="max" minOccurs="0"/>
+         <xs:element ref="recommended" minOccurs="0"/>
+         <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="nodefault" minOccurs="0"/>
+        </xs:sequence>
+        <xs:element ref="uri"/>
+       </xs:choice>
+       <xs:element ref="conflicts" minOccurs="0"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>
