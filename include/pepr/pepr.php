@@ -247,29 +247,35 @@ class proposal {
         return false;
     }
 
-
-    function checkTimeline( ) {
+    function checkTimeline()
+    {
         switch ($this->status) {
-        case 'draft': return true;
-            break;
-
-        case 'proposal': if (($this->proposal_date + PROPOSAL_STATUS_PROPOSAL_TIMELINE) < time()) {
+        case 'draft':
             return true;
-        }
-            return (int)($this->proposal_date + PROPOSAL_STATUS_PROPOSAL_TIMELINE);
-            break;
 
-        case 'vote': if (!empty($this->longened_date)) {
-            if (($this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE) > time()) {
-                return (int)($this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE);
+        case 'proposal':
+            if (($this->proposal_date + PROPOSAL_STATUS_PROPOSAL_TIMELINE) <
+                time())
+            {
+                return true;
             }
-        } else {
-            if (($this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE) > time()) {
-                return (int)($this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE);
+            return (int)($this->proposal_date + PROPOSAL_STATUS_PROPOSAL_TIMELINE);
+
+        case 'vote':
+            if (!empty($this->longened_date)) {
+                if (($this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE) >
+                    time())
+                {
+                    return (int)($this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE);
+                }
+            } else {
+                if (($this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE) >
+                    time())
+                {
+                    return (int)($this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE);
+                }
             }
-        }
             return false;
-            break;
         }
     }
 
