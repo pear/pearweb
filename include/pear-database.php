@@ -381,11 +381,12 @@ class package
      * Get package information
      *
      * @static
-     * @param  mixed  Name of the package or it's ID
-     * @param  string Single field to fetch
+     * @param  mixed   Name of the package or it's ID
+     * @param  string  Single field to fetch
+     * @param  boolean Should PECL packages also be taken into account?
      * @return mixed
      */
-    function info($pkg, $field = null, $allow_pecl=false)
+    function info($pkg, $field = null, $allow_pecl = false)
     {
         global $dbh;
 
@@ -396,7 +397,7 @@ class package
         }
 
         if ($allow_pecl) {
-             $package_type = '';
+             $package_type = "";
         } else {
              $package_typ = "p.package_type = 'pear' AND ";
         }
@@ -408,7 +409,7 @@ class package
              "p.description AS description, p.cvs_link AS cvs_link, ".
              "p.doc_link as doc_link".
              " FROM packages p, categories c ".
-             "WHERE ".$package_type." p.approved = 1 AND c.id = p.category AND p.{$what} = ?";
+             "WHERE " . $package_type . " p.approved = 1 AND c.id = p.category AND p.{$what} = ?";
         $rel_sql = "SELECT version, id, doneby, license, summary, ".
              "description, releasedate, releasenotes, state ".
              "FROM releases ".
