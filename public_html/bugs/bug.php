@@ -87,10 +87,12 @@ $query = 'SELECT b.id, b.package_name, b.bug_type, b.email,
         SUM(reproduced) AS reproduced,SUM(tried) AS tried,
         SUM(sameos) AS sameos, SUM(samever) AS samever,
         AVG(score)+3 AS average,STD(score) AS deviation,
-        users.showemail, users.handle
-        FROM bugdb b LEFT JOIN bugdb_votes ON b.id=bug 
-        LEFT JOIN users ON users.email = b.email 
-        WHERE b.id='.(int)$id.'
+        users.showemail, users.handle, p.package_type
+        FROM bugdb b 
+        LEFT JOIN bugdb_votes ON b.id = bug 
+        LEFT JOIN users ON users.email = b.email
+        LEFT JOIN packages p ON b.package_name = p.name
+        WHERE b.id = '.(int)$id.'
         GROUP BY bug';
 
 $bug =& $dbh->getRow($query, array(), DB_FETCHMODE_ASSOC);
@@ -100,6 +102,13 @@ if (!$bug) {
     display_bug_error('No such bug #' . $id);
     response_footer();
     exit;
+}
+
+# Redirect to PECL if it's a PECL bug
+if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
+   $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
+    localRedirect('http://'.$redirect.'.php.net/bugs/bug.php?id='.$id);
+    exit();
 }
 
 # Delete comment
