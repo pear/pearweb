@@ -73,7 +73,9 @@
 			$form->removeElement('submit');
 			$form->addElement('static', '', '<b>Your vote has been registered successfully!</b>'); 
 			$form->freeze();
-			localredirect("pepr-proposal-show.php?id=".$proposal->id);
+			if (!DEVBOX) {
+				localredirect("pepr-proposal-show.php?id=".$proposal->id);
+			}
 		}
 		
 	}
