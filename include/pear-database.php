@@ -383,6 +383,68 @@ class package
     }
 
     // }}}
+    // {{{ proto string package::getDownloadURL(string, string, [string|array], [string], [string]) API 1.0
+
+    /**
+     * Get a download URL, or an array containing the latest version and its release info.
+     * @param string channel name (not used in pear)
+     * @param string package name
+     * @param string|array version to retrieve, or state
+     * @param string user IP address, used to retrieve the closest mirror (not implemented)
+     * @param string preferred mirror (not implemented)
+     * @return string|array
+     */
+    function getDownloadURL($channel, $package, $versionstate = null, $loc = null, $mirror = null)
+    {
+        $info = package::info($package, 'releases');
+        $found = false;
+        if ($versionstate !== null) {
+            if (is_array($versionstate)) {
+                $state = $versionstate;
+            } else {
+                if (false != release::betterStates($versionstate)) {
+                    $state = $versionstate;
+                } else {
+                    $version = $versionstate;
+                }
+            }
+            $release = false;
+            foreach ($info as $ver => $release) {
+                if (isset($state)) {
+                    if (is_array($state)) {
+                        if (in_array($release['state'], $state)) {
+                            $found = true;
+                            break;
+                        } else {
+                        }
+                    } else {
+                        if ($release['state'] == $state) {
+                            $found = true;
+                            break;
+                        }
+                    }
+                } else {
+                    if ($ver == $version) {
+                        $found = true;
+                        break;
+                    }
+                }
+            }
+        } else {
+            list($ver, $release) = each($info);
+            $found = true;
+        }
+        if ($found) {
+            $release = $_SERVER['SERVER_NAME'] . '/get/' . $package . '-' . $ver;
+        } else {
+            reset($info);
+            list($ver, $release) = each($info);
+            $release = array($ver => $release);
+        }
+        return $release;
+    }
+
+    // }}}
 
     /**
      * Implemented $field values:
@@ -1525,12 +1587,16 @@ class release
      * ???
      *
      * @param string Release state
+     * @param boolean include the state in the array returned
      * @return boolean
      */
-    function betterStates($state)
+    function betterStates($state, $include = false)
     {
         static $states = array('snapshot', 'devel', 'alpha', 'beta', 'stable');
         $i = array_search($state, $states);
+        if ($include) {
+            $i++;
+        }
         if ($i === false) {
             return false;
         }
