@@ -109,7 +109,7 @@ do {
         print "has been completed successfully and the promoting cycle for it has started.<br /><br />";
 
         print '<center>'.
-              make_link("/" . $info['package'], 'Visit package home') .
+              make_link('/package/' . $info['package'], 'Visit package home') .
               '</center>';
         $display_form = $display_verification = false;
 
