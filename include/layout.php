@@ -150,12 +150,12 @@ function make_bug_link($package, $type = 'list', $linktext = false) {
             if (!$linktext) {
                 $linktext = 'Package Bugs';
             }
-            return make_link('/bugs/search.php?cmd=display&status=Open&bug_type[]='.$package, $linktext);
+            return make_link('/bugs/search.php?cmd=display&status=Open&bug_type[]=' . urlencode($package), $linktext);
         case 'report':
             if (!$linktext) {
                 $linktext = 'Report a new bug';
             }
-            return make_link("/bugs/report.php?package=$package", $linktext);
+            return make_link("/bugs/report.php?package=" . urlencode($package), $linktext);
     }
 
 }
