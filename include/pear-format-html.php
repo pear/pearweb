@@ -23,21 +23,21 @@ PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
 require_once 'pear-cache.php';
 require_once 'layout.php';
 
-$encoding = "iso-8859-1";
+$encoding = 'iso-8859-1';
 $extra_styles = array();
 
 // Handling things related to the manual
 if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
-    require_once "pear-manual.php";
+    require_once 'pear-manual.php';
     $extra_styles[] = '/style-manual.css';
 
     // The Japanese manual translation needs UTF-8 encoding
     if (preg_match("=^/manual/ja=", $_SERVER['PHP_SELF'])) {
-        $encoding = "utf-8";
+        $encoding = 'utf-8';
 
     // The Russian manual translation needs KOI8-R encoding
     } else if (preg_match("=^/manual/ru=", $_SERVER['PHP_SELF'])) {
-        $encoding = "KOI8-R";
+        $encoding = 'KOI8-R';
     }
 }
 
@@ -224,20 +224,23 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 
 function &draw_navigation($data, $menu_title='')
 {
-    $html = "<br />\n";
+    $html = "\n";
     if (!empty($menu_title)) {
         $html .= "<strong>$menu_title</strong>\n";
-        $html .= "<br />\n";
     }
 
+    $html .= '<ul class="side_pages">' . "\n";
     foreach ($data as $url => $tit) {
-        $tt = str_replace(' ', '&nbsp;', $tit);
+        $html .= ' <li class="side_page">';
         if ($url == $_SERVER['PHP_SELF']) {
-            $html .= make_image('box-1.gif') . "<strong>$tt</strong><br />\n";
+            $html .= '<strong>' . $tit . '</strong>';
         } else {
-            $html .= make_image('box-0.gif') . "<a href=\"$url\">$tt</a><br />\n";
+            $html .= '<a href="' . $url . '">' . $tit . '</a>';
         }
+        $html .= "</li>\n";
     }
+    $html .= "</ul>\n\n";
+    
     return $html;
 }
 
