@@ -307,7 +307,6 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     if (stristr($query, ';')) {
         $errors[] = 'BAD HACKER!! No database cracking for you today!';
     } else {
-    echo $query;
         $res  =& $dbh->query($query);
         $rows =  $res->numRows();
 
