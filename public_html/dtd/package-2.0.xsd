@@ -27,6 +27,8 @@
     <xs:element ref="compatible" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="dependencies"/>
     <xs:element ref="providesextension" minOccurs="0"/>
+    <xs:element ref="usesrole" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="usestask" minOccurs="0" maxOccurs="unbounded"/>
     <xs:choice minOccurs="0">
      <xs:element ref="srcpackage"/>
      <xs:element name="srcuri" type="xs:anyURI">
@@ -524,4 +526,34 @@
  <xs:element name="bundledpackage" type="xs:string"/>
  <xs:element name="filename" type="xs:string"/>
  <xs:element name="providesextension" type="xs:string"/>
+ <xs:element name="usesrole">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="role"/>
+    <xs:choice>
+     <xs:sequence>
+      <xs:element name="package" type="xs:string"/>
+      <xs:element ref="channel"/>
+     </xs:sequence>
+     <xs:element ref="uri"/>
+    </xs:choice>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="usestask">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="task"/>
+    <xs:choice>
+     <xs:sequence>
+      <xs:element name="package" type="xs:string"/>
+      <xs:element ref="channel"/>
+     </xs:sequence>
+     <xs:element ref="uri"/>
+    </xs:choice>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="role" type="xs:string"/>
+ <xs:element name="task" type="xs:string"/>
 </xs:schema>
