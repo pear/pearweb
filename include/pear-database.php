@@ -1341,7 +1341,8 @@ class release
      */
     function confirmUpload($package, $version, $state, $relnotes, $md5sum, $package_id, $file)
     {
-        global $dbh, $auth_user;
+        global $dbh, $auth_user, $_PEAR_Common_dependency_types,
+               $_PEAR_Common_dependency_relations;
 
         // Update releases table
         $query = "INSERT INTO releases (id,package,version,state,doneby,".
@@ -1383,33 +1384,13 @@ class release
         $common = new PEAR_Common();
         $pkg_info = $common->InfoFromTgzFile($file);
 
-        $dep_type_desc = array('pkg',
-                               'ext',
-                               'php',
-                               'prog',
-                               'ldlib',
-                               'rtlib',
-                               'os',
-                               'websrv',
-                               'sapi',
-                              );
-
-        $rel_trans = array('lt',
-                           'le',
-                           'eq',
-                           'ne',
-                           'gt',
-                           'ge',
-                           'has',
-                          );
-
         foreach ($pkg_info as $key => $value) {
             if ($key == "release_deps") {
                 foreach ($value as $dep) {
                     $prob = array();
 
                     if (empty($dep['type']) ||
-                        !in_array($dep['type'], $dep_type_desc))
+                        !in_array($dep['type'], $_PEAR_Common_dependency_types))
                     {
                         $prob[] = 'type';
                     }
@@ -1430,7 +1411,7 @@ class release
                     }
 
                     if (empty($dep['rel']) ||
-                        !in_array($dep['rel'], $rel_trans))
+                        !in_array($dep['rel'], $_PEAR_Common_dependency_relations))
                     {
                         $prob[] = 'rel';
                     }
