@@ -241,9 +241,16 @@ class proposal {
                     user_handle = ".$dbh->quoteSmart($this->user_handle).",
                     markup = ".$dbh->quoteSmart($this->markup)."
                     WHERE id = ".$this->id;
-            $res = $dbh->query($sql);
-            if (DB::isError($dbh)) {
-                return $res;
+            $dbh->pushErrorHandling(PEAR_ERROR_RETURN);
+            $res =& $dbh->query($sql);
+            $dbh->popErrorHandling();
+            if (DB::isError($res)) {
+                if ($res->getCode() == DB_ERROR_CONSTRAINT) {
+                    return PEAR::raiseError('A proposal with that Catetory -'
+                            . ' Name combination already exists.');
+                } else {
+                    return $res;
+                }
             }
         } else {
             $sql = "INSERT INTO package_proposals (pkg_category, pkg_name, pkg_license, pkg_describtion,
@@ -257,9 +264,16 @@ class proposal {
                         ".$dbh->quoteSmart($this->status).",
                         ".$dbh->quoteSmart($this->user_handle).",
                         ".$dbh->quoteSmart($this->markup).")";
-            $res = $dbh->query($sql);
-            if (DB::isError($dbh)) {
-                return $res;
+            $dbh->pushErrorHandling(PEAR_ERROR_RETURN);
+            $res =& $dbh->query($sql);
+            $dbh->popErrorHandling();
+            if (DB::isError($res)) {
+                if ($res->getCode() == DB_ERROR_CONSTRAINT) {
+                    return PEAR::raiseError('A proposal with that Catetory -'
+                            . ' Name combination already exists.');
+                } else {
+                    return $res;
+                }
             }
             $this->id = mysql_insert_id($dbh->connection);
         }
