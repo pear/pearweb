@@ -234,6 +234,11 @@ Eris Free Net</a>.
 <h4>Other tutorials:</h4>
 
 <ul>
+    <li><a href="http://www.php-mag.net/itr/online_artikel/psecom,id,455,nodeid,114.html">Grokking Stats</a>:
+    Article (PDF) by <a href="/user/jmcastagnetto">Jesus M. Castagnetto</a>
+    about <a href="/package/Math_Stats/">Math_Stats</a> and 
+    <a href="/package/Math_Histogram/">Math_Histogram</a>.</li>
+
     <li><a href="http://php.chregu.tv/sql2xml/">XML_sql2xml tutorial</a>. A PEAR package for converting SQL
     query results or arrays to XML.</li>
 
