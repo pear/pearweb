@@ -157,7 +157,15 @@
 		}
 		$changeLogRow .= '<strong>'.$userinfo[$comment->user_handle]['name'];
 		$changeLogRow .= ' ['. date('Y-m-d, H:i', $comment->timestamp) .']</strong><br />';
-		$changeLogRow .= $bbparser->qparse(nl2br($comment->comment)).'<br /><br />';
+		switch ($proposal->markup) {
+			case 'wiki':
+			       $changeLogRow .= $wiki->transform($comment->comment).'<br /><br />';
+			break;
+			case 'bbcode':
+			default:
+				$changeLogRow .= $bbparser->qparse(nl2br($comment->comment)).'<br /><br />';
+			break;
+		}
 	}
 	
 	if (!empty($changeLogRow)) {
