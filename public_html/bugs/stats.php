@@ -44,10 +44,10 @@ $titles = array(
     'suspended'   => 'Susp',
 );
 
-$category  = $_GET['category'];
-$developer = $_GET['developer'];
-$rev       = $_GET['rev'];
-$sort_by   = $_GET['sort_by'];
+$category  = isset($_GET['category']) ? $_GET['category'] : '';
+$developer = isset($_GET['developer']) ? $_GET['developer'] : '';
+$rev       = isset($_GET['rev']) ? $_GET['rev'] : 1;
+$sort_by   = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'open';
 $total     = 0;
 $row       = array();
 $pkg       = array();
@@ -61,15 +61,15 @@ $query  = 'SELECT b.package_name, LOWER(b.status) AS status, COUNT(*) AS quant'
         . ' FROM bugdb AS b';
 
 $from = ' LEFT JOIN packages AS p ON p.name = b.package_name';
-if (!empty($_GET['category'])) {
+if ($category) {
     $pseudo = false;
     $from .= ' JOIN categories AS c ON c.id = p.category';
-    $from .= ' AND c.name = ' .  $dbh->quoteSmart($_GET['category']);
+    $from .= ' AND c.name = ' .  $dbh->quoteSmart($category);
 }
-if (!empty($_GET['developer'])) {
+if ($developer) {
     $pseudo = false;
     $from .= ' JOIN maintains AS m ON m.package = p.id';
-    $from .= ' AND m.handle = ' .  $dbh->quoteSmart($_GET['developer']);
+    $from .= ' AND m.handle = ' .  $dbh->quoteSmart($developer);
 }
 
 switch ($site) {
@@ -91,7 +91,6 @@ switch ($site) {
 
 if (empty($_GET['bug_type'])) {
     $bug_type = 'Bug';
-    $_GET['bug_type'] = 'Bug';
 } elseif ($_GET['bug_type'] == 'All') {
     $bug_type = '';
 } else {
@@ -122,13 +121,6 @@ foreach ($titles as $key => $val) {
 }
 
 if ($total > 0) {
-    if (!isset($sort_by)) {
-        $sort_by = 'open';
-    }
-    if (!isset($rev)) {
-        $rev = 1;
-    }
-
     if ($rev == 1) {
         arsort($pkg[$sort_by]);
     } else {
@@ -137,51 +129,105 @@ if ($total > 0) {
 }
 
 
+$_SERVER['QUERY_STRING'] ? $query_string = '?' . $_SERVER['QUERY_STRING'] : '';
+
 /*
  * Fetch list of all categories
  */
-echo '<table style="font-size: 90%;">'."\n";
-    $res = category::listAll();
-    $_SERVER['QUERY_STRING'] ? $query_string = '?' . $_SERVER['QUERY_STRING'] : '';
-echo '<tr><td colspan="13">
-        <form method="get" action="/bugs/stats.php' . $query_string . '">
-        <div>
-        <strong>Category:</strong>
-        <select name="category" id="category" onchange="this.form.submit(); return false;">';
-            $_GET['category'] == '' ? $selected = ' selected="selected"' : $selected = '';
-            echo '<option value=""' . $selected . '>All</option>'."\n";
-                foreach ($res as $row) {
-                    $_GET['category'] == $row['name'] ? $selected = ' selected="selected"' : $selected = '';
-                    echo '<option value="' . $row['name'] . '"' . $selected .'>' . $row['name'] . '</option>'."\n";
-                }
-echo    '</select>
-        <strong>Developer:</strong>
-        <select name="developer" id="developers" onchange="this.form.submit(); return false;">'."\n";
+$res = category::listAll();
+
+?>
+
+<table>
+ <tr>
+  <td style="font-size: 90%; white-space: nowrap">
+   <form method="get" action="stats.php<?php echo $query_string ?>">
+   <strong>
+    <label for="category" accesskey="o">
+     Categ<span class="accesskey">o</span>ry:
+    </label>
+   </strong>
+   <select class="small" name="category" id="category"
+           onchange="this.form.submit(); return false;">
+    <option value=""
+
+<?php
+
+if (!$category) {
+    echo ' selected="selected"';
+}
+echo '>All</option>' . "\n";
+
+foreach ($res as $row) {
+    echo '    <option value="' . $row['name'] . '"';
+    if ($category == $row['name']) {
+        echo ' selected="selected"';
+    }
+    echo '>' . $row['name'] . '</option>' . "\n";
+}
+
+?>
+
+   </select>
+
+   <strong>Developer:</strong>
+   <select class="small" name="developer" id="developers"
+           onchange="this.form.submit(); return false;">
+    <option value=""
+
+<?php
 
 /*
- * Fetch list of users/maintainers
+ * Fetch list of developers
  */
-$users =& $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, maintains m WHERE u.handle = m.handle
-                        GROUP BY handle ORDER BY u.name');
-    $_GET['developer'] == '' ? $selected = ' selected="selected"' : $selected = '';
-    echo '<option value=""' . $selected . '>All</option>'."\n";
-    while ($u = $users->fetchRow(DB_FETCHMODE_ASSOC)) {
-        $_GET['developer'] == $u['handle'] ? $selected = ' selected="selected"' : $selected = '';
-        echo '<option value="' . $u['handle'] . '"' . $selected . '>' . $u['name'] . '</option>'."\n";
-    }
-    echo '</select>
-        <strong>Bug Type:</strong>
-        <select id="bug_type" name="bug_type" onchange="this.form.submit(); return false;">';
-            show_type_options($_GET['bug_type'], true);
-    echo '</select>
-        <input type="submit" name="submitStats" value="Search" />
-        </div>
-        </form></td></tr></table>' . "\n";
-    echo '<table style="width: 100%;">'."\n";
+$users =& $dbh->query('SELECT u.handle AS handle, u.name AS name'
+                      . ' FROM users u, maintains m'
+                      . ' WHERE u.handle = m.handle'
+                      . ' GROUP BY handle ORDER BY u.name');
 
+if (!$developer) {
+    echo ' selected="selected"';
+    $developer = '';
+}
+
+echo '>All</option>' . "\n";
+
+while ($u = $users->fetchRow(DB_FETCHMODE_ASSOC)) {
+    echo '    <option value="' . $u['handle'] . '"';
+    if ($developer == $u['handle']) {
+        echo ' selected="selected"';
+    }
+    echo '>' . $u['name'] . '</option>' . "\n";
+}
+
+?>    
+
+   </select>
+
+   <strong>Bug Type:</strong>
+   <select class="small" id="bug_type" name="bug_type"
+           onchange="this.form.submit(); return false;">';
+
+   <?php show_type_options($bug_type, true) ?>
+
+   </select>
+
+   <input class="small" type="submit" name="submitStats" value="Search" />
+   </form>
+  </td>
+ </tr>
+</table>
+
+<table style="width: 100%; margin-top: 1em;">
+
+<?php
+
+/*
+ * Display results
+ */
 // Exit if there are no bugs for this version
 if ($total == 0) {
-    echo '<tr><td><p>No bugs found</p></td></tr></table>' . "\n";
+    echo '<tr><td>No bugs found</td></tr></table>' . "\n";
     response_footer();
     exit;
 }
@@ -270,8 +316,8 @@ function sort_url($name)
     }
     return '<a href="./stats.php?sort_by=' . urlencode($name) .
            '&amp;rev=' . $reve . '&amp;category=' . $category .
-           '&amp;developer=' .$developer . '" ' . $attr . '>' .
-           $titles[$name] .'</a>';
+           '&amp;developer=' . $developer . '" ' . $attr . '>' .
+           $titles[$name] . '</a>';
 }
 
 function package_link($name)
@@ -280,7 +326,7 @@ function package_link($name)
 
     if (!in_array($name, $pseudo_pkgs)) {
         return '<a href="/package/' . $name . '" class="bug_stats">' .
-               $name.'</a>';
+               $name . '</a>';
     } else {
         return $name;
     }
