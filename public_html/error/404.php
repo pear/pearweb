@@ -40,10 +40,7 @@ $pkg = strtr($_SERVER['REDIRECT_URL'], "-","_");
 $pinfo_url = '/package/';
 
 // Check strictly
-$sql = "SELECT name
-            FROM packages
-            WHERE approved = 1 AND name = ?";
-$name = $dbh->getOne($sql, array(basename($pkg)));
+$name = package::info(basename($pkg), "name");
 if (!DB::isError($name) && !empty($name)) {
     localRedirect($pinfo_url . $name);
 }
