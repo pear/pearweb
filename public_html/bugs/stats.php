@@ -251,7 +251,7 @@ function sort_url($name)
         $reve = 1;
     }
     if ($sort_by != $name) {
-        $attr = '';
+        $attr = 'class="bug_stats"';
     } else {
         $attr = 'class="bug_stats_choosen"';
     }
@@ -266,7 +266,7 @@ function package_link($name)
     global $pseudo_pkgs;
 
     if (!in_array($name, $pseudo_pkgs)) {
-        return '<a href="/package/' . $name . '" style="color: black;">' .
+        return '<a href="/package/' . $name . '" class="bug_stats">' .
                $name.'</a>';
     } else {
         return $name;

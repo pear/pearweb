@@ -123,22 +123,28 @@ form#asearch table#primary {
     text-align: center;
 }
 .bug_head {
-    background-color: #BBBBBB;
+    background-color: #339900;
+    color: #FFFFFF;
     font-size: 80%;
     font-weight: bold;
     text-align: right;
+    padding: 0em .2em .2em .2em;
 }
 .bug_header {
-    background-color: #BBBBBB;
+    background-color: #339900;
+    color: #FFFFFF;
     font-size: 80%;
     font-weight: bold;
     text-align: center;
+    padding: 0em .2em .2em .2em;
 }
 
+a.bug_stats {
+    color: #FFFFFF;
+}
 a.bug_stats_choosen {
-    color: black;
+    color: #FFFF00;
 }
-
 
 /* === Search === */
 
