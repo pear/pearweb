@@ -40,7 +40,7 @@
 # PHP 4.3.0, it's simply named php.exe in the cli/ folder of your PHP directory.
 # The CGI is also named php.exe but it sits directly in your PHP directory.
 #
-#  > cli/php -r 'readfile("http://pear.php.net/go-pear");' > go-pear
+#  > cli/php -r "readfile('http://pear.php.net/go-pear');" > go-pear
 #  > cli/php go-pear
 #
 # Installation: Notes
