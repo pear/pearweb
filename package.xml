@@ -333,6 +333,7 @@
          <file role="php" name="pepr-proposal-edit.php"/>
          <file role="php" name="pepr-proposal-show.php"/>
          <file role="php" name="pepr-vote-show.php"/>
+         <file role="php" name="pepr-votes-show.php"/>
         </dir> <!-- public_html/pepr -->
         <dir name="ppp">
          <file role="php" name="index.php"/>
