@@ -156,7 +156,7 @@ $form->addText('wishlist', 'Wishlist URI:',
         $row['wishlist'], 40, null);
 $form->addText('pgpkeyid', 'PGP Key ID:'
         . '<p class="cell_note">(Without leading 0x)</p>',
-        $row['pgpkeyid'], 40, 8);
+        $row['pgpkeyid'], 40, 20);
 $form->addTextarea('userinfo',
         'Additional User Information:',
         $row['userinfo'], 40, 5, null);
