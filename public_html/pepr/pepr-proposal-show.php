@@ -105,7 +105,7 @@
 	
 	$proposalVotesSum = ppVote::getSum($dbh, $proposal->id);
 	
-	if (($proposal->isEditable() && $proposal->isFromUser(@$_COOKIE['PEAR_USER'])) || (user::isAdmin(@$_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
+	if (($proposal->isEditable() && $proposal->isFromUser(@$_COOKIE['PEAR_USER'])) || ($karma->has(@$_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
 		$proposalEditRow = "<div align='right'>".make_link("pepr-proposal-edit.php?id=".$proposal->id, make_image("edit.gif", "Edit"))." ".make_link("pepr-proposal-delete.php?id=".$proposal->id, make_image("delete.gif", "Delete package"))."</div>";
 	} else if ($proposal->isEditable() && empty($_COOKIE['PEAR_USER'])) {
 		$proposalEditRow = "<div align='right'><small>[You are the author? Login to edit!]</small></div>";

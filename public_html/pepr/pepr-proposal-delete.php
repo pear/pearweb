@@ -24,6 +24,8 @@
 	
 	auth_require('pear.pepr');
 	
+	$karma = new Damblan_Karma($dbh);
+	
 	if (empty($id)) {
 		PEAR::raiseError("Proposal not found.");
 	}
@@ -50,11 +52,11 @@
 		PEAR::raiseError($proposal);
 	}
 	
-	if (($_COOKIE['PEAR_USER'] != $proposal->user_handle) && !user::isAdmin($_COOKIE['PEAR_USER'])) {
+	if (($_COOKIE['PEAR_USER'] != $proposal->user_handle) && !$karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")) {
 		PEAR::raiseError("You did not create this proposal. You can not delete it.");
 	}
 	
-	if ((($proposal->status == "vote") || ($proposal->status == "finished")) && !user::isAdmin($_COOKIE['PEAR_USER'])) {
+	if ((($proposal->status == "vote") || ($proposal->status == "finished")) && !$karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")) {
 		PEAR::raiseError("You can not delete proposals later than status '".$mapProposalStatus['proposal']."'.");
 	}
 	

@@ -25,13 +25,15 @@
 
 	auth_require('pear.pepr');
 	
+	$karma = new Damblan_Karma($dbh);
+	
 	if (!empty($id)) {
 		$proposal = proposal::get($dbh, $id);
 		if (DB::isError($proposal)) {
 			PEAR::raiseError("Package proposal not found.");
 		}
 		
-		if (!$proposal->isFromUser($_COOKIE['PEAR_USER']) && !user::isAdmin($_COOKIE['PEAR_USER'])) {
+		if (!$proposal->isFromUser($_COOKIE['PEAR_USER']) && !$karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")) {
 			PEAR::raiseError("You did not create this proposal!");
 		}
 		
@@ -41,7 +43,7 @@
 						($proposal->status == "vote") || ($proposal->status == "finished")
 					) 
 					&& (
-							!user::isAdmin($_COOKIE['PEAR_USER'])
+							!$karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")
 			 				|| ($proposal->user_handle == $_COOKIE['PEAR_USER'])
 			 			)
 			 	)
@@ -126,7 +128,7 @@
 
 			case 'vote': 
             default:
-                if (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
+                if ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
                     $next_stage_text = "Extend vote time";
 				} else {
                     $next_stage_text = "";
@@ -135,7 +137,7 @@
 		}
 				
 		$timeline = $proposal->checkTimeLine();
-		if (($timeline === true) || (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
+		if (($timeline === true) || ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
 			$form->addElement('checkbox', 'next_stage', $next_stage_text);
 		} else {
 			$form->addElement('static', 'next_stage', '', 'You can set "'.@$next_stage_text.'" on '.date("Y-m-d, H:i ", $timeline).'GMT '.date('O'));
@@ -182,7 +184,7 @@
 				}
 				break;
 				
-				case 'vote':		if (user::isAdmin($_COOKIE['PEAR_USER'])) {
+				case 'vote':		if ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")) {
 					$values['longened_date'] = time();
 					$proposal->status = 'vote';
 					$proposal->sendActionEmail('longened_timeline_admin', 'mixed', $_COOKIE['PEAR_USER']);
@@ -191,7 +193,7 @@
 			}
 		} else {
 			if (isset($proposal) && $proposal->status != 'draft') {
-				if ((isset($values['action_email']) && $values['action_email']) || (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
+				if ((isset($values['action_email']) && $values['action_email']) || ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
 					if (empty($values['action_comment'])) {
 						PEAR::raiseError("You have to apply a comment when you send update emails! For administrative actions, always emails are send.");
 					}
@@ -240,12 +242,12 @@
 				case 'vote':
 					$bbox['header'] = "Call for votes";
 					$bbox['text'] = "For your package has been called for votes on pear-dev. No further changes are allowed.";	
-					if (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
+					if ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
 						$form->addElement('link', 'link_package_edit', '', 'pepr-proposal-edit.php?id='.$id, 'Edit the proposal');
 					}
 				break;
 		}
-		if (user::isAdmin($_COOKIE['PEAR_USER'])) {
+		if ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")) {
 			$bbox['header'] = "Changes saved";
 			$bbox['text'] = "The changes you did got recorded, neccessary action mails have been sent.";				
 		}

@@ -280,6 +280,9 @@ class proposal {
     function sendActionEmail($event, $userType, $user_handle = null, $comment = "") {
 
         global $dbh;
+        
+        $karma = new Damblan_Karma($dbh);
+        
         require 'pepr/pepr-emails.php';
         $email = $proposalEmailTexts[$event];
         if (empty($email)) {
@@ -290,7 +293,7 @@ class proposal {
             $prefix = "[ADMIN]";
             break;
         case 'mixed':
-            if (user::isAdmin($user_handle) && ($this->user_handle != $user_handle)) {
+            if ($karma->has($user_handle, "pear.pepr.admin") && ($this->user_handle != $user_handle)) {
                 $prefix = "[ADMIN]";
             } else {
                 $prefix = "";
@@ -318,7 +321,7 @@ class proposal {
         $end_voting_time = (@$this->longened_date > 0) ? $this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE : @$this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE;
         if (!isset($user_handle)) {
             $email['to'] = $email['to']['pearweb'];
-        } else if (user::isAdmin($user_handle)) {
+        } else if ($karma->has($user_handle, "pear.pepr.admin")) {
             $email['to'] = $email['to']['admin'];
         } else {
             $email['to'] = $email['to']['user'];
