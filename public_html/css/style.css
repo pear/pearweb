@@ -170,6 +170,7 @@ caption.form-caption {
     padding: 0.3em;
 }
 
+/* Labels on the left side of form and table rows */
 th.form-label_left {
     text-align: left;
     vertical-align: top;
@@ -178,6 +179,7 @@ th.form-label_left {
     width: 25%;
 }
 
+/* Labels on the top of form and table columns */
 th.form-label_top_center {
     text-align: center;
     font-weight: bold;
