@@ -21,7 +21,8 @@
 require_once "Damblan/Karma.php";
 require_once "HTML/Form.php";
 
-auth_require("global.karma.manager");
+auth_require(true);
+// auth_require("global.karma.manager");
 
 response_header("PEAR Administration :: Karma Management");
 
