@@ -28,10 +28,7 @@
     <xs:element ref="dependencies"/>
     <xs:element ref="providesextension" minOccurs="0"/>
     <xs:choice minOccurs="0">
-     <xs:sequence>
-      <xs:element ref="srcpackage"/>
-      <xs:element ref="srcchannel"/>
-     </xs:sequence>
+     <xs:element ref="srcpackage"/>
      <xs:element name="srcuri" type="xs:anyURI">
       <xs:annotation>
        <xs:documentation>uri of the package that contains the source of this extension</xs:documentation>
