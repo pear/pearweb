@@ -134,7 +134,7 @@ function auth_verify($user, $passwd)
         return auth_check("pear.user");
     }
     if ($error) {
-        error_log($error, 0, PEAR_TMPDIR . DIRECTORY_SEPARATOR . 'pear-errors.log');
+        error_log("$error\n", 3, PEAR_TMPDIR . DIRECTORY_SEPARATOR . 'pear-errors.log');
     }
     $auth_user = null;
     return false;
