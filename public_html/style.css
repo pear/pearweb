@@ -64,6 +64,10 @@ submit {
     font-family: verdana,arial,helvetica,sans-serif;
     color: #ffffff;
 }
+.menuWhite a {
+    text-decoration: none;
+    color: #fff;
+}
 .menuBlack {
     font-family: verdana,arial,helvetica,sans-serif;
     text-decoration: none;
