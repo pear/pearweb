@@ -389,7 +389,7 @@ function report_error($in, $class = 'errors', $head = 'ERROR:')
 {
     if (PEAR::isError($in)) {
         if (DEVBOX == true) {
-            $in = array($in->getMessage() . '<br />' . $in->getUserInfo());
+            $in = array($in->getMessage() . '... ' . $in->getUserInfo());
         } else {
             $in = array($in->getMessage());
         }
@@ -403,7 +403,7 @@ function report_error($in, $class = 'errors', $head = 'ERROR:')
     foreach ($in as $msg) {
         if (PEAR::isError($msg)) {
             if (DEVBOX == true) {
-                $msg = $msg->getMessage() . '<br />' . $msg->getUserInfo();
+                $msg = $msg->getMessage() . '... ' . $msg->getUserInfo();
             } else {
                 $msg = $msg->getMessage();
             }
@@ -438,7 +438,7 @@ function report_warning($in)
  * For use with PEAR_ERROR_CALLBACK error handling mode to print fatal
  * errors and die.
  *
- * @param object $in     PEAR_Error object
+ * @param string|array|PEAR_Error $in  see report_error() for more info
  * @param string $title  string to be put above the message
  *
  * @return void
