@@ -142,8 +142,9 @@ if ($_POST['in'] && $edit == 3) {
     # being authenticated (oh, the horror!)
     if (preg_match('/^(.+)@php\.net/i', rinse($_POST['in']['commentemail']), $m)) {
         if ($user != rinse($m[1]) || !verify_password($user, $pass)) {
-            $errors[] = "You have to be logged in as a developer to use your php.net email address.";
-            $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
+            $errors[] = 'You have to be logged in as a developer and be'
+                      . ' editing the bug via the "Developer" tab in order'
+                      . ' to use your php.net email address.';
         }
     }
 
