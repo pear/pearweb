@@ -77,7 +77,7 @@ $row = $dbh->getRow('SELECT * FROM users WHERE registered = 1 '.
                     'AND handle = ?', array($handle));
 
 if ($row === null) {
-    PEAR::raiseError('No account information found!');
+    error_handler($handle . ' is not a valid account name.', 'Invalid Account');
 }
 
 echo '<h1>Contact ' . $row['name'] . '</h1>';

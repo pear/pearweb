@@ -41,7 +41,7 @@ $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
 $row = user::info($handle);
 
 if ($row === null) {
-    handle_error($handle . ' is not a valid account name.', 'Invalid Account');
+    error_handler($handle . ' is not a valid account name.', 'Invalid Account');
 }
 
 response_header('User Information: ' . $handle);

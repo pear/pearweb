@@ -140,9 +140,7 @@ $cvs_acl_arr = $dbh->getCol('SELECT path FROM cvs_acl'
 $cvs_acl = implode("\n", $cvs_acl_arr);
 
 if ($row === null) {
-    PEAR::raiseError('No account information found!');
-    response_footer();
-    exit;
+    error_handler($handle . ' is not a valid account name.', 'Invalid Account');
 }
 
 
