@@ -3,9 +3,8 @@ body {
     padding: 0px;
     background-color: white;
     color: black;
-
     font-family: verdana,arial,helvetica,sans-serif;
-    font-size: 95%;
+    font-size: 85%;
 }
 
 p {
@@ -17,7 +16,7 @@ a:link {
 }
 
 a:visited {
-    color: #030;
+    color: #CCCC00;
 }
 
 a:hover {
@@ -67,6 +66,8 @@ submit {
 }
 
 .compact {
+    font-family: arial, helvetica, sans-serif;   	 
+    font-size: 90%;
 }
 
 .menuWhite {
@@ -149,10 +150,12 @@ a.small {
 
 input {
     font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 85%
 }
 
 textarea {
     font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 85%
 }
 
 input.small, select.small {
