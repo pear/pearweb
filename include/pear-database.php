@@ -2487,7 +2487,7 @@ function make_utc_date($ts = null, $format = 'Y-m-d H:i \U\T\C') {
     if (!$ts) {
         $ts = time();
     }
-    return date($format, $ts - date('Z', $ts));
+    return gmdate($format, $ts);
 }
 
 ?>
