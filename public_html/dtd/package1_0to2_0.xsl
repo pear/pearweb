@@ -313,7 +313,7 @@
    <xsl:element name="package">
     <xsl:attribute name="channel">pear</xsl:attribute>
     <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
-    <xsl:if test="@optional">
+    <xsl:if test="@optional='yes'">
      <xsl:attribute name="optional"><xsl:value-of select="@optional"/></xsl:attribute>
     </xsl:if>
     <xsl:if test="@rel='ge'">
