@@ -34,10 +34,13 @@
    <xs:element name="rest" minOccurs="0">
     <xs:complexType>
      <xs:sequence>
-      <xs:element name="function">
+      <xs:element name="baseurl">
        <xs:complexType>
-        <xs:attribute name="version" type="xs:string" use="required"/>
-        <xs:attribute name="uri" type="xs:string" use="required"/>
+        <xs:simpleContent>
+         <xs:extension base="xs:string">
+          <xs:attribute name="type" type="xs:string" use="required"/>
+         </xs:extension>
+        </xs:simpleContent>
        </xs:complexType>
       </xs:element>
      </xs:sequence>
@@ -69,10 +72,13 @@
    <xs:element name="rest" minOccurs="0">
     <xs:complexType>
      <xs:sequence>
-      <xs:element name="function">
+      <xs:element name="baseurl">
        <xs:complexType>
-        <xs:attribute name="version" type="xs:string" use="required"/>
-        <xs:attribute name="uri" type="xs:string" use="required"/>
+        <xs:simpleContent>
+         <xs:extension base="xs:string">
+          <xs:attribute name="type" type="xs:string" use="required"/>
+         </xs:extension>
+        </xs:simpleContent>
        </xs:complexType>
       </xs:element>
      </xs:sequence>
@@ -101,12 +107,6 @@
     </xs:complexType>
    </xs:element>
    <xs:element name="mirror" type="ch:mirrorinternals" minOccurs="0" maxOccurs="unbounded"/>
-  </xs:sequence>
- </xs:complexType>
- <xs:complexType name="subchannelserver">
-  <xs:sequence>
-   <xs:element name="xmlrpc" type="ch:functions" minOccurs="0"/>
-   <xs:element name="soap" type="ch:functions" minOccurs="0"/>
   </xs:sequence>
  </xs:complexType>
  <xs:complexType name="validatepackage">
