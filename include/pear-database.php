@@ -730,11 +730,11 @@ class package
     function getDependants($package) {
         global $dbh;
 
-        $query = "SELECT p.name AS p_name, d.* FROM deps d, packages p " .
+        $query = "SELECT p.name AS p_name FROM deps d, packages p " .
             "WHERE d.package = p.id AND d.type = 'pkg' " .
-            "      AND d.name = '" . $package . "' " .
+            "      AND d.name = ? " .
             "GROUP BY d.package";
-        return $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
+        return $dbh->getAll($query, array($package), DB_FETCHMODE_ASSOC);
     }
 
     // }}}
