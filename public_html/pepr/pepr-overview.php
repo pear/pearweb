@@ -43,6 +43,11 @@ $proposals =& proposal::getAll($dbh, @$selectStatus, null, @$order);
 response_header('PEPr :: Package Proposals');
 
 echo '<h1>Package Proposals</h1>' . "\n";
+if ($selectStatus == '') {
+    echo "<p>";
+    echo "<a href='/feeds/pepr.rss'>Aggregate this.</a>";
+    echo "</p>";
+}
 
 display_overview_nav();
 
@@ -55,6 +60,11 @@ $finishedCounter = 0;
 foreach ($proposals as $proposal) {
     if ($proposal->getStatus() != $last_status) {
         echo "</ul>";
+        if ($last_status !== false) {
+            echo "<p>";
+            echo "<a href='/feeds/pepr_".$proposal->getStatus().".rss'>Aggregate this.</a>";
+            echo "</p>";
+        }
         echo '<h2 name="' . $proposal->getStatus() . '" id="';
         echo $proposal->getStatus() . '">';
         echo '&raquo; ' . htmlspecialchars($proposal->getStatus(true));
@@ -113,11 +123,15 @@ foreach ($proposals as $proposal) {
     echo "</li>\n";
 }
 
-echo "</ul>";
-
 if ($selectStatus == '') {
     print_link('pepr-overview.php?filter=finished', 'All finished proposals');
 }
+
+echo "</ul>";
+
+echo "<p>";
+echo "<a href='/feeds/pepr_".$proposal->getStatus().".rss'>Aggregate this.</a>";
+echo "</p>";
 
 response_footer();
 
