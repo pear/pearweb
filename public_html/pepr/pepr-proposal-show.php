@@ -62,7 +62,7 @@
 				PEAR::raiseError("You have to apply a comment if your vote is conditional!");
 			}
 			if ($voteData['is_conditional'] && ($voteData['value'] < 1)) {
-				PEAR::raiseError("Conditional votes have to be formulated positivly! Please select '+1' and change your text to a form like 'I am +1 on this if you change...'.");
+				PEAR::raiseError("Conditional votes have to be formulated positively! Please select '+1' and change your text to a form like 'I am +1 on this if you change...'.");
 			}
 			
 			
