@@ -42,7 +42,7 @@ href="/manual/">manual</a> for more information.
 response_header();
 ?>
 
-<h2>Own infrastructure for PECL</h2>
+<h2>News: Own infrastructure for PECL</h2>
 
 <p>PECL, formerly known as PHP Extension Code Library, has been renamed
 to PHP Extension Community Library. Additionally all PECL related
