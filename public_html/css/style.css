@@ -50,13 +50,17 @@ td.head-search {
     border-bottom: 1px solid #003300;
     padding-right: 0.5em;
     text-align: right;
-    vertical-align: middle;
 }
 
 p.head-search {
     font-size: 80%;
     margin-top: 0.1em;
     margin-bottom: 0.1em;
+}
+
+p.head-search input,
+p.head-search select {
+    font-size: 100%;
 }
 
 td.head-menu {
