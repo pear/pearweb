@@ -20,6 +20,8 @@
 
 require_once "HTML/Form.php";
 
+auth_require();
+
 response_header("PEAR Administration - Package maintainers");
 
 if (isset($_GET['pid'])) {
@@ -30,8 +32,6 @@ if (isset($_GET['pid'])) {
 
 // Select package first
 if (empty($id)) {
-    auth_require(true);
-
     $packages = package::listAll(true, false, true);
     $values   = array();
 
@@ -49,7 +49,7 @@ if (empty($id)) {
     $bb->end();
 
 } else if (!empty($_GET['update'])) {
-    if (!isAllowed($id)) {
+    if (!maintainer::mayUpdate($id)) {
         PEAR::raiseError("Only the lead maintainer of the package or PEAR
                           administrators can edit the maintainers.");
         response_footer();
@@ -71,7 +71,7 @@ if (empty($id)) {
     echo '<br /><b>Done</b><br />';
     echo '<a href="' . $url . '">Back</a>';
 } else {
-    if (!isAllowed($id)) {
+    if (!maintainer::mayUpdate($id)) {
         PEAR::raiseError("Only the lead maintainer of the package or PEAR
                           administrators can edit the maintainers.");
         response_footer();
@@ -149,16 +149,6 @@ if (empty($id)) {
     echo '</script>';
 
     $bb->end();
-}
-
-function isAllowed($package)
-{
-    auth_require();
-    $lead = in_array($_COOKIE['PEAR_USER'], array_keys(maintainer::get($package, true)));
-    $admin = user::isAdmin($_COOKIE['PEAR_USER']);
-    $qa    = user::isQA($_COOKIE['PEAR_USER']);
-
-    return ($lead || $qa || $admin);
 }
 
 response_footer();

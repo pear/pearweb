@@ -1075,12 +1075,13 @@ class maintainer
     {
         require_once "Damblan/Log.php";
 
-        // Only admins and leads can do this.
         global $dbh, $auth_user;
+
         $admin = $auth_user->isAdmin();
         $qa    = $auth_user->isQA();
 
-        if (!$admin && !$qa && !user::maintains($auth_user->handle, $pkgid, 'lead')) {
+        // Only admins and leads can do this.
+        if (maintainer::mayUpdate($pkgid) == false) {
             return PEAR::raiseError('maintainer::updateAll: insufficient privileges');
         }
 
@@ -1160,6 +1161,30 @@ class maintainer
             "WHERE package = ? AND handle = ?";
         return $dbh->query($query, array($role, $active, $package, $user));
     }
+
+    // {{{ NOEXPORT  maintainer::mayUpdate(int)
+
+    /**
+     * Checks if the current user is allowed to update the maintainer data
+     *
+     * @access public
+     * @param  int  ID of the package
+     * @return boolean
+     */
+    function mayUpdate($package) {
+        global $auth_user;
+
+        $admin = $auth_user->isAdmin();
+        $qa    = $auth_user->isQA();
+
+        if (!$admin && !$qa && !user::maintains($auth_user->handle, $package, 'lead')) {
+            return false;
+        }
+
+        return true;
+    }
+
+    // }}}
 }
 
 /**
