@@ -20,6 +20,8 @@
 
 $extra_styles[] = '/css/bugs.css';
 
+$site = 'pear';
+
 //require_once './include/layout.inc';
 
 /**
