@@ -1966,6 +1966,19 @@ class user
     }
 
     // }}}
+    // {{{ +proto bool   user::isQA(string) API post 1.0
+
+    function isQA($handle)
+    {
+        require_once 'Damblan/Karma.php';
+
+        global $dbh;
+        $karma = new Damblan_Karma($dbh);
+
+        return $karma->has($handle, 'pear.qa');
+    }
+
+    // }}}
     // {{{  proto bool   user::listAdmins() API 1.0
 
     function listAdmins()
