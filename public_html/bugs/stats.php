@@ -101,8 +101,6 @@ $query .= $from . $where;
 $query .= ' GROUP BY b.package_name, b.status';
 $query .= ' ORDER BY b.package_name, b.status';
 
-echo $query;
-
 $result =& $dbh->query($query);
 
 while ($result->fetchInto($row)) {
