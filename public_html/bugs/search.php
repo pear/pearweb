@@ -148,15 +148,15 @@ if (isset($cmd) && $cmd == "display") {
     else {
 
         $package_name_string = '';
-        if (count($package_name) > 0) {
-            foreach ($package_name as $type_str) {
+        if (count($_GET['package_name']) > 0) {
+            foreach ($_GET['package_name'] as $type_str) {
                 $package_name_string.= '&amp;package_name[]=' . urlencode($type_str);
             }
         }
 
         $package_nname_string = '';
-        if (count($package_nname) > 0) {
-            foreach ($package_nname as $type_str) {
+        if (count($_GET['package_nname']) > 0) {
+            foreach ($_GET['package_nname'] as $type_str) {
                 $package_nname_string.= '&amp;package_nname[]=' . urlencode($type_str);
             }
         }
