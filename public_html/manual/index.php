@@ -46,7 +46,7 @@ foreach ($doc_languages as $domain => $name) {
 </ul>
 
 <p>If you prefer to have an offline version of the documentation, you can
-download it in a bunch of formats:</p>
+download it in a variety of formats:</p>
 
 <?php
 $formats = array(
