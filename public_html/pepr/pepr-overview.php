@@ -70,7 +70,20 @@ foreach ($proposals as $proposal) {
     if (!isset($users[$proposal->user_handle])) {
         $users[$proposal->user_handle] = user::info($proposal->user_handle);
     }
+
+    $already_voted = false;
+    if (isset($auth_user) && $proposal->getStatus(true) == "Called for Votes") {
+        $proposal->getVotes($dbh);
+
+        if (in_array($auth_user->handle, array_keys($proposal->votes))) {
+            $already_voted = true;
+        }
+    }
+
     echo "<li>";
+    if ($already_voted) {
+        echo '(Already voted) ';
+    }
     print_link('pepr-proposal-show.php?id=' . $proposal->id,
                htmlspecialchars($proposal->pkg_category) . ' :: '
                . htmlspecialchars($proposal->pkg_name));
