@@ -2366,7 +2366,9 @@ class statistics
     {
         global $dbh;
 
-        $query = "SELECT release, dl_number FROM package_stats "
+        $query = 'SELECT s.release, s.dl_number, r.releasedate '
+            . 'FROM package_stats AS s '
+            . 'LEFT JOIN releases AS r ON (s.rid = r.id) '
             . "WHERE pid = " . (int)$id;
         if (!empty($rid)) {
             $query .= " AND rid = " . (int)$rid;

@@ -153,6 +153,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     <table cellspacing="0" cellpadding="3" style="border: 0px; width: 100%;">
     <tr>
         <th style="text-align: left;">Version</th>
+        <th style="text-align: left;">Released</th>
         <th style="text-align: left;">Downloads</th>
     </tr>
 <?php
@@ -163,8 +164,12 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
             $version = make_link('/package/' . $info['name'] .
                 '/download/' . $value['release'], $value['release']);
             echo '<tr>';
-            echo '<td>' . $version . '</td>';
-            echo '<td>' . number_format($value['dl_number'], 0, '.', ',') . '</td>';
+            echo ' <td>' . $version . "</td>\n";
+            echo ' <td>';
+            echo make_utc_date(strtotime($value['releasedate']), 'Y-m-d');
+            echo "</td>\n";
+            echo ' <td>' . number_format($value['dl_number'], 0, '.', ',');
+            echo "</td>\n";
             echo "</tr>\n";
         }
         echo "</table>\n";
