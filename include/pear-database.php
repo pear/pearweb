@@ -1691,7 +1691,7 @@ class user
         list($email) = $dbh->getRow('SELECT email FROM users WHERE handle = ?',
                                     array($uid));
         note::add("uid", $uid, "Account rejected: $reason");
-        $msg = "Your PEAR account request was rejected by " . $_COOKIE['PEAR_USER'] . ":\n".
+        $msg = "Your PEAR account request was rejected by " . $_COOKIE['PEAR_USER'] . ":\n\n".
              "$reason\n";
         $xhdr = "From: " . $_COOKIE['PEAR_USER'] . "@php.net";
         mail($email, "Your PEAR Account Request", $msg, $xhdr, "-f pear-sys@php.net");
