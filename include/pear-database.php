@@ -362,7 +362,7 @@ class package
         $mailtext = $lead . " has added a new package " . $name . "\n\n"
             . "Approve: http://pear.php.net/admin/package-approval.php?approve=" . $id;
         $header = "Message-Id: <approve-request-" . $id . "@pear.php.net>";
-        mail("martin@localhost", "New package " . $name, $mailtext, $header, "-f pear-sys@php.net");
+        mail("pear-group@php.net", "New package " . $name, $mailtext, $header, "-f pear-sys@php.net");
 
         return $id;
     }
