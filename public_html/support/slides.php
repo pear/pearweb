@@ -53,6 +53,18 @@ that have been held about PEAR.</p>
 <ul>
  <li>
   <p><cite>
+   <a href="http://www.schlitt.info/index.php/content.publications_phpworld2004">PEAR von A-Z</a>
+  </cite></p>
+  <ul>
+    <li>Date: 2004-10-21</li>
+    <li>Presenter: <?php echo user_link("toby", true); ?></li>
+    <li>Venue: PHP World, Munich, Germany</li>
+    <li>Language: German</li>
+  </ul>
+ </li>
+ 
+ <li>
+  <p><cite>
    <a href="http://www.php-tools.net/site.php?file=/about/presentations.xml">
    PEAR for the masses</a></cite></p>
   <ul>
@@ -69,7 +81,7 @@ that have been held about PEAR.</p>
   </cite></p>
   <ul>
     <li>Date: 2004-06-25</li>
-    <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
+    <li>Presenters: <?php echo user_link("neufeind", true); ?> and <?php echo user_link("toby", true); ?></li>
     <li>Venue: Linuxtag 2004, Karlsruhe, Germany</li>
     <li>Language: English</li>
   </ul>
