@@ -21,9 +21,6 @@
 
 	require_once 'pepr/pepr.php';
 	require_once 'HTML/BBCodeParser.php';
-	// Hopefully temporary in PEPr's include dir
-	// Patch sent to maintainer
-	require_once 'pepr/HTML_BBCodeParser_Filter_Extended.php';
 	require_once 'HTML/QuickForm.php';
 	require_once 'Damblan/Karma.php';
 
@@ -133,10 +130,8 @@
 		$bb->horizHeadRow("Dependencies:", nl2br($proposal->pkg_deps));
 	}
 	$bb->horizHeadRow("Proposer:", user_link($proposal->user_handle));
-//	$bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
-//	$bb->fullRow($bbparser->qparse(nl2br($proposal->pkg_describtion)));
-	$bb->fullRow("<small>Sorry, BBCode facilities of PEPr have been temporarily siwtched off, due to instabillities in BBCodeParser.</small>");
-	$bb->fullRow(nl2br($proposal->pkg_describtion));
+	$bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
+	$bb->fullRow($bbparser->qparse(nl2br($proposal->pkg_describtion)));
 	
 	$changelog = @ppComment::getAll($proposal->id, 'package_proposal_changelog');
 	$changeLogRow = "";
