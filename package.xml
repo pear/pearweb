@@ -62,7 +62,7 @@
       <dep type="ext" rel="has">xml</dep>
       <dep type="ext" rel="has">pcre</dep>
       <dep type="ext" rel="has">mysql</dep>
-      <dep type="pkg" rel="ge" version="1.1.0RC2">HTML_Form</dep>
+      <dep type="pkg" rel="ge" version="1.1.0RC4">HTML_Form</dep>
       <dep type="pkg" rel="ge" version="1.5">HTML_Table</dep>
       <dep type="pkg" rel="ge" version="2.2.0">Pager</dep>
       <dep type="pkg" rel="ge" version="1.0.14">Net_URL</dep>
