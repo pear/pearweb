@@ -74,7 +74,7 @@ if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
     $proposal = null;
 }
 
-
+include_once 'HTML/QuickForm.php';
 $form =& new HTML_QuickForm('proposal_edit', 'post',
                             'pepr-proposal-edit.php?id=' . $id);
 

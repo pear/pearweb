@@ -71,6 +71,7 @@ if ($proposal->compareStatus('>', 'proposal')) {
     }
 }
 
+include_once 'HTML/QuickForm.php';
 $form =& new HTML_QuickForm('delete-proposal', 'post',
                             'pepr-proposal-delete.php?id=' . $proposal->id);
 
