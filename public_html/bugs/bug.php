@@ -146,18 +146,24 @@ elseif ($in && $edit == 1) {
         }
     }
 
+    $from = $user . "@php.net";
+    $query = "SELECT email FROM users WHERE handle = '" . $user . "'";
+    $success = @mysql_query($query);
+    if ($success) {
+        $row = @mysql_fetch_row($success);
+        $from = $row[0];
+    }
     if (!$errors && !($errors = incoming_details_are_valid($in))) {
         $query = 'UPDATE bugdb SET ';
         $query.= ($bug[email] != $in[email] && !empty($in[email])) ? "email='$in[email]', " : '';
         $query.= "sdesc='$in[sdesc]', status='$in[status]', bug_type='$in[bug_type]', assign='$in[assign]', php_version='$in[php_version]', php_os='$in[php_os]', ts2=NOW() WHERE id=$id";
         $success = @mysql_query($query);
         if ($success && !empty($ncomment)) {
-            $query = "INSERT INTO bugdb_comments (bug, email, ts, comment) VALUES ($id,'$user@php.net',NOW(),'$ncomment')";
+            $query = "INSERT INTO bugdb_comments (bug, email, ts, comment) VALUES ($id,'" . $from . "',NOW(),'$ncomment')";
             $success = @mysql_query($query);
         }
 
     }
-    $from = "$user@php.net";
 }
 
 if ($in && !$errors && $success) {
