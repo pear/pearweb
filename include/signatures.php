@@ -31,7 +31,8 @@ Legend for needed perms to execute methods:
 function parse_signatures_from_file($file, &$signatures, $out_format = "signatures")
 {
     $cache_file = PEAR_TMPDIR . '/' . basename($file) . '.' . $out_format;
-    if (@filemtime($cache_file) > @filemtime($file)) {
+    // kill the ****ing cache
+    if (false) { //@filemtime($cache_file) > @filemtime($file)) {
         $signatures = unserialize(file_get_contents($cache_file));
         return true;
     }
@@ -139,34 +140,36 @@ function parse_signatures_from_file($file, &$signatures, $out_format = "signatur
             }
         }
     }
-    $mode = LOCK_EX;
-    $lock_fp = false;
-    if (!eregi('Windows 9', php_uname())) {
-        $lock_fp = @fopen(PEAR_TMPDIR . '/.siglock', 'w');
-
-        if (!is_resource($lock_fp)) {
-            return true;
+    if (false) {
+        $mode = LOCK_EX;
+        $lock_fp = false;
+        if (!eregi('Windows 9', php_uname())) {
+            $lock_fp = @fopen(PEAR_TMPDIR . '/.siglock', 'w');
+    
+            if (!is_resource($lock_fp)) {
+                return true;
+            }
+            if (!(int)flock($lock_fp, $mode)) {
+                fclose($lock_fp);
+                return true;
+            }
         }
-        if (!(int)flock($lock_fp, $mode)) {
+        if ($wp = @fopen($cache_file, "w")) {
+            fwrite($wp, serialize($signatures));
+            fclose($wp);
+        }
+        $mode = LOCK_UN;
+        if (!eregi('Windows 9', php_uname())) {
+    
+            if (!is_resource($lock_fp)) {
+                return true;
+            }
+            if (!(int)flock($lock_fp, $mode)) {
+                fclose($lock_fp);
+                return true;
+            }
             fclose($lock_fp);
-            return true;
         }
-    }
-    if ($wp = @fopen($cache_file, "w")) {
-        fwrite($wp, serialize($signatures));
-        fclose($wp);
-    }
-    $mode = LOCK_UN;
-    if (!eregi('Windows 9', php_uname())) {
-
-        if (!is_resource($lock_fp)) {
-            return true;
-        }
-        if (!(int)flock($lock_fp, $mode)) {
-            fclose($lock_fp);
-            return true;
-        }
-        fclose($lock_fp);
     }
     return true;
 }
