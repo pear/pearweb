@@ -58,7 +58,7 @@ $formats = array(
     "pear_manual_{LANG}.txt.gz"      => array("Plain text file",     "txt.gz")
 );
 
-$bb = new BorderBox("Download documentation", "70%", "", 2, true);
+$bb = new BorderBox('Download Documentation', '70%', '', 2, true);
 $bb->HeadRow("Type", "Format", "Size");
 
 foreach ($doc_languages as $domain => $name) {

@@ -28,9 +28,9 @@ The manual section for PEAR can be found
 response_header("Support");
 ?>
 
-<h2>Support</h2>
+<h1>Support</h1>
 
-<b>Table of Contents</b>
+<h2>Table of Contents</h2>
 <ul>
   <li><a href="support.php#lists">Mailing Lists</a></li>
   <li><a href="support.php#tutorials">Tutorials</a></li>
@@ -38,7 +38,7 @@ response_header("Support");
   <li><a href="support.php#icons">PEAR Icons</a></li>
 </ul>
 
-<a name="lists" id="lists"><h3>Mailing Lists</h3></a>
+<a name="lists" id="lists"><h2>Mailing Lists</h2></a>
 
 <?php
 if (isset($maillist)) {
@@ -71,7 +71,7 @@ complete your request.
   // array of lists (list, name, short desc., moderated, archive, digest, newsgroup)
   $mailing_lists = array(
 
-    'PEAR mailing lists',
+    'PEAR Mailing Lists',
 
     array (
       'pear-general', 'PEAR general list',
@@ -196,8 +196,8 @@ be discussed.</p>
 
 <div class="listing">
 
-<a name="tutorials" id="tutorials"><h3>PEAR Tutorials</h3></a>
-<h4>PEAR Tutorials sites</h4>
+<a name="tutorials" id="tutorials"><h2>PEAR Tutorials</h2></a>
+<h3>PEAR Tutorial Sites</h3>
 <ul>
     <li>Tutorials about PEAR, available in many languages: 
     <a href="http://www.pearfr.org">www.pearfr.org</a>.
@@ -207,7 +207,7 @@ be discussed.</p>
     </li>
 </ul>
 
-<h4>Tutorials about the PEAR DB package:</h4>
+<h3>PEAR DB Tutorials:</h3>
 
 <ul>
     <li>Tutorial and conferences papers about a lot of PEAR packages
@@ -232,7 +232,7 @@ be discussed.</p>
     <li><a href="http://nyphp.org/content/presentations/db160/">PEAR DB: What's New in 1.6.0</a> by Daniel Convissor</li>
 </ul>
 
-<h4>Tutorials about some PEAR packages in German:</h4>
+<h3>PEAR Package Tutorials in German:</h3>
 
 <ul>
     <li>&quot;<a href="http://www.heise.de/ix/artikel/2003/12/124/">XML Transformer kann XSLT ersetzen</a>&quot;</li>
@@ -247,7 +247,7 @@ be discussed.</p>
     <li><a href="http://www.ulf-wendel.de/projekte/cache/">Tutorial about the PEAR Cache package</a></li>
 </ul>
 
-<h4>Other tutorials:</h4>
+<h3>Other Tutorials:</h3>
 
 <ul>
     <li><a href="http://www.devshed.com/c/a/PHP/Serializing-XML-With-PHP/">Serializing XML With PHP</a>
@@ -272,7 +272,7 @@ be discussed.</p>
 
 </ul>
 
-<a name="resources" id="resources"><h3>PEAR resources</h3></a>
+<a name="resources" id="resources"><h2>PEAR Resources</h2></a>
 
 <ul>
     <li><a href="http://www.schlitt.info/download/PEAR_Powerworkshop_Spring_2004.tar.gz">2004-05-03 Amsterdam - 
@@ -319,7 +319,7 @@ be discussed.</p>
 
 </div>
 
-<a name="icons" id="icons"><h3>Powered By PEAR</h3></a>
+<a name="icons" id="icons"><h2>Powered By PEAR</h2></a>
 
 <p>
     What programming tool would be complete without a set of

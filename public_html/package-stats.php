@@ -21,10 +21,10 @@
 
 require_once 'HTML/Form.php';
 
-response_header('Package statistics');
+response_header('Package Statistics');
 ?>
 
-<h1>Package statistics</h1>
+<h1>Package Statistics</h1>
 
 <script language="JavaScript" type="text/javascript">
 <!--
@@ -56,7 +56,7 @@ while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
     $packages[$row['id']] = $row['name'];
 }
 
-$bb = new Borderbox('Select package');
+$bb = new Borderbox('Select Package');
 
 // Don't use HTML_Form here since we need to use some custom javascript here
 
@@ -135,20 +135,20 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     $info = package::info($_GET['pid'],null,false);
 
     if (isset($info['releases']) && sizeof($info['releases'])>0) {
-        echo '<h2>Statistics for package &quot;<a href="/package/' . $info['name'] . '">' . $info['name'] . "</a>&quot;</h2>\n";
-        $bb = new Borderbox("General statistics");
+        echo '<h2>Statistics for Package &quot;<a href="/package/' . $info['name'] . '">' . $info['name'] . "</a>&quot;</h2>\n";
+        $bb = new Borderbox("General Statistics");
         echo "Number of releases: <strong>" . count($info['releases']) . "</strong><br />\n";
         echo 'Total downloads: <strong>' . number_format(statistics::package($_GET['pid']), 0, '.', ',') . "</strong><br />\n";
         $bb->end();
     } else {
-        $bb = new Borderbox('General statistics');
+        $bb = new Borderbox('General Statistics');
         echo 'No package or release found.';
         $bb->end();
     }
 
     if (count($info['releases']) > 0) {
         echo "<br />\n";
-        $bb = new Borderbox('Release statistics');
+        $bb = new Borderbox('Release Statistics');
 ?>
     <table cellspacing="0" cellpadding="3" style="border: 0px; width: 100%;">
     <tr>
@@ -328,7 +328,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
  */
 if (@!$_GET['pid']) {
 	echo '<br />';
-	$bb = new BorderBox(!empty($_GET['cid']) ? 'Category statistics for: <i><a href="packages.php?catpid='.$_GET['cid'].'&amp;catname='.str_replace(' ', '+', $category_name).'">' . $category_name . '</a></i>' : 'Global statistics');
+	$bb = new BorderBox(!empty($_GET['cid']) ? 'Category Statistics for: <i><a href="packages.php?catpid='.$_GET['cid'].'&amp;catname='.str_replace(' ', '+', $category_name).'">' . $category_name . '</a></i>' : 'Global Statistics');
 	?>
 <table border="0" width="100%">
 	<tr>
@@ -354,7 +354,7 @@ if (@!$_GET['pid']) {
 
 	echo '<br />';
 
-	$bb = new BorderBox('Package statistics');
+	$bb = new BorderBox('Package Statistics');
 
 	$sth  = $dbh->query($query); //$query defined above
 	$rows = $sth->numRows();
@@ -368,8 +368,8 @@ if (@!$_GET['pid']) {
 	}
 	echo "<table border=\"0\" width=\"100%\" cellpadding=\"2\" cellspacing=\"2\">\n";
 	echo "<tr align=\"left\" bgcolor=\"#cccccc\">\n";
-	echo "<th>Package name</th>\n";
-	echo "<th>Last release</th>\n";
+	echo "<th>Package Name</th>\n";
+	echo "<th>Last Release</th>\n";
 	echo '<th><span class="underline"># of downloads</span></th>' . "\n";
 	echo "<th>&nbsp;</th>\n";
 	echo "</tr>\n";

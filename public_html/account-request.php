@@ -236,7 +236,7 @@ MSG;
     $form->addPassword('password', 'Password:',
             '', 10, null, '',
             'class="form-label_left"', 'class="form-input"');
-    $form->addText('email', 'Email address:',
+    $form->addText('email', 'Email Address:',
             @$_POST['email'], 20, null, '',
             'class="form-label_left"', 'class="form-input"');
     $form->addCheckbox('showemail', 'Show email address?',
@@ -266,7 +266,7 @@ MSG;
             'class="form-label_left"', 'class="form-input"');
 
     $form->display('class="form-holder" cellspacing="1" border="1"',
-                   'Request account', 'class="form-caption"');
+                   'Request Account', 'class="form-caption"');
 
     if ($jumpto) {
         print "<script language=\"JavaScript\" type=\"text/javascript\">\n<!--\n";

@@ -40,9 +40,9 @@
 	
 	$proposals =& proposal::getAll($dbh, @$selectStatus);
 	
-	response_header("Package proposals");
+	response_header('Package Proposals');
 	
-	echo "<h1>Package proposals</h1>";
+	echo '<h1>Package Proposals</h1>' . "\n";
 	
 	$form->display();
 	
