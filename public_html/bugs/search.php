@@ -14,9 +14,6 @@ if ($search_for && !preg_match("/\\D/",trim($search_for))) {
 
 response_header("Search");
 
-# the lol
-echo "<style>"; include('./style.css'); echo "</style>";
-
 $errors = array();
 $warnings = array();
 
