@@ -42,7 +42,7 @@ function confirmed_goto(url, message) {
 </script>
 
 <?php
-echo '<h1>Edit package</h1>';
+echo '<h1>Edit Package</h1>';
 
 if (!isset($_GET['id'])) {
     report_error('No package ID specified.');
@@ -59,7 +59,6 @@ if (!user::maintains($_COOKIE['PEAR_USER'], $_GET['id'], 'lead') &&
     response_footer();
     exit;
 }
-
 
 // Update
 if (isset($_POST['submit'])) {
@@ -117,6 +116,9 @@ if (empty($row['name'])) {
     response_footer();
     exit;
 }
+
+print_package_navigation($row['packageid'], $row['name'],
+                         '/package-edit.php?id=' . $row['packageid']);
 
 $bb = new Borderbox('Edit Package Information');
 ?>

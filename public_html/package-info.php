@@ -127,40 +127,7 @@ if ($version) {
 
 print "</h1>\n";
 
-$nav_items = array('Main'          => array('url'   => '',
-                                            'title' => ''),
-                   'Download'      => array('url'   => 'download',
-                                            'title' => 'Download releases of this package'),
-                   'Documentation' => array('url'   => 'docs',
-                                            'title' => 'Read the available documentation'),
-                   'Bugs'          => array('url'   => 'bugs',
-                                            'title' => 'View/Report Bugs')
-                   );
-
-if (isset($auth_user) && is_object($auth_user)) {
-    $nav_items['Edit']             = array('url'   => '/package-edit.php?id='.$pacid,
-                                           'title' => 'Edit this package');
-    $nav_items['Edit Maintainers'] = array('url'   => '/admin/package-maintainers.php?pid='.$pacid,
-                                           'title' => 'Edit the maintainers of this package');
-}
-
-print '<div id="nav">';
-
-foreach ($nav_items as $title => $item) {
-    if (!empty($item['url']) && $item['url']{0} == '/') {
-        $url = $item['url'];
-    } else {
-        $url = '/package/' . htmlspecialchars($name) . '/' . $item['url'];
-    }
-    print '<a href="' . $url . '"'
-        . ' title="' . $item['title'] . '" '
-        . ($action == $item['url'] ? ' class="active" ' : '')
-        . '>'
-        . $title
-        . '</a>';
-}
-
-print '</div>';
+print_package_navigation($pacid, $name, $action);
 
 // }}}
 // {{{ Package Information
