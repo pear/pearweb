@@ -256,7 +256,7 @@ print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
 	  	<tr>
 		 <td>
 		  <small>
-	      <?php print_link('/copyright.php', 'Copyright &copy; 2001, 2002, 2003 The PHP Group'); ?><br />
+	      <?php print_link('/copyright.php', 'Copyright &copy; 2001-2004 The PHP Group'); ?><br />
 	      All rights reserved.<br />
 	      </small>
 		 </td>
