@@ -201,3 +201,17 @@ font-weight: bold;
 form#asearch table#primary {
 background: #eee;
 }
+
+/* Used in stats.php */
+.bug_bg1 {
+    text-align: center; background-color: #afc9a1; font-size: 80%;
+}
+.bug_bg2 {
+    text-align: center; background-color: #dbefd0; font-size: 80%;
+}
+.bug_head {
+    font-size: 70%; background-color: #339900; text-align: right;
+}
+#bug_header {
+    background-color: #339900; font-size: 70%;
+}
