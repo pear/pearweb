@@ -31,7 +31,7 @@ services have been moved to their own website:
 
 <p>This means that if you are looking for PECL packages, you won't
 find them here on pear.php.net anymore; you will have to search for them
-on the <?php print_link("http://pecl.php.net/", "PECL website"); ?>
+on the <?php print_link("http://pecl.php.net/", "PECL website"); ?> 
 instead. The PECL project also has an independent mailing list battery
 now. An overview of the PECL mailing lists can be found
 <?php print_link("http://pecl.php.net/support.php", "here"); ?>.
