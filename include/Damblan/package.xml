@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<package version="1.0">
+  <name>Damblan</name>
+  <summary>Utility classes for pear.php.net</summary>
+  <description>
+Damblan is a set of utility classes, which we are using on
+pear.php.net. The name is derived from the Nepalese summit Ama Dablam,
+but with an additional "m".
+  </description>
+  <license>PHP License 2.02</license>
+  <maintainers>
+    <maintainer>
+      <user>mj</user>
+      <role>lead</role>
+      <name>Martin Jansen</name>
+      <email>mj@php.net</email>
+    </maintainer>
+  </maintainers>
+  <release>
+    <version>X.x</version>
+    <state>X</state>
+    <date>2003-xx-xx</date>
+    <notes>
+    </notes>
+    <filelist>
+      <file role="php" baseinstalldir="Damblan">Karma.php</file>
+      <file role="php" baseinstalldir="Damblan">Log.php</file>
+      <file role="php" baseinstalldir="Damblan">Mail.php</file>
+      <file role="php" baseinstalldir="Damblan">RSS.php</file>
+      <file role="php" baseinstalldir="Damblan">Site.php</file>
+      <file role="php" baseinstalldir="Damblan">URL.php</file>
+      <dir name="Log" role="php">
+        <file name="Mail.php" />
+      </dir>
+      <dir name="RSS" role="php">
+        <file name="Cache.php" />
+        <file name="Category.php" />
+        <file name="Common.php" />
+        <file name="Latest.php" />
+        <file name="Package.php" />
+      </dir>
+    </filelist>
+  </release>
+</package>
