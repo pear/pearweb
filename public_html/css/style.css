@@ -1,0 +1,221 @@
+@import url(/css/tabs.css);
+
+body {
+    margin: 0px;
+    padding: 0px;
+    background-color: white;
+    color: black;
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 90%;
+}
+
+p {
+    font-family: verdana,arial,helvetica,sans-serif;
+}
+
+a:link {
+    color: #006600;
+}
+
+a:visited {
+    color: #030;
+}
+
+a:hover {
+    color: #003300;
+}
+
+th.pack {
+    color: #FFFFFF;
+    background: #009933;
+    text-align: right;
+}
+
+th.headrow {
+    text-align: left;
+    border-bottom: 1px solid #000;
+}
+
+th.others {
+    color: #006600;
+    text-align: left;
+}
+
+td.sidebar_left {
+    width: 149px;
+    background-color: #F0F0F0;
+    vertical-align: top;
+    font-size: 90%;
+    border-right: 1px dashed #ccc;
+}
+
+td.sidebar_right {
+    width: 149px;
+    background-color: #F0F0F0;
+    vertical-align: top;
+    font-size: 90%;
+    border-left: 1px dashed #ccc;
+}
+
+em {
+    font-weight: bold;
+    font-style: italic;
+}
+
+hr {
+    border: 0px;
+    height: 1px;
+    background-color: #ccc;
+}
+
+submit {
+    border: 0px;
+}
+
+.newsDate {
+    font-size: 85%;
+    font-style: italic;
+    color: #66cc66;
+}
+
+.compact {
+}
+
+.menuWhite {
+    font-family: verdana,arial,helvetica,sans-serif;
+    color: #ffffff;
+}
+.menuWhite a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.menuBlack {
+    vertical-align: bottom;
+    text-align: right;
+}
+
+.menuBlack a {
+    font-family: verdana,arial,helvetica,sans-serif;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 75%;
+    color: #000000;
+}
+
+code, pre, tt {
+    font-family: Courier, "Courier New", monospace;
+    font-size: 90%;
+}
+
+pre.php {
+    border-color:       black;
+    border-style:       dashed;
+    border-width:       1px;
+    background-color:   #eeeeee;
+    padding:            5px;
+}
+
+h1 {
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 140%;
+    font-weight: bold;
+    color: #006600;
+}
+
+h2 {
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 125%;
+    font-weight: bold;
+    color: #006600;
+}
+
+h3 {
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 110%;
+    font-weight: bold;
+    color: #006600;
+}
+
+small {
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 85%;
+}
+
+a.small {
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 75%;
+    text-decoration: none;
+}
+
+.tableTitle {
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-weight: bold;
+}
+
+.tableExtras {
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 85%;
+    color: #FFFFFF;
+}
+
+input {
+    font-family: verdana,arial,helvetica,sans-serif;
+}
+
+textarea {
+    font-family: verdana,arial,helvetica,sans-serif;
+}
+
+input.small, select.small {
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 75%;
+}
+
+textarea.small {
+    font-family: verdana,arial,helvetica,sans-serif;
+    font-size: 75%;
+}
+
+form {
+    margin-bottom : 0;
+}
+
+.error {
+    font-weight: bold;
+    color: #900;
+}
+
+.tip {
+    border: 1px solid #00c;
+    color: #006;
+    background: #eef;
+    padding: 8px;
+}
+
+.listing li {
+    line-height: 200%;
+}
+
+.indent {
+    margin-left: 20px;
+}
+
+hr.greyline {
+    border-top: thin solid #CCCCCC;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+ul.side_pages {
+    margin-top: 0.1em;
+    margin-bottom: 1.5em;
+    margin-left: 1em;
+    padding-left: 1em;
+    list-style: url(/gifs/box-0.gif) square;
+}
+
+li.side_page {
+    text-indent: -0.4em;
+    white-space: nowrap;
+}
