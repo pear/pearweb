@@ -270,6 +270,7 @@ simply being marked as "bogus".</strong></p>
    <font size="-1">
    Please supply any information that may be helpful in fixing the bug:
    <ul>
+    <li>The version number of the PEAR package or files you are using.</li>
     <li>A short script that reproduces the problem.</li>
     <li>The list of modules you compiled PHP with (your configure line).</li>
     <li>Any other information unique or specific to your setup.</li>
