@@ -2001,12 +2001,25 @@ class PEAR_User extends DB_storage
 
 class PEAR_Package extends DB_storage
 {
-    function PEAR_Package(&$dbh, $package, $keycol = "id")
+    function PEAR_Package(&$dbh, $package, $keycol = "name")
     {
         $this->DB_storage("packages", $keycol, $dbh);
         $this->pushErrorHandling(PEAR_ERROR_RETURN);
         $this->setup($package);
         $this->popErrorHandling();
+    }
+
+    /**
+     * Generate link for package
+     *
+     * Returns HTML-code that creates a link to /package/<package>
+     *
+     * @access public
+     * @return string
+     */
+    function makeLink()
+    {
+        return make_link("/package/" . $this->name . "/", $this->name);
     }
 }
 
