@@ -229,39 +229,49 @@ submit {
     border: 0px;
 }
 
+
+/* === User Submission Responses === */
+
+div.errors,
+div.warnings,
+div.explain,
+div.success {
+    margin: 4px;
+    padding: 6px;
+    clear: both;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
 div.errors {
     border: 1px dashed #660000;
     background: #fee;
     color: #660000;
-    margin: 4px;
-    padding: 6px;
-    clear: both;
 }
 
 div.warnings {
     border: 1px dashed #ff8c00;
     background: #ffa;
     color: #ff8c00;
-    margin: 4px;
-    padding: 6px;
-    clear: both;
 }
 
 div.explain {
     border: 1px dashed #000066;
     color: #000066;
-    margin: 4px;
-    padding: 6px;
-    clear: both;
 }
 
 div.success {
     border: 1px dashed #006600;
     background-color: #CCFF99;
     color: #006600;
-    margin: 4px;
-    padding: 6px;
-    clear: both;
+}
+
+div.errors ul,
+div.warnings ul,
+div.explain ul,
+div.success ul {
+    margin-top: 0em;
+    margin-bottom: 0em;
 }
 
 
