@@ -466,7 +466,21 @@ function show_version_options($current, $default = '')
  */
 function show_types($current, $show_any, $default = '')
 {
-    include 'bugtypes.inc';
+    static $bug_items;
+
+    if (!isset($bug_items)) {
+        $bug_items = array();
+        $bug_items['Web Site']      = 'Web Site';
+        $bug_items['Bug System']    = '&nbsp;&nbsp;&nbsp;Bug System';
+        $bug_items['PEPr']          = '&nbsp;&nbsp;&nbsp;PEPr';
+        $bug_items['Documentation'] = 'Documentation';
+
+        $list = package::listAll(false);
+        foreach ($list as $name => $data) {
+            $bug_items[$name] = $name;
+        }
+    }
+
     $use = 0;
 
     if (!$current && !$default && !$show_any) {
@@ -477,7 +491,7 @@ function show_types($current, $show_any, $default = '')
         $current = $default;
     }
 
-    while (list($key,$value) = each($items)) {
+    foreach ($bug_items as $key => $value) {
         if ($show_any == 1 || $key != 'Any') {
             echo "<option value=\"$key\"";
             if ((is_array($current) && in_array($key, $current)) ||
