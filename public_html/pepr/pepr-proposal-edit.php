@@ -42,6 +42,7 @@
 	$form = new HTML_QuickForm('proposal_edit', 'post', 'pepr-proposal-edit.php?id='.@$id);
 	
 	$categories = category::listAll();
+	$mapCategories['RFC'] = "RFC (No package categorie!)";
 	foreach ($categories as $categorie) {
 		$mapCategories[$categorie['name']] = $categorie['name'];
 	}
