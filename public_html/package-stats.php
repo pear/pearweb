@@ -33,9 +33,9 @@ function reloadMe()
     var newLocation = '<?php echo $_SERVER['PHP_SELF']; ?>?'
                       + 'cid='
                       + document.forms[1].cid.value
-                      + '&amp;pid='
+                      + '&pid='
                       + document.forms[1].pid.value
-                      + '&amp;rid='
+                      + '&rid='
                       + document.forms[1].rid.value;
 
     document.location.href = newLocation;
