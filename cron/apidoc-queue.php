@@ -49,7 +49,7 @@ foreach ($rows as $filename) {
 
     $tar->extract($tmpdir);
 
-    $command = sprintf("phpdoc -d %s -dn '%s' -ti '%s' -p -s -t %s -o %s && rm -rf %s",
+    $command = sprintf("/usr/local/bin/phpdoc -d %s -dn '%s' -ti '%s' -p -s -t %s -o %s && rm -rf %s",
                        $tmpdir,
                        $info['package'],
                        $info['package'] . " " . $info['version'],
