@@ -307,8 +307,17 @@ th.others {
 }
 
 td.textcell {
+    vertical-align: top;
     padding-left: 1.2em;
     padding-bottom: 1em;
+}
+
+td.textcell p {
+    margin-top: 0em;
+}
+
+td.ulcell {
+    vertical-align: top;
 }
 
 em {

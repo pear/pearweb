@@ -139,7 +139,7 @@ $nav_items = array('Main'          => array('url'   => '',
 
 if (isset($auth_user) && is_object($auth_user)) {
     $nav_items['Edit']             = array('url'   => '/package-edit.php?id='.$pacid,
-                                           'title' => 'Edit this package"');
+                                           'title' => 'Edit this package');
     $nav_items['Edit Maintainers'] = array('url'   => '/admin/package-maintainers.php?pid='.$pacid,
                                            'title' => 'Edit the maintainers of this package');
 }
@@ -160,7 +160,7 @@ foreach ($nav_items as $title => $item) {
         . '</a>';
 }
 
-print '</div><br clear="all" />';
+print '</div>';
 
 // }}}
 // {{{ Package Information
@@ -169,23 +169,21 @@ if (empty($action)) {
 
     // {{{ General information
 
-    print '<table border="0" cellspacing="0" cellpadding="2" width="90%">';
+    print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     print '<tr>';
-    print '<th class="headrow" width="50%">&raquo; Summary:</th>';
-    print '<th class="headrow" width="50%">&raquo; License:</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; Summary:</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; License:</th>';
     print '</tr>';
     print '<tr>';
-    print '<td valign="top">' . $summary . '</td>';
-    print '<td valign="top">' . get_license_link($license) . '</td>';
+    print '<td class="textcell">' . $summary . '</td>';
+    print '<td class="textcell">' . get_license_link($license) . '</td>';
     print '</tr>';
 
-    print '<tr><td colspan="2">&nbsp;</td></tr>';
-
     print '<tr>';
-    print '<th colspan="2" class="headrow" width="50%">&raquo; Current Release:</th>';
+    print '<th colspan="2" class="headrow">&raquo; Current Release:</th>';
     print '</tr>';
     print '<tr>';
-    print '<td colspan="2" valign="top">';
+    print '<td colspan="2" class="textcell">';
     if (isset($versions[0])) {
         print '<a href="/get/' . $name . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
         print ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
@@ -197,24 +195,20 @@ if (empty($action)) {
     print '</td>';
     print '</tr>';
 
-    print '<tr><td colspan="2">&nbsp;</td></tr>';
-
     print '<tr>';
-    print '<th colspan="2" class="headrow" width="50%">&raquo; Description:</th>';
+    print '<th colspan="2" class="headrow">&raquo; Description:</th>';
     print '</tr>';
     print '<tr>';
-    print '<td colspan="2" valign="top">' . nl2br($description) . '</td>';
+    print '<td colspan="2" class="textcell">' . nl2br($description) . '</td>';
     print '</tr>';
 
-    print '<tr><td>&nbsp;</td></tr>';
-
     print '<tr>';
-    print '<th class="headrow" width="50%">&raquo; Maintainers:</th>';
-    print '<th class="headrow">&raquo; More Information:</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; Maintainers:</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; More Information:</th>';
     print '</tr>';
     print '<tr>';
-    print '<td valign="top">' . $accounts . '</td>';
-    print '<td valign="top">';
+    print '<td class="ulcell">' . $accounts . '</td>';
+    print '<td class="ulcell">';
 
     print '<ul>';
 
@@ -239,7 +233,7 @@ if (empty($action)) {
         print '</tr>';
         print '<tr>';
 
-        echo '<td colspan="2">';
+        echo '<td colspan="2" class="ulcell">';
         echo '<ul>';
 
         foreach ($dependants as $dep) {
@@ -265,9 +259,9 @@ if (empty($action)) {
 
     $i = 0;
 
-    print '<table border="0" cellspacing="0" cellpadding="2" width="90%">';
+    print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     print ' <tr>';
-    print '  <th class="headrow" width="20%">&raquo; Version:</th>';
+    print '  <th class="headrow" style="width: 20%">&raquo; Version:</th>';
     print '  <th class="headrow">&raquo; Information:</th>';
     print "</tr>\n";
 
@@ -277,7 +271,7 @@ if (empty($action)) {
         if (($i++ == 0 && empty($version)) || ($release_version == $version)) {
             // Detailed view
 
-            print '<td valign="top">' . $release_version . '</td>';
+            print '<td class="textcell">' . $release_version . '</td>';
             print '<td>';
             print '<a href="/get/' . $name . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
             print '<b>Release date:</b> ' . date("d M Y, H:i A", strtotime($info['releasedate'])) . '<br />'; 
@@ -353,13 +347,13 @@ if (empty($action)) {
 
     // {{{ Documentation
 
-    print '<table border="0" cellspacing="0" cellpadding="2" width="90%">';
+    print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     print '<tr>';
-    print '<th class="headrow" width="50%">&raquo; End-user documentation:</th>';
-    print '<th class="headrow" width="50%">&raquo; API documentation:</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; End-user documentation:</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; API documentation:</th>';
     print '</tr>';
     print '<tr>';
-    print '<td valign="top">';
+    print '<td class="ulcell">';
 
     if (!empty($doc_link)) {
         print '<ul><li><a href="' . $doc_link . '">End-user Documentation</a></li></ul>';
@@ -368,7 +362,7 @@ if (empty($action)) {
     }
 
     print '</td>';
-    print '<td valign="top">';
+    print '<td class="textcell">';
 
     if ($rel_count > 0) {
         print '<p>Auto-generated API documentation for each ';
