@@ -23,7 +23,7 @@ require_once "Damblan/RSS/Common.php";
 require_once "pepr/pepr.php";
 
 /**
- * Generates a RSS feed for the latest releases in a given category
+ * Generates a RSS feed for the latest PEPr proposals
  *
  * @author Tobias Schlitt <toby@php.net>
  * @package Damblan
