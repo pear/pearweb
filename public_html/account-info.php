@@ -67,7 +67,9 @@ if ($row['homepage'] != "") {
 }
 
 $bb->horizHeadRow("Registered since:", $row['created']);
-$bb->horizHeadRow("Additional information:", empty($row['userinfo'])?"&nbsp;":stripslashes($row['userinfo']));
+if ($row['userinfo'] != "") {
+    $bb->horizHeadRow("Additional information:", empty($row['userinfo']) ? "&nbsp;" : stripslashes($row['userinfo']));
+}
 
 if ($row['wishlist'] != "") {
     $bb->horizHeadRow("Wishlist:", make_link("/wishlist.php/" . $row['handle'], "Click here to be redirected."));
