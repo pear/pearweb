@@ -1712,7 +1712,7 @@ class user
         require_once "Damblan/Karma.php";
 
         global $dbh;
-        $karma = new Karma($dbh);
+        $karma = new Damblan_Karma($dbh);
 
         return $karma->has($handle, "pear.admin");
     }
@@ -1725,7 +1725,7 @@ class user
         require_once "Damblan/Karma.php";
 
         global $dbh;
-        $karma = new Karma($dbh);
+        $karma = new Damblan_Karma($dbh);
 
         return $karma->getUser("pear.admin");
     }
