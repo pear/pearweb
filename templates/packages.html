@@ -9,7 +9,7 @@
 
 		var rowLayer = document.getElementById('moreInfo_' + packageID);
 		var rowSpacerLayer = document.getElementById('moreInfo_' + packageID + '_spacer');
-		
+
 		newDisplay = rowLayer.style.display == 'none' ? 'inline' : 'none';
 		rowLayer.style.display       = newDisplay;
 		rowSpacerLayer.style.display = newDisplay;
@@ -55,7 +55,7 @@
 	th.pkgListHeader {
 		background-color: #cccccc;
 	}
-	
+
 	td.tableHeader {
 		background-color: #cccccc;
 		border-bottom: 1px solid black;
@@ -66,19 +66,19 @@
         background-color: #cccccc;
         border-top: 1px solid black;
         font-weight: bold;
-    }	
+    }
 
 	td.moreInfo {
 		background-color: #f0f0f0;
 		border: 1px dashed #c0c0c0;
 		position: relative;
 	}
-	
+
 	.closeButton {
 		border: 2px white outset;
 		background-color: #c0c0c0;
 	}
-	
+
 	.moreInfoHeader {
 		background-color: #dddddd;
 		border-bottom: 1px dashed #c0c0c0;
@@ -96,7 +96,7 @@
 
 	<a href="<?=$hideMoreInfoLink?>" title="Hide all more info"><img src="gifs/moreinfo-no.gif" width="17" height="17" border="0" vspace="3" /></a>
 	<a href="<?=$showMoreInfoLink?>" title="Show all more info"><img src="gifs/moreinfo-yes.gif" width="17" height="17" border="0" vspace="3" /></a>
-	
+
 	<table border="0" style="border: solid 1px black" cellspacing="0" cellpadding="0">
 		<tr>
 			<td>
@@ -109,7 +109,7 @@
 				</table>
 			</td>
 		</tr>
-		
+
 		<tr>
 			<td>
 				<table border="0" id="packageList">
@@ -119,7 +119,7 @@
 						<th class="pkgListHeader">Description</td>
                         <th class="pkgListHeader">&nbsp;</td>
 					</tr>
-			
+
 					<?php $nr = $first; foreach($packages as $p):?>
 						<tr>
 							<td valign="top"><?=$nr++?></td>
@@ -133,10 +133,10 @@
 								<?endif?>
 							</td>
 						</tr>
-						
+
 						<tr <?if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?=$defaultMoreInfoVis?>" <?endif?> id="moreInfo_<?=$p['id']?>">
 							<td>&nbsp;</td>
-							
+
 							<td colspan="3" class="moreInfo">
 								<table border="0" class="moreInfoHeader" width="100%" cellspacing="0" cellpadding="0">
 									<tr>
@@ -153,18 +153,18 @@
 									<tr>
 										<td class="eInfo_label"><strong>Number of releases:</strong></td>
 										<td><?=$p['eInfo']['numReleases']?></td>
-										
+
 										<td class="eInfo_label"><strong>License type:</strong></td>
 										<td><?=$p['eInfo']['license']?></td>
 									</tr>
-									
+
 									<tr>
 										<td class="eInfo_label"><strong>Status:</strong></td>
 										<td><?=$p['eInfo']['status']?></td>
 									</tr>
 								</table>
-								
-								
+
+
 							</td>
 						</tr>
 
@@ -172,17 +172,6 @@
 					<?endforeach?>
 				</table>
 			</td>
-		</tr>
-		<tr>
-			<td>
-				<table border="0" width="100%" cellspacing="0">
-					<tr class="tableHeader">
-						<td class="tableHeader" width="50" align="left">&nbsp;<?=$prev?></td>
-						<td class="tableHeader" align="center">Packages (<?=$first?> - <?=$last?> of <?=$total?>)</td>
-						<td class="tableHeader" width="50" align="right"><?=$next?>&nbsp;</td>
-					</tr>
-				</table>
-			</td> 
 		</tr>
         <tr>
           <td>
@@ -220,7 +209,7 @@
 their software, which are installable via the PEAR infrastructure, or
 they are planning to do so.<br />
 Currently we know of <a href="http://www.horde.org/">Horde</a>, who
-have set up an overview about their PEAR-compatible packages at 
+have set up an overview about their PEAR-compatible packages at
 <a href="http://pear.horde.org/">pear.horde.org</a>.
 </p>
 <?response_footer()?>
