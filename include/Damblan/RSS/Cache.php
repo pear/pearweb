@@ -41,6 +41,10 @@ class Damblan_RSS_Cache {
      * @return boolean
      */
     function isCached($file) {
+        if (DEVBOX) {
+            return false;
+        }
+
         $file = DAMBLAN_RSS_CACHE_DIR . "/" . $file;
 
         if (file_exists($file)) {
