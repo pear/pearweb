@@ -364,8 +364,8 @@ this link</a> or if you reported this bug, you can <a href="<?php echo
  </tr>
 <?php }?>
  <tr>
-  <th>Status:</th>
-  <td><select name="in[status]"><?php show_state_options($in['status'],$edit,$bug['status'])?></select></td>
+  <th><label for="statuslist" accesskey="s"><u>S</u>tatus:</label></th>
+  <td><select name="in[status]" id="statuslist"><?php show_state_options($in['status'],$edit,$bug['status'])?></select></td>
 <?php if ($edit == 1) {?>
   <th>Assign to:</th>
   <td><input type="text" size="10" maxlength="16" name="in[assign]" value="<?php echo field('assign')?>" /></td>
@@ -396,8 +396,8 @@ this link</a> or if you reported this bug, you can <a href="<?php echo
   <td colspan="3"><input type="text" size="20" maxlength="32" name="in[php_os]" value="<?php echo field('php_os')?>" /></td>
  </tr>
 </table>
-<b>New<?php if ($edit==1) echo "/Additional"?> Comment:</b><br />
-<textarea cols="60" rows="8" name="ncomment" wrap="physical"><?php echo clean($ncomment)?></textarea>
+<label for="ncomment" accesskey="o"><b>New<?php if ($edit==1) echo "/Additional"?> C<u>o</u>mment:</b></label><br />
+<textarea cols="60" rows="8" name="ncomment" id="ncomment" wrap="physical"><?php echo clean($ncomment)?></textarea>
 <br /><input type="submit" value="Submit" />
 </form>
 <?php }?>
