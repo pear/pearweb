@@ -326,7 +326,7 @@ class package
      */
     function add($data)
     {
-        global $dbh;
+        global $dbh, $auth_user;
         // name, category
         // license, summary, description
         // lead
@@ -359,9 +359,9 @@ class package
             return $err;
         }
 
-        $mailtext = $lead . " has added a new package " . $name . "\n\n"
+        $mailtext = $auth_user->handle . " (" . $auth_user->name . ") has added a new package " . $name . ".\n\n"
             . "Approve: http://pear.php.net/admin/package-approval.php?approve=" . $id;
-        $header = "Message-Id: <approve-request-" . $id . "@pear.php.net>";
+        $header = "From: " . $auth_user->email . "\nMessage-Id: <approve-request-" . $id . "@pear.php.net>";
         mail("pear-group@php.net", "New package " . $name, $mailtext, $header, "-f pear-sys@php.net");
 
         return $id;
