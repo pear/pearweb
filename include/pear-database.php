@@ -273,7 +273,7 @@ class category
             "r.doneby AS doneby, " .
             "r.state AS state " .
             "FROM packages p, releases r, categories c " .
-            "WHERE p.packate_type = 'pear' AND p.id = r.package " .
+            "WHERE p.package_type = 'pear' AND p.id = r.package " .
             "AND p.category = c.id AND c.name = '" . $category . "'" .
             "ORDER BY r.releasedate DESC";
 
