@@ -46,10 +46,10 @@ response_header();
 
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
-<h2>&raquo; News: New Maintainer&apos;s Guide</h2>
+<h2>&raquo; News: New Maintainer&#39;s Guide</h2>
 
 <p>2004-08-03: The online manual is now featuring the 
-<a href="/manual/en/guide-newmaint.php">New Maintainer&apos;s Guide</a>. 
+<a href="/manual/en/guide-newmaint.php">New Maintainer&#39;s Guide</a>. 
 This guide provides an overview about the process of contributing new
 packages to PEAR.</p>
 
