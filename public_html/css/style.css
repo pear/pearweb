@@ -160,14 +160,16 @@ td.foot-source {
 /* ========= Forms ========= */
 
 table.form-holder {
-    background-color: #000000;
+    background-color: #FFFFFF;
     width: auto;
 }
 
 caption.form-caption {
     font-weight: bold;
-    background-color: #CCCCCC;
+    background-color: #99CC99;
     padding: 0.3em;
+    border-left: 1px solid #FFFFFF;
+    border-right: 1px solid #FFFFFF;
 }
 
 /* Labels on the left side of form and table rows */
@@ -175,7 +177,7 @@ th.form-label_left {
     text-align: left;
     vertical-align: top;
     font-weight: bold;
-    background-color: #CCCCCC;
+    background-color: #99CC99;
     width: 25%;
 }
 
@@ -184,19 +186,19 @@ th.form-label_top,
 th.form-label_top_center {
     text-align: center;
     font-weight: bold;
-    background-color: #CCCCCC;
+    background-color: #99CC99;
 }
 
 td.form-input {
     text-align: left;
     vertical-align: top;
-    background-color: #E8E8E8;
+    background-color: #DBFFDB;
 }
 
 td.form-input_center {
     text-align: center;
     vertical-align: center;
-    background-color: #E8E8E8;
+    background-color: #DBFFDB;
 }
 
 td.form-input input, 
