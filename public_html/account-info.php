@@ -52,7 +52,7 @@ echo '<h1>User Information: ' . $handle . "</h1>\n";
 
 ?>
 
-<table border="0" cellspacing="0" cellpadding="2" width="100%">
+<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">
  <tr>
   <th class="headrow" colspan="2">&raquo;
   <?php echo htmlspecialchars($row['name']); ?></th>
@@ -62,7 +62,7 @@ echo '<h1>User Information: ' . $handle . "</h1>\n";
 
 if ($row['userinfo']) {
     echo ' <tr>' . "\n";
-    echo '  <td class="textcell" style="white-space: pre" colspan="2">';
+    echo '  <td class="textcell" colspan="2">';
     echo htmlspecialchars($row['userinfo']) . "</td>\n";
     echo ' </tr>' . "\n";
 }
