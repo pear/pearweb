@@ -218,7 +218,20 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $search_site = '';
     } else {
         $search_site = $site;
-        $where_clause .= " AND packages.package_type = '".escapeSQL($search_site)."'";
+        if (in_array('Bug System', $_GET['package_name'])) {
+            $pseudo[] = 'Bug System';
+        }
+        if (in_array('Web Site', $_GET['package_name'])) {
+            $pseudo[] = 'Web Site';
+        }
+        if (in_array('Documentation', $_GET['package_name'])) {
+            $pseudo[] = 'Documentation';
+        }
+        if ($site == 'pear' && in_array('PEPr', $_GET['package_name'])) {
+            $pseudo[] = 'PEPr';
+        }
+        $where_clause .= " AND packages.package_type = '".escapeSQL($search_site)."'
+                            OR bugdb.package_name IN ('".join("', '", escapeSQL($pseudo)) . "')";
             
     }
 
@@ -278,6 +291,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     if (stristr($query, ';')) {
         $errors[] = 'BAD HACKER!! No database cracking for you today!';
     } else {
+        echo $query;
         $res  =& $dbh->query($query);
         $rows =  $res->numRows();
 
