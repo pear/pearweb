@@ -2264,7 +2264,7 @@ class user
         global $dbh;
 
         // IP whitelist
-        if (!in_array($_SERVER['REMOTE_ADDR'], array("127.0.0.1", "64.49.209.152"))) {
+        if (!in_array($_SERVER['REMOTE_ADDR'], array("127.0.0.1", "64.49.209.152", "209.61.191.11"))) {
             return array();
         }
 
