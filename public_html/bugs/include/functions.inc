@@ -349,7 +349,8 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
 		      "X-PHP-OS: "         . stripslashes((($edit != 3) ? $in['php_os']      : $bug['php_os']))      . "\n" .
 		      "X-PHP-Status: "     . stripslashes($new_status) . "\n" .
 		      "X-PHP-Old-Status: " . stripslashes($old_status) . "\n" .
-		      "In-Reply-To: <bug-$bug[id]@bugs.php.net>");
+		      "In-Reply-To: <bug-$bug[id]@bugs.php.net>",
+		      "-fpear-sys@php.net");
 	}
 
 	/* if a developer assigns someone else, let that other person know about it */
@@ -364,7 +365,8 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
 			  $dev_text,
 		      "From: $from\n".
 		      "X-PHP-Bug: $bug[id]\n".
-		      "In-Reply-To: <bug-$bug[id]@bugs.php.net>");
+		      "In-Reply-To: <bug-$bug[id]@bugs.php.net>",
+		      "-fpear-sys@php.net");
 	}
 
 }
