@@ -332,7 +332,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
 
 		# the user gets sent mail with an envelope sender that ignores bounces
 		@mail($bug[email],
-		      "Bug " . rinse($subj) . txfield('sdesc'),
+		      "[PEAR-BUG] Bug " . rinse($subj) . txfield('sdesc'),
 		      $user_text,
 		      "From: PHP Bug Database <$mailfrom>\n".
 		      "X-PHP-Bug: $bug[id]\n".
@@ -340,7 +340,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
 		      "-fbounces-ignored@php.net");
 		# but we go ahead and let the default sender get used for the list
 		@mail($mailto,
-		      rinse($subj) . txfield('sdesc'),
+		      "[PEAR-BUG] " . rinse($subj) . txfield('sdesc'),
 		      $dev_text,
 		      "From: $from\n".
 		      "X-PHP-Bug: $bug[id]\n".
