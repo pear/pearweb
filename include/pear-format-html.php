@@ -110,12 +110,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
     <td align="left" rowspan="2" width="120" colspan="2" height="1">
 <?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, 'vspace="5" hspace="5"') ); ?><br />
     </td>
-    <td align="right" valign="top" colspan="3" height="1">
-      <font color="#ffffff"><b>
-        <?php echo strftime("%A, %B %d, %Y"); ?>
-      </b>&nbsp;<br />
-     </font>
-    </td>
+    <td align="right" valign="top" colspan="3" height="1">&nbsp;</td>
   </tr>
 
   <tr bgcolor="#339900">
