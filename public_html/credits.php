@@ -26,12 +26,14 @@ response_header('Credits');
 <h3>PEAR website team</h3>
 
 <ul>
-  <li><?php echo user_link("ssb"); ?></li>
-  <li><?php echo user_link("cox"); ?></li>
-  <li><?php echo user_link("mj"); ?></li>
-  <li><?php echo user_link("toby"); ?></li>
-  <li><?php echo user_link("cmv"); ?></li>
-  <li><?php echo user_link("richard");?></li>
+  <li><?php echo user_link('ssb'); ?></li>
+  <li><?php echo user_link('danielc'); ?></li>
+  <li><?php echo user_link('cox'); ?></li>
+  <li><?php echo user_link('richard');?></li>
+  <li><?php echo user_link('mj'); ?></li>
+  <li><?php echo user_link('toby'); ?></li>
+  <li><?php echo user_link('dufuz'); ?></li>
+  <li><?php echo user_link('cmv'); ?></li>
 </ul>
 
 <small>(In alphabetic order)</small>
