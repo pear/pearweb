@@ -69,7 +69,11 @@ case 'delete_verified':
     break;
 }
 
-$relocator = '<meta http-equiv="refresh" content="5; URL=http://pear.php.net/package/'.$id.'/trackbacks">';
+if ($action != 'delete') {
+    $relocator = '<meta http-equiv="refresh" content="5; URL=http://pear.php.net/package/'.$id.'/trackbacks">';
+} else {
+    $relocator = '';
+}
 
 response_header('Trackback admin', null, $relocator);
 echo $msg;
