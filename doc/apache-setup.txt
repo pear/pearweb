@@ -38,6 +38,7 @@ installed in /usr/share/pear):
   ForceType application/x-httpd-php
 
   Deny From 194.51.105.35
+  Deny From 212.193.32.7
  </Location>
 
  <Location /manual>
