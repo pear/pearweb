@@ -56,12 +56,14 @@ function auth_reject($realm = null, $message = null)
         print " </tr>\n";
         print "</table>\n";
         print '<input type="hidden" name="PEAR_OLDURL" value="';
-        if (basename($_SERVER['PHP_SELF']) == 'login.php') {
-            print '/';
-        } elseif (isset($_POST['PEAR_OLDURL'])) {
+        if (isset($_POST['PEAR_OLDURL'])) {
             print htmlspecialchars($_POST['PEAR_OLDURL']);
-        } else {
+        } elseif (isset($_GET['redirect'])) {
+            print $_GET['redirect'];
+        } elseif (isset($_SERVER['REQUEST_URI'])) {
             print htmlspecialchars($_SERVER['REQUEST_URI']);
+        } else {
+            print '/';
         }
         print "\" />\n";
         print "</form>\n";

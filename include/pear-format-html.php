@@ -118,7 +118,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
       <?php
 
     if (empty($_COOKIE['PEAR_USER'])) {
-        print_link('/login.php', 'Login', false, 'class="menuBlack"');
+        print_link('/login.php?redirect=' . $_SERVER['PHP_SELF'], 'Login', false, 'class="menuBlack"');
     } else {
         print '<span class="menuWhite"><small>';
         print '<a href="/user/' . $_COOKIE['PEAR_USER'] . '">logged in as ';
