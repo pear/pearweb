@@ -298,32 +298,26 @@ response_header("#$id: ".htmlspecialchars($bug['sdesc']));
 
 /* DISPLAY BUG */
 if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
-    echo '<div class="success">The bug was updated successfully.</div>';
+    display_bug_success('The bug was updated successfully.');
 
 } elseif ($_GET['thanks'] == 3) {
-    echo '<div class="success">Your comment was added to the bug successfully.</div>';
+    display_bug_success('Your comment was added to the bug successfully.');
 
 } elseif ($_GET['thanks'] == 4) {
-    ?>
+    display_bug_success('Thank you for your help! If the status of the bug'
+                        . ' report you submitted changes, you will be'
+                        . ' notified. You may return here and check on the'
+                        . ' status or update your report at any time. That URL'
+                        . ' for your bug report is: <a href="/bugs/bug.php?id='
+                        . $id . '">http://pear.php.net/bugs/bug.php?id='
+                        . $id . '</a>.');
 
-<div class="success">
-Thank you for your help! If the status of the bug report you submitted changes,
-you will be notified. You may return here and check on the status or update
-your report at any time. That URL for your bug report is: <a
-href="/bugs/bug.php?id=<?php echo $id?>">http://pear.php.net/bugs/bug.php?id=<?php echo $id ?></a>.
-</div>
-
-    <?php
 } elseif ($_GET['thanks'] == 6) {
-    ?>
-
-<div class="success">
-Thanks for voting! Your vote should be reflected in the
-statistics below.
-</div>
-
-    <?php
+    display_bug_success('Thanks for voting! Your vote should be reflected'
+                        . ' in the statistics below.');
 }
+
+display_bug_error($errors);
 
 show_bugs_menu(txfield('package_name'));
 
@@ -429,8 +423,6 @@ control(2, 'Edit Submission');
 
 
 <?php
-
-display_bug_error($errors);
 
 if ($edit == 1 || $edit == 2) {
     ?>
