@@ -1354,6 +1354,17 @@ class release
             }
         }
 
+        // Add release archive file to API documentation queue
+        $query = "INSERT INTO apidoc_queue (filename, queued) "
+             . "VALUES ('" . $file. "', NOW())";
+
+        /*
+         * Don't abort the release if something goes wrong.
+         */
+        $dbh->pushErrorHandling(PEAR_ERROR_RETURN);
+        $sth = $dbh->query($query);
+        $dbh->popErrorHandling();
+
         // Update Cache
         include_once 'xmlrpc-cache.php';
         XMLRPC_Cache::remove('package.listAll', array(false));
