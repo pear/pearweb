@@ -13,7 +13,7 @@
    | obtain it through the world-wide-web, please send a note to          |
    | license@php.net so we can mail you a copy immediately.               |
    +----------------------------------------------------------------------+
-   | Authors: Stig Sæther Bakken <ssb@fast.no>                            |
+   | Authors: Stig S?ther Bakken <ssb@fast.no>                            |
    |          Tomas V.V.Cox <cox@php.net>                                 |
    |          Martin Jansen <mj@php.net>                                  |
    +----------------------------------------------------------------------+
@@ -1774,7 +1774,6 @@ class user
         $user->set('created', gmdate('Y-m-d H:i'));
         $user->set('createdby', $_COOKIE['PEAR_USER']);
         $user->store();
-        // $karma->grant($user->handle, "pear.dev");
         $karma->grant($user->handle, $karmalevel);
         note::add("uid", $uid, "Account opened");
         $msg = "Your PEAR account request has been opened.\n".
