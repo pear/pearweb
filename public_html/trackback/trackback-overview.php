@@ -68,6 +68,10 @@ if ($max != $lastMax) {
 }
 $pager = DB_Pager::getData($offset, $number, $max);
 
+if ($max < 1) {
+    PEAR::raiseError('Sorry, no trackbacks were found.');
+}
+
 // Fetch trackbacks
 $trackbacks = Damblan_Trackback::recentTrackbacks($dbh, $offset, $number, !$trackbackIsAdmin, $unapprovedOnly);
 
@@ -87,6 +91,15 @@ if ($trackbackIsAdmin) {
 
 print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
 foreach ($trackbacks as $trackback) {
+    print '<tr>';
+    print '<th class="others">';
+    print 'Package:';
+    print '</th>';
+    print '<td class="ulcell" style="width:100%">';
+    print $trackback->get('id');
+    print '</td>';
+    print '</tr>';
+    
     print '<tr>';
     print '<th class="others">';
     print 'Weblog:';
