@@ -94,6 +94,8 @@ if (!$relid) {
                        " f.fullpath AS fullpath, r.version AS version".
                        " FROM files f, releases r".
                        " WHERE f.package = $pacid AND f.release = r.id");
+    $rel_count = $sth->numRows();
+
     while ($sth->fetchInto($row)) {
         $downloads[$row['version']][] = $row;
     }
@@ -165,7 +167,7 @@ $bb->end();
 <table border="0" cellspacing="3" cellpadding="3" height="48" width="90%" align="center">
 <tr>
 <?php
-if (count($pkg['releases']) > 0) {
+if ($rel_count > 0) {    
     $get_link = "[ " . make_link("/get/$name", 'Download Latest') . " ]";
 } else {
     $get_link = "&nbsp;";
@@ -210,37 +212,33 @@ if (!empty($doc_link)) {
 // }}}
 // {{{ "Available Releases"
 
-if (!$relid) {
+if (!$relid && $rel_count > 0) {
     $bb = new BorderBox("Available Releases", "90%", "", 5, true);
 
-    if (count($pkg['releases']) == 0) {
-        $bb->fullRow("<i>No releases for this package.</i>");
-    } else {
-        $bb->headRow("Version", "State", "Release Date", "Downloads", "");
+    $bb->headRow("Version", "State", "Release Date", "Downloads", "");
 
-        foreach ($pkg['releases'] as $r_version => $r) {
-            if (empty($r['state'])) {
-                $r['state'] = 'devel';
-            }
-            $r['releasedate'] = substr($r['releasedate'], 0, 10);
-            $dl = $downloads[$r_version];
-            $downloads_html = '';
-            foreach ($downloads[$r_version] as $dl) {
-                $downloads_html .= "<a href=\"/get/$dl[basename]\">".
-                                   "$dl[basename]</a> (".sprintf("%.1fkB",@filesize($dl['fullpath'])/1024.0).")";
+    foreach ($pkg['releases'] as $r_version => $r) {
+        if (empty($r['state'])) {
+            $r['state'] = 'devel';
+        }
+        $r['releasedate'] = substr($r['releasedate'], 0, 10);
+        $dl = $downloads[$r_version];
+        $downloads_html = '';
+        foreach ($downloads[$r_version] as $dl) {
+            $downloads_html .= "<a href=\"/get/$dl[basename]\">".
+                "$dl[basename]</a> (".sprintf("%.1fkB",@filesize($dl['fullpath'])/1024.0).")";
             }
 
-            $link_changelog = "<small>[" . make_link("/package-changelog.php?package=" .
-                                                     $pkg['name'] . "&release=" .
-                                                     $r_version, "Changelog")
-                . "]</small>";
+        $link_changelog = "<small>[" . make_link("/package-changelog.php?package=" .
+                                                 $pkg['name'] . "&release=" .
+                                                 $r_version, "Changelog")
+            . "]</small>";
 
-            $href_release = "/package/" . $pkg['name'] . "/" . $r_version;
+        $href_release = "/package/" . $pkg['name'] . "/" . $r_version;
 
-            $bb->horizHeadRow(make_link($href_release, $r_version), $r['state'],
+        $bb->horizHeadRow(make_link($href_release, $r_version), $r['state'],
                           $r['releasedate'], $downloads_html, $link_changelog);
 
-        }
     }
 
     $bb->end();
@@ -249,26 +247,26 @@ if (!$relid) {
 }
 
 // }}}
-// {{{ "Dependencies"
 
-$title = "Dependencies";
-if ($relid) {
-    $title .= " for release $version";
-}
-$bb = new Borderbox($title, "90%", "", 2, true);
+if ($rel_count > 0) {
 
-$rels =& $pkg['releases'];
+    // {{{ "Dependencies"
 
-// Check if there are too much things to show
-$too_much = false;
-if (count ($rels) > 3) {
-    $too_much = true;
-    $rels = array_slice($rels, 0, 3);
-}
+    $title = "Dependencies";
+    if ($relid) {
+        $title .= " for release $version";
+    }
+    $bb = new Borderbox($title, "90%", "", 2, true);
 
-if ($sth->numRows() == 0) {
-    $bb->fullRow("<i>No releases yet.</i>");
-} else {
+    $rels =& $pkg['releases'];
+
+    // Check if there are too much things to show
+    $too_much = false;
+    if (count ($rels) > 3) {
+        $too_much = true;
+        $rels = array_slice($rels, 0, 3);
+    }
+
     $rel_trans = array(
         'lt' => 'older than %s',
         'le' => 'version %s or older',
@@ -338,27 +336,29 @@ if ($sth->numRows() == 0) {
     if ($too_much && empty($version)) {
         $bb->fullRow("Dependencies for older releases can be found on the release overview page.");
     }
-}
-$bb->end();
+    $bb->end();
 
-// }}}
-// {{{ Dependants
+    // }}}
+    // {{{ Dependants
 
-$dependants = package::getDependants($name);
+    $dependants = package::getDependants($name);
 
-if (count($dependants) > 0) {
+    if (count($dependants) > 0) {
 
-    echo "<br /><br />";
-    $bb = new BorderBox("Packages that depend on " . $name);
+        echo "<br /><br />";
+        $bb = new BorderBox("Packages that depend on " . $name);
 
-    foreach ($dependants as $dep) {
-        $bb->plainRow(make_link("/package/" . $dep['p_name'], $dep['p_name']));
+        foreach ($dependants as $dep) {
+            $bb->plainRow(make_link("/package/" . $dep['p_name'], $dep['p_name']));
+        }
+
+        $bb->end();
     }
 
-    $bb->end();
+    // }}}
+
 }
 
-// }}}
 // {{{ page footer
 
 response_footer();
