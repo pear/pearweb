@@ -5,6 +5,7 @@
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="name"/>
+    <xs:element ref="extends" minOccurs="0"/>
     <xs:element ref="summary"/>
     <xs:element ref="description"/>
     <xs:element ref="lead" maxOccurs="unbounded"/>
@@ -236,12 +237,7 @@
       <xs:attribute name="not" type="xs:boolean" default="false"/>
      </xs:complexType>
     </xs:element>
-    <xs:element name="platform" minOccurs="0" maxOccurs="unbounded">
-     <xs:complexType>
-      <xs:attribute name="pattern" type="xs:string" use="required"/>
-      <xs:attribute name="not" type="xs:boolean" default="false"/>
-     </xs:complexType>
-    </xs:element>
+    <xs:element ref="arch" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -356,12 +352,7 @@
       <xs:attribute name="not" type="xs:boolean" default="false"/>
      </xs:complexType>
     </xs:element>
-    <xs:element name="platform" minOccurs="0">
-     <xs:complexType>
-      <xs:attribute name="pattern" type="xs:string" use="required"/>
-      <xs:attribute name="not" type="xs:boolean" default="false"/>
-     </xs:complexType>
-    </xs:element>
+    <xs:element ref="arch" minOccurs="0"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -377,4 +368,11 @@
    <xs:attribute name="prompt" type="xs:string" use="required"/>
   </xs:complexType>
  </xs:element>
+ <xs:element name="arch">
+  <xs:complexType>
+   <xs:attribute name="pattern" type="xs:string" use="required"/>
+   <xs:attribute name="not" type="xs:boolean" default="false"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="extends" type="xs:string"/>
 </xs:schema>
