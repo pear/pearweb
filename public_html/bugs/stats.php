@@ -30,6 +30,20 @@ response_header('Bugs Stats');
 
 $dbh->setFetchMode(DB_FETCHMODE_ASSOC);
 
+$titles = array(
+    'closed'      => 'Closed',
+    'open'        => 'Open',
+    'critical'    => 'Crit',
+    'verified'    => 'Verified',
+    'analyzed'    => 'Analyzed',
+    'assigned'    => 'Assigned',
+    'duplicate'   => 'Dupe',
+    'feedback'    => 'Fdbk',
+    'no feedback' => 'No&nbsp;Fdbk',
+    'bogus'       => 'Bogus',
+    'suspended'   => 'Susp',
+);
+
 $category  = $_GET['category'];
 $developer = $_GET['developer'];
 $rev       = $_GET['rev'];
@@ -80,7 +94,7 @@ foreach ($result as $package) {
             WHERE package_name = '.$dbh->quoteSmart($package['name']).$where_clause.'
             GROUP BY id';
     $result1 =& $dbh->query($query);
-    
+
     $package_name['all'][$package['name']]['total'] = 0;
     while ($row = $result1->fetchRow()) {
         $package_name['all'][$package['name']]['total']++;
@@ -107,14 +121,14 @@ if ($total > 0) {
         if (!isset($package_name['no feedback'][$name])) { $package_name['no feedback'][$name] = 0; }
         if (!isset($package_name['feedback'][$name])) {    $package_name['feedback'][$name]    = 0; }
     }
-    
-    if (!isset($sort_by)) { 
-        $sort_by = 'open'; 
-    }   
-    if (!isset($_GET['rev'])) { 
-        $rev = 1; 
+
+    if (!isset($sort_by)) {
+        $sort_by = 'open';
     }
-    
+    if (!isset($_GET['rev'])) {
+        $rev = 1;
+    }
+
     if ($_GET['rev'] == 1) {
         arsort($package_name[$sort_by]);
     } else {
@@ -129,10 +143,10 @@ if ($total > 0) {
 echo '<table style="font-size: 90%;">'."\n";
     $res = category::listAll();
     $_SERVER['QUERY_STRING'] ? $query_string = '?' . $_SERVER['QUERY_STRING'] : '';
-echo '<tr><td colspan="13"> 
+echo '<tr><td colspan="13">
         <form method="get" action="/bugs/stats.php' . $query_string . '">
         <div>
-        <strong>Category:</strong> 
+        <strong>Category:</strong>
         <select name="category" id="category" onchange="this.form.submit(); return false;">';
             $_GET['category'] == '' ? $selected = ' selected="selected"' : $selected = '';
             echo '<option value=""' . $selected . '>All</option>'."\n";
@@ -141,13 +155,13 @@ echo '<tr><td colspan="13">
                     echo '<option value="' . $row['name'] . '"' . $selected .'>' . $row['name'] . '</option>'."\n";
                 }
 echo    '</select>
-        <strong>Developer:</strong> 
+        <strong>Developer:</strong>
         <select name="developer" id="developers" onchange="this.form.submit(); return false;">'."\n";
 
 /*
  * Fetch list of users/maintainers
  */
-$users =& $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, maintains m WHERE u.handle = m.handle 
+$users =& $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, maintains m WHERE u.handle = m.handle
                         GROUP BY handle ORDER BY u.name');
     $_GET['developer'] == '' ? $selected = ' selected="selected"' : $selected = '';
     echo '<option value=""' . $selected . '>All</option>'."\n";
@@ -169,7 +183,7 @@ if ($total == 0) {
     response_footer();
     exit;
 }
-    
+
 echo display_stat_header($total, true);
 
 echo '<tr><td class="bug_head"><strong>All</strong></td>
@@ -177,21 +191,21 @@ echo '<tr><td class="bug_head"><strong>All</strong></td>
     <td class="bug_bg2">'. bugstats('closed',      'all') .'&nbsp;</td>
     <td class="bug_bg1">'. bugstats('open',        'all') .'&nbsp;</td>
     <td class="bug_bg2">'. bugstats('critical',    'all') .'&nbsp;</td>
-    <td class="bug_bg1">'. bugstats('verified',    'all') .'&nbsp;</td>  
+    <td class="bug_bg1">'. bugstats('verified',    'all') .'&nbsp;</td>
     <td class="bug_bg2">'. bugstats('analyzed',    'all') .'&nbsp;</td>
     <td class="bug_bg1">'. bugstats('assigned',    'all') .'&nbsp;</td>
-    <td class="bug_bg1">'. bugstats('suspended',   'all') .'&nbsp;</td>
     <td class="bug_bg2">'. bugstats('duplicate',   'all') .'&nbsp;</td>
     <td class="bug_bg1">'. bugstats('feedback',    'all') .'&nbsp;</td>
     <td class="bug_bg2">'. bugstats('no feedback', 'all') .'&nbsp;</td>
     <td class="bug_bg1">'. bugstats('bogus',       'all') .'&nbsp;</td>
+    <td class="bug_bg2">'. bugstats('suspended',   'all') .'&nbsp;</td>
     </tr>' . "\n";
 
 $stat_row = 1;
 foreach ($package_name[$sort_by] as $name => $value) {
     if ($name != 'all') {
         /* Output a new header row every 40 lines */
-        if (($stat_row++ % 40) == 0) { 
+        if (($stat_row++ % 40) == 0) {
             echo display_stat_header($total, false);
         }
         echo '<tr><td class="bug_head">
@@ -203,11 +217,11 @@ foreach ($package_name[$sort_by] as $name => $value) {
             <td class="bug_bg1">'. bugstats('verified',    $name) .'&nbsp;</td>
             <td class="bug_bg2">'. bugstats('analyzed',    $name) .'&nbsp;</td>
             <td class="bug_bg1">'. bugstats('assigned',    $name) .'&nbsp;</td>
-            <td class="bug_bg1">'. bugstats('suspended',   $name) .'&nbsp;</td>
             <td class="bug_bg2">'. bugstats('duplicate',   $name) .'&nbsp;</td>
             <td class="bug_bg1">'. bugstats('feedback',    $name) .'&nbsp;</td>
             <td class="bug_bg2">'. bugstats('no feedback', $name) .'&nbsp;</td>
             <td class="bug_bg1">'. bugstats('bogus',       $name) .'&nbsp;</td>
+            <td class="bug_bg2">'. bugstats('suspended',   $name) .'&nbsp;</td>
             </tr>' . "\n";
     }
 }
@@ -231,13 +245,12 @@ function bugstats($status, $name)
     }
 }
 
-
 function sort_url($name)
 {
-    global $sort_by,$rev,$phpver,$category,$developer;
+    global $sort_by, $rev, $phpver, $category, $developer, $titles;
 
     if ($name == $sort_by) {
-        $reve = ($rev == 1) ? 0 : 1;        
+        $reve = ($rev == 1) ? 0 : 1;
     } else {
         $reve = 1;
     }
@@ -246,8 +259,10 @@ function sort_url($name)
     } else {
         $attr = 'class="bug_stats_choosen"';
     }
-    return '<a href="./stats.php?sort_by='.urlencode($name).'&amp;rev='.$reve.'&amp;category='.$category.'&amp;developer='.$developer.'" '.$attr.'>'.ucfirst($name).'</a>';
-
+    return '<a href="./stats.php?sort_by=' . urlencode($name) .
+           '&amp;rev=' . $reve . '&amp;category=' . $category .
+           '&amp;developer=' .$developer . '" ' . $attr . '>' .
+           $titles[$name] .'</a>';
 }
 
 function package_link($name)
@@ -275,11 +290,11 @@ function display_stat_header($total, $grandtotal = true) {
     <td><strong>' . sort_url('verified')    . '</strong></td>
     <td><strong>' . sort_url('analyzed')    . '</strong></td>
     <td><strong>' . sort_url('assigned')    . '</strong></td>
-    <td><strong>' . sort_url('suspended')   . '</strong></td>
     <td><strong>' . sort_url('duplicate')   . '</strong></td>
     <td><strong>' . sort_url('feedback')    . '</strong></td>
     <td><strong>' . sort_url('no feedback') . '</strong></td>
     <td><strong>' . sort_url('bogus')       . '</strong></td>
+    <td><strong>' . sort_url('suspended')   . '</strong></td>
     </tr>' . "\n";
     return $stat_head;
 }
