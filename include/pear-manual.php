@@ -93,7 +93,7 @@ function makeBorderTOC($this) {
                      . make_link("/manual/", "Download Documentation")
                      . '</small></td></tr>';
 
-    $SIDEBAR_DATA.= '</table></form>';
+    $SIDEBAR_DATA.= '</table></form>-';
 
 }
 
