@@ -1,9 +1,10 @@
 <?php
 require_once 'bugs/prepend.inc';
 error_reporting(E_ALL ^ E_NOTICE);
-
+$extra_styles[] = '/bugs/style.css';
 response_header('Bugs Stat');
 
+$sql   = '';
 $where = '';
 if (($_GET['category'] && $_GET['category'] != '') 
     || ($_GET['developer'] && $_GET['developer'] != '')) {
@@ -12,10 +13,14 @@ if (($_GET['category'] && $_GET['category'] != '')
 if ($_GET['category'] && $_GET['category'] != '') {
     !empty($_GET['developer']) ? $and = ' AND ' : '';
     $where .= ' categories.name = ' .  $dbh->quoteSmart($_GET['category']) . $and;
+    $sql .= '';
 }
 
 if ($_GET['developer'] && $_GET['developer'] != '') {
     $where .= ' maintains.handle = ' .  $dbh->quoteSmart($_GET['developer']);
+    $sql .= 'LEFT JOIN packages ON packages.name = bugdb.package_name
+            LEFT JOIN maintains ON packages.id = maintains.package';
+
 }
 $where == '' ? $extra = 'WHERE ' : $extra = 'AND ';
 switch ($_SERVER['HTTP_HOST']) {
@@ -38,10 +43,9 @@ switch ($_SERVER['HTTP_HOST']) {
 
 $query = 'SELECT bugdb.status, bugdb.package_name, bugdb.email, bugdb.php_version, bugdb.php_os 
         FROM bugdb
-        LEFT JOIN packages ON packages.name = bugdb.package_name
-        LEFT JOIN maintains ON packages.id = maintains.package
+        '.$sql.'
         ' . $where . $type .'
-         ORDER BY bugdb.package_name ASC';
+         GROUP BY bugdb.id ORDER BY bugdb.package_name ASC';
 
 $result = $dbh->query($query);
 
@@ -67,12 +71,6 @@ function bugstats($status, $name)
 }
 
 echo "<table>\n";
-echo '<style type="text/css">
-        .bug_bg1 {text-align: center; background-color: #afc9a1; font-size: 80%;}
-        .bug_bg2 {text-align: center; background-color: #dbefd0; font-size: 80%;}
-        .bug_head {font-size: 70%; background-color: #339900; text-align: right;}
-        #bug_header {background-color: #339900; font-size: 70%;}
-    </style>';
 if ($total > 0) {
     /* prepare for sorting by bug report count */
     foreach($package_name['all'] as $name => $value) {
