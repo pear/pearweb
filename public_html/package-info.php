@@ -121,7 +121,7 @@ $accounts .= '</ul>';
 // Information about the latest release below the summary
 $versions = array_keys($pkg['releases']);
 
-$url = 'http://'.$_SERVER['SERVER_NAME'].':'.$_SERVER['SERVER_PORT'].'/';
+$url = 'http://'.$_SERVER['SERVER_NAME'].'/';
 if (!isset($redirected) && ($redirected !== true)) {
     $url .= 'package/';
 }
