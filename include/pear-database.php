@@ -2314,7 +2314,7 @@ class user
     }
 
     // }}}
-    // {{{ * proto array   user::getZendWhoIsWho([bool]) API 1.0
+    // {{{ * proto array   user::getZendWhoIsWho() API 1.0
 
     /**
      * Get list of current developers and the packages they maintain.
@@ -2325,42 +2325,34 @@ class user
      * of IP addresses.
      *
      * @access public
-     * @param  bool   Whether to return PECL developers (true) or PEAR
-     *                developers (false)
      * @return array
      */
-    function getZendWhoIsWho($pecl_only = false) {
+    function getZendWhoIsWho() {
         global $dbh;
 
         // IP whitelist
-        if (!in_array($_SERVER['REMOTE_ADDR'], array("127.0.0.1", "64.49.209.152", "209.61.191.11"))) {
+        if (!in_array($_SERVER['REMOTE_ADDR'], array("127.0.0.1", "209.61.191.11"))) {
             return array();
         }
 
-        if ($pecl_only) {
-            $query_maintainers = "SELECT p.name, m.role, p.package_type "
-                    . "FROM maintains m, packages p "
-                    . "WHERE m.package = p.id AND p.package_type='pecl' AND  m.handle = ?";
-        } else {
-            $query_maintainers = "SELECT p.name, m.role, p.package_type "
-                    . "FROM maintains m, packages p "
-                    . "WHERE m.package = p.id AND p.package_type='pear' AND m.handle = ?";
-        }
+        $query_maintainers = "SELECT p.name, m.role, p.package_type "
+            . "FROM maintains m, packages p "
+            . "WHERE m.package = p.id AND m.handle = ?";
         $maintainers = $dbh->prepare($query_maintainers);
-
 
         $group = $dbh->prepare("SELECT COUNT(id) "
                                . "FROM karma "
                                . "WHERE level = 'pear.group' AND user = ?");
 
-        // This fetches all users with pear.dev karma
-        $query = "SELECT u.handle, u.name, u.homepage, u.userinfo "
-            . "FROM users u, karma k "
-            . "WHERE k.user = u.handle AND k.level = 'pear.dev' AND u.registered = 1";
+        /* Some pecl devs don't have pear.dev karma. Need to check every registered user. */
+        $query = "SELECT handle, name, homepage, userinfo, "
+            . "birthdate, locale, timezone, occupation, "
+            . "currentjob, available, certified, otherquals, "
+            . "spokenlangs, programlangs, otherphpnet, "
+            . "otheross, otherhobbies, anon "
+            . "FROM users WHERE registered = 1";
 
-        $query_group = "SELECT user "
-            . "FROM karma "
-            . "WHERE level = 'pear.group'";
+        $query_group = "SELECT user FROM karma WHERE level = 'pear.group'";
 
         $group_ids = $dbh->getCol($query_group);
         $group_ids = array_flip($group_ids);
@@ -2379,10 +2371,37 @@ class user
 
             while ($row =& $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
                 $users[$id]['maintains'][] = $row;
-                if ($pecl_only && !isset($users[$id]['pecl']) && $row['package_type'] == 'pecl') {
-                    $users[$id]['pecl'] = 1;
+
+                if (!isset($users[$id]['type'])) {
+                    $users[$id]['type'] = 0;
+                }
+
+                switch ($users[$id]['type']) {
+                case '3':
+                    break;
+
+                case '2':
+                    if ($row['package_type'] == 'pear') {
+                        $users[$id]['type'] = 3;
+                    }
+                    break;
+
+                case '1':
+                    if ($row['package_type'] == 'pecl') {
+                        $users[$id]['type'] = 3;
+                    }
+                    break;
+
+                default:
+                    if ($row['package_type'] == 'pecl') {
+                        $users[$id]['type'] = 2;
+                    } else {
+                        $users[$id]['type'] = 1;
+                    }
+                    break;
                 }
             }
+
             if (isset($group_ids[$user['handle']])) {
                 $users[$id]['group'] = 1;
             } else {
@@ -2392,6 +2411,8 @@ class user
 
         return $users;
     }
+
+    // }}}
 }
 
 class channel
