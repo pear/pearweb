@@ -46,6 +46,15 @@ response_header();
 
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
+<h2>&raquo; News: New Maintainer&apos;s Guide</h2>
+
+<p>2004-08-03: The online manual is now featuring the 
+<a href="/manual/en/guide-newmaint.php">New Maintainer&apos;s Guide</a>. 
+This guide provides an overview about the process of contributing new
+packages to PEAR.</p>
+
+<?php echo hdelim(); ?>
+
 <p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
 is a framework and distribution system for reusable PHP
 components. More <b>information</b> about PEAR can be found in the
