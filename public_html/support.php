@@ -38,7 +38,7 @@ response_header("Support");
   <li><a href="support.php#icons">PEAR Icons</a></li>
 </ul>
 
-<a name="lists" /><h3>Mailing Lists</h3>
+<a name="lists" id="lists" /><h3>Mailing Lists</h3></a>
 
 <?php
 if (isset($maillist)) {
@@ -196,7 +196,7 @@ be discussed.</p>
 
 <div class="listing">
 
-<a name="tutorials" /><h3>PEAR Tutorials</h3>
+<a name="tutorials" id="tutorials" /><h3>PEAR Tutorials</h3></a>
 <h4>PEAR Tutorials sites</h4>
 <ul>
     <li>Tutorials about PEAR, available in many languages: 
@@ -272,7 +272,7 @@ be discussed.</p>
 
 </ul>
 
-<a name="resources" /><h3>PEAR resources</h3>
+<a name="resources" id="resources" /><h3>PEAR resources</h3></a>
 
 <ul>
     <li><a href="http://www.schlitt.info/download/PEAR_Powerworkshop_Spring_2004.tar.gz">2004-05-03 Amsterdam - 
@@ -319,7 +319,7 @@ be discussed.</p>
 
 </div>
 
-<a name="icons" /><h3>Powered By PEAR</h3>
+<a name="icons" id="icons" /><h3>Powered By PEAR</h3></a>
 
 <p>
     What programming tool would be complete without a set of
