@@ -138,8 +138,8 @@ if (empty($action)) {
 
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     print '<tr>';
-    print '<th class="headrow" style="width: 50%">&raquo; Summary:</th>';
-    print '<th class="headrow" style="width: 50%">&raquo; License:</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; Summary</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; License</th>';
     print '</tr>';
     print '<tr>';
     print '<td class="textcell">' . htmlspecialchars($summary) . '</td>';
@@ -147,7 +147,7 @@ if (empty($action)) {
     print '</tr>';
 
     print '<tr>';
-    print '<th colspan="2" class="headrow">&raquo; Current Release:</th>';
+    print '<th colspan="2" class="headrow">&raquo; Current Release</th>';
     print '</tr>';
     print '<tr>';
     print '<td colspan="2" class="textcell">';
@@ -163,15 +163,15 @@ if (empty($action)) {
     print '</tr>';
 
     print '<tr>';
-    print '<th colspan="2" class="headrow">&raquo; Description:</th>';
+    print '<th colspan="2" class="headrow">&raquo; Description</th>';
     print '</tr>';
     print '<tr>';
     print '<td colspan="2" class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
     print '</tr>';
 
     print '<tr>';
-    print '<th class="headrow" style="width: 50%">&raquo; Maintainers:</th>';
-    print '<th class="headrow" style="width: 50%">&raquo; More Information:</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; Maintainers</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; More Information</th>';
     print '</tr>';
     print '<tr>';
     print '<td class="ulcell">' . $accounts . '</td>';
@@ -197,7 +197,7 @@ if (empty($action)) {
     $dependants = package::getDependants($name);
     if ($rel_count > 0 && count($dependants) > 0) {
         print '<tr>';
-        print '<th colspan="2" class="headrow">&raquo; Packages that depend on ' . htmlspecialchars($name) . ':</th>';
+        print '<th colspan="2" class="headrow">&raquo; Packages that depend on ' . htmlspecialchars($name) . '</th>';
         print '</tr>';
         print '<tr>';
 
@@ -233,8 +233,8 @@ if (empty($action)) {
 
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     print ' <tr>';
-    print '  <th class="headrow" style="width: 20%">&raquo; Version:</th>';
-    print '  <th class="headrow">&raquo; Information:</th>';
+    print '  <th class="headrow" style="width: 20%">&raquo; Version</th>';
+    print '  <th class="headrow">&raquo; Information</th>';
     print "</tr>\n";
 
     foreach ($pkg['releases'] as $release_version => $info) {
@@ -321,8 +321,8 @@ if (empty($action)) {
 
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     print '<tr>';
-    print '<th class="headrow" style="width: 50%">&raquo; End-user documentation:</th>';
-    print '<th class="headrow" style="width: 50%">&raquo; API documentation:</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; End-user documentation</th>';
+    print '<th class="headrow" style="width: 50%">&raquo; API documentation</th>';
     print '</tr>';
     print '<tr>';
     print '<td class="ulcell">';
