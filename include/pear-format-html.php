@@ -139,7 +139,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 </div>
 
 <table class="main" cellspacing="0" cellpadding="0">
-  
+
  <!-- START HEADER -->
 
  <tr class="head">
@@ -252,7 +252,7 @@ function &draw_navigation($data, $menu_title='')
         $html .= "</li>\n";
     }
     $html .= "</ul>\n\n";
-    
+
     return $html;
 }
 
@@ -269,14 +269,18 @@ function response_footer($style = false)
         $style = $GLOBALS['_style'];
     }
 
+    ?>
 
-?>
      </td>
     </tr>
    </table>
   </td>
 
-<?php if (isset($RSIDEBAR_DATA)) { ?>
+    <?php
+
+    if (isset($RSIDEBAR_DATA)) {
+        ?>
+
   <td class="sidebar_right">
     <table cellpadding="4" cellspacing="0" style="width: 149px;">
      <tr style="vertical-align: top;">
@@ -285,7 +289,11 @@ function response_footer($style = false)
     </tr>
    </table>
   </td>
-<?php } ?>
+
+        <?php
+    }
+
+    ?>
 
  </tr>
 
@@ -339,8 +347,8 @@ print_link('/credits.php', 'CREDITS', false);
 
 </body>
 </html>
-<?php
 
+    <?php
 }
 
 
@@ -389,7 +397,7 @@ function error_handler($errobj, $title = 'Error')
 
 class BorderBox {
     function BorderBox($title, $width = '90%', $indent = '', $cols = 1,
-                       $open = false) 
+                       $open = false)
     {
         $this->title  = $title;
         $this->width  = $width;
@@ -399,7 +407,7 @@ class BorderBox {
         $this->start();
     }
 
-    function start() 
+    function start()
     {
         $title = $this->title;
         if (is_array($title)) {
@@ -424,7 +432,7 @@ class BorderBox {
         }
     }
 
-    function end() 
+    function end()
     {
         $i = $this->indent;
         if (!$this->open) {
@@ -438,7 +446,7 @@ class BorderBox {
         print "<!-- border box ends -->\n";
     }
 
-    function horizHeadRow($heading /* ... */) 
+    function horizHeadRow($heading /* ... */)
     {
         $i = $this->indent;
         print "$i    <tr>\n";
@@ -457,7 +465,7 @@ class BorderBox {
 
     }
 
-    function headRow() 
+    function headRow()
     {
         $i = $this->indent;
         print "$i    <tr>\n";
@@ -474,7 +482,7 @@ class BorderBox {
         print "$i    </tr>\n";
     }
 
-    function plainRow(/* ... */) 
+    function plainRow(/* ... */)
     {
         $i = $this->indent;
         print "$i    <tr>\n";
@@ -491,7 +499,7 @@ class BorderBox {
         print "$i    </tr>\n";
     }
 
-    function fullRow($text) 
+    function fullRow($text)
     {
         $i = $this->indent;
         print "$i    <tr>\n";
@@ -506,10 +514,10 @@ class BorderBox {
 }
 
 /**
-* prints "urhere" menu bar
-* Top Level :: XML :: XML_RPC
-* @param bool $link_lastest If the last category should or not be a link
-*/
+ * prints "urhere" menu bar
+ * Top Level :: XML :: XML_RPC
+ * @param bool $link_lastest If the last category should or not be a link
+ */
 function html_category_urhere($id, $link_lastest = false)
 {
     $html = '<a href="/packages.php">Top Level</a>';
@@ -539,30 +547,30 @@ function html_category_urhere($id, $link_lastest = false)
 }
 
 /**
-* Returns an absolute URL using Net_URL
-*
-* @param  string $url All/part of a url
-* @return string      Full url
-*/
+ * Returns an absolute URL using Net_URL
+ *
+ * @param  string $url All/part of a url
+ * @return string      Full url
+ */
 function getURL($url)
 {
-	include_once 'Net/URL.php';
-	$obj = new Net_URL($url);
-	return $obj->getURL();
+    include_once 'Net/URL.php';
+    $obj = new Net_URL($url);
+    return $obj->getURL();
 }
 
 /**
-* Redirects to the given full or partial URL.
-* will turn the given url into an absolute url
-* using the above getURL() function. This function
-* does not return.
-*
-* @param string $url Full/partial url to redirect to
-*/
+ * Redirects to the given full or partial URL.
+ * will turn the given url into an absolute url
+ * using the above getURL() function. This function
+ * does not return.
+ *
+ * @param string $url Full/partial url to redirect to
+ */
 function localRedirect($url)
 {
-	header('Location: ' . getURL($url));
-	exit;
+    header('Location: ' . getURL($url));
+    exit;
 }
 
 /**
@@ -603,7 +611,7 @@ function display_user_notes($user, $width = '50%')
 {
     global $dbh;
     $bb = new BorderBox("Notes for user $user", $width);
-    $notes = $dbh->getAssoc("SELECT id,nby,ntime,note FROM notes 
+    $notes = $dbh->getAssoc("SELECT id,nby,ntime,note FROM notes
                 WHERE uid = ? ORDER BY ntime", true, array($user));
     if (!empty($notes)) {
         print '<table cellpadding="2" cellspacing="0" style="border: 0px;">' . "\n";
@@ -653,4 +661,5 @@ function user_link($handle, $compact = false)
 }
 
 // }}}
+
 ?>
