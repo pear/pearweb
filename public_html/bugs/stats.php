@@ -284,13 +284,13 @@ response_footer();
 
 function bugstats($status, $name)
 {
-    global $pkg, $all;
+    global $pkg, $all, $bug_type;
 
     if ($name == 'all') {
         if (isset($all[$status])) {
-            return '<a href="search.php?cmd=display&amp;status=' .
-                   $status .
-                   '&amp;by=Any&amp;limit=10'.$string.'">' .
+            return '<a href="search.php?cmd=display&amp;
+                   bug_type='.$bug_type.'&amp;status=' .$status .
+                   '&amp;by=Any&amp;limit=30'.$string.'">' .
                    $all[$status] . "</a>\n";
         }
     } else {
@@ -300,7 +300,7 @@ function bugstats($status, $name)
             return '<a href="search.php?cmd=display&amp;status=' .
                    $status .
                    '&amp;package_name%5B%5D=' . urlencode($name) .
-                   '&amp;by=Any&amp;limit=10'.$string.'">' .
+                   '&amp;by=Any&amp;limit=30'.$string.'">' .
                    $pkg[$status][$name] . "</a>\n";
         }
     }
