@@ -33,28 +33,40 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
-require_once 'HTML/Form.php';
-$form = new HTML_Form($_SERVER['PHP_SELF'] . '?id=' . $_GET['id'], 'POST');
 
 if (!isset($_POST['confirm'])) {
 
-    $bb = new Borderbox('Confirmation');
+    $pkg = package::info($_GET['id']);
+    print_package_navigation($_GET['id'], $pkg['name'],
+                             '/package-delete.php?id=' . $_GET['id']);
+
+    require_once 'HTML/Form.php';
+    $form = new HTML_Form($_SERVER['PHP_SELF'] . '?id=' . $_GET['id'], 'POST');
 
     $form->start();
 
-    echo 'Are you sure that you want to delete the package?<br /><br />';
+    echo '<table class="form-holder" style="margin-bottom: 2em;" cellspacing="1">';
+    echo '<caption class="form-caption">Confirm</caption>';
+
+    echo '<tr><td class="form-input">';
+    echo 'Are you sure that you want to delete the package?' . "</td></tr>\n";
+
+    echo '<tr><td class="form-input">';
+    report_error('Deleting the package will remove all package information'
+                 . ' and all releases!', 'warnings', 'WARNING:');
+    echo "</td></tr>\n";
+
+    echo '<td class="form-input">';
     $form->displaySubmit('yes', 'confirm');
     echo '&nbsp;';
     $form->displaySubmit('no', 'confirm');
+    echo "</td></tr>\n";
 
-    report_error('Deleting the package will remove all package information'
-                 . ' and all releases!', 'warnings', 'WARNING:');
+    echo "</table>";
 
     $form->end();
 
-    $bb->end();
-
-} else if ($_POST['confirm'] == 'yes') {
+} elseif ($_POST['confirm'] == 'yes') {
 
     // XXX: Implement backup functionality
     // make_backup($_GET['id']);
@@ -109,10 +121,15 @@ if (!isset($_POST['confirm'])) {
 
     echo "</pre>\nPackage " . $_GET['id'] . " has been deleted.\n";
 
-} else if ($_POST['confirm'] == "no") {
+} elseif ($_POST['confirm'] == 'no') {
+
+    $pkg = package::info($_GET['id']);
+    print_package_navigation($_GET['id'], $pkg['name'],
+                             '/package-delete.php?id=' . $_GET['id']);
+
     echo "The package has not been deleted.\n<br /><br />\n";
-    echo 'Go back to the ' . make_link('/package/' . $_GET['id'], 'package details') . '.';
 }
 
 response_footer();
+
 ?>
