@@ -30,11 +30,11 @@
 	if (!empty($id)) {
 		$proposal = proposal::get($dbh, $id);
 		if (DB::isError($proposal)) {
-			PEAR::raiseError("Package proposal not found.");
+			PEAR::raiseError('Package proposal not found.');
 		}
 		
 		if (!$proposal->mayEdit($_COOKIE['PEAR_USER']) && empty($next_stage)) {
-			PEAR::raiseError("Proposal can not be edited.");
+			PEAR::raiseError('Proposal can not be edited.');
 		}
 		$proposal->getLinks($dbh);	
 	}
@@ -42,7 +42,7 @@
 	$form = new HTML_QuickForm('proposal_edit', 'post', 'pepr-proposal-edit.php?id='.@$id);
 	
 	$categories = category::listAll();
-	$mapCategories['RFC'] = "RFC (No package category!)";
+	$mapCategories['RFC'] = 'RFC (No package category!)';
 	foreach ($categories as $categorie) {
 		$mapCategories[$categorie['name']] = $categorie['name'];
 	}
@@ -55,26 +55,26 @@
 	$form->addElement('text', 'pkg_name', 'Package name:');
 	$form->addElement('text', 'pkg_license', 'License:');
 	
-	$form->addElement('textarea', 'pkg_describtion', 'Package description:', array('rows' => 6, 'cols' => '40'));
+	$form->addElement('textarea', 'pkg_describtion', 'Package description:', array('rows' => 20, 'cols' => '80'));
 	$form->addElement('link', 'help_bbcode', '', 'pepr-bbcode-help.php', 'You can use BBCode inside your description');
 	
-	$form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '40'));
+	$form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '80'));
 	$form->addElement('static', '', '', 'List seperated by linefeeds.');
 	
 	$max = (isset($proposal->links) && (count($proposal->links) > 2)) ? (count($proposal->links) + 1) : 3;
 	for ($i = 0; $i < $max; $i++) {
 		unset($link);
-		$link[0] = $form->createElement('select', 'type', "", $proposalTypeMap);
-		$link[1] = $form->createElement('text', 'url', "");
-		$label = ($i == 0) ? "Links:": "";			
+		$link[0] = $form->createElement('select', 'type', '', $proposalTypeMap);
+		$link[1] = $form->createElement('text', 'url', '');
+		$label = ($i == 0) ? 'Links:': '';			
 		$links[$i] =& $form->addGroup($link, "link[$i]", $label, ' ');
 	}
 	
 	$form->addElement('static', '', '', '<small>To add more links, fill out all link forms and hit save. To delete a link leave the URL field blank.</small>');
 	
-	if (isset($proposal) && ($proposal->getStatus() != "draft")) {
-			$form->addElement('checkbox', 'action_email', "Send update email to pear-dev");
-			$form->addElement('textarea', 'action_comment', "Update comment:", array('cols' => '40'));
+	if (isset($proposal) && ($proposal->getStatus() != 'draft')) {
+			$form->addElement('static', '', '', '<strong>If you add any text to the Update Comment textarea,<br /> then a mail to pear-dev will be sent about this update</strong>');
+			$form->addElement('textarea', 'action_comment', 'Update comment:', array('cols' => 80, 'rows' => 10));
 	}
 	
 	
@@ -114,19 +114,19 @@
 
 			case 'vote': 
             default:
-                if ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
-                    $next_stage_text = "Extend vote time";
+                if ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
+                    $next_stage_text = 'Extend vote time';
 				} else {
-                    $next_stage_text = "";
+                    $next_stage_text = '';
 				}
                 break;
 		}
 				
 		$timeline = $proposal->checkTimeLine();
-		if (($timeline === true) || ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
+		if (($timeline === true) || ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
 			$form->addElement('checkbox', 'next_stage', $next_stage_text);
 		} else {
-			$form->addElement('static', 'next_stage', '', 'You can set "'.@$next_stage_text.'" on '.date("Y-m-d, H:i ", $timeline).'GMT '.date('O'));
+			$form->addElement('static', 'next_stage', '', 'You can set "'.@$next_stage_text.'" on '.date('Y-m-d, H:i ', $timeline).'GMT '.date('O'));
 		}
 	}
 	
@@ -159,7 +159,7 @@
 					   $proposal->status = 'proposal';
 					   $proposal->sendActionEmail('change_status_proposal', 'mixed', $_COOKIE['PEAR_USER']);
 				    } else {
-					   PEAR::raiseError("You can not change the status now.");
+					   PEAR::raiseError('You can not change the status now.');
 				    }
 				break;
 				
@@ -169,7 +169,7 @@
 					   $proposal->status = 'vote';
 					   $proposal->sendActionEmail('change_status_vote', 'mixed', $_COOKIE['PEAR_USER']);
 				    } else {
-					   PEAR::raiseError("You can not change the status now.");
+					   PEAR::raiseError('You can not change the status now.');
     				}
 				break;
 				
@@ -183,9 +183,9 @@
 			}
 		} else {
 			if (isset($proposal) && $proposal->status != 'draft') {
-				if ((isset($values['action_email']) && $values['action_email']) || ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
+				if (!empty($values['action_comment']) || ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
 					if (empty($values['action_comment'])) {
-						PEAR::raiseError("You have to apply a comment when you send update emails! For administrative actions, always emails are send.");
+						PEAR::raiseError('You have to apply a comment when you send update emails! For administrative actions, always emails are send.');
 					}
 					$proposal->addComment($values['action_comment']);
 					$proposal->sendActionEmail('edit_proposal', 'mixed', $_COOKIE['PEAR_USER'], $values['action_comment']);	
@@ -224,21 +224,21 @@
 		$form = new HTML_QuickForm('no-form');
 		switch ($proposal->status) {
 				case 'proposal':
-					$bbox['header'] = "Proposal";
+					$bbox['header'] = 'Proposal';
 					$bbox['text'] = "Your package has been proposed on pear-dev. All further changes will result in an update Email.";
 					$form->addElement('link', 'link_package_edit', '', 'pepr-proposal-edit.php?id='.$id, 'Edit the proposal');
 				break;
 			
 				case 'vote':
-					$bbox['header'] = "Call for votes";
+					$bbox['header'] = 'Call for votes';
 					$bbox['text'] = "For your package has been called for votes on pear-dev. No further changes are allowed.";	
 					if ($proposal->mayEdit($_COOKIE['PEAR_USER'])) {
 						$form->addElement('link', 'link_package_edit', '', 'pepr-proposal-edit.php?id='.$id, 'Edit the proposal');
 					}
 				break;
 		}
-		if ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")) {
-			$bbox['header'] = "Changes saved";
+		if ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin')) {
+			$bbox['header'] = 'Changes saved';
 			$bbox['text'] = "The changes you did got recorded, neccessary action mails have been sent.";				
 		}
 	}
@@ -247,20 +247,20 @@
 	    $form->addElement('link', 'link_package_view', '', 'pepr-proposal-show.php?id='.@$id, 'View the proposal');
 	}
 	
-	response_header("PEPr :: Proposal editor");
+	response_header('PEPr :: Proposal editor');
 	
 	if (isset($proposal)) {
-		echo "<h1>Proposal for ".$proposal->pkg_name.", Status: <i>".$proposal->getStatus(true)."</i></h1>";
+		echo '<h1>Proposal for '.$proposal->pkg_name.', Status: <i>'.$proposal->getStatus(true).'</i></h1>';
 	} else {
-		echo "<h1>New package Proposal</h1>";
+		echo '<h1>New package Proposal</h1>';
 	}
 	
 	if (isset($saved) && $saved) {
-		echo "<h3>Changes saved successfully!</h3>";
+		echo '<h3>Changes saved successfully!</h3>';
 	}
 	
 	if (isset($bbox)) {
-		$bb = new BorderBox($bbox['header'], "40%", null, true);
+		$bb = new BorderBox($bbox['header'], '40%', null, true);
 		$bb->fullRow($bbox['text']);
 		$bb->end();
 	}
