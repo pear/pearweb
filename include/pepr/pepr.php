@@ -610,39 +610,4 @@ class ppLink {
     }
 }
 
-if (function_exists('make_image')) {
-    $SIDEBAR_DATA='
-		<h3>PEPr</h3>
-		<p>
-		PEAR Package Proposal System.
-		</p>
-		<p>
-		Automatic handling of package proposals.
-		<br />
-		</p>
-		<p>
-		<br />'.
-        make_image("box-1.gif") . '<b>' . make_link("pepr-overview.php","Browse proposals")
-        .'<br />';
-		
-    if (isset($_COOKIE['PEAR_USER'])) {
-        $SIDEBAR_DATA.=
-            make_image("box-1.gif") . '<b>' . make_link("pepr-proposal-edit.php","New proposal");
-    } else {
-        $SIDEBAR_DATA.='<br />
-			<small>Login to create or edit proposals</small>
-			';
-    }
-
-
-    $SIDEBAR_DATA.='<br /><br />'.
-        make_image("box-1.gif") . '<b>' . make_link("/bugs/search.php?cmd=display&bug_type[]=PEPr&status=Open","View bugs")
-        .'<br />'.
-        make_image("box-1.gif") . '<b>' . make_link("/bugs/report.php?package=PEPr","Report bug")
-        .'<br />'
-        .'<br />'.
-        make_image("box-1.gif") . '<b>' . make_link("/","Main site")
-        .'
-		-';
-}
 ?>
