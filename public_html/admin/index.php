@@ -39,6 +39,7 @@ menu_link("Package maintainers", "package-maintainers.php");
 menu_link("Package approvals", "package-approval.php");
 menu_link("Manage categories", "category-manager.php");
 menu_link("Karma", "karma.php");
+menu_link("CHM upload", "chm-upload.php");
 echo hdelim();
 
 // {{{ adding and deleting notes
