@@ -2342,6 +2342,78 @@ class user
     }
 }
 
+class channel
+{
+    /**
+     * Add a new channel to the database
+     * @todo add server validation
+     *       - verify it is a valid server name
+     *       - connect to xmlrpc and retrieve the channel.xml
+     *         to verify that this is possible
+     */
+    function add($name, $server)
+    {
+        global $dbh;
+        $query = 'INSERT INTO channels (name, server) VALUES (?, ?)';
+        $err = $dbh->query($query, array($name, $server));
+        if (DB::isError($err)) {
+            return $err;
+        }
+        // clear cache
+        include_once 'xmlrpc-cache.php';
+        XMLRPC_Cache::remove('channel.listAll', array());
+    }
+
+    // {{{ proto array   channel::listAll() API 1.0
+    /**
+     * List all registered channels
+     * @return array Format: array(array(channel name, server), array(channel name, server),... )
+     */
+    function listAll()
+    {
+        global $dbh;
+        $query = 'SELECT * FROM channels';
+        return $dbh->getAll($query, null, DB_FETCHMODE_ORDERED);
+    }
+    // }}}
+    // {{{ proto string   channel::update([int]) API 1.0
+    /**
+     * Retrieve updated channel.xml contents.
+     *
+     * If $time is newer than the last change to the channel.xml, returns
+     * false
+     * @param int timestamp retrieved from time()
+     * @return false|string
+     */
+    function update($time = null)
+    {
+        global $dbh;
+        if ($time === null) {
+            $time = time();
+        }
+        if (strtotime('August 1, 2004') > $time) {
+            // this is the current PEAR channel's channel.xml
+            return '<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/channel-1.0">
+<channel version="1.0">
+ <name>pear</name>
+ <summary>PHP Extension and Application Repository</summary>
+ <server>pear.php.net</server>
+ <provides>
+  <protocol type="xml-rpc" version="1.0">logintest</protocol>
+  <protocol type="xml-rpc" version="1.0">package.listLatestReleases</protocol>
+  <protocol type="xml-rpc" version="1.0">package.listAll</protocol>
+  <protocol type="xml-rpc" version="1.0">package.info</protocol>
+  <protocol type="xml-rpc" version="1.0">package.getDownloadURL</protocol>
+  <protocol type="xml-rpc" version="1.0">channel.listAll</protocol>
+  <protocol type="xml-rpc" version="1.0">channel.update</protocol>
+ </provides>
+</channel>';
+        }
+        return false;
+    }
+}
+
 class statistics
 {
     // {{{ package()
