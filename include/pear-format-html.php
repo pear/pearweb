@@ -387,7 +387,7 @@ function menu_link($text, $url) {
 function report_error($in, $class = 'errors', $head = 'ERROR:')
 {
     if (PEAR::isError($in)) {
-        if (DEVBOX == true) {
+        if (DEVBOX == true || @$_COOKIE['PEAR_USER'] == 'danielc') {
             $in = array($in->getMessage() . '... ' . $in->getUserInfo());
         } else {
             $in = array($in->getMessage());
@@ -401,7 +401,7 @@ function report_error($in, $class = 'errors', $head = 'ERROR:')
     echo '<div class="' . $class . '">' . $head . '<ul>';
     foreach ($in as $msg) {
         if (PEAR::isError($msg)) {
-            if (DEVBOX == true) {
+            if (DEVBOX == true || @$_COOKIE['PEAR_USER'] == 'danielc') {
                 $msg = $msg->getMessage() . '... ' . $msg->getUserInfo();
             } else {
                 $msg = $msg->getMessage();
