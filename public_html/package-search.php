@@ -170,8 +170,8 @@ if (!empty($_GET)) {
 
     if(1 == $numrows) {
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-        if(isset($row['package_name'])) {
-            header('Location: http://pear.php.net/package/'.$row['package_name']);
+        if(isset($row['name'])) {
+            header('Location: http://pear.php.net/package/'.$row['name']);
         } else {
             // shoudn't happen. Just in case something goes wrong, set $numrows to 0
             // to have a "No Results found" Message later on.
