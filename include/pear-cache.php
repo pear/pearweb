@@ -49,7 +49,8 @@ $cache_dirs  = array("/news" => "",
                      "/user" => $_SERVER['PHP_SELF']
                      );
 
-if (DEVBOX === true || (
+if (DEVBOX === true ||
+    !empty($_COOKIE['PEAR_USER']) || (
     !in_array($_SERVER['PHP_SELF'], array_keys($cache_files)) &&
     !in_array(dirname($_SERVER['PHP_SELF']), array_keys($cache_dirs)))) {
     $no_cache = 1;
@@ -65,9 +66,6 @@ if ($no_cache == 0) {
     $cache = new Cache_lite($options);
 
     $id = $_SERVER['PHP_SELF'];
-    if (!empty($_COOKIE['PEAR_USER'])) {
-        $id .= "user_logged_in";
-    }
     if (!empty($cache_files[$_SERVER['PHP_SELF']])) {
         $id .= $cache_files[$_SERVER['PHP_SELF']];
     }
