@@ -48,18 +48,27 @@ $category  = $_GET['category'];
 $developer = $_GET['developer'];
 $rev       = $_GET['rev'];
 $sort_by   = $_GET['sort_by'];
+$total     = 0;
+$row       = array();
+$pkg       = array();
+$pkg_total = array();
+$all       = array();
+$from      = '';
 
-$query        = 'SELECT p.name FROM packages p';
-$where_clause = '';
-$from         = '';
+$query  = 'SELECT b.package_name, LOWER(b.status) AS status, COUNT(*) AS quant'
+        . ' FROM bugdb AS b';
 
 switch ($site) {
     case 'pecl':
-    case 'pear':
         $where = ' WHERE p.package_type = ' . $dbh->quoteSmart($site);
         break;
+    case 'pear':
+        $where = " WHERE p.package_type = 'pear'"
+               . " OR b.package_name IN ('"
+               . implode("', '", $pseudo_pkgs) . "')";
+        break;
     default:
-        $where = '';
+        $where = ' WHERE 1=1';
 }
 
 if ($_GET['category'] && $_GET['category'] != '') {
@@ -74,6 +83,8 @@ if ($_GET['developer'] && $_GET['developer'] != '') {
     $from .= ', maintains m ';
 }
 
+$from .= ' LEFT JOIN packages AS p ON p.name = b.package_name';
+
 if (empty($_GET['bug_type'])) {
     $bug_type = 'Bug';
     $_GET['bug_type'] = 'Bug';
@@ -81,52 +92,23 @@ if (empty($_GET['bug_type'])) {
     $bug_type = '';
 } else {
     $bug_type = $_GET['bug_type'];
-    $where_clause = ' AND bug_type = ' . $dbh->quoteSmart($bug_type);
+    $where .= ' AND bug_type = ' . $dbh->quoteSmart($bug_type);
 }
 
-$query .= $from.$where . ' GROUP BY p.name';
-$result =& $dbh->getAll($query);
+$query .= $from . $where;
+$query .= ' GROUP BY b.package_name, b.status';
+$query .= ' ORDER BY b.package_name, b.status';
 
-if ($_GET['developer'] == '' && $_GET['category'] == '') {
-    foreach ($pseudo_pkgs as $value) {
-        $result[] = array('name' => $value);
-    }
-}
+$result =& $dbh->query($query);
 
-foreach ($result as $package) {
-    $query = 'SELECT status, package_name
-            FROM bugdb
-            WHERE package_name = '.$dbh->quoteSmart($package['name']).$where_clause.'
-            GROUP BY id';
-    $result1 =& $dbh->query($query);
-
-    $package_name['all'][$package['name']]['total'] = 0;
-    while ($row = $result1->fetchRow()) {
-        $package_name['all'][$package['name']]['total']++;
-        $status_str = strtolower($row['status']);
-        $package_name[$status_str][$package['name']]++;
-        $package_name[$status_str]['all']++;
-        $status[$row['status']]++;
-        $total++;
-    }
+while ($result->fetchInto($row)) {
+    $pkg[$row['status']][$row['package_name']]  = $row['quant'];
+    $pkg_total[$row['package_name']]           += $row['quant'];
+    $all[$row['status']]                       += $row['quant'];
+    $total                                     += $row['quant'];
 }
 
 if ($total > 0) {
-    /* prepare for sorting by bug report count */
-    foreach($package_name['all'] as $name => $value) {
-        if (!isset($package_name['closed'][$name])) {      $package_name['closed'][$name]      = 0; }
-        if (!isset($package_name['bogus'][$name])) {       $package_name['bogus'][$name]       = 0; }
-        if (!isset($package_name['open'][$name])) {        $package_name['open'][$name]        = 0; }
-        if (!isset($package_name['critical'][$name])) {    $package_name['critical'][$name]    = 0; }
-        if (!isset($package_name['analyzed'][$name])) {    $package_name['analyzed'][$name]    = 0; }
-        if (!isset($package_name['verified'][$name])) {    $package_name['verified'][$name]    = 0; }
-        if (!isset($package_name['suspended'][$name])) {   $package_name['suspended'][$name]   = 0; }
-        if (!isset($package_name['duplicate'][$name])) {   $package_name['duplicate'][$name]   = 0; }
-        if (!isset($package_name['assigned'][$name])) {    $package_name['assigned'][$name]    = 0; }
-        if (!isset($package_name['no feedback'][$name])) { $package_name['no feedback'][$name] = 0; }
-        if (!isset($package_name['feedback'][$name])) {    $package_name['feedback'][$name]    = 0; }
-    }
-
     if (!isset($sort_by)) {
         $sort_by = 'open';
     }
@@ -135,11 +117,11 @@ if ($total > 0) {
     }
 
     if ($rev == 1) {
-        arsort($package_name[$sort_by]);
+        arsort($pkg[$sort_by]);
     } else {
-        asort($package_name[$sort_by]);
+        asort($pkg[$sort_by]);
     }
-    reset($package_name);
+    reset($pkg);
 }
 
 
@@ -194,43 +176,35 @@ if ($total == 0) {
 
 echo display_stat_header($total, true);
 
-echo '<tr><td class="bug_head"><strong>All</strong></td>
-    <td class="bug_bg1">' . $total . '</td>
-    <td class="bug_bg2">'. bugstats('closed',      'all') .'</td>
-    <td class="bug_bg1">'. bugstats('open',        'all') .'</td>
-    <td class="bug_bg2">'. bugstats('critical',    'all') .'</td>
-    <td class="bug_bg1">'. bugstats('verified',    'all') .'</td>
-    <td class="bug_bg2">'. bugstats('analyzed',    'all') .'</td>
-    <td class="bug_bg1">'. bugstats('assigned',    'all') .'</td>
-    <td class="bug_bg2">'. bugstats('duplicate',   'all') .'</td>
-    <td class="bug_bg1">'. bugstats('feedback',    'all') .'</td>
-    <td class="bug_bg2">'. bugstats('no feedback', 'all') .'</td>
-    <td class="bug_bg1">'. bugstats('bogus',       'all') .'</td>
-    <td class="bug_bg2">'. bugstats('suspended',   'all') .'</td>
-    </tr>' . "\n";
+echo " <tr>\n";
+echo '  <td class="bug_head">All' . "</td>\n";
+echo '  <td class="bug_bg0">' . $total . "</td>\n";
+
+$i = 1;
+foreach ($titles as $key => $val) {
+    echo '  <td class="bug_bg' . $i++ % 2 . '">';
+    echo bugstats($key, 'all') . "</td>\n";
+}
+echo ' </tr>' . "\n";
 
 $stat_row = 1;
-foreach ($package_name[$sort_by] as $name => $value) {
+foreach ($pkg[$sort_by] as $name => $value) {
     if ($name != 'all') {
         /* Output a new header row every 40 lines */
         if (($stat_row++ % 40) == 0) {
             echo display_stat_header($total, false);
         }
-        echo '<tr><td class="bug_head">
-            <strong>' . package_link($name) . '</strong></td>
-            <td class="bug_bg1">'. $package_name['all'][$name]['total'] .'</td>
-            <td class="bug_bg2">'. bugstats('closed',      $name) .'</td>
-            <td class="bug_bg1">'. bugstats('open',        $name) .'</td>
-            <td class="bug_bg2">'. bugstats('critical',    $name) .'</td>
-            <td class="bug_bg1">'. bugstats('verified',    $name) .'</td>
-            <td class="bug_bg2">'. bugstats('analyzed',    $name) .'</td>
-            <td class="bug_bg1">'. bugstats('assigned',    $name) .'</td>
-            <td class="bug_bg2">'. bugstats('duplicate',   $name) .'</td>
-            <td class="bug_bg1">'. bugstats('feedback',    $name) .'</td>
-            <td class="bug_bg2">'. bugstats('no feedback', $name) .'</td>
-            <td class="bug_bg1">'. bugstats('bogus',       $name) .'</td>
-            <td class="bug_bg2">'. bugstats('suspended',   $name) .'</td>
-            </tr>' . "\n";
+        echo " <tr>\n";
+        echo '  <td class="bug_head">' . package_link($name) . "</td>\n";
+        echo '  <td class="bug_bg0">' . $pkg_total[$name];
+        echo "</td>\n";
+
+        $i = 1;
+        foreach ($titles as $key => $val) {
+            echo '  <td class="bug_bg' . $i++ % 2 . '">';
+            echo bugstats($key, $name) . "</td>\n";
+        }
+        echo ' </tr>' . "\n";
     }
 }
 
@@ -246,14 +220,20 @@ response_footer();
 
 function bugstats($status, $name)
 {
-    global $package_name;
+    global $pkg, $all;
 
-    if ($package_name[$status][$name] > 0) {
+    if (isset($pkg[$status][$name])) {
         return '<a href="search.php?cmd=display&amp;status=' .
                ucfirst($status) .
-               ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) .
+               ($name == 'all' ? '' : '&amp;package[]=' . urlencode($name)) .
                '&amp;by=Any&amp;limit=10'.$string.'">' .
-               $package_name[$status][$name] . "</a>\n";
+               $pkg[$status][$name] . "</a>\n";
+    } elseif ($name == 'all' && isset($all[$status])) {
+        return '<a href="search.php?cmd=display&amp;status=' .
+               ucfirst($status) .
+               ($name == 'all' ? '' : '&amp;package[]=' . urlencode($name)) .
+               '&amp;by=Any&amp;limit=10'.$string.'">' .
+               $all[$status] . "</a>\n";
     } else {
         return '&nbsp';
     }
@@ -293,24 +273,21 @@ function package_link($name)
 
 function display_stat_header($total, $grandtotal = true)
 {
+    global $titles;
+
+    $stat_head  = " <tr>\n";
     if ($grandtotal) {
-        $stat_head = '<tr class="bug_header"><td><strong>Name</strong></td>
-            <td>&nbsp;</td>';
+        $stat_head .= '  <th class="bug_header">Name</th>' . "\n";
     } else {
-        $stat_head = '<tr class="bug_header"><td>&nbsp;</td><td>&nbsp;</td>';
+        $stat_head .= '  <th class="bug_header">&nbsp;</th>' . "\n";
     }
-    $stat_head .= '<td><strong>' . sort_url('closed')      . '</strong></td>
-    <td><strong>' . sort_url('open')        . '</strong></td>
-    <td><strong>' . sort_url('critical')    . '</strong></td>
-    <td><strong>' . sort_url('verified')    . '</strong></td>
-    <td><strong>' . sort_url('analyzed')    . '</strong></td>
-    <td><strong>' . sort_url('assigned')    . '</strong></td>
-    <td><strong>' . sort_url('duplicate')   . '</strong></td>
-    <td><strong>' . sort_url('feedback')    . '</strong></td>
-    <td><strong>' . sort_url('no feedback') . '</strong></td>
-    <td><strong>' . sort_url('bogus')       . '</strong></td>
-    <td><strong>' . sort_url('suspended')   . '</strong></td>
-    </tr>' . "\n";
+    $stat_head .= '  <th class="bug_header">&nbsp;</th>' . "\n";
+
+    foreach ($titles as $key => $val) {
+        $stat_head .= '  <th class="bug_header">' . sort_url($key) . "</th>\n";
+    }
+
+    $stat_head .= '</tr>' . "\n";
     return $stat_head;
 }
 
