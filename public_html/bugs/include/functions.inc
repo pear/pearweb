@@ -45,15 +45,15 @@ function mysql_get_one($query)
 function show_byage_options($current)
 {
 	$opts = array(
-		"0"   => "the beginning",
-		"1"   => "yesterday",
-		"7"   => "7 days ago",
-		"15"  => "15 days ago",
-		"30"  => "30 days ago",
-		"90"  => "90 days ago",
+		'0'   => 'the beginning',
+		'1'   => 'yesterday',
+		'7'   => '7 days ago',
+		'15'  => '15 days ago',
+    '30'  => '30 days ago',
+		'90'  => '90 days ago',
 	);
 	while (list($k,$v) = each($opts)) {
-		echo "<option value=\"$k\"", ($current==$k ? " selected" : ""),
+		echo "<option value=\"$k\"", ($current==$k ? ' selected="selected"' : ''),
 		     ">$v</option>\n";
 	}
 }
@@ -68,22 +68,22 @@ function show_limit_options($limit=30)
 }
 
 $state_types = 	array (
-	"Open" => 2,
-	"Closed" => 2,
-	"Duplicate" => 2,
-	"Critical" => 1,
-	"Assigned" => 1,
-	"Analyzed" => 1,
-	"Verified" => 1,
-	"Suspended" => 1,
-	"Wont fix" => 1,
-	"No Feedback" => 1,
-	"Feedback" => 1,
-	"Old Feedback" => 0,
-	"Stale" => 0,
-	"Fresh" => 0,
-	"Bogus" => 2,
-	"All" => 0
+	'Open'         => 2,
+	'Closed'       => 2,
+	'Duplicate'    => 2,
+	'Critical'     => 1,
+	'Assigned'     => 1,
+	'Analyzed'     => 1,
+	'Verified'     => 1,
+	'Suspended'    => 1,
+	'Wont fix'     => 1,
+	'No Feedback'  => 1,
+	'Feedback'     => 1,
+	'Old Feedback' => 0,
+	'Stale'        => 0,
+	'Fresh'        => 0,
+	'Bogus'        => 2,
+	'All'          => 0
 );
 
 function show_state_options($state, $user_mode=0, $default="")
@@ -91,16 +91,16 @@ function show_state_options($state, $user_mode=0, $default="")
 	global $state_types;
 
 	if (!$state && !$default) {
-		$state = "Open";
+		$state = 'Open';
 	}
 	elseif (!$state) {
 		$state = $default;
 	}
 
 	/* regular users can only pick states with type 2 for unclosed bugs */
-	if($state != "All" && $state_types[$state] == 1 && $user_mode == 2) {
+	if($state != 'All' && $state_types[$state] == 1 && $user_mode == 2) {
 		/* If state was 'Feedback', set state to 'Open' automatically. */
-		if($state == "Feedback" || $state == "No Feedback") {
+		if($state == 'Feedback' || $state == 'No Feedback') {
 			echo "<option>Open</option>\n";
 		} else {
 			echo "<option>$state</option>\n";
@@ -119,10 +119,10 @@ function show_state_options($state, $user_mode=0, $default="")
 
 function show_version_options($current,$default="")
 {
-	$versions = array("4.3.6", "4.3.5", "4.3.4", "4.3.3", "4.3.2", "4.3.1", "4.3.0",
-					"4.2.2", "4.2.1", "4.2.0",
-					"4CVS-".date("Y-m-d")." (stable)",
-					"5.0.0RC2 (Release Candidate 2)", "5.0.0RC1 (Release Candidate 1)", "5CVS-".date("Y-m-d")." (dev)", "Irrelevant");
+	$versions = array('4.3.6', '4.3.5', '4.3.4', '4.3.3', '4.3.2', '4.3.1', '4.3.0',
+					'4.2.2', '4.2.1', '4.2.0',
+					'4CVS-'.date('Y-m-d').' (stable)',
+					'5.0.0RC2 (Release Candidate 2)', '5.0.0RC1 (Release Candidate 1)', '5CVS-'.date('Y-m-d').' (dev)', 'Irrelevant');
 	echo "<option value=\"\">--Please Select--</option>\n";
 	while (list(,$v) = each($versions)) {
 		echo "<option", ($current == $v ? " selected" : ""), ">$v</option>\n";
@@ -617,20 +617,20 @@ function show_bugs_menu($pkgname)
 	}
 	
     echo '<table width="100%" align="center" border="0"><tr><td>';
-    echo make_link("/package-info.php?package=$pkgname", "Package home");
-    echo "&nbsp;|&nbsp;";
-    echo make_link("/bugs/report.php?package=$pkgname", "Report a new bug");
-    echo "&nbsp;|&nbsp;";
-    echo make_link("/bugs/search.php?cmd=display&package_name[]=$pkgname&status=Open", "Bug list");
+    echo make_link('/package-info.php?package='.$pkgname, 'Package home');
+    echo delim();
+    echo make_link('/bugs/report.php?package='.$pkgname, 'Report a new bug');
+    echo delim();
+    echo make_link('/bugs/search.php?cmd=display&package_name[]='.$pkgname.'&amp;status=Open', 'Bug list');
     if (preg_match('/search.php/', $_SERVER['PHP_SELF'])) {
         // This could be changes by a SELECT box and JS
-        echo '</td><td align="right">Status: ';
-        echo make_link("/bugs/search.php?cmd=display&package_name[]=$pkgname&status=Open", 'Open');
-        echo "&nbsp;|&nbsp;";
-        echo make_link("/bugs/search.php?cmd=display&package_name[]=$pkgname&status=All", 'All');
-        echo '</td></tr></table>';
+        echo '</td><td style="text-align: right;">Status: ';
+        echo make_link('/bugs/search.php?cmd=display&package_name[]='.$pkgname.'&amp;status=Open', 'Open');
+        echo delim();
+        echo make_link('/bugs/search.php?cmd=display&package_name[]='.$pkgname.'&amp;status=All', 'All');
     }
-    echo "<hr/>";
+    echo '</td></tr></table>';
+    echo '<hr />';
 }
 
 ?>
