@@ -42,7 +42,8 @@ function pear_xmlrpc_dispatcher($method_name, $params, $appdata)
 {
     global $xmlrpc_method_index;
     if (empty($xmlrpc_method_index["index"][$method_name])) {
-        error_log("pear xmlrpc: unknown method: $method_name");
+        error_log("pear xmlrpc: unknown method: $method_name", 0,
+            PEAR_TMPDIR . DIRECTORY_SEPARATOR . 'pear-errors.log');
         report_error("unknown method: $method_name");
         return false;
     }
@@ -59,7 +60,8 @@ function pear_xmlrpc_dispatcher($method_name, $params, $appdata)
         }
     }
     if (!isset($xmlrpc_method_index["index"][$method_name][$type_key])) {
-        error_log("pear xmlrpc: no signature found for $method_name($type_key)");
+        error_log("pear xmlrpc: no signature found for $method_name($type_key)", 0,
+            PEAR_TMPDIR . DIRECTORY_SEPARATOR . 'pear-errors.log');
         report_error("no signature found for $method_name($type_key)");
         return false;
     }
