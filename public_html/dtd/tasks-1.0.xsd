@@ -24,11 +24,56 @@
   <xs:annotation>
    <xs:documentation>standard PEAR post-installation script - must be used in a role="php" file</xs:documentation>
   </xs:annotation>
- </xs:element>
- <xs:element name="preinstallscript">
-  <xs:annotation>
-   <xs:documentation>standard PEAR pre-installation script - must be used in a role="php" file</xs:documentation>
-  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="paramgroup" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element name="id" type="xs:string">
+        <xs:annotation>
+         <xs:documentation>parameter condition name, passed to install script</xs:documentation>
+        </xs:annotation>
+       </xs:element>
+       <xs:sequence minOccurs="0">
+        <xs:element name="name" type="xs:string"/>
+        <xs:element name="conditiontype">
+         <xs:simpleType>
+          <xs:restriction base="xs:string">
+           <xs:enumeration value="="/>
+           <xs:enumeration value="!="/>
+           <xs:enumeration value="preg_match"/>
+          </xs:restriction>
+         </xs:simpleType>
+        </xs:element>
+        <xs:element name="value" type="xs:string"/>
+       </xs:sequence>
+       <xs:element name="param" maxOccurs="unbounded">
+        <xs:complexType>
+         <xs:sequence>
+          <xs:element name="name">
+           <xs:simpleType>
+            <xs:restriction base="xs:string">
+             <xs:pattern value="[a-zA-Z0-9]+"/>
+            </xs:restriction>
+           </xs:simpleType>
+          </xs:element>
+          <xs:element name="prompt" type="xs:string"/>
+          <xs:element name="type">
+           <xs:simpleType>
+            <xs:restriction base="xs:string">
+             <xs:enumeration value="string"/>
+            </xs:restriction>
+           </xs:simpleType>
+          </xs:element>
+          <xs:element name="default" type="xs:string" minOccurs="0"/>
+         </xs:sequence>
+        </xs:complexType>
+       </xs:element>
+      </xs:sequence>
+     </xs:complexType>
+    </xs:element>
+   </xs:sequence>
+  </xs:complexType>
  </xs:element>
  <xs:element name="unixeol">
   <xs:annotation>
