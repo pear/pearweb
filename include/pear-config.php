@@ -68,4 +68,14 @@ define('PEAR_COMMON_USER_NAME_REGEX', '/^[a-z][a-z0-9]+$/i');
 
 define('DAMBLAN_RSS_CACHE_DIR', PEAR_TMPDIR . '/rss_cache');
 define('DAMBLAN_RSS_CACHE_TIME', 1800);
+
+define('PROPOSAL_STATUS_PROPOSAL_TIMELINE', (60 * 60 * 24 * 7), true); // 1 week
+define('PROPOSAL_STATUS_VOTE_TIMELINE', (60 * 60 * 24 * 7), true); // 1 week
+
+define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <pear-dev@lists.php.net>', true);
+define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>', true);
+define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
+define('PROPOSAL_EMAIL_PREFIX', '[PEPr]', true);
+define('PROPOSAL_EMAIL_POSTFIX', "\n\n\nSent by PEPr\nAutomatic proposal system at http://pear.php.net", true);
+
 ?>
