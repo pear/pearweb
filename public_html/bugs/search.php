@@ -332,9 +332,9 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         }
 
         if (!$rows) {
+            show_bugs_menu($_GET['package_name'][0]);
             $errors[] = 'No bugs were found.';
             display_bug_error($errors, 'warnings', '');
-            show_bugs_menu($_GET['package_name'][0]);
         } else {
             $package_name_string = '';
             if (count($_GET['package_name']) > 0) {
