@@ -1037,7 +1037,7 @@ class package
     function updateInfo($pkgid, $data)
     {
         global $dbh, $auth_user;
-        $package_id = package::info($pkgid, 'id');
+        $package_id = package::info($pkgid, 'id', true);
         if (PEAR::isError($package_id) || empty($package_id)) {
             return PEAR::raiseError("Package not registered or not approved. Please register it first with \"New Package\" or wait until it gets approved.");
         }
@@ -1192,7 +1192,7 @@ class maintainer
             return PEAR::raiseError("User $user does not exist");
         }
         if (is_string($package)) {
-            $package = package::info($package, 'id');
+            $package = package::info($package, 'id', true);
         }
         $err = $dbh->query("INSERT INTO maintains VALUES(?,?,?,?)",
                            array($user, $package, $role, $active));
@@ -1217,7 +1217,7 @@ class maintainer
     {
         global $dbh;
         if (is_string($package)) {
-            $package = package::info($package, 'id');
+            $package = package::info($package, 'id', true);
         }
         $query = "SELECT handle, role, active FROM maintains WHERE package = ?";
         if ($lead) {
@@ -1282,7 +1282,7 @@ class maintainer
             return PEAR::raiseError('maintainer::remove: insufficient privileges');
         }
         if (is_string($package)) {
-            $package = package::info($package, 'id');
+            $package = package::info($package, 'id', true);
         }
         $sql = "DELETE FROM maintains WHERE package = ? AND handle = ?";
         return $dbh->query($sql, array($package, $user));
@@ -1556,7 +1556,7 @@ class release
             return PEAR::raiseError('release::validateUpload: insufficient privileges');
         }
         // (2) verify that package exists
-        $package_id = package::info($package, 'id');
+        $package_id = package::info($package, 'id', true);
         if (PEAR::isError($package_id) || empty($package_id)) {
             return PEAR::raiseError("package `$package' must be registered first");
         }
@@ -1689,93 +1689,98 @@ class release
                 }
             }
         }
-        foreach ($storedeps as $dep) {
-            $prob = array();
-
-            if (empty($dep['type']) ||
-                !in_array($dep['type'], $_PEAR_Common_dependency_types))
-            {
-                $prob[] = 'type';
-            }
-
-            if (empty($dep['name'])) {
-                /*
-                 * NOTE from pajoye in ver 1.166:
-                 * This works for now.
-                 * This would require a 'cleaner' InfoFromXXX
-                 * which may return a defined set of data using
-                 * default values if required.
-                 */
-                if (strtolower($dep['type']) == 'php') {
-                    $dep['name'] = 'PHP';
-                } else {
-                    $prob[] = 'name';
+        if (is_array($storedeps)) {
+            foreach ($storedeps as $dep) {
+                $prob = array();
+    
+                if (empty($dep['type']) ||
+                    !in_array($dep['type'], $_PEAR_Common_dependency_types))
+                {
+                    $prob[] = 'type';
                 }
-            } elseif (strtolower($dep['name']) == 'pear') {
-                if (!$pearused && $compatible) {
-                    // there is no need for a PEAR dependency here
-                    continue;
+    
+                if (empty($dep['name'])) {
+                    /*
+                     * NOTE from pajoye in ver 1.166:
+                     * This works for now.
+                     * This would require a 'cleaner' InfoFromXXX
+                     * which may return a defined set of data using
+                     * default values if required.
+                     */
+                    if (strtolower($dep['type']) == 'php') {
+                        $dep['name'] = 'PHP';
+                    } else {
+                        $prob[] = 'name';
+                    }
+                } elseif (strtolower($dep['name']) == 'pear') {
+                    if (!$pearused && $compatible) {
+                        // there is no need for a PEAR dependency here
+                        continue;
+                    }
+                    if (!$pearused && !$compatible) {
+                        $dep['name'] = 'PEAR Installer';
+                    }
                 }
-                if (!$pearused && !$compatible) {
-                    $dep['name'] = 'PEAR Installer';
+    
+                if (empty($dep['rel']) ||
+                    !in_array($dep['rel'], $_PEAR_Common_dependency_relations))
+                {
+                    $prob[] = 'rel';
                 }
-            }
-
-            if (empty($dep['rel']) ||
-                !in_array($dep['rel'], $_PEAR_Common_dependency_relations))
-            {
-                $prob[] = 'rel';
-            }
-
-            if (empty($dep['optional'])) {
-                $optional = 0;
-            } else {
-                if ($dep['optional'] != strtolower($dep['optional'])) {
-                    $prob[] = 'optional';
-                }
-                if ($dep['optional'] == 'yes') {
-                    $optional = 1;
-                } else {
+    
+                if (empty($dep['optional'])) {
                     $optional = 0;
+                } else {
+                    if ($dep['optional'] != strtolower($dep['optional'])) {
+                        $prob[] = 'optional';
+                    }
+                    if ($dep['optional'] == 'yes') {
+                        $optional = 1;
+                    } else {
+                        $optional = 0;
+                    }
                 }
-            }
-
-            if (count($prob)) {
-                $res = PEAR::raiseError('The following attribute(s) ' .
-                        'were missing or need proper values: ' .
-                        implode(', ', $prob));
-            } else {
-                $res = $dbh->execute($sth,
-                        array(
-                            $package_id,
-                            $release_id,
-                            $dep['type'],
-                            $dep['rel'],
-                            @$dep['version'],
-                            $dep['name'],
-                            $optional));
-            }
-
-            if (PEAR::isError($res)) {
-                $dbh->query('DELETE FROM deps WHERE ' .
-                            "release = $release_id");
-                $dbh->query('DELETE FROM releases WHERE ' .
-                            "id = $release_id");
-                @unlink($file);
-                return $res;
+    
+                if (count($prob)) {
+                    $res = PEAR::raiseError('The following attribute(s) ' .
+                            'were missing or need proper values: ' .
+                            implode(', ', $prob));
+                } else {
+                    $res = $dbh->execute($sth,
+                            array(
+                                $package_id,
+                                $release_id,
+                                $dep['type'],
+                                $dep['rel'],
+                                @$dep['version'],
+                                $dep['name'],
+                                $optional));
+                }
+    
+                if (PEAR::isError($res)) {
+                    $dbh->query('DELETE FROM deps WHERE ' .
+                                "release = $release_id");
+                    $dbh->query('DELETE FROM releases WHERE ' .
+                                "id = $release_id");
+                    @unlink($file);
+                    return $res;
+                }
             }
         }
 
-        // Add release archive file to API documentation queue
-        $query = "INSERT INTO apidoc_queue (filename, queued) "
-             . "VALUES ('" . $file. "', NOW())";
+        $type = $dbh->getOne('SELECT package_type FROM packages WHERE id = ?', array($id));
+        if ($type == 'pear') {
+            // Add release archive file to API documentation queue
+            $query = "INSERT INTO apidoc_queue (filename, queued) "
+                 . "VALUES ('" . $file. "', NOW())";
 
-        /*
-         * Don't abort the release if something goes wrong.
-         */
-        $dbh->pushErrorHandling(PEAR_ERROR_RETURN);
-        $sth = $dbh->query($query);
-        $dbh->popErrorHandling();
+            /*
+             * Don't abort the release if something goes wrong.
+             */
+            $dbh->pushErrorHandling(PEAR_ERROR_RETURN);
+            $sth = $dbh->query($query);
+            $dbh->popErrorHandling();
+        }
 
         // Update Cache
         include_once 'xmlrpc-cache.php';
@@ -2037,6 +2042,58 @@ class release
     }
 
     // }}}
+
+    /**
+     * Promote new release
+     *
+     * @param array Coming from PEAR_common::infoFromDescFile('package.xml')
+     * @param string Filename of the new uploaded release
+     * @return void
+     */
+    function _peclPromote($pkginfo, $upload)
+    {
+        if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
+            return;
+        }
+        $pacid   = package::info($pkginfo['package'], 'packageid', true);
+        $authors = package::info($pkginfo['package'], 'authors', true);
+        $txt_authors = '';
+        foreach ($authors as $a) {
+            $txt_authors .= $a['name'];
+            if ($a['showemail']) {
+                $txt_authors .= " <{$a['email']}>";
+            }
+            $txt_authors .= " ({$a['role']})\n";
+        }
+        $upload = basename($upload);
+        $release = "{$pkginfo['package']}-{$pkginfo['version']} ({$pkginfo['release_state']})";
+        $txtanounce =<<<END
+The new PECL package $release has been released at http://pecl.php.net/.
+
+Release notes
+-------------
+{$pkginfo['release_notes']}
+
+Package Info
+-------------
+{$pkginfo['description']}
+
+Related Links
+-------------
+Package home: http://pecl.php.net/package/$pkginfo[package]
+   Changelog: http://pecl.php.net/package-changelog.php?package=$pkginfo[package]
+    Download: http://pecl.php.net/get/$upload
+
+Authors
+-------------
+$txt_authors
+END;
+        $to   = '"PECL developers list" <pecl-dev@lists.php.net>';
+        $from = '"PECL Announce" <pecl-dev@lists.php.net>';
+        $subject = "[ANNOUNCEMENT] $release Released.";
+        mail($to, $subject, $txtanounce, "From: $from", "-f pear-sys@php.net");
+    }
+
     // {{{ +proto string release::promote(array, string) API 1.0
 
     /**
@@ -2050,6 +2107,10 @@ class release
     {
         if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
             return;
+        }
+        $type = $dbh->getOne('SELECT package_type FROM packages WHERE id = ?', array($id));
+        if ($type == 'pecl') {
+            return $this->_peclPromote($pkginfo, $upload);
         }
         $pacid   = package::info($pkginfo['package'], 'packageid');
         $authors = package::info($pkginfo['package'], 'authors');
@@ -2402,7 +2463,7 @@ class user
     function maintains($user, $pkgid, $role = 'any')
     {
         global $dbh;
-        $package_id = package::info($pkgid, 'id');
+        $package_id = package::info($pkgid, 'id', true);
         if ($role == 'any') {
             return $dbh->getOne('SELECT role FROM maintains WHERE handle = ? '.
                                 'AND package = ?', array($user, $package_id));
