@@ -48,35 +48,33 @@ function validate($entity, $field, $value /* , $oldvalue, $object */) {
 }
 
 // }}}
-
 // {{{ renumber_visitations()
 
-/*
-
-Some useful "visitation model" tricks:
-
-To find the number of child elements:
- (right - left - 1) / 2
-
-To find the number of child elements (including self):
- (right - left + 1) / 2
-
-To get all child nodes:
-
- SELECT * FROM table WHERE left > <self.left> AND left < <self.right>
-
-
-To get all child nodes, including self:
-
- SELECT * FROM table WHERE left BETWEEN <self.left> AND <self.right>
- "ORDER BY left" gives tree view
-
-To get all leaf nodes:
-
- SELECT * FROM table WHERE right-1 = left;
-
+/**
+ *
+ *
+ * Some useful "visitation model" tricks:
+ *
+ * To find the number of child elements:
+ *  (right - left - 1) / 2
+ *
+ * To find the number of child elements (including self):
+ *  (right - left + 1) / 2
+ *
+ * To get all child nodes:
+ *
+ *  SELECT * FROM table WHERE left > <self.left> AND left < <self.right>
+ *
+ *
+ * To get all child nodes, including self:
+ *
+ *  SELECT * FROM table WHERE left BETWEEN <self.left> AND <self.right>
+ *  "ORDER BY left" gives tree view
+ *
+ * To get all leaf nodes:
+ *
+ *  SELECT * FROM table WHERE right-1 = left;
  */
-
 function renumber_visitations($id, $parent)
 {
     global $dbh;
@@ -113,7 +111,6 @@ function renumber_visitations($id, $parent)
 }
 
 // }}}
-
 // {{{ version_compare_firstelem()
 
 function version_compare_firstelem($a, $b)
@@ -154,7 +151,7 @@ class category
      *
      * @param array
      * @return mixed ID of the category or PEAR error object
-    */
+     */
     function add($data)
     {
         global $dbh;
@@ -180,13 +177,13 @@ class category
     }
 
     /**
-    * Updates a categories details
-    *
-    * @param  integer $id   Category ID
-    * @param  string  $name Category name
-    * @param  string  $desc Category Description
-    * @return mixed         True on success, pear_error otherwise
-    */
+     * Updates a categories details
+     *
+     * @param  integer $id   Category ID
+     * @param  string  $name Category name
+     * @param  string  $desc Category Description
+     * @return mixed         True on success, pear_error otherwise
+     */
     function update($id, $name, $desc = '')
     {
         return $GLOBALS['dbh']->query(sprintf('UPDATE categories SET name = %s, description = %s WHERE id = %d',
@@ -196,25 +193,25 @@ class category
     }
 
     /**
-    * Deletes a category
-    *
-    * @param integer $id Cateogry ID
-    */
+     * Deletes a category
+     *
+     * @param integer $id Cateogry ID
+     */
     function delete($id)
     {
-    /*
-        if ($GLOBALS['dbh']->query('SELECT COUNT(*) FROM categories WHERE parent = ' . (int)$id) > 0) {
-            return PEAR::raiseError('Cannot delete a category which has subcategories');
-        }
 
-        // Get parent ID if any
-        $parentID = $GLOBALS['dbh']->getOne('SELECT parent FROM categories WHERE id = ' . $id);
-        if (!$parentID) {
-            $nextID = $GLOBALS['dbh']->getOne('SELECT id FROM categories WHERE cat_left = ' . $GLOBALS['dbh']->getOne('SELECT cat_right + 1 FROM categories WHERE id = ' . $id));
-        } else {
-            $nextID = $parentID;
-        }
-    */
+        // if ($GLOBALS['dbh']->query('SELECT COUNT(*) FROM categories WHERE parent = ' . (int)$id) > 0) {
+        //     return PEAR::raiseError('Cannot delete a category which has subcategories');
+        // }
+        //
+        // // Get parent ID if any
+        // $parentID = $GLOBALS['dbh']->getOne('SELECT parent FROM categories WHERE id = ' . $id);
+        // if (!$parentID) {
+        //     $nextID = $GLOBALS['dbh']->getOne('SELECT id FROM categories WHERE cat_left = ' . $GLOBALS['dbh']->getOne('SELECT cat_right + 1 FROM categories WHERE id = ' . $id));
+        // } else {
+        //     $nextID = $parentID;
+        // }
+
         // Get parent ID if any
         $parentID = $GLOBALS['dbh']->getOne('SELECT parent FROM categories WHERE id = ' . $id);
 
@@ -448,7 +445,7 @@ class package
 
     // }}}
 
-    /**
+    /*
      * Implemented $field values:
      * releases, notes, category, description, authors, categoryid,
      * packageid, authors
@@ -680,7 +677,6 @@ class package
     }
 
     // }}}
-
     // {{{  proto struct package::listAllwithReleases() API 1.0
 
     /**
@@ -800,6 +796,7 @@ class package
 
     // }}}
     // {{{ +proto bool   package::updateInfo(string|int, struct) API 1.0
+
     /**
      * Updates fields of an existant package
      *
@@ -1361,7 +1358,8 @@ class release
         $file_id = $dbh->nextId("files");
         $ok = $dbh->execute($sth, array($file_id, $package_id, $release_id,
                                         $md5sum, basename($file), $file));
-        /* Code duplication with deps error
+        /*
+         * Code duplication with deps error
          * Should be droped soon or later using transaction
          * (and add mysql4 as a pe(ar|cl)web requirement)
          */
@@ -1377,7 +1375,7 @@ class release
             "VALUES (?,?,?,?,?,?,?)";
         $sth = $dbh->prepare($query);
 
-        /**
+        /*
          * The dependencies are only accessible via the package
          * definition. Because of this we need to instantiate
          * a PEAR_Common object here.
@@ -2061,11 +2059,11 @@ class user
 
         $required = array("handle"    => "your desired username",
                           "firstname" => "your first name",
-						  "lastname"  => "your last name",
+                          "lastname"  => "your last name",
                           "email"     => "your email address",
                           "purpose"   => "the purpose of your PEAR account");
 
-		$name = $data['firstname'] . " " . $data['lastname'];
+        $name = $data['firstname'] . " " . $data['lastname'];
 
         foreach ($required as $field => $desc) {
             if (empty($data[$field])) {
@@ -2326,7 +2324,6 @@ function logintest()
 }
 
 // }}}
-
 // {{{ class PEAR_User
 
 class PEAR_User extends DB_storage
@@ -2409,18 +2406,18 @@ class PEAR_Release extends DB_storage
 
 // }}}
 // {{{ class PEAR Proposal
-/*
-class PEAR_Proposal extends DB_storage
-{
-    function PEAR_Proposal(&$dbh, $package, $keycol = "id")
-    {
-        $this->DB_storage("package_proposals", $keycol, $dbh);
-        $this->pushErrorHandling(PEAR_ERROR_RETURN);
-        $this->setup($package);
-        $this->popErrorHandling();
-    }
-}
-*/
+
+//class PEAR_Proposal extends DB_storage
+//{
+//    function PEAR_Proposal(&$dbh, $package, $keycol = "id")
+//    {
+//        $this->DB_storage("package_proposals", $keycol, $dbh);
+//        $this->pushErrorHandling(PEAR_ERROR_RETURN);
+//        $this->setup($package);
+//        $this->popErrorHandling();
+//    }
+//}
+
 // }}}
 
 if (!function_exists("md5_file")) {
