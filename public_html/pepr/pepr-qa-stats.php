@@ -21,11 +21,6 @@
  * @version   $Id$
  */
 
-/**
- * Obtain the common functions and classes.
- */
-require_once 'pepr/pepr.php';
-
 function getDays($date) {
     return ceil((time() - $date) / 60 / 60 / 24);
 }
