@@ -181,7 +181,7 @@ if (isset($_POST['action'])) {
  <li><a href="support.php#icons">PEAR Icons</a></li>
 </ul>
 
-<a name="lists" id="lists"><h2>Mailing Lists</h2></a>
+<h2><a name="lists" id="lists">Mailing Lists</a></h2>
 
 <p>
  There are <?php echo count($mailing_lists)-1; ?> PEAR-related mailing
@@ -193,29 +193,29 @@ if (isset($_POST['action'])) {
 </p>
 
 <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-<table cellpadding="5" cellspacing="1">
+<table class="form-holder" cellpadding="5" cellspacing="1">
 
 <?php
 
 while (list(, $listinfo) = each($mailing_lists)) {
     if (!is_array($listinfo)) {
-        echo '<tr bgcolor="#cccccc">';
-        echo '<th>' . $listinfo . '</th>';
-        echo '<th>Moderated</th>';
-        echo '<th>Archive</th>';
-        echo '<th>Newsgroup</th>';
-        echo '<th>Normal</th>';
-        echo '<th>Digest</th>';
-        echo '</tr>' . "\n";
+        echo ' <tr>' . "\n";
+        echo '  <th class="form-label_top_center">' . $listinfo . '</th>' . "\n";
+        echo '  <th class="form-label_top_center">Moderated</th>' . "\n";
+        echo '  <th class="form-label_top_center">Archive</th>' . "\n";
+        echo '  <th class="form-label_top_center">Newsgroup</th>' . "\n";
+        echo '  <th class="form-label_top_center">Normal</th>' . "\n";
+        echo '  <th class="form-label_top_center">Digest</th>' . "\n";
+        echo ' </tr>' . "\n";
     } else {
-        echo '<tr align="center" bgcolor="#e0e0e0">';
-        echo ' <td align="left"><strong>' . $listinfo[1] . '</strong><br /><small>'. $listinfo[2] . "</small></td>\n";
-        echo ' <td>' . ($listinfo[3] ? 'yes' : 'no') . "</td>\n";
-        echo ' <td>' . ($listinfo[4] ? make_link("http://marc.theaimsgroup.com/?l=".$listinfo[0], 'yes') : 'n/a') . "</td>\n";
-        echo ' <td>' . ($listinfo[6] ? make_link("news://news.php.net/".$listinfo[6], 'yes') . ' ' . make_link("http://news.php.net/group.php?group=".$listinfo[6], 'http') : 'n/a') . "</td>\n";
-        echo ' <td><input name="maillist[' . $listinfo[0] . ']" type="radio" value="regular" /></td>';
-        echo ' <td>' . ($listinfo[5] ? '<input name="maillist[' . $listinfo[0] . ']" type="radio" value="digest" />' : 'n/a' ) . "</td>\n";
-        echo '</tr>' . "\n";
+        echo ' <tr>' . "\n";
+        echo '  <td class="form-input"><strong>' . $listinfo[1] . '</strong><br /><small>'. $listinfo[2] . "</small></td>\n";
+        echo '  <td class="form-input_center">' . ($listinfo[3] ? 'yes' : 'no') . "</td>\n";
+        echo '  <td class="form-input_center">' . ($listinfo[4] ? make_link("http://marc.theaimsgroup.com/?l=".$listinfo[0], 'yes') : 'n/a') . "</td>\n";
+        echo '  <td class="form-input_center">' . ($listinfo[6] ? make_link("news://news.php.net/".$listinfo[6], 'yes') . ' ' . make_link("http://news.php.net/group.php?group=".$listinfo[6], 'http') : 'n/a') . "</td>\n";
+        echo '  <td class="form-input_center"><input name="maillist[' . $listinfo[0] . ']" type="radio" value="regular" /></td>';
+        echo '  <td class="form-input_center">' . ($listinfo[5] ? '<input name="maillist[' . $listinfo[0] . ']" type="radio" value="digest" />' : 'n/a' ) . "</td>\n";
+        echo ' </tr>' . "\n";
     }
 }
 
@@ -223,7 +223,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
 
 </table>
 
-<p align="center">
+<p style="text-align: center;">
  <strong>Email:</strong>
  <input type="text" name="email" size="30" value="user@example.com" />
  <input type="submit" name="action" value="Subscribe" />
@@ -262,7 +262,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
 </p>
 
 
-<a name="tutorials" id="tutorials"><h2>PEAR Tutorials</h2></a>
+<h2><a name="tutorials" id="tutorials">PEAR Tutorials</a></h2>
 
 <h3>PEAR Tutorial Sites</h3>
 
@@ -370,7 +370,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
  </li>
 </ul>
 
-<a name="resources" id="resources"><h2>PEAR Resources</h2></a>
+<h2><a name="resources" id="resources">PEAR Resources</a></h2>
 
 <ul class="spaced">
  <li>
@@ -440,7 +440,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
 </ul>
 
 
-<a name="icons" id="icons"><h2>Powered By PEAR</h2></a>
+<h2><a name="icons" id="icons">Powered By PEAR</a></h2>
 
 <p>
  What programming tool would be complete without a set of icons to put
@@ -461,7 +461,7 @@ $icons = Array(
 echo '<table cellpadding="5" cellspacing="1">';
 
 foreach ($icons as $file => $desc) {
-    echo '<tr bgcolor="e0e0e0">';
+    echo '<tr>';
     echo '<td>' . make_image($file,$desc) . '<br /></td>';
     echo '<td>' . $desc . '<br /><small>';
     $size = @getimagesize($HTTP_SERVER_VARS['DOCUMENT_ROOT'].'/gifs/'.$file);

@@ -178,9 +178,21 @@ th.form-label_left {
     width: 25%;
 }
 
+th.form-label_top_center {
+    text-align: center;
+    font-weight: bold;
+    background-color: #CCCCCC;
+}
+
 td.form-input {
     text-align: left;
     vertical-align: top;
+    background-color: #E8E8E8;
+}
+
+td.form-input_center {
+    text-align: center;
+    vertical-align: center;
     background-color: #E8E8E8;
 }
 
