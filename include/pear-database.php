@@ -426,7 +426,7 @@ class package
         if (isset($packageinfo['version'])) {
             $version = $packageinfo['version'];
         }
-        $info = package::info($package); // get deps too
+        $info = package::info($package, null, true); // get deps too
         $info = $info['releases'];
         if (!count($info)) {
             return false;
@@ -508,7 +508,7 @@ class package
     function getDepDownloadURL($xsdversion, $dependency, $deppackage,
                                $prefstate = 'stable', $loc = null, $mirror = null)
     {
-        $info = package::info($dependency['name']);
+        $info = package::info($dependency['name'], null, true);
         $info = $info['releases'];
         if (!count($info)) {
             return false;
