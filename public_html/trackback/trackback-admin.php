@@ -69,7 +69,10 @@ case 'delete_verified':
     break;
 }
 
-response_header('Trackback admin');
+$relocator = '<meta http-equiv="refresh" content="5; URL=http://pear.php.net/package/'.$id.'/trackbacks">';
+
+response_header('Trackback admin', null, $relocator);
 echo $msg;
+echo '<p>You should be redirected to the packages trackback page in 5 seconed. if this does not work, please klick <a href="http://pear.php.net/package/'.$id.'/trackbacks">here</a>.</p>';
 response_footer();
 ?>
