@@ -1,45 +1,75 @@
 <?php
 
-/*
-+----------------------------------------------------------------------+
-| PEAR Web site version 1.0                                            |
-+----------------------------------------------------------------------+
-| Copyright (c) 2001-2003 The PHP Group                                |
-+----------------------------------------------------------------------+
-| This source file is subject to version 2.02 of the PHP license,      |
-| that is bundled with this package in the file LICENSE, and is        |
-| available at through the world-wide-web at                           |
-| http://www.php.net/license/2_02.txt.                                 |
-| If you did not receive a copy of the PHP license and are unable to   |
-| obtain it through the world-wide-web, please send a note to          |
-| license@php.net so we can mail you a copy immediately.               |
-+----------------------------------------------------------------------+
-| Authors:       Tobias Schlitt <toby@php.net>                         |
-+----------------------------------------------------------------------+
-$Id$
-*/
+/**
+ * Interface for inputing/editing a proposal.
+ *
+ * The <var>$proposalTypeMap</var> array is defined in
+ * pearweb/include/pepr/pepr.php.
+ *
+ * This source file is subject to version 3.0 of the PHP license,
+ * that is bundled with this package in the file LICENSE, and is
+ * available through the world-wide-web at the following URI:
+ * http://www.php.net/license/3_0.txt.
+ * If you did not receive a copy of the PHP license and are unable to
+ * obtain it through the world-wide-web, please send a note to
+ * license@php.net so we can mail you a copy immediately.
+ *
+ * @category  pearweb
+ * @package   PEPr
+ * @author    Tobias Schlitt <toby@php.net>
+ * @author    Daniel Convissor <danielc@php.net>
+ * @copyright Copyright (c) 1997-2004 The PHP Group
+ * @license   http://www.php.net/license/3_0.txt  PHP License
+ * @version   $Id$
+ */
 
+/**
+ * Obtain the common functions and classes.
+ */
 require_once 'pepr/pepr.php';
+
+/**
+ * Obtain code for Bulletin Board markup.
+ */
 require_once 'HTML/BBCodeParser.php';
-require_once 'HTML/QuickForm.php';
 
 auth_require('pear.pepr');
 
-$karma = new Damblan_Karma($dbh);
+$karma =& new Damblan_Karma($dbh);
 
-if (!empty($id)) {
-    $proposal = proposal::get($dbh, $id);
-    if (DB::isError($proposal)) {
-        PEAR::raiseError('Package proposal not found.');
+if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
+    response_header('PEPr :: Editor :: '
+                    . htmlspecialchars($proposal->pkg_name));
+    echo '<h1>Proposal Editor for ' . htmlspecialchars($proposal->pkg_name);
+    echo ' (' . $proposal->getStatus(true) . ")</h1>\n";
+
+    if (!$proposal->mayEdit($_COOKIE['PEAR_USER']) && empty($_GET['next_stage'])) {
+        report_error('You are not allowed to edit this proposal,'
+                     . ' probably due to it having reached the "'
+                     . $proposal->getStatus(true) . '" phase.'
+                     . ' If this MUST be edited, contact someone ELSE'
+                     . ' who has pear.pepr.admin karma.');
+        response_footer();
+        exit;
     }
 
-    if (!$proposal->mayEdit($_COOKIE['PEAR_USER']) && empty($next_stage)) {
-        PEAR::raiseError('Proposal can not be edited.');
+    if ($proposal->compareStatus('>', 'proposal') &&
+        $karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin'))
+    {
+        report_error('This proposal has reached the "'
+                     . $proposal->getStatus(true) . '" phase.'
+                     . ' Are you SURE you want to edit it?',
+                     'warnings', 'WARNING:');
     }
+
     $proposal->getLinks($dbh);
+} else {
+    response_header('PEPr :: Editor :: New Proposal');
+    echo '<h1>New Package Proposal</h1>' . "\n";
 }
 
-$form = new HTML_QuickForm('proposal_edit', 'post', 'pepr-proposal-edit.php?id='.@$id);
+$form =& new HTML_QuickForm('proposal_edit', 'post',
+                            'pepr-proposal-edit.php?id=' . $proposal->id);
 
 $categories = category::listAll();
 $mapCategories['RFC'] = 'RFC (No package category!)';
@@ -77,8 +107,8 @@ for ($i = 0; $i < $max; $i++) {
 $form->addElement('static', '', '', '<small>To add more links, fill out all link forms and hit save. To delete a link leave the URL field blank.</small>');
 
 if (isset($proposal) && ($proposal->getStatus() != 'draft')) {
-        $form->addElement('static', '', '', '<strong>If you add any text to the Update Comment textarea,<br /> then a mail will be sent to pear-dev about this update</strong>');
-        $form->addElement('textarea', 'action_comment', 'Update comment:', array('cols' => 80, 'rows' => 10));
+    $form->addElement('static', '', '', '<strong>If you add any text to the Changelog comment textarea,<br />then a mail will be sent to pear-dev about this update.</strong>');
+    $form->addElement('textarea', 'action_comment', 'Changelog comment:', array('cols' => 80, 'rows' => 10));
 }
 
 
@@ -131,16 +161,17 @@ if (isset($proposal)) {
     if (($timeline === true) || ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
         $form->addElement('checkbox', 'next_stage', $next_stage_text);
     } else {
-        $form->addElement('static', 'next_stage', '', 'You can set "'.@$next_stage_text.'" on '.date('Y-m-d, H:i ', $timeline).'GMT '.date('O'));
+        $form->addElement('static', 'next_stage', '',
+                          'You can set &quot;' . @$next_stage_text
+                          . '&quot; after '
+                          . make_utc_date($timeline) . '.');
     }
 }
-
 
 
 $form->applyFilter('pkg_name', 'trim');
 $form->applyFilter('pkg_describtion', 'trim');
 $form->applyFilter('pkg_deps', 'trim');
-$form->applyFilter('__ALL__', 'addslashes');
 
 $form->addRule('pkg_category', 'You have to select a package category!', 'required', '', 'client');
 $form->addRule('pkg_name', 'You have to select a package name!', 'required', '', 'client');
@@ -150,125 +181,114 @@ $form->addRule('link[0]', '2 links are required as minimum!', 'required', '', 'c
 $form->addRule('link[1]', '2 links are required as minimum!', 'required', '', 'client');
 
 
-if ($form->validate()) {
-    $values = $form->exportValues();
+if (isset($_POST['submit'])) {
+    if ($form->validate()) {
+        $values = $form->exportValues();
 
-    if (isset($values['pkg_category_new']['pkg_category_new_do'])) {
-        $values['pkg_category'] = $values['pkg_category_new']['pkg_category_new_text'];
-    }
-    if (isset($values['next_stage'])) {
-        switch ($proposal->status) {
-            case 'draft':
-                if ($proposal->checkTimeLine()) {
-                   $values['proposal_date'] = time();
-                   $proposal->status = 'proposal';
-                   $proposal->sendActionEmail('change_status_proposal', 'mixed', $_COOKIE['PEAR_USER']);
-                } else {
-                   PEAR::raiseError('You can not change the status now.');
-                }
-            break;
-
-            case 'proposal':
-                if ($proposal->checkTimeLine()) {
-                   $values['vote_date'] = time();
-                   $proposal->status = 'vote';
-                   $proposal->sendActionEmail('change_status_vote', 'mixed', $_COOKIE['PEAR_USER']);
-                } else {
-                   PEAR::raiseError('You can not change the status now.');
-                }
-            break;
-
-            default:
-                if ($proposal->mayEdit($_COOKIE['PEAR_USER'])) {
-                   $values['longened_date'] = time();
-                   $proposal->status = 'vote';
-                   $proposal->sendActionEmail('longened_timeline_admin', 'mixed', $_COOKIE['PEAR_USER']);
-                }
-            break;
+        if (isset($values['pkg_category_new']['pkg_category_new_do'])) {
+            $values['pkg_category'] = $values['pkg_category_new']['pkg_category_new_text'];
         }
-    } else {
-        if (isset($proposal) && $proposal->status != 'draft') {
-            if (!empty($values['action_comment']) || ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
-                if (empty($values['action_comment'])) {
-                    PEAR::raiseError('You have to apply a comment when you send update emails! For administrative actions, always emails are send.');
+
+        if (isset($values['next_stage'])) {
+            switch ($proposal->status) {
+                case 'draft':
+                    if ($proposal->checkTimeLine()) {
+                       $values['proposal_date'] = time();
+                       $proposal->status = 'proposal';
+                       $proposal->sendActionEmail('change_status_proposal', 'mixed', $_COOKIE['PEAR_USER']);
+                    } else {
+                       PEAR::raiseError('You can not change the status now.');
+                    }
+                    break;
+
+                case 'proposal':
+                    if ($proposal->checkTimeLine()) {
+                       $values['vote_date'] = time();
+                       $proposal->status = 'vote';
+                       $proposal->sendActionEmail('change_status_vote', 'mixed', $_COOKIE['PEAR_USER']);
+                    } else {
+                       PEAR::raiseError('You can not change the status now.');
+                    }
+                    break;
+
+                default:
+                    if ($proposal->mayEdit($_COOKIE['PEAR_USER'])) {
+                       $values['longened_date'] = time();
+                       $proposal->status = 'vote';
+                       $proposal->sendActionEmail('longened_timeline_admin', 'mixed', $_COOKIE['PEAR_USER']);
+                    }
+            }
+        } else {
+            if (isset($proposal) && $proposal->status != 'draft') {
+                if (!empty($values['action_comment']) || ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
+                    if (empty($values['action_comment'])) {
+                        PEAR::raiseError('A changelog comment is required.');
+                    }
+                    $proposal->addComment($values['action_comment']);
+                    $proposal->sendActionEmail('edit_proposal', 'mixed', $_COOKIE['PEAR_USER'], $values['action_comment']);
                 }
-                $proposal->addComment($values['action_comment']);
-                $proposal->sendActionEmail('edit_proposal', 'mixed', $_COOKIE['PEAR_USER'], $values['action_comment']);
             }
         }
-    }
 
-    $linksData = $values['link'];
+        $linksData = $values['link'];
 
-    if (isset($proposal)) {
-        $proposal->fromArray($values);
-    } else {
-        $proposal = new proposal($values);
-        $proposal->user_handle = $_COOKIE['PEAR_USER'];
-    }
+        if (isset($proposal)) {
+            $proposal->fromArray($values);
+        } else {
+            $proposal = new proposal($values);
+            $proposal->user_handle = $_COOKIE['PEAR_USER'];
+        }
 
-
-
-    unset($proposal->links);
-    for ($i = 0; $i < count($linksData); $i += 2) {
+        unset($proposal->links);
+        for ($i = 0; $i < count($linksData); $i++) {
             $linkData['type'] = $linksData[$i]['type'];
-            $linkData['url'] = $linksData[($i + 1)]['url'];
-            $proposal->addLink($dbh, new ppLink($linkData));
+            $linkData['url']  = $linksData[$i]['url'];
+            if ($linksData[$i]['url']) {
+                $proposal->addLink($dbh, new ppLink($linkData));
+            }
+        }
+
+        $proposal->store($dbh);
+
+        if (isset($values['next_stage'])) {
+            $nextStage = 1;
+        }
+
+        localRedirect("/pepr/pepr-proposal-edit.php?id={$proposal->id}&saved=1&next_stage=".@$nextStage);
+    } else {
+        $pepr_form = $form->toArray();
+        report_error($pepr_form['errors']);
     }
-
-    $proposal->store($dbh);
-
-    if (isset($values['next_stage'])) {
-        $nextStage = 1;
-    }
-
-    localRedirect("/pepr/pepr-proposal-edit.php?id={$proposal->id}&saved=1&next_stage=".@$nextStage);
 }
 
-if (!empty($next_stage)) {
-    $form = new HTML_QuickForm('no-form');
+if (!empty($_GET['next_stage'])) {
+    $form =& new HTML_QuickForm('no-form');
+    $bbox = array();
     switch ($proposal->status) {
-            case 'proposal':
-                $bbox['header'] = 'Proposal';
-                $bbox['text'] = "Your package has been proposed on pear-dev. All further changes will result in an update Email.";
-                $form->addElement('link', 'link_package_edit', '', 'pepr-proposal-edit.php?id='.$id, 'Edit the proposal');
+        case 'proposal':
+            $bbox[] = 'The package has been proposed on pear-dev.'
+                    . ' All further changes will produce an update email.';
             break;
 
-            case 'vote':
-                $bbox['header'] = 'Call for votes';
-                $bbox['text'] = "For your package has been called for votes on pear-dev. No further changes are allowed.";
-                if ($proposal->mayEdit($_COOKIE['PEAR_USER'])) {
-                    $form->addElement('link', 'link_package_edit', '', 'pepr-proposal-edit.php?id='.$id, 'Edit the proposal');
-                }
+        case 'vote':
+            $bbox[] = 'The package has been called for votes on pear-dev.'
+                    . ' No further changes are allowed.';
             break;
     }
     if ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin')) {
-        $bbox['header'] = 'Changes saved';
-        $bbox['text'] = "The changes you did got recorded, neccessary action mails have been sent.";
+        $bbox[] = 'Your changes were recorded and necesary emails'
+                . ' were sent.';
+    }
+    if ($bbox) {
+        report_success(implode(' ', $bbox));
+    }
+} else {
+    if (!empty($_GET['saved'])) {
+        report_success('Changes saved successfully.');
     }
 }
 
-if (!empty($id)) {
-    $form->addElement('link', 'link_package_view', '', 'pepr-proposal-show.php?id='.@$id, 'View the proposal');
-}
-
-response_header('PEPr :: Proposal editor');
-
-if (isset($proposal)) {
-    echo '<h1>Proposal for '.$proposal->pkg_name.', Status: <i>'.$proposal->getStatus(true).'</i></h1>';
-} else {
-    echo '<h1>New package Proposal</h1>';
-}
-
-if (isset($saved) && $saved) {
-    echo '<h3>Changes saved successfully!</h3>';
-}
-
-if (isset($bbox)) {
-    $bb = new BorderBox($bbox['header'], '40%', null, true);
-    $bb->fullRow($bbox['text']);
-    $bb->end();
-}
+display_pepr_nav($proposal);
 
 $form->display();
 
