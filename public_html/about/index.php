@@ -32,10 +32,20 @@ If you would like to contact them, you can write to
 <?php echo make_link("http://www.mysql.com/", "MySQL"); ?> and some
 (as you might have guessed) PEAR packages. Additionally we have started
 to use a set of utility classes. We call it
-<?php echo make_link("damblan.php", "Damblan"); ?>. The source code of
-the website is
-<?php echo make_link("http://cvs.php.net/cvs.php/pearweb", "available via CVS"); ?>.
-</p>
+<?php echo make_link("damblan.php", "Damblan"); ?>.</p>
+
+<p>The source code of the website is available via CVS. To checkout the 
+latest version, use the following commands:</p>
+
+<pre>
+$ cvs -d :pserver:cvsread@cvs.php.net:/repository login
+  [password is &quot;cvsread&quot;]
+
+$ cvs -d :pserver:cvsread@cvs.php.net:/repository co pearweb
+</pre>
+
+<p>One can also view the source code by using the
+<?php echo make_link("http://cvs.php.net/cvs.php/pearweb", "CVS web interface"); ?>.</p>
 
 <p>Read the <?php echo make_link("privacy.php", "privacy policy"); ?>.</p>
 

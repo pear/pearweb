@@ -31,12 +31,13 @@ don&apos;t. For now.</p>
 but with an additional &quot;m&quot;. Please do not ask for the reason.</p>
 
 <p>Currently the feature set of Damblan is quite limited, but we are
-working towards integrating caching, parsing and sending emails and 
-other great stuff. At a certain point there may be even the
-possibility to download and install Damblan as a PEAR package.</p>
+working towards integrating more great stuff. At a certain point there
+may be even the possibility to download and install Damblan as a PEAR 
+package.</p>
 
 <p>If you have questions or comments about Damblan, get in touch with
-<?php echo make_link("/user/mj/", "Martin"); ?>.</p>
+<?php echo make_link("/user/mj/", "Martin"); ?>. The bleeding edge 
+version of Damblan is <?php print_link("http://cvs.php.net/cvs.php/pearweb/include/Damblan", "available via CVS"); ?>.</p>
 
 <p><?php echo make_link("/about/", "Back"); ?></p>
 
