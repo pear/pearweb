@@ -313,7 +313,9 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
                   $wrapped_text;
 
 	/* developer text with headers, previous messages, and edit link */
-	$dev_text = $header_text .
+    $dev_text = 'Edit report at:   ' .
+                "http://pear.php.net/bugs/bug.php?id=$bug[id]&edit=1\n" .
+                $header_text .
                 $wrapped_text .
                 "\n-- \nEdit this bug report at " .
                 "http://pear.php.net/bugs/bug.php?id=$bug[id]&edit=1\n";
