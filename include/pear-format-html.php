@@ -366,16 +366,68 @@ function menu_link($text, $url) {
     echo "</p>\n";
 }
 
-function report_error($error)
+/**
+ * Display errors or warnings as a <ul> inside a <div>
+ *
+ * Here's what happens depending on $in:
+ *   + string: value is printed
+ *   + array:  looped through and each value is printed.
+ *             If array is empty, nothing is displayed.
+ *             If a value contains a PEAR_Error object,
+ *   + PEAR_Error: prints the value of getMessage() and getUserInfo()
+ *                 if DEVBOX is true, otherwise prints data from getMessage().
+ *
+ * @param string|array|PEAR_Error $in  see long description
+ * @param string $class  name of the HTML class for the <div> tag.
+ *                        ("errors", "warnings")
+ * @param string $head   string to be put above the message
+ *
+ * @return bool  true if errors were submitted, false if not
+ */
+function report_error($in, $class = 'errors', $head = 'ERROR:')
 {
-    if (PEAR::isError($error)) {
-        $error = $error->getMessage();
-        $info = $error->getUserInfo();
-        if ($info) {
-            $error .= " : $info";
+    if (PEAR::isError($in)) {
+        if (DEVBOX == true) {
+            $in = array($in->getMessage() . '<br />' . $in->getUserInfo());
+        } else {
+            $in = array($in->getMessage());
         }
+    } elseif (!is_array($in)) {
+        $in = array($in);
+    } elseif (!count($in)) {
+        return false;
     }
-    print '<div class="errors">' . $error . "</div>\n";
+
+    echo '<div class="' . $class . '">' . $head . '<ul>';
+    foreach ($in as $msg) {
+        if (PEAR::isError($msg)) {
+            if (DEVBOX == true) {
+                $msg = $msg->getMessage() . '<br />' . $msg->getUserInfo();
+            } else {
+                $msg = $msg->getMessage();
+            }
+        }
+        echo '<li>' . $msg . "</li>\n";
+    }
+    echo "</ul></div>\n";
+    return true;
+}
+
+/**
+ * Forwards warnings to report_error()
+ *
+ * For use with PEAR_ERROR_CALLBACK to get messages to be formatted
+ * as warnings rather than errors.
+ *
+ * @param string|array|PEAR_Error $in  see report_error() for more info
+ *
+ * @return bool  true if errors were submitted, false if not
+ *
+ * @see report_error()
+ */
+function report_warning($in)
+{
+    return report_error($in, 'warnings', 'WARNING:');
 }
 
 function error_handler($errobj, $title = 'Error')
