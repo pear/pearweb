@@ -264,6 +264,10 @@ be discussed.</p>
 <a name="resources" /><h3>PEAR resources</h3>
 
 <ul>
+    <li><a href="http://www.schlitt.info/download/PEAR_Powerworkshop_Spring_2004.tar.gz">2004-05-03 Amsterdam - 
+    International PHP Conference Spring edition - PEAR Powerworkshop - PEAR not just a fleshy pome</a>
+    by Lukas Smith and Tobias Schlitt.</li>
+
     <li><a href="http://www.planet-php.net/">Planet PHP</a> - The news and weblog aggregation portal. Get all
     PHP/PEAR information in one place.</li>
 
