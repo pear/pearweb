@@ -315,9 +315,9 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 */
 } else {
 
-	$total_packages    = number_format($dbh->getOne('SELECT COUNT(DISTINCT pid) FROM package_stats'), 0, '.', ',');
+	$total_packages    = number_format($dbh->getOne('SELECT COUNT(DISTINCT id) FROM packages'), 0, '.', ',');
 	$total_maintainers = number_format($dbh->getOne('SELECT COUNT(DISTINCT handle) FROM maintains'), 0, '.', ',');
-	$total_releases    = number_format($dbh->getOne('SELECT COUNT(*) FROM package_stats'), 0, '.', ',');
+	$total_releases    = number_format($dbh->getOne('SELECT COUNT(*) FROM releases'), 0, '.', ',');
 	$total_categories  = number_format($dbh->getOne('SELECT COUNT(*) FROM categories'), 0, '.', ',');
     $total_downloads   = number_format($dbh->getOne('SELECT COUNT(*) FROM downloads'), 0, '.', ',');
 	$query             = "SELECT sum(dl_number) as dl_number, package, max(release) as release, pid, rid, cid FROM package_stats GROUP BY pid ORDER BY dl_number DESC";
