@@ -287,6 +287,10 @@ class proposal {
     }
 				
     function sendActionEmail($event, $userType, $user_handle = null, $comment = "") {
+        if (DEVBOX) {
+            return true;
+        }
+
         global $dbh;
         require 'pepr/pepr-emails.php';
         $email = $proposalEmailTexts[$event];
