@@ -42,7 +42,7 @@ if (!empty($_GET['search_for']) &&
     exit;
 }
 
-response_header('Search');
+response_header('Bugs :: Search');
 
 $errors = array();
 $warnings = array();
