@@ -211,6 +211,7 @@
    <xs:sequence>
     <xs:element ref="providesextension"/>
     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="binarypackage" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -234,7 +235,6 @@
     <xs:element ref="providesextension"/>
     <xs:element ref="installconditions"/>
     <xs:element ref="filelist"/>
-    <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
