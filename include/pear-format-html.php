@@ -87,8 +87,7 @@ $GLOBALS['_style'] = '';
  */
 function response_header($title = 'The PHP Extension and Application Repository', $style = false)
 {
-    global $_style, $_header_done, $SIDEBAR_DATA, $RSIDEBAR_DATA,
-           $encoding, $extra_styles;
+    global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $extra_styles;
 
     if ($_header_done) {
         return;
