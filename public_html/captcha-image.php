@@ -80,12 +80,11 @@ $font_dir = strtr($_SERVER['DOCUMENT_ROOT'],
  * font size should be multiplied by to make all the fonts appear about
  * the same height.
  *
- * Fonts were obtained from http://www.chank.com/freefonts.php and are free
+ * Fonts were obtained from http://www.freefontsnow.com/.  They are free
  * for use under certain circumstances (such as the php.net websites).
  */
 $fonts = array(
-    'bjredrum.ttf'      => 1,    // by b.j. harvey (Halloween Fontpack)
-    'dirtyuncle.ttf'    =>  .8,  // by Jeremy Sinon
+    'coolveti.ttf'      => 1,    // by Ray Larabie
 );
 
 
