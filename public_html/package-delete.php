@@ -24,46 +24,48 @@
 
 auth_require(true);
 
-require_once "HTML/Form.php";
+require_once 'HTML/Form.php';
 
-response_header("Delete package");
-echo "<h1>Delete package</h1>";
+response_header('Delete package');
+echo '<h1>Delete package</h1>';
 
 if (!isset($_GET['id'])) {
-    PEAR::raiseError("No package ID specified.");
+    PEAR::raiseError('No package ID specified.');
     response_footer();
     exit();
 }
 
-$form = new HTML_Form($_SERVER['PHP_SELF'] . "?id=" . $_GET['id'], "POST");
+$form = new HTML_Form($_SERVER['PHP_SELF'] . '?id=' . $_GET['id'], 'POST');
 
 if (!isset($_POST['confirm'])) {
 
-    $bb = new Borderbox("Confirmation");
+    $bb = new Borderbox('Confirmation');
 
     $form->start();
 
-    echo "Are you sure that you want to delete the package?<br /><br />";
-    $form->displaySubmit("yes", "confirm");
-    echo "&nbsp;";
-    $form->displaySubmit("no", "confirm");
+    echo 'Are you sure that you want to delete the package?<br /><br />';
+    $form->displaySubmit('yes', 'confirm');
+    echo '&nbsp;';
+    $form->displaySubmit('no', 'confirm');
 
-    echo "<br /><br /><font color=\"#ff0000\"><b>Warning:</b> Deleting
+    echo '<br /><br /><font color="#ff0000"><b>Warning:</b> Deleting
           the package will remove all package information and all
-          releases!</font>";
+          releases!</font>';
 
     $form->end();
 
     $bb->end();
 
-} else if ($_POST['confirm'] == "yes") {
+} else if ($_POST['confirm'] == 'yes') {
 
     // XXX: Implement backup functionality
     // make_backup($_GET['id']);
 
-    $tables = array("releases" => "package", "maintains" => "package",
-                    "deps" => "package", "files" => "package",
-                    "packages" => "id");
+    $tables = array('releases'  => 'package', 
+                    'maintains' => 'package',
+                    'deps'      => 'package', 
+                    'files'     => 'package',
+                    'packages'  => 'id');
 
     echo "<pre>\n";
 

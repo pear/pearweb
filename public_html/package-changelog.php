@@ -28,25 +28,25 @@ if (isset($_GET['package']) && empty($_GET['pacid'])) {
 $pkg = package::info($pacid);
 
 if (empty($pkg['name'])) {
-    response_header("Error");
+    response_header('Error');
     PEAR::raiseError('Invalid package');
     response_footer();
     exit();
 }
 
 $name = $pkg['name'];
-response_header($name . " Changelog");
-print '<p>' . make_link("/package/" . $name, 'Return') . '</p>';
-$bb = new Borderbox("Changelog for " . $name, "90%", "", 2, true);
+response_header($name . ' Changelog');
+print '<p>' . make_link('/package/' . $name, 'Return') . '</p>';
+$bb = new Borderbox('Changelog for ' . $name, '90%', '', 2, true);
 
 if (count($pkg['releases']) == 0) {
-    $bb->fullRow("There are no releases for " . $name . " yet.");
+    $bb->fullRow('There are no releases for ' . $name . ' yet.');
 } else {
-    $bb->headRow("Release", "What has changed?");
+    $bb->headRow('Release', 'What has changed?');
 
     foreach ($pkg['releases'] as $version => $release) {
         $link = make_link('/package/' . $pkg['name'] .
-                          "&amp;version=" . urlencode($version), $version);
+                          '&amp;version=' . urlencode($version), $version);
 
         $notes = nl2br(htmlentities($release['releasenotes']));
         if (!empty($_GET['release']) && $version == $_GET['release']) {
@@ -57,6 +57,6 @@ if (count($pkg['releases']) == 0) {
     }
 }
 $bb->end();
-print '<p>' . make_link("/" . $name, 'Return') . '</p>';
+print '<p>' . make_link('/' . $name, 'Return') . '</p>';
 response_footer();
 ?>
