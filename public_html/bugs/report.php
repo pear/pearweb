@@ -48,8 +48,6 @@ if ($in) {
                 $ok_to_submit_report = 1;
             } else {
                 response_header("Report - Confirm");
-                # the lol
-                echo "<style>"; include('./style.css'); echo "</style>";
 
 ?>
 <p>Are you sure that you searched before you submitted your bug report?

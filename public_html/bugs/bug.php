@@ -269,8 +269,6 @@ if ($_POST['in']) {
 }
 
 response_header("#$id: ".htmlspecialchars($bug['sdesc']));
-# the lol
-echo '<style type="text/css">'; include('./style.css'); echo '</style>';
 
 /* DISPLAY BUG */
 if ($thanks == 1 || $thanks == 2) {
