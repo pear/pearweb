@@ -5,43 +5,42 @@ require_once './include/prepend.inc';
 
 if (isset($_GET['bug_id'])) {
 
-	mysql_connect("localhost","pear","pear")
-		or die("Unable to connect to SQL server. Please try again later.");
+    mysql_connect("localhost","pear","pear")
+        or die("Unable to connect to SQL server. Please try again later.");
 
-	mysql_select_db("pear");
+    mysql_select_db("pear");
 
-	// Clean up the bug id
-	$bug_id = ereg_replace ("[^0-9]+", "", $_GET['bug_id']);
+    // Clean up the bug id
+    $bug_id = ereg_replace ("[^0-9]+", "", $_GET['bug_id']);
 
-	if ($bug_id != "") {
-  
-		// Try to find the email and the password
-		$query = "SELECT email, passwd FROM bugdb WHERE id = '" . $bug_id . "'";
+    if ($bug_id != "") {
+        // Try to find the email and the password
+        $query = "SELECT email, passwd FROM bugdb WHERE id = '" . $bug_id . "'";
 
-		// Run the query
-		$result = mysql_query ($query)
-			or die ("Sorry. No information could be found for bug report #$bug_id");
+        // Run the query
+        $result = mysql_query ($query)
+            or die ("Sorry. No information could be found for bug report #$bug_id");
 
-		if (mysql_num_rows($result) != 1) {
-			$msg = "No password found for #$bug_id bug report, sorry.";
+        if (mysql_num_rows($result) != 1) {
+            $msg = "No password found for #$bug_id bug report, sorry.";
 		} else {
 			list ($email, $passwd) = mysql_fetch_row ($result);
 
-			if (empty($passwd)) {
-				$msg = "No password found for #$bug_id bug report, sorry.";
-			} else {
-				$passwd = stripslashes ($passwd);
+            if (empty($passwd)) {
+                $msg = "No password found for #$bug_id bug report, sorry.";
+            } else {
+                $passwd = stripslashes ($passwd);
 
-				mail ($email, "Password for PEAR bug report #$bug_id", "The password for PEAR bug report #$bug_id is $passwd.", "From: noreply@php.net")
-					or die ("Sorry. Mail could not be sent at this time. Please try again later.");
+                mail ($email, "Password for PEAR bug report #$bug_id", "The password for PEAR bug report #$bug_id is $passwd.", "From: noreply@php.net")
+                    or die ("Sorry. Mail could not be sent at this time. Please try again later.");
 
-				$msg = "The password for bug report #$bug_id has been sent to $email.";
-			}
-		}
+                $msg = "The password for bug report #$bug_id has been sent to $email.";
+            }
+        }
 
-	} else { 
-		$msg = "The provided #$bug_id bug id is invalid.";
-	}
+    } else { 
+        $msg = "The provided #$bug_id bug id is invalid.";
+    }
 } else {
     $msg = "";
 }
