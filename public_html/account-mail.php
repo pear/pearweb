@@ -148,6 +148,8 @@ if (isset($_POST['submit'])) {
 } else {
     echo '<p>If you want to get in contact with one of the PEAR contributors,'
         . ' you can do this by filling out the following form.</p>';
+    echo '<p>If you need support for a package, then we recommend'
+        . ' emailing pear-general@lists.php.net</p>';
 
     // Guess the user if he is logged in
     if (isset($_COOKIE['PEAR_USER'])) {
