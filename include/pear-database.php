@@ -530,7 +530,7 @@ class package
     function getDepDownloadURL($xsdversion, $dependency, $deppackage,
                                $prefstate = 'stable', $loc = null, $mirror = null)
     {
-        $info = package::info($dependency['name'], 'releases');
+        $info = package::info($dependency['name'], 'releases', true);
         if (!count($info)) {
             return false;
         }
@@ -1836,7 +1836,7 @@ class release
     function HTTPdownload($package, $version = null, $file = null, $uncompress = false)
     {
         global $dbh;
-        $package_id = package::info($package, 'packageid');
+        $package_id = package::info($package, 'packageid', true);
 
         if (!$package_id) {
             return PEAR::raiseError("release download:: package '".htmlspecialchars($package).
