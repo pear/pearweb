@@ -48,9 +48,8 @@ if (!empty($version)) {
 }
 
 if (empty($pacid) || !isset($pkg['name'])) {
-    response_header("Error");
-    PEAR::raiseError('No package selected');
-    response_footer();
+    $_SERVER['REDIRECT_URL'] = $_SERVER['REQUEST_URI'];
+    include "error/404.php";
     exit();
 }
 
@@ -99,6 +98,8 @@ if (!$relid) {
     while ($sth->fetchInto($row)) {
         $downloads[$row['version']][] = $row;
     }
+} else {
+    $rel_count = 1;
 }
 
 // }}}
@@ -145,7 +146,7 @@ if ($relid) {
     }
 }
 
-if (!empty($_COOKIE['PEAR_USER'])) {
+if (isset($auth_user) && is_object($auth_user)) {
     $bb->fullRow("<div align=\"right\">" .
                  make_link("/package-edit.php?id=$pacid",
                            make_image("edit.gif", "Edit package information")) .
@@ -161,6 +162,7 @@ $bb->end();
 // }}}
 // {{{ latest/cvs/changelog links
 
+if ($rel_count > 0) {
 ?>
 
 <br />
@@ -208,6 +210,7 @@ if (!empty($doc_link)) {
 <br />
 
 <?php
+}
 
 // }}}
 // {{{ "Available Releases"
@@ -244,6 +247,10 @@ if (!$relid && $rel_count > 0) {
     $bb->end();
 
     print "<br /><br />\n";
+}
+
+if ($rel_count == 0) {
+    echo "<br /><br /><b>Note:</b> This package has not published any releases yet.";
 }
 
 // }}}
@@ -349,7 +356,8 @@ if ($rel_count > 0) {
         $bb = new BorderBox("Packages that depend on " . $name);
 
         foreach ($dependants as $dep) {
-            $bb->plainRow(make_link("/package/" . $dep['p_name'], $dep['p_name']));
+            $obj =& new PEAR_Package($dbh, $dep['p_name']);
+            $bb->plainRow($obj->makeLink());
         }
 
         $bb->end();
