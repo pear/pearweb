@@ -91,8 +91,8 @@ $query = "SELECT id,package_name,bug_type,email,passwd,sdesc,ldesc,"
 $bug =& $dbh->getRow($query, array(), DB_FETCHMODE_ASSOC);
 
 if (!$bug) {
-    response_header('No such bug.');
-    echo '<div class="errors"><h1>No such bug #' . $id . '!</h1></div>';
+    response_header('No Such Bug');
+    display_bug_error('No such bug #' . $id);
     response_footer();
     exit;
 }
@@ -430,9 +430,7 @@ control(2, 'Edit Submission');
 
 <?php
 
-if ($errors) {
-    display_bug_error($errors);
-}
+display_bug_error($errors);
 
 if ($edit == 1 || $edit == 2) {
     ?>

@@ -320,9 +320,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
  </tr>
             <?php
 
-            if ($warnings) {
-                display_bug_warning($warnings);
-            }
+            display_bug_error($warnings, 'warnings', 'WARNING:');
 
             while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
                 echo ' <tr valign="top" class="' . $tla[$row['status']] . '">' . "\n";
@@ -357,12 +355,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     }
 }
 
-if ($errors) {
-    display_bug_error($errors);
-}
-if ($warnings) {
-    display_bug_warning($warnings);
-}
+display_bug_error($errors);
+display_bug_warning($warnings, 'warnings', 'WARNING:');
 
 ?>
 <form id="asearch" method="get" action="<?php echo $_SERVER['PHP_SELF'] ?>">

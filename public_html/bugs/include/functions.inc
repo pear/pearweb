@@ -475,47 +475,50 @@ function show_boolean_options($current)
 }
 
 /**
- * Prints a message explaining the errors found in the users's submission
+ * Display errors or warnings as a <ul> inside a <div>
  *
- * @param array $errors  an array of the errors found
+ * Here's what happens depending on $in:
+ *   + string: value is printed
+ *   + array:  looped through and each value is printed.
+ *             If array is empty, nothing is displayed.
+ *             If a value contains a PEAR_Error object,
+ *   + PEAR_Error: prints the value of getMessage() and getUserInfo()
+ *                 if DEVBOX is true, otherwise prints data from getMessage().
  *
- * @return void
+ * @param string|array|PEAR_Error $in  see long description
+ * @param string $class  name of the HTML class for the <div> tag.
+ *                        ("errors", "warnings")
+ * @param string $head   string to be put above the message
+ *
+ * @return bool  true if errors were submitted, false if not
  */
-function display_bug_error($errors)
+function display_bug_error($in, $class = 'errors', $head = 'ERROR:')
 {
-    echo '<div class="errors">';
-    if (count($errors) > 1) {
-        echo 'You need to do the following before your submission will be accepted:<ul>';
-        foreach ($errors as $error) {
-            echo "<li>$error</li>\n";
+    if (PEAR::isError($in)) {
+        if (DEVBOX == true) {
+            $in = array($in->getMessage() . '... ' . $in->getUserInfo());
+        } else {
+            $in = array($in->getMessage());
         }
-        echo '</ul>';
-    } else {
-        echo $errors[0];
+    } elseif (!is_array($in)) {
+        $in = array($in);
+    } elseif (!count($in)) {
+        return false;
     }
-    echo '</div>';
-}
 
-/**
- * Prints a message explaining the warnings found in the users's submission
- *
- * @param array $warnings  an array of the warnings found
- *
- * @return void
- */
-function display_bug_warning($warnings)
-{
-    echo '<div class="warnings">';
-    if (count($warnings) > 1) {
-        echo "Please notice the following:<ul>\n";
-        foreach ($warnings as $warning) {
-            echo "<li>$warning</li>\n";
+    echo '<div class="' . $class . '">' . $head . '<ul>';
+    foreach ($in as $msg) {
+        if (PEAR::isError($msg)) {
+            if (DEVBOX == true) {
+                $msg = $msg->getMessage() . '... ' . $msg->getUserInfo();
+            } else {
+                $msg = $msg->getMessage();
+            }
         }
-        echo '</ul>';
-    } else {
-        echo $warnings[0];
+        echo '<li>' . htmlspecialchars($msg) . "</li>\n";
     }
-    echo '</div>';
+    echo "</ul></div>\n";
+    return true;
 }
 
 /**

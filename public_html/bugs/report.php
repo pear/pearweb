@@ -303,9 +303,7 @@ if (!package_exists($package)) {
 
     }
 
-    if ($errors) {
-        display_bug_error($errors);
-    }
+    display_bug_error($errors);
 
     ?>
 
