@@ -123,6 +123,8 @@ if ($_POST['in'] && $edit == 3) {
         $_SESSION['captcha'] != $_POST['captcha'])
     {
         $errors[] = 'Incorrect Confirmation Number';
+    } else {
+        unset($_SESSION['captcha']);
     }
 
     if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",

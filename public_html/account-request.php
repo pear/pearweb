@@ -50,6 +50,8 @@ do {
         {
             $errors[] = 'Incorrect Confirmation Number';
             $display_form = true;
+        } else {
+            unset($_SESSION['captcha']);
         }
 
         if ($errors) {
