@@ -174,9 +174,9 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
     } else {
         print '<small class="menuWhite">';
         print 'Logged in as ' . strtoupper($_COOKIE['PEAR_USER']) . ' (';
-        print '<a href="/account-info.php?handle=' . $_COOKIE['PEAR_USER'] . '">Info</a> | ';
-        print '<a href="/account-edit.php?handle=' . $_COOKIE['PEAR_USER'] . '">Profile</a> | ';
-        print '<a href="/bugs/search.php?maintain=' . $_COOKIE['PEAR_USER'] . '&amp;cmd=display">Bugs</a>';
+        print '<a class="menuWhite" href="/account-info.php?handle=' . $_COOKIE['PEAR_USER'] . '">Info</a> | ';
+        print '<a class="menuWhite" href="/account-edit.php?handle=' . $_COOKIE['PEAR_USER'] . '">Profile</a> | ';
+        print '<a class="menuWhite" href="/bugs/search.php?maintain=' . $_COOKIE['PEAR_USER'] . '&amp;cmd=display">Bugs</a>';
         print ")</small><br />\n";
 
         if (empty($_SERVER['QUERY_STRING'])) {
