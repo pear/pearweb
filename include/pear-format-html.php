@@ -21,7 +21,6 @@
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
 
 require_once 'pear-cache.php';
-require_once 'layout.php';
 
 $encoding = 'iso-8859-1';
 $extra_styles = array();
@@ -720,5 +719,159 @@ function user_link($handle, $compact = false)
 }
 
 // }}}
+
+/**
+ * Returns a hyperlink to something
+ */
+function make_link($url, $linktext = '', $target = '', $extras = '')
+{
+    return sprintf('<a href="%s"%s%s>%s</a>',
+        $url,
+        ($target ? ' target="'.$target.'"' : ''),
+        ($extras ? ' '.$extras : ''),
+        ($linktext ? $linktext : $url)
+    );
+}
+
+/**
+ * Echos a hyperlink to something
+ */
+function print_link($url, $linktext = '', $target = '', $extras = '')
+{
+    echo make_link($url, $linktext, $target, $extras);
+}
+
+/**
+ * Creates a link to the bug system
+ */
+function make_bug_link($package, $type = 'list', $linktext = '')
+{
+    switch ($type) {
+        case 'list':
+            if (!$linktext) {
+                $linktext = 'Package Bugs';
+            }
+            return make_link('/bugs/search.php?cmd=display&amp;status=Open&amp;package_name[]=' . urlencode($package), $linktext);
+        case 'report':
+            if (!$linktext) {
+                $linktext = 'Report a new bug';
+            }
+            return make_link('/bugs/report.php?package=' . urlencode($package), $linktext);
+    }
+}
+
+/**
+ * Turns the provided email address into a "mailto:" hyperlink.
+ *
+ * The link and link text are obfuscated by alternating Ord and Hex
+ * entities.
+ *
+ * @param string $email     the email address to make the link for
+ * @param string $linktext  a string for the visible part of the link.
+ *                           If not provided, the email address is used.
+ * @param string $extras    a string of extra attributes for the <a> element
+ *
+ * @return string  the HTML hyperlink of an email address
+ */
+function make_mailto_link($email, $linktext = '', $extras = '')
+{
+    $tmp = '';
+    for ($i = 0, $l = strlen($email); $i<$l; $i++) {
+        if ($i % 2) {
+            $tmp .= '&#' . ord($email[$i]) . ';';
+        } else {
+            $tmp .= '&#x' . dechex(ord($email[$i])) . ';';
+        }
+    }
+
+    return '<a ' . $extras . ' href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;'
+           . $tmp . '">' . ($linktext ? $linktext : $tmp) . '</a>';
+}
+
+/**
+ * Prints an IMG tag for a sized spacer GIF
+ */
+function spacer($width = 1, $height = 1, $align = '', $extras = '')
+{
+    printf('<img src="/gifs/spacer.gif" width="%d" height="%d" style="border: 0px;" alt="" %s%s />',
+        $width,
+        $height,
+        ($align ? 'align="'.$align.'" ' : ''),
+        ($extras ? $extras : '')
+    );
+}
+
+/**
+ * Tags the output of make_image() and resize it manually
+ */
+function resize_image($img, $width = 1, $height = 1)
+{
+    $str = preg_replace('/width=\"([0-9]+?)\"/i', '', $img );
+    $str = preg_replace('/height=\"([0-9]+?)\"/i', '', $str );
+    $str = substr($str,0,-1) . sprintf(' height="%s" width="%s" />', $height, $width );
+    return $str;
+}
+
+/**
+ * Returns an IMG tag for a given file (relative to the images dir)
+ */
+function make_image($file, $alt = '', $align = '', $extras = '', $dir = '',
+                    $border = 0, $styles = '')
+{
+    if (!$dir) {
+        $dir = '/gifs';
+    }
+    if ($size = @getimagesize($_SERVER['DOCUMENT_ROOT'].$dir.'/'.$file)) {
+        $image = sprintf('<img src="%s/%s" style="border: %d;%s%s" %s alt="%s" %s />',
+            $dir,
+            $file,
+            $border,
+            ($styles ? ' '.$styles            : ''),
+            ($align  ? ' float: '.$align.';'  : ''),
+            $size[3],
+            ($alt    ? $alt : ''),
+            ($extras ? ' '.$extras            : '')
+        );
+    } else {
+        $image = sprintf('<img src="%s/%s" style="border: %d;%s%s" alt="%s" %s />',
+            $dir,
+            $file,
+            $border,
+            ($styles ? ' '.$styles            : ''),
+            ($align  ? ' float: '.$align.';'  : ''),
+            ($alt    ? $alt : ''),
+            ($extras ? ' '.$extras            : '')
+        );
+    }
+    return $image;
+}
+
+/**
+ * Prints an IMG tag for a given file
+ */
+function print_image($file, $alt = '', $align = '', $extras = '', $dir = '',
+                     $border = 0)
+{
+    print make_image($file, $alt, $align, $extras, $dir);
+}
+
+/**
+ * Print a pipe delimiter
+ */
+function delim($color = false, $delimiter = '&nbsp;|&nbsp;')
+{
+    if (!$color) {
+        return $delimiter;
+    }
+    return sprintf('<span style="color: %s;">%s</span>', $color, $delimiter);
+}
+
+/**
+ * Prints a horizontal delimiter
+ */
+function hdelim()
+{
+    return '<hr />';
+}
 
 ?>
