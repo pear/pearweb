@@ -252,13 +252,15 @@ switch ($proposal->status) {
                            $vote->value);
                 echo '</strong>';
 
-                if ($vote->is_conditional || !empty($vote->comment)) {
+                if ($vote->is_conditional) {
+                    echo '^';
+                } elseif (!empty($vote->comment)) {
                     echo '*';
                 }
-                echo ' (';
+                echo ' &nbsp;(';
                 print_link('/user/' . htmlspecialchars($vote->user_handle),
                            htmlspecialchars($users[$vote->user_handle]['name']));
-                echo ') ' . make_utc_date($vote->timestamp);
+                echo ')&nbsp; ' . make_utc_date($vote->timestamp);
                 echo "</li>\n";
             }
 
@@ -268,7 +270,9 @@ switch ($proposal->status) {
             echo 'Sum: ' . $proposalVotesSum['all'] . '</strong> <small>(';
             echo $proposalVotesSum['conditional'];
             echo ' conditional)</small></p>' . "\n";
-            echo '<p style="padding-left: 1.2em;"><small>* Indicates';
+            echo '<p style="padding-left: 1.2em;"><small>^ Indicates';
+            echo ' the vote is conditional.' . "\n";
+            echo '<br />* Indicates';
             echo ' the vote contains a comment.</small></p>' . "\n";
         }
 }
