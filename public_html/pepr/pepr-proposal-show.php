@@ -35,7 +35,7 @@
 	$proposal->getLinks($dbh);
 	$proposal->getVotes($dbh);
 
-	if (isset($_COOKIE['PEAR_USER'])) {
+	if (isset($_COOKIE['PEAR_USER']) && ($proposal->getStatus() == 'vote')) {
 		$form = new HTML_QuickForm('vote', 'post', 'pepr-proposal-show.php?id='.$id);
 		$form->setDefaults(array('value' => 1));
 		$form->addElement('select', 'value', '', array(1 => '+1', 0 => '0', -1 => '-1'));
@@ -78,6 +78,27 @@
 			}
 		}
 		
+	}
+	
+	if (isset($_COOKIE['PEAR_USER']) && ($proposal->getStatus() == 'proposal')) {
+		$form = new HTML_QuickForm('comment', 'post', 'pepr-proposal-show.php?id='.$id);
+		$form->addElement('textarea', 'comment', null, array('cols' => 30, 'rows' => 6));
+		$form->addElement('static', '', '', '<small>Your comment will be send to pear-dev mailinglist. Comments on proposals are only allowed during proposal phase!</small>');
+		$form->addElement('submit', 'submit', 'Send');
+		
+		$form->addRule('comment', 'A comment is required!', 'required', null, 'client');
+		
+		if ($form->validate()) {
+			$values = $form->exportValues();
+			$proposal->sendActionEmail('proposal_comment', 'user', $_COOKIE['PEAR_USER'], $values['comment']);
+			$form->removeElement('submit');
+			$form->addElement('static', '', '<b>Your comment has been sent successfully!</b>'); 
+			$form->freeze();
+			// if (!DEVBOX) {
+				localredirect("pepr-proposal-show.php?id=".$proposal->id."&comment=1");
+			// }
+			
+		}
 	}
 	
 	if (!empty($proposal->status)) {
@@ -242,6 +263,24 @@
 			$bb->fullRow("This proposal has not been accepted.");
 		}
 		$bb->end();
+	} else if ($proposal->getStatus() == 'proposal') {
+		if (isset($_COOKIE['PEAR_USER'])) {
+			$formArray = $form->toArray();
+			echo "<form ".$formArray['attributes'].">";
+			$bb = new BorderBox("Comment on this proposal", "100%", "", 2, true);
+			$bb->horizHeadRow("Comment:", $formArray['elements'][0]['html']);
+			$bb->horizHeadRow("", $formArray['elements'][1]['html']);
+			$bb->horizHeadRow("", $formArray['elements'][2]['html']);
+			if (isset($_GET['comment']) && ($_GET['comment'] == 1)) {
+				$bb->horizHeadRow("", "Comment sent successfully.");
+			}
+			$bb->end();
+			echo "</form>";
+		} else {
+			$bb = new BorderBox("Comment on this proposal", "100%", "", 2, true);
+			$bb->fullRow("Please login to comment or comment directly on ".make_link("pear-dev@lists.php.net", "pear-dev@lists.php.net").".");
+			$bb->end();
+		}
 	} else {
 		$bb = new BorderBox("Vote on this proposal", "100%", "", 2, true);
 		$bb->fullRow("Voting is only enabled during 'Call for votes phase'.");
