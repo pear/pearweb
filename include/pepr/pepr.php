@@ -83,6 +83,7 @@ class proposal {
             return false;
         }
         foreach ($dbhResArr as $name => $value) {
+            $value = (is_string($value)) ? stripslashes($value) : $value;
             $this->$name = $value;
         }	
         return true;
@@ -146,8 +147,8 @@ class proposal {
             $sql = "UPDATE package_proposals SET
 					pkg_category = '{$this->pkg_category}',
 					pkg_name = '{$this->pkg_name}',
-					pkg_describtion = '{$this->pkg_describtion}',
-					pkg_deps = '{$this->pkg_deps}',
+					pkg_describtion = '".mysql_escape_string($this->pkg_describtion)."',
+					pkg_deps = '".mysql_escape_string($this->pkg_deps)."',
 					draft_date = FROM_UNIXTIME({$this->draft_date}),
 					proposal_date = FROM_UNIXTIME({$this->proposal_date}),
 					vote_date = FROM_UNIXTIME({$this->vote_date}),
@@ -164,10 +165,10 @@ class proposal {
 						pkg_deps, draft_date, status, user_handle) VALUES (
 						'{$this->pkg_category}',
 						'{$this->pkg_name}',
-						'{$this->pkg_describtion}',
+						'".mysql_escape_string($this->pkg_describtion)."',
 						'{$this->pkg_deps}',
 						FROM_UNIXTIME(".time()."),
-						'{$this->status}',
+						'".mysql_escape_string($this->status)."',
 						'{$this->user_handle}')";
             $res = $dbh->query($sql);
             if (DB::isError($dbh)) {
@@ -398,6 +399,7 @@ class ppComment {
 		
     function ppComment ( $dbhResArr ) {
         foreach ($dbhResArr as $name => $value) {
+            $value = (is_string($value)) ? stripslashes($value) : $value;
             $this->$name = $value;
         }
     }
@@ -433,7 +435,7 @@ class ppComment {
             return PEAR::raiseError("Not initialized");
         }
         $sql = "INSERT INTO package_proposal_changelog (pkg_prop_id, user_handle, comment)
-					VALUES (".$proposalId.", '".$this->user_handle."', '".addslashes($this->comment)."')";
+					VALUES (".$proposalId.", '".$this->user_handle."', '".mysql_escape_string($this->comment)."')";
         $res = $dbh->query($sql);
         return $res;
     }		
@@ -463,6 +465,7 @@ class ppVote {
 		
     function ppVote ( $dbhResArr ) {
         foreach ($dbhResArr as $name => $value) {
+        	$value = (is_string($value)) ? stripslashes($value) : $value;
             $this->$name = $value;
         }
     }
@@ -480,7 +483,7 @@ class ppVote {
     }
 		
     function &getAll ( &$dbh, $proposalId ) {
-        $sql = "SELECT *, UNIX_TIMESTAMP(timestamp) AS timestamp FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId;
+        $sql = "SELECT *, UNIX_TIMESTAMP(timestamp) AS timestamp FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId." ORDER BY timestamp ASC";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
@@ -498,7 +501,7 @@ class ppVote {
             return PEAR::raiseError("Not initialized");
         }
         $sql = "INSERT INTO package_proposal_votes (pkg_prop_id, user_handle, value, is_conditional, comment, reviews)
-					VALUES (".$proposalId.", '".$this->user_handle."', ".$this->value.", ".(int)$this->is_conditional.", '".addslashes($this->comment)."', '".serialize($this->reviews)."')";
+					VALUES (".$proposalId.", '".$this->user_handle."', ".$this->value.", ".(int)$this->is_conditional.", '".mysql_escape_string($this->comment)."', '".serialize($this->reviews)."')";
         $res = $dbh->query($sql);
         return $res;
     }
@@ -578,7 +581,7 @@ class ppLink {
 		
     function store ( $dbh, $proposalId ) {
         $sql = "INSERT INTO package_proposal_links (pkg_prop_id, type, url)
-					VALUES (".$proposalId.", '".$this->type."', '".$this->url."')";
+					VALUES (".$proposalId.", '".$this->type."', '".mysql_escape_string($this->url)."')";
         $res = $dbh->query($sql);
         return $res;
     }
