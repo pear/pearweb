@@ -69,7 +69,7 @@ if (auth_verify(@$_POST['PEAR_USER'], @$_POST['PEAR_PW'])) {
         localRedirect($_POST['PEAR_OLDURL']);
     } else {
         response_header('Login');
-        echo '<div class="thanks">Welcome.</div>';
+        echo '<div class="success">Welcome.</div>';
         response_footer();
         exit;
     }

@@ -298,15 +298,15 @@ response_header("#$id: ".htmlspecialchars($bug['sdesc']));
 
 /* DISPLAY BUG */
 if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
-    echo '<div class="thanks">The bug was updated successfully.</div>';
+    echo '<div class="success">The bug was updated successfully.</div>';
 
 } elseif ($_GET['thanks'] == 3) {
-    echo '<div class="thanks">Your comment was added to the bug successfully.</div>';
+    echo '<div class="success">Your comment was added to the bug successfully.</div>';
 
 } elseif ($_GET['thanks'] == 4) {
     ?>
 
-<div class="thanks">
+<div class="success">
 Thank you for your help! If the status of the bug report you submitted changes,
 you will be notified. You may return here and check on the status or update
 your report at any time. That URL for your bug report is: <a
@@ -317,7 +317,7 @@ href="/bugs/bug.php?id=<?php echo $id?>">http://pear.php.net/bugs/bug.php?id=<?p
 } elseif ($_GET['thanks'] == 6) {
     ?>
 
-<div class="thanks">
+<div class="success">
 Thanks for voting! Your vote should be reflected in the
 statistics below.
 </div>

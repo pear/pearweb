@@ -86,7 +86,7 @@ switch ($_POST['command']) {
             }
         }
 
-        print '<div class="thanks">';
+        print '<div class="success">';
         print 'Your information was successfully updated.';
         print "</div>\n";
         break;
@@ -120,7 +120,7 @@ switch ($_POST['command']) {
             }
             setcookie('PEAR_PW', md5($_POST['password']), $expire, '/');
 
-            print '<div class="thanks">';
+            print '<div class="success">';
             print 'Your password was successfully updated.';
             print "</div>\n";
         }

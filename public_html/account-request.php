@@ -105,7 +105,7 @@ do {
             }
             break;
         } elseif ($ok == true) {
-            print '<div class="thanks">';
+            print '<div class="success">';
             print "<h2>Account Request Submitted</h2>\n";
             print "Your account request has been submitted, it will ".
                 "be reviewed by a human shortly.  This may take from two ".

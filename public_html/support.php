@@ -148,14 +148,12 @@ if (isset($_POST['action'])) {
 
         ?>
 
-<div class="thanks">
- <p>
-   A request has been entered into the mailing list processing queue. You
-   should receive
-   <?php echo (count($_POST['maillist']) == 1 ? 'an email' : 'emails' ); ?>
-   at <?php echo $_POST['email']; ?>
-   shortly describing how to complete your request.
- </p>
+<div class="success">
+ A request has been entered into the mailing list processing queue. You
+ should receive
+ <?php echo (count($_POST['maillist']) == 1 ? 'an email' : 'emails' ); ?>
+ at <?php echo $_POST['email']; ?>
+ shortly describing how to complete your request.
 </div>
 
         <?php
