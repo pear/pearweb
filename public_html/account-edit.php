@@ -31,10 +31,10 @@ if (isset($_GET['handle'])) {
 }
 
 ob_start();
-response_header('Edit Account :: ' . $handle);
+response_header('Edit Profile :: ' . $handle);
 
-print '<h1>Edit Account &quot;';
-print '<a href="/user/'. $handle . '">' . $handle . '</a>&quot;</h1>' . "\n";
+print '<h1>Edit Profile: ';
+print '<a href="/user/'. $handle . '">' . $handle . '</a></h1>' . "\n";
 
 print "<ul><li><a href=\"#password\">Manage your password</a></li></ul>";
 
