@@ -854,7 +854,8 @@ class package
                         $packageinfo[$pkg]['stable'] = $stable['stable'];
                     }
                 } else {
-                    if (version_compare($packageinfo[$pkg]['unstable'], $stable['stable'], '<')) {
+                    if (!isset($packageinfo[$pkg]['unstable']) ||
+                          version_compare($packageinfo[$pkg]['unstable'], $stable['stable'], '<')) {
                         // only change it if the version number is newer
                         $packageinfo[$pkg]['unstable'] = $stable['stable'];
                     }
