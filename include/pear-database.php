@@ -783,6 +783,33 @@ class package
     }
 
     // }}}
+    // {{{  proto struct package::search(string, [bool|string], [bool], [bool], [bool]) API 1.0
+
+    /**
+     *
+     */
+    function search($fragment, $summary = false, $released_only = true, $stable_only = true,
+                    $include_pecl = false)
+    {
+        $all = package::listAll($released_only, $stable_only, $include_pecl);
+        if (!$all) {
+            return PEAR::raiseError('no packages found');
+        }
+        $ret = array();
+        foreach ($available as $name => $info) {
+            $found = (!empty($package) && stristr($name, $package) !== false);
+            if (!$found && !(isset($summary) && !empty($summary)
+                && (stristr($info['summary'], $summary) !== false
+                    || stristr($info['description'], $summary) !== false)))
+            {
+                continue;
+            };
+            $ret[$name] = $info;
+        }
+        return $ret;
+    }
+
+    // }}}
     // {{{  proto struct package::listAll([bool], [bool], [bool]) API 1.0
 
     /**
