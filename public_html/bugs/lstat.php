@@ -5,6 +5,6 @@
     if (DB::isError($res)) {
         die;
     }
-        echo $res;
+    echo $res;
 
 ?>
