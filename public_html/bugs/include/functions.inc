@@ -491,6 +491,7 @@ function get_bugtype_mail($bug_type)
             return array('pear-doc@lists.php.net', 'pear-doc@lists.php.net');
     }
     $maintainers = package::info($bug_type, 'authors');
+    $to = array();
     foreach ($maintainers as $data) {
         $to[] = $data['email'];
     }
