@@ -209,6 +209,14 @@ function auth_logout()
                    preg_replace('/logout=1/',
                                 '', $_SERVER['QUERY_STRING']));
     }
+
+    if ($_SERVER['QUERY_STRING'] == 'logout=1') {
+        localRedirect($_SERVER['PHP_SELF']);
+    } else {
+        localRedirect($_SERVER['PHP_SELF'] . '?' .
+                   preg_replace('/logout=1/',
+                                '', $_SERVER['QUERY_STRING']));
+    }
 }
 
 $cvspasswd_file = "/repository/CVSROOT/passwd";
