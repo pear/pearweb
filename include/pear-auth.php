@@ -116,7 +116,7 @@ function auth_verify($user, $passwd)
     }
     if ($ok) {
         $auth_user->_readonly = true;
-        return auth_check("user");
+        return auth_check("pear.user");
     }
     if ($error) {
         error_log($error, 0);
@@ -137,16 +137,16 @@ function auth_check($atom)
     // Check for backwards compatibility
     if (is_bool($atom)) {
         if ($atom == true) {
-            $atom = "admin";
+            $atom = "pear.admin";
         } else {
-            $atom = "dev";
+            $atom = "pear.dev";
         }
     }
 
     if (!isset($karma)) {
         $karma = new Damblan_Karma($dbh);
     }
-    return $karma->has($auth_user->handle, "pear." . $atom);
+    return $karma->has($auth_user->handle, $atom);
 }
 
 function auth_require($admin = false)
