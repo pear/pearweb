@@ -60,6 +60,9 @@ div.thanks {
     padding: 6px;
     clear: both;
 }
+div.comment {
+    clear: both;
+}
 
 table.lusersearch td {
     font-size: 75%;
