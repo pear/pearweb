@@ -229,7 +229,7 @@ function navigationBar($title,$id,$loc) {
         echo "\n";
         echo '     </td>';
         echo "\n";
-        echo '     <td class="man-nav_last" align="right">';
+        echo '     <td class="man-nav_updated" align="right">';
         echo "\n";
         echo 'Last updated: '.$tstamp;
         echo "\n";
