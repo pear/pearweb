@@ -33,8 +33,8 @@ CREATE TABLE package_proposal_votes (
 
 CREATE TABLE package_proposals (
   id int(11) NOT NULL auto_increment,
-  pkg_category varchar(255) NOT NULL default '',
-  pkg_name varchar(255) NOT NULL default '',
+  pkg_category varchar(80) NOT NULL default '',
+  pkg_name varchar(80) NOT NULL default '',
   pkg_license varchar(100) NOT NULL default '',
   pkg_describtion text NOT NULL,
   pkg_deps text NOT NULL,
@@ -45,5 +45,6 @@ CREATE TABLE package_proposals (
   status enum('draft','proposal','vote','finished') NOT NULL default 'draft',
   user_handle varchar(255) NOT NULL default '',
   markup enum('bbcode','wiki') NOT NULL default 'bbcode',
-  PRIMARY KEY  (id)
+  PRIMARY KEY  (id),
+  UNIQUE KEY cat_name (pkg_category,pkg_name)
 );
