@@ -165,8 +165,23 @@ if (!empty($_GET)) {
 
     $result = $dbh->query($sql);
 
-    // Run through any results
-    if (($numrows = $result->numRows()) > 0) { 
+    // If there's only one result, forward to the result page directly
+    $numrows = $result->numRows();
+
+    if(1 == $numrows) {
+        $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
+        if(isset($row['package_name'])) {
+            header('Location: http://pear.php.net/package/'.$row['package_name']);
+        } else {
+            // shoudn't happen. Just in case something goes wrong, set $numrows to 0
+            // to have a "No Results found" Message later on.
+            $numrows = 0;
+        }
+    }
+
+    // Run through the results
+
+    if ($numrows > 1) { 
     
         // Paging
         include_once('Pager/Pager.php');
