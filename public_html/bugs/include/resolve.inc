@@ -83,7 +83,7 @@ us make PEAR better.',
   ),
   'oldversion' => array(
     'status' => 'Bogus',
-    'desc' => 'Try newer version',
+    'desc' => 'Try newer package version',
     'message' =>
 'Thank you for taking the time to report a problem with the package.
 Unfortunately you are not using a current version of the package -- 
@@ -94,6 +94,20 @@ If you are able to reproduce the bug with one of the latest
 versions, please change the package version on this bug report
 to the version you tested and change the status back to "Open".
 Again, thank you for your continued support of PEAR.',
+  ),
+  'oldphpversion' => array(
+    'status' => 'Bogus',
+    'desc' => 'Try newer PHP version',
+    'message' =>
+'Thank you for taking the time to report a problem with PHP.
+Unfortunately you are not using a current version of PHP -- 
+the problem might already be fixed. Please download a new
+PHP version from http://www.php.net/downloads.php
+
+If you are able to reproduce the bug with one of the latest
+versions of PHP, please change the PHP version on this bug report
+to the version you tested and change the status back to "Open".
+Again, thank you for your continued support of PEAR.'
   ),
   'support' => array(
     'status' => 'Bogus',
