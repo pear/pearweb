@@ -84,6 +84,7 @@ do {
             break;
         }
         if (!user::isAdmin($_COOKIE['PEAR_USER']) &&
+            !user::isQA($_COOKIE['PEAR_USER'])) &&
             !user::maintains($_COOKIE['PEAR_USER'], $pacid, 'lead')) {
             $errors[] = 'You don\'t have permissions to upload this release.';
             break;
@@ -292,8 +293,8 @@ function checkUser($user, $pacid = null)
     if ($res !== null) {
         return true;
     }
-    // Try to see if the user is an admin
-    $res = user::isAdmin($user);
+    // Try to see if the user is an admin or QA core
+    $res = (user::isAdmin($user) || user::isQA($user)));
     return ($res === true);
 }
 
