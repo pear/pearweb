@@ -117,8 +117,12 @@ form#asearch table#primary {
 .bug_head {
     font-size: 80%; background-color: #BBBBBB; text-align: right;
 }
-#bug_header {
-    background-color: #BBBBBB; font-size: 80%;
+.bug_header {
+    background-color: #BBBBBB; font-size: 80%; text-align: center;
+}
+
+a.bug_stats_choosen {
+    color: black;
 }
 
 
