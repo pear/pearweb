@@ -300,6 +300,9 @@ if ($display_verification) {
                 $errors[] = "Versions < 1.0.0 may not be 'stable'";
             }
         }
+        if ($info->getChannel() != 'pear.php.net') {
+            $errors[] = 'Only channel pear.php.net packages may be released at pear.php.net';
+        }
         switch ($info->getPackageType()) {
             case 'php' :
                 $type = 'PHP package';
