@@ -47,6 +47,7 @@ function reloadMe()
 <?php
 $query = "SELECT * FROM packages"
          . (!empty($_GET['cid']) ? " WHERE category = '" . $_GET['cid'] . "'" : "")
+         . " AND packages.package_type='pear'"
          . " ORDER BY name";
 
 $sth = $dbh->query($query);
@@ -131,13 +132,19 @@ $bb->end();
 
 if (isset($_GET['pid']) && (int)$_GET['pid']) {
 
-    $info = package::info($_GET['pid']);
+    $info = package::info($_GET['pid'],null,false);
 
-    echo "<h2>Statistics for package \"<a href=\"/" . $info['name'] . "\">" . $info['name'] . "</a>\"</h2>\n";
-    $bb = new Borderbox("General statistics");
-    echo "Number of releases: <b>" . count($info['releases']) . "</b><br />\n";
-    echo "Total downloads: <b>" . number_format(statistics::package($_GET['pid']), 0, '.', ',') . "</b><br />\n";
-    $bb->end();
+    if (isset($info['releases']) && sizeof($info['releases'])>0) {
+        echo "<h2>Statistics for package \"<a href=\"/" . $info['name'] . "\">" . $info['name'] . "</a>\"</h2>\n";
+        $bb = new Borderbox("General statistics");
+        echo "Number of releases: <b>" . count($info['releases']) . "</b><br />\n";
+        echo "Total downloads: <b>" . number_format(statistics::package($_GET['pid']), 0, '.', ',') . "</b><br />\n";
+        $bb->end();
+    } else {
+        $bb = new Borderbox("General statistics");
+        echo "No package or release found.";
+        $bb->end();
+    }
 
     if (count($info['releases']) > 0) {
         echo "<br />\n";
