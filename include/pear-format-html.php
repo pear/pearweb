@@ -405,7 +405,7 @@ class BorderBox {
         for ($j = 0; $j < $this->cols-1; $j++) {
             print "$i     <td style=\"vertical-align: top; background-color: #E8E8E8\">";
             $data = @func_get_arg($j + 1);
-            if (empty($data)) {
+            if (!isset($data)) {
                 print "&nbsp;";
             } else {
                 print $data;
