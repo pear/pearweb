@@ -84,11 +84,30 @@ if ($display_form) {
 
     print "<h1>Request Account</h1>
 
-<p>You do <b>not</b> need an account if you want to download, install and/or
-use PEAR packages. You only need to request an account if you want to
-contribute a new package to PEAR CVS, help in the maintainance of an existing
-package, or list and release your package using the PEAR packager/installer
-(without hosting the code in PEAR CVS).</p>
+<p>
+You only need to request an account if you:
+<ul>
+<li>Are going to contribute a new package to PEAR CVS and that has been discussed
+and approved in the pear-dev mailing list, or</li>
+<li>Will help in the maintainance of an existing package (after approval by the
+current maintainer or the PEAR group), or</li>
+<li>Want to list and release your package using the PEAR packager/installer
+(without hosting the code in PEAR CVS), or</li>
+<li>Want to help with the documentation of PEAR packages</li>
+</ul>
+If you not fall in any of the categories above, your application will be summarily denied.
+</p>
+
+<p>You do <b>not</b> need an account to:
+<ul>
+<li>Download, install and/or use PEAR packages, or</li>
+<li>Send patches for bugs or code improvements to a particular package,
+use the bug reporting system for that purpose, or</li>
+<li>Propose a new package or modifications to an existing one, use
+the pear-dev mailing list for doing that first.</li>
+</ul>
+These are not the only reasons that will get your request rejected, just the most common ones.
+</p>
 
 <p>If you are contributing a package to PEAR, make sure that you have gone through
 the peer review process. Make also sure that if you are going to include code
