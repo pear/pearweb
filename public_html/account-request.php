@@ -85,35 +85,43 @@ if ($display_form) {
     print "<h1>Request Account</h1>
 
 <p>
-You only need to request an account if you:
+You only need to request an account if you
 <ul>
-<li>Are planning to contribute a new package to PEAR and want to propose this to the PEAR developers, or</li>
-<li>Are going to contribute a new package to PEAR CVS and that has been discussed
-and approved in the pear-dev mailing list, or</li>
-<li>Will help in the maintainance of an existing package (after approval by the
-current maintainer or the PEAR group), or</li>
+<li>are planning to contribute a new package to PEAR and want to 
+propose this to the PEAR developer community.</li>
+
+<li>are going to help in the maintenance of an existing package. This
+needs to be approved by the current maintainers of the package or by
+the <a href=\"/group/\">PEAR Group</a>.</li>
+
 <li>Want to list and release your package using the PEAR packager/installer
 (without hosting the code in PEAR CVS), or</li>
-<li>Want to help with the documentation of PEAR packages</li>
 </ul>
-If you not fall in any of the categories above, your application will be summarily denied.
+
+If the reason for your request does not fall under one of the three
+reasons above, please contact the <a href=\"mailto:pear-dev@lists.php.net\">
+PEAR developers mailing list</a>.
 </p>
 
 <p>You do <b>not</b> need an account to:
 <ul>
-<li>Download, install and/or use PEAR packages, or</li>
-<li>Send patches for bugs or code improvements to a particular package,
-use the bug reporting system for that purpose, or</li>
-<li>Propose modifications to an existing package, use
-the pear-dev mailing list for doing that first.</li>
+<li>Download, install and/or use PEAR packages.</li>
+<li>Submit patches or code improvements for a particular package. 
+Please use the <a href=\"/bugs/\">bug reporting system</a> for that
+purpose.</li>
+<li>Propose modifications to an existing package. Please use the
+<a href=\"mailto:pear-dev@lists.php.net\">PEAR developers mailing 
+list</a> for that or directly contact the maintainers of the package
+in question.</li>
 </ul>
-These are not the only reasons that will get your request rejected, just the most common ones.
+These are not the only reasons that will get your request rejected, 
+just the most common ones.
 </p>
 
-<p>If you want to contributing a package to PEAR, make sure that you have followed all rules concerning
-PAER packages. Make also sure that if you are going to include code
-in PEAR CVS, that this complies with the PEAR code standards before it is
-released.</p>
+<p>If you want to contribute a package to PEAR, make sure that you
+have read and understood the <a href=\"/manual/en/guide-developers.php\">
+Developer Guide</a>. Make also sure that your code complies with the
+<a href=\"/manual/en/standards.php\">PEAR coding standards</a>.</p>
 
 <p>Bogus, incomplete or incorrect requests will be summarily denied.</p>";
 
