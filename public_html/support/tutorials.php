@@ -108,6 +108,15 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
    </a>
   </cite>
  </li>
+ <li>
+  <cite>
+   <a href="http://builder.com.com/5100-6374_14-5216364.html">
+    Extract XML document statistics with PHP
+   </a>
+  </cite>
+    talks about using the <a href="/package/XML_Statistics/">XML_Statistics</a>
+    package.
+ </li>
 </ul>
 
 <h3>DB Tutorials</h3>
