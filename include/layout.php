@@ -93,11 +93,11 @@ function print_image($file, $alt=false, $align=false, $extras=false, $dir=false,
 // print a pipe delimiter
 //
 
-function delim($color=false) {
+function delim($color = false, $delimiter = '&nbsp;|&nbsp;') {
     if (!$color) {
-        return '&nbsp;|&nbsp;';
+        return $delimiter;
     }
-    return sprintf('<font color="%s">&nbsp;|&nbsp;</font>', $color );
+    return sprintf('<font color="%s">%s</font>', $color, $delimiter);
 }
 
 

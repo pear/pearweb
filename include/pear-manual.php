@@ -205,7 +205,7 @@ function navigationBar($title,$id,$loc) {
             echo "\n";
             echo '     <td colspan="2" align="left"><small>';
             echo "\n";
-            echo join(delim(), $links);
+            echo join(delim(false, ' | '), $links);
             echo "\n";
             echo '     </small></td>';
             echo "\n";
