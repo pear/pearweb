@@ -274,7 +274,7 @@ if ($errors) display_errors($errors);
     <li>The list of modules you compiled PHP with (your configure line).</li>
     <li>Any other information unique or specific to your setup.</li>
     <li>Any changes made in your php.ini compared to php.ini-dist (<b>not</b> your whole php.ini!)</li>
-    <li>A <a href="bugs-generating-backtrace.php">gdb backtrace</a>.</li>
+    <li>A <a href="http://bugs.php.net/bugs-generating-backtrace.php">gdb backtrace</a>.</li>
    </ul>
    </font>
   </td>
