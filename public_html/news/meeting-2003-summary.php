@@ -121,7 +121,7 @@ The team is expected to :
 </ul>
 
 <p>
-<?php print_link("/package-info.php?package=PhpDocumentor", "PHPDocumentor"); ?> 
+<?php print_link('/package/PhpDocumentor', 'PHPDocumentor'); ?> 
 is now the official tool to generate API documentation.
 </p>
 

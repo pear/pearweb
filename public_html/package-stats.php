@@ -160,7 +160,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
                 (isset($_GET['rid']) ? $_GET['rid'] : ''));
 
         foreach ($release_statistics as $key => $value) {
-            $version = make_link('package-info.php?package=' . $info['name'] .
+            $version = make_link('/package/' . $info['name'] .
                 '&release=' . $value['release'], $value['release']);
             echo '<tr>';
             echo '<td>' . $version . '</td>';
@@ -381,7 +381,7 @@ if (@!$_GET['pid']) {
 	        $row['package'] = '';
 	    } else {
 	        $lastPackage = $row['package'];
-	        $row['package'] = "<a href=\"package-info.php?package=" .
+	        $row['package'] = '<a href="/package/' .
 	                            $row['package'] . "\">" .
 	                            $row['package'] . "</a>\n";
 	    }

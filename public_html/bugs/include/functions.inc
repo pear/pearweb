@@ -627,7 +627,7 @@ function show_bugs_menu($pkgname)
     }
 
     echo '<table width="100%" align="center" border="0"><tr><td>';
-    echo make_link('/package-info.php?package='.$pkgname, 'Package home');
+    echo make_link('/package/' . $pkgname, 'Package home');
     echo delim();
     echo make_link('/bugs/report.php?package='.$pkgname, 'Report a new bug');
     echo delim();
