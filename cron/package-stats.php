@@ -26,9 +26,9 @@
 * DSN for pear packages database
 */
 	$dsn = "mysql://pear:pear@localhost/pear";
-	$dbh = DB::connect($dsn);
+	$db = DB::connect($dsn);
 
-	if (DB::isError($dbh)) {
+	if (DB::isError($db)) {
 		die ("Failed to connect: $dsn\n");
 	}
 
