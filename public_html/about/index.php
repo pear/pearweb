@@ -34,6 +34,15 @@ and some (as you might have guessed) PEAR packages. Additionally we
 have started to use a set of utility classes. We call it
 <a href="damblan.php">Damblan</a>.</p>
 
+<p><a href="http://validator.w3.org/check/referer">
+<img style="border:0px; width:88px; height:31px" 
+     src="http://www.w3.org/Icons/valid-xhtml10" 
+     alt="(Mostly) Valid XHTML 1.0!" /></a>
+<a href="http://jigsaw.w3.org/css-validator/">
+<img style="border:0;width:88px;height:31px"
+     src="http://jigsaw.w3.org/css-validator/images/vcss" 
+     alt="Valid CSS!" /></a></p>
+
 <h2>Website soure code</h2>
 
 <p>The source code of the website is available via CVS. To checkout the 
