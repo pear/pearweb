@@ -1,30 +1,21 @@
 <script language="JavaScript" type="text/javascript">
 <!--
-	function toggleMoreInfo(packageName, packageID)
-	{
-		if (!document.getElementById) {
-			location.href = '/package/' + packageName;
-			return;
-		}
+    function toggleMoreInfo(packageName, packageID)
+    {
+        if (!document.getElementById) {
+            location.href = '/package/' + packageName;
+            return;
+        }
 
-		var rowLayer = document.getElementById('moreInfo_' + packageID);
-		var rowSpacerLayer = document.getElementById('moreInfo_' + packageID + '_spacer');
+        var rowLayer = document.getElementById('moreInfo_' + packageID);
+        var rowSpacerLayer = document.getElementById('moreInfo_' + packageID + '_spacer');
 
-		newDisplay = rowLayer.style.display == 'none' ? 'inline' : 'none';
-		rowLayer.style.display       = newDisplay;
-		rowSpacerLayer.style.display = newDisplay;
-	}
+        newDisplay = rowLayer.style.display == 'none' ? 'inline' : 'none';
+        rowLayer.style.display       = newDisplay;
+        rowSpacerLayer.style.display = newDisplay;
+    }
 //-->
 </script>
-
-<style type="text/css">
-<!--
-	.eInfo_label {
-		font-weight: bold;
-		font-size: 80%;
-	}
-// -->
-</style>
 
 <table border="0" width="100%">
     <tr>
@@ -43,28 +34,39 @@
 </table>
 
 <?if($nrow):?>
-	<?=$table->toHtml()?>
+    <?=$table->toHtml()?>
 <?endif?>
 
 <?if($catpid and $packages):?>
 
-	<br />
+    <br />
 
-	<?if($subCategories):?>
-		Sub-categories: <?=$subCategories?><br /><br />
-	<?endif?>
+    <?if($subCategories):?>
+        Sub-categories: <?=$subCategories?><br /><br />
+    <?endif?>
 
-	<style type="text/css">
-	<!--
-	th.pkgListHeader {
-		background-color: #cccccc;
-	}
+    <style type="text/css">
+    <!--
+    .eInfo_label {
+        font-weight: bold;
+        font-size: 80%;
+    }
 
-	td.tableHeader {
-		background-color: #cccccc;
-		border-bottom: 1px solid black;
-		font-weight: bold;
-	}
+    table#packageList {
+	    width: 100%;
+	    padding: 4px;
+	    padding-top: 0px;
+    }
+	
+    th.pkgListHeader {
+        background-color: #cccccc;
+    }
+
+    td.tableHeader {
+        background-color: #cccccc;
+        border-bottom: 1px solid black;
+        font-weight: bold;
+    }
 
     td.tableFooter {
         background-color: #cccccc;
@@ -72,124 +74,135 @@
         font-weight: bold;
     }
 
-	td.moreInfo {
-		background-color: #f0f0f0;
-		border: 1px dashed #c0c0c0;
-		position: relative;
-	}
+    td.moreInfo {
+        background-color: #f0f0f0;
+        border: 1px dashed #c0c0c0;
+        position: relative;
+    }
 
-	.closeButton {
-		border: 2px white outset;
-		background-color: #c0c0c0;
-	}
+    .closeButton {
+        border: 2px white outset;
+        background-color: #c0c0c0;
+    }
 
-	.moreInfoHeader {
-		background-color: #dddddd;
-		border-bottom: 1px dashed #c0c0c0;
-	}
+    .moreInfoHeader {
+        background-color: #dddddd;
+        border-bottom: 1px dashed #c0c0c0;
+    }
 
-	.moreInfoText {
-		font-size: 80%;
-		font-weight: bold;
-		font-family: Verdana;
-		padding-left: 5px;
-	}
-	// -->
-	</style>
-
-
-	<a href="<?=$hideMoreInfoLink?>" title="Hide all more info"><img src="gifs/moreinfo-no.gif" width="17" height="17" border="0" vspace="3" /></a>
-	<a href="<?=$showMoreInfoLink?>" title="Show all more info"><img src="gifs/moreinfo-yes.gif" width="17" height="17" border="0" vspace="3" /></a>
-
-	<table border="0" style="border: solid 1px black" cellspacing="0" cellpadding="0">
-		<tr>
-			<td>
-				<table border="0" width="100%" cellspacing="0">
-					<tr class="tableHeader">
-						<td class="tableHeader" width="50" align="left">&nbsp;<?=$prev?></td>
-						<td class="tableHeader" align="center">Packages (<?=$first?> - <?=$last?> of <?=$total?>)</td>
-						<td class="tableHeader" width="50" align="right"><?=$next?>&nbsp;</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-
-		<tr>
-			<td>
-				<table border="0" id="packageList">
-					<tr>
-						<th class="pkgListHeader">#</td>
-						<th class="pkgListHeader"><nobr>Package name</nobr></td>
-						<th class="pkgListHeader">Description</td>
-                        <th class="pkgListHeader">&nbsp;</td>
-					</tr>
-
-					<?php $nr = $first; foreach($packages as $p):?>
-						<tr>
-							<td valign="top"><?=$nr++?></td>
-							<td valign="top"><a href="/package/<?=$p['name']?>"><strong><?=$p['name']?></strong></td>
-							<td valign="top"><?=$p['summary']?></td>
-							<td valign="top">
-								<?if($_browser->is_ie5up):?>
-									<a href="#" onclick="toggleMoreInfo(<?="'".$p['name']."'"?>,<?=$p['id']?>); return false" onmouseover="window.status = 'View more info about <?=$p['name']?>'; return true" onmouseout="window.status = ''" title="View more info about <?=$p['name']?>">
-										<img src="gifs/moreinfo.gif" border="0" />
-									</a>
-								<?endif?>
-							</td>
-						</tr>
-
-						<tr <?if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?=$defaultMoreInfoVis?>" <?endif?> id="moreInfo_<?=$p['id']?>">
-							<td>&nbsp;</td>
-
-							<td colspan="3" class="moreInfo">
-								<table border="0" class="moreInfoHeader" width="100%" cellspacing="0" cellpadding="0">
-									<tr>
-										<td><span class="moreInfoText">More information</span></td>
-										<td align="right">
-											<?if($_browser->is_ie5up):?>
-												<a href="javascript: toggleMoreInfo(<?="'".$p['name']."'"?>,<?=$p['id']?>)"><img class="closeButton" src="gifs/close.gif" border="0" /></a>
-											<?endif?>
-										</td>
-									</tr>
-								</table>
-
-								<table border="0">
-									<tr>
-										<td class="eInfo_label"><strong>Number of releases:</strong></td>
-										<td><?=$p['eInfo']['numReleases']?></td>
-
-										<td class="eInfo_label"><strong>License type:</strong></td>
-										<td><?=$p['eInfo']['license']?></td>
-									</tr>
-
-									<tr>
-										<td class="eInfo_label"><strong>Status:</strong></td>
-										<td><?=$p['eInfo']['status']?></td>
-									</tr>
-								</table>
+    .moreInfoText {
+        font-size: 80%;
+        font-weight: bold;
+        font-family: Verdana;
+        padding-left: 5px;
+    }
+    
+    .nextArrow, .nextArrow a, .nextArrow a:hover {
+        text-align: right;
+        font-size: 85%;
+        width: 70px;
+        text-decoration: none;
+    }
+    
+    .prevArrow, .prevArrow a, .prevArrow a:hover {
+        text-align: left;
+        font-size: 85%;
+        width: 70px;
+        text-decoration: none;
+    }
+    // -->
+    </style>
 
 
-							</td>
-						</tr>
+    <a href="<?=$hideMoreInfoLink?>" title="Hide all more info">
+     <img src="gifs/moreinfo-no.gif" width="17" height="17" border="0" vspace="3" alt="Hide all more info" />
+    </a>
+    <a href="<?=$showMoreInfoLink?>" title="Show all more info">
+     <img src="gifs/moreinfo-yes.gif" width="17" height="17" border="0" vspace="3" alt="Show all more info" />
+    </a>
 
-						<tr <?if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?=$defaultMoreInfoVis?>" <?endif?> id="moreInfo_<?=$p['id']?>_spacer"><td colspan="5">&nbsp;</td></tr>
-					<?endforeach?>
-				</table>
-			</td>
-		</tr>
+    <table style="border: solid 1px black; width: 100%" cellspacing="0" cellpadding="0">
+     <tr>
+      <td>
+       <table border="0" width="100%" cellspacing="0">
         <tr>
-          <td>
-           <table border="0" width="100%" cellspacing="0">
-             <tr>
-               <td class="tableFooter" width="50" align="left">&nbsp;<?=$prev?></td>
-               <td class="tableFooter" align="center">Packages
-               (<?=$first?> - <?=$last?> of <?=$total?>)</td>
-               <td class="tableFooter" width="50" align="right"><?=$next?>&nbsp;</td>
-             </tr>
-           </table>
+         <td class="tableHeader prevArrow">&nbsp;<?=$prev?></td>
+         <td class="tableHeader" align="center">Packages (<?=$first?> - <?=$last?> of <?=$total?>)</td>
+         <td class="tableHeader nextArrow"><?=$next?>&nbsp;</td>
+        </tr>
+       </table>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       <table border="0" id="packageList">
+        <tr>
+         <th class="pkgListHeader">#</th>
+         <th class="pkgListHeader"><nobr>Package name</nobr></th>
+         <th class="pkgListHeader">Description</th>
+         <?if($_browser->is_ie5up):?>
+          <th class="pkgListHeader">&nbsp;</th>
+         <?endif?>
+        </tr>
+        <?php $nr = $first; foreach($packages as $p):?>
+        <tr>
+         <td valign="top" style="text-align: center;"><?=$nr++?></td>
+         <td valign="top"><a href="/package/<?=$p['name']?>"><strong><?=$p['name']?></strong></a></td>
+         <td valign="top"><?=htmlspecialchars($p['summary'])?></td>
+         <?if($_browser->is_ie5up):?>
+          <td valign="top"> 
+            <a href="#" onclick="toggleMoreInfo(<?="'".$p['name']."'"?>,<?=$p['id']?>); return false" onmouseover="window.status = 'View more info about <?=$p['name']?>'; return true" onmouseout="window.status = ''" title="View more info about <?=$p['name']?>">
+             <img src="gifs/moreinfo.gif" alt="More Info" title="More Info" border="0" />
+            </a> 
           </td>
-         </tr>
-	</table>
+         <?endif?>
+        </tr>
+        <tr <?if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?=$defaultMoreInfoVis?>" <?endif?> id="moreInfo_<?=$p['id']?>">
+         <td>&nbsp;</td>
+         <td colspan="3" class="moreInfo">
+          <table border="0" class="moreInfoHeader" width="100%" cellspacing="0" cellpadding="0">
+           <tr>
+            <td><span class="moreInfoText">More information</span></td>
+            <td align="right">
+             <?if($_browser->is_ie5up):?>
+              <a href="javascript: toggleMoreInfo(<?="'".$p['name']."'"?>,<?=$p['id']?>)"><img class="closeButton" src="gifs/close.gif" border="0" alt="" /></a>
+             <?endif?>
+            </td>
+           </tr>
+          </table>
+          <table border="0">
+           <tr>
+            <td class="eInfo_label"><strong>Number of releases:</strong></td>
+            <td><?=$p['eInfo']['numReleases']?></td>
+            <td class="eInfo_label"><strong>License type:</strong></td>
+            <td><?=$p['eInfo']['license']?></td>
+           </tr>
+           <tr>
+            <td class="eInfo_label"><strong>Status:</strong></td>
+            <td><?=$p['eInfo']['status']?></td>
+           </tr>
+          </table>
+         </td>
+        </tr>
+        <tr <?if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?=$defaultMoreInfoVis?>" <?endif?> id="moreInfo_<?=$p['id']?>_spacer">
+         <td colspan="5">&nbsp;</td>
+        </tr>
+		<?endforeach?>
+       </table>
+      </td>
+     </tr>
+     <tr>
+      <td>
+       <table border="0" width="100%" cellspacing="0">
+        <tr>
+         <td class="tableFooter prevArrow">&nbsp;<?=$prev?></td>
+         <td class="tableFooter" align="center">Packages (<?=$first?> - <?=$last?> of <?=$total?>)</td>
+         <td class="tableFooter nextArrow"><?=$next?>&nbsp;</td>
+        </tr>
+       </table>
+      </td>
+     </tr>
+    </table>
 
 <?elseif($catpid):?>
 	<p align="center">
