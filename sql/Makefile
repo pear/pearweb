@@ -29,7 +29,6 @@ TABLE_FILES=\
 	categories.sql \
 	packages.sql \
 	package_stats.sql \
-	provides.sql \
 	releases.sql \
 	deps.sql \
 	notes.sql \
@@ -121,5 +120,4 @@ categories.res:
 cvs_acl.res: users.res cvs_groups.res
 cvs_groups.res:
 cvs_group_membership.res: users.res cvs_groups.res
-provides.res: releases.res
 state_order.res:
