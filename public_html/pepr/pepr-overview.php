@@ -53,6 +53,11 @@ response_header('PEPr :: Package Proposals');
 echo '<h1>Package Proposals</h1>' . "\n";
 if ($selectStatus == '') {
     echo "<p>";
+    echo "PEPr is PEAR's system for managing the process of submitting ";
+    echo "new packages. If you would like to submit your own package, ";
+    echo "please have a look at the <a href=\"/manual/en/guide-newmaint.php\">New Maintainer's Guide</a>.";
+    echo "</p>";
+    echo "<p>";
     echo "<a href='/feeds/pepr$searchPostfix.rss'>Aggregate this.</a>";
     echo "</p>";
 }
