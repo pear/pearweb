@@ -153,8 +153,9 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     <table cellspacing="0" cellpadding="3" style="border: 0px; width: 100%;">
     <tr>
         <th style="text-align: left;">Version</th>
-        <th style="text-align: left;">Released</th>
         <th style="text-align: left;">Downloads</th>
+        <th style="text-align: left;">Released</th>
+        <th style="text-align: left;">Last Download</th>
     </tr>
 <?php
         $release_statistics = statistics::release($_GET['pid'],
@@ -165,10 +166,13 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
                 '/download/' . $value['release'], $value['release']);
             echo '<tr>';
             echo ' <td>' . $version . "</td>\n";
+            echo ' <td>' . number_format($value['dl_number'], 0, '.', ',');
+            echo "</td>\n";
             echo ' <td>';
             echo make_utc_date(strtotime($value['releasedate']), 'Y-m-d');
             echo "</td>\n";
-            echo ' <td>' . number_format($value['dl_number'], 0, '.', ',');
+            echo ' <td>';
+            echo make_utc_date(strtotime($value['last_dl']));
             echo "</td>\n";
             echo "</tr>\n";
         }

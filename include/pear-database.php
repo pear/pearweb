@@ -2450,7 +2450,7 @@ class statistics
     {
         global $dbh;
 
-        $query = 'SELECT s.release, s.dl_number, r.releasedate '
+        $query = 'SELECT s.release, s.dl_number, s.last_dl, r.releasedate '
             . 'FROM package_stats AS s '
             . 'LEFT JOIN releases AS r ON (s.rid = r.id) '
             . "WHERE pid = " . (int)$id;
