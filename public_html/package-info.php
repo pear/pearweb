@@ -266,13 +266,13 @@ if (empty($action)) {
     $i = 0;
 
     print '<table border="0" cellspacing="0" cellpadding="2" width="90%">';
-    print '<tr>';
-    print '<th class="headrow" width="20%">&raquo; Version:</th>';
-    print '<th class="headrow">&raquo; Information:</th>';
-    print '</tr>';
+    print ' <tr>';
+    print '  <th class="headrow" width="20%">&raquo; Version:</th>';
+    print '  <th class="headrow">&raquo; Information:</th>';
+    print "</tr>\n";
 
     foreach ($pkg['releases'] as $release_version => $info) {
-        print '<tr>';
+        print " <tr>\n";
 
         if (($i++ == 0 && empty($version)) || ($release_version == $version)) {
             // Detailed view
@@ -334,17 +334,18 @@ if (empty($action)) {
 
             }
 
-            print '</td>';
+            print "</td>\n";
 
         } else {
             // Simple view
-            print '<td colspan="2"><a href="/package/' . $name . '/download/' . $release_version . '">' . $release_version . '</a></td>';
+            print '  <td><a href="/package/' . $name . '/download/' . $release_version . '">' . $release_version . "</a></td>\n";
+            print '  <td>' . substr($info['releasedate'], 0, 10) . ' &nbsp; &nbsp; ' . $info['state'] . "</td>\n";
         }
 
-        print '</tr>';
+        print " </tr>\n";
     }
 
-    print '</table>';
+    print "</table>\n";
 
     // }}}
 
