@@ -1,0 +1,144 @@
+<?php
+
+$RESOLVE_REASONS = array(
+/*
+  'trysnapshot4' => array(
+    'status' => 'Feedback',
+    'desc' => 'Try a CVS snapshot (php4)',
+    'message' =>
+'Please try using this CVS snapshot:
+
+  http://snaps.php.net/php4-STABLE-latest.tar.gz
+ 
+For Windows:
+ 
+  http://snaps.php.net/win32/php4-win32-STABLE-latest.zip',
+  ),
+
+  'trysnapshot5' => array(
+    'status' => 'Feedback',
+    'desc' => 'Try a CVS snapshot (php5)',
+    'message' =>
+'Please try using this CVS snapshot:
+
+  http://snaps.php.net/php5-latest.tar.gz
+ 
+For Windows:
+ 
+  http://snaps.php.net/win32/php5-win32-latest.zip',
+  ),
+*/
+  'fixedcvs' => array(
+    'status' => 'Closed',
+    'desc' => 'Fixed in CVS',
+    'message' =>
+'This bug has been fixed in CVS.
+
+In case this was a documentation problem, the fix will show up at the
+end of next Sunday (CET) on pear.php.net.
+
+In case this was a pear.php.net website problem, the change will show
+up on the website in short time.
+ 
+Thank you for the report, and for helping us make PEAR better.',
+  ),
+  'alreadyfixed' => array(
+    'status' => 'Closed',
+    'desc' => 'Fixed in release',
+    'message' =>
+'Thank you for your bug report. This issue has been fixed
+in the latest released version of the package, which you can download at 
+http://pear.php.net/packages.php',
+  ),
+  'needtrace' => array(
+    'status' => 'Feedback',
+    'desc' => 'Need backtrace',
+    'message' =>
+'Thank you for this bug report. To properly diagnose the problem, we
+need a backtrace to see what is happening behind the scenes. To
+find out how to generate a backtrace, please read
+http://bugs.php.net/bugs-generating-backtrace.php
+
+Once you have generated a backtrace, please submit it to this bug
+report and change the status back to "Open". Thank you for helping
+us make PEAR better.',
+  ),
+  'oldversion' => array(
+    'status' => 'Bogus',
+    'desc' => 'Try newer version',
+    'message' =>
+'Thank you for taking the time to report a problem with the package.
+Unfortunately you are not using a current version of the package -- 
+the problem might already be fixed. Please download a new
+version from http://pear.php.net/packages.php
+
+If you are able to reproduce the bug with one of the latest
+versions, please change the package version on this bug report
+to the version you tested and change the status back to "Open".
+Again, thank you for your continued support of PEAR.',
+  ),
+  'support' => array(
+    'status' => 'Bogus',
+    'desc' => 'Not developer issue',
+    'message' =>
+'Sorry, but your problem does not imply a bug in PEAR itself.  For a
+list of more appropriate places to ask for help using PEAR, please
+visit http://pear.php.net/support.php as this bug system is not the
+appropriate forum for asking support questions. 
+
+Thank you for your interest in PEAR.',
+  ),
+  'nofeedback' => array(
+    'status' => 'No Feedback',
+    'desc' => 'No feedback',
+    'webonly' => 1,
+    'message' =>
+'No feedback was provided. The bug is being suspended because
+we assume that you are no longer experiencing the problem.
+If this is not the case and you are able to provide the
+information that was requested earlier, please do so and
+change the status of the bug back to "Open". Thank you.',
+  ),
+  'notwrong' => array(
+    'status' => 'Bogus',
+    'desc' => 'Expected behavior',
+    'message' =>
+'Thank you for taking the time to write to us, but this is not
+a bug.'
+  ),
+  'notenoughinfo' => array(
+    'status' => 'Feedback',
+    'desc' => 'Not enough info',
+    'message' =>
+'Not enough information was provided for us to be able
+to handle this bug. Please re-read the instructions at
+http://bugs.php.net/how-to-report.php
+
+If you can provide more information, feel free to add it
+to this bug and change the status back to "Open".
+
+Thank you for your interest in PEAR.
+',
+  ),
+  'submittedtwice' => array(
+    'status' => 'Bogus',
+    'desc' => 'Submitted twice',
+    'message' =>
+'Please do not submit the same bug more than once. An existing
+bug report already describes this very problem. Even if you feel
+that your issue is somewhat different, the resolution is likely
+to be the same. Because of this, we hope you add your comments
+to the existing bug instead.
+
+Thank you for your interest in PEAR.',
+  )
+);
+
+function show_reason_types($current="", $expanded=0)
+{
+	if ($expanded) echo "<option value=\"\"></option>\n";
+	while (list($k,$v) = each($GLOBALS['RESOLVE_REASONS'])) {
+		echo "<option value=\"$k\"", ($current==$k ? " selected" : ""),
+		     ">$v[desc]",($expanded?" ($v[status])":""),"</option>\n";
+	}
+}
