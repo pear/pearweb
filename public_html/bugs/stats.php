@@ -53,33 +53,36 @@ $row       = array();
 $pkg       = array();
 $pkg_total = array();
 $all       = array();
+$pseudo    = true;
 
 $query  = 'SELECT b.package_name, LOWER(b.status) AS status, COUNT(*) AS quant'
         . ' FROM bugdb AS b';
+
+$from = ' LEFT JOIN packages AS p ON p.name = b.package_name';
+if (!empty($_GET['category'])) {
+    $pseudo = false;
+    $from .= ' JOIN categories AS c ON c.id = p.category';
+    $from .= ' AND c.name = ' .  $dbh->quoteSmart($_GET['category']);
+}
+if (!empty($_GET['developer'])) {
+    $pseudo = false;
+    $from .= ' JOIN maintains AS m ON m.package = p.id';
+    $from .= ' AND m.handle = ' .  $dbh->quoteSmart($_GET['developer']);
+}
 
 switch ($site) {
     case 'pecl':
         $where = ' WHERE p.package_type = ' . $dbh->quoteSmart($site);
         break;
     case 'pear':
-        $where = " WHERE p.package_type = 'pear'"
-               . " OR b.package_name IN ('"
-               . implode("', '", $pseudo_pkgs) . "')";
+        $where = " WHERE p.package_type = 'pear'";
+        if ($pseudo) {
+            $where .= " OR b.package_name IN ('"
+                   . implode("', '", $pseudo_pkgs) . "')";
+        }
         break;
     default:
         $where = ' WHERE 1=1';
-}
-
-$from = ' LEFT JOIN packages AS p ON p.name = b.package_name';
-
-if (!empty($_GET['category'])) {
-    $from .= ' JOIN categories AS c ON c.id = p.category';
-    $from .= ' AND c.name = ' .  $dbh->quoteSmart($_GET['category']);
-}
-
-if (!empty($_GET['developer'])) {
-    $from .= ' JOIN maintains AS m ON m.package = p.id';
-    $from .= ' AND m.handle = ' .  $dbh->quoteSmart($_GET['developer']);
 }
 
 if (empty($_GET['bug_type'])) {
