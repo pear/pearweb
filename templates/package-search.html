@@ -107,14 +107,14 @@ response_header('Package Search');
     function setReleaseDropdowns()
     {
         if (<?php echo (int)$set_released_on; ?>) {
-            setDateFromCalendar_released_on('<?php echo htmlspecialchars($_GET['released_on_day']) ?>', '<?php echo  htmlspecialchars($_GET['released_on_month']); ?>', '<?php  echo htmlspecialchars($_GET['released_on_year']); ?>');
+            setDateFromCalendar_released_on('<?php echo  (int) $_GET['released_on_day']  ?>', '<?php echo   (int)($_GET['released_on_month']); ?>', '<?php  echo (int) $_GET['released_on_year']; ?>');
         } else {
             if (<?php echo (int)$set_released_before?>) {
-                setDateFromCalendar_released_before('<?php echo htmlspecialchars($_GET['released_before_day']); ?>', '<?php echo htmlspecialchars($_GET['released_before_month']); ?>', '<?php echo htmlspecialchars($_GET['released_before_year']); ?>');
+                setDateFromCalendar_released_before('<?php echo (int) $_GET['released_before_day']; ?>', '<?php echo (int)$_GET['released_before_month']; ?>', '<?php echo (int) $_GET['released_before_year']; ?>');
             }
 
             if (<?php echo (int)$set_released_since; ?>) {
-                setDateFromCalendar_released_since('<?php echo htmlspecialchars($_GET['released_since_day']); ?>', '<?php echo htmlspecialchars($_GET['released_since_month']); ?>', '<?php echo htmlspecialchars($_GET['released_since_year']); ?>');
+                setDateFromCalendar_released_since('<?php echo (int)$_GET['released_since_day']; ?>', '<?php echo (int) $_GET['released_since_month']; ?>', '<?php echo (int)$_GET['released_since_year']; ?>');
             }
         }
     }
