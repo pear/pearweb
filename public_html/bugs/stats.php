@@ -44,6 +44,8 @@ switch ($site) {
         break;
 }
 
+$sql   = '';
+$where = '';
 if ($_GET['category'] && $_GET['category'] != '') {
     !empty($_GET['developer']) ? $and = ' AND ' : '';
     $where .= ' AND categories.name = ' .  $dbh->quoteSmart($_GET['category']) . $and;
@@ -56,11 +58,12 @@ if ($_GET['developer'] && $_GET['developer'] != '') {
 
 }
 
+$where_clause = '';
 if (empty($_GET['bug_type']) || $_GET['bug_type'] == 'All') {
     $bug_type = '';
 } else {
     $bug_type = $_GET['bug_type'];
-    $where_clause .= " AND bug_type = '" . escapeSQL($bug_type) . "'";
+    $where_clause = " AND bug_type = '" . escapeSQL($bug_type) . "'";
 }
 
 $query = 'SELECT p.name FROM packages p '.$sql.$type.$where.' GROUP BY p.name';
@@ -74,6 +77,7 @@ if ($_GET['developer'] == '' && $_GET['category'] == '') {
         $result[] = array('name' => 'PEPr');
     }
 }
+
 foreach ($result as $package) {
     $query = 'SELECT status, package_name
             FROM bugdb
@@ -151,7 +155,7 @@ function package_link ($name)
                     'Documentation',
                     'PEPr');
     if (!in_array($name, $filter)) {
-        return '<a href="/'.$name.'" style="color: black;">'.$name.'</a>';
+        return '<a href="/package/'.$name.'" style="color: black;">'.$name.'</a>';
     } else {
         return $name;
     }
@@ -160,9 +164,8 @@ function package_link ($name)
 function display_stat_header($total, $grandtotal = true) {
     global $dbh;
     if ($grandtotal) {
-        $entries =& $dbh->getOne('SELECT count(id) AS total FROM bugdb');
-        $stat_head = '<tr id="bug_header"><td><strong style="text-align: right;">Total bug entries in system:</strong></td>
-            <td style="font-size: 120%;">'.$entries.'</td>';
+        $stat_head = '<tr id="bug_header"><td><strong>Name</strong></td>
+            <td>&nbsp;</td>';
     } else {
         $stat_head = '<tr id="bug_header"><td>&nbsp;</td><td>&nbsp;</td>';
     }
@@ -216,6 +219,7 @@ $users = $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, ma
     echo '</select>   <strong>Bug Type:</strong><select id="bug_type" name="bug_type" onchange="this.form.submit(); return false;">';
             show_type_options($_GET['bug_type'], true);
     echo '</select>
+        <input type="submit" name="submitStats" value="Search" />
         </div>
         </form></td></tr></table>' . "\n";
     echo '<table style="width: 100%;">'."\n";
