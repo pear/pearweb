@@ -37,6 +37,7 @@ function pear_xmlrpc_error($error) {
 
 function response_header($title) {}
 function response_footer() {}
+
 function report_error($error) {
     $response = "<?xml version='1.0' encoding='iso-8859-1' ?>
 <methodResponse>
@@ -63,7 +64,7 @@ function report_error($error) {
     header("Content-length: " . strlen($response));
     header("Content-type: text/xml");
     print $response;
-	
+	exit;
 }
 
 // {{{ xu_query_http_post()
