@@ -1076,8 +1076,9 @@ class maintainer
         // Only admins and leads can do this.
         global $dbh, $auth_user;
         $admin = $auth_user->isAdmin();
+        $qa    = $auth_user->isQA();
 
-        if (!$admin && !user::maintains($auth_user->handle, $pkgid, 'lead')) {
+        if (!$admin && !$qa && !user::maintains($auth_user->handle, $pkgid, 'lead')) {
             return PEAR::raiseError('maintainer::updateAll: insufficient privileges');
         }
 
