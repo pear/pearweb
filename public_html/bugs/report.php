@@ -171,18 +171,22 @@ if (isset($_POST['in'])) {
                      ' package_name,' .
                      ' bug_type,' .
                      ' email,' .
-                     ' sdesc, ldesc,' .
+                     ' sdesc,' .
+                     ' ldesc,' .
                      ' php_version,' .
                      ' php_os,' .
-                     ' status, ts1, passwd' .
+                     ' status, ts1,' .
+                     ' passwd' .
                      ') VALUES (' .
-                     " '{$_POST['in']['package_name']}'," .
-                     " '{$_POST['in']['bug_type']}'," .
-                     " '{$_POST['in']['email']}'," .
-                     " '{$_POST['in']['sdesc']}', '$fdesc'," .
-                     " '{$_POST['in']['php_version']}'," .
-                     " '{$_POST['in']['php_os']}'," .
-                     " 'Open', NOW(), '{$_POST['in']['passwd']}')";
+                     " '" . escapeSQL($_POST['in']['package_name']) . "'," .
+                     " '" . escapeSQL($_POST['in']['bug_type']) . "'," .
+                     " '" . escapeSQL($_POST['in']['email']) . "'," .
+                     " '" . escapeSQL($_POST['in']['sdesc']) . "'," .
+                     " '" . escapeSQL($fdesc) . "'," .
+                     " '" . escapeSQL($_POST['in']['php_version']) . "'," .
+                     " '" . escapeSQL($_POST['in']['php_os']) . "'," .
+                     " 'Open', NOW(), " .
+                     " '" . escapeSQL($_POST['in']['passwd']) . "')";
 
             $dbh->query($query);
 
