@@ -17,6 +17,17 @@
  * @version   $Id$
  */
 
+if (isset($_ENV['PEAR_CHANNELNAME'])) {
+    /**
+     * @ignore
+     */
+    define('PEAR_CHANNELNAME', $_ENV['PEAR_CHANNELNAME']);
+} else {
+    /**
+     * The channel server name that is used for all info
+     */
+    define('PEAR_CHANNELNAME', 'pear.php.net');
+}
 if (isset($_ENV['PEAR_TMPDIR'])) {
     /**
      * @ignore
