@@ -139,19 +139,51 @@ function show_state_options($state, $user_mode=0, $default="")
     }
 }
 
-function show_version_options($current,$default="")
+/**
+ * Prints a list of <options> containing PHP version numbers
+ *
+ * @param string $current  the bug's current version number
+ * @param string $default  a version number that should be the default
+ * @return void
+ */
+function show_version_options($current, $default = '')
 {
-    $versions = array('4.3.6', '4.3.5', '4.3.4', '4.3.3', '4.3.2', '4.3.1', '4.3.0',
-                    '4.2.2', '4.2.1', '4.2.0',
-                    '4CVS-'.date('Y-m-d').' (stable)',
-                    '5.0.0RC2 (Release Candidate 2)', '5.0.0RC1 (Release Candidate 1)', '5CVS-'.date('Y-m-d').' (dev)', 'Irrelevant');
-    echo "<option value=\"\">--Please Select--</option>\n";
+    $versions = array(
+        '4.3.7',
+        '4.3.6',
+        '4.3.5',
+        '4.3.4',
+        '4.3.3',
+        '4.3.2',
+        '4.3.1',
+        '4.3.0',
+        '4.2.2',
+        '4.2.1',
+        '4.2.0',
+        '4CVS-'.date('Y-m-d').' (stable)',
+        '5.0.0RC3 (Release Candidate 3)',
+        '5.0.0RC2 (Release Candidate 2)',
+        '5.0.0RC1 (Release Candidate 1)',
+        '5CVS-'.date('Y-m-d').' (dev)',
+        'Irrelevant'
+    );
+    $use = 0;
+
+    echo '<option value="">--Please Select--</option>' . "\n";
     while (list(,$v) = each($versions)) {
-        echo "<option", ($current == $v ? " selected" : ""), ">$v</option>\n";
-        if ($current == $v) $use++;
+        echo '<option';
+        if ($current == $v) {
+            echo ' selected="selected"';
+        }
+        echo '>' . $v . "</option>\n";
+        if ($current == $v) {
+            $use++;
+        }
     }
-    if (!$use && $current) echo "<option selected>$current</option>\n";
-    echo "<option value=\"earlier\">Earlier? Upgrade first!</option>\n";
+    if (!$use && $current) {
+        echo '<option selected="selected">' . $current . "</option>\n";
+    }
+    echo '<option value="earlier">Earlier? Upgrade first!</option>' . "\n";
 }
 
 function display_errors($errors)
