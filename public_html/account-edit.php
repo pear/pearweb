@@ -168,6 +168,13 @@ switch ($HTTP_POST_VARS['command']) {
         print " </tr>\n";
 
         print " <tr>\n";
+        print "  <th bgcolor=\"#CCCCCC\">PGP Key ID:</th>\n";
+        print "  <td bgcolor=\"#e8e8e8\">";
+        HTML_Form::displayText("pgpkeyid", $row['pgpkeyid']);
+        print "  </td>\n";
+        print " </tr>\n";
+
+        print " <tr>\n";
         print "  <th bgcolor=\"#CCCCCC\">Homepage:</th>\n";
         print "  <td bgcolor=\"#e8e8e8\">";
         HTML_Form::displayText("homepage", $row['homepage']);
