@@ -1400,6 +1400,7 @@ class release
                            'ne',
                            'gt',
                            'ge',
+                           'has',
                           );
 
         foreach ($pkg_info as $key => $value) {
