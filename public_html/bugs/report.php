@@ -179,12 +179,12 @@ you can scroll down and click the submit button to really enter the details into
 			$extra_headers.= "X-PHP-Category: " . stripslashes($in['bug_type'])    . "\n";
 			$extra_headers.= "X-PHP-OS: "       . stripslashes($in['php_os'])      . "\n";
 			$extra_headers.= "X-PHP-Status: Open\n";
-			$extra_headers.= "Message-ID: <bug-$cid@bugs.php.net>";
+			$extra_headers.= "Message-ID: <bug-$cid@pear.php.net>";
 
             // mail to package developers
             mail($mailto, "[PEAR-BUG] #$cid [NEW]: $sdesc", $ascii_report."1\n-- \n$dev_extra", $extra_headers, "-fpear-sys@php.net");
             // mail to reporter
-            mail($email, "[PEAR-BUG] Bug #$cid: $sdesc", $ascii_report."2\n", "From: PHP Bug Database <$mailfrom>\nX-PHP-Bug: $cid\nMessage-ID: <bug-$cid@bugs.php.net>", "-fpear-sys@php.net");
+            mail($email, "[PEAR-BUG] Bug #$cid: $sdesc", $ascii_report."2\n", "From: PHP Bug Database <$mailfrom>\nX-PHP-Bug: $cid\nMessage-ID: <bug-$cid@pear.php.net>", "-fpear-sys@php.net");
             header("Location: bug.php?id=$cid&thanks=4");
             exit;
         }
