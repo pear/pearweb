@@ -59,14 +59,13 @@ while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
 $bb = new Borderbox('Select package');
 
 // Don't use HTML_Form here since we need to use some custom javascript here
-?>
-    <form action="package-stats.php" method="get">
-        <table>
-            <tr>
-                <td>
-                    <select name="cid" onchange="javascript:reloadMe();">
-                        <option>Select category ...</option>
-<?php
+
+echo' <form action="package-stats.php" method="get">'."\n";
+echo' <table>'."\n";
+echo'  <tr>'."\n";
+echo'  <td>'."\n";
+echo'   <select name="cid" onchange="javascript:reloadMe();">'."\n";
+echo'    <option>Select category ...</option>'."\n";
 foreach (category::listAll() as $value) {
     if (isset($_GET['cid']) && $_GET['cid'] == $value['id']) {
         echo "    <option value=\"" . $value['id'] . "\" selected>" . $value['name'] . "</option>\n";
