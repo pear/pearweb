@@ -245,6 +245,10 @@ Eris Free Net</a>.
 <a name="resources" /><h3>PEAR resources</h3>
 
 <ul>
+    <li><a href="http://www.schlitt.info/index.php/content.publications_phpconf2003ff">2003-11-04 Frankfurt - 
+    International PHP Conference - PEAR im Einsatz</a>
+    by Tobias Schlitt.</li>
+
     <li><a href="http://conf2.php.net/show/powerpear">2002-11-03 Frankfurt - 
     International PHP Conference - Teach Yourself PEAR in 6 Hours</a>
     by Stig S. Bakken.</li>
