@@ -48,10 +48,11 @@ if (count($pkg['releases']) == 0) {
         $link = make_link("package-info.php?package=" . $pkg['name'] .
                           "&amp;version=" . urlencode($version), $version);
 
+        $notes = nl2br(htmlentities($releases['releasenotes']));
         if (!empty($_GET['release']) && $version == $_GET['release']) {
-            $bb->horizHeadRow($link, nl2br($release['releasenotes']));
+            $bb->horizHeadRow($link, $notes);
         } else {
-            $bb->plainRow($link, nl2br($release['releasenotes']));
+            $bb->plainRow($link, $notes);
         }
     }
 }
