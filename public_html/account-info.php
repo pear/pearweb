@@ -58,7 +58,7 @@ if ($row['showemail'] != 0) {
     $bb->horizHeadRow("Email:", "<a href=\"/account-mail.php?handle=" . $handle . "\">".str_replace(array("@", "."), array(" at ", " dot "), $row['email'])."</a>");
 }
 if (!empty($row['pgpkeyid'])) {
-    $bb->horizHeadRow("PGP Key:", make_link("http://pgp.mit.edu:11371/pks/lookup?search=" . $row['pgpkeyid'] . "&op=get", $row['pgpkeyid']));
+    $bb->horizHeadRow("PGP Key:", make_link("http://pgp.mit.edu:11371/pks/lookup?search=0x" . $row['pgpkeyid'] . "&op=get", $row['pgpkeyid']));
 }
 if ($row['homepage'] != "") {
 	$bb->horizHeadRow("Homepage:",
