@@ -21,8 +21,8 @@
  * @version   $Id$
  */
 
-// Should require pear.qa karma later.
-// auth_require('pear.admin');
+// Require pear.qa karma.
+auth_require('pear.qa');
 
 function getDays($date) {
     return ceil((time() - $date) / 60 / 60 / 24);
