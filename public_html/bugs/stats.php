@@ -32,64 +32,57 @@ $dbh->setFetchMode(DB_FETCHMODE_ASSOC);
 
 response_header('Bugs Stat');
 
-$sql .= 'LEFT JOIN packages ON packages.name = bugdb.package_name ';
-$where = '';
-if (($_GET['category'] && $_GET['category'] != '') 
-    || ($_GET['developer'] && $_GET['developer'] != '')) {
-    $where = 'WHERE';
+switch ($site) {
+    case 'pear':
+        $type = ' WHERE p.package_type = '.$dbh->quoteSmart('pear');
+        break;
+    case 'pecl':
+        $type = ' WHERE p.package_type = '.$dbh->quoteSmart('pecl');
+        break;
+    default:
+        $type = ' WHERE p.package_type LIKE \'%\'';
+        break;
 }
+
 if ($_GET['category'] && $_GET['category'] != '') {
     !empty($_GET['developer']) ? $and = ' AND ' : '';
-    $where .= ' categories.name = ' .  $dbh->quoteSmart($_GET['category']) . $and;
-    $sql .= ' LEFT JOIN categories ON packages.category = categories.id';
+    $where .= ' AND categories.name = ' .  $dbh->quoteSmart($_GET['category']) . $and;
+    $sql .= ' LEFT JOIN categories ON p.category = categories.id';
 }
 
 if ($_GET['developer'] && $_GET['developer'] != '') {
-    $where .= ' maintains.handle = ' .  $dbh->quoteSmart($_GET['developer']);
-    $sql .= ' LEFT JOIN maintains ON packages.id = maintains.package';
+    $where .= ' AND maintains.handle = ' .  $dbh->quoteSmart($_GET['developer']);
+    $sql .= ' LEFT JOIN maintains ON p.id = maintains.package';
 
 }
-$where == '' ? $extra = 'WHERE ' : $extra = 'AND ';
-switch ($site) {
-    case 'pear':
-        $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pear');
-                    if ($_GET['developer'] == '' && $_GET['category'] == '') {
-                        $type .= 'OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
-                                                  '.$dbh->quoteSmart('Documentation').', '.$dbh->quoteSmart('PEPr').')';
-                    }
-        break;
-        
-    case 'pecl':
-        $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pecl');
-                    if ($_GET['developer'] == '' && $_GET['category'] == '') {
-                        $type .= 'OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
-                                                  '.$dbh->quoteSmart('Documentation').')';
-                    }
-        break;
-        
-    default:
-        $type = '';
-        break;
+
+$query = 'SELECT p.name FROM packages p '.$sql.$type.$where.' GROUP BY p.name';
+$result = $dbh->getAll($query);
+
+if ($_GET['developer'] == '' && $_GET['category'] == '') {
+    $result[] = array('name' => 'Bug System');
+    $result[] = array('name' => 'Documentation');
+    $result[] = array('name' => 'Web Site');
+    if ($site == 'pear') {
+        $result[] = array('name' => 'PEPr');
+    }
 }
-
-$query = 'SELECT bugdb.status, bugdb.package_name, bugdb.email, bugdb.php_version, bugdb.php_os 
-        FROM bugdb
-        '.$sql.'
-        ' . $where . $type .'
-         GROUP BY bugdb.id ORDER BY bugdb.package_name ASC';
-
-$result = $dbh->query($query);
-
-while ($row = $result->fetchRow()) {
-    $package_name['all'][$row['package_name']]++;
-    $status_str = strtolower($row['status']);
-    $package_name[$status_str][$row['package_name']]++;
-    $package_name[$status_str]['all']++;
-    $email[$row['email']]++;
-    $php_version[$row['php_version']]++;
-    $php_os[$row['php_os']]++;
-    $status[$row['status']]++;
-    $total++;
+foreach ($result as $package) {
+    $query = 'SELECT bugdb.status, bugdb.package_name
+            FROM bugdb
+            WHERE bugdb.package_name = '.$dbh->quoteSmart($package['name']).'
+            GROUP BY bugdb.id';
+    $result1 = $dbh->query($query);
+    
+    $package_name['all'][$package['name']]['total'] = 0;
+    while ($row = $result1->fetchRow()) {
+        $package_name['all'][$package['name']]['total']++;
+        $status_str = strtolower($row['status']);
+        $package_name[$status_str][$package['name']]++;
+        $package_name[$status_str]['all']++;
+        $status[$row['status']]++;
+        $total++;
+    }
 }
 
 function bugstats($status, $name)
@@ -101,7 +94,6 @@ function bugstats($status, $name)
     }
 }
 
-echo "<table>\n";
 if ($total > 0) {
     /* prepare for sorting by bug report count */
     foreach($package_name['all'] as $name => $value) {
@@ -118,10 +110,14 @@ if ($total > 0) {
         if (!isset($package_name['feedback'][$name])) {    $package_name['feedback'][$name]    = 0; }
     }
     
-    if (!isset($_GET['sort_by'])) { $_GET['sort_by'] = 'open'; }   
-    if (!isset($_GET['rev'])) { $_GET['rev'] = 1; }
+    if (!isset($_GET['sort_by'])) { 
+        $_GET['sort_by'] = 'open'; 
+    }   
+    if (!isset($_GET['rev'])) { 
+        $_GET['rev'] = 1; 
+    }
     
-    if ($rev == 1) {
+    if ($_GET['rev'] == 1) {
         arsort($package_name[$_GET['sort_by']]);
     } else {
         asort($package_name[$_GET['sort_by']]);
@@ -154,9 +150,34 @@ function package_link ($name)
     }
 }
 
+function display_stat_header($total, $grandtotal = true) {
+    global $dbh;
+    if ($grandtotal) {
+        $entries =& $dbh->getOne('SELECT count(id) AS total FROM bugdb');
+        $stat_head = '<tr id="bug_header"><td><strong style="text-align: right;">Total bug entries in system:</strong></td>
+            <td style="font-size: 130%;">'.$entries.'</td>';
+    } else {
+        $stat_head = '<tr id="bug_header"><td>&nbsp;</td><td>&nbsp;</td>';
+    }
+    $stat_head .= '<td><strong>' . sort_url('closed')      . '</strong></td>
+    <td><strong>' . sort_url('open')        . '</strong></td>
+    <td><strong>' . sort_url('critical')    . '</strong></td>
+    <td><strong>' . sort_url('verified')    . '</strong></td>
+    <td><strong>' . sort_url('analyzed')    . '</strong></td>
+    <td><strong>' . sort_url('assigned')    . '</strong></td>
+    <td><strong>' . sort_url('suspended')   . '</strong></td>
+    <td><strong>' . sort_url('duplicate')   . '</strong></td>
+    <td><strong>' . sort_url('feedback')    . '</strong></td>
+    <td><strong>' . sort_url('no feedback') . '</strong></td>
+    <td><strong>' . sort_url('bogus')       . '</strong></td>
+    </tr>' . "\n";
+    return $stat_head;
+}
+
 /**
 * Fetch list of all categories
 */
+echo "<table>\n";
     $res = category::listAll();
     $_SERVER['QUERY_STRING'] ? $query_string = '?' . $_SERVER['QUERY_STRING'] : '';
 echo '<tr><td colspan="10"> 
@@ -196,25 +217,8 @@ if ($total == 0) {
     response_footer();
     exit;
 }
-
-$res = $dbh->query('SELECT count(id) AS total FROM bugdb');
-$entries = $res->fetchRow();
-
-echo '<tr id="bug_header"><td>
-    <strong style="text-align: right;">Total bug entries in system:</strong></td>
-    <td style="font-size: 130%;">' . $entries['total'] . '</td>
-    <td><strong>' . sort_url('closed')      . '</strong></td>
-    <td><strong>' . sort_url('open')        . '</strong></td>
-    <td><strong>' . sort_url('critical')    . '</strong></td>
-    <td><strong>' . sort_url('verified')    . '</strong></td>
-    <td><strong>' . sort_url('analyzed')    . '</strong></td>
-    <td><strong>' . sort_url('assigned')    . '</strong></td>
-    <td><strong>' . sort_url('suspended')   . '</strong></td>
-    <td><strong>' . sort_url('duplicate')   . '</strong></td>
-    <td><strong>' . sort_url('feedback')    . '</strong></td>
-    <td><strong>' . sort_url('no feedback') . '</strong></td>
-    <td><strong>' . sort_url('bogus')       . '</strong></td>
-    </tr>' . "\n";
+    
+echo display_stat_header($total, true);
 
 echo '<tr><td class="bug_head"><strong>All:</strong></td>
     <td class="bug_bg1">' . $total . '</td>
@@ -231,19 +235,16 @@ echo '<tr><td class="bug_head"><strong>All:</strong></td>
     <td class="bug_bg1">'. bugstats('bogus',       'all') .'&nbsp;</td>
     </tr>' . "\n";
 
+$stat_row = 1;
 foreach ($package_name[$_GET['sort_by']] as $name => $value) {
-    if (($package_name['open'][$name]     > 0 ||
-        $package_name['critical'][$name]  > 0 ||
-        $package_name['analyzed'][$name]  > 0 ||
-        $package_name['verified'][$name]  > 0 ||
-        $package_name['suspended'][$name] > 0 ||
-        $package_name['duplicate'][$name] > 0 ||
-        $package_name['assigned'][$name]  > 0 ||
-        $package_name['feedback'][$name]  > 0 ) && $name != 'all')
-    {
+    if ($name != 'all') {
+        /* Output a new header row every 40 lines */
+        if (($stat_row++ % 40) == 0) { 
+            echo display_stat_header($total, false);
+        }
         echo '<tr><td class="bug_head">
             <strong>' . package_link($name) . ':</strong></td>
-            <td class="bug_bg1">'. $package_name['all'][$name] .'</td>
+            <td class="bug_bg1">'. $package_name['all'][$name]['total'] .'</td>
             <td class="bug_bg2">'. bugstats('closed',      $name) .'&nbsp;</td>
             <td class="bug_bg1">'. bugstats('open',        $name) .'&nbsp;</td>
             <td class="bug_bg2">'. bugstats('critical',    $name) .'&nbsp;</td>
