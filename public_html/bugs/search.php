@@ -39,10 +39,10 @@ if (isset($cmd) && $cmd == "display") {
 
     $query .= "*, TO_DAYS(NOW())-TO_DAYS(ts2) AS unchanged FROM bugdb ";
 
-    if (count($package_name) == 0) {
+    if (count($_GET['package_name']) == 0) {
         $where_clause = "WHERE package_name != 'Feature/Change Request'";
     } else {
-        $where_clause = "WHERE package_name IN ('" . join("','", $package_name) . "')";
+        $where_clause = "WHERE package_name IN ('" . join("','", $_GET['package_name']) . "')";
     }
 
     if (count($package_nname) > 0) {
@@ -258,7 +258,7 @@ if ($warnings) display_warnings($warnings);
 <tr valign="top">
   <th>&nbsp;</th>
   <td nowrap="nowrap">Return only bugs <b>NOT</b> in <b>categories</b></td>
-  <td><select name="bug_ntype[]" multiple size=6><?php show_types($package_nname,2);?></select></td>
+  <td><select name="package_nname[]" multiple size=6><?php show_types($package_nname,2);?></select></td>
 </tr>
 <tr valign="top">
   <th>OS</th>
