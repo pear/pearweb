@@ -17,12 +17,12 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-response_header("The PEAR Group: New guidlines for BC breaking releases");
+response_header("The PEAR Group: New guidelines for BC breaking releases");
 ?>
 
 <h1>PEAR Group - Administrative Documents</h1>
 
-<h2>New guidlines for BC breaking releases</h2>
+<h2>New guidelines for BC breaking releases</h2>
 
 <p>Published: 14th November 2003</p>
 
