@@ -25,7 +25,7 @@ echo "<h1>PEAR news</h1>";
 echo "<h2><a name=\"2003\" />Year 2003</h2>";
 echo "<ul>";
 
-echo "<li>" . make_link("pecl-split.php", "Wwn infrastructure for PECL") . " (October)</li>";
+echo "<li>" . make_link("pecl-split.php", "Own infrastructure for PECL") . " (October)</li>";
 echo "<li>" . make_link("group-announce.php", "Announcing the PEAR Group") . " (August)</li>";
 echo "<li>" . make_link("activestate-award-ssb.php", "ActiveState Active Award for Stig Bakken") . " (July)</li>";
 echo "<li>" . make_link("meeting-2003-summary.php", "Summary of the PEAR Meeting") . " (May)</li>";
