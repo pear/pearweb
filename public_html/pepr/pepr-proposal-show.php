@@ -232,7 +232,7 @@
 			if ($vote->is_conditional || !empty($vote->comment)) {
 				$vote_line .= "*";
 			}
-			$vote_line .= " (".make_link("../account-info.php?handle=".$vote->user_handle, $users[$vote->user_handle]['name']).") ";
+			$vote_line .= " (".make_link("../account-info.php?handle=".$vote->user_handle, $users[$vote->user_handle]['name']).")";
 			$vote_line .= ", ".date("Y-m-d", $vote->timestamp);
 			
 			$bb->horizHeadRow("", $vote_line);
