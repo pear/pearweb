@@ -61,7 +61,7 @@
 #
 # 2.: Place the go-pear file somewhere under the document root of your webserver.
 # The easiest way is to create a new directory for pear and to put the file in there.
-# Be sure your web server is setup to recognize PHP, and that you use an appropriate 
+# Be sure your web server is setup to recognize PHP, and that you use an appropriate
 # extension.  For example, you might name this file gopear.php
 #
 # 3.: Access go-pear through your webserver and follow the instructions. Please
@@ -120,17 +120,13 @@ if (WEBINSTALLER && isset($_GET['action']) && $_GET['action'] == 'img' && isset(
 }
 
 // Check if PHP version is sufficient
-if (!function_exists("version_compare")) {
+if (function_exists("version_compare") && version_compare(phpversion(), "4.2.0",'<')) {
     die("Sorry!  Your PHP version is too old.  PEAR and this script requires at
-least PHP 4.1.0 for stable operation.
+least PHP 4.2.0 for stable operation.
 
 It may be that you have a newer version of PHP installed in your web
 server, but an older version installed as the 'php' command.  In this
 case, you need to rebuilt PHP from source.
-
-If your source is 4.1.x, you need to run 'configure' without any SAPI
-options such as --with-apache.  After rebuilding you will find the
-'php' binary in the top-level directory.
 
 If your source is 4.2.x, you need to run 'configure' with the
 --enable-cli option, rebuild and copy sapi/cli/php somewhere.
