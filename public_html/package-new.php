@@ -49,8 +49,7 @@ do {
         if (!preg_match(PEAR_COMMON_PACKAGE_NAME_PREG, $_POST['name'])) {
             display_error("Invalid package name.  PEAR package names must start ".
                           "with a capital letter and contain only letters, ".
-                          "digits and underscores.  PECL package names must be ".
-                          "all-lowercase, starting with a letter.");
+                          "digits and underscores.");
             break;
         }
 

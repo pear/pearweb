@@ -101,22 +101,7 @@ complete your request.
       'pear-qa', 'PEAR QA list',
       'A list for managing the PEAR Quality Assurance',
       false, false, true, "php.pear.qa"
-    ),
-
-    'PECL mailing lists',
-
-    array (
-      'pecl-cvs', 'PECL developers list',
-      'A list for developers of PECL',
-      false, true, false, "php.pecl.dev"
-    ),
-
-    array (
-      'pecl-cvs', 'PECL CVS list',
-      'All the commits of the cvs PECL code repository are posted to this list automatically',
-      false, true, false, "php.pecl.cvs"
-    ),
-
+    )
   );
 ?>
 <p>
@@ -293,7 +278,7 @@ Eris Free Net</a>.
 
 </div>
 
-<a name="icons" /><h3>Powered By PEAR/PECL</h3>
+<a name="icons" /><h3>Powered By PEAR</h3>
 
 <p>
     What programming tool would be complete without a set of
@@ -308,17 +293,13 @@ $icons = Array(
 	'pear-power.png'	=> 'Powered by PEAR, PNG format',
 	'pear-icon.gif'		=> '32x32 PEAR icon, GIF format',
 	'pear-icon.png'		=> '32x32 PEAR icon, PNG format',
-	'pecl-power.gif'	=> 'Powered by PECL, GIF format',
-	'pecl-power.png'	=> 'Powered by PECL, PNG format',
-	'pecl-icon.gif'		=> '32x32 PECL icon, GIF format',
-	'pecl-icon.png'		=> '32x32 PECL icon, PNG format',
 );
 
 echo '<table cellpadding="5" cellspacing="1">';
 
 foreach ($icons as $file => $desc) {
     echo '<tr bgcolor="e0e0e0">';
-    echo '<td>' . make_image($file,$desc) . '<br></td>';
+    echo '<td>' . make_image($file,$desc) . '<br /></td>';
     echo '<td>' . $desc . '<br><small>';
     $size = @getimagesize($HTTP_SERVER_VARS['DOCUMENT_ROOT'].'/gifs/'.$file);
     if ($size) {

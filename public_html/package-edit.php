@@ -83,7 +83,7 @@ if (isset($_POST['submit'])) {
                   $_POST['description'],
                   $_POST['category'],
                   $_POST['homepage'],
-                  $_POST['type'],
+                  "pear",
                   $_POST['cvs_link'],
                   $_GET['id']
                 );
@@ -133,12 +133,6 @@ $bb = new Borderbox("Edit package information");
     <td>Package name:</td>
     <td valign="middle">
     <?php $form->displayText("name", $row['name'], 30); ?>
-    </td>
-</tr>
-<tr>
-    <td>Package type:</td>
-    <td valign="middle">
-    <?php $form->displaySelect("type", array("pear" => "PEAR", "pecl" => "PECL"), $row['type'], 1); ?>
     </td>
 </tr>
 <tr>

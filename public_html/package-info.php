@@ -114,9 +114,6 @@ print "<h2 align=\"center\">$name";
 if ($version) {
     print " $version";
 }
-if ($type == "pecl") {
-    print " (PECL)";
-}
 
 print "</h2>\n";
 
@@ -132,12 +129,6 @@ $bb->horizHeadRow("Description", nl2br($description));
 
 if (!empty($homepage)) {
     $bb->horizHeadRow("Homepage", make_link($homepage));
-}
-
-if ($type == "pecl") {
-    $bb->horizHeadRow("PECL package", "That package is part of " .
-                      make_link("/manual/en/introduction.php#about-pecl", "PECL") .
-                      ".");
 }
 
 if ($relid) {
