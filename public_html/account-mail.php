@@ -57,6 +57,8 @@ function printForm($data = array())
     $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
             $data['name'], 40, null, 'accesskey="o"',
             $th, $td);
+    $form->addPlaintext('CAPTCHA:', generate_captcha(),
+            $th, $td);
     $form->addText('email', 'Email Address:',
             $data['email'], 40, null, '',
             $th, $td);
@@ -99,6 +101,10 @@ if ($row === null) {
 echo '<h1>Contact ' . $row['name'] . '</h1>';
 
 if (isset($_POST['submit'])) {
+
+    if (!validate_captcha()) {
+        $errors[] = 'Incorrect CAPTCHA';
+    }
 
     //XXX: Add email validation here
     if ($_POST['name'] == '') {
