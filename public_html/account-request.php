@@ -188,15 +188,9 @@ MSG;
     $form->addPassword('password', 'Password:',
             '', 10, null, '',
             'class="form-label_left"', 'class="form-input"');
-
-    $captcha = substr(microtime(), 4, 4);
-    $_SESSION['captcha'] = $captcha;
-    $form->addText('captcha', 'Confirmation Number:'
-            . '<p class="cell_note">(Type &quot;' . $captcha
-            . '&quot; into this box)</p>',
-            '', 4, 4, '',
+    $form->addPlaintext('Confirmation Number:',
+            generate_captcha(),
             'class="form-label_left"', 'class="form-input"');
-
     $form->addText('email', 'Email Address:',
             @$_POST['email'], 20, null, '',
             'class="form-label_left"', 'class="form-input"');

@@ -725,9 +725,6 @@ if ($edit == 3) {
         <?php
     }
 
-    $captcha = substr(microtime(), 4, 4);
-    $_SESSION['captcha'] = $captcha;
-
     ?>
 
     <table>
@@ -744,8 +741,8 @@ if ($edit == 3) {
      <tr>
       <th class="details">Confirmation Number:</th>
       <td>
-       Type &quot;<?php echo $captcha ?>&quot; into this box...
-       <input type="text" size="4" maxlength="4" name="captcha" value="" />
+       <?php echo generate_captcha() ?>
+
       </td>
      </tr>
     </table>

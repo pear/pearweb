@@ -906,4 +906,18 @@ function print_tabbed_navigation($items)
     }
     echo '</div>';    
 }
+
+/**
+ * Produces a CAPTCHA image, form input and sets $_SESSION['captcha']
+ *
+ * @return string  the CAPTCHA image and form intut
+ */
+function generate_captcha() {
+    $captcha = substr(microtime(), 4, 4);
+    $_SESSION['captcha'] = $captcha;
+    $out  = 'Type &quot;' . $captcha . '&quot; into this box... ';
+    $out .= '<input type="text" size="4" maxlength="4" name="captcha" />';
+    return $out;
+}
+
 ?>
