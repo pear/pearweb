@@ -10,6 +10,7 @@ installed in /usr/share/pear):
 
  php_value include_path .:/path/to/pearweb/include:/usr/share/pear
  php_value auto_prepend_file pear-prepend.php
+ php_value auto_append_file pear-append.php
  php_flag magic_quotes_gpc off
  php_flag magic_quotes_runtime off
  php_flag register_globals On
