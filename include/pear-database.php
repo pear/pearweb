@@ -2322,8 +2322,8 @@ class user
             . "WHERE k.user = u.handle AND k.level = 'pear.dev' AND u.registered = 1";
 
         $query_group = "SELECT user "
-                               . "FROM karma "
-                               . "WHERE level = 'pear.group'";
+            . "FROM karma "
+            . "WHERE level = 'pear.group'";
 
         $group_ids = $dbh->getCol($query_group);
         $group_ids = array_flip($group_ids);
