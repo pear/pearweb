@@ -45,6 +45,7 @@ foreach (explode("\n", $packages) as $line) {
     }
     package::add(array('name'     => $name,
                       'license'  => 'PEAR License',
+                      'type'     => 'pear',
                       'description' => '',
                       'summary'  => $summary,
                       'category' => $catid,
