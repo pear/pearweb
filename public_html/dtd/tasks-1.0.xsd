@@ -24,4 +24,9 @@
    <xs:documentation>standard PEAR post-installation script - must be used in a role="php" file</xs:documentation>
   </xs:annotation>
  </xs:element>
+ <xs:element name="preinstallscript">
+  <xs:annotation>
+   <xs:documentation>standard PEAR pre-installation script - must be used in a role="php" file</xs:documentation>
+  </xs:annotation>
+ </xs:element>
 </xs:schema>
