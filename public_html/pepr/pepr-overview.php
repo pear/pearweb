@@ -39,13 +39,19 @@ $form->addElement('submit', 'submit', 'Filter');
 
 $filter_value = $filter->getValue();
 
+$selectStatus = '';
+
 if ($form->validate()) {
     if (trim($filter_value[0]) != "") {
         $selectStatus = $filter_value[0];
     }
 }
 
-$proposals =& proposal::getAll($dbh, @$selectStatus);
+if ($selectStatus != '') {
+    $order = ' pkg_category ASC, pkg_name ASC';
+}
+
+$proposals =& proposal::getAll($dbh, @$selectStatus, null, @$order);
 
 response_header('PEPr :: Package Proposals');
 
@@ -57,6 +63,8 @@ echo "<ul>";
 
 $last_status = false;
 
+$finishedCounter = 0;
+
 foreach ($proposals as $proposal) {
     if ($proposal->getStatus() != $last_status) {
         echo "</ul>";
@@ -66,6 +74,18 @@ foreach ($proposals as $proposal) {
         echo "</h2>\n";
         echo "<ul>";
         $last_status = $proposal->getStatus();
+    }
+    $prpCat = $proposal->pkg_category;
+    if ($selectStatus != '' && (!isset($lastChar) || $lastChar != $prpCat{0})) {
+        $lastChar = $prpCat{0};
+        echo '</ul>';
+        echo "<h3>$lastChar</h3>";
+        echo '<ul>';
+    }
+    if ($proposal->getStatus() == 'finished' && $selectStatus != 'finished') {
+        if (++$finishedCounter == 10) {
+            break;
+        }
     }
     if (!isset($users[$proposal->user_handle])) {
         $users[$proposal->user_handle] = user::info($proposal->user_handle);
@@ -107,6 +127,10 @@ foreach ($proposals as $proposal) {
 }
 
 echo "</ul>";
+
+if ($selectStatus == '') {
+    print_link('pepr-overview.php?filter=finished', 'All finished proposals');
+}
 
 response_footer();
 
