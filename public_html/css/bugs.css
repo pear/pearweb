@@ -30,6 +30,9 @@ textarea.small {
     font-size: 75%;
 }
 
+form#comment,
+form#update,
+form#vote,
 div.comment {
     clear: both;
 }
