@@ -1,10 +1,8 @@
-# $Id$
 CREATE TABLE channels (
-       name                   VARCHAR(30) NOT NULL,
-       server                 VARCHAR(255) NOT NULL,
-       PRIMARY KEY(name),
-       INDEX(server)
+  name varchar(30) NOT NULL default '',
+  server varchar(255) NOT NULL default '',
+  PRIMARY KEY  (name),
+  KEY server (server)
 );
 
-INSERT INTO channels (name, server)
-               VALUES('pear', 'pear.php.net');
+INSERT INTO channels VALUES ('pear','pear.php.net');
