@@ -209,7 +209,7 @@
   </xs:annotation>
   <xs:complexType>
    <xs:sequence>
-    <xs:element name="providesextension" type="xs:string"/>
+    <xs:element ref="providesextension"/>
     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
@@ -231,6 +231,7 @@
       </xs:annotation>
      </xs:element>
     </xs:choice>
+    <xs:element ref="providesextension"/>
     <xs:element ref="installconditions"/>
     <xs:element ref="filelist"/>
     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
@@ -294,6 +295,7 @@
         <xs:element ref="uri"/>
        </xs:choice>
        <xs:element ref="conflicts" minOccurs="0"/>
+       <xs:element ref="providesextension" minOccurs="0"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>
@@ -343,6 +345,7 @@
         </xs:sequence>
         <xs:element ref="uri"/>
        </xs:choice>
+       <xs:element ref="providesextension" minOccurs="0"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>
@@ -392,6 +395,7 @@
         </xs:sequence>
         <xs:element ref="uri"/>
        </xs:choice>
+       <xs:element ref="providesextension" minOccurs="0"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>
@@ -561,4 +565,5 @@
   </xs:complexType>
  </xs:element>
  <xs:element name="filename" type="xs:string"/>
+ <xs:element name="providesextension" type="xs:string"/>
 </xs:schema>
