@@ -69,8 +69,8 @@ if (isset($_COOKIE['PEAR_USER'])) {
         echo '</div>';
     }
 }
-// XXX Hide for the moment?
-menu_link("I want to publish my PHP package in PEAR", "account-request.php");
+
+menu_link("Request PEAR Account", "account-request.php");
 
 $recent = release::getRecent();
 if (@sizeof($recent) > 0) {
