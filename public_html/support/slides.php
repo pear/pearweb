@@ -52,6 +52,17 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
+  <p><cite><a href="http://www.schlitt.info/download/PEAR_Workshop_Quebec_2005_toby.tar.gz">
+  PEAR</cite></a></p>
+  <ul>
+    <li>Date: 2005-03-31</li>
+    <li>Presenter: <?php echo user_link("toby", true); ?></li>
+    <li>Venue: PEAR Powerworkshop, PHP Conference Quebec 2005, 
+    Montreal, Canada</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+ <li>
   <p><cite><a href="http://www.sebastian-bergmann.de/talks/2004-11-10-PHPUnit.pdf">
   Testgetriebene Entwicklung mit PHPUnit</cite></a></p>
   <ul>
