@@ -43,7 +43,9 @@ if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
 
 $GLOBALS['main_menu'] = array(
     '/index.php'           => 'Home',
-    '/news/'               => 'News'
+    '/news/'               => 'News',
+    '/qa/'                 => 'The QA Team',
+    '/group/'              => 'The PEAR Group',
 );
 
 $GLOBALS['docu_menu'] = array(
@@ -51,7 +53,6 @@ $GLOBALS['docu_menu'] = array(
     '/manual/index.php'    => 'Manual',
     '/manual/en/faq.php'   => 'FAQ',
     '/support.php'         => 'Support',
-    '/group/'              => 'The PEAR Group'
 );
 
 $GLOBALS['downloads_menu'] = array(
