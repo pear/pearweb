@@ -41,6 +41,12 @@
       <email>danielc@php.net</email>
       <role>developer</role>
     </maintainer>
+    <maintainer>
+      <user>toby</user>
+      <name>Tobias Schlitt</name>
+      <email>toby@php.net</email>
+      <role>developer</role>
+    </maintainer>
   </maintainers>
   <release>
     <version>0.1.1</version>
