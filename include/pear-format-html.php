@@ -51,7 +51,7 @@ $GLOBALS['docu_menu'] = array(
     '/manual/en/about-pear.php' => 'About PEAR',
     '/manual/index.php'    => 'Manual',
     '/manual/en/faq.php'   => 'FAQ',
-    '/support.php'         => 'Support',
+    '/support/'            => 'Support',
 );
 
 $GLOBALS['downloads_menu'] = array(
@@ -191,7 +191,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
     echo delim();
     print_link('/packages.php', 'Packages', false, 'class="menuBlack"');
     echo delim();
-    print_link('/support.php','Support',false, 'class="menuBlack"');
+    print_link('/support/','Support',false, 'class="menuBlack"');
     echo delim();
     print_link('/bugs/','Bugs',false, 'class="menuBlack"');
     ?>
@@ -888,4 +888,22 @@ function hdelim()
     return '<hr />';
 }
 
+/**
+ * Prints a tabbed navigation bar based on the parameter $items
+ */
+function print_tabbed_navigation($items)
+{
+   $page = basename($_SERVER['PHP_SELF']);
+
+    echo '<div id="nav">' . "\n";
+    foreach ($items as $title => $item) {
+        echo '<a href="' . $item['url']
+             . '" title="' . $item['title'] . '"';
+        if ($page == $item['url']) {
+            echo ' class="active"';
+        }
+        echo '>' . $title . "</a>\n";
+    }
+    echo '</div>';    
+}
 ?>
