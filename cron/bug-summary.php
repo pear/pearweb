@@ -78,7 +78,6 @@ if (count($result) > 0 && !PEAR::isError($result)) {
             }
             $body .= $title .= "\n";
             $dev_text .= ' ' . $siteBig . ' Bug Database summary for ' . $package . ' - http://' . $site . '.php.net/bugs' . "\n\n";
-            $dev_text .= ' Here comes some fun fun text'."\n\n";
             $dev_text .= '  ID  Status     Summary'."\n";
             
             foreach ($value as $id => $bug_info) {
@@ -91,7 +90,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                 $wrapped_text = wordwrap($text, 72);
     
                 $dev_text .= "\n" . $wrapped_text .
-                            "\n\n" . '  Furhter comments can be seen at http://' . $site . '.php.net/bugs/' . $id.
+                            "\n\n" . '  Further comments can be seen at http://' . $site . '.php.net/bugs/' . $id.
                             "\n" . '  Edit this bug report at http://' . $site . '.php.net/bugs/bug.php?id=' . $id . '&edit=1' . "\n";
 
             }
