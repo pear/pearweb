@@ -22,22 +22,85 @@
  </xs:complexType>
  <xs:complexType name="serverinternals">
   <xs:sequence>
-   <xs:element name="xmlrpc" type="ch:functions"/>
-   <xs:element name="soap" type="ch:functions" minOccurs="0"/>
+   <xs:element name="xmlrpc" minOccurs="0">
+    <xs:complexType>
+     <xs:complexContent>
+      <xs:extension base="ch:functions">
+       <xs:attribute name="path" type="xs:string"/>
+      </xs:extension>
+     </xs:complexContent>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="rest" minOccurs="0">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element name="function">
+       <xs:complexType>
+        <xs:attribute name="version" type="xs:string" use="required"/>
+        <xs:attribute name="uri" type="xs:string" use="required"/>
+       </xs:complexType>
+      </xs:element>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="soap" minOccurs="0">
+    <xs:complexType>
+     <xs:complexContent>
+      <xs:extension base="ch:functions">
+       <xs:attribute name="path" type="xs:string"/>
+      </xs:extension>
+     </xs:complexContent>
+    </xs:complexType>
+   </xs:element>
   </xs:sequence>
-  <xs:attribute name="host" use="required">
-   <xs:simpleType>
-    <xs:restriction base="xs:string">
-     <xs:pattern value="[A-Za-z][a-zA-Z0-9_\.]+"/>
-    </xs:restriction>
-   </xs:simpleType>
-  </xs:attribute>
   <xs:attribute name="port" type="xs:int" default="80"/>
+ </xs:complexType>
+ <xs:complexType name="mirrorinternals">
+  <xs:sequence>
+   <xs:element name="xmlrpc" minOccurs="0">
+    <xs:complexType>
+     <xs:complexContent>
+      <xs:extension base="ch:functions">
+       <xs:attribute name="path" type="xs:string"/>
+      </xs:extension>
+     </xs:complexContent>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="rest" minOccurs="0">
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element name="function">
+       <xs:complexType>
+        <xs:attribute name="version" type="xs:string" use="required"/>
+        <xs:attribute name="uri" type="xs:string" use="required"/>
+       </xs:complexType>
+      </xs:element>
+     </xs:sequence>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="soap" minOccurs="0">
+    <xs:complexType>
+     <xs:complexContent>
+      <xs:extension base="ch:functions">
+       <xs:attribute name="path" type="xs:string"/>
+      </xs:extension>
+     </xs:complexContent>
+    </xs:complexType>
+   </xs:element>
+  </xs:sequence>
+  <xs:attribute name="port" type="xs:int" default="80"/>
+  <xs:attribute name="host" use="required"/>
  </xs:complexType>
  <xs:complexType name="server">
   <xs:sequence>
-   <xs:element name="primary" type="ch:serverinternals"/>
-   <xs:element name="mirror" type="ch:serverinternals" minOccurs="0" maxOccurs="unbounded"/>
+   <xs:element name="primary">
+    <xs:complexType>
+     <xs:complexContent>
+      <xs:extension base="ch:serverinternals"/>
+     </xs:complexContent>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="mirror" type="ch:mirrorinternals" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
  </xs:complexType>
  <xs:complexType name="subchannelserver">
@@ -45,13 +108,6 @@
    <xs:element name="xmlrpc" type="ch:functions" minOccurs="0"/>
    <xs:element name="soap" type="ch:functions" minOccurs="0"/>
   </xs:sequence>
- </xs:complexType>
- <xs:complexType name="subchannel">
-  <xs:sequence>
-   <xs:element name="summary" type="xs:string"/>
-   <xs:element name="server" type="ch:subchannelserver"/>
-  </xs:sequence>
-  <xs:attribute name="name" type="xs:string" use="required"/>
  </xs:complexType>
  <xs:complexType name="validatepackage">
   <xs:simpleContent>
@@ -88,7 +144,6 @@
      </xs:complexType>
     </xs:element>
     <xs:element name="servers" type="ch:server"/>
-    <xs:element name="subchannel" type="ch:subchannel" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
    <xs:attribute name="version" use="required">
     <xs:simpleType>
