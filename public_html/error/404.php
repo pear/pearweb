@@ -41,14 +41,24 @@ $pinfo_url = '/package/';
 
 // Check strictly
 $name = package::info(basename($pkg), "name");
-if (!DB::isError($name) && !empty($name)) {
-    localRedirect($pinfo_url . $name);
+if (!DB::isError($name)) {
+    if (!empty($name)) {
+        localRedirect($pinfo_url . $name);
+    } else {
+        $name = package::info(basename($pkg), "name", true);
+        if (!empty($name)) {
+            header("HTTP/1.0 301 Moved Permanently");
+            header("Location: http://pecl.php.net/package/" . $name);
+            header("Connection: close");
+            exit();
+        }
+    }
 }
 
 // Check less strictly if nothing has been found previously
 $sql = "SELECT p.id, p.name, p.summary
             FROM packages p
-            WHERE approved = 1 AND name LIKE ?
+            WHERE package_type = 'pear' AND approved = 1 AND name LIKE ?
             ORDER BY p.name";
 $term = "%" . basename($pkg) . "%";
 $packages = $dbh->getAll($sql, array($term), DB_FETCHMODE_ASSOC);
