@@ -214,10 +214,15 @@ if ($changelog = @ppComment::getAll($proposal->id,
 
         switch ($proposal->markup) {
             case 'wiki':
+                require_once 'Text/Wiki.php';
+                $wiki =& new Text_Wiki();
+                $wiki->disableRule('wikilink');
                 echo $wiki->transform($comment->comment);
                 break;
             case 'bbcode':
             default:
+                require_once 'HTML/BBCodeParser.php';
+                $bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));    
                 echo $bbparser->qparse(nl2br($comment->comment));
                 break;
         }
