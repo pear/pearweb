@@ -629,12 +629,12 @@
 
 
 		$SIDEBAR_DATA.='<br /><br />'.
-		make_image("box-1.gif") . '<b>' . make_link("http://preview.pear.php.net/bugs/search.php?cmd=display&bug_type[]=PEPr","View bugs")
+		make_image("box-1.gif") . '<b>' . make_link("/bugs/search.php?cmd=display&bug_type[]=PEPr","View bugs")
 		.'<br />'.
-		make_image("box-1.gif") . '<b>' . make_link("http://preview.pear.php.net/bugs/search.php?cmd=display&bug_type[]=PEPr","Report bug")
+		make_image("box-1.gif") . '<b>' . make_link("/bugs/search.php?cmd=display&bug_type[]=PEPr","Report bug")
 		.'<br />'
 		.'<br />'.
-		make_image("box-1.gif") . '<b>' . make_link("http://preview.pear.php.net/","Main site")
+		make_image("box-1.gif") . '<b>' . make_link("/","Main site")
 		.'
 		-';
 	}
