@@ -67,7 +67,7 @@ if ($res) {
 if (!$res || !$bug) {
     response_header('No such bug.');
     echo '<h1 class="error">No such bug #'.$id.'!</h1>';
-    response_header();
+    response_footer();
     exit;
 }
 
