@@ -52,9 +52,7 @@ hacking:
 * Richard Heyes<br />
 * Pierre-Alain Joye
 <br /><br />
-<a href="/account-info.php?handle=ssb">Stig Bakken &lt;stig&#64;php.net&gt;</a>
-<br /><br />
-<a href="/weeklynews.php/en/20030119.html">READ THE INTERVIEW OF STIG BAKKEN</a><br />
+<a href="/user/ssb">Stig Bakken &lt;stig&#64;php.net&gt;</a>
 </div>
 
 <?php response_footer(); ?>
