@@ -23,16 +23,18 @@ response_header("About this site");
 <h1>About this site</h1>
 
 <p>This site has been created and is maintained by a number of people,
-which are listed on the <?php echo make_link("/credits.php", "credits page"); ?>.
+which are listed on the <a href="/credits.php">credits page</a>.
 If you would like to contact them, you can write to
-<?php echo make_mailto_link("pear-webmaster@lists.php.net"); ?>.</p>
+<a href="mailto:pear-webmaster@lists.php.net">pear-webmaster@lists.php.net</a>.
+</p>
 
-<p>It has been built with <?php echo make_link("http://httpd.apache.org/", "Apache"); ?>,
-<?php echo make_link("http://php.net/", "PHP"); ?>,
-<?php echo make_link("http://www.mysql.com/", "MySQL"); ?> and some
-(as you might have guessed) PEAR packages. Additionally we have started
-to use a set of utility classes. We call it
-<?php echo make_link("damblan.php", "Damblan"); ?>.</p>
+<p>It has been built with <a href="http://httpd.apache.org/">Apache</a>,
+<a href="http://php.net/">PHP</a>, <a href="http://www.mysql.com/">MySQL</a>,
+and some (as you might have guessed) PEAR packages. Additionally we 
+have started to use a set of utility classes. We call it
+<a href="damblan.php">Damblan</a>.</p>
+
+<h2>Website soure code</h2>
 
 <p>The source code of the website is available via CVS. To checkout the 
 latest version, use the following commands:</p>
@@ -45,9 +47,20 @@ $ cvs -d :pserver:cvsread@cvs.php.net:/repository co pearweb
 </pre>
 
 <p>One can also view the source code by using the
-<?php echo make_link("http://cvs.php.net/cvs.php/pearweb", "CVS web interface"); ?>.</p>
+<a href="http://cvs.php.net/cvs.php/pearweb">CVS web interface</a>.</p>
 
-<p>Read the <?php echo make_link("privacy.php", "privacy policy"); ?>.</p>
+<h2>Privacy Policy</h2>
+
+<p>Read the <a href="privacy.php">privacy policy</a>.</p>
+
+<h2>License & Copyright</h2>
+
+<p>The PHP code that runs the website is licensed under the PHP License.
+Some third-party code such as <a href="http://www.aditnus.no/jpgraph/">jpgraph</a>
+is bundled with the website in CVS and may be available under a 
+different license.  If you are uncertain about the license or copyright
+constraints, please get in touch with the <a href="mailto:pear-webmaster@lists.php.net">
+webmaster mailing list</a>.</p>
 
 <?php
 response_footer();

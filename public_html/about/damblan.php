@@ -27,7 +27,7 @@ pear.php.net. Some people might even call Damblan a framework, but we
 don&apos;t. For now.</p>
 
 <p>The name is derived from the Nepalese summit
-<?php echo make_link("http://www.summitpost.com/show/mountain_link.pl/mountain_id/52", "Ama Dablam"); ?>,
+<a href="http://www.summitpost.com/show/mountain_link.pl/mountain_id/52">Ama Dablam</a>
 but with an additional &quot;m&quot;. Please do not ask for the reason.</p>
 
 <p>Currently the feature set of Damblan is quite limited, but we are
@@ -36,10 +36,11 @@ may be even the possibility to download and install Damblan as a PEAR
 package.</p>
 
 <p>If you have questions or comments about Damblan, get in touch with
-<?php echo make_link("/user/mj/", "Martin"); ?>. The bleeding edge 
-version of Damblan is <?php print_link("http://cvs.php.net/cvs.php/pearweb/include/Damblan", "available via CVS"); ?>.</p>
+<a href="/user/mj/">Martin</a>. The bleeding edge version of Damblan is 
+<a href="http://cvs.php.net/cvs.php/pearweb/include/Damblan">available via CVS</a>.
+</p>
 
-<p><?php echo make_link("/about/", "Back"); ?></p>
+<p><a href="/about/">Back</a></p>
 
 <?php
 response_footer();
