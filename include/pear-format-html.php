@@ -20,7 +20,24 @@
 
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
 
+require_once 'pear-cache.php';
 require_once 'layout.php';
+
+$encoding = "iso-8859-1";
+
+// Handling things related to the manual
+if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
+    require_once "pear-manual.php";
+
+    // The Japanese manual translation needs UTF-8 encoding
+    if (preg_match("=^/manual/ja=", $_SERVER['PHP_SELF'])) {
+        $encoding = "utf-8";
+
+    // The Russian manual translation needs KOI8-R encoding
+    } else if (preg_match("=^/manual/ru=", $_SERVER['PHP_SELF'])) {
+        $encoding = "KOI8-R";
+    }
+}
 
 $GLOBALS['main_menu'] = array(
     '/index.php'           => 'Home',
