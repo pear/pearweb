@@ -245,7 +245,7 @@ Eris Free Net</a>.
 <a name="resources" /><h3>PEAR resources</h3>
 
 <ul>
-    <li><a href="http://www.schlitt.info/index.php/content.publications_phpconf2003ff">2003-11-04 Frankfurt - 
+    <li><a href="http://www.schlitt.info/index.php/content.publications_phpconf2003ffm">2003-11-04 Frankfurt - 
     International PHP Conference - PEAR im Einsatz</a>
     by Tobias Schlitt.</li>
 
