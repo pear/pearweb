@@ -33,6 +33,7 @@ TABLE_FILES=\
 	deps.sql \
 	notes.sql \
 	users.sql \
+	apidoc_queue.sql \
 #	state_order.sql
 SQL_TYPE=mysql
 SQL_USER=pear
