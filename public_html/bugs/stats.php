@@ -56,6 +56,13 @@ if ($_GET['developer'] && $_GET['developer'] != '') {
 
 }
 
+if (empty($_GET['bug_type']) || $_GET['bug_type'] == 'All') {
+    $bug_type = '';
+} else {
+    $bug_type = $_GET['bug_type'];
+    $where_clause .= " AND bug_type = '" . escapeSQL($bug_type) . "'";
+}
+
 $query = 'SELECT p.name FROM packages p '.$sql.$type.$where.' GROUP BY p.name';
 $result = $dbh->getAll($query);
 
@@ -68,10 +75,10 @@ if ($_GET['developer'] == '' && $_GET['category'] == '') {
     }
 }
 foreach ($result as $package) {
-    $query = 'SELECT bugdb.status, bugdb.package_name
+    $query = 'SELECT status, package_name
             FROM bugdb
-            WHERE bugdb.package_name = '.$dbh->quoteSmart($package['name']).'
-            GROUP BY bugdb.id';
+            WHERE package_name = '.$dbh->quoteSmart($package['name']).$where_clause.'
+            GROUP BY id';
     $result1 = $dbh->query($query);
     
     $package_name['all'][$package['name']]['total'] = 0;
@@ -155,7 +162,7 @@ function display_stat_header($total, $grandtotal = true) {
     if ($grandtotal) {
         $entries =& $dbh->getOne('SELECT count(id) AS total FROM bugdb');
         $stat_head = '<tr id="bug_header"><td><strong style="text-align: right;">Total bug entries in system:</strong></td>
-            <td style="font-size: 130%;">'.$entries.'</td>';
+            <td style="font-size: 120%;">'.$entries.'</td>';
     } else {
         $stat_head = '<tr id="bug_header"><td>&nbsp;</td><td>&nbsp;</td>';
     }
@@ -177,14 +184,14 @@ function display_stat_header($total, $grandtotal = true) {
 /**
 * Fetch list of all categories
 */
-echo "<table>\n";
+echo '<table>'."\n";
     $res = category::listAll();
     $_SERVER['QUERY_STRING'] ? $query_string = '?' . $_SERVER['QUERY_STRING'] : '';
-echo '<tr><td colspan="10"> 
+echo '<tr><td colspan="13"> 
         <form method="get" action="/bugs/stats.php' . $query_string . '">
         <div>
         <strong>Category:</strong> 
-        <select name="category" id="category" onchange="this.form.submit();">';
+        <select name="category" id="category" onchange="this.form.submit(); return false;">';
             $_GET['category'] == '' ? $selected = ' selected="selected"' : $selected = '';
             echo '<option value=""' . $selected . '>All</option>'."\n";
                 foreach ($res as $row) {
@@ -193,7 +200,7 @@ echo '<tr><td colspan="10">
                 }
 echo    '</select>
         <strong>Developer:</strong> 
-        <select name="developer" id="developers" onchange="this.form.submit();">'."\n";
+        <select name="developer" id="developers" onchange="this.form.submit(); return false;">'."\n";
 
 /**
 * Fetch list of users/maintainers
@@ -201,15 +208,17 @@ echo    '</select>
 $users = $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, maintains m WHERE u.handle = m.handle 
                         GROUP BY handle ORDER BY u.name');
     $_GET['developer'] == '' ? $selected = ' selected="selected"' : $selected = '';
-    echo '<option value=""' . $selected . '>Select user...</option>'."\n";
+    echo '<option value=""' . $selected . '>All</option>'."\n";
     while ($u = $users->fetchRow(DB_FETCHMODE_ASSOC)) {
         $_GET['developer'] == $u['handle'] ? $selected = ' selected="selected"' : $selected = '';
         echo '<option value="' . $u['handle'] . '"' . $selected . '>' . $u['name'] . '</option>'."\n";
     }
-echo '        </select></div>
-        </form>
-    </td></tr>' . "\n";
-
+    echo '</select>   <strong>Bug Type:</strong><select id="bug_type" name="bug_type" onchange="this.form.submit(); return false;">';
+            show_type_options($_GET['bug_type'], true);
+    echo '</select>
+        </div>
+        </form></td></tr></table>' . "\n";
+    echo '<table style="width: 100%;">'."\n";
 
 // Exit if there are no bugs for this version
 if ($total == 0) {
@@ -220,16 +229,16 @@ if ($total == 0) {
     
 echo display_stat_header($total, true);
 
-echo '<tr><td class="bug_head"><strong>All:</strong></td>
+echo '<tr><td class="bug_head"><strong>All</strong></td>
     <td class="bug_bg1">' . $total . '</td>
     <td class="bug_bg2">'. bugstats('closed',      'all') .'&nbsp;</td>
     <td class="bug_bg1">'. bugstats('open',        'all') .'&nbsp;</td>
     <td class="bug_bg2">'. bugstats('critical',    'all') .'&nbsp;</td>
     <td class="bug_bg1">'. bugstats('verified',    'all') .'&nbsp;</td>  
-    <td class="bug_bg1">'. bugstats('analyzed',    'all') .'&nbsp;</td>
-    <td class="bug_bg2">'. bugstats('assigned',    'all') .'&nbsp;</td>
-    <td class="bug_bg2">'. bugstats('suspended',   'all') .'&nbsp;</td>
-    <td class="bug_bg1">'. bugstats('duplicate',   'all') .'&nbsp;</td>
+    <td class="bug_bg2">'. bugstats('analyzed',    'all') .'&nbsp;</td>
+    <td class="bug_bg1">'. bugstats('assigned',    'all') .'&nbsp;</td>
+    <td class="bug_bg1">'. bugstats('suspended',   'all') .'&nbsp;</td>
+    <td class="bug_bg2">'. bugstats('duplicate',   'all') .'&nbsp;</td>
     <td class="bug_bg1">'. bugstats('feedback',    'all') .'&nbsp;</td>
     <td class="bug_bg2">'. bugstats('no feedback', 'all') .'&nbsp;</td>
     <td class="bug_bg1">'. bugstats('bogus',       'all') .'&nbsp;</td>
@@ -243,16 +252,16 @@ foreach ($package_name[$_GET['sort_by']] as $name => $value) {
             echo display_stat_header($total, false);
         }
         echo '<tr><td class="bug_head">
-            <strong>' . package_link($name) . ':</strong></td>
+            <strong>' . package_link($name) . '</strong></td>
             <td class="bug_bg1">'. $package_name['all'][$name]['total'] .'</td>
             <td class="bug_bg2">'. bugstats('closed',      $name) .'&nbsp;</td>
             <td class="bug_bg1">'. bugstats('open',        $name) .'&nbsp;</td>
             <td class="bug_bg2">'. bugstats('critical',    $name) .'&nbsp;</td>
             <td class="bug_bg1">'. bugstats('verified',    $name) .'&nbsp;</td>
-            <td class="bug_bg1">'. bugstats('analyzed',    $name) .'&nbsp;</td>
-            <td class="bug_bg2">'. bugstats('assigned',    $name) .'&nbsp;</td>
-            <td class="bug_bg2">'. bugstats('suspended',   $name) .'&nbsp;</td>
-            <td class="bug_bg1">'. bugstats('duplicate',   $name) .'&nbsp;</td>
+            <td class="bug_bg2">'. bugstats('analyzed',    $name) .'&nbsp;</td>
+            <td class="bug_bg1">'. bugstats('assigned',    $name) .'&nbsp;</td>
+            <td class="bug_bg1">'. bugstats('suspended',   $name) .'&nbsp;</td>
+            <td class="bug_bg2">'. bugstats('duplicate',   $name) .'&nbsp;</td>
             <td class="bug_bg1">'. bugstats('feedback',    $name) .'&nbsp;</td>
             <td class="bug_bg2">'. bugstats('no feedback', $name) .'&nbsp;</td>
             <td class="bug_bg1">'. bugstats('bogus',       $name) .'&nbsp;</td>
