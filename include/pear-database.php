@@ -1265,6 +1265,15 @@ class release
         $file_id = $dbh->nextId("files");
         $ok = $dbh->execute($sth, array($file_id, $package_id, $release_id,
                                         $md5sum, basename($file), $file));
+        /* Code duplication with deps error
+         * Should be droped soon or later using transaction
+         * (and add mysql4 as a pe(ar|cl)web requirement)
+         */
+        if (PEAR::isError($ok)) {
+            $dbh->query("DELETE FROM releases WHERE id = $release_id");
+            @unlink($file);
+            return $ok;
+        }
 
         // Update dependency table
         $query = "INSERT INTO deps " .
@@ -1287,20 +1296,30 @@ class release
                     if (!empty($dep['optional']) && $dep['optional'] == "yes") {
                         $optional = 1;
                     }
-                    $dbh->execute($sth, array($package_id, $release_id,
+                    /* That works for now.
+                     * This would require a 'cleaner' InfoFromXXX
+                     * which may return a defined set of data using
+                     * default values if required.
+                     */
+                    if ($dep['type']=='php') {
+                        $dep['name'] = 'PHP';
+                    }
+                    $res = $dbh->execute($sth, array($package_id, $release_id,
                                               @$dep['type'], @$dep['rel'],
                                               @$dep['version'], @$dep['name'],
                                               $optional)
                                   );
+                   if (DB::isError($res)) {
+                       if (PEAR::isError($res)) {
+                           $dbh->query("DELETE FROM deps WHERE release = $release_id");
+                           $dbh->query("DELETE FROM releases WHERE id = $release_id");
+                           @unlink($file);
+                           return $ok;
+                       }
+                   }
                 }
             }
         }
-
-        if (PEAR::isError($ok)) {
-            $dbh->query("DELETE FROM releases WHERE id = $release_id");
-            @unlink($file);
-            return $ok;
-        };
 
         // Update Cache
         include_once 'xmlrpc-cache.php';
@@ -1560,6 +1579,7 @@ Authors
 -------------
 $txt_authors
 END;
+
         $to   = '"PEAR general list" <pear-general@lists.php.net>';
         $from = '"PEAR Announce" <pear-dev@lists.php.net>';
         $subject = "[ANNOUNCEMENT] $release Released.";
