@@ -171,15 +171,9 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
     if (empty($_GET['phpver'])) {
         $phpver = '';
-        $where_clause .= " AND (SUBSTRING(php_version,1,1) = '4' OR SUBSTRING(php_version,1,1) = '5' OR php_version = 'Irrelevant')";
     } else {
         $phpver = $_GET['phpver'];
-        // there's an index on php_version(1) to speed this up.
-        if (strlen($phpver) == 1) {
-            $where_clause .= " AND SUBSTRING(php_version,1,1) = '" . escapeSQL($phpver) . "'";
-        } else {
-            $where_clause .= " AND php_version LIKE '" . escapeSQL($phpver) . "%'";
-        }
+        $where_clause .= " AND php_version LIKE '" . escapeSQL($phpver) . "%'";
     }
 
     if (empty($_GET['assign'])) {
