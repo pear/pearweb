@@ -40,7 +40,19 @@ href="/manual/">manual</a> for more information.
 -';
 
 response_header();
+?>
 
+<h2>Own infrastructure for PECL</h2>
+
+<p>PECL, formerly known as PHP Extension Code Library, has been renamed
+to PHP Extension Community Library. Additionally all PECL related
+services have been moved to a own website: 
+<?php print_link("http://pecl.php.net/"); ?>.</p>
+
+<p><?php print_link("/news/pecl-split.php", "Read more"); ?></p>
+<hr />
+
+<?php
 echo '<h2>'; echo make_link('/news/', 'News'); echo '</h2>';
 echo '<h2>Documentation</h2>';
 echo '<div class="indent">';

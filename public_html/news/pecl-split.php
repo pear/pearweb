@@ -18,21 +18,29 @@
    $Id$
 */
 
-response_header("News");
-
-echo "<h1>PEAR news</h1>";
-
-echo "<h2><a name=\"2003\" />Year 2003</h2>";
-echo "<ul>";
-
-echo "<li>" . make_link("pecl-split.php", "Wwn infrastructure for PECL") . " (October)</li>";
-echo "<li>" . make_link("group-announce.php", "Announcing the PEAR Group") . " (August)</li>";
-echo "<li>" . make_link("activestate-award-ssb.php", "ActiveState Active Award for Stig Bakken") . " (July)</li>";
-echo "<li>" . make_link("meeting-2003-summary.php", "Summary of the PEAR Meeting") . " (May)</li>";
-echo "<li>" . make_link("meeting-2003.php", "PEAR Meeting in Amsterdam") . " (March)</li>";
-echo "<li>" . make_link("release-1.0.php", "PEAR 1.0 is released!") . " (January)</li>";
-
-echo "</ul>";
-
-response_footer();
+response_header("Own website for PECL");
 ?>
+
+<h1>Own infrastructure for PECL</h1>
+
+<div style="margin-left:2em;margin-right:2em">
+<p>PECL, formerly known as PHP Extension Code Library, has been renamed
+to PHP Extension Community Library. Additionally all PECL related
+services have been moved to a own website: 
+<?php print_link("http://pecl.php.net/"); ?>.</p>
+
+<p>That means that if you are looking for PECL packages, you will not
+find them on pear.php.net anymore, but you have to search for them
+on the <?php print_link("http://pecl.php.net/", "PECL website"); ?> 
+instead. The PECL project also has an independent mailing list battery
+now. A overview about the lists that are currently available can be
+found <?php print_link("http://pecl.php.net/support.php", "here"); ?>.
+</p>
+
+<p>More information about PECL can be found in the
+<?php print_link("http://pear.php.net/manual/en/introduction.php#about-pecl", "PEAR Manual"); ?>.
+</p>
+
+</div>
+
+<?php response_footer(); ?>
