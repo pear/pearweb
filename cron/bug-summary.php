@@ -48,13 +48,13 @@ $query = "
       AND
         (p.package_type = '$site'
              OR
-         b.package_name IN ('". implode("', '", $pseudo_pkgs) . "'))
+         b.package_name IN ('" . implode("', '", $pseudo_pkgs) . "'))
     ORDER BY b.package_name, b.id";
 $result =& $dbh->getAll($query);
 
 if (count($result) > 0 && !PEAR::isError($result)) {
-    $body  = ' '.$siteBig.' Bug Database summary - http://'.$site.'.php.net/bugs' . "\n\n";
-    $body .= '  ID  Status     Summary ('.count($result).' total)'."\n";
+    $body  = ' ' . $siteBig . ' Bug Database summary - http://' . $site . '.php.net/bugs' . "\n\n";
+    $body .= '  ID  Status     Summary (' . count($result) . ' total)'."\n";
 
     // Make the Package -> Bug array
     foreach ($result as $row) {
@@ -71,13 +71,13 @@ if (count($result) > 0 && !PEAR::isError($result)) {
     if (!empty($packageBugs)) {
         foreach ($packageBugs as $package => $value) {
             $dev_text = '';
-            $title = '===============================================['.$package.']';
+            $title = '===============================================[' . $package . ']';
             $len = 29-strlen($package);
             for ($i = 0; $i < $len; $i++) {
                 $title .= '=';
             }
             $body .= $title .= "\n";
-            $dev_text .= ' '.$siteBig.' Bug Database summary for '.$package.' - http://'.$site.'.php.net/bugs' . "\n\n";
+            $dev_text .= ' ' . $siteBig . ' Bug Database summary for ' . $package . ' - http://' . $site . '.php.net/bugs' . "\n\n";
             $dev_text .= ' Here comes some fun fun text'."\n\n";
             $dev_text .= '  ID  Status     Summary'."\n";
             
@@ -91,12 +91,12 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                 $wrapped_text = wordwrap($text, 72);
     
                 $dev_text .= "\n" . $wrapped_text .
-                            "\n\n" . '  Furhter comments can be seen at http://'.$site.'.php.net/bugs/'.$id.
-                            "\n" . '  Edit this bug report at http://'.$site.'.php.net/bugs/bug.php?id='.$id.'&edit=1' . "\n";
+                            "\n\n" . '  Furhter comments can be seen at http://' . $site . '.php.net/bugs/' . $id.
+                            "\n" . '  Edit this bug report at http://' . $site . '.php.net/bugs/bug.php?id=' . $id . '&edit=1' . "\n";
 
             }
         
-            $subject = '['.$siteBig.'-BUG][Reminder] Reminder about open bugs in '.$package;
+            $subject = '[' . $siteBig . '-BUG][Reminder] Reminder about open bugs in ' . $package;
 
             switch ($package) {
                 case 'Web Site':
@@ -112,7 +112,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                     break;
             }
             
-            $mail_headers = 'From: '.$site.'-dev@lists.php.net'."\r\n";
+            $mail_headers = 'From: ' . $site . '-dev@lists.php.net'."\r\n";
 
             if ($to == '') {
                 $query = "SELECT u.name, u.email
@@ -137,9 +137,9 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                     $mail_headers .= 'CC: ';
                     foreach ($result as $maintain) {
                         if ($to == '') {
-                            $to = $maintain['name'].'<'.$maintain['email'].'>';
+                            $to = $maintain['name'] . '<' . $maintain['email'] . '>';
                         } else {
-                            $mail_headers .= $maintain['name'].'<'.$maintain['email'].'>,';
+                            $mail_headers .= $maintain['name'] . '<' . $maintain['email'] . '>,';
                         }
                     }
                     $mail_headers = substr($mail_headers, 0, -1);
@@ -147,10 +147,10 @@ if (count($result) > 0 && !PEAR::isError($result)) {
             }
             // Email Leads/Developers of X package with a summary of open 
             // bugs for the package
-            mail($to, rinse($subject), $dev_text, $mail_headers);
+            mail($to, rinse($subject), $dev_text, $mail_headers, '-f pear-sys@php.net');
         }
     }
     // Email PEAR-QA the whole bug list
-    mail('pear-qa@lists.php.net', $siteBig.' Bug Summary Report', $body, 'From: pear-dev@lists.php.net');
+    mail('pear-qa@lists.php.net', $siteBig . ' Bug Summary Report', $body, 'From: pear-qa@lists.php.net', '-f pear-sys@php.net');
 }
 ?>
