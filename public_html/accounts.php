@@ -20,7 +20,7 @@
 
 response_header("Accounts");
 
-$page_size = 20;
+$page_size = 40;
 
 print "<h1>Accounts</h1>\n";
 
@@ -60,15 +60,15 @@ $lastlink = $_SERVER['PHP_SELF'] . "?offset=$last";
 $next = $offset + $page_size;
 $nextlink = $_SERVER['PHP_SELF'] . "?offset=$next";
 print "<table border=\"0\" cellspacing=\"1\" cellpadding=\"5\">\n";
-print " <tr bgcolor=\"#cccccc\">\n";
-print "  <th>";
+print " <tr>\n";
+print '  <th class="form-label_top_center" style="font-size: 80%">';
 if ($offset > 0) {
 	print "<a href=\"$lastlink\">&lt;&lt; Last $page_size</a>";
 } else {
 	print "&nbsp;";
 }
 print "</th>\n";
-print "  <td colspan=\"2\">";
+print '  <th class="form-label_top_center" colspan="2">' . "\n";
 
 print '<table border="0" width="100%"><tr><td>';
 foreach ($firstletters as $fl) {
@@ -97,8 +97,8 @@ $sth = $dbh->limitQuery('SELECT handle,name,email,homepage,showemail '.
 						$offset, $show);
 
 print "</td></tr></table>\n";
-print "</td>\n";
-print "  <th>";
+print "</th>\n";
+print '  <th class="form-label_top_center" style="font-size: 80%">';
 if ($offset + $page_size < $naccounts) {
 	$nn = min($page_size, $naccounts - $offset - $page_size);
 	print "<a href=\"$nextlink\">Next $nn &gt;&gt;</a>";
@@ -108,11 +108,11 @@ if ($offset + $page_size < $naccounts) {
 print "</th>\n";
 print " </tr>\n";
 
-print " <tr bgcolor=\"#CCCCCC\">\n";
-print "  <th>Handle</th>\n";
-print "  <th>Name</th>\n";
-print "  <th>Email</th>\n";
-print "  <th>Homepage</th>\n";
+print " <tr>\n";
+print '  <th class="form-label_top_center">Handle</th>' . "\n";
+print '  <th class="form-label_top_center">Name</th>' . "\n";
+print '  <th class="form-label_top_center">Email</th>' . "\n";
+print '  <th class="form-label_top_center">Homepage</th>' . "\n";
 print " </tr>\n";
 
 $rowno = 0;
@@ -144,21 +144,21 @@ while (is_array($row = $sth->fetchRow(DB_FETCHMODE_ASSOC))) {
     print " </tr>\n";
 }
 
-print " <tr bgcolor=\"#cccccc\">\n";
-print "  <th>";
+print " <tr>\n";
+print '  <th class="form-label_top_center" style="font-size: 80%">' . "\n";
 if ($offset > 0) {
 	print "<a href=\"$lastlink\">&lt;&lt; Last $page_size</a>";
 } else {
 	print "&nbsp;";
 }
 print "</th>\n";
-print "  <td colspan=\"2\">";
+print '  <th class="form-label_top_center" colspan="2">';
 
 print '<table border="0"><tr><td>';
 print '</td><td rowspan="2">&nbsp;';
 print "</td></tr></table>\n";
 print "</td>\n";
-print "  <th>";
+print '  <th class="form-label_top_center" style="font-size: 80%">';
 if ($offset + $page_size < $naccounts) {
 	$nn = min($page_size, $naccounts - $offset - $page_size);
 	print "<a href=\"$nextlink\">Next $nn &gt;&gt;</a>";
