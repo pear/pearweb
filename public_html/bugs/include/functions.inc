@@ -20,8 +20,13 @@ $tla = array(
     'Verified'    => 'Ver',
     'Suspended'   => 'Sus',
     'Closed'      => 'Csd',
-    'Feature/Change Request' => 'Fea',
 );
+
+$types = array(
+    'Bug'                     => 'Bug',
+    'Feature/Change Request'  => 'Req',
+);
+
 
 /**
  * Obfuscates email addresses to hinder spammer's spiders
@@ -240,6 +245,40 @@ $state_types =  array (
     'Bogus'        => 2,
     'All'          => 0
 );
+
+/**
+ * Prints bug type <option>'s for use in a <select>
+ *
+ * Options include "Bug" and "Feature/Change Request."
+ *
+ * @param string $current  bug's current type
+ * @param bool   $all      whether or not 'All' should be an option
+ *
+ * @retun void
+ */
+function show_type_options($current = 'Bug', $all = false)
+{
+    global $types;
+
+    if ($all) {
+        if (!$current) {
+            $current = 'All';
+        }
+        echo '<option value="All"';
+        if ($current == 'All') {
+            echo ' selected="selected"';
+        }
+        echo ">All</option>\n";
+    }
+
+    foreach ($types as $k => $v) {
+        echo '<option value="' . $k . '"';
+        if ($current == $k) {
+            echo ' selected="selected"';
+        }
+        echo '>' . $k . '</option>' . "\n";
+    }
+}
 
 /**
  * Prints bug state <option>'s for use in a <select> list
@@ -474,7 +513,7 @@ function display_warnings($warnings)
  */
 function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
 {
-    global $tla;
+    global $tla, $types;
 
     $text = array();
     $headers = array();
@@ -580,22 +619,28 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
     /* send mail if status was changed or there is a comment */
     if ($in[status] != $bug[status] || $ncomment != "") {
 
+        if ($in['bug_type'] != $bug['bug_type']) {
+            $subj = $types[$bug['bug_type']] . '->' . @$types[$in['bug_type']];
+        } else {
+            $subj = $types[$bug['bug_type']];
+        }
+
         $old_status = $bug['status'];
         $new_status = $bug['status'];
 
         if ($in[status] != $bug[status] && $edit != 3) {    /* status changed */
             $new_status = $in['status'];
-            $subj = "#{$bug['id']} [{$tla[$old_status]}->{$tla[$new_status]}]: ";
+            $subj .= " #{$bug['id']} [{$tla[$old_status]}->{$tla[$new_status]}]: ";
         } elseif ($edit == 3) {             /* comment */
-            $subj = "#{$bug['id']} [Com]: ";
+            $subj .= " #{$bug['id']} [Com]: ";
         } else {                            /* status did not change and not comment */
-            $subj = "#{$bug['id']} [{$tla[$bug['status']]}]: ";
+            $subj .= " #{$bug['id']} [{$tla[$bug['status']]}]: ";
         }
 
         # the user gets sent mail with an envelope sender that ignores bounces
         if (DEVBOX == false) {
             @mail($bug[email],
-                  "[PEAR-BUG] Bug " . rinse($subj) . txfield('sdesc'),
+                  '[PEAR-BUG] ' . rinse($subj) . txfield('sdesc'),
                   $user_text,
                   "From: PHP Bug Database <$mailfrom>\n".
                   "X-PHP-Bug: $bug[id]\n".
@@ -607,6 +652,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
                   $dev_text,
                   "From: $from\n".
                   "X-PHP-Bug: $bug[id]\n".
+                  "X-PHP-Type: "       . stripslashes((($edit != 3) ? $in['bug_type']     : $bug['bug_type']))    . "\n" .
                   "X-PHP-Version: "    . stripslashes((($edit != 3) ? $in['php_version']  : $bug['php_version'])) . "\n" .
                   "X-PHP-Category: "   . stripslashes((($edit != 3) ? $in['package_name'] : $bug['package_name']))    . "\n" .
                   "X-PHP-OS: "         . stripslashes((($edit != 3) ? $in['php_os']       : $bug['php_os']))      . "\n" .

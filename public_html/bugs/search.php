@@ -29,6 +29,7 @@ $order_options = array(
     ''             => 'relevance',
     'id'           => 'ID',
     'package_name' => 'package',
+    'bug_type'     => 'bug_type',
     'status'       => 'status',
     'php_version'  => 'version',
     'php_os'       => 'os',
@@ -124,6 +125,13 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             array_push($warnings, 'The following words were ignored: ' .
                     htmlentities(implode(', ', array_unique($ignored))));
         }
+    }
+
+    if (empty($_GET['bug_type']) || $_GET['bug_type'] == 'All') {
+        $bug_type = '';
+    } else {
+        $bug_type = $_GET['bug_type'];
+        $where_clause .= " AND bug_type = '$bug_type'";
     }
 
     if (empty($_GET['bug_age']) || !(int)$_GET['bug_age']) {
@@ -261,6 +269,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;php_os='      . urlencode(stripslashes($php_os)) .
                     '&amp;boolean='     . BOOLEAN_SEARCH .
                     '&amp;author_email='. urlencode(stripslashes($author_email)) .
+                    '&amp;bug_type='    . $bug_type .
                     '&amp;bug_age='     . $bug_age .
                     '&amp;by='          . $by .
                     '&amp;order_by='    . $order_by .
@@ -281,6 +290,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">ID#</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">Date</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=package_name">Package</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=bug_type">Type</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=status">Status</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=php_version">Version</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=php_os">OS</a></th>
@@ -303,6 +313,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 /* Date */
                 echo '  <td align="center">'.date ('Y-m-d H:i:s', strtotime ($row['ts1'])).'</td>' . "\n";
                 echo '  <td>', htmlspecialchars($row['package_name']), '</td>' . "\n";
+                echo '  <td>', htmlspecialchars(@$types[$row['bug_type']]), '</td>' . "\n";
                 echo '  <td>', htmlspecialchars($row['status']);
                 if ($row['status'] == 'Feedback' && $row['unchanged'] > 0) {
                     printf ("<br />%d day%s", $row['unchanged'], $row['unchanged'] > 1 ? 's' : '');
@@ -342,7 +353,7 @@ if ($warnings) {
       <br /><small><?php show_boolean_options(BOOLEAN_SEARCH) ?>
       (<?php print_link('http://bugs.php.net/search-howto.php', '?', true);?>)</small>
   </td>
-  <td rowspan="2">
+  <td rowspan="3">
    <select name="limit"><?php show_limit_options($limit);?></select>
    <br />
    <select name="order_by"><?php show_order_options($limit);?></select>
@@ -364,7 +375,15 @@ if ($warnings) {
   </td>
   <td><select id="status" name="status"><?php show_state_options($status);?></select></td>
 </tr>
+<tr valign="top">
+  <th>Type</th>
+  <td style="white-space: nowrap">
+   <label for="bug_type">Return only bugs with <b>type</b></label>
+  </td>
+  <td><select id="bug_type" name="bug_type"><?php show_type_options($bug_type, true);?></select></td>
+</tr>
 </table>
+
 <table>
 <tr valign="top">
   <th><label for="category" accesskey="c"><span class="underline">C</span>ategory</label></th>

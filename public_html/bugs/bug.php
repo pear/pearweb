@@ -50,7 +50,7 @@ if (!empty($_POST['pw'])) {
 
 
 # fetch info about the bug into $bug
-$query = "SELECT id,package_name,email,passwd,sdesc,ldesc,"
+$query = "SELECT id,package_name,bug_type,email,passwd,sdesc,ldesc,"
        . "php_version,php_os,status,ts1,ts2,assign,"
        . "UNIX_TIMESTAMP(ts1) AS submitted, UNIX_TIMESTAMP(ts2) AS modified,"
        . "COUNT(bug=id) AS votes,"
@@ -162,6 +162,7 @@ if ($_POST['in'] && $edit == 3) {
                  " sdesc='" . escapeSQL($_POST['in']['sdesc']) . "'," .
                  " status='" . escapeSQL($_POST['in']['status']) . "'," .
                  " package_name='" . escapeSQL($_POST['in']['package_name']) . "'," .
+                 " bug_type='" . escapeSQL($_POST['in']['bug_type']) . "'," .
                  " php_version='" . escapeSQL($_POST['in']['php_version']) . "'," .
                  " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                  ' ts2=NOW(), ' .
@@ -232,6 +233,7 @@ if ($_POST['in'] && $edit == 3) {
         $query .= " sdesc='" . escapeSQL($_POST['in']['sdesc']) . "'," .
                   " status='" . escapeSQL($_POST['in']['status']) . "'," .
                   " package_name='" . escapeSQL($_POST['in']['package_name']) . "'," .
+                  " bug_type='" . escapeSQL($_POST['in']['bug_type']) . "'," .
                   " assign='" . escapeSQL($_POST['in']['assign']) . "'," .
                   " php_version='" . escapeSQL($_POST['in']['php_version']) . "'," .
                   " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
@@ -302,7 +304,17 @@ show_bugs_menu(txfield('package_name'));
 <div id="bugheader">
 <table id="details">
   <tr id="title">
-   <th class="details" id="number">Bug&nbsp;#<?php echo $id ?></th>
+
+   <?php
+
+   if ($bug['bug_type'] == 'Bug') {
+       echo '<th class="details" id="number">Bug&nbsp;#' . $id . '</th>';
+   } else {
+       echo '<th class="details" id="number">Req&nbsp;#' . $id . '</th>';
+   }
+
+   ?>
+
    <td id="summary" colspan="3"><?php echo clean($bug['sdesc']) ?></td>
   </tr>
   <tr id="submission">
@@ -586,6 +598,14 @@ if ($edit == 1 || $edit == 2) {
        <select name="in[package_name]">
         <?php show_types($_POST['in']['package_name'], 0, $bug['package_name']) ?>
        </select>
+      </td>
+     </tr>
+     <tr>
+      <th class="details">Bug Type:</th>
+       <td colspan="3">
+        <select name="in[bug_type]">
+            <?php show_type_options($bug['bug_type']); ?>
+        </select>
       </td>
      </tr>
      <tr>

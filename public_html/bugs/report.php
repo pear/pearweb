@@ -124,7 +124,17 @@ you can scroll down and click the submit button to really enter the details into
                 $fdesc .= "Actual result:\n--------------\n". $in['actres'] ."\n";
             }
 
-            $query = "INSERT INTO bugdb (package_name,email,sdesc,ldesc,php_version,php_os,status,ts1,passwd) VALUES ('$in[package_name]','$in[email]','$in[sdesc]','$fdesc','$in[php_version]','$in[php_os]','Open',NOW(),'$in[passwd]')";
+            $query = 'INSERT INTO bugdb (' .
+                     ' package_name, bug_type,' .
+                     ' email, sdesc, ldesc,' .
+                     ' php_version, php_os, status,' .
+                     ' ts1, passwd' .
+                     ") VALUES (" . 
+                     " '$in[package_name]', '$in[bug_type]'," .
+                     " '$in[email]', '$in[sdesc]', '$fdesc'," .
+                     " '$in[php_version]', '$in[php_os]', 'Open'," .
+                     " NOW(), '$in[passwd]')";
+
             $dbh->query($query);
 
 /*
@@ -137,6 +147,7 @@ you can scroll down and click the submit button to really enter the details into
             $report .= "Operating system: ".stripslashes($in['php_os'])."\n";
             $report .= "PHP version:      ".stripslashes($in['php_version'])."\n";
             $report .= "Package:          $in[package_name]\n";
+            $report .= "Bug Type:         $in[bug_type]\n";
             $report .= "Bug description:  ";
 
             $fdesc = stripslashes($fdesc);
@@ -172,17 +183,20 @@ you can scroll down and click the submit button to really enter the details into
             // Set extra-headers
             $extra_headers = "From: $protected_email\n";
             $extra_headers.= "X-PHP-Bug: $cid\n";
+            $extra_headers.= "X-PHP-Type: "     . stripslashes($in['bug_type'])    . "\n";
             $extra_headers.= "X-PHP-Version: "  . stripslashes($in['php_version']) . "\n";
             $extra_headers.= "X-PHP-Category: " . stripslashes($in['package_name']) . "\n";
             $extra_headers.= "X-PHP-OS: "       . stripslashes($in['php_os'])      . "\n";
             $extra_headers.= "X-PHP-Status: Open\n";
             $extra_headers.= "Message-ID: <bug-$cid@pear.php.net>";
 
+            $type = @$types[$in['bug_type']];
+
             if (DEVBOX == false) {
                 // mail to package developers
-                mail($mailto, "[PEAR-BUG] #$cid [NEW]: $sdesc", $ascii_report."1\n-- \n$dev_extra", $extra_headers, "-fpear-sys@php.net");
+                mail($mailto, "[PEAR-BUG] $type #$cid [NEW]: $sdesc", $ascii_report."1\n-- \n$dev_extra", $extra_headers, "-fpear-sys@php.net");
                 // mail to reporter
-                mail($email, "[PEAR-BUG] Bug #$cid: $sdesc", $ascii_report."2\n", "From: PHP Bug Database <$mailfrom>\nX-PHP-Bug: $cid\nMessage-ID: <bug-$cid@pear.php.net>", "-fpear-sys@php.net");
+                mail($email, "[PEAR-BUG] $type #$cid: $sdesc", $ascii_report."2\n", "From: PHP Bug Database <$mailfrom>\nX-PHP-Bug: $cid\nMessage-ID: <bug-$cid@pear.php.net>", "-fpear-sys@php.net");
             }
             localRedirect('bug.php?id=' . $cid . '&thanks=4');
             exit;
@@ -244,6 +258,13 @@ simply being marked as "bogus".</strong></p>
     ?>
     <select name="in[package_name]"><?php show_types(null,0,$package);?></select>
     <?php } ?>
+  </td>
+</tr><tr>
+  <th align="right">Bug Type:</th>
+  <td colspan="2">
+   <select name="in[bug_type]">
+    <?php show_type_options($in['bug_type']); ?>
+   </select>
   </td>
 </tr><tr>
   <th align="right">Operating system:</th>
