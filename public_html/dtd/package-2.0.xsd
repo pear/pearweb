@@ -209,6 +209,7 @@
   </xs:annotation>
   <xs:complexType>
    <xs:sequence>
+    <xs:element name="providesextension" type="xs:string"/>
     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
@@ -219,8 +220,17 @@
   </xs:annotation>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="srcchannel"/>
-    <xs:element ref="srcpackage"/>
+    <xs:choice>
+     <xs:sequence>
+      <xs:element ref="srcpackage"/>
+      <xs:element ref="srcchannel"/>
+     </xs:sequence>
+     <xs:element name="srcuri" type="xs:anyURI">
+      <xs:annotation>
+       <xs:documentation>uri of the package that contains the source of this extension</xs:documentation>
+      </xs:annotation>
+     </xs:element>
+    </xs:choice>
     <xs:element ref="installconditions"/>
     <xs:element ref="filelist"/>
     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
@@ -255,6 +265,11 @@
    </xs:sequence>
   </xs:complexType>
  </xs:element>
+ <xs:element name="nodefault">
+  <xs:annotation>
+   <xs:documentation>tells the installer not to install the default dependency group</xs:documentation>
+  </xs:annotation>
+ </xs:element>
  <xs:element name="required">
   <xs:annotation>
    <xs:documentation>absolute required dependencies</xs:documentation>
@@ -274,6 +289,7 @@
          <xs:element ref="max" minOccurs="0"/>
          <xs:element ref="recommended" minOccurs="0"/>
          <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="nodefault" minOccurs="0"/>
         </xs:sequence>
         <xs:element ref="uri"/>
        </xs:choice>
@@ -304,6 +320,7 @@
          <xs:element ref="max" minOccurs="0"/>
          <xs:element ref="recommended" minOccurs="0"/>
          <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="nodefault" minOccurs="0"/>
         </xs:sequence>
         <xs:element ref="uri"/>
        </xs:choice>
@@ -334,6 +351,7 @@
          <xs:element ref="max" minOccurs="0"/>
          <xs:element ref="recommended" minOccurs="0"/>
          <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+         <xs:element ref="nodefault" minOccurs="0"/>
         </xs:sequence>
         <xs:element ref="uri"/>
        </xs:choice>
