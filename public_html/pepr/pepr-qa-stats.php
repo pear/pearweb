@@ -52,7 +52,16 @@ $res['orphan_drafts'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 // Fetch proposals with proposal date before 30 days ago
 
 // Get IDs from proposals with comments in the last 30 days
-$sql = "SELECT pkg_prop_id FROM package_proposal_comments ppc WHERE FROM_UNIXTIME(timestamp) > DATE_ADD(NOW(), INTERVAL - 30 DAY);";
+$sql = <<<EOS
+SELECT 
+    ppc.pkg_prop_id,
+    MAX(ppc.timestamp) AS latest
+FROM 
+    package_proposal_comments ppc 
+WHERE 
+    FROM_UNIXTIME(timestamp) > DATE_ADD(NOW(), INTERVAL - 30 DAY)
+GROUP BY ppc.pkg_prop_id
+EOS;
 
 $resProposals = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 
@@ -60,6 +69,7 @@ $proposalIds = array(0 => 0, 1 => 1);
 
 foreach ($resProposals as $proposal) {
     $proposalIds[$proposal['id']] = $proposal['pkg_prop_id'];
+    $proposalLatest[$proposal['id']] = $proposal['pkg_prop_id'];
 }
 
 // Get IDs from proposals with changes in the last 30 days
@@ -111,6 +121,22 @@ foreach ($resProposalSets as $set) {
 }
 
 $sql = '
+SELECT 
+    pp.id AS id
+FROM
+    packages AS p
+    LEFT JOIN package_proposals AS pp
+        ON LOWER(p.name) LIKE CONCAT("%", LOWER(pp.pkg_name), "%")
+';
+
+$resProposalSets = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+
+foreach ($resProposalSets as $set) {
+    if (isset($resProposals[$set['id']])) {
+        unset($resProposals[$set['id']]);
+    }
+}
+$sql = '
 SELECT
     pp.id AS id,
     pp.pkg_name AS pkg_name,
@@ -118,19 +144,15 @@ SELECT
     UNIX_TIMESTAMP(pp.draft_date) AS draft_date,
     UNIX_TIMESTAMP(pp.proposal_date) AS proposal_date,
     UNIX_TIMESTAMP(pp.vote_date) AS vote_date,
-    UNIX_TIMESTAMP(pp.longened_date) AS longened_date,
-    p.name AS name
+    UNIX_TIMESTAMP(pp.longened_date) AS longened_date
 FROM
-    packages AS p
-    LEFT JOIN package_proposals AS pp
-        ON LOWER(p.name) NOT LIKE CONCAT("%", LOWER(pp.pkg_name), "%")
+    package_proposals AS pp
 WHERE
     pp.status = "finished"
     AND pkg_category != "RFC"
     AND pp.id IN('.implode(', ', $resProposals).')
     AND pp.vote_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
     AND pp.longened_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
-GROUP BY pp.pkg_name
 ORDER BY pp.draft_date DESC';
 
 $res['orphan_finished'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
