@@ -1,0 +1,51 @@
+The karma management for pear.php.net
+=====================================
+
+Author:  Martin Jansen <mj@php.net>
+Date:    2003-09-26
+Version: $Revision$
+
+The karma system for the PEAR website has been introduced on 26th
+September 2003.
+
+Before that date the only permission management was a flag in the users
+table, which determined, if a user was administrator or not. With the
+new system, permission management has become much more flexible:
+
+Each user (identified by the handle) can have an unlimited number of
+karma levels (aka permissions). Those levels are e.g. "pear.dev" or
+"global.karma.manager". The prefix "pear" is being used to allow other
+php.net services to make use of the system as well. (It is very likely
+that e.g. PECL will sooner or later use "pecl.dev" etc.)
+
+Under the umbrella of Damblan (http://pear.php.net/about/damblan.php), a
+PHP interface to the karma service is provided. Currently the following
+methods exist:
+
+bool has(string user, string level)
+
+     Returns true if the given user has access to the given karma level.
+
+bool grant(string user, string level)
+
+     Grants the given karma level to the given user.
+
+bool remove(string user, string level)
+
+     Removes the given karma level for the given user.
+
+array get(string user)
+
+      Returns the karma levels for the given user.
+
+array getUser(string level)
+
+      Returns all user that have access to the given level.
+
+
+Granting Karma
+--------------
+
+In order to grant karma to users, one needs to have access to the karma
+level "global.karma.manager". The interface to adjust the karma for all
+users is available at http://pear.php.net/admin/karma.php.
