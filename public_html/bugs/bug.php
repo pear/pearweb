@@ -473,7 +473,7 @@ if ($res) {
         output_note($row['id'], $row['added'], $row['email'], $row['comment']);
     }
 }
-echo "</table>";
+
 response_footer();
 
 function output_note($com_id, $ts, $email, $comment)
