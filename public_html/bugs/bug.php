@@ -816,10 +816,10 @@ function output_note($com_id, $ts, $email, $comment)
     global $edit, $id, $trusted_developers, $user, $dbh;
 
     echo '<div class="comment">';
-    echo "<b>[",format_date($ts),"] "; 
+    echo "<strong>[",format_date($ts),"] "; 
     $handle =& $dbh->getOne('SELECT handle FROM users WHERE email = '.$dbh->quoteSmart($email).' AND showemail = 0');
     if (!is_null($handle)) {
-        echo $handle."</b>\n";
+        echo $handle."</strong>\n";
     } else {
         echo spam_protect(htmlspecialchars($email))."</b>\n";
     }
