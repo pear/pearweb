@@ -36,7 +36,7 @@ other great stuff. At a certain point there may be even the
 possibility to download and install Damblan as a PEAR package.</p>
 
 <p>If you have questions or comments about Damblan, get in touch with
-<?php echo make_mailto_link("mj@php.net", "Martin"); ?>.</p>
+<?php echo make_link("/user/mj/", "Martin"); ?>.</p>
 
 <p><?php echo make_link("/about/", "Back"); ?></p>
 
