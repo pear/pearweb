@@ -5,6 +5,11 @@
 require_once './include/prepend.inc';
 require_once './include/cvs-auth.inc';
 require_once './include/trusted-devs.inc';
+/*
+ * NOTE: another require exists in the code below, so if changing
+ * the include path, make sure to change it too.
+ */
+
 
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -203,6 +208,7 @@ if ($_POST['in'] && $edit == 3) {
             if ($_POST['in']['status'] == $bug['status']) {
                 $_POST['in']['status'] = $RESOLVE_REASONS[$_POST['in']['resolve']]['status'];
             }
+            require './include/resolve.inc';
             $ncomment = addslashes($RESOLVE_REASONS[$_POST['in']['resolve']]['message'])
                       . "\n\n$ncomment";
         }

@@ -663,4 +663,13 @@ function show_bugs_menu($pkgname)
     echo "\n\n<!-- END BUG NAV -->\n\n";
 }
 
+function show_reason_types($current="", $expanded=0)
+{
+	if ($expanded) echo "<option value=\"\"></option>\n";
+	while (list($k,$v) = each($GLOBALS['RESOLVE_REASONS'])) {
+		echo "<option value=\"$k\"", ($current==$k ? " selected" : ""),
+		     ">$v[desc]",($expanded?" ($v[status])":""),"</option>\n";
+	}
+}
+
 ?>

@@ -47,8 +47,8 @@ Thank you for the report, and for helping us make PEAR better.',
     'desc' => 'Fixed in release',
     'message' =>
 'Thank you for your bug report. This issue has been fixed
-in the latest released version of the package, which you can download at 
-http://pear.php.net/packages.php',
+in the latest released version of the package, which you can download at
+http://pear.php.net/get/' . @txfield('package_name'),
   ),
   'needtrace' => array(
     'status' => 'Feedback',
@@ -133,12 +133,3 @@ to the existing bug instead.
 Thank you for your interest in PEAR.',
   )
 );
-
-function show_reason_types($current="", $expanded=0)
-{
-	if ($expanded) echo "<option value=\"\"></option>\n";
-	while (list($k,$v) = each($GLOBALS['RESOLVE_REASONS'])) {
-		echo "<option value=\"$k\"", ($current==$k ? " selected" : ""),
-		     ">$v[desc]",($expanded?" ($v[status])":""),"</option>\n";
-	}
-}
