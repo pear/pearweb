@@ -18,11 +18,11 @@
    $Id$
 */
 
-/**
-* TODO
-* o Number of packages in brackets does not include packages in subcategories
-* o Make headers in package list clickable for ordering
-*/
+/*
+ * TODO
+ * o Number of packages in brackets does not include packages in subcategories
+ * o Make headers in package list clickable for ordering
+ */
 
 $template_dir = dirname(dirname(__FILE__)) . '/templates/';
 
@@ -31,31 +31,36 @@ require_once 'HTML/Table.php';
 require_once 'Pager/Pager.php';
 require_once 'Net/URL.php';
 
-/**
-* Browser detection
-*/
+/*
+ * Browser detection
+ */
 $_browser = &new browser();
 
+
 /**
-* Returns an appropriate query string
-* for a self referencing link
-*/
-function getQueryString($catpid, $catname, $showempty = false){
-    if($catpid)
-        $querystring[] = 'catpid='.$catpid;
+ * Returns an appropriate query string for a self referencing link
+ */
+function getQueryString($catpid, $catname, $showempty = false)
+{
+    if ($catpid) {
+        $querystring[] = 'catpid=' . $catpid;
+    }
 
-    if($catname)
-        $querystring[] = 'catname='.urlencode($catname);
+    if ($catname) {
+        $querystring[] = 'catname=' . urlencode($catname);
+    }
 
-    if($showempty)
-        $querystring[] = 'showempty='.(int)$showempty;
+    if ($showempty) {
+        $querystring[] = 'showempty=' . (int)$showempty;
+    }
 
-    return '?'.implode('&', $querystring);
+    return '?' . implode('&amp;', $querystring);
 }
 
-/**
-* Check for the hide/show all extended info boxes
-*/
+
+/*
+ * Check for the hide/show all extended info boxes
+ */
 if (!empty($_GET['hideMoreInfo'])) {
     setcookie('hideMoreInfo', '1', time() + (86400 * 7));
     localRedirect('packages.php' . getQueryString(@$_GET['catpid'], @$_GET['catname']));
@@ -64,10 +69,10 @@ if (!empty($_GET['hideMoreInfo'])) {
     localRedirect('packages.php' . getQueryString(@$_GET['catpid'], @$_GET['catname']));
 }
 
-/**
-* Check input variables
-* Expected url vars: catpid (category parent id), catname, showempty
-*/
+/*
+ * Check input variables
+ * Expected url vars: catpid (category parent id), catname, showempty
+ */
 $catpid  = isset($_GET['catpid'])  ? (int)$_GET['catpid']   : null;
 $showempty = isset($_GET['showempty']) ? (bool)$_GET['showempty'] : false;
 
@@ -88,9 +93,9 @@ if (empty($catpid)) {
     $showempty_link = '<a href="'.$_SERVER['PHP_SELF'].getQueryString($catpid, $catname, !$showempty).'">'.($showempty ? 'Hide empty' : 'Show empty').'</a>';
 }
 
-/**
-* Main part of script
-*/
+/*
+ * Main part of script
+ */
 
 response_header($category_title);
 
@@ -169,7 +174,7 @@ while ($sth->fetchInto($row)) {
 
     $totalpackages += $npackages;
 
-    if($nrow++ % 2 == 1) {
+    if ($nrow++ % 2 == 1) {
         $table->addRow(array($catdata[0], $catdata[1]));
         $table->setCellAttributes($table->getRowCount()-1, 0, 'width="50%"');
         $table->setCellAttributes($table->getRowCount()-1, 1, 'width="50%"');
@@ -178,16 +183,16 @@ while ($sth->fetchInto($row)) {
 } // End while
 
 // Any left over (odd number of categories).
-if(count($catdata) > 0){
+if (count($catdata) > 0){
     $table->addRow(array($catdata[0]));
     $table->setCellAttributes($table->getRowCount()-1, 0, 'width="50%"');
     $table->setCellAttributes($table->getRowCount()-1, 1, 'width="50%"');
 }
 
-/**
-* Begin code for showing packages if we
-* aren't at the top level.
-*/
+/*
+ * Begin code for showing packages if we
+ * aren't at the top level.
+ */
 if (!empty($catpid)) {
     $nrow = 0;
     // Subcategories list
@@ -243,7 +248,7 @@ if (!empty($catpid)) {
         $packages[$key]['eInfo'] = $extendedInfo;
     }
 
-    /**
+    /*
      * More info visibility
      */
     if (@$_COOKIE['hideMoreInfo'] == '1') {
@@ -260,7 +265,7 @@ if (!empty($catpid)) {
     }
 }
 
-/**
+/*
  * Build URLs for hide/show all links
  */
 $url = new Net_URL();
@@ -271,7 +276,7 @@ $url->removeQueryString('hideMoreInfo');
 $url->addQueryString('showMoreInfo', '1');
 $showMoreInfoLink = $url->getURL();
 
-/**
+/*
  * Template
  */
 error_reporting(E_ALL & ~E_NOTICE);
