@@ -33,14 +33,7 @@ $vfs = new VFS_file(array("vfsroot" => $basepath));
 function cleanFolder($folder) {
     global $vfs, $basepath;
 
-    static $level;
-    $level++;
-
     $result = $vfs->listFolder($folder);
-
-    if ($folder == ".") {
-        $folder = "";
-    }
 
     foreach ($result as $file) {
         $age = time() - $file['date'];
