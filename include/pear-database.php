@@ -2063,8 +2063,8 @@ Authors
 $txt_authors
 END;
 
-        $to   = '"PEAR general list" ' . PEAR_GENERAL_EMAIL;
-        $from = '"PEAR Announce" ' . PEAR_ANNOUNCE_EMAIL;
+        $to   = '"PEAR general list" <' . PEAR_GENERAL_EMAIL . '>';
+        $from = '"PEAR Announce" <' . PEAR_ANNOUNCE_EMAIL . '>';
         $subject = "[ANNOUNCEMENT] $release Released.";
         mail($to, $subject, $txtanounce, "From: $from", "-f pear-sys@php.net");
     }
@@ -2119,8 +2119,8 @@ Authors
 -------------
 ' . $txt_authors;
 
-        $to   = '"PEAR general list" ' . PEAR_GENERAL_EMAIL;
-        $from = '"PEAR Announce" ' . PEAR_ANNOUNCE_EMAIL;
+        $to   = '"PEAR general list" <' . PEAR_GENERAL_EMAIL . '>';
+        $from = '"PEAR Announce" <' . PEAR_ANNOUNCE_EMAIL . '>';
         $subject = "[ANNOUNCEMENT] $release Released.";
         mail($to, $subject, $txtanounce, "From: $from", "-f pear-sys@php.net");
     }
