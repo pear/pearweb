@@ -53,7 +53,6 @@ echo '<h2>Downloads</h2>';
 echo '<div class="indent">';
 echo menu_link("Browse All Packages", "packages.php");
 echo menu_link("Search Packages", "package-search.php");
-echo menu_link("Download Statistics", "package-stats.php");
 echo '</div>';
 if (isset($_COOKIE['PEAR_USER'])) {
     echo '<h2>Developers</h2>';
