@@ -6,7 +6,7 @@
      */
     require_once 'Mail.php';
     
-    class Damblan_Mail {
+    class Damblan_Mailer {
 
         /**
          * The template data.
