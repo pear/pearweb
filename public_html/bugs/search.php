@@ -317,7 +317,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
         if (!$rows) {
             $errors[] = 'No bugs were found.';
-            display_bug_error($errors);
+            display_bug_error($errors, 'warnings', '');
             show_bugs_menu($_GET['package_name'][0]);
         } else {
             $package_name_string = '';
