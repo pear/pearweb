@@ -797,7 +797,7 @@ function package_exists($type)
  */
 function incoming_details_are_valid($in, $initial = 0)
 {
-    global $bug, $dbh;
+    global $bug, $dbh, $types;
 
     $errors = array();
     if (empty ($in['package_name']) || $in['package_name'] == 'none') {
@@ -812,9 +812,12 @@ function incoming_details_are_valid($in, $initial = 0)
         }
     }
 
-
     if (isset($in['php_version']) && $in['php_version'] == 'earlier') {
         $errors[] = 'Please select a valid PHP version. If your PHP version is too old, please upgrade first and see if the problem has not already been fixed.';
+    }
+
+    if (!array_key_exists($in['bug_type'], $types)) {
+        $errors[] = 'Please select a valid bug type.';
     }
 
     if (empty($in['php_version'])) {
