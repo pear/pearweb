@@ -33,7 +33,7 @@
 			PEAR::raiseError("Package proposal not found.");
 		}
 		
-		if (!$proposal->mayEdit($_COOKIE['PEAR_USER'])) {
+		if (!$proposal->mayEdit($_COOKIE['PEAR_USER']) && empty($next_stage)) {
 			PEAR::raiseError("Proposal can not be edited.");
 		}
 		$proposal->getLinks($dbh);	
