@@ -72,7 +72,7 @@ class Damblan_RSS {
 
         $type = strtolower($type);
         if (!isset($objectMap[$type])) {
-            PEAR::raiseError("The requested URL " . $_SERVER['REQUEST_URI'] . " was not found on this server.");            
+            PEAR::raiseError("The requested URL " . $_SERVER['REQUEST_URI'] . " was not found on this server.");
         }
 
         $filename  = "Damblan/RSS/" . $objectMap[$type] . ".php";
