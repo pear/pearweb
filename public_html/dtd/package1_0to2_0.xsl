@@ -90,6 +90,14 @@
     <xsl:text>
   </xsl:text>
     <dependencies>
+     <xsl:if test="boolean(release/deps/dep[@type='php'])=false">
+      <xsl:text>
+   </xsl:text>
+      <xsl:element name="php">
+       <xsl:attribute name="min">4.0</xsl:attribute>
+       <xsl:attribute name="recommended">4.3.9</xsl:attribute>
+      </xsl:element>
+     </xsl:if>
      <xsl:apply-templates select="release/deps"/>
      <xsl:text>
   </xsl:text>
@@ -288,7 +296,7 @@
    </xsl:text>
    <xsl:element name="package">
     <xsl:attribute name="channel">pear</xsl:attribute>
-     <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
+    <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
     <xsl:if test="@rel='ge'">
      <xsl:attribute name="min"><xsl:value-of select="@version"/></xsl:attribute>
      <xsl:attribute name="recommended"><xsl:value-of select="@version"/></xsl:attribute>
@@ -301,7 +309,7 @@
    <xsl:text>
    </xsl:text>
    <xsl:element name="extension">
-     <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
+    <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
     <xsl:if test="@rel='ge'">
      <xsl:attribute name="min"><xsl:value-of select="@version"/></xsl:attribute>
      <xsl:attribute name="recommended"><xsl:value-of select="@version"/></xsl:attribute>
@@ -314,7 +322,7 @@
    <xsl:text>
    </xsl:text>
    <xsl:element name="sapi">
-     <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
+    <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
     <xsl:if test="@rel='ge'">
      <xsl:attribute name="min"><xsl:value-of select="@version"/></xsl:attribute>
      <xsl:attribute name="recommended"><xsl:value-of select="@version"/></xsl:attribute>
@@ -327,7 +335,7 @@
    <xsl:text>
    </xsl:text>
    <xsl:element name="os">
-     <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
+    <xsl:attribute name="name"><xsl:value-of select="."/></xsl:attribute>
     <xsl:if test="@rel='ge'">
      <xsl:attribute name="min"><xsl:value-of select="@version"/></xsl:attribute>
      <xsl:attribute name="recommended"><xsl:value-of select="@version"/></xsl:attribute>
