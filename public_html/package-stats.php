@@ -333,7 +333,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 	$query             = "SELECT sum(ps.dl_number) as dl_number, ps.package, ps.pid, ps.rid, ps.cid 
 	                      FROM package_stats ps, packages p
 	                      WHERE p.id = ps.pid AND p.package_type = 'pear'
-	                      GROUP BY ps.pid ORDER BY ps.dl_number DESC";
+	                      GROUP BY ps.pid ORDER BY dl_number DESC";
 
 }
 
