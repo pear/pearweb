@@ -135,7 +135,7 @@ function navigationBar($title, $id, $loc)
         print_link($PREV[0], $link, false,
                    ($loc == 'top' ? 'accesskey="r"' : false)
         );
-        echo ' (P<span class="underline">r</span>evious)';
+        echo ' (P<span class="accesskey">r</span>evious)';
     }
     echo "\n";
     echo '  </td>';
@@ -148,7 +148,7 @@ function navigationBar($title, $id, $loc)
         if (strlen($link) > 30) {
             $link = str_replace('::', '::<br />', $link);
         }
-        echo '(Ne<span class="underline">x</span>t) ';
+        echo '(Ne<span class="accesskey">x</span>t) ';
         print_link($NEXT[0], $link, false,
                    ($loc == 'top' ? 'accesskey="x"' : false)
         );

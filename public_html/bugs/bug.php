@@ -481,7 +481,7 @@ if ($edit == 1 || $edit == 2) {
 
              <table>
               <tr>
-               <th class="details">Passw<span class="underline">o</span>rd:</th>
+               <th class="details">Passw<span class="accesskey">o</span>rd:</th>
                <td>
                 <input type="password" name="pw"
                  value="<?php echo clean($pw) ?>" size="10" maxlength="20"
@@ -569,7 +569,7 @@ if ($edit == 1 || $edit == 2) {
 
         <tr>
          <th class="details">
-          <label for="in" accesskey="c">Qui<span class="underline">c</span>k Fix:</label>
+          <label for="in" accesskey="c">Qui<span class="accesskey">c</span>k Fix:</label>
          </th>
          <td colspan="3">
           <select name="in[resolve]" id="in">
@@ -671,7 +671,7 @@ if ($edit == 1 || $edit == 2) {
     </table>
 
     <p style="margin-bottom: 0em">
-    <label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<span class="underline">m</span>ment:</b></label>
+    <label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<span class="accesskey">m</span>ment:</b></label>
     </p>
 
     <textarea cols="60" rows="8" name="ncomment" id="ncomment"
@@ -716,7 +716,7 @@ if ($edit == 3) {
 
     <table>
      <tr>
-      <th class="details">Y<span class="underline">o</span>ur email address:</th>
+      <th class="details">Y<span class="accesskey">o</span>ur email address:</th>
       <td>
        <input type="text" size="40" maxlength="40" name="in[commentemail]"
         value="<?php echo clean($_POST['in']['commentemail']) ?>"

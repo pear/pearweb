@@ -313,7 +313,7 @@ if (!package_exists($package)) {
 <table class="form-holder" cellspacing="1" border="1">
  <tr>
   <th class="form-label_left">
-   Y<span class="underline">o</span>ur email address:
+   Y<span class="accesskey">o</span>ur email address:
   </th>
   <td class="form-input">
    <input type="hidden" name="in[did_luser_search]"

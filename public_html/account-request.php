@@ -224,7 +224,7 @@ MSG;
 
     $form = new HTML_Form($_SERVER['PHP_SELF'] . '#requestform', 'post');
 
-    $form->addText('handle', 'Use<span class="underline">r</span>name:',
+    $form->addText('handle', 'Use<span class="accesskey">r</span>name:',
             @$_POST['handle'], 12, 20, 'accesskey="r"',
             'class="form-label_left"', 'class="form-input"');
     $form->addText('firstname', 'First Name:',

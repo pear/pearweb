@@ -369,7 +369,7 @@ if ($warnings) {
 <table id="primary" width="100%">
 <tr valign="top">
   <th>Find bugs</th>
-  <td style="white-space: nowrap">with all or any of the w<span class="underline">o</span>rds</td>
+  <td style="white-space: nowrap">with all or any of the w<span class="accesskey">o</span>rds</td>
   <td style="white-space: nowrap"><input type="text" name="search_for" value="<?php echo htmlspecialchars(stripslashes($search_for));?>" size="20" maxlength="255" accesskey="o" />
       <br /><small><?php show_boolean_options(BOOLEAN_SEARCH) ?>
       (<?php print_link('http://bugs.php.net/search-howto.php', '?', true);?>)</small>
@@ -384,14 +384,14 @@ if ($warnings) {
    <input type="radio" name="direction" value="DESC" <?php if($direction == "DESC") { echo('checked="checked"'); }?>/>Descending
    <br />
    <input type="hidden" name="cmd" value="display" />
-   <label for="submit" accesskey="r">Sea<span class="underline">r</span>ch:</label>
+   <label for="submit" accesskey="r">Sea<span class="accesskey">r</span>ch:</label>
    <input id="submit" type="submit" value="Search" />
   </td>
 </tr>
 <tr valign="top">
   <th>Status</th>
   <td style="white-space: nowrap">
-   <label for="status" accesskey="n">Retur<span class="underline">n</span> bugs
+   <label for="status" accesskey="n">Retur<span class="accesskey">n</span> bugs
    with <b>status</b></label>
   </td>
   <td><select id="status" name="status"><?php show_state_options($status);?></select></td>
@@ -407,7 +407,7 @@ if ($warnings) {
 
 <table>
 <tr valign="top">
-  <th><label for="category" accesskey="c"><span class="underline">C</span>ategory</label></th>
+  <th><label for="category" accesskey="c"><span class="accesskey">C</span>ategory</label></th>
   <td style="white-space: nowrap">Return bugs in <b>categories</b></td>
   <td><select id="category" name="package_name[]" multiple="multiple" size="6"><?php show_types($package_name,2);?></select></td>
 </tr>
@@ -439,7 +439,7 @@ if ($warnings) {
   </td>
 </tr>
 <tr valign="top">
-  <th>Author e<span class="underline">m</span>ail</th>
+  <th>Author e<span class="accesskey">m</span>ail</th>
   <td style="white-space: nowrap">Return bugs with author email</td>
   <td><input accesskey="m" type="text" name="author_email" value="<?php echo htmlspecialchars(stripslashes($author_email)); ?>" /></td>
 </tr>
