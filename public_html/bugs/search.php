@@ -7,33 +7,34 @@ if (isset($MAGIC_COOKIE) && !isset($user) && !isset($pw)) {
 }
 
 if ($search_for && !preg_match("/\\D/",trim($search_for))) {
-    $x = $pw ? ($user ? "&edit=1" : "&edit=2") : "";
+    $x = $pw ? ($user ? "&edit=1" : "&edit=2") : '';
     header("Location: bug.php?id=$search_for$x");
     exit;
 }
 
-response_header("Search");
+response_header('Search');
 
 $errors = array();
 $warnings = array();
 
 define('BOOLEAN_SEARCH', @intval($boolean));
 
-if (isset($cmd) && $cmd == "display") {
-    @mysql_connect("localhost","pear","pear")
-        or die("Unable to connect to SQL server.");
-    @mysql_select_db("pear");
+if (isset($cmd) && $cmd == 'display') {
+    @mysql_connect('localhost','pear','pear')
+        or die('Unable to connect to SQL server.');
+    @mysql_select_db('pear');
 
-    $mysql4 = version_compare(mysql_get_server_info(), "4.0.0", "ge");
+    $mysql4 = version_compare(mysql_get_server_info(), '4.0.0', 'ge');
 
     if (!$_GET['package_name'] || !is_array($_GET['package_name'])) $_GET['package_name']  = array();
     if (!$_GET['package_nname']) $_GET['package_nname'] = array();
 
-    if ($mysql4)
-        $query = "SELECT SQL_CALC_FOUND_ROWS ";
-    else
-        $query = "SELECT ";
-
+    if ($mysql4) {
+        $query = 'SELECT SQL_CALC_FOUND_ROWS ';
+    } else {
+        $query = 'SELECT ';
+    }
+    
     $query .= "*, TO_DAYS(NOW())-TO_DAYS(ts2) AS unchanged FROM bugdb ";
 
     if (count($_GET['package_name']) == 0) {
@@ -98,20 +99,20 @@ if (isset($cmd) && $cmd == "display") {
 
     $query .= "$where_clause ";
 
-    $allowed_order = array("id", "package_name", "status", "php_version", "php_os", "sdesc", "assign");
+    $allowed_order = array('id', 'package_name', 'status', 'php_version', 'php_os', 'sdesc', 'assign');
 
     /* we avoid adding an order by clause if using the full text search */
     if ($order_by || $reorder_by || !strlen($search_for)) {
-        if (!in_array($order_by,$allowed_order)) $order_by = "id";
-        if (isset($reorder_by) && !in_array($reorder_by,$allowed_order)) $reorder_by = "id";
-        if ($direction != "DESC") $direction = "ASC";
+        if (!in_array($order_by,$allowed_order)) $order_by = 'id';
+        if (isset($reorder_by) && !in_array($reorder_by,$allowed_order)) $reorder_by = 'id';
+        if ($direction != 'DESC') $direction = 'ASC';
 
         if ($reorder_by) {
             if ($order_by == $reorder_by) {
-                $direction = $direction == "ASC" ? "DESC" : "ASC";
+                $direction = $direction == 'ASC' ? 'DESC' : 'ASC';
             }
             else {
-                $direction = "ASC";
+                $direction = 'ASC';
             }
             $order_by = $reorder_by;
         }
@@ -124,25 +125,25 @@ if (isset($cmd) && $cmd == "display") {
     if($limit!='All') $query .= " LIMIT $begin,".(int)$limit;
 
     if(stristr($query, ";")) {
-        $errors[] = "<b>BAD HACKER!!</b> No database cracking for you today!";
+        $errors[] = '<b>BAD HACKER!!</b> No database cracking for you today!';
     } else {
 
     $res = @mysql_query($query);
-    if (!$res) die(htmlspecialchars($query)."<br>".mysql_error());
+    if (!$res) die(htmlspecialchars($query).'<br />'.mysql_error());
 
     $rows = mysql_num_rows($res);
 
-    if ($mysql4)
+    if ($mysql4) {
         $total_rows = mysql_get_one("SELECT FOUND_ROWS()");
-    else /* lame mysql 3 compatible attempt to allow browsing the search */
+     } else { /* lame mysql 3 compatible attempt to allow browsing the search */
         $total_rows = $rows < 10 ? $rows : $begin + $rows + 10;
+    }
 
     if (!$rows) {
         show_bugs_menu($_GET['package_name'][0]);
-        $errors[] = "No bugs were found.";
+        $errors[] = 'No bugs were found.';
         display_errors($errors);
-    }
-    else {
+    } else {
 
         $package_name_string = '';
         if (count($_GET['package_name']) > 0) {
@@ -189,21 +190,21 @@ if (isset($cmd) && $cmd == "display") {
             echo '<tr valign="top" bgcolor="', get_row_color($row), '">';
 
             /* Bug ID */
-            echo "<td align=\"center\"><a href=\"bug.php?id=$row[id]\">$row[id]</a>";
-            echo "<br /><a href=\"bug.php?id=$row[id]&amp;edit=1\">(edit)</a></td>";
+            echo '<td align="center"><a href="bug.php?id='.$row['id'].'">'.$row['id'].'</a>';
+            echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>';
 
             /* Date */
-            echo "<td align=\"center\">".date ("Y-m-d H:i:s", strtotime ($row[ts1]))."</td>";
-            echo "<td>", htmlspecialchars($row[package_name]), "</td>";
-            echo "<td>", htmlspecialchars($row[status]);
-            if ($row[status] == "Feedback" && $row[unchanged] > 0) {
-                printf ("<br>%d day%s", $row[unchanged], $row[unchanged] > 1 ? "s" : "");
+            echo '<td align="center">'.date ('Y-m-d H:i:s', strtotime ($row['ts1'])).'</td>';
+            echo '<td>', htmlspecialchars($row['package_name']), '</td>';
+            echo '<td>', htmlspecialchars($row['status']);
+            if ($row['status'] == 'Feedback' && $row['unchanged'] > 0) {
+                printf ("<br />%d day%s", $row['unchanged'], $row['unchanged'] > 1 ? 's' : '');
             }
-            echo "</td>";
-            echo "<td>", htmlspecialchars($row[php_version]), "</td>";
-            echo "<td>", $row[php_os] ? htmlspecialchars($row[php_os]) : "&nbsp;", "</td>";
-            echo "<td>", $row[sdesc]  ? htmlspecialchars($row[sdesc]) : "&nbsp;",  "</td>";
-            echo "<td>", $row[assign] ? htmlspecialchars($row[assign]) : "&nbsp;", "</td>";
+            echo '</td>';
+            echo '<td>', htmlspecialchars($row['php_version']), '</td>';
+            echo '<td>', $row['php_os'] ? htmlspecialchars($row['php_os']) : '&nbsp;', '</td>';
+            echo '<td>', $row['sdesc']  ? clean($row['sdesc'])             : '&nbsp;', '</td>';
+            echo '<td>', $row['assign'] ? htmlspecialchars($row['assign']) : '&nbsp;', '</td>';
             echo "</tr>\n";
         }
 
@@ -220,7 +221,7 @@ if (isset($cmd) && $cmd == "display") {
 if ($errors) display_errors($errors);
 if ($warnings) display_warnings($warnings);
 ?>
-<form id="asearch" method="get" action="<?php echo $PHP_SELF?>">
+<form id="asearch" method="get" action="<?php echo $_SERVER['PHP_SELF'] ?>">
 <table id="primary" width="95%">
 <tr valign="top">
   <th>Find bugs</th>
@@ -317,14 +318,14 @@ function show_prev_next($begin,$rows,$total_rows,$link,$limit) {
 
 function show_order_options ($current) {
     $opts = array(
-        '' => "relevance",
-        'id' => "ID",
-        'package_name' => "package",
-        'status' => "status",
-        'php_version' => "version",
-        'php_os' => "os",
-        'sdesc' => "summary",
-        'assign' => "assignment",
+        ''             => 'relevance',
+        'id'           => 'ID',
+        'package_name' => 'package',
+        'status'       => 'status',
+        'php_version'  => 'version',
+        'php_os'       => 'os',
+        'sdesc'        => 'summary',
+        'assign'       => 'assignment',
     );
     foreach ($opts as $k => $v) {
         echo '<option value="', $k, '"',
