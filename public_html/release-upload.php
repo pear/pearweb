@@ -199,7 +199,7 @@ MSG;
 if ($display_verification) {
     include_once 'PEAR/Common.php';
 
-    response_header('Upload New Release: Verify');
+    response_header('Upload New Release :: Verify');
 
     $util =& new PEAR_Common;
 

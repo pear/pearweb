@@ -46,7 +46,7 @@ if ($row === null) {
 
 $handle = htmlspecialchars($handle);
 
-response_header('User Information: ' . htmlspecialchars($row['name']));
+response_header('User Information :: ' . htmlspecialchars($row['name']));
 
 echo '<h1>User Information: ' . htmlspecialchars($row['name']) . "</h1>\n";
 

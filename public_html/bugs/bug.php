@@ -299,7 +299,7 @@ if ($_POST['in']) {
     }
 }
 
-response_header("#$id: ".htmlspecialchars($bug['sdesc']));
+response_header("Bug #$id :: " . htmlspecialchars($bug['sdesc']));
 
 /* DISPLAY BUG */
 if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {

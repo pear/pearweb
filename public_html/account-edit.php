@@ -31,7 +31,7 @@ if (isset($_GET['handle'])) {
 }
 
 ob_start();
-response_header('Edit Account: ' . $handle);
+response_header('Edit Account :: ' . $handle);
 
 print '<h1>Edit Account &quot;';
 print '<a href="/user/'. $handle . '">' . $handle . '</a>&quot;</h1>' . "\n";
