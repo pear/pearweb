@@ -79,7 +79,7 @@ function makeBorderTOC($this)
     if (($HOME[1] != $UP[1]) && $UP[1]) {
         $SIDEBAR_DATA .= ' <ul class="man-side_up">' . "\n"
                        . '  <li class="man-side_up">'
-                       . make_link('./', $UP[1]) . "\n"
+                       . make_link($UP[0], $UP[1]) . "\n"
                        . ' </ul>' . "\n\n";
     }
 
