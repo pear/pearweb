@@ -18,13 +18,6 @@
    $Id$
 */
 
-$SIDEBAR_DATA='
-<h3>Documentation</h3>
-<p>
-The manual section for PEAR can be found
-<a href="/manual/">here</a>.</p>
-';
-
 response_header('Support');
 
 ?>
