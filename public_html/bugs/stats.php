@@ -18,7 +18,7 @@ if ($_GET['developer'] && $_GET['developer'] != '') {
     $where .= ' maintains.handle = ' .  $dbh->quoteSmart($_GET['developer']);
 }
 $where == '' ? $extra = 'WHERE ' : $extra = 'AND ';
-switch ($_SERVER['SERVER_NAME']) {
+switch ($_SERVER['HTTP_HOST']) {
     case 'pear.php.net':
         $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pear') . ' 
                         OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
@@ -45,7 +45,7 @@ $query = 'SELECT bugdb.status, bugdb.package_name, bugdb.email, bugdb.php_versio
 
 $result = $dbh->query($query);
 
-while($row = $result->fetchRow()) {
+while ($row = $result->fetchRow()) {
     $package_name['all'][$row['package_name']]++;
     $status_str = strtolower($row['status']);
     $package_name[$status_str][$row['package_name']]++;
@@ -76,21 +76,21 @@ echo '<style type="text/css">
 if ($total > 0) {
     /* prepare for sorting by bug report count */
     foreach($package_name['all'] as $name => $value) {
-        if (!isset($package_name['closed'][$name]))      $package_name['closed'][$name]      = 0;
-        if (!isset($package_name['bogus'][$name]))       $package_name['bogus'][$name]       = 0;
-        if (!isset($package_name['open'][$name]))        $package_name['open'][$name]        = 0;
-        if (!isset($package_name['critical'][$name]))    $package_name['critical'][$name]    = 0;
-        if (!isset($package_name['analyzed'][$name]))    $package_name['analyzed'][$name]    = 0;
-        if (!isset($package_name['verified'][$name]))    $package_name['verified'][$name]    = 0;
-        if (!isset($package_name['suspended'][$name]))   $package_name['suspended'][$name]   = 0;
-        if (!isset($package_name['duplicate'][$name]))   $package_name['duplicate'][$name]   = 0;
-        if (!isset($package_name['assigned'][$name]))    $package_name['assigned'][$name]    = 0;
-        if (!isset($package_name['no feedback'][$name])) $package_name['no feedback'][$name] = 0;
-        if (!isset($package_name['feedback'][$name]))    $package_name['feedback'][$name]    = 0;
+        if (!isset($package_name['closed'][$name])) {      $package_name['closed'][$name]      = 0; }
+        if (!isset($package_name['bogus'][$name])) {       $package_name['bogus'][$name]       = 0; }
+        if (!isset($package_name['open'][$name])) {        $package_name['open'][$name]        = 0; }
+        if (!isset($package_name['critical'][$name])) {    $package_name['critical'][$name]    = 0; }
+        if (!isset($package_name['analyzed'][$name])) {    $package_name['analyzed'][$name]    = 0; }
+        if (!isset($package_name['verified'][$name])) {    $package_name['verified'][$name]    = 0; }
+        if (!isset($package_name['suspended'][$name])) {   $package_name['suspended'][$name]   = 0; }
+        if (!isset($package_name['duplicate'][$name])) {   $package_name['duplicate'][$name]   = 0; }
+        if (!isset($package_name['assigned'][$name])) {    $package_name['assigned'][$name]    = 0; }
+        if (!isset($package_name['no feedback'][$name])) { $package_name['no feedback'][$name] = 0; }
+        if (!isset($package_name['feedback'][$name])) {    $package_name['feedback'][$name]    = 0; }
     }
     
-    if (!isset($_GET['sort_by'])) $_GET['sort_by'] = 'open';    
-    if (!isset($_GET['rev'])) $_GET['rev'] = 1;
+    if (!isset($_GET['sort_by'])) { $_GET['sort_by'] = 'open'; }   
+    if (!isset($_GET['rev'])) { $_GET['rev'] = 1; }
     
     if ($rev == 1) {
         arsort($package_name[$_GET['sort_by']]);
@@ -195,14 +195,14 @@ echo '<tr><td class="bug_head"><strong>All:</strong></td>
     </tr>' . "\n";
 
 foreach ($package_name[$_GET['sort_by']] as $name => $value) {
-    if(($package_name['open'][$name] > 0 ||
-        $package_name['critical'][$name] > 0 ||
-        $package_name['analyzed'][$name] > 0 ||
-        $package_name['verified'][$name] > 0 ||
+    if (($package_name['open'][$name]     > 0 ||
+        $package_name['critical'][$name]  > 0 ||
+        $package_name['analyzed'][$name]  > 0 ||
+        $package_name['verified'][$name]  > 0 ||
         $package_name['suspended'][$name] > 0 ||
         $package_name['duplicate'][$name] > 0 ||
-        $package_name['assigned'][$name] > 0 ||
-        $package_name['feedback'][$name] > 0 ) && $name != 'all')
+        $package_name['assigned'][$name]  > 0 ||
+        $package_name['feedback'][$name]  > 0 ) && $name != 'all')
     {
         echo '<tr><td class="bug_head">
             <strong>' . $name . ':</strong></td>
