@@ -312,9 +312,9 @@ class proposal {
             	$vote_conditional = "";
             }
             
-            $vote_url = "http://".$_SERVER['SERVER_NAME']."/pepr/pepr-vote-show.php?id=".$this->id."&handle=".$user_handle;
+            $vote_url = "http://pear.php.net/pepr/pepr-vote-show.php?id=".$this->id."&handle=".$user_handle;
         }
-        $proposal_url = "http://".$_SERVER['SERVER_NAME']."/pepr/pepr-proposal-show.php?id=".$this->id;
+        $proposal_url = "http://pear.php.net/pepr/pepr-proposal-show.php?id=".$this->id;
         $end_voting_time = (@$this->longened_date > 0) ? $this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE : @$this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE;
         if (!isset($user_handle)) {
             $email['to'] = $email['to']['pearweb'];
