@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Produces a CAPTCHA image.
+ * Produces a CAPTCHA image
  *
  * Uses the value of <var>$_SESSION['captcha']</var> for the image's text.
  * That value is set in generate_captcha() in include/pear-format-html.php.
@@ -22,12 +22,9 @@
  *     make them harder to remove.
  *   + Some arcs will also be the background color, causing them to cut up
  *     the foreground items.
- *   + Try to keep the arcs from touching the edges.
+ *   + Encourage arcs not to touch the image's edges.
  *   + Have the arcs run from left to right as to not look like 1 or l.
- *   + Make sure each arc crosses through at least some of the text.
- *
- * More obfuscation techniques could be used, but hey, is spamming us
- * THAT big a deal?
+ *   + Make sure each arc crosses through most of the text.
  *
  * Based on a combination of concepts found in:
  *   + http://www.viebrock.ca/code/10/turing-protection
@@ -112,6 +109,7 @@ for ($i = 0; $i < strlen($_SESSION['captcha']); $i++) {
     $size  = mt_rand($font_size_min, $font_size_max) * $fonts[$font_name];
     switch ($char) {
         case 'Q':
+            // Keep Q's tail from being off the bottom of the image.
             $angle = mt_rand(0, $font_angle_max);
             break;
         default:
