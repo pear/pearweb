@@ -11,19 +11,6 @@ require_once './include/prepend.inc';
 require_once './include/cvs-auth.inc';
 require_once './include/trusted-devs.inc';
 
-$mail_bugs_to = 'php-bugs@lists.php.net';
-
-/*
-if (isset($save) && isset($pw)) { # non-developers don't have $user set
-	setcookie("MAGIC_COOKIE",
-	          base64_encode("$user:$pw"),
-	          time()+3600*24*12,
-	          '/','.php.net');
-}
-if (isset($MAGIC_COOKIE) && !isset($user) && !isset($pw)) {
-  list($user,$pw) = explode(":", base64_decode($MAGIC_COOKIE));
-}
-*/
 if (isset($_COOKIE['PEAR_USER']) && isset($_COOKIE['PEAR_PW'])) {
     $user = $_COOKIE['PEAR_USER'];
     $pw = $_COOKIE['PEAR_PW'];

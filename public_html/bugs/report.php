@@ -16,13 +16,6 @@ if (isset($MAGIC_COOKIE) && !isset($user) && !isset($pw)) {
 
 /* See bugs.sql for the table layout. */
 
-$mail_bugs_to = "php-bugs@lists.php.net";
-
-/*
-@mysql_connect("localhost","nobody","")
-	or die("Unable to connect to SQL server.");
-@mysql_select_db("php3");
-*/
 $errors = array();
 if ($in) {
 	if (!($errors = incoming_details_are_valid($_POST['in'], 1))) {
