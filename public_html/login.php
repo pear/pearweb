@@ -25,9 +25,8 @@
  */
 if (!isset($_COOKIE['PHPSESSID']) &&
     ((strpos(@$_SERVER['HTTP_REFERER'], @$_GET['redirect']) !== false) ||
-     (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']))
-    )
-) {
+     (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']))))
+{
     auth_reject(PEAR_AUTH_REALM, 'Cookies must be enabled to log in.');
 }
 
