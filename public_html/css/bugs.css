@@ -2,24 +2,6 @@
 
 @import url(/css/bugs-controls.css);
 
-body, ul, td, th {
-    font-family: verdana,arial,helvetica,sans-serif;
-    font-size: 95%;
-}
-
-div#content {
-    margin: 4px;
-}
-
-p {
-    font-family: verdana,arial,helvetica,sans-serif;
-}
-
-em {
-    font-weight: bold;
-    font-style: italic;
-}
-
 .headertop {
     background: #5b69a6;
 }
@@ -30,84 +12,15 @@ em {
     background: #9999cc;
 }
 
-.error {
-    color: #cc0000;
-}
-
-code, pre {
-    font-family: "andale mono", "monotype.com", "courier new", monospace;
-    font-size: 90%;
-}
-
 pre.note {
     margin-left: 20px;
 }
 
-h1 {
-    font-family: verdana,arial,helvetica,sans-serif;
-    font-size: 140%;
-    font-weight: bold;
-    color: #000066;
-}
-
-h2 {
-    font-family: verdana, arial,helvetica,sans-serif;
-    font-size: 125%;
-    font-weight: bold;
-    color: #000066;
-}
-
-h3 {
-    font-family: verdana, arial,helvetica,sans-serif;
-    font-size: 110%;
-    font-weight: bold;
-    color: #000066;
-}
-
-h4 {
-    font-family: verdana, arial,helvetica,sans-serif;
-    font-size: 100%;
-    font-weight: bold;
-    color: #000066;
-}
-
-small {
-    font-family: verdana, arial,helvetica,sans-serif;
-    font-size: 75%;
-}
-
-a.small {
-    font-family: verdana, arial,helvetica,sans-serif;
-    font-size: 75%;
-    text-decoration: none;
-}
-
-A.menuWhite {
-    font-family: verdana, arial,helvetica,sans-serif;
-    font-size: 75%;
-    color: #ffffff;
-}
-A.menuBlack {
-    font-family: verdana, arial,helvetica,sans-serif;
-    font-size: 75%;
-    color: #000000;
-}
-
-input {
-    font-family: verdana, arial,helvetica,sans-serif;
-}
-
-textarea {
-    font-family: "andale mono", "monotype.com", "courier new", monospace;
-}
-
 input.small, select.small {
-    font-family: verdana, arial,helvetica,sans-serif;
     font-size: 75%;
 }
 
 textarea.small {
-    font-family: "andale mono", "monotype.com", "courier new", monospace;
     font-size: 75%;
 }
 

@@ -160,44 +160,42 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
    <?php
 
     if (empty($_COOKIE['PEAR_USER'])) {
-        echo '   <div class="menuBlack">';
-        print_link('/account-request.php', 'Register', false);
+        print_link('/account-request.php', 'Register', false,
+                   'class="menuBlack"');
         echo delim();
         if ($_SERVER['QUERY_STRING'] && $_SERVER['QUERY_STRING'] != 'logout=1') {
             print_link('/login.php?redirect=' . urlencode(
                        "{$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']}"),
-                       'Login', false);
+                       'Login', false, 'class="menuBlack"');
         } else {
             print_link('/login.php?redirect=' . $_SERVER['PHP_SELF'],
-                       'Login', false);
+                       'Login', false, 'class="menuBlack"');
         }
     } else {
         print '<small>';
         print '<a class="menuWhite" href="/user/' . $_COOKIE['PEAR_USER'] . '">logged in as ';
         print strtoupper($_COOKIE['PEAR_USER']);
         print "</a></small><br />\n";
-        echo '   <div class="menuBlack">';
 
         if (empty($_SERVER['QUERY_STRING'])) {
-            print_link('?logout=1', 'Logout', false);
+            print_link('?logout=1', 'Logout', false, 'class="menuBlack"');
         } else {
             print_link('?logout=1&amp;'
                             . htmlspecialchars($_SERVER['QUERY_STRING']),
-                       'Logout', false);
+                       'Logout', false, 'class="menuBlack"');
         }
     }
 
     echo delim();
-    print_link('/manual/', 'Docs', false);
+    print_link('/manual/', 'Docs', false, 'class="menuBlack"');
     echo delim();
-    print_link('/packages.php', 'Packages', false);
+    print_link('/packages.php', 'Packages', false, 'class="menuBlack"');
     echo delim();
-    print_link('/support.php','Support',false);
+    print_link('/support.php','Support',false, 'class="menuBlack"');
     echo delim();
-    print_link('/bugs/','Bugs',false);
+    print_link('/bugs/','Bugs',false, 'class="menuBlack"');
     ?>
 
-   </div>
   </td>
  </tr>
 
@@ -295,13 +293,11 @@ function response_footer($style = false)
 <table class="foot" cellspacing="0" cellpadding="0">
  <tr>
   <td class="foot-bar" colspan="2">
-   <div class="menuBlack">
 <?php
-print_link('/about/privacy.php', 'PRIVACY POLICY', false);
+print_link('/about/privacy.php', 'PRIVACY POLICY', false, 'class="menuBlack"');
 echo delim();
-print_link('/credits.php', 'CREDITS', false);
+print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
 ?>
-   </div>
   </td>
  </tr>
 

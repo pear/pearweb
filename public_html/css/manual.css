@@ -70,7 +70,7 @@ td.man-nav_languages {
 /* === Examples === */
 
 code, pre, tt {
-    font-family: Courier, "Courier New", monospace;
+    font-family: "andale mono", "monotype.com", "courier new", courier, monospace;
     margin: 0px;
 }
 

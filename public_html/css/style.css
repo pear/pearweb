@@ -7,7 +7,7 @@ body {
     padding: 0px;
     background-color: white;
     color: black;
-    font-family: verdana,arial,helvetica,sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     font-size: 90%;
 }
 
@@ -33,12 +33,6 @@ td.head-logo {
     text-align: left;
 }
 
-td.head-logo_space {
-    background-color: #339900;
-    text-align: right;
-    vertical-align: top;
-}
-
 td.head-menu {
     background-color: #339900;
     height: 1px;
@@ -59,8 +53,15 @@ td.head-search {
     vertical-align: middle;
 }
 
+td.head-menu {
+    color: #000000;
+    font-weight: bold;
+    font-size: 75%;
+}
+
 .menuWhite {
     color: #FFFFFF;
+    font-weight: normal;
 }
 
 a:link.menuWhite,
@@ -70,15 +71,9 @@ a:visited.menuWhite {
     color: #FFFFFF;
 }
 
-.menuBlack {
-    vertical-align: bottom;
-    text-align: right;
-    color: #000000;
-    font-weight: bold;
-    font-size: 75%;
-}
-
-.menuBlack a {
+a:link.menuBlack,
+a:hover.menuBlack,
+a:visited.menuBlack {
     text-decoration: none;
     color: #000000;
 }
@@ -121,12 +116,15 @@ li.side_page {
 /* === Footer === */
 
 td.foot-bar {
+    color: #000000;
     background-color: #339900;
     border-top: 1px solid #003300;
     border-bottom: 1px solid #003300;
     text-align: right;
     vertical-align: bottom;
     padding-right: 0.3em;
+    font-weight: bold;
+    font-size: 75%;
 }
 
 td.foot-copy {
@@ -144,10 +142,6 @@ td.foot-source {
 
 
 /* === Other === */
-
-p {
-    font-family: verdana,arial,helvetica,sans-serif;
-}
 
 a:link {
     color: #006600;
@@ -197,7 +191,7 @@ submit {
 }
 
 code, pre, tt {
-    font-family: Courier, "Courier New", monospace;
+    font-family: "andale mono", "monotype.com", "courier new", courier, monospace;
     font-size: 90%;
 }
 
@@ -210,44 +204,37 @@ pre.php {
 }
 
 h1 {
-    font-family: verdana,arial,helvetica,sans-serif;
     font-size: 140%;
     font-weight: bold;
     color: #006600;
 }
 
 h2 {
-    font-family: verdana,arial,helvetica,sans-serif;
     font-size: 125%;
     font-weight: bold;
     color: #006600;
 }
 
 h3 {
-    font-family: verdana,arial,helvetica,sans-serif;
     font-size: 110%;
     font-weight: bold;
     color: #006600;
 }
 
 small {
-    font-family: verdana,arial,helvetica,sans-serif;
     font-size: 85%;
 }
 
 a.small {
-    font-family: verdana,arial,helvetica,sans-serif;
     font-size: 75%;
     text-decoration: none;
 }
 
 .tableTitle {
-    font-family: verdana,arial,helvetica,sans-serif;
     font-weight: bold;
 }
 
 .tableExtras {
-    font-family: verdana,arial,helvetica,sans-serif;
     font-size: 85%;
     color: #FFFFFF;
 }
@@ -257,21 +244,19 @@ input {
 }
 
 textarea {
-    font-family: verdana,arial,helvetica,sans-serif;
+    font-family: "andale mono", "monotype.com", "courier new", monospace;
 }
 
 input.small, select.small {
-    font-family: verdana,arial,helvetica,sans-serif;
     font-size: 75%;
 }
 
 textarea.small {
-    font-family: verdana,arial,helvetica,sans-serif;
     font-size: 75%;
 }
 
 form {
-    margin-bottom : 0;
+    margin-bottom: 0;
 }
 
 .error {
