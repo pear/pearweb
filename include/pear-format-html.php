@@ -430,21 +430,24 @@ function report_warning($in)
     return report_error($in, 'warnings', 'WARNING:');
 }
 
+/**
+ * Generates a complete PEAR web page with an error message in it then
+ * calls exit
+ *
+ * For use with PEAR_ERROR_CALLBACK error handling mode to print fatal
+ * errors and die.
+ *
+ * @param object $in     PEAR_Error object
+ * @param string $title  string to be put above the message
+ *
+ * @return void
+ *
+ * @see report_error()
+ */
 function error_handler($errobj, $title = 'Error')
 {
-    if (PEAR::isError($errobj)) {
-        $msg = $errobj->getMessage();
-        $info = $errobj->getUserInfo();
-    } else {
-        $msg = $errobj;
-        $info = '';
-    }
     response_header($title);
-    $report = "Error: $msg";
-    if ((DEVBOX || !empty($_GET['__debug'])) && $info) {
-        $report .= ": $info";
-    }
-    print '<div class="errors">' . $report. "</div>\n";
+    report_error($errobj);
     response_footer();
     exit;
 }
