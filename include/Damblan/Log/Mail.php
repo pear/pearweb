@@ -62,6 +62,18 @@ class Damblan_Log_Mail extends Log_observer {
     }
 
     /**
+     * Logging method
+     *
+     * @access public
+     * @param  string Log message
+     * @return boolean
+     */
+    function log($text) {
+        $event['message'] = $text;
+        return $this->notify($event);
+    }
+
+    /**
      * Set mail recipients
      *
      * @access public
