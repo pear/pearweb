@@ -24,10 +24,12 @@ require_once 'pear-cache.php';
 require_once 'layout.php';
 
 $encoding = "iso-8859-1";
+$extra_styles = array();
 
 // Handling things related to the manual
 if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
     require_once "pear-manual.php";
+    $extra_styles[] = '/style-manual.css';
 
     // The Japanese manual translation needs UTF-8 encoding
     if (preg_match("=^/manual/ja=", $_SERVER['PHP_SELF'])) {
@@ -77,7 +79,7 @@ $GLOBALS['_style'] = '';
 
 function response_header($title = 'The PHP Extension and Application Repository', $style = false)
 {
-    global $_style, $_header_done, $SIDEBAR_DATA, $encoding;
+    global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $extra_styles;
     if ($_header_done) {
         return;
     }
@@ -115,6 +117,11 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
  <title>PEAR :: <?php echo $title; ?></title>
  <link rel="shortcut icon" href="/gifs/favicon.ico" />
  <link rel="stylesheet" href="/style.css" />
+<?php
+    foreach ($extra_styles as $style_file) {
+        echo ' <link rel="stylesheet" href="' . $style_file . "\" />\n";
+    }
+?>
  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/feeds/latest.rss" />
 </head>
 

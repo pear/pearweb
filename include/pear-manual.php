@@ -1,4 +1,4 @@
-<?php // -*- C++ -*-
+<?php
 /*
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
@@ -111,36 +111,40 @@ function makeBorderTOC($this) {
 function navigationBar($title,$id,$loc) {
     global $NEXT, $PREV, $tstamp,$CHARSET;
 
-    echo '<table border="0" width="620" bgcolor="#e0e0e0" cellpadding="0" cellspacing="4">';
+    echo '<table class="man-nav" border="0" width="620" bgcolor="#e0e0e0" cellpadding="0" cellspacing="4">';
     echo "\n";
 
-    echo ' <tr>';
+    echo ' <tr class="man-nav_prev-next" valign="top">';
     echo "\n";
-    echo '  <td align="left">';
+    echo '  <td class="man-nav_prev" align="left">';
     echo "\n   ";
     if ($PREV[1]) {
-        print_link($PREV[0],
-                   make_image('caret-l.gif', 'previous') .
-                           @htmlspecialchars($PREV[1], ENT_QUOTES, $CHARSET),
-                   false,
+        $link = @htmlspecialchars($PREV[1], ENT_QUOTES, $CHARSET);
+        if (strlen($link) > 30) {
+            $link = str_replace('::', '::<br />', $link);
+        }
+        make_image('caret-l.gif', 'previous');
+        print_link($PREV[0], $link, false,
                    ($loc == 'top' ? 'accesskey="r"' : false)
         );
-        echo '&nbsp;&nbsp;<small>(P<u>r</u>evious)</small>';
+        echo ' <small>(P<u>r</u>evious)</small>';
     }
     echo "\n";
     echo '  </td>';
     echo "\n";
 
-    echo '  <td align="right">';
+    echo '  <td class="man-nav_next" align="right">';
     echo "\n";
     if ($NEXT[1]) {
-        echo '<small>(Ne<u>x</u>t)</small>&nbsp;&nbsp;';
-        print_link($NEXT[0],
-                   @htmlspecialchars($NEXT[1], ENT_QUOTES, $CHARSET) .
-                           make_image('caret-r.gif', 'next'),
-                   false,
+        $link = @htmlspecialchars($NEXT[1], ENT_QUOTES, $CHARSET);
+        if (strlen($link) > 30) {
+            $link = str_replace('::', '::<br />', $link);
+        }
+        echo '<small>(Ne<u>x</u>t)</small> ';
+        print_link($NEXT[0], $link, false,
                    ($loc == 'top' ? 'accesskey="x"' : false)
         );
+        make_image('caret-r.gif', 'next');
     }
     echo "\n";
     echo '  </td>';
@@ -148,9 +152,9 @@ function navigationBar($title,$id,$loc) {
     echo ' </tr>';
     echo "\n";
 
-    echo ' <tr bgcolor="#cccccc">';
+    echo ' <tr class="man-nav_space" bgcolor="#cccccc" height="1">';
     echo "\n";
-    echo '  <td colspan="2">';
+    echo '  <td class="man-nav_space" colspan="2" height="1">';
     echo "\n";
     spacer(1,1);
     echo "\n";
@@ -159,13 +163,13 @@ function navigationBar($title,$id,$loc) {
     echo ' </tr>';
     echo "\n";
 
-    echo ' <tr>';
+    echo ' <tr class="man-nav_langholder">';
     echo "\n";
-    echo '  <td colspan="2">';
+    echo '  <td class="man-nav_langholder" colspan="2">';
     echo "\n";
-    echo '   <table width="100%" border="0">';
+    echo '   <table class="man-nav_langholder" width="100%" border="0">';
     echo "\n";
-    echo '    <tr valign="top">';
+    echo '    <tr class="man-nav_view-updated" valign="top">';
     echo "\n";
 
     if ($loc != 'bottom') {
@@ -181,7 +185,7 @@ function navigationBar($title,$id,$loc) {
             $links[] = make_link("html/$file.html", 'Plain HTML');
         }
 
-        echo '     <td align="left"><small>';
+        echo '     <td class="man-nav_view" align="left">';
         echo "\n";
         if (count($links)) {
             echo 'View this page in';
@@ -189,21 +193,21 @@ function navigationBar($title,$id,$loc) {
             echo '&nbsp;';
         }
         echo "\n";
-        echo '     </small></td>';
+        echo '     </td>';
         echo "\n";
-        echo '     <td align="right"><small>';
+        echo '     <td class="man-nav_updated" align="right">';
         echo "\n";
         echo 'Last updated: '.$tstamp;
         echo "\n";
-        echo '     </small></td>';
+        echo '     </td>';
         echo "\n";
         echo '    </tr>';
         echo "\n";
 
         if (count($links)) {
-            echo '    <tr>';
+            echo '    <tr class="man-nav_languages">';
             echo "\n";
-            echo '     <td colspan="2" align="left"><small>';
+            echo '     <td class="man-nav_languages" colspan="2" align="left">';
             echo "\n";
             echo join(delim(false, ' | '), $links);
             echo "\n";
@@ -214,17 +218,17 @@ function navigationBar($title,$id,$loc) {
         }
 
     } else {
-        echo '     <td align="left"><small>';
+        echo '     <td class="man-nav_download" align="left">';
         echo "\n";
         echo make_link('/download-docs.php', 'Download Documentation');
         echo "\n";
-        echo '     </small></td>';
+        echo '     </td>';
         echo "\n";
-        echo '     <td align="right"><small>';
+        echo '     <td class="man-nav_last" align="right">';
         echo "\n";
         echo 'Last updated: '.$tstamp;
         echo "\n";
-        echo '     </small></td>';
+        echo '     </td>';
         echo "\n";
         echo '    </tr>';
         echo "\n";

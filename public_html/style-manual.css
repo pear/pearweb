@@ -1,0 +1,10 @@
+/* styles for viewing the manual on the website */
+
+td.man-nav_prev,
+td.man-nav_next,
+td.man-nav_view,
+td.man-nav_updated,
+td.man-nav_download,
+td.man-nav_languages {
+    font-size: 75%;
+}
