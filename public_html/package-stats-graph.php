@@ -29,8 +29,8 @@
  *    bar chart.
  */
 
-include('jpgraph/jpgraph.php');
-include('jpgraph/jpgraph_bar.php');
+include 'jpgraph/jpgraph.php';
+include 'jpgraph/jpgraph_bar.php';
 
 /*
  * Cache time in secs
@@ -57,7 +57,7 @@ for ($i = 0; $i < 12; $i++) {
  * color.
  */
 if (!empty($_GET['releases'])) {
-    $releases = explode(',', $_GET['releases']);
+    $releases = explode(',', html_entity_decode($_GET['releases']));
 }
 
 foreach ($releases as $release) {
@@ -92,9 +92,9 @@ foreach ($releases as $release) {
     // Create the bar plot
     $bplots[$rid] = new BarPlot(array_values($y_axis));
     $bplots[$rid]->SetWidth(0.6);
-    $bplots[$rid]->SetFillGradient("white", $colour, GRAD_HOR);
+    $bplots[$rid]->SetFillGradient('white', $colour, GRAD_HOR);
     //$bplot->setFillColor("#339900");
-    $bplots[$rid]->SetColor("black");
+    $bplots[$rid]->SetColor('black');
     $bplots[$rid]->value->setFormat('%d');
     $bplots[$rid]->value->Show();
 }
@@ -125,12 +125,12 @@ if (!DEVBOX) {
     $graph = new Graph(543, 200);
 }
 $graph->img->SetMargin(40,20,30,30);
-$graph->SetScale("textlin");
-$graph->SetMarginColor("#cccccc");
+$graph->SetScale('textlin');
+$graph->SetMarginColor('#cccccc');
 
 // Set up the title for the graph
 $graph->title->Set(sprintf("Download statistics for %s %s", $package_name, $package_rel));
-$graph->title->SetColor("black");
+$graph->title->SetColor('black');
 
 // Show 0 label on Y-axis (default is not to show)
 $graph->yscale->ticks->SupressZeroLabel(false);
