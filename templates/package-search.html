@@ -1,5 +1,7 @@
-<?$extra_styles[] = '/javascript/calendar/dynCalendar.css'?>
-<?response_header('Package Search')?>
+<?php
+$extra_styles[] = '/javascript/calendar/dynCalendar.css';
+response_header('Package Search');
+?>
 
 <h1>Package Search</h1>
 
@@ -24,7 +26,7 @@
     {
         searchForm = document.forms['search_form'];
 
-        if (<?=(int)isset($numrows)?>) {
+        if (<?php echo (int)isset($numrows); ?>) {
             location.href = 'package-search.php';
 
         } else {
@@ -104,15 +106,15 @@
     */
     function setReleaseDropdowns()
     {
-        if (<?=(int)$set_released_on?>) {
-            setDateFromCalendar_released_on('<?=$_GET['released_on_day']?>', '<?=$_GET['released_on_month']?>', '<?=$_GET['released_on_year']?>');
+        if (<?php echo (int)$set_released_on; ?>) {
+            setDateFromCalendar_released_on('<?php echo $_GET['released_on_day'] ?>', '<?php echo $_GET['released_on_month']; ?>', '<?php echo $_GET['released_on_year']; ?>');
         } else {
-            if (<?=(int)$set_released_before?>) {
-                setDateFromCalendar_released_before('<?=$_GET['released_before_day']?>', '<?=$_GET['released_before_month']?>', '<?=$_GET['released_before_year']?>');
+            if (<?php echo (int)$set_released_before?>) {
+                setDateFromCalendar_released_before('<?php echo $_GET['released_before_day']; ?>', '<?php echo $_GET['released_before_month']; ?>', '<?php echo $_GET['released_before_year']; ?>');
             }
 
-            if (<?=(int)$set_released_since?>) {
-                setDateFromCalendar_released_since('<?=$_GET['released_since_day']?>', '<?=$_GET['released_since_month']?>', '<?=$_GET['released_since_year']?>');
+            if (<?php echo (int)$set_released_since; ?>) {
+                setDateFromCalendar_released_since('<?php echo $_GET['released_since_day']; ?>', '<?php echo $_GET['released_since_month']; ?>', '<?php echo $_GET['released_since_year']; ?>');
             }
         }
     }
@@ -241,7 +243,7 @@
 
 <!-- This class prints stuff as part of it's constructor. -->
 
-<form action="<?=$_SERVER['PHP_SELF']?>" method="get" name="search_form" onsubmit="validate_form()">
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="search_form" onsubmit="validate_form()">
 
 <table class="form-holder" cellspacing="1">
  <caption class="form-caption">Search Options</caption>
@@ -252,9 +254,9 @@
    <br />
    <small>
     Match:
-    <input type="radio" name="bool" value="AND" id="bool_and" <?=$bool_and_checked?> />
+    <input type="radio" name="bool" value="AND" id="bool_and" <?php echo $bool_and_checked; ?> />
     <label for="bool_and">All words</label>
-    <input type="radio" name="bool" value="OR" id="bool_or" <?=$bool_or_checked?> />
+    <input type="radio" name="bool" value="OR" id="bool_or" <?php echo $bool_or_checked; ?> />
     <label for="bool_or">Any word</label>
    </small>
   </td>
@@ -263,12 +265,12 @@
  <tr>
   <th class="form-label_left">Maintainer:</th>
   <td class="form-input">
-   <input name="pkg_maintainer" type="text" value="<?=$_GET['pkg_maintainer']?>" />
+   <input name="pkg_maintainer" type="text" value="<?php echo $_GET['pkg_maintainer']; ?>" />
    <select onchange="document.forms['search_form'].pkg_maintainer.value = this.options[this.selectedIndex].value; this.selectedIndex = 0">
     <option value="">Select user...</option>
-    <?foreach($users as $u):?>
-     <option value="<?=$u['handle']?>"><?=$u['name']?></option>
-    <?endforeach?>
+    <?php foreach($users as $u):?>
+     <option value="<?php echo $u['handle']; ?>"><?php echo $u['name']; ?></option>
+    <?php endforeach?>
    </select>
   </td>
  </tr>
@@ -278,9 +280,9 @@
   <td class="form-input">
    <select name="pkg_category">
     <option value=""></option>
-    <?foreach($category_rows as $c):?>
-     <option value="<?=$c['id']?>" <?=$c['selected']?>><?=$c['name']?></option>
-    <?endforeach?>
+    <?php foreach($category_rows as $c):?>
+     <option value="<?php echo $c['id']; ?>" <?php echo $c['selected']; ?>><?php echo $c['name']; ?></option>
+    <?php endforeach?>
    </select>
   </td>
  </tr>
@@ -297,15 +299,15 @@
    <input type="text" name="released_on_year" value="" size="5" onkeyup="update_date('released_on', 'year')" />
    <select name="released_on_month" onchange="update_date('released_on', 'month')">
     <option value=""></option>
-    <?foreach($months as $num => $text):?>
-     <option value="<?=$num?>"><?=$text?></option>
-    <?endforeach?>
+    <?php foreach($months as $num => $text):?>
+     <option value="<?php echo $num; ?>"><?php echo $tex; t?></option>
+    <?php endforeach?>
    </select>
    <select name="released_on_day" onchange="update_date('released_on', 'day')">
     <option value=""></option>
-    <?foreach(range(1, 31) as $value):?>
-     <option value="<?=$value?>"><?=$value?></option>
-    <?endforeach?>
+    <?php foreach(range(1, 31) as $value):?>
+     <option value="<?php echo $value; ?>"><?php echo $value; ?></option>
+    <?php endforeach?>
    </select>
    <script language="JavaScript" type="text/javascript">
     <!--
@@ -321,15 +323,15 @@
    <input type="text" name="released_before_year" value="" size="5" onkeyup="update_date('released_before', 'year')" />
    <select name="released_before_month" onchange="update_date('released_before', 'month')">
     <option value=""></option>
-    <?foreach($months as $num => $text):?>
-     <option value="<?=$num?>"><?=$text?></option>
-    <?endforeach?>
+    <?php foreach($months as $num => $text):?>
+     <option value="<?php echo $num; ?>"><?php echo $text; ?></option>
+    <?php endforeach?>
    </select>
    <select name="released_before_day" onchange="update_date('released_before', 'day')">
     <option value=""></option>
-    <?foreach(range(1, 31) as $value):?>
-     <option value="<?=$value?>"><?=$value?></option>
-    <?endforeach?>
+    <?php foreach(range(1, 31) as $value):?>
+     <option value="<?php echo $value; ?>"><?php echo $value; ?></option>
+    <?php endforeach?>
    </select>
    <script language="JavaScript" type="text/javascript">
     <!--
@@ -345,15 +347,15 @@
    <input type="text" name="released_since_year" value="" size="5" onkeyup="update_date('released_since', 'year')" />
    <select name="released_since_month" onchange="update_date('released_since', 'month')">
     <option value=""></option>
-    <?foreach($months as $num => $text):?>
-     <option value="<?=$num?>"><?=$text?></option>
-    <?endforeach?>
+    <?php foreach($months as $num => $text):?>
+     <option value="<?php echo $num; ?>"><?php echo $text; ?></option>
+    <?php endforeach?>
    </select>
    <select name="released_since_day" onchange="update_date('released_since', 'day')">
     <option value=""></option>
-    <?foreach(range(1, 31) as $value):?>
-     <option value="<?=$value?>"><?=$value?></option>
-    <?endforeach?>
+    <?php foreach(range(1, 31) as $value):?>
+     <option value="<?php echo $value; ?>"><?php echo $value;?></option>
+    <?php endforeach?>
    </select>
    <script language="JavaScript" type="text/javascript">
    <!--
@@ -384,29 +386,29 @@
 //-->
 </script>
 
-<?if($numrows):?>
+<?php if($numrows):?>
 <br /><br />
-    <?$bb = new Borderbox($title_html)?>
+    <?php $bb = new Borderbox($title_html)?>
 
 <table border="0" cellpadding="2" cellspacing="2">
 <!-- resultListStart -->
-    <?foreach($search_results as $row):?>
+    <?php foreach($search_results as $row):?>
         <tr>
             <td>
-                <!-- resultItemStart --><a href="/package/<?=$row['raw_name']?>"><?=$row['name']?></a><!-- resultItemEnd -->
+                <!-- resultItemStart --><a href="/package/<?php echo $row['raw_name']; ?>"><?php echo $row['name']; ?></a><!-- resultItemEnd -->
             </td>
-            <td><?=$row['summary']?></td>
+            <td><?php echo $row['summary']; ?></td>
         </tr>
 
-    <?endforeach?>
+    <?php endforeach?>
 <!-- resultListEnd -->
 </table>
 
-    <?$bb->end()?>
-<?elseif($numrows === 0):?>
+    <?php $bb->end()?>
+<?php elseif($numrows === 0):?>
 
     <p><b>No results found</b></p>
 
-<?endif?>
+<?php endif?>
 
-<?response_footer()?>
+<?php response_footer(); ?>

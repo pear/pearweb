@@ -20,7 +20,7 @@
 <table border="0" width="100%">
     <tr>
         <th valign="top" align="left">
-            Contents of :: <?html_category_urhere($catpid, false)?>
+            Contents of :: <?php html_category_urhere($catpid, false)?>
             <?php
             if ($currentPage) {
                 echo '(Page ' . $currentPage . ' of ' . $numPages . ')';
@@ -28,22 +28,22 @@
             ?>
         </th>
         <td valign="top" align="right">
-            <?=$showempty_link?>
+            <?php echo $showempty_link; ?>
         </td>
     </tr>
 </table>
 
-<?if($nrow):?>
-    <?=$table->toHtml()?>
-<?endif?>
+<?php if($nrow):?>
+    <?php echo $table->toHtml()?>
+<?php endif?>
 
-<?if($catpid and $packages):?>
+<?php if($catpid and $packages):?>
 
     <br />
 
-    <?if($subCategories):?>
-        Sub-categories: <?=$subCategories?><br /><br />
-    <?endif?>
+    <?php if($subCategories):?>
+        Sub-categories: <?php echo $subCategories; ?><br /><br />
+    <?php endif?>
 
     <style type="text/css">
     <!--
@@ -114,10 +114,10 @@
     </style>
 
 
-    <a href="<?=$hideMoreInfoLink?>" title="Hide all more info">
+    <a href="<?php echo $hideMoreInfoLink; ?>" title="Hide all more info">
      <img src="gifs/moreinfo-no.gif" width="17" height="17" border="0" vspace="3" alt="Hide all more info" />
     </a>
-    <a href="<?=$showMoreInfoLink?>" title="Show all more info">
+    <a href="<?php echo $showMoreInfoLink; ?>" title="Show all more info">
      <img src="gifs/moreinfo-yes.gif" width="17" height="17" border="0" vspace="3" alt="Show all more info" />
     </a>
 
@@ -126,9 +126,9 @@
       <td>
        <table border="0" width="100%" cellspacing="0">
         <tr>
-         <td class="tableHeader prevArrow">&nbsp;<?=$prev?></td>
-         <td class="tableHeader" align="center">Packages (<?=$first?> - <?=$last?> of <?=$total?>)</td>
-         <td class="tableHeader nextArrow"><?=$next?>&nbsp;</td>
+         <td class="tableHeader prevArrow">&nbsp;<?php echo $prev; ?></td>
+         <td class="tableHeader" align="center">Packages (<?php echo $first; ?> - <?php echo $last; ?> of <?php echo $total; ?>)</td>
+         <td class="tableHeader nextArrow"><?php echo $next; ?>&nbsp;</td>
         </tr>
        </table>
       </td>
@@ -140,54 +140,54 @@
          <th class="pkgListHeader">#</th>
          <th class="pkgListHeader"><nobr>Package name</nobr></th>
          <th class="pkgListHeader">Description</th>
-         <?if($_browser->is_ie5up):?>
+         <?php if($_browser->is_ie5up):?>
           <th class="pkgListHeader">&nbsp;</th>
-         <?endif?>
+         <?php endif?>
         </tr>
         <?php $nr = $first; foreach($packages as $p):?>
         <tr>
-         <td valign="top" style="text-align: center;"><?=$nr++?></td>
-         <td valign="top"><a href="/package/<?=$p['name']?>"><strong><?=$p['name']?></strong></a></td>
-         <td valign="top"><?=htmlspecialchars($p['summary'])?></td>
-         <?if($_browser->is_ie5up):?>
+         <td valign="top" style="text-align: center;"><?php echo $nr++; ?></td>
+         <td valign="top"><a href="/package/<?php echo $p['name']; ?>"><strong><?php echo $p['name']; ?></strong></a></td>
+         <td valign="top"><?php echo htmlspecialchars($p['summary']); ?></td>
+         <?php if($_browser->is_ie5up):?>
           <td valign="top"> 
-            <a href="#" onclick="toggleMoreInfo(<?="'".$p['name']."'"?>,<?=$p['id']?>); return false" onmouseover="window.status = 'View more info about <?=$p['name']?>'; return true" onmouseout="window.status = ''" title="View more info about <?=$p['name']?>">
+            <a href="#" onclick="toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>); return false" onmouseover="window.status = 'View more info about <?php echo $p['name']; ?>'; return true" onmouseout="window.status = ''" title="View more info about <?php echo $p['name']; ?>">
              <img src="gifs/moreinfo.gif" alt="More Info" title="More Info" border="0" />
             </a> 
           </td>
-         <?endif?>
+         <?php endif?>
         </tr>
-        <tr <?if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?=$defaultMoreInfoVis?>" <?endif?> id="moreInfo_<?=$p['id']?>">
+        <tr <?php if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?php echo $defaultMoreInfoVis; ?>" <?php endif?> id="moreInfo_<?php echo $p['id']; ?>">
          <td>&nbsp;</td>
          <td colspan="3" class="moreInfo">
           <table border="0" class="moreInfoHeader" width="100%" cellspacing="0" cellpadding="0">
            <tr>
             <td><span class="moreInfoText">More information</span></td>
             <td align="right">
-             <?if($_browser->is_ie5up):?>
-              <a href="javascript: toggleMoreInfo(<?="'".$p['name']."'"?>,<?=$p['id']?>)"><img class="closeButton" src="gifs/close.gif" border="0" alt="" /></a>
-             <?endif?>
+             <?php if($_browser->is_ie5up):?>
+              <a href="javascript: toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>)"><img class="closeButton" src="gifs/close.gif" border="0" alt="" /></a>
+             <?php endif?>
             </td>
            </tr>
           </table>
           <table border="0">
            <tr>
             <td class="eInfo_label"><strong>Number of releases:</strong></td>
-            <td><?=$p['eInfo']['numReleases']?></td>
+            <td><?php echo $p['eInfo']['numReleases']; ?></td>
             <td class="eInfo_label"><strong>License type:</strong></td>
-            <td><?=$p['eInfo']['license']?></td>
+            <td><?php echo $p['eInfo']['license']; ?></td>
            </tr>
            <tr>
             <td class="eInfo_label"><strong>Status:</strong></td>
-            <td><?=$p['eInfo']['status']?></td>
+            <td><?php echo $p['eInfo']['status']; ?></td>
            </tr>
           </table>
          </td>
         </tr>
-        <tr <?if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?=$defaultMoreInfoVis?>" <?endif?> id="moreInfo_<?=$p['id']?>_spacer">
+        <tr <?php if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?php echo $defaultMoreInfoVis; ?>" <?php endif?> id="moreInfo_<?php echo $p['id']; ?>_spacer">
          <td colspan="5">&nbsp;</td>
         </tr>
-		<?endforeach?>
+		<?php endforeach?>
        </table>
       </td>
      </tr>
@@ -195,30 +195,30 @@
       <td>
        <table border="0" width="100%" cellspacing="0">
         <tr>
-         <td class="tableFooter prevArrow">&nbsp;<?=$prev?></td>
-         <td class="tableFooter" align="center">Packages (<?=$first?> - <?=$last?> of <?=$total?>)</td>
-         <td class="tableFooter nextArrow"><?=$next?>&nbsp;</td>
+         <td class="tableFooter prevArrow">&nbsp;<?php echo $prev; ?></td>
+         <td class="tableFooter" align="center">Packages (<?php echo $first; ?> - <?php echo $last; ?> of <?php echo $total; ?>)</td>
+         <td class="tableFooter nextArrow"><?php echo $next; ?>&nbsp;</td>
         </tr>
        </table>
       </td>
      </tr>
     </table>
 
-<?elseif($catpid):?>
+<?php elseif($catpid):?>
 	<p align="center">
 		No packages found in this category
 	</p>
-<?endif?>
+<?php endif?>
 
 <br />
 
 <p align="center">
-	<?if(!$catpid):?>
-		Total number of packages: <?=$totalpackages?><br />
-		<?make_link('/package-stats.php', 'View package statistics')?>
-	<?else:?>
-		<a href="/package-stats.php?cid=<?=$catpid?>">Statistics for category "<?=$catname?>"</a>
-	<?endif?>
+	<?php if(!$catpid):?>
+		Total number of packages: <?php echo $totalpackages; ?><br />
+		<?php make_link('/package-stats.php', 'View package statistics'); ?>
+	<?php else:?>
+		<a href="/package-stats.php?cid=<?php echo $catpid; ?>">Statistics for category "<?php echo $catname; ?>"</a>
+	<?php endif?>
 </p>
 
 <p class="tip">
@@ -233,4 +233,4 @@ Please inform
 <?php echo make_mailto_link('pear-webmaster@lists.php.net', 'the webmasters'); ?>
  if your project is providing PEAR packages as well.
 </p>
-<?response_footer()?>
+<?php response_footer(); ?>

@@ -1,4 +1,4 @@
-<?response_header()?>
+<?php response_header(); ?>
 
 <script language="JavaScript" type="text/javascript" src="/javascript/TreeMenu/TreeMenu.js"></script>
 <script language="JavaScript" type="text/javascript">
@@ -75,9 +75,9 @@
 	
 	categories = new Array();
 
-	<?foreach($categories as $c):?>
-categories[<?=$c['id']?>] = new Array('<?=$c['name']?>', '<?=$c['description']?>');
-	<?endforeach?>
+	<?php foreach($categories as $c):?>
+categories[<?php echo $c['id']; ?>] = new Array('<?php echo $c['name']; ?>', '<?php echo $c['description']; ?>');
+	<?php endforeach ?>
 //-->
 </script>
 <style type="text/css">
@@ -111,11 +111,11 @@ categories[<?=$c['id']?>] = new Array('<?=$c['name']?>', '<?=$c['description']?>
 	<tr>
 		<td>
 			<div class="treeMenuContainer" onclick="category_click(null)">
-				<?$treeMenuPres->printMenu()?>
+				<?php $treeMenuPres->printMenu(); ?>
 			</div>		
 		</td>
 		<td valign="top">
-			<div class="errors"><?=@$message?></div>
+			<div class="errors"><?php echo @$message; ?></div>
 
 			<form action="category-manager.php" name="category_form" method="post">
 			<input type="hidden" name="action" value="" />
@@ -163,4 +163,4 @@ categories[<?=$c['id']?>] = new Array('<?=$c['name']?>', '<?=$c['description']?>
 </table>
 
 
-<?response_footer()?>
+<?php response_footer(); ?>
