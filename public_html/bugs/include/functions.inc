@@ -99,24 +99,39 @@ function rinse($in)
 }
 
 /**
- * Escape string so it can be used as a literal in a query
+ * Escape strings so they can be used as literals in queries
  *
  * If magic_quotes_gpc is on, the slashes are stripped out
  * then the escaping is done.
  *
- * @param string $in  the string to be sanitized
+ * @param string|array $in  the data to be sanitized.  If it's an array, each
+ *                           element is sanitized.
  *
- * @return string  the sanitized string
+ * @return string|array  the sanitized data
  *
  * @see clean(), rinse(), oneof(), field(), txfield()
  */
 function escapeSQL($in)
 {
     global $dbh;
-    if (get_magic_quotes_gpc()) {
-        return $dbh->escapeSimple(stripslashes($in));
+    if (is_array($in)) {
+        $out = array();
+        if (get_magic_quotes_gpc()) {
+            foreach ($in as $key => $value) {
+                $out[$key] = $dbh->escapeSimple(stripslashes($value));
+            }
+        } else {
+            foreach ($in as $key => $value) {
+                $out[$key] = $dbh->escapeSimple($value);
+            }
+        }
+        return $out;
     } else {
-        return $dbh->escapeSimple($in);
+        if (get_magic_quotes_gpc()) {
+            return $dbh->escapeSimple(stripslashes($in));
+        } else {
+            return $dbh->escapeSimple($in);
+        }
     }
 }
 
@@ -930,15 +945,15 @@ function format_search_string($search)
             foreach ($used as $word) {
                 $newsearch .= "+$word ";
             }
-            return array(" AND MATCH (bugdb.email,sdesc,ldesc) AGAINST ('" . addslashes($newsearch) . "' IN BOOLEAN MODE)", $ignored);
+            return array(" AND MATCH (bugdb.email,sdesc,ldesc) AGAINST ('" . escapeSQL($newsearch) . "' IN BOOLEAN MODE)", $ignored);
 
         // allow custom boolean search (raw)
         } elseif (BOOLEAN_SEARCH === 2) {
-            return array(" AND MATCH (bugdb.email,sdesc,ldesc) AGAINST ('" . addslashes($search) . "' IN BOOLEAN MODE)", $ignored);
+            return array(" AND MATCH (bugdb.email,sdesc,ldesc) AGAINST ('" . escapeSQL($search) . "' IN BOOLEAN MODE)", $ignored);
         }
     }
     // require any of the words (any)
-    return array(" AND MATCH (bugdb.email,sdesc,ldesc) AGAINST ('" . addslashes($search) . "')", $ignored);
+    return array(" AND MATCH (bugdb.email,sdesc,ldesc) AGAINST ('" . escapeSQL($search) . "')", $ignored);
 }
 
 /**

@@ -80,14 +80,14 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $where_clause = "WHERE package_name != 'Feature/Change Request'";
     } else {
         $where_clause = "WHERE package_name IN ('" .
-                        join("','", $_GET['package_name']) . "')";
+                        join("', '", escapeSQL($_GET['package_name'])) . "')";
     }
 
     if (empty($_GET['package_nname']) || !is_array($_GET['package_nname'])) {
         $_GET['package_nname'] = array();
     } else {
         $where_clause.= " AND package_name NOT IN ('" .
-                        join("','", $_GET['package_nname']) . "')";
+                        join("', '", escapeSQL($_GET['package_nname'])) . "')";
     }
 
     /*
@@ -152,7 +152,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $bug_type = '';
     } else {
         $bug_type = $_GET['bug_type'];
-        $where_clause .= " AND bug_type = '$bug_type'";
+        $where_clause .= " AND bug_type = '" . escapeSQL($bug_type) . "'";
     }
 
     if (empty($_GET['bug_age']) || !(int)$_GET['bug_age']) {
@@ -166,7 +166,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $php_os = '';
     } else {
         $php_os = $_GET['php_os'];
-        $where_clause .= " AND php_os like '%$php_os%'";
+        $where_clause .= " AND php_os like '%" . escapeSQL($php_os) . "%'";
     }
 
     if (empty($_GET['phpver'])) {
@@ -176,9 +176,9 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $phpver = $_GET['phpver'];
         // there's an index on php_version(1) to speed this up.
         if (strlen($phpver) == 1) {
-            $where_clause .= " AND SUBSTRING(php_version,1,1) = '$phpver'";
+            $where_clause .= " AND SUBSTRING(php_version,1,1) = '" . escapeSQL($phpver) . "'";
         } else {
-            $where_clause .= " AND php_version LIKE '$phpver%'";
+            $where_clause .= " AND php_version LIKE '" . escapeSQL($phpver) . "%'";
         }
     }
 
@@ -186,14 +186,14 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $assign = '';
     } else {
         $assign = $_GET['assign'];
-        $where_clause .= " AND assign = '$assign'";
+        $where_clause .= " AND assign = '" . escapeSQL($assign) . "'";
     }
 
     if (empty($_GET['author_email'])) {
         $author_email = '';
     } else {
         $author_email = $_GET['author_email'];
-        $where_clause .= " AND bugdb.email = '$author_email' ";
+        $where_clause .= " AND bugdb.email = '" . escapeSQL($author_email) . "' ";
     }
 
     $query .= "$where_clause ";
