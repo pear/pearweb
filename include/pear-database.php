@@ -1685,7 +1685,7 @@ class release
             $query = "SELECT version FROM releases WHERE package = ? AND id = ?";
             $version = $dbh->getOne($query, array($package, $release_id));
 
-            $query = "INSERT INTO package_stats VALUES (1, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO package_stats (dl_number, package, release, pid, rid, cid) VALUES (1, ?, ?, ?, ?, ?)";
             $dbh->query($query, array($pkg_info['name'],
                                       $version,
                                       $package,
