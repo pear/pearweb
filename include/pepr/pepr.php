@@ -407,7 +407,7 @@ class ppComment {
 		
     function get ( $proposalId, $handle, $timestamp, $table = 'package_proposal_changelog') {
         global $dbh;
-        $sql = "SELECT *, timestamp FROM ".$table." WHERE pkg_prop_id = ".$proposalId." AND user_handle='".$handle."' AND timestamp = FROM_UNIXTIME(".$timestamp.")";
+        $sql = "SELECT *, timestamp FROM ".$table." WHERE pkg_prop_id = ".$proposalId." AND user_handle='".$handle."' AND timestamp = FROM_UNIXTIME(".$timestamp.") ORDER BY timestamp";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
