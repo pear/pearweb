@@ -322,7 +322,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;direction='   . $direction .
                     '&amp;phpver='      . $phpver .
                     '&amp;limit='       . $limit .
-                    '&amp;assign='      . $assign;
+                    '&amp;assign='      . $assign .
+                    '&amp;maintain='    . $maintain;
 
             display_bug_error($warnings, 'warnings', 'WARNING:');
             show_bugs_menu($_GET['package_name']);
