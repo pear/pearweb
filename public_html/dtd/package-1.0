@@ -24,7 +24,8 @@
 
 <!ELEMENT package (name,extends?,summary,description,license?,maintainers,release,changelog?)>
 <!ATTLIST package type    (source|binary|empty) "empty"
-                  version CDATA                 #REQUIRED>
+                  version CDATA                 #REQUIRED
+                  packagerversion CDATA>
 
 <!ELEMENT name (#PCDATA)>
 

@@ -24,6 +24,7 @@
     </xs:simpleType>
    </xs:attribute>
    <xs:attribute name="version" type="xs:string" use="required"/>
+   <xs:attribute name="packagerversion" type="xs:string"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="name">
