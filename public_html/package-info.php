@@ -122,7 +122,7 @@ $accounts .= '</ul>';
 $versions = array_keys($pkg['releases']);
 
 $url = 'http://'.$_SERVER['SERVER_NAME'].'/';
-if (!isset($redirected) && ($redirected !== true)) {
+if (!isset($redirected) || ($redirected !== true)) {
     $url .= 'package/';
 }
 $url .= $params['package|pacid'];
@@ -411,7 +411,9 @@ if (empty($action)) {
     $trackbackIsAdmin = (isset($_COOKIE['PEAR_USER']) && $karma->has($_COOKIE['PEAR_USER'], 'pear.dev'));
     // Generate trackback list
     $trackbacks = Damblan_Trackback::listTrackbacks($dbh, $name, !$trackbackIsAdmin);
-    
+   
+    print '<p>The trackback URL for this package is: <a href="'.$tmpTrackback->trackback_url.'">'.$tmpTrackback->trackback_url.'</a>.';
+   
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     foreach ($trackbacks as $trackback) {
         print '<tr>';
