@@ -2087,6 +2087,67 @@ class user
     }
 
     // }}}
+    // {{{ * proto array   user::getZendWhoIsWho() API 1.0
+
+    /**
+     * Get list of current developers and the packages they maintain.
+     *
+     * The output of this method is used on the Zend.com website for
+     * a Who Is Who of the PEAR developers.  In order to avoid abuse,
+     * access to this method via XML_RPC is granted based on a whitelist
+     * of IP addresses.
+     *
+     * @access public
+     * @return array
+     */
+    function getZendWhoIsWho() {
+        global $dbh;
+
+        // IP whitelist
+        if (!in_array($_SERVER['REMOTE_ADDR'], array("127.0.0.1", "64.49.209.152"))) {
+            return array();
+        }
+
+        $maintainers = $dbh->prepare("SELECT p.name, m.role "
+                                     . "FROM maintains m, packages p "
+                                     . "WHERE m.package = p.id AND m.handle = ?"
+                                     );
+        $group = $dbh->prepare("SELECT COUNT(id) "
+                               . "FROM karma "
+                               . "WHERE level = 'pear.group' AND user = ?");
+
+        // This fetches all users with pear.dev karma
+        $query = "SELECT u.handle, u.name, u.homepage, u.userinfo "
+            . "FROM users u, karma k "
+            . "WHERE k.user = u.handle AND k.level = 'pear.dev' AND u.registered = 1";
+        $users = $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
+
+        foreach ($users as $id => $user) {
+            // Figure out which packages are maintained by the user
+            $sth = $dbh->execute($maintainers, array($user['handle']));
+
+            // Skip if the user is maintaining nothing
+            if ($sth->numRows() == 0) {
+                unset($users[$id]);
+                continue;
+            }
+
+            while ($row =& $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
+                $users[$id]['maintains'][] = $row;
+            }
+
+            // Figure out if the user is a member of the PEAR Group
+            $sth = $dbh->execute($group, array($user['handle']));
+            $row =& $sth->fetchRow();
+            if ($row[0] > 0) {
+                $users[$id]['group'] = 1;
+            } else {
+                $users[$id]['group'] = 0;
+            }
+        }
+
+        return $users;
+    }
 }
 
 class statistics
