@@ -452,6 +452,20 @@ function error_handler($errobj, $title = 'Error')
     exit;
 }
 
+/**
+ * Displays success messages inside a <div>
+ *
+ * @param string $in  the message to be displayed
+ *
+ * @return void
+ */
+function report_success($in)
+{
+    echo '<div class="success">';
+    echo htmlspecialchars($in);
+    echo "</div>\n";
+}
+
 
 class BorderBox {
     function BorderBox($title, $width = '90%', $indent = '', $cols = 1,

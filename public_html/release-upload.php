@@ -158,10 +158,9 @@ if ($display_form) {
     echo '<h1>' . $title . "</h1>\n";
 
     if ($success) {
-        print '<div class="success">';
-        print ' Version ' . $info['version'] . ' of ' . $info['package'];
-        print ' has been successfully released and the promotion cycle for';
-        print ' it has started.';
+        report_success('Version ' . $info['version'] . ' of '
+                       . $info['package'] . ' has been successfully released'
+                       . ' and the promotion cycle for it has started.');
         print '<p>';
         print make_link('/package/' . $info['package'], 'Visit package home');
         print '</p>';

@@ -122,9 +122,7 @@ if (isset($_POST['submit'])) {
                   'From: "' . $_POST['name'] . '" <' . $_POST['email'] . '>',
                   '-f pear-sys@php.net'))
         {
-            echo '<div class="success">';
-            echo 'Your message was successfully sent.';
-            echo '</div>';
+            report_success('Your message was successfully sent.');
         } else {
             report_error('The server could not send your message, sorry.');
         }

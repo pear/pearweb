@@ -64,14 +64,12 @@ do {
             $errors = $ok;
             break;
         } elseif ($ok === true) {
-            print '<div class="success">';
-            print 'Your account request has been submitted, it will'
+            report_success('Your account request has been submitted, it will'
                   . ' be reviewed by a human shortly.  This may take from'
                   . ' two minutes to several days, depending on how much'
                   . ' time people have.'
                   . ' You will get an email when your account is open,'
-                  . ' or if your request was rejected for some reason.';
-            print "</div>\n";
+                  . ' or if your request was rejected for some reason.');
         } elseif ($ok === false) {
             $msg = 'Your account request has been submitted, but there'
                  . ' were problems mailing one or more administrators.'
