@@ -564,6 +564,9 @@ class package
             $packageinfo[$pkg]['unstable'] = false;
             $packageinfo[$pkg]['state']  = $stable['state'];
         }
+        foreach ($packageinfo as $pkg => $info) {
+            $packageinfo[$pkg]['stable'] = false;
+        }
         if (!$stable_only) {
             foreach ($allreleases as $pkg => $stable) {
                 if ($stable['state'] == 'stable') {
