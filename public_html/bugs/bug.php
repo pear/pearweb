@@ -386,7 +386,7 @@ $_SERVER['PHP_SELF'].'?id='.$id.'&amp;edit=2'?>">edit this bug over here</a>.
   <td colspan="3"><input type="text" size="20" maxlength="32" name="in[php_os]" value="<?php echo field('php_os')?>" /></td>
 </tr>
 </table>
-<label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> C<u>o</u>mment:</b></label><br />
+<label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<u>m</u>ment:</b></label><br />
 <textarea cols="60" rows="8" name="ncomment" id="ncomment" wrap="physical"><?php echo clean($ncomment)?></textarea>
 <br /><input type="submit" value="Submit" />
 </form>
