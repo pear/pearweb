@@ -325,7 +325,7 @@ if ($rel_count > 0) {
                 // Print link if it's a PEAR package and it's in the db
                 if ($row['type'] == 'pkg') {
                     $dep_pkg =& new PEAR_Package($dbh, $row['name']);
-                    if ($dep_pkg->package_type = 'pear' && $dep_pkg->approved = 1) {
+                    if (!empty($dep_pkg->name) && $dep_pkg->package_type = 'pear' && $dep_pkg->approved = 1) {
                         $row['name'] = $dep_pkg->makeLink();
                     }
                 }
@@ -336,6 +336,9 @@ if ($rel_count > 0) {
                                           $dep_type_desc[$row['type']], $row['name'], $rel);
                 } else {
                     $dep_text .= sprintf("%s: %s", $dep_type_desc[$row['type']], $row['name']);
+                }
+                if ($row['optional'] == 1) {
+                    $dep_text .= " (optional)";
                 }
                 $dep_text .= "<br />";
             }
