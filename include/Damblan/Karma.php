@@ -109,7 +109,12 @@ class Damblan_Karma {
         $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
         $sth = $this->_dbh->query($query, array($id, $user, $level, $auth_user->handle));
 
-        return true;
+        if (!DB::isError($sth)) {
+            $this->_notify($auth_user->handle, $user, "Added level \"" . $level . "\"");
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -121,10 +126,19 @@ class Damblan_Karma {
      * @return boolean
      */
     function remove($user, $level) {
+        global $auth_user;
+
         $this->_requireKarma();
 
         $query = "DELETE FROM karma WHERE user = ? AND level = ?";
-        return $this->_dbh->query($query, array($user, $level));
+        $sth = $this->_dbh->query($query, array($user, $level));
+
+        if (!DB::isError($sth)) {
+            $this->_notify($auth_user->handle, $user, "Removed level \"" . $level . "\"");
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -162,6 +176,24 @@ class Damblan_Karma {
         if ($this->has($auth_user->handle, "global.karma.manager") == false) {
             return PEAR::raiseError("Insufficient privileges");
         }
+    }
+
+    /**
+     * Notification method
+     *
+     * Sends out an email to the administrative body when karma has
+     * been updated.
+     *
+     * @access private
+     * @param  string Handle of the administrator who granted karma
+     * @param  string Handle of the user whose karma has been updated
+     * @param  string Describes the type of karma update
+     * @return void
+     */
+    function _notify($admin_user, $user, $action) {
+        $mailtext = $admin_user . " has updated karma for " . $user . ":\n\n" . $action;
+        $header = "From: \"PEAR Karma Manager\" <pear-sys@php.net>\r\nReply-To: <pear-group@php.net>";
+        mail("pear-group@php.net", "Karma update", $mailtext, $header, "-f pear-sys@php.net");
     }
 }
 ?>
