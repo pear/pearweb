@@ -42,7 +42,7 @@ $query = "
     FROM bugdb b
     LEFT JOIN packages AS p ON p.name = b.package_name
     WHERE
-        b.status NOT IN ('Closed', 'Bogus', 'Duplicate', 'No Feedback', 'Wont fix')
+        b.status NOT IN ('Closed', 'Bogus', 'Duplicate', 'No Feedback', 'Wont fix', 'Suspended', 'Feedback')
       AND
         b.bug_type = 'Bug'
       AND
@@ -78,6 +78,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
             }
             $body .= $title .= "\n";
             $dev_text .= ' ' . $siteBig . ' Bug Database summary for ' . $package . ' - http://' . $site . '.php.net/bugs' . "\n\n";
+            //$dev_text .= ' Here comes some fun fun text which QA still hasn't decided upon'."\n\n";
             $dev_text .= '  ID  Status     Summary'."\n";
             
             foreach ($value as $id => $bug_info) {
@@ -110,8 +111,9 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                     $to = '';
                     break;
             }
-            
-            $mail_headers = 'From: ' . $bugEmail ."\r\n";
+
+            $from = $site == 'pear' ?  ' QA' : ' Dev';
+            $mail_headers = 'From: ' . $siteBig . $from . ' <' . $bugEmail .">\r\n";
 
             if ($to == '') {
                 $query = "SELECT u.name, u.email
@@ -150,6 +152,6 @@ if (count($result) > 0 && !PEAR::isError($result)) {
         }
     }
     // Email PEAR-QA the whole bug list
-    mail('pear-qa@lists.php.net', $siteBig . ' Bug Summary Report', $body, 'From: pear-qa@lists.php.net', '-f pear-sys@php.net');
+    mail('pear-qa@lists.php.net', $siteBig . ' Bug Summary Report', $body, 'From: ' . $siteBig . $from . ' <' . $bugEmail .">\r\n", '-f pear-sys@php.net');
 }
 ?>
