@@ -380,7 +380,7 @@ class package
     }
 
     // }}}
-    // {{{ proto array package::getDownloadURL(struct, [string], [string], [string]) API 1.0
+    // {{{ proto array package::getDownloadURL(struct, [string], [string]) API 1.1
 
     /**
      * Get a download URL, or an array containing the latest version and its
@@ -397,13 +397,11 @@ class package
      *                ['bundle' => specific bundle to retrieve,]
      *              )
      * @param string preferred_state configuration value
-     * @param string user IP address, used to retrieve the closest mirror
-     *               (not implemented)
-     * @param string preferred mirror
-     *               (not implemented)
+     * @param string|false installed version of this package
      * @return bool|array
      */
-    function getDownloadURL($packageinfo, $prefstate = 'stable', $loc = null, $mirror = null)
+    function getDownloadURL($packageinfo, $prefstate = 'stable',
+                            $installed = false)
     {
         if (!isset($packageinfo['package'])) {
             return PEAR::raiseError('getDownloadURL parameter $packageinfo must ' .
@@ -432,6 +430,9 @@ class package
         $found = false;
         $release = false;
         foreach ($info as $ver => $release) {
+            if ($installed && version_compare($ver, $installed, '<')) {
+                continue;
+            }
             if (isset($state)) {
                 if ($release['state'] == $state) {
                     $found = true;
@@ -507,7 +508,7 @@ class package
     }
 
     // }}}
-    // {{{ proto array package::getDepDownloadURL(string, struct, struct, [string], [string], [string]) API 1.0
+    // {{{ proto array package::getDepDownloadURL(string, struct, struct, [string], [string]) API 1.1
 
     /**
      * Get a download URL for a dependency, or an array containing the
@@ -519,15 +520,11 @@ class package
      * @param array dependency information
      * @param array dependent package information
      * @param string preferred state
-     * @param string version_compare() relation to use for checking version
-     * @param string user IP address, used to retrieve the closest mirror
-     *               (not implemented)
-     * @param string preferred mirror
-     *               (not implemented)
+     * @param string installed version of this dependency
      * @return bool|array
      */
     function getDepDownloadURL($xsdversion, $dependency, $deppackage,
-                               $prefstate = 'stable', $loc = null, $mirror = null)
+                               $prefstate = 'stable', $installed = false)
     {
         $info = package::info($dependency['name'], 'releases', true);
         if (!count($info)) {
@@ -535,7 +532,7 @@ class package
         }
         $states = release::betterStates($prefstate, true);
         if (!$states) {
-            return PEAR::raiseError("getDownloadURL: preferred state '$prefstate' " .
+            return PEAR::raiseError("getDepDownloadURL: preferred state '$prefstate' " .
                 'is not a valid stability state');
         }
         $exclude = array();
@@ -583,6 +580,7 @@ class package
         $found = false;
         $release = false;
         foreach ($info as $ver => $release) {
+	    
             if (in_array($ver, $exclude)) { // skip excluded versions
                 continue;
             }
@@ -612,6 +610,9 @@ class package
                 continue;
             }
             if ($max && version_compare($ver, $max, 'gt')) { // skip too new versions
+                continue;
+            }
+            if ($installed && version_compare($ver, $installed, '<')) {
                 continue;
             }
             if (in_array($release['state'], $states)) { // if in the preferred state...
