@@ -507,7 +507,7 @@ class package
     }
 
     // }}}
-    // {{{  proto struct package::listAll([bool], [bool]) API 1.0
+    // {{{  proto struct package::listAll([bool], [bool], [bool]) API 1.0
 
     /**
      * List all packages
@@ -517,11 +517,10 @@ class package
      * @param boolean If listing released packages only, only list stable releases?
      * @return array
      */
-    function listAll($released_only = true, $stable_only = true)
+    function listAll($released_only = true, $stable_only = true, $include_pecl=false)
     {
         global $dbh, $HTTP_RAW_POST_DATA;
 
-        $include_pecl = false;
         if (isset($HTTP_RAW_POST_DATA)) {
             $include_pecl = true;
         }
