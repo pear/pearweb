@@ -41,6 +41,11 @@ installed in /usr/share/pear):
  #
  RewriteRule   /package/([a-zA-Z0-9_]+)/docs/(.+)($/|$) /reference/$1-$2 [PT]
 
+ #
+ # Rewriting rule for the Bug system
+ #
+ RewriteRule   /bugs/([0-9]+/*$) /bugs/bug.php?id=$1
+
  <Location /get>
   ForceType application/x-httpd-php
 
