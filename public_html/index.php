@@ -75,7 +75,7 @@ echo hdelim();
 
 if (isset($_COOKIE['PEAR_USER'])) {
     if (auth_check('pear.dev')) {
-        echo '<h2>Developers</h2>';
+        echo '<h2>&raquo; Developers</h2>';
         echo '<div class="indent">';
 
         echo menu_link("Upload Release", "release-upload.php");
@@ -84,13 +84,13 @@ if (isset($_COOKIE['PEAR_USER'])) {
         echo '</div>';
     }
 
-    echo '<h2>Package Proposals (PEPr)</h2>';
+    echo '<h2>&raquo; Package Proposals (PEPr)</h2>';
 	echo '<div class="indent">';
 	echo menu_link("Browse Proposals", "pepr/pepr-overview.php");
 	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
 
     if (user::isAdmin($_COOKIE['PEAR_USER'])) {
-        echo '<h2>Administrators</h2>';
+        echo '<h2>&raquo; Administrators</h2>';
         echo '<div class="indent">';
         echo menu_link("Overview", "/admin/");
         echo '</div>';

@@ -17,12 +17,12 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-response_header('Syndication feeds');
+response_header('Syndication Feeds');
 ?>
 
-<h1>Syndication feeds</h1>
+<h1>Syndication Feeds</h1>
 
-<h2>RSS</h2>
+<h2>&raquo; RSS</h2>
 
 <p>We have a number of <?php echo make_link('http://web.resource.org/rss/1.0/', 'RSS'); ?> 
 feeds available for your viewing pleasure:</p>

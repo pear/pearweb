@@ -24,7 +24,7 @@ if (isset($country)) {
 response_header("Mirrors Page");
 ?>
 
-<h2>Mirror Sites</h2>
+<h1>Mirror Sites</h1>
 
 <p>
 Here you can find more information about the mirrors

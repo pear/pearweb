@@ -21,7 +21,7 @@
 response_header("Document Type Definitions");
 ?>
 
-<h2>Document Type Definitions</h2>
+<h1>Document Type Definitions</h1>
 
 <p>The following Document Type Definitions are used in PEAR:</p>
 

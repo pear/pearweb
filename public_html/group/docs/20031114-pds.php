@@ -22,7 +22,7 @@ response_header("The PEAR Group: Package Directory Structure");
 
 <h1>PEAR Group - Administrative Documents</h1>
 
-<h2>Package Directory Structure</h2>
+<h2>&raquo; Package Directory Structure</h2>
 
 <p>Published: 14th November 2003</p>
 

@@ -42,7 +42,7 @@ on 12th August 2003 by Stig S. Bakken. If you would like to get in
 contact with the members, you can write to 
 <?php echo make_mailto_link("pear-group@php.net"); ?>.
 
-<h2>Administrative Documents</h2>
+<h2>&raquo; Administrative Documents</h2>
 
 <ul>
   <li>02nd April 2004:  <?php echo make_link("docs/20040402-la.php", "License Announcement"); ?></li>

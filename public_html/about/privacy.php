@@ -22,18 +22,18 @@ response_header("Privacy Policy");
 
 <h1>Privacy Policy</h1>
 
-<h2>Email</h2>
+<h2>&raquo; Email</h2>
 
 <p>We will not give away your email address to anyone, who is not
 related to the operations of pear.php.net. We will also <b>never</b>
 ask you to send us any of your passwords via email.</p>
 
-<h2>Logfiles</h2>
+<h2>&raquo; Logfiles</h2>
 
 <p>We are keeping logfiles of the requests that reach our web servers,
 but we do only use those files for statistical purposes.</p>
 
-<h2>Cookies</h2>
+<h2>&raquo; Cookies</h2>
 
 <p>Pear.php.net uses cookies to keep track of user sessions. Unless
 you login on the site, the cookies will not be used to store personal

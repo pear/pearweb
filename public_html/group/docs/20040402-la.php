@@ -22,7 +22,7 @@ response_header("The PEAR Group: License Announcement");
 
 <h1>PEAR Group - Administrative Documents</h1>
 
-<h2>License Announcement</h2>
+<h2>&raquo; License Announcement</h2>
 
 <p>Published: 02nd April 2004</p>
 

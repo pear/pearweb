@@ -25,7 +25,7 @@ response_header();
 
 <div style="margin-left:2em;margin-right:2em">
 
-<h2>Introduction</h2>
+<h2>&raquo; Introduction</h2>
 
 <p>
 This document aims at providing a comprehensive sum up of what was said
@@ -52,7 +52,7 @@ PEAR Installer, PEAR Website, PHP 5, Promotion, Future developments.
 <ol type="I">
 
 <li>
-<h3>Quality</h3>
+<h3>&raquo; Quality</h3>
 
 <p>
 A QA team will be formed. It will make sure that quality standards are met.
@@ -82,7 +82,7 @@ this transparently to the user through the PEAR website.
 </li>
 <li>
 
-<h3>Package policy</h3>
+<h3>&raquo; Package policy</h3>
 
 <p>
 Redundant packages are not allowed. Instead, merging and/or refactoring
@@ -97,7 +97,7 @@ will also make it clear that PECL is NOT Siberia.
 </li>
 <li>
 
-<h3>Documentation</h3>
+<h3>&raquo; Documentation</h3>
 
 <p>
 PEAR Coding Standards (CS) will include method naming conventions
@@ -128,7 +128,7 @@ is now the official tool to generate API documentation.
 </li>
 <li>
 
-<h3>PFC</h3>
+<h3>&raquo; PFC</h3>
 
 <p>
 Christian Stocker's proposal as found in the
@@ -162,14 +162,14 @@ have to be extended, but only that the interface needs to be "extended"
 </li>
 <li>
 
-<h3>PEAR on Windows</h3>
+<h3>&raquo; PEAR on Windows</h3>
 
 <p>The PEAR Installer is now working on windows.</p>
 
 </li>
 <li>
 
-<h3>PEAR group</h3>
+<h3>&raquo; PEAR group</h3>
 
 <p>
 A PEAR Group should be formed. Its size will be 5-9 people,
@@ -196,7 +196,7 @@ PEAR Group.
 </li>
 <li>
 
-<h3>Website</h3>
+<h3>&raquo; Website</h3>
 
 <p>Website enhancements:</p>
 
@@ -218,7 +218,7 @@ PEAR Group.
 </li>
 <li>
 
-<h3>Installer</h3>
+<h3>&raquo; Installer</h3>
 
 <ul>
   <li>
@@ -264,7 +264,7 @@ PEAR Group.
 </li>
 <li>
 
-<h3>Promotion</h3>
+<h3>&raquo; Promotion</h3>
 
 <p>
 More and more magazines are publishing articles about PEAR, they even
@@ -281,7 +281,7 @@ published again as soon as possible.
 </li>
 <li>
 
-<h3>PHP5</h3>
+<h3>&raquo; PHP5</h3>
 
 <p>
 We need either nested classes and/or namespaces with working import.

@@ -22,7 +22,7 @@ response_header("The PEAR Group: Forming of the PEAR Core list");
 
 <h1>PEAR Group - Administrative Documents</h1>
 
-<h2>Forming of the PEAR Core list</h2>
+<h2>&raquo; Forming of the PEAR Core list</h2>
 
 <p>Published: 14th November 2003</p>
 

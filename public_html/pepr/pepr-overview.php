@@ -53,7 +53,7 @@
 	foreach ($proposals as $proposal) {
 		if ($proposal->getStatus() != $last_status) {
 			echo "</ul>";
-			echo "<h2>".$proposal->getStatus(true)."</h2>";
+			echo '<h2>&raquo; ' . $proposal->getStatus(true) . "</h2>\n";
 			echo "<ul>";
 			$last_status = $proposal->getStatus();
 		}

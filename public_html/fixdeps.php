@@ -29,18 +29,18 @@ $pc = new PEAR_Common;
 $pkg_id2name = $dbh->getAssoc("SELECT id,name FROM packages");
 $rel_id2name = $dbh->getAssoc("SELECT r.id,concat_ws('-', p.name, r.version) FROM packages p, releases r WHERE r.package = p.id");
 
-print "<h2>Deleting Existing Dependencies...</h2>\n";
+print "<h2>&raquo; Deleting Existing Dependencies...</h2>\n";
 $dbh->setOption("optimize", "portability");
 $dbh->query("DELETE FROM deps");
 $ar = $dbh->affectedRows();
 $dbh->setOption("optimize", "performance");
 print "$ar rows deleted<br />\n";
 
-print "<h2>Inserting New Dependencies...</h2>\n";
+print "<h2>&raquo; Inserting New Dependencies...</h2>\n";
 $sth = $dbh->query("SELECT package, release, fullpath FROM files");
 while ($sth->fetchInto($row)) {
 	list($package, $release, $fullpath) = $row;
-	printf("<h3>%s (package %d, release %d):</h3>\n",
+	printf("<h3>&raquo; %s (package %d, release %d):</h3>\n",
 		   basename($fullpath), $package, $release);
 	if (!@file_exists($fullpath)) {
 		continue;

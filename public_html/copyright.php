@@ -22,16 +22,16 @@ response_header("Copyright and License");
   
 ?>
 
-<h2>Copyright and Licence</h2>
+<h1>Copyright and Licence</h1>
 
-<h2>PHP License</h2>
+<h2>&raquo; PHP License</h2>
 
 <p>
 For information on the PHP License (i.e. using the PHP language),
 <?php print_link('http://www.php.net/license/', 'click here'); ?>.
 </p>
 
-<h2>Website Copyright</h2>
+<h2>&raquo; Website Copyright</h2>
 
 <p>
 The code, text, PHP logo, and graphical elements on this website 

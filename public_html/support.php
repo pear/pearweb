@@ -164,7 +164,7 @@ if (isset($_POST['action'])) {
 ?>
 
 
-<h2>Table of Contents</h2>
+<h2>&raquo; Table of Contents</h2>
 <ul>
  <li><a href="/manual/">Documentation</a></li>
  <li><a href="support.php#lists">Mailing Lists</a></li>
@@ -173,7 +173,7 @@ if (isset($_POST['action'])) {
  <li><a href="support.php#icons">PEAR Icons</a></li>
 </ul>
 
-<h2><a name="lists" id="lists">Mailing Lists</a></h2>
+<h2>&raquo; <a name="lists" id="lists">Mailing Lists</a></h2>
 
 <p>
  There are <?php echo count($mailing_lists)-1; ?> PEAR-related mailing
@@ -254,9 +254,9 @@ while (list(, $listinfo) = each($mailing_lists)) {
 </p>
 
 
-<h2><a name="tutorials" id="tutorials">PEAR Tutorials</a></h2>
+<h2>&raquo; <a name="tutorials" id="tutorials">PEAR Tutorials</a></h2>
 
-<h3>PEAR Tutorial Sites</h3>
+<h3>&raquo; PEAR Tutorial Sites</h3>
 
 <ul class="spaced">
  <li>
@@ -269,7 +269,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
  </li>
 </ul>
 
-<h3>PEAR DB Tutorials</h3>
+<h3>&raquo; PEAR DB Tutorials</h3>
 
 <ul class="spaced">
  <li>
@@ -308,7 +308,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
  </li>
 </ul>
 
-<h3>PEAR Package Tutorials in German</h3>
+<h3>&raquo; PEAR Package Tutorials in German</h3>
 
 <ul class="spaced">
  <li>
@@ -329,7 +329,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
  </li>
 </ul>
 
-<h3>Other Tutorials</h3>
+<h3>&raquo; Other Tutorials</h3>
 
 <ul class="spaced">
  <li>
@@ -362,7 +362,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
  </li>
 </ul>
 
-<h2><a name="resources" id="resources">PEAR Resources</a></h2>
+<h2>&raquo; <a name="resources" id="resources">PEAR Resources</a></h2>
 
 <ul class="spaced">
  <li>
@@ -432,7 +432,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
 </ul>
 
 
-<h2><a name="icons" id="icons">Powered By PEAR</a></h2>
+<h2>&raquo; <a name="icons" id="icons">Powered By PEAR</a></h2>
 
 <p>
  What programming tool would be complete without a set of icons to put

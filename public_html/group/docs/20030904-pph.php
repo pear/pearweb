@@ -22,7 +22,7 @@ response_header("The PEAR Group: Handling Package Proposals");
 
 <h1>PEAR Group - Administrative Documents</h1>
 
-<h2>Handling Package Proposals</h2>
+<h2>&raquo; Handling Package Proposals</h2>
 
 <p>Published: 04th September 2003</p>
 

@@ -23,7 +23,7 @@ response_header('Credits');
 
 <h1>Credits</h1>
 
-<h2>PEAR Website Team</h2>
+<h2>&raquo; PEAR Website Team</h2>
 
 <ul>
   <li><?php echo user_link('danielc'); ?></li>
@@ -33,7 +33,7 @@ response_header('Credits');
   <li><?php echo user_link('dufuz'); ?></li>
 </ul>
 
-<h3>Emeritus</h3>
+<h3>&raquo; Emeritus</h3>
 
 <ul>
   <li><?php echo user_link('cox'); ?></li>
@@ -50,7 +50,7 @@ response_header('Credits');
 <p>More information about the website can be found on a
 <a href="/about/">dedicated page</a>.</p>
 
-<h2>PEAR Documentation Team</h2>
+<h2>&raquo; PEAR Documentation Team</h2>
 
 <p>The authors of the documentation are listed on a
 <a href="/manual/en/authors.php">special page</a> in 

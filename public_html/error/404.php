@@ -73,7 +73,7 @@ if (count($packages) > 3) {
 response_header('Error 404');
 ?>
 
-<h2>Error 404 - document not found</h2>
+<h1>Error 404 - document not found</h1>
 
 <p>The requested document <i><?php echo $_SERVER['REQUEST_URI']; ?></i> was not
 found on this server.</p>

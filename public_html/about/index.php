@@ -20,7 +20,7 @@
 response_header('About this site');
 ?>
 
-<h1>About this site</h1>
+<h1>About This Site</h1>
 
 <p>This site has been created and is maintained by a number of people,
 which are listed on the <a href="/credits.php">credits page</a>.
@@ -43,7 +43,7 @@ have started to use a set of utility classes. We call it
      src="http://jigsaw.w3.org/css-validator/images/vcss" 
      alt="Valid CSS!" /></a></p>
 
-<h2>Website soure code</h2>
+<h2>&raquo; Website Soure Code</h2>
 
 <p>The source code of the website is available via CVS. To checkout the 
 latest version, use the following commands:</p>
@@ -58,11 +58,11 @@ $ cvs -d :pserver:cvsread@cvs.php.net:/repository co pearweb
 <p>One can also view the source code by using the
 <a href="http://cvs.php.net/cvs.php/pearweb">CVS web interface</a>.</p>
 
-<h2>Privacy Policy</h2>
+<h2>&raquo; Privacy Policy</h2>
 
 <p>Read the <a href="privacy.php">privacy policy</a>.</p>
 
-<h2>License &amp; Copyright</h2>
+<h2>&raquo; License &amp; Copyright</h2>
 
 <p>The PHP code that runs the website is licensed under the PHP License.
 Some third-party code such as <a href="http://www.aditnus.no/jpgraph/">jpgraph</a>

@@ -22,7 +22,7 @@ response_header("The PEAR Group: Version Naming");
 
 <h1>PEAR Group - Administrative Documents</h1>
 
-<h2>Version Naming</h2>
+<h2>&raquo; Version Naming</h2>
 
 <p>Published: 26th Februray 2004</p>
 
@@ -33,12 +33,12 @@ this new version naming scheme as soon as possible.</p>
 
 <p>Vote Results: +1 (6), -1 (0), +0 (2)</p>
 
-<h3>Current Versioning Method</h3>
+<h3>&raquo; Current Versioning Method</h3>
 
 <p>The current status quo is that version names should follow the 
 progression defined by the version_compare() function.</p>
 
-<h3>New Versioning Method</h3>
+<h3>&raquo; New Versioning Method</h3>
 
 <p>Note that the version number is not the same as the version name. The 
 version name is the final name of a version which consists of the 

@@ -22,7 +22,7 @@ response_header("The PEAR Group: Handling Votings and Membership (II)");
 
 <h1>PEAR Group - Administrative Documents</h1>
 
-<h2>Handling Votings and Membership (II)</h2>
+<h2>&raquo; Handling Votings and Membership (II)</h2>
 
 <p>Published: 22nd March 2004</p>
 
