@@ -237,7 +237,7 @@ function bugstats($status, $name)
     if ($name == 'all') {
         if (isset($all[$status])) {
             return '<a href="search.php?cmd=display&amp;status=' .
-                   ucfirst($status) .
+                   ucwords($status) .
                    '&amp;by=Any&amp;limit=10'.$string.'">' .
                    $all[$status] . "</a>\n";
         }
@@ -246,8 +246,8 @@ function bugstats($status, $name)
             return '&nbsp';
         } else {
             return '<a href="search.php?cmd=display&amp;status=' .
-                   ucfirst($status) .
-                   '&amp;package[]=' . urlencode($name) .
+                   ucwords($status) .
+                   '&amp;package_name%5B%5D=' . urlencode($name) .
                    '&amp;by=Any&amp;limit=10'.$string.'">' .
                    $pkg[$status][$name] . "</a>\n";
         }
