@@ -68,7 +68,7 @@ if ($offset > 0) {
 	print "&nbsp;";
 }
 print "</th>\n";
-print "  <td colspan=\"3\">";
+print "  <td colspan=\"2\">";
 
 print '<table border="0" width="100%"><tr><td>';
 foreach ($firstletters as $fl) {
@@ -91,12 +91,11 @@ print "u=prompt('Go to account:','');if(u)location.href='$gourl'+u;";
 print '" value="Go to account.." /></td></tr><tr><td>';
 printf("Displaying accounts %d - %d of %d<br />\n",
 	   $offset, min($offset+$show, $naccounts), $naccounts);
+
 $sth = $dbh->limitQuery('SELECT handle,name,email,homepage,showemail '.
 						'FROM users WHERE registered = 1 ORDER BY handle',
 						$offset, $show);
-if (DB::isError($sth)) {
-    die("query failed: ".DB::errorMessage($dbh)."<br />\n");
-}
+
 print "</td></tr></table>\n";
 print "</td>\n";
 print "  <th>";
@@ -114,7 +113,6 @@ print "  <th>Handle</th>\n";
 print "  <th>Name</th>\n";
 print "  <th>Email</th>\n";
 print "  <th>Homepage</th>\n";
-print "  <th>Commands</th>\n";
 print " </tr>\n";
 
 $rowno = 0;
@@ -126,7 +124,7 @@ while (is_array($row = $sth->fetchRow(DB_FETCHMODE_ASSOC))) {
         print " <tr bgcolor=\"#e0e0e0\">\n";
     }
     print "  <td>" . make_link("/user/" . $handle, $handle) . "</td>\n";
-    print "  <td>$name</td>\n";
+    print '  <td style="white-space: nowrap">' . $name . "</td>\n";
 
     if ($showemail &&
         !empty($auth_user) &&
@@ -134,14 +132,15 @@ while (is_array($row = $sth->fetchRow(DB_FETCHMODE_ASSOC))) {
     {
         print "  <td><a href=\"mailto:$email\">$email</a></td>\n";
     } else {
-        print "  <td>(not shown)</td>\n";
+        print '  <td>(';
+        print_link('/account-mail.php?handle=' . $handle, 'not shown');
+        print ")</td>\n";
     }
     if (!empty($homepage)) {
-        print "<td><a href=\"$homepage\">$homepage</a></td>";
+        print '<td><a href="' . $homepage . '">Homepage</a></td>' . "\n";
     } else {
         print '<td>&nbsp;</td>';
     }
-    print "\n  <td><a href=\"account-edit.php?handle=".$row['handle']."\">[Edit]</a></td>\n";
     print " </tr>\n";
 }
 
@@ -153,7 +152,7 @@ if ($offset > 0) {
 	print "&nbsp;";
 }
 print "</th>\n";
-print "  <td colspan=\"3\">";
+print "  <td colspan=\"2\">";
 
 print '<table border="0"><tr><td>';
 print '</td><td rowspan="2">&nbsp;';
