@@ -27,7 +27,6 @@
                   version CDATA                 #REQUIRED>
 
 <!ELEMENT name (#PCDATA)>
-<!ATTLIST name extends CDATA>
 
 <!ELEMENT summary (#PCDATA)>
 
