@@ -512,7 +512,7 @@ function get_bugtype_mail($bug_type)
 
     switch ($bug_type) {
         case 'Web Site':
-            return array('pear-webmaster@php.net', 'pear-webmaster@php.net');
+            return array('pear-webmaster@lists.php.net', 'pear-webmaster@lists.php.net');
         case 'Bug System':
             return array('pear-dev@lists.php.net', 'pear-dev@lists.php.net');
         case 'Documentation':
