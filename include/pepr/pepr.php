@@ -248,9 +248,12 @@ class proposal {
             if (DB::isError($res)) {
                 if ($res->getCode() == DB_ERROR_CONSTRAINT) {
                     return PEAR::raiseError('A proposal with that Catetory -'
-                            . ' Name combination already exists.');
+                            . ' Name combination already exists.',
+                            $res->getCode(), null, null, $res->getUserInfo());
                 } else {
-                    return $res;
+                    return PEAR::raiseError($res->getMessage(),
+                                            $res->getCode(), null, null,
+                                            $res->getUserInfo());
                 }
             }
         } else {
@@ -271,9 +274,12 @@ class proposal {
             if (DB::isError($res)) {
                 if ($res->getCode() == DB_ERROR_CONSTRAINT) {
                     return PEAR::raiseError('A proposal with that Catetory -'
-                            . ' Name combination already exists.');
+                            . ' Name combination already exists.',
+                            $res->getCode(), null, null, $res->getUserInfo());
                 } else {
-                    return $res;
+                    return PEAR::raiseError($res->getMessage(),
+                                            $res->getCode(), null, null,
+                                            $res->getUserInfo());
                 }
             }
             $this->id = mysql_insert_id($dbh->connection);
