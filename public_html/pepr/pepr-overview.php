@@ -28,23 +28,10 @@
  */
 require_once 'pepr/pepr.php';
 
-$form =& new HTML_QuickForm('filter_proposals', 'get');
-
-$values[''] = 'All';
-$values = array_merge($values, $proposalStatiMap);
-
-
-$filter = $form->addElement('select', 'filter', 'Filter', $values);
-$form->addElement('submit', 'submit', 'Filter');
-
-$filter_value = $filter->getValue();
-
-$selectStatus = '';
-
-if ($form->validate()) {
-    if (trim($filter_value[0]) != "") {
-        $selectStatus = $filter_value[0];
-    }
+if (isset($_GET['filter']) && isset($proposalStatiMap[$_GET['filter']])) {
+    $selectStatus = $_GET['filter'];
+} else {
+    $selectStatus = '';
 }
 
 if ($selectStatus != '') {
@@ -57,7 +44,7 @@ response_header('PEPr :: Package Proposals');
 
 echo '<h1>Package Proposals</h1>' . "\n";
 
-$form->display();
+display_overview_nav();
 
 echo "<ul>";
 
