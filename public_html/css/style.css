@@ -25,15 +25,10 @@ a:hover {
     color: #003300;
 }
 
-th.pack {
-    color: #FFFFFF;
-    background: #009933;
-    text-align: right;
-}
-
 th.headrow {
     text-align: left;
     border-bottom: 1px solid #000;
+    white-space: nowrap;
 }
 
 th.others {

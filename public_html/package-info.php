@@ -109,10 +109,6 @@ $accounts .= '</ul>';
 // Information about the latest release below the summary
 $versions = array_keys($pkg['releases']);
 
-$summary .= '<br /><br />Current Version: ';
-$summary .= '<a href="/get/' . $name . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
-$summary .= ' (' . substr($pkg['releases'][$versions[0]]['releasedate'], 0, 10) . ';';
-$summary .= '&nbsp;<a href="/package/' . $name . '/download/">Changelog</a>)';
 // }}}
 // {{{ page header
 
@@ -181,6 +177,20 @@ if (empty($action)) {
     print '<tr>';
     print '<td valign="top">' . $summary . '</td>';
     print '<td valign="top">' . get_license_link($license) . '</td>';
+    print '</tr>';
+
+    print '<tr><td colspan="2">&nbsp;</td></tr>';
+
+    print '<tr>';
+    print '<th colspan="2" class="headrow" width="50%">&raquo; Current Release:</th>';
+    print '</tr>';
+    print '<tr>';
+    print '<td colspan="2" valign="top">';
+    print '<a href="/get/' . $name . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
+    print ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
+    print ' was released on ' . substr($pkg['releases'][$versions[0]]['releasedate'], 0, 10);
+    print ' (<a href="/package/' . $name . '/download/">Changelog</a>)';
+    print '</td>';
     print '</tr>';
 
     print '<tr><td colspan="2">&nbsp;</td></tr>';
