@@ -17,7 +17,7 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-response_header("About this site");
+response_header('About this site');
 ?>
 
 <h1>About this site</h1>
@@ -62,7 +62,7 @@ $ cvs -d :pserver:cvsread@cvs.php.net:/repository co pearweb
 
 <p>Read the <a href="privacy.php">privacy policy</a>.</p>
 
-<h2>License & Copyright</h2>
+<h2>License &amp; Copyright</h2>
 
 <p>The PHP code that runs the website is licensed under the PHP License.
 Some third-party code such as <a href="http://www.aditnus.no/jpgraph/">jpgraph</a>
