@@ -18,29 +18,25 @@
    $Id$
 */
 
-response_header("News");
+response_header('News');
 
-echo "<h1>PEAR news</h1>";
+echo "<h1>PEAR News</h1>\n";
 
-echo "<h2><a name=\"2003\" />Year 2004</h2>";
-echo "<ul>";
+echo '<h2><a name="2004" id="2004">Year 2004</a></h2>' . "\n";
+echo "<ul>\n";
+echo ' <li>' . make_link('weekly-summaries.php', 'Weekly Summaries') . " (April)</li>\n";
+echo ' <li>' . make_link('pepr.php', 'Announcing PEPr') . " (January)</li>\n";
+echo "</ul>\n";
 
-echo "<li>" . make_link("weekly-summaries.php", "Weekly Summaries") . " (April)</li>";
-echo "<li>" . make_link("pepr.php", "Announcing PEPr") . " (January)</li>";
-
-echo "</ul>";
-
-echo "<h2><a name=\"2003\" />Year 2003</h2>";
-echo "<ul>";
-
-echo "<li>" . make_link("pecl-split.php", "Own infrastructure for PECL") . " (October)</li>";
-echo "<li>" . make_link("group-announce.php", "Announcing the PEAR Group") . " (August)</li>";
-echo "<li>" . make_link("activestate-award-ssb.php", "ActiveState Active Award for Stig Bakken") . " (July)</li>";
-echo "<li>" . make_link("meeting-2003-summary.php", "Summary of the PEAR Meeting") . " (May)</li>";
-echo "<li>" . make_link("meeting-2003.php", "PEAR Meeting in Amsterdam") . " (March)</li>";
-echo "<li>" . make_link("release-1.0.php", "PEAR 1.0 is released!") . " (January)</li>";
-
-echo "</ul>";
+echo '<h2><a name="2003" id="2003">Year 2003</a></h2>' . "\n";
+echo "<ul>\n";
+echo ' <li>' . make_link('pecl-split.php', 'Own infrastructure for PECL') . " (October)</li>\n";
+echo ' <li>' . make_link('group-announce.php', 'Announcing the PEAR Group') . " (August)</li>\n";
+echo ' <li>' . make_link('activestate-award-ssb.php', 'ActiveState Active Award for Stig Bakken') . " (July)</li>\n";
+echo ' <li>' . make_link('meeting-2003-summary.php', 'Summary of the PEAR Meeting') . " (May)</li>\n";
+echo ' <li>' . make_link('meeting-2003.php', 'PEAR Meeting in Amsterdam') . " (March)</li>\n";
+echo ' <li>' . make_link('release-1.0.php', 'PEAR 1.0 is released!') . " (January)</li>\n";
+echo '</ul>';
 
 response_footer();
 ?>
