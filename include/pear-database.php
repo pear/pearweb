@@ -772,8 +772,8 @@ class package
             return PEAR::raiseError('no packages found');
         }
         $ret = array();
-        foreach ($available as $name => $info) {
-            $found = (!empty($package) && stristr($name, $package) !== false);
+        foreach ($all as $name => $info) {
+            $found = (!empty($fragment) && stristr($name, $fragment) !== false);
             if (!$found && !(isset($summary) && !empty($summary)
                 && (stristr($info['summary'], $summary) !== false
                     || stristr($info['description'], $summary) !== false)))
@@ -849,9 +849,15 @@ class package
         if (!$stable_only) {
             foreach ($allreleases as $pkg => $stable) {
                 if ($stable['state'] == 'stable') {
-                    $packageinfo[$pkg]['stable'] = $stable['stable'];
+                    if (version_compare($packageinfo[$pkg]['stable'], $stable['stable'], '<')) {
+                        // only change it if the version number is newer
+                        $packageinfo[$pkg]['stable'] = $stable['stable'];
+                    }
                 } else {
-                    $packageinfo[$pkg]['unstable'] = $stable['stable'];
+                    if (version_compare($packageinfo[$pkg]['unstable'], $stable['stable'], '<')) {
+                        // only change it if the version number is newer
+                        $packageinfo[$pkg]['unstable'] = $stable['stable'];
+                    }
                 }
                 $packageinfo[$pkg]['state']  = $stable['state'];
             }
@@ -2047,6 +2053,60 @@ Authors
 -------------
 $txt_authors
 END;
+
+        $to   = '"PEAR general list" <pear-general@lists.php.net>';
+        $from = '"PEAR Announce" <pear-dev@lists.php.net>';
+        $subject = "[ANNOUNCEMENT] $release Released.";
+        mail($to, $subject, $txtanounce, "From: $from", "-f pear-sys@php.net");
+    }
+
+    // }}}    // {{{ +proto string release::promote_v2(array, string) API 1.0
+
+    /**
+     * Promote new release
+     *
+     * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
+     * @param string Filename of the new uploaded release
+     * @return void
+     */
+    function promote_v2($pkginfo, $upload)
+    {
+        if ($_SERVER['SERVER_NAME'] != 'pear.php.net') {
+            return;
+        }
+        $pacid   = package::info($pkginfo->getPackage(), 'packageid');
+        $authors = package::info($pkginfo->getPackage(), 'authors');
+        $txt_authors = '';
+        foreach ($authors as $a) {
+            $txt_authors .= $a['name'];
+            if ($a['showemail']) {
+                $txt_authors .= " <{$a['email']}>";
+            }
+            $txt_authors .= " ({$a['role']})\n";
+        }
+        $upload = basename($upload);
+        $release = $pkginfo->getPackage() . '-' . $pkginfo->getVersion() .
+             ' (' . $pkginfo->getState() . ')';
+        $txtanounce ='The new PEAR package ' . $release . ' has been released at http://pear.php.net/.
+
+Release notes
+-------------
+' . $pkginfo->getNotes() . '
+
+Package Info
+-------------
+' . $pkginfo->getDescription() . '
+
+Related Links
+-------------
+Package home: http://pear.php.net/package/' . $pkginfo->getPackage() . '
+   Changelog: http://pear.php.net/package/' . $pkginfo->getPackage() . '/download/' .
+        $pkginfo->getVersion() . '
+    Download: http://pear.php.net/get/' . $upload . '
+
+Authors
+-------------
+' . $txt_authors;
 
         $to   = '"PEAR general list" <pear-general@lists.php.net>';
         $from = '"PEAR Announce" <pear-dev@lists.php.net>';
