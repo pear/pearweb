@@ -181,7 +181,7 @@ class proposal {
         return new proposal($res);
     }
 
-    function &getAll(&$dbh, $status = null, $limit = null)
+    function &getAll(&$dbh, $status = null, $limit = null, $order = null)
     {
         $sql = "SELECT *, UNIX_TIMESTAMP(draft_date) as draft_date,
                         UNIX_TIMESTAMP(proposal_date) as proposal_date,
@@ -191,7 +191,11 @@ class proposal {
         if (!empty($status)) {
             $sql .= " WHERE status = '".$status."'";
         }
-        $sql .= " ORDER BY status ASC, draft_date DESC";
+        if (!isset($order)) {
+            $sql .= " ORDER BY status ASC, draft_date DESC";
+        } else {
+            $sql .= " ORDER BY ".$order;
+        }
         if (!empty($limit)) {
             $sql .= " LIMIT $limit";
         }
