@@ -29,12 +29,16 @@ if (!empty($_GET['filename'])) {
     $query = "SELECT queued, finished, log FROM apidoc_queue WHERE filename = ?";
     $info = $dbh->getRow($query, array($filename), DB_FETCHMODE_ASSOC);
 
-    echo "<p>Log for <strong>" . $filename . "</strong>:</p>\n";
-    echo "<ul>\n";
-    echo "  <li>Queued: " . $info['queued'] . "</li>\n";
-    echo "  <li>Finished: " . $info['finished'] . "</li>\n";
-    echo "  <li>Command output:<br /><pre>" . strip_tags($info['log']) . "</pre></li>\n";
-    echo "</ul>\n";
+    if (!is_array($info)) {
+        echo "<div class=\"errors\">No such filename " . strip_tags($filename) . ".</div>\n";
+    } else {
+        echo "<p>Log for <strong>" . $filename . "</strong>:</p>\n";
+        echo "<ul>\n";
+        echo "  <li>Queued: " . $info['queued'] . "</li>\n";
+        echo "  <li>Finished: " . $info['finished'] . "</li>\n";
+        echo "  <li>Command output:<br /><pre>" . strip_tags($info['log']) . "</pre></li>\n";
+        echo "</ul>\n";
+    }
 }
 
 $query = "SELECT filename FROM apidoc_queue ORDER BY queued ASC";
