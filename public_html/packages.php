@@ -113,7 +113,9 @@ $subcats = $dbh->getAssoc("SELECT p.id AS pid, c.id AS id, c.name AS name, c.sum
 // Get names of sub-packages
 $subpkgs = $dbh->getAssoc("SELECT p.category, p.id AS id, p.name AS name, p.summary AS summary".
                           "  FROM packages p, categories c".
-                          " WHERE c.parent $category_where AND p.category = c.id ORDER BY p.name",
+                          " WHERE c.parent $category_where ".
+                          "   AND p.package_type = 'pear' ".
+                          "   AND p.category = c.id ORDER BY p.name",
                           false, null, DB_FETCHMODE_ASSOC, true);
 
 $max_sub_links = 4;
