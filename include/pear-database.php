@@ -1293,7 +1293,7 @@ class release
             if ($key == "release_deps") {
                 foreach ($value as $dep) {
                     $optional = 0;
-                    if (!empty($dep['optional']) && $dep['optional'] == "yes") {
+                    if (!empty($dep['optional']) && strtolower($dep['optional']) == "yes") {
                         $optional = 1;
                     }
                     /* That works for now.
