@@ -20,7 +20,6 @@
 */
 
 	require_once 'pepr/pepr.php';
-	require_once 'HTML/BBCodeParser.php';
 	require_once 'HTML/QuickForm.php';
 	require_once 'Damblan/Karma.php';
 
@@ -131,8 +130,24 @@
 		$bb->horizHeadRow('Dependencies:', nl2br($proposal->pkg_deps));
 	}
 	$bb->horizHeadRow('Proposer:', user_link($proposal->user_handle));
-	$bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
-	$bb->fullRow($bbparser->qparse(nl2br(htmlentities($proposal->pkg_describtion))));
+	
+	// Switching markup types
+	switch ($proposal->markup) {
+	    case 'wiki':
+	       require_once 'Text/Wiki.php';
+	       $wiki =& new Text_Wiki();
+	       $wiki->disableRule('wikilink');
+	       $describtion = $wiki->transform($proposal->pkg_describtion);
+	       break;
+	    case 'bbcode':
+	    default:
+	       require_once 'HTML/BBCodeParser.php';
+	       $bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
+	       $describtion = $bbparser->qparse(nl2br(htmlentities($proposal->pkg_describtion)));
+	    break;
+	}
+	
+	$bb->fullRow($describtion);
 	
 	$changelog = @ppComment::getAll($proposal->id, 'package_proposal_changelog');
 	$changeLogRow = "";

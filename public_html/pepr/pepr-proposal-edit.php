@@ -56,7 +56,11 @@
 	$form->addElement('text', 'pkg_license', 'License:');
 	
 	$form->addElement('textarea', 'pkg_describtion', 'Package description:', array('rows' => 20, 'cols' => '80'));
-	$form->addElement('link', 'help_bbcode', '', 'pepr-bbcode-help.php', 'You can use BBCode inside your description');
+	$form->addElement('select', 'markup', 'Markup', array('bbcode' => 'BBCode', 'wiki' => 'Wiki'));
+	
+	$helpLinks[] =& HTML_QuickForm::createElement('link', 'help_bbcode', '_blank', 'pepr-bbcode-help.php', 'You can use BBCode inside your description', array('target' => '_blank'));
+	$helpLinks[] =& HTML_QuickForm::createElement('link', 'help_wiki', '_blank', 'http://wiki.ciaweb.net/yawiki/index.php?area=Text_Wiki&page=WikiRules', 'or Wiki markup', array('target' => '_blank'));
+	$form->addGroup($helpLinks, 'markup_help', '', ' ');
 	
 	$form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '80'));
 	$form->addElement('static', '', '', 'List seperated by linefeeds.');
@@ -85,7 +89,8 @@
 		$defaults = array('pkg_name' 	=> $proposal->pkg_name,
 		                  'pkg_license'	=> $proposal->pkg_license,
 						  'pkg_describtion' => $proposal->pkg_describtion,
-					      'pkg_deps' 	=> $proposal->pkg_deps);
+					      'pkg_deps' 	=> $proposal->pkg_deps,
+					      'markup'      => $proposal->markup);
 		if (isset($mapCategories[$proposal->pkg_category])) {
 			$defaults['pkg_category'] = $proposal->pkg_category;
 		} else {
