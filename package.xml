@@ -393,7 +393,6 @@
         <file role="php" name="pepr.sql"/>
         <file role="php" name="README"/>
         <file role="php" name="releases.sql"/>
-        <file role="php" name="state_order.sql"/>
         <file role="php" name="users.sql"/>
        </dir> <!-- sql -->
        <dir name="templates">
