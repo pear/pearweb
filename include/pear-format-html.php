@@ -1053,7 +1053,7 @@ function validate_captcha($max_age = 300)
 */
 function make_ticket_links($text)
 {
-    $text = preg_replace('/#([0-9]+)/', '<a href="/bugs/\\1">#\\1</a>', $text);
+    $text = preg_replace('/(bug |#)([0-9]+)/', '<a href="/bugs/\\2">\\0</a>', $text);
     return $text;
 }
 
