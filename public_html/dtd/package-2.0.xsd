@@ -173,6 +173,7 @@
    <xs:sequence>
     <xs:element ref="installconditions"/>
     <xs:element ref="filelist"/>
+    <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -181,6 +182,7 @@
    <xs:sequence>
     <xs:element ref="installconditions"/>
     <xs:element ref="filelist"/>
+    <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -366,6 +368,13 @@
  <xs:element name="exclude">
   <xs:complexType>
    <xs:attribute name="version" type="version" use="required"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="configureoption">
+  <xs:complexType>
+   <xs:attribute name="name" type="xs:string" use="required"/>
+   <xs:attribute name="default" type="xs:string"/>
+   <xs:attribute name="prompt" type="xs:string" use="required"/>
   </xs:complexType>
  </xs:element>
 </xs:schema>
