@@ -936,6 +936,7 @@ function get_package_mail($package_name)
 
     switch ($package_name) {
         case 'Bug System':
+        case 'PEPr':
         case 'Web Site':
             return array('pear-webmaster@lists.php.net', 'pear-webmaster@lists.php.net');
         case 'Documentation':
