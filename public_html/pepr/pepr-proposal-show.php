@@ -215,7 +215,7 @@
 		
 		}
 	
-		$bb->horizHeadRow("Sum:", "<b>".$proposalVotesSum."</b> ");
+		$bb->horizHeadRow("Sum:", "<b>".$proposalVotesSum['all']."</b> <small>(".$proposalVotesSum['conditional']." conditional)</small>");
 	} else {
 		$bb->fullRow("No votes yet.");
 	}
