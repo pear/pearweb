@@ -114,14 +114,15 @@ purpose.</li>
 list</a> for that or directly contact the maintainers of the package
 in question.</li>
 </ul>
-These are not the only reasons that will get your request rejected, 
-just the most common ones.
+These are not the only reasons for requests being rejected, but the most
+common ones.
 </p>
 
-<p>If you want to contribute a package to PEAR, make sure that you
-have read and understood the <a href=\"/manual/en/guide-developers.php\">
-Developer Guide</a>. Make also sure that your code complies with the
-<a href=\"/manual/en/standards.php\">PEAR coding standards</a>.</p>
+<p>If you want to contribute a package to PEAR, make sure that you have
+followed all rules concerning PEAR packages.  Also, before a package
+may be released, the code code must comply with the
+<a href=\"http://pear.php.net/manual/en/standards.php\">PEAR Coding
+Standards</a>.</p>
 
 <p>Bogus, incomplete or incorrect requests will be summarily denied.</p>";
 
