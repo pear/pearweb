@@ -536,9 +536,7 @@
   </xs:annotation>
  </xs:element>
  <xs:element name="srcchannel" type="xs:string"/>
- <xs:element name="bundledpackage">
-  <xs:complexType/>
- </xs:element>
+ <xs:element name="bundledpackage" type="xs:string"/>
  <xs:element name="filename" type="xs:string"/>
  <xs:element name="providesextension" type="xs:string"/>
 </xs:schema>
