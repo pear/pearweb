@@ -161,8 +161,8 @@ if ($display_form) {
 
     if ($success) {
         report_success('Version ' . $info['version'] . ' of '
-                       . $info['package'] . ' has been successfully released'
-                       . ' and the promotion cycle for it has started.');
+                       . $info['package'] . ' has been successfully released, '
+                       . 'and its promotion cycle has started.');
         print '<p>';
         print make_link('/package/' . $info['package'], 'Visit package home');
         print '</p>';
@@ -270,7 +270,7 @@ if ($display_verification) {
     $form->addSubmit('cancel', 'Cancel');
     $form->addHidden('distfile', $tmpfile);
     $form->display('class="form-holder" cellspacing="1"',
-            'Please verify that the following release information is correct',
+            'Please verify that the following release information is correct:',
             'class="form-caption"');
 }
 
