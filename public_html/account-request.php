@@ -199,14 +199,14 @@ MSG;
             . '<p class="cell_note">(Check all that apply)</p>',
             $purposechecks);
     $form->addTextarea('purpose',
-            'If your intended purpose is not in the list, please state it here (including a summary of any packages you wish to propose):',
+            'Short summary of package that you intend to propose:',
             stripslashes(@$_POST['purpose']), 40, 5, null);
     $form->addTextarea('moreinfo',
             'More relevant information about you:'
             . '<p class="cell_note">(optional)</p>',
             stripslashes(@$_POST['moreinfo']), 40, 5, null);
     $form->addCheckbox('comments_read',
-            'You have read all of the comments above, and given a summary of your proposed package:',
+            'You have read all of the comments above:',
             @$_POST['comments_read']);
     $form->addSubmit('submit', 'Submit Query');
 
