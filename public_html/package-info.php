@@ -198,7 +198,7 @@ if (empty($action)) {
     print '<ul>';
 
     if (!empty($homepage)) {
-        print '<li>Homepage: ' . make_link($homepage) . '</li>';
+        print '<li>' . make_link($homepage, 'External Package Homepage') . '</li>';
     }
     if (!empty($cvs_link)) {
         print '<li><a href="' . $cvs_link . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
