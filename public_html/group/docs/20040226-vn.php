@@ -90,9 +90,9 @@ increased in releases that add features.</li>
 converse the patch level number should only be used (as in non zero) in 
 releases that only fix bugs.</li>
 
-<li>The state should always be added as a postfix unless the state is 
+<li>The state should always be added as a suffix unless the state is 
 &quot;stable&quot; (please note that as stated above the state &quot;beta&quot; is used for 
-beta releases and for release candidates). The postfix consists of the 
+beta releases and for release candidates). The suffix consists of the 
 state followed by a number which is incremented with every subsequent 
 release with the same state.</li>
 
