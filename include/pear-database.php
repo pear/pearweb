@@ -1073,6 +1073,8 @@ class maintainer
      */
     function updateAll($pkgid, $users)
     {
+        require_once "Damblan/Log.php";
+
         // Only admins and leads can do this.
         global $dbh, $auth_user;
         $admin = $auth_user->isAdmin();
@@ -1080,6 +1082,12 @@ class maintainer
 
         if (!$admin && !$qa && !user::maintains($auth_user->handle, $pkgid, 'lead')) {
             return PEAR::raiseError('maintainer::updateAll: insufficient privileges');
+        }
+
+        $logger = new Damblan_Log;
+        $pkg_name = package::info((int)$pkgid, "name", true); // Needed for logging
+        if (empty($pkg_name)) {
+            PEAR::raiseError('maintainer::updateAll: no such package');
         }
 
         $old = maintainer::get($pkgid);
@@ -1108,6 +1116,7 @@ class maintainer
                 if (PEAR::isError($e)) {
                     return $e;
                 }
+                $logger->log("[Maintainer] NEW: " . $user . " (" . $role . ") to package " . $pkg_name . " by " . $auth_user->handle);
                 continue;
             }
             // Users exists but role has changed -> update it
@@ -1116,6 +1125,7 @@ class maintainer
                 if (DB::isError($res)) {
                     return $res;
                 }
+                $logger->log("[Maintainer] UPDATE: " . $user . " (" . $role . ") to package " . $pkg_name . " by " . $auth_user->handle);
             }
         }
         // Drop users who are no longer maintainers
@@ -1125,6 +1135,7 @@ class maintainer
                 if (DB::isError($res)) {
                     return $res;
                 }
+                $logger->log("[Maintainer] REMOVED: " . $old_user . " (" . $role . ") to package " . $pkg_name . " by " . $auth_user->handle);
             }
         }
         return true;
