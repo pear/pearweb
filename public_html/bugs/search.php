@@ -354,9 +354,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         exit;
     }
 }
-
 display_bug_error($errors);
-display_bug_warning($warnings, 'warnings', 'WARNING:');
+display_bug_error($warnings, 'warnings', 'WARNING:');
 
 ?>
 <form id="asearch" method="get" action="<?php echo $_SERVER['PHP_SELF'] ?>">
