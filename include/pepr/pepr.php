@@ -145,7 +145,7 @@ class proposal {
         $this->fromArray($dbhResArr);
     }
 
-    function fromArray( $dbhResArr)
+    function fromArray($dbhResArr)
     {
         if (!is_array($dbhResArr)) {
             return false;
@@ -316,7 +316,8 @@ class proposal {
         return true;
     }
 
-    function isOwner ($handle) {
+    function isOwner($handle)
+    {
         if (strtolower($this->user_handle) != strtolower($handle)) {
             return false;
         }
@@ -401,7 +402,8 @@ class proposal {
      *
      * @return bool
      */
-    function compareStatus($operator, $status) {
+    function compareStatus($operator, $status)
+    {
         $num = array(
             'draft'    => 1,
             'proposal' => 2,
@@ -426,7 +428,8 @@ class proposal {
         }
     }
 
-    function isEditable() {
+    function isEditable()
+    {
         switch ($this->status) {
         case 'draft':
         case 'proposal': return true;
@@ -499,7 +502,9 @@ class proposal {
         return true;
     }
 
-    function sendActionEmail($event, $userType, $user_handle = null, $comment = "") {
+    function sendActionEmail($event, $userType, $user_handle = null,
+                             $comment = '')
+    {
         global $dbh, $karma;
 
         if (empty($karma)) {
@@ -633,7 +638,9 @@ class ppComment {
         $this->table = $table;
     }
 
-    function get($proposalId, $handle, $timestamp, $table = 'package_proposal_changelog') {
+    function get($proposalId, $handle, $timestamp,
+                 $table = 'package_proposal_changelog')
+    {
         global $dbh;
         $sql = "SELECT *, timestamp FROM ".$table." WHERE pkg_prop_id = ".$proposalId." AND user_handle='".$handle."' AND timestamp = FROM_UNIXTIME(".$timestamp.")";
         $res = $dbh->query($sql);
@@ -672,7 +679,8 @@ class ppComment {
         return $res;
     }
 
-    function delete() {
+    function delete()
+    {
         global $dbh;
         if (empty($this->table) || empty($this->user_handle) || empty($this->pkg_prop_id) || empty($this->timestamp)) {
             return PEAR::raiseError("Inconsistant comment data. Can not delete comment.");
@@ -831,7 +839,8 @@ class ppLink {
         return $links;
     }
 
-    function deleteAll($dbh, $proposalId) {
+    function deleteAll($dbh, $proposalId)
+    {
         $sql = "DELETE FROM package_proposal_links WHERE pkg_prop_id = ".$proposalId;
         $res = $dbh->query($sql);
         return $res;
