@@ -135,7 +135,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     $info = package::info($_GET['pid'],null,false);
 
     if (isset($info['releases']) && sizeof($info['releases'])>0) {
-        echo "<h2>Statistics for package \"<a href=\"/" . $info['name'] . "\">" . $info['name'] . "</a>\"</h2>\n";
+        echo "<h2>Statistics for package \"<a href=\"/package/" . $info['name'] . "\">" . $info['name'] . "</a>\"</h2>\n";
         $bb = new Borderbox("General statistics");
         echo "Number of releases: <strong>" . count($info['releases']) . "</strong><br />\n";
         echo "Total downloads: <strong>" . number_format(statistics::package($_GET['pid']), 0, '.', ',') . "</strong><br />\n";
