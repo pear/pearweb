@@ -686,9 +686,10 @@ class package
             $what = "name";
         }
 
-        $package_type = '';
-        if (!$allow_pecl) {
-            $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
+        if ($allow_pecl) {
+             $package_type = "((p.package_type = 'pear' AND p.approved = 1) OR p.package_type = 'pecl') AND ";
+        } else {
+             $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
         }
         
         $pkg_sql = "SELECT p.id AS packageid, p.name AS name, ".
