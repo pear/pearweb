@@ -78,7 +78,6 @@ function display_pepr_nav(&$proposal)
     print_tabbed_navigation($items);
 }
 
-
 function shorten_string($string)
 {
     if (strlen($string) < 80) {
@@ -181,6 +180,19 @@ class proposal {
         return new proposal($res);
     }
 
+    /**
+     * Receive a complete bunch of proposals.
+     *
+     * @param object $dbh  the current DB object
+     * @param string $status  the of the proposals to select
+     * @param int    $limit  limit the number of proposals to receive
+     * @param string $order  an SQL expression used by the "ORDER BY" statement
+     *
+     * @return array   an array of proposal objects (maybe with 0 elements, 
+     *                 if no proposals received)
+     *
+     * @access public
+     */
     function &getAll(&$dbh, $status = null, $limit = null, $order = null)
     {
         $sql = "SELECT *, UNIX_TIMESTAMP(draft_date) as draft_date,
