@@ -1388,31 +1388,72 @@ class release
         foreach ($pkg_info as $key => $value) {
             if ($key == "release_deps") {
                 foreach ($value as $dep) {
-                    $optional = 0;
-                    if (!empty($dep['optional']) && strtolower($dep['optional']) == "yes") {
-                        $optional = 1;
+                    $prob = array();
+
+                    if (empty($dep['type']) ||
+                        $dep['type'] != strtolower($dep['type']))
+                    {
+                        $prob[] = 'type';
                     }
-                    /* That works for now.
-                     * This would require a 'cleaner' InfoFromXXX
-                     * which may return a defined set of data using
-                     * default values if required.
-                     */
-                    if ($dep['type']=='php') {
-                        $dep['name'] = 'PHP';
+
+                    if (empty($dep['name'])) {
+                        /*
+                         * NOTE from pajoye in ver 1.166:
+                         * This works for now.
+                         * This would require a 'cleaner' InfoFromXXX
+                         * which may return a defined set of data using
+                         * default values if required.
+                         */
+                        if (strtolower($dep['type']) == 'php') {
+                            $dep['name'] = 'PHP';
+                        } else {
+                            $prob[] = 'name';
+                        }
                     }
-                    $res = $dbh->execute($sth, array($package_id, $release_id,
-                                              @$dep['type'], @$dep['rel'],
-                                              @$dep['version'], @$dep['name'],
-                                              $optional)
-                                  );
-                   if (DB::isError($res)) {
-                       if (PEAR::isError($res)) {
-                           $dbh->query("DELETE FROM deps WHERE release = $release_id");
-                           $dbh->query("DELETE FROM releases WHERE id = $release_id");
-                           @unlink($file);
-                           return $res;
-                       }
-                   }
+
+                    if (empty($dep['rel']) ||
+                        $dep['rel'] != strtolower($dep['rel']))
+                    {
+                        $prob[] = 'rel';
+                    }
+
+                    if (empty($dep['optional'])) {
+                        $optional = 0;
+                    } else {
+                        if ($dep['optional'] != strtolower($dep['optional'])) {
+                            $prob[] = 'optional';
+                        }
+                        if ($dep['optional'] == 'yes') {
+                            $optional = 1;
+                        } else {
+                            $optional = 0;
+                        }
+                    }
+
+                    if (count($prob)) {
+                        $res = PEAR::raiseError('The following attribute(s) ' .
+                                'were missing or need lowercased values: ' .
+                                implode(', ', $prob));
+                    } else {
+                        $res = $dbh->execute($sth,
+                                array(
+                                    $package_id,
+                                    $release_id,
+                                    $dep['type'],
+                                    $dep['rel'],
+                                    @$dep['version'],
+                                    $dep['name'],
+                                    $optional));
+                    }
+
+                    if (PEAR::isError($res)) {
+                        $dbh->query('DELETE FROM deps WHERE ' .
+                                    "release = $release_id");
+                        $dbh->query('DELETE FROM releases WHERE ' .
+                                    "id = $release_id");
+                        @unlink($file);
+                        return $res;
+                    }
                 }
             }
         }
