@@ -28,8 +28,6 @@
 	$vote = ppVote::get($dbh, $proposal->id, $handle);
 	
 	$conditional = ($vote->is_conditional) ? "This vote is conditional." : "This vote is not conditional.";
-	// Because BorderBox checks empty() and a "0" vote is not showen.
-	$value = ($vote->value == 0) ? "+".$vote->value : $vote->value;
 	
 	response_header("PEPr :: Vote details");
 	
@@ -37,7 +35,7 @@
 	
 	$bb->horizHeadRow('Package:', $proposal->pkg_category.'::'.$proposal->pkg_name);
 	$bb->horizHeadRow('Voter:', user_link($handle));
-	$bb->horizHeadRow('Vote:', $value);
+	$bb->horizHeadRow('Vote:', $vote->value);
 	$bb->horizHeadRow('', $conditional);
 	$label = "Reviews:";
 	foreach ($vote->getReviews(true) as $review) {
