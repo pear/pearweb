@@ -163,7 +163,14 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
         print strtoupper($_COOKIE['PEAR_USER']);
         print '</a>&nbsp;</small></span><br />';
         echo '<div class="menuBlack">';
-        print_link('/?logout=1', 'Logout', false);
+
+        if (empty($_SERVER['QUERY_STRING'])) {
+            print_link('?logout=1', 'Logout', false);
+        } else {
+            print_link('?logout=1&amp;'
+                            . htmlspecialchars($_SERVER['QUERY_STRING']),
+                       'Logout', false);
+        }
     }
 
     echo delim();
