@@ -171,7 +171,10 @@ foreach ($maintained_pkg as $row) {
     echo '<li>';
     print_link('/package/' . htmlspecialchars($row['name']),
                htmlspecialchars($row['name']));
-    echo ' &nbsp;(' . htmlspecialchars($row['role']) . ")</li>\n";
+    echo ' &nbsp;(' . htmlspecialchars($row['role']) . ')';
+    echo ' &nbsp;<small><a href="/bugs/search.php?package_name%5B%5D=';
+    echo htmlspecialchars($row['name']) . '&amp;cmd=display">Bugs</a></small>';
+    echo "</li>\n";
 }
 
 ?>
