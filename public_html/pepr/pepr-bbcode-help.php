@@ -1,7 +1,7 @@
 <?PHP
 
 	require_once 'pepr/pepr.php';
-	response_header("PEPr :: BBCode Help");
+	response_header('PEPr :: BBCode Help');
 
 ?>
 <table width="100%" cellspacing="0" cellpadding="2" border="0">

@@ -18,7 +18,7 @@
    $Id$
 */
 
-response_header("Documentation");
+response_header('Documentation');
 ?>
 
 <h1>Documentation</h1>
@@ -33,13 +33,13 @@ add the documentation for their package.</p>
 <?php
 $i = 0;
 foreach ($doc_languages as $domain => $name) {
-    echo "<li>";
+    echo '<li>';
     if ($i++ == 0) {
-        echo "<b>" . make_link("/manual/" . $domain . "/", $name) . "</b>";
+        echo '<b>' . make_link('/manual/' . $domain . '/', $name) . '</b>';
     } else {
-        echo make_link("/manual/" . $domain . "/", $name);
+        echo make_link('/manual/' . $domain . '/', $name);
     }
-    echo "</li>";
+    echo '</li>';
 }
 ?>
 
@@ -50,24 +50,24 @@ download it in a bunch of formats:</p>
 
 <?php
 $formats = array(
-    "pear_manual_{LANG}.tar.gz"      => array("Many HTML files",     "tar.gz"),
-    "pear_manual_{LANG}.zip"         => array("Many HTML files",     "zip"),
-    "pear_manual_{LANG}.tar.bz2"     => array("Many HTML files",     "tar.bz2"),
-    "pear_manual_{LANG}.html.gz"     => array("One big HTML file",   "html.gz"),
-    "chm/pear_manual_{LANG}.chm"     => array("Windows HTML help",   "chm"),
-    "pear_manual_{LANG}.txt.gz"      => array("Plain text file",     "txt.gz")
+    "pear_manual_{LANG}.tar.gz"      => array('Many HTML files',     'tar.gz'),
+    "pear_manual_{LANG}.zip"         => array('Many HTML files',     'zip'),
+    "pear_manual_{LANG}.tar.bz2"     => array('Many HTML files',     'tar.bz2'),
+    "pear_manual_{LANG}.html.gz"     => array('One big HTML file',   'html.gz'),
+    "chm/pear_manual_{LANG}.chm"     => array('Windows HTML help',   'chm'),
+    "pear_manual_{LANG}.txt.gz"      => array('Plain text file',     'txt.gz')
 );
 
 $bb = new BorderBox('Download Documentation', '70%', '', 2, true);
-$bb->HeadRow("Type", "Format", "Size");
+$bb->HeadRow('Type', 'Format', 'Size');
 
 foreach ($doc_languages as $domain => $name) {
-    $bb->fullRow("<b>" . $name . "</b>");
+    $bb->fullRow('<b>' . $name . '</b>');
 
     foreach ($formats as $filename => $information) {
         $filename = str_replace("{LANG}", $domain, $filename);
 
-        $link = make_link("/distributions/manual/" . $filename, $information[0]);
+        $link = make_link('/distributions/manual/' . $filename, $information[0]);
         $bb->plainRow($link, $information[1]);
     }
 
