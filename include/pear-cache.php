@@ -47,7 +47,7 @@ $cache_dirs  = array("/news" => "",
                      "/user" => $_SERVER['PHP_SELF']
                      );
 
-if (DEVBOX || (
+if (DEVBOX === true || (
     !in_array($_SERVER['PHP_SELF'], array_keys($cache_files)) &&
     !in_array(dirname($_SERVER['PHP_SELF']), array_keys($cache_dirs)))) {
     $no_cache = 1;
