@@ -588,7 +588,7 @@ if ($edit == 1 || $edit == 2) {
           }
           ?>
 
-          <small>(<a href="http://bugs.php.net/quick-fix-desc.php">description</a>)</small>
+          <small>(<a href="/bugs/quick-fix-desc.php">description</a>)</small>
          </td>
         </tr>
 
