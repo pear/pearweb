@@ -625,7 +625,12 @@ class proposal {
         $email = preg_replace($replace, $replacements, $email);
         $email['text'] .= PROPOSAL_EMAIL_POSTFIX;
 
-        $from = '"' . $auth_user->name . '" <' . $auth_user->email . '>';
+        if (is_object($auth_user)) {
+            $from = '"' . $auth_user->name . '" <' . $auth_user->email . '>';
+        } else {
+            $from = PROPOSAL_MAIL_FROM ;
+        }
+
         $to = explode(", ", $email['to']);
         $email['to'] = array_shift($to);
         $headers = "CC: ". implode(", ", $to) . "\n";
