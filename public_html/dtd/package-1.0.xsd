@@ -223,6 +223,14 @@
       </xs:simpleType>
      </xs:attribute>
      <xs:attribute name="version" type="xs:string"/>
+     <xs:attribute name="optional" default="no">
+      <xs:simpleType>
+       <xs:restriction base="xs:string">
+        <xs:enumeration value="yes"/>
+        <xs:enumeration value="no"/>
+       </xs:restriction>
+      </xs:simpleType>
+     </xs:attribute>
     </xs:extension>
    </xs:simpleContent>
   </xs:complexType>
