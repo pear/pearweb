@@ -204,7 +204,9 @@
 			echo '</form>';
 		} else {
 			$bb = new BorderBox('Comment on this proposal', '90%', '', 2, true);
-			$bb->fullRow('Please login to comment or comment directly on '.make_link('pear-dev@lists.php.net', 'pear-dev@lists.php.net').'.');
+			$bb->fullRow('Please login to comment or comment directly on '
+                         . make_mailto_link('pear-dev@lists.php.net')
+                         . '.');
 			$bb->end();
 		}
 	}
