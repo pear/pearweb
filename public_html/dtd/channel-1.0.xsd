@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
-<xs:schema targetNamespace="http://pear.php.net/channel-1.0" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ch="http://pear.php.net/channel-1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ch="http://pear.php.net/channel-1.0" targetNamespace="http://pear.php.net/channel-1.0" elementFormDefault="qualified">
  <xs:complexType name="function">
   <xs:simpleContent>
    <xs:extension base="xs:string">
@@ -55,13 +56,7 @@
  <xs:complexType name="validatepackage">
   <xs:simpleContent>
    <xs:extension base="xs:string">
-    <xs:attribute name="version" use="required">
-     <xs:simpleType>
-      <xs:restriction base="xs:string">
-       <xs:pattern value="[0-9]+(\.[0-9]+)*([a-zA-Z]+[0-9]*)?"/>
-      </xs:restriction>
-     </xs:simpleType>
-    </xs:attribute>
+    <xs:attribute name="version"/>
    </xs:extension>
   </xs:simpleContent>
  </xs:complexType>
