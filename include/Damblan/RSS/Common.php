@@ -83,18 +83,14 @@ class Damblan_RSS_Common {
      * @param  string Content for the link tag
      * @param  string Content for the description tag
      * @param  string Date of the entry
-     * @param  string Content for the download tag
      * @return object XML_Tree_Node instance
      */
-    function newItem($title, $link, $desc, $date, $download = null) {
+    function newItem($title, $link, $desc, $date) {
         $item = new XML_Tree_Node("item");
 
         $item->setAttribute("rdf:about", $link);
         $item->addChild("title", $title);
         $item->addChild("link", htmlspecialchars($link));
-        if (!is_null($download)) {
-            $item->addChild("download", htmlspecialchars($download));
-        }
         $item->addChild("description", htmlspecialchars($desc));
         $item->addChild("dc:date", $date);
 
@@ -126,9 +122,8 @@ class Damblan_RSS_Common {
         foreach ($list as $item) {
             $date = date("Y-m-d\TH:i:s-05:00", strtotime($item['releasedate']));
             $url = 'http://pear.php.net/package/' . $item['name'] . '/download/' . $item['version'] . '/';
-            $download = 'http://pear.php.net/get/' . $item['name'] . '-' . $item['version'] . '.tgz';
             $title = $item['name'] . ' ' . $item['version'];
-            $node = $this->newItem($title, $url, $item['releasenotes'], $date, $download);
+            $node = $this->newItem($title, $url, $item['releasenotes'], $date);
             $this->addItem($node);
         }
     }
