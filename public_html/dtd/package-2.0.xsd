@@ -511,14 +511,7 @@
  </xs:element>
  <xs:element name="uri" type="xs:anyURI"/>
  <xs:element name="pattern" type="xs:string"/>
- <xs:element name="conflicts" default="no">
-  <xs:simpleType>
-   <xs:restriction base="xs:string">
-    <xs:enumeration value="yes"/>
-    <xs:enumeration value="no"/>
-   </xs:restriction>
-  </xs:simpleType>
- </xs:element>
+ <xs:element name="conflicts"/>
  <xs:element name="os">
   <xs:complexType>
    <xs:sequence>
