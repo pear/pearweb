@@ -116,7 +116,7 @@ function auth_verify($user, $passwd)
     }
     if ($ok) {
         $auth_user->_readonly = true;
-        return true;
+        return auth_check("user");
     }
     if ($error) {
         error_log($error, 0);
