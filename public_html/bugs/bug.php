@@ -214,7 +214,7 @@ if ($_POST['in'] && $edit == 3) {
     if (!$errors && !($errors = incoming_details_are_valid($_POST['in']))) {
         $query = 'UPDATE bugdb SET';
 
-        if ($bug[email] != $_POST['in']['email'] &&
+        if ($bug['email'] != $_POST['in']['email'] &&
             !empty($_POST['in']['email']))
         {
             $query .=  "email='{$_POST['in']['email']}',";
@@ -232,7 +232,7 @@ if ($_POST['in'] && $edit == 3) {
             $query = 'INSERT INTO bugdb_comments' .
                      ' (bug, email, ts, comment) VALUES (' .
                      " $id," .
-                     " '" . mysql_escape_string($_POST['in']['commentemail']) . "'," .
+                     " '" . mysql_escape_string($from) . "'," .
                      ' NOW(),' .
                      " '" . mysql_escape_string($ncomment) . "')";
             $success = @mysql_query($query);
