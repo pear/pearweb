@@ -31,7 +31,7 @@
 	
 	response_header("PEPr :: Vote details");
 	
-	$bb = new BorderBox("Proposal Vote details", "40%", "", 2, true);
+	$bb = new BorderBox("Proposal Vote details", "100%", "", 2, true);
 	
 	$bb->horizHeadRow('Package:', $proposal->pkg_category.'::'.$proposal->pkg_name);
 	$bb->horizHeadRow('Voter:', user_link($handle));
