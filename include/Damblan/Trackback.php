@@ -65,6 +65,25 @@ class Damblan_Trackback extends Services_Trackback {
     }
 
     /**
+     * Get number of all in all available trackbacks.
+     *
+     *
+     * @param object(DB) $dbh The database connection.
+     * @param bool $approvedOnly Only show approved trackbacks? (!$isAdmin)
+     * @param bool $unapprovedOnly Only show unapproved trackbacks?
+     */
+    function getCount(&$dbh, $approvedOnly = true, $unapprovedOnly  = false)
+    {
+        $sql = 'SELECT COUNT(*) FROM trackbacks';
+        if ($approvedOnly) {
+            $sql .= ' WHERE approved = '.$dbh->quoteSmart('true');
+        } else if ($unapprovedOnly) {
+            $sql .= ' WHERE approved = '.$dbh->quoteSmart('false');
+        }
+        return $dbh->getOne($sql);
+    }
+
+    /**
      * Check for possible spam
      * Checks the database for recent trackbacks from the same IP.
      * Every IP is allows to post $this->_repostCount times in
@@ -323,7 +342,7 @@ class Damblan_Trackback extends Services_Trackback {
      * @return array                        Array of PEAR_Trackback objects.
      * @throws Exception If no results are received.
      */
-    function recentTrackbacks(&$dbh, $offset = 0, $number = 10, $approvedOnly = true)
+    function recentTrackbacks(&$dbh, $offset = 0, $number = 10, $approvedOnly = true, $unapprovedOnly = false)
     {
         if ($offset < 0) {
             return PEAR::raiseError('Offset out of range. Offset must be integer >= 0.');
@@ -335,6 +354,8 @@ class Damblan_Trackback extends Services_Trackback {
                 FROM trackbacks';
         if ($approvedOnly) {
             $sql .= ' WHERE approved = '.$dbh->quoteSmart('true');
+        } else if ($unapprovedOnly) {
+            $sql .= ' WHERE approved = '.$dbh->quoteSmart('false');
         }
         $sql .= ' ORDER BY timestamp DESC LIMIT ' . $offset . ',' . $number;
         $res = $dbh->getAll($sql, null, DB_FETCHMODE_ASSOC);
