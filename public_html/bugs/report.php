@@ -32,6 +32,8 @@ require_once './include/cvs-auth.inc';
 
 
 error_reporting(E_ALL ^ E_NOTICE);
+$errors              = array();
+$ok_to_submit_report = false;
 
 if (isset($_POST['save']) && isset($_POST['pw'])) {
     // non-developers don't have $user set
@@ -39,8 +41,7 @@ if (isset($_POST['save']) && isset($_POST['pw'])) {
               time() + 3600 * 24 * 12, '/', '.php.net');
 }
 
-$errors = array();
-if ($_POST['in']) {
+if (isset($_POST['in'])) {
     if (!($errors = incoming_details_are_valid($_POST['in'], 1))) {
 
         /*
@@ -263,14 +264,14 @@ if ($_POST['in']) {
 }  // end of if input
 
 
-if (!package_exists($package)) {
-    $errors[] = 'Package &quot;' . $package . '&quot; does not exist.';
+if (!package_exists($_REQUEST['package'])) {
+    $errors[] = 'Package &quot;' . $_REQUEST['package'] . '&quot; does not exist.';
     response_header("Report - Invalid bug type");
     display_bug_error($errors);
 } else {
     if (!isset($_POST['in'])) {
         response_header('Report - New');
-        show_bugs_menu($package);
+        show_bugs_menu($_REQUEST['package']);
 
         ?>
 
@@ -307,7 +308,9 @@ if (!package_exists($package)) {
 
     ?>
 
-<form method="post" action="<?php echo "$PHP_SELF?package=$package"; ?>">
+<form method="post"
+ action="<?php echo $_SERVER['PHP_SELF'] . '?package='
+ . $_REQUEST['package']; ?>">
 <table class="form-holder" cellspacing="1" border="1">
  <tr>
   <th class="form-label_left">
@@ -338,12 +341,12 @@ if (!package_exists($package)) {
 
     <?php
 
-    if (!empty($package)) {
+    if (!empty($_REQUEST['package'])) {
         echo '<input type="hidden" name="in[package_name]" value="';
-        echo $package . '" />' . $package;
+        echo $_REQUEST['package'] . '" />' . $_REQUEST['package'];
     } else {
         echo '<select name="in[package_name]">' . "\n";
-        show_types(null, 0, $package);
+        show_types(null, 0, $_REQUEST['package']);
         echo '</select>';
     }
 
