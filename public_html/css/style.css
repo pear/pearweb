@@ -166,7 +166,7 @@ table.form-holder {
 
 caption.form-caption {
     font-weight: bold;
-    background-color: #99CC99;
+    background-color: #8bca8b;
     padding: 0.3em;
     border-left: 1px solid #FFFFFF;
     border-right: 1px solid #FFFFFF;
@@ -178,7 +178,7 @@ th.form-label_left {
     text-align: left;
     vertical-align: top;
     font-weight: bold;
-    background-color: #99CC99;
+    background-color: #8bca8b;
     width: 25%;
 }
 
@@ -193,7 +193,7 @@ th.form-label_top_center {
 td.form-input {
     text-align: left;
     vertical-align: top;
-    background-color: #DBFFDB;
+    background-color: #e8e8e8;
 }
 
 td.form-input_center {
