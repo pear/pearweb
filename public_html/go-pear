@@ -86,7 +86,7 @@ ini_set('html_errors', WEBINSTALLER);
 ini_set('magic_quotes_runtime', false);
 error_reporting( E_ALL & ~E_NOTICE);
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
-define('GO_PEAR_VER', '0.4.1');
+define('GO_PEAR_VER', '0.4.2');
 
 define('WIN32GUI', !WEBINSTALLER && WINDOWS && $sapi_name=='cli' && which('cscript'));
 
@@ -376,7 +376,8 @@ we strongly recommand to use it.
 # Temp stuff
 ####
 
-$foo = tmp_dir();
+tmp_dir();
+$foo = $ptmp;
 $ptmp = tempnam($foo, 'gope');
 if (WINDOWS) {
     $ptmp = str_replace($foo,'',$ptmp);
