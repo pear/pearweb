@@ -64,7 +64,7 @@ if (!empty($_GET['approve'])) {
     }
 }
 
-$query = "SELECT * FROM packages WHERE approved = 0";
+$query = "SELECT * FROM packages WHERE approved = 0 AND package_type = 'pear'";
 $rows = $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
 
 if (count($rows) == 0) {
