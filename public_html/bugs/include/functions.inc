@@ -119,7 +119,10 @@ function show_state_options($state, $user_mode=0, $default="")
 
 function show_version_options($current,$default="")
 {
-	$versions = array("4.3.4", "4.3.3", "4.3.2", "4.3.1", "4CVS-".date("Y-m-d")." (stable)", "5.0.0b3 (beta3)", "5CVS-".date("Y-m-d")." (dev)", "Irrelevant");
+	$versions = array("4.3.4", "4.3.3", "4.3.2", "4.3.1", "4.3.0",
+					"4.2.2", "4.2.1", "4.2.0",
+					"4CVS-".date("Y-m-d")." (stable)",
+					"5.0.0b3 (beta3)", "5CVS-".date("Y-m-d")." (dev)", "Irrelevant");
 	echo "<option value=\"\">--Please Select--</option>\n";
 	while (list(,$v) = each($versions)) {
 		echo "<option", ($current == $v ? " selected" : ""), ">$v</option>\n";
@@ -457,7 +460,7 @@ function bugtype_exists ($type)
 		return true;
 	}
 	$found = $dbh->getOne('SELECT count(*) FROM packages WHERE packages.name=' . "'" . $type ."'");
-	return $found==1?true:false;
+	return $found == 1 ? true : false;
 }
 
 /* validate an incoming bug report */
