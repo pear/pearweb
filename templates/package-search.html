@@ -1,10 +1,10 @@
+<?$extra_styles[] = '/javascript/calendar/dynCalendar.css'?>
 <?response_header("Package search")?>
 
 <h1>Package search</h1>
 
 <script type="text/javascript" language="javascript" src="javascript/calendar/browserSniffer.js"></script>
 <script type="text/javascript" language="javascript" src="javascript/calendar/dynCalendar.js"></script>
-<link rel="stylesheet" href="javascript/calendar/dynCalendar.css" media="screen" type="text/css" />
 
 <script type="text/javascript" language="javascript">
 <!--
@@ -317,8 +317,8 @@
     <tr>
         <td>Before:</td>
         <td colspan="2">
-            <input type="text" name="released_before_year" value="" size="5" onkeyup="update_date('released_before', 'year')">
-            <select name="released_before_month" onchange="update_date('released_before', 'month')" />
+            <input type="text" name="released_before_year" value="" size="5" onkeyup="update_date('released_before', 'year')" />
+            <select name="released_before_month" onchange="update_date('released_before', 'month')">
                 <option value=""></option>
                 <?foreach($months as $num => $text):?>
                     <option value="<?=$num?>"><?=$text?></option>
@@ -341,7 +341,7 @@
     <tr>
         <td>Since:</td>
         <td colspan="2">
-            <input type="text" name="released_since_year" value="" size="5" onkeyup="update_date('released_since', 'year')">
+            <input type="text" name="released_since_year" value="" size="5" onkeyup="update_date('released_since', 'year')" />
             <select name="released_since_month" onchange="update_date('released_since', 'month')">
                 <option value=""></option>
                 <?foreach($months as $num => $text):?>
