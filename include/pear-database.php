@@ -452,31 +452,6 @@ class package
             }
         }
         if ($found) {
-            if (isset($packageinfo['group'])) {
-                $bundlepackages = package::optionalGroups($packageinfo, $ver);
-                if (!is_array($bundlepackages)) {
-                    return PEAR::raiseError("getDownloadURL: package '$package' " .
-                        "version '$ver' has no optional dependency groups");
-                }
-                $release['package'] = $packageinfo['package'];
-                $release['channel'] = 'pear.php.net';
-                if (isset($release['deps'])) {
-                    foreach ($release['deps'] as $i => $dep) {
-                        $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
-                        $dep['rel'] = $dep['relation'];
-                        unset($dep['relation']);
-                        $release['deps'][$i] = $dep;
-                    }
-                }
-                $ret = array(array('version' => $ver,
-                      'info' => $release, 
-                      'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
-                               $package . '-' . $ver));
-                foreach ($bundlepackages as $bundle) {
-                    $ret['multiple'][] = $this->getDownloadURL($bundle, $prefstate, $loc, $mirror);
-                }
-                return $ret;
-            }
             $release['package'] = $packageinfo['package'];
             $release['channel'] = 'pear.php.net';
             if (isset($release['deps'])) {
@@ -644,21 +619,6 @@ class package
                     unset($dep['relation']);
                     $release['deps'][$i] = $dep;
                 }
-            }
-            if ($xsdversion == '2.0' && isset($dependency['group'])) {
-                $bundlepackages = package::optionalGroups($dependency, $ver);
-                if (!is_array($bundlepackages)) {
-                    return PEAR::raiseError("getDepDownloadURL: package '$package' " .
-                        "version '$ver' has no optional dependency groups");
-                }
-                $ret = array(array('version' => $ver,
-                      'info' => $release, 
-                      'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
-                               $pinfo['package'] . '-' . $ver));
-                foreach ($bundlepackages as $bundle) {
-                    $ret['multiple'][] = $this->getDownloadURL($bundle, $prefstate, $loc, $mirror);
-                }
-                return $ret;
             }
             return
                 array('version' => $ver,
