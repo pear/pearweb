@@ -118,9 +118,9 @@ if ($_POST['in'] && $edit == 3) {
         $query = 'INSERT INTO bugdb_comments' .
                  ' (bug, email, ts, comment) VALUES (' .
                  " $id," .
-                 " '" . mysql_escape_string($_POST['in']['commentemail']) . "'," .
+                 " '" . escapeSQL($_POST['in']['commentemail']) . "'," .
                  ' NOW(),' .
-                 " '" . mysql_escape_string($ncomment) . "')";
+                 " '" . escapeSQL($ncomment) . "')";
         $success = @mysql_query($query);
     }
     $from = stripslashes($_POST['in']['commentemail']);
@@ -163,13 +163,13 @@ if ($_POST['in'] && $edit == 3) {
     if (!$errors && !($errors = incoming_details_are_valid($_POST['in']))) {
         /* update bug record */
         $query = 'UPDATE bugdb SET' .
-                 " sdesc='" . mysql_escape_string($_POST['in']['sdesc']) . "'," .
-                 " status='" . mysql_escape_string($_POST['in']['status']) . "'," .
-                 " package_name='" . mysql_escape_string($_POST['in']['package_name']) . "'," .
-                 " php_version='" . mysql_escape_string($_POST['in']['php_version']) . "'," .
-                 " php_os='" . mysql_escape_string($_POST['in']['php_os']) . "'," .
+                 " sdesc='" . escapeSQL($_POST['in']['sdesc']) . "'," .
+                 " status='" . escapeSQL($_POST['in']['status']) . "'," .
+                 " package_name='" . escapeSQL($_POST['in']['package_name']) . "'," .
+                 " php_version='" . escapeSQL($_POST['in']['php_version']) . "'," .
+                 " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                  ' ts2=NOW(), ' .
-                 " email='" . mysql_escape_string($from) . "' WHERE id=$id";
+                 " email='" . escapeSQL($from) . "' WHERE id=$id";
         $success = @mysql_query($query);
 
         /* add comment */
@@ -177,9 +177,9 @@ if ($_POST['in'] && $edit == 3) {
             $query = 'INSERT INTO bugdb_comments' .
                      ' (bug, email, ts, comment) VALUES (' .
                      " $id," .
-                     " '" . mysql_escape_string($from) . "'," .
+                     " '" . escapeSQL($from) . "'," .
                      ' NOW(),' .
-                     " '" . mysql_escape_string($ncomment) . "')";
+                     " '" . escapeSQL($ncomment) . "')";
             $success = @mysql_query($query);
         }
     }
@@ -234,21 +234,21 @@ if ($_POST['in'] && $edit == 3) {
             $query .=  "email='{$_POST['in']['email']}',";
         }
 
-        $query .= " sdesc='" . mysql_escape_string($_POST['in']['sdesc']) . "'," .
-                  " status='" . mysql_escape_string($_POST['in']['status']) . "'," .
-                  " package_name='" . mysql_escape_string($_POST['in']['package_name']) . "'," .
-                  " assign='" . mysql_escape_string($_POST['in']['assign']) . "'," .
-                  " php_version='" . mysql_escape_string($_POST['in']['php_version']) . "'," .
-                  " php_os='" . mysql_escape_string($_POST['in']['php_os']) . "'," .
+        $query .= " sdesc='" . escapeSQL($_POST['in']['sdesc']) . "'," .
+                  " status='" . escapeSQL($_POST['in']['status']) . "'," .
+                  " package_name='" . escapeSQL($_POST['in']['package_name']) . "'," .
+                  " assign='" . escapeSQL($_POST['in']['assign']) . "'," .
+                  " php_version='" . escapeSQL($_POST['in']['php_version']) . "'," .
+                  " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                   " ts2=NOW() WHERE id=$id";
         $success = @mysql_query($query);
         if ($success && !empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
                      ' (bug, email, ts, comment) VALUES (' .
                      " $id," .
-                     " '" . mysql_escape_string($from) . "'," .
+                     " '" . escapeSQL($from) . "'," .
                      ' NOW(),' .
-                     " '" . mysql_escape_string($ncomment) . "')";
+                     " '" . escapeSQL($ncomment) . "')";
             $success = @mysql_query($query);
         }
 

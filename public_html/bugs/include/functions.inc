@@ -25,6 +25,22 @@ function rinse($in)
 	return get_magic_quotes_gpc()?stripslashes($in):$in;
 }
 
+/**
+ * Escape string so it can be used as a literal in a query.
+ *
+ * If magic_quotes_gpc is on, the slashes are stripped out
+ * then the escaping is done.
+ */
+function escapeSQL($in)
+{
+    global $dbh;
+    if (get_magic_quotes_gpc()) {
+        return $dbh->escapeSimple(stripslashes($in));
+    } else {
+        return $dbh->escapeSimple($in);
+    }
+}
+
 /* handy function for when you're dealing with user input or a default. */
 function oneof()
 {
