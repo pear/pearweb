@@ -741,7 +741,7 @@ class package
              " FROM packages p, categories c ".
              "WHERE " . $package_type . " c.id = p.category AND p.{$what} = ?";
         $rel_sql = "SELECT version, id, doneby, license, summary, ".
-             "description, releasedate, releasenotes, state, packagexmlversion ".
+             "description, releasedate, releasenotes, state" . //, packagexmlversion ".
              "FROM releases ".
              "WHERE package = ? ".
              "ORDER BY releasedate DESC";
