@@ -22,6 +22,7 @@ require_once "site.php";
 
 $doc_languages = array("en" => "English", 
                        "fr" => "French",
+                       "ja" => "Japanese",
                        /*
                          "de" => "German", 
                          "it" => "Italian", 
