@@ -22,13 +22,13 @@ response_header('News');
 
 echo "<h1>PEAR News</h1>\n";
 
-echo '<h2><a name="2004" id="2004">Year 2004</a></h2>' . "\n";
+echo '<h2><a name="yr2004" id="yr2004">Year 2004</a></h2>' . "\n";
 echo "<ul>\n";
 echo ' <li>' . make_link('weekly-summaries.php', 'Weekly Summaries') . " (April)</li>\n";
 echo ' <li>' . make_link('pepr.php', 'Announcing PEPr') . " (January)</li>\n";
 echo "</ul>\n";
 
-echo '<h2><a name="2003" id="2003">Year 2003</a></h2>' . "\n";
+echo '<h2><a name="yr2003" id="yr2003">Year 2003</a></h2>' . "\n";
 echo "<ul>\n";
 echo ' <li>' . make_link('pecl-split.php', 'Own infrastructure for PECL') . " (October)</li>\n";
 echo ' <li>' . make_link('group-announce.php', 'Announcing the PEAR Group') . " (August)</li>\n";
