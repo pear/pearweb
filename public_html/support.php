@@ -107,6 +107,12 @@ complete your request.
       'pear-core', 'PEAR Core development list',
       'A list, where the core infrastructure of PEAR is discussed',
       false, false, true, "php.pear.core"
+    ),
+
+    array (
+      'pear-webmaster', 'PEAR webmaster list',
+      'A list for managing the collaboration of the people working on the website.',
+      false, false, true, "php.pear.webmaster"
     )
   );
 ?>
