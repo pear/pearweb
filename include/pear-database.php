@@ -451,7 +451,7 @@ class package
             if ($field == 'releases' || $field == 'notes') {
                 if ($what == "name") {
                     $pid = $dbh->getOne("SELECT id FROM packages ".
-                                        "WHERE package_type = 'pear' AND approved = 1 AND name = ?", array($pkg));
+                                        "WHERE " . $package_type . " approved = 1 AND name = ?", array($pkg));
                 } else {
                     $pid = $pkg;
                 }
@@ -464,15 +464,15 @@ class package
                 }
             } elseif ($field == 'category') {
                 $sql = "SELECT c.name FROM categories c, packages p ".
-                     "WHERE c.id = p.category AND p.package_type = 'pear' AND p.approved = 1 AND p.$what = ?";
+                     "WHERE c.id = p.category AND " . $package_type . " p.approved = 1 AND p.$what = ?";
                 $info = $dbh->getAssoc($sql, false, array($pkg));
             } elseif ($field == 'description') {
-                $sql = "SELECT description FROM packages WHERE package_type = 'pear' AND approved = 1 AND $what = ?";
+                $sql = "SELECT description FROM packages WHERE ". $package_type . " approved = 1 AND $what = ?";
                 $info = $dbh->query($sql, array($pkg));
             } elseif ($field == 'authors') {
                 $sql = "SELECT u.handle, u.name, u.email, u.showemail, m.role
                         FROM maintains m, users u, packages p
-                        WHERE p.package_type = 'pear' AND p.approved = 1 AND m.package = p.id
+                        WHERE ". $package_type ." AND p.approved = 1 AND m.package = p.id
                         AND p.$what = ?
                         AND m.handle = u.handle";
                 $info = $dbh->getAll($sql, array($pkg), DB_FETCHMODE_ASSOC);
@@ -484,7 +484,7 @@ class package
                 } else {
                     $dbfield = $field;
                 }
-                $sql = "SELECT $dbfield FROM packages WHERE package_type = 'pear' AND approved = 1 AND $what = ?";
+                $sql = "SELECT $dbfield FROM packages WHERE ". $package_type ." approved = 1 AND $what = ?";
                 $info = $dbh->getOne($sql, array($pkg));
             }
         }
