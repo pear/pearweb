@@ -33,6 +33,7 @@ if (DB::isError($db = DB::connect($dsn))) {
     die ("Failed to connect: $dsn\n");
 }
 
+require_once 'pear-config.php';
 require_once 'pepr/pepr.php';
 
 // This checks if a proposal should automatically be finished
