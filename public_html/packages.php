@@ -97,8 +97,10 @@ response_header($category_title);
 $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
 
 // 1) Show categories of this level
+$sth = $dbh->query("SELECT c.*, COUNT(p.id) AS npackages FROM categories c LEFT JOIN packages p ON p.category = c.id ".
+                    "WHERE p.package_type = 'pear' AND c.parent $category_where ".
+                    "GROUP BY c.id ORDER BY name");
 
-$sth     = $dbh->query("SELECT * from categories WHERE parent $category_where ORDER BY name");
 $table   = new HTML_Table('border="0" cellpadding="6" cellspacing="2" width="100%"');
 $nrow    = 0;
 $catdata = array();
@@ -121,7 +123,6 @@ $subpkgs = $dbh->getAssoc("SELECT p.category, p.id AS id, p.name AS name, p.summ
 $max_sub_links = 4;
 $totalpackages = 0;
 while ($sth->fetchInto($row)) {
-
     extract($row);
 
     $ncategories = ($cat_right - $cat_left - 1) / 2;
@@ -204,10 +205,10 @@ if (!empty($catpid)) {
         }
         $subCategories = implode(', ', $subCategories);
     }
-	
+
     // Package list
     $packages = $dbh->getAll("SELECT id, name, summary, license FROM packages WHERE package_type = 'pear' AND approved = 1 AND category=$catpid ORDER BY name");
-		
+
     // Paging
     $total = count($packages);
     $pager = new Pager(array('totalItems' => $total, 'perPage' => 15));
@@ -215,12 +216,12 @@ if (!empty($catpid)) {
     list($prev, $pages, $next) = $pager->getLinks('<nobr><img src="gifs/prev.gif" width="10" height="10" border="0" alt="&lt;&lt;" />Back</nobr>', '<nobr>Next<img src="gifs/next.gif" width="10" height="10" border="0" alt="&gt;&gt;" /></nobr>');
 
     $packages = array_slice($packages, $first - 1, 15);
-		
+
     foreach ($packages as $key => $pkg) {
         $extendedInfo['numReleases'] = $dbh->getOne('SELECT COUNT(*) FROM releases WHERE package = ' . $pkg['id']);
         $extendedInfo['status']      = $dbh->getOne('SELECT state FROM releases WHERE package = ' . $pkg['id'] . ' ORDER BY id DESC LIMIT 1');
         $extendedInfo['license']     = $dbh->getOne('SELECT license FROM packages WHERE id = ' . $pkg['id'] . ' ORDER BY id DESC LIMIT 1');
-			
+
 
         // Make status coloured
         switch ($extendedInfo['status']) {
@@ -231,7 +232,7 @@ if (!empty($catpid)) {
         case 'beta':
             $extendedInfo['status'] = '<span style="color: #ffc705">Beta</span>';
             break;
-				
+
         case 'alpha':
             $extendedInfo['status'] = '<span style="color: #ff0000">Alpha</span>';
             break;
@@ -242,7 +243,7 @@ if (!empty($catpid)) {
 
     /**
      * More info visibility
-     */		
+     */
     if (@$_COOKIE['hideMoreInfo'] == '1') {
         $defaultMoreInfoVis = 'none';
 
@@ -263,7 +264,7 @@ if (!empty($catpid)) {
 $url = new Net_URL();
 $url->addQueryString('hideMoreInfo', '1');
 $hideMoreInfoLink = $url->getURL();
-	
+
 $url->removeQueryString('hideMoreInfo');
 $url->addQueryString('showMoreInfo', '1');
 $showMoreInfoLink = $url->getURL();
