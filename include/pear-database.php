@@ -450,8 +450,8 @@ class package
             // get a single field
             if ($field == 'releases' || $field == 'notes') {
                 if ($what == "name") {
-                    $pid = $dbh->getOne("SELECT id FROM packages ".
-                                        "WHERE " . $package_type . " approved = 1 AND name = ?", array($pkg));
+                    $pid = $dbh->getOne("SELECT p.id FROM packages p ".
+                                        "WHERE " . $package_type . " p.approved = 1 AND p.name = ?", array($pkg));
                 } else {
                     $pid = $pkg;
                 }
@@ -464,10 +464,10 @@ class package
                 }
             } elseif ($field == 'category') {
                 $sql = "SELECT c.name FROM categories c, packages p ".
-                     "WHERE c.id = p.category AND " . $package_type . " p.approved = 1 AND p.$what = ?";
+                     "WHERE c.id = p.category AND " . $package_type . " p.approved = 1 AND p.{$what} = ?";
                 $info = $dbh->getAssoc($sql, false, array($pkg));
             } elseif ($field == 'description') {
-                $sql = "SELECT description FROM packages WHERE " . $package_type . " approved = 1 AND $what = ?";
+                $sql = "SELECT description FROM packages p WHERE " . $package_type . " p.approved = 1 AND p.{$what} = ?";
                 $info = $dbh->query($sql, array($pkg));
             } elseif ($field == 'authors') {
                 $sql = "SELECT u.handle, u.name, u.email, u.showemail, m.role
@@ -484,7 +484,7 @@ class package
                 } else {
                     $dbfield = $field;
                 }
-                $sql = "SELECT $dbfield FROM packages WHERE " . $package_type ." approved = 1 AND $what = ?";
+                $sql = "SELECT $dbfield FROM packages p WHERE " . $package_type ." p.approved = 1 AND p.{$what} = ?";
                 $info = $dbh->getOne($sql, array($pkg));
             }
         }
@@ -539,7 +539,7 @@ class package
                 {
                     unset($dep['rid']);
                     unset($dep['release']);
-                    if ($dep['type'] == 'pkg') {
+                    if ($dep['type'] == 'pkg' && isset($packageinfo[$dep['name']])) {
                         $dep['package'] = $packageinfo[$dep['name']]['packageid'];
                     } else {
                         $dep['package'] = 0;
