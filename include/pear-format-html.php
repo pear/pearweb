@@ -137,20 +137,24 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 <div>
 <a id="TOP" />
 </div>
-<table cellspacing="0" cellpadding="0" style="width: 100%; border: 0px;">
-  <tr style="background-color: #339900;">
-    <td rowspan="2" colspan="2" style="width: 120px; height: 1px; text-align: left;">
-<?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
-    </td>
-    <td colspan="3" style="height: 1px; text-align: right; vertical-align: top;">&nbsp;</td>
-  </tr>
 
-  <tr style="background-color: #339900;">
-    <td colspan="3" style="height: 1px; text-align: right; vertical-align: bottom;">
-      <?php
+<table class="main" cellspacing="0" cellpadding="0">
+  
+ <!-- START HEADER -->
+
+ <tr class="head">
+  <td class="head-logo" rowspan="2" colspan="2">
+   <?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
+  </td>
+ <td class="head-logo_space" colspan="3">&nbsp;</td>
+ </tr>
+
+ <tr class="head">
+  <td class="head-menu" colspan="3">
+   <?php
 
     if (empty($_COOKIE['PEAR_USER'])) {
-        echo '<div class="menuBlack">';
+        echo '   <div class="menuBlack">';
         print_link('/account-request.php', 'Register', false);
         echo delim();
         if ($_SERVER['QUERY_STRING'] && $_SERVER['QUERY_STRING'] != 'logout=1') {
@@ -162,11 +166,11 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
                        'Login', false);
         }
     } else {
-        print '<span class="menuWhite"><small>';
-        print '<a href="/user/' . $_COOKIE['PEAR_USER'] . '">logged in as ';
+        print '<small>';
+        print '<a class="menuWhite" href="/user/' . $_COOKIE['PEAR_USER'] . '">logged in as ';
         print strtoupper($_COOKIE['PEAR_USER']);
-        print '</a>&nbsp;</small></span><br />';
-        echo '<div class="menuBlack">';
+        print "</a></small><br />\n";
+        echo '   <div class="menuBlack">';
 
         if (empty($_SERVER['QUERY_STRING'])) {
             print_link('?logout=1', 'Logout', false);
@@ -185,18 +189,15 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
     print_link('/support.php','Support',false);
     echo delim();
     print_link('/bugs/','Bugs',false);
-      ?>&nbsp;<br />
-      <?php spacer(2,2); ?>
-      </div>
-    </td>
-  </tr>
+    ?>
 
-  <tr style="background-color: #003300;"><td colspan="5" style="height: 1px;"><?php spacer(1,1);?><br /></td></tr>
+   </div>
+  </td>
+ </tr>
 
-  <tr style="background-color: #006600;">
-    <td colspan="5" style="height: 1px; text-align: right; vertical-align: top;" class="menuWhite">
-    <form method="post" action="/search.php">
-    <div>
+ <tr class="head">
+  <td class="head-search" colspan="5">
+   <form method="post" action="/search.php">
     <small><u>S</u>earch for</small>
     <input class="small" type="text" name="search_string" value="" size="20" accesskey="s" />
     <small>in the</small>
@@ -208,14 +209,13 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
         <option value="pear-general">General mailing list</option>
         <option value="pear-cvs">CVS commits mailing list</option>
     </select>
-    <input type="image" src="/gifs/small_submit_white.gif" alt="search" style="vertical-align: middle;" />&nbsp;<br />
-    </div>
-    </form>
-    </td></tr>
+    <input type="image" src="/gifs/small_submit_white.gif" alt="search" style="vertical-align: middle;" />
+   </form>
+  </td>
+ </tr>
 
-  <tr style="background-color: #003300;"><td colspan="5" style="height: 1px;"><?php spacer(1,1);?><br /></td></tr>
-
-  <!-- Middle section -->
+ <!-- END HEADER -->
+ <!-- Middle section -->
 
  <tr style="vertical-align: top;">
 <?php if (isset($SIDEBAR_DATA)) { ?>
