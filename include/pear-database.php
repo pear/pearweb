@@ -1886,10 +1886,12 @@ class user
     {
         global $dbh;
         if ($field === null) {
-            return $dbh->getRow('SELECT * FROM users WHERE registered = 1 AND handle = ?',
+            $row = $dbh->getRow('SELECT * FROM users WHERE registered = 1 AND handle = ?',
                                 array($user), DB_FETCHMODE_ASSOC);
+            unset($row['password']);
+            return $row;
         }
-        if (preg_match('/[^a-z]/', $user)) {
+        if ($field == 'password' || preg_match('/[^a-z]/', $user)) {
             return null;
         }
         return $dbh->getRow('SELECT ! FROM users WHERE handle = ?',
