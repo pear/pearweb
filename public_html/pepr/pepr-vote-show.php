@@ -43,7 +43,7 @@
 		$label = "";
 	}
 	
-	$bb->horizHeadRow('Comment:', nl2br(stripslashes($vote->comment)));
+	$bb->horizHeadRow('Comment:', nl2br(htmlentities(stripslashes($vote->comment))));
 		
 	$bb->end();
 	
