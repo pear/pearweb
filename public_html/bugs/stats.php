@@ -53,7 +53,6 @@ $row       = array();
 $pkg       = array();
 $pkg_total = array();
 $all       = array();
-$from      = '';
 
 $query  = 'SELECT b.package_name, LOWER(b.status) AS status, COUNT(*) AS quant'
         . ' FROM bugdb AS b';
@@ -71,19 +70,17 @@ switch ($site) {
         $where = ' WHERE 1=1';
 }
 
-if ($_GET['category'] && $_GET['category'] != '') {
-    $where .= ' AND p.category = c.id 
-                AND c.name = ' .  $dbh->quoteSmart($_GET['category']);
-    $from .= ', categories c';
+$from = ' LEFT JOIN packages AS p ON p.name = b.package_name';
+
+if (!empty($_GET['category'])) {
+    $from .= ' JOIN categories AS c ON c.id = p.category';
+    $from .= ' AND c.name = ' .  $dbh->quoteSmart($_GET['category']);
 }
 
-if ($_GET['developer'] && $_GET['developer'] != '') {
-    $where .= ' AND p.id = m.package 
-                AND m.handle = ' .  $dbh->quoteSmart($_GET['developer']);
-    $from .= ', maintains m ';
+if (!empty($_GET['developer'])) {
+    $from .= ' JOIN maintains AS m ON m.package = p.id';
+    $from .= ' AND m.handle = ' .  $dbh->quoteSmart($_GET['developer']);
 }
-
-$from .= ' LEFT JOIN packages AS p ON p.name = b.package_name';
 
 if (empty($_GET['bug_type'])) {
     $bug_type = 'Bug';
