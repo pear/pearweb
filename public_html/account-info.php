@@ -46,9 +46,9 @@ if ($row === null) {
 
 $handle = htmlspecialchars($handle);
 
-response_header('User Information: ' . $handle);
+response_header('User Information: ' . $row['name']);
 
-echo '<h1>User Information: ' . $handle . "</h1>\n";
+echo '<h1>User Information: ' . $row['name'] . "</h1>\n";
 
 if (isset($auth_user) && is_object($auth_user) 
     && ($auth_user->handle == $handle ||
@@ -98,7 +98,7 @@ if ($row['userinfo']) {
  <tr>
   <td colspan="2">
    <ul>
-
+    <li>Username: <?php echo $row['handle']; ?></li>
 <?php
 
 if ($row['showemail']) {
