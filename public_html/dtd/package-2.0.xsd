@@ -5,7 +5,10 @@
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="name"/>
-    <xs:element ref="channel"/>
+    <xs:choice>
+     <xs:element ref="channel"/>
+     <xs:element ref="uri"/>
+    </xs:choice>
     <xs:element ref="extends" minOccurs="0"/>
     <xs:element ref="summary"/>
     <xs:element ref="description"/>
@@ -178,10 +181,10 @@
    <xs:attribute name="md5sum" type="xs:string"/>
   </xs:complexType>
  </xs:element>
- <xs:element name="install">
+ <xs:element name="installas">
   <xs:complexType>
    <xs:attribute name="name" type="xs:string" use="required"/>
-   <xs:attribute name="as" type="xs:string"/>
+   <xs:attribute name="as" type="xs:string" use="required"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="ignore">
@@ -238,7 +241,7 @@
  <xs:element name="filelist">
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="install" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="installas" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="ignore" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
@@ -449,7 +452,7 @@
  <xs:element name="channel">
   <xs:simpleType>
    <xs:restriction base="xs:string">
-    <xs:pattern value="[A-Za-z][a-zA-Z0-9_]+"/>
+    <xs:pattern value="[A-Za-z][a-zA-Z0-9_.]+"/>
    </xs:restriction>
   </xs:simpleType>
  </xs:element>
