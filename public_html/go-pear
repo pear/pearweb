@@ -155,14 +155,26 @@ if (WEBINSTALLER) {
 	$installer_packages[] = 'Net_UserAgent_Detect';
 	$installer_packages[] = 'PEAR_Frontend_Web';
 }
-$pfc_packages = array(
-    'DB',
-    'Net_Socket',
-    'Net_SMTP',
-    'Mail',
-    'XML_Parser',
-    'phpUnit'
-    );
+$version_n = explode(".",phpversion());
+if ($version_n[0]=="4") {
+    $pfc_packages = array(
+        'DB',
+        'Net_Socket',
+        'Net_SMTP',
+        'Mail',
+        'XML_Parser',
+        'phpUnit-0.6.2'
+        );
+} else {
+    $pfc_packages = array(
+        'DB',
+        'Net_Socket',
+        'Net_SMTP',
+        'Mail',
+        'XML_Parser',
+        'phpUnit'
+        );
+}
 $config_desc = array(
     'prefix' => 'Installation prefix',
     'bin_dir' => 'Binaries directory',
@@ -662,6 +674,7 @@ if ($install_pfc) {
         $msg = str_pad("Downloading package: $pkg", max(38,21+strlen($pkg)+4), '.');
         print $msg;
         $url = sprintf($urltemplate, $pkg);
+	echo "URL: $url\n\n";
         $tarball[$pkg] = download_url($url, null, $http_proxy);
         print "ok\n";
         displayHTMLProgress($progress += round(65 / count($to_install)));
