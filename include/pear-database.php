@@ -565,6 +565,10 @@ class package
             $packageinfo[$pkg]['state']  = $stable['state'];
         }
         if (!$stable_only) {
+            // debug - clear cache as no one will use this until 1.3.1 is released
+            include_once 'xmlrpc-cache.php';
+            XMLRPC_Cache::remove('package.listAll', array(false));
+            XMLRPC_Cache::remove('package.listAll', array(true));
             foreach ($allreleases as $pkg => $stable) {
                 if ($stable['state'] == 'stable') {
                     $packageinfo[$pkg]['stable'] = $stable['stable'];
