@@ -17,8 +17,9 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-		
-ini_set("include_path", ini_get("include_path").":../include");
+
+
+ini_set("include_path", ini_get("include_path").":/usr/local/www/pearweb/include");
 
 require_once('DB.php');
 	
@@ -32,7 +33,7 @@ if (DB::isError($db = DB::connect($dsn))) {
     die ("Failed to connect: $dsn\n");
 }
 
-require_once dirname(__FILE__) . '/../include/pepr/pepr.php';
+require_once 'pepr/pepr.php';
 
 // This checks if a proposal should automatically be finished
 	
