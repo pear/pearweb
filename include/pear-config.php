@@ -28,6 +28,39 @@ if (isset($_ENV['PEAR_CHANNELNAME'])) {
      */
     define('PEAR_CHANNELNAME', 'pear.php.net');
 }
+if (isset($_ENV['PEAR_WEBMASTER_EMAIL'])) {
+    /**
+     * @ignore
+     */
+    define('PEAR_WEBMASTER_EMAIL', $_ENV['PEAR_WEBMASTER_EMAIL']);
+} else {
+    /**
+     * The channel webmaster email
+     */
+    define('PEAR_WEBMASTER_EMAIL', 'pear-webmaster@lists.php.net');
+}
+if (isset($_ENV['PEAR_DOC_EMAIL'])) {
+    /**
+     * @ignore
+     */
+    define('PEAR_DOC_EMAIL', $_ENV['PEAR_DOC_EMAIL']);
+} else {
+    /**
+     * The channel webmaster email
+     */
+    define('PEAR_DOC_EMAIL', 'pear-doc@lists.php.net');
+}
+if (isset($_ENV['PEAR_CHANNEL_SUMMARY'])) {
+    /**
+     * @ignore
+     */
+    define('PEAR_CHANNEL_SUMMARY', $_ENV['PEAR_CHANNEL_SUMMARY']);
+} else {
+    /**
+     * The channel webmaster email
+     */
+    define('PEAR_CHANNEL_SUMMARY', 'PEAR PHP Extension and Application Repository');
+}
 if (isset($_ENV['PEAR_TMPDIR'])) {
     /**
      * @ignore
@@ -251,7 +284,7 @@ define('PROPOSAL_EMAIL_PREFIX', '[PEPr]');
 /**
  * PEPr: the string put on the end of each email
  */
-define('PROPOSAL_EMAIL_POSTFIX', "\n\n-- \nSent by PEPr, the automatic proposal system at http://pear.php.net");
+define('PROPOSAL_EMAIL_POSTFIX', "\n\n-- \nSent by PEPr, the automatic proposal system at http://" . PEAR_CHANNELNAME);
 
 define('PROPOSAL_OVERVIEW_FINISHED', 10);
 
