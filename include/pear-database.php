@@ -1992,6 +1992,42 @@ class user
     }
 
     // }}}
+    // {{{ getRecentReleases(string, [int])
+
+    /**
+     * Get recent releases for the given user
+     *
+     * @access public
+     * @param  string Handle of the user
+     * @param  int    Number of releases (default is 10)
+     * @return array
+     */
+    function getRecentReleases($handle, $n = 10)
+    {
+        global $dbh;
+        $recent = array();
+
+        $query = "SELECT p.id AS id, " .
+            "p.name AS name, " .
+            "p.summary AS summary, " .
+            "r.version AS version, " .
+            "r.releasedate AS releasedate, " .
+            "r.releasenotes AS releasenotes, " .
+            "r.doneby AS doneby, " .
+            "r.state AS state " .
+            "FROM packages p, releases r, maintains m " .
+            "WHERE p.package_type = 'pear' AND p.id = r.package " .
+            "AND p.id = m.package AND m.handle = '" . $handle . "' " .
+            "ORDER BY r.releasedate DESC";
+
+        $sth = $dbh->limitQuery($query, 0, $n);
+        while ($sth->fetchInto($row, DB_FETCHMODE_ASSOC)) {
+            $recent[] = $row;
+        }
+        return $recent;
+    }
+
+    // }}}
 }
 
 class statistics

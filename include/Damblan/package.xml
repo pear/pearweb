@@ -19,7 +19,7 @@ but with an additional "m".
   <release>
     <version>X.x</version>
     <state>X</state>
-    <date>2003-xx-xx</date>
+    <date>2004-xx-xx</date>
     <notes>
     </notes>
     <filelist>
@@ -38,6 +38,7 @@ but with an additional "m".
         <file name="Common.php" />
         <file name="Latest.php" />
         <file name="Package.php" />
+        <file name="User.php" />
       </dir>
     </filelist>
   </release>

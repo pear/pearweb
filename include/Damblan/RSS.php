@@ -38,7 +38,11 @@ class Damblan_RSS {
      * @return mixed  String or PEAR_Error
      */
     function getFeed($type) {
-        if ($type != "latest") {
+        if (substr($type, 0, 4) == "user") {
+            $cache = $type;
+            $value = substr($type, 5);
+            $type = substr($type, 0, 4);
+        } else if ($type != "latest") {
             $cache = $type;
             $value = substr($type, 4);
             $type = substr($type, 0, 3);
@@ -63,6 +67,9 @@ class Damblan_RSS {
         } else if ($type == "pkg") {
             require_once "Damblan/RSS/Package.php";
             $rss_obj = new Damblan_RSS_Package($value);
+        } else if ($type == "user") {
+            require_once "Damblan/RSS/User.php";
+            $rss_obj = new Damblan_RSS_User($value);
         }
 
         if (isset($rss_obj)) {
