@@ -256,6 +256,7 @@
 	
 		$bb = new BorderBox("Vote on this proposal", "100%", "", 2, true);
 		
+		$karma = new Damblan_Karma($dbh);
 		if (isset($_COOKIE['PEAR_USER']) && $karma->has($_COOKIE['PEAR_USER'],'pear.dev')) {
 			if (!ppVote::hasVoted($dbh, $_COOKIE['PEAR_USER'], $proposal->id) && !$proposal->isFromUser($_COOKIE['PEAR_USER'])) {
 				$formArray = $form->toArray();
