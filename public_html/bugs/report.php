@@ -232,9 +232,14 @@ if ($errors) display_errors($errors);
  </tr><tr>
   <th align="right">Package affected:</th>
   <td colspan="2">
-    <input type="hidden" name="in[bug_type]" value="<?php echo $package;?>">
-    <?php echo $package;?>
-    <!-- <select name="in[bug_type]"><?php //show_types($in['bug_type'],0,$package);?></select> -->
+    <?php
+    if (!empty($package)) { ?>
+        <input type="hidden" name="in[bug_type]" value="<?php echo $package;?>">
+        <?php echo $package;
+    } else {
+    ?>
+    <select name="in[bug_type]"><?php show_types(null,0,$package);?></select>
+    <?php } ?>
   </td>
  </tr><tr>
   <th align="right">Operating system:</th>
