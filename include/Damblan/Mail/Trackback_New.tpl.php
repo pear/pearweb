@@ -31,9 +31,7 @@ Excerpt:
 
 Please choose one of the following actions:
 Approve - http://pear.php.net/trackback/trackback-admin.php?action=approve&id=%id%&timestamp=%timestamp%.
-Delete - http://pear.php.net/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%.
--- 
-This Email is brought to you by http://pear.php.net',
+Delete - http://pear.php.net/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%.'
      );
 
 ?>

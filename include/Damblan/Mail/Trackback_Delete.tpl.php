@@ -30,9 +30,7 @@ Date:       %date%
 Excerpt:
 %excerpt%
 
-Executor:    %user%
--- 
-This Email is brought to you by http://pear.php.net',
+Executor:    %user%'
      );
 
 ?>
