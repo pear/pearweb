@@ -186,7 +186,7 @@
 			if (isset($proposal) && $proposal->status != 'draft') {
 				if ((isset($values['action_email']) && $values['action_email']) || (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
 					if (empty($values['action_comment'])) {
-						PEAR::raiseError("You have to apply a comment, when you send update emails! For administrative actions, allways emails are send.");
+						PEAR::raiseError("You have to apply a comment when you send update emails! For administrative actions, always emails are send.");
 					}
 					$proposal->addComment($values['action_comment']);
 					$proposal->sendActionEmail('edit_proposal', 'mixed', $_COOKIE['PEAR_USER'], $values['action_comment']);	
