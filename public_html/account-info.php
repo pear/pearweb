@@ -46,9 +46,9 @@ if ($row === null) {
 
 $handle = htmlspecialchars($handle);
 
-response_header('User Information: ' . $row['name']);
+response_header('User Information: ' . htmlspecialchars($row['name']));
 
-echo '<h1>User Information: ' . $row['name'] . "</h1>\n";
+echo '<h1>User Information: ' . htmlspecialchars($row['name']) . "</h1>\n";
 
 if (isset($auth_user) && is_object($auth_user) 
     && ($auth_user->handle == $handle ||
@@ -89,7 +89,7 @@ if (isset($auth_user) && is_object($auth_user)
 if ($row['userinfo']) {
     echo ' <tr>' . "\n";
     echo '  <td class="textcell" colspan="2">';
-    echo htmlspecialchars($row['userinfo']) . "</td>\n";
+    echo nl2br(htmlspecialchars($row['userinfo'])) . "</td>\n";
     echo ' </tr>' . "\n";
 }
 
