@@ -1682,21 +1682,33 @@ class release
 
         if ($exists == 0) {
             $pkg_info = package::info($package, null, true);
-            $query = "SELECT version FROM releases WHERE package = ? AND id = ?";
+
+            $query = 'SELECT version FROM releases'
+                   . ' WHERE package = ? AND id = ?';
             $version = $dbh->getOne($query, array($package, $release_id));
 
-            $query = "INSERT INTO package_stats (dl_number, package, release, pid, rid, cid) VALUES (1, ?, ?, ?, ?, ?)";
+            if (!$version) {
+                return PEAR::raiseError('release:: the package you requested'
+                                        . ' has no release by that number');
+            }
+
+            $query = 'INSERT INTO package_stats'
+                   . ' (dl_number, package, release, pid, rid, cid, last_dl)'
+                   . ' VALUES (1, ?, ?, ?, ?, ?, ?)';
+
             $dbh->query($query, array($pkg_info['name'],
                                       $version,
                                       $package,
                                       $release_id,
-                                      $pkg_info['categoryid']
+                                      $pkg_info['categoryid'],
+                                      date('Y-m-d H:i:s')
                                       )
                         );
         } else {
-            $query = "UPDATE package_stats "
-                . ' SET dl_number = dl_number + 1'
-                . " WHERE pid = ? AND rid = ?";
+            $query = 'UPDATE package_stats '
+                   . ' SET dl_number = dl_number + 1,'
+                   . " last_dl = '" . date('Y-m-d H:i:s') . "'"
+                   . ' WHERE pid = ? AND rid = ?';
             $dbh->query($query, array($package, $release_id));
         }
 
