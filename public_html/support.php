@@ -250,6 +250,9 @@ be discussed.</p>
     covers the task of serializing XML documents with PHP with the help of the 
     <a href="/package/XML_Serializer/">XML_Serializer</a> package.</li>
 
+    <li><a href="http://www.sitepoint.com/article/xml-php-pear-xml_serializer">Instant XML with PHP and PEAR::XML_Serializer</a>
+    is another article about XML_Serializer.</li>
+
     <li><a href="http://www.php-mag.net/itr/online_artikel/psecom,id,455,nodeid,114.html">Grokking Stats</a>:
     Article (PDF) by <a href="/user/jmcastagnetto">Jesus M. Castagnetto</a>
     about <a href="/package/Math_Stats/">Math_Stats</a> and 
