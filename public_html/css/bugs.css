@@ -57,11 +57,15 @@ td#summary {
     font-weight: bold;
 }
 th.details {
+    vertical-align: top;
     text-align: right;
 }
 th.results {
     background-color: #aaaaaa;
     text-align: left;
+}
+table#details td {
+    vertical-align: top;
 }
 
 div#bugheader {
