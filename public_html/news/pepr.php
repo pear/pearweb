@@ -3,7 +3,7 @@
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2001-2003 The PHP Group                                |
+   | Copyright (c) 2004 The PEAR Group                                    |
    +----------------------------------------------------------------------+
    | This source file is subject to version 2.02 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -18,28 +18,25 @@
    $Id$
 */
 
-response_header("News");
-
-echo "<h1>PEAR news</h1>";
-
-echo "<h2><a name=\"2003\" />Year 2004</h2>";
-echo "<ul>";
-
-echo "<li>" . make_link("pepr.php", "Announcing PEPr") . " (January)</li>";
-
-echo "</ul>";
-
-echo "<h2><a name=\"2003\" />Year 2003</h2>";
-echo "<ul>";
-
-echo "<li>" . make_link("pecl-split.php", "Own infrastructure for PECL") . " (October)</li>";
-echo "<li>" . make_link("group-announce.php", "Announcing the PEAR Group") . " (August)</li>";
-echo "<li>" . make_link("activestate-award-ssb.php", "ActiveState Active Award for Stig Bakken") . " (July)</li>";
-echo "<li>" . make_link("meeting-2003-summary.php", "Summary of the PEAR Meeting") . " (May)</li>";
-echo "<li>" . make_link("meeting-2003.php", "PEAR Meeting in Amsterdam") . " (March)</li>";
-echo "<li>" . make_link("release-1.0.php", "PEAR 1.0 is released!") . " (January)</li>";
-
-echo "</ul>";
-
-response_footer();
+response_header("Announcing PEPr");
 ?>
+
+<h1>Announcing PEPr</h1>
+
+<div style="margin-left:2em;margin-right:2em">
+<p>As of today (25th January 2004) <?php print_link("/pepr/", "PEPr"); ?> 
+is the official tool to handle all proposals for new packages in 
+PEAR.</p>
+
+<p>PEPr is a web-based interface that helps us to manage the 
+lifecycle of a package proposal from its first draft until the
+final acceptance. It has been put together by 
+<?php print_link("/user/toby", "Tobias Schlitt"); ?>.</p>
+
+<p>Details can be found in the 
+<?php print_link("http://news.php.net/article.php?group=php.pear.dev&article=25264", "announcement mail"); ?>
+. The <?php print_link("/manual/en/guide-developers.php", "Developers Guide"); ?> 
+will soon contain information about PEPr as well.</p>
+</div>
+
+<?php response_footer(); ?>
