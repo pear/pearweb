@@ -76,13 +76,29 @@ define('CACHE_LIFETIME', 3600);
 define('DAMBLAN_RSS_CACHE_DIR', PEAR_TMPDIR . '/rss_cache');
 define('DAMBLAN_RSS_CACHE_TIME', 1800);
 
-define('PROPOSAL_STATUS_PROPOSAL_TIMELINE', (60 * 60 * 24 * 7), true); // 1 week
-define('PROPOSAL_STATUS_VOTE_TIMELINE', (60 * 60 * 24 * 7), true); // 1 week
 
-define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <pear-dev@lists.php.net>', true);
-define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>', true);
-define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
-define('PROPOSAL_EMAIL_PREFIX', '[PEPr]', true);
-define('PROPOSAL_EMAIL_POSTFIX', "\n\n-- \nSent by PEPr, the automatic proposal system at http://pear.php.net", true);
+define('PROPOSAL_STATUS_PROPOSAL_TIMELINE', 604800); // 1 week
+define('PROPOSAL_STATUS_VOTE_TIMELINE', 604800); // 1 week (60 * 60 * 24 * 7)
+
+if (isset($_SERVER['PROPOSAL_MAIL_PEAR_DEV'])) {
+    define('PROPOSAL_MAIL_PEAR_DEV', $_SERVER['PROPOSAL_MAIL_PEAR_DEV']);
+} else {
+    define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <pear-dev@lists.php.net>');
+}
+
+if (isset($_SERVER['PROPOSAL_MAIL_PEAR_GROUP'])) {
+    define('PROPOSAL_MAIL_PEAR_GROUP', $_SERVER['PROPOSAL_MAIL_PEAR_GROUP']);
+} else {
+    define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>');
+}
+
+if (isset($_SERVER['PROPOSAL_MAIL_FROM'])) {
+    define('PROPOSAL_MAIL_FROM', $_SERVER['PROPOSAL_MAIL_FROM']);
+} else {
+    define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>');
+}
+
+define('PROPOSAL_EMAIL_PREFIX', '[PEPr]');
+define('PROPOSAL_EMAIL_POSTFIX', "\n\n-- \nSent by PEPr, the automatic proposal system at http://pear.php.net");
 
 ?>
