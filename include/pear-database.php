@@ -2397,11 +2397,11 @@ class user
 
         // Basic name validation
 
-        // First- and lastname must be longer than 2 characters
-        if (strlen($data['firstname']) <= 2) {
+        // First- and lastname must be longer than 1 character
+        if (strlen($data['firstname']) == 1) {
             $errors[] = 'Your firstname appears to be too short.';
         }
-        if (strlen($data['lastname']) <= 2) {
+        if (strlen($data['lastname']) == 1) {
             $errors[] = 'Your lastname appears to be too short.';
         }
 
