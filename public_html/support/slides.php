@@ -59,6 +59,7 @@ that have been held about PEAR.</p>
     <li>Date: 2004-07-30</li>
     <li>Presenters: <?php echo user_link("schst", true); ?></li>
     <li>Venue: O'Reilly Open Source Conference 2004, Portland/Oregon, United States</li>
+    <li>Language: English</li>
   </ul>
  </li>
 
@@ -70,6 +71,7 @@ that have been held about PEAR.</p>
     <li>Date: 2004-06-25</li>
     <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
     <li>Venue: Linuxtag 2004, Karlsruhe, Germany</li>
+    <li>Language: English</li>
   </ul>
  </li>
 
@@ -80,6 +82,7 @@ that have been held about PEAR.</p>
     <li>Date: 2004-05-29</li>
     <li>Presenter: <?php echo user_link("norbert", true); ?></li>
     <li>Venue: First Hungarian PHP Roadshow 2004, Dunaujvaros, Hungary</li>
+    <li>Language: Hungarian</li>
   </ul>
  </li>
 
@@ -91,6 +94,7 @@ that have been held about PEAR.</p>
     <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
     <li>Venue: PEAR Powerworkshop, Internation PHP Conference Spring Edition, 
     Amsterdam, Netherlands</li>
+    <li>Language: English</li>
   </ul>
  </li>
 
@@ -101,6 +105,7 @@ that have been held about PEAR.</p>
     <li>Date: 2003-11-04</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
     <li>Venue: Internation PHP Conference, Frankfurt, Germany</li>
+    <li>Language: German</li>
   </ul>
  </li>
 
@@ -111,6 +116,7 @@ that have been held about PEAR.</p>
     <li>Date: 2003-10-24</li>
     <li>Presenter: <?php echo user_link("wenz", true); ?></li>
     <li>Venue: php{con West 2003, Santa Clara, United States</li>
+    <li>Language: English</li>
   </ul>
  </li>
 
@@ -121,6 +127,7 @@ that have been held about PEAR.</p>
     <li>Date: 2003-06-05</li>
     <li>Presenter: <?php echo user_link("jmcastagnetto", true); ?></li>
     <li>Venue: SDPHP monthly meeting, San Diego, United States</li>
+    <li>Language: English</li>
   </ul>
  </li>
 
@@ -131,6 +138,7 @@ that have been held about PEAR.</p>
     <li>Date: 2002-11-03</li>
     <li>Presenter: <?php echo user_link("ssb", true); ?></li>
     <li>Venue: International PHP Conference, Frankfurt, Germany</li>
+    <li>Language: English</li>
   </ul>
  </li>
 
@@ -141,6 +149,7 @@ that have been held about PEAR.</p>
     <li>Date: 2002-06-08</li>
     <li>Presenter: <?php echo user_link("ssb", true); ?></li>
     <li>Venue: LinuxTag, Karlsruhe, Germany</li>
+    <li>Language: English</li>
   </ul>
  </li>
 
@@ -152,6 +161,7 @@ that have been held about PEAR.</p>
     <li>Presenter: <?php echo user_link("jon", true); ?></li>
     <li>Venue: O&apos;Reilly Open Source Convention 2001, San Diego,
         United States</li>
+    <li>Language: English</li>
   </ul>
  </li>
 
@@ -162,6 +172,7 @@ that have been held about PEAR.</p>
     <li>Date: 2001-04-05</li>
     <li>Presenter: <?php echo user_link("ssb", true); ?></li>
     <li>Venue: ApacheCon 2001, Santa Clara, United States</li>
+    <li>Language: English</li>
   </ul>
  </li>
 </ul>
