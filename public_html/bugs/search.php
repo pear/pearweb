@@ -194,7 +194,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     if (empty($_GET['bug_age']) || !(int)$_GET['bug_age']) {
         $bug_age = 0;
     } else {
-        $bug_age = $_GET['bug_age'];
+        $bug_age = (int)$_GET['bug_age'];
         $where_clause .= ' AND bugdb.ts1 >= '
                        . " DATE_SUB(NOW(), INTERVAL $bug_age DAY)";
     }
@@ -363,11 +363,11 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;bug_age='     . $bug_age .
                     '&amp;order_by='    . $order_by .
                     '&amp;direction='   . $direction .
-                    '&amp;phpver='      . $phpver .
+                    '&amp;phpver='      . urlencode($phpver) .
                     '&amp;limit='       . $limit .
-                    '&amp;handle='      . $handle .
-                    '&amp;assign='      . $assign .
-                    '&amp;maintain='    . $maintain;
+                    '&amp;handle='      . urlencode($handle) .
+                    '&amp;assign='      . urlencode($assign) .
+                    '&amp;maintain='    . urlencode($maintain);
 
             display_bug_error($warnings, 'warnings', 'WARNING:');
             show_bugs_menu($_GET['package_name']);
