@@ -51,7 +51,9 @@ $sort_by   = $_GET['sort_by'];
 $total     = 0;
 $row       = array();
 $pkg       = array();
+$pkg_tmp   = array();
 $pkg_total = array();
+$pkg_names = array();
 $all       = array();
 $pseudo    = true;
 
@@ -104,10 +106,19 @@ $query .= ' ORDER BY b.package_name, b.status';
 $result =& $dbh->query($query);
 
 while ($result->fetchInto($row)) {
-    $pkg[$row['status']][$row['package_name']]  = $row['quant'];
-    $pkg_total[$row['package_name']]           += $row['quant'];
-    $all[$row['status']]                       += $row['quant'];
-    $total                                     += $row['quant'];
+    $pkg_tmp[$row['status']][$row['package_name']]  = $row['quant'];
+    $pkg_total[$row['package_name']]               += $row['quant'];
+    $all[$row['status']]                           += $row['quant'];
+    $total                                         += $row['quant'];
+    $pkg_names[$row['package_name']]                = 0;
+}
+
+foreach ($titles as $key => $val) {
+    if (is_array($pkg_tmp[$key])) {
+        $pkg[$key] = array_merge($pkg_names, $pkg_tmp[$key]);
+    } else {
+        $pkg[$key] = $pkg_names;
+    }
 }
 
 if ($total > 0) {
@@ -123,7 +134,6 @@ if ($total > 0) {
     } else {
         asort($pkg[$sort_by]);
     }
-    reset($pkg);
 }
 
 
@@ -224,20 +234,23 @@ function bugstats($status, $name)
 {
     global $pkg, $all;
 
-    if (isset($pkg[$status][$name])) {
-        return '<a href="search.php?cmd=display&amp;status=' .
-               ucfirst($status) .
-               ($name == 'all' ? '' : '&amp;package[]=' . urlencode($name)) .
-               '&amp;by=Any&amp;limit=10'.$string.'">' .
-               $pkg[$status][$name] . "</a>\n";
-    } elseif ($name == 'all' && isset($all[$status])) {
-        return '<a href="search.php?cmd=display&amp;status=' .
-               ucfirst($status) .
-               ($name == 'all' ? '' : '&amp;package[]=' . urlencode($name)) .
-               '&amp;by=Any&amp;limit=10'.$string.'">' .
-               $all[$status] . "</a>\n";
+    if ($name == 'all') {
+        if (isset($all[$status])) {
+            return '<a href="search.php?cmd=display&amp;status=' .
+                   ucfirst($status) .
+                   '&amp;by=Any&amp;limit=10'.$string.'">' .
+                   $all[$status] . "</a>\n";
+        }
     } else {
-        return '&nbsp';
+        if (empty($pkg[$status][$name])) {
+            return '&nbsp';
+        } else {
+            return '<a href="search.php?cmd=display&amp;status=' .
+                   ucfirst($status) .
+                   '&amp;package[]=' . urlencode($name) .
+                   '&amp;by=Any&amp;limit=10'.$string.'">' .
+                   $pkg[$status][$name] . "</a>\n";
+        }
     }
 }
 
