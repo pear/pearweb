@@ -18,71 +18,68 @@
    $Id$
 */
 
-$SIDEBAR_DATA='
-<h3>What is PEAR?</h3>
-<p>
-&quot;The fleshy pome, or fruit, of a rosaceous tree (Pyrus
-communis), cultivated in many varieties in temperate
-climates.&quot;
-</p>
-<p>
-
-<acronym title="PHP Extension and Application Repository">PEAR</acronym>
-is a framework and distribution system for reusable PHP
-components.
-<br />
-
-See the <a href="/manual/en/faq.php">FAQ</a> and <a
-href="/manual/">manual</a> for more information.
-
-<br /></p>
--';
-
 response_header();
+?>
 
-echo '<h2>'; echo make_link('/news/', 'News'); echo '</h2>';
-echo '<h2>Documentation</h2>';
-echo '<div class="indent">';
-echo menu_link("About PEAR", "/manual/en/about-pear.php");
-echo menu_link("Manual", "/manual/");
-echo menu_link("Frequently Asked Questions", "/manual/en/faq.php");
-echo menu_link("Mailing Lists & Support Resources", "/support.php");
-echo menu_link("The PEAR Group", "/group/");
-echo '</div>';
-echo '<h2>Downloads</h2>';
-echo '<div class="indent">';
-echo menu_link("Browse All Packages", "packages.php");
-echo menu_link("Search Packages", "package-search.php");
-echo '</div>';
+<h1>PEAR - PHP Extension and Application Repository</h1>
+
+<p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
+is a framework and distribution system for reusable PHP
+components. More <b>information</b> about PEAR can be found in the
+<a href="/manual/en/">online manual</a> and the 
+<a href="/manual/en/faq.php">FAQ</a>.</p>
+
+<p>If you are a first time user, you might be especially interested in
+the manual chapter &quot;<a href="/manual/en/about-pear.php">About PEAR</a>&quot;.</p>
+
+<p>Recent <b>news</b> about PEAR can be found <a href="/news/">here</a>.</p>
+
+<p>PEAR provides the above mentioned PHP components in the form of so 
+called &quot;Packages&quot;. If you would like to <b>download</b> PEAR 
+packages, you can <a href="/packages.php">browse the complete list</a>
+here.  Alternatively you  can  search for packages by some keywords
+using the search box above. Apart from simply downloading a package,
+PEAR also provides a command-line interface that can be used to
+automatically <b>install</b> packages. The manual <a href="/manual/en/installation.cli.php">
+describes this procedure</a> in detail.</p>
+
+<p>In case you need <b>support</b> for PEAR in general or a package
+in special, we have compiled a list of the <a href="/support.php">available 
+support resources</a>.</p>
+
+<?php
+echo hdelim();
+
 if (isset($_COOKIE['PEAR_USER'])) {
 	echo '<h2>Package Proposals (PEPr Live Test)</h2>';
 	echo '<div class="indent">';
 	echo menu_link("Browse Proposals", "pepr/pepr-overview.php");
 	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
 	echo '</div>';
-}
-echo '<h2>Developers</h2>';
-echo '<div class="indent">';
 
-if (isset($_COOKIE['PEAR_USER'])) {
+    echo '<h2>Developers</h2>';
+    echo '<div class="indent">';
+
     echo menu_link("Upload Release", "release-upload.php");
     echo menu_link("New Package", "package-new.php");
-}
-echo menu_link("Bug System", "bugs/index.php");
 
-echo '</div>';
-
-if (isset($_COOKIE['PEAR_USER'])) {
     if (user::isAdmin($_COOKIE['PEAR_USER'])) {
         echo '<h2>Administrators</h2>';
         echo '<div class="indent">';
         echo menu_link("Overview", "/admin/");
         echo '</div>';
     }
+
+    echo '</div>';
+} else {
+?>
+
+<p>If you have been told by other PEAR developers to sign up for a
+PEAR website account, you can use <a href="/account-request.php">
+this interface</a>.</p>
+
+<?php
 }
-
-
-menu_link("Request PEAR Account", "account-request.php");
 
 $recent = release::getRecent();
 if (@sizeof($recent) > 0) {
