@@ -112,10 +112,10 @@
 						<th class="pkgListHeader">Description</td>
 						<td>&nbsp;</td>
 					</tr>
-				
-					<?foreach($packages as $p):?>
+			
+					<?php $nr = $first; foreach($packages as $p):?>
 						<tr>
-							<td valign="top"><?=$first++?></td>
+							<td valign="top"><?=$nr++?></td>
 							<td valign="top"><a href="/package/<?=$p['name']?>"><strong><?=$p['name']?></strong></td>
 							<td valign="top"><?=$p['summary']?></td>
 							<td valign="top">
