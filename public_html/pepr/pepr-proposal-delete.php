@@ -46,6 +46,8 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
     exit;
 }
 
+ob_start();
+
 response_header('PEPr :: Delete :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Delete Proposal ' . htmlspecialchars($proposal->pkg_name) . "</h1>\n";
 
@@ -85,6 +87,7 @@ if (isset($_POST['submit'])) {
         $proposal->delete($dbh);
         $proposal->sendActionEmail('proposal_delete', 'mixed',
                                    $_COOKIE['PEAR_USER']);
+        ob_end_clean();
         localRedirect('pepr-proposal-delete.php?id=' . $proposal->id . '&isDeleted=1');
     } else {
         $pepr_form = $form->toArray();
@@ -92,6 +95,7 @@ if (isset($_POST['submit'])) {
     }
 }
 
+ob_end_flush();
 display_pepr_nav($proposal);
 
 $form->display();

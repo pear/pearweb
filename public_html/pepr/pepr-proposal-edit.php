@@ -37,6 +37,8 @@ auth_require('pear.pepr');
 
 $karma =& new Damblan_Karma($dbh);
 
+ob_start();
+
 if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
     response_header('PEPr :: Editor :: '
                     . htmlspecialchars($proposal->pkg_name));
@@ -257,6 +259,7 @@ if (isset($_POST['submit'])) {
             $nextStage = 1;
         }
 
+        ob_end_clean();
         localRedirect('/pepr/pepr-proposal-edit.php?id='
                       . $proposal->id . '&saved=1&next_stage=' . @$nextStage);
     } else {
@@ -264,6 +267,8 @@ if (isset($_POST['submit'])) {
         report_error($pepr_form['errors']);
     }
 }
+
+ob_end_flush();
 
 if (!empty($_GET['next_stage'])) {
     $form =& new HTML_QuickForm('no-form');
