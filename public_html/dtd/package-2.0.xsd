@@ -227,14 +227,28 @@
       <xs:attribute name="min" type="version"/>
       <xs:attribute name="max" type="version"/>
       <xs:attribute name="recommended" type="version"/>
-      <xs:attribute name="not" type="xs:boolean" default="false"/>
+      <xs:attribute name="not" default="false">
+       <xs:simpleType>
+        <xs:restriction base="xs:string">
+         <xs:enumeration value="yes"/>
+         <xs:enumeration value="no"/>
+        </xs:restriction>
+       </xs:simpleType>
+      </xs:attribute>
      </xs:complexType>
     </xs:element>
     <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
      <xs:complexType>
       <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="not" type="xs:boolean" default="false"/>
+      <xs:attribute name="not" default="false">
+       <xs:simpleType>
+        <xs:restriction base="xs:string">
+         <xs:enumeration value="yes"/>
+         <xs:enumeration value="no"/>
+        </xs:restriction>
+       </xs:simpleType>
+      </xs:attribute>
      </xs:complexType>
     </xs:element>
     <xs:element ref="arch" minOccurs="0" maxOccurs="unbounded"/>
@@ -305,7 +319,14 @@
    <xs:attribute name="min" type="version"/>
    <xs:attribute name="max" type="version"/>
    <xs:attribute name="recommended" type="version"/>
-   <xs:attribute name="not" type="xs:boolean" default="false"/>
+   <xs:attribute name="not" default="false">
+    <xs:simpleType>
+     <xs:restriction base="xs:string">
+      <xs:enumeration value="yes"/>
+      <xs:enumeration value="no"/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
   </xs:complexType>
  </xs:element>
  <xs:element name="pearinstaller">
@@ -340,14 +361,28 @@
       <xs:attribute name="channel" type="xs:string" use="required"/>
       <xs:attribute name="min" type="version"/>
       <xs:attribute name="max" type="version"/>
-      <xs:attribute name="not" type="xs:boolean" default="false"/>
+      <xs:attribute name="not" default="false">
+       <xs:simpleType>
+        <xs:restriction base="xs:string">
+         <xs:enumeration value="yes"/>
+         <xs:enumeration value="no"/>
+        </xs:restriction>
+       </xs:simpleType>
+      </xs:attribute>
      </xs:complexType>
     </xs:element>
     <xs:element ref="extension" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="os" minOccurs="0">
      <xs:complexType>
       <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="not" type="xs:boolean" default="false"/>
+      <xs:attribute name="not" default="false">
+       <xs:simpleType>
+        <xs:restriction base="xs:string">
+         <xs:enumeration value="yes"/>
+         <xs:enumeration value="no"/>
+        </xs:restriction>
+       </xs:simpleType>
+      </xs:attribute>
      </xs:complexType>
     </xs:element>
     <xs:element ref="arch" minOccurs="0"/>
@@ -369,7 +404,14 @@
  <xs:element name="arch">
   <xs:complexType>
    <xs:attribute name="pattern" type="xs:string" use="required"/>
-   <xs:attribute name="not" type="xs:boolean" default="false"/>
+   <xs:attribute name="not" default="false">
+    <xs:simpleType>
+     <xs:restriction base="xs:string">
+      <xs:enumeration value="yes"/>
+      <xs:enumeration value="no"/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
   </xs:complexType>
  </xs:element>
  <xs:element name="extends" type="xs:string"/>
