@@ -53,16 +53,12 @@ if (!isset($HTTP_POST_VARS['command'])) {
 switch ($HTTP_POST_VARS['command']) {
 
     case "update" : {
-
-        $query = sprintf("UPDATE users SET name = '%s', email = '%s', homepage = '%s', userinfo = '%s', wishlist = '%s', showemail = '%s'",
-                         $HTTP_POST_VARS['name'],
-                         $HTTP_POST_VARS['email'],
-                         $HTTP_POST_VARS['homepage'],
-                         addslashes($HTTP_POST_VARS['userinfo']),
-                         $HTTP_POST_VARS['wishlist'],
-                         isset($HTTP_POST_VARS['showemail']) ? 1 : 0);
-        $query .= " WHERE handle = '" . $HTTP_POST_VARS['handle'] . "'";
-        $sth = $dbh->query($query);
+        if (isset($_POST['showemail'])) {
+            $_POST['showemail'] = 1;
+        } else {
+            $_POST['showemail'] = 0;
+        }
+        $user = user::update($_POST);
 
         $old_acl = $dbh->getCol("SELECT path FROM cvs_acl ".
                                 "WHERE username = ? AND access = 1", 0,
@@ -88,11 +84,9 @@ switch ($HTTP_POST_VARS['command']) {
             }
         }
 
-        print "<i>The update has been executed successfully.</i>";
-
+        print "The <b>update</b> has been executed <b>successfully</b>.";
         print "<br /><br />";
-        print "<a href=\"account-info.php?handle=$handle\">";
-        print "[Back to info page]</a>";
+        print "Back to the info page for " . $user->makeLink() . ".";
 
         $handle = $HTTP_POST_VARS['handle'];
 
