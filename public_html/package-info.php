@@ -121,9 +121,7 @@ $accounts .= '</ul>';
 // Information about the latest release below the summary
 $versions = array_keys($pkg['releases']);
 
- {
 $uri = (isset($redirected) && $redirected === true) ? preg_replace('@/package(/[^/]+)/redirected@', '\1', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
-}
 
 $url = 'http://'.$_SERVER['SERVER_NAME'].$uri;
 
