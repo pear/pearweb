@@ -363,8 +363,8 @@ a.small {
     padding: 8px;
 }
 
-.listing li {
-    line-height: 200%;
+ul.spaced li {
+    margin-bottom: 0.75em;
 }
 
 .indent {
