@@ -34,15 +34,16 @@ response_header('Credits');
   <li><?php echo user_link("richard");?></li>
 </ul>
 
+<small>(In alphabetic order)</small>
+
+<p>The website team can be reached at
+<?php echo make_mailto_link("pear-webmaster@lists.php.net"); ?>.</p>
+
 <h3>PEAR documentation team</h3>
 
-<ul>
-  <li><?php echo user_link("cox"); ?></li>
-  <li><?php echo user_link("mj"); ?></li>
-  <li><?php echo user_link("alexmerz"); ?></li>
-</ul>
-
-<small>(All in alphabetic order)</small>
+<p>The members of the documentation team can be found on the 
+<?php print_link("/manual/en/", "front page"); ?> of the manual. The
+team can be  reached at <?php echo make_mailto_link("pear-doc@lists.php.net"); ?>.</p>
 
 <?php
 response_footer();
