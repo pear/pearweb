@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
  <xs:element name="package">
   <xs:complexType>
@@ -6,10 +7,10 @@
     <xs:element ref="name"/>
     <xs:element ref="summary"/>
     <xs:element ref="description"/>
-    <xs:element ref="license"/>
+    <xs:element ref="license" minOccurs="0"/>
     <xs:element ref="maintainers"/>
     <xs:element ref="release"/>
-    <xs:element ref="changelog"/>
+    <xs:element ref="changelog" minOccurs="0"/>
    </xs:sequence>
    <xs:attribute name="type" default="empty">
     <xs:simpleType>
@@ -50,22 +51,24 @@
  <xs:element name="changelog">
   <xs:complexType>
    <xs:sequence minOccurs="0" maxOccurs="unbounded">
-    <xs:element ref="release"/>
+    <xs:element name="release" type="changelogrelease"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
  <xs:element name="release">
   <xs:complexType>
-   <xs:choice minOccurs="0" maxOccurs="unbounded">
+   <xs:sequence>
     <xs:element ref="version"/>
+    <xs:element ref="date"/>
     <xs:element ref="license"/>
     <xs:element ref="state"/>
-    <xs:element ref="date"/>
     <xs:element ref="notes"/>
+    <xs:element ref="warnings" minOccurs="0"/>
+    <xs:element ref="provides" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="deps" minOccurs="0"/>
+    <xs:element ref="configureoptions" minOccurs="0"/>
     <xs:element ref="filelist"/>
-    <xs:element ref="deps"/>
-    <xs:element ref="provides"/>
-   </xs:choice>
+   </xs:sequence>
   </xs:complexType>
  </xs:element>
  <xs:element name="version" type="xs:string"/>
@@ -87,6 +90,7 @@
     </xs:simpleType>
    </xs:attribute>
    <xs:attribute name="name" type="xs:string" use="required"/>
+   <xs:attribute name="extends" type="xs:string"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="filelist">
@@ -150,6 +154,7 @@
    <xs:attribute name="name" type="xs:string" use="required"/>
    <xs:attribute name="install-as" type="xs:string"/>
    <xs:attribute name="platform" type="xs:string"/>
+   <xs:attribute name="md5sum" type="xs:string"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="libfile">
@@ -222,6 +227,30 @@
      </xs:restriction>
     </xs:simpleType>
    </xs:attribute>
+  </xs:complexType>
+ </xs:element>
+ <xs:complexType name="changelogrelease">
+  <xs:sequence>
+   <xs:element ref="version"/>
+   <xs:element ref="date"/>
+   <xs:element ref="license"/>
+   <xs:element ref="state"/>
+   <xs:element ref="notes"/>
+  </xs:sequence>
+ </xs:complexType>
+ <xs:element name="warnings" type="xs:string"/>
+ <xs:element name="configureoptions">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="configureoption" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="configureoption">
+  <xs:complexType>
+   <xs:attribute name="name" type="xs:string" use="required"/>
+   <xs:attribute name="default" type="xs:string"/>
+   <xs:attribute name="prompt" type="xs:string" use="required"/>
   </xs:complexType>
  </xs:element>
 </xs:schema>
