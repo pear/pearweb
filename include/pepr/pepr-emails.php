@@ -95,7 +95,7 @@
 				"user" 		=> "{email_pear_dev}, {actor_name} <{actor_email}>, {owner_name} <{owner_email}>",
 				"admin" 	=> "{email_pear_dev}, {actor_name} <{actor_email}>, {owner_name} <{owner_email}>"),
 			"subject" 	=> 	"Comment on {pkg_category}::{pkg_name}",
-			"text"		=>	"{actor_name} ({actor_link}) gives a comment on the proposal for {pkg_category}::{pkg_name}.\n\nComment:\n\n{comment}\n\nProposal information:\n{proposal_url}"
+			"text"		=>	"{actor_name} ({actor_link}) has commented on the proposal for {pkg_category}::{pkg_name}.\n\nComment:\n\n{comment}\n\nProposal information:\n{proposal_url}"
 		),
 	);
 ?>
