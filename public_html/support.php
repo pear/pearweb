@@ -168,6 +168,7 @@ if (isset($_POST['action'])) {
 
 <h2>Table of Contents</h2>
 <ul>
+ <li><a href="/manual/">Documentation</a></li>
  <li><a href="support.php#lists">Mailing Lists</a></li>
  <li><a href="support.php#tutorials">Tutorials</a></li>
  <li><a href="support.php#resources">Resources</a></li>
