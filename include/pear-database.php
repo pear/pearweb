@@ -1839,7 +1839,7 @@ class user
     }
 
     // }}}
-    // {{{ listAll()
+    // {{{ proto struct user::listAll([boolean])
 
     function listAll($registered_only = true)
     {
