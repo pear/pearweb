@@ -507,22 +507,28 @@ class package
     }
 
     // }}}
-    // {{{  proto struct package::listAll([bool])
+    // {{{  proto struct package::listAll([bool], [bool])
 
     /**
      * List all packages
      *
      * @static
      * @param boolean Only list released packages?
+     * @param boolean If listing released packages only, only list stable releases?
      * @return array
      */
-    function listAll($released_only = true)
+    function listAll($released_only = true, $stable_only = true)
     {
         global $dbh, $HTTP_RAW_POST_DATA;
 
         $include_pecl = false;
         if (isset($HTTP_RAW_POST_DATA)) {
             $include_pecl = true;
+        }
+        if ($include_pecl) {
+            $package_type = "";
+        } else {
+            $package_type = "p.package_type = 'pear' AND ";
         }
 
         $packageinfo = $dbh->getAssoc("SELECT p.name, p.id AS packageid, ".
@@ -532,17 +538,24 @@ class package
             "p.description AS description, ".
             "m.handle AS lead ".
             " FROM packages p, categories c, maintains m ".
-            "WHERE " .
-            (($include_pecl == false) ? " p.package_type = 'pear' AND p.approved = 1 AND " : "") .
+            "WHERE " . $package_type .
+            "p.approved = 1 AND " .
             " c.id = p.category ".
             "  AND p.id = m.package ".
             "  AND m.role = 'lead' ".
             "ORDER BY p.name", false, null, DB_FETCHMODE_ASSOC);
+        $allreleases = $dbh->getAssoc(
+            "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
+            "FROM packages p, releases r ".
+            "WHERE " . $package_type .
+            "p.approved = 1 AND " .
+            "p.id = r.package ".
+            "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
         $stablereleases = $dbh->getAssoc(
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
             "FROM packages p, releases r ".
-            "WHERE " .
-            (($include_pecl == false) ? "p.package_type = 'pear' AND p.approved = 1 AND " : "") .
+            "WHERE " . $package_type .
+            "p.approved = 1 AND " .
             "p.id = r.package ".
             ($released_only ? "AND r.state = 'stable' " : "").
             "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
@@ -551,14 +564,26 @@ class package
             "FROM deps", null, DB_FETCHMODE_ASSOC);
         foreach ($stablereleases as $pkg => $stable) {
             $packageinfo[$pkg]['stable'] = $stable['stable'];
+            $packageinfo[$pkg]['unstable'] = false;
             $packageinfo[$pkg]['state']  = $stable['state'];
         }
+        if (!$stable_only) {
+            foreach ($allreleases as $pkg => $stable) {
+                if ($stable['state'] == 'stable') {
+                    $packageinfo[$pkg]['stable'] = $stable['stable'];
+                } else {
+                    $packageinfo[$pkg]['unstable'] = $stable['stable'];
+                }
+                $packageinfo[$pkg]['state']  = $stable['state'];
+            }
+        }
+        $var = !$stable_only ? 'allreleases' : 'stablereleases';
         foreach(array_keys($packageinfo) as $pkg) {
             $_deps = array();
             foreach($deps as $dep) {
                 if ($dep['package'] == $packageinfo[$pkg]['packageid']
-                    && isset($stablereleases[$pkg])
-                    && $dep['release'] == $stablereleases[$pkg]['rid'])
+                    && isset($$var[$pkg])
+                    && $dep['release'] == $$var[$pkg]['rid'])
                 {
                     unset($dep['rid']);
                     unset($dep['release']);
@@ -574,9 +599,17 @@ class package
         };
 
         if ($released_only) {
-            foreach ($packageinfo as $pkg => $info) {
-                if (!isset($stablereleases[$pkg])) {
-                    unset($packageinfo[$pkg]);
+            if (!$stable_only) {
+                foreach ($packageinfo as $pkg => $info) {
+                    if (!isset($allreleases[$pkg]) && !isset($stablereleases[$pkg])) {
+                        unset($packageinfo[$pkg]);
+                    }
+                }
+            } else {
+                foreach ($packageinfo as $pkg => $info) {
+                    if (!isset($stablereleases[$pkg])) {
+                        unset($packageinfo[$pkg]);
+                    }
                 }
             }
         }
