@@ -58,15 +58,22 @@ if (!empty($params['action'])) {
         // Redirect to the bug database
         localRedirect("/bugs/search.php?direction=ASC&cmd=display&status=Open&package_name%5B%5D=" . urlencode($pkg['name']));
         break;
-        
+
     case 'trackbacks' :
-       $action = $params['action'];
-       break;
-    
+        if (isset($auth_user)) {
+            $karma =& new Damblan_Karma($dbh);
+            $trackbackIsAdmin = (isset($auth_user) && $karma->has($auth_user->handle, 'pear.dev'));
+        } else {
+            $trackbackIsAdmin = false;
+        }
+
+        $action = $params['action'];
+        break;
+
     case 'redirected' :
         $redirected = true;
         $params['action']= '';
-    
+
     default :
         $action = '';
         $version = $params['action'];
@@ -289,8 +296,8 @@ if (empty($action)) {
             print '<td class="textcell">' . $release_version . '</td>';
             print '<td>';
             print '<a href="/get/' . htmlspecialchars($name) . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
-            print '<b>Release date:</b> ' . make_utc_date(strtotime($info['releasedate'])) . '<br />'; 
-            print '<b>Release state:</b> ' . htmlspecialchars($info['state']) . '<br /><br />'; 
+            print '<b>Release date:</b> ' . make_utc_date(strtotime($info['releasedate'])) . '<br />';
+            print '<b>Release state:</b> ' . htmlspecialchars($info['state']) . '<br /><br />';
             print '<b>Changelog:</b><br /><br />' . nl2br(make_ticket_links(htmlspecialchars($info['releasenotes']))) . '<br /><br />';
 
             if (!empty($info['deps']) && count($info['deps']) > 0) {
@@ -382,7 +389,7 @@ if (empty($action)) {
     if ($rel_count > 0) {
         print '<p>Auto-generated API documentation for each ';
         print 'release is available.</p>';
-        
+
         print '<ul>';
 
         foreach ($pkg['releases'] as $r_version => $release) {
@@ -404,26 +411,24 @@ if (empty($action)) {
 
     // }}}
 } elseif ($action == 'trackbacks') {
-    // Determine administrative user
-    $karma =& new Damblan_Karma($dbh);
-    $trackbackIsAdmin = (isset($_COOKIE['PEAR_USER']) && $karma->has($_COOKIE['PEAR_USER'], 'pear.dev'));
+
     // Generate trackback list
     $trackbacks = Damblan_Trackback::listTrackbacks($dbh, $name, !$trackbackIsAdmin);
-   
+
     print '<p>This page provides a list of trackbacks, which have been received to this package. A trackback is usually generated,
-when a weblog entry is created, which is related to the package. If you want to learn more about trackbacks, please take a look at 
+when a weblog entry is created, which is related to the package. If you want to learn more about trackbacks, please take a look at
 &quot; <a href="http://www.movabletype.org/trackback/beginners/">A Beginner\'s Guide to TrackBack</a>&quot; (by movabletype.org).</p>';
-   
+
     print '<p>The trackback URL for this package is: <a href="'.$tmpTrackback->trackback_url.'">'.$tmpTrackback->trackback_url.'</a>.';
-   
+
     if ($trackbackIsAdmin) {
         print '<div class="explain">You may manipulate the trackbacks of this package. In contrast to normal users, you see approved and pending trackbacks </div>';
     }
- 
+
     if (count($trackbacks) == 0) {
         print '<p>Sorry, there are no trackbacks for this package, yet.</p>';
     }
- 
+
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     foreach ($trackbacks as $trackback) {
         print '<tr>';
@@ -434,7 +439,7 @@ when a weblog entry is created, which is related to the package. If you want to 
         print $trackback->blog_name;
         print '</td>';
         print '</tr>';
-        
+
         if ($trackbackIsAdmin) {
             print '<tr>';
             print '<th class="others">';
@@ -453,16 +458,16 @@ when a weblog entry is created, which is related to the package. If you want to 
         print '<a href="'.$trackback->url.'">'.$trackback->title.'</a>';
         print '</td>';
         print '</tr>';
-        
+
         print '<tr>';
         print '<th class="others">';
         print 'Date:';
         print '</th>';
         print '<td class="ulcell">';
-        print make_utc_date($trackback->timestamp, 'Y-m-d'); 
+        print make_utc_date($trackback->timestamp, 'Y-m-d');
         print '</td>';
         print '</tr>';
-        
+
         print '<tr>';
         print '<th class="others">';
         print '</th>';
@@ -485,7 +490,7 @@ when a weblog entry is created, which is related to the package. If you want to 
         }
 
         print '<tr><td colspan="2" style="height: 20px;">&nbsp;</td></tr>';
-        
+
     }
     print '</table>';
 }
