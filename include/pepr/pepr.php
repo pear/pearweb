@@ -182,12 +182,12 @@ class proposal {
         return true;
     }
 		
-    function addComment ( $comment ) {
+    function addComment ( $comment, $table = 'package_proposal_changelog' ) {
         $commentData = array("pkg_prop_id" => $this->id,
                              "user_handle" => $_COOKIE['PEAR_USER'],
                              "comment" 	   => $comment);
-								 
-        $this->comment = new ppComment( $commentData );
+        $comment = new ppComment( $commentData, $table );
+        $comment->store($this->id);
         return true;
     }
 		
@@ -260,6 +260,16 @@ class proposal {
             return $res;
         }
         $sql = "DELETE FROM package_proposal_links WHERE pkg_prop_id = ".$this->id;
+        $res = $dbh->query($sql);
+        if (DB::isError($res)) {
+            return $res;
+        }
+        $sql = "DELETE FROM package_proposal_changelog WHERE pkg_prop_id = ".$this->id;
+        $res = $dbh->query($sql);
+        if (DB::isError($res)) {
+            return $res;
+        }
+        $sql = "DELETE FROM package_proposal_comments WHERE pkg_prop_id = ".$this->id;
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
@@ -381,16 +391,20 @@ class ppComment {
     var $timestamp;
 		
     var $comment;
+    
+    var $table;
 		
-    function ppComment ( $dbhResArr ) {
+    function ppComment ( $dbhResArr, $table = 'package_proposal_changelog' ) {
         foreach ($dbhResArr as $name => $value) {
             $value = (is_string($value)) ? stripslashes($value) : $value;
             $this->$name = $value;
         }
+        $this->table = $table;
     }
 		
-    function get ( &$dbh, $proposalId, $handle, $timestamp ) {
-        $sql = "SELECT *, UNIX_TIMESTAMP(timestamp) AS timestamp FROM package_proposal_changelog WHERE pkg_prop_id = ".$proposalId." AND user_handle='".$handle."' AND timestamp = FROM_UNIXTIME(".$timestamp.")";
+    function get ( $proposalId, $handle, $timestamp, $table = 'package_proposal_changelog') {
+        global $dbh;
+        $sql = "SELECT *, timestamp FROM ".$table." WHERE pkg_prop_id = ".$proposalId." AND user_handle='".$handle."' AND timestamp = FROM_UNIXTIME(".$timestamp.")";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
@@ -401,8 +415,9 @@ class ppComment {
         return $comment;
     }
 		
-    function &getAll ( &$dbh, $proposalId ) {
-        $sql = "SELECT *, UNIX_TIMESTAMP(timestamp) AS timestamp FROM package_proposal_changelog WHERE pkg_prop_id = ".$proposalId;
+    function &getAll ( $proposalId, $table = 'package_proposal_changelog' ) {
+        global $dbh;
+        $sql = "SELECT *, timestamp FROM ".$table." WHERE pkg_prop_id = ".$proposalId;
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
@@ -415,15 +430,26 @@ class ppComment {
         return $comments;
     }
 		
-    function store ( $dbh, $proposalId ) {
+    function store ( $proposalId ) {
+        global $dbh;
         if (empty($this->user_handle)) {
             return PEAR::raiseError("Not initialized");
         }
-        $sql = "INSERT INTO package_proposal_changelog (pkg_prop_id, user_handle, comment)
-					VALUES (".$proposalId.", ".$dbh->quote($this->user_handle).", ".$dbh->quote($this->comment).")";
+        $sql = "INSERT INTO ".$this->table." (pkg_prop_id, user_handle, comment, timestamp)
+					VALUES (".$proposalId.", ".$dbh->quote($this->user_handle).", ".$dbh->quote($this->comment).", ".time().")";
         $res = $dbh->query($sql);
         return $res;
-    }		
+    }
+    
+    function delete ( ) {
+        global $dbh;
+        if (empty($this->table) || empty($this->user_handle) || empty($this->pkg_prop_id) || empty($this->timestamp)) {
+            return PEAR::raiseError("Inconsistant comment data. Can not delete comment.");
+        }
+        $sql = "DELETE FROM ".$this->table." WHERE user_handle = '".$this->user_handle."' AND pkg_prop_id = ".$this->pkg_prop_id." AND timestamp = ".$this->timestamp;
+        $res = $dbh->query($sql);
+        return true;
+    }
 }
 
 global $proposalReviewsMap;
