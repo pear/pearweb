@@ -59,7 +59,7 @@ if (!empty($params['action'])) {
 
     case 'bugs' :
         // Redirect to the bug database
-        localRedirect("/bugs/search.php?direction=ASC&cmd=display&status=Open&package_name%5B%5D=" . urlencode($pkg['name']));
+        localRedirect("/bugs/search.php?cmd=display&package_name%5B%5D=" . urlencode($pkg['name']));
         break;
 
     case 'trackbacks' :
