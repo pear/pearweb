@@ -52,4 +52,7 @@ installed in /usr/share/pear):
      php_flag magic_quotes_gpc on
  </Directory>
 
+ <Location /bugs/include>
+    deny from all
+ </Location>
 </VirtualHost>

@@ -1,3 +1,0 @@
-<location /bugs/include>
-    deny from all
-</location>
