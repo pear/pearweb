@@ -41,7 +41,7 @@ function printForm($data = array())
     // The first field that's empty
     $focus = '';
 
-    foreach (array('name', 'email', 'subject', 'text') as $key) {
+    foreach (array('name', 'email', 'copy_me', 'subject', 'text') as $key) {
         if (!isset($data[$key])) {
             $data[$key] = '';
             ($focus == '') ? $focus = $key : '';
@@ -59,6 +59,9 @@ function printForm($data = array())
             $th, $td);
     $form->addText('email', 'Email Address:',
             $data['email'], 40, null, '',
+            $th, $td);
+    $form->addCheckBox('copy_me', 'Send me a copy of this mail:',
+            $data['copy_me'], '',
             $th, $td);
     $form->addText('subject', 'Subject:',
             $data['subject'], 40, null, '',
@@ -123,6 +126,15 @@ if (isset($_POST['submit'])) {
                   '-f pear-sys@php.net'))
         {
             report_success('Your message was successfully sent.');
+
+            if (!empty($_POST['copy_me'])) {
+                $text = "This is a copy of your mail sent to " . $row['email'] . ":\n\n"  . $text;
+
+                @mail($_POST['email'], $_POST['subject'], $text,
+                      'From: "' . $_POST['name'] . '" <' . $_POST['email'] . '>',
+                      '-f pear-sys@php.net');
+            }
+
         } else {
             report_error('The server could not send your message, sorry.');
         }
