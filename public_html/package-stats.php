@@ -378,7 +378,6 @@ if (@!$_GET['pid']) {
 	echo "<table border=\"0\" width=\"100%\" cellpadding=\"2\" cellspacing=\"2\">\n";
 	echo "<tr align=\"left\" bgcolor=\"#cccccc\">\n";
 	echo "<th>Package Name</th>\n";
-	echo "<th>Last Release</th>\n";
 	echo '<th><span class="accesskey"># of downloads</span></th>' . "\n";
 	echo "<th>&nbsp;</th>\n";
 	echo "</tr>\n";
@@ -397,7 +396,6 @@ if (@!$_GET['pid']) {
 
 	    echo "<tr bgcolor=\"#eeeeee\">\n";
 	    echo "<td>\n" . $row['package'] .  "</td>\n";
-	    echo "<td>" . $row['release'] . "</td>\n";
 	    echo "<td>" . number_format($row['dl_number'], 0, '.', ',') . "</td>\n";
 	    echo "<td>[". make_link("/package-stats.php?cid=" . $row['cid'] . "&amp;pid=" . $row['pid'] , 'Details') . "]</td>\n";
 	    echo "</tr>\n";
