@@ -399,7 +399,7 @@ class package
         if ($allow_pecl) {
              $package_type = "";
         } else {
-             $package_typ = "p.package_type = 'pear' AND ";
+             $package_type = "p.package_type = 'pear' AND ";
         }
         $pkg_sql = "SELECT p.id AS packageid, p.name AS name, ".
              "p.package_type AS type, ".
