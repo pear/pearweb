@@ -121,38 +121,38 @@ if (empty($row['name'])) {
 print_package_navigation($row['packageid'], $row['name'],
                          '/package-edit.php?id=' . $row['packageid']);
 
-$bb = new Borderbox('Edit Package Information');
 ?>
 
 <form action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $_GET['id']; ?>" method="POST">
-<table border="0">
+<table class="form-holder" style="margin-bottom: 2em;" cellspacing="1">
+<caption class="form-caption">Edit Package Information</caption>
 <tr>
-    <td>Package name:</td>
-    <td valign="middle">
+    <th class="form-label_left">Package Name:</th>
+    <td class="form-input">
     <?php $form->displayText("name", $row['name'], 30); ?>
     </td>
 </tr>
 <tr>
-    <td>License:</td>
-    <td valign="middle">
+    <th class="form-label_left">License:</th>
+    <td class="form-input">
     <?php $form->displayText("license", $row['license'], 30); ?>
     </td>
 </tr>
 <tr>
-    <td valign="top">Summary:</td>
-    <td>
+    <th class="form-label_left">Summary:</th>
+    <td class="form-input">
     <?php $form->displayTextarea("summary", $row['summary'], 40, 3, 255); ?>
     </td>
 </tr>
 <tr>
-    <td valign="top">Description:</td>
-    <td>
+    <th class="form-label_left">Description:</th>
+    <td class="form-input">
     <?php $form->displayTextarea("description", $row['description']); ?>
     </td>
 </tr>
 <tr>
-    <td>Category:</td>
-    <td>
+    <th class="form-label_left">Category:</th>
+    <td class="form-input">
 <?php
 $sth = $dbh->query('SELECT id, name FROM categories ORDER BY name');
 
@@ -165,48 +165,50 @@ $form->displaySelect("category", $rows, $row['categoryid']);
     </td>
 </tr>
 <tr>
-    <td>Homepage:</td>
-    <td valign="middle">
+    <th class="form-label_left">Homepage:</th>
+    <td class="form-input">
     <?php $form->displayText("homepage", $row['homepage'], 30); ?>
     </td>
 </tr>
 <tr>
-    <td>Documentation URI:</td>
-    <td valign="middle">
+    <th class="form-label_left">Documentation URI:</th>
+    <td class="form-input">
     <?php $form->displayText("doc_link", $row['doc_link'], 30); ?>
     </td>
 </tr>
 <tr>
-    <td>Web CVS URI:</td>
-    <td valign="middle">
+    <th class="form-label_left">Web CVS URI:</th>
+    <td class="form-input">
     <?php $form->displayText("cvs_link", $row['cvs_link'], 30); ?>
     </td>
 </tr>
 <tr>
-    <td>&nbsp;</td>
-    <td><input type="submit" name="submit" value="Save changes" />&nbsp;
+    <th class="form-label_left">&nbsp;</th>
+    <td class="form-input"><input type="submit" name="submit" value="Save changes" />&nbsp;
     <input type="reset" name="cancel" value="Cancel" onClick="javascript:window.location.href='/package/<?php echo $_GET['id']; ?>'; return false" />
     </td>
 </tr>
 </table>
 </form>
 
+<table class="form-holder" cellspacing="1">
+<caption class="form-caption">Manage Releases</caption>
+
+<tr>
+ <th class="form-label_top">Version</th>
+ <th class="form-label_top">Release Date</th>
+ <th class="form-label_top">Actions</th>
+</tr>
+
 <?php
-$bb->end();
-
-echo "<br /><br />\n";
-
-$bb = new Borderbox('Manage Releases');
-
-echo "<table border=\"0\">\n";
-
-echo "<tr><th>Version</th><th>Releasedate</th><th>Actions</th></tr>\n";
 
 foreach ($row['releases'] as $version => $release) {
     echo "<tr>\n";
-    echo '  <td>' . $version . "</td>\n";
-    echo '  <td>' . $release['releasedate'] . "</td>\n";
-    echo "  <td>\n";
+    echo '  <td class="form-input">' . $version . "</td>\n";
+    echo '  <td class="form-input">';
+    echo make_utc_date(strtotime($release['releasedate']));
+    echo "</td>\n";
+    echo '  <td class="form-input">' . "\n";
 
     $url = $_SERVER['PHP_SELF'] . '?id=' .
             $_GET['id'] . '&amp;release=' .
@@ -223,13 +225,6 @@ foreach ($row['releases'] as $version => $release) {
 
 echo "</table>\n";
 
-$bb->end();
-
-echo "<br /><br />\n";
-
-$bb = new Borderbox('Delete Package');
-print_link('/package-delete.php?id=' . $_GET['id'], make_image('delete.gif') . ' Delete the package from the website.');
-$bb->end();
-
 response_footer();
+
 ?>
