@@ -45,6 +45,13 @@ do {
             $display_form = true;
         }
 
+        if (!isset($_SESSION['captcha']) ||
+            $_SESSION['captcha'] != $_POST['captcha'])
+        {
+            $errors[] = 'Incorrect Confirmation Number';
+            $display_form = true;
+        }
+
         if ($errors) {
             break;
         }
@@ -146,7 +153,6 @@ if ($display_form) {
 
 MSG;
 
-
     print '<a name="requestform" id="requestform"></a>';
 
     report_error($errors);
@@ -180,6 +186,15 @@ MSG;
     $form->addPassword('password', 'Password:',
             '', 10, null, '',
             'class="form-label_left"', 'class="form-input"');
+
+    $captcha = substr(microtime(), 4, 4);
+    $_SESSION['captcha'] = $captcha;
+    $form->addText('captcha', 'Confirmation Number:'
+            . '<p class="cell_note">(Type &quot;' . $captcha
+            . '&quot; into this box)</p>',
+            '', 4, 4, '',
+            'class="form-label_left"', 'class="form-input"');
+
     $form->addText('email', 'Email Address:',
             @$_POST['email'], 20, null, '',
             'class="form-label_left"', 'class="form-input"');
