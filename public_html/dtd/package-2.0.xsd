@@ -538,18 +538,7 @@
  </xs:element>
  <xs:element name="srcchannel" type="xs:string"/>
  <xs:element name="bundledpackage">
-  <xs:complexType>
-   <xs:sequence>
-    <xs:element ref="filename"/>
-    <xs:choice>
-     <xs:element ref="uri"/>
-     <xs:sequence>
-      <xs:element ref="channel"/>
-      <xs:element ref="name"/>
-     </xs:sequence>
-    </xs:choice>
-   </xs:sequence>
-  </xs:complexType>
+  <xs:complexType/>
  </xs:element>
  <xs:element name="filename" type="xs:string"/>
  <xs:element name="providesextension" type="xs:string"/>
