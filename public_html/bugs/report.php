@@ -238,7 +238,7 @@ simply being marked as "bogus".</strong></p>
   <td colspan="2">
     <?php
     if (!empty($package)) { ?>
-        <input type="hidden" name="in[package_name]" value="<?php echo $package;?>">
+        <input type="hidden" name="in[package_name]" value="<?php echo $package;?>" />
         <?php echo $package;
     } else {
     ?>
@@ -254,23 +254,22 @@ simply being marked as "bogus".</strong></p>
   <th align="right">Summary:</th>
   <td colspan="2">
    <input type="text" size="40" maxlength="79" name="in[sdesc]" value="<?php echo clean($in['sdesc']);?>" />
-  </td></tr>
+  </td>
 </tr><tr>
   <th align="right">Password:</th>
   <td>
    <input type="password" size="20" maxlength="20" name="in[passwd]" value="<?php echo clean($in['passwd']);?>" />
   </td>
-  <td><font size="-2">
+  <td><small>
     You may enter any password here, which will be stored for this bug report.
     This password allows you to come back and modify your submitted bug report
     at a later date. <!-- [<a href="/bug-pwd-finder.php">Lost a bug password?</a>] -->
-  </font></td>
+  </small></td>
 </tr>
 </table>
 <table>
 <tr>
-  <td valign="top" colspan="2">
-   <font size="-1">
+  <td valign="top" colspan="2" style="font-size: 85%;">
    Please supply any information that may be helpful in fixing the bug:
    <ul>
     <li>The version number of the PEAR package or files you are using.</li>
@@ -280,14 +279,11 @@ simply being marked as "bogus".</strong></p>
     <li>Any changes made in your php.ini compared to php.ini-dist (<b>not</b> your whole php.ini!)</li>
     <li>A <a href="http://bugs.php.net/bugs-generating-backtrace.php">gdb backtrace</a>.</li>
    </ul>
-   </font>
   </td>
 </tr>
 <tr>
   <td valign="top">
    <b>Description:</b><br />
-   <font size="-1">
-   </font>
   </td>
   <td>
    <textarea cols="60" rows="15" name="in[ldesc]" wrap="physical"><?php echo clean($in['ldesc']);?></textarea>
@@ -296,11 +292,11 @@ simply being marked as "bogus".</strong></p>
 <tr>
   <td valign="top">
    <b>Reproduce code:</b><br />
-   <font size="-1">
+   <small>
     Please <b>do not</b> post more than 20 lines of source code.<br />
     If the code is longer than 20 lines, provide a URL to the source<br />
     code that will reproduce the bug.
-   </font>
+   </small>
   </td>
   <td valign="top">
    <textarea cols="60" rows="15" name="in[repcode]" wrap="no"><?php echo clean($in['repcode']);?></textarea>
@@ -309,9 +305,9 @@ simply being marked as "bogus".</strong></p>
 <tr>
   <td valign="top">
    <b>Expected result:</b><br />
-   <font size="-1">
+   <small>
     What do you expect to happen or see when you run the code above ?<br />
-   </font>
+   </small>
   </td>
   <td valign="top">
    <textarea cols="60" rows="15" name="in[expres]" wrap="physical"><?php echo clean($in['expres']);?></textarea>
@@ -320,10 +316,10 @@ simply being marked as "bogus".</strong></p>
 <tr>
   <td valign="top">
    <b>Actual result:</b><br />
-   <font size="-1">
+   <small>
     This could be a <a href="http://bugs.php.net/bugs-generating-backtrace.php">backtrace</a> for example.<br />
     Try to keep it as short as possible without leaving anything relevant out.
-   </font>
+   </small>
   </td>
   <td valign="top">
    <textarea cols="60" rows="15" name="in[actres]" wrap="physical"><?php echo clean($in['actres']);?></textarea>
