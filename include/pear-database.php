@@ -75,7 +75,7 @@ function validate($entity, $field, $value /* , $oldvalue, $object */) {
  *
  *  SELECT * FROM table WHERE right-1 = left;
  */
-function renumber_visitations($id, $parent)
+function renumber_visitations($id, $parent = null)
 {
     global $dbh;
     if ($parent === null) {
