@@ -13,7 +13,7 @@
    | obtain it through the world-wide-web, please send a note to          |
    | license@php.net so we can mail you a copy immediately.               |
    +----------------------------------------------------------------------+
-   | Authors: Stig S?ther Bakken <ssb@fast.no>                            |
+   | Authors: Stig Sæther Bakken <ssb@fast.no>                            |
    |          Tomas V.V.Cox <cox@php.net>                                 |
    |          Martin Jansen <mj@php.net>                                  |
    +----------------------------------------------------------------------+
