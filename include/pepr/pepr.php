@@ -31,7 +31,6 @@
 require_once 'Damblan/Karma.php';
 require_once 'HTML/QuickForm.php';
 require_once 'Mail.php';
-require_once 'pear-format-html.php';
 /**#@-*/
 
 

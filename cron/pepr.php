@@ -37,6 +37,12 @@ require_once 'pear-config.php';
  */
 require_once 'pear-database.php';
 
+/**
+ * Obtain some needed functions.
+ *
+ * In particular, user_link(), which is needed by sendActionEmail().
+ */
+require_once 'pear-format-html.php';
 
 /**
  * Get the database class.
