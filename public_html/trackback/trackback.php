@@ -25,12 +25,26 @@ require_once 'Damblan/URL.php';
 $site = new Damblan_URL;
 
 
-// {{{ setup, queries
-
 $params = array('action' => '', 'id' => '');
 $site->getElements($params);
 
+
 $id = htmlentities($params['id']);
+
+// This mostly occurs, when the URL is called by a human instead of a script
+if (count($_POST) == 0) {
+    PEAR::raiseError("This site is not intended for being viewed in a webbrowser, but to communicate with computer programs.");
+}
+
+// Switch error handling, to avoid further PEARWeb style error output
+PEAR::setErrorHandling(PEAR_ERROR_RETURN);
+
+// Data sanity check
+if (!isset($params['id'])) {
+    echo Services_Trackback::getResponseError('No package with ID transmited. Trackback not possible.', 1);
+    exit;
+}
+
 // Sanity check, if package exists
 $pkgInfo = package::info($id, 'packageid');
 if (!isset($pkgInfo) || PEAR::isError($pkgInfo)) {
@@ -40,6 +54,7 @@ if (!isset($pkgInfo) || PEAR::isError($pkgInfo)) {
 
 // Creating new trackback
 $trackback = new Damblan_Trackback(array('id' => $id), time());
+
 $res = $trackback->receive();
 if (PEAR::isError($res)) {
     echo Services_Trackback::getResponseError('The data you submited was invalid, please recheck.', 1);
