@@ -23,7 +23,7 @@
                 $userInfos[$comment->user_handle] = user::info($comment->user_handle);
             }
             $commentsHTML .= "<b>".user_link($comment->user_handle);
-            $commentsHTML .= " [". date("Y-m-d, H:i a", $comment->timestamp) ."]</b><br />";
+            $commentsHTML .= " [". date("Y-m-d, H:i", $comment->timestamp) ."]</b><br />";
             $commentsHTML .= nl2br($comment->comment)."<br /><br />";
         }
     } else {
