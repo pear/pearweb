@@ -482,11 +482,7 @@ function show_types($current, $show_any, $default = '')
         $bug_items['PEPr']          = '&nbsp;&nbsp;&nbsp;PEPr';
         $bug_items['Documentation'] = 'Documentation';
 
-        if ($site == 'pecl') {
-            $list = package::listAll(false, true, true, true);
-        } else {
-            $list = package::listAll(false);
-        }
+        $list = package::listAll(false);
         foreach ($list as $name => $data) {
             $bug_items[$name] = $name;
         }
