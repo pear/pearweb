@@ -1,4 +1,4 @@
-<!ELEMENT channel (name,summary,validatepackage?,xmlrpc,soap?,subchannels?,mirrors?)>
+<!ELEMENT channel (name,summary,validatepackage?,xmlrpc,soap?,subchannels?,mirrors?,deps?)>
 <!ATTLIST channel version CDATA "1.0">
 
 <!ELEMENT name (#PCDATA)>
@@ -8,17 +8,15 @@
 <!ELEMENT validatepackage (#PCDATA)>
 <!ATTLIST validatepackage version CDATA #REQUIRED>
 
-<!ELEMENT xmlrpc (functions)>
+<!ELEMENT xmlrpc (function+)>
 <!ATTLIST xmlrpc host     CDATA #REQUIRED
                  path     CDATA #IMPLIED
                  filename CDATA "xmlrpc.php">
 
-<!ELEMENT soap (functions)>
+<!ELEMENT soap (function+)>
 <!ATTLIST soap host     CDATA #REQUIRED
                path     CDATA #IMPLIED
                filename CDATA "soap.php">
-
-<!ELEMENT functions (function+)>
 
 <!ELEMENT function (#PCDATA)>
 <!ATTLIST function version CDATA #REQUIRED>
