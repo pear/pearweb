@@ -42,7 +42,7 @@
 		$form->addElement('checkbox', 'conditional', 'conditional', '', null, 1);
 		$form->addElement('textarea', 'comment', null, array('cols' => 30, 'rows' => 6));
 		$form->addElement('select', 'reviews', '', $proposalReviewsMap, array('size' => count($proposalReviewsMap), 'multiple' => 'multiple'));
-		$form->addElement('static', '', '', '<small>Note, that you can vote only one time! Please comment every conditional vote and allways vote positive in conditional votes (eg. "I\'m +1 if you change...").</small>');
+		$form->addElement('static', '', '', '<small>Note that you can only vote once!<br /><br />For conditional votes, please leave a comment and vote +1 (<i>e.g.</i>, "I\'m +1 if you change ...").</small>');
 		$form->addElement('submit', 'submit', 'Vote');
 		
 		$form->addRule('value', 'A vote value is required!', 'required', null, 'client');
