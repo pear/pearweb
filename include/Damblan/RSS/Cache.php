@@ -21,10 +21,10 @@
 /**
  * Basic RSS feed caching
  *
- * The class looks for a file, whose name is determined by the given
- * parameter $file and in the directory DAMBLAN_RSS_CACHE_DIR. If that
- * file exists and it isn't older than DAMBLAN_RSS_CACHE_TIME (default
- * is 1800 seconds), it is used instead of performing the database queries.
+ * The class looks for a file with the name $file in the directory
+ * DAMBLAN_RSS_CACHE_DIR. If this file exists and it isn't older than 
+ * DAMBLAN_RSS_CACHE_TIME (default: 1800 seconds), its content is
+ * returned instead of performing the database queries.
  *
  * @author Martin Jansen <mj@php.net>
  * @package Damblan
