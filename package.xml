@@ -76,7 +76,6 @@
        <dir name="cron">
         <file role="php" name="find-documentation.php"/>
         <file role="php" name="generate_rss_pwn.php"/>
-        <file role="php" name="make-packages.php"/>
         <file role="php" name="package-stats.php"/>
         <file role="php" name="pepr.php"/>
        </dir> <!-- cron -->
