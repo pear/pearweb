@@ -27,18 +27,18 @@ if (auth_verify(@$_POST['PEAR_USER'], @$_POST['PEAR_PW'])) {
     setcookie('PEAR_USER', $_POST['PEAR_USER'], $expire, '/');
     setcookie('PEAR_PW', md5($_POST['PEAR_PW']), $expire, '/');
 
-	/**
-    * Update users password if it is held in the db
-	* crypt()ed.
-    */
-	if (strlen(@$auth_user->password) == 13) { // $auth_user comes from auth_verify() function
+    /**
+     * Update users password if it is held in the db
+     * crypt()ed.
+     */
+    if (strlen(@$auth_user->password) == 13) { // $auth_user comes from auth_verify() function
         $query = "UPDATE users SET password = ? WHERE handle = ?";
-		$dbh->query($query, array(md5($_POST['PEAR_PW']), $_POST['PEAR_USER']));
-	}
-	
-	/**
-    * Determine URL
-    */
+        $dbh->query($query, array(md5($_POST['PEAR_PW']), $_POST['PEAR_USER']));
+    }
+
+    /**
+     * Determine URL
+     */
     if (isset($_POST['PEAR_OLDURL'])) {
         $gotourl = $_POST['PEAR_OLDURL'];
     } else {
@@ -50,5 +50,4 @@ if (auth_verify(@$_POST['PEAR_USER'], @$_POST['PEAR_PW'])) {
 }
 
 auth_reject();
-
 ?>
