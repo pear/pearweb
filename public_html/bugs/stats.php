@@ -91,6 +91,7 @@ switch ($site) {
 
 if (empty($_GET['bug_type'])) {
     $bug_type = 'Bug';
+    $where .= " AND bug_type = 'Bug'";
 } elseif ($_GET['bug_type'] == 'All') {
     $bug_type = '';
 } else {
