@@ -54,6 +54,13 @@ echo '<div class="indent">';
 echo menu_link("Browse All Packages", "packages.php");
 echo menu_link("Search Packages", "package-search.php");
 echo '</div>';
+if (isset($_COOKIE['PEAR_USER'])) {
+	echo '<h2>Package Proposals (PEPr Life-Test)</h2>';
+	echo '<div class="indent">';
+	echo menu_link("Browse Proposals", "pepr/pepr-overview.php");
+	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
+	echo '</div>';
+}
 echo '<h2>Developers</h2>';
 echo '<div class="indent">';
 
