@@ -82,15 +82,17 @@ class Damblan_RSS_Common {
      * @param  string Content for the title tag
      * @param  string Content for the link tag
      * @param  string Content for the description tag
+     * @param  string Date of the entry
      * @return object XML_Tree_Node instance
      */
-    function newItem($title, $link, $desc) {
+    function newItem($title, $link, $desc, $date) {
         $item = new XML_Tree_Node("item");
 
         $item->setAttribute("rdf:about", $link);
         $item->addChild("title", $title);
         $item->addChild("link", htmlspecialchars($link));
         $item->addChild("description", htmlspecialchars($desc));
+        $item->addChild("dc:date", $date);
 
         return $item;
     }
@@ -118,7 +120,7 @@ class Damblan_RSS_Common {
      */
     function __addItems($list) {
         foreach ($list as $item) {
-            $node = $this->newItem($item['name'] . " " . $item['version'], "http://pear.php.net/package/" . $item['name'], $item['releasenotes']);
+            $node = $this->newItem($item['name'] . " " . $item['version'], "http://pear.php.net/package/" . $item['name'], $item['releasenotes'], $item['releasedate']);
             $this->addItem($node);
         }
     }
