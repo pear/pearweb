@@ -39,6 +39,9 @@ response_header('Credits');
 <p>The website team can be reached at
 <?php echo make_mailto_link("pear-webmaster@lists.php.net"); ?>.</p>
 
+<p>More information about the website can be found on a
+<?php print_link("/about/", "dedicated page"); ?>.</p>
+
 <h3>PEAR documentation team</h3>
 
 <p>The authors of the documentation are listed on a
