@@ -1101,7 +1101,7 @@ Please fix the permission or select a new path.\n";
  */
 function tmp_dir()
 {
-    global $ptmp;
+    global $ptmp, $prefix;
     $_temp = false;
     if (WINDOWS){
         if ( my_env('TEMP') ) {
@@ -1152,6 +1152,7 @@ function tmp_dir()
             bail('mkdir '.$prefix.'/tmp'.' ... failed');
         }
 
+        $ptmp = $prefix . '/tmp';
         $_temp = tempnam($prefix.'/tmp', 'gope');
 
         rm_rf($_temp);
