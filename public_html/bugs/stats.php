@@ -119,31 +119,26 @@ echo '<tr><td colspan="10">
         <strong>Category:</strong> 
         <select name="category" id="category" onchange="this.form.submit();">';
             $_GET['category'] == '' ? $selected = ' selected="selected"' : $selected = '';
-            echo '<option value=""' . $selected . '>All</option>' . "\n";
+            echo '<option value=""' . $selected . '>All</option>'."\n";
                 foreach ($res as $row) {
                     $_GET['category'] == $row['name'] ? $selected = ' selected="selected"' : $selected = '';
-                    echo '<option value="' . $row['name'] . '"' . $selected .'>' . $row['name'] . '</option>' . "\n";
+                    echo '<option value="' . $row['name'] . '"' . $selected .'>' . $row['name'] . '</option>'."\n";
                 }
 echo    '</select>
         <strong>Developer:</strong> 
-        <select name="developer" id="developers" onchange="this.form.submit();">';
+        <select name="developer" id="developers" onchange="this.form.submit();">'."\n";
 
 /**
 * Fetch list of users/maintainers
 */
-$users = $dbh->getAll('SELECT u.handle, u.name FROM users u, maintains m WHERE u.handle = m.handle 
+$users = $dbh->query('SELECT u.handle, u.name FROM users u, maintains m WHERE u.handle = m.handle 
                         GROUP BY handle ORDER BY u.name');
-for ($i = 0; $i < count($users); $i++) {
-    if (empty($users[$i]['name'])) {
-        $users[$i]['name'] = $users[$i]['handle'];
+    $_GET['developer'] == '' ? $selected = ' selected="selected"' : $selected = '';
+    echo '<option value=""' . $selected . '>Select user...</option>'."\n";
+    while ($u = $users->fetchRow()) {
+        $_GET['developer'] == $u['handle'] ? $selected = ' selected="selected"' : $selected = '';
+        echo '<option value="' . $u['handle'] . '"' . $selected . '>' . $u['name'] . '</option>'."\n";
     }
-}
-                $_GET['developer'] == '' ? $selected = ' selected="selected"' : $selected = '';
-                echo '<option value=""' . $selected . '>Select user...</option>';
-                foreach ($users as $u) {
-                    $_GET['developer'] == $u['handle'] ? $selected = ' selected="selected"' : $selected = '';
-                    echo '<option value="' . $u['handle'] . '"' . $selected . '>' . $u['name'] . '</option>';
-                }
 echo '        </select></div>
         </form>
     </td></tr>' . "\n";
