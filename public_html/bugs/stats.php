@@ -23,44 +23,41 @@
  */
 require_once './include/prepend.inc';
 
+
 error_reporting(E_ALL ^ E_NOTICE);
+
+response_header('Bugs Stats');
+
+$dbh->setFetchMode(DB_FETCHMODE_ASSOC);
 
 $category  = $_GET['category'];
 $developer = $_GET['developer'];
 $rev       = $_GET['rev'];
 $sort_by   = $_GET['sort_by'];
 
-$dbh->setFetchMode(DB_FETCHMODE_ASSOC);
-
-response_header('Bugs Stat');
+$query        = 'SELECT p.name FROM packages p';
+$where_clause = '';
 
 switch ($site) {
-    case 'pear':
-        $type = ' WHERE p.package_type = '.$dbh->quoteSmart('pear');
-        break;
     case 'pecl':
-        $type = ' WHERE p.package_type = '.$dbh->quoteSmart('pecl');
+    case 'pear':
+        $where = ' WHERE p.package_type = ' . $dbh->quoteSmart($site);
         break;
     default:
-        $type = ' WHERE p.package_type LIKE \'%\'';
-        break;
+        $where = '';
 }
 
-$sql   = '';
-$where = '';
 if ($_GET['category'] && $_GET['category'] != '') {
     !empty($_GET['developer']) ? $and = ' AND ' : '';
     $where .= ' AND categories.name = ' .  $dbh->quoteSmart($_GET['category']) . $and;
-    $sql .= ' LEFT JOIN categories ON p.category = categories.id';
+    $query .= ' LEFT JOIN categories ON p.category = categories.id';
 }
 
 if ($_GET['developer'] && $_GET['developer'] != '') {
     $where .= ' AND maintains.handle = ' .  $dbh->quoteSmart($_GET['developer']);
-    $sql .= ' LEFT JOIN maintains ON p.id = maintains.package';
-
+    $query .= ' LEFT JOIN maintains ON p.id = maintains.package';
 }
 
-$where_clause = '';
 if (empty($_GET['bug_type']) || $_GET['bug_type'] == 'All') {
     $bug_type = '';
 } else {
@@ -68,15 +65,12 @@ if (empty($_GET['bug_type']) || $_GET['bug_type'] == 'All') {
     $where_clause = " AND bug_type = '" . escapeSQL($bug_type) . "'";
 }
 
-$query = 'SELECT p.name FROM packages p '.$sql.$type.$where.' GROUP BY p.name';
-$result = $dbh->getAll($query);
+$query .= $where . ' GROUP BY p.name';
+$result =& $dbh->getAll($query);
 
 if ($_GET['developer'] == '' && $_GET['category'] == '') {
-    $result[] = array('name' => 'Bug System');
-    $result[] = array('name' => 'Documentation');
-    $result[] = array('name' => 'Web Site');
-    if ($site == 'pear') {
-        $result[] = array('name' => 'PEPr');
+    foreach ($pseudo_pkgs as $value) {
+        $result[] = array('name' => $value);
     }
 }
 
@@ -85,7 +79,7 @@ foreach ($result as $package) {
             FROM bugdb
             WHERE package_name = '.$dbh->quoteSmart($package['name']).$where_clause.'
             GROUP BY id';
-    $result1 = $dbh->query($query);
+    $result1 =& $dbh->query($query);
     
     $package_name['all'][$package['name']]['total'] = 0;
     while ($row = $result1->fetchRow()) {
@@ -129,73 +123,9 @@ if ($total > 0) {
     reset($package_name);
 }
 
-function bugstats($status, $name)
-{
-    global $package_name;
-
-    if ($package_name[$status][$name] > 0) {
-        return '<a href="search.php?cmd=display&amp;status=' . ucfirst($status) . ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) . '&amp;by=Any&amp;limit=10'.$string.'">' . $package_name[$status][$name] . "</a>\n";
-    }
-}
-
-
-function sort_url ($name)
-{
-    global $sort_by,$rev,$phpver,$category,$developer;
-
-    if ($name == $sort_by) {
-        $reve = ($rev == 1) ? 0 : 1;        
-    } else {
-        $reve = 1;
-    }
-    if ($sort_by != $name) {
-        $attr = '';
-    } else {
-        $attr = 'class="bug_stats_choosen"';
-    }
-    return '<a href="./stats.php?sort_by='.urlencode($name).'&amp;rev='.$reve.'&amp;category='.$category.'&amp;developer='.$developer.'" '.$attr.'>'.ucfirst($name).'</a>';
-
-}
-
-function package_link ($name)
-{
-    $filter = array('Bug System',
-                    'Web Site',
-                    'Documentation',
-                    'PEPr');
-    if (!in_array($name, $filter)) {
-        return '<a href="/package/'.$name.'" style="color: black;">'.$name.'</a>';
-    } else {
-        return $name;
-    }
-}
-
-function display_stat_header($total, $grandtotal = true) {
-    global $dbh;
-    if ($grandtotal) {
-        $stat_head = '<tr class="bug_header"><td><strong>Name</strong></td>
-            <td>&nbsp;</td>';
-    } else {
-        $stat_head = '<tr class="bug_header"><td>&nbsp;</td><td>&nbsp;</td>';
-    }
-    $stat_head .= '<td><strong>' . sort_url('closed')      . '</strong></td>
-    <td><strong>' . sort_url('open')        . '</strong></td>
-    <td><strong>' . sort_url('critical')    . '</strong></td>
-    <td><strong>' . sort_url('verified')    . '</strong></td>
-    <td><strong>' . sort_url('analyzed')    . '</strong></td>
-    <td><strong>' . sort_url('assigned')    . '</strong></td>
-    <td><strong>' . sort_url('suspended')   . '</strong></td>
-    <td><strong>' . sort_url('duplicate')   . '</strong></td>
-    <td><strong>' . sort_url('feedback')    . '</strong></td>
-    <td><strong>' . sort_url('no feedback') . '</strong></td>
-    <td><strong>' . sort_url('bogus')       . '</strong></td>
-    </tr>' . "\n";
-    return $stat_head;
-}
-
-/**
-* Fetch list of all categories
-*/
+/*
+ * Fetch list of all categories
+ */
 echo '<table style="font-size: 90%;">'."\n";
     $res = category::listAll();
     $_SERVER['QUERY_STRING'] ? $query_string = '?' . $_SERVER['QUERY_STRING'] : '';
@@ -214,10 +144,10 @@ echo    '</select>
         <strong>Developer:</strong> 
         <select name="developer" id="developers" onchange="this.form.submit(); return false;">'."\n";
 
-/**
-* Fetch list of users/maintainers
-*/
-$users = $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, maintains m WHERE u.handle = m.handle 
+/*
+ * Fetch list of users/maintainers
+ */
+$users =& $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, maintains m WHERE u.handle = m.handle 
                         GROUP BY handle ORDER BY u.name');
     $_GET['developer'] == '' ? $selected = ' selected="selected"' : $selected = '';
     echo '<option value=""' . $selected . '>All</option>'."\n";
@@ -284,7 +214,74 @@ foreach ($package_name[$sort_by] as $name => $value) {
 
 echo "</table>\n";
 
-$dbh->setFetchMode(DB_FETCHMODE_ORDERED);
-
 response_footer();
+
+
+
+/*
+ * DECLARE FUNCTIONS ===================================
+ */
+
+function bugstats($status, $name)
+{
+    global $package_name;
+
+    if ($package_name[$status][$name] > 0) {
+        return '<a href="search.php?cmd=display&amp;status=' . ucfirst($status) . ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) . '&amp;by=Any&amp;limit=10'.$string.'">' . $package_name[$status][$name] . "</a>\n";
+    }
+}
+
+
+function sort_url($name)
+{
+    global $sort_by,$rev,$phpver,$category,$developer;
+
+    if ($name == $sort_by) {
+        $reve = ($rev == 1) ? 0 : 1;        
+    } else {
+        $reve = 1;
+    }
+    if ($sort_by != $name) {
+        $attr = '';
+    } else {
+        $attr = 'class="bug_stats_choosen"';
+    }
+    return '<a href="./stats.php?sort_by='.urlencode($name).'&amp;rev='.$reve.'&amp;category='.$category.'&amp;developer='.$developer.'" '.$attr.'>'.ucfirst($name).'</a>';
+
+}
+
+function package_link($name)
+{
+    global $pseudo_pkgs;
+
+    if (!in_array($name, $pseudo_pkgs)) {
+        return '<a href="/package/'.$name.'" style="color: black;">'.$name.'</a>';
+    } else {
+        return $name;
+    }
+}
+
+function display_stat_header($total, $grandtotal = true) {
+    global $dbh;
+    if ($grandtotal) {
+        $stat_head = '<tr class="bug_header"><td><strong>Name</strong></td>
+            <td>&nbsp;</td>';
+    } else {
+        $stat_head = '<tr class="bug_header"><td>&nbsp;</td><td>&nbsp;</td>';
+    }
+    $stat_head .= '<td><strong>' . sort_url('closed')      . '</strong></td>
+    <td><strong>' . sort_url('open')        . '</strong></td>
+    <td><strong>' . sort_url('critical')    . '</strong></td>
+    <td><strong>' . sort_url('verified')    . '</strong></td>
+    <td><strong>' . sort_url('analyzed')    . '</strong></td>
+    <td><strong>' . sort_url('assigned')    . '</strong></td>
+    <td><strong>' . sort_url('suspended')   . '</strong></td>
+    <td><strong>' . sort_url('duplicate')   . '</strong></td>
+    <td><strong>' . sort_url('feedback')    . '</strong></td>
+    <td><strong>' . sort_url('no feedback') . '</strong></td>
+    <td><strong>' . sort_url('bogus')       . '</strong></td>
+    </tr>' . "\n";
+    return $stat_head;
+}
+
 ?>
