@@ -291,7 +291,7 @@ just go ahead and add more information to this bug or edit the other fields.
 Welcome back! If you're the original bug submitter, here's where you can edit
 the bug or add additional notes. If this is not your bug, you can <a
 href="<?php echo "$PHP_SELF?id=$id&amp;edit=3"?>">add a comment by following
-this link</a> or the box above that says 'Add Comment'. If this is your bug,
+this link</a>. If this is your bug,
 but you forgot your password, <a href="bug-pwd-finder.php">you can retrieve
 your password here</a>.
 <?php }?>
