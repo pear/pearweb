@@ -13,7 +13,7 @@
 // +----------------------------------------------------------------------+
 // | Authors: Martin Jansen <mj@php.net>                                  |
 // +----------------------------------------------------------------------+
-// $Id: package-maintainers.js,v 1.2 2005-01-26 12:40:07 pajoye Exp $
+// $Id: package-maintainers.js,v 1.3 2005-01-26 12:48:34 pajoye Exp $
 
 function stripName(name) {
     pos = name.indexOf("(");
