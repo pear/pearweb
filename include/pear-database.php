@@ -1741,7 +1741,7 @@ Package Info
 Related Links
 -------------
 Package home: http://pear.php.net/package/$pkginfo[package]
-   Changelog: http://pear.php.net/package-changelog.php?package=$pkginfo[package]
+   Changelog: http://pear.php.net/package/$pkginfo[package]/download/$pkginfo[version]
     Download: http://pear.php.net/get/$upload
 
 Authors
