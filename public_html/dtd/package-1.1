@@ -4,7 +4,7 @@
      This is the PEAR package description, version 1.0b3.
      It should be used with the informal public identifier:
 
-         "-//PHP Group//DTD PEAR Package 1.0b3//EN//XML"
+         "-//PHP Group//DTD PEAR Package 1.1//EN//XML"
 
      Copyright (c) 1997-2003 The PHP Group
 
@@ -69,15 +69,15 @@
 <!ELEMENT dir (dir|file|libfile)*>
 <!ATTLIST dir
     name           CDATA              #REQUIRED
-    role           %FileRoles;        'php'
+    role           %FileRoles;        "php"
     baseinstalldir CDATA              #IMPLIED>
 
 <!ELEMENT file (replace)*>
 <!ATTLIST file
     name           CDATA              #REQUIRED
-    role           %FileRoles;        'php'
-    debug          (na|on|off)        'na'
-    threaded       (na|on|off)        'na'
+    role           %FileRoles;        "php"
+    debug          (na|on|off)        "na"
+    threaded       (na|on|off)        "na"
     format         CDATA              #IMPLIED
     md5sum         CDATA              #IMPLIED
     install-as     CDATA              #IMPLIED
@@ -104,7 +104,8 @@
 <!ATTLIST dep
     type      %DepTypes;      #REQUIRED
     rel       %DepRels;       #IMPLIED
-    version   CDATA           #IMPLIED>
+    version   CDATA           #IMPLIED
+    optional  (yes|no)        "no">
 
 <!ELEMENT provides EMPTY>
 <!ATTLIST provides
