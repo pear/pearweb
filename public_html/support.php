@@ -246,6 +246,10 @@ be discussed.</p>
 <h4>Other tutorials:</h4>
 
 <ul>
+    <li><a href="http://www.devshed.com/c/a/PHP/Serializing-XML-With-PHP/">Serializing XML With PHP</a>
+    covers the task of serializing XML documents with PHP with the help of the 
+    <a href="/package/XML_Serializer/">XML_Serializer</a> package.</li>
+
     <li><a href="http://www.php-mag.net/itr/online_artikel/psecom,id,455,nodeid,114.html">Grokking Stats</a>:
     Article (PDF) by <a href="/user/jmcastagnetto">Jesus M. Castagnetto</a>
     about <a href="/package/Math_Stats/">Math_Stats</a> and 
