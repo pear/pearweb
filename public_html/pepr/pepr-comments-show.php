@@ -24,7 +24,7 @@
             }
             $commentsHTML .= '<strong>'.user_link($comment->user_handle);
             $commentsHTML .= ' ['. date('Y-m-d, H:i T', $comment->timestamp) .']</strong><br />';
-            $commentsHTML .= nl2br($comment->comment).'<br /><br />';
+            $commentsHTML .= nl2br(htmlentities($comment->comment)).'<br /><br />';
         }
     } else {
         $commentsHTML = 'Sorry, there are no comments available.';
