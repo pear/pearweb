@@ -18,6 +18,12 @@
    $Id$
 */
 
+if ($_SERVER['SERVER_NAME'] != 'pear.php.net') {
+    define('DEVBOX', true);
+} else {
+    define('DEVBOX', false);
+}
+
 require_once "pear-cache.php";
 
 require_once "DB.php";
@@ -31,12 +37,6 @@ if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
 }
 
 error_reporting(E_ALL);
-
-if ($_SERVER['SERVER_NAME'] != 'pear.php.net') {
-    define('DEVBOX', true);
-} else {
-    define('DEVBOX', false);
-}
 
 if (empty($format)) {
     if (basename($_SERVER['PHP_SELF']) == "xmlrpc.php") {
