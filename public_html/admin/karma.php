@@ -31,10 +31,12 @@ response_header("PEAR Administration :: Karma Management");
 echo "<h1>Karma Management</h1>\n";
 
 $handle = null;
-if (!empty($_POST['handle'])) {
-    $handle = trim($_POST['handle']);
-} else if (!empty($_GET['handle'])) {
-    $handle = trim($_GET['handle']);
+if (!empty($_REQUEST['handle'])) {
+    $handle = trim($_REQUEST['handle']);
+
+    if (!preg_match(PEAR_COMMON_USER_NAME_REGEX, $handle)) {
+        $handle = null;
+    }
 }
 
 if ($handle === null || empty($handle)) {
