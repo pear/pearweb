@@ -725,11 +725,9 @@ if ($edit == 3) {
        <input type="text" size="40" maxlength="40" name="in[commentemail]"
         value="<?php echo clean($_POST['in']['commentemail']) ?>"
         accesskey="o" />
-      </td>
-      <td>
        <input type="hidden" name="id" value="<?php echo $id ?>" />
        <input type="hidden" name="edit" value="<?php echo $edit?>" />
-       <input type="submit" value="Submit" /></td>
+      </td>
      </tr>
     </table>
 
