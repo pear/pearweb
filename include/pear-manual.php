@@ -18,18 +18,18 @@
    $Id$
 */
 
-require_once 'site.php';
+require_once "site.php";
 
-$doc_languages = array('en' => 'English', 
-                       'fr' => 'French',
-                       'ja' => 'Japanese',
-                       'hu' => 'Hungarian',
+$doc_languages = array("en" => "English", 
+                       "fr" => "French",
+                       "ja" => "Japanese",
+                       "hu" => "Hungarian",
                        /*
-                         'de' => 'German', 
-                         'it' => 'Italian', 
+                         "de" => "German", 
+                         "it" => "Italian", 
                        */
-                       'nl' => 'Dutch', 
-                       'ru' => 'Russian');
+                       "nl" => "Dutch", 
+                       "ru" => "Russian");
 
 $NEXT = $PREV = $UP = $HOME = array(false, false);
 $TOC = array();
@@ -38,21 +38,21 @@ $SIDEBAR_DATA = '';
 
 function setupNavigation($data) {
     global $NEXT, $PREV, $UP, $HOME, $TOC, $tstamp;
-    $HOME = @$data['home'];
-    $HOME[0] = './';
-    $NEXT = @$data['next'];
-    $PREV = @$data['prev'];
-    $UP   = @$data['up'];
-    $TOC =  @$data['toc'];
-    $tstamp = gmdate('D, d M Y',getlastmod());
+    $HOME = @$data["home"];
+    $HOME[0] = "./";
+    $NEXT = @$data["next"];
+    $PREV = @$data["prev"];
+    $UP   = @$data["up"];
+    $TOC =  @$data["toc"];
+    $tstamp = gmdate("D, d M Y",getlastmod());
 }
 
 function makeBorderTOC($this) {
     global $NEXT, $PREV, $UP, $HOME, $TOC, $DOCUMENT_ROOT;
     global $SIDEBAR_DATA, $LANG,$CHARSET;
 
-    $SIDEBAR_DATA  = '<form method="get" action="/manual-lookup.php">' . "\n";
-    $SIDEBAR_DATA .= '<table border="0" cellpadding="4" cellspacing="0">' . "\n";
+    $SIDEBAR_DATA = '<form method="get" action="/manual-lookup.php">' .
+    $SIDEBAR_DATA.= '<table border="0" cellpadding="4" cellspacing="0">';
 
     /** The manual lookup will be implemented at a later point.
     $SIDEBAR_DATA.= '<tr valign="top"><td><small>' .
@@ -64,60 +64,54 @@ function makeBorderTOC($this) {
     $SIDEBAR_DATA.= '<tr bgcolor="#cccccc"><td></td></tr>';
     */
 
-    $SIDEBAR_DATA.= '<tr style="vertical-align: top;"><td>' .
+    $SIDEBAR_DATA.= '<tr valign="top"><td>' .
         make_link('./', make_image('caret-t.gif', $HOME[1]) . $HOME[1] ) .
         '<br /></td></tr>';
 
-    $SIDEBAR_DATA .= ' <ul class="man-side_top">' . "\n"
-                   . '  <li class="man-side_top">'
-                   . make_link('./', $HOME[1]) . "\n"
-                   . ' </ul>' . "\n\n";
-
-    $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
+    $SIDEBAR_DATA.= '<tr bgcolor="#cccccc"><td></td></tr>';
 
     if (($HOME[1] != $UP[1]) && $UP[1]) {
-        $SIDEBAR_DATA .= ' <ul class="man-side_up">' . "\n"
-                       . '  <li class="man-side_up">'
-                       . make_link('./', $UP[1]) . "\n"
-                       . ' </ul>' . "\n\n";
+        $SIDEBAR_DATA.= '<tr valign="top"><td>' .
+            make_link($UP[0], make_image('caret-u.gif', $UP[1]) . $UP[1] ) .
+            '<br /></td></tr>';
     }
 
-    $SIDEBAR_DATA .= ' <ul class="man-side_pages">' . "\n";
+    $SIDEBAR_DATA.= '<tr valign="top"><td><small>';
 
     for ($i = 0; $i < count($TOC); $i++) {
         list($url, $title) = $TOC[$i];
         if (!$url || !$title) {
             continue;
         }
-        $title_fmt = @htmlspecialchars($title, ENT_QUOTES, $CHARSET);
-        if (strlen($title_fmt) > 25) {
-            $title_fmt = str_replace('::', '::<br />', $title_fmt);
+        $img = 'box-0.gif';
+        if ($title == $this) {
+            $img = 'box-1.gif';
         }
 
-        $SIDEBAR_DATA .= '  <li class="man-side_page">'
-                . (($title == $this) ? $title_fmt : make_link($url, $title_fmt))
-                . "</li>\n";
+        $SIDEBAR_DATA .= '&nbsp;' .
+            make_link($url, make_image($img, @htmlspecialchars($title,ENT_QUOTES,$CHARSET)) . @htmlspecialchars($title,ENT_QUOTES,$CHARSET) ) .
+            '<br />';
     }
 
-    $SIDEBAR_DATA.= ' </ul>'."\n\n";
+    $SIDEBAR_DATA.= '</small></td></tr>';
 
     if (count($TOC) > 1) {
-        $SIDEBAR_DATA.= ' <hr class="greyline" width="100%" />' . "\n\n";
+        $SIDEBAR_DATA.= '<tr bgcolor="#cccccc"><td></td></tr>';
     }
 
-    $SIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n"
-                   . '  <li class="man-side_download">'
-                   . make_link('/manual/', 'Download Documentation') . "\n"
-                   . ' </ul>' . "\n\n";
+    $SIDEBAR_DATA .= '<tr valign="top"><td><small>&nbsp;'
+                     . make_image("box-0.gif")
+                     . make_link("/manual/", "Download Documentation")
+                     . '</small></td></tr>';
 
-    $SIDEBAR_DATA.= '</td></tr></table></form>'."\n\n";
+    $SIDEBAR_DATA.= '</table></form>-';
 
 }
 
 function navigationBar($title,$id,$loc) {
     global $NEXT, $PREV, $tstamp,$CHARSET;
 
-    echo '<table class="man-nav" cellpadding="0" cellspacing="4" style="width: 620px; border: 0px; background-color: $E0E0E0;">';
+    echo '<table class="man-nav" border="0" width="620" bgcolor="#e0e0e0" cellpadding="0" cellspacing="4">';
     echo "\n";
 
     echo ' <tr class="man-nav_prev-next" valign="top">';
@@ -158,7 +152,7 @@ function navigationBar($title,$id,$loc) {
     echo ' </tr>';
     echo "\n";
 
-    echo ' <tr class="man-nav_space" style="background-color: #CCCCCC; height: 1px;">';
+    echo ' <tr class="man-nav_space" bgcolor="#cccccc" height="1">';
     echo "\n";
     echo '  <td class="man-nav_space" colspan="2" height="1">';
     echo "\n";
@@ -173,9 +167,9 @@ function navigationBar($title,$id,$loc) {
     echo "\n";
     echo '  <td class="man-nav_langholder" colspan="2">';
     echo "\n";
-    echo '   <table class="man-nav_langholder" style="width: 100%; border: 0px;">';
+    echo '   <table class="man-nav_langholder" width="100%" border="0">';
     echo "\n";
-    echo '    <tr class="man-nav_view-updated" style="vertical-align: top;">';
+    echo '    <tr class="man-nav_view-updated" valign="top">';
     echo "\n";
 
     if ($loc != 'bottom') {
@@ -191,7 +185,7 @@ function navigationBar($title,$id,$loc) {
             $links[] = make_link("html/$file.html", 'Plain HTML');
         }
 
-        echo '     <td class="man-nav_view" style="text-align: left;">';
+        echo '     <td class="man-nav_view" align="left">';
         echo "\n";
         if (count($links)) {
             echo 'View this page in';
@@ -201,7 +195,7 @@ function navigationBar($title,$id,$loc) {
         echo "\n";
         echo '     </td>';
         echo "\n";
-        echo '     <td class="man-nav_updated" style="text-align: right;">';
+        echo '     <td class="man-nav_updated" align="right">';
         echo "\n";
         echo 'Last updated: '.$tstamp;
         echo "\n";
@@ -213,7 +207,7 @@ function navigationBar($title,$id,$loc) {
         if (count($links)) {
             echo '    <tr class="man-nav_languages">';
             echo "\n";
-            echo '     <td class="man-nav_languages" colspan="2" style="text-align: left;">';
+            echo '     <td class="man-nav_languages" colspan="2" align="left">';
             echo "\n";
             echo join(delim(false, ' | '), $links);
             echo "\n";
@@ -224,13 +218,13 @@ function navigationBar($title,$id,$loc) {
         }
 
     } else {
-        echo '     <td class="man-nav_download" style="text-align: left;">';
+        echo '     <td class="man-nav_download" align="left">';
         echo "\n";
         echo make_link('/download-docs.php', 'Download Documentation');
         echo "\n";
         echo '     </td>';
         echo "\n";
-        echo '     <td class="man-nav_last" style="text-align: right;">';
+        echo '     <td class="man-nav_last" align="right">';
         echo "\n";
         echo 'Last updated: '.$tstamp;
         echo "\n";
@@ -250,17 +244,17 @@ function navigationBar($title,$id,$loc) {
 
 }
 
-function sendManualHeaders($charset, $lang) {
+function sendManualHeaders($charset,$lang) {
         global $LANG,$CHARSET;
         $LANG = $lang;
         $CHARSET = $charset;
-    Header('Cache-Control: public, max-age=600');
-    Header('Vary: Cookie');
+    Header("Cache-Control: public, max-age=600");
+    Header("Vary: Cookie");
     Header("Content-type: text/html;charset=$charset");
     Header("Content-language: $lang");
 }
 
-function manualHeader($title, $id = '') {
+function manualHeader($title,$id="") {
     global $HTDIG, $LANGUAGES, $LANG, $SIDEBAR_DATA, $dbh;
 
     makeBorderTOC($title);
@@ -268,8 +262,8 @@ function manualHeader($title, $id = '') {
     /**
      * Show link to the package info file?
      */
-    if (strstr(basename($_SERVER['PHP_SELF']), 'packages.')
-        && substr_count($_SERVER['PHP_SELF'], '.') > 2) {
+    if (strstr(basename($_SERVER['PHP_SELF']), "packages.")
+        && substr_count($_SERVER['PHP_SELF'], ".") > 2) {
 
         $package = substr(basename($_SERVER['PHP_SELF']), 0, (strlen(basename($_SERVER['PHP_SELF'])) - 4));
         $package = preg_replace("/(.*)\./", "", $package);
@@ -281,12 +275,12 @@ function manualHeader($title, $id = '') {
         if (is_array($row)) {
             ob_start();
 
-            echo '<div align="center"><br /><br />' . "\n";
+            echo "<div align=\"center\"><br /><br />\n";
 
-            $bb = new Borderbox('Download');
+            $bb = new Borderbox("Download");
 
-            echo '<div align="left">' . "\n";
-            print_link('/package-info.php?pacid=' . $row[0], make_image('box-0.gif') . ' Package info');
+            echo "<div align=\"left\">\n";
+            print_link("/package-info.php?pacid=" . $row[0], make_image("box-0.gif") . " Package info");
             echo "</div>\n";
             $bb->end();
 
@@ -300,14 +294,14 @@ function manualHeader($title, $id = '') {
     response_header('Manual: '.$title);
         # create links to plain html and other languages
     if (!$HTDIG) {
-        navigationBar($title, $id, 'top');
+        navigationBar($title, $id, "top");
     }
 }
 
-function manualFooter($title,$id = '') {
+function manualFooter($title,$id="") {
     global $HTDIG;
     if (!$HTDIG) {
-        navigationBar($title, $id, 'bottom');
+        navigationBar($title, $id, "bottom");
     }
 
     response_footer();
