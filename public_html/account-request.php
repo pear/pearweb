@@ -117,6 +117,8 @@ released.</p>
 
 <p>Bogus, incomplete or incorrect requests will be summarily denied.</p>";
 
+    print "<a name=\"requestform\" />\n";
+
     if (isset($errorMsg)) {
         print "<table>\n";
         print " <tr>\n";
@@ -126,7 +128,7 @@ released.</p>
         print "</table>\n";
     }
 
-    print "<form action=\"" . $_SERVER['PHP_SELF'] . "\" method=\"post\" name=\"request_form\">\n";
+    print "<form action=\"" . $_SERVER['PHP_SELF'] . "#requestform\" method=\"post\" name=\"request_form\">\n";
     $bb = new BorderBox("Request account", "90%", "", 2, true);
     $bb->horizHeadRow("Username:", HTML_Form::returnText("handle", @$_POST['handle'], 12));
     $bb->horizHeadRow("First Name:", HTML_Form::returnText("firstname", @$_POST['firstname']));
