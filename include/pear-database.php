@@ -2725,24 +2725,27 @@ class channel
         if ($time === null) {
             $time = time();
         }
-        if (strtotime('August 16, 2004') > $time) {
+        if (strtotime('December 15, 2004') > $time) {
             // this is the current PEAR channel's channel.xml
-            return '<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/channel-1.0.dtd">
-<channel version="1.0">
- <name>pear</name>
+            return '<?xml version="1.0" encoding="ISO-8859-1"?>
+<channel version="1.0" xmlns="http://pear.php.net/channel-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/channel-1.0
+http://pear.php.net/dtd/channel-1.0.xsd">
+ <name>pear.php.net</name>
+ <suggestedalias>pear</suggestedalias>
  <summary>PHP Extension and Application Repository</summary>
- <protocols>
-  <xmlrpc host="pear.php.net">
-   <function version="1.0">logintest</function>
-   <function version="1.0">package.listLatestReleases</function>
-   <function version="1.0">package.listAll</function>
-   <function version="1.0">package.info</function>
-   <function version="1.0">package.getDownloadURL</function>
-   <function version="1.0">channel.listAll</function>
-   <function version="1.0">channel.update</function>
-  </xmlrpc>
- </protocols>
+ <servers>
+  <primary host="pear.php.net">
+   <xmlrpc>
+    <function version="1.0">logintest</function>
+    <function version="1.0">package.listLatestReleases</function>
+    <function version="1.0">package.listAll</function>
+    <function version="1.0">package.info</function>
+    <function version="1.0">package.getDownloadURL</function>
+    <function version="1.0">channel.update</function>
+    <function version="1.0">channel.listAll</function>
+   </xmlrpc>
+  </primary>
+ </servers>
 </channel>';
         }
         return false;
