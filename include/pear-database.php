@@ -1670,6 +1670,10 @@ class release
         $common = new PEAR_Common();
         $pkg_info = $common->InfoFromTgzFile($file);
 
+        /*
+         * XXX FIXME
+         * use PEAR_PackageFile_v1/v2 to allow more intelligent dependecy information
+         */
         foreach ($pkg_info as $key => $value) {
             if ($key == "release_deps") {
                 foreach ($value as $dep) {
