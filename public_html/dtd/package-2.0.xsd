@@ -30,9 +30,11 @@
     <xs:element ref="dependencies" minOccurs="0"/>
     <xs:choice>
      <xs:element ref="phprelease" maxOccurs="unbounded"/>
-     <xs:element ref="extsrcrelease" maxOccurs="unbounded"/>
-     <xs:element ref="extbinrelease" maxOccurs="unbounded"/>
      <xs:element ref="bundle" maxOccurs="unbounded"/>
+     <xs:choice maxOccurs="unbounded">
+      <xs:element ref="extsrcrelease"/>
+      <xs:element ref="extbinrelease"/>
+     </xs:choice>
     </xs:choice>
     <xs:element ref="changelog" minOccurs="0"/>
    </xs:sequence>
