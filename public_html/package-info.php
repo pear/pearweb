@@ -186,10 +186,14 @@ if (empty($action)) {
     print '</tr>';
     print '<tr>';
     print '<td colspan="2" valign="top">';
-    print '<a href="/get/' . $name . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
-    print ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
-    print ' was released on ' . substr($pkg['releases'][$versions[0]]['releasedate'], 0, 10);
-    print ' (<a href="/package/' . $name . '/download/">Changelog</a>)';
+    if (isset($versions[0])) {
+        print '<a href="/get/' . $name . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
+        print ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
+        print ' was released on ' . substr($pkg['releases'][$versions[0]]['releasedate'], 0, 10);
+        print ' (<a href="/package/' . $name . '/download/">Changelog</a>)';
+    } else {
+        print 'No releases have been made yet.';
+    }
     print '</td>';
     print '</tr>';
 
