@@ -47,10 +47,6 @@ class XMLRPC_Cache
         
     function get($method, $args, $maxAge = null)
     {
-        if (!isset($this) || get_class($this) != 'xmlrpc_cache') {
-            $this =& XMLRPC_Cache::singleton();
-        }
-
         $id = $this->cache->generateID(array($method, $args));
 
         if ($maxAge != null) {
@@ -69,10 +65,6 @@ class XMLRPC_Cache
 
     function save($method, $args, $value)
     {
-        if (!isset($this) || get_class($this) != 'xmlrpc_cache') {
-            $this =& XMLRPC_Cache::singleton();
-        }
-
         $id = $this->cache->generateID(array($method, $args));
 
         return $this->cache->save($id, $value);
@@ -80,10 +72,6 @@ class XMLRPC_Cache
         
     function remove($method, $args)
     {
-        if (!isset($this) || get_class($this) != 'xmlrpc_cache') {
-            $this =& XMLRPC_Cache::singleton();
-        }
-
         $id = $this->cache->generateID(array($method, $args));
 
         return $this->cache->remove($id);
