@@ -273,7 +273,7 @@ class category
             "r.doneby AS doneby, " .
             "r.state AS state " .
             "FROM packages p, releases r, categories c " .
-            "WHERE p.id = r.package " .
+            "WHERE p.packate_type = 'pear' AND p.id = r.package " .
             "AND p.category = c.id AND c.name = '" . $category . "'" .
             "ORDER BY r.releasedate DESC";
 
@@ -402,7 +402,7 @@ class package
              "p.description AS description, p.cvs_link AS cvs_link, ".
              "p.doc_link as doc_link".
              " FROM packages p, categories c ".
-             "WHERE p.approved = 1 AND c.id = p.category AND p.{$what} = ?";
+             "WHERE p.package_type = 'pear' AND p.approved = 1 AND c.id = p.category AND p.{$what} = ?";
         $rel_sql = "SELECT version, id, doneby, license, summary, ".
              "description, releasedate, releasenotes, state ".
              "FROM releases ".
@@ -444,7 +444,7 @@ class package
             if ($field == 'releases' || $field == 'notes') {
                 if ($what == "name") {
                     $pid = $dbh->getOne("SELECT id FROM packages ".
-                                        "WHERE approved = 1 AND name = ?", array($pkg));
+                                        "WHERE package_type = 'pear' AND approved = 1 AND name = ?", array($pkg));
                 } else {
                     $pid = $pkg;
                 }
@@ -457,15 +457,15 @@ class package
                 }
             } elseif ($field == 'category') {
                 $sql = "SELECT c.name FROM categories c, packages p ".
-                     "WHERE c.id = p.category AND p.approved = 1 AND p.$what = ?";
+                     "WHERE c.id = p.category AND p.package_type = 'pear' AND p.approved = 1 AND p.$what = ?";
                 $info = $dbh->getAssoc($sql, false, array($pkg));
             } elseif ($field == 'description') {
-                $sql = "SELECT description FROM packages WHERE approved = 1 AND $what = ?";
+                $sql = "SELECT description FROM packages WHERE package_type = 'pear' AND approved = 1 AND $what = ?";
                 $info = $dbh->query($sql, array($pkg));
             } elseif ($field == 'authors') {
                 $sql = "SELECT u.handle, u.name, u.email, u.showemail, m.role
                         FROM maintains m, users u, packages p
-                        WHERE p.approved = 1 AND m.package = p.id
+                        WHERE p.package_type = 'pear' AND p.approved = 1 AND m.package = p.id
                         AND p.$what = ?
                         AND m.handle = u.handle";
                 $info = $dbh->getAll($sql, array($pkg), DB_FETCHMODE_ASSOC);
@@ -477,7 +477,7 @@ class package
                 } else {
                     $dbfield = $field;
                 }
-                $sql = "SELECT $dbfield FROM packages WHERE approved = 1 AND $what = ?";
+                $sql = "SELECT $dbfield FROM packages WHERE package_type = 'pear' AND approved = 1 AND $what = ?";
                 $info = $dbh->getOne($sql, array($pkg));
             }
         }
@@ -506,14 +506,14 @@ class package
             "p.description AS description, ".
             "m.handle AS lead ".
             " FROM packages p, categories c, maintains m ".
-            "WHERE p.approved = 1 AND c.id = p.category ".
+            "WHERE p.package_type = 'pear' AND p.approved = 1 AND c.id = p.category ".
             "  AND p.id = m.package ".
             "  AND m.role = 'lead' ".
             "ORDER BY p.name", false, null, DB_FETCHMODE_ASSOC);
         $stablereleases = $dbh->getAssoc(
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
             "FROM packages p, releases r ".
-            "WHERE p.approved = 1 AND p.id = r.package ".
+            "WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package ".
             ($released_only ? "AND r.state = 'stable' " : "").
             "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
         $deps = $dbh->getAll(
@@ -568,7 +568,7 @@ class package
     {
         global $dbh;
 
-        $query = "SELECT p.id AS pid, p.name, r.id AS rid, r.version, r.state FROM packages p, releases r WHERE p.approved = 1 AND p.id = r.package ORDER BY p.name, r.version DESC";
+        $query = "SELECT p.id AS pid, p.name, r.id AS rid, r.version, r.state FROM packages p, releases r WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package ORDER BY p.name, r.version DESC";
         $sth = $dbh->query($query);
 
         if (DB::isError($sth)) {
@@ -606,7 +606,7 @@ class package
              "r.state AS state, ".
              "f.fullpath AS fullpath ".
              "FROM packages p, releases r, files f ".
-             "WHERE p.approved = 1 AND p.id = r.package ".
+             "WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package ".
              "AND f.package = p.id ".
              "AND f.release = r.id";
         if (release::isValidState($state)) {
@@ -662,7 +662,7 @@ class package
              "r.description AS description, ".
              "r.releasedate AS releasedate, ".
              "r.releasenotes AS releasenotes ".
-             "FROM releases r, packages p WHERE p.approved = 1 AND r.package = p.id AND (";
+             "FROM releases r, packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND r.package = p.id AND (";
         $conditions = array();
         foreach ($currently_installed as $package => $info) {
             extract($info); // state, version
@@ -754,7 +754,7 @@ class package
             "r.doneby AS doneby, " .
             "r.state AS state " .
             "FROM packages p, releases r " .
-            "WHERE p.approved = 1 AND p.id = r.package " .
+            "WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package " .
             "AND p.name = '" . $package . "'" .
             "ORDER BY r.releasedate DESC";
 
@@ -778,7 +778,7 @@ class package
     function isValid($package)
     {
         global $dbh;
-        $query = "SELECT id FROM packages WHERE approved = 1 AND name = ?";
+        $query = "SELECT id FROM packages WHERE package_type = 'pear' AND approved = 1 AND name = ?";
         $sth = $dbh->query($query, array($package));
         return ($sth->numRows() > 0);
     }
@@ -863,7 +863,7 @@ class maintainer
     function getByUser($user)
     {
         global $dbh;
-        $query = 'SELECT p.name, m.role FROM packages p, maintains m WHERE p.approved = 1 AND m.package = p.id AND m.handle = ?';
+        $query = 'SELECT p.name, m.role FROM packages p, maintains m WHERE p.package_type = \'pear\' AND p.approved = 1 AND m.package = p.id AND m.handle = ?';
         return $dbh->getAssoc($query, false, array($user));
     }
 
@@ -1015,6 +1015,7 @@ class release
                                 "FROM packages, releases ".
                                 "WHERE packages.id = releases.package ".
                                 "AND packages.approved = 1 ".
+                                "AND packages.package_type = 'pear' ".
                                 "ORDER BY releases.releasedate DESC", 0, $n);
         $recent = array();
         // XXX Fixme when DB gets limited getAll()
