@@ -541,7 +541,7 @@ function get_row_color($row)
 			return '#ff0000';
 			break;
 		case 'Closed':
-			return '#aaffbb;
+			return '#aaffbb';
 			break;
 		case 'No Feedback':
 			return '#bbffcc';
