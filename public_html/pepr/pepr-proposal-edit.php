@@ -68,8 +68,8 @@
 
 	$form->addElement('text', 'pkg_name', 'Package name:');
 	
-	$form->addElement('textarea', 'pkg_describtion', 'Package describtion:', array('rows' => 6, 'cols' => '40'));
-	$form->addElement('link', 'help_bbcode', '', 'pepr-bbcode-help.php', 'You can use BBCode inside your describtion');
+	$form->addElement('textarea', 'pkg_describtion', 'Package description:', array('rows' => 6, 'cols' => '40'));
+	$form->addElement('link', 'help_bbcode', '', 'pepr-bbcode-help.php', 'You can use BBCode inside your description');
 	
 	$form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '40'));
 	$form->addElement('static', '', '', 'List seperated by linefeeds.');
@@ -138,13 +138,13 @@
 	
 	
 	$form->applyFilter('pkg_name', 'trim');
-	$form->applyFilter('pkg_describtion', 'trim');
+	$form->applyFilter('pkg_description', 'trim');
 	$form->applyFilter('pkg_deps', 'trim');
 	$form->applyFilter('__ALL__', 'addslashes');
 	
 	$form->addRule('pkg_category', 'You have to select a package category!', 'required', '', 'client');
 	$form->addRule('pkg_name', 'You have to select a package name!', 'required', '', 'client');
-	$form->addRule('pkg_describtion', 'You have to enter a package describtion!', 'required', '', 'client');
+	$form->addRule('pkg_describtion', 'You have to enter a package description!', 'required', '', 'client');
 	$form->addRule('link[0]', '2 links are required as minimum!', 'required', '', 'client');
 	$form->addRule('link[1]', '2 links are required as minimum!', 'required', '', 'client');
 	
