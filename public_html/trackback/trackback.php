@@ -62,7 +62,7 @@ $mailData = array(
     'timestamp' => $trackback->timestamp,
 );
 
-$mailer = Damblan_Mail::create('Trackback_New', $mailData);
+$mailer = Damblan_Mailer::create('Trackback_New', $mailData);
 $additionalHeaders['To'] = $trackback->getMaintainers();
 $res = $mailer->send($additionalHeaders);
 
