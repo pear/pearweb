@@ -46,6 +46,13 @@ do {
             break;
         }
 
+        if (isset($_POST['purposecheck']) && count($_POST['purposecheck'])){
+            display_error("We could not have said it more clearly. Read everything on "
+                            . "this page and look at the form you are submitting carefully.");
+            $display_form = true;
+            break;
+        }
+
         $ok = user::add($_POST);
 
         if (!empty($_POST['jumpto'])) {
@@ -72,7 +79,8 @@ do {
                     "days, please drop a mail about it to the <i>pear-dev</i> ".
                     "mailing list.";
             }
-            print "<br />Click the top-left PEAR logo to go back to the front page.\n";
+            print "<br />Click <a href=\"/\">here</a> to go back to the front page.\n";
+            $display_form = false;
         }
         break;
     }
@@ -87,18 +95,15 @@ if ($display_form) {
 <p>
 You only need to request an account if you
 <ul>
-<li>are planning to contribute a new package to PEAR and want to 
+<li>Are planning to contribute a new package to PEAR and want to
 propose this to the PEAR developer community.</li>
 
-<li>are going to help in the maintenance of an existing package. This
+<li>Are going to help in the maintenance of an existing package. This
 needs to be approved by the current maintainers of the package or by
 the <a href=\"/group/\">PEAR Group</a>.</li>
-
-<li>Want to list and release your package using the PEAR packager/installer
-(without hosting the code in PEAR CVS), or</li>
 </ul>
 
-If the reason for your request does not fall under one of the three
+If the reason for your request does not fall under one of the
 reasons above, please contact the <a href=\"mailto:pear-dev@lists.php.net\">
 PEAR developers mailing list</a>.
 </p>
@@ -136,6 +141,20 @@ Standards</a>.</p>
         print " </tr>\n";
         print "</table>\n";
     }
+    $invalid_purposes = array(
+        'Learn about PEAR.',
+        'Use PEAR.',
+        'Download PEAR Packages.',
+        'Submit patches/bugs.',
+        'Suggest new features.',
+        'Browse pear.php.net.'
+        );
+        $purposechecks = '';
+        foreach ($invalid_purposes as $i => $purposeKey)
+        {
+            $purposechecks .= HTML_Form::returnCheckBox("purposecheck[$i]", @$_POST['purposecheck'][$i] ? 'on' : 'off');
+            $purposechecks .= "$purposeKey <br />";
+        }
 
     print "<form action=\"" . $_SERVER['PHP_SELF'] . "#requestform\" method=\"post\" name=\"request_form\">\n";
     $bb = new BorderBox("Request account", "90%", "", 2, true);
@@ -146,7 +165,8 @@ Standards</a>.</p>
     $bb->horizHeadRow("Email address:", HTML_Form::returnText("email", @$_POST['email']));
     $bb->horizHeadRow("Show email address?", HTML_Form::returnCheckbox("showemail", @$_POST['showemail']));
     $bb->horizHeadRow("Homepage", HTML_Form::returnText("homepage", @$_POST['homepage']));
-    $bb->horizHeadRow("Purpose of your PEAR account<br />(No account is needed for using PEAR or PEAR packages):", HTML_Form::returnTextarea("purpose", stripslashes(@$_POST['purpose'])));
+    $bb->horizHeadRow("Purpose of your PEAR account:<br/>(Check all that apply)", $purposechecks);
+    $bb->horizHeadRow("If your intended purpose is not in the list, please state it here:", HTML_Form::returnTextarea("purpose", stripslashes(@$_POST['purpose'])));
     $bb->horizHeadRow("More relevant information<br />about you (optional):", HTML_Form::returnTextarea("moreinfo", stripslashes(@$_POST['moreinfo'])));
     $bb->horizHeadRow("You have read all the comments above:", HTML_Form::returnCheckbox("comments_read", @$_POST['comments_read']));
     $bb->horizHeadRow("<input type=\"submit\" name=\"submit\" />&nbsp;<input type=\"reset\" />");
