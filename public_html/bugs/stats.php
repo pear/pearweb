@@ -62,8 +62,7 @@ switch ($site) {
 }
 
 if ($_GET['category'] && $_GET['category'] != '') {
-    !empty($_GET['developer']) ? $and = ' AND ' : '';
-    $where .= ' AND categories.name = ' .  $dbh->quoteSmart($_GET['category']) . $and;
+    $where .= ' AND categories.name = ' .  $dbh->quoteSmart($_GET['category']);
     $query .= ' LEFT JOIN categories ON p.category = categories.id';
 }
 
