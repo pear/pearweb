@@ -13,7 +13,7 @@
    | obtain it through the world-wide-web, please send a note to          |
    | license@php.net so we can mail you a copy immediately.               |
    +----------------------------------------------------------------------+
-   | Author: Martin Jansen <mj@php.net>                                   |
+   | Author: Tobias Schlitt <toby@php.net>                                |
    +----------------------------------------------------------------------+
    $Id$
 */
@@ -25,7 +25,7 @@ require_once "pepr/pepr.php";
 /**
  * Generates a RSS feed for the latest releases in a given category
  *
- * @author Martin Jansen <mj@php.net>
+ * @author Tobias Schlitt <toby@php.net>
  * @package Damblan
  * @category RSS
  * @version $Revision$
