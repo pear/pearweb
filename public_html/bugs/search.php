@@ -29,7 +29,7 @@ if (isset($cmd) && $cmd == "display") {
 
     $mysql4 = version_compare(mysql_get_server_info(), "4.0.0", "ge");
 
-    if (!$_GET['packge_name'] || !is_array($_GET['package_name'])) $_GET['package_name']  = array();
+    if (!$_GET['package_name'] || !is_array($_GET['package_name'])) $_GET['package_name']  = array();
     if (!$_GET['package_nname']) $_GET['package_nname'] = array();
 
     if ($mysql4)
