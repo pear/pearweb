@@ -76,7 +76,7 @@ if (empty($_GET['bug_type']) || $_GET['bug_type'] == 'All') {
     $bug_type = '';
 } else {
     $bug_type = $_GET['bug_type'];
-    $where_clause = " AND bug_type = '" . escapeSQL($bug_type) . "'";
+    $where_clause = ' AND bug_type = ' . $dbh->quoteSmart($bug_type);
 }
 
 $query .= $where . ' GROUP BY p.name';
