@@ -32,7 +32,7 @@ if (isset($_GET['pid'])) {
 if (empty($id)) {
     auth_require(true);
 
-    $packages = package::listAll(false);
+    $packages = package::listAll(true, false, true);
     $values   = array();
 
     foreach ($packages as $name => $package) {
