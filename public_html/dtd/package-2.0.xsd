@@ -302,12 +302,10 @@
     <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
    <xs:attribute name="name" type="xs:string" use="required"/>
-   <xs:attribute name="channel" type="xs:string"/>
    <xs:attribute name="min" type="version"/>
    <xs:attribute name="max" type="version"/>
    <xs:attribute name="recommended" type="version"/>
    <xs:attribute name="not" type="xs:boolean" default="false"/>
-   <xs:attribute name="url" type="xs:anyURI"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="pearinstaller">
