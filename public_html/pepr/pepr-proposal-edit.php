@@ -138,7 +138,7 @@
 	
 	
 	$form->applyFilter('pkg_name', 'trim');
-	$form->applyFilter('pkg_description', 'trim');
+	$form->applyFilter('pkg_describtion', 'trim');
 	$form->applyFilter('pkg_deps', 'trim');
 	$form->applyFilter('__ALL__', 'addslashes');
 	
