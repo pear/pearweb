@@ -23,15 +23,6 @@ response_header();
 
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
-<h3>News: PEAR Weekly Summaries</h3>
-
-<p><a href="http://zend.com/">Zend.com</a> is now featuring a dedicated
-section for a <a href="http://www.zend.com/zend/pear/">weekly summary</a>
-about the events on the PEAR mailing lists.  Do not miss to inspect this
-fine resource regularly.</p>
-
-<?php echo hdelim(); ?>
-
 <p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
 is a framework and distribution system for reusable PHP
 components. More <b>information</b> about PEAR can be found in the

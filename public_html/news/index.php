@@ -25,6 +25,7 @@ echo "<h1>PEAR news</h1>";
 echo "<h2><a name=\"2003\" />Year 2004</h2>";
 echo "<ul>";
 
+echo "<li>" . make_link("weekly-summaries.php", "Weekly Summaries") . " (April)</li>";
 echo "<li>" . make_link("pepr.php", "Announcing PEPr") . " (January)</li>";
 
 echo "</ul>";
