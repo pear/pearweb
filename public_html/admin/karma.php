@@ -23,6 +23,8 @@ require_once "HTML/Form.php";
 
 auth_require("global.karma.manager");
 
+$karma = new Damblan_Karma($dbh);
+
 response_header("PEAR Administration :: Karma Management");
 
 echo "<h1>Karma Management</h1>\n";
@@ -32,8 +34,6 @@ if (empty($_POST['handle']) && empty($_GET['handle'])) {
     $form->addText("handle", "Handle: ");
     $form->display();
 } else {
-    $karma = new Damblan_Karma($dbh);
-
     if (!empty($_POST['handle'])) {
         $handle = trim($_POST['handle']);
     } else {
@@ -59,13 +59,13 @@ if (empty($_POST['handle']) && empty($_GET['handle'])) {
         }
     }
 
-    $karma = $karma->get($handle);
-    if (count($karma) == 0) {
+    $user_karma = $karma->get($handle);
+    if (count($user_karma) == 0) {
         echo "No karma yet";
     } else {
         $bb = new BorderBox("Karma levels for " . $handle, "90%", "", 4, true);
         $bb->HeadRow("Level", "Added by", "Added at", "Remove");
-        foreach ($karma as $item) {
+        foreach ($user_karma as $item) {
             $remove = sprintf($_SERVER['PHP_SELF'] . "?action=remove&amp;handle=%s&amp;level=%s",
                               $handle, $item['level']);
 
@@ -81,10 +81,36 @@ if (empty($_POST['handle']) && empty($_GET['handle'])) {
     $form = new HTML_Form($_SERVER['PHP_SELF'] . "?action=grant", "post");
     $form->addText("level", "Level: ");
     $form->addHidden("handle", $handle);
+    $form->addSubmit();
     $form->display();
     $bb->end();
 }
 
+echo "<p>&nbsp;</p>" . hdelim();
+
+$bb = new BorderBox("Karma Statistics", "90%", "", 2, true);
+
+if (!empty($_GET['a']) && $_GET['a'] == "details" && !empty($_GET['level'])) {
+    $bb->headRow("Handle", "Granted");
+    foreach ($karma->getUsers($_GET['level']) as $user) {
+        $detail = sprintf("Granted by <a href=\"/user/%s\">%s</a> on %s",
+                          $user['granted_by'],
+                          $user['granted_by'],
+                          $user['granted_at']
+                          );
+        $bb->plainRow(make_link("/user/" . $user['user'], $user['user']), $detail);
+    }
+} else {
+    $bb->headRow("Level", "# of users");
+    foreach ($karma->getLevels() as $level) {
+        $bb->plainRow(make_link($_SERVER['PHP_SELF']. "?a=details&amp;level=" . $level['level'], $level['level']), $level['sum']);
+    }
+}
+
+$bb->end();
+
+echo "<br /><br />";
+print_link("/admin/karma.php", "Back");
 
 response_footer();
 ?>

@@ -178,6 +178,18 @@ class Damblan_Karma {
     }
 
     /**
+     * Get all available karma levels
+     *
+     * @access public
+     * @return array Nested array containing the name of each leven and
+     *               the number of occurrences of this level.
+     */
+    function getLevels() {
+        $query = "SELECT level, COUNT(level) AS sum FROM karma GROUP BY level";
+        return $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
+    }
+
+    /**
      * Require global.karma.manager level for write operations
      *
      * @access private
