@@ -21,7 +21,7 @@
 
 $recent = release::getRecent();
 if (@sizeof($recent) > 0) {
-    $RSIDEBAR_DATA = "<h3>Recent Releases</h3>\n";
+    $RSIDEBAR_DATA = "<h3>Recent&nbsp;Releases</h3>\n";
     $RSIDEBAR_DATA .= "<table>";
     foreach ($recent as $release) {
         extract($release);
