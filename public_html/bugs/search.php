@@ -29,8 +29,8 @@ if (isset($cmd) && $cmd == "display") {
 
     $mysql4 = version_compare(mysql_get_server_info(), "4.0.0", "ge");
 
-    if (!$packge_name || !is_array($package_name)) $package_name  = array();
-    if (!$package_nname) $package_nname = array();
+    if (!$_GET['packge_name'] || !is_array($_GET['package_name'])) $_GET['package_name']  = array();
+    if (!$_GET['package_nname']) $_GET['package_nname'] = array();
 
     if ($mysql4)
         $query = "SELECT SQL_CALC_FOUND_ROWS ";
@@ -45,20 +45,20 @@ if (isset($cmd) && $cmd == "display") {
         $where_clause = "WHERE package_name IN ('" . join("','", $_GET['package_name']) . "')";
     }
 
-    if (count($package_nname) > 0) {
-        $where_clause.= " AND package_name NOT IN ('" . join("','", $package_nname) . "')";
+    if (count($_GET['package_nname']) > 0) {
+        $where_clause.= " AND package_name NOT IN ('" . join("','", $_GET['package_nname']) . "')";
     }
 
     /* Treat assigned, analyzed, critical and verified bugs as open */
-    if ($status == "Open") {
+    if ($_GET['status'] == "Open") {
         $where_clause .= " AND (status='Open' OR status='Assigned' OR status='Analyzed' OR status='Critical' OR status='Verified')";
-    } elseif ($status == "Old Feedback") {
+    } elseif ($_GET['status'] == "Old Feedback") {
         $where_clause .= " AND status='Feedback' AND TO_DAYS(NOW())-TO_DAYS(ts2)>60";
-    } elseif ($status == "Fresh") {
+    } elseif ($_GET['status'] == "Fresh") {
         $where_clause .= " AND status != 'Closed' AND status != 'Duplicate' AND status != 'Bogus' AND TO_DAYS(NOW())-TO_DAYS(ts2) < 30";
-    } elseif ($status == "Stale") {
+    } elseif ($_GET['status'] == "Stale") {
         $where_clause .= " AND status != 'Closed' AND status != 'Duplicate' AND status != 'Bogus' AND TO_DAYS(NOW())-TO_DAYS(ts2) > 30";
-    } elseif ($status && $status != "All") {
+    } elseif ($_GET['status'] && $_GET['status'] != "All") {
         $where_clause .= " AND status='$status'";
     }
 
@@ -141,7 +141,7 @@ if (isset($cmd) && $cmd == "display") {
         $total_rows = $rows < 10 ? $rows : $begin + $rows + 10;
 
     if (!$rows) {
-        show_bugs_menu($package_name[0]);
+        show_bugs_menu($_GET['package_name'][0]);
         $errors[] = "No bugs were found.";
         display_errors($errors);
     }
