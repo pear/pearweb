@@ -71,6 +71,11 @@ if (PEAR::isError($res)) {
     echo Services_Trackback::getResponseError($res->getMessage(), 1);
 }
 
+// Check blacklists
+$res = $trackback->checkSpam();
+if (PEAR::isError($res)) {
+    echo Services_Trackback::getResponseError($res->getMessage(), 1);
+}
 
 $res = $trackback->save($dbh);
 if (PEAR::isError($res)) { 

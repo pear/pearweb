@@ -1,6 +1,7 @@
 <?php
 
 require_once 'Services/Trackback.php';
+require_once 'Net/DNSBL.php';
 
 class Damblan_Trackback extends Services_Trackback {
 
@@ -32,6 +33,10 @@ class Damblan_Trackback extends Services_Trackback {
     var $_repostCount = 3;
     // In which timespan?
     var $_repostTimespan = 600; // 10 minutes
+    // Blacklists to check, when a trackback is received.
+    var $_blacklists = array(
+        'bl.spamcop.net'
+    );
 
     /**
      * Constructor
@@ -62,6 +67,23 @@ class Damblan_Trackback extends Services_Trackback {
                 $val = ($val == 'true');
             $this->set($key, $val);
         }
+    }
+
+    /**
+     * Check if the sending host is blacklisted.
+     * This method will be moved to Services_Trackback soon. 
+     *  
+     * @access public
+     * @return mixed True, if the host is not listed, otherwise PEAR::Error.
+     */
+    function checkSpam()
+    {
+        $dnsbl = new Net_DNSBL();
+        $dnsbl->setBlacklists($this->_blacklists);
+        if ($dnsbl->isListed($this->_ip)) {
+            return PEAR::raiseError('Your host seems to be listed as a known spam host. If your trackback is rejected by mistake, please contact pear-webmaster@lists.phph.net.');
+        }
+        return true;
     }
 
     /**
