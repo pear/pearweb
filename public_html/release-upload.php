@@ -221,7 +221,7 @@ if ($display_verification) {
 
     if ($info['release_state'] == 'stable') {
         // see if this is the first release
-        $releases = package::info($info['name'], 'releases');
+        $releases = package::info($info['package'], 'releases');
         if (!count($releases)) {
             $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
                 "  Try releasing version 1.0.0RC1, state 'beta'";
