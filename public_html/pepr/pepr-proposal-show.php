@@ -38,20 +38,7 @@ echo '<h1>Proposal for ' . htmlspecialchars($proposal->pkg_name) . "</h1>\n";
 
 display_pepr_nav($proposal);
 
-// Switching markup types
-switch ($proposal->markup) {
-    case 'wiki':
-       require_once 'Text/Wiki.php';
-       $wiki =& new Text_Wiki();
-       $wiki->disableRule('wikilink');
-       $describtion = $wiki->transform($proposal->pkg_describtion);
-       break;
-    case 'bbcode':
-    default:
-       require_once 'HTML/BBCodeParser.php';
-       $bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
-       $describtion = $bbparser->qparse(nl2br(htmlentities($proposal->pkg_describtion)));
-}
+$describtion = $proposal->getParsedDescribtion();
 
 ?>
 
