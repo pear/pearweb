@@ -68,15 +68,16 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     $mysql4 = version_compare(mysql_get_server_info(), '4.0.0', 'ge');
 
     if ($mysql4) {
-        $query = 'SELECT SQL_CALC_FOUND_ROWS ';
+        $query = 'SELECT SQL_CALC_FOUND_ROWS';
     } else {
-        $query = 'SELECT ';
+        $query = 'SELECT';
     }
-    
-    $query .= "bugdb.*, TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged FROM bugdb ";
+
+    $query .= ' bugdb.*, TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged'
+            . ' FROM bugdb';
 
     if (!empty($site)) {
-        $query .= " LEFT JOIN packages ON packages.name = bugdb.package_name ";
+        $query .= ' LEFT JOIN packages ON packages.name = bugdb.package_name';
     }
 
     if (empty($site) && !empty($_GET['maintain'])) {
@@ -84,22 +85,36 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     }
 
     if (!empty($_GET['maintain'])) {
-        $query .= ' LEFT JOIN maintains ON packages.id = maintains.package ';
+        $query .= ' LEFT JOIN maintains ON packages.id = maintains.package';
     }
     
     if (empty($_GET['package_name']) || !is_array($_GET['package_name'])) {
         $_GET['package_name']  = array();
-        $where_clause = "WHERE bugdb.package_name != 'Feature/Change Request'";
+        $where_clause = " WHERE bugdb.package_name <> 'Feature/Change Request'";
     } else {
-        $where_clause = "WHERE bugdb.package_name IN ('" .
-                        join("', '", escapeSQL($_GET['package_name'])) . "')";
+        $where_clause = ' WHERE bugdb.package_name';
+        if (count($_GET['package_name']) > 1) {
+            $where_clause .= " IN ('"
+                           . join("', '", escapeSQL($_GET['package_name']))
+                           . "')";
+        } else {
+            $where_clause .= " = '"
+                           . escapeSQL($_GET['package_name'][0]) . "'";
+        }
     }
 
     if (empty($_GET['package_nname']) || !is_array($_GET['package_nname'])) {
         $_GET['package_nname'] = array();
     } else {
-        $where_clause.= " AND bugdb.package_name NOT IN ('" .
-                        join("', '", escapeSQL($_GET['package_nname'])) . "')";
+        $where_clause .= ' AND bugdb.package_name';
+        if (count($_GET['package_nname']) > 1) {
+            $where_clause .= " NOT IN ('"
+                           . join("', '", escapeSQL($_GET['package_nname']))
+                           . "')";
+        } else {
+            $where_clause .= " <> '"
+                           . escapeSQL($_GET['package_nname'][0]) . "'";
+        }
     }
 
     /*
@@ -127,29 +142,29 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             break;
         case 'Old Feedback':
             $where_clause .= " AND bugdb.status='Feedback'" .
-                             " AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 60";
+                             ' AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 60';
             break;
         case 'Fresh':
-            $where_clause .= " AND bugdb.status NOT IN" .
+            $where_clause .= ' AND bugdb.status NOT IN' .
                              " ('Closed', 'Duplicate', 'Bogus')" .
-                             " AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) < 30";
+                             ' AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) < 30';
             break;
         case 'Stale':
-            $where_clause .= " AND bugdb.status NOT IN" .
+            $where_clause .= ' AND bugdb.status NOT IN' .
                              " ('Closed', 'Duplicate', 'Bogus')" .
-                             " AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 30";
+                             ' AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 30';
             break;
         case 'All':
             break;
         case 'Not Assigned':
-            $where_clause .= " AND bugdb.status NOT IN" .
-                             " ('Closed', 'Duplicate', 'Bogus', 'Assigned', 
-                                'Wont Fix', 'Suspended')";
+            $where_clause .= ' AND bugdb.status NOT IN' .
+                             " ('Closed', 'Duplicate', 'Bogus', 'Assigned'," .
+                             " 'Wont Fix', 'Suspended')";
             break;
         case 'Open':
         default:
             $status = 'Open';
-            $where_clause .= " AND bugdb.status IN ('Open', 'Assigned', " .
+            $where_clause .= " AND bugdb.status IN ('Open', 'Assigned'," .
                              " 'Analyzed', 'Critical', 'Verified')";
     }
 
@@ -176,21 +191,24 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $bug_age = 0;
     } else {
         $bug_age = $_GET['bug_age'];
-        $where_clause .= " AND bugdb.ts1 >= DATE_SUB(NOW(), INTERVAL $bug_age DAY)";
+        $where_clause .= ' AND bugdb.ts1 >= '
+                       . " DATE_SUB(NOW(), INTERVAL $bug_age DAY)";
     }
 
     if (empty($_GET['php_os'])) {
         $php_os = '';
     } else {
         $php_os = $_GET['php_os'];
-        $where_clause .= " AND bugdb.php_os like '%" . escapeSQL($php_os) . "%'";
+        $where_clause .= " AND bugdb.php_os LIKE '%"
+                       . escapeSQL($php_os) . "%'";
     }
 
     if (empty($_GET['phpver'])) {
         $phpver = '';
     } else {
         $phpver = $_GET['phpver'];
-        $where_clause .= " AND bugdb.php_version LIKE '" . escapeSQL($phpver) . "%'";
+        $where_clause .= " AND bugdb.php_version LIKE '"
+                       . escapeSQL($phpver) . "%'";
     }
 
     if (empty($_GET['assign'])) {
@@ -204,40 +222,34 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $maintain = '';
     } else {
         $maintain = $_GET['maintain'];
-        $where_clause .= " AND maintains.handle = '$maintain'";
+        $where_clause .= " AND maintains.handle = '"
+                       . escapeSQL($maintain) . "'";
     }
 
     if (empty($_GET['author_email'])) {
         $author_email = '';
     } else {
         $author_email = $_GET['author_email'];
-        $where_clause .= " AND bugdb.email = '" . escapeSQL($author_email) . "' ";
+        $where_clause .= " AND bugdb.email = '"
+                       . escapeSQL($author_email) . "'";
     }
 
-    if (empty($site)) {
-        $search_site = '';
-    } else {
-        $search_site = $site;
-        if (in_array('Bug System', $_GET['package_name'])) {
-            $pseudo[] = 'Bug System';
+    $where_clause .= " AND (packages.package_type = '"
+                   . escapeSQL($site) . "'";
+
+    if ($pseudo = array_intersect($pseudo_pkgs, $_GET['package_name'])) {
+        $where_clause .= " OR bugdb.package_name";
+        if (count($pseudo) > 1) {
+            $where_clause .= " IN ('"
+                           . join("', '", escapeSQL($pseudo)) . "')";
+        } else {
+            $where_clause .= " = '" . escapeSQL($pseudo[0]) . "'";
         }
-        if (in_array('Web Site', $_GET['package_name'])) {
-            $pseudo[] = 'Web Site';
-        }
-        if (in_array('Documentation', $_GET['package_name'])) {
-            $pseudo[] = 'Documentation';
-        }
-        if ($site == 'pear' && in_array('PEPr', $_GET['package_name'])) {
-            $pseudo[] = 'PEPr';
-        }
-        $where_clause .= " AND (packages.package_type = '".escapeSQL($search_site)."'";
-        if (!empty($pseudo)) { 
-            $where_clause .= "OR bugdb.package_name IN ('".join("', '", escapeSQL($pseudo)) . "')";
-        }
-        $where_clause .= ')';
     }
 
-    $query .= "$where_clause ";
+    $where_clause .= ')';
+
+    $query .= $where_clause;
 
     if ($_GET['direction'] != 'DESC') {
         $direction = 'ASC';
