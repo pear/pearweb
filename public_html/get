@@ -28,16 +28,21 @@
  * /get/DB-stable  -> Latest stable version
  * /get/DB/1.2     -> Other way for 1.2 version
  * /get/DB/stable  -> Other way for latest stable
-
+ *
  * To all this calls the GET param "?uncompress=yes" would force
  * to download the file without gzip compression
  *
  * other things like: "/PEAR_package/info" could be easily implemented
  *
  * It requires this to be added to httpd.conf/.htaccess:
- * <Location "/get">
- *  ForceType application/x-httpd-php
- * </Location>
+ * <pre>
+ *     <Location "/get">
+ *      ForceType application/x-httpd-php
+ *     </Location>
+ * </pre>
+ *
+ * @category pearweb
+ * @package Get
  */
 
 // shut up or we risk getting corrupted tgz files
