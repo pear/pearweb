@@ -60,6 +60,11 @@ if (isset($auth_user) && is_object($auth_user)
                                                   'title' => 'Change your password.')
                        );
 
+    if (auth_check('pear.admin')) {
+        $nav_items['Edit Karma'] = array('url' => '/admin/karma.php?handle=' . $handle,
+                                         'title' => 'Edit karma for this user');
+    }
+
     print '<div id="nav">';
 
     foreach ($nav_items as $title => $item) {
