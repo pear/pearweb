@@ -20,22 +20,41 @@
    $Id$
 */
 
-require_once 'Damblan/Trackback.php';
-require_once 'Damblan/Mailer.php';
-
 auth_require('pear.dev');
 
-$action = (isset($_GET['action'])) ? $_GET['action'] : '';
+$action = isset($_GET['action']) && !empty($_GET['action']) ? $_GET['action'] : false;
+$track_id = isset($_GET['id']) && !empty($_GET['id']) ? $_GET['id'] : false;
+$timestamp = isset($_GET['timestamp']) && !empty($_GET['timestamp']) ? $_GET['timestamp'] : false;
 
-if (!empty($action)) {
-    if (!isset($_GET['id'])) {
-        PEAR::raiseError('Missing data. No ID set. Exiting.');
-    }
-    if (!isset($_GET['timestamp'])) {
-        PEAR::raiseError('Missing data. No timestamp set. Exiting.');
-    }
-    $trackback = new Damblan_Trackback(array('id' => $id), $timestamp);
-    $res = $trackback->load($dbh);
+if (!$action || !$track_id || !$timestamp) {
+
+    response_header('Trackback admin', null, null);
+    report_error('Missing arguments. Exiting.');
+    response_footer();
+    exit();
+}
+
+include_once 'Damblan/Trackback.php';
+include_once 'Damblan/Mailer.php';
+
+$trackback = new Damblan_Trackback(array('id' => $id), $timestamp);
+$res = $trackback->load($dbh);
+
+$error = false;
+
+if (!$res) {
+    $msg = 'No trackback.';
+    $error = true;
+} elseif (PEAR::isError($res)) {
+    $msg = $res->getMessage();
+    $error = true;
+}
+
+if ($error) {
+    response_header('Trackback admin', null, null);
+    report_error('Error: ' . $msg);
+    response_footer();
+    exit();
 }
 
 $mailData = array(
@@ -49,6 +68,8 @@ $mailData = array(
     'user' => $_COOKIE['PEAR_USER'],
 );
 
+$relocator = '<meta http-equiv="refresh" content="5; URL=http://pear.php.net/package/'.$id.'/trackbacks">';
+
 switch ($action) {
 case 'approve':
     $trackback->approve($dbh);
@@ -57,9 +78,14 @@ case 'approve':
     $mailer->send($additionalHeaders);
     $msg = '<div class="success">Trackback successfully approved.</div>';
     break;
+
 case 'delete':
     $msg = '<div class="warnings">Really <a href="/trackback/trackback-admin.php?action=delete_verified&id='.$trackback->id.'&timestamp='.$trackback->timestamp.'">delete</a> trackback '.$timestamp.' for '.$id.'?</div>';
+
+    // Confirmation of the delete action, no auto redirect
+    $relocator = '';
     break;
+
 case 'delete_verified':
     $trackback->delete($dbh);
     $mailer = Damblan_Mailer::create('Trackback_Delete', $mailData);
@@ -67,16 +93,16 @@ case 'delete_verified':
     $mailer->send($additionalHeaders);
     $msg = '<div class="success">RIP trackback.</div>';
     break;
-}
 
-if ($action != 'delete') {
-    $relocator = '<meta http-equiv="refresh" content="5; URL=http://pear.php.net/package/'.$id.'/trackbacks">';
-} else {
-    $relocator = '';
+default:
+    // We should never be here, but who knows within this code ;-)
+    response_header('Trackback admin', null, null);
+    report_error('Missing arguments. Exiting.');
+    response_footer();
+    break;
 }
 
 response_header('Trackback admin', null, $relocator);
 echo $msg;
 echo '<p>You should be redirected to the packages trackback page in 5 seconds. if this does not work, please click <a href="http://pear.php.net/package/'.$id.'/trackbacks">here</a>.</p>';
 response_footer();
-?>
