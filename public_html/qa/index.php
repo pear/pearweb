@@ -23,30 +23,37 @@ response_header("Quality Assurance Initiative");
 <h1>The PEAR Quality Assurance Initiative</h1>
 
 <p>The PEAR Quality Assurance Initiative is still in its early stages,
-but some basic information about how the <acronym title="Quality Assurance">QA</acronym>
-team works can be found in the <a href="/pepr/pepr-proposal-show.php?id=60">appendant RfC</a>.
+but some basic information about how the
+<acronym title="Quality Assurance">QA</acronym>
+team works can be found in the
+<a href="/pepr/pepr-proposal-show.php?id=60">appendant RFC</a>.
 </p>
 
 <p>As a first step seven people were nominated to form the 
 <acronym title="Quality Assurance">QA</acronym> Core Group:</p>
 
 <ul>
-  <li>David Costa</li>
-  <li>Klaus Guenther</li>
-  <li>Arnaud Limbourg</li>
-  <li>Stefan Neufeind</li>
-  <li>Tobias Schlitt</li>
-  <li>Stephan Schmidt</li>
-  <li>Davey Shafik</li>
-  <li>Lukas Smith</li>
+
+<?php
+
+  echo '<li>' . user_link('gurugeek') . "</li>\n";
+  echo '<li>' . user_link('thesaur') . "</li>\n";
+  echo '<li>' . user_link('arnaud') . "</li>\n";
+  echo '<li>' . user_link('toby') . "</li>\n";
+  echo '<li>' . user_link('schist') . "</li>\n";
+  echo '<li>' . user_link('davey') . "</li>\n";
+  echo '<li>' . user_link('lsmith') . "</li>\n";
+
+?>
+
 </ul>
 
 <p>If you are interested in helping out, or if you have questions 
 concerning the <acronym title="Quality Assurance">QA</acronym> 
 initiative, you can contact the team using the mailing list
 <?php echo make_mailto_link('pear-qa@lists.php.net'); ?>
- (<a href="/support.php">subscription information</a>).
+ (<a href="/support.php">subscription information</a>).</p>
+
 <?php
 response_footer();
 ?>
-
