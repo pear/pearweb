@@ -151,10 +151,6 @@
  </xs:element>
  <xs:element name="dir">
   <xs:complexType>
-   <xs:sequence>
-    <xs:element ref="dir" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element ref="file" minOccurs="0" maxOccurs="unbounded"/>
-   </xs:sequence>
    <xs:attribute name="baseinstalldir" type="xs:string"/>
    <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
@@ -170,7 +166,7 @@
    <xs:attribute name="md5sum" type="xs:string"/>
   </xs:complexType>
  </xs:element>
- <xs:element name="installas">
+ <xs:element name="install">
   <xs:complexType>
    <xs:attribute name="name" type="xs:string" use="required"/>
    <xs:attribute name="as" type="xs:string" use="required"/>
@@ -228,7 +224,7 @@
  <xs:element name="filelist">
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="installas" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="install" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="ignore" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
