@@ -571,22 +571,17 @@ class package
                 break;
             }
         } elseif ($xsdversion == '2.0') {
-            $pinfo['package'] = $dependency['attribs']['name'];
-            if ($dependency['attribs']['channel'] != 'pear.php.net') {
+            $pinfo['package'] = $dependency['name'];
+            if ($dependency['channel'] != 'pear.php.net') {
                 return PEAR::raiseError('getDepDownloadURL channel must be pear.php.net');
             }
-            $min = isset($dependency['attribs']['min']) ? $dependency['attribs']['min'] : false;
-            $max = isset($dependency['attribs']['max']) ? $dependency['attribs']['max'] : false;
-            $recommended = isset($dependency['attribs']['recommended']) ?
-                $dependency['attribs']['recommended'] : false;
+            $min = isset($dependency['min']) ? $dependency['min'] : false;
+            $max = isset($dependency['max']) ? $dependency['max'] : false;
+            $recommended = isset($dependency['recommended']) ?
+                $dependency['recommended'] : false;
             if (isset($dependency['exclude'])) {
-                if (isset($dependency['exclude']['attribs'])) {
-                    $exclude = array($dependency['exclude']['attribs']['version']);
-                } else {
-                    $exclude = array();
-                    foreach ($dependency['exclude'] as $exc) {
-                        $exclude[] = $exc['attribs']['version'];
-                    }
+                if (!isset($dependency['exclude'][0])) {
+                    $exclude = array($dependency['exclude']);
                 }
             }
         }
@@ -611,7 +606,7 @@ class package
                     continue;
                 } else {
                     if (!in_array($release['state'], $states)) {
-                        $release['package'] = $dependency['attribs']['name'];
+                        $release['package'] = $dependency['name'];
                         $release['channel'] = 'pear.php.net';
                         if (isset($release['deps'])) {
                             foreach ($release['deps'] as $i => $dep) {
@@ -746,7 +741,7 @@ class package
              " FROM packages p, categories c ".
              "WHERE " . $package_type . " c.id = p.category AND p.{$what} = ?";
         $rel_sql = "SELECT version, id, doneby, license, summary, ".
-             "description, releasedate, releasenotes, state ".
+             "description, releasedate, releasenotes, state, packagexmlversion ".
              "FROM releases ".
              "WHERE package = ? ".
              "ORDER BY releasedate DESC";
