@@ -466,7 +466,7 @@ function package_exists ($type)
     if (empty($type)) {
         return false;
     }
-    if (in_array($type, array('Web Site', 'Documentation', 'Bug System'))) {
+    if (in_array($type, array('Web Site', 'Documentation', 'Bug System', 'PEPr'))) {
         return true;
     }
     $found = $dbh->getOne('SELECT count(*) FROM packages WHERE packages.name=' . "'" . $type ."'");
