@@ -88,7 +88,8 @@ function display_pepr_nav(&$proposal)
 }
 
 
-function shorten_string ( $string ) {
+function shorten_string($string)
+{
     if (strlen($string) < 80) {
         return $string;
     }
@@ -139,11 +140,13 @@ class proposal {
 
     var $markup;
 
-    function proposal ( $dbhResArr ) {
+    function proposal($dbhResArr)
+    {
         $this->fromArray($dbhResArr);
     }
 
-    function fromArray( $dbhResArr ) {
+    function fromArray( $dbhResArr)
+    {
         if (!is_array($dbhResArr)) {
             return false;
         }
@@ -165,7 +168,8 @@ class proposal {
      *
      * @access public
      */
-    function &get ( &$dbh, $id ) {
+    function &get(&$dbh, $id)
+    {
         if (!is_numeric($id)) {
             $res = false;
             return $res;
@@ -186,7 +190,8 @@ class proposal {
         return new proposal($res);
     }
 
-    function &getAll ( &$dbh, $status = null, $limit = null ) {
+    function &getAll(&$dbh, $status = null, $limit = null)
+    {
         $sql = "SELECT *, UNIX_TIMESTAMP(draft_date) as draft_date,
                         UNIX_TIMESTAMP(proposal_date) as proposal_date,
                         UNIX_TIMESTAMP(vote_date) as vote_date,
@@ -210,7 +215,8 @@ class proposal {
         return $result;
     }
 
-    function getLinks ( &$dbh ) {
+    function getLinks(&$dbh)
+    {
         if (empty($this->id)) {
             return PEAR::raiseError("Not initialized");
         }
@@ -218,7 +224,8 @@ class proposal {
         return true;
     }
 
-    function getVotes ( &$dbh ) {
+    function getVotes(&$dbh)
+    {
         if (empty($this->id)) {
             return PEAR::raiseError("Not initialized");
         }
@@ -226,7 +233,8 @@ class proposal {
         return true;
     }
 
-    function store ( $dbh ) {
+    function store($dbh)
+    {
         if (isset($this->id)) {
             $sql = "UPDATE package_proposals SET
                     pkg_category = ".$dbh->quoteSmart($this->pkg_category).",
@@ -280,7 +288,8 @@ class proposal {
         return true;
     }
 
-    function addVote ( $dbh, $vote ) {
+    function addVote($dbh, $vote)
+    {
         if (!empty($this->votes[$vote->user_handle])) {
             return PEAR::raiseError("You already voted!");
         }
@@ -290,7 +299,8 @@ class proposal {
         return true;
     }
 
-    function addComment ( $comment, $table = 'package_proposal_changelog' ) {
+    function addComment($comment, $table = 'package_proposal_changelog')
+    {
         $commentData = array("pkg_prop_id" => $this->id,
                              "user_handle" => $_COOKIE['PEAR_USER'],
                              "comment"     => $comment);
@@ -299,7 +309,8 @@ class proposal {
         return true;
     }
 
-    function addLink ( $dbh, $link ) {
+    function addLink($dbh, $link)
+    {
         $link->pkg_prop_id = $this->id;
         $this->links[] =& $link;
         return true;
@@ -312,7 +323,8 @@ class proposal {
         return true;
     }
 
-    function mayEdit ( $handle = '' ) {
+    function mayEdit($handle = '')
+    {
         global $dbh, $karma;
 
         if (empty($karma)) {
@@ -373,7 +385,8 @@ class proposal {
         }
     }
 
-    function getStatus ( $humanReadable = false ) {
+    function getStatus($humanReadable = false)
+    {
         if ($humanReadable) {
             return $GLOBALS['proposalStatiMap'][$this->status];
         }
@@ -413,7 +426,7 @@ class proposal {
         }
     }
 
-    function isEditable ( ) {
+    function isEditable() {
         switch ($this->status) {
         case 'draft':
         case 'proposal': return true;
@@ -453,7 +466,8 @@ class proposal {
         }
     }
 
-    function delete ( &$dbh ) {
+    function delete(&$dbh)
+    {
         if (empty($this->id)) {
             return PEAR::raiseError("Proposal does not exist!");
         }
@@ -611,14 +625,15 @@ class ppComment {
 
     var $table;
 
-    function ppComment ( $dbhResArr, $table = 'package_proposal_changelog' ) {
+    function ppComment($dbhResArr, $table = 'package_proposal_changelog')
+    {
         foreach ($dbhResArr as $name => $value) {
             $this->$name = $value;
         }
         $this->table = $table;
     }
 
-    function get ( $proposalId, $handle, $timestamp, $table = 'package_proposal_changelog') {
+    function get($proposalId, $handle, $timestamp, $table = 'package_proposal_changelog') {
         global $dbh;
         $sql = "SELECT *, timestamp FROM ".$table." WHERE pkg_prop_id = ".$proposalId." AND user_handle='".$handle."' AND timestamp = FROM_UNIXTIME(".$timestamp.")";
         $res = $dbh->query($sql);
@@ -630,7 +645,8 @@ class ppComment {
         return $comment;
     }
 
-    function &getAll ( $proposalId, $table = 'package_proposal_changelog' ) {
+    function &getAll($proposalId, $table = 'package_proposal_changelog')
+    {
         global $dbh;
         $sql = "SELECT *, timestamp FROM ".$table." WHERE pkg_prop_id = ".$proposalId." ORDER BY timestamp";
         $res = $dbh->query($sql);
@@ -644,7 +660,8 @@ class ppComment {
         return $comments;
     }
 
-    function store ( $proposalId ) {
+    function store($proposalId)
+    {
         global $dbh;
         if (empty($this->user_handle)) {
             return PEAR::raiseError("Not initialized");
@@ -655,7 +672,7 @@ class ppComment {
         return $res;
     }
 
-    function delete ( ) {
+    function delete() {
         global $dbh;
         if (empty($this->table) || empty($this->user_handle) || empty($this->pkg_prop_id) || empty($this->timestamp)) {
             return PEAR::raiseError("Inconsistant comment data. Can not delete comment.");
@@ -688,13 +705,15 @@ class ppVote {
 
     var $timestamp;
 
-    function ppVote ( $dbhResArr ) {
+    function ppVote($dbhResArr)
+    {
         foreach ($dbhResArr as $name => $value) {
             $this->$name = $value;
         }
     }
 
-    function get ( &$dbh, $proposalId, $handle ) {
+    function get(&$dbh, $proposalId, $handle)
+    {
         $sql = "SELECT *, UNIX_TIMESTAMP(timestamp) AS timestamp FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId." AND user_handle='".$handle."'";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
@@ -709,7 +728,8 @@ class ppVote {
         return $vote;
     }
 
-    function &getAll ( &$dbh, $proposalId ) {
+    function &getAll(&$dbh, $proposalId)
+    {
         $sql = "SELECT *, UNIX_TIMESTAMP(timestamp) AS timestamp FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId." ORDER BY timestamp ASC";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
@@ -723,7 +743,8 @@ class ppVote {
         return $votes;
     }
 
-    function store ( $dbh, $proposalId ) {
+    function store($dbh, $proposalId)
+    {
         if (empty($this->user_handle)) {
             return PEAR::raiseError("Not initialized");
         }
@@ -733,7 +754,8 @@ class ppVote {
         return $res;
     }
 
-    function getReviews ( $humanReadable = false ) {
+    function getReviews($humanReadable = false)
+    {
         if ($humanReadable) {
             foreach ($this->reviews as $review) {
                 $res[] = $GLOBALS['proposalReviewsMap'][$review];
@@ -743,7 +765,8 @@ class ppVote {
         return $this->reviews;
     }
 
-    function getSum ( $dbh, $proposalId ) {
+    function getSum($dbh, $proposalId)
+    {
         $sql = "SELECT SUM(value) FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId." GROUP BY pkg_prop_id";
         $result = $dbh->getOne($sql);
         $res['all'] = (is_numeric($result)) ? $result : 0;
@@ -753,13 +776,15 @@ class ppVote {
         return $res;
     }
 
-    function getCount ( $dbh, $proposalId ) {
+    function getCount($dbh, $proposalId)
+    {
         $sql = "SELECT COUNT(user_handle) FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId." GROUP BY pkg_prop_id";
         $res = $dbh->getOne($sql);
         return (!empty($res)) ? $res: " 0";
     }
 
-    function hasVoted ( $dbh, $userHandle, $proposalId ) {
+    function hasVoted($dbh, $userHandle, $proposalId)
+    {
         $sql = "SELECT count(pkg_prop_id) as votecount FROM package_proposal_votes
                     WHERE pkg_prop_id = ".$proposalId." AND user_handle = '".$userHandle."'
                     GROUP BY pkg_prop_id";
@@ -785,13 +810,15 @@ class ppLink {
 
     var $url;
 
-    function ppLink ( $dbhResArr ) {
+    function ppLink($dbhResArr)
+    {
         foreach ($dbhResArr as $name => $value) {
             $this->$name = $value;
         }
     }
 
-    function &getAll ( &$dbh, $proposalId ) {
+    function &getAll(&$dbh, $proposalId)
+    {
         $sql = "SELECT * FROM package_proposal_links WHERE pkg_prop_id = ".$proposalId." ORDER BY type";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
@@ -804,20 +831,22 @@ class ppLink {
         return $links;
     }
 
-    function deleteAll ( $dbh, $proposalId) {
+    function deleteAll($dbh, $proposalId) {
         $sql = "DELETE FROM package_proposal_links WHERE pkg_prop_id = ".$proposalId;
         $res = $dbh->query($sql);
         return $res;
     }
 
-    function store ( $dbh, $proposalId ) {
+    function store($dbh, $proposalId)
+    {
         $sql = "INSERT INTO package_proposal_links (pkg_prop_id, type, url)
                     VALUES (".$proposalId.", ".$dbh->quoteSmart($this->type).", ".$dbh->quoteSmart($this->url).")";
         $res = $dbh->query($sql);
         return $res;
     }
 
-    function getType ( $humanReadable = false ) {
+    function getType($humanReadable = false)
+    {
         if ($humanReadable) {
             return $GLOBALS['proposalTypeMap'][$this->type];
         }
