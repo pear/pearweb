@@ -68,5 +68,6 @@ CREATE TABLE package_proposals (
   longened_date datetime NOT NULL default '0000-00-00 00:00:00',
   status enum('draft','proposal','vote','finished') NOT NULL default 'draft',
   user_handle varchar(255) NOT NULL default '',
+  markup enum('bbcode','wiki') NOT NULL default 'bbcode',
   PRIMARY KEY  (id)
 ) TYPE=MyISAM;
