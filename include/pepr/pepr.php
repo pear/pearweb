@@ -529,8 +529,12 @@ class ppVote {
 		
     function getSum ( $dbh, $proposalId ) {
         $sql = "SELECT SUM(value) FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId." GROUP BY pkg_prop_id";
-        $res = $dbh->getOne($sql);
-        return (!empty($res)) ? $res: " 0";
+        $result = $dbh->getOne($sql);
+        $res['all'] = (is_numeric($result)) ? $result : 0;
+        $sql = "SELECT SUM(value) FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId." AND is_conditional = 1 GROUP BY pkg_prop_id";
+        $result = $dbh->getOne($sql);
+        $res['conditional'] = (is_numeric($result)) ? $result : 0;
+        return $res;
     }
 		
     function getCount ( $dbh, $proposalId ) {
