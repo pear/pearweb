@@ -417,7 +417,15 @@ if (empty($action)) {
     // Generate trackback list
     $trackbacks = Damblan_Trackback::listTrackbacks($dbh, $name, !$trackbackIsAdmin);
    
+    print '<p>This page provides a list of trackbacks, which have been received to this package. A trackback is usually generated,
+when a weblog entry is created, which is related to the package. If you want to learn more about trackbacks, please take a look at 
+&quot; <a href="http://www.movabletype.org/trackback/beginners/">A Beginner\'s Guide to TrackBack</a>&quot; (by movabletype.org).</p>';
+   
     print '<p>The trackback URL for this package is: <a href="'.$tmpTrackback->trackback_url.'">'.$tmpTrackback->trackback_url.'</a>.';
+   
+    if ($trackbackIsAdmin) {
+        print '<div class="explain">You may manipulate the trackbacks of this package. In contrast to normal users, you see approved and pending trackbacks </div>';
+    }
    
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     foreach ($trackbacks as $trackback) {
