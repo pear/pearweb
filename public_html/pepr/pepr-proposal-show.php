@@ -106,7 +106,7 @@
 		$bb->horizHeadRow("Dependencies:", nl2br($proposal->pkg_deps));
 	}
 	$bb->horizHeadRow("Proposer:", user_link($proposal->user_handle));
-	$bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists'));
+	$bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Lists'));
 	$bb->fullRow($bbparser->qparse(nl2br($proposal->pkg_describtion)));
 	
 	$changelog = @ppComment::getAll($dbh, $proposal->id);
