@@ -420,6 +420,10 @@ if (!package_exists($package)) {
  <tr>
   <th class="form-label_left">
    Description:
+   <p class="cell_note">
+    Put patches and code samples in the
+    &quot;Reproduce code&quot; section, <strong>below</strong>.
+   </p>
   </th>
   <td class="form-input">
    <textarea cols="60" rows="15" name="in[ldesc]"
