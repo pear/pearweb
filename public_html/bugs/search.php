@@ -189,7 +189,7 @@ if (isset($cmd) && $cmd == "display") {
 <?php
 		if ($warnings) display_warnings($warnings);
 		while ($row = mysql_fetch_array($res)) {
-			echo '<tr bgcolor="', get_row_color($row), '">';
+			echo '<tr valign="top" bgcolor="', get_row_color($row), '">';
 
 			/* Bug ID */
 			echo "<td align=\"center\"><a href=\"bug.php?id=$row[id]\">$row[id]</a>";
@@ -225,7 +225,7 @@ if ($warnings) display_warnings($warnings);
 ?>
 <form id="asearch" method="get" action="<?php echo $PHP_SELF?>">
 <table id="primary" width="95%">
- <tr>
+ <tr valign="top">
   <th>Find bugs</th>
   <td nowrap="nowrap">with all or any of the words</td>
   <td><input type="text" name="search_for" value="<?php echo htmlspecialchars(stripslashes($search_for));?>" size="20" maxlength="255" />
@@ -243,34 +243,34 @@ if ($warnings) display_warnings($warnings);
    <input type="submit" value="Search" />
   </td>
  </tr>
- <tr>
+ <tr valign="top">
   <th>Status</th>
   <td nowrap="nowrap">Return only bugs with <b>status</b></td>
   <td><select name="status"><?php show_state_options($status);?></select></td>
  </tr>
 </table>
 <table>
- <tr>
+ <tr valign="top">
   <th>Category</th>
   <td nowrap="nowrap">Return only bugs in <b>categories</b></td>
   <td><select name="bug_type[]" multiple size=6><?php show_types($bug_type,2);?></select></td>
  </tr>
- <tr>
+ <tr valign="top">
   <th>&nbsp;</th>
   <td nowrap="nowrap">Return only bugs <b>NOT</b> in <b>categories</b></td>
   <td><select name="bug_ntype[]" multiple size=6><?php show_types($bug_ntype,2);?></select></td>
  </tr>
- <tr>
+ <tr valign="top">
   <th>OS</th>
   <td nowrap="nowrap">Return bugs with <b>operating system</b></td>
   <td><input type="text" name="php_os" value="<?php echo htmlspecialchars(stripslashes($php_os));?>" /></td>
  </tr>
- <tr>
+ <tr valign="top">
   <th>Version</th>
   <td nowrap="nowrap">Return bugs reported with <b>PHP version</b></td>
   <td><input type="text" name="phpver" value="<?php echo htmlspecialchars(stripslashes($phpver));?>" /></td>
  </tr>
- <tr>
+ <tr valign="top">
   <th>Assigned</th>
   <td nowrap="nowrap">Return only bugs <b>assigned</b> to</td>
   <td><input type="text" name="assign" value="<?php echo htmlspecialchars(stripslashes($assign));?>" />
@@ -282,12 +282,12 @@ if ($warnings) display_warnings($warnings);
 ?>
   </td>
  </tr>
- <tr>
+ <tr valign="top">
   <th>Author email</th>
   <td nowrap="nowrap">Return only bugs with author email</td>
   <td><input type="text" name="author_email" value="<?php echo htmlspecialchars(stripslashes($author_email)); ?>" /></td>
  </tr>
- <tr>
+ <tr valign="top">
   <th>Date</th>
   <td nowrap="nowrap">Return bugs submitted</td>
   <td><select name="bug_age"><?php show_byage_options($bug_age);?></select></td>
