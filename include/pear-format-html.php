@@ -1044,16 +1044,22 @@ function validate_captcha($max_age = 300)
 }
 
 /**
-* Converts #343 into <a href="/bugs/343">#343</a>
-* 
-* @param string $text the text that should be checked if it contains
-*                     any #354, and if so, then convert into links
-* @return string returns the text that was scanned with the bug tickets
-*                        converted into links if any were found
-*/
+ * Turns bug/feature request numbers into hyperlinks
+ *
+ * If the bug number is prefixed by the word "PHP," the link will
+ * go to bugs.php.net.  Otherwise, the bug is considered a PEAR bug.
+ *
+ * @param string $text  the text to check for bug numbers
+ *
+ * @return string  the string with bug numbers hyperlinked
+ */
 function make_ticket_links($text)
 {
-    $text = preg_replace('/(bug |#)([0-9]+)/', '<a href="/bugs/\\2">\\0</a>', $text);
+    $text = preg_replace('/(?<=php)\s*(bug|request)\s*#?([0-9]+)/i',
+                         ' <a href="http://bugs.php.net/\\2">\\1 \\2</a>',
+                         $text);
+    $text = preg_replace('/(?<!>)(bug|request)\s*#?([0-9]+)/i',
+                         '<a href="/bugs/\\2">\\0</a>', $text);
     return $text;
 }
 
