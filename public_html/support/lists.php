@@ -142,24 +142,22 @@ if (isset($_POST['action'])) {
         echo '</div>';
         response_footer();
         exit;
-    } else {
+    } else if (!DEVBOX) {
         $request = strtolower($_POST['action']);
         if ($request != 'subscribe' && $request != 'unsubscribe') {
             $request = 'subscribe';
         }
         $sub = str_replace('@', '=', $_POST['email']);
+
         foreach ($_POST['maillist'] as $list => $type) {
-            switch ($list) {
-            default:
-                if ($type == 'digest') {
-                    $list = $list . '-digest';
-                }
-                mail("$list-$request-$sub@lists.php.net",
-                     'Website Subscription',
-                     'This was a request generated from the form at'
-                     . 'http://pear.php.net/support.php.',
-                     "From: {$_POST['email']}\r\n");
+            if ($type == 'digest') {
+                $list = $list . '-digest';
             }
+            mail("$list-$request-$sub@lists.php.net",
+                 'Website Subscription',
+                 'This was a request generated from the form at'
+                 . 'http://pear.php.net/support/lists.php.',
+                 "From: {$_POST['email']}\r\n");
         }
 
         report_success('A request has been entered into the mailing list'
