@@ -124,7 +124,7 @@ function show_version_options($current,$default="")
 	$versions = array('4.3.6','4.3.5','4.3.4', '4.3.3', '4.3.2', '4.3.1', '4.3.0',
 					'4.2.2', '4.2.1', '4.2.0',
 					'4CVS-'.date('Y-m-d').' (stable)',
-					'5.0.0RC2 (Release Candidate 2)', '5.0.0RC1 (Release Candidate 1)', '5CVS-'.date('Y-m-d').' (dev)', 'Irrelevant');
+					'5.0.0RC2 (Release Candidate 2)', '5.0.0RC1 (Release Candidate 1)', '5.0.0RC3 (Release Candidate 3)', '5CVS-'.date('Y-m-d').' (dev)', 'Irrelevant');
 	echo "<option value=\"\">--Please Select--</option>\n";
 	while (list(,$v) = each($versions)) {
 		echo "<option", ($current == $v ? ' selected' : ''), ">$v</option>\n";
