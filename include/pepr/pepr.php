@@ -28,6 +28,16 @@
 	define('PROPOSAL_EMAIL_PREFIX', '[PEPr]', true);
 	define('PROPOSAL_EMAIL_POSTFIX', "\n\n\nSent by PEPr\nAutomatic proposal system at http://pear.php.net", true);
 	
+	function shorten_string ( $string ) {
+		if (strlen($string) < 80) {
+			return $string;
+		}
+		$string_new = substr($string, 0, 20);
+		$string_new .= "..." . substr($string, (strlen($string) - 60));
+		return $string_new;
+	}
+	
+	
 	global $proposalStatiMap;
 	$proposalStatiMap = array(
 	 		'draft' 	=> 'Draft',
@@ -629,9 +639,9 @@
 
 
 		$SIDEBAR_DATA.='<br /><br />'.
-		make_image("box-1.gif") . '<b>' . make_link("/bugs/search.php?cmd=display&bug_type[]=PEPr","View bugs")
+		make_image("box-1.gif") . '<b>' . make_link("/bugs/search.php?cmd=display&bug_type[]=PEPr&status=Open","View bugs")
 		.'<br />'.
-		make_image("box-1.gif") . '<b>' . make_link("/bugs/search.php?cmd=display&bug_type[]=PEPr","Report bug")
+		make_image("box-1.gif") . '<b>' . make_link("/bugs/report.php?package=PEPr","Report bug")
 		.'<br />'
 		.'<br />'.
 		make_image("box-1.gif") . '<b>' . make_link("/","Main site")

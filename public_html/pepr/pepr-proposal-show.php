@@ -137,7 +137,7 @@
 	$lastLinkType = false;
 	foreach ($proposal->links as $link) {
 		if ($link->type != $lastLinkType) {
-			$bb->horizHeadRow($link->getType(true), make_link($link->url, chunk_split($link->url)));
+			$bb->horizHeadRow($link->getType(true), make_link($link->url, shorten_string($link->url)));
 			$lastLinkType = $link->getType();
 		} else {
 			$bb->horizHeadRow("", make_link($link->url, chunk_split($link->url)));
