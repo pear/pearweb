@@ -10,7 +10,7 @@ if (($_GET['category'] && $_GET['category'] != '')
 }
 if ($_GET['category'] && $_GET['category'] != '') {
     !empty($_GET['developer']) ? $and = ' AND ' : '';
-    $where .= ' bugdb.package_name = ' .  $dbh->quoteSmart($_GET['category']) . $and;
+    $where .= ' categories.name = ' .  $dbh->quoteSmart($_GET['category']) . $and;
 }
 
 if ($_GET['developer'] && $_GET['developer'] != '') {
@@ -21,8 +21,9 @@ $query = 'SELECT bugdb.status, bugdb.package_name, bugdb.email, bugdb.php_versio
         FROM bugdb
         LEFT JOIN packages ON packages.name = bugdb.package_name
         LEFT JOIN maintains ON packages.id = maintains.package
+        LEFT JOIN categories ON packages.category = categories.id
         ' . $where . '
-         ORDER BY packages.name ASC';
+         ORDER BY categories.name ASC, packages.name ASC';
 
 $result = $dbh->query($query);
 
@@ -43,12 +44,17 @@ function bugstats($status, $name)
     global $package_name;
 
     if ($package_name[$status][$name] > 0) {
-        return '<a href="search.php?cmd=display&amp;status=' . ucfirst($status) . ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) . '&amp;by=Any&amp;limit=10">' . $package_name[$status][$name] . "</a>\n";
+        return '<a href="search.php?cmd=display&amp;status=' . ucfirst($status) . ($name == 'all' ? '' : '&amp;package_name[]=' . urlencode($name)) . '&amp;by=Any&amp;limit=10'.$string.'">' . $package_name[$status][$name] . "</a>\n";
     }
 }
 
 echo "<table>\n";
-
+echo '<style type="text/css">
+        .bug_bg1 {text-align: center; background-color: #afc9a1; font-size: 80%;}
+        .bug_bg2 {text-align: center; background-color: #dbefd0; font-size: 80%;}
+        .bug_head {font-size: 70%; background-color: #339900; text-align: right;}
+        #bug_header {background-color: #339900; font-size: 70%;}
+    </style>';
 if ($total > 0) {
     /* prepare for sorting by bug report count */
     foreach($package_name['all'] as $name => $value) {
@@ -135,38 +141,39 @@ if ($total == 0) {
     exit;
 }
 
-$result = $dbh->query('SELECT count(id) as total FROM bugdb');
+$result = $dbh->query('SELECT count(id) AS total FROM bugdb');
 $entries = $result->fetchRow();
 
-echo '<tr style="background-color: #339900;"><td style="font-size: 80%;">
-    <strong style="text-align: right;">Total bug entries in system:</strong></td><td>' . $entries['total'] . '</td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('closed')      . '</strong></td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('open')        . '</strong></td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('critical')    . '</strong></td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('verified')    . '</strong></td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('analyzed')    . '</strong></td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('assigned')    . '</strong></td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('suspended')   . '</strong></td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('duplicate')   . '</strong></td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('feedback')    . '</strong></td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('no feedback') . '</strong></td>
-    <td  style="font-size: 80%;"><strong>' . sort_url('bogus')       . '</strong></td>
+echo '<tr id="bug_header"><td>
+    <strong style="text-align: right;">Total bug entries in system:</strong></td>
+    <td style="font-size: 130%;">' . $entries['total'] . '</td>
+    <td><strong>' . sort_url('closed')      . '</strong></td>
+    <td><strong>' . sort_url('open')        . '</strong></td>
+    <td><strong>' . sort_url('critical')    . '</strong></td>
+    <td><strong>' . sort_url('verified')    . '</strong></td>
+    <td><strong>' . sort_url('analyzed')    . '</strong></td>
+    <td><strong>' . sort_url('assigned')    . '</strong></td>
+    <td><strong>' . sort_url('suspended')   . '</strong></td>
+    <td><strong>' . sort_url('duplicate')   . '</strong></td>
+    <td><strong>' . sort_url('feedback')    . '</strong></td>
+    <td><strong>' . sort_url('no feedback') . '</strong></td>
+    <td><strong>' . sort_url('bogus')       . '</strong></td>
     </tr>' . "\n";
 
-echo '<tr><td style="font-size: 80%; background-color: #339900; text-align: right;">
+echo '<tr><td class="bug_head">
     <strong>All:</strong></td>
-    <td style="text-align: center; background-color: #afc9a1;">' . $total . '</td>
-    <td style="text-align: center; background-color: #dbefd0;">'. bugstats('closed','all')        .'&nbsp;</td>
-    <td style="text-align: center; background-color: #afc9a1;">'. bugstats('open', 'all')         .'&nbsp;</td>
-    <td style="text-align: center; background-color: #dbefd0;">'. bugstats('critical', 'all')     .'&nbsp;</td>
-    <td style="text-align: center; background-color: #afc9a1;">'. bugstats('verified', 'all')     .'&nbsp;</td>  
-    <td style="text-align: center; background-color: #afc9a1;">'. bugstats('analyzed', 'all')     .'&nbsp;</td>
-    <td style="text-align: center; background-color: #dbefd0;">'. bugstats('assigned','all')      .'&nbsp;</td>
-    <td style="text-align: center; background-color: #dbefd0;">'. bugstats('suspended','all')     .'&nbsp;</td>
-    <td style="text-align: center; background-color: #afc9a1;">'. bugstats('duplicate', 'all')    .'&nbsp;</td>
-    <td style="text-align: center; background-color: #afc9a1;">'. bugstats('feedback','all')      .'&nbsp;</td>
-    <td style="text-align: center; background-color: #dbefd0;">'. bugstats('no feedback','all')   .'&nbsp;</td>
-    <td style="text-align: center; background-color: #afc9a1;">'. bugstats('bogus', 'all')        .'&nbsp;</td>
+    <td class="bug_bg1">' . $total . '</td>
+    <td class="bug_bg2">'. bugstats('closed',      'all') .'&nbsp;</td>
+    <td class="bug_bg1">'. bugstats('open',        'all') .'&nbsp;</td>
+    <td class="bug_bg2">'. bugstats('critical',    'all') .'&nbsp;</td>
+    <td class="bug_bg1">'. bugstats('verified',    'all') .'&nbsp;</td>  
+    <td class="bug_bg1">'. bugstats('analyzed',    'all') .'&nbsp;</td>
+    <td class="bug_bg2">'. bugstats('assigned',    'all') .'&nbsp;</td>
+    <td class="bug_bg2">'. bugstats('suspended',   'all') .'&nbsp;</td>
+    <td class="bug_bg1">'. bugstats('duplicate',   'all') .'&nbsp;</td>
+    <td class="bug_bg1">'. bugstats('feedback',    'all') .'&nbsp;</td>
+    <td class="bug_bg2">'. bugstats('no feedback', 'all') .'&nbsp;</td>
+    <td class="bug_bg1">'. bugstats('bogus',       'all') .'&nbsp;</td>
     </tr>' . "\n";
 
 foreach ($package_name[$_GET['sort_by']] as $name => $value) {
@@ -179,20 +186,20 @@ foreach ($package_name[$_GET['sort_by']] as $name => $value) {
         $package_name['assigned'][$name] > 0 ||
         $package_name['feedback'][$name] > 0 ) && $name != 'all')
     {
-        echo '<tr><td style="font-size: 80%; background-color: #339900; text-align: right;">
+        echo '<tr><td class="bug_head">
             <strong>' . $name . ':</strong></td>
-            <td style="text-align: center; background-color: #afc9a1;">'. $package_name['all'][$name]    .'</td>
-            <td style="text-align: center; background-color: #dbefd0;">'. bugstats('closed', $name)      .'&nbsp;</td>
-            <td style="text-align: center; background-color: #afc9a1;">'. bugstats('open', $name)        .'&nbsp;</td>
-            <td style="text-align: center; background-color: #dbefd0;">'. bugstats('critical', $name)    .'&nbsp;</td>
-            <td style="text-align: center; background-color: #afc9a1;">'. bugstats('verified', $name)    .'&nbsp;</td>
-            <td style="text-align: center; background-color: #afc9a1;">'. bugstats('analyzed', $name)    .'&nbsp;</td>
-            <td style="text-align: center; background-color: #dbefd0;">'. bugstats('assigned', $name)    .'&nbsp;</td>
-            <td style="text-align: center; background-color: #dbefd0;">'. bugstats('suspended',$name)    .'&nbsp;</td>
-            <td style="text-align: center; background-color: #afc9a1;">'. bugstats('duplicate', $name)   .'&nbsp;</td>
-            <td style="text-align: center; background-color: #afc9a1;">'. bugstats('feedback', $name)    .'&nbsp;</td>
-            <td style="text-align: center; background-color: #dbefd0;">'. bugstats('no feedback',$name)  .'&nbsp;</td>
-            <td style="text-align: center; background-color: #afc9a1;">'. bugstats('bogus', $name)       .'&nbsp;</td>
+            <td class="bug_bg1">'. $package_name['all'][$name]    .'</td>
+            <td class="bug_bg2">'. bugstats('closed',      $name) .'&nbsp;</td>
+            <td class="bug_bg1">'. bugstats('open',        $name) .'&nbsp;</td>
+            <td class="bug_bg2">'. bugstats('critical',    $name) .'&nbsp;</td>
+            <td class="bug_bg1">'. bugstats('verified',    $name) .'&nbsp;</td>
+            <td class="bug_bg1">'. bugstats('analyzed',    $name) .'&nbsp;</td>
+            <td class="bug_bg2">'. bugstats('assigned',    $name) .'&nbsp;</td>
+            <td class="bug_bg2">'. bugstats('suspended',   $name) .'&nbsp;</td>
+            <td class="bug_bg1">'. bugstats('duplicate',   $name) .'&nbsp;</td>
+            <td class="bug_bg1">'. bugstats('feedback',    $name) .'&nbsp;</td>
+            <td class="bug_bg2">'. bugstats('no feedback', $name) .'&nbsp;</td>
+            <td class="bug_bg1">'. bugstats('bogus',       $name) .'&nbsp;</td>
             </tr>' . "\n";
     }
 }
