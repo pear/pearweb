@@ -1,14 +1,7 @@
 <?php
 require_once './include/prepend.inc';
 
-/* See bugs.php for the table layout of bugdb. */
-
 if (isset($_GET['bug_id'])) {
-
-    mysql_connect("localhost","pear","pear")
-        or die("Unable to connect to SQL server. Please try again later.");
-
-    mysql_select_db("pear");
 
     // Clean up the bug id
     $bug_id = ereg_replace ("[^0-9]+", "", $_GET['bug_id']);
@@ -18,23 +11,20 @@ if (isset($_GET['bug_id'])) {
         $query = "SELECT email, passwd FROM bugdb WHERE id = '" . $bug_id . "'";
 
         // Run the query
-        $result = mysql_query ($query)
-            or die ("Sorry. No information could be found for bug report #$bug_id");
+        $row = $dbh->getRow($query, null, DB_FETCHMODE_ASSOC);
 
-        if (mysql_num_rows($result) != 1) {
+        if (is_null($row)) {
             $msg = "No password found for #$bug_id bug report, sorry.";
 		} else {
-			list ($email, $passwd) = mysql_fetch_row ($result);
-
-            if (empty($passwd)) {
+            if (empty($row['passwd'])) {
                 $msg = "No password found for #$bug_id bug report, sorry.";
             } else {
-                $passwd = stripslashes ($passwd);
+                $passwd = stripslashes($row['passwd']);
 
-                mail ($email, "Password for PEAR bug report #$bug_id", "The password for PEAR bug report #$bug_id is $passwd.", "From: noreply@php.net")
+                mail ($row['email'], "Password for PEAR bug report #$bug_id", "The password for PEAR bug report #$bug_id is $passwd.", "From: noreply@php.net")
                     or die ("Sorry. Mail could not be sent at this time. Please try again later.");
 
-                $msg = "The password for bug report #$bug_id has been sent to $email.";
+                $msg = "The password for bug report #$bug_id has been sent to " . $row['email'];
             }
         }
 
@@ -63,7 +53,7 @@ in the bug report.
 
 <?php if ($msg) { echo "<p><font color=\"#cc0000\">$msg</font></p>"; } ?>
 
-<form method="post" action="<?php echo $PHP_SELF;?>">
+<form method="get" action="<?php echo $_SERVER['PHP_SELF']; ?>">
 <p><b>Bug Report ID:</b> #<input type="text" size="20" name="bug_id">
 <input type="submit" value="Send"></p>
 </form>
