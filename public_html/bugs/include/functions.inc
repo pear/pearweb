@@ -23,6 +23,12 @@
  * DEFINE VARIABLES ============================
  */
 
+// Have this style sheet included in all bug pages.
+$extra_styles[] = '/css/bugs.css';
+
+// For distinguishing this site from PECL
+$site = 'pear';
+
 // used in mail_bug_updates(), below, and class for search results
 $tla = array(
     'Open'        => 'Opn',
@@ -70,15 +76,10 @@ $pseudo_pkgs = array(
     'Web Site',
     'Documentation',
     'Bug System',
-    'PEPr',
 );
-
-// Have this style sheet included in all bug pages.
-$extra_styles[] = '/css/bugs.css';
-
-// For distinguishing this site from PECL
-$site = 'pear';
-
+if ($site == 'pear') {
+    $pseudo_pkgs[] = 'PEPr';
+}
 
 
 /*
