@@ -2413,13 +2413,13 @@ class channel
  <summary>PHP Extension and Application Repository</summary>
  <protocols>
   <xmlrpc host="pear.php.net">
-   <protocol type="xml-rpc" version="1.0">logintest</protocol>
-   <protocol type="xml-rpc" version="1.0">package.listLatestReleases</protocol>
-   <protocol type="xml-rpc" version="1.0">package.listAll</protocol>
-   <protocol type="xml-rpc" version="1.0">package.info</protocol>
-   <protocol type="xml-rpc" version="1.0">package.getDownloadURL</protocol>
-   <protocol type="xml-rpc" version="1.0">channel.listAll</protocol>
-   <protocol type="xml-rpc" version="1.0">channel.update</protocol>
+   <function version="1.0">logintest</function>
+   <function version="1.0">package.listLatestReleases</function>
+   <function version="1.0">package.listAll</function>
+   <function version="1.0">package.info</function>
+   <function version="1.0">package.getDownloadURL</function>
+   <function version="1.0">channel.listAll</function>
+   <function version="1.0">channel.update</function>
   </xmlrpc>
  </protocols>
 </channel>';
