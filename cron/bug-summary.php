@@ -112,7 +112,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                     break;
             }
             
-            $mail_headers = 'From: ' . $site . '-dev@lists.php.net'."\r\n";
+            $mail_headers = 'From: ' . $bugEmail ."\r\n";
 
             if ($to == '') {
                 $query = "SELECT u.name, u.email
