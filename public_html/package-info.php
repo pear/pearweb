@@ -19,12 +19,12 @@
    $Id$
 */
 
-require_once "Damblan/URL.php";
+require_once 'Damblan/URL.php';
 $site = new Damblan_URL;
 
 // {{{ setup, queries
 
-$params = array("package|pacid" => "", "action" => "", "version" => "");
+$params = array('package|pacid' => '', 'action' => '', 'version' => '');
 $site->getElements($params);
 
 $pacid = $params['package|pacid'];
@@ -37,26 +37,26 @@ if (!empty($pacid)) {
 }
 
 $version = 0;
-$action = "";
+$action = '';
 
 if (!empty($params['action'])) {
 
     switch ($params['action']) {
-    case "download" :
-    case "docs" :
+    case 'download' :
+    case 'docs' :
         $action =  $params['action'];
         if (!empty($params['version'])) {
             $version = $params['version'];
         }
         break;
 
-    case "bugs" :
+    case 'bugs' :
         // Redirect to the bug database
-        localRedirect("/bugs/search.php?direction=ASC&cmd=display&status=Open&bug_type%5B%5D=" . urlencode($pkg['name']));
+        localRedirect("/bugs/search.php?direction=ASC&cmd=display&status=Open&package_name%5B%5D=" . urlencode($pkg['name']));
         break;
 
     default :
-        $action = "";
+        $action = '';
         $version = $params['action'];
         break;
     }
@@ -65,17 +65,17 @@ if (!empty($params['action'])) {
 if (empty($pacid) || !isset($pkg['name'])) {
     // Let's see if $pacid is a PECL package
     if (!isset($pkg['name'])) {
-        $pkg_name = package::info($pacid, "name", true);
+        $pkg_name = package::info($pacid, 'name', true);
         if (!empty($pkg_name)) {
-            header("HTTP/1.0 301 Moved Permanently");
-            header("Location: http://pecl.php.net/package/" . $pkg_name);
-            header("Connection: close");
+            header('HTTP/1.0 301 Moved Permanently');
+            header('Location: http://pecl.php.net/package/' . $pkg_name);
+            header('Connection: close');
             exit();
         }
     }
 
     $_SERVER['REDIRECT_URL'] = $_SERVER['REQUEST_URI'];
-    include "error/404.php";
+    include 'error/404.php';
     exit();
 }
 
@@ -110,37 +110,37 @@ $accounts .= '</ul>';
 // {{{ page header
 
 if ($version) {
-    response_header("Package :: $name :: $version");
+    response_header('Package :: '.$name.' :: '.$version);
 } else {
-    response_header("Package :: $name");
+    response_header('Package :: '.$name);
 }
 
 html_category_urhere($pkg['categoryid'], true);
 
-print "<h2>Package Information: $name";
+print '<h2>Package Information: '.$name;
 if ($version) {
     print " $version";
 }
 
 print "</h2>\n";
 
-$nav_items = array("Main" => array("url" => "",
-                                   "title" => ""),
-                   "Download" => array("url" => "download",
-                                       "title" => "Download releases of this package"),
-                   "Documentation" => array("url" => "docs",
-                                            "title" => "Read the available documentation"),
-                   "Bugs" => array("url" => "bugs",
-                                   "title" => "View/Report Bugs")
+$nav_items = array('Main'          => array('url'   => '',
+                                            'title' => ''),
+                   'Download'      => array('url'   => 'download',
+                                            'title' => 'Download releases of this package'),
+                   'Documentation' => array('url'   => 'docs',
+                                            'title' => 'Read the available documentation'),
+                   'Bugs'          => array('url'   => 'bugs',
+                                            'title' => 'View/Report Bugs')
                    );
 
 if (isset($auth_user) && is_object($auth_user)) {
-    $nav_items['Edit'] = array("url" => "/package-edit.php?id=$pacid",
-                               "title" => "Edit this package");
-    $nav_items['Delete'] = array("url" => "/package-delete.php?id=$pacid",
-                                 "title" => "Delete this package");
-    $nav_items['Edit Maintainers'] = array("url" => "/admin/package-maintainers.php?pid=$pacid",
-                                           "title" => "Edit the maintainers of this package");
+    $nav_items['Edit']             = array('url'   => '/package-edit.php?id='.$pacid,
+                                           'title' => 'Edit this package"');
+    $nav_items['Delete']           = array('url'   => '/package-delete.php?id='.$pacid,
+                                           'title' => 'Delete this package');
+    $nav_items['Edit Maintainers'] = array('url'   => '/admin/package-maintainers.php?pid='.$pacid,
+                                           'title' => 'Edit the maintainers of this package');
 }
 
 print '<div id="nav">';
@@ -238,7 +238,7 @@ if (empty($action)) {
 
     // }}}
 
-} else if ($action == "download") {
+} elseif ($action == 'download') {
 
     // {{{ Download
 
@@ -284,7 +284,7 @@ if (empty($action)) {
                                        'sapi'   => 'SAPI Backend',
                                        );
 
-                $dep_text = "";
+                $dep_text = '';
                 foreach ($info['deps'] as $dependency) {
 
                     // Print link if it's a PEAR package and it's in the db
@@ -303,10 +303,10 @@ if (empty($action)) {
                         $dep_text .= sprintf("<li>%s: %s", $dep_type_desc[$dependency['type']], $dependency['name']);
                     }
                     if ($dependency['optional'] == 1) {
-                        $dep_text .= " (optional)";
+                        $dep_text .= ' (optional)';
                     }
 
-                    $dep_text .= "</li>";
+                    $dep_text .= '</li>';
                 }
 
                 print '<ul>' . $dep_text . '</ul>';
@@ -327,7 +327,7 @@ if (empty($action)) {
 
     // }}}
 
-} else if ($action == "docs") {
+} else if ($action == 'docs') {
 
     // {{{ Documentation
 
