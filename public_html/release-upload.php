@@ -215,8 +215,8 @@ if ($display_verification) {
 
     // XXX ADD MASSIVE SANITY CHECKS HERE
     
-    if (!preg_match('/^\d+\.\d+\.\d+(?:[a-zA-Z]+\d*)?$/', $info['version'])) {
-        $errors[] = 'Version must in format digit.digit.digit[alpha[digits]]';
+    if (!preg_match('/^\d+\.\d+\.\d+(?:\.\d+)?(?:[a-zA-Z]+\d*)?$/', $info['version'])) {
+        $errors[] = 'Version must in format digit.digit.digit[.digit][alpha[digits]]';
     }
 
     report_error($errors, 'errors','ERRORS:<br />'
