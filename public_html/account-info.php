@@ -38,9 +38,7 @@ if (empty($handle)) {
 
 $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
 
-$row = $dbh->getRow("SELECT * FROM users WHERE registered = 1 ".
-                    "AND handle = ?", array($handle));
-
+$row = user::info($handle);
 if ($row === null) {
     // XXX: make_404();
     PEAR::raiseError("No account information found!");
@@ -80,23 +78,22 @@ if ($row['admin'] == 1) {
 	$bb->fullRow("$row[name] is a PEAR administrator.");
 }
 
-$query = "SELECT p.id, p.name, m.role
-          FROM packages p, maintains m
-          WHERE m.handle = '$handle'
-          AND p.id = m.package
-          ORDER BY p.name";
-
-$sth = $dbh->query($query);
-
 $bb->end();
 
 print "</td><td valign=\"top\">\n";
 
+$query = "SELECT p.id, p.name, m.role
+          FROM packages p, maintains m
+          WHERE m.handle = ?
+          AND p.id = m.package
+          ORDER BY p.name";
+$maintained_pkg = $dbh->getAll($query, array($handle), DB_FETCHMODE_ASSOC);
+
 $bb = new BorderBox("Maintaining These Packages:", "100%", "", 2, true);
 
-if ($sth->numRows() > 0) {
-	$bb->headRow("Package Name", "Role");
-    while (is_array($row = $sth->fetchRow())) {
+if (count($maintained_pkg) > 0) {
+    $bb->headRow("Package Name", "Role");
+    foreach ($maintained_pkg as $row) {
 		$bb->plainRow("<a href=\"/package/" . $row['name'] . "\">" . $row['name'] . "</a>",
 					  $row['role']);
     }
