@@ -1,8 +1,6 @@
-# MySQL dump 4.0
-#
-# Host: localhost    Database: php3
-#--------------------------------------------------------
-DROP table IF EXISTS bugdb;
+-- ts1     bug created date
+-- ts2     bug last updated date
+-- passwd  user password
 
 CREATE TABLE bugdb (
   id int(8) NOT NULL AUTO_INCREMENT,
@@ -13,16 +11,14 @@ CREATE TABLE bugdb (
   php_version char(100),
   php_os varchar(32),
   status varchar(16),
-  ts1 datetime, # bug created date
-  ts2 datetime, # bug last updated date
+  ts1 datetime,
+  ts2 datetime,
   assign varchar(16),
-  passwd varchar(20),# user password
+  passwd varchar(20),
   PRIMARY KEY (id),
   INDEX (php_version(1)),
   FULLTEXT (email,sdesc,ldesc)
 );
-
-DROP TABLE IF EXISTS bugdb_comments;
 
 CREATE TABLE bugdb_comments (
   id int(8) NOT NULL AUTO_INCREMENT,
@@ -34,13 +30,13 @@ CREATE TABLE bugdb_comments (
   FULLTEXT (comment)
 );
 
-DROP TABLE IF EXISTS bugdb_votes;
+-- score's value can be 1 through 5
 
 CREATE TABLE bugdb_votes (
   bug int(8) NOT NULL,
   ts timestamp NOT NULL,
   ip int unsigned NOT NULL,
-  score int(3) NOT NULL, /* 1-5 */
+  score int(3) NOT NULL,
   reproduced int(1) NOT NULL,
   tried int(1) NOT NULL,
   sameos int(1),

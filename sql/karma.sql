@@ -7,5 +7,9 @@ CREATE TABLE karma (
   PRIMARY KEY  (id),
   KEY user (user),
   KEY level (level)
-) TYPE=MyISAM;
+);
 
+CREATE TABLE karma_seq (
+  id int(10) unsigned NOT NULL auto_increment,
+  PRIMARY KEY  (id)
+);

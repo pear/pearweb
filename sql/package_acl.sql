@@ -1,7 +1,11 @@
-CREATE TABLE package_acl (
-    handle          VARCHAR(20) NOT NULL REFERENCES users(handle),
-    package         VARCHAR(80) NOT NULL REFERENCES packages(name),
-    access          INTEGER,
+-- COLUMN          REFERENCES
+--
+-- handle          users(handle)
+-- package	       packages(id)
 
-    UNIQUE INDEX(handle,package)
+CREATE TABLE package_acl (
+  handle varchar(20) NOT NULL default '',
+  package varchar(80) NOT NULL default '',
+  access int(11) default NULL,
+  UNIQUE KEY handle (handle,package)
 );

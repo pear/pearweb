@@ -1,19 +1,22 @@
-# $Id$
+-- COLUMN          REFERENCES
+--
+-- category        categories(id)
+
 CREATE TABLE packages (
-       id             INTEGER NOT NULL,
-       name           VARCHAR(80) NOT NULL,
-       package_type   ENUM('pear','pecl') NOT NULL default 'pear',
-       category       INTEGER, -- REFERENCES categories(id),
-       stablerelease  VARCHAR(20),
-       develrelease   VARCHAR(20),
-       license        VARCHAR(20),
-       summary	      TEXT,
-       description    TEXT,
-       homepage       VARCHAR(255),
-       doc_link       VARCHAR(255),
-       cvs_link       VARCHAR(255),
-       approved       TINYINT(4) NOT NULL default '0',
-       PRIMARY KEY(id),
-       UNIQUE INDEX(name),
-       INDEX(category)
+  id int(11) NOT NULL default '0',
+  name varchar(80) NOT NULL default '',
+  category int(11) default NULL,
+  stablerelease varchar(20) default NULL,
+  develrelease varchar(20) default NULL,
+  license varchar(20) default NULL,
+  summary text,
+  description text,
+  homepage varchar(255) default NULL,
+  package_type enum('pear','pecl') NOT NULL default 'pear',
+  doc_link varchar(255) default NULL,
+  cvs_link varchar(255) default NULL,
+  approved tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (id),
+  UNIQUE KEY name (name),
+  KEY category (category)
 );

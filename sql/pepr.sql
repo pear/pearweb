@@ -1,19 +1,10 @@
-#
-# Table structure for table `package_proposal_changelog`
-#
-
 CREATE TABLE package_proposal_changelog (
   pkg_prop_id int(11) NOT NULL default '0',
   timestamp int(14) NOT NULL default '0',
   user_handle varchar(20) NOT NULL default '',
   comment text,
   PRIMARY KEY  (pkg_prop_id,timestamp,user_handle)
-) TYPE=MyISAM;
-# --------------------------------------------------------
-
-#
-# Table structure for table `package_proposal_comments`
-#
+);
 
 CREATE TABLE package_proposal_comments (
   user_handle varchar(20) NOT NULL default '',
@@ -21,23 +12,13 @@ CREATE TABLE package_proposal_comments (
   timestamp int(14) NOT NULL default '0',
   comment text NOT NULL,
   PRIMARY KEY  (user_handle,pkg_prop_id,timestamp)
-) TYPE=MyISAM;
-# --------------------------------------------------------
-
-#
-# Table structure for table `package_proposal_links`
-#
+);
 
 CREATE TABLE package_proposal_links (
   pkg_prop_id int(11) NOT NULL default '0',
   type enum('pkg_file','pkg_source','pkg_example','pkg_example_source','pkg_doc','Package Related') NOT NULL default 'pkg_file',
   url varchar(255) NOT NULL default ''
-) TYPE=MyISAM;
-# --------------------------------------------------------
-
-#
-# Table structure for table `package_proposal_votes`
-#
+);
 
 CREATE TABLE package_proposal_votes (
   pkg_prop_id int(11) NOT NULL default '0',
@@ -48,12 +29,7 @@ CREATE TABLE package_proposal_votes (
   comment text NOT NULL,
   timestamp timestamp(14) NOT NULL,
   PRIMARY KEY  (pkg_prop_id,user_handle)
-) TYPE=MyISAM;
-# --------------------------------------------------------
-
-#
-# Table structure for table `package_proposals`
-#
+);
 
 CREATE TABLE package_proposals (
   id int(11) NOT NULL auto_increment,
@@ -70,4 +46,4 @@ CREATE TABLE package_proposals (
   user_handle varchar(255) NOT NULL default '',
   markup enum('bbcode','wiki') NOT NULL default 'bbcode',
   PRIMARY KEY  (id)
-) TYPE=MyISAM;
+);

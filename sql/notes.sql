@@ -1,14 +1,21 @@
-CREATE TABLE notes (
-       id        INTEGER NOT NULL,
-       uid       VARCHAR(20), -- REFERENCES users(handle),
-       pid       INTEGER, -- REFERENCES packages(id),
-       rid       INTEGER, -- REFERENCES releases(id),
-       cid       INTEGER, -- REFERENCES categories(id),
-       nby       VARCHAR(20) REFERENCES users(handle),
-       ntime     DATETIME,
-       note      TEXT,
+-- COLUMN          REFERENCES
+--
+-- uid             users(handle)
+-- pid             packages(id)
+-- rid             releases(id)
+-- cid             categories(id)
+-- nby             users(handle)
 
-       PRIMARY KEY(id),
-       INDEX(uid),
-       INDEX(pid)
+CREATE TABLE notes (
+  id int(11) NOT NULL default '0',
+  uid varchar(20) default NULL,
+  pid int(11) default NULL,
+  rid int(11) default NULL,
+  cid int(11) default NULL,
+  nby varchar(20) default NULL,
+  ntime datetime default NULL,
+  note text,
+  PRIMARY KEY  (id),
+  KEY uid (uid),
+  KEY pid (pid)
 );

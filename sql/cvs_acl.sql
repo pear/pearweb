@@ -1,8 +1,9 @@
-CREATE TABLE cvs_acl (
-    username        VARCHAR(20), -- NOT NULL REFERENCES users(handle),
-    usertype	    ENUM('user','group') NOT NULL DEFAULT 'user',
-    path            VARCHAR(250) NOT NULL,
-    access          BOOL,
+-- username REFERENCES users(handle)
 
-    UNIQUE INDEX(username,path)
+CREATE TABLE cvs_acl (
+  username varchar(20) default NULL,
+  usertype enum('user','group') NOT NULL default 'user',
+  path varchar(250) NOT NULL default '',
+  access tinyint(1) default NULL,
+  UNIQUE KEY username (username,path)
 );
