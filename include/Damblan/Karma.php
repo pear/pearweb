@@ -191,9 +191,25 @@ class Damblan_Karma {
      * @return void
      */
     function _notify($admin_user, $user, $action) {
-        $mailtext = $admin_user . " has updated karma for " . $user . ":\n\n" . $action;
-        $header = "From: \"PEAR Karma Manager\" <pear-sys@php.net>\r\nReply-To: <pear-group@php.net>";
-        mail("pear-group@php.net", "Karma update", $mailtext, $header, "-f pear-sys@php.net");
+        require_once "Damblan/Log.php";
+        require_once "Damblan/Log/Mail.php";
+
+        static $logger, $observer;
+
+        if (!isset($logger)) {
+            $logger = new Damblan_Log;
+        }
+        if (!isset($observer)) {
+            $observer = new Damblan_Log_Mail;
+            $observer->setRecipients("pear-group@php.net");
+            $observer->setFrom("\"PEAR Karma Manager\" <pear-sys@php.net>");
+            $observer->setReplyTo("<pear-group@php.net>");
+            $observer->setSubject("Karma update");
+            $logger->attach($observer);
+        }
+
+        $text = $admin_user . " has updated karma for " . $user . ": " . $action;
+        $logger->log($text);
     }
 }
 ?>
