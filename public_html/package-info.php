@@ -121,17 +121,12 @@ $accounts .= '</ul>';
 // Information about the latest release below the summary
 $versions = array_keys($pkg['releases']);
 
-$url = 'http://'.$_SERVER['SERVER_NAME'].'/';
-if (!isset($redirected) || ($redirected !== true)) {
-    $url .= 'package/';
+ {
+$uri = (isset($redirected) && $redirected === true) ? preg_replace('@/package(/[^/]+)/redirected@', '\1', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
 }
-$url .= $params['package|pacid'];
-if ($action != 'trackbacks') {
-    $url .= '/'.$action;
-}
-if (!empty($version)) {
-    $url .= '/'.$version;
-}
+
+$url = 'http://'.$_SERVER['SERVER_NAME'].$uri;
+
 // Get trackback autodiscovery code
 $tmpTrackback = Services_Trackback::create(array(
     'id'            => $name,
