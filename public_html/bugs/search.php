@@ -273,7 +273,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
             ?>
 
-<table border="0" cellspacing="2" width="95%">
+<table border="0" cellspacing="2" width="100%">
 
 <?php show_prev_next($begin, $rows, $total_rows, $link, $limit);?>
 
@@ -334,7 +334,7 @@ if ($warnings) {
 
 ?>
 <form id="asearch" method="get" action="<?php echo $_SERVER['PHP_SELF'] ?>">
-<table id="primary" width="95%">
+<table id="primary" width="100%">
 <tr valign="top">
   <th>Find bugs</th>
   <td style="white-space: nowrap">with all or any of the w<span class="underline">o</span>rds</td>
