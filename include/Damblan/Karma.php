@@ -224,7 +224,7 @@ class Damblan_Karma {
         if (!isset($logger)) {
             $logger = new Damblan_Log;
         }
-        if (!isset($observer)) {
+        if (!DEVBOX && !isset($observer)) {
             $observer = new Damblan_Log_Mail;
             $observer->setRecipients("pear-group@php.net");
             $observer->setHeader("From", "\"PEAR Karma Manager\" <pear-sys@php.net>");
