@@ -32,7 +32,7 @@ if (DB::isError($db = DB::connect($dsn))) {
     die ("Failed to connect: $dsn\n");
 }
 
-require_once 'pepr/pepr.php';
+require_once dirname(__FILE__) . '/../include/pepr/pepr.php';
 
 // This checks if a proposal should automatically be finished
 	
