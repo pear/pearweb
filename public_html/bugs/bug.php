@@ -310,7 +310,7 @@ show_bugs_menu(txfield('package_name'));
    if ($bug['bug_type'] == 'Bug') {
        echo '<th class="details" id="number">Bug&nbsp;#' . $id . '</th>';
    } else {
-       echo '<th class="details" id="number">Req&nbsp;#' . $id . '</th>';
+       echo '<th class="details" id="number">Request&nbsp;#' . $id . '</th>';
    }
 
    ?>
