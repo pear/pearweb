@@ -185,7 +185,7 @@ print '<a name="password"></a>' . "\n";
 print '<h2>&raquo; Manage your password</h2>' . "\n";
 
 $form = new HTML_Form($_SERVER['PHP_SELF'], 'post');
-$form->addPlaintext('Old Password:',
+$form->addPlaintext('<span class="accesskey">O</span>ld Password:',
         $form->returnPassword('password_old', '', 40, 0,
                               'accesskey="o"'),
         $th, $td);
