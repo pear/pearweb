@@ -77,8 +77,7 @@ if (!empty($_POST['pw'])) {
     $pw   = '';
 }
 
-
-# fetch info about the bug into $bug
+// fetch info about the bug into $bug
 $query = 'SELECT b.id, b.package_name, b.bug_type, b.email,
         b.passwd, b.sdesc, b.ldesc, b.php_version, b.php_os,
         b.status, b.ts1, b.ts2, b.assign, UNIX_TIMESTAMP(b.ts1) AS submitted, 
@@ -104,14 +103,14 @@ if (!$bug) {
     exit;
 }
 
-# Redirect to PECL if it's a PECL bug
+// Redirect to PECL if it's a PECL bug
 if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
    $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
     localRedirect('http://'.$redirect.'.php.net/bugs/bug.php?id='.$id);
     exit();
 }
 
-# Delete comment
+// Delete comment
 if ($edit == 1 && isset($delete_comment)) {
     $addon = '';
     if (in_array($user, $trusted_developers) && verify_password($user, $pw)) {
@@ -122,7 +121,7 @@ if ($edit == 1 && isset($delete_comment)) {
     exit();
 }
 
-# handle any updates, displaying errors if there were any
+// handle any updates, displaying errors if there were any
 $errors = array();
 
 if ($_POST['in'] && $edit == 3) {
@@ -137,14 +136,14 @@ if ($_POST['in'] && $edit == 3) {
         $errors[] = "You must provide a valid email address.";
     }
 
-    # Don't allow comments by the original report submitter
+    // Don't allow comments by the original report submitter
     if (rinse($_POST['in']['commentemail']) == $bug['email']) {
         localRedirect($_SERVER['PHP_SELF'] . "?id=$id&edit=2");
         exit();
     }
 
-    # check that they aren't using a php.net mail address without
-    # being authenticated (oh, the horror!)
+    /* check that they aren't using a php.net mail address without
+       being authenticated (oh, the horror!) */
     if (preg_match('/^(.+)@php\.net/i', rinse($_POST['in']['commentemail']), $m)) {
         if ($user != rinse($m[1]) || !verify_password($user, $pass)) {
             $errors[] = 'You have to be logged in as a developer and be'
@@ -181,14 +180,14 @@ if ($_POST['in'] && $edit == 3) {
         $errors[] = 'You must provide a comment.';
     }
 
-    # check that they aren't being bad and setting a status they
-    # aren't allowed to (oh, the horrors.)
+    /* check that they aren't being bad and setting a status they
+       aren't allowed to (oh, the horrors.) */
     if ($_POST['in']['status'] != $bug['status'] && $state_types[$_POST['in']['status']] != 2) {
         $errors[] = 'You aren\'t allowed to change a bug to that state.';
     }
 
-    # check that they aren't changing the mail to a php.net address
-    # (gosh, somebody might be fooled!)
+    /* check that they aren't changing the mail to a php.net address
+       (gosh, somebody might be fooled!) */
     if (preg_match('/^(.+)@php\.net/i', $_POST['in']['email'], $m)) {
         if ($user != $m[1] || !verify_password($user, $pass)) {
             $errors[] = 'You have to be logged in as a developer to use your php.net email address.';
@@ -241,8 +240,7 @@ if ($_POST['in'] && $edit == 3) {
         $ncomment = trim($_POST['ncomment']);
     }
 
-    if (
-        (($_POST['in']['status'] == 'Bogus' && $bug['status'] != 'Bogus') ||
+    if ((($_POST['in']['status'] == 'Bogus' && $bug['status'] != 'Bogus') ||
           $RESOLVE_REASONS[$_POST['in']['resolve']]['status'] == 'Bogus') &&
         strlen($ncomment) == 0)
     {
@@ -321,9 +319,10 @@ if ($_POST['in']) {
     }
 }
 
-response_header("Bug #$id :: " . htmlspecialchars($bug['sdesc']));
+$bug['bug_type'] == 'Bug' ? $bug_type = 'Bug' : $bug_type = 'Request';
+response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']));
 
-/* DISPLAY BUG */
+// DISPLAY BUG
 if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
     display_bug_success('The bug was updated successfully.');
 
@@ -355,28 +354,20 @@ show_bugs_menu(txfield('package_name'));
   <tr id="title">
 
    <?php
-
-   if ($bug['bug_type'] == 'Bug') {
-       echo '<th class="details" id="number">Bug&nbsp;#' . $id . '</th>';
-   } else {
-       echo '<th class="details" id="number">Request&nbsp;#' . $id . '</th>';
-   }
-
+       echo '<th class="details" id="number">' . $bug_type . '&nbsp;#' . $id . '</th>';
    ?>
 
    <td id="summary" colspan="3"><?php echo clean($bug['sdesc']) ?></td>
   </tr>
   <tr id="submission">
-
+   <th class="details">Submitted:</th>
 <?php
 
 if ($bug['modified']) {
-    echo '   <th class="details">Submitted:</th>' . "\n";
     echo '   <td style="white-space: nowrap;">' . format_date($bug['submitted']) . "</td>\n";
     echo '   <th class="details">Modified:</th>' . "\n";
     echo '   <td style="white-space: nowrap;">' . format_date($bug['modified']) . '</td>';
 } else {
-    echo '   <th class="details">Submitted:</th>' . "\n";
     echo '   <td colspan="3">' . format_date($bug['submitted']) . '</td>';
 }
 
@@ -430,21 +421,6 @@ if ($bug['modified']) {
 <div id="controls">
 
 <?php
-
-function control($num, $desc)
-{
-    echo '<span id="control_' . $num . '" class="control';
-    if ($GLOBALS['edit'] == $num) {
-        echo ' active">';
-        echo $desc;
-    } else {
-        echo '">';
-        echo '<a href="' . $_SERVER['PHP_SELF'] . '?id=' . $GLOBALS[id];
-        echo ($num ? "&amp;edit=$num" : '');
-        echo '">' . $desc . '</a>';
-    }
-    echo "</span>\n";
-}
 
 control(0, 'View');
 if ($edit != 2) {
@@ -756,7 +732,6 @@ if ($edit == 3) {
       <th class="details">CAPTCHA:</th>
       <td>
        <?php echo generate_captcha() ?>
-
       </td>
      </tr>
     </table>
@@ -826,17 +801,17 @@ if (!$edit && canvote()) {
 }
 
 
-/* DISPLAY ORIGINAL REPORT */
+// Display original report
 if ($bug['ldesc']) {
     output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['handle']);
 }
 
-/* DISPLAY COMMENTS */
+// Display comments
 $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, 
-        users.showemail, users.handle
-        FROM bugdb_comments c
-        LEFT JOIN users ON users.email = c.email       
-        WHERE c.bug='.(int)$id.' GROUP BY c.id ORDER BY c.ts';
+        u.showemail, u.handle
+        FROM bugdb_comments c, users u       
+        WHERE u.email = c.email AND c.bug = '.(int)$id.'
+        GROUP BY c.id ORDER BY c.ts';
 $res =& $dbh->query($query);
 if ($res) {
     while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
@@ -873,6 +848,21 @@ function delete_comment($id, $com_id)
     global $dbh;
     $query = 'DELETE FROM bugdb_comments WHERE bug='.(int)$id.' AND id='.(int)$com_id;
     $res =& $dbh->query($query);
+}
+
+function control($num, $desc)
+{
+    echo '<span id="control_' . $num . '" class="control';
+    if ($GLOBALS['edit'] == $num) {
+        echo ' active">';
+        echo $desc;
+    } else {
+        echo '">';
+        echo '<a href="' . $_SERVER['PHP_SELF'] . '?id=' . $GLOBALS['id'];
+        echo ($num ? "&amp;edit=$num" : '');
+        echo '">' . $desc . '</a>';
+    }
+    echo "</span>\n";
 }
 
 function canvote()
