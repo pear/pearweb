@@ -30,7 +30,7 @@ if (!empty($_GET['filename'])) {
     $info = $dbh->getRow($query, array($filename), DB_FETCHMODE_ASSOC);
 
     if (!is_array($info)) {
-        echo "<div class=\"errors\">No such filename " . strip_tags($filename) . ".</div>\n";
+        echo "<div class=\"errors\">No such file " . strip_tags($filename) . ".</div>\n";
     } else {
         echo "<p>Log for <strong>" . $filename . "</strong>:</p>\n";
         echo "<ul>\n";
