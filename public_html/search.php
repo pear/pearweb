@@ -48,6 +48,11 @@ switch ($_POST['search_in']) {
                . '&as_q=' . urlencode($_POST['search_string']));
         break;
 
+case 'pepr':
+        header('Location: /pepr/pepr-overview.php?search='
+               . urlencode($_POST['search_string']));
+        break;
+
     default:
         error_handler('Invalid search target.', 'Search');
 }

@@ -276,6 +276,36 @@ Proposer:                '.user_link($this->user_handle).'<br />
         return $result;
     }
 
+    function &search($searchString) {
+        global $dbh;
+        $replacers = array(
+            '/ /', '/%/', '/_/', '/\*/', '/\?/');
+        $replacements = array(
+            '%', '\%', '\_', '%', '_');
+        $searchString = "%".preg_replace($replacers, $replacements, $searchString)."%";
+
+        $sql = "SELECT *, UNIX_TIMESTAMP(draft_date) as draft_date,
+                       UNIX_TIMESTAMP(proposal_date) as proposal_date,
+                       UNIX_TIMESTAMP(vote_date) as vote_date,
+                       UNIX_TIMESTAMP(longened_date) as longened_date
+                FROM package_proposals
+                WHERE pkg_describtion LIKE ".$dbh->quoteSmart($searchString)."
+                      OR pkg_name LIKE ".$dbh->quoteSmart($searchString)."
+                      OR pkg_category LIKE ".$dbh->quoteSmart($searchString);
+        
+        $res = $dbh->query($sql);
+        if (DB::isError($res)) {
+            return $res;
+        }
+        $result = array();
+        while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+            $result[$set['id']] =& new proposal($set);
+        }
+        return $result;
+    }
+        
+
+
     function getLinks(&$dbh)
     {
         if (empty($this->id)) {

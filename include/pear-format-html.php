@@ -214,6 +214,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
         <option value="pear-dev">Developer mailing list</option>
         <option value="pear-general">General mailing list</option>
         <option value="pear-cvs">CVS commits mailing list</option>
+        <option value="pepr">PEPr proposals</option>
     </select>
     <input type="image" src="/gifs/small_submit_white.gif" alt="search" style="vertical-align: middle;" />
     </p>

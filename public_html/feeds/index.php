@@ -59,6 +59,14 @@ feeds available for your viewing pleasure:</p>
       <li><?php echo make_link('/feeds/pepr_finished.rss'); ?>: Last recent proposals with status "Finished"</li>
     </ul>
   </li>
+  <li>PEPr proposal search feeds:
+    <ul>
+      <li><?php echo make_link('/feeds/pepr_config.rss'); ?>: Receive all proposals containing "config"</li>
+      <li><?php echo make_link('/feeds/pepr_XML.rss'); ?>: Receive all proposals containing "XML"</li>
+      <li><?php echo make_link('/feeds/pepr_search_table+config.rss'); ?>: Receive proposals containing "table" and "config"</li>
+      <li>Model searches with URL encoded strings.</li>
+    </ul>
+  </li>
 </ul>
 
 <p>If you have questions or suggestions about the RSS service, please

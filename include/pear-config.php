@@ -257,4 +257,6 @@ define('PROPOSAL_EMAIL_PREFIX', '[PEPr]');
  */
 define('PROPOSAL_EMAIL_POSTFIX', "\n\n-- \nSent by PEPr, the automatic proposal system at http://pear.php.net");
 
+define('PROPOSAL_OVERVIEW_FINISHED', 10);
+
 ?>

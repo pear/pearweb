@@ -38,14 +38,22 @@ if ($selectStatus != '') {
     $order = ' pkg_category ASC, pkg_name ASC';
 }
 
-$proposals =& proposal::getAll($dbh, @$selectStatus, null, @$order);
+if (isset($_GET['search'])) {
+    $searchString = trim($_GET['search']);
+    $searchString = preg_replace('/;/', '', $searchString);
+    $proposals = proposal::search($searchString);    
+    $searchPostfix = '_search_'.urlencode($searchString);
+} else {
+    $proposals =& proposal::getAll($dbh, @$selectStatus, null, @$order);
+    $searchPostfix = '';
+}
 
 response_header('PEPr :: Package Proposals');
 
 echo '<h1>Package Proposals</h1>' . "\n";
 if ($selectStatus == '') {
     echo "<p>";
-    echo "<a href='/feeds/pepr.rss'>Aggregate this.</a>";
+    echo "<a href='/feeds/pepr$searchPostfix.rss'>Aggregate this.</a>";
     echo "</p>";
 }
 
@@ -62,7 +70,7 @@ foreach ($proposals as $proposal) {
         echo "</ul>";
         if ($last_status !== false) {
             echo "<p>";
-            echo "<a href='/feeds/pepr_".$proposal->getStatus().".rss'>Aggregate this.</a>";
+            echo "<a href='/feeds/pepr_".$last_status.".rss'>Aggregate this.</a>";
             echo "</p>";
         }
         echo '<h2 name="' . $proposal->getStatus() . '" id="';
@@ -123,16 +131,17 @@ foreach ($proposals as $proposal) {
     echo "</li>\n";
 }
 
-if ($selectStatus == '') {
+if ($selectStatus == '' && isset($proposal) && $proposal->getStatus() == 'finished') {
     print_link('pepr-overview.php?filter=finished', 'All finished proposals');
 }
 
 echo "</ul>";
 
-echo "<p>";
-echo "<a href='/feeds/pepr_".$proposal->getStatus().".rss'>Aggregate this.</a>";
-echo "</p>";
-
+if (isset($proposal)) {
+    echo "<p>";
+    echo "<a href='/feeds/pepr_".@$proposal->getStatus().".rss'>Aggregate this.</a>";
+    echo "</p>";
+}
 response_footer();
 
 ?>

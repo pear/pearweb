@@ -42,16 +42,26 @@ class Damblan_RSS_PEPr extends Damblan_RSS_Common {
         if (isset($proposalStatiMap[$value])) {
             $this->setTitle("PEPr: Latest proposals with status " . $proposalStatiMap[$value]);
             $this->setDescription("The latest PEPr proposals with status " . $proposalStatiMap[$value]);
+            $items = proposal::getAll($dbh, @$value, 10);
+        } else if(substr($value, 0, 6) == 'search') {
+            $searchString = substr($value, 7);
+            $this->setTitle("PEPr: Latest proposals containing " . $searchString);
+            $this->setDescription("The latest PEPr proposals containing " . $searchString);
+            $items = proposal::search($searchString);
         } else {
             $this->setTitle("PEPr: Latest proposals.");
             $this->setDescription("The latest PEPr proposals.");
             $value = null;
+            $items = proposal::getAll($dbh, @$value, 10);
         }
+
         
-        $items = proposal::getAll($dbh, @$value, 10);
+        
         foreach ($items as $id => $item) {
             $item = $item->toRSSArray();
             $this->addItem($this->newItem($item['title'], $item['link'], $item['desc'], $item['date']));
         }
     }
 }
+
+?>
