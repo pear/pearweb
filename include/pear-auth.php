@@ -125,21 +125,69 @@ function auth_verify($user, $passwd)
     return false;
 }
 
+function auth_check($atom)
+{
+    global $dbh;
+    static $karma;
+
+    require_once "Damblan/Karma.php";
+    
+    global $auth_user;
+
+    // Check for backwards compatibility
+    if (is_bool($atom)) {
+        if ($atom == true) {
+            $atom = "admin";
+        } else {
+            $atom = "dev";
+        }
+    }
+
+    if (is_string($atom)) {
+        switch ($atom) {
+            case "user" :
+            case "dev" :
+            case "admin" :
+            case "group" :
+                if (!isset($karma)) {
+                    $karma = new Damblan_Karma($dbh);
+                }
+                return $karma->has($auth_user->handle, "pear." . $atom);
+                break;
+        }
+    }
+
+    return true;
+}
+
 function auth_require($admin = false)
 {
     global $auth_user;
+    $res = true;
 
     $user = @$_COOKIE['PEAR_USER'];
     $passwd = @$_COOKIE['PEAR_PW'];
     if (!auth_verify($user, $passwd)) {
         auth_reject(); // exits
     }
-    if ($admin && empty($auth_user->admin)) {
+
+    $num = func_num_args();
+    for ($i = 0; $i < $num; $i++) {
+        $arg = func_get_arg($i);
+        $res = auth_check($arg);
+
+        if ($res == true) {
+            return true;
+        }
+    }
+
+    if ($res == false) {
         response_header("Insufficient Privileges");
         report_error("Insufficient Privileges");
         response_footer();
         exit;
     }
+
     return true;
 }
 
