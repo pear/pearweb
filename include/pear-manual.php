@@ -51,61 +51,66 @@ function makeBorderTOC($this) {
     global $NEXT, $PREV, $UP, $HOME, $TOC, $DOCUMENT_ROOT;
     global $SIDEBAR_DATA, $LANG,$CHARSET;
 
-    $SIDEBAR_DATA = '<form method="get" action="/manual-lookup.php">' .
-    $SIDEBAR_DATA.= '<table border="0" cellpadding="4" cellspacing="0">';
+    $SIDEBAR_DATA  = "\n\n<!-- START MANUAL'S SIDEBAR TOC -->\n\n";
+    $SIDEBAR_DATA .= '<form method="get" action="/manual-lookup.php">' . "\n";
+    $SIDEBAR_DATA .= '<table border="0" cellpadding="4" cellspacing="0">' . "\n";
 
     /** The manual lookup will be implemented at a later point.
-    $SIDEBAR_DATA.= '<tr valign="top"><td><small>' .
+    $SIDEBAR_DATA .= '<tr valign="top"><td><small>' .
         '<input type="hidden" name="lang" value="' . $LANG . '">' .
         'lookup: <input type="text" class="small" name="function" size="10"> ' .
         make_submit('small_submit_white.gif', 'lookup', 'bottom') .
         '<br /></small></td></tr>';
 
-    $SIDEBAR_DATA.= '<tr bgcolor="#cccccc"><td></td></tr>';
+    $SIDEBAR_DATA .= '<tr bgcolor="#cccccc"><td></td></tr>';
     */
 
-    $SIDEBAR_DATA.= '<tr valign="top"><td>' .
-        make_link('./', make_image('caret-t.gif', $HOME[1]) . $HOME[1] ) .
-        '<br /></td></tr>';
+    $SIDEBAR_DATA .= '<tr valign="top"><td>' . "\n";
 
-    $SIDEBAR_DATA.= '<tr bgcolor="#cccccc"><td></td></tr>';
+    $SIDEBAR_DATA .= ' <ul class="man-side_top">' . "\n"
+                   . '  <li class="man-side_top">'
+                   . make_link('./', $HOME[1]) . "\n"
+                   . ' </ul>' . "\n\n";
+
+    $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
 
     if (($HOME[1] != $UP[1]) && $UP[1]) {
-        $SIDEBAR_DATA.= '<tr valign="top"><td>' .
-            make_link($UP[0], make_image('caret-u.gif', $UP[1]) . $UP[1] ) .
-            '<br /></td></tr>';
+        $SIDEBAR_DATA .= ' <ul class="man-side_up">' . "\n"
+                       . '  <li class="man-side_up">'
+                       . make_link('./', $UP[1]) . "\n"
+                       . ' </ul>' . "\n\n";
     }
 
-    $SIDEBAR_DATA.= '<tr valign="top"><td><small>';
+    $SIDEBAR_DATA .= ' <ul class="man-side_pages">' . "\n";
 
     for ($i = 0; $i < count($TOC); $i++) {
         list($url, $title) = $TOC[$i];
         if (!$url || !$title) {
             continue;
         }
-        $img = 'box-0.gif';
-        if ($title == $this) {
-            $img = 'box-1.gif';
+        $title_fmt = @htmlspecialchars($title, ENT_QUOTES, $CHARSET);
+        if (strlen($title_fmt) > 25) {
+            $title_fmt = str_replace('::', '::<br />', $title_fmt);
         }
 
-        $SIDEBAR_DATA .= '&nbsp;' .
-            make_link($url, make_image($img, @htmlspecialchars($title,ENT_QUOTES,$CHARSET)) . @htmlspecialchars($title,ENT_QUOTES,$CHARSET) ) .
-            '<br />';
+        $SIDEBAR_DATA .= '  <li class="man-side_page">'
+                . (($title == $this) ? $title_fmt : make_link($url, $title_fmt))
+                . "</li>\n";
     }
 
-    $SIDEBAR_DATA.= '</small></td></tr>';
+    $SIDEBAR_DATA .= " </ul>\n\n";
 
     if (count($TOC) > 1) {
-        $SIDEBAR_DATA.= '<tr bgcolor="#cccccc"><td></td></tr>';
+        $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
     }
 
-    $SIDEBAR_DATA .= '<tr valign="top"><td><small>&nbsp;'
-                     . make_image("box-0.gif")
-                     . make_link("/manual/", "Download Documentation")
-                     . '</small></td></tr>';
+    $SIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n"
+                   . '  <li class="man-side_download">'
+                   . make_link('/manual/', 'Download Documentation') . "\n"
+                   . ' </ul>' . "\n\n";
 
-    $SIDEBAR_DATA.= '</table></form>-';
-
+    $SIDEBAR_DATA .= "</td></tr></table></form>\n\n";
+    $SIDEBAR_DATA .= "<!-- END MANUAL'S SIDEBAR TOC -->\n\n-";
 }
 
 function navigationBar($title,$id,$loc) {
