@@ -44,7 +44,7 @@
     <xs:element ref="changelog" minOccurs="0"/>
    </xs:sequence>
    <xs:attribute name="version" type="xs:string" fixed="2.0"/>
-   <xs:attribute name="pearversion" type="version"/>
+   <xs:attribute name="packagerversion" type="version"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="name" type="xs:string">
