@@ -18,54 +18,38 @@
    $Id$
 */
 
-if (!isset($_POST['search_in'])) {
-    response_header("Search");
-    echo "<h2>Search</h2>\n";
-    echo "<font color=\"#990000\"><b>Please use the search system via the search form above.</b></font>\n";
-    response_footer();
-    exit();
+if (!isset($_POST['search_in']) || !isset($_POST['search_string'])) {
+    error_handler('Please use the search system via the search form above.',
+                  'Search');
 }
 
 switch ($_POST['search_in']) {
-
-	case "packages":
-		header('Location: /package-search.php?pkg_name='.urlencode($_POST['search_string']).'&bool=AND&submit=Search');
-		exit;
+	case 'packages':
+		localRedirect('/package-search.php?pkg_name='
+                      . urlencode($_POST['search_string'])
+                                  . '&bool=AND&submit=Search');
 		break;
 
-    case "developers":
+    case 'developers':
         // XXX: Enable searching for names instead of handles
         localRedirect('/user/' . urlencode($_POST['search_string']));
-        exit;
-
-    case "pear-dev" :
-    case "pear-cvs" :
-    case "pear-general" :
-        /**
-         * We forward the query to the mailing list archive
-         * at marc.thaimsgroup.com
-         */
-        $location = "http://marc.theaimsgroup.com/";
-        $query = "l=".$_POST['search_in']."&w=2&r=1&q=b&s=".urlencode($_POST['search_string']);
-        header("Location: ".$location."?".$query);
-        
         break;
 
-    case "site" :
-        /**
-         * We forward the query to google.com 
-         */
-        $location = "http://google.com/search?as_sitesearch=pear.php.net";
-        $query = "&as_q=" . urlencode($_POST['search_string']);
-        header("Location: " . $location . $query);
-
+    case 'pear-dev':
+    case 'pear-cvs':
+    case 'pear-general':
+        header('Location: http://marc.theaimsgroup.com/?'
+               . 'l=' . $_POST['search_in'] . '&w=2&r=1&q=b&s='
+               . urlencode($_POST['search_string']));
         break;
 
-    default :
-        response_header("Search");
-        echo "<h2>Search</h2>\n";
-        echo "<font color=\"#990000\"><b>Invalid search target.</b></font>\n";
-        response_footer();
+    case 'site':
+        header('Location: http://google.com/search?as_sitesearch=pear.php.net'
+               . '&as_q=' . urlencode($_POST['search_string']));
         break;
+
+    default:
+        error_handler('Invalid search target.', 'Search');
 }
+
 ?>
