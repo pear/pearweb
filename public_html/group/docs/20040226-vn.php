@@ -31,7 +31,7 @@ following version naming convention, which will be mandatory for all
 packages from now on. All developers should attempt to move to 
 this new version naming scheme as soon as possible.</p>
 
-<p>Vote Results: +1 (5), -1 (0), +0 (3)</p>
+<p>Vote Results: +1 (6), -1 (0), +0 (2)</p>
 
 <h3>Current Versioning Method</h3>
 
