@@ -836,10 +836,10 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
     }
     echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"{$_SERVER['PHP_SELF']}?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
     echo '<pre class="note">';
-    echo make_ticket_links(addlinks(
-                           preg_replace("/(\r?\n){3,}/",
-                                        "\n\n",
-                                        wordwrap($comment, 72, "\n", 1))));
+    $comment = make_ticket_links(addlinks($comment));
+    echo preg_replace("/(\r?\n){3,}/",
+                      "\n\n",
+                      wordwrap($comment, 72, "\n", 1));
     echo "</pre>\n";
     echo '</div>';
 }
