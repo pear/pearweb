@@ -294,10 +294,10 @@ if ($display_verification) {
                     $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
                     "  Try releasing version 1.0.0RC1, state 'beta'";
                 }
-            }
-            $version = $info->getVersion();
-            if ($version{0} < '1') {
-                $errors[] = "Versions < 1.0.0 may not be 'stable'";
+                $version = $info->getVersion();
+                if ($version{0} < '1') {
+                    $errors[] = "Versions < 1.0.0 may not be 'stable'";
+                }
             }
         }
         if ($info->getChannel() != PEAR_CHANNELNAME) {
