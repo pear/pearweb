@@ -45,6 +45,7 @@ contact with the members, you can write to
 <h2>Administrative Documents</h2>
 
 <ul>
+  <li>26th Februray 2004:  <?php echo make_link("docs/20040226-vn.php", "Version Naming"); ?></li>
   <li>14th November 2003:  <?php echo make_link("docs/20031114-pds.php", "Package Directory Structure"); ?></li>
   <li>14th November 2003:  <?php echo make_link("docs/20031114-pcl.php", "Forming of the PEAR core list"); ?></li>
   <li>14th November 2003:  <?php echo make_link("docs/20031114-bbr.php", "New guidelines for BC breaking releases"); ?></li>
