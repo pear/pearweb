@@ -52,7 +52,9 @@ if (empty($pacid) || !isset($pkg['name'])) {
     if (!isset($pkg['name'])) {
         $pkg_name = package::info($pacid, "name", true);
         if (!empty($pkg_name)) {
+            header("HTTP/1.0 301 Moved Permanently");
             header("Location: http://pecl.php.net/package/" . $pkg_name);
+            header("Connection: close");
             exit();
         }
     }
