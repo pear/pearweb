@@ -111,6 +111,19 @@
    </xs:choice>
    <xs:attribute name="name" type="xs:string" use="required"/>
    <xs:attribute name="baseinstalldir" type="xs:string"/>
+   <xs:attribute name="role">
+    <xs:simpleType>
+     <xs:restriction base="xs:string">
+      <xs:enumeration value="php"/>
+      <xs:enumeration value="ext"/>
+      <xs:enumeration value="test"/>
+      <xs:enumeration value="doc"/>
+      <xs:enumeration value="data"/>
+      <xs:enumeration value="script"/>
+      <xs:enumeration value="src"/>
+     </xs:restriction>
+    </xs:simpleType>
+   </xs:attribute>
   </xs:complexType>
  </xs:element>
  <xs:element name="file">
