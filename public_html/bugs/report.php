@@ -173,7 +173,7 @@ you can scroll down and click the submit button to really enter the details into
             $extra_headers = "From: $protected_email\n";
             $extra_headers.= "X-PHP-Bug: $cid\n";
             $extra_headers.= "X-PHP-Version: "  . stripslashes($in['php_version']) . "\n";
-            $extra_headers.= "X-PHP-Category: " . stripslashes($in['packag_name']) . "\n";
+            $extra_headers.= "X-PHP-Category: " . stripslashes($in['package_name']) . "\n";
             $extra_headers.= "X-PHP-OS: "       . stripslashes($in['php_os'])      . "\n";
             $extra_headers.= "X-PHP-Status: Open\n";
             $extra_headers.= "Message-ID: <bug-$cid@pear.php.net>";
