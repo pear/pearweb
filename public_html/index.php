@@ -54,19 +54,23 @@ echo '<div class="indent">';
 echo menu_link("Browse All Packages", "packages.php");
 echo menu_link("Search Packages", "package-search.php");
 echo '</div>';
+echo '<h2>Developers</h2>';
+echo '<div class="indent">';
+
 if (isset($_COOKIE['PEAR_USER'])) {
-    echo '<h2>Developers</h2>';
-    echo '<div class="indent">';
     echo menu_link("Upload Release", "release-upload.php");
     echo menu_link("New Package", "package-new.php");
-    echo '</div>';
-    if (user::isAdmin($_COOKIE['PEAR_USER'])) {
-        echo '<h2>Administrators</h2>';
-        echo '<div class="indent">';
-        echo menu_link("Overview", "/admin/");
-        echo '</div>';
-    }
 }
+echo menu_link("Bug System", "bugs/index.php");
+
+echo '</div>';
+if (user::isAdmin($_COOKIE['PEAR_USER'])) {
+    echo '<h2>Administrators</h2>';
+    echo '<div class="indent">';
+    echo menu_link("Overview", "/admin/");
+    echo '</div>';
+}
+
 
 menu_link("Request PEAR Account", "account-request.php");
 
