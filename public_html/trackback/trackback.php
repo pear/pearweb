@@ -53,13 +53,24 @@ if (!isset($pkgInfo) || PEAR::isError($pkgInfo)) {
 }
 
 // Creating new trackback
-$trackback = new Damblan_Trackback(array('id' => $id), time());
+$trackback = new Damblan_Trackback(array(
+    'id' => $id, 
+    'timestamp' => time(),
+    'ip' => $_SERVER['REMOTE_ADDR'],
+));
 
 $res = $trackback->receive();
 if (PEAR::isError($res)) {
     echo Services_Trackback::getResponseError('The data you submited was invalid, please recheck.', 1);
     exit;
 }
+
+// Check for possible spam and stop it.
+$res = $trackback->checkRepost($dbh);
+if (PEAR::isError($res)) {
+    echo Services_Trackback::getResponseError($res->getMessage(), 1);
+}
+
 
 $res = $trackback->save($dbh);
 if (PEAR::isError($res)) { 
@@ -68,13 +79,13 @@ if (PEAR::isError($res)) {
 }
 
 $mailData = array(
-    'id' => $trackback->id,
-    'blog_name' => $trackback->blog_name,
-    'title' => $trackback->title,
-    'url' => $trackback->url,
-    'excerpt' => $trackback->excerpt,
-    'date' => make_utc_date($trackback->timestamp),
-    'timestamp' => $trackback->timestamp,
+    'id' => $trackback->get('id'),
+    'blog_name' => $trackback->get('blog_name'),
+    'title' => $trackback->get('title'),
+    'url' => $trackback->get('url'),
+    'excerpt' => $trackback->get('excerpt'),
+    'date' => make_utc_date($trackback->get('timestamp')),
+    'timestamp' => $trackback->get('timestamp'),
 );
 
 $mailer = Damblan_Mailer::create('Trackback_New', $mailData);

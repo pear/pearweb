@@ -131,19 +131,30 @@ $accounts .= '</ul>';
 // Information about the latest release below the summary
 $versions = array_keys($pkg['releases']);
 
-$uri = (isset($redirected) && $redirected === true) ? preg_replace('@/package(/[^/]+)/redirected@', '\1', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
+// Workaround for my dev-env (running on 81)
+$port = ($_SERVER['SERVER_PORT'] == 80) ? '' : ':'.$_SERVER['SERVER_PORT'];
 
-$url = 'http://'.$_SERVER['SERVER_NAME'].$uri;
+/*
+
+    Disabling trackbacks for the moment, because of Services_Trackback update.
+
+// Preparing trackback data
+$uri = (isset($redirected) && $redirected === true) ? preg_replace('@/package(/[^/]+)/redirected@', '\1', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
+$url = 'http://'.$_SERVER['SERVER_NAME'].$port.$uri;
 
 // Get trackback autodiscovery code
 $tmpTrackback = Services_Trackback::create(array(
     'id'            => $name,
     'url'           => $url,
     'title'         => 'Package :: ' . htmlspecialchars($name),
-    'trackback_url' => 'http://'.$_SERVER['SERVER_NAME'].'/trackback/trackback.php?id='.$name,
+    'trackback_url' => 'http://'.$_SERVER['SERVER_NAME'].$port.'/trackback/trackback.php?id='.$name,
 ));
 
 $trackbackRDF = $tmpTrackback->getAutodiscoveryCode();
+
+*/
+
+$trackbackRDF = '';
 
 // }}}
 // {{{ page header
@@ -416,6 +427,12 @@ if (empty($action)) {
     // }}}
 } elseif ($action == 'trackbacks') {
 
+PEAR::raiseError('Sorry, the trackback section is temporarely disabled because of updates.');
+
+/*
+
+    Disabling trackbacks for the moment, because of Services_Trackback update.
+
     // Generate trackback list
     $trackbacks = Damblan_Trackback::listTrackbacks($dbh, $name, !$trackbackIsAdmin);
 
@@ -423,7 +440,7 @@ if (empty($action)) {
 when a weblog entry is created, which is related to the package. If you want to learn more about trackbacks, please take a look at
 &quot; <a href="http://www.movabletype.org/trackback/beginners/">A Beginner\'s Guide to TrackBack</a>&quot; (by movabletype.org).</p>';
 
-    print '<p>The trackback URL for this package is: <a href="'.$tmpTrackback->trackback_url.'">'.$tmpTrackback->trackback_url.'</a>';
+    print '<p>The trackback URL for this package is: <a href="'.$tmpTrackback->get('trackback_url').'">'.$tmpTrackback->get('trackback_url').'</a>';
 
     if ($trackbackIsAdmin) {
         print '<div class="explain">You may manipulate the trackbacks of this package. In contrast to normal users, you see approved and pending trackbacks </div>';
@@ -440,7 +457,7 @@ when a weblog entry is created, which is related to the package. If you want to 
         print 'Weblog:';
         print '</th>';
         print '<td class="ulcell" style="width:100%">';
-        print $trackback->blog_name;
+        print $trackback->get('blog_name');
         print '</td>';
         print '</tr>';
 
@@ -450,7 +467,7 @@ when a weblog entry is created, which is related to the package. If you want to 
             print 'Approved:';
             print '</th>';
             print '<td class="ulcell">';
-            print ($trackback->approved) ? '<b>yes</b>' : '<b>no</b>';
+            print ($trackback->get('approved')) ? '<b>yes</b>' : '<b>no</b>';
             print '</td>';
             print '</tr>';
         }
@@ -459,7 +476,7 @@ when a weblog entry is created, which is related to the package. If you want to 
         print 'Title:';
         print '</th>';
         print '<td class="ulcell">';
-        print '<a href="'.$trackback->url.'">'.$trackback->title.'</a>';
+        print '<a href="'.$trackback->get('url').'">'.$trackback->get('title').'</a>';
         print '</td>';
         print '</tr>';
 
@@ -468,7 +485,7 @@ when a weblog entry is created, which is related to the package. If you want to 
         print 'Date:';
         print '</th>';
         print '<td class="ulcell">';
-        print make_utc_date($trackback->timestamp, 'Y-m-d');
+        print make_utc_date($trackback->get('timestamp'), 'Y-m-d');
         print '</td>';
         print '</tr>';
 
@@ -476,19 +493,28 @@ when a weblog entry is created, which is related to the package. If you want to 
         print '<th class="others">';
         print '</th>';
         print '<td class="ulcell">';
-        print  $trackback->excerpt;
+        print  $trackback->get('excerpt');
         print '</td>';
         print '</tr>';
 
         if ($trackbackIsAdmin) {
             print '<tr>';
             print '<th class="others">';
+            print 'IP:';
             print '</th>';
             print '<td class="ulcell">';
-            if (!$trackback->approved) {
-                print '[<a href="/trackback/trackback-admin.php?action=approve&id='.$trackback->id.'&timestamp='.$trackback->timestamp.'">Approve</a>] ';
+            print $trackback->get('ip');
+            print '</td>';
+            print '</tr>';
+            
+            print '<tr>';
+            print '<th class="others">';
+            print '</th>';
+            print '<td class="ulcell">';
+            if (!$trackback->get('approved')) {
+                print '[<a href="/trackback/trackback-admin.php?action=approve&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Approve</a>] ';
             }
-            print '[<a href="/trackback/trackback-admin.php?action=delete&id='.$trackback->id.'&timestamp='.$trackback->timestamp.'">Delete</a>]';
+            print '[<a href="/trackback/trackback-admin.php?action=delete&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Delete</a>]';
             print '</td>';
             print '</tr>';
         }
@@ -497,6 +523,9 @@ when a weblog entry is created, which is related to the package. If you want to 
 
     }
     print '</table>';
+
+*/
+
 }
 
 // }}}

@@ -10,7 +10,7 @@ class Damblan_Trackback extends Services_Trackback {
      * @var int
      * @since
      */
-    var $_timestamp;
+    var $_timestamp = 0;
 
     /**
      * Boolean flag, if the trackback has been improved by a PEAR developer, yet.
@@ -18,10 +18,23 @@ class Damblan_Trackback extends Services_Trackback {
      * @var bool
      * @since
      */
-    var $_approved;
+    var $_approved = false;
 
     /**
-     * __construct
+     * The IP adress from where the trackback has been send.
+     *
+     * @var string
+     * @since
+     */
+    var $_ip = '';
+
+    // How many trackbacks may be posted in a specific timespan?
+    var $_repostCount = 3;
+    // In which timespan?
+    var $_repostTimespan = 600; // 10 minutes
+
+    /**
+     * Constructor
      * Overwriten constructor to get the timestamp while creating a trackback.
      * The timestamp is used as the primary key for the trackback table, in
      * combination with the trackback ID (which is the package name).
@@ -42,33 +55,78 @@ class Damblan_Trackback extends Services_Trackback {
      * @param bool  $approved   Wether the trackback is approved, yet. Default is false.
      * @return void
      */
-    function Damblan_Trackback($data, $timestamp, $approved = false)
+    function Damblan_Trackback($data)
     {
-        $this->_fromArray($data);
-        $this->_timestamp = (int)$timestamp;
-        $this->_approved = $approved;
+        foreach ($data as $key => $val) {
+            if ($key == 'approved')
+                $val = ($val == 'true');
+            $this->set($key, $val);
+        }
     }
 
     /**
-     * __get
-     * Overwritten __get() to receive timestamp and improved state correctly.
+     * Check for possible spam
+     * Checks the database for recent trackbacks from the same IP.
+     * Every IP is allows to post $this->_repostCount times in
+     * $this->_repostTimespan seconds.
+     *
+     * @since
+     * @param object(DB) $dbh The database handle.
+     * @return mixed Bool true, if no repost, else or on error, PEAR::Error()
+     */
+    function checkRepost(&$dbh)
+    {
+        $sql = 'SELECT COUNT(timestamp) FROM trackbacks WHERE 
+            ip = '.$dbh->quoteSmart($this->get('ip')).' AND 
+            timestamp > '.$dbh->quoteSmart($this->get('timestamp') - $this->_repostTimespan).'
+            GROUP BY ip';
+        $res = $dbh->getOne($sql);
+        if (PEAR::isError($res)) {
+            return PEAR::raiseError('Database error, please try again later.');
+        }
+        if ($res >= $this->_repostCount) {
+            return PEAR::raiseError('We only allow '.$this->_repostCount.' trackbacks in '.($this->_repostTimespan / 60).' minutes from a single host. Please try again later.');
+        }
+        return true;
+    }
+
+    /**
+     * get
+     * Overwritten get() to receive timestamp, ip and approved state correctly.
      *
      * @since
      * @access public
      * @param   mixed $key The name of the property to receive.
      * @return  mixed $val The value of the property.
      */
-    function __get($key, &$val)
+    function get($key)
     {
         $testKey = '_'.$key;
         if (isset($this->$testKey)) {
-            $val = $this->$testKey;
+            return $this->$testKey;
+        } else {
+            return Services_Trackback::get($key);
+        }
+    }
+    
+    /**
+     * set
+     * Overwritten set() to set timestamp, ip and approved state correctly.
+     *
+     * @since
+     * @access public
+     * @param   mixed $key The name of the property to receive.
+     * @return  mixed $val The value of the property.
+     */
+    function set($key, $value)
+    {
+        $testKey = '_'.$key;
+        if (isset($this->$testKey)) {
+            $this->$testKey = $value;
             return true;
-        } else if (isset($this->_data[$key])) {
-            $val = $this->_data[$key];
-            return true;
+        } else {
+            return Services_Trackback::set($key, $value);
        }
-       return false;
     }
 
     /**
@@ -87,16 +145,17 @@ class Damblan_Trackback extends Services_Trackback {
         $necessaryData = array('id', 'title', 'url', 'excerpt', 'blog_name');
         $this->_checkData($necessaryData);
         $data = $this->_getDecodedData($necessaryData);
-        $this->_timestamp = time();
+//        $this->set('timestamp', time());
         $approved = ($this->_approved) ? 'true' : 'false';
-        $sql = "INSERT INTO trackbacks (id, title, url, excerpt, blog_name, approved, timestamp) VALUES (
-                    ".$dbh->quoteSmart($data['id']).",
-                    ".$dbh->quoteSmart($data['title']).",
-                    ".$dbh->quoteSmart($data['url']).",
-                    ".$dbh->quoteSmart($data['excerpt']).",
-                    ".$dbh->quoteSmart($data['blog_name']).",
-                    ".$dbh->quoteSmart($approved).",
-                    ".$dbh->quoteSmart($this->_timestamp)."
+        $sql = "INSERT INTO trackbacks (id, title, url, excerpt, blog_name, approved, timestamp, ip) VALUES (
+                    ".$dbh->quoteSmart($this->get('id')).",
+                    ".$dbh->quoteSmart($this->get('title')).",
+                    ".$dbh->quoteSmart($this->get('url')).",
+                    ".$dbh->quoteSmart($this->get('excerpt')).",
+                    ".$dbh->quoteSmart($this->get('blog_name')).",
+                    ".$dbh->quoteSmart($this->get('approved')).",
+                    ".$dbh->quoteSmart($this->get('timestamp')).",
+                    ".$dbh->quoteSmart($this->get('ip'))."
                 )";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
@@ -131,9 +190,9 @@ class Damblan_Trackback extends Services_Trackback {
 
         $data = $this->_getDecodedData($necessaryData);
 
-        $sql = "SELECT id, title, excerpt, blog_name, url, timestamp, approved FROM trackbacks WHERE
-                    id = ".$dbh->quoteSmart($data['id'])."
-                    AND timestamp = ".$dbh->quoteSmart($this->_timestamp);
+        $sql = "SELECT id, title, excerpt, blog_name, url, timestamp, approved, ip FROM trackbacks WHERE
+                    id = ".$dbh->quoteSmart($this->get('id'))."
+                    AND timestamp = ".$dbh->quoteSmart($this->get('timestamp'));
 
         $res = $dbh->getRow($sql, null, DB_FETCHMODE_ASSOC);
 
@@ -144,18 +203,10 @@ class Damblan_Trackback extends Services_Trackback {
         }
 
         foreach ($res as $key => $val) {
-            if (($key != 'timestamp') && ($key != 'approved')) {
-                $this->_data[$key] = $val;
-            } else {
-                switch ($key) {
-                case 'approved':
-                    $this->_approved = ($val == 'true');
-                    break;
-                default:
-                    $key = '_'.$key;
-                    $this->$key = $val;
-                }
+            if ($key == 'approved') {
+                $val = ($val == 'true');
             }
+            $this->set($key, $val);
         }
         return true;
     }
@@ -182,8 +233,8 @@ class Damblan_Trackback extends Services_Trackback {
             return $data;
         }
         $sql = "UPDATE trackbacks SET approved = ".$dbh->quoteSmart('true')." WHERE
-                    id = ".$dbh->quoteSmart($data['id'])."
-                    AND timestamp = ".$dbh->quoteSmart($this->_timestamp);
+                    id = ".$dbh->quoteSmart($this->get('id'))."
+                    AND timestamp = ".$dbh->quoteSmart($this->get('timestamp'));
         $res = $dbh->query($sql) ;
         if (DB::isError($res)) {
             return PEAR::raiseError('Could not approve trackback.');
@@ -208,13 +259,13 @@ class Damblan_Trackback extends Services_Trackback {
         if (PEAR::isError($data)) {
             return $data;
         }
-        $res = $this->load($dbh, $this->_timestamp);
+        $res = $this->load($dbh, $this->get('timestamp'));
         if (PEAR::isError($res)) {
             return $res;
         }
         $sql = "DELETE FROM trackbacks WHERE
-                    id = ".$dbh->quoteSmart($data['id'])."
-                    AND timestamp = ".$dbh->quoteSmart($this->_timestamp);
+                    id = ".$dbh->quoteSmart($this->get('id'))."
+                    AND timestamp = ".$dbh->quoteSmart($this->get('timestamp'));
         $res = $dbh->query($sql) ;
         if (DB::isError($res)) {
             return PEAR::raiseError('Could not delete trackback: '.$res->getMessage());
@@ -240,7 +291,7 @@ class Damblan_Trackback extends Services_Trackback {
      */
     function listTrackbacks(&$dbh, $id, $approvedOnly = true, $orderBy = 'timestamp DESC', $limit = 10)
     {
-        $sql = 'SELECT id, title, excerpt, blog_name, url, timestamp, approved FROM trackbacks WHERE
+        $sql = 'SELECT id, title, excerpt, blog_name, url, timestamp, approved, ip FROM trackbacks WHERE
                 id LIKE '.$dbh->quoteSmart($id);
         if ($approvedOnly) {
             $sql .= ' AND approved = '.$dbh->quoteSmart('true');
@@ -253,15 +304,50 @@ class Damblan_Trackback extends Services_Trackback {
         }
         $ret = array();
         foreach ($res as $row) {
-            $ts = $row['timestamp'];
-            unset($row['timestamp']);
-            $app = ($row['approved'] == 'true');
-            unset($row['approved']);
-            $ret[] = new Damblan_Trackback($row, $ts, $app);
+            $ret[] = new Damblan_Trackback($row);
         }
         return $ret;
     }
-
+   
+    /**
+     * recentTrackbacks 
+     * Get a list of trackbacks independent from the package ID.
+     *  
+     * @since  
+     * @access public
+     * @static
+     * @param object(DB)    $dbh            The database connection object (PEAR::DB).
+     * @param int           $offset         Start position for the trackback list.
+     * @param int           $number         Number of trackbacks to list.
+     * @param bool          $approvedOnly   Wether to fetch only approved trackbacks (default is true).
+     * @return array                        Array of PEAR_Trackback objects.
+     * @throws Exception If no results are received.
+     */
+    function recentTrackbacks(&$dbh, $offset = 0, $number = 10, $approvedOnly = true)
+    {
+        if ($offset < 0) {
+            return PEAR::raiseError('Offset out of range. Offset must be integer >= 0.');
+        }
+        if (($number < 1) || ($number > 50)) {
+            return PEAR::raiseError('Number out of range. Number must be integer between 1 and 50.');
+        }
+        $sql = 'SELECT id, title, excerpt, blog_name, url, timestamp, approved, ip 
+                FROM trackbacks';
+        if ($approvedOnly) {
+            $sql .= ' WHERE approved = '.$dbh->quoteSmart('true');
+        }
+        $sql .= ' ORDER BY timestamp DESC LIMIT ' . $offset . ',' . $number;
+        $res = $dbh->getAll($sql, null, DB_FETCHMODE_ASSOC);
+        if (DB::isError($res)) {
+            return PEAR::raiseError('Could not receive trackback list: '.$res->getMessage());
+        }
+        $ret = array();
+        foreach ($res as $row) {
+            $ret[] = new Damblan_Trackback($row);
+        }
+        return $ret;
+    }
+   
     /**
      * Get maintainers to inform of a trackback (the lead maintainers of a package).
      *
@@ -273,7 +359,7 @@ class Damblan_Trackback extends Services_Trackback {
      */
     function getMaintainers ()
     {
-        $maintainers = maintainer::get($this->id, true);
+        $maintainers = maintainer::get($this->get('id'), true);
         $res = array();
         foreach ($maintainers as $maintainer => $data) {
             $tmpUser = user::info($maintainer, 'email');
@@ -284,9 +370,6 @@ class Damblan_Trackback extends Services_Trackback {
         }
         return $res;
     }
-
 }
-
-overload('Damblan_Trackback');
 
 ?>

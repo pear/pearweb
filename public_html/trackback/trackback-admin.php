@@ -37,7 +37,7 @@ if (!$action || !$track_id || !$timestamp) {
 include_once 'Damblan/Trackback.php';
 include_once 'Damblan/Mailer.php';
 
-$trackback = new Damblan_Trackback(array('id' => $id), $timestamp);
+$trackback = new Damblan_Trackback(array('id' => $id, 'timestamp' => $timestamp));
 $res = $trackback->load($dbh);
 
 $error = false;
@@ -58,13 +58,13 @@ if ($error) {
 }
 
 $mailData = array(
-    'id' => $trackback->id,
-    'blog_name' => $trackback->blog_name,
-    'title' => $trackback->title,
-    'url' => $trackback->url,
-    'excerpt' => $trackback->excerpt,
-    'date' => make_utc_date($trackback->timestamp),
-    'timestamp' => $trackback->timestamp,
+    'id' => $trackback->get('id'),
+    'blog_name' => $trackback->get('blog_name'),
+    'title' => $trackback->get('title'),
+    'url' => $trackback->get('url'),
+    'excerpt' => $trackback->get('excerpt'),
+    'date' => make_utc_date($trackback->get('timestamp')),
+    'timestamp' => $trackback->get('timestamp'),
     'user' => $_COOKIE['PEAR_USER'],
 );
 
@@ -81,7 +81,7 @@ case 'approve':
     break;
 
 case 'delete':
-    $msg = '<div class="warnings">Really <a href="/trackback/trackback-admin.php?action=delete_verified&id='.$trackback->id.'&timestamp='.$trackback->timestamp.'">delete</a> trackback '.$timestamp.' for '.$id.'?</div>';
+    $msg = '<div class="warnings">Really <a href="/trackback/trackback-admin.php?action=delete_verified&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">delete</a> trackback '.$timestamp.' for '.$id.'?</div>';
 
     // Confirmation of the delete action, no auto redirect
     $relocator = '';
@@ -107,3 +107,5 @@ response_header('Trackback admin', null, $relocator);
 echo $msg;
 echo '<p>You should be redirected to the packages trackback page in 5 seconds. if this does not work, please click <a href="http://' . PEAR_CHANNELNAME . '/package/'.$id.'/trackbacks">here</a>.</p>';
 response_footer();
+
+?>
