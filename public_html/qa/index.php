@@ -44,8 +44,8 @@ team works can be found in the <a href="/pepr/pepr-proposal-show.php?id=60">appe
 <p>If you are interested in helping out, or if you have questions 
 concerning the <acronym title="Quality Assurance">QA</acronym> 
 initiative, you can contact the team using the mailing list
-<a href="mailto:pear-qa@lists.php.net">pear-qa@lists.php.net</a>.
-(<a href="/support.php">Subscription information</a>.)
+<?php echo make_mailto_link('pear-qa@lists.php.net'); ?>
+ (<a href="/support.php">subscription information</a>).
 <?php
 response_footer();
 ?>

@@ -130,17 +130,7 @@ while (is_array($row = $sth->fetchRow(DB_FETCHMODE_ASSOC))) {
         !empty($auth_user) &&
         !empty($auth_user->registered))
     {
-        // Obfuscate by alternating Ord and Hex entities...
-        $tmp = '';
-        for ($i = 0, $l = strlen($email); $i<$l; $i++) {
-            if ($i % 2) {
-                $tmp .= '&#' . ord($email[$i]) . ';';
-            } else {
-                $tmp .= '&#x' . dechex(ord($email[$i])) . ';';
-            }
-        }
-        print '  <td><a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;';
-        print $tmp . '">' . $tmp . "</a></td>\n";
+        print '  <td>' . make_mailto_link($email) . "</td>\n";
     } else {
         print '  <td>(';
         print_link('/account-mail.php?handle=' . $handle, 'not shown');

@@ -106,8 +106,8 @@ if ($display_form) {
 
 <p>
  If the reason for your request does not fall under one of the
- reasons above, please contact the <a href="mailto:pear-dev@lists.php.net">
- PEAR developers mailing list</a>.
+ reasons above, please contact the
+ <?php echo make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing list'); ?>
 </p>
 
 <p>
@@ -124,8 +124,8 @@ if ($display_form) {
  </li>
  <li>
   Propose modifications to an existing package. Please use the
-  <a href="mailto:pear-dev@lists.php.net">PEAR developers mailing list</a> for
-  that or directly contact the maintainers of the package in question.
+  <?php echo make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing list'); ?>
+  for that or directly contact the maintainers of the package in question.
  </li>
 </ul>
 

@@ -15,10 +15,31 @@ function make_submit($file, $alt=false, $align=false, $extras=false, $dir=false,
 	return $return;
 }
 
-function make_email($email, $linktext=false) {
+/**
+ * Turns the provided email address into a "mailto:" hyperlink.
+ *
+ * The link and link text are obfuscated by alternating Ord and Hex
+ * entities.
+ *
+ * @param string $email     the email address to make the link for
+ * @param string $linktext  a string for the visible part of the link.
+ *                           If not provided, the email address is used.
+ *
+ * @return string  the HTML hyperlink of an email address
+ */
+function make_email($email, $linktext = '') {
+    $tmp = '';
+    for ($i = 0, $l = strlen($email); $i<$l; $i++) {
+        if ($i % 2) {
+            $tmp .= '&#' . ord($email[$i]) . ';';
+        } else {
+            $tmp .= '&#x' . dechex(ord($email[$i])) . ';';
+        }
+    }
+
 	return sprintf("<a href=\"mailto:%s\">%s</a>",
-		$email,
-		($linktext ? $linktext : $email)
+		$tmp,
+		($linktext ? $linktext : $tmp)
 	);
 }
 

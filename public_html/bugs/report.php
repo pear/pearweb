@@ -295,7 +295,7 @@ if (!package_exists($package)) {
 <p>
  <strong>If you feel this bug concerns a security issue, eg a buffer
  overflow, weak encryption, etc, then email
- <a href="mailto:pear-group@php.net?subject=%5BSECURITY%5D+possible+new+bug%21">pear-group@php.net</a>
+ <?php echo make_mailto_link('pear-group@php.net?subject=%5BSECURITY%5D+possible+new+bug%21', 'pear-group'); ?>
  who will assess the situation.</strong>
 </p>
 

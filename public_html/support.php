@@ -239,7 +239,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
 
 <p>
  If you have questions concering this website, you can contact
- <a href="mailto:pear-webmaster@lists.php.net">pear-webmaster@lists.php.net</a>.
+ <?php echo make_mailto_link('pear-webmaster@lists.php.net'); ?>.
 </p>
 
 <p>

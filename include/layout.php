@@ -127,12 +127,32 @@ function make_link ($url, $linktext=false, $target=false, $extras=false) {
     );
 }
 
-// make_mailto_link()
-// return a mailto-hyperlink
-//
+/**
+ * Turns the provided email address into a "mailto:" hyperlink.
+ *
+ * The link and link text are obfuscated by alternating Ord and Hex
+ * entities.
+ *
+ * @param string $email     the email address to make the link for
+ * @param string $linktext  a string for the visible part of the link.
+ *                           If not provided, the email address is used.
+ * @param string $extras    a string of extra attributes for the <a> element
+ *
+ * @return string  the HTML hyperlink of an email address
+ */
+function make_mailto_link($email, $linktext = '', $extras = '')
+{
+    $tmp = '';
+    for ($i = 0, $l = strlen($email); $i<$l; $i++) {
+        if ($i % 2) {
+            $tmp .= '&#' . ord($email[$i]) . ';';
+        } else {
+            $tmp .= '&#x' . dechex(ord($email[$i])) . ';';
+        }
+    }
 
-function make_mailto_link ($url, $linktext=false, $extras=false) {
-    return make_link('mailto:' . $url, ($linktext ? $linktext : $url), false, $extras);
+    return '<a ' . $extras . ' href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;'
+           . $tmp . '">' . ($linktext ? $linktext : $tmp) . '</a>';
 }
 
 // print_link()
