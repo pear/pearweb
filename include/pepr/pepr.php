@@ -291,7 +291,8 @@ Proposer:                '.user_link($this->user_handle).'<br />
                 FROM package_proposals
                 WHERE pkg_describtion LIKE ".$dbh->quoteSmart($searchString)."
                       OR pkg_name LIKE ".$dbh->quoteSmart($searchString)."
-                      OR pkg_category LIKE ".$dbh->quoteSmart($searchString);
+                      OR pkg_category LIKE ".$dbh->quoteSmart($searchString)."
+                ORDER BY status ASC, draft_date DESC";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
