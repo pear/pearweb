@@ -226,7 +226,7 @@ if ($display_verification) {
             $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
                 "  Try releasing version 1.0.0RC1, state 'beta'";
         }
-        if ($info['version']{0} != '1') {
+        if ($info['version']{0} < '1') {
             $errors[] = "Versions < 1.0.0 may not be 'stable'";
         }
         $verinfo = explode('.', $info['version']);
