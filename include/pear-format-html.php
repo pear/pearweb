@@ -309,10 +309,7 @@ function error_handler($errobj, $title = "Error")
     if ($info) {
         $report .= ": $info";
     }
-    for ($i = 0; $i < 3; $i++) {
-        $report .= "</TD></TR></TABLE>";
-    }
-    print "<font color=\"#990000\"><b>$report</b></font><br />\n";
+    print "<span class=\"error\">$report</span><br />\n";
     response_footer();
     exit;
 }

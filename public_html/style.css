@@ -151,11 +151,8 @@ form {
 }
 
 .error {
-	font-size: 120%;
-    color: #0;
-    background-color: #fee;
-    border: 1px solid #c00;
-    padding: 5px;
+    font-weight: bold;
+    color: #900;
 }
 
 .tip {
