@@ -156,6 +156,23 @@ if (empty($action)) {
         print ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
         print ' was released on ' . make_utc_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
         print ' (<a href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
+
+        if ($pkg['releases'][$versions[0]]['state'] != 'stable') {
+            foreach ($pkg['releases'] as $rel_ver => $rel_arr) {
+                if ($rel_arr['state'] == 'stable') {
+                    print "<br />\n";
+                    print '<a href="/get/' . htmlspecialchars($name) . '-';
+                    print $rel_ver . '.tgz">' . $rel_ver . '</a>';
+                    print ' (stable)';
+                    print ' was released on ';
+                    print make_utc_date(strtotime($rel_arr['releasedate']),
+                                        'Y-m-d');
+                    print ' (<a href="/package/' . htmlspecialchars($name);
+                    print '/download/' . $rel_ver . '">Changelog</a>)';
+                    break;
+                }
+            }
+        }
     } else {
         print 'No releases have been made yet.';
     }
