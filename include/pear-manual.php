@@ -18,36 +18,38 @@
    $Id$
 */
 
-require_once "site.php";
+require_once 'site.php';
 
-$doc_languages = array("en" => "English", 
-                       "fr" => "French",
-                       "ja" => "Japanese",
-                       "hu" => "Hungarian",
+$doc_languages = array('en' => 'English', 
+                       'fr' => 'French',
+                       'ja' => 'Japanese',
+                       'hu' => 'Hungarian',
                        /*
-                         "de" => "German", 
-                         "it" => "Italian", 
+                         'de' => 'German', 
+                         'it' => 'Italian', 
                        */
-                       "nl" => "Dutch", 
-                       "ru" => "Russian");
+                       'nl' => 'Dutch', 
+                       'ru' => 'Russian');
 
 $NEXT = $PREV = $UP = $HOME = array(false, false);
 $TOC = array();
 
 $SIDEBAR_DATA = '';
 
-function setupNavigation($data) {
+function setupNavigation($data)
+{
     global $NEXT, $PREV, $UP, $HOME, $TOC, $tstamp;
-    $HOME = @$data["home"];
-    $HOME[0] = "./";
-    $NEXT = @$data["next"];
-    $PREV = @$data["prev"];
-    $UP   = @$data["up"];
-    $TOC =  @$data["toc"];
-    $tstamp = gmdate("D, d M Y",getlastmod());
+    $HOME = @$data['home'];
+    $HOME[0] = './';
+    $NEXT = @$data['next'];
+    $PREV = @$data['prev'];
+    $UP   = @$data['up'];
+    $TOC =  @$data['toc'];
+    $tstamp = gmdate('D, d M Y',getlastmod());
 }
 
-function makeBorderTOC($this) {
+function makeBorderTOC($this)
+{
     global $NEXT, $PREV, $UP, $HOME, $TOC, $DOCUMENT_ROOT;
     global $SIDEBAR_DATA, $LANG,$CHARSET;
 
@@ -113,7 +115,8 @@ function makeBorderTOC($this) {
     $SIDEBAR_DATA .= "<!-- END MANUAL'S SIDEBAR TOC -->\n\n-";
 }
 
-function navigationBar($title,$id,$loc) {
+function navigationBar($title, $id, $loc)
+{
     global $NEXT, $PREV, $tstamp,$CHARSET;
 
     echo '<table class="man-nav" border="0" width="620" bgcolor="#e0e0e0" cellpadding="0" cellspacing="4">';
@@ -157,13 +160,11 @@ function navigationBar($title,$id,$loc) {
     echo ' </tr>';
     echo "\n";
 
-    echo ' <tr class="man-nav_space" bgcolor="#cccccc" height="1">';
+    echo ' <tr class="man-nav_space" height="1">';
     echo "\n";
     echo '  <td class="man-nav_space" colspan="2" height="1">';
-    echo "\n";
-    spacer(1,1);
-    echo "\n";
-    echo '  </td>';
+    echo '<hr class="greyline" width="100%" />';
+    echo '</td>';
     echo "\n";
     echo ' </tr>';
     echo "\n";
@@ -249,17 +250,19 @@ function navigationBar($title,$id,$loc) {
 
 }
 
-function sendManualHeaders($charset,$lang) {
+function sendManualHeaders($charset, $lang)
+{
         global $LANG,$CHARSET;
         $LANG = $lang;
         $CHARSET = $charset;
-    Header("Cache-Control: public, max-age=600");
-    Header("Vary: Cookie");
-    Header("Content-type: text/html;charset=$charset");
-    Header("Content-language: $lang");
+    Header('Cache-Control: public, max-age=600"';
+    Header('Vary: Cookie');
+    Header('Content-type: text/html;charset='$charset);
+    Header('Content-language: '$lang);
 }
 
-function manualHeader($title,$id="") {
+function manualHeader($title, $id = '')
+{
     global $HTDIG, $LANGUAGES, $LANG, $SIDEBAR_DATA, $dbh;
 
     makeBorderTOC($title);
@@ -267,13 +270,13 @@ function manualHeader($title,$id="") {
     /**
      * Show link to the package info file?
      */
-    if (strstr(basename($_SERVER['PHP_SELF']), "packages.")
-        && substr_count($_SERVER['PHP_SELF'], ".") > 2) {
+    if (strstr(basename($_SERVER['PHP_SELF']), 'packages.')
+        && substr_count($_SERVER['PHP_SELF'], '.') > 2) {
 
         $package = substr(basename($_SERVER['PHP_SELF']), 0, (strlen(basename($_SERVER['PHP_SELF'])) - 4));
-        $package = preg_replace("/(.*)\./", "", $package);
+        $package = preg_replace("/(.*)\./", '', $package);
 
-        $query = "SELECT id FROM packages WHERE LCASE(name) = LCASE('" . $package . "')";
+        $query = 'SELECT id FROM packages WHERE LCASE(name) = LCASE('.$dbh->quoteSmart($package).')';
         $sth = $dbh->query($query);
         $row = $sth->fetchRow();
 
@@ -282,10 +285,10 @@ function manualHeader($title,$id="") {
 
             echo "<div align=\"center\"><br /><br />\n";
 
-            $bb = new Borderbox("Download");
+            $bb = new Borderbox('Download');
 
             echo "<div align=\"left\">\n";
-            print_link("/package-info.php?pacid=" . $row[0], make_image("box-0.gif") . " Package info");
+            print_link("/package-info.php?pacid=" . $row[0], make_image('box-0.gif') . ' Package info');
             echo "</div>\n";
             $bb->end();
 
@@ -299,14 +302,15 @@ function manualHeader($title,$id="") {
     response_header('Manual: '.$title);
         # create links to plain html and other languages
     if (!$HTDIG) {
-        navigationBar($title, $id, "top");
+        navigationBar($title, $id, 'top');
     }
 }
 
-function manualFooter($title,$id="") {
+function manualFooter($title, $id = '')
+{
     global $HTDIG;
     if (!$HTDIG) {
-        navigationBar($title, $id, "bottom");
+        navigationBar($title, $id, 'bottom');
     }
 
     response_footer();
