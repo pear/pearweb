@@ -71,7 +71,6 @@ function pear_xmlrpc_dispatcher($method_name, $params, $appdata)
         $user = '(nobody)';
     }
     $function = $xmlrpc_method_index["index"][$method_name][$type_key];
-    error_log("pearweb xmlrpc: $user calls $function($type_key)", 0);
     if (strstr($function, "::")) {
         $function = explode("::", $function);
     }
