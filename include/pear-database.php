@@ -2150,6 +2150,8 @@ class user
         if (DEVBOX == false) {
             $ok = @mail('pear-group@php.net', $subject, $msg, $xhdr,
                         '-f pear-sys@php.net');
+        } else {
+            $ok = true;
         }
 
         PEAR::popErrorHandling();
