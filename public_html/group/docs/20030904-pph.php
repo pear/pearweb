@@ -24,6 +24,14 @@ response_header("The PEAR Group: Handling Package Proposals");
 
 <h2>&raquo; Handling Package Proposals</h2>
 
+<p><strong>Important note:</strong> The information provided in this 
+document has been superseded by the web-based proposal interface 
+<a href="/pepr/">PEPr</a>.  Details on the proposal process are 
+explained in the <a href="/manual/en/guide-newmaint.php">New Maintainers&apos;
+Guide</a> that is part of the PEAR manual.</p>
+
+<?php echo hdelim(); ?>
+
 <p>Published: 04th September 2003</p>
 
 <p>Proposed packages cannot be released without going through the following
