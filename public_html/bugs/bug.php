@@ -621,7 +621,7 @@ if ($edit == 1 || $edit == 2) {
       </td>
      </tr>
      <tr>
-      <th class="details">Category:</th>
+      <th class="details">Package:</th>
       <td colspan="3">
        <select name="in[package_name]">
         <?php show_types($_POST['in']['package_name'], 0, $bug['package_name']) ?>
