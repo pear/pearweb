@@ -289,8 +289,8 @@ function package_link($name)
     }
 }
 
-function display_stat_header($total, $grandtotal = true) {
-    global $dbh;
+function display_stat_header($total, $grandtotal = true)
+{
     if ($grandtotal) {
         $stat_head = '<tr class="bug_header"><td><strong>Name</strong></td>
             <td>&nbsp;</td>';
