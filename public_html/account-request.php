@@ -169,6 +169,7 @@ MSG;
         'Download PEAR Packages.',
         'Submit patches/bugs.',
         'Suggest new features.',
+	'Planning to write a PEAR Package',
         'Browse ' . PEAR_CHANNELNAME . '.'
         );
     $purposechecks = '';
@@ -199,7 +200,7 @@ MSG;
             . '<p class="cell_note">(Check all that apply)</p>',
             $purposechecks);
     $form->addTextarea('purpose',
-            'Short summary of package that you intend to propose:',
+            'Short summary of package that you have finished and are ready to propose:',
             stripslashes(@$_POST['purpose']), 40, 5, null);
     $form->addTextarea('moreinfo',
             'More relevant information about you:'
