@@ -845,8 +845,12 @@ class package
      */
     function getDependants($package) {
         global $dbh;
-
-        $query = "SELECT p.name AS p_name FROM deps d, packages p " .
+        $query = 'SELECT p.name AS p_name, ' .
+            ' MAX(r.version) AS max_dep, ' .
+            ' MAX(rm.version) as max_pkg ' .
+            'FROM deps d, packages p ' .
+            '  LEFT JOIN releases AS r ON (r.id = d.release) ' . 
+            '  LEFT JOIN releases AS rm ON (rm.package = d.package) ' . 
             "WHERE d.package = p.id AND d.type = 'pkg' " .
             "      AND d.name = ? " .
             "GROUP BY d.package";

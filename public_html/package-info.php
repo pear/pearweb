@@ -206,7 +206,11 @@ if (empty($action)) {
 
         foreach ($dependants as $dep) {
             $obj =& new PEAR_Package($dbh, $dep['p_name']);
-            echo '<li>' . $obj->makeLink() . '</li>';
+            echo '<li>' . $obj->makeLink();
+            if ($dep['max_dep'] != $dep['max_pkg']) {
+                echo ' (versions &lt;= ' . $dep['max_dep'] . ')';
+            }
+            echo "</li>\n";
         }
 
         echo '</ul>';
