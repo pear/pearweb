@@ -50,6 +50,15 @@ feeds available for your viewing pleasure:</p>
       <li>For all other users, the same scheme as shown above applies</li>
     </ul>
   </li>
+  <li>PEPr proposal feeds:
+    <ul>
+      <li><?php echo make_link('/feeds/pepr.rss'); ?>: Last recent proposals</li>
+      <li><?php echo make_link('/feeds/pepr_draft.rss'); ?>: Last recent proposals with status "Draft"</li>
+      <li><?php echo make_link('/feeds/pepr_proposal.rss'); ?>: Last recent proposals with status "Proposal"</li>
+      <li><?php echo make_link('/feeds/pepr_vote.rss'); ?>: Last recent proposals with status "Vote"</li>
+      <li><?php echo make_link('/feeds/pepr_finished.rss'); ?>: Last recent proposals with status "Finished"</li>
+    </ul>
+  </li>
 </ul>
 
 <p>If you have questions or suggestions about the RSS service, please
