@@ -43,6 +43,11 @@ if (isset($_SERVER['PEAR_TARBALL_DIR'])) {
 } else {
     define('PEAR_TARBALL_DIR', '/var/lib/pear'); 
 }
+if (isset($_SERVER['PEAR_CHM_DIR'])) {
+    define('PEAR_CHM_DIR', $_SERVER['PEAR_CHM_DIR']);
+} else {
+    define('PEAR_CHM_DIR', $_SERVER['DOCUMENT_ROOT'] . "/distributions/manual/"); 
+}
 if (isset($_SERVER['PEAR_PATCHES'])) {
     define('PEAR_PATCHES', $_SERVER['PEAR_PATCHES']);
 } else {
