@@ -528,7 +528,7 @@ class package
         if ($include_pecl) {
             $package_type = "";
         } else {
-            $package_type = "p.package_type = 'pear' AND ";
+            $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
         }
 
         $packageinfo = $dbh->getAssoc("SELECT p.name, p.id AS packageid, ".
@@ -539,7 +539,6 @@ class package
             "m.handle AS lead ".
             " FROM packages p, categories c, maintains m ".
             "WHERE " . $package_type .
-            "p.approved = 1 AND " .
             " c.id = p.category ".
             "  AND p.id = m.package ".
             "  AND m.role = 'lead' ".
@@ -548,14 +547,12 @@ class package
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
             "FROM packages p, releases r ".
             "WHERE " . $package_type .
-            "p.approved = 1 AND " .
             "p.id = r.package ".
             "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
         $stablereleases = $dbh->getAssoc(
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
             "FROM packages p, releases r ".
             "WHERE " . $package_type .
-            "p.approved = 1 AND " .
             "p.id = r.package ".
             ($released_only ? "AND r.state = 'stable' " : "").
             "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
