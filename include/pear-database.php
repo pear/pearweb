@@ -2404,23 +2404,24 @@ class channel
         if ($time === null) {
             $time = time();
         }
-        if (strtotime('August 1, 2004') > $time) {
+        if (strtotime('August 16, 2004') > $time) {
             // this is the current PEAR channel's channel.xml
             return '<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/channel-1.0">
+<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/channel-1.0.dtd">
 <channel version="1.0">
  <name>pear</name>
  <summary>PHP Extension and Application Repository</summary>
- <server>pear.php.net</server>
- <provides>
-  <protocol type="xml-rpc" version="1.0">logintest</protocol>
-  <protocol type="xml-rpc" version="1.0">package.listLatestReleases</protocol>
-  <protocol type="xml-rpc" version="1.0">package.listAll</protocol>
-  <protocol type="xml-rpc" version="1.0">package.info</protocol>
-  <protocol type="xml-rpc" version="1.0">package.getDownloadURL</protocol>
-  <protocol type="xml-rpc" version="1.0">channel.listAll</protocol>
-  <protocol type="xml-rpc" version="1.0">channel.update</protocol>
- </provides>
+ <protocols>
+  <xmlrpc host="pear.php.net">
+   <protocol type="xml-rpc" version="1.0">logintest</protocol>
+   <protocol type="xml-rpc" version="1.0">package.listLatestReleases</protocol>
+   <protocol type="xml-rpc" version="1.0">package.listAll</protocol>
+   <protocol type="xml-rpc" version="1.0">package.info</protocol>
+   <protocol type="xml-rpc" version="1.0">package.getDownloadURL</protocol>
+   <protocol type="xml-rpc" version="1.0">channel.listAll</protocol>
+   <protocol type="xml-rpc" version="1.0">channel.update</protocol>
+  </xmlrpc>
+ </protocols>
 </channel>';
         }
         return false;
