@@ -272,7 +272,7 @@ if ($_POST['in'] && $edit == 3) {
         if ($bug['email'] != $_POST['in']['email'] &&
             !empty($_POST['in']['email']))
         {
-            $query .=  "email='{$_POST['in']['email']}',";
+            $query .= " email='{$_POST['in']['email']}',";
         }
 
         if (!empty($_POST['in']['assign']) && $_POST['in']['status'] == 'Open') {
