@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
-<xs:schema targetNamespace="http://pear.php.net/dtd/tasks-1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://pear.php.net/dtd/tasks-1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns="http://pear.php.net/dtd/tasks-1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pear.php.net/dtd/tasks-1.0" elementFormDefault="qualified" attributeFormDefault="unqualified">
  <xs:element name="replace">
   <xs:annotation>
    <xs:documentation>standard PEAR str_replace() in-file replacement</xs:documentation>
@@ -27,6 +28,16 @@
  <xs:element name="preinstallscript">
   <xs:annotation>
    <xs:documentation>standard PEAR pre-installation script - must be used in a role="php" file</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="unixeol">
+  <xs:annotation>
+   <xs:documentation>standard PEAR unix line endings package-time replacement</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="windowseol">
+  <xs:annotation>
+   <xs:documentation>standard PEAR windows line ending package-time replacement</xs:documentation>
   </xs:annotation>
  </xs:element>
 </xs:schema>
