@@ -35,7 +35,11 @@ $basepath = "/home/mj/cvs/peardoc/en/package/";
 
 $vfs = new VFS_file(array("vfsroot" => $basepath));
 
-$dbh = DB::connect("mysql://pear:pear@localhost/pear");
+$options = array(
+    'persistent' => false,
+    'portability' => DB_PORTABILITY_ALL,
+);
+$dbh =& DB::connect("mysql://pear:pear@localhost/pear", $options);
 if (DB::isError($dbh)) {
     exit(1);
 }

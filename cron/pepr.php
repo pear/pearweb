@@ -42,7 +42,11 @@ require_once 'pear-database.php';
  * Get the database class.
  */
 require_once 'DB.php';
-$dbh =& DB::connect(PEAR_DATABASE_DSN);
+$options = array(
+    'persistent' => false,
+    'portability' => DB_PORTABILITY_ALL,
+);
+$dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 if (DB::isError($dbh)) {
     die ("Failed to connect: $dsn\n");
 }

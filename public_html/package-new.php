@@ -53,7 +53,7 @@ do {
             break;
         }
 
-        $dbh->expectError(DB_ERROR_ALREADY_EXISTS);
+        $dbh->expectError(DB_ERROR_CONSTRAINT);
         $pkg = package::add(array(
                                   'name'        => $_POST['name'],
                                   'type'        => 'pear',
@@ -66,7 +66,7 @@ do {
                                   'lead'        => $auth_user->handle
                                   ));
         $dbh->popExpect();
-        if (DB::isError($pkg) && $pkg->getCode() == DB_ERROR_ALREADY_EXISTS) {
+        if (DB::isError($pkg) && $pkg->getCode() == DB_ERROR_CONSTRAINT) {
             error_handler("The `" . $_POST['name'] . "' package already exists!",
                           "Package already exists");
             exit;

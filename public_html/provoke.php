@@ -35,7 +35,11 @@ switch ($type) {
 	break;
 }
 
-$dbh = DB::connect($dsn);
+$options = array(
+    'persistent' => false,
+    'portability' => DB_PORTABILITY_ALL,
+);
+$dbh =& DB::connect($dsn, $options);
 if (DB::isError($dbh)) {
     die("DB::connect failed: ".DB::errorMessage($dbh)."<br />\n");
 }
@@ -49,7 +53,7 @@ $error_queries = array(
     "SELECT * FROM users WHERE fooooo = 42"   => 'DB_ERROR_NOSUCHFIELD',
     "SELECT *= FROM users"                    => 'DB_ERROR_SYNTAX',
     "CREATE TABLE users ( id INTEGER )"       => 'DB_ERROR_CANNOT_CREATE',
-    "INSERT INTO mytable VALUES(1)"           => 'DB_ERROR_ALREADY_EXISTS',
+    "INSERT INTO mytable VALUES(1)"           => 'DB_ERROR_CONSTRAINT',
     "DROP TABLE nonexistant"                  => 'DB_ERROR_NOSUCHTABLE'
 );
 

@@ -38,9 +38,9 @@ foreach ($group_comment as $group => $comment) {
 	$dbh->execute($gh1, array($group, $comment));
 	$members = $group_members[$group];
 	foreach ($members as $member) {
-		$dbh->expectError(DB_ERROR_ALREADY_EXISTS);
+		$dbh->expectError(DB_ERROR_CONSTRAINT);
 		$err = $dbh->execute($gh2, array($group, $member, $now, $me));
-		if (PEAR::isError($err) && $err->getCode() == DB_ERROR_ALREADY_EXISTS)
+		if (PEAR::isError($err) && $err->getCode() == DB_ERROR_CONSTRAINT)
 			$dupes++;
 		$dbh->popExpect();
 	}

@@ -66,7 +66,11 @@ PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_404');
 // This is needed to be able to test the downloads with "wget"
 // or the pear installer
 if (empty($dbh)) {
-    $dbh = DB::connect(PEAR_DATABASE_DSN, array('persistent' => false));
+    $options = array(
+        'persistent' => false,
+        'portability' => DB_PORTABILITY_ALL,
+    );
+    $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 }
 
 if (!isset($_SERVER['PATH_INFO']) || $_SERVER['PATH_INFO'] == '/') {

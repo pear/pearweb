@@ -26,7 +26,12 @@ require_once "PEAR/Common.php";
 require_once "Archive/Tar.php";
 
 $pkg_handler = new PEAR_Common();
-$dbh = DB::connect("mysql://pear:pear@localhost/pear");
+
+$options = array(
+    'persistent' => false,
+    'portability' => DB_PORTABILITY_ALL,
+);
+$dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 
 $query = "SELECT filename FROM apidoc_queue WHERE finished = '0000-00-00 00:00:00'";
 $rows = $dbh->getCol($query);

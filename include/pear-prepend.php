@@ -54,7 +54,11 @@ function get($name)
 }
 
 if (empty($dbh)) {
-    $dbh = DB::connect(PEAR_DATABASE_DSN, array('persistent' => false));
+    $options = array(
+        'persistent' => false,
+        'portability' => DB_PORTABILITY_ALL,
+    );
+    $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 }
 
 $tmp = filectime($_SERVER['SCRIPT_FILENAME']);

@@ -22,7 +22,12 @@ require_once "pear-config.php";
 require_once "pear-debug.php";
 require_once "pear-database.php";
 
-$dbh = DB::connect(PEAR_DATABASE_DSN, array('persistent' => true));
+$options = array(
+    'persistent' => false,
+    'portability' => DB_PORTABILITY_ALL,
+);
+$dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
+
 renumber_visitations(true);
 
 ?>

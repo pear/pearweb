@@ -2133,7 +2133,7 @@ class user
         $err = $obj->insert($handle);
 
         if (DB::isError($err)) {
-            if ($err->getCode() == DB_ERROR_ALREADY_EXISTS) {
+            if ($err->getCode() == DB_ERROR_CONSTRAINT) {
                 $data['display_form'] = true;
                 $data['jumpto'] = 'handle';
                 $errors[] = 'Sorry, that username is already taken';
