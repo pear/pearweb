@@ -258,7 +258,7 @@
 		
 		$karma = new Damblan_Karma($dbh);
 		if (isset($_COOKIE['PEAR_USER']) && $karma->has($_COOKIE['PEAR_USER'],'pear.dev')) {
-			if (!ppVote::hasVoted($dbh, $_COOKIE['PEAR_USER'], $proposal->id) && !$proposal->isFromUser($_COOKIE['PEAR_USER'])) {
+			if (!ppVote::hasVoted($dbh, $_COOKIE['PEAR_USER'], $proposal->id) && !$proposal->isOwner($_COOKIE['PEAR_USER'])) {
 				$formArray = $form->toArray();
 				echo "<form ".$formArray['attributes'].">";
 				
@@ -269,7 +269,7 @@
 				$bb->horizHeadRow("", $formArray['elements'][4]['html']);
 				$bb->horizHeadRow("", $formArray['elements'][5]['html']);
 				echo "</form>";
-			} else if ($proposal->isFromUser($_COOKIE['PEAR_USER'])) {
+			} else if ($proposal->isOwner($_COOKIE['PEAR_USER'])) {
 				$bb->fullRow("You can not vote.");
 			} else {
 				$bb->fullRow("You voted.");
