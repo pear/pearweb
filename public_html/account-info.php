@@ -50,6 +50,32 @@ response_header('User Information: ' . $handle);
 
 echo '<h1>User Information: ' . $handle . "</h1>\n";
 
+if (isset($auth_user) && is_object($auth_user) 
+    && ($auth_user->handle == $handle ||
+        auth_check('pear.admin'))) {
+
+    $nav_items = array('Edit user' => array('url' => '/account-edit.php?handle=' . $handle,
+                                            'title' => 'Edit user standing data.'),
+                       'Change password' => array('url' => '/account-edit.php?handle=' . $handle . '#password',
+                                                  'title' => 'Change your password.')
+                       );
+
+    print '<div id="nav">';
+
+    foreach ($nav_items as $title => $item) {
+        if (!empty($item['url']) && $item['url']{0} == '/') {
+            $url = $item['url'];
+        } else {
+            $url = '/package/' . $name . '/' . $item['url'];
+        }
+        print '<a href="' . $url . '"'
+            . ' title="' . $item['title'] . '"> '
+            . $title
+            . '</a>';
+    }
+
+    print '</div>';
+}
 ?>
 
 <table border="0" cellspacing="0" cellpadding="2" style="width: 100%">
