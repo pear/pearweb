@@ -24,6 +24,28 @@
      <xs:element ref="extsrc" maxOccurs="unbounded"/>
      <xs:element ref="extbin" maxOccurs="unbounded"/>
     </xs:choice>
+    <xs:element name="changelog">
+     <xs:complexType>
+      <xs:choice>
+       <xs:element name="release" maxOccurs="unbounded">
+        <xs:complexType>
+         <xs:sequence>
+          <xs:element ref="version"/>
+          <xs:element ref="date"/>
+          <xs:element ref="license"/>
+          <xs:element ref="stability"/>
+          <xs:element ref="notes"/>
+         </xs:sequence>
+        </xs:complexType>
+       </xs:element>
+       <xs:element name="file">
+        <xs:complexType>
+         <xs:attribute name="name" type="xs:string" use="required"/>
+        </xs:complexType>
+       </xs:element>
+      </xs:choice>
+     </xs:complexType>
+    </xs:element>
    </xs:sequence>
    <xs:attribute name="version" type="xs:string" use="required" fixed="2.0"/>
    <xs:attribute name="packager-version" type="xs:string">
