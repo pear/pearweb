@@ -77,7 +77,7 @@
 #
 $sapi_name = php_sapi_name();
 set_time_limit(0);
-@ob_end_flush();
+@ob_end_clean();
 ob_implicit_flush(true);
 define('WEBINSTALLER', (php_sapi_name() != 'cli' && !( substr(php_sapi_name(),0,3)=='cgi' && !isset($_SERVER['GATEWAY_INTERFACE']))));
 
