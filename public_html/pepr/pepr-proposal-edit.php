@@ -138,7 +138,7 @@
 		if (($timeline === true) || (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
 			$form->addElement('checkbox', 'next_stage', $next_stage_text);
 		} else {
-			$form->addElement('static', 'next_stage', '', 'You can set "'.@$next_stage_text.'" on '.date("Y-m-d, H:i", $timeline));
+			$form->addElement('static', 'next_stage', '', 'You can set "'.@$next_stage_text.'" on '.date("Y-m-d, H:i ", $timeline).'GMT '.date('O'));
 		}
 	}
 	
