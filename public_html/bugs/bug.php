@@ -821,7 +821,7 @@ function output_note($com_id, $ts, $email, $comment)
     if (!is_null($handle)) {
         echo $handle."</strong>\n";
     } else {
-        echo spam_protect(htmlspecialchars($email))."</b>\n";
+        echo spam_protect(htmlspecialchars($email))."</strong>\n";
     }
     echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"{$_SERVER['PHP_SELF']}?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
     echo '<pre class="note">';
