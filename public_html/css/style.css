@@ -198,6 +198,11 @@ td.form-input_center {
     background-color: #E8E8E8;
 }
 
+td.form-input input, 
+td.form-input_center input {
+    font-size: 90%;
+}
+
 p.cell_note {
     margin-top: 0.3em;
     margin-bottom: 0.2em;
