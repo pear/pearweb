@@ -453,13 +453,13 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
 
 <table>
 <tr valign="top">
-  <th><label for="category" accesskey="c"><span class="accesskey">C</span>ategory</label></th>
-  <td style="white-space: nowrap">Return bugs in <b>categories</b></td>
+  <th><label for="category" accesskey="c">Pa<span class="accesskey">c</span>kge</label></th>
+  <td style="white-space: nowrap">Return bugs for these <b>packages</b></td>
   <td><select id="category" name="package_name[]" multiple="multiple" size="6"><?php show_types($package_name,2);?></select></td>
 </tr>
 <tr valign="top">
   <th>&nbsp;</th>
-  <td style="white-space: nowrap">Return bugs <b>NOT</b> in <b>categories</b></td>
+  <td style="white-space: nowrap">Return bugs <b>NOT</b> for these <b>packages</b></td>
   <td><select name="package_nname[]" multiple="multiple" size="6"><?php show_types($package_nname,2);?></select></td>
 </tr>
 <tr valign="top">
