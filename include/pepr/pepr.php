@@ -7,18 +7,6 @@ require_once 'pear-database.php';
 require_once 'HTML/QuickForm.php';
 require_once 'Mail.php';
 
-define('PROPOSAL_STATUS_PROPOSAL_TIMELINE', (60 * 60 * 24 * 7), true); // 1 week
-define('PROPOSAL_STATUS_VOTE_TIMELINE', (60 * 60 * 24 * 7), true); // 1 week
-	
-// define('PROPOSAL_STATUS_PROPOSAL_TIMELINE', (60), true); // 1 hour
-// define('PROPOSAL_STATUS_VOTE_TIMELINE', (60), true); // 1 hour
-
-define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <pear-dev@lists.php.net>', true);
-define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>', true);
-define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>', true);
-define('PROPOSAL_EMAIL_PREFIX', '[PEPr]', true);
-define('PROPOSAL_EMAIL_POSTFIX', "\n\n\nSent by PEPr\nAutomatic proposal system at http://pear.php.net", true);
-	
 
 function shorten_string ( $string ) {
     if (strlen($string) < 80) {
