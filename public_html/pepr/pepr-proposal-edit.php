@@ -23,7 +23,7 @@
 	require_once 'HTML/BBCodeParser.php';
 	require_once 'HTML/QuickForm.php';
 
-	auth_require(false);
+	auth_require('pear.pepr');
 	
 	if (!empty($id)) {
 		$proposal = proposal::get($dbh, $id);

@@ -22,7 +22,7 @@
 	require_once 'pepr/pepr.php';
 	require_once 'HTML/QuickForm.php';
 	
-	auth_require();
+	auth_require('pear.pepr');
 	
 	if (empty($id)) {
 		PEAR::raiseError("Proposal not found.");
