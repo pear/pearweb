@@ -865,10 +865,9 @@ function get_package_mail($package_name)
     //$to[] = "pear-dev@lists.php.net";
 
     switch ($package_name) {
+        case 'Bug System':
         case 'Web Site':
             return array('pear-webmaster@lists.php.net', 'pear-webmaster@lists.php.net');
-        case 'Bug System':
-            return array('pear-dev@lists.php.net', 'pear-dev@lists.php.net');
         case 'Documentation':
             return array('pear-doc@lists.php.net', 'pear-doc@lists.php.net');
     }
