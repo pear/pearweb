@@ -2074,7 +2074,7 @@ class statistics
         if (!empty($rid)) {
             $query .= " AND rid = " . (int)$rid;
         }
-        $query .= " GROUP BY pid";
+        $query .= " GROUP BY rid ORDER BY rid DESC";
 
         return $dbh->getAll($query, DB_FETCHMODE_ASSOC);
     }
