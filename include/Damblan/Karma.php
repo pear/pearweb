@@ -39,7 +39,7 @@ class Damblan_Karma {
      * @param  object Instance of PEAR::DB
      */
     function Damblan_Karma(&$dbh) {
-        glboal $auth_user;
+        global $auth_user;
 
         $this->_dbh = $dbh;
 
