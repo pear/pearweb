@@ -106,17 +106,22 @@ if (isset($_POST['submit'])) {
         $errors[] = 'Incorrect CAPTCHA';
     }
 
-    //XXX: Add email validation here
     if ($_POST['name'] == '') {
         $errors[] = 'You have to specify your name.';
+    } elseif (preg_match('/[\r\n\t]/', $_POST['name'])) {
+        $errors[] = 'Your name is invalid.';
     }
 
     if ($_POST['email'] == '') {
         $errors[] = 'You have to specify your email address.';
+    } elseif (preg_match('/[,\s]/', $_POST['email'])) {
+        $errors[] = 'Your email address is invalid.';
     }
 
     if ($_POST['subject'] == '') {
         $errors[] = 'You have to specify the subject of your correspondence.';
+    } elseif (preg_match('/[\r\n\t]/', $_POST['subject'])) {
+        $errors[] = 'Your subject is invalid.';
     }
 
     if ($_POST['text'] == '') {
