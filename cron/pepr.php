@@ -18,7 +18,7 @@
    $Id$
 */
 		
-ini_set("include_path", ini_get("include_path").":../../include");
+ini_set("include_path", ini_get("include_path").":../include");
 
 require_once('DB.php');
 	
@@ -37,7 +37,7 @@ require_once 'pepr/pepr.php';
 // This checks if a proposal should automatically be finished
 	
 $proposals = proposal::getAll($dbh, "vote");
-	
+
 foreach ($proposals AS $id => $proposal) {
     if ($proposal->getStatus() == "vote") {
         $lastVoteDate = ($proposal->longened_date > 0) ? $proposal->longened_date : $proposal->vote_date;
