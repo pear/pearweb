@@ -1783,7 +1783,7 @@ END;
     function remove($package, $release)
     {
         global $dbh, $auth_user;
-        if (!$auth_user->isAdmin() &&
+        if (!$auth_user->isAdmin() && !$auth_user->isQA() &&
             !user::maintains($auth_user->handle, $package, 'lead')) {
             return PEAR::raiseError('release::remove: insufficient privileges');
         }
