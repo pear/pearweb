@@ -43,10 +43,19 @@
 #  > cli/php -r "readfile('http://pear.php.net/go-pear');" > go-pear
 #  > cli/php go-pear
 #
+# In PHP 5.0.0, the PHP CLI binary is php.exe
+#
+#  > php -r "readfile('http://pear.php.net/go-pear');" > go-pear
+#  > php go-pear
+#
 # Installation: Notes
 #
 # - If using the CGI version of PHP, append the -q option to suppress
 #   headers in the output.
+# - By default, go-pear will install a system-wide configuration file.  For
+#   a local install use:
+#   > php go-pear local
+#
 # - Once the go-pear script is initiated, you will see instructions on
 #   how to continue installing PEAR.  The first thing you should see is:
 #
@@ -86,7 +95,7 @@ ini_set('html_errors', WEBINSTALLER);
 ini_set('magic_quotes_runtime', false);
 error_reporting( E_ALL & ~E_NOTICE);
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
-define('GO_PEAR_VER', '0.4.2');
+define('GO_PEAR_VER', '0.5.0');
 
 define('WIN32GUI', !WEBINSTALLER && WINDOWS && $sapi_name=='cli' && which('cscript'));
 
@@ -275,13 +284,24 @@ if (!WEBINSTALLER) {
         $tty = fopen('php://stdin', 'r');
     }
 
+    $local = isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'local';
+    if ($local) {
+        $local = "
+Running in local install mode
+";
+    } elseif (WINDOWS) {
+        $local = "
+Use 'php " . $_SERVER['argv'][0] . " local' to install a local copy of PEAR.
+";
+    }
     print "Welcome to go-pear!
 
 Go-pear will install the 'pear' command and all the files needed by
 it.  This command is your tool for PEAR installation and maintenance.
-
+$local
 Go-pear also lets you download and install the PEAR packages bundled
 with PHP: " . implode(', ', $pfc_packages) . ".
+
 
 If you wish to abort, press Control-C now, or press Enter to continue: ";
 
@@ -663,7 +683,7 @@ include_once "PEAR/Config.php";
 include_once "PEAR/Command.php";
 include_once "PEAR/Registry.php";
 
-if (WEBINSTALLER) {
+if (WEBINSTALLER || isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'local') {
     $config = &PEAR_Config::singleton($prefix."/pear.conf", '');
 } else {
     $config = &PEAR_Config::singleton();
@@ -759,8 +779,8 @@ Currently used php.ini (guess) : $php_ini
     $pear_cmd = WINDOWS ? strtolower($pear_cmd).'.bat' : $pear_cmd;
 
     // check that the installed pear and the one in tha path are the same (if any)
-    $pear_old = which('pear', $bin_dir);
-    if ($pear_old && $pear_old != $pear_cmd) {
+    $pear_old = which(WINDOWS ? 'pear.bat' : 'pear', $bin_dir);
+    if ($pear_old && ($pear_old != $pear_cmd)) {
         // check if it is a link or symlink
         $islink = WINDOWS ? false : is_link($pear_old) ;
         if ($islink && readlink($pear_old) != $pear_cmd) {
@@ -952,6 +972,12 @@ function which($program, $dont_search_in = false)
         } else {
             $dirs = explode(';', my_env('PATH'));
         }
+        foreach ($dirs as $i => $dir) {
+            $dirs[$i] = strtolower(realpath($dir));
+        }
+        if ($dont_search_in) {
+            $dont_search_in = strtolower(realpath($dont_search_in));
+        }
         if ($dont_search_in &&
             ($key = array_search($dont_search_in, $dirs)) !== false)
         {
@@ -959,11 +985,24 @@ function which($program, $dont_search_in = false)
         }
 
         foreach ($dirs as $dir) {
-            $tmp = "$dir\\$program";
-            if (file_exists($ret = "$tmp.exe") ||
-                file_exists($ret = "$tmp.com") ||
-                file_exists($ret = "$tmp.bat") ||
-                file_exists($ret = "$tmp.cmd")) {
+            $dir = str_replace('\\\\', '\\', $dir);
+            if (!strlen($dir)) {
+                continue;
+            }
+            if ($dir{strlen($dir) - 1} != '\\') {
+                $dir .= '\\';
+            }
+            $tmp = $dir . $program;
+            $info = pathinfo($tmp);
+            if (in_array(strtolower($info['extension']),
+                  array('exe', 'com', 'bat', 'cmd'))) {
+                if (file_exists($tmp)) {
+                    return strtolower($tmp);
+                }
+            } elseif (file_exists($ret = $tmp . '.exe') ||
+                file_exists($ret = $tmp . '.com') ||
+                file_exists($ret = $tmp . '.bat') ||
+                file_exists($ret = $tmp . '.cmd')) {
                 return strtolower($ret);
             }
         }
@@ -1160,7 +1199,9 @@ function detect_install_dirs($_prefix = null) {
         }
 
         if (!@is_dir($prefix)) {
-            if (@is_dir('c:\php4')) {
+            if (@is_dir('c:\php5')) {
+                $prefix = 'c:\php5';
+            } elseif (@is_dir('c:\php4')) {
                 $prefix = 'c:\php4';
             } elseif (@is_dir('c:\php')) {
                 $prefix = 'c:\php';
@@ -1196,6 +1237,8 @@ function detect_install_dirs($_prefix = null) {
         if (!is_file($php_bin)) {
             if (is_file('c:/php/cli/php.exe')) {
                 $php_bin = 'c:/php/cli/php.exe';
+            } elseif (is_file('c:/php5/php.exe')) {
+                $php_bin = 'c:/php5/php.exe';
             } elseif (is_file('c:/php4/cli/php.exe')) {
                 $php_bin = 'c:/php4/cli/php.exe';
             }
