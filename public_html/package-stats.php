@@ -333,20 +333,20 @@ if (@!$_GET['pid']) {
 	?>
 <table border="0" width="100%">
 	<tr>
-		<td style="width: 25%;">Total Packages:</td>
+		<td style="width: 25%;">Total&nbsp;Packages:</td>
 		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_packages?></td>
-		<td style="width: 25%;">Total Releases:</td>
+		<td style="width: 25%;">Total&nbsp;Releases:</td>
 		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_releases?></td>
 	</tr>
 	<tr>
-		<td style="width: 25%;">Total Maintainers:</td>
+		<td style="width: 25%;">Total&nbsp;Maintainers:</td>
 		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_maintainers?></td>
-		<td style="width: 25%;">Total Categories:</td>
+		<td style="width: 25%;">Total&nbsp;Categories:</td>
 		<td align="center" style="width: 25%; background-color: #CCCCCC;"><?=$total_categories?></td>
 	</tr>
     <?php
      if(empty($_GET['cid'])) {
-         echo "<tr>\n<td width=\"25%\">\nTotal Downloads:</td>\n<td width=\"25%\" align=\"center\" bgcolor=\"#cccccc\">$total_downloads</td>\n</tr>\n";
+         echo "<tr>\n<td width=\"25%\">\nTotal&nbsp;Downloads:</td>\n<td width=\"25%\" align=\"center\" bgcolor=\"#cccccc\">$total_downloads</td>\n</tr>\n";
      }
    ?>
 </table>
