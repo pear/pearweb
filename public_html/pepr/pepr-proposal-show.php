@@ -254,8 +254,8 @@
 	} else if (($proposal->status == 'finished')) {
 		$bb = new BorderBox("Vote on this proposal", "100%", "", 2, true);
 		$bb->fullRow("This proposal is finished.");
-		$bb->horizHeadRow("Sum votes:", $proposalVotesSum);
-		if ($proposalVotesSum >= 5) {
+		$bb->horizHeadRow("Sum votes:", $proposalVotesSum['all']." (".$proposalVotesSum['conditional'].")");
+		if ($proposalVotesSum['all'] >= 5) {
 			$bb->fullRow("This proposal has been accepted.");
 		} else {
 			$bb->fullRow("This proposal has not been accepted.");
