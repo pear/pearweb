@@ -63,12 +63,15 @@ if (isset($_COOKIE['PEAR_USER'])) {
 }
 echo menu_link("Bug System", "bugs/index.php");
 
-echo '</div>';
-if (user::isAdmin($_COOKIE['PEAR_USER'])) {
-    echo '<h2>Administrators</h2>';
-    echo '<div class="indent">';
-    echo menu_link("Overview", "/admin/");
-    echo '</div>';
+echo '</div>'
+
+if (isset($_COOKIE['PEAR_USER'])) {
+    if (user::isAdmin($_COOKIE['PEAR_USER'])) {
+        echo '<h2>Administrators</h2>';
+        echo '<div class="indent">';
+        echo menu_link("Overview", "/admin/");
+        echo '</div>';
+    }
 }
 
 
