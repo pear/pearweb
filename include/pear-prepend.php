@@ -57,7 +57,8 @@ if (empty($dbh)) {
     $dbh = DB::connect(PEAR_DATABASE_DSN, array('persistent' => false));
 }
 
-$LAST_UPDATED = date("D M d H:i:s Y T", filectime($_SERVER['SCRIPT_FILENAME']));
+$tmp = filectime($_SERVER['SCRIPT_FILENAME']);
+$LAST_UPDATED = date('D M d H:i:s Y', $tmp - date('Z', $tmp)) . ' UTC';
 
 if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
     auth_logout();
