@@ -53,6 +53,10 @@ class Damblan_Log_Mail extends Log_observer {
      * @return void
      */
     function notify($event) {
+        if (DEVBOX) {
+            return;
+        }
+
         $ok = $this->_mailer->send($this->_recipients, $this->_headers, $event['message']);
 
         if ($ok === false) {
