@@ -519,6 +519,18 @@ function display_warnings($warnings)
 }
 
 /**
+ * Prints a message saying the action succeeded
+ *
+ * @param string $in  the string to be displayed
+ *
+ * @return void
+ */
+function display_bug_success($in)
+{
+    echo '<div class="success">' . $in . "</div>\n";
+}
+
+/**
  * Send an email notice about bug aditions and edits
  *
  * @param
