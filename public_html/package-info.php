@@ -126,7 +126,12 @@ if (!isset($redirected) || ($redirected !== true)) {
     $url .= 'package/';
 }
 $url .= $params['package|pacid'];
-
+if ($action != 'trackbacks') {
+    $url .= '/'.$action;
+}
+if (!empty($version)) {
+    $url .= '/'.$version;
+}
 // Get trackback autodiscovery code
 $tmpTrackback = Services_Trackback::create(array(
     'id'            => $name,
