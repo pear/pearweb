@@ -123,7 +123,7 @@ function navigationBar($title,$id,$loc) {
                    make_image('caret-l.gif', 'previous') .
                            @htmlspecialchars($PREV[1], ENT_QUOTES, $CHARSET),
                    false,
-                   'accesskey="r"'
+                   ($loc == 'top' ? 'accesskey="r"' : false)
         );
         echo '&nbsp;&nbsp;<small>(P<u>r</u>evious)</small>';
     }
@@ -139,7 +139,7 @@ function navigationBar($title,$id,$loc) {
                    @htmlspecialchars($NEXT[1], ENT_QUOTES, $CHARSET) .
                            make_image('caret-r.gif', 'next'),
                    false,
-                   'accesskey="x"'
+                   ($loc == 'top' ? 'accesskey="x"' : false)
         );
     }
     echo "\n";
