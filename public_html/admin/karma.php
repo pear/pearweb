@@ -35,9 +35,9 @@ if (empty($_POST['handle']) && empty($_GET['handle'])) {
     $karma = new Damblan_Karma($dbh);
 
     if (!empty($_POST['handle'])) {
-        $handle = $_POST['handle'];
+        $handle = trim($_POST['handle']);
     } else {
-        $handle = $_GET['handle'];
+        $handle = trim($_GET['handle']);
     }
 
     if (!empty($_GET['action'])) {
