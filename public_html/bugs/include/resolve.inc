@@ -46,7 +46,7 @@ Thank you for the report, and for helping us make PEAR better.',
     'status' => 'Closed',
     'desc' => 'Fixed in release',
     'message' =>
-'Thank you for your bug report. This issue has already been fixed
+'Thank you for your bug report. This issue has been fixed
 in the latest released version of the package, which you can download at 
 http://pear.php.net/packages.php',
   ),
