@@ -272,7 +272,7 @@ print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
 		 <td align="right" valign="top">
 		  <small>
 	      Last updated: <?php echo $LAST_UPDATED; ?><br />
-	      Bandwidth and hardware provided by: <?php print_link("http://www.pair.com/", "pair Networks"); ?>
+	      Bandwidth and hardware provided by: <?php ($_SERVER['SERVER_NAME'] == "pear.php.net" ? print_link("http://www.pair.com/", "pair Networks") : print "<i>This is an unofficial mirror!</i>"); ?>
 	      </small>
 		 </td>
 		</tr>
