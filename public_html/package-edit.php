@@ -222,5 +222,11 @@ echo "</table>\n";
 
 $bb->end();
 
+echo "<br /><br />\n";
+
+$bb = new Borderbox("Delete Package");
+print_link("/package-delete.php?id=" . $_GET['id'], make_image("delete.gif") . " Delete the package from the website.");
+$bb->end();
+
 response_footer();
 ?>

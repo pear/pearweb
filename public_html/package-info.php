@@ -137,8 +137,6 @@ $nav_items = array('Main'          => array('url'   => '',
 if (isset($auth_user) && is_object($auth_user)) {
     $nav_items['Edit']             = array('url'   => '/package-edit.php?id='.$pacid,
                                            'title' => 'Edit this package"');
-    $nav_items['Delete']           = array('url'   => '/package-delete.php?id='.$pacid,
-                                           'title' => 'Delete this package');
     $nav_items['Edit Maintainers'] = array('url'   => '/admin/package-maintainers.php?pid='.$pacid,
                                            'title' => 'Edit the maintainers of this package');
 }
