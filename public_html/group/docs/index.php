@@ -17,21 +17,6 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-response_header("The PEAR Group: Administrative Documents");
+
+localRedirect("/group/");
 ?>
-
-<h1>PEAR Group - Administrative Documents</h1>
-
-<ul>
-  <li>26th Februray 2004:  <?php echo make_link("20040226-vn.php", "Version Naming"); ?></li>
-  <li>14th November 2003:  <?php echo make_link("20031114-pds.php", "Package Directory Structure"); ?></li>
-  <li>14th November 2003:  <?php echo make_link("20031114-pcl.php", "Forming of the PEAR core list"); ?></li>
-  <li>14th November 2003:  <?php echo make_link("20031114-bbr.php", "New guidelines for BC breaking releases"); ?></li>
-  <li>04th September 2003: <?php echo make_link("20030904-pph.php", "Handling Package Proposals"); ?></li>
-  <li>20th August 2003: <?php echo make_link("20030820-vm.php", "Handling Votings and Membership"); ?></li>
-</ul>
-
-<?php
-response_footer();
-?>
-
