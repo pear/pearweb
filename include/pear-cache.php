@@ -30,6 +30,7 @@ $cache_files = array("/credits.php" => "",
                      "/dtd/index.php" => "",
                      "/feeds/index.php" => "",
                      "/download-docs.php" => "",
+                     "/account-info.php" => $_SERVER['PHP_SELF'],
                      // "/packages.php" => @$_GET['catpid'] . @$_GET['showempty'] . "__" . @$_GET['hideMoreInfo'] . "__" . @$_GET['showMoreInfo']
                      );
 
@@ -41,7 +42,8 @@ $cache_dirs  = array("/news" => "",
                      "/manual/en" => "",
                      "/manual/ja" => "",
                      "/manual/nl" => "",
-                     "/manual/ri" => ""
+                     "/manual/ri" => "",
+                     "/user" => $_SERVER['PHP_SELF']
                      );
 
 if (!in_array($_SERVER['PHP_SELF'], array_keys($cache_files)) &&
