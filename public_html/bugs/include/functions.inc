@@ -625,7 +625,7 @@ function show_bugs_menu($pkgname)
     $webpkgs = array('Web Site', 'Documentation', 'Bug System', 'PEPr');
     $home    = true;
 
-    foreach ($pkgname as $key => &$value) {
+    foreach ($pkgname as $key => $value) {
         if (!preg_match('/^[A-Za-z0-9_ ]+$/', $value)) {
             return;
         }
