@@ -177,7 +177,7 @@ if (isset($cmd) && $cmd == 'display') {
 <tr bgcolor="#aaaaaa">
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">ID#</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">Date</a></th>
-  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=package_name">Type</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=package_name">Package</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=status">Status</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=php_version">Version</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=php_os">OS</a></th>
