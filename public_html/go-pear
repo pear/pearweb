@@ -674,7 +674,6 @@ if ($install_pfc) {
         $msg = str_pad("Downloading package: $pkg", max(38,21+strlen($pkg)+4), '.');
         print $msg;
         $url = sprintf($urltemplate, $pkg);
-	echo "URL: $url\n\n";
         $tarball[$pkg] = download_url($url, null, $http_proxy);
         print "ok\n";
         displayHTMLProgress($progress += round(65 / count($to_install)));
