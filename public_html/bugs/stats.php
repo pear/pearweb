@@ -72,7 +72,10 @@ if ($_GET['developer'] && $_GET['developer'] != '') {
     $query .= ' LEFT JOIN maintains ON p.id = maintains.package';
 }
 
-if (empty($_GET['bug_type']) || $_GET['bug_type'] == 'All') {
+if (empty($_GET['bug_type'])) {
+    $bug_type = 'Bug';
+    $_GET['bug_type'] = 'Bug';
+} elseif ($_GET['bug_type'] == 'All') {
     $bug_type = '';
 } else {
     $bug_type = $_GET['bug_type'];
