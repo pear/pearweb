@@ -60,6 +60,13 @@ $state_types =  array (
     'All'          => 0
 );
 
+// Items that need bug tracking but aren't real packages
+$pseudo_pkgs = array(
+    'Web Site',
+    'Documentation',
+    'Bug System',
+    'PEPr',
+);
 
 /**
  * Obfuscates email addresses to hinder spammer's spiders
@@ -821,12 +828,12 @@ function addlinks($text)
  */
 function package_exists($type)
 {
-    global $dbh;
+    global $dbh, $pseudo_pkgs;
 
     if (empty($type)) {
         return false;
     }
-    if (in_array($type, array('Web Site', 'Documentation', 'Bug System', 'PEPr'))) {
+    if (in_array($type, $pseudo_pkgs)) {
         return true;
     }
     $found = $dbh->getOne('SELECT count(*) FROM packages WHERE packages.name=' . "'" . $type ."'");
@@ -971,21 +978,20 @@ function format_search_string($search)
  */
 function show_bugs_menu($pkgname)
 {
-    global $dbh;
+    global $dbh, $pseudo_pkgs;
 
     if (empty($pkgname)) {
         return;
     }
 
     $pkgname = (array)$pkgname;
-    $webpkgs = array('Web Site', 'Documentation', 'Bug System', 'PEPr');
     $home    = true;
 
     foreach ($pkgname as $key => $value) {
         if (!preg_match('/^[A-Za-z0-9_ ]+$/', $value)) {
             return;
         }
-        if (in_array($value, $webpkgs)) {
+        if (in_array($value, $pseudo_pkgs)) {
             $home = false;
             $pkgname[$key] = strtr($value, ' ', '+');
         }
