@@ -43,6 +43,7 @@
  * @copyright Copyright (c) 2004 The PHP Group
  * @license   http://www.php.net/license/3_0.txt  PHP License
  * @version   $Id$
+ * @see       generate_captcha(), validate_captcha()
  */
 
 if (!isset($_SESSION['captcha'])) {

@@ -976,6 +976,8 @@ function print_package_navigation($pacid, $name, $action)
  * because some of the fonts don't handle them.
  *
  * @return string  the CAPTCHA image and form intut
+ *
+ * @see validate_captcha(), captcha-image.php
  */
 function generate_captcha() {
     if (!isset($_SESSION['captcha'])) {
@@ -1004,6 +1006,8 @@ function generate_captcha() {
  * a correctly guessed CAPTCHA value.
  *
  * @return bool  true if input matches captcha, false if not
+ *
+ * @see generate_captcha(), captcha-image.php
  */
 function validate_captcha() {
     if (!isset($_POST['captcha']) ||
