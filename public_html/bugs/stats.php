@@ -1,15 +1,13 @@
 <?php
-require_once 'bugs/prepend.inc';
+require_once './include/prepend.inc';
 error_reporting(E_ALL ^ E_NOTICE);
-$extra_styles[] = '/bugs/style.css';
 response_header('Bugs Stat');
 
-$sql   = '';
+$sql .= 'LEFT JOIN packages ON packages.name = bugdb.package_name ';
 $where = '';
 if (($_GET['category'] && $_GET['category'] != '') 
     || ($_GET['developer'] && $_GET['developer'] != '')) {
     $where = 'WHERE';
-    $sql .= 'LEFT JOIN packages ON packages.name = bugdb.package_name ';
 }
 if ($_GET['category'] && $_GET['category'] != '') {
     !empty($_GET['developer']) ? $and = ' AND ' : '';
