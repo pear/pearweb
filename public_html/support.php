@@ -213,7 +213,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
         echo '  <td class="form-input_center">' . ($listinfo[3] ? 'yes' : 'no') . "</td>\n";
         echo '  <td class="form-input_center">' . ($listinfo[4] ? make_link("http://marc.theaimsgroup.com/?l=".$listinfo[0], 'yes') : 'n/a') . "</td>\n";
         echo '  <td class="form-input_center">' . ($listinfo[6] ? make_link("news://news.php.net/".$listinfo[6], 'yes') . ' ' . make_link("http://news.php.net/group.php?group=".$listinfo[6], 'http') : 'n/a') . "</td>\n";
-        echo '  <td class="form-input_center"><input name="maillist[' . $listinfo[0] . ']" type="radio" value="regular" /></td>';
+        echo '  <td class="form-input_center"><input name="maillist[' . $listinfo[0] . ']" type="radio" value="normal" /></td>';
         echo '  <td class="form-input_center">' . ($listinfo[5] ? '<input name="maillist[' . $listinfo[0] . ']" type="radio" value="digest" />' : 'n/a' ) . "</td>\n";
         echo ' </tr>' . "\n";
     }
