@@ -136,7 +136,7 @@
 										<td><span class="moreInfoText">More information</span></td>
 										<td align="right">
 											<?if($_browser->is_ie5up):?>
-												<a href="javascript: toggleMoreInfo(<?=$p['id']?>)"><img class="closeButton" src="gifs/close.gif" border="0" /></a>
+												<a href="javascript: toggleMoreInfo(<?="'".$p['name']."'"?>,<?=$p['id']?>)"><img class="closeButton" src="gifs/close.gif" border="0" /></a>
 											<?endif?>
 										</td>
 									</tr>
