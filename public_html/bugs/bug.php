@@ -58,16 +58,17 @@ if (!empty($_POST['pw'])) {
     if (empty($_POST['user'])) {
         $user = '';
     } else {
-        $user = $_POST['user'];
+        $user = rinse($_POST['user']);
     }
-    $pw = $_POST['pw'];
+    $pw = rinse($_POST['pw']);
 } elseif (isset($_COOKIE['PEAR_USER']) &&
           isset($_COOKIE['PEAR_PW']) &&
           $edit == 1) {
-    $user = $_COOKIE['PEAR_USER'];
-    $pw   = $_COOKIE['PEAR_PW'];
+    $user = rinse($_COOKIE['PEAR_USER']);
+    $pw   = rinse($_COOKIE['PEAR_PW']);
 } elseif (isset($_COOKIE['MAGIC_COOKIE'])) {
     @list($user, $pw) = explode(':', base64_decode($_COOKIE['MAGIC_COOKIE']));
+    $user = rinse($user);
     if ($pw === null) {
         $pw = '';
     }
@@ -100,7 +101,7 @@ if (!$bug) {
 # Delete comment
 if ($edit == 1 && isset($delete_comment)) {
     $addon = '';
-    if (in_array($user, $trusted_developers) && verify_password($user,stripslashes($pw))) {
+    if (in_array($user, $trusted_developers) && verify_password($user, $pw)) {
         delete_comment($id, $delete_comment);
         $addon = '&thanks=1';
     }
@@ -120,15 +121,15 @@ if ($_POST['in'] && $edit == 3) {
     }
 
     # Don't allow comments by the original report submitter
-    if (stripslashes($_POST['in']['commentemail']) == $bug['email']) {
+    if (rinse($_POST['in']['commentemail']) == $bug['email']) {
         localRedirect($_SERVER['PHP_SELF'] . "?id=$id&edit=2");
         exit();
     }
 
     # check that they aren't using a php.net mail address without
     # being authenticated (oh, the horror!)
-    if (preg_match('/^(.+)@php\.net/i', stripslashes($_POST['in']['commentemail']), $m)) {
-        if ($user != stripslashes($m[1]) || !verify_password($user,$pass)) {
+    if (preg_match('/^(.+)@php\.net/i', rinse($_POST['in']['commentemail']), $m)) {
+        if ($user != rinse($m[1]) || !verify_password($user, $pass)) {
             $errors[] = "You have to be logged in as a developer to use your php.net email address.";
             $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
         }
@@ -148,12 +149,12 @@ if ($_POST['in'] && $edit == 3) {
                  " '" . escapeSQL($ncomment) . "')";
         $dbh->query($query);
     }
-    $from = stripslashes($_POST['in']['commentemail']);
+    $from = rinse($_POST['in']['commentemail']);
 
 } elseif ($_POST['in'] && $edit == 2) {
     // Edits submitted by original reporter
 
-    if (!$bug['passwd'] || $bug['passwd'] != stripslashes($pw)) {
+    if (!$bug['passwd'] || $bug['passwd'] != $pw) {
         $errors[] = 'The password you supplied was incorrect.';
     }
 
@@ -171,7 +172,7 @@ if ($_POST['in'] && $edit == 3) {
     # check that they aren't changing the mail to a php.net address
     # (gosh, somebody might be fooled!)
     if (preg_match('/^(.+)@php\.net/i', $_POST['in']['email'], $m)) {
-        if ($user != $m[1] || !verify_password($user,$pass)) {
+        if ($user != $m[1] || !verify_password($user, $pass)) {
             $errors[] = 'You have to be logged in as a developer to use your php.net email address.';
             $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
         }
@@ -211,7 +212,7 @@ if ($_POST['in'] && $edit == 3) {
 } elseif ($_POST['in'] && $edit == 1) {
     // Edits submitted by developer
 
-    if (!verify_password($user, stripslashes($pw))) {
+    if (!verify_password($user, $pw)) {
         $errors[] = "You have to login first in order to edit the bug report.";
         $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
     }
@@ -238,12 +239,12 @@ if ($_POST['in'] && $edit == 3) {
                 $_POST['in']['status'] = $RESOLVE_REASONS[$_POST['in']['resolve']]['status'];
             }
             require './include/resolve.inc';
-            $ncomment = addslashes($RESOLVE_REASONS[$_POST['in']['resolve']]['message'])
+            $ncomment = escapeSQL($RESOLVE_REASONS[$_POST['in']['resolve']]['message'])
                       . "\n\n$ncomment";
         }
     }
 
-    $query = "SELECT email FROM users WHERE handle = '" . $user . "'";
+    $query = "SELECT email FROM users WHERE handle = '" . escapeSQL($user) . "'";
     $from =& $dbh->getOne($query);
     if (!$from) {
         $from = $user . '@php.net';
@@ -435,7 +436,7 @@ if ($edit == 1 || $edit == 2) {
 
     if ($edit == 2) {
         if (!$_POST['in'] && $pw && $bug['passwd'] &&
-            stripslashes($pw) == $bug['passwd']) {
+            $pw == $bug['passwd']) {
 
             ?>
 
@@ -474,7 +475,7 @@ if ($edit == 1 || $edit == 2) {
                <th class="details">Passw<span class="accesskey">o</span>rd:</th>
                <td>
                 <input type="password" name="pw"
-                 value="<?php echo clean($pw) ?>" size="10" maxlength="20"
+                 value="<?php echo htmlspecialchars($pw) ?>" size="10" maxlength="20"
                  accesskey="o" />
                </td>
                <th class="details">
@@ -494,7 +495,7 @@ if ($edit == 1 || $edit == 2) {
             <?php
         }
     } else {
-        if ($user && $pw && verify_password($user, stripslashes($pw))) {
+        if ($user && $pw && verify_password($user, $pw)) {
             if (!$_POST['in']) {
                 ?>
 
@@ -530,9 +531,9 @@ if ($edit == 1 || $edit == 2) {
 <table>
 <tr>
   <th class="details">CVS Username:</th>
-  <td><input type="text" name="user" value="<?php echo clean($user) ?>" size="10" maxlength="20" /></td>
+  <td><input type="text" name="user" value="<?php echo htmlspecialchars($user) ?>" size="10" maxlength="20" /></td>
   <th class="details">CVS Password:</th>
-  <td><input type="password" name="pw" value="<?php echo clean($pw) ?>" size="10" maxlength="20" /></td>
+  <td><input type="password" name="pw" value="<?php echo htmlspecialchars($pw) ?>" size="10" maxlength="20" /></td>
   <th class="details">
    <label for="save">Remember:</label>
   </th>
