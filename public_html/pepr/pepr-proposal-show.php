@@ -35,7 +35,7 @@
 	if (isset($_COOKIE['PEAR_USER']) && ($proposal->getStatus() == 'vote')) {
 		$form = new HTML_QuickForm('vote', 'post', 'pepr-proposal-show.php?id='.$id);
 		$form->setDefaults(array('value' => 1));
-		$form->addElement('select', 'value', '', array(1 => '+1', 0 => '0', -1 => '-1'));
+		$form->addElement('select', 'value', '', array(1 => '+1', 0 => '0', -1 => '-1'), 'id="vote_field"');
 		$form->addElement('checkbox', 'conditional', 'conditional', '', null, 1);
 		$form->addElement('textarea', 'comment', null, array('cols' => 30, 'rows' => 6));
 		$form->addElement('select', 'reviews', '', $proposalReviewsMap, array('size' => count($proposalReviewsMap), 'multiple' => 'multiple'));
@@ -79,7 +79,7 @@
 	
 	if (isset($_COOKIE['PEAR_USER']) && ($proposal->getStatus() == 'proposal')) {
 		$form = new HTML_QuickForm('comment', 'post', 'pepr-proposal-show.php?id='.$id);
-		$form->addElement('textarea', 'comment', null, array('cols' => 70, 'rows' => 6));
+		$form->addElement('textarea', 'comment', null, array('cols' => 70, 'rows' => 6, 'id' => 'comment_field'));
 		$form->addElement('static', '', '', '<small>Your comment will also be sent to the <strong>pear-dev</strong> mailing list.<br />
 		      <strong>Please do not respond to other developers comments</strong>.<br />
 		      The author himself is responsible to reflect comments in an acceptable way.</small>');
@@ -217,7 +217,7 @@
 			$formArray = $form->toArray();
 			echo "<form ".$formArray['attributes'].">";
 			$bb = new BorderBox('Comment on this proposal', '90%', '', 2, true);
-			$bb->horizHeadRow('Comment:', $formArray['elements'][0]['html']);
+			$bb->horizHeadRow('<label for="comment_field" accesskey="o">C<u>o</u>mment:</label>', $formArray['elements'][0]['html']);
 			$bb->horizHeadRow('', $formArray['elements'][1]['html']);
 			$bb->horizHeadRow('', $formArray['elements'][2]['html']);
 			if (isset($_GET['comment']) && ($_GET['comment'] == 1)) {
@@ -283,7 +283,7 @@
 				$formArray = $form->toArray();
 				echo "<form ".$formArray['attributes'].">";
 				
-				$bb->horizHeadRow('Vote', $formArray['elements'][0]['html']." ".$formArray['elements'][0]['label']);
+				$bb->horizHeadRow('<label for="vote_field" accesskey="o">V<u>o</u>te</label>', $formArray['elements'][0]['html']." ".$formArray['elements'][0]['label']);
 				$bb->horizHeadRow('', $formArray['elements'][1]['html']." ".$formArray['elements'][1]['label']);
 				$bb->horizHeadRow('Comment', $formArray['elements'][2]['html']);
 				$bb->horizHeadRow('Reviews', $formArray['elements'][3]['html'].$formArray['elements'][3]['label']);
