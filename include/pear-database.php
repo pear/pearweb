@@ -1654,9 +1654,8 @@ class release
      * Log release download
      *
      * @param integer ID of the package
-     * @param string Version string of the release
+     * @param integer ID of the release
      * @param string Filename
-     * @return boolean
      */
     function logDownload($package, $release_id, $file = null)
     {
@@ -1672,11 +1671,33 @@ class release
                                          gethostbyaddr($_SERVER['REMOTE_ADDR'])
                                          ));
 
-        if (DB::isError($err)) {
-            return false;
+        // {{{ Update package_stats table
+
+        // Check if an entry for the release already exists
+        $query = "SELECT COUNT(pid) FROM package_stats WHERE pid = ? AND rid = ?";
+        $exists = $dbh->getOne($query, array($package, $release_id));
+
+        if ($exists == 0) {
+            $pkg_info = package::info($package);
+            $query = "SELECT version FROM releases WHERE package = ? AND id = ?";
+            $version = $dbh->getOne($query, array($package, $release_id));
+
+            $query = "INSERT INTO package_stats VALUES (1, ?, ?, ?, ?, ?)";
+            $dbh->query($query, array($pkg_info['name'],
+                                      $version,
+                                      $package,
+                                      $release_id,
+                                      $pkg_info['categoryid']
+                                      )
+                        );
         } else {
-            return true;
+            $query = "UPDATE package_stats "
+                . " SET dl_number = dl_number + 1 "
+                . " WHERE pid = ? AND rid = ?";
+            $dbh->query($query, array($package, $release_id));
         }
+
+        // }}}
     }
 
     // }}}
