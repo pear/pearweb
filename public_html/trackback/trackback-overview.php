@@ -44,8 +44,8 @@ function printPager($pager, $max, $unapprovedOnly)
         }
     }
     if ($pager['current'] != $pager['numpages']) {
-        print '&nbsp;&nbsp;&nbsp;<a href="/trackback/trackback-overview.php?offset='.$pager['pages'][$pager['lastpage']].$req.'">&gt;</a>';
-        print '&nbsp;&nbsp;&nbsp;<a href="/trackback/trackback-overview.php?offset='.$pager['next'].$req.'">&gt;&gt;</a>';
+        print '&nbsp;&nbsp;&nbsp;<a href="/trackback/trackback-overview.php?offset='.$pager['next'].$req.'">&gt;</a>';
+        print '&nbsp;&nbsp;&nbsp;<a href="/trackback/trackback-overview.php?offset='.$pager['pages'][$pager['lastpage']].$req.'">&gt;&gt;</a>';
     } else {
         print '&nbsp;&nbsp;&gt;&nbsp;';
         print '&nbsp;&nbsp;&gt;&gt;';
