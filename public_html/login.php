@@ -18,6 +18,19 @@
    $Id$
 */
 
+/*
+ * If the PHPSESSID cookie isn't set, the user MAY have cookies turned off.
+ * To figure out cookies are REALLY off, check to see if the person came
+ * from within the PEAR website or just submitted the login form.
+ */
+if (!isset($_COOKIE['PHPSESSID']) &&
+    ((strpos(@$_SERVER['HTTP_REFERER'], @$_GET['redirect']) !== false) ||
+     (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']))
+    )
+) {
+    auth_reject(PEAR_AUTH_REALM, 'Cookies must be enabled to log in.');
+}
+
 if (auth_verify(@$_POST['PEAR_USER'], @$_POST['PEAR_PW'])) {
     if (!empty($_POST['PEAR_PERSIST'])) {
         $expire = 2147483647;
@@ -55,4 +68,5 @@ if (isset($_POST['PEAR_USER']) || isset($_POST['PEAR_PW'])) {
 }
 
 auth_reject(PEAR_AUTH_REALM, $msg);
+
 ?>
