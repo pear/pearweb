@@ -50,6 +50,11 @@ $GLOBALS['developer_menu'] = array(
     '/package-new.php'     => 'New Package'
 );
 
+$GLOBALS['proposal_menu'] = array(
+    '/pepr/'               => 'Browse proposals',
+    '/pepr/pepr-proposal-new.php'  => 'New proposal'
+);
+
 $GLOBALS['admin_menu'] = array(
     '/admin/'                     => 'Overview'
 );
@@ -76,7 +81,9 @@ function response_header($title = 'The PHP Extension and Application Repository'
         if (!empty($auth_user)) {
             if (!empty($auth_user->registered)) {
                 global $developer_menu;
+                global $proposal_menu;
                 $SIDEBAR_DATA .= draw_navigation($developer_menu, 'Developers:');
+                $SIDEBAR_DATA .= draw_navigation($proposal_menu, 'Package proposals:');
             }
             if ($auth_user->isAdmin()) {
                 global $admin_menu;

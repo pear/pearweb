@@ -51,7 +51,7 @@ support resources</a>.</p>
 echo hdelim();
 
 if (isset($_COOKIE['PEAR_USER'])) {
-	echo '<h2>Package Proposals (PEPr Live Test)</h2>';
+	echo '<h2>Package Proposals (PEPr)</h2>';
 	echo '<div class="indent">';
 	echo menu_link("Browse Proposals", "pepr/pepr-overview.php");
 	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
