@@ -809,8 +809,9 @@ if ($bug['ldesc']) {
 // Display comments
 $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, 
         u.showemail, u.handle
-        FROM bugdb_comments c, users u       
-        WHERE u.email = c.email AND c.bug = '.(int)$id.'
+        FROM bugdb_comments c
+        LEFT JOIN users u ON u.email = c.email    
+        WHERE c.bug = '.(int)$id.'
         GROUP BY c.id ORDER BY c.ts';
 $res =& $dbh->query($query);
 if ($res) {
