@@ -292,7 +292,6 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;author_email='. urlencode(stripslashes($author_email)) .
                     '&amp;bug_type='    . $bug_type .
                     '&amp;bug_age='     . $bug_age .
-                    '&amp;by='          . $by .
                     '&amp;order_by='    . $order_by .
                     '&amp;direction='   . $direction .
                     '&amp;phpver='      . $phpver .
@@ -354,6 +353,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         exit;
     }
 }
+
 display_bug_error($errors);
 display_bug_error($warnings, 'warnings', 'WARNING:');
 
