@@ -374,6 +374,11 @@
    <xs:simpleContent>
     <xs:extension base="xs:string">
      <xs:attribute name="channel" type="xs:string" use="required"/>
+     <xs:attribute name="subpackageof" type="xs:string">
+      <xs:annotation>
+       <xs:documentation>name of the parent package if this is a subpackage</xs:documentation>
+      </xs:annotation>
+     </xs:attribute>
     </xs:extension>
    </xs:simpleContent>
   </xs:complexType>
@@ -448,6 +453,18 @@
  </xs:complexType>
  <xs:complexType name="dependenciesType">
   <xs:sequence>
+   <xs:element name="pearinstaller" minOccurs="0">
+    <xs:annotation>
+     <xs:documentation>PEAR installer version required</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+     <xs:sequence>
+      <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
+     </xs:sequence>
+     <xs:attribute name="min" type="version" use="required"/>
+     <xs:attribute name="max" type="version"/>
+    </xs:complexType>
+   </xs:element>
    <xs:element name="php" type="phpDependencyType">
     <xs:annotation>
      <xs:documentation>PHP version dependency</xs:documentation>
@@ -508,5 +525,9 @@
    </xs:choice>
   </xs:complexType>
  </xs:element>
- <xs:element name="extends" type="xs:string"/>
+ <xs:element name="extends" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>for BC-breaking releases, this defines a link between this package and the earlier version</xs:documentation>
+  </xs:annotation>
+ </xs:element>
 </xs:schema>
