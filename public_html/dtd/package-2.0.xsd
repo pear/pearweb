@@ -209,8 +209,8 @@
   </xs:annotation>
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="installconditions"/>
-    <xs:element ref="filelist"/>
+    <xs:element ref="installconditions" minOccurs="0"/>
+    <xs:element ref="filelist" minOccurs="0"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
@@ -218,12 +218,7 @@
   <xs:annotation>
    <xs:documentation>for bundling several releases together in one release</xs:documentation>
   </xs:annotation>
-  <xs:complexType>
-   <xs:sequence>
-    <xs:element ref="installconditions" minOccurs="0"/>
-    <xs:element ref="filelist"/>
-   </xs:sequence>
-  </xs:complexType>
+  <xs:complexType/>
  </xs:element>
  <xs:element name="filelist">
   <xs:complexType>
