@@ -27,7 +27,7 @@ switch ($_POST['search_in']) {
 	case 'packages':
 		localRedirect('/package-search.php?pkg_name='
                       . urlencode($_POST['search_string'])
-                                  . '&bool=AND&submit=Search');
+                                  . '&bool=AND&submit=Search#results');
 		break;
 
     case 'developers':

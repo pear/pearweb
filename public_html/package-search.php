@@ -199,7 +199,7 @@ if (!empty($_GET)) {
         $title_html  = sprintf('<table border="0" width="100%%" cellspacing="0" cellpadding="0">
                                         <tr>
                                             <td align="left" width="50"><nobr>%s</nobr></td>
-                                            <td align="center"><nobr>Search results (%s - %s of %s)</nobr></td>
+                                            <td align="center"><nobr><a href="results" />Search results (%s - %s of %s)</nobr></td>
                                             <td align="right" width="50"><nobr>%s</nobr></td>
                                         </tr>
                                     </table>',
