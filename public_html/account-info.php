@@ -73,6 +73,7 @@ if ($row['wishlist'] != "") {
     $bb->horizHeadRow("Wishlist:", make_link("/wishlist.php/" . $row['handle'], "Click here to be redirected."));
 }
 
+$bb->fullRow("Get the " . make_link("/feeds/user_" . strtolower($handle) . ".rss", "RSS feed"));
 $bb->end();
 
 print "</td><td valign=\"top\">\n";

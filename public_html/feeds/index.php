@@ -43,6 +43,13 @@ feeds available for your viewing pleasure:</p>
       <li>For all other packages, the same scheme as shown above applies</li>
     </ul>
   </li>
+  <li>Feeds per user:
+    <ul>
+      <li><?php echo make_link("/feeds/user_jon.rss"); ?>: Jon Parise (jon)</li>
+      <li><?php echo make_link("/feeds/user_mj.rss"); ?>: Martin Jansen (mj)</li>
+      <li>For all other users, the same scheme as shown above applies</li>
+    </ul>
+  </li>
 </ul>
 
 <p>If you have questions or suggestions about the RSS service, please
