@@ -169,7 +169,7 @@ MSG;
         'Download PEAR Packages.',
         'Submit patches/bugs.',
         'Suggest new features.',
-	'Planning to write a PEAR Package',
+        'Planning to write a PEAR Package',
         'Browse ' . PEAR_CHANNELNAME . '.'
         );
     $purposechecks = '';
