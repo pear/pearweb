@@ -78,6 +78,10 @@ if ($row['showemail']) {
     echo '<li>Email: &nbsp;';
     print_link('/account-mail.php?handle=' . $handle, $row['email']);
     echo "</li>\n";
+} else {
+    echo '<li>Email: &nbsp;';
+    print_link('/account-mail.php?handle=' . $handle, 'via web form');
+    echo "</li>\n";
 }
 
 if ($row['homepage']) {
@@ -88,11 +92,7 @@ if ($row['homepage']) {
 
 if ($row['wishlist']) {
     echo '<li>Wishlist: &nbsp;';
-    if (strlen($row['wishlist']) > 60) {
-        print_link($row['wishlist'], substr($row['wishlist'], 0, 60) . '...');
-    } else {
-        print_link($row['wishlist'], $row['wishlist']);
-    }
+    print_link('http://' . $_SERVER['HTTP_HOST'] . '/wishlist.php/' . $handle);
     echo "</li>\n";
 }
 
