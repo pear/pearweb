@@ -42,7 +42,8 @@ class PEAR_Web_Form extends HTML_Form {
      * @param string Default value for the select field (optional)
      * @return void
      */
-    function addPackageSelect($name, $title, $default = "") {
+    function addPackageSelect($name, $title, $default = "")
+    {
         static $values = null;
 
         if (!is_array($values)) {
@@ -53,7 +54,7 @@ class PEAR_Web_Form extends HTML_Form {
             }
         }
 
-        $this->addSelect($name, $title, $values, $default, 1);
+        $this->addSelect($name, $title, $values, $default);
     }
 
     /**
@@ -65,7 +66,8 @@ class PEAR_Web_Form extends HTML_Form {
      * @param string Default value for the select field (optional)
      * @return void
      */
-    function addUserSelect($name, $title, $default = "") {
+    function addUserSelect($name, $title, $default = "")
+    {
         static $values = null;
 
         if (!is_array($values)) {
@@ -76,7 +78,7 @@ class PEAR_Web_Form extends HTML_Form {
             }
         }
 
-        $this->addSelect($name, $title, $values, $default, 1);
+        $this->addSelect($name, $title, $values, $default);
     }
 }
 ?>
