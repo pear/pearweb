@@ -282,7 +282,7 @@ if (empty($action)) {
             print '<a href="/get/' . $name . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
             print '<b>Release date:</b> ' . date("d M Y, H:i A", strtotime($info['releasedate'])) . '<br />'; 
             print '<b>Release state:</b> ' . $info['state'] . '<br /><br />'; 
-            print '<b>Changelog:</b><br /><br />' . nl2br($info['releasenotes']) . '<br /><br />';
+            print '<b>Changelog:</b><br /><br />' . nl2br(htmlspecialchars($info['releasenotes'])) . '<br /><br />';
 
             if (!empty($info['deps']) && count($info['deps']) > 0) {
                 print '<b>Dependencies:</b>';
