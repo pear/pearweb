@@ -19,7 +19,7 @@
 */
 
 
-ini_set("include_path", ini_get("include_path").":/usr/local/www/pearweb/include");
+ini_set("include_path", ini_get("include_path").PATH_SEPARATOR."/usr/local/www/pearweb/include");
 
 require_once('DB.php');
 	
