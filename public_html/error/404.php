@@ -37,7 +37,7 @@ if ($_SERVER['REDIRECT_URL']{1} == '~') {
 }
 
 $pkg = strtr($_SERVER['REDIRECT_URL'], "-","_");
-$pinfo_url = '/package-info.php?package=';
+$pinfo_url = '/package/';
 
 // Check strictly
 $sql = "SELECT name
