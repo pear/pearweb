@@ -92,6 +92,7 @@ do {
 
 
 if ($display_form) {
+$mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing list');
     print <<<MSG
 <p>
  You only need to request an account if you:
@@ -111,8 +112,7 @@ if ($display_form) {
 
 <p>
  If the reason for your request does not fall under one of the
- reasons above, please contact the
- <?php echo make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing list'); ?>
+ reasons above, please contact the $mailto;
 </p>
 
 <p>
@@ -128,8 +128,7 @@ if ($display_form) {
   Please use the <a href="/bugs/">bug reporting system</a> for that purpose.
  </li>
  <li>
-  Propose modifications to an existing package. Please use the
-  <?php echo make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing list'); ?>
+  Propose modifications to an existing package. Please use the $mailto
   for that or directly contact the maintainers of the package in question.
  </li>
 </ul>
