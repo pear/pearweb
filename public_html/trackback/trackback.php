@@ -14,13 +14,13 @@
    | obtain it through the world-wide-web, please send a note to          |
    | license@php.net so we can mail you a copy immediately.               |
    +----------------------------------------------------------------------+
-   | Authors: Martin Jansen <mj@php.net>                                  |
-   |          Tomas V.V.Cox <cox@idecnet.com>                             |
+   | Authors: Tobias Schlitt <toby@php.net>                               |
+   |                                                                      |
    +----------------------------------------------------------------------+
    $Id$
 */
 require_once 'Damblan/Trackback.php';
-require_once 'Damblan/Mail.php';
+require_once 'Damblan/Mailer.php';
 require_once 'Damblan/URL.php';
 $site = new Damblan_URL;
 
@@ -63,18 +63,7 @@ $mailData = array(
 );
 
 $mailer = Damblan_Mail::create('Trackback_New', $mailData);
-
-$maintainers = maintainer::get($trackback->id, true);
-$additionalHeaders = array(
-    'To' => array()
-);
-foreach ($maintainers as $maintainer => $data) {
-    $tmpUser = user::info($maintainer, 'email');
-    if (empty($tmpUser['email'])) {
-        continue;
-    }
-    $additionalHeaders['To'][] = $tmpUser['email'];
-}
+$additionalHeaders['To'] = $trackback->getMaintainers();
 $res = $mailer->send($additionalHeaders);
 
 if (PEAR::isError($res)) {
