@@ -41,7 +41,7 @@ response_header('Credits');
 
 <h3>PEAR documentation team</h3>
 
-<p>The members of the documentation team can be found on the 
+<p>Representatives of the documentation team can be found on the 
 <?php print_link("/manual/en/", "front page"); ?> of the manual. The
 team can be  reached at <?php echo make_mailto_link("pear-doc@lists.php.net"); ?>.</p>
 
