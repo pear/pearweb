@@ -18,6 +18,8 @@
    $Id$
 */
 
+define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
+define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 
 $display_form = true;
@@ -173,48 +175,34 @@ MSG;
     $form = new HTML_Form($_SERVER['PHP_SELF'] . '#requestform', 'post');
 
     $form->addText('handle', 'Use<span class="accesskey">r</span>name:',
-            @$_POST['handle'], 12, 20, 'accesskey="r"',
-            'class="form-label_left"', 'class="form-input"');
+            @$_POST['handle'], 12, 20, 'accesskey="r"');
     $form->addText('firstname', 'First Name:',
-            @$_POST['firstname'], 20, null, '',
-            'class="form-label_left"', 'class="form-input"');
+            @$_POST['firstname'], 20, null);
     $form->addText('lastname', 'Last Name:',
-            @$_POST['lastname'], 20, null, '',
-            'class="form-label_left"', 'class="form-input"');
+            @$_POST['lastname'], 20, null);
     $form->addPassword('password', 'Password:',
-            '', 10, null, '',
-            'class="form-label_left"', 'class="form-input"');
-    $form->addPlaintext('CAPTCHA:',
-            generate_captcha(),
-            'class="form-label_left"', 'class="form-input"');
+            '', 10, null);
+    $form->addPlaintext('CAPTCHA:', generate_captcha());
     $form->addText('email', 'Email Address:',
-            @$_POST['email'], 20, null, '',
-            'class="form-label_left"', 'class="form-input"');
+            @$_POST['email'], 20, null);
     $form->addCheckbox('showemail', 'Show email address?',
-            @$_POST['showemail'], '',
-            'class="form-label_left"', 'class="form-input"');
+            @$_POST['showemail']);
     $form->addText('homepage', 'Homepage:',
-            @$_POST['homepage'], 20, null, '',
-            'class="form-label_left"', 'class="form-input"');
+            @$_POST['homepage'], 20, null);
     $form->addPlaintext('Purpose of your PEAR account:'
             . '<p class="cell_note">(Check all that apply)</p>',
-            $purposechecks,
-            'class="form-label_left"', 'class="form-input"');
+            $purposechecks);
     $form->addTextarea('purpose',
             'If your intended purpose is not in the list, please state it here:',
-            stripslashes(@$_POST['purpose']), 40, 5, null, '',
-            'class="form-label_left"', 'class="form-input"');
+            stripslashes(@$_POST['purpose']), 40, 5, null);
     $form->addTextarea('moreinfo',
             'More relevant information about you:'
             . '<p class="cell_note">(optional)</p>',
-            stripslashes(@$_POST['moreinfo']), 40, 5, null, '',
-            'class="form-label_left"', 'class="form-input"');
+            stripslashes(@$_POST['moreinfo']), 40, 5, null);
     $form->addCheckbox('comments_read',
             'You have read all of the comments above:',
-            @$_POST['comments_read'], '',
-            'class="form-label_left"', 'class="form-input"');
-    $form->addSubmit('submit', 'Submit Query', '',
-            'class="form-label_left"', 'class="form-input"');
+            @$_POST['comments_read']);
+    $form->addSubmit('submit', 'Submit Query');
 
     $form->display('class="form-holder" cellspacing="1"',
                    'Request Account', 'class="form-caption"');

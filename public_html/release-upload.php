@@ -21,14 +21,15 @@
 auth_require('pear.dev');
 
 define('HTML_FORM_MAX_FILE_SIZE', 16 * 1024 * 1024); // 16 MB
+define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
+define('HTML_FORM_TD_ATTR', 'class="form-input"');
+
 require_once 'HTML/Form.php';
 
 $display_form         = true;
 $display_verification = false;
 $success              = false;
 $errors               = array();
-$th                   = 'class="form-label_left"';
-$td                   = 'class="form-input"';
 
 PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
 
@@ -188,9 +189,8 @@ MSG;
     $form->addFile('distfile',
             '<label for="f" accesskey="i">D<span class="accesskey">i</span>'
             . 'stribution File</label>',
-            HTML_FORM_MAX_FILE_SIZE, 40, '', 'id="f"', $th, $td);
-    $form->addSubmit('upload', 'Upload!', '',
-            $th, $td);
+            HTML_FORM_MAX_FILE_SIZE, 40, '', 'id="f"');
+    $form->addSubmit('upload', 'Upload!');
     $form->display('class="form-holder" cellspacing="1"',
             'Upload', 'class="form-caption"');
 }
@@ -238,29 +238,20 @@ if ($display_verification) {
     }
 
     $form =& new HTML_Form($_SERVER['PHP_SELF'], 'post');
-    $form->addPlaintext('Package:', $info['package'],
-            $th, $td);
-    $form->addPlaintext('Version:', $info['version'],
-            $th, $td);
-    $form->addPlaintext('Summary:', htmlspecialchars($info['summary']),
-            $th, $td);
-    $form->addPlaintext('Description:', nl2br(htmlspecialchars($info['description'])),
-            $th, $td);
-    $form->addPlaintext('Release State:', $info['release_state'],
-            $th, $td);
-    $form->addPlaintext('Release Date:', $info['release_date'],
-            $th, $td);
-    $form->addPlaintext('Release Notes:', nl2br(htmlspecialchars($info['release_notes'])),
-            $th, $td);
+    $form->addPlaintext('Package:', $info['package']);
+    $form->addPlaintext('Version:', $info['version']);
+    $form->addPlaintext('Summary:', htmlspecialchars($info['summary']));
+    $form->addPlaintext('Description:', nl2br(htmlspecialchars($info['description'])));
+    $form->addPlaintext('Release State:', $info['release_state']);
+    $form->addPlaintext('Release Date:', $info['release_date']);
+    $form->addPlaintext('Release Notes:', nl2br(htmlspecialchars($info['release_notes'])));
 
     // Don't show the next step button when errors found
     if (!count($errors)) {
-        $form->addSubmit('verify', 'Verify Release', '',
-                $th, $td);
+        $form->addSubmit('verify', 'Verify Release');
     }
 
-    $form->addSubmit('cancel', 'Cancel', '',
-            $th, $td);
+    $form->addSubmit('cancel', 'Cancel');
     $form->addHidden('distfile', $tmpfile);
     $form->display('class="form-holder" cellspacing="1"',
             'Please verify that the following release information is correct',

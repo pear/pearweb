@@ -32,6 +32,8 @@ if (!isset($_GET['handle'])) {
     $errors = array();
 }
 
+define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
+define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 
 // {{{ printForm
@@ -48,31 +50,21 @@ function printForm($data = array())
         }
     }
 
-    $th = 'class="form-label_left"';
-    $td = 'class="form-input"';
-
     $form = new HTML_Form($_SERVER['PHP_SELF'] . '?handle=' . $_GET['handle'],
                           'post', 'contact');
 
     $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
-            $data['name'], 40, null, 'accesskey="o"',
-            $th, $td);
-    $form->addPlaintext('CAPTCHA:', generate_captcha(),
-            $th, $td);
+            $data['name'], 40, null, 'accesskey="o"');
+    $form->addPlaintext('CAPTCHA:', generate_captcha());
     $form->addText('email', 'Email Address:',
-            $data['email'], 40, null, '',
-            $th, $td);
+            $data['email'], 40, null);
     $form->addCheckBox('copy_me', 'Send me a copy of this mail:',
-            $data['copy_me'], '',
-            $th, $td);
+            $data['copy_me']);
     $form->addText('subject', 'Subject:',
-            $data['subject'], 40, null, '',
-            $th, $td);
+            $data['subject'], 40, null);
     $form->addTextarea('text', 'Text:',
-            $data['text'], 35, 10, null, '',
-            $th, $td);
-    $form->addSubmit('submit', 'Submit', '',
-            $th, $td);
+            $data['text'], 35, 10, null);
+    $form->addSubmit('submit', 'Submit');
     $form->display('class="form-holder"'
                    . ' cellspacing="1"',
                    'Send Email', 'class="form-caption"');

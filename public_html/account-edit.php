@@ -20,6 +20,8 @@
 
 auth_require();
 
+define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
+define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 
 if (isset($_GET['handle'])) {
@@ -140,40 +142,28 @@ if ($row === null) {
 }
 
 
-$th = 'class="form-label_left"';
-$td = 'class="form-input"';
-
 $form = new HTML_Form($_SERVER['PHP_SELF'], 'post');
 
 $form->addText('name', '<span class="accesskey">N</span>ame:',
-        $row['name'], 40, null, 'accesskey="n"',
-        $th, $td);
+        $row['name'], 40, null, 'accesskey="n"');
 $form->addText('email', 'Email:',
-        $row['email'], 40, null, '',
-        $th, $td);
+        $row['email'], 40, null);
 $form->addCheckbox('showemail', 'Show email address?',
-        $row['showemail'], '',
-        $th, $td);
+        $row['showemail']);
 $form->addText('homepage', 'Homepage:',
-        $row['homepage'], 40, null, '',
-        $th, $td);
+        $row['homepage'], 40, null);
 $form->addText('wishlist', 'Wishlist URI:',
-        $row['wishlist'], 40, null, '',
-        $th, $td);
+        $row['wishlist'], 40, null);
 $form->addText('pgpkeyid', 'PGP Key ID:'
         . '<p class="cell_note">(Without leading 0x)</p>',
-        $row['pgpkeyid'], 40, 8, '',
-        $th, $td);
+        $row['pgpkeyid'], 40, 8);
 $form->addTextarea('userinfo',
         'Additional User Information:',
-        $row['userinfo'], 40, 5, null, '',
-        $th, $td);
+        $row['userinfo'], 40, 5, null);
 $form->addTextarea('cvs_acl',
         'CVS Access:',
-        $cvs_acl, 40, 5, null, '',
-        $th, $td);
-$form->addSubmit('submit', 'Submit', '',
-        $th, $td);
+        $cvs_acl, 40, 5, null);
+$form->addSubmit('submit', 'Submit');
 $form->addHidden('handle', $handle);
 $form->addHidden('command', 'update');
 $form->display('class="form-holder" style="margin-bottom: 2em;"'
@@ -187,16 +177,12 @@ print '<h2>&raquo; Manage your password</h2>' . "\n";
 $form = new HTML_Form($_SERVER['PHP_SELF'], 'post');
 $form->addPlaintext('<span class="accesskey">O</span>ld Password:',
         $form->returnPassword('password_old', '', 40, 0,
-                              'accesskey="o"'),
-        $th, $td);
+                              'accesskey="o"'));
 $form->addPassword('password', 'Password',
-        '', 10, null, '',
-        $th, $td);
+        '', 10, null);
 $form->addCheckbox('PEAR_PERSIST', 'Remember username and password?',
-        '', '',
-        $th, $td);
-$form->addSubmit('submit', 'Submit', '',
-        $th, $td);
+        '');
+$form->addSubmit('submit', 'Submit');
 $form->addHidden('handle', $handle);
 $form->addHidden('command', 'change_password');
 $form->display('class="form-holder" cellspacing="1"',
