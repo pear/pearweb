@@ -143,21 +143,10 @@ function auth_check($atom)
         }
     }
 
-    if (is_string($atom)) {
-        switch ($atom) {
-            case "user" :
-            case "dev" :
-            case "admin" :
-            case "group" :
-                if (!isset($karma)) {
-                    $karma = new Damblan_Karma($dbh);
-                }
-                return $karma->has($auth_user->handle, "pear." . $atom);
-                break;
-        }
+    if (!isset($karma)) {
+        $karma = new Damblan_Karma($dbh);
     }
-
-    return true;
+    return $karma->has($auth_user->handle, "pear." . $atom);
 }
 
 function auth_require($admin = false)
