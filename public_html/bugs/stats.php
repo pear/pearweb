@@ -46,14 +46,14 @@ if ($_GET['developer'] && $_GET['developer'] != '') {
 
 }
 $where == '' ? $extra = 'WHERE ' : $extra = 'AND ';
-switch ($_SERVER['HTTP_HOST']) {
-    case 'pear.php.net':
+switch ($site) {
+    case 'pear':
         $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pear') . ' 
                         OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
                                                   '.$dbh->quoteSmart('Documentation').', '.$dbh->quoteSmart('PEPr').')';
         break;
         
-    case 'pecl.php.net':
+    case 'pecl':
         $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pecl') . ' 
                         OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
                                                   '.$dbh->quoteSmart('Documentation').')';
