@@ -1677,7 +1677,7 @@ class release
         $exists = $dbh->getOne($query, array($package, $release_id));
 
         if ($exists == 0) {
-            $pkg_info = package::info($package);
+            $pkg_info = package::info($package, null, true);
             $query = "SELECT version FROM releases WHERE package = ? AND id = ?";
             $version = $dbh->getOne($query, array($package, $release_id));
 
