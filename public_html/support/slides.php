@@ -53,22 +53,22 @@ that have been held about PEAR.</p>
 <ul>
  <li>
   <p><cite><a href="http://www.schlitt.info/download/PHP_Quebec_2005_Session_toby.pdf">
-  PEAR</cite></a></p>
+  PEAR Introduction Talk</cite></a></p>
   <ul>
     <li>Date: 2005-03-31</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
-    <li>Venue: PEAR Introduction Session, PHP Conference Quebec 2005, 
+    <li>Venue: PHP Conference Quebec 2005, 
     Montreal, Canada</li>
     <li>Language: English</li>
   </ul>
  </li>
  <li>
   <p><cite><a href="http://www.schlitt.info/download/PEAR_Workshop_Quebec_2005_toby.tar.gz">
-  PEAR</cite></a></p>
+  PEAR Workshop</cite></a></p>
   <ul>
     <li>Date: 2005-03-31</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
-    <li>Venue: PEAR Powerworkshop, PHP Conference Quebec 2005, 
+    <li>Venue: PHP Conference Quebec 2005, 
     Montreal, Canada</li>
     <li>Language: English</li>
   </ul>
@@ -183,11 +183,11 @@ that have been held about PEAR.</p>
 
  <li>
   <p><cite><a href="http://www.schlitt.info/download/PEAR_Powerworkshop_Spring_2004.tar.gz">
-  PEAR not just a fleshy pome</cite></a></p>
+  PEAR not just a fleshy pome (Powerworkshop)</cite></a></p>
   <ul>
     <li>Date: 2004-05-03</li>
     <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
-    <li>Venue: PEAR Powerworkshop, International PHP Conference Spring Edition, 
+    <li>Venue: International PHP Conference Spring Edition, 
     Amsterdam, Netherlands</li>
     <li>Language: English</li>
   </ul>
