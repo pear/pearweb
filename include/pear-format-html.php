@@ -937,6 +937,8 @@ function print_package_navigation($pacid, $name, $action)
                                                'title' => 'Edit this package');
         $nav_items['Edit Maintainers'] = array('url'   => '/admin/package-maintainers.php?pid='.$pacid,
                                                'title' => 'Edit the maintainers of this package');
+        $nav_items['Delete']           = array('url'   => '/package-delete.php?id='.$pacid,
+                                               'title' => 'Edit this package');
     }
 
     print '<div id="nav">';
