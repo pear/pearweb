@@ -307,6 +307,11 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     /* we avoid adding an order by clause if using the full text search */
     if (!strlen($search_for)) {
         $query .= ' ORDER BY ' . $order_by . ' ' . $direction;
+        
+        // if status Feedback then sort also after last updated time.
+        if ($status == 'Feedback') {
+            $query .= ', bugdb.ts2 ' . $direction;
+        }
     }
 
     if (empty($_GET['begin']) || !(int)$_GET['begin']) {
