@@ -30,7 +30,11 @@
     <tr>
         <th valign="top" align="left">
             Contents of :: <?html_category_urhere($catpid, false)?>
-            (Page <?=$currentPage?> of <?=$numPages?>)
+            <?php
+            if ($currentPage) {
+                echo '(Page ' . $currentPage . ' of ' . $numPages . ')';
+            }
+            ?>
         </th>
         <td valign="top" align="right">
             <?=$showempty_link?>
