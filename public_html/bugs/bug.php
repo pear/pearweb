@@ -122,6 +122,7 @@ if ($_POST['in'] && $edit == 3) {
     if (!isset($_SESSION['captcha']) ||
         $_SESSION['captcha'] != strtoupper($_POST['captcha']))
     {
+        unset($_SESSION['captcha']);
         $errors[] = 'Incorrect CAPTCHA';
     } else {
         unset($_SESSION['captcha']);

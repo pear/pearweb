@@ -916,6 +916,10 @@ function print_tabbed_navigation($items)
  * old image remaining in the browser's cache.  This is necessary because
  * caching can not be reliably disabled.
  *
+ * If the user's submission doesn't match <var>$_SESSION['captcha']</var>,
+ * the form validation script in question should unset()
+ * <var>$_SESSION['captcha']</var>.  This prevents brute force attacks.
+ *
  * Use upper case letters to reduce confusion with some of these fonts.
  * Input is passed through strtoupper() before comparison.
  *
