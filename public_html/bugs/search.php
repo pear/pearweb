@@ -370,7 +370,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;author_email='. urlencode(rinse($author_email)) .
                     '&amp;bug_type='    . $bug_type .
                     '&amp;bug_age='     . $bug_age .
-                    '&amp;bug_updated'  . $bug_updated .
+                    '&amp;bug_updated='  . $bug_updated .
                     '&amp;order_by='    . $order_by .
                     '&amp;direction='   . $direction .
                     '&amp;phpver='      . urlencode($phpver) .
