@@ -39,13 +39,13 @@ $GLOBALS['docu_menu'] = array(
 );
 
 $GLOBALS['downloads_menu'] = array(
-    '/packages.php'        => 'Browse Packages',
+    '/packages.php'        => 'List Packages',
     '/package-search.php'  => 'Search Packages',
-    '/package-stats.php'   => 'Download Statistics'
+    '/package-stats.php'   => 'Statistics'
 );
 
 $GLOBALS['developer_menu'] = array(
-    '/accounts.php'        => 'Account Browser',
+    '/accounts.php'        => 'List Accounts',
     '/release-upload.php'  => 'Upload Release',
     '/package-new.php'     => 'New Package'
 );
