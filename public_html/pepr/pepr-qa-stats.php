@@ -89,7 +89,7 @@ echo '<th>Draft-Date</th>';
 echo '<th>Proposer</th>';
 echo '</tr>';
 $i = 0;
-foreach ($res['orphan_proposals'] as $set) {
+foreach ($res['orphan_drafts'] as $set) {
     echo '<tr style='.(($i++ % 2 == 0) ? '"background-color: #CCCCCC;"' : '').'>';
     echo '<td class="textcell"><a href="/pepr/pepr-proposal-show.php?id='.$set['id'].'">'.$set['pkg_name'].'</a></td>';
     echo '<td class="textcell">'.getDays($set['draft_date']).' days ago<br />('.make_utc_date($set['draft_date']).')</td>';
