@@ -184,7 +184,7 @@
 			}
 		} else {
 			if (isset($proposal) && $proposal->status != 'draft') {
-				if ($values['action_email'] || (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
+				if ((isset($values['action_email']) && $values['action_email']) || (user::isAdmin($_COOKIE['PEAR_USER']) && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
 					if (empty($values['action_comment'])) {
 						PEAR::raiseError("You have to apply a comment, when you send update emails!");
 					}
