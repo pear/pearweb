@@ -35,8 +35,8 @@ if (empty($pkg['name'])) {
 }
 
 $name = $pkg['name'];
-response_header("$name Changelog");
-print '<p>' . make_link("/" . $name, 'Return') . '</p>';
+response_header($name . " Changelog");
+print '<p>' . make_link("/package/" . $name, 'Return') . '</p>';
 $bb = new Borderbox("Changelog for " . $name, "90%", "", 2, true);
 
 if (count($pkg['releases']) == 0) {
