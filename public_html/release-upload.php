@@ -90,7 +90,7 @@ do {
                 }
                 break;
             } else {
-                $pacid = package::info($info->getPackage(), 'id', true);
+                $pacid = package::info($info->getPackage(), 'id');
                 if (PEAR::isError($pacid)) {
                     $errors[] = $pacid->getMessage();
                     break;
@@ -132,7 +132,7 @@ do {
             }
         } else {
     
-            $pacid = package::info($info['package'], 'id', true);
+            $pacid = package::info($info['package'], 'id');
             if (PEAR::isError($pacid)) {
                 $errors[] = $pacid->getMessage();
                 break;
@@ -288,28 +288,23 @@ if ($display_verification) {
             }
             $errors[] = $info->getMessage();
         } else {
-            $id = package::info($info->getPackage(), 'id', true);
-            if ($id) {
-                $type = $dbh->getOne('SELECT package_type FROM packages WHERE id = ?', array($id));
+            $id = package::info($info->getPackage(), 'id');
+            $version = $info->getVersion();
+            $verinfo = explode('.', $version);
+            if (count($verinfo) != 3) {
+                $errors[] = "Versions must have 3 decimals as in x.y.z";
             }
-            if ($type == 'pear') {
-                $version = $info->getVersion();
-                $verinfo = explode('.', $version);
-                if (count($verinfo) != 3) {
-                    $errors[] = "Versions must have 3 decimals as in x.y.z";
+            if ($info->getState() == 'stable') {
+                $releases = package::info($info->getPackage(), 'releases', true);
+                if (!count($releases)) {
+                    $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
+                    "  Try releasing version 1.0.0RC1, state 'beta'";
                 }
-                if ($info->getState() == 'stable') {
-                    $releases = package::info($info->getPackage(), 'releases', true);
-                    if (!count($releases)) {
-                        $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
-                        "  Try releasing version 1.0.0RC1, state 'beta'";
-                    }
-                    if ($version{0} < 1) {
-                        $errors[] = "Versions < 1.0.0 may not be 'stable'";
-                    }
-                    if (!preg_match('/^\d+$/', $verinfo[2])) {
-                        $errors[] = "Stable versions must not have a postfix (use 'beta' for RC postfix)";
-                    }
+                if ($version{0} < 1) {
+                    $errors[] = "Versions < 1.0.0 may not be 'stable'";
+                }
+                if (!preg_match('/^\d+$/', $verinfo[2])) {
+                    $errors[] = "Stable versions must not have a postfix (use 'beta' for RC postfix)";
                 }
             }
         }
@@ -359,7 +354,7 @@ if ($display_verification) {
     
         if ($info['release_state'] == 'stable') {
             // see if this is the first release
-            $releases = package::info($info['package'], 'releases', true);
+            $releases = package::info($info['package'], 'releases');
             if (!count($releases)) {
                 $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
                     "  Try releasing version 1.0.0RC1, state 'beta'";
