@@ -161,6 +161,7 @@ $users = $dbh->query('SELECT u.handle AS handle, u.name AS name FROM users u, ma
     $_GET['developer'] == '' ? $selected = ' selected="selected"' : $selected = '';
     echo '<option value=""' . $selected . '>Select user...</option>'."\n";
     while ($u = $users->fetchRow()) {
+        var_dump($u);
         $_GET['developer'] == $u['handle'] ? $selected = ' selected="selected"' : $selected = '';
         echo '<option value="' . $u['handle'] . '"' . $selected . '>' . $u['name'] . '</option>'."\n";
     }
