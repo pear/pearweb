@@ -120,12 +120,12 @@ if ($version) {
 
 html_category_urhere($pkg['categoryid'], true);
 
-print '<h2>Package Information: '.$name;
+print '<h1>Package Information: '.$name;
 if ($version) {
     print " $version";
 }
 
-print "</h2>\n";
+print "</h1>\n";
 
 $nav_items = array('Main'          => array('url'   => '',
                                             'title' => ''),
