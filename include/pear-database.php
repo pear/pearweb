@@ -2681,14 +2681,14 @@ class channel
      * Add a new channel to the database
      * @todo add server validation
      *       - verify it is a valid server name
-     *       - connect to xmlrpc and retrieve the channel.xml
+     *       - connect and retrieve the channel.xml
      *         to verify that this is possible
      */
     function add($name, $server)
     {
         global $dbh;
-        $query = 'INSERT INTO channels (name, server) VALUES (?, ?)';
-        $err = $dbh->query($query, array($name, $server));
+        $query = 'INSERT INTO channels (name) VALUES (?)';
+        $err = $dbh->query($query, array($name));
         if (DB::isError($err)) {
             return $err;
         }
@@ -2701,7 +2701,7 @@ class channel
     // {{{ proto array   channel::listAll() API 1.0
     /**
      * List all registered channels
-     * @return array Format: array(array(channel name, server), array(channel name, server),... )
+     * @return array Format: array(array(channel server), array(channel server),... )
      */
     function listAll()
     {
@@ -2710,46 +2710,6 @@ class channel
         return $dbh->getAll($query, null, DB_FETCHMODE_ORDERED);
     }
     // }}}
-    // {{{ proto string   channel::update([int]) API 1.0
-    /**
-     * Retrieve updated channel.xml contents.
-     *
-     * If $time is newer than the last change to the channel.xml, returns
-     * false
-     * @param int timestamp retrieved from time()
-     * @return false|string
-     */
-    function update($time = null)
-    {
-        global $dbh;
-        if ($time === null) {
-            $time = time();
-        }
-        if (strtotime('December 15, 2004') > $time) {
-            // this is the current PEAR channel's channel.xml
-            return '<?xml version="1.0" encoding="ISO-8859-1"?>
-<channel version="1.0" xmlns="http://pear.php.net/channel-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/channel-1.0
-http://pear.php.net/dtd/channel-1.0.xsd">
- <name>pear.php.net</name>
- <suggestedalias>pear</suggestedalias>
- <summary>PHP Extension and Application Repository</summary>
- <servers>
-  <primary host="pear.php.net">
-   <xmlrpc>
-    <function version="1.0">logintest</function>
-    <function version="1.0">package.listLatestReleases</function>
-    <function version="1.0">package.listAll</function>
-    <function version="1.0">package.info</function>
-    <function version="1.0">package.getDownloadURL</function>
-    <function version="1.0">channel.update</function>
-    <function version="1.0">channel.listAll</function>
-   </xmlrpc>
-  </primary>
- </servers>
-</channel>';
-        }
-        return false;
-    }
 }
 
 class statistics
