@@ -133,7 +133,7 @@ you can scroll down and click the submit button to really enter the details into
             $cid = mysql_insert_id();
 
             $report = "";
-            $report .= "From:             ".spam_protect(stripslashes($in['email']))."\n";
+            $report .= "From:             ".spam_protect(stripslashes($in['email']), 'text')."\n";
             $report .= "Operating system: ".stripslashes($in['php_os'])."\n";
             $report .= "PHP version:      ".stripslashes($in['php_version'])."\n";
             $report .= "Package:          $in[package_name]\n";
@@ -150,7 +150,7 @@ you can scroll down and click the submit button to really enter the details into
 
 
             $email = stripslashes($in['email']);
-            $protected_email = '"'.spam_protect($email)."\" <$mailfrom>";
+            $protected_email = '"'.spam_protect($email, 'text')."\" <$mailfrom>";
 
             // provide shortcut URLS for "quick bug fixes"
             $dev_extra = "";

@@ -8,15 +8,23 @@
  * Turns "@" into character entities that get interpreted as "at" and
  * turns "." into character entities that get interpreted as "dot".
  *
- * @param string $txt  the email address to be obfuscated
+ * @param string $txt     the email address to be obfuscated
+ * @param string $format  how the output will be displayed ('html', 'text')
  * @return string  the altered email address
  */
-function spam_protect($txt)
+function spam_protect($txt, $format = 'html')
 {
-    $translate = array(
-        '@' => ' &#x61;&#116; ',
-        '.' => ' &#x64;&#111;&#x74; ',
-    );
+    if ($format == 'html') {
+        $translate = array(
+            '@' => ' &#x61;&#116; ',
+            '.' => ' &#x64;&#111;&#x74; ',
+        );
+    } else {
+        $translate = array(
+            '@' => ' at ',
+            '.' => ' dot ',
+        );
+    }
     return strtr($txt, $translate);
 }
 
@@ -246,12 +254,12 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
 
     switch ($edit) {
     case 3:
-        $from = spam_protect(rinse($in['commentemail']));
+        $from = spam_protect(rinse($in['commentemail']), 'text');
         $headers[] = array(" Comment by", $from);
         $from = "\"$from\" <$mailfrom>";
         break;
     case 2:
-        $from = spam_protect(txfield('email'));
+        $from = spam_protect(txfield('email'), 'text');
         $headers[] = array(" User updated by", $from);
         $from = "\"$from\" <$mailfrom>";
         break;
@@ -265,10 +273,10 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit=1)
 
     $prefix = " ";
     if (changed('email')) {
-        $headers[] = array("-Reported By", spam_protect($bug['email']));
+        $headers[] = array("-Reported By", spam_protect($bug['email']), 'text');
         $prefix = "+";
     }
-    if ($f = spam_protect(txfield('email'))) {
+    if ($f = spam_protect(txfield('email'), 'text')) {
         $headers[] = array($prefix.'Reported By', $f);
     }
 
@@ -438,7 +446,7 @@ function get_old_comments ($bug_id, $all = 0)
     }
 
     while (($row =& $res->fetchRow(DB_FETCHMODE_ORDERED)) && strlen($output) < $max_message_length && $count++ < $max_comments) {
-        $output .= "[$row[0]] ". spam_protect($row[1]) ."\n\n$row[2]\n\n$divider\n\n";
+        $output .= "[$row[0]] ". spam_protect($row[1], 'text') ."\n\n$row[2]\n\n$divider\n\n";
     }
 
     if (strlen($output) < $max_message_length && $count < $max_comments) {
@@ -446,7 +454,7 @@ function get_old_comments ($bug_id, $all = 0)
         if (!$res) return $output;
         $row =& $res->fetchRow(DB_FETCHMODE_ORDERED);
         if (!$row) return $output;
-        return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "[$row[0]] ". spam_protect($row[1]) ."\n\n$row[2]\n\n$divider\n\n");
+        return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "[$row[0]] ". spam_protect($row[1], 'text') ."\n\n$row[2]\n\n$divider\n\n");
     }
     else {
         return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "The remainder of the comments for this report are too long. To view\nthe rest of the comments, please view the bug report online at\n    http://pear.php.net/bugs/bug.php?id=$bug_id\n");
