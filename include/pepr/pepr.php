@@ -78,6 +78,25 @@ function display_pepr_nav(&$proposal)
     print_tabbed_navigation($items);
 }
 
+function display_overview_nav () 
+{
+    global $proposalStatiMap;
+    $items = array(
+        'All'       => array('url'   => 'pepr-overview.php?filter=',
+                             'title' => 'All'
+                       )
+    );
+    foreach ($proposalStatiMap as $status => $name) {
+        $items[$name] = array('url'   => 'pepr-overview.php?filter='.$status,
+                              'title' => $name
+        );
+    }
+    
+    print_tabbed_navigation($items);
+}
+    
+                      
+                     
 function shorten_string($string)
 {
     if (strlen($string) < 80) {
