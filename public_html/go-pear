@@ -1,8 +1,8 @@
 <?php //; echo; echo "YOU NEED TO RUN THIS SCRIPT WITH PHP NOW!"; echo; echo "Try this: lynx -source http://pear.php.net/go-pear | php -q"; echo; exit # -*- PHP -*-
 # +----------------------------------------------------------------------+
-# | PHP Version 4                                                        |
+# | PHP Version 5                                                        |
 # +----------------------------------------------------------------------+
-# | Copyright (c) 1997-2002 The PHP Group                                |
+# | Copyright (c) 1997-2004 The PHP Group                                |
 # +----------------------------------------------------------------------+
 # | This source file is subject to version 2.02 of the PHP license,      |
 # | that is bundled with this package in the file LICENSE, and is        |
@@ -16,6 +16,7 @@
 # |          Stig Bakken <ssb@php.net>                                   |
 # |          Christian Dickmann <dickmann@php.net>                       |
 # |          Pierre-Alain Joye <pajoye@pearfr.org>                       |
+# |          Greg Beaver <cellog@php.net>                                |
 # +----------------------------------------------------------------------+
 # $Id$
 #
