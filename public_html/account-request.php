@@ -94,6 +94,8 @@ if ($display_form) {
 
 <p>
 You only need to request an account if you
+</p>
+
 <ul>
 <li>Are planning to contribute a new package to PEAR and want to
 propose this to the PEAR developer community.</li>
@@ -103,12 +105,15 @@ needs to be approved by the current maintainers of the package or by
 the <a href=\"/group/\">PEAR Group</a>.</li>
 </ul>
 
+<p>
 If the reason for your request does not fall under one of the
 reasons above, please contact the <a href=\"mailto:pear-dev@lists.php.net\">
 PEAR developers mailing list</a>.
 </p>
 
 <p>You do <b>not</b> need an account to:
+</p>
+
 <ul>
 <li>Download, install and/or use PEAR packages.</li>
 <li>Submit patches or code improvements for a particular package. 
@@ -119,6 +124,8 @@ purpose.</li>
 list</a> for that or directly contact the maintainers of the package
 in question.</li>
 </ul>
+
+<p>
 These are not the only reasons for requests being rejected, but the most
 common ones.
 </p>
