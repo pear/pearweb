@@ -184,7 +184,7 @@
 				}
 				break;
 				
-				case 'vote':		if ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")) {
+				default:		if ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin")) {
 					$values['longened_date'] = time();
 					$proposal->status = 'vote';
 					$proposal->sendActionEmail('longened_timeline_admin', 'mixed', $_COOKIE['PEAR_USER']);
