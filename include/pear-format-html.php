@@ -173,7 +173,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
         }
     } else {
         print '<small>';
-        print '<a class="menuWhite" href="/user/' . $_COOKIE['PEAR_USER'] . '">logged in as ';
+        print '<a class="menuWhite" href="/account-edit.php?handle=' . $_COOKIE['PEAR_USER'] . '">Logged in as ';
         print strtoupper($_COOKIE['PEAR_USER']);
         print "</a></small><br />\n";
 

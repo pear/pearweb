@@ -21,10 +21,10 @@
 /**
  * Details about PEAR accounts
  */
-require_once "Damblan/URL.php";
+require_once 'Damblan/URL.php';
 $site = new Damblan_URL();
 
-$params = array("handle" => "");
+$params = array('handle' => '');
 $site->getElements($params);
 
 $handle = strtolower($params['handle']);
@@ -33,85 +33,139 @@ $handle = strtolower($params['handle']);
  * Redirect to the accounts list if no handle was specified
  */
 if (empty($handle)) {
-    localRedirect("/accounts.php");
+    localRedirect('/accounts.php');
 }
 
 $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
 
 $row = user::info($handle);
+
 if ($row === null) {
-    // XXX: make_404();
-    PEAR::raiseError("No account information found!");
+    handle_error($handle . ' is not a valid account name.', 'Invalid Account');
 }
 
-response_header($row['name']);
+response_header('User Information: ' . $handle);
 
-print "<h1>" . $row['name'] . "</h1>\n";
+echo '<h1>User Information: ' . $handle . "</h1>\n";
 
-print "<table border=\"0\" cellspacing=\"4\" cellpadding=\"0\">\n";
-print ' <tr><td valign="top" colspan="2">' . "\n\n";
+?>
 
-$bb = new BorderBox("Account Details", "100%", "", 2, true);
-$bb->horizHeadRow("Handle:", $handle);
-$bb->horizHeadRow("Name:", $row['name']);
-if ($row['showemail'] != 0) {
-    $bb->horizHeadRow("Email:", "<a href=\"/account-mail.php?handle=" . $handle . "\">".str_replace(array("@", "."), array(" at ", " dot "), $row['email'])."</a>");
-}
-if (!empty($row['pgpkeyid'])) {
-    $bb->horizHeadRow('PGP Key:',
-                      make_link('http://pgp.mit.edu:11371/pks/lookup?search=0x' .
-                                $row['pgpkeyid'] .
-                                '&amp;op=get', $row['pgpkeyid']));
-}
-if ($row['homepage'] != "") {
-    $bb->horizHeadRow("Homepage:",
-                      "<a href=\"$row[homepage]\" target=\"_blank\">".
-                      "$row[homepage]</a>");
+<table border="0" cellspacing="0" cellpadding="2" width="100%">
+ <tr>
+  <th class="headrow" colspan="2">&raquo; <?php echo $row['name']; ?></th>
+ </tr>
+
+<?php
+
+if ($row['userinfo']) {
+    echo ' <tr>' . "\n";
+    echo '  <td class="textcell" colspan="2">' . $row['userinfo'] . "</td>\n";
+    echo ' </tr>' . "\n";
 }
 
-$bb->horizHeadRow('Registered Since:', $row['created']);
+?>
 
-if ($row['userinfo'] != "") {
-    $bb->horizHeadRow('Additional Information:', empty($row['userinfo']) ? '&nbsp;' : stripslashes($row['userinfo']));
+ <tr>
+  <td colspan="2">
+   <ul>
+
+<?php
+
+if ($row['showemail']) {
+    $row['email'] = str_replace(array('@', '.'),
+                                array(' at ', ' dot '),
+                                $row['email']);
+    echo '<li>Email: &nbsp;';
+    print_link('/account-mail.php?handle=' . $handle, $row['email']);
+    echo "</li>\n";
 }
 
-if ($row['wishlist'] != "") {
-    $bb->horizHeadRow("Wishlist:", make_link("/wishlist.php/" . $row['handle'], "Click here to be redirected."));
+if ($row['homepage']) {
+    echo '<li>Homepage: &nbsp;';
+    print_link($row['homepage'], $row['homepage']);
+    echo "</li>\n";
 }
 
-$bb->fullRow(make_link('/account-edit.php?handle=' . $handle,
-                       make_image('edit.gif', 'Edit', 'right')) .
-             'Get the ' .
-             make_link('/feeds/user_' . $handle . '.rss', 'RSS feed'));
-
-$bb->end();
-
-print '</td></tr><tr><td valign="top">' . "\n";
-
-$query = "SELECT p.id, p.name, m.role
-          FROM packages p, maintains m
-          WHERE m.handle = ?
-          AND p.id = m.package
-          ORDER BY p.name";
-$maintained_pkg = $dbh->getAll($query, array($handle), DB_FETCHMODE_ASSOC);
-
-$bb = new BorderBox('Maintains These Packages', '100%', '', 2, true);
-
-if (count($maintained_pkg) > 0) {
-    $bb->headRow("Package Name", "Role");
-    foreach ($maintained_pkg as $row) {
-        $bb->plainRow("<a href=\"/package/" . $row['name'] . "\">" . $row['name'] . "</a>",
-                      $row['role']);
+if ($row['wishlist']) {
+    echo '<li>Wishlist: &nbsp;';
+    if (strlen($row['wishlist']) > 60) {
+        print_link($row['wishlist'], substr($row['wishlist'], 0, 60) . '...');
+    } else {
+        print_link($row['wishlist'], $row['wishlist']);
     }
+    echo "</li>\n";
 }
 
-$bb->end();
+if ($row['pgpkeyid']) {
+    echo '<li>PGP Key: &nbsp;';
+    print_link('http://pgp.mit.edu:11371/pks/lookup?search=0x'
+               . $row['pgpkeyid'] . '&amp;op=get',
+               $row['pgpkeyid']);
+    echo "</li>\n";
+}
 
-print '</td><td valign="top">' . "\n";
+echo '<li>RSS Feed: &nbsp;';
+print_link('http://' . $_SERVER['HTTP_HOST'] . '/feeds/user_' . $handle . '.rss');
+echo '</li>';
 
-display_user_notes($handle, "100%");
+?>
 
-print "</td></tr></table>\n";
+   </ul>
+  </td>
+ </tr>
+
+ <tr>
+  <th class="headrow" style="width: 50%">&raquo; Maintains These Packages</th>
+  <th class="headrow" style="width: 50%">&raquo; Notes Regarding User</th>
+ </tr>
+ <tr>
+  <td valign="top">
+   <ul>
+
+<?php
+
+$query = 'SELECT p.id, p.name, m.role'
+       . ' FROM packages p, maintains m'
+       . ' WHERE m.handle = ? AND p.id = m.package'
+       . ' ORDER BY p.name';
+
+$maintained_pkg = $dbh->getAll($query, array($handle));
+
+foreach ($maintained_pkg as $row) {
+    echo '<li>';
+    print_link('/package/' . $row['name'], $row['name']);
+    echo ' &nbsp;(' . $row['role'] . ")</li>\n";
+}
+
+?>
+
+   </ul>
+  </td>
+  <td valign="top">
+   <ul>
+
+<?php
+
+$notes = $dbh->getAll('SELECT id, nby, ntime, note FROM notes'
+                      . ' WHERE uid = ? ORDER BY ntime',
+                      array($handle));
+
+foreach ($notes as $nid => $data) {
+    echo ' <li>' . "\n";
+    echo '' . $data['nby'] . ' ';
+    echo substr($data['ntime'], 0, 10) . ":<br />\n";
+    echo htmlspecialchars($data['note']);
+    echo "\n </li>\n";
+}
+
+?>
+
+   </ul>
+  </td>
+ </tr>
+</table>
+
+<?php
 
 response_footer();
 
