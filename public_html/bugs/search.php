@@ -265,7 +265,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         if (!$rows) {
             show_bugs_menu($_GET['package_name'][0]);
             $errors[] = 'No bugs were found.';
-            display_errors($errors);
+            display_bug_error($errors);
         } else {
             $package_name_string = '';
             if (count($_GET['package_name']) > 0) {
@@ -321,7 +321,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             <?php
 
             if ($warnings) {
-                display_warnings($warnings);
+                display_bug_warning($warnings);
             }
 
             while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
@@ -358,10 +358,10 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 }
 
 if ($errors) {
-    display_errors($errors);
+    display_bug_error($errors);
 }
 if ($warnings) {
-    display_warnings($warnings);
+    display_bug_warning($warnings);
 }
 
 ?>

@@ -431,7 +431,7 @@ control(2, 'Edit Submission');
 <?php
 
 if ($errors) {
-    display_errors($errors);
+    display_bug_error($errors);
 }
 
 if ($edit == 1 || $edit == 2) {

@@ -481,7 +481,7 @@ function show_boolean_options($current)
  *
  * @return void
  */
-function display_errors($errors)
+function display_bug_error($errors)
 {
     echo '<div class="errors">';
     if (count($errors) > 1) {
@@ -503,7 +503,7 @@ function display_errors($errors)
  *
  * @return void
  */
-function display_warnings($warnings)
+function display_bug_warning($warnings)
 {
     echo '<div class="warnings">';
     if (count($warnings) > 1) {

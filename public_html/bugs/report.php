@@ -266,7 +266,7 @@ if ($_POST['in']) {
 if (!package_exists($package)) {
     $errors[] = 'Package &quot;' . $package . '&quot; does not exist.';
     response_header("Report - Invalid bug type");
-    display_errors($errors);
+    display_bug_error($errors);
 } else {
     if (!isset($_POST['in'])) {
         response_header('Report - New');
@@ -304,7 +304,7 @@ if (!package_exists($package)) {
     }
 
     if ($errors) {
-        display_errors($errors);
+        display_bug_error($errors);
     }
 
     ?>
