@@ -23,8 +23,10 @@
  */
 require_once './include/prepend.inc';
 
-
 error_reporting(E_ALL ^ E_NOTICE);
+
+$category  = $_GET['category'];
+$developer = $_GET['developer'];
 
 $dbh->setFetchMode(DB_FETCHMODE_ASSOC);
 
@@ -50,15 +52,19 @@ if ($_GET['developer'] && $_GET['developer'] != '') {
 $where == '' ? $extra = 'WHERE ' : $extra = 'AND ';
 switch ($site) {
     case 'pear':
-        $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pear') . ' 
-                        OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
+        $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pear');
+                    if ($_GET['developer'] == '' && $_GET['category'] == '') {
+                        $type .= 'OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
                                                   '.$dbh->quoteSmart('Documentation').', '.$dbh->quoteSmart('PEPr').')';
+                    }
         break;
         
     case 'pecl':
-        $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pecl') . ' 
-                        OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
+        $type = $extra.'packages.package_type = '.$dbh->quoteSmart('pecl');
+                    if ($_GET['developer'] == '' && $_GET['category'] == '') {
+                        $type .= 'OR bugdb.package_name IN ('.$dbh->quoteSmart('Bug System').','.$dbh->quoteSmart('Web Site').',
                                                   '.$dbh->quoteSmart('Documentation').')';
+                    }
         break;
         
     default:
@@ -125,14 +131,27 @@ if ($total > 0) {
 
 function sort_url ($name)
 {
-    global $sort_by,$rev,$phpver;
+    global $sort_by,$rev,$phpver,$category,$developer;
 
     if ($type == $_GET['sort_by']) {
         $reve = ($_GET['rev'] == 1) ? 0 : 1;        
     } else {
         $reve = 1;
     }
-    return '<a href="./stats.php?sort_by='.urlencode($name).'&amp;rev='.$reve.'">'.ucfirst($name).'</a>';
+    return '<a href="./stats.php?sort_by='.urlencode($name).'&amp;rev='.$reve.'&amp;category='.$category.'&amp;developer='.$developer.'">'.ucfirst($name).'</a>';
+}
+
+function package_link ($name)
+{
+    $filter = array('Bug System',
+                    'Web Site',
+                    'Documentation',
+                    'PEPr');
+    if (!in_array($name, $filter)) {
+        return '<a href="/'.$name.'" style="color: black;">'.$name.'</a>';
+    } else {
+        return $name;
+    }
 }
 
 /**
@@ -223,8 +242,8 @@ foreach ($package_name[$_GET['sort_by']] as $name => $value) {
         $package_name['feedback'][$name]  > 0 ) && $name != 'all')
     {
         echo '<tr><td class="bug_head">
-            <strong>' . $name . ':</strong></td>
-            <td class="bug_bg1">'. $package_name['all'][$name]    .'</td>
+            <strong>' . package_link($name) . ':</strong></td>
+            <td class="bug_bg1">'. $package_name['all'][$name] .'</td>
             <td class="bug_bg2">'. bugstats('closed',      $name) .'&nbsp;</td>
             <td class="bug_bg1">'. bugstats('open',        $name) .'&nbsp;</td>
             <td class="bug_bg2">'. bugstats('critical',    $name) .'&nbsp;</td>
