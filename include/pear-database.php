@@ -426,8 +426,7 @@ class package
         if (isset($packageinfo['version'])) {
             $version = $packageinfo['version'];
         }
-        $info = package::info($package, null, true); // get deps too
-        $info = $info['releases'];
+        $info = package::info($package, 'releases', true);
         if (!count($info)) {
             return false;
         }
@@ -452,36 +451,59 @@ class package
             }
         }
         if ($found) {
-            $release['package'] = $packageinfo['package'];
-            $release['channel'] = 'pear.php.net';
-            if (isset($release['deps'])) {
-                foreach ($release['deps'] as $i => $dep) {
-                    $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
-                    $dep['rel'] = $dep['relation'];
-                    unset($dep['relation']);
-                    $release['deps'][$i] = $dep;
-                }
-            }
             return 
                 array('version' => $ver,
-                      'info' => $release, 
+                      'info' => package::getPackageFile($packageinfo['package'], $ver), 
                       'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
                                $package . '-' . $ver);
         } else {
             reset($info);
             list($ver, $release) = each($info);
-            $release['package'] = $packageinfo['package'];
-            $release['channel'] = 'pear.php.net';
-            if (isset($release['deps'])) {
-                foreach ($release['deps'] as $i => $dep) {
-                    $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
-                    $dep['rel'] = $dep['relation'];
-                    unset($dep['relation']);
-                    $release['deps'][$i] = $dep;
-                }
-            }
             return array('version' => $ver,
-                         'info' => $release);
+                         'info' => package::getPackageFile($packageinfo['package'], $ver));
+        }
+    }
+
+    // }}}
+    // {{{ proto string package::getPackageFile(string|int, string) API 1.0
+
+    /**
+     * @param string|int package name or id
+     * @param string     release version
+     * @return string|PEAR_Error|null package.xml contents from this release
+     */
+    function getPackageFile($package, $version)
+    {
+        global $dbh;
+        if (is_numeric($package)) {
+            $what = "id";
+        } else {
+            $what = "name";
+        }
+        $relids = $dbh->getRow('SELECT releases.id as rid, packages.id as pid' .
+            ' FROM releases, packages WHERE ' .
+            "packages.$what = ? AND releases.version = ? AND " .
+            'releases.package = packages.id', array($package, $version), DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($relids)) {
+            return $relids;
+        }
+        if ($relids === null) {
+            $ptest = $dbh->getOne('SELECT id FROM packages WHERE ' . $what . ' = ?', array($package));
+            if ($ptest === null) {
+                return PEAR::raiseError('Unknown package "' . $package . '"');
+            }
+            $rtest = $dbh->getOne('SELECT id FROM releases WHERE version = ?', array($version));
+            if ($rtest === null) {
+                return PEAR::raiseError('No release of version "' . $version . '" for package "' .
+                    $package . '"');
+            }
+        }
+        if (is_array($relids) && isset($relids['rid'])) {
+            $packagexml = $dbh->getOne('SELECT packagexml FROM files WHERE ' .
+                'package = ? AND release = ?', array($relids['pid'], $relids['rid']));
+            if (is_string($packagexml)) {
+                return $packagexml;
+            }
         }
     }
 
@@ -508,8 +530,7 @@ class package
     function getDepDownloadURL($xsdversion, $dependency, $deppackage,
                                $prefstate = 'stable', $loc = null, $mirror = null)
     {
-        $info = package::info($dependency['name'], null, true);
-        $info = $info['releases'];
+        $info = package::info($dependency['name'], 'releases', true);
         if (!count($info)) {
             return false;
         }
@@ -581,20 +602,10 @@ class package
                     continue;
                 } else {
                     if (!in_array($release['state'], $states)) {
-                        $release['package'] = $dependency['name'];
-                        $release['channel'] = 'pear.php.net';
-                        if (isset($release['deps'])) {
-                            foreach ($release['deps'] as $i => $dep) {
-                                $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
-                                $dep['rel'] = $dep['relation'];
-                                unset($dep['relation']);
-                                $release['deps'][$i] = $dep;
-                            }
-                        }
                         // the stability is too low, but we must return the
                         // recommended version if possible
                         return array('version' => $ver,
-                                     'info' => $release);
+                                     'info' => package::getPackageFile($dependency['name'], $ver));
                     }
                 }
             }
@@ -610,52 +621,17 @@ class package
             }
         }
         if ($found) {
-            $release['package'] = $dependency['name'];
-            $release['channel'] = 'pear.php.net';
-            if (isset($release['deps'])) {
-                foreach ($release['deps'] as $i => $dep) {
-                    $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
-                    $dep['rel'] = $dep['relation'];
-                    unset($dep['relation']);
-                    $release['deps'][$i] = $dep;
-                }
-            }
             return
                 array('version' => $ver,
-                      'info' => $release, 
+                      'info' => package::getPackageFile($dependency['name'], $ver), 
                       'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
                                $pinfo['package'] . '-' . $ver);
         } else {
             reset($info);
             list($ver, $release) = each($info);
-            $release['package'] = $dependency['name'];
-            $release['channel'] = 'pear.php.net';
-            if (isset($release['deps'])) {
-                foreach ($release['deps'] as $i => $dep) {
-                    $dep['optional'] = $dep['optional'] ? 'yes' : 'no';
-                    $dep['rel'] = $dep['relation'];
-                    unset($dep['relation']);
-                    $release['deps'][$i] = $dep;
-                }
-            }
             return array('version' => $ver,
-                         'info' => $release);
+                         'info' => package::getPackageFile($dependency['name'], $ver));
         }
-    }
-
-    // }}}
-
-    // {{{  proto struct package::optionalGroups(string, string) API 1.0
-
-    /**
-     * @param array array containing indexes "package" and "group" to determine which
-     *              package and which optional dependency group to retrieve
-     * @param string version to retrieve bundles from
-     */
-    function optionalGroups($package, $version)
-    {
-        // implement this later
-        return array();
     }
 
     // }}}
