@@ -294,7 +294,7 @@ simply being marked as "bogus".</strong></p>
    <b>Reproduce code:</b><br />
    <font size="-1">
     Please <b>do not</b> post more than 20 lines of source code.<br />
-    If the code is longer then 20 lines, provide an URL to the source<br />
+    If the code is longer than 20 lines, provide an URL to the source<br />
     code that will reproduce the bug.
    </font>
   </td>
