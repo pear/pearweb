@@ -36,20 +36,20 @@ if (strlen($_SERVER['REDIRECT_URL']) > 0 && $_SERVER['REDIRECT_URL']{1} == '~') 
     }
 }
 
-$pkg = strtr($_SERVER['REDIRECT_URL'], "-","_");
+$pkg = strtr($_SERVER['REDIRECT_URL'], '-','_');
 $pinfo_url = '/package/';
 
 // Check strictly
-$name = package::info(basename($pkg), "name");
+$name = package::info(basename($pkg), 'name');
 if (!DB::isError($name)) {
     if (!empty($name)) {
         localRedirect($pinfo_url . $name);
     } else {
-        $name = package::info(basename($pkg), "name", true);
+        $name = package::info(basename($pkg), 'name', true);
         if (!empty($name)) {
-            header("HTTP/1.0 301 Moved Permanently");
-            header("Location: http://pecl.php.net/package/" . $name);
-            header("Connection: close");
+            header('HTTP/1.0 301 Moved Permanently');
+            header('Location: http://pecl.php.net/package/' . $name);
+            header('Connection: close');
             exit();
         }
     }
@@ -70,7 +70,7 @@ if (count($packages) > 3) {
 	$show_search_link = false;
 }
 
-response_header("Error 404");
+response_header('Error 404');
 ?>
 
 <h2>Error 404 - document not found</h2>
@@ -94,7 +94,7 @@ found on this server.</p>
 	
 	<?php if($show_search_link) { ?>
 		<p align="center">
-			<?php print_link(getURL('/package-search.php?pkg_name=' . basename($_SERVER['REQUEST_URI']) . '&bool=AND&submit=Search'), 'View full search results...'); ?>
+			<?php print_link(getURL('/package-search.php?pkg_name=' . basename($_SERVER['REQUEST_URI']) . '&amp;bool=AND&amp;submit=Search'), 'View full search results...'); ?>
 		</p>
 <?php
     }
@@ -103,6 +103,6 @@ found on this server.</p>
 
 <p>If you think that this error message is caused by an error in the
 configuration of the server, please contact
-<?php echo make_mailto_link("pear-webmaster@lists.php.net"); ?>.
+<?php echo make_mailto_link('pear-webmaster@lists.php.net'); ?>.
 
 <?php response_footer(); ?>
