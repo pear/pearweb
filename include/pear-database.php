@@ -559,13 +559,13 @@ class package
         $deps = $dbh->getAll(
             "SELECT package, release , type, relation, version, name ".
             "FROM deps", null, DB_FETCHMODE_ASSOC);
+        foreach ($packageinfo as $pkg => $info) {
+            $packageinfo[$pkg]['stable'] = false;
+        }
         foreach ($stablereleases as $pkg => $stable) {
             $packageinfo[$pkg]['stable'] = $stable['stable'];
             $packageinfo[$pkg]['unstable'] = false;
             $packageinfo[$pkg]['state']  = $stable['state'];
-        }
-        foreach ($packageinfo as $pkg => $info) {
-            $packageinfo[$pkg]['stable'] = false;
         }
         if (!$stable_only) {
             foreach ($allreleases as $pkg => $stable) {
