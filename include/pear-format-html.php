@@ -125,9 +125,10 @@ function response_header($title = 'The PHP Extension and Application Repository'
     if (empty($_COOKIE['PEAR_USER'])) {
         print_link('/login.php', 'Login', false, 'class="menuBlack"');
     } else {
-        print '<span class="menuWhite"><small>logged in as ';
+        print '<span class="menuWhite"><small>';
+        print '<a href="/user/' . $_COOKIE['PEAR_USER'] . '">logged in as ';
         print strtoupper($_COOKIE['PEAR_USER']);
-        print '&nbsp;</small></span><br />';
+        print '</a>&nbsp;</small></span><br />';
         print_link('/?logout=1', 'Logout', false, 'class="menuBlack"');
     }
     echo delim();
