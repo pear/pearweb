@@ -23,9 +23,11 @@ installed in /usr/share/pear):
  Alias /sidebar/pear.gif /usr/local/www/pearweb/public_html/gifs/pear_item.gif
  Alias /distributions/manual/chm /var/lib/pear/chm
 
+ RedirectPermanent /download-docs.php          http://pear.php.net/manual/
+ RedirectPermanent /rss.php                    http://pear.php.net/feeds/latest.rss
+ RedirectPermanent /weeklynews.php             http://pear.php.net/
+
  RewriteEngine On
- RewriteRule   /download-docs.php    /manual/index.php [R=301]
- RewriteRule   /rss.php              /feeds/latest.rss [R=301]
 
  #
  # Rewriting rules for the RSS feeds
