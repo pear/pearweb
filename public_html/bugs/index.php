@@ -56,8 +56,18 @@ response_header('Bugs');
    <?php print make_bug_link('PEPr', 'report', '<strong>PEPr</strong>');?>,
    <?php print make_bug_link('Documentation', 'report', '<strong>Documentation</strong>'); ?> or
    <?php print make_bug_link('Bug System', 'report', '<strong>Bug&nbsp;System</strong>'); ?>.
+   Do be aware that this &quot;Bug System&quot; link is
+   <strong>only</strong> for reporting issues with the
+   <strong>user interface</strong> for reporting, searching and
+   editing the bugs, so is <strong>not</strong> for reporting bugs
+   about packages or other parts of the website.
   </li>
 </ul>
+
+<p>
+You may find the
+<?php print_link('stats.php', 'Bug Statistics'); ?> page interesting.
+</p>
 
 <?php
 
