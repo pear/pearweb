@@ -116,7 +116,7 @@ function navigationBar($title,$id,$loc) {
 
     echo ' <tr>';
     echo "\n";
-    echo '  <td>';
+    echo '  <td align="left">';
     echo "\n   ";
     if ($PREV[1]) {
         print_link( $PREV[0] , make_image('caret-l.gif', 'previous') .  @htmlspecialchars($PREV[1],ENT_QUOTES,$CHARSET) ) ;
@@ -126,6 +126,7 @@ function navigationBar($title,$id,$loc) {
     echo "\n";
 
     echo '  <td align="right">';
+    echo "\n";
     if ($NEXT[1]) {
         print_link( $NEXT[0] , @htmlspecialchars($NEXT[1],ENT_QUOTES,$CHARSET)  . make_image('caret-r.gif', 'next') ) ;
     }
@@ -146,6 +147,15 @@ function navigationBar($title,$id,$loc) {
     echo ' </tr>';
     echo "\n";
 
+    echo ' <tr>';
+    echo "\n";
+    echo '  <td colspan="2">';
+    echo "\n";
+    echo '   <table width="100%" border="0">';
+    echo "\n";
+    echo '    <tr valign="top">';
+    echo "\n";
+
     if ($loc != 'bottom') {
         global $LANGUAGES;
         $links = array();
@@ -158,36 +168,57 @@ function navigationBar($title,$id,$loc) {
         if (file_exists("html/$file.html")) {
             $links[] = make_link("html/$file.html", 'Plain HTML');
         }
-        echo ' <tr>';
+
+        echo '     <td align="left"><small>';
+        echo "\n";
+        if (count($links)) {
+            echo 'View this page in';
+        } else {
+            echo '&nbsp;';
+        }
+        echo "\n";
+        echo '     </small></td>';
+        echo "\n";
+        echo '     <td align="right"><small>';
+        echo "\n";
+        echo 'Last updated: '.$tstamp;
+        echo "\n";
+        echo '     </small></td>';
+        echo "\n";
+        echo '    </tr>';
         echo "\n";
 
         if (count($links)) {
-            echo '  <td>';
+            echo '    <tr>';
             echo "\n";
-            echo '   <small>View this page in ';
+            echo '     <td colspan="2" align="left"><small>';
             echo "\n";
             echo join(delim(), $links);
             echo "\n";
-            echo '   </small>';
+            echo '     </small></td>';
             echo "\n";
-            echo '  </td>';
-        } else {
-            echo '  <td><small></small></td>';
+            echo '    </tr>';
+            echo "\n";
         }
-        echo "\n";
 
     } else {
-        echo ' <tr>';
+        echo '     <td align="left"><small>';
         echo "\n";
-        echo '  <td valign="top" align="left"><small>'
-             . make_link("/download-docs.php", "Download Documentation")
-             . '</small></td>';
+        echo make_link('/download-docs.php', 'Download Documentation');
+        echo "\n";
+        echo '     </small></td>';
+        echo "\n";
+        echo '     <td align="right"><small>';
+        echo "\n";
+        echo 'Last updated: '.$tstamp;
+        echo "\n";
+        echo '     </small></td>';
+        echo "\n";
+        echo '    </tr>';
         echo "\n";
     }
 
-    echo '  <td align="right">';
-    echo "\n";
-    echo '   <small>Last updated: '.$tstamp.'</small>';
+    echo '   </table>';
     echo "\n";
     echo '  </td>';
     echo "\n";
