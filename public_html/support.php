@@ -101,6 +101,12 @@ complete your request.
       'pear-qa', 'PEAR QA list',
       'A list for managing the PEAR Quality Assurance',
       false, false, true, "php.pear.qa"
+    ),
+
+    array (
+      'pear-core', 'PEAR Core development list',
+      'A list, where the core infrastructure of PEAR is discussed',
+      false, false, true, "php.pear.core"
     )
   );
 ?>
