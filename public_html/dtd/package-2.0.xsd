@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
 <xs:schema targetNamespace="http://pear.php.net/dtd/package-2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:task="http://pear.php.net/dtd/tasks-1.0">
  <xs:element name="package">
   <xs:annotation>
@@ -93,9 +94,9 @@
    <xs:documentation>generic release</xs:documentation>
   </xs:annotation>
   <xs:sequence>
-   <xs:element ref="dependencies" minOccurs="0"/>
+   <xs:element ref="dependencies"/>
    <xs:element ref="globaltasks" minOccurs="0" maxOccurs="unbounded"/>
-   <xs:element name="filelist" type="releasefilelist"/>
+   <xs:element name="filelist" type="releasefilelist" minOccurs="0"/>
   </xs:sequence>
   <xs:attribute name="id" type="xs:ID" use="optional"/>
  </xs:complexType>
@@ -173,68 +174,10 @@
    <xs:documentation>release notes</xs:documentation>
   </xs:annotation>
  </xs:element>
- <xs:element name="dependencies">
+ <xs:element name="dependencies" type="dependenciesType">
   <xs:annotation>
    <xs:documentation>release dependencies</xs:documentation>
   </xs:annotation>
-  <xs:complexType>
-   <xs:sequence>
-    <xs:element name="php" type="phpDependencyType">
-     <xs:annotation>
-      <xs:documentation>PHP version dependency</xs:documentation>
-     </xs:annotation>
-    </xs:element>
-    <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
-     <xs:annotation>
-      <xs:documentation>PHP package dependency</xs:documentation>
-     </xs:annotation>
-     <xs:complexType>
-      <xs:complexContent>
-       <xs:extension base="packageDependencyType">
-        <xs:attribute name="subpackage" default="no">
-         <xs:simpleType>
-          <xs:restriction base="xs:string">
-           <xs:enumeration value="yes"/>
-           <xs:enumeration value="no"/>
-          </xs:restriction>
-         </xs:simpleType>
-        </xs:attribute>
-       </xs:extension>
-      </xs:complexContent>
-     </xs:complexType>
-    </xs:element>
-    <xs:element name="extension" minOccurs="0" maxOccurs="unbounded">
-     <xs:annotation>
-      <xs:documentation>PHP extension dependency</xs:documentation>
-     </xs:annotation>
-     <xs:complexType>
-      <xs:complexContent>
-       <xs:extension base="extensionDependencyType"/>
-      </xs:complexContent>
-     </xs:complexType>
-    </xs:element>
-    <xs:element name="sapi" minOccurs="0" maxOccurs="unbounded">
-     <xs:annotation>
-      <xs:documentation>PHP executable type - is this really practical?</xs:documentation>
-     </xs:annotation>
-     <xs:complexType>
-      <xs:complexContent>
-       <xs:extension base="sapiDependencyType"/>
-      </xs:complexContent>
-     </xs:complexType>
-    </xs:element>
-    <xs:element name="os" minOccurs="0" maxOccurs="unbounded">
-     <xs:annotation>
-      <xs:documentation>operating system dependency</xs:documentation>
-     </xs:annotation>
-     <xs:complexType>
-      <xs:complexContent>
-       <xs:extension base="osDependencyType"/>
-      </xs:complexContent>
-     </xs:complexType>
-    </xs:element>
-   </xs:sequence>
-  </xs:complexType>
  </xs:element>
  <xs:element name="bundle">
   <xs:annotation>
@@ -250,6 +193,7 @@
      </xs:complexType>
     </xs:element>
     <xs:element name="extension" type="extensionDependencyType" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="or" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
    <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
@@ -287,7 +231,6 @@
  <xs:complexType name="packageDependencyType">
   <xs:sequence>
    <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
-   <xs:element ref="ifnotinstalled" minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
   <xs:attributeGroup ref="depattributes"/>
   <xs:attribute name="channel" type="xs:string" use="required"/>
@@ -326,14 +269,7 @@
   <xs:complexType>
    <xs:choice>
     <xs:element ref="dir" maxOccurs="unbounded"/>
-    <xs:choice>
-     <xs:element ref="file" maxOccurs="unbounded"/>
-     <xs:element name="ignorefile">
-      <xs:complexType>
-       <xs:attribute name="name" type="xs:string" use="required"/>
-      </xs:complexType>
-     </xs:element>
-    </xs:choice>
+    <xs:element ref="file" maxOccurs="unbounded"/>
     <xs:sequence>
      <xs:element ref="dir" maxOccurs="unbounded"/>
      <xs:element ref="file" maxOccurs="unbounded"/>
@@ -423,57 +359,105 @@
  <xs:complexType name="releasedir">
   <xs:choice>
    <xs:element name="dir" type="releasedir" maxOccurs="unbounded"/>
-   <xs:element name="file" maxOccurs="unbounded">
-    <xs:complexType>
-     <xs:attribute name="ignore" default="no">
-      <xs:simpleType>
-       <xs:restriction base="xs:string">
-        <xs:enumeration value="yes"/>
-        <xs:enumeration value="no"/>
-       </xs:restriction>
-      </xs:simpleType>
-     </xs:attribute>
-     <xs:attribute name="name" type="xs:string" use="required"/>
-     <xs:attribute name="install-as" type="xs:string"/>
-    </xs:complexType>
-   </xs:element>
-   <xs:sequence maxOccurs="unbounded">
-    <xs:element name="dir" type="releasedir" maxOccurs="unbounded"/>
-    <xs:element name="file" minOccurs="0" maxOccurs="unbounded">
+   <xs:choice maxOccurs="unbounded">
+    <xs:element name="file">
      <xs:complexType>
       <xs:attribute name="name" type="xs:string" use="required"/>
-      <xs:attribute name="ignore" default="no">
-       <xs:simpleType>
-        <xs:restriction base="xs:string">
-         <xs:enumeration value="yes"/>
-         <xs:enumeration value="no"/>
-        </xs:restriction>
-       </xs:simpleType>
-      </xs:attribute>
       <xs:attribute name="install-as" type="xs:string"/>
      </xs:complexType>
     </xs:element>
+    <xs:element name="ignorefile">
+     <xs:complexType>
+      <xs:attribute name="name" type="xs:string" use="required"/>
+     </xs:complexType>
+    </xs:element>
+   </xs:choice>
+   <xs:sequence maxOccurs="unbounded">
+    <xs:element name="dir" type="releasedir" maxOccurs="unbounded"/>
+    <xs:choice maxOccurs="unbounded">
+     <xs:element name="file">
+      <xs:complexType>
+       <xs:attribute name="name" use="required">
+        <xs:simpleType>
+         <xs:restriction base="xs:string">
+          <xs:enumeration value="yes"/>
+          <xs:enumeration value="no"/>
+         </xs:restriction>
+        </xs:simpleType>
+       </xs:attribute>
+       <xs:attribute name="install-as" type="xs:string"/>
+      </xs:complexType>
+     </xs:element>
+     <xs:element name="ignorefile">
+      <xs:complexType>
+       <xs:attribute name="name" type="xs:string" use="required"/>
+      </xs:complexType>
+     </xs:element>
+    </xs:choice>
    </xs:sequence>
   </xs:choice>
   <xs:attribute name="name" type="xs:string" use="required"/>
  </xs:complexType>
- <xs:element name="ifnotinstalled">
-  <xs:annotation>
-   <xs:documentation>if present, this will cause the dependency to become a "not" dependency</xs:documentation>
-  </xs:annotation>
+ <xs:complexType name="dependenciesType">
+  <xs:sequence>
+   <xs:element name="php" type="phpDependencyType">
+    <xs:annotation>
+     <xs:documentation>PHP version dependency</xs:documentation>
+    </xs:annotation>
+   </xs:element>
+   <xs:element name="package" minOccurs="0" maxOccurs="unbounded">
+    <xs:annotation>
+     <xs:documentation>PHP package dependency</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+     <xs:complexContent>
+      <xs:extension base="packageDependencyType">
+       <xs:attribute name="subpackage" default="no">
+        <xs:simpleType>
+         <xs:restriction base="xs:string">
+          <xs:enumeration value="yes"/>
+          <xs:enumeration value="no"/>
+         </xs:restriction>
+        </xs:simpleType>
+       </xs:attribute>
+      </xs:extension>
+     </xs:complexContent>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="extension" minOccurs="0" maxOccurs="unbounded">
+    <xs:annotation>
+     <xs:documentation>PHP extension dependency</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+     <xs:complexContent>
+      <xs:extension base="extensionDependencyType"/>
+     </xs:complexContent>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="sapi" minOccurs="0" maxOccurs="unbounded">
+    <xs:annotation>
+     <xs:documentation>PHP executable type - is this really practical?</xs:documentation>
+    </xs:annotation>
+    <xs:complexType>
+     <xs:complexContent>
+      <xs:extension base="sapiDependencyType"/>
+     </xs:complexContent>
+    </xs:complexType>
+   </xs:element>
+   <xs:element name="os" type="osDependencyType" minOccurs="0" maxOccurs="unbounded">
+    <xs:annotation>
+     <xs:documentation>operating system dependency</xs:documentation>
+    </xs:annotation>
+   </xs:element>
+   <xs:element ref="or" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+ </xs:complexType>
+ <xs:element name="or">
   <xs:complexType>
-   <xs:attribute name="type" use="required">
-    <xs:simpleType>
-     <xs:restriction base="xs:string">
-      <xs:enumeration value="package"/>
-      <xs:enumeration value="extension"/>
-      <xs:enumeration value="os"/>
-      <xs:enumeration value="sapi"/>
-     </xs:restriction>
-    </xs:simpleType>
-   </xs:attribute>
-   <xs:attribute name="name" type="xs:string" use="required"/>
-   <xs:attribute name="version" type="version"/>
+   <xs:choice minOccurs="2" maxOccurs="unbounded">
+    <xs:element name="package" type="packageDependencyType"/>
+    <xs:element name="extension" type="extensionDependencyType"/>
+   </xs:choice>
   </xs:complexType>
  </xs:element>
 </xs:schema>

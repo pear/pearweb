@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema targetNamespace="http://pear.php.net/dtd/defaulttasks-1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://pear.php.net/dtd/defaulttasks-1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
+<xs:schema targetNamespace="http://pear.php.net/dtd/tasks-1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns="http://pear.php.net/dtd/tasks-1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
  <xs:element name="replace">
   <xs:annotation>
    <xs:documentation>standard PEAR str_replace() in-file replacement</xs:documentation>
