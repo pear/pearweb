@@ -26,6 +26,8 @@ require_once './include/prepend.inc';
 
 error_reporting(E_ALL ^ E_NOTICE);
 
+$dbh->setFetchMode(DB_FETCHMODE_ASSOC);
+
 response_header('Bugs Stat');
 
 $sql .= 'LEFT JOIN packages ON packages.name = bugdb.package_name ';
@@ -239,5 +241,8 @@ foreach ($package_name[$_GET['sort_by']] as $name => $value) {
 }
 
 echo "</table>\n";
+
+$dbh->setFetchMode(DB_FETCHMODE_ORDERED);
+
 response_footer();
 ?>
