@@ -213,14 +213,15 @@ function show_types($current,$show_any,$default="")
     }
 }
 
-function show_boolean_options($current) {
+function show_boolean_options($current)
+{
     $options = array('any', 'all', 'raw');
     while (list($val, $type) = each($options)) {
         echo '<input type="radio" name="boolean" value="', $val, '"';
         if ($val === $current) {
-            echo ' CHECKED';
+            echo ' checked="checked"';
         }
-        echo "> $type &nbsp;\n";
+        echo " />$type&nbsp;\n";
     }
 }
 

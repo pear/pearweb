@@ -322,8 +322,12 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     }
 }
 
-if ($errors) { display_errors($errors); }
-if ($warnings) { display_warnings($warnings); }
+if ($errors) {
+    display_errors($errors);
+}
+if ($warnings) {
+    display_warnings($warnings);
+}
 
 ?>
 <form id="asearch" method="get" action="<?php echo $_SERVER['PHP_SELF'] ?>">
@@ -331,37 +335,43 @@ if ($warnings) { display_warnings($warnings); }
 <tr valign="top">
   <th>Find bugs</th>
   <td nowrap="nowrap">with all or any of the w<u>o</u>rds</td>
-  <td><input type="text" name="search_for" value="<?php echo htmlspecialchars(stripslashes($search_for));?>" size="20" maxlength="255" accesskey="o" />
-      <br><?php show_boolean_options(BOOLEAN_SEARCH) ?> (<?php print_link('http://bugs.php.net/search-howto.php', '?', true);?>)</td>
+  <td nowrap="nowrap"><input type="text" name="search_for" value="<?php echo htmlspecialchars(stripslashes($search_for));?>" size="20" maxlength="255" accesskey="o" />
+      <br /><small><?php show_boolean_options(BOOLEAN_SEARCH) ?>
+      (<?php print_link('http://bugs.php.net/search-howto.php', '?', true);?>)</small>
+  </td>
   <td rowspan="2">
    <select name="limit"><?php show_limit_options($limit);?></select>
    <br />
    <select name="order_by"><?php show_order_options($limit);?></select>
    <br />
    <input type="radio" name="direction" value="ASC" <?php if($direction != "DESC") { echo('checked="checked"'); }?>/>Ascending
-   &nbsp;
+   <br />
    <input type="radio" name="direction" value="DESC" <?php if($direction == "DESC") { echo('checked="checked"'); }?>/>Descending
    <br />
    <input type="hidden" name="cmd" value="display" />
-   <input type="submit" value="Search" />
+   <label for="submit" accesskey="r">Sea<u>r</u>ch:</label>
+   <input id="submit" type="submit" value="Search" />
   </td>
 </tr>
 <tr valign="top">
   <th>Status</th>
-  <td nowrap="nowrap">Return only bugs with <b>status</b></td>
-  <td><select name="status"><?php show_state_options($status);?></select></td>
+  <td nowrap="nowrap">
+   <label for="status" accesskey="n">Retur<u>n</u> only bugs
+   with <b>status</b></label>
+  </td>
+  <td><select id="status" name="status"><?php show_state_options($status);?></select></td>
 </tr>
 </table>
 <table>
 <tr valign="top">
-  <th>Category</th>
+  <th><label for="category" accesskey="c"><u>C</u>ategory</label></th>
   <td nowrap="nowrap">Return only bugs in <b>categories</b></td>
-  <td><select name="package_name[]" multiple size=6><?php show_types($package_name,2);?></select></td>
+  <td><select id="category" name="package_name[]" multiple="multiple" size="6"><?php show_types($package_name,2);?></select></td>
 </tr>
 <tr valign="top">
   <th>&nbsp;</th>
   <td nowrap="nowrap">Return only bugs <b>NOT</b> in <b>categories</b></td>
-  <td><select name="package_nname[]" multiple size=6><?php show_types($package_nname,2);?></select></td>
+  <td><select name="package_nname[]" multiple="multiple" size="6"><?php show_types($package_nname,2);?></select></td>
 </tr>
 <tr valign="top">
   <th>OS</th>
@@ -386,9 +396,9 @@ if ($warnings) { display_warnings($warnings); }
   </td>
 </tr>
 <tr valign="top">
-  <th>Author email</th>
+  <th>Author e<u>m</u>ail</th>
   <td nowrap="nowrap">Return only bugs with author email</td>
-  <td><input type="text" name="author_email" value="<?php echo htmlspecialchars(stripslashes($author_email)); ?>" /></td>
+  <td><input accesskey="m" type="text" name="author_email" value="<?php echo htmlspecialchars(stripslashes($author_email)); ?>" /></td>
 </tr>
 <tr valign="top">
   <th>Date</th>
