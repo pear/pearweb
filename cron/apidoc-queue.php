@@ -32,8 +32,8 @@ $query = "SELECT filename FROM apidoc_queue WHERE finished = '0000-00-00 00:00:0
 $rows = $dbh->getCol($query);
 
 foreach ($rows as $filename) {
-    $info = $pkg_handler->infoFromTgzFile(PEAR_TARBALL_DIR . $filename);
-    $tar = new Archive_Tar(PEAR_TARBALL_DIR . "/" . $filename);
+    $info = $pkg_handler->infoFromTgzFile($filename);
+    $tar = new Archive_Tar($filename);
 
     if (PEAR::isError($info)) {
         continue;
