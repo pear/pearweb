@@ -18,7 +18,7 @@
    $Id$
 */
 
-/**
+/*
  * Use JPGraph library to display graphical
  * stats of downloads.
  *
@@ -29,15 +29,15 @@
  *    bar chart.
  */
 
-include("../include/jpgraph/jpgraph.php");
-include("../include/jpgraph/jpgraph_bar.php");
+include('jpgraph/jpgraph.php');
+include('jpgraph/jpgraph_bar.php');
 
-/**
+/*
  * Cache time in secs
  */
 $cache_time = 300;
 
-/**
+/*
  * This is the x axis labels. May change when
  * selectable dates is added.
  */
@@ -49,7 +49,7 @@ for ($i = 0; $i < 12; $i++) {
     $x_axis[date('Ym', $time)] = date('M', $time);
 }
 
-/**
+/*
  * Determine the stats based on the supplied
  * package id (pid) and release id (rid).
  * If release id is empty a group bar chart is
@@ -68,14 +68,15 @@ foreach ($releases as $release) {
         $y_axis[$key] = 0;
     }
 
-    $sql = sprintf("SELECT YEAR(d.dl_when) AS dyear, MONTH(d.dl_when) AS dmonth, COUNT(*) AS downloads
-	                      FROM packages p, downloads d
-	                     WHERE d.package = p.id
-                           AND d.dl_when > (now() - INTERVAL 1 YEAR)
-	                       AND p.id = %s
-	                       %s
-	                  GROUP BY YEAR(d.dl_when), MONTH(d.dl_when)
-	                  ORDER BY YEAR(d.dl_when) DESC, MONTH(d.dl_when) DESC",
+    $sql = sprintf('SELECT YEAR(d.dl_when) AS dyear,
+                        MONTH(d.dl_when) AS dmonth, COUNT(*) AS downloads
+                      FROM packages p, downloads d
+                      WHERE d.package = p.id
+                        AND d.dl_when > (now() - INTERVAL 1 YEAR)
+                        AND p.id = %s
+                        %s
+                      GROUP BY YEAR(d.dl_when), MONTH(d.dl_when)
+                      ORDER BY YEAR(d.dl_when) DESC, MONTH(d.dl_when) DESC',
                    $_GET['pid'],
                    $release_clause = $rid > 0 ? 'AND d.release = ' . $rid : '');
 
@@ -94,20 +95,20 @@ foreach ($releases as $release) {
     $bplots[$rid]->SetFillGradient("white", $colour, GRAD_HOR);
     //$bplot->setFillColor("#339900");
     $bplots[$rid]->SetColor("black");
-    $bplots[$rid]->value->setFormat('%d'); 
+    $bplots[$rid]->value->setFormat('%d');
     $bplots[$rid]->value->Show();
 }
 
 $x_axis = array_values($x_axis);
 $bplots = array_values($bplots);
 
-/**
+/*
  * Get package name
  */
 $package_name = $dbh->getOne('SELECT name FROM packages WHERE id = ' . $_GET['pid']);
 $package_rel  = !empty($_GET['rid']) ? $dbh->getOne('SELECT version FROM releases WHERE id = ' . $_GET['rid']) : '';
 
-/**
+/*
  * Go through setting up the graph
  */
 if (!DEVBOX) {
@@ -116,7 +117,7 @@ if (!DEVBOX) {
     header('Expires: ' . date('r', time() + $cache_time));
     header('Cache-Control: public, max-age=' . $cache_time);
     header('Pragma: cache');
-	
+
     // Main graph object
     $graph = new Graph(543, 200, md5($_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING']), $cache_time);
 } else {
@@ -147,7 +148,7 @@ if (count($bplots) > 1) {
 } else {
     $graph->Add($bplots[0]);
 }
-	
+
 // Finally send the graph to the browser
 $graph->Stroke();
 ?>
