@@ -154,6 +154,10 @@ a.bug_stats_choosen {
 
 /* === Search === */
 
+a.status_active {
+    font-weight: bold;
+}
+
 td.search-prev_next {
     background-color: #cccccc;
     text-align: center;

@@ -1015,7 +1015,7 @@ function format_search_string($search)
  *
  * @return void
  */
-function show_bugs_menu($pkgname)
+function show_bugs_menu($pkgname, $status = null)
 {
     global $dbh, $pseudo_pkgs;
 
@@ -1054,15 +1054,19 @@ function show_bugs_menu($pkgname)
 
     echo "\n</td>\n";
 
+    $style['Open']     = ($status == 'Open')    ?' class="status_active"':'';
+    $style['Feedback'] = ($status == 'Feedback')?' class="status_active"':'';
+    $style['All']      = ($status == 'All')     ?' class="status_active"':'';
+
     echo '<td style="text-align: right;">' . "\n Status: ";
     echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
-                   '&amp;status=Open', 'Open');
+                   '&amp;status=Open', 'Open', '', $style['Open']);
     echo delim();
     echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
-                   '&amp;status=Feedback', 'Feedback');
+                   '&amp;status=Feedback', 'Feedback', '', $style['Feedback']);
     echo delim();
     echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
-                   '&amp;status=All', 'All');
+                   '&amp;status=All', 'All', '', $style['All']);
 
     echo "\n</td></tr></table>\n";
     echo '<hr />';

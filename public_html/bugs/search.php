@@ -77,9 +77,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     $query .= ' bugdb.*, TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged'
             . ' FROM bugdb';
 
-    if (!empty($site)) {
-        $query .= ' LEFT JOIN packages ON packages.name = bugdb.package_name';
-    } elseif (!empty($_GET['maintain']) || !empty($_GET['handle'])) {
+    if (!empty($site) || !empty($_GET['maintain']) || !empty($_GET['handle'])) {
         $query .= ' LEFT JOIN packages ON packages.name = bugdb.package_name';
     }
 
@@ -168,7 +166,6 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             break;
         case 'Open':
         default:
-            $status = 'Open';
             $where_clause .= " AND bugdb.status IN ('Open', 'Assigned'," .
                              " 'Analyzed', 'Critical', 'Verified')";
     }
@@ -346,7 +343,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         }
 
         if (!$rows) {
-            show_bugs_menu($_GET['package_name'][0]);
+            show_bugs_menu($_GET['package_name'][0], $status);
             $errors[] = 'No bugs were found.';
             display_bug_error($errors, 'warnings', '');
         } else {
@@ -385,7 +382,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;maintain='    . urlencode($maintain);
 
             display_bug_error($warnings, 'warnings', 'WARNING:');
-            show_bugs_menu($_GET['package_name']);
+            show_bugs_menu($_GET['package_name'], $status);
 
             ?>
 
