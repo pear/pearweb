@@ -43,14 +43,15 @@ class Damblan_RSS {
                            "pkg"    => "Package",
                            "cat"    => "Category",
                            "user"   => "User",
-                           "pepr"   => "PEPr"
+                           "pepr"   => "PEPr",
+                           "bugs"   => "Bugs",
                            );
 
         $type = str_replace("/", "_", $type);
 
         $prefix = substr($type, 0, 4);
 
-        if ($prefix == "user" || $prefix == "pepr") {
+        if ($prefix == "user" || $prefix == "pepr" || $prefix == "bugs") {
             $cache = $type;
             $value = substr($type, 5);
             $type = $prefix;
