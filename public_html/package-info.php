@@ -322,8 +322,11 @@ if ($sth->numRows() == 0) {
         if (count($deps) > 0) {
             foreach ($deps as $row) {
                 // Print link if it's a PEAR package and it's in the db
-                if ($row['type'] == 'pkg' AND $pid = $dbh->getOne(sprintf("SELECT id FROM packages WHERE approved = 1 AND name = '%s'", $row['name']))) {
-                    $row['name'] = sprintf('<a href="/package/%s">%s</a>', $row['name'], $row['name']);
+                if ($row['type'] == 'pkg') {
+                    $dep_pkg =& new PEAR_Package($dbh, $row['name']);
+                    if ($dep_pkg->package_type = 'pear' && $dep_pkg->approved = 1) {
+                        $row['name'] = $dep_pkg->makeLink();
+                    }
                 }
 
                 if (isset($rel_trans[$row['relation']])) {
