@@ -114,6 +114,13 @@ class Damblan_Karma {
 
         $this->_requireKarma();
 
+        // Abort if the karma level has already been granted to the user
+        if ($this->has($user, $level)) {
+            PEAR::raiseError("The karma level $level has already been "
+                             . "granted to the user $user.");
+            return false;
+        }
+
         $id = $this->_dbh->nextId("karma");
 
         $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
