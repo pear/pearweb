@@ -473,7 +473,7 @@ function show_version_options($current, $default = '')
  */
 function show_types($current, $show_any, $default = '')
 {
-/	global $dbh;
+    global $dbh;
     global $site;
     static $bug_items;
 
