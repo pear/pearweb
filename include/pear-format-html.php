@@ -52,7 +52,7 @@ $GLOBALS['developer_menu'] = array(
 
 $GLOBALS['proposal_menu'] = array(
     '/pepr/'               => 'Browse proposals',
-    '/pepr/pepr-proposal-new.php'  => 'New proposal'
+    '/pepr/pepr-proposal-edit.php'  => 'New proposal'
 );
 
 $GLOBALS['admin_menu'] = array(
