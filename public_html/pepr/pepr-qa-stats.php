@@ -90,24 +90,51 @@ $res['orphan_proposals'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 
 // }}}
 // {{{ Fetch for orphan finished proposals
-/*
+
 $sql = <<<EOS
-SELECT 
-    p.id AS id,
-    p.pkg_name AS pkg_name,
-    p.user_handle AS user_handle,
-    UNIX_TIMESTAMP(p.draft_date) AS draft_date
-FROM 
-    package_proposals AS p
-WHERE 
-    p.status = "finished" 
-    AND p.vote_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
-    AND p._date < DATE_ADD(NOW(), INTERVAL -30 DAY)
-ORDER BY draft_date DESC
+SELECT
+    pv.pkg_prop_id AS id,
+    SUM(pv.value) AS votes
+FROM
+    package_proposal_votes AS pv
+GROUP BY pv.pkg_prop_id
 EOS;
 
-$res['orphan_drafts'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
-*/
+$resProposals = array(0 => 0, 1 => 1);
+
+$resProposalSets = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+
+foreach ($resProposalSets as $set) {
+    if ($set['votes'] > 4) {
+        $resProposals[$set['id']] = $set['id'];
+    }
+}
+
+$sql = '
+SELECT
+    pp.id AS id,
+    pp.pkg_name AS pkg_name,
+    pp.user_handle AS user_handle,
+    UNIX_TIMESTAMP(pp.draft_date) AS draft_date,
+    UNIX_TIMESTAMP(pp.proposal_date) AS proposal_date,
+    UNIX_TIMESTAMP(pp.vote_date) AS vote_date,
+    UNIX_TIMESTAMP(pp.longened_date) AS longened_date,
+    p.name AS name
+FROM
+    packages AS p
+    LEFT JOIN package_proposals AS pp
+        ON LOWER(p.name) NOT LIKE CONCAT("%", LOWER(pp.pkg_name), "%")
+WHERE
+    pp.status = "finished"
+    AND pkg_category != "RFC"
+    AND pp.id IN('.implode(', ', $resProposals).')
+    AND pp.vote_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
+    AND pp.longened_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
+GROUP BY pp.pkg_name
+ORDER BY pp.draft_date DESC';
+
+$res['orphan_finished'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+
 // }}}
 
 response_header('PEPr :: Propably orphan proposals');
@@ -169,3 +196,37 @@ echo '</table>';
 echo '</td>';
 echo '</tr>';
 echo '</table>';
+
+// {{{ HTML for orphan finished proposals
+echo '<h1>Status &quot;finished&quot;</h1>';
+echo '<table border="0" cellspacing="0">';
+echo '<tr>';
+echo '<th>Name</th>';
+echo '<th>Draft-Date</th>';
+echo '<th>Proposal-Date</th>';
+echo '<th>Vote-Date</th>';
+echo '<th>Extended-Date</th>';
+// echo '<th>Last change</th>';
+// echo '<th>Last comment</th>';
+echo '<th>Proposer</th>';
+echo '<th>Search package</th>';
+echo '</tr>';
+$i = 0;
+foreach ($res['orphan_finished'] as $set) {
+    echo '<tr style='.(($i++ % 2 == 0) ? '"background-color: #CCCCCC;"' : '').'>';
+    echo '<td class="textcell"><a href="/pepr/pepr-proposal-show.php?id='.$set['id'].'">'.$set['pkg_name'].'</a></td>';
+    echo '<td class="textcell">'.getDays($set['draft_date']).' days ago<br />('.make_utc_date($set['draft_date']).')</td>';
+    echo '<td class="textcell">'.getDays($set['proposal_date']).' days ago<br /> ('.make_utc_date($set['proposal_date']).')</td>';
+    echo '<td class="textcell">'.getDays($set['vote_date']).' days ago<br /> ('.make_utc_date($set['vote_date']).')</td>';
+    if ($set['longened_date'] > 1000) {
+        echo '<td class="textcell">'.getDays($set['longened_date']).' days ago<br /> ('.make_utc_date($set['longened_date']).')</td>';
+    } else {
+        echo '<td class="textcell">-</td>';
+    }
+    
+    echo '<td class="textcell">'.user_link($set['user_handle']).'</td>';
+    echo '<td class="textcell"><a href="/package/'.$set['pkg_name'].'">Search</a></td>';
+    echo '</tr>';
+}
+echo '</table>';
+// }}}
