@@ -87,7 +87,7 @@ you can scroll down and click the submit button to really enter the details into
                         $summary = htmlspecialchars($summary);
                     }
 
-                    $bug_url = "/bugs/bug.php?id=$row[id]&edit=2";
+                    $bug_url = "/bugs/bug.php?id=$row[id]&amp;edit=2";
 
                     echo "<tr><td colspan=\"2\"><a href=\"$bug_url\">Bug #" . $row['id'] . ": " . htmlspecialchars($row['sdesc']) . "</a></td></tr>";
                     echo "<tr><td>" . $summary . "</td>";
@@ -221,11 +221,11 @@ simply being marked as "bogus".</strong></p>
     if ($errors) display_errors($errors);
 ?>
 <form method="post" action="<?php echo "$PHP_SELF?package=$package";?>">
-<input type="hidden" name="in[did_luser_search]" value="<?php echo $in['did_luser_search'] ? 1 : 0; ?>" />
 <table>
 <tr>
-  <th align="right">Y<u>o</u>ur email address:</th>
+  <th align="right">Y<span class="underline">o</span>ur email address:</th>
   <td colspan="2">
+   <input type="hidden" name="in[did_luser_search]" value="<?php echo $in['did_luser_search'] ? 1 : 0; ?>" />
    <input type="text" size="20" maxlength="40" name="in[email]" value="<?php echo clean($in['email']);?>" accesskey="o" />
   </td>
 </tr><tr>
@@ -326,8 +326,8 @@ simply being marked as "bogus".</strong></p>
   </td>
 </tr>
 <tr>
-  <td colspan="2">
-   <div align="center"><input type="submit" value="Send bug report" /></div>
+  <td colspan="2" align="center">
+   <input type="submit" value="Send bug report" />
   </td>
 </tr>
 </table>

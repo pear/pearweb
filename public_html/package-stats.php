@@ -370,7 +370,7 @@ if (@!$_GET['pid']) {
 	echo "<tr align=\"left\" bgcolor=\"#cccccc\">\n";
 	echo "<th>Package name</th>\n";
 	echo "<th>Last release</th>\n";
-	echo "<th><u># of downloads</u></th>\n";
+	echo '<th><span class="underline"># of downloads</span></th>' . "\n";
 	echo "<th>&nbsp;</th>\n";
 	echo "</tr>\n";
 

@@ -217,7 +217,7 @@
 			$formArray = $form->toArray();
 			echo "<form ".$formArray['attributes'].">";
 			$bb = new BorderBox('Comment on this proposal', '90%', '', 2, true);
-			$bb->horizHeadRow('<label for="comment_field" accesskey="o">C<u>o</u>mment:</label>', $formArray['elements'][0]['html']);
+			$bb->horizHeadRow('<label for="comment_field" accesskey="o">C<span class="underline">o</span>mment:</label>', $formArray['elements'][0]['html']);
 			$bb->horizHeadRow('', $formArray['elements'][1]['html']);
 			$bb->horizHeadRow('', $formArray['elements'][2]['html']);
 			if (isset($_GET['comment']) && ($_GET['comment'] == 1)) {
@@ -283,7 +283,7 @@
 				$formArray = $form->toArray();
 				echo "<form ".$formArray['attributes'].">";
 				
-				$bb->horizHeadRow('<label for="vote_field" accesskey="o">V<u>o</u>te</label>', $formArray['elements'][0]['html']." ".$formArray['elements'][0]['label']);
+				$bb->horizHeadRow('<label for="vote_field" accesskey="o">V<span class="underline">o</span>te</label>', $formArray['elements'][0]['html']." ".$formArray['elements'][0]['label']);
 				$bb->horizHeadRow('', $formArray['elements'][1]['html']." ".$formArray['elements'][1]['label']);
 				$bb->horizHeadRow('Comment', $formArray['elements'][2]['html']);
 				$bb->horizHeadRow('Reviews', $formArray['elements'][3]['html'].$formArray['elements'][3]['label']);

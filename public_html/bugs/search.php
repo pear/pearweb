@@ -272,9 +272,12 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             show_bugs_menu($_GET['package_name']);
 
             ?>
-<table align="center" border="0" cellspacing="2" width="95%">
+
+<table border="0" cellspacing="2" width="95%">
+
 <?php show_prev_next($begin, $rows, $total_rows, $link, $limit);?>
-<tr bgcolor="#aaaaaa">
+
+ <tr>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">ID#</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=id">Date</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=package_name">Package</a></th>
@@ -283,7 +286,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=php_os">OS</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=sdesc">Summary</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=assign">Assigned</a></th>
-</tr>
+ </tr>
             <?php
 
             if ($warnings) {
@@ -291,25 +294,25 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             }
 
             while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-                echo '<tr valign="top" bgcolor="', get_row_color($row), '">';
+                echo ' <tr valign="top" class="' . $tla[$row['status']] . '">' . "\n";
 
                 /* Bug ID */
-                echo '<td align="center"><a href="bug.php?id='.$row['id'].'">'.$row['id'].'</a>';
-                echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>';
+                echo '  <td align="center"><a href="bug.php?id='.$row['id'].'">'.$row['id'].'</a>';
+                echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>' . "\n";
 
                 /* Date */
-                echo '<td align="center">'.date ('Y-m-d H:i:s', strtotime ($row['ts1'])).'</td>';
-                echo '<td>', htmlspecialchars($row['package_name']), '</td>';
-                echo '<td>', htmlspecialchars($row['status']);
+                echo '  <td align="center">'.date ('Y-m-d H:i:s', strtotime ($row['ts1'])).'</td>' . "\n";
+                echo '  <td>', htmlspecialchars($row['package_name']), '</td>' . "\n";
+                echo '  <td>', htmlspecialchars($row['status']);
                 if ($row['status'] == 'Feedback' && $row['unchanged'] > 0) {
                     printf ("<br />%d day%s", $row['unchanged'], $row['unchanged'] > 1 ? 's' : '');
                 }
-                echo '</td>';
-                echo '<td>', htmlspecialchars($row['php_version']), '</td>';
-                echo '<td>', $row['php_os'] ? htmlspecialchars($row['php_os']) : '&nbsp;', '</td>';
-                echo '<td>', $row['sdesc']  ? clean($row['sdesc'])             : '&nbsp;', '</td>';
-                echo '<td>', $row['assign'] ? htmlspecialchars($row['assign']) : '&nbsp;', '</td>';
-                echo "</tr>\n";
+                echo '</td>' . "\n";
+                echo '  <td>', htmlspecialchars($row['php_version']), '</td>';
+                echo '  <td>', $row['php_os'] ? htmlspecialchars($row['php_os']) : '&nbsp;', '</td>' . "\n";
+                echo '  <td>', $row['sdesc']  ? clean($row['sdesc'])             : '&nbsp;', '</td>' . "\n";
+                echo '  <td>', $row['assign'] ? htmlspecialchars($row['assign']) : '&nbsp;', '</td>' . "\n";
+                echo " </tr>\n";
             }
 
             show_prev_next($begin, $rows, $total_rows, $link, $limit);
@@ -334,8 +337,8 @@ if ($warnings) {
 <table id="primary" width="95%">
 <tr valign="top">
   <th>Find bugs</th>
-  <td nowrap="nowrap">with all or any of the w<u>o</u>rds</td>
-  <td nowrap="nowrap"><input type="text" name="search_for" value="<?php echo htmlspecialchars(stripslashes($search_for));?>" size="20" maxlength="255" accesskey="o" />
+  <td style="white-space: nowrap">with all or any of the w<span class="underline">o</span>rds</td>
+  <td style="white-space: nowrap"><input type="text" name="search_for" value="<?php echo htmlspecialchars(stripslashes($search_for));?>" size="20" maxlength="255" accesskey="o" />
       <br /><small><?php show_boolean_options(BOOLEAN_SEARCH) ?>
       (<?php print_link('http://bugs.php.net/search-howto.php', '?', true);?>)</small>
   </td>
@@ -349,14 +352,14 @@ if ($warnings) {
    <input type="radio" name="direction" value="DESC" <?php if($direction == "DESC") { echo('checked="checked"'); }?>/>Descending
    <br />
    <input type="hidden" name="cmd" value="display" />
-   <label for="submit" accesskey="r">Sea<u>r</u>ch:</label>
+   <label for="submit" accesskey="r">Sea<span class="underline">r</span>ch:</label>
    <input id="submit" type="submit" value="Search" />
   </td>
 </tr>
 <tr valign="top">
   <th>Status</th>
-  <td nowrap="nowrap">
-   <label for="status" accesskey="n">Retur<u>n</u> only bugs
+  <td style="white-space: nowrap">
+   <label for="status" accesskey="n">Retur<span class="underline">n</span> only bugs
    with <b>status</b></label>
   </td>
   <td><select id="status" name="status"><?php show_state_options($status);?></select></td>
@@ -364,28 +367,28 @@ if ($warnings) {
 </table>
 <table>
 <tr valign="top">
-  <th><label for="category" accesskey="c"><u>C</u>ategory</label></th>
-  <td nowrap="nowrap">Return only bugs in <b>categories</b></td>
+  <th><label for="category" accesskey="c"><span class="underline">C</span>ategory</label></th>
+  <td style="white-space: nowrap">Return only bugs in <b>categories</b></td>
   <td><select id="category" name="package_name[]" multiple="multiple" size="6"><?php show_types($package_name,2);?></select></td>
 </tr>
 <tr valign="top">
   <th>&nbsp;</th>
-  <td nowrap="nowrap">Return only bugs <b>NOT</b> in <b>categories</b></td>
+  <td style="white-space: nowrap">Return only bugs <b>NOT</b> in <b>categories</b></td>
   <td><select name="package_nname[]" multiple="multiple" size="6"><?php show_types($package_nname,2);?></select></td>
 </tr>
 <tr valign="top">
   <th>OS</th>
-  <td nowrap="nowrap">Return bugs with <b>operating system</b></td>
+  <td style="white-space: nowrap">Return bugs with <b>operating system</b></td>
   <td><input type="text" name="php_os" value="<?php echo htmlspecialchars(stripslashes($php_os));?>" /></td>
 </tr>
 <tr valign="top">
   <th>Version</th>
-  <td nowrap="nowrap">Return bugs reported with <b>PHP version</b></td>
+  <td style="white-space: nowrap">Return bugs reported with <b>PHP version</b></td>
   <td><input type="text" name="phpver" value="<?php echo htmlspecialchars(stripslashes($phpver));?>" /></td>
 </tr>
 <tr valign="top">
   <th>Assigned</th>
-  <td nowrap="nowrap">Return only bugs <b>assigned</b> to</td>
+  <td style="white-space: nowrap">Return only bugs <b>assigned</b> to</td>
   <td><input type="text" name="assign" value="<?php echo htmlspecialchars(stripslashes($assign));?>" />
 <?php
     if (!empty($_COOKIE['PEAR_USER'])) {
@@ -396,13 +399,13 @@ if ($warnings) {
   </td>
 </tr>
 <tr valign="top">
-  <th>Author e<u>m</u>ail</th>
-  <td nowrap="nowrap">Return only bugs with author email</td>
+  <th>Author e<span class="underline">m</span>ail</th>
+  <td style="white-space: nowrap">Return only bugs with author email</td>
   <td><input accesskey="m" type="text" name="author_email" value="<?php echo htmlspecialchars(stripslashes($author_email)); ?>" /></td>
 </tr>
 <tr valign="top">
   <th>Date</th>
-  <td nowrap="nowrap">Return bugs submitted</td>
+  <td style="white-space: nowrap">Return bugs submitted</td>
   <td><select name="bug_age"><?php show_byage_options($bug_age);?></select></td>
 </tr>
 </table>
@@ -413,26 +416,39 @@ response_footer();
 
 function show_prev_next($begin, $rows, $total_rows, $link, $limit)
 {
-    echo '<tr bgcolor="#cccccc"><td align="center" colspan="8">' . "\n";
+    echo "<!-- BEGIN PREV/NEXT -->\n";
+    echo " <tr>\n";
+    echo '  <td class="search-prev_next" colspan="8">' . "\n";
+
     if ($limit=='All') {
         echo "$total_rows Bugs</td></tr>\n";
         return;
     }
-    echo '<table border="0" cellspacing="0" cellpadding="0" width="100%"><tr>';
+
+    echo '   <table border="0" cellspacing="0" cellpadding="0" width="100%">' . "\n";
+    echo "    <tr>\n";
+    echo '     <td class="class-prev">';
     if ($begin > 0) {
-        echo "<td align=\"left\" width=\"33%\"><a href=\"$link&amp;begin=",max(0,$begin-$limit),"\">&laquo; Show Previous $limit Entries</a></td>";
+        echo '<a href="' . $link . '&amp;begin=';
+        echo max(0, $begin - $limit);
+        echo '">&laquo; Show Previous ' . $limit . ' Entries</a>';
+    } else {
+        echo '&nbsp;';
     }
-    else {
-        echo "<td width=\"33%\">&nbsp;</td>";
-    }
-    echo "<td align=\"center\" width=\"34%\">Showing ",$begin+1,"-", $begin+$rows, " of $total_rows</td>";
+    echo "</td>\n";
+
+    echo '     <td class="search-showing">Showing ' . ($begin+1);
+    echo '-' . ($begin+$rows) . ' of ' . $total_rows . "</td>\n";
+
+    echo '     <td class="search-next">';
     if ($begin+$rows < $total_rows) {
-        echo "<td align=\"right\" width=\"33%\"><a href=\"$link&amp;begin=",$begin+$limit,"\">Show Next $limit Entries &raquo;</a></td>";
+        echo '<a href="' . $link . '&amp;begin=' . ($begin+$limit);
+        echo '">Show Next ' . $limit . ' Entries &raquo;</a>';
+    } else {
+        echo '&nbsp;';
     }
-    else {
-        echo "<td width=\"33%\">&nbsp;</td>";
-    }
-    echo "</tr></table></td></tr>";
+    echo "</td>\n    </tr>\n   </table>\n  </td>\n </tr>\n";
+    echo "<!-- END PREV/NEXT -->\n";
 }
 
 function show_order_options($current)

@@ -47,7 +47,7 @@
 		$mapCategories[$categorie['name']] = $categorie['name'];
 	}
 
-	$form->addElement('select', 'pkg_category', '<label for="pkg_category" accesskey="o">Categ<u>o</u>ry:</label>', $mapCategories, 'id="pkg_category"');
+	$form->addElement('select', 'pkg_category', '<label for="pkg_category" accesskey="o">Categ<span class="underline">o</span>ry:</label>', $mapCategories, 'id="pkg_category"');
 	$categoryNewElements[] =& HTML_QuickForm::createElement('checkbox', 'pkg_category_new_do', '');
 	$categoryNewElements[] =& HTML_QuickForm::createElement('text', 'pkg_category_new_text', '');
 	$categoryNew = $form->addGroup($categoryNewElements, 'pkg_category_new', 'New category:', '<br />');

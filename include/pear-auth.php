@@ -39,7 +39,7 @@ function auth_reject($realm = null, $message = null)
         print "<form name=\"login\" action=\"/login.php\" method=\"post\">\n";
         print "<table>\n";
         print " <tr>\n";
-        print "  <td>Use<u>r</u>name:</td>\n";
+        print '  <td>Use<span class="underline">r</span>name:</td>' . "\n";
         print "  <td><input size=\"20\" name=\"PEAR_USER\" accesskey=\"r\" /></td>\n";
         print " </tr>\n";
         print " <tr>\n";

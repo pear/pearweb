@@ -242,7 +242,7 @@ echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 
     ?>
 
- <!-- START MAIN CONTENT -->
+<!-- START MAIN CONTENT -->
 
   <td class="content">
 

@@ -1,9 +1,11 @@
 /* STYLES FOR THE BUG SYSTEM */
 
+/* $Id$ */
+
 @import url(/css/bugs-controls.css);
 
 td.content {
-    font-size: 95%;
+    font-size: 90%;
 }
 
 .headertop {
@@ -34,6 +36,7 @@ div.errors {
     color: #660000;
     margin: 4px;
     padding: 6px;
+    clear: both;
 }
 div.warnings {
     border: 1px dashed #ff8c00;
@@ -41,18 +44,21 @@ div.warnings {
     color: #ff8c00;
     margin: 4px;
     padding: 6px;
+    clear: both;
 }
 div.explain {
     border: 1px dashed #000066;
     color: #000066;
     margin: 4px;
     padding: 6px;
+    clear: both;
 }
 div.thanks {
     border: 1px dashed #006600;
     color: #006600;
     margin: 4px;
     padding: 6px;
+    clear: both;
 }
 
 table.lusersearch td {
@@ -78,6 +84,7 @@ th.details {
     text-align: right;
 }
 th.results {
+    background-color: #aaaaaa;
     text-align: left;
 }
 
@@ -136,4 +143,68 @@ form#asearch table#primary {
 }
 #bug_header {
     background-color: #339900; font-size: 70%;
+}
+
+
+/* === Search === */
+
+td.search-prev_next {
+    background-color: #cccccc;
+    text-align: center;
+    padding-bottom: 0.4em;
+}
+
+td.search-prev {
+    text-align: left;
+    width: 33%;
+}
+
+td.search-showing {
+    text-align: center;
+    width: 34%;
+}
+
+td.search-next {
+    text-align: right;
+    width: 33%;
+}
+
+.Asn {
+    background-color: #bbaaff;
+}
+.Ana {
+    background-color: #99bbaa;
+}
+.Bgs {
+    background-color: #aaaaaa;
+}
+.Csd {
+    background-color: #aaffbb;
+}
+.Ctl {
+    background-color: #ff0000;
+}
+.Dup {
+    background-color: #bbbbbb;
+}
+.Fbk {
+    background-color: #bbeeff;
+}
+.Fre {
+    background-color: #aaaaaa;
+}
+.NoF {
+    background-color: #bbffcc;
+}
+.Opn {
+    background-color: #ffbbaa;
+}
+.Sus {
+    background-color: #ffccbb;
+}
+.Ver {
+    background-color: #99bbaa;
+}
+.Wfx {
+    background-color: #aaaaaa;
 }

@@ -387,7 +387,6 @@ control(2, 'Edit Submission');
 
 </div>
 
-<br clear="all" />
 
 <?php
 
@@ -442,7 +441,7 @@ if ($edit == 1 || $edit == 2) {
 
              <table>
               <tr>
-               <th class="details">Passw<u>o</u>rd:</th>
+               <th class="details">Passw<span class="underline">o</span>rd:</th>
                <td>
                 <input type="password" name="pw"
                  value="<?php echo clean($pw) ?>" size="10" maxlength="20"
@@ -530,7 +529,7 @@ if ($edit == 1 || $edit == 2) {
 
         <tr>
          <th class="details">
-          <label for="in" accesskey="c">Qui<u>c</u>k Fix:</label>
+          <label for="in" accesskey="c">Qui<span class="underline">c</span>k Fix:</label>
          </th>
          <td colspan="3">
           <select name="in[resolve]" id="in">
@@ -623,11 +622,16 @@ if ($edit == 1 || $edit == 2) {
      </tr>
     </table>
 
-    <label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<u>m</u>ment:</b></label>
-    <br />
+    <p style="margin-bottom: 0em">
+    <label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<span class="underline">m</span>ment:</b></label>
+    </p>
+
     <textarea cols="60" rows="8" name="ncomment" id="ncomment"
      wrap="physical"><?php echo clean($ncomment) ?></textarea>
-    <br /><input type="submit" value="Submit" />
+
+    <p style="margin-top: 0em">
+    <input type="submit" value="Submit" />
+    </p>
 
     </form>
 
@@ -664,7 +668,7 @@ if ($edit == 3) {
 
     <table>
      <tr>
-      <th class="details">Y<u>o</u>ur email address:</th>
+      <th class="details">Y<span class="underline">o</span>ur email address:</th>
       <td>
        <input type="text" size="40" maxlength="40" name="in[commentemail]"
         value="<?php echo clean($_POST['in']['commentemail']) ?>"
