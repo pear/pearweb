@@ -196,6 +196,8 @@ if (!empty($_GET)) {
                                $links['next']);
 
         while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC, $rownum++) AND $rownum <= $to) {
+            $row['raw_name'] = $row['name'];
+
 			/**
             * If name was searched on, highlight the search string
             */
@@ -205,7 +207,6 @@ if (!empty($_GET)) {
 				} else {
 				    $words = "";
 				}
-				$row['raw_name'] = $row['name'];
 				$row['name'] = preg_replace('/(' . $words . ')/i', '<span style="background-color: #d5ffc1">\1</span>', $row['name']);
 			}
 
