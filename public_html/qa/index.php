@@ -36,13 +36,13 @@ the <acronym title="Quality Assurance">QA</acronym> Team:</p>
 
 <?php
 
-  echo '<li>' . user_link('gurugeek') . "</li>\n";
-  echo '<li>' . user_link('thesaur') . "</li>\n";
-  echo '<li>' . user_link('arnaud') . "</li>\n";
-  echo '<li>' . user_link('toby') . "</li>\n";
-  echo '<li>' . user_link('schst') . "</li>\n";
-  echo '<li>' . user_link('davey') . "</li>\n";
-  echo '<li>' . user_link('lsmith') . "</li>\n";
+  echo '<li>' . user_link('gurugeek', true) . "</li>\n";
+  echo '<li>' . user_link('thesaur', true) . "</li>\n";
+  echo '<li>' . user_link('arnaud', true) . "</li>\n";
+  echo '<li>' . user_link('toby', true) . "</li>\n";
+  echo '<li>' . user_link('schst', true) . "</li>\n";
+  echo '<li>' . user_link('davey', true) . "</li>\n";
+  echo '<li>' . user_link('lsmith', true) . "</li>\n";
 
 ?>
 
