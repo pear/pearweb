@@ -57,13 +57,15 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
         $logger->log($auth_user->handle . " " . $action . " " . $row['name']);
         // }}}
 
-        $mailtext = "Your package \"" . $row['name'] . "\" has been " . $action . " by the PEAR Group.";
-        $mailtext = wordwrap($mailtext, 72);
+        if (!DEVBOX) {
+            $mailtext = 'Your package "' . $row['name'] . '" has been ' . $action . ' by the PEAR Group.';
+            $mailtext = wordwrap($mailtext, 72);
 
-        $query = "SELECT u.email FROM users u, maintains m WHERE m.package = ? AND u.handle = m.handle";
-        $rows = $dbh->getAll($query, array($id), DB_FETCHMODE_ASSOC);
-        foreach ($rows as $u_row) {
-            mail($u_row['email'], "PEAR Package " . $action, $mailtext, "From: \"PEAR Package Approval System\" <pear-group@php.net>", "-f pear-sys@php.net");
+            $query = 'SELECT u.email FROM users u, maintains m WHERE m.package = ? AND u.handle = m.handle';
+            $rows = $dbh->getAll($query, array($id), DB_FETCHMODE_ASSOC);
+            foreach ($rows as $u_row) {
+                mail($u_row['email'], 'PEAR Package ' . $action, $mailtext, 'From: "PEAR Package Approval System" <pear-group@php.net>', '-f pear-sys@php.net');
+            }
         }
 
         echo "Successfully <b>" . $action . " package</b>.<br /><br />";
@@ -97,4 +99,5 @@ echo "<br /><br />";
 print_link("/admin/", "Back");
 
 response_footer();
+
 ?>
