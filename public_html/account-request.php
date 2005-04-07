@@ -100,7 +100,7 @@ $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing li
 
 <ul>
  <li>
-  Are planning to contribute a new package to PEAR and want to propose this
+  Have written (completed) a new PEAR package and want to propose this
   to the PEAR developer community.
  </li>
  <li>
@@ -132,8 +132,9 @@ $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing li
   for that or directly contact the maintainers of the package in question.
  </li>
  <li>
- Planning to write a package. Please start your proposal when you are ready, at 
- least as a prototype.
+  Express an idea for a PEAR package.  Write to $mailto if your package is not
+  written or is not yet complete. Please start your proposal
+  when the code both is <strong>complete</strong> and mostly <strong>works</strongs>
  </li>
 </ul>
 
@@ -173,7 +174,7 @@ MSG;
         'Download PEAR Packages.',
         'Submit patches/bugs.',
         'Suggest new features.',
-        'Planning to write a PEAR Package',
+        'Have an idea for a PEAR Package (no code yet, or not yet complete)',
         'Browse ' . PEAR_CHANNELNAME . '.'
         );
     $purposechecks = '';
