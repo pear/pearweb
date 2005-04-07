@@ -419,6 +419,7 @@ function show_reason_types($current = '', $expanded = 0)
 function show_version_options($current, $default = '')
 {
     $versions = array(
+        '4.3.11',
         '4.3.10',
         '4.3.9',
         '4.3.8',
@@ -434,6 +435,7 @@ function show_version_options($current, $default = '')
         '4.2.1',
         '4.2.0',
         '4_3 CVS-' . date('Y-m-d'),
+        '5.0.4',
         '5.0.3',
         '5.0.2',
         '5.0.1',
@@ -486,7 +488,7 @@ function show_types($current, $show_any, $default = '')
         $sql = "
             SELECT name FROM packages
             WHERE approved = 1 AND package_type = '$site'
-			ORDER BY name";
+            ORDER BY name";
         $list = $dbh->getCol($sql);
         foreach ($list as $name) {
             $bug_items[$name] = $name;
