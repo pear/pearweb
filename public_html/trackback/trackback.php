@@ -52,6 +52,7 @@ if (!isset($pkgInfo) || PEAR::isError($pkgInfo)) {
     exit;
 }
 
+
 // Creating new trackback
 $trackback = new Damblan_Trackback(array(
     'id' => $id, 
@@ -65,16 +66,23 @@ if (PEAR::isError($res)) {
     exit;
 }
 
+if (strstr(strtolower($trackback->title), "poker") > 0) {
+    echo Services_Trackback::getResponseError("Sorry, your post seems to be spam!", 1);
+    exit;
+}
+    
 // Check for possible spam and stop it.
 $res = $trackback->checkRepost($dbh);
 if (PEAR::isError($res)) {
     echo Services_Trackback::getResponseError($res->getMessage(), 1);
+    exit;
 }
 
 // Check blacklists
 $res = $trackback->checkSpam();
 if (PEAR::isError($res)) {
     echo Services_Trackback::getResponseError($res->getMessage(), 1);
+    exit;
 }
 
 $res = $trackback->save($dbh);
