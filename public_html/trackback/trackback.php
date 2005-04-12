@@ -66,7 +66,7 @@ if (PEAR::isError($res)) {
     exit;
 }
 
-if (strstr(strtolower($trackback->title), "poker") > 0) {
+if (strstr(strtolower($trackback->title), "poker")) {
     echo Services_Trackback::getResponseError("Sorry, your post seems to be spam!", 1);
     exit;
 }
