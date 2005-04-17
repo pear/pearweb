@@ -442,7 +442,7 @@
   <xs:complexType>
    <xs:sequence>
     <xs:element ref="min"/>
-    <xs:element ref="max"/>
+    <xs:element ref="max" minOccurs="0"/>
     <xs:element ref="exclude" minOccurs="0" maxOccurs="unbounded"/>
    </xs:sequence>
   </xs:complexType>
