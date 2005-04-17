@@ -797,11 +797,11 @@ class package
      * @param boolean List also PECL packages
      * @return array
      */
-    function listAll($released_only = true, $stable_only = true, $include_pecl = false)
+    function listAll($released_only = true, $stable_only = true, $include_pecl = null)
     {
         global $dbh, $HTTP_RAW_POST_DATA;
 
-        if (isset($HTTP_RAW_POST_DATA)) {
+        if ($include_pecl === null && isset($HTTP_RAW_POST_DATA)) {
             $include_pecl = true;
         }
         
@@ -1799,6 +1799,11 @@ class release
         $cache->remove('package.listAll', array(false, true, false));
         $cache->remove('package.listAll', array(false, false, true));
         $cache->remove('package.listAll', array(false, false, false));
+
+        $cache->remove('package.listAll', array(true, true, true));
+        $cache->remove('package.listAll', array(true, true, false));
+        $cache->remove('package.listAll', array(true, false, true));
+        $cache->remove('package.listAll', array(true, false, false));
 
         // make sure pecl is also removed
         $cache->remove('package.info', array($package, null));
