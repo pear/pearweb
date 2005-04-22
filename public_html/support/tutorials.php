@@ -83,7 +83,7 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
   the need to include HTML tags in your PHP code.
  </li>
  <li>
-  <cite><a href="http://www.zend.com/zend/art/art-heyes.php">PEAR::Mail</a></cite>
+  <cite><a href="http://www.zend.com/pear/tutorials/Mail.php">PEAR::Mail</a></cite>
   on zend.com.
  </li>
  <li>
