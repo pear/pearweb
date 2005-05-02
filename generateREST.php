@@ -7,6 +7,9 @@
 /**
  * Useful files to have
  */
+if (isset($_SERVER['argv']) && $_SERVER['argv'][1] == 'pear') {
+    $_SERVER['SERVER_NAME'] = 'pear.php.net';
+}
 set_include_path(dirname(__FILE__) . '/include' . PATH_SEPARATOR . get_include_path());
 ob_start();
 @require_once 'pear-prepend.php';
