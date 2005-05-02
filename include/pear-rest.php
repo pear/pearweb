@@ -21,7 +21,7 @@ class pear_rest
             @chmod($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']), 0777);
         }
         $info = '<?xml version="1.0"?>
-<c xmlns="http://pear.php.net/dtd/rest.category
+<c xmlns="http://pear.php.net/dtd/rest.category"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.category
     http://pear.php.net/dtd/rest.category.xsd">
  <n>' . htmlspecialchars($category['name']) . '</n>
@@ -35,7 +35,7 @@ class pear_rest
         @chmod($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']) .
             DIRECTORY_SEPARATOR . 'info.xml', 0666);
         $list = '<?xml version="1.0"?>
-<l xmlns="http://pear.php.net/dtd/rest.categorypackages
+<l xmlns="http://pear.php.net/dtd/rest.categorypackages"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.categorypackages
     http://pear.php.net/dtd/rest.categorypackages.xsd">
 ';
@@ -79,7 +79,7 @@ class pear_rest
         }
 
         $info = '<?xml version="1.0" ?>
-<a xmlns="http://pear.php.net/dtd/rest.allpackages
+<a xmlns="http://pear.php.net/dtd/rest.allpackages"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.allpackages
     http://pear.php.net/dtd/rest.allpackages.xsd">
 <c>' . PEAR_CHANNELNAME . '</c>
@@ -131,7 +131,7 @@ class pear_rest
             $deprecated = '';
         }
         $info = '<?xml version="1.0"?>
-<p xmlns="http://pear.php.net/dtd/rest.package
+<p xmlns="http://pear.php.net/dtd/rest.package"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.package
     http://pear.php.net/dtd/rest.package.xsd">
  <n>' . $package['name'] . '</n>
@@ -175,7 +175,7 @@ class pear_rest
             return;
         }
         $info = '<?xml version="1.0"?>
-<a xmlns="http://pear.php.net/dtd/rest.allreleases
+<a xmlns="http://pear.php.net/dtd/rest.allreleases"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases
     http://pear.php.net/dtd/rest.allreleases.xsd">
  <p>' . $package . '</p>
@@ -268,7 +268,7 @@ class pear_rest
         $releasedate = $dbh->getOne('SELECT releasedate FROM releases WHERE id = ?',
             array($id));
         $info = '<?xml version="1.0"?>
-<r xmlns="http://pear.php.net/dtd/rest.release
+<r xmlns="http://pear.php.net/dtd/rest.release"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.release
     http://pear.php.net/dtd/rest.release.xsd">
  <p xlink:href="' . $extra . 'p/' . strtolower($package) . '">' . $package . '</p>
@@ -324,7 +324,7 @@ class pear_rest
                 @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package), 0777);
             }
             $info = '<?xml version="1.0"?>
-<m xmlns="http://pear.php.net/dtd/rest.packagemaintainers
+<m xmlns="http://pear.php.net/dtd/rest.packagemaintainers"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.packagemaintainers
     http://pear.php.net/dtd/rest.packagemaintainers.xsd">
  <p>' . $package . '</p>
@@ -365,7 +365,7 @@ class pear_rest
             $uri = '';
         }
         $info = '<?xml version="1.0"?>
-<m xmlns="http://pear.php.net/dtd/rest.maintainer
+<m xmlns="http://pear.php.net/dtd/rest.maintainer"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.maintainer
     http://pear.php.net/dtd/rest.maintainer.xsd">
  <h>' . $maintainer['handle'] . '</h>
