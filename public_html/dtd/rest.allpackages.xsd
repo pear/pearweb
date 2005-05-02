@@ -12,7 +12,7 @@
    </xs:sequence>
   </xs:complexType>
  </xs:element>
- <xs:element name="c">
+ <xs:element name="c" type="xs:string">
   <xs:annotation>
    <xs:documentation>category</xs:documentation>
   </xs:annotation>
@@ -22,8 +22,12 @@
    <xs:documentation>package</xs:documentation>
   </xs:annotation>
   <xs:complexType>
-   <xs:attribute ref="xlink:type" fixed="simple"/>
-   <xs:attribute ref="xlink:href"/>
+   <xs:simpleContent>
+    <xs:extension base="xs:string">
+     <xs:attribute ref="xlink:type" fixed="simple"/>
+     <xs:attribute ref="xlink:href"/>
+    </xs:extension>
+   </xs:simpleContent>
   </xs:complexType>
  </xs:element>
 </xs:schema>
