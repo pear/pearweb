@@ -231,6 +231,20 @@ class pear_rest
         }
     }
 
+    function deleteReleaseREST($package, $version)
+    {
+        require_once 'System.php';
+        $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
+        if (@file_exists($rdir . DIRECTORY_SEPARATOR . strtolower($package))) {
+            @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+                DIRECTORY_SEPARATOR . $version . '.xml');
+            @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+                DIRECTORY_SEPARATOR . 'package.' . $version . '.xml');
+            @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+                DIRECTORY_SEPARATOR . 'deps.' . $version . '.txt');
+        }
+    }
+
     function saveReleaseREST($filepath, $packagexml, $pkgobj, $releasedby, $id)
     {
         require_once 'System.php';
