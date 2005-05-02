@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+ <xs:element name="m">
+  <xs:annotation>
+   <xs:documentation>package maintainers</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="p"/>
+    <xs:element ref="c"/>
+    <xs:element name="m" minOccurs="0" maxOccurs="unbounded">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="h"/>
+       <xs:element ref="a"/>
+      </xs:sequence>
+     </xs:complexType>
+    </xs:element>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="p" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>package</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="c" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>channel</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="h" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>maintainer handle</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="a" type="xs:int">
+  <xs:annotation>
+   <xs:documentation>active maintainer</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+</xs:schema>
