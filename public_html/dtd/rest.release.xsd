@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+ <xs:element name="r">
+  <xs:annotation>
+   <xs:documentation>release</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="p"/>
+    <xs:element ref="c"/>
+    <xs:element ref="v"/>
+    <xs:element ref="st"/>
+    <xs:element ref="l"/>
+    <xs:element ref="m"/>
+    <xs:element ref="s"/>
+    <xs:element ref="d"/>
+    <xs:element ref="da"/>
+    <xs:element ref="n"/>
+    <xs:element ref="f"/>
+    <xs:element ref="g"/>
+    <xs:element ref="x"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="p">
+  <xs:annotation>
+   <xs:documentation>package</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="xs:string">
+     <xs:attribute ref="xlink:href"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="c" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>channel</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="v">
+  <xs:annotation>
+   <xs:documentation>version</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="st">
+  <xs:annotation>
+   <xs:documentation>stability</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="l">
+  <xs:annotation>
+   <xs:documentation>license</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="m">
+  <xs:annotation>
+   <xs:documentation>releasing maintainer</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="s">
+  <xs:annotation>
+   <xs:documentation>summary</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="d">
+  <xs:annotation>
+   <xs:documentation>description</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="da">
+  <xs:annotation>
+   <xs:documentation>release date</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="n">
+  <xs:annotation>
+   <xs:documentation>release notes</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="f">
+  <xs:annotation>
+   <xs:documentation>release size in bytes (compressed tgz)</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="g">
+  <xs:annotation>
+   <xs:documentation>partial URI to download (no .tgz/.tar extension)</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="x">
+  <xs:annotation>
+   <xs:documentation>link to extracted package.xml</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+</xs:schema>
