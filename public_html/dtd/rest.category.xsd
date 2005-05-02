@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+ <xs:element name="c">
+  <xs:annotation>
+   <xs:documentation>category</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="n"/>
+    <xs:element name="c" type="xs:string">
+     <xs:annotation>
+      <xs:documentation>channel</xs:documentation>
+     </xs:annotation>
+    </xs:element>
+    <xs:element ref="a"/>
+    <xs:element ref="d"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="n" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>category name</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="a" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>category alias, if any</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="d" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>category description</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+</xs:schema>
