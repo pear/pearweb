@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
+<xs:schema xmlns="http://pear.php.net/dtd/rest.allpackages" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" targetNamespace="http://pear.php.net/dtd/rest.allpackages" elementFormDefault="qualified" attributeFormDefault="unqualified">
+ <xs:element name="a">
+  <xs:annotation>
+   <xs:documentation>all releases</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="c"/>
+    <xs:element ref="p" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="c">
+  <xs:annotation>
+   <xs:documentation>category</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="p">
+  <xs:annotation>
+   <xs:documentation>package</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:attribute ref="xlink:type" fixed="simple"/>
+   <xs:attribute ref="xlink:href"/>
+  </xs:complexType>
+ </xs:element>
+</xs:schema>
