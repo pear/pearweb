@@ -22,7 +22,9 @@ class pear_rest
             @chmod($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']), 0777);
         }
         $info = '<?xml version="1.0"?>
-<c>
+<c xmlns="http://pear.php.net/dtd/rest.category
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.category
+    http://pear.php.net/dtd/rest.category.xsd">
  <n>' . htmlspecialchars($category['name']) . '</n>
  <c>' . PEAR_CHANNELNAME . '</c>
  <a>' . htmlspecialchars($category['name']) . '</a>
@@ -33,7 +35,10 @@ class pear_rest
             DIRECTORY_SEPARATOR . 'info.xml', $info);
         @chmod($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']) .
             DIRECTORY_SEPARATOR . 'info.xml', 0666);
-        $list = '<l>
+        $list = '<?xml version="1.0"?>
+<l xmlns="http://pear.php.net/dtd/rest.categorypackages
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.categorypackages
+    http://pear.php.net/dtd/rest.categorypackages.xsd">
 ';
         $query = "SELECT p.name AS name " .
             "FROM packages p, categories c " .
@@ -70,7 +75,10 @@ class pear_rest
     {
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
 
-        $info = '<a>
+        $info = '<?xml version="1.0" ?>
+<a xmlns="http://pear.php.net/dtd/rest.allpackages
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.allpackages
+    http://pear.php.net/dtd/rest.allpackages.xsd">
 <c>' . PEAR_CHANNELNAME . '</c>
 ';
         foreach (package::listAll(false, false, false) as $package => $gh)
@@ -120,13 +128,14 @@ class pear_rest
             $deprecated = '';
         }
         $info = '<?xml version="1.0"?>
-<p>
+<p xmlns="http://pear.php.net/dtd/rest.package
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.package
+    http://pear.php.net/dtd/rest.package.xsd">
  <n>' . $package['name'] . '</n>
  <c>' . PEAR_CHANNELNAME . '</c>
  <ca xlink:href="' . $extra . 'c/' . htmlspecialchars(urlencode($catinfo)) . '">' .
         htmlspecialchars($catinfo) . '</ca>
  <l>' . $package['license'] . '</l>
- <lu></lu>
  <s>' . htmlspecialchars($package['summary']) . '</s>
  <d>' . htmlspecialchars($package['description']) . '</d>
  <r xlink:href="' . $extra . 'r/' . $package['name'] . '"/>' . $parent . $deprecated . '
@@ -162,7 +171,10 @@ class pear_rest
             @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package));
             return;
         }
-        $info = '<a>
+        $info = '<?xml version="1.0"?>
+<a xmlns="http://pear.php.net/dtd/rest.allreleases
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases
+    http://pear.php.net/dtd/rest.allreleases.xsd">
  <p>' . $package . '</p>
  <c>' . PEAR_CHANNELNAME . '</c>
 ';
@@ -232,7 +244,9 @@ class pear_rest
         $releasedate = $dbh->getOne('SELECT releasedate FROM releases WHERE id = ?',
             array($id));
         $info = '<?xml version="1.0"?>
-<r>
+<r xmlns="http://pear.php.net/dtd/rest.release
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.release
+    http://pear.php.net/dtd/rest.release.xsd">
  <p xlink:href="' . $extra . 'p/' . strtolower($package) . '">' . $package . '</p>
  <c>' . PEAR_CHANNELNAME . '</c>
  <v>' . $pkgobj->getVersion() . '</v>
@@ -286,13 +300,15 @@ class pear_rest
                 @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package), 0777);
             }
             $info = '<?xml version="1.0"?>
-<m>
-<p>' . $package . '</p>
-<c>' . PEAR_CHANNELNAME . '</c>
+<m xmlns="http://pear.php.net/dtd/rest.packagemaintainers
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.packagemaintainers
+    http://pear.php.net/dtd/rest.packagemaintainers.xsd">
+ <p>' . $package . '</p>
+ <c>' . PEAR_CHANNELNAME . '</c>
 ';
             foreach ($maintainers as $maintainer) {
                 $info .= ' <m><h>' . $maintainer['handle'] . '</h><a>' . $maintainer['active'] .
-                    '</a></h>';
+                    '</a></m>';
             }
             $info .= '</m>';
             file_put_contents($pdir . DIRECTORY_SEPARATOR . strtolower($package) .
@@ -325,7 +341,9 @@ class pear_rest
             $uri = '';
         }
         $info = '<?xml version="1.0"?>
-<m>
+<m xmlns="http://pear.php.net/dtd/rest.maintainer
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.maintainer
+    http://pear.php.net/dtd/rest.maintainer.xsd">
  <h>' . $maintainer['handle'] . '</h>
  <n>' . htmlentities($maintainer['name']) . '</n>
 ' . $uri . '</m>';
