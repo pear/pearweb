@@ -73,6 +73,10 @@ class pear_rest
     function saveAllPackagesREST()
     {
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
+        if (!file_exists($pdir)) {
+            System::mkdir(array('-p', $pdir));
+            @chmod($pdir, 0777);
+        }
 
         $info = '<?xml version="1.0" ?>
 <a xmlns="http://pear.php.net/dtd/rest.allpackages
