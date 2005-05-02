@@ -1,5 +1,4 @@
 <?php
-// do maintainer crap
 class pear_rest
 {
     var $_restdir;
