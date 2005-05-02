@@ -211,6 +211,13 @@ class pear_rest
             DIRECTORY_SEPARATOR . 'latest.txt', $latest);
         @chmod($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
             DIRECTORY_SEPARATOR . 'latest.txt', 0666);
+        // remove .txt in case all releases of this stability were deleted
+        @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+            DIRECTORY_SEPARATOR . 'stable.txt');
+        @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+            DIRECTORY_SEPARATOR . 'beta.txt');
+        @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+            DIRECTORY_SEPARATOR . 'alpha.txt');
         if (isset($stable)) {
             file_put_contents($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
                 DIRECTORY_SEPARATOR . 'stable.txt', $stable);
