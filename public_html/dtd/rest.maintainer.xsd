@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+ <xs:element name="m">
+  <xs:annotation>
+   <xs:documentation>maintainer</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="h"/>
+    <xs:element ref="n"/>
+    <xs:element ref="u"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="h" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>handle</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="n" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>maintainer name</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="u" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>maintainer uri (homepage)</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+</xs:schema>
