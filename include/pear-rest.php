@@ -139,8 +139,8 @@ class pear_rest
  <ca xlink:href="' . $extra . 'c/' . htmlspecialchars(urlencode($catinfo)) . '">' .
         htmlspecialchars($catinfo) . '</ca>
  <l>' . $package['license'] . '</l>
- <s>' . htmlentities($package['summary']) . '</s>
- <d>' . htmlentities($package['description']) . '</d>
+ <s>' . htmlentities(trim($package['summary'])) . '</s>
+ <d>' . htmlentities(trim($package['description'])) . '</d>
  <r xlink:href="' . $extra . 'r/' . strtolower($package['name']) . '"/>' . $parent . $deprecated . '
 </p>';
         // package information
@@ -277,10 +277,10 @@ class pear_rest
  <st>' . $pkgobj->getState() . '</st>
  <l>' . $pkgobj->getLicense() . '</l>
  <m>' . $releasedby . '</m>
- <s>' . htmlspecialchars($pkgobj->getSummary()) . '</s>
- <d>' . htmlspecialchars($pkgobj->getDescription()) . '</d>
+ <s>' . htmlentities($pkgobj->getSummary()) . '</s>
+ <d>' . htmlentities($pkgobj->getDescription()) . '</d>
  <da>' . $releasedate . '</da>
- <n>' . htmlspecialchars($pkgobj->getNotes()) . '</n>
+ <n>' . htmlentities($pkgobj->getNotes()) . '</n>
  <f>' . filesize($filepath) . '</f>
  <g>http://' . PEAR_CHANNELNAME . '/get/' . $package . '-' . $pkgobj->getVersion() . '</g>
  <x xlink:href="package.' . $pkgobj->getVersion() . '.xml"/>
