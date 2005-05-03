@@ -31,8 +31,6 @@ require_once "PEAR.php";
 if (empty($format)) {
     if (basename($_SERVER['PHP_SELF']) == "xmlrpc.php") {
         $format = 'xmlrpc';
-    } elseif (strpos($_SERVER['PHP_SELF'], 'rest/') !== false) {
-        $format = 'rest';
     } else {
         $format = 'html';
     }
@@ -44,6 +42,7 @@ include_once "DB.php";
 include_once "DB/storage.php";
 include_once "pear-auth.php";
 include_once "pear-database.php";
+include_once "pear-rest.php";
 
 function get($name)
 {
@@ -62,6 +61,14 @@ if (empty($dbh)) {
         'portability' => DB_PORTABILITY_ALL,
     );
     $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
+}
+if (!isset($pear_rest)) {
+    if (!DEVBOX) {
+        $pear_rest = new pear_rest('/var/lib/pearweb/rest');
+    } else {
+        $pear_rest = new pear_rest(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
+            DIRECTORY_SEPARATOR . 'rest');
+    }
 }
 
 $tmp = filectime($_SERVER['SCRIPT_FILENAME']);
