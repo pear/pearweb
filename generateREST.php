@@ -46,16 +46,22 @@ foreach (package::listAll(false, false, false) as $package => $info) {
         $pear_rest->saveAllReleasesREST($package);
         echo "done\n";
         foreach ($releases as $version => $blah) {
-            echo "     Version $version...";
             $fileinfo = $dbh->getOne('SELECT fullpath FROM files WHERE release = ?',
                 array($blah['id']));
             $tar = &new Archive_Tar($fileinfo);
             if ($pxml = $tar->extractInString('package2.xml')) {
             } elseif ($pxml = $tar->extractInString('package.xml'));
+            PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
             $pf = $pkg->fromAnyFile($fileinfo, PEAR_VALIDATE_NORMAL);
-            $pear_rest->saveReleaseREST($fileinfo, $pxml, $pf, $blah['doneby'],
-                $blah['id']);
-            echo "done\n";
+            PEAR::popErrorHandling();
+            if (!PEAR::isError($pf)) {
+                echo "     Version $version...";
+                $pear_rest->saveReleaseREST($fileinfo, $pxml, $pf, $blah['doneby'],
+                    $blah['id']);
+                echo "done\n";
+            } else {
+                echo "     Skipping INVALID Version $version\n";
+            }
         }
         echo "\n";
     } else {
