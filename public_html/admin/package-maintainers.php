@@ -63,6 +63,8 @@ if (empty($id)) {
                                    "active" => 1);
     }
     $res = maintainer::updateAll($id, $new_list);
+    $package = $dbh->getOne('SELECT name FROM packages WHERE id=?', array($id));
+    $pear_rest->savePackageMaintainerREST($package);
 
     $url = $_SERVER['PHP_SELF'];
     if (!empty($_GET['pid'])) {

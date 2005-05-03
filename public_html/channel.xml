@@ -18,10 +18,9 @@ http://pear.php.net/dtd/channel-1.0.xsd">
     <function version="1.0">package.search</function>
     <function version="1.0">channel.listAll</function>
    </xmlrpc>
-<!--   <rest>
-    <baseurl type="package">http://pear.php.net/rest/1.0/package</baseurl>
-    <baseurl type="category">http://pear.php.net/rest/1.0/category</baseurl>
-   </rest> -->
+   <rest>
+    <baseurl type="REST1.0">http://pear.php.net/rest/</baseurl>
+   </rest>
   </primary>
  </servers>
 </channel>

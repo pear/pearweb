@@ -43,6 +43,10 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
     $res = $dbh->query($query);
 
     if (!PEAR::isError($res) && $dbh->affectedRows() > 0) {
+        if ($action == 'approved') {
+            $pear_rest->savePackageREST($row['name']);
+            $pear_rest->saveAllPackagesREST();
+        }
         // {{{ Logging mechanism
         require_once "Damblan/Log.php";
         require_once "Damblan/Log/Mail.php";

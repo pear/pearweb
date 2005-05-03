@@ -172,6 +172,7 @@ class category
         if (PEAR::isError($err)) {
             return $err;
         }
+        $GLOBALS['pear_rest']->saveCategoryREST($name);
         return $id;
     }
 
@@ -211,6 +212,7 @@ class category
         //     $nextID = $parentID;
         // }
 
+        $name = $GLOBALS['dbh']->getOne('SELECT name FROM categories WHERE id = ?', array($id));
         // Get parent ID if any
         $parentID = $GLOBALS['dbh']->getOne('SELECT parent FROM categories WHERE id = ' . $id);
 
@@ -227,6 +229,7 @@ class category
         // Update any child categories
         $GLOBALS['dbh']->query(sprintf('UPDATE categories SET parent = %s WHERE parent = %d', ($parentID ? $parentID : 'NULL'), $id));
 
+        $GLOBALS['pear_rest']->deleteCategoryREST($name);
         return true;
     }
 
@@ -1061,6 +1064,8 @@ class package
         }
         $sql = 'UPDATE packages SET ' . implode(', ', $fields) .
                " WHERE id=$package_id";
+        $row = package::info($pkgid, 'name');
+        $GLOBALS['pear_rest']->savePackageREST($row);
         return $dbh->query($sql, $prep);
     }
 
@@ -1785,6 +1790,9 @@ class release
         // Update Cache
         include_once 'xmlrpc-cache.php';
         $cache = new XMLRPC_Cache;
+        $GLOBALS['pear_rest']->saveReleaseREST($file, $packagexml, $pkg_info, $auth_user->handle,
+            $release_id);
+        $GLOBALS['pear_rest']->saveAllReleasesREST($package);
         // gotta clear all the permutations
         $cache->remove('package.listAll', array(false));
         $cache->remove('package.listAll', array(true));
@@ -2198,6 +2206,11 @@ Authors
                          );
         $sth = $dbh->query($query);
 
+        $pname = package::info($package, 'name');
+        $version = $dbh->getOne('SELECT version from releases WHERE package = ? and id = ?',
+            array($package, $release));
+        $GLOBALS['pear_rest']->deleteReleaseREST($pname, $version);
+        $GLOBALS['pear_rest']->saveAllReleasesREST($pname);
         $query = sprintf("DELETE FROM releases WHERE package = '%s' AND id = '%s'",
                          $package,
                          $release
@@ -2302,6 +2315,7 @@ class user
     {
         global $dbh;
         note::removeAll("uid", $uid);
+        $GLOBALS['pear_rest']->deleteMaintainerREST($uid);
         $dbh->query('DELETE FROM users WHERE handle = '. $dbh->quote($uid));
         return ($dbh->affectedRows() > 0);
     }
@@ -2348,6 +2362,9 @@ class user
         $user->set('createdby', $_COOKIE['PEAR_USER']);
         $user->store();
         $karma->grant($user->handle, $karmalevel);
+        if ($karma->has($user->handle, 'pear.dev')) {
+            $GLOBALS['pear_rest']->saveMaintainerREST($user->handle);
+        }
         note::add("uid", $uid, "Account opened");
         $msg = "Your PEAR account request has been opened.\n".
              "To log in, go to http://" . PEAR_CHANNELNAME . "/ and click on \"login\" in\n".

@@ -92,7 +92,6 @@ if (!isset($_POST['confirm'])) {
                         $value[0],
                         $value[1]);
 
-
         if (@unlink($file)) {
             echo "Deleting release archive \"" . $file . "\"\n";
             $file_rm++;
@@ -119,6 +118,7 @@ if (!isset($_POST['confirm'])) {
         echo "<b>" . $dbh->affectedRows() . "</b> rows affected.\n";
     }
 
+    $pear_rest->deletePackageREST(package::info($_GET['id'], 'name'));
     echo "</pre>\nPackage " . $_GET['id'] . " has been deleted.\n";
 
 } elseif ($_POST['confirm'] == 'no') {
