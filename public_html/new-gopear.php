@@ -229,7 +229,7 @@ $installer->displayHTMLProgress($progress = 99);
 
 ini_restore("include_path");
 
-$installer->finishInstall($bin_dir, $php_dir, $tty);
+$installer->finishInstall();
 // Set of functions/classes following
 
 function verifyPHPVersion()
@@ -1092,7 +1092,7 @@ Please, enter the php.exe path.
                     $tmp = $this->win32BrowseForFolder("Choose a Folder for $desc [$current] :");
                 } else {
                     print "$desc [$current] : ";
-                    $tmp = trim(fgets($tty, 1024));
+                    $tmp = trim(fgets($this->tty, 1024));
                 }
                 $old = $this->$var;
                 $this->$var = $$var = $tmp;
