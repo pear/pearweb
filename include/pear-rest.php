@@ -27,7 +27,7 @@ class pear_rest
  <n>' . htmlspecialchars($category['name']) . '</n>
  <c>' . PEAR_CHANNELNAME . '</c>
  <a>' . htmlspecialchars($category['name']) . '</a>
- <d>' . htmlentitiess($category['description']) . '</d>
+ <d>' . htmlentities($category['description']) . '</d>
 </c>';
         // category info
         file_put_contents($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']) .
