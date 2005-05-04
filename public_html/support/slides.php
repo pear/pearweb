@@ -52,6 +52,17 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
+  <p><cite><a href="http://www.schlitt.info/misc/Whats_new_in_PEAR_PHP5_PHP_Conference_Spring_Amsterdam_2005_toby.tar.gz">
+  What's new in PEAR? (News from PEAR 1.4 and PEAR with PHP5)</cite></a></p>
+  <ul>
+    <li>Date: 2005-05-04</li>
+    <li>Presenter: <?php echo user_link("toby", true); ?></li>
+    <li>Venue: Interantional PHP Conference 2005 Spring Edition, 
+    Amsterdam, Netherlands</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+ <li>
   <p><cite><a href="http://www.schlitt.info/misc/PHP_Conf_2005_spring_XML_Webservices_PHP5_PEAR_schst_toby.tar.gz">
   XML and Webservices with PHP 5.0/5.1, PECL and PEAR</cite></a></p>
   <ul>
