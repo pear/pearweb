@@ -72,6 +72,14 @@ foreach ($rows as $filename) {
         }
         pclose($process);
 
+        $cmd = sprintf("ln -sf %s/%s-%s %s/%s-latest",
+                       PEAR_APIDOC_DIR,
+                       $info['package'],
+                       $info['version'],
+                       PEAR_APIDOC_DIR,
+                       $info['package']);
+        `$cmd`;
+
         $query = "UPDATE apidoc_queue SET finished = NOW(), log = ? WHERE filename = ?";
         $dbh->query($query, array($output, $filename));
     }
