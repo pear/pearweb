@@ -34,7 +34,7 @@ require_once "HTML/Form.php";
 /*
  * Setup code for the form
  */
-$form = new HTML_Form($_SERVER['PHP_SELF']);
+$form = new HTML_Form($_SERVER['SCRIPT_NAME']);
     
 /*
  * Months for released date dropdowns
@@ -64,7 +64,7 @@ $bool_or_checked  = @$_GET['bool'] == "OR" ? 'checked="checked"' : '';
  */
 $category_rows = category::listAll();
 if (!empty($_GET['pkg_category'])) {
-    for ($i=0; $i<count($category_rows); $i++) {
+    for ($i = 0; $i < count($category_rows); $i++) {
         if ($_GET['pkg_category'] == $category_rows[$i]['id']) {
             $category_rows[$i]['selected'] = 'selected="selected"';
         }
@@ -74,8 +74,14 @@ if (!empty($_GET['pkg_category'])) {
 /*
  * Fetch list of users/maintainers
  */
-$users = $dbh->getAll('SELECT u.handle, u.name FROM users u, maintains m WHERE u.handle = m.handle GROUP BY handle ORDER BY u.name', DB_FETCHMODE_ASSOC);
-for ($i=0; $i<count($users); $i++) {
+ $sql = '
+     SELECT
+         u.handle, u.name
+     FROM users u, maintains m
+     WHERE u.handle = m.handle
+     GROUP BY handle ORDER BY u.name';
+$users = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+for ($i = 0; $i < count($users); $i++) {
     if (empty($users[$i]['name'])) {
         $users[$i]['name'] = $users[$i]['handle'];
     }
@@ -92,20 +98,20 @@ if (!empty($_GET)) {
     // Build package name part of query
     if (!empty($_GET['pkg_name'])) {
         $searchwords = preg_split('/\s+/', $_GET['pkg_name']);
-        for ($i=0; $i<count($searchwords); $i++) {
-            $searchwords[$i] = sprintf("name LIKE %s", $dbh->quote('%' . $searchwords[$i] . '%'));
+        for ($i = 0; $i < count($searchwords); $i++) {
+            $searchwords[$i] = sprintf("name LIKE %s", $dbh->quoteSmart('%' . $searchwords[$i] . '%'));
         }
         $where[] = '(' . implode($bool, $searchwords) . ')';
     }
     
     // Build maintainer part of query
     if (!empty($_GET['pkg_maintainer'])) {
-        $where[] = sprintf("handle LIKE %s", $dbh->quote('%' . $_GET['pkg_maintainer'] . '%'));
+        $where[] = sprintf("handle LIKE %s", $dbh->quoteSmart('%' . $_GET['pkg_maintainer'] . '%'));
     }
     
     // Build category part of query
     if (!empty($_GET['pkg_category'])) {
-        $where[] = sprintf("category = %s", $dbh->quote($_GET['pkg_category']));
+        $where[] = sprintf("category = %s", $dbh->quoteSmart($_GET['pkg_category']));
     }
         
     /*
@@ -167,9 +173,9 @@ if (!empty($_GET)) {
     // If there's only one result, forward to the result page directly
     $numrows = $result->numRows();
 
-    if(1 == $numrows) {
+    if (1 == $numrows) {
         $row = $result->fetchRow(DB_FETCHMODE_ASSOC);
-        if(isset($row['name'])) {
+        if (isset($row['name'])) {
             localRedirect('/package/'.$row['name']);
         } else {
             // shoudn't happen. Just in case something goes wrong, set $numrows to 0
@@ -196,7 +202,7 @@ if (!empty($_GET)) {
          * Title html for results borderbox obj
          * Eww.
          */
-        $title_html  = sprintf('<table border="0" width="100%%" cellspacing="0" cellpadding="0">
+        $title_html  = sprintf('<table border="0" width="100%" cellspacing="0" cellpadding="0">
                                         <tr>
                                             <td align="left" width="50"><nobr>%s</nobr></td>
                                             <td align="center"><nobr><a name="results" />Search results (%s - %s of %s)</nobr></td>
@@ -219,7 +225,7 @@ if (!empty($_GET)) {
 				if (!empty($_GET['pkg_name'])) {
 				    $words = preg_replace('/\s+/', '|', preg_quote($_GET['pkg_name']));
 				} else {
-				    $words = "";
+				    $words = '';
 				}
                 $row['package_name'] = $row['name'];
 				$row['name'] = preg_replace('/(' . $words . ')/i', '<span style="background-color: #d5ffc1">\1</span>', $row['name']);
