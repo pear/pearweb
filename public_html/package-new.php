@@ -18,7 +18,7 @@
    $Id$
 */
 
-require_once "HTML/Form.php";
+require_once 'HTML/Form.php';
 
 if (!defined('PEAR_COMMON_PACKAGE_NAME_PREG')) {
     define('PEAR_COMMON_PACKAGE_NAME_PREG', '/^([A-Z][a-zA-Z0-9_]+|[a-z][a-z0-9_]+)$/');
@@ -29,15 +29,16 @@ auth_require('pear.dev');
 $display_form = true;
 $width = 60;
 $errors = array();
-$jumpto = "name";
+$jumpto = 'name';
+
 
 do {
     if (isset($submit)) {
-        $required = array("name" => "enter the package name",
-                          "summary" => "enter the one-liner description",
-                          "desc" => "enter the full description",
-                          "license" => "choose a license type",
-                          "category" => "choose a category");
+        $required = array('name'    => 'enter the package name',
+                          'summary' => 'enter the one-liner description',
+                          'desc'    => 'enter the full description',
+                          'license' => 'choose a license type',
+                          'category'=> 'choose a category');
         foreach ($required as $field => $_desc) {
             if (empty($_POST[$field])) {
                 $errors[] = "Please $_desc!";
@@ -109,9 +110,9 @@ if ($display_form) {
     <?php
 
     $categories = $dbh->getAssoc("SELECT id,name FROM categories ORDER BY name");
-    $form =& new HTML_Form($_SERVER['PHP_SELF'], "POST");
+    $form =& new HTML_Form($_SERVER['SCRIPT_NAME'], 'post');
 
-    print "<form method=\"post\" action=\"" . $_SERVER['PHP_SELF'] . "\">\n";
+    print "<form method=\"post\" action=\"" . $_SERVER['SCRIPT_NAME'] . "\">\n";
 
     $bb = new BorderBox("Register package", "100%", "", 2, true);
 
