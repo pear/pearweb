@@ -29,7 +29,7 @@ if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
 require_once "PEAR.php";
 
 if (empty($format)) {
-    if (basename($_SERVER['PHP_SELF']) == "xmlrpc.php") {
+    if (basename(strip_tags($_SERVER['PHP_SELF'])) == "xmlrpc.php") {
         $format = 'xmlrpc';
     } else {
         $format = 'html';

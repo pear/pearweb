@@ -22,20 +22,22 @@ PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
 
 require_once 'pear-cache.php';
 
+$self = strip_tags($_SERVER['PHP_SELF']);
+
 $encoding = 'iso-8859-1';
 $extra_styles = array();
 
 // Handling things related to the manual
-if (substr($_SERVER['PHP_SELF'], 0, 7) == '/manual') {
+if (substr($self, 0, 7) == '/manual') {
     require_once 'pear-manual.php';
     $extra_styles[] = '/css/manual.css';
 
     // The Japanese manual translation needs UTF-8 encoding
-    if (preg_match("=^/manual/ja=", $_SERVER['PHP_SELF'])) {
+    if (preg_match("=^/manual/ja=", $self)) {
         $encoding = 'utf-8';
 
     // The Russian manual translation needs KOI8-R encoding
-    } else if (preg_match("=^/manual/ru=", $_SERVER['PHP_SELF'])) {
+    } else if (preg_match("=^/manual/ru=", $self)) {
         $encoding = 'KOI8-R';
     }
 }
@@ -87,7 +89,7 @@ $GLOBALS['_style'] = '';
  */
 function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '')
 {
-    global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $extra_styles;
+    global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $extra_styles, $self;
 
     if ($_header_done) {
         return;
@@ -168,10 +170,10 @@ echo $extraHeaders;
         echo delim();
         if ($_SERVER['QUERY_STRING'] && $_SERVER['QUERY_STRING'] != 'logout=1') {
             print_link('/login.php?redirect=' . urlencode(
-                       "{$_SERVER['PHP_SELF']}?{$_SERVER['QUERY_STRING']}"),
+                       "{$self}?{$_SERVER['QUERY_STRING']}"),
                        'Login', false, 'class="menuBlack"');
         } else {
-            print_link('/login.php?redirect=' . $_SERVER['PHP_SELF'],
+            print_link('/login.php?redirect=' . $self,
                        'Login', false, 'class="menuBlack"');
         }
     } else {
@@ -346,6 +348,8 @@ print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
 
 function &draw_navigation($data, $menu_title='')
 {
+    global $self;
+
     $html = "\n";
     if (!empty($menu_title)) {
         $html .= "<strong>$menu_title</strong>\n";
@@ -354,7 +358,7 @@ function &draw_navigation($data, $menu_title='')
     $html .= '<ul class="side_pages">' . "\n";
     foreach ($data as $url => $tit) {
         $html .= ' <li class="side_page">';
-        if ($url == $_SERVER['PHP_SELF']) {
+        if ($url == $self) {
             $html .= '<strong>' . $tit . '</strong>';
         } else {
             $html .= '<a href="' . $url . '">' . $tit . '</a>';
@@ -901,7 +905,9 @@ function hdelim()
  */
 function print_tabbed_navigation($items)
 {
-   $page = basename($_SERVER['PHP_SELF']);
+    global $self;
+
+   $page = basename($self);
 
     echo '<div id="nav">' . "\n";
     foreach ($items as $title => $item) {
