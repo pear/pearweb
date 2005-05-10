@@ -51,7 +51,7 @@ if (!empty($params['action'])) {
     case 'docs' :
         $action =  $params['action'];
         if (!empty($params['version']) && $params['version'] != 'All') {
-            $version = $params['version'];
+            $version = htmlspecialchars(strip_tags($params['version']));
         } elseif ($params['version'] == 'All') {
             $show_all = true;
         }
@@ -79,7 +79,7 @@ if (!empty($params['action'])) {
 
     default :
         $action = '';
-        $version = $params['action'];
+        $version = htmlspecialchars(strip_tags($params['action']));
         break;
     }
 }
@@ -151,17 +151,19 @@ $trackbackRDF = $tmpTrackback->getAutodiscoveryCode();
 // }}}
 // {{{ page header
 
+$name = htmlspecialchars(strip_tags($name));
+
 if ($version) {
-    response_header('Package :: ' . htmlspecialchars($name) . ' :: ' . $version, null, $trackbackRDF);
+    response_header('Package :: ' . $name . ' :: ' . $version, null, $trackbackRDF);
 } else {
-    response_header('Package :: ' . htmlspecialchars($name), null, $trackbackRDF);
+    response_header('Package :: ' . $name, null, $trackbackRDF);
 }
 
 html_category_urhere($pkg['categoryid'], true);
 
-print '<h1>Package Information: ' . htmlspecialchars($name);
+print '<h1>Package Information: ' . $name;
 if ($version) {
-    print ' ' .  htmlspecialchars($version);
+    print ' ' .  $version;
 }
 
 print "</h1>\n";
