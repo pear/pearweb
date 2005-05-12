@@ -202,7 +202,7 @@ if (!empty($_GET)) {
          * Title html for results borderbox obj
          * Eww.
          */
-        $title_html  = sprintf('<table border="0" width="100%" cellspacing="0" cellpadding="0">
+        $title_html  = sprintf('<table border="0" width="100%%" cellspacing="0" cellpadding="0">
                                         <tr>
                                             <td align="left" width="50"><nobr>%s</nobr></td>
                                             <td align="center"><nobr><a name="results" />Search results (%s - %s of %s)</nobr></td>
