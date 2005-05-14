@@ -37,7 +37,7 @@ if (strlen($_SERVER['REDIRECT_URL']) > 0 && $_SERVER['REDIRECT_URL']{1} == '~') 
 }
 
 $pkg = strtr($_SERVER['REDIRECT_URL'], '-','_');
-$pkg = htmlentitis($pkg);
+$pkg = htmlentities($pkg);
 $pinfo_url = '/package/';
 
 // Check strictly
