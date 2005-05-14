@@ -37,6 +37,7 @@ if (strlen($_SERVER['REDIRECT_URL']) > 0 && $_SERVER['REDIRECT_URL']{1} == '~') 
 }
 
 $pkg = strtr($_SERVER['REDIRECT_URL'], '-','_');
+$pkg = htmlentitis($pkg);
 $pinfo_url = '/package/';
 
 // Check strictly
@@ -75,12 +76,12 @@ response_header('Error 404');
 
 <h1>Error 404 - document not found</h1>
 
-<p>The requested document <i><?php echo $_SERVER['REQUEST_URI']; ?></i> was not
+<p>The requested document <i><?php echo strip_tags($_SERVER['REQUEST_URI']); ?></i> was not
 found on this server.</p>
 
-<?php if(is_array($packages) && count($packages) > 0) { ?>
+<?php if (is_array($packages) && count($packages) > 0) { ?>
 	Searching the current list of packages for
-	<i><?php echo basename($_SERVER['REQUEST_URI']); ?></i> included the
+	<i><?php echo basename(strip_tags($_SERVER['REQUEST_URI'])); ?></i> included the
 	following results:
 	
 	<ul>
@@ -94,7 +95,7 @@ found on this server.</p>
 	
 	<?php if($show_search_link) { ?>
 		<p align="center">
-			<?php print_link(getURL('/package-search.php?pkg_name=' . basename($_SERVER['REQUEST_URI']) . '&amp;bool=AND&amp;submit=Search'), 'View full search results...'); ?>
+			<?php print_link(getURL('/package-search.php?pkg_name=' . basename(strip_tags($_SERVER['REQUEST_URI'])) . '&amp;bool=AND&amp;submit=Search'), 'View full search results...'); ?>
 		</p>
 <?php
     }
