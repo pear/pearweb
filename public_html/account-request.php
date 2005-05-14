@@ -27,20 +27,22 @@ $width        = 60;
 $errors       = array();
 $jumpto       = 'handle';
 
+$clean = array_map('strip_tags', $_POST);
+
 response_header('Request Account');
 
 print '<h1>Request Account</h1>';
 
 do {
-    if (isset($_POST['submit'])) {
-        if (empty($_POST['comments_read'])) {
+    if (isset($clean['submit'])) {
+        if (empty($clean['comments_read'])) {
             $errors[] = 'Obviously you did not read all the comments'
                       . ' concerning the need for an account. Please read '
                       . 'them again.';
             $display_form = true;
         }
 
-        if (isset($_POST['purposecheck']) && count($_POST['purposecheck'])) {
+        if (isset($clean['purposecheck']) && count($clean['purposecheck'])) {
             $errors[] = 'We could not have said it more clearly. Read '
                       . 'everything on this page and look at the form '
                       . 'you are submitting carefully.';
@@ -57,14 +59,14 @@ do {
         }
 
         //  The add method performs further validation then creates the acct
-        $ok = user::add($_POST);
+        $ok = user::add($clean);
 
-        if (!empty($_POST['jumpto'])) {
-            $jumpto = $_POST['jumpto'];
+        if (!empty($clean['jumpto'])) {
+            $jumpto = $clean['jumpto'];
         }
 
-        if (isset($_POST['display_form'])) {
-            $display_form = $_POST['display_form'];
+        if (isset($clean['display_form'])) {
+            $display_form = $clean['display_form'];
         }
 
         if (is_array($ok)) {
@@ -180,40 +182,39 @@ MSG;
     $purposechecks = '';
     foreach ($invalid_purposes as $i => $purposeKey)
     {
-        $purposechecks .= HTML_Form::returnCheckBox("purposecheck[$i]", @$_POST['purposecheck'][$i] ? 'on' : 'off');
+        $purposechecks .= HTML_Form::returnCheckBox("purposecheck[$i]", @$clean['purposecheck'][$i] ? 'on' : 'off');
         $purposechecks .= "$purposeKey <br />";
     }
 
-    $form = new HTML_Form($_SERVER['PHP_SELF'] . '#requestform', 'post');
+    $form = new HTML_Form($_SERVER['SCRIPT_NAME'] . '#requestform', 'post');
 
     $form->addText('handle', 'Use<span class="accesskey">r</span>name:',
-            @$_POST['handle'], 12, 20, 'accesskey="r"');
+            @$clean['handle'], 12, 20, 'accesskey="r"');
     $form->addText('firstname', 'First Name:',
-            @$_POST['firstname'], 20, null);
+            @$clean['firstname'], 20, null);
     $form->addText('lastname', 'Last Name:',
-            @$_POST['lastname'], 20, null);
-    $form->addPassword('password', 'Password:',
-            '', 10, null);
+            @$clean['lastname'], 20, null);
+    $form->addPassword('password', 'Password:', '', 10);
     $form->addPlaintext('CAPTCHA:', generate_captcha());
     $form->addText('email', 'Email Address:',
-            @$_POST['email'], 20, null);
+            @$clean['email'], 20, null);
     $form->addCheckbox('showemail', 'Show email address?',
-            @$_POST['showemail']);
+            @$clean['showemail']);
     $form->addText('homepage', 'Homepage:',
-            @$_POST['homepage'], 20, null);
+            @$clean['homepage'], 20, null);
     $form->addPlaintext('Purpose of your PEAR account:'
             . '<p class="cell_note">(Check all that apply)</p>',
             $purposechecks);
     $form->addTextarea('purpose',
             'Short summary of package that you have finished and are ready to propose:',
-            stripslashes(@$_POST['purpose']), 40, 5, null);
+            stripslashes(@$clean['purpose']), 40, 5);
     $form->addTextarea('moreinfo',
             'More relevant information about you:'
             . '<p class="cell_note">(optional)</p>',
-            stripslashes(@$_POST['moreinfo']), 40, 5, null);
+            stripslashes(@$clean['moreinfo']), 40, 5);
     $form->addCheckbox('comments_read',
             'You have read all of the comments above:',
-            @$_POST['comments_read']);
+            @$clean['comments_read']);
     $form->addSubmit('submit', 'Submit Query');
 
     $form->display('class="form-holder" cellspacing="1"',
