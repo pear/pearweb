@@ -250,7 +250,7 @@ Uploading new releases is restricted to each package's lead developer(s).
 </p>
 MSG;
 
-    $form =& new HTML_Form($_SERVER['PHP_SELF'], 'post', '', '',
+    $form =& new HTML_Form($_SERVER['SCRIPT_NAME'], 'post', '', '',
             'multipart/form-data');
     $form->addFile('distfile',
             '<label for="f" accesskey="i">D<span class="accesskey">i</span>'
@@ -330,7 +330,7 @@ if ($display_verification) {
                      . 'You must correct your package.xml file:');
         report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
                      . 'You may want to correct your package.xml file:');
-        $form =& new HTML_Form($_SERVER['PHP_SELF'], 'post');
+        $form =& new HTML_Form($_SERVER['SCRIPT_NAME'], 'post');
         $form->addPlaintext('Package:', $info->getPackage());
         $form->addPlaintext('Version:', $info->getVersion());
         $form->addPlaintext('Summary:', htmlspecialchars($info->getSummary()));
@@ -387,7 +387,7 @@ if ($display_verification) {
             }
         }
     
-        $form =& new HTML_Form($_SERVER['PHP_SELF'], 'post');
+        $form =& new HTML_Form($_SERVER['SCRIPT_NAME'], 'post');
         $form->addPlaintext('Package:', $info['package']);
         $form->addPlaintext('Version:', $info['version']);
         $form->addPlaintext('Summary:', htmlspecialchars($info['summary']));
