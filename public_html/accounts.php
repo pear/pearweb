@@ -21,11 +21,13 @@
 response_header("Accounts");
 
 $page_size = 40;
+$self = strip_tags($_SERVER['PHP_SELF']);
 
 print "<h1>Accounts</h1>\n";
 
-$all_firstletters = $dbh->getCol('SELECT SUBSTRING(handle,1,1) FROM users '.
-								 'WHERE registered = 1 ORDER BY handle');
+$query = 'SELECT SUBSTRING(handle,1,1) FROM users '.
+         'WHERE registered = 1 ORDER BY handle';
+$all_firstletters = $dbh->getCol($query);
 // I wish there was a way to do this in mysql...
 $first_letter_offsets = array();
 for ($i = 0; $i < sizeof($all_firstletters); $i++) {
@@ -56,10 +58,10 @@ $last_shown = $offset + $page_size - 1;
 $firstletters = array_unique($all_firstletters);
 
 $last = $offset - $page_size;
-$lastlink = $_SERVER['PHP_SELF'] . "?offset=$last";
+$lastlink = $self . "?offset=$last";
 $next = $offset + $page_size;
-$nextlink = $_SERVER['PHP_SELF'] . "?offset=$next";
-print "<table border=\"0\" cellspacing=\"1\" cellpadding=\"5\">\n";
+$nextlink = $self. "?offset=$next";
+print '<table border="0" cellspacing="1" cellpadding="5" width="100%">' . "\n";
 print " <tr>\n";
 print '  <th class="form-label_top_center" style="font-size: 80%">';
 if ($offset > 0) {
@@ -77,7 +79,7 @@ foreach ($firstletters as $fl) {
 		printf('<b>%s</b> ', strtoupper($fl));
 	} else {
 		printf('<a href="%s?letter=%s">%s</a> ',
-			   $_SERVER['PHP_SELF'], $fl, strtoupper($fl));
+			   $self, $fl, strtoupper($fl));
 	}		   
 }
 print '</td><td rowspan="2" align="right">';
