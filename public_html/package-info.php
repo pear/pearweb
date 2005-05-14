@@ -399,7 +399,7 @@ if (empty($action)) {
         print '<p>Auto-generated API documentation for each ';
         print 'release is available.</p>';
 
-        print '<p><a href="/package/' . htmlspecialchars($name) . '/docs/latest/">Documentation for the latest release</a></p';
+        print '<p><a href="/package/' . htmlspecialchars($name) . '/docs/latest/">Documentation for the latest release</a></p>';
         print hdelim();
 
         print '<strong>Complete list:</strong>';
