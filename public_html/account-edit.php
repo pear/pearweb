@@ -142,7 +142,7 @@ if ($row === null) {
 }
 
 
-$form = new HTML_Form($_SERVER['PHP_SELF'], 'post');
+$form = new HTML_Form($_SERVER['SCRIPT_NAME'], 'post');
 
 $form->addText('name', '<span class="accesskey">N</span>ame:',
         $row['name'], 40, null, 'accesskey="n"');
@@ -174,7 +174,7 @@ $form->display('class="form-holder" style="margin-bottom: 2em;"'
 print '<a name="password"></a>' . "\n";
 print '<h2>&raquo; Manage your password</h2>' . "\n";
 
-$form = new HTML_Form($_SERVER['PHP_SELF'], 'post');
+$form = new HTML_Form($_SERVER['SCRIPT_NAME'], 'post');
 $form->addPlaintext('<span class="accesskey">O</span>ld Password:',
         $form->returnPassword('password_old', '', 40, 0,
                               'accesskey="o"'));
