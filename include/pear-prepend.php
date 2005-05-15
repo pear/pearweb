@@ -102,5 +102,14 @@ if (!function_exists('file_get_contents')) {
     }
 }
 
+if (!function_exists('file_put_contents')) {
+    function file_put_contents($fname, $contents)
+    {
+        $fp = fopen($fname, 'wb');
+        fwrite($fp, $contents);
+        fclose($fp);
+    }
+}
+
 session_start();
 ?>

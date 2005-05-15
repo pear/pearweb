@@ -378,12 +378,4 @@ class pear_rest
             DIRECTORY_SEPARATOR . 'info.xml', 0666);
     }
 }
-if (!function_exists('file_put_contents')) {
-    function file_put_contents($fname, $contents)
-    {
-        $fp = fopen($fname, 'wb');
-        fwrite($fp, $contents);
-        fclose($fp);
-    }
-}
 ?>
