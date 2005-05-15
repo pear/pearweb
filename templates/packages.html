@@ -217,7 +217,7 @@
 		Total number of packages: <?php echo $totalpackages; ?><br />
 		<?php make_link('/package-stats.php', 'View package statistics'); ?>
 	<?php else:?>
-		<a href="/package-stats.php?cid=<?php echo $catpid; ?>">Statistics for category "<?php echo $catname; ?>"</a>
+		<a href="/package-stats.php?cid=<?php echo $catpid; ?>">Statistics for category "<?php echo htmlspecialchars($catname); ?>"</a>
 	<?php endif?>
 </p>
 
