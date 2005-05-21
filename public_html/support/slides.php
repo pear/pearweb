@@ -52,8 +52,20 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
+  <p><cite><a href="http://www.php-tools.net/downloads/sessions/phpconference2005spring/Event-Driven.pdf">
+  Component and Event-Driven architectures in PHP (Event_Dispatcher)</a></cite>
+  <a href="http://www.php-tools.net/downloads/sessions/phpconference2005spring/Event-Driven-Examples.zip">Example code</a></p>
+  <ul>
+    <li>Date: 2005-05-03</li>
+    <li>Presenter: <?php echo user_link("schst", true); ?></li>
+    <li>Venue: Interantional PHP Conference 2005 Spring Edition, 
+    Amsterdam, Netherlands</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+ <li>
   <p><cite><a href="http://www.schlitt.info/misc/Whats_new_in_PEAR_PHP5_PHP_Conference_Spring_Amsterdam_2005_toby.tar.gz">
-  What's new in PEAR? (News from PEAR 1.4 and PEAR with PHP5)</cite></a></p>
+  What's new in PEAR? (News from PEAR 1.4 and PEAR with PHP5)</a></cite></p>
   <ul>
     <li>Date: 2005-05-04</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
@@ -64,7 +76,7 @@ that have been held about PEAR.</p>
  </li>
  <li>
   <p><cite><a href="http://www.schlitt.info/misc/PHP_Conf_2005_spring_XML_Webservices_PHP5_PEAR_schst_toby.tar.gz">
-  XML and Webservices with PHP 5.0/5.1, PECL and PEAR</cite></a></p>
+  XML and Webservices with PHP 5.0/5.1, PECL and PEAR</a></cite></p>
   <ul>
     <li>Date: 2005-05-02</li>
     <li>Presenter: <?php echo user_link("schst", true); ?> and <?php echo user_link("toby", true); ?></li>
@@ -75,7 +87,7 @@ that have been held about PEAR.</p>
  </li>
  <li>
   <p><cite><a href="http://www.schlitt.info/download/PHP_Quebec_2005_Session_toby.pdf">
-  PEAR Introduction Talk</cite></a></p>
+  PEAR Introduction Talk</a></cite></p>
   <ul>
     <li>Date: 2005-03-31</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
@@ -86,7 +98,7 @@ that have been held about PEAR.</p>
  </li>
  <li>
   <p><cite><a href="http://www.schlitt.info/download/PEAR_Workshop_Quebec_2005_toby.tar.gz">
-  PEAR Workshop</cite></a></p>
+  PEAR Workshop</a></cite></p>
   <ul>
     <li>Date: 2005-03-31</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
@@ -97,7 +109,7 @@ that have been held about PEAR.</p>
  </li>
  <li>
   <p><cite><a href="http://www.sebastian-bergmann.de/talks/2004-11-10-PHPUnit.pdf">
-  Testgetriebene Entwicklung mit PHPUnit</cite></a></p>
+  Testgetriebene Entwicklung mit PHPUnit</a></cite></p>
   <ul>
     <li>Date: 2004-11-10</li>
     <li>Presenter: <?php echo user_link("sebastian", true); ?></li>
@@ -107,7 +119,7 @@ that have been held about PEAR.</p>
  </li>
  <li>
   <p><cite><a href="http://www.arachnion.de/conf2004/">
-  Building Web clients using XUL and SOAP</cite></a></p>
+  Building Web clients using XUL and SOAP</a></cite></p>
   <ul>
     <li>Date: 2004-11-10</li>
     <li>Presenter: Volker Goebbels</li>
@@ -116,7 +128,7 @@ that have been held about PEAR.</p>
   </ul>
  </li>
  <li>
-  <p><cite><a href="http://www.php-tools.net/site.php?file=/about/presentations.xml">HTTP_SessionServer - Maintaining state across different Servers</cite></a></p>
+  <p><cite><a href="http://www.php-tools.net/site.php?file=/about/presentations.xml">HTTP_SessionServer - Maintaining state across different Servers</a></cite></p>
   <ul>
     <li>Date: 2004-11-09</li>
     <li>Presenter: <?php echo user_link("schst", true); ?></li>
@@ -125,7 +137,7 @@ that have been held about PEAR.</p>
   </ul>
  </li>
  <li>
-  <p><cite><a href="http://www.limbourg.com/pres/2004/francfort_liveuser/">PEAR::LiveUser - Integrating into new and existing applications</a></p>
+  <p><cite><a href="http://www.limbourg.com/pres/2004/francfort_liveuser/">PEAR::LiveUser - Integrating into new and existing applications</a></cite></p>
   <ul>
     <li>Date: 2004-11-09</li>
     <li>Presenter: <?php echo user_link("arnaud", true); ?></li>
@@ -135,7 +147,7 @@ that have been held about PEAR.</p>
  </li>
  <li>
   <p><cite><a href="http://www.schlitt.info/download/PEAR_Powerworkshop_Fall_2004.tar.gz">
-  PEAR</cite></a></p>
+  PEAR</a></cite></p>
   <ul>
     <li>Date: 2004-11-07</li>
     <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
@@ -183,7 +195,7 @@ that have been held about PEAR.</p>
 
  <li>
   <p><cite><a href="http://www.phpconf.hu/rsduf/media/eloadasok/PEAR.pdf">
-  PEAR</cite></a></p>
+  PEAR</a></cite></p>
   <ul>
     <li>Date: 2004-05-29</li>
     <li>Presenter: <?php echo user_link("norbert", true); ?></li>
@@ -205,7 +217,7 @@ that have been held about PEAR.</p>
 
  <li>
   <p><cite><a href="http://www.schlitt.info/download/PEAR_Powerworkshop_Spring_2004.tar.gz">
-  PEAR not just a fleshy pome (Powerworkshop)</cite></a></p>
+  PEAR not just a fleshy pome (Powerworkshop)</a></cite></p>
   <ul>
     <li>Date: 2004-05-03</li>
     <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
