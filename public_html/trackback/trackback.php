@@ -19,7 +19,17 @@
    +----------------------------------------------------------------------+
    $Id$
 */
+
+
 require_once 'Damblan/Trackback.php';
+
+$trackback = Services_Trackback::create(array('id' => 1));
+echo $trackback->getResponseError('Temporary out of order, please try back in about 2 hours!', 1);
+
+/*
+ *
+ * Temporary out of order during upgrade to Services_Trackback 0.5.0
+
 require_once 'Damblan/Mailer.php';
 require_once 'Damblan/URL.php';
 $site = new Damblan_URL;
@@ -68,18 +78,6 @@ if (PEAR::isError($res)) {
     exit;
 }
 
-
-/*
- * hackish help - replaced by Services_Trackback::checkSpam()
-
-if (strstr(strtolower($trackback->title), "poker")) {
-    echo Services_Trackback::getResponseError("Sorry, your post seems to be spam!", 1);
-    exit;
-}
-
- *
- */
-    
 // Check for possible spam
 $trackback->createSpamCheck('Wordlist');
 $trackback->createSpamCheck('DNSBL');
@@ -122,5 +120,9 @@ if (PEAR::isError($res)) {
 }
 
 echo Services_Trackback::getResponseSuccess();
+
+ *
+ *
+ */
 
 ?>
