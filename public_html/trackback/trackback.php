@@ -25,6 +25,8 @@ require_once 'Damblan/URL.php';
 $site = new Damblan_URL;
 
 
+error_reporting(E_ALL);
+
 $params = array('action' => '', 'id' => '');
 $site->getElements($params);
 
@@ -57,31 +59,36 @@ if (!isset($pkgInfo) || PEAR::isError($pkgInfo)) {
 $trackback = new Damblan_Trackback(array(
     'id' => $id, 
     'timestamp' => time(),
-    'ip' => $_SERVER['REMOTE_ADDR'],
 ));
 
 $res = $trackback->receive();
 if (PEAR::isError($res)) {
+    echo $res->getMessage();
     echo Services_Trackback::getResponseError('The data you submited was invalid, please recheck.', 1);
     exit;
 }
+
+
+/*
+ * hackish help - replaced by Services_Trackback::checkSpam()
 
 if (strstr(strtolower($trackback->title), "poker")) {
     echo Services_Trackback::getResponseError("Sorry, your post seems to be spam!", 1);
     exit;
 }
-    
-// Check for possible spam and stop it.
-$res = $trackback->checkRepost($dbh);
-if (PEAR::isError($res)) {
-    echo Services_Trackback::getResponseError($res->getMessage(), 1);
-    exit;
-}
 
-// Check blacklists
+ *
+ */
+    
+// Check for possible spam
+$trackback->createSpamCheck('Wordlist');
+$trackback->createSpamCheck('DNSBL');
+$trackback->createSpamCheck('SURBL');
+
+
 $res = $trackback->checkSpam();
-if (PEAR::isError($res)) {
-    echo Services_Trackback::getResponseError($res->getMessage(), 1);
+if ($res) {
+    echo Services_Trackback::getResponseError('Your trackback seems to be spam. If it is not, please contact the webmaster of this site.', 1);
     exit;
 }
 

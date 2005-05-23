@@ -1,7 +1,6 @@
 <?php
 
 require_once 'Services/Trackback.php';
-require_once 'Net/DNSBL.php';
 
 class Damblan_Trackback extends Services_Trackback {
 
@@ -20,14 +19,6 @@ class Damblan_Trackback extends Services_Trackback {
      * @since
      */
     var $_approved = false;
-
-    /**
-     * The IP adress from where the trackback has been send.
-     *
-     * @var string
-     * @since
-     */
-    var $_ip = '';
 
     // How many trackbacks may be posted in a specific timespan?
     var $_repostCount = 3;
@@ -65,25 +56,10 @@ class Damblan_Trackback extends Services_Trackback {
         foreach ($data as $key => $val) {
             if ($key == 'approved')
                 $val = ($val == 'true');
+            if ($key == 'ip')
+                $this->set('host', $val);
             $this->set($key, $val);
         }
-    }
-
-    /**
-     * Check if the sending host is blacklisted.
-     * This method will be moved to Services_Trackback soon. 
-     *  
-     * @access public
-     * @return mixed True, if the host is not listed, otherwise PEAR::Error.
-     */
-    function checkSpam()
-    {
-        $dnsbl = new Net_DNSBL();
-        $dnsbl->setBlacklists($this->_blacklists);
-        if ($dnsbl->isListed($this->_ip)) {
-            return PEAR::raiseError('Your host seems to be listed as a known spam host. If your trackback is rejected by mistake, please contact pear-webmaster@lists.phph.net.');
-        }
-        return true;
     }
 
     /**
@@ -118,7 +94,7 @@ class Damblan_Trackback extends Services_Trackback {
     function checkRepost(&$dbh)
     {
         $sql = 'SELECT COUNT(timestamp) FROM trackbacks WHERE 
-            ip = '.$dbh->quoteSmart($this->get('ip')).' AND 
+            ip = '.$dbh->quoteSmart($this->get('host')).' AND 
             timestamp > '.$dbh->quoteSmart($this->get('timestamp') - $this->_repostTimespan).'
             GROUP BY ip';
         $res = $dbh->getOne($sql);
@@ -183,7 +159,7 @@ class Damblan_Trackback extends Services_Trackback {
      */
     function save(&$dbh)
     {
-        $necessaryData = array('id', 'title', 'url', 'excerpt', 'blog_name');
+        $necessaryData = array('id', 'title', 'url', 'excerpt', 'blog_name', 'host');
         $this->_checkData($necessaryData);
         $data = $this->_getDecodedData($necessaryData);
 //        $this->set('timestamp', time());
@@ -196,7 +172,7 @@ class Damblan_Trackback extends Services_Trackback {
                     ".$dbh->quoteSmart($this->get('blog_name')).",
                     ".$dbh->quoteSmart($this->get('approved')).",
                     ".$dbh->quoteSmart($this->get('timestamp')).",
-                    ".$dbh->quoteSmart($this->get('ip'))."
+                    ".$dbh->quoteSmart($this->get('host'))."
                 )";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
@@ -246,6 +222,9 @@ class Damblan_Trackback extends Services_Trackback {
         foreach ($res as $key => $val) {
             if ($key == 'approved') {
                 $val = ($val == 'true');
+            }
+            if ($key == 'ip') {
+                $this->set('host', $val);
             }
             $this->set($key, $val);
         }
