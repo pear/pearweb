@@ -22,24 +22,12 @@
 
 
 require_once 'Damblan/Trackback.php';
-
-$trackback = Services_Trackback::create(array('id' => 1));
-echo $trackback->getResponseError('Temporary out of order, please try back in about 2 hours!', 1);
-
-/*
- *
- * Temporary out of order during upgrade to Services_Trackback 0.5.0
-
 require_once 'Damblan/Mailer.php';
 require_once 'Damblan/URL.php';
 $site = new Damblan_URL;
 
-
-error_reporting(E_ALL);
-
 $params = array('action' => '', 'id' => '');
 $site->getElements($params);
-
 
 $id = htmlentities($params['id']);
 
@@ -120,9 +108,5 @@ if (PEAR::isError($res)) {
 }
 
 echo Services_Trackback::getResponseSuccess();
-
- *
- *
- */
 
 ?>
