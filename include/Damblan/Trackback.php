@@ -355,7 +355,7 @@ class Damblan_Trackback extends Services_Trackback {
         if ($approvedOnly) {
             $sql .= ' WHERE approved = '.$dbh->quoteSmart('true');
         } else if ($unapprovedOnly) {
-            $sql .= ' WHERE approved = '.$dbh->quoteSmart('false');
+            $sql .= ' WHERE approved = '.$dbh->quoteSmart('false').' OR approved = ""';
         }
         $sql .= ' ORDER BY timestamp DESC LIMIT ' . $offset . ',' . $number;
         $res = $dbh->getAll($sql, null, DB_FETCHMODE_ASSOC);
