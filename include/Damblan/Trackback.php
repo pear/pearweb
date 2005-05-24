@@ -162,7 +162,6 @@ class Damblan_Trackback extends Services_Trackback {
         $necessaryData = array('id', 'title', 'url', 'excerpt', 'blog_name', 'host');
         $this->_checkData($necessaryData);
         $data = $this->_getDecodedData($necessaryData);
-//        $this->set('timestamp', time());
         $approved = ($this->_approved) ? 'true' : 'false';
         $sql = "INSERT INTO trackbacks (id, title, url, excerpt, blog_name, approved, timestamp, ip) VALUES (
                     ".$dbh->quoteSmart($this->get('id')).",
@@ -170,7 +169,7 @@ class Damblan_Trackback extends Services_Trackback {
                     ".$dbh->quoteSmart($this->get('url')).",
                     ".$dbh->quoteSmart($this->get('excerpt')).",
                     ".$dbh->quoteSmart($this->get('blog_name')).",
-                    ".$dbh->quoteSmart($this->get('approved')).",
+                    ".$dbh->quoteSmart($approved).",
                     ".$dbh->quoteSmart($this->get('timestamp')).",
                     ".$dbh->quoteSmart($this->get('host'))."
                 )";
