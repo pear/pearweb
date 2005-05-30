@@ -39,6 +39,8 @@ if (substr($self, 0, 7) == '/manual') {
     // The Russian manual translation needs KOI8-R encoding
     } else if (preg_match("=^/manual/ru=", $self)) {
         $encoding = 'KOI8-R';
+    } else if (preg_match("=^/manual/hu=", $self)) {
+        $encoding = 'iso-8859-2';
     }
 }
 
