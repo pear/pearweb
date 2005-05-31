@@ -13,7 +13,7 @@
 // +----------------------------------------------------------------------+
 // | Authors: Martin Jansen <mj@php.net>                                  |
 // +----------------------------------------------------------------------+
-// $Id: package-maintainers.js,v 1.3 2005-01-26 12:48:34 pajoye Exp $
+// $Id: package-maintainers.js,v 1.4 2005-05-31 14:16:40 mj Exp $
 
 function stripName(name) {
     pos = name.indexOf("(");
@@ -36,13 +36,13 @@ function addMaintainer() {
             role = getRole();
             handle = document.form.accounts.options[i].value;
             value = handle + "||" + role;
-            item = new Option(name + " (" + handle + ", " + role + ")", value);
+            item = new Option(name + " (" + handle + ", " + role + ")", value, false, true);
             document.form['maintainers[]'].options[document.form['maintainers[]'].length] = item;
         }
     }
 }
 
- function removeMaintainer() {
+function removeMaintainer() {
     for (i = 0; i < document.form['maintainers[]'].length; i++) {
         field = document.form['maintainers[]'].options[i];
         if (field.selected == true) {
@@ -61,6 +61,8 @@ function beforeSubmit() {
     for (i = 0; i < document.form['maintainers[]'].length; i++) {
         field = document.form['maintainers[]'].options[i].selected = true;
     }
+
+    return true;
 }
 
 function activateAdd() { 

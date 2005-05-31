@@ -112,13 +112,13 @@ if (empty($id)) {
     echo '  </td>';
 
     echo '  <td>';
-    echo '  <input type="submit" onClick="addMaintainer(); return false" name="add" value="Add as" />';
+    echo '  <input type="button" onClick="addMaintainer();" name="add" value="Add as" />';
     echo '  <select name="role" size="1">';
     echo '    <option value="lead">lead</option>';
     echo '    <option value="developer">developer</option>';
     echo '    <option value="helper">helper</option>';
     echo '  </select><br /><br />';
-    echo '  <input type="submit" onClick="removeMaintainer(); return false" name="remove" value="Remove" />';
+    echo '  <input type="button" onClick="removeMaintainer();" name="remove" value="Remove" />';
     echo '  </td>';
 
     echo '  <td>';
