@@ -247,7 +247,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
                 }
             }
             graphForm.update.value = 'Updating...';
-            document.images['stats_graph'].src = 'package-stats-graph.php?pid=<?php echo $_GET['pid']; ?>&amp;releases=' + releases_qs;
+            document.images['stats_graph'].src = 'package-stats-graph.php?pid=<?php echo $_GET['pid']; ?>&releases=' + releases_qs;
             graphForm.update.value = 'Update graph';
 
         } else {
