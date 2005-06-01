@@ -60,6 +60,10 @@ if (!empty($_GET['releases'])) {
     $releases = explode(',', html_entity_decode($_GET['releases']));
 }
 
+if (is_array($releases)) {
+    exit;
+}
+
 foreach ($releases as $release) {
     $y_axis = array();
     list($rid, $colour) = explode('_', $release);
