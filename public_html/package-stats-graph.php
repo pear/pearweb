@@ -60,7 +60,7 @@ if (!empty($_GET['releases'])) {
     $releases = explode(',', html_entity_decode($_GET['releases']));
 }
 
-if (is_array($releases)) {
+if (!is_array($releases)) {
     exit;
 }
 
