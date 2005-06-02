@@ -34,7 +34,7 @@ require_once "HTML/Form.php";
 /*
  * Setup code for the form
  */
-$form = new HTML_Form($_SERVER['SCRIPT_NAME']);
+$form = new HTML_Form(htmlspecialchars($_SERVER['SCRIPT_NAME']));
     
 /*
  * Months for released date dropdowns
