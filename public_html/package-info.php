@@ -100,6 +100,12 @@ if (empty($pacid) || !isset($pkg['name'])) {
     include 'error/404.php';
     exit();
 }
+// Information about the latest release below the summary
+$versions = array_keys($pkg['releases']);
+if (!in_array($version, $versions)) {
+    $version = 0;
+}
+
 
 $name        = $pkg['name'];
 $type        = $pkg['type'];
@@ -127,9 +133,6 @@ foreach ($maintainers as $handle => $row) {
 }
 
 $accounts .= '</ul>';
-
-// Information about the latest release below the summary
-$versions = array_keys($pkg['releases']);
 
 // Workaround for my dev-env (running on 81)
 $port = ($_SERVER['SERVER_PORT'] == 80) ? '' : ':'.$_SERVER['SERVER_PORT'];
