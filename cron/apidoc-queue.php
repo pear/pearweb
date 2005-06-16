@@ -43,10 +43,13 @@ foreach ($rows as $filename) {
     if (PEAR::isError($info)) {
         continue;
     }
-    echo "Generating documentation for " . $info['package'] . " " . $info['version'] . "\n";
+
+    $name = (isset($info['package']) ? $info['package'] : $info['name']);
+
+    echo "Generating documentation for " . $name . " " . $info['version'] . "\n";
 
     /* Extract files into temporary directory */
-    $tmpdir = PEAR_TMPDIR . "/apidoc/" . $version['package'];
+    $tmpdir = PEAR_TMPDIR . "/apidoc/" . $name;
 
     if (!$pkg_handler->mkDirHier($tmpdir)) {
         die("Unable to create temporary directory " . $tmpdir . "\n");
@@ -56,9 +59,9 @@ foreach ($rows as $filename) {
 
     $command = sprintf("/usr/local/bin/phpdoc -d %s -dn '%s' -ti '%s' -p -s -t %s -o %s; rm -rf %s",
                        $tmpdir,
-                       $info['package'],
-                       $info['package'] . " " . $info['version'],
-                       PEAR_APIDOC_DIR . "/" . $info['package'] . "-" . $info['version'],
+                       $name,
+                       $name . " " . $info['version'],
+                       PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
                        "HTML:Smarty:PEAR",
                        $tmpdir
                        );
@@ -74,10 +77,10 @@ foreach ($rows as $filename) {
 
         $cmd = sprintf("ln -sf %s/%s-%s %s/%s-latest",
                        PEAR_APIDOC_DIR,
-                       $info['package'],
+                       $name,
                        $info['version'],
                        PEAR_APIDOC_DIR,
-                       $info['package']);
+                       $name);
         `$cmd`;
 
         $query = "UPDATE apidoc_queue SET finished = NOW(), log = ? WHERE filename = ?";
