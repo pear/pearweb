@@ -116,7 +116,12 @@ $form->addGroup($helpLinks, 'markup_help', '', ' ');
 $form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '80'));
 $form->addElement('static', '', '', 'List seperated by linefeeds.');
 
+if (null != $proposal && (false === strpos('RFC', $proposal->pkg_category))) {
+    $form->addElement('static', '', '', '<small>' . (('draft' == $proposal->status)? 'The first two links are required for a change of status.<br />': '') . 'The first link must be of type &lt;PEAR package file&gt;.</small>');
+}
+
 $max = (isset($proposal->links) && (count($proposal->links) > 2)) ? (count($proposal->links) + 1) : 3;
+
 for ($i = 0; $i < $max; $i++) {
     unset($link);
     $link[0] = $form->createElement('select', 'type', '', $proposalTypeMap);
@@ -198,9 +203,65 @@ $form->addRule('pkg_category', 'You have to select a package category!', 'requir
 $form->addRule('pkg_name', 'You have to select a package name!', 'required', '', 'client');
 $form->addRule('pkg_license', 'you have to specify the license of your package!', 'required', '', 'client');
 $form->addRule('pkg_describtion', 'You have to enter a package description!', 'required', '', 'client');
-$form->addRule('link[0]', '2 links are required as minimum!', 'required', '', 'client');
-$form->addRule('link[1]', '2 links are required as minimum!', 'required', '', 'client');
 
+function checkLinkTypeAndUrl($link, $linkCount) {
+    list($key, $type) = each($link);
+    list($key, $url) = each($link);
+
+    if (!$GLOBALS['isPeprRfc']) {
+        if (0 == $linkCount && ('pkg_file' != $type)) {
+            return false;
+        }
+
+        if ($linkCount < 2 && ('' == $url)) {
+            return false;
+        }
+    }
+
+    if ('' != $url) {
+        switch ($type) {
+            case 'pkg_file':
+                return preg_match('"^http\://.+\.tgz$"', $url)? true: false;
+                break;
+
+            case 'pkg_source':
+                return preg_match('"^http\://.+\.(phps|htm(l)?)$"', $url)? true: false;
+                break;
+
+            case 'pkg_example':
+                return preg_match('"^http\://.+\.php$"', $url)? true: false;
+                break;
+
+            case 'pkg_example_source':
+                return preg_match('"^http\://.+\.(phps|htm(l)?)$"', $url)? true: false;
+                break;
+
+            case 'pkg_doc':
+                return preg_match('"^http\://.+$"', $url)? true: false;
+                break;
+        }
+    }
+
+    return '' == $url? true: false;
+}
+
+$form->registerRule('checkLinkTypeAndUrl', 'callback', 'checkLinkTypeAndUrl');
+
+$peprNextStage = isset($_POST['submit'])? $form->getSubmitValue('next_stage'): false;
+
+if (null !== $proposal && ($peprNextStage || 'draft' !== $proposal->status)) {
+    if(!$isPeprRfc = (false !== strpos('RFC', $proposal->pkg_category))) {
+        $form->addRule('link[0]', '', 'required');
+        $form->addRule('link[1]', '', 'required');
+    }
+
+    $linksCount = count($proposal->links);
+    $peprLinksCount = ($linksCount > 2)? $linksCount + 1: 3;
+
+    for ($i = 0; $i < $peprLinksCount; $i++) {
+        $form->addRule('link[' . $i . ']', 'The' . (($isPeprRfc || $i > 1)? ' ': ' required ') . 'link type and the URL do not match!', 'checkLinkTypeAndUrl', $i);
+    }
+}
 
 if (isset($_POST['submit'])) {
     if ($form->validate()) {
@@ -209,6 +270,8 @@ if (isset($_POST['submit'])) {
         if (isset($values['pkg_category_new']['pkg_category_new_do'])) {
             $values['pkg_category'] = $values['pkg_category_new']['pkg_category_new_text'];
         }
+
+        $actionComment = !empty($values['action_comment']) ? true : false;
 
         if (isset($values['next_stage'])) {
             switch ($proposal->status) {
@@ -226,7 +289,8 @@ if (isset($_POST['submit'])) {
                     if ($proposal->checkTimeLine()) {
                        $values['vote_date'] = time();
                        $proposal->status = 'vote';
-                       $proposal->sendActionEmail('change_status_vote', 'mixed', $_COOKIE['PEAR_USER']);
+                       !$actionComment or $proposal->addComment($values['action_comment']);
+                       $proposal->sendActionEmail('change_status_vote', 'mixed', $_COOKIE['PEAR_USER'], $actionComment ? $values['action_comment'] : '');
                     } else {
                        PEAR::raiseError('You can not change the status now.');
                     }
@@ -241,8 +305,8 @@ if (isset($_POST['submit'])) {
             }
         } else {
             if (isset($proposal) && $proposal->status != 'draft') {
-                if (!empty($values['action_comment']) || ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
-                    if (empty($values['action_comment'])) {
+                if ($actionComment || ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
+                    if (!$actionComment) {
                         PEAR::raiseError('A changelog comment is required.');
                     }
                     $proposal->addComment($values['action_comment']);
