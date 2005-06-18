@@ -96,6 +96,8 @@ $mailData = array(
 
 $mailer = Damblan_Mailer::create('Trackback_New', $mailData);
 $additionalHeaders['To'] = $trackback->getMaintainers();
+// toby get's notfied to react on spam
+$additionalHeaders['Bcc'] = 'tobias@schlitt.info';
 if (!DEVBOX) {
     $res = $mailer->send($additionalHeaders);
 } else {
