@@ -52,6 +52,17 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
+  <p><cite><a href="http://www.schlitt.info/misc/News_from_PEAR_Linuxtag2005_toby.tar.gz">
+  News from PEAR (Slides + 10 pages elaboration + examples)</a></cite>
+  <ul>
+    <li>Date: 2005-06-23</li>
+    <li>Presenter: <?php echo user_link("toby", true); ?></li>
+    <li>Venue: Linuxtag 2005, 
+    Karlsruhe, Germany</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+ <li>
   <p><cite><a href="http://www.php-tools.net/downloads/sessions/phpconference2005spring/Event-Driven.pdf">
   Component and Event-Driven architectures in PHP (Event_Dispatcher)</a></cite>
   <a href="http://www.php-tools.net/downloads/sessions/phpconference2005spring/Event-Driven-Examples.zip">Example code</a></p>
