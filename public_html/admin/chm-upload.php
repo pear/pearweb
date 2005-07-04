@@ -51,7 +51,7 @@ if (!empty($_POST['submit'])) {
     }
 }
 
-$form = new HTML_Form($_SERVER['PHP_SELF'], "POST");
+$form = new HTML_Form(htmlspecialchars($_SERVER['PHP_SELF']), "POST");
 foreach ($doc_languages as $shortcut => $name) {
     $form->addFile("chm_" . $shortcut, $name . ":");
 }

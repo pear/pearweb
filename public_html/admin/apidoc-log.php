@@ -47,9 +47,11 @@ $rows = $dbh->getAll($query, array(), DB_FETCHMODE_ASSOC);
 echo "<p>Select a filename:</p>\n\n";
 
 echo "<ul>";
+$self = htmlspecialchars($_SERVER['PHP_SELF']);
+
 foreach ($rows as $row) {
     printf("<li><a href=\"%s?filename=%s\">%s</a></li>\n",
-           $_SERVER['PHP_SELF'],
+           $self,
            urlencode($row['filename']),
            $row['filename']
            );

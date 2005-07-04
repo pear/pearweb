@@ -135,6 +135,8 @@ function updateRejectReason(selectObj) {
 
 // }}}
 
+$self = htmlspecialchars($_SERVER['PHP_SELF']);
+
 do {
 
     // {{{ "approve account request" form
@@ -169,7 +171,7 @@ do {
 	            print "$i  <td>\n";
 	            print "$i   <b>$nby " . date('H:i jS F Y', $ntime) . ":</b>";
 	            if ($nby == $_COOKIE['PEAR_USER']) {
-	                $url = $_SERVER['PHP_SELF'] . "?acreq=$acreq&cmd=Delete+note&id=$nid";
+	                $url = "$self?acreq=$acreq&cmd=Delete+note&id=$nid";
 	                $msg = "Are you sure you want to delete this note?";
 	                print "[<a href=\"javascript:confirmed_goto('$url', '$msg')\">delete your note</a>]";
 	            }
@@ -183,7 +185,7 @@ do {
 	    } else {
 	        print "No notes.";
 	    }
-	    print "$i<form action=\"" . $_SERVER['PHP_SELF'] . "\" method=\"POST\">\n";
+	    print "$i<form action=\"$self\" method=\"POST\">\n";
 	    print "$i<table cellpadding=\"2\" cellspacing=\"0\" border=\"0\">\n";
 	    print "$i <tr>\n";
 	    print "$i  <td>\n";
@@ -201,7 +203,7 @@ do {
 	    $bb->end();
 ?>
 
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST" name="account_form">
+<form action="<?php echo $self; ?>" method="POST" name="account_form">
 <input type="hidden" name="cmd" value="" />
 <input type="hidden" name="uid" value="<?php echo $requser->handle ?>" />
 <table cellpadding="3" cellspacing="0" border="0" width="90%">
@@ -328,7 +330,7 @@ foreach ($reasons as $reason) {
 			}
         //-->
         </script>
-		<form action="<?php echo $_SERVER['PHP_SELF']; ?>" name="mass_reject_form" method="post">
+		<form action="<?php echo $self; ?>" name="mass_reject_form" method="post">
 		<input type="hidden" value="" name="cmd"/>
 		<?php
         $bb = new BorderBox("Account Requests", "100%", "", 6, true);
@@ -358,7 +360,7 @@ foreach ($reasons as $reason) {
                               sprintf('<span style="cursor: hand" onmousedown="highlightAccountRow(this)">%s</span>', $handle),
 							  sprintf('<span style="cursor: hand" onmousedown="highlightAccountRow(this)">%s</span>', $account_purpose),
                               sprintf('<span style="cursor: hand" onmousedown="highlightAccountRow(this)">%s</span>', ($rejected ? "rejected" : "<font color=\"#c00000\"><strong>Outstanding</strong></font>")),
-                              sprintf('<span style="cursor: hand" onmousedown="highlightAccountRow(this)">%s</span>', "<a onmousedown=\"event.cancelBubble = true\" href=\"" . $_SERVER['PHP_SELF'] . "?acreq=$handle\">" . make_image("edit.gif") . "</a>")
+                              sprintf('<span style="cursor: hand" onmousedown="highlightAccountRow(this)">%s</span>', "<a onmousedown=\"event.cancelBubble = true\" href=\"$self?acreq=$handle\">" . make_image("edit.gif") . "</a>")
                               );
             }
 

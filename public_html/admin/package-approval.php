@@ -83,6 +83,7 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
 
 $query = "SELECT * FROM packages WHERE approved = 0 AND package_type = 'pear'";
 $rows = $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
+$self = htmlspecialchars($_SERVER['PHP_SELF']);
 
 if (count($rows) == 0) {
     echo "<b>Currently there are no unapproved packages.</b>\n";
@@ -91,9 +92,9 @@ if (count($rows) == 0) {
 
     foreach ($rows as $row) {
         $bb->plainRow($row['name'], 
-                      make_link($_SERVER['PHP_SELF'] . "?approve=" . $row['id'], "Approve") .
+                      make_link("$self?approve=" . $row['id'], "Approve") .
                       delim() .
-                      make_link($_SERVER['PHP_SELF'] . "?reject=" . $row['id'], "Reject")
+                      make_link("$self?reject=" . $row['id'], "Reject")
                       );
     }
 

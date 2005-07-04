@@ -30,6 +30,8 @@ if (isset($_GET['pid'])) {
     $id = 0;
 }
 
+$self = htmlspecialchars($_SERVER['PHP_SELF']);
+
 // Select package first
 if (empty($id)) {
     $packages = package::listAll(true, false, true);
@@ -41,7 +43,7 @@ if (empty($id)) {
 
     $bb = new BorderBox("Select package");
 
-    $form = new HTML_Form($_SERVER['PHP_SELF']);
+    $form = new HTML_Form($self);
     $form->addSelect("pid", "Package:", $values);
     $form->addSubmit();
     $form->display();
@@ -66,7 +68,7 @@ if (empty($id)) {
     $package = $dbh->getOne('SELECT name FROM packages WHERE id=?', array($id));
     $pear_rest->savePackageMaintainerREST($package);
 
-    $url = $_SERVER['PHP_SELF'];
+    $url = $self;
     if (!empty($_GET['pid'])) {
         $url .= "?pid=" . $_GET['pid'];
     }
@@ -83,7 +85,7 @@ if (empty($id)) {
     $bb = new BorderBox("Manage maintainers", "100%");
 
     echo '<script src="/javascript/package-maintainers.js" type="text/javascript"></script>';
-    echo '<form onSubmit="beforeSubmit()" name="form" method="get" action="' . $_SERVER['PHP_SELF'] . '">';
+    echo '<form onSubmit="beforeSubmit()" name="form" method="get" action="' . $self . '">';
     echo '<input type="hidden" name="update" value="yes" />';
     echo '<input type="hidden" name="pid" value="' . $id . '" />';
     echo '<table border="0" cellpadding="0" cellspacing="4" border="0" width="100%">';

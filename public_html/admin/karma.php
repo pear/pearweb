@@ -39,8 +39,10 @@ if (!empty($_REQUEST['handle'])) {
     }
 }
 
+$self = htmlspecialchars($_SERVER['PHP_SELF']);
+
 if ($handle === null || empty($handle)) {
-    $form = new PEAR_Web_Form($_SERVER['PHP_SELF'], "post");
+    $form = new PEAR_Web_Form($self, "post");
     $form->addUserSelect("handle", "Handle: ");
     $form->addSubmit();
     $form->display();
@@ -72,7 +74,7 @@ if ($handle === null || empty($handle)) {
         $bb = new BorderBox("Karma levels for " . $handle, "90%", "", 4, true);
         $bb->HeadRow("Level", "Added by", "Added at", "Remove");
         foreach ($user_karma as $item) {
-            $remove = sprintf($_SERVER['PHP_SELF'] . "?action=remove&amp;handle=%s&amp;level=%s",
+            $remove = sprintf("$self?action=remove&amp;handle=%s&amp;level=%s",
                               $handle, $item['level']);
 
             $bb->plainRow($item['level'], $item['granted_by'], 
@@ -86,7 +88,7 @@ if ($handle === null || empty($handle)) {
     echo "<br /><br />";
 
     $bb = new BorderBox("Grant karma to " . $handle);
-    $form = new HTML_Form($_SERVER['PHP_SELF'] . "?action=grant", "post");
+    $form = new HTML_Form("$self?action=grant", "post");
     $form->addText("level", "Level: ");
     $form->addHidden("handle", $handle);
     $form->addSubmit();
@@ -111,7 +113,7 @@ if (!empty($_GET['a']) && $_GET['a'] == "details" && !empty($_GET['level'])) {
 } else {
     $bb->headRow("Level", "# of users");
     foreach ($karma->getLevels() as $level) {
-        $bb->plainRow(make_link($_SERVER['PHP_SELF']. "?a=details&amp;level=" . $level['level'], $level['level']), $level['sum']);
+        $bb->plainRow(make_link("$self?a=details&amp;level=" . $level['level'], $level['level']), $level['sum']);
     }
 }
 
