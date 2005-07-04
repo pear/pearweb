@@ -219,27 +219,7 @@ function checkLinkTypeAndUrl($link, $linkCount) {
     }
 
     if ('' != $url) {
-        switch ($type) {
-            case 'pkg_file':
-                return preg_match('"^http\://.+\.tgz$"', $url)? true: false;
-                break;
-
-            case 'pkg_source':
-                return preg_match('"^http\://.+\.(phps|htm(l)?)$"', $url)? true: false;
-                break;
-
-            case 'pkg_example':
-                return preg_match('"^http\://.+\.php$"', $url)? true: false;
-                break;
-
-            case 'pkg_example_source':
-                return preg_match('"^http\://.+\.(phps|htm(l)?)$"', $url)? true: false;
-                break;
-
-            case 'pkg_doc':
-                return preg_match('"^http\://.+$"', $url)? true: false;
-                break;
-        }
+        return preg_match('@^http\://@', $url) ? true: false;
     }
 
     return '' == $url? true: false;
