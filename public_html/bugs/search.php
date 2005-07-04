@@ -38,7 +38,7 @@ if (!empty($_GET['search_for']) &&
             $x = '';
         }
     }
-    localRedirect('bug.php?id=' . $_GET['search_for'] . $x);
+    localRedirect('bug.php?id=' . htmlspecialchars($_GET['search_for']) . $x);
     exit;
 }
 
@@ -173,7 +173,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     if (empty($_GET['search_for'])) {
         $search_for = '';
     } else {
-        $search_for = $_GET['search_for'];
+        $search_for = htmlspecialchars($_GET['search_for']);
         list($sql_search, $ignored) = format_search_string($search_for);
         $where_clause .= $sql_search;
         if (count($ignored) > 0 ) {
@@ -343,7 +343,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         }
 
         if (!$rows) {
-            show_bugs_menu($_GET['package_name'][0], $status);
+            show_bugs_menu(htmlspecialchars($_GET['package_name'][0]), $status);
             $errors[] = 'No bugs were found.';
             display_bug_error($errors, 'warnings', '');
         } else {
@@ -361,7 +361,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 }
             }
 
-            $link = $_SERVER['PHP_SELF'] .
+            $link = htmlspecialchars($_SERVER['PHP_SELF']) .
                     '?cmd=display' .
                     $package_name_string  .
                     $package_nname_string .
@@ -382,7 +382,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;maintain='    . urlencode($maintain);
 
             display_bug_error($warnings, 'warnings', 'WARNING:');
-            show_bugs_menu($_GET['package_name'], $status);
+            show_bugs_menu(htmlspecialchars($_GET['package_name']), $status);
 
             ?>
 
@@ -440,7 +440,7 @@ display_bug_error($errors);
 display_bug_error($warnings, 'warnings', 'WARNING:');
 
 ?>
-<form id="asearch" method="get" action="<?php echo $_SERVER['PHP_SELF'] ?>">
+<form id="asearch" method="get" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
 <table id="primary" width="100%">
 <tr valign="top">
   <th>Find bugs</th>
@@ -509,7 +509,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
   <td><input type="text" name="assign" value="<?php echo clean($assign);?>" />
 <?php
     if (!empty($_COOKIE['PEAR_USER'])) {
-        $u = rinse($_REQUEST['PEAR_USER']);
+        $u = rinse(htmlspecialchars($_REQUEST['PEAR_USER']));
         print "<input type=\"button\" value=\"set to $u\" onclick=\"form.assign.value='$u'\" />";
     }
 ?>
@@ -521,7 +521,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
   <td><input type="text" name="maintain" value="<?php echo clean($maintain);?>" />
 <?php
     if (!empty($_COOKIE['PEAR_USER'])) {
-        $u = stripslashes($_REQUEST['PEAR_USER']);
+        $u = htmlspecialchars(stripslashes($_REQUEST['PEAR_USER']));
         print "<input type=\"button\" value=\"set to $u\" onclick=\"form.maintain.value='$u'\" />";
     }
 ?>

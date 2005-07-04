@@ -269,13 +269,13 @@ if (isset($_POST['in'])) {
 
 
 if (!package_exists($_REQUEST['package'])) {
-    $errors[] = 'Package &quot;' . $_REQUEST['package'] . '&quot; does not exist.';
+    $errors[] = 'Package &quot;' . clean($_REQUEST['package']) . '&quot; does not exist.';
     response_header("Report - Invalid bug type");
     display_bug_error($errors);
 } else {
     if (!isset($_POST['in'])) {
         response_header('Report - New');
-        show_bugs_menu($_REQUEST['package']);
+        show_bugs_menu(clean($_REQUEST['package']));
 
         ?>
 
@@ -313,8 +313,8 @@ if (!package_exists($_REQUEST['package'])) {
     ?>
 
 <form method="post"
- action="<?php echo $_SERVER['PHP_SELF'] . '?package='
- . $_REQUEST['package']; ?>">
+ action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . '?package='
+ . clean($_REQUEST['package']); ?>">
 <table class="form-holder" cellspacing="1">
  <tr>
   <th class="form-label_left">
@@ -347,7 +347,7 @@ if (!package_exists($_REQUEST['package'])) {
 
     if (!empty($_REQUEST['package'])) {
         echo '<input type="hidden" name="in[package_name]" value="';
-        echo $_REQUEST['package'] . '" />' . $_REQUEST['package'];
+        echo clean($_REQUEST['package']) . '" />' . clean($_REQUEST['package']);
         if ($_REQUEST['package'] == 'Bug System') {
             echo '<p><strong>WARNING: You are saying the <em>package';
             echo ' affected</em> is the &quot;Bug System.&quot; This';
@@ -359,7 +359,7 @@ if (!package_exists($_REQUEST['package'])) {
         }
     } else {
         echo '<select name="in[package_name]">' . "\n";
-        show_types(null, 0, $_REQUEST['package']);
+        show_types(null, 0, clean($_REQUEST['package']));
         echo '</select>';
     }
 
