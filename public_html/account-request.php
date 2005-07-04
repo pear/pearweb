@@ -186,7 +186,7 @@ MSG;
         $purposechecks .= "$purposeKey <br />";
     }
 
-    $form = new HTML_Form($_SERVER['SCRIPT_NAME'] . '#requestform', 'post');
+    $form = new HTML_Form(htmlspecialchars($_SERVER['SCRIPT_NAME']) . '#requestform', 'post');
 
     $form->addText('handle', 'Use<span class="accesskey">r</span>name:',
             @$clean['handle'], 12, 20, 'accesskey="r"');

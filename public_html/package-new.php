@@ -110,9 +110,9 @@ if ($display_form) {
     <?php
 
     $categories = $dbh->getAssoc("SELECT id,name FROM categories ORDER BY name");
-    $form =& new HTML_Form($_SERVER['SCRIPT_NAME'], 'post');
+    $form =& new HTML_Form(htmlspecialchars($_SERVER['SCRIPT_NAME']), 'post');
 
-    print "<form method=\"post\" action=\"" . $_SERVER['SCRIPT_NAME'] . "\">\n";
+    print "<form method=\"post\" action=\"" . htmlspecialchars($_SERVER['SCRIPT_NAME']) . "\">\n";
 
     $bb = new BorderBox("Register package", "100%", "", 2, true);
 
