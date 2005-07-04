@@ -25,6 +25,7 @@
  */
 
 $template_dir = dirname(dirname(__FILE__)) . '/templates/';
+$script_name = htmlspecialchars($_SERVER['SCRIPT_NAME']);
 
 require_once 'browser.php';
 require_once 'HTML/Table.php';
@@ -90,7 +91,7 @@ $category_title = "Package Browser :: " . htmlspecialchars($catname);
 if (empty($catpid)) {
     $showempty_link = 'Top Level';
 } else {
-    $showempty_link = '<a href="'. $_SERVER['SCRIPT_NAME'] .getQueryString($catpid, $catname, !$showempty).'">'.($showempty ? 'Hide empty' : 'Show empty').'</a>';
+    $showempty_link = '<a href="'. $script_name .getQueryString($catpid, $catname, !$showempty).'">'.($showempty ? 'Hide empty' : 'Show empty').'</a>';
 }
 
 /*
@@ -147,7 +148,7 @@ while ($sth->fetchInto($row)) {
     $sub_links = array();
     if (isset($subcats[$id])) {
         foreach ($subcats[$id] as $subcat) {
-            $sub_links[] = '<b><a href="'. $_SERVER['SCRIPT_NAME'] .'?catpid='.$subcat['id'].'&amp;catname='.
+            $sub_links[] = '<b><a href="'. $script_name .'?catpid='.$subcat['id'].'&amp;catname='.
                             urlencode($subcat['name']).'" title="'.htmlspecialchars($subcat['summary']).'">'.$subcat['name'].'</a></b>';
             if (sizeof($sub_links) >= $max_sub_links) {
                 break;
@@ -174,7 +175,7 @@ while ($sth->fetchInto($row)) {
     settype($npackages, 'string');
     settype($ncategories, 'string');
 
-    $data  = '<font size="+1"><b><a href="'. $_SERVER['SCRIPT_NAME'] .'?catpid='.$id.'&amp;catname='.urlencode($name).'">'.$name.'</a></b></font> ('.$npackages.')<br />';//$name; //array($name, $npackages, $ncategories, $summary);
+    $data  = '<font size="+1"><b><a href="'. $script_name .'?catpid='.$id.'&amp;catname='.urlencode($name).'">'.$name.'</a></b></font> ('.$npackages.')<br />';//$name; //array($name, $npackages, $ncategories, $summary);
     $data .= $sub_links.'<br />';
     $catdata[] = $data;
 
@@ -208,7 +209,7 @@ if (!empty($catpid)) {
     if (count($subcats) > 0) {
         foreach ($subcats as $subcat) {
             $subCategories[] = sprintf('<b><a href="%s?catpid=%d&catname=%s" title="%s">%s</a></b>',
-                                       $_SERVER['SCRIPT_NAME'],
+                                       $script_name,
                                        $subcat['id'],
                                        urlencode($subcat['name']),
                                        htmlspecialchars($subcat['summary']),

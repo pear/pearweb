@@ -24,6 +24,8 @@ define('HTML_FORM_MAX_FILE_SIZE', 16 * 1024 * 1024); // 16 MB
 define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
 define('HTML_FORM_TD_ATTR', 'class="form-input"');
 
+$script_name = htmlspecialchars($_SERVER['SCRIPT_NAME']);
+
 require_once 'HTML/Form.php';
 
 $display_form         = true;
@@ -250,7 +252,7 @@ Uploading new releases is restricted to each package's lead developer(s).
 </p>
 MSG;
 
-    $form =& new HTML_Form($_SERVER['SCRIPT_NAME'], 'post', '', '',
+    $form =& new HTML_Form($script_name, 'post', '', '',
             'multipart/form-data');
     $form->addFile('distfile',
             '<label for="f" accesskey="i">D<span class="accesskey">i</span>'
@@ -330,7 +332,7 @@ if ($display_verification) {
                      . 'You must correct your package.xml file:');
         report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
                      . 'You may want to correct your package.xml file:');
-        $form =& new HTML_Form($_SERVER['SCRIPT_NAME'], 'post');
+        $form =& new HTML_Form($script_name, 'post');
         $form->addPlaintext('Package:', $info->getPackage());
         $form->addPlaintext('Version:', $info->getVersion());
         $form->addPlaintext('Summary:', htmlspecialchars($info->getSummary()));
@@ -387,7 +389,7 @@ if ($display_verification) {
             }
         }
     
-        $form =& new HTML_Form($_SERVER['SCRIPT_NAME'], 'post');
+        $form =& new HTML_Form($script_name, 'post');
         $form->addPlaintext('Package:', $info['package']);
         $form->addPlaintext('Version:', $info['version']);
         $form->addPlaintext('Summary:', htmlspecialchars($info['summary']));
