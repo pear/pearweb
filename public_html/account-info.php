@@ -128,7 +128,7 @@ if ($row['homepage']) {
 
 if ($row['wishlist']) {
     echo '<li>Wishlist: &nbsp;';
-    print_link('http://' . $_SERVER['HTTP_HOST'] . '/wishlist.php/' . $handle);
+    print_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/wishlist.php/' . $handle);
     echo "</li>\n";
 }
 
@@ -141,7 +141,7 @@ if ($row['pgpkeyid']) {
 }
 
 echo '<li>RSS Feed: &nbsp;';
-print_link('http://' . $_SERVER['HTTP_HOST'] . '/feeds/user_' . $handle . '.rss');
+print_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/feeds/user_' . $handle . '.rss');
 echo '</li>';
 
 ?>
