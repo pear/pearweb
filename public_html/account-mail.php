@@ -50,7 +50,7 @@ function printForm($data = array())
         }
     }
 
-    $form = new HTML_Form($_SERVER['PHP_SELF'] . '?handle=' . $_GET['handle'],
+    $form = new HTML_Form('/account-mail.php?handle=' . htmlspecialchars($_GET['handle']),
                           'post', 'contact');
 
     $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
