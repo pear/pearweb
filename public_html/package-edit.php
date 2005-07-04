@@ -24,8 +24,10 @@
 
 auth_require('pear.dev');
 
+$self = strip_tags(htmlspecialchars($_SERVER['SCRIPT_NAME']));
+
 require_once 'HTML/Form.php';
-$form = new HTML_Form($_SERVER['PHP_SELF']);
+$form = new HTML_Form($self);
 
 response_header('Edit Package');
 ?>
@@ -124,7 +126,7 @@ print_package_navigation($row['packageid'], $row['name'],
 
 ?>
 
-<form action="<?php echo $_SERVER['PHP_SELF']?>?id=<?php echo $_GET['id']; ?>" method="POST">
+<form action="<?php echo $self; ?>?id=<?php echo $_GET['id']; ?>" method="POST">
 <table class="form-holder" style="margin-bottom: 2em;" cellspacing="1">
 <caption class="form-caption">Edit Package Information</caption>
 <tr>
@@ -211,7 +213,7 @@ foreach ($row['releases'] as $version => $release) {
     echo "</td>\n";
     echo '  <td class="form-input">' . "\n";
 
-    $url = $_SERVER['PHP_SELF'] . '?id=' .
+    $url = $self . '?id=' .
             $_GET['id'] . '&amp;release=' .
             $release['id'] . '&amp;action=release_remove';
     $msg = 'Are you sure that you want to delete the release?';
