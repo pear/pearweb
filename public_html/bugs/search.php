@@ -343,7 +343,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         }
 
         if (!$rows) {
-            show_bugs_menu(htmlspecialchars($_GET['package_name'][0]), $status);
+            show_bugs_menu($_GET['package_name'][0], $status);
             $errors[] = 'No bugs were found.';
             display_bug_error($errors, 'warnings', '');
         } else {
@@ -382,7 +382,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;maintain='    . urlencode($maintain);
 
             display_bug_error($warnings, 'warnings', 'WARNING:');
-            show_bugs_menu(htmlspecialchars($_GET['package_name']), $status);
+            show_bugs_menu($_GET['package_name'], $status);
 
             ?>
 

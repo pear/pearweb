@@ -1038,7 +1038,7 @@ function show_bugs_menu($pkgname, $status = null)
         }
         if (in_array($value, $pseudo_pkgs)) {
             $home = false;
-            $pkgname[$key] = strtr($value, ' ', '+');
+            $pkgname[$key] = htmlspecialchars(strtr($value, ' ', '+'));
         }
     }
     $pkgs = 'package_name[]=' . implode('&amp;package_name[]=', $pkgname);
