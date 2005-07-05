@@ -298,6 +298,36 @@ if (isset($_ENV['PROPOSAL_MAIL_FROM'])) {
     define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>');
 }
 
+if (isset($_ENV['PEAR_WIKI_URL'])) {
+    /**
+     * @ignore
+     */
+    define('PEAR_WIKI_URL', $_ENV['PEAR_WIKI_URL']);
+} else {
+    /**
+     * The full URL to the wiki, no / at the end
+     *
+     * To override default, set the value in $_ENV['PEAR_WIKI_URL']
+     * before this file is included.
+     */
+    define('PEAR_WIKI_URL', 'http://wiki.pear.php.net');
+} 
+
+if (isset($_ENV['PEAR_WIKI_DSN'])) {
+    /**
+     * @ignore
+     */
+    define('PEAR_WIKI_DSN', $_ENV['PEAR_WIKI_DSN']);
+} else {
+    /**
+     * The DSN for the wiki database
+     *
+     * To override default, set the value in $_ENV['PEAR_WIKI_DSN']
+     * before this file is included.
+     */
+    define('PEAR_WIKI_DSN', 'mysql://pear:pear@localhost/pearwiki');
+} 
+    
 /**
  * PEPr: the string prepended to the subject lines of emails
  */

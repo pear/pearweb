@@ -73,6 +73,11 @@ if (!empty($params['action'])) {
         $action = $params['action'];
         break;
 
+    case 'wiki':
+        header('Location: ' . PEAR_WIKI_URL . '/index.php?area=' . urlencode($pkg['name']));
+        exit();
+        break;
+
     case 'redirected' :
         $redirected = true;
         $params['action']= '';

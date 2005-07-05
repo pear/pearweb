@@ -69,7 +69,8 @@ if (isset($_POST['submit'])) {
     } else {
         $query = 'UPDATE packages SET name = ?, license = ?,
                   summary = ?, description = ?, category = ?,
-                  homepage = ?, package_type = ?, doc_link = ?, cvs_link = ?
+                  homepage = ?, package_type = ?, doc_link = ?, cvs_link = ?,
+                  wiki_area = ?
                   WHERE id = ?';
 
         $qparams = array(
@@ -82,6 +83,7 @@ if (isset($_POST['submit'])) {
                       'pear',
                       $_POST['doc_link'],
                       $_POST['cvs_link'],
+                      ($_POST['wiki_area']) ? 1 : 0,
                       $_GET['id']
                     );
 
@@ -90,10 +92,76 @@ if (isset($_POST['submit'])) {
         if (PEAR::isError($sth)) {
             report_error('Unable to save data!');
         } else {
-            $pear_rest->savePackageREST($_POST['name']);
+             $pear_rest->savePackageREST($_POST['name']);
+             $wikidb = DB::connect(PEAR_WIKI_DSN);
+ 
+             $area_query = 'INSERT INTO yawiki_areas (name,title) VALUES (?,?)';
+             
+             $prep = $wikidb->prepare($area_query);
+             $res = $wikidb->execute($prep, array($_POST['name'], $_POST['name']));
+ 
+             if (PEAR::isError($res)) {
+                 report_error('Cannot create the wiki area');
+             }
+ 
+             $area_query = 'INSERT INTO yawiki_store (area,page,body,dt,username) VALUES (?,?,?,?,?)';
+             
+             $data = array(
+                 $_POST['name'], 'HomePage',
+                 'This is ' . $_POST['name'] . ' package HomePage',
+                 date('Y-m-d H:i:s'),
+                 'pear-qa'
+             );
+ 
+             $prep = $wikidb->prepare($area_query);
+             $res = $wikidb->execute($prep, $data);
+ 
+             if (PEAR::isError($res)) {
+                 report_error('Cannot create the main page of the area');
+             }
+ 
+             $data = array(
+                 $_POST['name'], 'AreaMap',
+                 'HomePage',
+                 date('Y-m-d H:i:s'),
+                 'pear-qa'
+             );
+ 
+             $prep = $wikidb->prepare($area_query);
+             $res = $wikidb->execute($prep, $data);
+ 
+             if (PEAR::isError($res)) {
+                 report_error('Cannot create the area map');
+             }
+ 
+             $query = 'INSERT INTO yawiki_acl (id, seq, flag, username, priv,
+             area, page) VALUES (?, ?, ?, ?, ?, ?, ?)';
+ 
+             $maintainers = maintainer::get($_GET['id']);
+             $accounts  = array();
+ 
+             foreach ($maintainers as $handle => $row) {
+                 if ($row['role'] == 'lead') {
+                     $accounts[] = array(
+                         $wikidb->nextId('_yawiki_acl_id'),
+                         100, 1, $handle, 'area_admin', $_POST['name'], '*'
+                     );
+                 }
+             }
+ 
+             // Add the ACL only if there are lead(s) declared
+             if (count($accounts) > 0) {
+                 $prep = $wikidb->prepare($query);
+                 $res = $wikidb->executeMultiple($prep, $accounts);
+             }
+ 
+             if (PEAR::isError($res)) {
+                 report_error('Cannot create the wiki area ACL entries');
+             }
+         }
+ 
             echo "<b>Package information successfully updated.</b><br /><br />\n";
         }
-    }
 
 } else if (isset($_GET['action'])) {
     switch ($_GET['action']) {
@@ -114,7 +182,6 @@ if (isset($_POST['submit'])) {
 }
 
 $row = package::info((int)$_GET['id']);
-
 if (empty($row['name'])) {
     report_error('Illegal package id');
     response_footer();
@@ -183,6 +250,13 @@ $form->displaySelect("category", $rows, $row['categoryid']);
     <th class="form-label_left">Web CVS URI:</th>
     <td class="form-input">
     <?php $form->displayText('cvs_link', $row['cvs_link'], 50, 255); ?>
+    </td>
+</tr>
+<tr>
+    <th class="form-label_left">Activate wiki area ?</th>
+    <td class="form-input">
+    <?php $wiki_area = ($row['wiki_area'] == 1) ? 'readonly="readonly" disabled="disabled"' : '';
+    $form->displayCheckbox('wiki_area', ($row['wiki_area']) ? true : false, $wiki_area); ?>
     </td>
 </tr>
 <tr>

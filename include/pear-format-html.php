@@ -161,7 +161,7 @@ echo $extraHeaders;
 <table class="head" cellspacing="0" cellpadding="0">
  <tr>
   <td class="head-logo">
-   <?php print_link('/', make_image('pearsmall.gif', 'PEAR :: The PHP Extension and Application Repository', false, false, false, false, 'margin: 5px;') ); ?><br />
+   <?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
   </td>
   <td class="head-menu">
    <?php
@@ -944,8 +944,11 @@ function print_package_navigation($pacid, $name, $action)
                                                 'title' => 'Read the available documentation'),
                        'Bugs'          => array('url'   => 'bugs',
                                                 'title' => 'View/Report Bugs'),
+
                        'Trackbacks'    => array('url'   => 'trackbacks',
                                                 'title' => 'Show Related Sites'),
+		       'Wiki'          => array('url'   => 'wiki',
+		                                'title' => 'View wiki area')
                        );
 
     if (isset($auth_user) && is_object($auth_user)) {
@@ -1077,5 +1080,4 @@ function make_ticket_links($text)
                          '<a href="/bugs/\\2">\\0</a>', $text);
     return $text;
 }
-
 ?>
