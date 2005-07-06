@@ -25,9 +25,9 @@ define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 
 if (isset($_GET['handle'])) {
-    $handle = strtolower($_GET['handle']);
+    $handle = htmlspecialchars(strtolower($_GET['handle']));
 } elseif (isset($_POST['handle'])) {
-    $handle = strtolower($_POST['handle']);
+    $handle = htmlspecialchars(strtolower($_POST['handle']));
 } else {
     $handle = '';
 }
