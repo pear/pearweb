@@ -25,7 +25,8 @@ if (!empty($_GET['_no_cache']) && (int)$_GET['_no_cache'] == 1) {
     $no_cache = 0;
 }
 
-$cache_files = array("/credits.php" => "", 
+$cache_files = array('/index.php'=>'',
+                     "/credits.php" => "", 
                      "/copyright.php" => "",
                      "/dtd/index.php" => "",
                      "/feeds/index.php" => "",
@@ -39,7 +40,7 @@ $cache_files = array("/credits.php" => "",
                      // "/packages.php" => @$_GET['catpid'] . @$_GET['showempty'] . "__" . @$_GET['hideMoreInfo'] . "__" . @$_GET['showMoreInfo']
                      );
 
-$cache_dirs  = array("/news" => "",
+$cache_dirs  = array(
                      "/about" => "",
                      "/group" => "",
                      "/group/docs" => "",
