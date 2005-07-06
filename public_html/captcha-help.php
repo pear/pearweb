@@ -30,7 +30,7 @@ response_header('CAPTCHA :: Help');
 <h1>CAPTCHA Help</h1>
 
 <p>Some forms on the PEAR website use
-<a href="http://www.parc.xerox.com/research/istl/projects/captcha/"><acronym
+<a href="http://www.captcha.net/"><acronym
  title="Completely Automated Public Turing test to tell Computers and Humans Apart"
  >CAPTCHA</acronym></a>s in order to avoid our getting spammed.</p>
 
