@@ -947,8 +947,9 @@ function print_package_navigation($pacid, $name, $action)
 
                        'Trackbacks'    => array('url'   => 'trackbacks',
                                                 'title' => 'Show Related Sites'),
+/*
 		       'Wiki'          => array('url'   => 'wiki',
-		                                'title' => 'View wiki area')
+		                                'title' => 'View wiki area')*/
                        );
 
     if (isset($auth_user) && is_object($auth_user)) {
