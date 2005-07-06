@@ -41,17 +41,18 @@ $cache_files = array('/index.php'=>'',
                      );
 
 $cache_dirs  = array(
-                     "/about" => "",
-                     "/group" => "",
+                     '/news'       => '',
+                     "/about"      => "",
+                     "/group"      => "",
                      "/group/docs" => "",
-                     "/manual" => "",
-                     "/manual/en" => "",
-                     "/manual/fr" => "",
-                     "/manual/hu" => "",
-                     "/manual/ja" => "",
-                     "/manual/nl" => "",
-                     "/manual/ru" => "",
-                     "/user" => $_SERVER['PHP_SELF']
+                     "/manual"     => "",
+                     "/manual/en"  => "",
+                     "/manual/fr"  => "",
+                     "/manual/hu"  => "",
+                     "/manual/ja"  => "",
+                     "/manual/nl"  => "",
+                     "/manual/ru"  => "",
+                     "/user"       => $_SERVER['PHP_SELF']
                      );
 
 if (DEVBOX === true ||
