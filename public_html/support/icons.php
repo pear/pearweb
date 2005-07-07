@@ -83,6 +83,16 @@ put on your webpage, telling the world what makes your site tick?</p>
     <td><img src="/gifs/pear-poster.png" border="0" width="90" height="127" alt="PEAR poster, PDF format"  /><br /></td>
     <td><a href="/downloads/pear-poster.pdf">PEAR Poster</a>, PDF format<br /><small>for printing<br />18289 bytes</small></td>
 </tr>
+<tr bgcolor="e0e0e0">
+    <td colspan="2"><a href="/downloads/pear-folder.ico">PEAR Folder ICO</a> by Philippe Jausions <small>137750 bytes</small></td>
+</tr>
+<tr bgcolor="e0e0e0">
+    <td colspan="2"><a href="/downloads/pear-folder.svg">PEAR Folder SVG</a> by Philippe Jausions <small> 11635 bytes</small></td>
+</tr>
+<tr bgcolor="e0e0e0">
+    <td colspan="2"><a href="/downloads/pear-logos.svg">PEAR Logo SVG</a> by Philippe Jausions <small> 11343 bytes</small></td>
+</tr>
+
 </table>
 
 <p><b>Note:</b> Please do not just include these icons directly but
