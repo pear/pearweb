@@ -144,7 +144,7 @@ echo $extraHeaders;
         echo ' <link rel="stylesheet" href="' . $style_file . "\" />\n";
     }
 ?>
- <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo $_SERVER['HTTP_HOST']; ?>/feeds/latest.rss" />
+ <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo strip_tags($_SERVER['HTTP_HOST']); ?>/feeds/latest.rss" />
 </head>
 
 <body <?php
@@ -742,7 +742,7 @@ function user_link($handle, $compact = false)
     return sprintf("<a href=\"/user/%s\">%s</a>&nbsp;%s\n",
                    $handle,
                    $row['name'],
-                   ($row['wishlist'] != "" && $compact == false ? '['.make_link('http://' . $_SERVER['HTTP_HOST'] . '/wishlist.php/' . $handle, 'Wishlist').']' : '')
+                   ($row['wishlist'] != "" && $compact == false ? '['.make_link('http://' . strip_tags($_SERVER['HTTP_HOST']) . '/wishlist.php/' . $handle, 'Wishlist').']' : '')
                    );
 }
 
