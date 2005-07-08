@@ -41,7 +41,7 @@ if (!isset($_POST['confirm'])) {
                              '/package-delete.php?id=' . $_GET['id']);
 
     require_once 'HTML/Form.php';
-    $form = new HTML_Form($_SERVER['PHP_SELF'] . '?id=' . $_GET['id'], 'POST');
+    $form = new HTML_Form(htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $_GET['id'], 'POST');
 
     $form->start();
 

@@ -54,16 +54,16 @@ function printForm($data = array())
                           'post', 'contact');
 
     $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
-            $data['name'], 40, null, 'accesskey="o"');
+            htmlspecialchars($data['name']), 40, null, 'accesskey="o"');
     $form->addPlaintext('CAPTCHA:', generate_captcha());
     $form->addText('email', 'Email Address:',
-            $data['email'], 40, null);
+            htmlspecialchars($data['email']), 40, null);
     $form->addCheckBox('copy_me', 'Send me a copy of this mail:',
-            $data['copy_me']);
+            htmlspecialchars($data['copy_me']));
     $form->addText('subject', 'Subject:',
-            $data['subject'], 40, null);
+            htmlspecialchars($data['subject']), 40, null);
     $form->addTextarea('text', 'Text:',
-            $data['text'], 35, 10, null);
+            htmlspecialchars($data['text']), 35, 10, null);
     $form->addSubmit('submit', 'Submit');
     $form->display('class="form-holder"'
                    . ' cellspacing="1"',

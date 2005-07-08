@@ -68,13 +68,13 @@ do {
                                   ));
         $dbh->popExpect();
         if (DB::isError($pkg) && $pkg->getCode() == DB_ERROR_CONSTRAINT) {
-            error_handler("The `" . $_POST['name'] . "' package already exists!",
+            error_handler("The `" . htmlspecialchars($_POST['name']) . "' package already exists!",
                           "Package already exists");
             exit;
         }
         $display_form = false;
         response_header("Package Registered");
-        print "The package `" . $_POST['name'] . "' has been registered in PEAR.<br />\n";
+        print "The package `" . htmlspecialchars($_POST['name']) . "' has been registered in PEAR.<br />\n";
         print "You have been assigned as lead developer.<br />\n";
         print "The " . make_link("/group/", "PEAR Group") . " has been notified and the package will be approved soon.<br />\n";
     }

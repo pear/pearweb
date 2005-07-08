@@ -181,7 +181,7 @@ if (isset($_POST['action'])) {
  <a href="/manual/en/support.php">manual</a>.
 </p>
 
-<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
 <table class="form-holder" cellpadding="5" cellspacing="1">
 
 <?php
