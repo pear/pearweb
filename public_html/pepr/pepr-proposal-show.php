@@ -27,8 +27,7 @@ require_once 'pepr/pepr.php';
 
 
 $proposal_id = isset($_GET['id']) ? (int) $_GET['id'] : false;
-
-if (!$proposal_id && !$proposal =& proposal::get($dbh, $proposal_id)) {
+if ($proposal_id < 1 || !($proposal =& proposal::get($dbh, $proposal_id))) {
     response_header('PEPr :: Details :: Invalid Request');
     echo "<h1>Proposal for</h1>\n";
     report_error('The requested proposal does not exist.');
