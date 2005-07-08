@@ -25,12 +25,20 @@ define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 
 if (isset($_GET['handle'])) {
-    $handle = htmlspecialchars(strtolower($_GET['handle']));
+    $handle = $_GET['handle'];
 } elseif (isset($_POST['handle'])) {
-    $handle = htmlspecialchars(strtolower($_POST['handle']));
+    $handle = $_POST['handle'];
 } else {
-    $handle = '';
+    $handle = false;
 }
+
+if ($handle && ereg('$[0-1a-z_]{3,20}$', $handle)) {
+    response_header('Error:');
+    report_error("No valid handle given!");
+    response_footer();
+    exit();
+}
+
 
 ob_start();
 response_header('Edit Profile :: ' . $handle);
@@ -49,29 +57,41 @@ if (!$admin && !$user) {
     exit();
 }
 
-if (empty($handle) && !isset($_POST['command'])) {
-    PEAR::raiseError("No valid handle found!");
+if (isset($_POST['command']) && strlen($_POST['command'] < 32)) {
+    $command = strip_tags($_POST['command']);
+} else {
+    $command = 'display';
 }
 
-if (!isset($_POST['command'])) {
-    $_POST['command'] = "display";
-}
-
-switch ($_POST['command']) {
+switch ($command) {
     case 'update':
-        if (isset($_POST['showemail'])) {
-            $_POST['showemail'] = 1;
-        } else {
-            $_POST['showemail'] = 0;
-        }
-        $user = user::update($_POST);
+        $fields_list = array("name", "email", "homepage", "showemail", "userinfo", "pgpkeyid", "wishlist");
 
-        $old_acl = $dbh->getCol("SELECT path FROM cvs_acl ".
-                                "WHERE username = ? AND access = 1", 0,
-                                array($handle));
+        $user_data_post = array('handle' => $handle);
+        foreach ($fields_list as $k) {
+            if ($k == 'showemail') {
+                $user_data_post['showemail'] =  isset($_POST['showemail']) ? 1 : 0;
+                continue;
+            }
+
+            if (!isset($_POST[$k])) {
+                report_error('Invalid data submitted.');
+                response_footer();
+                exit();
+            }
+            $user_data_post[$k] = strip_tags($_POST[$k]);
+        }
+
+        $user = user::update($user_data_post);
+
+        $old_acl = $dbh->getCol('SELECT path FROM cvs_acl '.
+                                'WHERE username = ' . "'$handle'" . ' AND access = 1', 0);
+
         $new_acl = preg_split("/[\r\n]+/", trim($_POST['cvs_acl']));
+
         $lost_entries = array_diff($old_acl, $new_acl);
         $new_entries = array_diff($new_acl, $old_acl);
+
         if (sizeof($lost_entries) > 0) {
             $sth = $dbh->prepare("DELETE FROM cvs_acl WHERE username = ? ".
                                  "AND path = ?");
@@ -81,6 +101,7 @@ switch ($_POST['command']) {
                 $dbh->execute($sth, array($handle, $ent));
             }
         }
+
         if (sizeof($new_entries) > 0) {
             $sth = $dbh->prepare("INSERT INTO cvs_acl (username,path,access) ".
                                  "VALUES(?,?,?)");
@@ -187,8 +208,6 @@ $form->addHidden('handle', $handle);
 $form->addHidden('command', 'change_password');
 $form->display('class="form-holder" cellspacing="1"',
                'Change Password', 'class="form-caption"');
-
 ob_end_flush();
 response_footer();
-
 ?>
