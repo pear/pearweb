@@ -22,6 +22,17 @@
  * Send mail to PEAR contributor
  */
 
+/* 
+ * HTML_Form accesses $_GET/$_POST directly and does no filtering, so we need to
+ * do this.  Easier to do once and for all at the top than try to track them
+ */
+if(isset($_GET['handle'])) $_GET['handle'] = htmlspecialchars($_GET['handle']);
+if(isset($_POST['email'])) $_POST['email'] = htmlspecialchars($_POST['email']);
+if(isset($_POST['name'])) $_POST['name'] = htmlspecialchars($_POST['name']);
+if(isset($_POST['copy_me'])) $_POST['copy_me'] = htmlspecialchars($_POST['copy_me']);
+if(isset($_POST['subject'])) $_POST['subject'] = htmlspecialchars($_POST['subject']);
+if(isset($_POST['text'])) $_POST['text'] = htmlspecialchars($_POST['text']);
+
 /*
  * Redirect to the accounts list if no handle was specified
  */
@@ -38,6 +49,7 @@ require_once 'HTML/Form.php';
 
 // {{{ printForm
 
+
 function printForm($data = array()) 
 {
     // The first field that's empty
@@ -50,20 +62,20 @@ function printForm($data = array())
         }
     }
 
-    $form = new HTML_Form('/account-mail.php?handle=' . htmlspecialchars($_GET['handle']),
+    $form = new HTML_Form('/account-mail.php?handle=' . $_GET['handle'],
                           'post', 'contact');
 
     $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
-            htmlspecialchars($data['name']), 40, null, 'accesskey="o"');
+            $data['name'], 40, null, 'accesskey="o"');
     $form->addPlaintext('CAPTCHA:', generate_captcha());
     $form->addText('email', 'Email Address:',
-            htmlspecialchars($data['email']), 40, null);
+            $data['email'], 40, null);
     $form->addCheckBox('copy_me', 'Send me a copy of this mail:',
-            htmlspecialchars($data['copy_me']));
+            $data['copy_me']);
     $form->addText('subject', 'Subject:',
-            htmlspecialchars($data['subject']), 40, null);
+            $data['subject'], 40, null);
     $form->addTextarea('text', 'Text:',
-            htmlspecialchars($data['text']), 35, 10, null);
+            $data['text'], 35, 10, null);
     $form->addSubmit('submit', 'Submit');
     $form->display('class="form-holder"'
                    . ' cellspacing="1"',
