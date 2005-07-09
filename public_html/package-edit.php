@@ -83,7 +83,7 @@ if (isset($_POST['submit'])) {
                       'pear',
                       $_POST['doc_link'],
                       $_POST['cvs_link'],
-                      ($_POST['wiki_area']) ? 1 : 0,
+                      isset($_POST['wiki_area']) ? 1 : 0,
                       $_GET['id']
                     );
 
