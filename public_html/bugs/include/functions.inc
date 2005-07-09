@@ -519,9 +519,6 @@ function show_types($current, $show_any, $default = '')
             }
         }
     }
-    if (!$use && $current && !is_array($current)) {
-        echo '<option selected="selected">' . $current . "</option>\n";
-    }
 }
 
 /**
