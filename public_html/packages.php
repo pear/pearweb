@@ -82,10 +82,12 @@ if (empty($catpid)) {
     $catname = "Top Level";
 } else {
     $category_where = "= " . $catpid;
-    $catname = isset($_GET['catname']) ? $_GET['catname'] : '';
+    if (isset($_GET['catname']) && eregi('^[0-9a-z ](1,80)$', $_GET['catname'])) {
+        $catname = $_GET['catname'];
+    } else {
+        $catname = '';
+    }
 }
-
-$category_title = "Package Browser :: " . htmlspecialchars($catname);
 
 // the user is already at the top level
 if (empty($catpid)) {
@@ -98,9 +100,17 @@ if (empty($catpid)) {
  * Main part of script
  */
 
-response_header($category_title);
 
 $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
+
+if ($catpid) {
+    $catname = $dbh->getOne('SELECT name FROM categories WHERE id=' . $catpid);
+    $category_title = "Package Browser :: " . htmlspecialchars($catname);
+} else {
+    $category_title = 'Package Browser :: Top Level';
+}
+
+response_header($category_title);
 
 // 1) Show categories of this level
 $sth = $dbh->query('SELECT c.*, COUNT(p.id) AS npackages' .
@@ -136,7 +146,6 @@ $max_sub_links = 4;
 $totalpackages = 0;
 while ($sth->fetchInto($row)) {
     extract($row);
-
     $ncategories = ($cat_right - $cat_left - 1) / 2;
 
     if (!$showempty AND $npackages < 1) {
