@@ -242,7 +242,7 @@ response_header('Package Search');
 
 <!-- This class prints stuff as part of it's constructor. -->
 
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="get" name="search_form" onsubmit="validate_form()">
+<form action="<?php echo strip_tags($_SERVER['PHP_SELF']); ?>" method="get" name="search_form" onsubmit="validate_form()">
 
 <table class="form-holder" cellspacing="1">
  <caption class="form-caption">Search Options</caption>
