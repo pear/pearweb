@@ -37,7 +37,7 @@ $cache_files = array('/index.php'=>'',
                      "/support/icons.php" => "",
                      "/account-info.php" => $_SERVER['PHP_SELF'] . (isset($_GET['handle']) ? $_GET['handle'] : ''),
                      "/accounts.php" => (isset($_GET['letter']) ? $_GET['letter'] : '') . "__" . (isset($_GET['offset']) ? $_GET['offset'] : ''),
-                     "/pepr/pepr-overview.php" => (isset($_GET['filter']) && $_GET['filter'] == 'finished' ? $_GET['filter'] : -1)
+                     "/pepr/pepr-overview.php" => array('key'=>(isset($_GET['filter']) || $_GET['filter'] == '' ? $_GET['filter'] : -1), 'ttl'=>5*60),
                      // "/packages.php" => @$_GET['catpid'] . @$_GET['showempty'] . "__" . @$_GET['hideMoreInfo'] . "__" . @$_GET['showMoreInfo']
                      );
 
@@ -73,11 +73,23 @@ if ($no_cache == 0) {
     $cache = new Cache_lite($options);
 
     $id = $_SERVER['PHP_SELF'];
-    if (!empty($cache_files[$_SERVER['PHP_SELF']])) {
-        if ($cache_files[$_SERVER['PHP_SELF']] > -1) {
-            $id .= $cache_files[$_SERVER['PHP_SELF']];
-        } else {
-            $id = false;
+    if (isset($cache_files[$_SERVER['PHP_SELF']])) {
+        if (is_array($cache_files[$_SERVER['PHP_SELF']])) {
+            $cache_props = $cache_files[$_SERVER['PHP_SELF']];
+            
+            $ttl = isset($cache_props['ttl']) ? $cache_props['ttl'] : CACHE_LIFETIME;
+
+            if (isset($cache_props['key']) && !empty($cache_props['key'])) {
+                $id .= '__' . $cache_props ['key'];
+            } else {
+                $id = $_SERVER['PHP_SELF'];
+            }
+        } elseif (!empty($cache_files[$_SERVER['PHP_SELF']])) {
+            if ($cache_files[$_SERVER['PHP_SELF']] > -1) {
+                $id .= $cache_files[$_SERVER['PHP_SELF']];
+            } else {
+                $id = false;
+            }
         }
     }
 
