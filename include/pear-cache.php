@@ -37,6 +37,7 @@ $cache_files = array('/index.php'=>'',
                      "/support/icons.php" => "",
                      "/account-info.php" => $_SERVER['PHP_SELF'] . (isset($_GET['handle']) ? $_GET['handle'] : ''),
                      "/accounts.php" => (isset($_GET['letter']) ? $_GET['letter'] : '') . "__" . (isset($_GET['offset']) ? $_GET['offset'] : ''),
+                     "/pepr/pepr-overview.php" => (isset($_GET['filter']) && $_GET['filter'] == 'finished' ? $_GET['filter'] : -1)
                      // "/packages.php" => @$_GET['catpid'] . @$_GET['showempty'] . "__" . @$_GET['hideMoreInfo'] . "__" . @$_GET['showMoreInfo']
                      );
 
@@ -73,13 +74,20 @@ if ($no_cache == 0) {
 
     $id = $_SERVER['PHP_SELF'];
     if (!empty($cache_files[$_SERVER['PHP_SELF']])) {
-        $id .= $cache_files[$_SERVER['PHP_SELF']];
+        if ($cache_files[$_SERVER['PHP_SELF']] > -1) {
+            $id .= $cache_files[$_SERVER['PHP_SELF']];
+        } else {
+            $id = false;
+        }
     }
 
-    if (!$cache_data = $cache->get($id)) {
-        ob_start();
-    } else {
-        exit($cache_data);
+    if ($id) {
+        if (!$cache_data = $cache->get($id)) {
+            ob_start();
+        } else {
+            exit($cache_data);
+        }
+
     }
 }
 ?>
