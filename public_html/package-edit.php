@@ -24,7 +24,7 @@
 
 auth_require('pear.dev');
 
-$self = strip_tags(htmlspecialchars($_SERVER['SCRIPT_NAME']));
+$self = htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME']));
 
 require_once 'HTML/Form.php';
 $form = new HTML_Form($self);
