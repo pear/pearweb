@@ -21,7 +21,7 @@
 response_header("Accounts");
 
 $page_size = 40;
-$self = strip_tags($_SERVER['PHP_SELF']);
+$self = htmlspecialchars($_SERVER['PHP_SELF']);
 
 print "<h1>Accounts</h1>\n";
 

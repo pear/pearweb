@@ -58,7 +58,7 @@ if (!$admin && !$user) {
 }
 
 if (isset($_POST['command']) && strlen($_POST['command'] < 32)) {
-    $command = strip_tags($_POST['command']);
+    $command = htmlspecialchars($_POST['command']);
 } else {
     $command = 'display';
 }
@@ -79,7 +79,7 @@ switch ($command) {
                 response_footer();
                 exit();
             }
-            $user_data_post[$k] = strip_tags($_POST[$k]);
+            $user_data_post[$k] = htmlspecialchars($_POST[$k]);
         }
 
         $user = user::update($user_data_post);

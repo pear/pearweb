@@ -22,7 +22,7 @@ PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
 
 require_once 'pear-cache.php';
 
-$self = strip_tags($_SERVER['PHP_SELF']);
+$self = htmlspecialchars($_SERVER['PHP_SELF']);
 
 $encoding = 'iso-8859-1';
 $extra_styles = array();
@@ -144,7 +144,7 @@ echo $extraHeaders;
         echo ' <link rel="stylesheet" href="' . $style_file . "\" />\n";
     }
 ?>
- <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo strip_tags($_SERVER['HTTP_HOST']); ?>/feeds/latest.rss" />
+ <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo htmlspecialchars($_SERVER['HTTP_HOST']); ?>/feeds/latest.rss" />
 </head>
 
 <body <?php
@@ -742,7 +742,7 @@ function user_link($handle, $compact = false)
     return sprintf("<a href=\"/user/%s\">%s</a>&nbsp;%s\n",
                    $handle,
                    $row['name'],
-                   ($row['wishlist'] != "" && $compact == false ? '['.make_link('http://' . strip_tags($_SERVER['HTTP_HOST']) . '/wishlist.php/' . $handle, 'Wishlist').']' : '')
+                   ($row['wishlist'] != "" && $compact == false ? '['.make_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/wishlist.php/' . $handle, 'Wishlist').']' : '')
                    );
 }
 
