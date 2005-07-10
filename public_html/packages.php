@@ -85,8 +85,6 @@ if (empty($catpid)) {
     if (isset($_GET['catname']) && eregi('^[0-9a-z_ ]{1,80}$', $_GET['catname'])) {
         $catname = $_GET['catname'];
     } else {
-        echo $_GET['catname'];
-        echo "Invalid request";
         $catname = '';
     }
 }
