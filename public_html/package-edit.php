@@ -52,6 +52,8 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
+$package_id = strip_tags(htmlspecialchars($_GET['id']));
+
 if (!user::maintains($_COOKIE['PEAR_USER'], $_GET['id'], 'lead') &&
     !user::isAdmin($_COOKIE['PEAR_USER']) &&
     !user::isQA($_COOKIE['PEAR_USER']))
@@ -84,7 +86,7 @@ if (isset($_POST['submit'])) {
                       $_POST['doc_link'],
                       $_POST['cvs_link'],
                       isset($_POST['wiki_area']) ? 1 : 0,
-                      $_GET['id']
+                      $package_id
                     );
 
         $sth = $dbh->query($query, $qparams);
@@ -118,6 +120,8 @@ if (isset($_POST['submit'])) {
  
              if (PEAR::isError($res)) {
                  report_error('Cannot create the main page of the area');
+                 response_footer();
+                 exit;
              }
  
              $data = array(
@@ -132,6 +136,8 @@ if (isset($_POST['submit'])) {
  
              if (PEAR::isError($res)) {
                  report_error('Cannot create the area map');
+                 response_footer();
+                 exit;
              }
  
              $query = 'INSERT INTO yawiki_acl (id, seq, flag, username, priv,
@@ -157,6 +163,8 @@ if (isset($_POST['submit'])) {
  
              if (PEAR::isError($res)) {
                  report_error('Cannot create the wiki area ACL entries');
+                 response_footer();
+                 exit;
              }
          }
  
@@ -171,7 +179,7 @@ if (isset($_POST['submit'])) {
                 break;
             }
 
-            if (release::remove($_GET['id'], $_GET['release'])) {
+            if (release::remove($package_id, $_GET['release'])) {
                 echo "<b>Release successfully deleted.</b><br /><br />\n";
             } else {
                 report_error('An error occured while deleting the release!');
@@ -181,7 +189,7 @@ if (isset($_POST['submit'])) {
     }
 }
 
-$row = package::info((int)$_GET['id']);
+$row = package::info((int)$package_id);
 if (empty($row['name'])) {
     report_error('Illegal package id');
     response_footer();
