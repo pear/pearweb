@@ -53,9 +53,9 @@
     }
 
     table#packageList {
-	    width: 100%;
-	    padding: 4px;
-	    padding-top: 0px;
+        width: 100%;
+        padding: 4px;
+        padding-top: 0px;
     }
 
     th.pkgListHeader {
@@ -152,7 +152,7 @@
          <?php if($_browser->is_ie5up):?>
           <td valign="top">
             <a href="#" onclick="toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>); return false" onmouseover="window.status = 'View more info about <?php echo $p['name']; ?>'; return true" onmouseout="window.status = ''" title="View more info about <?php echo $p['name']; ?>">
-             <img src="gifs/moreinfo.gif" alt="More Info" title="More Info" border="0" />
+                <img src="gifs/moreinfo.gif" alt="More Info" title="More Info" border="0" />
             </a>
           </td>
          <?php endif?>
@@ -187,7 +187,7 @@
         <tr <?php if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?php echo $defaultMoreInfoVis; ?>" <?php endif?> id="moreInfo_<?php echo $p['id']; ?>_spacer">
          <td colspan="5">&nbsp;</td>
         </tr>
-		<?php endforeach?>
+            <?php endforeach?>
        </table>
       </td>
      </tr>
