@@ -43,19 +43,28 @@ $_browser = &new browser();
  */
 function getQueryString($catpid, $catname, $showempty = false)
 {
+    $querystring = array();
+    $entries_cnt = 0;
     if ($catpid) {
         $querystring[] = 'catpid=' . $catpid;
+        $entries_cnt++;
     }
 
     if ($catname) {
         $querystring[] = 'catname=' . urlencode($catname);
+        $entries_cnt++;
     }
 
     if ($showempty) {
         $querystring[] = 'showempty=' . (int)$showempty;
+        $entries_cnt++;
     }
 
-    return '?' . implode('&amp;', $querystring);
+    if ($entries_cnt) {
+        return '?' . implode('&amp;', $querystring);
+    } else {
+        return '';
+    }
 }
 
 
