@@ -65,7 +65,7 @@ $cache_dirs  = array(
                      "/manual/nl"  => "",
                      "/manual/ru"  => "",
                      "/user"       => $_SERVER['PHP_SELF'],
-                     "/qa"         => ""
+                     'qa'          => ''
                      );
 
 if (DEVBOX === true ||
@@ -85,6 +85,7 @@ if ($no_cache == 0) {
     $cache = new Cache_lite($options);
 
     $id = $_SERVER['PHP_SELF'];
+
     if (isset($cache_files[$_SERVER['PHP_SELF']])) {
         if (is_array($cache_files[$_SERVER['PHP_SELF']])) {
             $cache_props = $cache_files[$_SERVER['PHP_SELF']];
@@ -101,6 +102,11 @@ if ($no_cache == 0) {
                 $id = false;
             }
         }
+    } else {
+        $basedir = dirname($_SERVER['PHP_SELF']);
+        if (isset($cache_dirs[$basedir])) {
+            $id .= $cache_dirs[$basedir];
+        }
     }
 
     if ($id) {
@@ -111,4 +117,3 @@ if ($no_cache == 0) {
         }
     }
 }
-?>
