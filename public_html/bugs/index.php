@@ -46,7 +46,7 @@ response_header('Bugs');
    If you want to report a bug for a <strong>specific package</strong>,
    please go to the package home page using the
    <?php print_link('/packages.php', 'Browse&nbsp;Packages');?> tool
-   or the <?php print_link('/package-search.php', 'Package&nbsp;Search'); ?>
+   or the <?php print_link('/search.php', 'Package&nbsp;Search'); ?>
    system.
   </dd>
 

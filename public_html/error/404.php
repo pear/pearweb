@@ -95,7 +95,7 @@ found on this server.</p>
 	
 	<?php if($show_search_link) { ?>
 		<p align="center">
-			<?php print_link(getURL('/package-search.php?pkg_name=' . basename(strip_tags($_SERVER['REQUEST_URI'])) . '&amp;bool=AND&amp;submit=Search'), 'View full search results...'); ?>
+			<?php print_link(getURL('/search.php?q=' . basename(strip_tags($_SERVER['REQUEST_URI']))), 'View full search results...'); ?>
 		</p>
 <?php
     }

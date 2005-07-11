@@ -88,9 +88,9 @@ if ($proposal->status == 'finished') {
     echo $proposalVotesSum['all'];
     echo ' (' . $proposalVotesSum['conditional'] . ' conditional)';
     echo "</li>\n";
-    echo '<li><a href="/package-search.php?pkg_name='.
+    echo '<li><a href="/search?q='.
         urlencode(str_replace('_', ' ', strtolower($proposal->pkg_name))).
-        '&bool=AND&submit=Search#results">Search registered package</a>';
+        '">Search registered package</a>';
 } elseif ($proposal->status == 'vote') {
     // Cron job runs at 4 am
     $pepr_end = mktime(4, 0, 0, date('m', $proposal->vote_date),

@@ -247,9 +247,9 @@ foreach ($res['orphan_finished'] as $set) {
     }
     
     echo '<td class="textcell">'.user_link($set['user_handle']).'</td>';
-    echo '<td class="textcell"><a href="/package-search.php?pkg_name='.
+    echo '<td class="textcell"><a href="/search.php?q='.
             urlencode(str_replace('_', ' ', strtolower($set['pkg_name']))).
-                    '&bool=AND&submit=Search#results">Search registered package</a></td>';
+                    '">Search registered package</a></td>';
     echo '</tr>';
 }
 echo '</table>';
