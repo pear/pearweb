@@ -41,12 +41,12 @@ $_browser = &new browser();
 /**
  * Returns an appropriate query string for a self referencing link
  */
-function getQueryString($catpid, $catname, $showempty = false)
+function getQueryString($catpid, $catname, $showempty = false, $moreinfo=false)
 {
     $querystring = array();
     $entries_cnt = 0;
     if ($catpid) {
-        $querystring[] = 'catpid=' . $catpid;
+        $querystring[] = 'catpid=' . (int)$catpid;
         $entries_cnt++;
     }
 
@@ -60,6 +60,12 @@ function getQueryString($catpid, $catname, $showempty = false)
         $entries_cnt++;
     }
 
+    if ($moreinfo) {
+        $querystring[] = 'moreinfo=' . (int)$moreinfo;
+        $entries_cnt++;
+    }
+
+
     if ($entries_cnt) {
         return '?' . implode('&amp;', $querystring);
     } else {
@@ -67,22 +73,11 @@ function getQueryString($catpid, $catname, $showempty = false)
     }
 }
 
-
-/*
- * Check for the hide/show all extended info boxes
- */
-if (!empty($_GET['hideMoreInfo'])) {
-    setcookie('hideMoreInfo', '1', time() + (86400 * 7));
-    localRedirect('packages.php' . getQueryString(@$_GET['catpid'], @$_GET['catname']));
-} elseif (!empty($_GET['showMoreInfo'])) {
-    setcookie('hideMoreInfo', '-1', time() + (86400 * 7));
-    localRedirect('packages.php' . getQueryString(@$_GET['catpid'], @$_GET['catname']));
-}
-
 /*
  * Check input variables
  * Expected url vars: catpid (category parent id), catname, showempty
  */
+$moreinfo = isset($_GET['moreinfo']) ? (int)$_GET['moreinfo'] : false;
 $catpid  = isset($_GET['catpid'])  ? (int)$_GET['catpid']   : null;
 $showempty = isset($_GET['showempty']) ? (bool)$_GET['showempty'] : false;
 
@@ -272,34 +267,20 @@ if (!empty($catpid)) {
 
         $packages[$key]['eInfo'] = $extendedInfo;
     }
-
-    /*
-     * More info visibility
-     */
-    if (@$_COOKIE['hideMoreInfo'] == '1') {
-        $defaultMoreInfoVis = 'none';
-
-    } elseif (@$_COOKIE['hideMoreInfo'] == '-1') {
-        $defaultMoreInfoVis = 'inline';
-
-    } elseif ($_browser->is_ie5up) {
-        $defaultMoreInfoVis = 'none';
-
-    } else {
-        $defaultMoreInfoVis = 'inline';
-    }
+    $defaultMoreInfoVis = $moreinfo ? 'inline' : 'none';
 }
 
 /*
  * Build URLs for hide/show all links
  */
-$url = new Net_URL();
-$url->addQueryString('hideMoreInfo', '1');
-$hideMoreInfoLink = $url->getURL();
+if ($moreinfo) {
+    $showMoreInfoLink = '#';
+    $hideMoreInfoLink = getQueryString($catpid, $catname, $showempty, 0);
 
-$url->removeQueryString('hideMoreInfo');
-$url->addQueryString('showMoreInfo', '1');
-$showMoreInfoLink = $url->getURL();
+} else {
+    $showMoreInfoLink = getQueryString($catpid, $catname, $showempty, 1);
+    $hideMoreInfoLink = '#';
+}
 
 /*
  * Template
