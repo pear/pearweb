@@ -124,6 +124,7 @@
          <file role="php" name="Karma.php"/>
          <file role="php" name="Log.php"/>
          <file role="php" name="RSS.php"/>
+         <file role="php" name="Search.php"/>
          <file role="php" name="Site.php"/>
          <file role="php" name="URL.php"/>
          <dir name="Log">
@@ -137,6 +138,13 @@
           <file role="php" name="Package.php"/>
           <file role="php" name="User.php"/>
          </dir> <!-- include/Damblan/RSS -->
+         <dir name="Search">
+          <file role="php" name="Lists.php"/>
+          <file role="php" name="PEPr.php"/>
+          <file role="php" name="Packages.php"/>
+          <file role="php" name="Site.php"/>
+          <file role="php" name="Users.php"/>
+         </dir> <!-- include/Damblan/Search -->
         </dir> <!-- include/Damblan -->
         <dir name="HTML">
          <file role="php" name="Menu.php"/>
@@ -183,7 +191,6 @@
         <file role="php" name="package-edit.php"/>
         <file role="php" name="package-info.php"/>
         <file role="php" name="package-new.php"/>
-        <file role="php" name="package-search.php"/>
         <file role="php" name="package-stats-graph.php"/>
         <file role="php" name="package-stats.php"/>
         <file role="php" name="packages.php"/>
@@ -402,7 +409,6 @@
        </dir> <!-- sql -->
        <dir name="templates">
         <file role="php" name="category-manager.html"/>
-        <file role="php" name="package-search.html"/>
         <file role="php" name="packages.html"/>
        </dir> <!-- templates -->
        <dir name="weeklynews">
