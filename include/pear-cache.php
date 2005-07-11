@@ -26,32 +26,35 @@ if (!empty($_GET['_no_cache']) && (int)$_GET['_no_cache'] == 1) {
 }
 
 $script_name = $_SERVER['SCRIPT_NAME'];
+print_r($script_name);
 
 
-
-$cache_files = array('/index.php'=>'',
-                     "/credits.php" => "",
-                     "/copyright.php" => "",
-                     "/dtd/index.php" => "",
-                     "/feeds/index.php" => "",
-                     "/download-docs.php" => "",
-                     "/support/index.php" => "",
-                     "/support/tutorials.php" => "",
-                     "/support/slides.php" => "",
-                     "/support/icons.php" => "",
-                     "/account-info.php" => $_SERVER['PHP_SELF'] . (isset($_GET['handle']) ? $_GET['handle'] : ''),
-                     "/accounts.php" => (isset($_GET['letter']) ? $_GET['letter'] : '') . "__" . (isset($_GET['offset']) ? $_GET['offset'] : ''),
-                     "/pepr/pepr-overview.php" => array(
+$cache_files = array(
+                    '/index.php'=>'',
+                    '/credits.php' => '',
+                    '/copyright.php' => '',
+                    '/dtd/index.php' => '',
+                    '/feeds/index.php' => '',
+                    '/download-docs.php' => '',
+                    '/support/index.php' => '',
+                    '/support/tutorials.php' => '',
+                    '/support/slides.php' => '',
+                    '/support/icons.php' => '',
+                    '/account-info.php' => $_SERVER['PHP_SELF'] . (isset($_GET['handle']) ? $_GET['handle'] : ''),
+                    '/accounts.php' => (isset($_GET['letter']) ? $_GET['letter'] : '') . "__" . (isset($_GET['offset']) ? $_GET['offset'] : ''),
+                    '/pepr/pepr-overview.php' => array(
                                         'key'   => isset($_GET['filter']) && $_GET['filter'] ? $_GET['filter'] : 'all',
                                         'ttl'   => 5*60
                                         ),
-                     "/packages.php" => array(
+                    '/packages.php' => array(
                                         'key'   =>  (isset($_GET['catpid']) && $_GET['catpid'] ? $_GET['catpid'] . '__' : '') . 
                                                     (isset($_GET['showempty']) && $_GET['showempty'] ? $_GET['showempty'] . '__' : '') .
                                                     (isset($_GET['moreinfo']) && $_GET['moreinfo'] ? $_GET['moreinfo'] . '__' : '') 
                                         ,
                                         'ttl'   =>60*60),
-                     );
+                    '/qa/index.php' => ''
+                     
+                );
 
 $cache_dirs  = array(
                      '/news'       => '',
