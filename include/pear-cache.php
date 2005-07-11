@@ -25,8 +25,12 @@ if (!empty($_GET['_no_cache']) && (int)$_GET['_no_cache'] == 1) {
     $no_cache = 0;
 }
 
+$script_name = $_SERVER['SCRIPT_NAME'];
+
+
+
 $cache_files = array('/index.php'=>'',
-                     "/credits.php" => "", 
+                     "/credits.php" => "",
                      "/copyright.php" => "",
                      "/dtd/index.php" => "",
                      "/feeds/index.php" => "",
@@ -37,8 +41,16 @@ $cache_files = array('/index.php'=>'',
                      "/support/icons.php" => "",
                      "/account-info.php" => $_SERVER['PHP_SELF'] . (isset($_GET['handle']) ? $_GET['handle'] : ''),
                      "/accounts.php" => (isset($_GET['letter']) ? $_GET['letter'] : '') . "__" . (isset($_GET['offset']) ? $_GET['offset'] : ''),
-                     "/pepr/pepr-overview.php" => array('key'=>(isset($_GET['filter']) || $_GET['filter'] == '' ? $_GET['filter'] : -1), 'ttl'=>5*60),
-                     // "/packages.php" => @$_GET['catpid'] . @$_GET['showempty'] . "__" . @$_GET['hideMoreInfo'] . "__" . @$_GET['showMoreInfo']
+                     "/pepr/pepr-overview.php" => array(
+                                        'key'   => isset($_GET['filter']) && $_GET['filter'] ? $_GET['filter'] : 'all',
+                                        'ttl'   => 5*60
+                                        ),
+                     "/packages.php" => array(
+                                        'key'   =>  (isset($_GET['catpid']) && $_GET['catpid'] ? $_GET['catpid'] . '__' : '') . 
+                                                    (isset($_GET['showempty']) && $_GET['showempty'] ? $_GET['showempty'] . '__' : '') .
+                                                    (isset($_GET['moreinfo']) && $_GET['moreinfo'] ? $_GET['moreinfo'] . '__' : '') 
+                                        ,
+                                        'ttl'   =>5*60),
                      );
 
 $cache_dirs  = array(
@@ -76,11 +88,11 @@ if ($no_cache == 0) {
     if (isset($cache_files[$_SERVER['PHP_SELF']])) {
         if (is_array($cache_files[$_SERVER['PHP_SELF']])) {
             $cache_props = $cache_files[$_SERVER['PHP_SELF']];
-            
+
             $ttl = isset($cache_props['ttl']) ? $cache_props['ttl'] : CACHE_LIFETIME;
 
             if (isset($cache_props['key']) && !empty($cache_props['key'])) {
-                $id .= '__' . $cache_props ['key'];
+                $id .= '__' . $cache_props['key'];
             } else {
                 $id = $_SERVER['PHP_SELF'];
             }
