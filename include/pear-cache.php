@@ -94,8 +94,6 @@ if ($no_cache == 0) {
 
             if (isset($cache_props['key']) && !empty($cache_props['key'])) {
                 $id .= '__' . $cache_props['key'];
-            } else {
-                $id = $_SERVER['PHP_SELF'];
             }
         } elseif (!empty($cache_files[$_SERVER['PHP_SELF']])) {
             if ($cache_files[$_SERVER['PHP_SELF']] > -1) {
@@ -112,7 +110,6 @@ if ($no_cache == 0) {
         } else {
             exit($cache_data);
         }
-
     }
 }
 ?>
