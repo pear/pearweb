@@ -26,12 +26,11 @@
  * HTML_Form accesses $_GET/$_POST directly and does no filtering, so we need to
  * do this.  Easier to do once and for all at the top than try to track them
  */
-if(isset($_GET['handle'])) $_GET['handle'] = htmlspecialchars($_GET['handle']);
-if(isset($_POST['email'])) $_POST['email'] = htmlspecialchars($_POST['email']);
-if(isset($_POST['name'])) $_POST['name'] = htmlspecialchars($_POST['name']);
-if(isset($_POST['copy_me'])) $_POST['copy_me'] = htmlspecialchars($_POST['copy_me']);
-if(isset($_POST['subject'])) $_POST['subject'] = htmlspecialchars($_POST['subject']);
-if(isset($_POST['text'])) $_POST['text'] = htmlspecialchars($_POST['text']);
+$valid_args = array('handle','email','name','copy_me','subject','text');
+foreach($valid_args as $arg) {
+    if(isset($_POST[$arg])) $_POST[$arg] = htmlspecialchars($_POST[$arg]);
+    if(isset($_GET[$arg])) $_GET[$arg] = htmlspecialchars($_GET[$arg]);
+}
 
 /*
  * Redirect to the accounts list if no handle was specified

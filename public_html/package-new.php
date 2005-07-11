@@ -34,8 +34,8 @@ $jumpto = 'name';
 /* May seem like overkill, but the prepended get() function checks both GET and POST */
 $valid_args = array('name','category','license','summary','desc','homepage','cvs_link');
 foreach($valid_args as $arg) {
-	if(isset($_POST[$arg])) $_POST[$arg] = htmlspecialchars($arg);
-	if(isset($_GET[$arg])) $_GET[$arg] = htmlspecialchars($arg);
+	if(isset($_POST[$arg])) $_POST[$arg] = htmlspecialchars($_POST[$arg]);
+	if(isset($_GET[$arg])) $_GET[$arg] = htmlspecialchars($GET[$arg]);
 }
 
 do {
