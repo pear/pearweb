@@ -26,8 +26,6 @@ if (!empty($_GET['_no_cache']) && (int)$_GET['_no_cache'] == 1) {
 }
 
 $script_name = $_SERVER['SCRIPT_NAME'];
-print_r($script_name);
-
 
 $cache_files = array(
                     '/index.php'=>'',
