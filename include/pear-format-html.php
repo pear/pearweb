@@ -60,7 +60,7 @@ $GLOBALS['docu_menu'] = array(
 
 $GLOBALS['downloads_menu'] = array(
     '/packages.php'        => 'List Packages',
-    '/package-search.php'  => 'Search Packages',
+    '/search.php'          => 'Search Packages',
     '/package-stats.php'   => 'Statistics'
 );
 
@@ -210,14 +210,14 @@ echo $extraHeaders;
 
  <tr>
   <td class="head-search" colspan="2">
-   <form method="post" action="/search.php">
+   <form method="get" action="/search.php">
     <p class="head-search"><span class="accesskey">S</span>earch for
-    <input class="small" type="text" name="search_string" value="" size="20" accesskey="s" />
+    <input class="small" type="text" name="q" value="" size="20" accesskey="s" />
     in the
-    <select name="search_in" class="small">
+    <select name="in" class="small">
         <option value="packages">Packages</option>
-        <option value="site">This site (using Google)</option>
-        <option value="developers">Developers</option>
+        <option value="site">This site (using Yahoo!)</option>
+        <option value="users">Developers</option>
         <option value="pear-dev">Developer mailing list</option>
         <option value="pear-general">General mailing list</option>
         <option value="pear-cvs">CVS commits mailing list</option>

@@ -18,43 +18,59 @@
    $Id$
 */
 
-if (!isset($_POST['search_in']) || !isset($_POST['search_string'])) {
-    error_handler('Please use the search system via the search form above.',
-                  'Search');
+require_once "Damblan/Search.php";
+require_once "Pager/Pager.php";
+
+$term = (isset($_GET['q']) ? trim(htmlspecialchars(strip_tags(urldecode($_GET['q'])))) : "");
+$in = (isset($_GET['in']) ? $_GET['in'] : "packages");
+
+$search =& Damblan_Search::factory($in, $dbh);
+$search->search($term);
+
+response_header("Search: " . $term);
+
+echo "<h1>Search</h1>\n";
+echo "<h2>" . $search->getTitle() . "</h2>\n";
+
+$total = $search->getTotal();
+
+$params = array(
+                "mode"       => "Jumping",
+                "perPage"    => ITEMS_PER_PAGE,
+                "urlVar"     => "p",
+                //    "delta"      => 5,
+                "itemData"   => range(1, $total),
+                "extraVars"  => array("q" => $term)
+);
+$pager =& Pager::factory($params);
+
+echo "<form method=\"get\" name=\"search\" action=\"search.php\">\n";
+echo "<input type=\"text\" name=\"q\" value=\"" . $term . "\" size=\"30\" /><input type=\"submit\" value=\"Search\" />\n";
+echo "<script language=\"JavaScript\" type=\"text/javascript\">document.forms.search.q.focus();</script>\n";
+echo "</form>\n";
+
+if ($total > 0) {
+    $start = (($pager->getCurrentPageID() - 1) * ITEMS_PER_PAGE) + 1;
+    $end = ($start + 9 < $total ? $start + 9 : $total);
+
+    echo "<p>Results <strong>" . $start . " - " . $end . "</strong> of <strong>" . $search->getTotal() . "</strong>:</p>\n";
+
+    echo "<ol start=\"" . $start . "\">\n";
+    /*
+     * TODO: The actual generating of the line that is displayed in
+     * the enumeration below must happen inside the Damblan_Search_*
+     * classes.
+     */
+    foreach ($search->getResults($pager) as $result) {
+        echo "<li>\n";
+        echo "<strong><a href=\"/package/" . $result['name'] . "\">" . $result['name']  . "</a></strong>: " . $result['summary'] . "\n";
+        echo "</li>\n";
+    }
+    echo "</ol>\n";
+
+    echo $pager->links;
+} else if (!empty($term)) {
+    echo "<p><div class=\"explain\">Sorry, but we didn't find anything that matches &quot;" . $term . "&quot;.</div></p>\n";
 }
 
-switch ($_POST['search_in']) {
-	case 'packages':
-		localRedirect('/package-search.php?pkg_name='
-                      . urlencode($_POST['search_string'])
-                                  . '&bool=AND&submit=Search#results');
-		break;
-
-    case 'developers':
-        // XXX: Enable searching for names instead of handles
-        localRedirect('/user/' . urlencode($_POST['search_string']));
-        break;
-
-    case 'pear-dev':
-    case 'pear-cvs':
-    case 'pear-general':
-        header('Location: http://marc.theaimsgroup.com/?'
-               . 'l=' . $_POST['search_in'] . '&w=2&r=1&q=b&s='
-               . urlencode($_POST['search_string']));
-        break;
-
-    case 'site':
-        header('Location: http://google.com/search?as_sitesearch=' . PEAR_CHANNELNAME
-               . '&as_q=' . urlencode($_POST['search_string']));
-        break;
-
-case 'pepr':
-        header('Location: /pepr/pepr-overview.php?search='
-               . urlencode($_POST['search_string']));
-        break;
-
-    default:
-        error_handler('Invalid search target.', 'Search');
-}
-
-?>
+response_footer();
