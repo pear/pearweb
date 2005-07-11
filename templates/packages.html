@@ -57,7 +57,7 @@
 	    padding: 4px;
 	    padding-top: 0px;
     }
-	
+
     th.pkgListHeader {
         background-color: #cccccc;
     }
@@ -96,14 +96,14 @@
         font-family: Verdana;
         padding-left: 5px;
     }
-    
+
     .nextArrow, .nextArrow a, .nextArrow a:hover {
         text-align: right;
         font-size: 85%;
         width: 70px;
         text-decoration: none;
     }
-    
+
     .prevArrow, .prevArrow a, .prevArrow a:hover {
         text-align: left;
         font-size: 85%;
@@ -150,10 +150,10 @@
          <td valign="top"><a href="/package/<?php echo $p['name']; ?>"><strong><?php echo $p['name']; ?></strong></a></td>
          <td valign="top"><?php echo htmlspecialchars($p['summary']); ?></td>
          <?php if($_browser->is_ie5up):?>
-          <td valign="top"> 
+          <td valign="top">
             <a href="#" onclick="toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>); return false" onmouseover="window.status = 'View more info about <?php echo $p['name']; ?>'; return true" onmouseout="window.status = ''" title="View more info about <?php echo $p['name']; ?>">
              <img src="gifs/moreinfo.gif" alt="More Info" title="More Info" border="0" />
-            </a> 
+            </a>
           </td>
          <?php endif?>
         </tr>
@@ -205,20 +205,20 @@
     </table>
 
 <?php elseif($catpid):?>
-	<p align="center">
-		No packages found in this category
-	</p>
+    <p align="center">
+        No packages found in this category
+    </p>
 <?php endif?>
 
 <br />
 
 <p align="center">
-	<?php if(!$catpid):?>
-		Total number of packages: <?php echo $totalpackages; ?><br />
-		<?php make_link('/package-stats.php', 'View package statistics'); ?>
-	<?php else:?>
-		<a href="/package-stats.php?cid=<?php echo $catpid; ?>">Statistics for category "<?php echo htmlspecialchars($catname); ?>"</a>
-	<?php endif?>
+    <?php if(!$catpid):?>
+        Total number of packages: <?php echo $totalpackages; ?><br />
+        <?php make_link('/package-stats.php', 'View package statistics'); ?>
+    <?php else:?>
+        <a href="/package-stats.php?cid=<?php echo $catpid; ?>">Statistics for category "<?php echo htmlspecialchars($catname); ?>"</a>
+    <?php endif?>
 </p>
 
 <p class="tip">
