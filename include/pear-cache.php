@@ -50,7 +50,7 @@ $cache_files = array('/index.php'=>'',
                                                     (isset($_GET['showempty']) && $_GET['showempty'] ? $_GET['showempty'] . '__' : '') .
                                                     (isset($_GET['moreinfo']) && $_GET['moreinfo'] ? $_GET['moreinfo'] . '__' : '') 
                                         ,
-                                        'ttl'   =>5*60),
+                                        'ttl'   =>60*60),
                      );
 
 $cache_dirs  = array(
