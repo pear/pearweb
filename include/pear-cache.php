@@ -50,12 +50,10 @@ $cache_files = array(
                                                     (isset($_GET['moreinfo']) && $_GET['moreinfo'] ? $_GET['moreinfo'] . '__' : '') 
                                         ,
                                         'ttl'   =>60*60),
-                    '/qa/index.php' => ''
-                     
                 );
 
 $cache_dirs  = array(
-                     '/news'       => '',
+                     "/news"       => "",
                      "/about"      => "",
                      "/group"      => "",
                      "/group/docs" => "",
@@ -66,7 +64,8 @@ $cache_dirs  = array(
                      "/manual/ja"  => "",
                      "/manual/nl"  => "",
                      "/manual/ru"  => "",
-                     "/user"       => $_SERVER['PHP_SELF']
+                     "/user"       => $_SERVER['PHP_SELF'],
+                     "/qa"         => ""
                      );
 
 if (DEVBOX === true ||
