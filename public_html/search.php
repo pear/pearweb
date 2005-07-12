@@ -56,14 +56,9 @@ if ($total > 0) {
     echo "<p>Results <strong>" . $start . " - " . $end . "</strong> of <strong>" . $search->getTotal() . "</strong>:</p>\n";
 
     echo "<ol start=\"" . $start . "\">\n";
-    /*
-     * TODO: The actual generating of the line that is displayed in
-     * the enumeration below must happen inside the Damblan_Search_*
-     * classes.
-     */
     foreach ($search->getResults($pager) as $result) {
         echo "<li>\n";
-        echo "<strong><a href=\"/package/" . $result['name'] . "\">" . $result['name']  . "</a></strong>: " . $result['summary'] . "\n";
+        echo $result['html'];
         echo "</li>\n";
     }
     echo "</ol>\n";

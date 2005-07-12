@@ -57,6 +57,7 @@ class Damblan_Search_Packages extends Damblan_Search {
             $this->_results = $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
         }
 
+        array_walk($this->_results, array($this, "decorate"));
         return $this->_results;
     }
 
@@ -75,5 +76,9 @@ class Damblan_Search_Packages extends Damblan_Search {
         }
 
         return implode(" AND ", $where) . " AND approved = 1 AND package_type = 'pear'";
+    }
+
+    function decorate(&$value, $key) {
+        $value['html'] = "<strong><a href=\"/package/" . $value['name'] . "\">" . $value['name']  . "</a></strong>: " . $value['summary'] . "\n";
     }
 }
