@@ -57,7 +57,7 @@ class Damblan_Search_Packages extends Damblan_Search {
             $this->_results = $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
         }
 
-        array_walk($this->_results, array($this, "decorate"));
+        array_walk($this->_results, array(__CLASS__, "decorate"));
         return $this->_results;
     }
 
