@@ -37,7 +37,7 @@ if ($handle && !ereg('^[0-9a-z_]{3,20}$', $handle)) {
  * HTML_Form accesses $_GET/$_POST directly and does no filtering, so we need to
  * do this.  Easier to do once and for all at the top than try to track them
  */
-$allowed_fields = array('handle' => null, 'email' => null, 'name' => null, 'copy_me' => null, 'subject' => null, 'text' => null);
+$allowed_fields = array('handle' => null, 'email' => null, 'name' => null, 'copy_me' => null, 'subject' => null, 'text' => null, 'captcha' => null);
 
 $input_datas = $allowed_fields;
 if (isset($_POST['submit'])) {
@@ -50,6 +50,9 @@ if (isset($_POST['submit'])) {
     if (strlen($input_datas['text'])) {
         $input_datas['text'] = htmlentities(strip_tags($input_datas['text']));
     }
+    if (!empty($input_datas['captcha']) && !ereg('^[A-Z]{4}$', $input_datas['captcha'])) {
+        $input_datas['captcha'] = '';
+    } 
 } else {
     $mode_submit = false;
 }
