@@ -21,35 +21,52 @@
 /**
  * Send mail to PEAR contributor
  */
+/*
+ * Redirect to the accounts list if no handle was specified
+ */
+
+$handle = isset($_GET['handle']) ? $_GET['handle'] : false;
+
+if ($handle && !ereg('^[0-9a-z_]{3,20}$', $handle)) {
+    localRedirect('/accounts.php');
+}
+
+
 
 /* 
  * HTML_Form accesses $_GET/$_POST directly and does no filtering, so we need to
  * do this.  Easier to do once and for all at the top than try to track them
  */
-$valid_args = array('handle','email','name','copy_me','subject','text');
-foreach($valid_args as $arg) {
-    if(isset($_POST[$arg])) $_POST[$arg] = htmlspecialchars($_POST[$arg]);
-    if(isset($_GET[$arg])) $_GET[$arg] = htmlspecialchars($_GET[$arg]);
+$allowed_fields = array('handle' => null, 'email' => null, 'name' => null, 'copy_me' => null, 'subject' => null, 'text' => null);
+
+$input_datas = $allowed_fields;
+if (isset($_POST['submit'])) {
+    $mode_submit = true;
+    foreach ($allowed_fields as $field => $v) {
+        $input_datas[$field] = isset($_POST[$field]) ? strip_tags($_POST[$field]) : '';
+    }
+    // Some other casts
+    $input_datas['copy_me'] = (int) $input_datas['copy_me'];
+    if (strlen($input_datas['text'])) {
+        $input_datas['text'] = htmlentities(strip_tags($input_datas['text']));
+    }
+} else {
+    $mode_submit = false;
 }
 
-/*
- * Redirect to the accounts list if no handle was specified
- */
-if (!isset($_GET['handle'])) {
-    localRedirect('/accounts.php');
-} else {
-    $handle = $_GET['handle'];
-    $errors = array();
-}
+// Rewrite _POST with input_datas
+// I do not like that but HTML_Form does not allow
+// to pass custom data
+$_POST = &$input_datas;
+$HTTP_POST_VARS = &$input_datas;
+$errors = array();
 
 define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
 define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 
 // {{{ printForm
-
-
-function printForm($data = array()) 
+function printForm($data = array(), $handle = '') 
 {
     // The first field that's empty
     $focus = '';
@@ -61,7 +78,7 @@ function printForm($data = array())
         }
     }
 
-    $form = new HTML_Form('/account-mail.php?handle=' . $_GET['handle'],
+    $form = new HTML_Form('/account-mail.php?handle=' . $handle,
                           'post', 'contact');
 
     $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
@@ -103,49 +120,49 @@ if ($row === null) {
 
 echo '<h1>Contact ' . $row['name'] . '</h1>';
 
-if (isset($_POST['submit'])) {
+if ($mode_submit) {
 
     if (!validate_captcha()) {
         $errors[] = 'Incorrect CAPTCHA';
     }
 
-    if ($_POST['name'] == '') {
+    if ($input_datas['name'] == '') {
         $errors[] = 'You have to specify your name.';
-    } elseif (preg_match('/[\r\n\t]/', $_POST['name'])) {
+    } elseif (preg_match('/[\r\n\t]/', $input_datas['name'])) {
         $errors[] = 'Your name is invalid.';
     }
 
-    if ($_POST['email'] == '') {
+    if ($input_datas['email'] == '') {
         $errors[] = 'You have to specify your email address.';
-    } elseif (preg_match('/[,\s]/', $_POST['email'])) {
+    } elseif (preg_match('/[,\s]/', $input_datas['email'])) {
         $errors[] = 'Your email address is invalid.';
     }
 
-    if ($_POST['subject'] == '') {
+    if ($input_datas['subject'] == '') {
         $errors[] = 'You have to specify the subject of your correspondence.';
-    } elseif (preg_match('/[\r\n\t]/', $_POST['subject'])) {
+    } elseif (preg_match('/[\r\n\t]/', $input_datas['subject'])) {
         $errors[] = 'Your subject is invalid.';
     }
 
-    if ($_POST['text'] == '') {
+    if ($input_datas['text'] == '') {
         $errors[] = 'You have to specify the text of your correspondence.';
     }
 
     if (!report_error($errors)) {
         $text = "[This message has been brought to you via " . PEAR_CHANNELNAME . ".]\n\n";
-        $text .= wordwrap($_POST['text'], 72);
+        $text .= wordwrap($input_datas['text'], 72);
 
-        if (@mail($row['email'], $_POST['subject'], $text,
-                  'From: "' . $_POST['name'] . '" <' . $_POST['email'] . '>',
+        if (@mail($row['email'], $input_datas['subject'], $text,
+                  'From: "' . $input_datas['name'] . '" <' . $input_datas['email'] . '>',
                   '-f pear-sys@php.net'))
         {
             report_success('Your message was successfully sent.');
 
-            if (!empty($_POST['copy_me'])) {
+            if (!empty($input_datas['copy_me'])) {
                 $text = "This is a copy of your mail sent to " . $row['email'] . ":\n\n"  . $text;
 
-                @mail($_POST['email'], $_POST['subject'], $text,
-                      'From: "' . $_POST['name'] . '" <' . $_POST['email'] . '>',
+                @mail($input_datas['email'], $input_datas['subject'], $text,
+                      'From: "' . $input_datas['name'] . '" <' . $input_datas['email'] . '>',
                       '-f pear-sys@php.net');
             }
 
@@ -153,7 +170,7 @@ if (isset($_POST['submit'])) {
             report_error('The server could not send your message, sorry.');
         }
     } else {
-        printForm($_POST);
+        printForm($input_datas, $handle);
     }
 
 } else {
@@ -174,7 +191,7 @@ if (isset($_POST['submit'])) {
         $data = array();
     }
 
-    printForm($data);
+    printForm($input_datas, $handle);
 }
 
 response_footer();
