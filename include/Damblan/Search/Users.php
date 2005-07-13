@@ -30,6 +30,9 @@ require_once "Damblan/Search.php";
  */
 class Damblan_Search_Users extends Damblan_Search {
 
+    function Damblan_Search_Users() {
+    }
+
     function search($term) {
         localRedirect('/user/' . $term);
         exit();
