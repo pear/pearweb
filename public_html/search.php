@@ -19,7 +19,6 @@
 */
 
 require_once "Damblan/Search.php";
-require_once "Pager/Pager.php";
 
 $term = (isset($_GET['q']) ? trim(htmlspecialchars(strip_tags(urldecode($_GET['q'])))) : "");
 $in = (isset($_GET['in']) ? $_GET['in'] : "packages");
@@ -32,22 +31,13 @@ response_header("Search: " . $term);
 echo "<h1>Search</h1>\n";
 echo "<h2>" . $search->getTitle() . "</h2>\n";
 
-$total = $search->getTotal();
-
-$params = array(
-                "mode"       => "Jumping",
-                "perPage"    => ITEMS_PER_PAGE,
-                "urlVar"     => "p",
-                //    "delta"      => 5,
-                "itemData"   => range(1, $total),
-                "extraVars"  => array("q" => $term)
-);
-$pager =& Pager::factory($params);
-
 echo "<form method=\"get\" name=\"search\" action=\"search.php\">\n";
 echo "<input type=\"text\" name=\"q\" value=\"" . $term . "\" size=\"30\" /><input type=\"submit\" value=\"Search\" />\n";
 echo "<script language=\"JavaScript\" type=\"text/javascript\">document.forms.search.q.focus();</script>\n";
 echo "</form>\n";
+
+$pager =& $search->getPager();
+$total = $search->getTotal();
 
 if ($total > 0) {
     $start = (($pager->getCurrentPageID() - 1) * ITEMS_PER_PAGE) + 1;
@@ -56,7 +46,7 @@ if ($total > 0) {
     echo "<p>Results <strong>" . $start . " - " . $end . "</strong> of <strong>" . $search->getTotal() . "</strong>:</p>\n";
 
     echo "<ol start=\"" . $start . "\">\n";
-    foreach ($search->getResults($pager) as $result) {
+    foreach ($search->getResults() as $result) {
         echo "<li>\n";
         echo $result['html'];
         echo "</li>\n";

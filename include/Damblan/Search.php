@@ -28,6 +28,7 @@
 class Damblan_Search {
 
     var $_dbh;
+    var $_pager = null;
     var $_total = 0;
     var $_results = null;
     var $_title = "";
@@ -110,5 +111,15 @@ class Damblan_Search {
      */
     function getTitle() {
         return $this->_title;
+    }
+
+    /**
+     * Get Pager instance associated with the search
+     *
+     * @access public
+     * @return object
+     */
+    function &getPager() {
+        return $this->_pager;
     }
 }

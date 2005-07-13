@@ -19,6 +19,7 @@
 */
 
 require_once "Damblan/Search.php";
+require_once "Pager/Pager.php";
 
 define("ITEMS_PER_PAGE", 10);
 
@@ -46,17 +47,24 @@ class Damblan_Search_Packages extends Damblan_Search {
         // Get number of overall results
         $query = "SELECT COUNT(*) FROM packages WHERE " . $this->_where;
         $this->_total = $this->_dbh->getOne($query);
+
+        $params = array(
+                        "mode"       => "Jumping",
+                        "perPage"    => ITEMS_PER_PAGE,
+                        "urlVar"     => "p",
+                        "itemData"   => range(1, $this->_total),
+                        "extraVars"  => array("q" => $term)
+                        );
+        $this->_pager =& Pager::factory($params);
+
+        // Select all results
+        $query = "SELECT * FROM packages WHERE " . $this->_where . " ORDER BY name";
+        $query .= " LIMIT " . (($this->_pager->getCurrentPageID() - 1) * ITEMS_PER_PAGE) . ", " . ITEMS_PER_PAGE;
+
+        $this->_results = $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
     }
 
-    function getResults($pager) {
-        if (!is_array($this->_results)) {
-            // Select all results
-            $query = "SELECT * FROM packages WHERE " . $this->_where . " ORDER BY name";
-            $query .= " LIMIT " . (($pager->getCurrentPageID() - 1) * ITEMS_PER_PAGE) . ", " . ITEMS_PER_PAGE;
-
-            $this->_results = $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
-        }
-
+    function getResults() {
         array_walk($this->_results, array(__CLASS__, "decorate"));
         return $this->_results;
     }
