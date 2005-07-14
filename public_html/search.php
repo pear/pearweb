@@ -21,7 +21,7 @@
 require_once "Damblan/Search.php";
 
 $term = (isset($_GET['q']) ? trim(htmlspecialchars(strip_tags(urldecode($_GET['q'])))) : "");
-$in = (isset($_GET['in']) ? $_GET['in'] : "packages");
+$in = (isset($_GET['in']) ? htmlspecialchars(strip_tags($_GET['in'])) : "packages");
 
 $search =& Damblan_Search::factory($in, $dbh);
 $search->search($term);
