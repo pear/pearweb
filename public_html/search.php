@@ -32,8 +32,16 @@ echo "<h1>Search</h1>\n";
 echo "<h2>" . $search->getTitle() . "</h2>\n";
 
 echo "<form method=\"get\" name=\"search\" action=\"search.php\">\n";
-echo "<input type=\"hidden\" name=\"in\" value=\"" . $in . "\" />\n";
-echo "<input type=\"text\" name=\"q\" value=\"" . $term . "\" size=\"30\" /><input type=\"submit\" value=\"Search\" />\n";
+echo "<input type=\"text\" name=\"q\" value=\"" . $term . "\" size=\"30\" /> in ";
+
+echo "<select name=\"in\" size=\"1\">\n";
+foreach (array("packages" => "Packages", "site" => "This Site (using Yahoo!)", "users" => "Developers", "pepr" => "PEPr proposals") as $key => $value) {
+    $selected = ($key == $in) ? " selected=\"yes\" " : "";
+    echo "<option value=\"" . $key . "\" " . $selected . ">" . $value . "</option>\n";
+}
+echo "</select>\n";
+
+echo "<input type=\"submit\" value=\"Search\" />\n";
 echo "<script language=\"JavaScript\" type=\"text/javascript\">document.forms.search.q.focus();</script>\n";
 echo "</form>\n";
 
