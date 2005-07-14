@@ -44,24 +44,27 @@ class Damblan_Search_Packages extends Damblan_Search {
 
         $this->_where = $this->getWhere($term);
 
-        // Get number of overall results
-        $query = "SELECT COUNT(*) FROM packages WHERE " . $this->_where;
-        $this->_total = $this->_dbh->getOne($query);
-
+        // Dummy pager to get the current page ID
         $params = array(
                         "mode"       => "Jumping",
                         "perPage"    => ITEMS_PER_PAGE,
                         "urlVar"     => "p",
-                        "itemData"   => range(1, $this->_total),
+                        "itemData"   => range(1, 0),
                         "extraVars"  => array("q" => $term)
                         );
         $this->_pager =& Pager::factory($params);
 
         // Select all results
-        $query = "SELECT name, summary FROM packages WHERE " . $this->_where . " ORDER BY name";
+        $query = "SELECT SQL_CALC_FOUND_ROWS name, summary FROM packages WHERE " . $this->_where . " ORDER BY name";
         $query .= " LIMIT " . (($this->_pager->getCurrentPageID() - 1) * ITEMS_PER_PAGE) . ", " . ITEMS_PER_PAGE;
-
         $this->_results = $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
+
+        // Get number of overall results
+        $query = "SELECT FOUND_ROWS()";
+        $this->_total = $this->_dbh->getOne($query);
+
+        $params['itemData'] = range(1, $this->_total);
+        $this->_pager =& Pager::factory($params);
     }
 
     function getResults() {
