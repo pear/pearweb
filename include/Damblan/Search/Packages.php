@@ -58,7 +58,7 @@ class Damblan_Search_Packages extends Damblan_Search {
         $this->_pager =& Pager::factory($params);
 
         // Select all results
-        $query = "SELECT * FROM packages WHERE " . $this->_where . " ORDER BY name";
+        $query = "SELECT name, summary FROM packages WHERE " . $this->_where . " ORDER BY name";
         $query .= " LIMIT " . (($this->_pager->getCurrentPageID() - 1) * ITEMS_PER_PAGE) . ", " . ITEMS_PER_PAGE;
 
         $this->_results = $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
