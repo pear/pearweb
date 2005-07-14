@@ -32,6 +32,7 @@ echo "<h1>Search</h1>\n";
 echo "<h2>" . $search->getTitle() . "</h2>\n";
 
 echo "<form method=\"get\" name=\"search\" action=\"search.php\">\n";
+echo "<input type=\"hidden\" name=\"in\" value=\"" . $in . "\" />\n";
 echo "<input type=\"text\" name=\"q\" value=\"" . $term . "\" size=\"30\" /><input type=\"submit\" value=\"Search\" />\n";
 echo "<script language=\"JavaScript\" type=\"text/javascript\">document.forms.search.q.focus();</script>\n";
 echo "</form>\n";
