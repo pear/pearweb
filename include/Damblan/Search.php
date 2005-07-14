@@ -50,7 +50,7 @@ class Damblan_Search {
 
         case "users" :
             require_once "Damblan/Search/Users.php";
-            return new Damblan_Search_Users;
+            return new Damblan_Search_Users($dbh);
 
             break;
 

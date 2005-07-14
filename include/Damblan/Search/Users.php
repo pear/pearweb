@@ -19,6 +19,9 @@
 */
 
 require_once "Damblan/Search.php";
+require_once "Pager/Pager.php";
+
+define("ITEMS_PER_PAGE", 10);
 
 /**
  * User search class
@@ -30,11 +33,62 @@ require_once "Damblan/Search.php";
  */
 class Damblan_Search_Users extends Damblan_Search {
 
-    function Damblan_Search_Users() {
-    }
+    var $_where;
+    var $_title = "Developers";
 
     function search($term) {
-        localRedirect('/user/' . $term);
-        exit();
+        if (empty($term)) {
+            return;
+        }
+
+        $this->_where = $this->getWhere($term);
+
+        // Dummy pager to get the current page ID
+        $params = array(
+                        "mode"       => "Jumping",
+                        "perPage"    => ITEMS_PER_PAGE,
+                        "urlVar"     => "p",
+                        "itemData"   => range(1, 0),
+                        "extraVars"  => array("q" => $term)
+                        );
+        $this->_pager =& Pager::factory($params);
+
+        // Select all results
+        $query = "SELECT SQL_CALC_FOUND_ROWS handle, name FROM users WHERE " . $this->_where . " ORDER BY name";
+        $query .= " LIMIT " . (($this->_pager->getCurrentPageID() - 1) * ITEMS_PER_PAGE) . ", " . ITEMS_PER_PAGE;
+        $this->_results = $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
+
+        // Get number of overall results
+        $query = "SELECT FOUND_ROWS()";
+        $this->_total = $this->_dbh->getOne($query);
+
+        $params['itemData'] = range(1, $this->_total);
+        $this->_pager =& Pager::factory($params);
+    }
+
+    function getResults() {
+        array_walk($this->_results, array(__CLASS__, "decorate"));
+        return $this->_results;
+    }
+
+    function getWhere($term) {
+        $elements = preg_split("/\s/", $term, -1, PREG_SPLIT_NO_EMPTY);
+
+        // we are only interested in the first 3 search words
+        $elements = array_slice($elements, 0, 3);
+
+        foreach ($elements as $t) {
+            foreach (array("handle", "name") as $field) {
+                $ors[] = $field . " LIKE " . $this->_dbh->quote("%" . $t . "%");
+            }
+            $where[] = "(" . implode(" OR ", $ors) . ")";
+            $ors = array();
+        }
+
+        return implode(" AND ", $where) . " AND registered = 1";
+    }
+
+    function decorate(&$value, $key) {
+        $value['html'] = "<strong><a href=\"/user/" . $value['handle'] . "\">" . $value['name']  . "</a></strong> (" . $value['handle'] . ")\n";
     }
 }
