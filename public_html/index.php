@@ -18,24 +18,21 @@
    $Id$
 */
 
-
-$recent = release::getRecent();
+$recent = release::getRecent(10);
 if (@sizeof($recent) > 0) {
     $RSIDEBAR_DATA = "<strong>Recent&nbsp;Releases:</strong>\n";
     $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
     foreach ($recent as $release) {
         extract($release);
         $releasedate = make_utc_date(strtotime($releasedate), 'Y-m-d');
-        $desc = substr($releasenotes, 0, 40);
-        if (strlen($releasenotes) > 40) {
-            $desc .= '...';
+        if ($releasedate == date("Y-m-d")) {
+            $releasedate = "today";
         }
-        $desc = htmlentities($desc);
         $RSIDEBAR_DATA .= "<tr><td valign=\"top\" class=\"compact\">";
         $RSIDEBAR_DATA .= "<a href=\"/package/" . $name . "/\">";
-        $RSIDEBAR_DATA .= "$name $version</a><br /><i>$releasedate:</i> $desc</td></tr>";
+        $RSIDEBAR_DATA .= "$name $version</a> <small>($releasedate)</small></td></tr>";
     }
-    $feed_link = "<a href=\"/feeds/\">Syndicate this</a>";
+    $feed_link = "<small><a href=\"/feeds/\">Syndicate this</a></small>";
     $RSIDEBAR_DATA .= "<tr><td>&nbsp;</td></tr>\n";
     $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
