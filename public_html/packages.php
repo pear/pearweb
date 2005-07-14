@@ -97,13 +97,12 @@ if (empty($catpid)) {
 if (empty($catpid)) {
     $showempty_link = 'Top Level';
 } else {
-    $showempty_link = '<a href="'. $script_name .getQueryString($catpid, $catname, !$showempty).'">'.($showempty ? 'Hide empty' : 'Show empty').'</a>';
+    $showempty_link = '<a href="'. $script_name . getQueryString($catpid, $catname, !$showempty, $moreinfo) . '">' . ($showempty ? 'Hide empty' : 'Show empty').'</a>';
 }
 
 /*
  * Main part of script
  */
-
 
 $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
 
