@@ -21,7 +21,6 @@
 */
 
 require_once 'DB/storage.php';
-require_once 'HTTP.php';
 
 // {{{ validate()
 
@@ -1853,6 +1852,9 @@ class release
     function HTTPdownload($package, $version = null, $file = null, $uncompress = false)
     {
         global $dbh;
+
+        require_once "HTTP.php";
+
         $package_id = package::info($package, 'packageid', true);
 
         if (!$package_id) {
