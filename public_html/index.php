@@ -31,7 +31,7 @@ if (@sizeof($recent) > 0) {
         }
         $RSIDEBAR_DATA .= "<tr><td valign=\"top\" class=\"compact\">";
         $RSIDEBAR_DATA .= "<a href=\"/package/" . $name . "/\">";
-        $RSIDEBAR_DATA .= "$name $version</a> <small>($releasedate)</small></td></tr>";
+        $RSIDEBAR_DATA .= "$name $version</a><br /> <small>($releasedate)</small></td></tr>";
     }
     $feed_link = "<small><a href=\"/feeds/\">Syndicate this</a></small>";
     $RSIDEBAR_DATA .= "<tr><td>&nbsp;</td></tr>\n";
