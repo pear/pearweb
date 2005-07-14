@@ -22,10 +22,11 @@ $recent = release::getRecent(10);
 if (@sizeof($recent) > 0) {
     $RSIDEBAR_DATA = "<strong>Recent&nbsp;Releases:</strong>\n";
     $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
+    $today = date("D, jS M y");
     foreach ($recent as $release) {
         extract($release);
-        $releasedate = make_utc_date(strtotime($releasedate), 'Y-m-d');
-        if ($releasedate == date("Y-m-d")) {
+        $releasedate = make_utc_date(strtotime($releasedate), "D, jS M y");
+        if ($releasedate == $today) {
             $releasedate = "today";
         }
         $RSIDEBAR_DATA .= "<tr><td valign=\"top\" class=\"compact\">";
