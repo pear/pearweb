@@ -183,14 +183,14 @@ Proposer:                '.user_link($this->user_handle).'<br />
         // Switching markup types
         switch ($this->markup) {
             case 'wiki':
-               require_once 'Text/Wiki.php';
+               include_once 'Text/Wiki.php';
                $wiki =& new Text_Wiki();
                $wiki->disableRule('wikilink');
                $describtion = $wiki->transform($this->pkg_describtion);
                break;
             case 'bbcode':
             default:
-               require_once 'HTML/BBCodeParser.php';
+               include_once 'HTML/BBCodeParser.php';
                $bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
                $describtion = $bbparser->qparse(nl2br(htmlentities($this->pkg_describtion)));
                break;
