@@ -44,7 +44,7 @@ $cache_files = array(
                                         'key'   => isset($_GET['filter']) && $_GET['filter'] ? $_GET['filter'] : 'all',
                                         'ttl'   => 5*60
                                         ),
-                    '/pepr/pepr-bbcode-help.php' = > '',
+                    '/pepr/pepr-bbcode-help.php' => '',
                     '/packages.php' => array(
                                         'key'   =>  (isset($_GET['catpid']) && $_GET['catpid'] ? $_GET['catpid'] . '__' : '') . 
                                                     (isset($_GET['showempty']) && $_GET['showempty'] ? $_GET['showempty'] . '__' : '') .
