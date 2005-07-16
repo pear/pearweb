@@ -35,7 +35,7 @@ echo "<form method=\"get\" name=\"search\" action=\"search.php\">\n";
 echo "<input type=\"text\" name=\"q\" value=\"" . $term . "\" size=\"30\" /> in ";
 
 echo "<select name=\"in\" size=\"1\">\n";
-foreach (array("packages" => "Packages", "site" => "This Site (using Yahoo!)", "users" => "Developers", "pepr" => "PEPr proposals") as $key => $value) {
+foreach (array("packages" => "Packages", "site" => "This Site (using Yahoo!)", "users" => "Developers") as $key => $value) {
     $selected = ($key == $in) ? " selected=\"yes\" " : "";
     echo "<option value=\"" . $key . "\" " . $selected . ">" . $value . "</option>\n";
 }
