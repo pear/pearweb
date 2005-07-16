@@ -23,17 +23,13 @@
  * @version   $Id$
  */
 
+auth_require('pear.pepr');
+
 /**
  * Obtain the common functions and classes.
  */
-require_once 'pepr/pepr.php';
+include_once 'pepr/pepr.php';
 
-/**
- * Obtain code for Bulletin Board markup.
- */
-require_once 'HTML/BBCodeParser.php';
-
-auth_require('pear.pepr');
 
 $karma =& new Damblan_Karma($dbh);
 
@@ -137,9 +133,7 @@ if ($proposal != null && ($proposal->getStatus() != 'draft')) {
     $form->addElement('textarea', 'action_comment', 'Changelog comment:', array('cols' => 80, 'rows' => 10));
 }
 
-
 $form->addElement('submit', 'submit', 'Save');
-
 
 if ($proposal != null) {
     $defaults = array('pkg_name'    => $proposal->pkg_name,
