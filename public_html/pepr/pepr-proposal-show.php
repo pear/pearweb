@@ -88,7 +88,7 @@ if ($proposal->status == 'finished') {
     echo $proposalVotesSum['all'];
     echo ' (' . $proposalVotesSum['conditional'] . ' conditional)';
     echo "</li>\n";
-    echo '<li><a href="/search?q='.
+    echo '<li><a href="/search.php?q='.
         urlencode(str_replace('_', ' ', strtolower($proposal->pkg_name))).
         '">Search registered package</a>';
 } elseif ($proposal->status == 'vote') {
