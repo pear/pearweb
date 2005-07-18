@@ -43,26 +43,27 @@ class Damblan_Search_Users extends Damblan_Search {
 
         $this->_where = $this->getWhere($term);
 
-        // Dummy pager to get the current page ID
-        $params = array(
-                        "mode"       => "Jumping",
-                        "perPage"    => ITEMS_PER_PAGE,
-                        "urlVar"     => "p",
-                        "itemData"   => range(1, 0),
-                        "extraVars"  => array("q" => $term)
-                        );
-        $this->_pager =& Pager::factory($params);
+        $pageID = (isset($_GET['p']) ? (int)$_GET['p'] : 1);
+        if ($pageID == 0) {
+            $pageID = 1;
+        }
 
         // Select all results
         $query = "SELECT SQL_CALC_FOUND_ROWS handle, name FROM users WHERE " . $this->_where . " ORDER BY name";
-        $query .= " LIMIT " . (($this->_pager->getCurrentPageID() - 1) * ITEMS_PER_PAGE) . ", " . ITEMS_PER_PAGE;
+        $query .= " LIMIT " . (($pageID - 1) * ITEMS_PER_PAGE) . ", " . ITEMS_PER_PAGE;
         $this->_results = $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
 
         // Get number of overall results
         $query = "SELECT FOUND_ROWS()";
         $this->_total = $this->_dbh->getOne($query);
 
-        $params['itemData'] = range(1, $this->_total);
+        $params = array(
+                        "mode"       => "Jumping",
+                        "perPage"    => ITEMS_PER_PAGE,
+                        "urlVar"     => "p",
+                        "itemData"   => range(1, $this->_total),
+                        "extraVars"  => array("q" => $term)
+                        );
         $this->_pager =& Pager::factory($params);
     }
 
