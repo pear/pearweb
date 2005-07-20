@@ -151,7 +151,7 @@ if (isset($_POST['in'])) {
             // Put all text areas together.
             $fdesc = "Description:\n------------\n" . $_POST['in']['ldesc'] . "\n\n";
             if (!empty($_POST['in']['repcode'])) {
-                $fdesc .= "Reproduce code:\n---------------\n";
+                $fdesc .= "Test script:\n---------------\n";
                 $fdesc .= $_POST['in']['repcode'] . "\n\n";
             }
             if (!empty($_POST['in']['expres']) ||
@@ -269,7 +269,7 @@ if (isset($_POST['in'])) {
 
 
 if (!package_exists($_REQUEST['package'])) {
-    $errors[] = 'Package &quot;' . clean($_REQUEST['package']) . '&quot; does not exist.';
+    $errors[] = 'Package "' . clean($_REQUEST['package']) . '" does not exist.';
     response_header("Report - Invalid bug type");
     display_bug_error($errors);
 } else {
@@ -436,7 +436,7 @@ if (!package_exists($_REQUEST['package'])) {
    Description:
    <p class="cell_note">
     Put patches and code samples in the
-    &quot;Reproduce code&quot; section, <strong>below</strong>.
+    &quot;Test script&quot; section, <strong>below</strong>.
    </p>
   </th>
   <td class="form-input">
@@ -446,9 +446,10 @@ if (!package_exists($_REQUEST['package'])) {
  </tr>
  <tr>
   <th class="form-label_left">
-   Reproduce code:
+   Test script:
    <p class="cell_note">
-    Please <strong>do not</strong> post more than 20 lines of source code.
+    A short test script you wrote that demonstrates the bug.
+    Please <strong>do not</strong> post more than 20 lines of code.
     If the code is longer than 20 lines, provide a URL to the source
     code that will reproduce the bug.
    </p>
@@ -462,7 +463,7 @@ if (!package_exists($_REQUEST['package'])) {
   <th class="form-label_left">
    Expected result:
    <p class="cell_note">
-    What do you expect to happen or see when you run the code above?
+    What do you expect to happen or see when you run the test script above?
    </p>
   </th>
   <td class="form-input">
