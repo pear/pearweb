@@ -15,6 +15,10 @@ ob_start();
 @require_once 'pear-prepend.php';
 ob_end_clean();
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
+require_once 'System.php';
+System::rm(array('-r', $pear_rest->_restdir));
+System::mkdir(array('-p', $pear_rest->_restdir));
+chmod($pear_rest->_restdir, 0777);
 echo "Generating Category REST...\n";
 foreach (category::listAll() as $category) {
     echo "  $category[name]...";
