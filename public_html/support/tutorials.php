@@ -78,11 +78,6 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
   A PEAR package for converting SQL query results or arrays to XML.
  </li>
  <li>
-  <a href="http://www.mamasam.com/tutorials/en_html_table.html">Table.php</a>
-  Tutorial. The table package allows you to generate HTML tables without
-  the need to include HTML tags in your PHP code.
- </li>
- <li>
   <cite><a href="http://www.zend.com/pear/tutorials/Mail.php">PEAR::Mail</a></cite>
   on zend.com.
  </li>
