@@ -63,7 +63,7 @@ class Damblan_RSS {
             $value = $cache = $type;
         }
 
-        require_once "Damblan/RSS/Cache.php";
+        include_once "Damblan/RSS/Cache.php";
         if (Damblan_RSS_Cache::isCached($cache) == true) {
             return Damblan_RSS_Cache::get($cache);
         }
@@ -85,9 +85,9 @@ class Damblan_RSS {
         if (!PEAR::isError($rss_obj)) {
             Damblan_RSS_Cache::write($cache, $rss_obj->toString());
         }
-
-        return $rss_obj->toString();
-    }
+	$t = $rss_obj->toString();
+        return $t;
+     }
 
     /**
      * Print RSS feed for given type
@@ -97,7 +97,7 @@ class Damblan_RSS {
      * @return void
      */
     function printFeed($type) {
-        $ret =& Damblan_RSS::getFeed($type);
+        $ret = Damblan_RSS::getFeed($type);
 
         if (PEAR::isError($ret)) {
             PEAR::raiseError($ret);
