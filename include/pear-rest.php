@@ -13,14 +13,14 @@ class pear_rest
         global $dbh;
         $extra = '/rest/';
         $cdir = $this->_restdir . DIRECTORY_SEPARATOR . 'c';
-        if (!file_exists($cdir)) {
+        if (!is_dir($cdir)) {
             System::mkdir(array('-p', $cdir));
             @chmod($cdir, 0777);
         }
         $category = $dbh->getAll('SELECT * FROM categories WHERE name = ?', array($category),
             DB_FETCHMODE_ASSOC);
         $category = $category[0];
-        if (!file_exists($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']))) {
+        if (!is_dir($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']))) {
             System::mkdir(array('-p', $cdir . DIRECTORY_SEPARATOR . urlencode($category['name'])));
             @chmod($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']), 0777);
         }
@@ -66,7 +66,7 @@ class pear_rest
     {
         require_once 'System.php';
         $cdir = $this->_restdir . DIRECTORY_SEPARATOR . 'c';
-        if (!file_exists($cdir . DIRECTORY_SEPARATOR . urlencode($category))) {
+        if (!is_dir($cdir . DIRECTORY_SEPARATOR . urlencode($category))) {
             return;
         }
         // remove all category info
@@ -77,7 +77,7 @@ class pear_rest
     function saveAllPackagesREST()
     {
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
-        if (!file_exists($pdir)) {
+        if (!is_dir($pdir)) {
             System::mkdir(array('-p', $pdir));
             @chmod($pdir, 0777);
         }
@@ -106,11 +106,11 @@ class pear_rest
         $package = package::info($package);
 
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
-        if (!file_exists($pdir)) {
+        if (!is_dir($pdir)) {
             System::mkdir(array('-p', $pdir));
             @chmod($pdir, 0777);
         }
-        if (!file_exists($pdir . DIRECTORY_SEPARATOR . strtolower($package['name']))) {
+        if (!is_dir($pdir . DIRECTORY_SEPARATOR . strtolower($package['name']))) {
             System::mkdir(array('-p', $pdir . DIRECTORY_SEPARATOR .
                 strtolower($package['name'])));
             @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package['name']), 0777);
@@ -177,7 +177,7 @@ class pear_rest
         $releases = $dbh->getAll('SELECT * FROM releases WHERE package = ? ORDER BY releasedate DESC',
             array($pid), DB_FETCHMODE_ASSOC);
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
-        if (!file_exists($rdir)) {
+        if (!is_dir($rdir)) {
             System::mkdir(array('-p', $rdir));
             @chmod($rdir, 0777);
         }
@@ -210,7 +210,7 @@ class pear_rest
 ';
         }
         $info .= '</a>';
-        if (!file_exists($rdir . DIRECTORY_SEPARATOR . strtolower($package))) {
+        if (!is_dir($rdir . DIRECTORY_SEPARATOR . strtolower($package))) {
             System::mkdir(array('-p', $rdir . DIRECTORY_SEPARATOR . strtolower($package)));
             @chmod($rdir . DIRECTORY_SEPARATOR . strtolower($package), 0777);
         }
@@ -254,7 +254,7 @@ class pear_rest
     {
         require_once 'System.php';
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
-        if (@file_exists($rdir . DIRECTORY_SEPARATOR . strtolower($package))) {
+        if (@is_dir($rdir . DIRECTORY_SEPARATOR . strtolower($package))) {
             @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
                 DIRECTORY_SEPARATOR . $version . '.xml');
             @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
@@ -270,13 +270,13 @@ class pear_rest
         global $dbh;
         $extra = '/rest/';
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
-        if (!file_exists($rdir)) {
+        if (!is_dir($rdir)) {
             System::mkdir(array('-p', $rdir));
             @chmod($rdir, 0777);
         }
 
         $package = $pkgobj->getPackage();
-        if (!file_exists($rdir . DIRECTORY_SEPARATOR . strtolower($package))) {
+        if (!is_dir($rdir . DIRECTORY_SEPARATOR . strtolower($package))) {
             System::mkdir(array('-p', $rdir . DIRECTORY_SEPARATOR . strtolower($package)));
             @chmod($rdir . DIRECTORY_SEPARATOR . strtolower($package), 0777);
         }
@@ -320,7 +320,7 @@ class pear_rest
     {
         require_once 'System.php';
         $mdir = $this->_restdir . DIRECTORY_SEPARATOR . 'm';
-        if (file_exists($mdir . DIRECTORY_SEPARATOR . $handle)) {
+        if (is_dir($mdir . DIRECTORY_SEPARATOR . $handle)) {
             System::rm(array('-r', $mdir . DIRECTORY_SEPARATOR . $handle));
         }
     }
@@ -335,11 +335,11 @@ class pear_rest
         $extra = '/rest/';
         if (count($maintainers)) {
             $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
-            if (!file_exists($pdir)) {
+            if (!is_dir($pdir)) {
                 System::mkdir(array('-p', $pdir));
                 @chmod($pdir, 0777);
             }
-            if (!file_exists($pdir . DIRECTORY_SEPARATOR . strtolower($package))) {
+            if (!is_dir($pdir . DIRECTORY_SEPARATOR . strtolower($package))) {
                 System::mkdir(array('-p', $pdir . DIRECTORY_SEPARATOR . strtolower($package)));
                 @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package), 0777);
             }
@@ -374,11 +374,11 @@ class pear_rest
         $maintainer = $maintainer[0];
         $extra = '/rest/';
         $mdir = $this->_restdir . DIRECTORY_SEPARATOR . 'm';
-        if (!file_exists($mdir)) {
+        if (!is_dir($mdir)) {
             System::mkdir(array('-p', $mdir));
             @chmod($mdir, 0777);
         }
-        if (!file_exists($mdir . DIRECTORY_SEPARATOR . $maintainer['handle'])) {
+        if (!is_dir($mdir . DIRECTORY_SEPARATOR . $maintainer['handle'])) {
             System::mkdir(array('-p', $mdir . DIRECTORY_SEPARATOR . $maintainer['handle']));
             @chmod($mdir . DIRECTORY_SEPARATOR . $maintainer['handle'], 0777);
         }
