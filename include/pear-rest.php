@@ -70,8 +70,7 @@ class pear_rest
             return;
         }
         // remove all category info
-        System::rm(array('-r', $this->_restdir . DIRECTORY_SEPARATOR . 'c'
-            . DIRECTORY_SEPARATOR . urlencode($category)));
+        System::rm(array('-r', $cdir . DIRECTORY_SEPARATOR . urlencode($category)));
     }
 
     function saveAllPackagesREST()
