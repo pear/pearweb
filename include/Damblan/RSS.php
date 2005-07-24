@@ -85,7 +85,7 @@ class Damblan_RSS {
         if (!PEAR::isError($rss_obj)) {
             Damblan_RSS_Cache::write($cache, $rss_obj->toString());
         }
-	$t = $rss_obj->toString();
+        $t = $rss_obj->toString();
         return $t;
      }
 
