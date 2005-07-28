@@ -80,6 +80,10 @@ function auth_reject($realm = null, $message = null)
         print "authentication, you will be redirected to this form ";
         print "automatically. You can sign up for an account ";
         print "<a href=\"/account-request.php\">over here</a>.</p>";
+        print "<p>If you forgot your password, instructions for resetting ";
+        print "it can be found on a <a href=\"/about/forgot-password.php\">";
+        print "dedicated page</a>.</p>";
+
     }
     response_footer();
     exit;
