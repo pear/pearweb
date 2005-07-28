@@ -106,7 +106,7 @@ if ($row['userinfo']) {
     <li>Username: <?php echo $row['handle']; ?></li>
 <?php
 
-if ($row['showemail']) {
+if ($row['showemail'] || (isset($auth_user) && $auth_user->isAdmin())) {
     $row['email'] = str_replace(array('@', '.'),
                                 array(' at ', ' dot '),
                                 $row['email']);
