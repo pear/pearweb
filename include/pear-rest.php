@@ -170,6 +170,8 @@ class pear_rest
     function saveAllReleasesREST($package)
     {
         require_once 'System.php';
+        require_once 'PEAR/PackageFile/Parser/v2.php';
+        require_once 'PEAR/Config.php';
         global $dbh;
         $extra = '/rest/';
         $pid = package::info($package, 'id');
@@ -193,6 +195,37 @@ class pear_rest
  <c>' . PEAR_CHANNELNAME . '</c>
 ';
         foreach ($releases as $release) {
+            $packagexml = $dbh->getOne('SELECT packagexml FROM files WHERE package = ? AND
+                release = ?', array($pid, $release['id']));
+            $extra = '';
+            if (strpos($packagexml, ' version="2.0"')) {
+                // little quick hack to determine package.xml version
+                $pkg = new PEAR_PackageFile_Parser_v2;
+                $config = &PEAR_Config::singleton();
+                $pkg->setConfig($config); // configuration is unused for this quick parse
+                $pf = $pkg->parse($packagexml, '');
+                if ($compat = $pf->getCompatible()) {
+                    if (!isset($compat[0])) {
+                        $compat = array($compat);
+                    }
+                    foreach ($compat as $entry) {
+                        $extra .= '<co><c>' . $entry['channel'] . '</c>' .
+                            '<p>' . $entry['name'] . '</p>' .
+                            '<min>' . $entry['min'] . '</min>' .
+                            '<max>' . $entry['max'] . '</max>';
+                        if (isset($entry['exclude'])) {
+                            if (!is_array($entry['exclude'])) {
+                                $entry['exclude'] = array($entry['exclude']);
+                            }
+                            foreach ($entry['exclude'] as $exclude) {
+                                $extra .= '<x>' . $exclude . '</x>';
+                            }
+                        }
+                        $extra .= '</co>
+';
+                    }
+                }
+            }
             if (!isset($latest)) {
                 $latest = $release['version'];
             }
@@ -206,7 +239,7 @@ class pear_rest
                 $alpha = $release['version'];
             }
             $info .= ' <r><v>' . $release['version'] . '</v><s>' . $release['state'] . '</s></r>
-';
+' . $extra;
         }
         $info .= '</a>';
         if (!is_dir($rdir . DIRECTORY_SEPARATOR . strtolower($package))) {
