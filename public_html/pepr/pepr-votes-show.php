@@ -107,6 +107,7 @@ if ($proposal->mayVote($dbh, @$_COOKIE['PEAR_USER'])) {
                 $proposal->sendActionEmail('proposal_vote', 'user',
                                            $_COOKIE['PEAR_USER']);
                 report_success('Your vote has been registered successfully');
+                $form->removeElement('submit');
                 $form->freeze();
             }
         } else {
