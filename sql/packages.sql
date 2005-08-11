@@ -16,6 +16,7 @@ CREATE TABLE packages (
   doc_link varchar(255) default NULL,
   cvs_link varchar(255) default NULL,
   approved tinyint(4) NOT NULL default '0',
+  wiki_area tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (id),
   UNIQUE KEY name (name),
   KEY category (category)
