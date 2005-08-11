@@ -72,6 +72,10 @@ class Damblan_Karma {
         case "pear.dev" :
             $levels = array("pear.dev", "pear.admin", "pear.group");
             break;
+        
+        case "pear.qa" :
+            $levels = array("pear.qa", "pear.admin", "pear.group");
+            break;
 
         case "pear.admin" :
             $levels = array("pear.admin", "pear.group");
