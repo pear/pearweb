@@ -159,6 +159,10 @@ class pear_rest
 
     function deletePackageREST($package)
     {
+        if (!$package) {
+            // don't delete the entire package/release info
+            return;
+        }
         require_once 'System.php';
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
@@ -184,7 +188,7 @@ class pear_rest
         }
         if (!$releases || !count($releases)) {
             // remove stragglers if no releases are found
-            @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package));
+            System::rm(array('-r', $rdir . DIRECTORY_SEPARATOR . strtolower($package)));
             return;
         }
         $info = '<?xml version="1.0"?>
