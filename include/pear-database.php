@@ -1194,7 +1194,7 @@ class maintainer
      */
     function add($package, $user, $role, $active = 1)
     {
-        global $dbh, $auth_user;
+        global $dbh, $auth_user, $pear_rest;
 
         if (!user::exists($user)) {
             return PEAR::raiseError("User $user does not exist");
@@ -1207,6 +1207,8 @@ class maintainer
         if (DB::isError($err)) {
             return $err;
         }
+        $packagename = package::info($package, 'name');
+        $pear_rest->savePackageMaintainerREST($packagename);
         return true;
     }
 
