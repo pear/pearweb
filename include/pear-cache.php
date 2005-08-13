@@ -52,6 +52,7 @@ $cache_files = array(
                                                     (isset($_GET['pageID']) && $_GET['pageID'] ? $_GET['pageID'] : '') 
                                         ,
                                         'ttl'   =>60*60),
+                    '/qa/packages_status.php' => array('ttl' => 60*60*24),
                     );
 
 $cache_dirs  = array(
