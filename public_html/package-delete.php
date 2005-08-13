@@ -103,6 +103,7 @@ if (!isset($_POST['confirm'])) {
     echo "\n" . $file_rm . " file(s) deleted\n\n";
 
     $catid = package::info($_GET['id'], 'categoryid');
+    $packagename = package::info($_GET['id'], 'name');
     $dbh->query("UPDATE categories SET npackages = npackages-1 WHERE id=$catid");
 
     foreach ($tables as $table => $field) {
@@ -118,7 +119,7 @@ if (!isset($_POST['confirm'])) {
         echo "<b>" . $dbh->affectedRows() . "</b> rows affected.\n";
     }
 
-    $pear_rest->deletePackageREST(package::info($_GET['id'], 'name'));
+    $pear_rest->deletePackageREST($packagename);
     echo "</pre>\nPackage " . $_GET['id'] . " has been deleted.\n";
 
 } elseif ($_POST['confirm'] == 'no') {
