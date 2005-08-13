@@ -132,21 +132,21 @@ foreach ($tables as $state => $table) {
 
 $out = '
 <div id="container">
-    <div id="pageHeader">
+    <p id="pageHeader">
         <h1>Summary</h1>
         <div id="subtitle">
             <h2>Number of packages in PEAR: {{TOTAL_PACKAGES_NUMBER}}</h2>
             <h2>Number of packages studied here : {{STUDIED_PACKAGES_NUMBER}}</h2>
         </div>
-    </div>
+    </p>
 
-    <div id="details">
+    <p id="details">
         {{TABLES}}
-    </div>
+    </p>
     
-    <div id="footer">
+    <p id="footer">
     Page last updated on: {{UPDATE_DATE}}
-    </div>
+    </p>
 </div>
 '; 
 
@@ -180,13 +180,16 @@ function bugcount($package)
 {
     global $dbh;
  
-    $query = "
+    $query = '
         SELECT
             COUNT(*)
         FROM
             bugdb
         WHERE
-            package_name=" . $dbh->quoteSmart($package);
+            package_name=' . $dbh->quoteSmart($package) . '
+            AND bug_type = "Bug"
+            AND status IN ("Open", "Critical", "Assigned", "Analyzed")
+            ';
 
     $count = $dbh->getOne($query);
 
