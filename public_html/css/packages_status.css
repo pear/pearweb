@@ -1,0 +1,63 @@
+/* Parts of the code borrowed from csszengarden.com, hicksdesign.co.uk */
+html {
+   margin: 0px;
+   padding: 0px;
+   padding-left: 2%;
+}
+
+body { 
+   font-size: 13px; 
+   font-family: "Lucida Grande","Lucida Sans Unicode",geneva,verdana,sans-serif;
+   color: #525252;
+   background-color: #fff;
+   margin: 0px;
+   padding: 0px;
+}	
+
+#pageHeader h1 {
+    font-size: 18px;
+}
+
+#pageHeader h2 {
+    font-size: 14px;
+}
+
+table {
+    border : 1px solid #330033;
+    margin: 0px;
+    padding: 0px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+table th {
+    color: #000;
+    border-bottom: 1px solid #000;
+}
+
+td {
+    padding: 2px;
+    border-left: dashed 1px #669999;
+    border-right: dashed 1px #669999;
+}
+
+table caption {
+    color: #000;
+    font-size: 90%;
+}
+
+.old table {
+    background-color: #BEBDFF;
+}
+
+.old caption {
+    color: #F00;
+}
+
+#footer {
+    font-size: 9px;
+}
+
+em {
+    font-weight: bold;
+}
