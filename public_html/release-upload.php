@@ -275,6 +275,7 @@ if ($display_verification) {
     // complete the next screen.  Janitor cron job recommended!
     $info = $util->infoFromTgzFile(PEAR_UPLOAD_TMPDIR . '/' . $tmpfile);
     if (class_exists('PEAR_PackageFile')) {
+        unset($util); // for memory reasons;
         $config = &PEAR_Config::singleton();
         $pkg = &new PEAR_PackageFile($config);
         $info = &$pkg->fromTgzFile(PEAR_UPLOAD_TMPDIR . '/' . $tmpfile, PEAR_VALIDATE_NORMAL);
