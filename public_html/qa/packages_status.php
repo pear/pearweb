@@ -23,8 +23,7 @@
  * release information along with bug count and any other info
  * that may be used to identify unmaintained packages
  */
-// auth_require('pear.qa');  // Disabled for caching
-// Should be reenabled, when SQL stuff is much more optimized.
+auth_require('pear.qa');
 
 require 'HTML/Table.php';
 
