@@ -23,11 +23,12 @@
  * release information along with bug count and any other info
  * that may be used to identify unmaintained packages
  */
-auth_require('pear.qa');
+// auth_require('pear.qa');  // Disabled for caching
+// Should be reenabled, when SQL stuff is much more optimized.
 
 require 'HTML/Table.php';
 
-$extra_style = '/css/packages_status.css';
+$extra_styles[] = '/css/packages_status.css';
 // Sortable tables http://www.kryogenix.org/code/browser/sorttable/
 $extra_header = '
 	<script src="/javascript/sorttable.js"></script>
@@ -36,7 +37,7 @@ $extra_header = '
 // $SIDEBAR_DATA = '-';
 
 response_header('Quality Assurance Initiative - Packages status',
-    $extra_style, $extra_header);
+    false, $extra_header);
 
 $pck = new package();
 
