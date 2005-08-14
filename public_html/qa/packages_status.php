@@ -123,10 +123,10 @@ foreach ($packages as $package => $pck_data) {
 $html = '';
 foreach ($tables as $state => $table) {
     if ($table['old']->getRowCount() > 1) {
-        $html .= '<div class="old">' . $table['old']->toHtml() . '</div>';
+        $html .= '<p class="old">' . $table['old']->toHtml() . '</p>';
     }
     if ($table['new']->getRowCount() > 1) {
-        $html .= '<div id="new">' . $table['new']->toHtml() . '</div>' . "\n";
+        $html .= '<p id="new">' . $table['new']->toHtml() . '</div>' . "\n";
     }
 }
 
@@ -140,13 +140,13 @@ $out = '
         </div>
     </p>
 
-    <p id="details">
+    <div id="details">
         {{TABLES}}
-    </p>
+    </div>
     
-    <p id="footer">
+    <div id="footer">
     Page last updated on: {{UPDATE_DATE}}
-    </p>
+    </div>
 </div>
 '; 
 
