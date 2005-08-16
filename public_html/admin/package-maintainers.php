@@ -64,17 +64,7 @@ if (PEAR::isError($file) || !$file->isValid() || !preg_match("/^package[\-\d\w]*
         PEAR::raiseError("No such package " . $pkg_info->getName());
     }
 
-    /*
-    if (!maintainer::mayUpdate($pkg_id)) {
-        PEAR::raiseError("Only the lead maintainer of the package or PEAR
-                          administrators can edit the maintainers.");
-        response_footer();
-        exit();
-    }
-    */
-
     $maintainers = array();
-
     foreach ($pkg_info->getMaintainers() as $m) {
         $active = (isset($m['active']) ? $m['active'] : 1);
         $maintainers[$m['handle']] = array("role" => $m['role'], "active" => $active);
