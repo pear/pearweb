@@ -19,141 +19,76 @@
 */
 
 require_once "HTML/Form.php";
+require_once "HTTP/Upload.php";
+require_once "PEAR/Config.php";
+require_once "PEAR/PackageFile.php";
 
 auth_require();
 
-response_header("PEAR Administration - Package maintainers");
+response_header("PEAR Administration - Package Maintainers");
 
-if (isset($_GET['pid'])) {
-    $id = (int)$_GET['pid'];
-} else {
-    $id = 0;
-}
+echo "<h1>PEAR Administration - Package Maintainers</h1>";
 
-$self = htmlspecialchars($_SERVER['PHP_SELF']);
+PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
 
-// Select package first
-if (empty($id)) {
-    $packages = package::listAll(true, false, true);
-    $values   = array();
+$upload = new HTTP_Upload;
+$file = $upload->getFiles("f");
 
-    foreach ($packages as $name => $package) {
-        $values[$package['packageid']] = $name;
-    }
+if (PEAR::isError($file) || !$file->isValid() || !preg_match("/^package[\-\d\w]*\.xml$/", $file->getProp("real"))) {
 
-    $bb = new BorderBox("Select package");
+    echo "<p>Welcome to the interface for managing package maintainers. ";
+    echo "In order to update the maintainer database you first have to ";
+    echo "apply the changes to the <tt>package(2).xml</tt> file for the ";
+    echo "package in question.  Afterwards this file can uploaded via the ";
+    echo "form below, and the database will be updated accordingly.</p>";
 
-    $form = new HTML_Form($self);
-    $form->addSelect("pid", "Package:", $values);
+    $form = new HTML_Form("/admin/package-maintainers.php", "post", "", "", "multipart/form-data");
+    $form->addFile("f", "File:");
     $form->addSubmit();
     $form->display();
 
-    $bb->end();
+    echo "<p><strong>Warning:</strong> There is no confirmation screen, ";
+    echo "so you should make sure that the information in ";
+    echo "<tt>package(2).xml</tt> is correct before continuing.</p>";
 
-} else if (!empty($_GET['update'])) {
-    if (!maintainer::mayUpdate($id)) {
-        PEAR::raiseError("Only the lead maintainer of the package or PEAR
-                          administrators can edit the maintainers.");
-        response_footer();
-        exit();
-    }
-
-    $new_list = array();
-    foreach ((array)$_GET['maintainers'] as $maintainer) {
-        list($handle, $role) = explode("||", $maintainer);
-        $new_list[$handle] = array("role" => $role,
-                                   "active" => 1);
-    }
-    $res = maintainer::updateAll($id, $new_list);
-    $package = $dbh->getOne('SELECT name FROM packages WHERE id=?', array($id));
-    $pear_rest->savePackageMaintainerREST($package);
-
-    $url = $self;
-    if (!empty($_GET['pid'])) {
-        $url .= "?pid=" . $_GET['pid'];
-    }
-    echo '<br /><b>Done</b><br />';
-    echo '<a href="' . $url . '">Back</a>';
 } else {
-    if (!maintainer::mayUpdate($id)) {
+    PEAR::popErrorHandling();
+
+    $config = &PEAR_Config::singleton();
+    $pf = &new PEAR_PackageFile($config);
+    
+    $pkg_info = $pf->fromPackageFile($file->getProp("tmp_name"), PEAR_VALIDATE_NORMAL);
+
+    $pkg_id = package::info($pkg_info->getName(), "id");
+    if (!$pkg_id) {
+        PEAR::raiseError("No such package " . $pkg_info->getName());
+    }
+
+    /*
+    if (!maintainer::mayUpdate($pkg_id)) {
         PEAR::raiseError("Only the lead maintainer of the package or PEAR
                           administrators can edit the maintainers.");
         response_footer();
         exit();
     }
+    */
 
-    $bb = new BorderBox("Manage maintainers", "100%");
+    $maintainers = array();
 
-    echo '<script src="/javascript/package-maintainers.js" type="text/javascript"></script>';
-    echo '<form onSubmit="beforeSubmit()" name="form" method="get" action="' . $self . '">';
-    echo '<input type="hidden" name="update" value="yes" />';
-    echo '<input type="hidden" name="pid" value="' . $id . '" />';
-    echo '<table border="0" cellpadding="0" cellspacing="4" border="0" width="100%">';
-    echo '<tr>';
-    echo '  <th>All users:</th>';
-    echo '  <th></th>';
-    echo '  <th>Package maintainers:</th>';
-    echo '</tr>';
-
-    echo '<tr>';
-    echo '  <td>';
-    echo '  <select onChange="activateAdd();" name="accounts" size="10">';
-
-    $users = user::listAll();
-    foreach ($users as $user) {
-        if (empty($user['handle'])) {
-            continue;
-        }
-        printf('<option value="%s">%s (%s)</option>',
-               $user['handle'],
-               $user['name'],
-               $user['handle']
-               );
+    foreach ($pkg_info->getMaintainers() as $m) {
+        $active = (isset($m['active']) ? $m['active'] : 1);
+        $maintainers[$m['handle']] = array("role" => $m['role'], "active" => $active);
     }
-    echo '  </select>';
-    echo '  </td>';
 
-    echo '  <td>';
-    echo '  <input type="button" onClick="addMaintainer();" name="add" value="Add as" />';
-    echo '  <select name="role" size="1">';
-    echo '    <option value="lead">lead</option>';
-    echo '    <option value="developer">developer</option>';
-    echo '    <option value="helper">helper</option>';
-    echo '  </select><br /><br />';
-    echo '  <input type="button" onClick="removeMaintainer();" name="remove" value="Remove" />';
-    echo '  </td>';
-
-    echo '  <td>';
-    echo '  <select multiple="yes" name="maintainers[]" onChange="activateRemove();" size="10">';
-
-    $maintainers = maintainer::get($id);
-    foreach ($maintainers as $handle => $row) {
-        $info = user::info($handle, "name");   // XXX: This sucks
-        printf('<option value="%s||%s">%s (%s, %s)</option>',
-               $handle,
-               $row['role'],
-               $info['name'],
-               $handle,
-               $row['role']
-               );
+    echo "<div class=\"explain\">The following log messages were generated ";
+    echo "by the update process:\n<ul>";
+    $result = maintainer::updateAll($pkg_id, $maintainers, true);
+    echo "</ul>\n</div>\n";
+    if ($result) {
+        echo "<br /><div class=\"success\">The maintainers database was updated successfully.</div>\n";
     }
-    echo '  </select>';
-    echo '  </td>';
-    echo '</tr>';
-    echo '<tr>';
-    echo '  <td colspan="3"><input type="submit" /></td>';
-    echo '</tr>';
-    echo '</table>';
-    echo '</form>';
 
-    echo '<script language="JavaScript" type="text/javascript">';
-    echo 'document.form.remove.disabled = true;';
-    echo 'document.form.add.disabled = true;';
-    echo 'document.form.role.disabled = true;';
-    echo '</script>';
-
-    $bb->end();
+    echo hdelim() . "<p><a href=\"/admin/package-maintainers.php\">Start again</a></p>\n";
 }
 
 response_footer();
-?>

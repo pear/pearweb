@@ -1301,7 +1301,7 @@ class maintainer
     }
 
     // }}}
-    // {{{ +proto bool   maintainer::updateAll(int, array) API 1.0
+    // {{{ +proto bool   maintainer::updateAll(int, array [,bool]) API 1.0
 
     /**
      * Update user and roles of a package
@@ -1310,9 +1310,10 @@ class maintainer
      * @param int $pkgid The package id to update
      * @param array $users Assoc array containing the list of users
      *                     in the form: '<user>' => array('role' => '<role>', 'active' => '<active>')
+     * @param bool Whether to print the logging information to the screen
      * @return mixed PEAR_Error or true
      */
-    function updateAll($pkgid, $users)
+    function updateAll($pkgid, $users, $print = false)
     {
         require_once "Damblan/Log.php";
 
@@ -1327,6 +1328,12 @@ class maintainer
         }
 
         $logger = new Damblan_Log;
+        if ($print) {
+            require_once "Damblan/Log/Print.php";
+            $observer = new Damblan_Log_Print;
+            $logger->attach($observer);
+        }
+
         $pkg_name = package::info((int)$pkgid, "name"); // Needed for logging
         if (empty($pkg_name)) {
             PEAR::raiseError('maintainer::updateAll: no such package');
