@@ -1202,7 +1202,7 @@ class maintainer
         if (is_string($package)) {
             $package = package::info($package, 'id');
         }
-        $err = $dbh->query("INSERT INTO maintains (handle, package, role, active) VALUES(?, ?, ?, ?)",
+        $err = $dbh->query("INSERT INTO maintains (handle, package, role, active) VALUES (?, ?, ?, ?)",
                            array($user, $package, $role, $active));
         if (DB::isError($err)) {
             return $err;
