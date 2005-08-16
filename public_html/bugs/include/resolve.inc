@@ -52,13 +52,13 @@ For Windows:
     'message' =>
 'This bug has been fixed in CVS.
 
-In case this was a documentation problem, the fix will show up at the
-end of next Sunday (CET) on ' . PEAR_CHANNELNAME . '.
+If this was a documentation problem, the fix will appear on ' . PEAR_CHANNELNAME . ' by the end of next Sunday (CET).
 
-In case this was a ' . PEAR_CHANNELNAME . ' website problem, the change will show
-up on the website in short time.
- 
-Thank you for the report, and for helping us make PEAR better.',
+If this was a problem with the ' . PEAR_CHANNELNAME . ' website, the change should be live shortly.
+
+Otherwise, the fix will appear in the package\'s next release.
+
+Thank you for the report and for helping us make PEAR better.',
   ),
   'alreadyfixed' => array(
     'status' => 'Closed',
