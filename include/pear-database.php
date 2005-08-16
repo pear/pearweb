@@ -1194,7 +1194,7 @@ class maintainer
      */
     function add($package, $user, $role, $active = 1)
     {
-        global $dbh, $auth_user, $pear_rest;
+        global $dbh, $pear_rest;
 
         if (!user::exists($user)) {
             return PEAR::raiseError("User $user does not exist");
@@ -1202,7 +1202,7 @@ class maintainer
         if (is_string($package)) {
             $package = package::info($package, 'id');
         }
-        $err = $dbh->query("INSERT INTO maintains VALUES(?,?,?,?)",
+        $err = $dbh->query("INSERT INTO maintains (handle, package, role, active) VALUES(?, ?, ?, ?)",
                            array($user, $package, $role, $active));
         if (DB::isError($err)) {
             return $err;
