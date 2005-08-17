@@ -39,7 +39,7 @@ foreach ($states as $state) {
 	'/qa/packages_status_detail.php?state=' . $state, 
         'See packages status for state ' . $state, '',
 	'title="Details for state ' . $state . '"');
-    echo '<li>' . $state . '</li>';
+    echo '<li>' . $link . '</li>';
 }
 echo "</ul>\n";
 

@@ -201,13 +201,13 @@ function bugcount($package)
     $count = $dbh->getOne($query);
 
     if (PEAR::isError($count)) {
-        return 0;
+        return '0';
     }
 
     if ($count > 0 && $count < 10) {
-	$count = 0 . $count;
+	    $count = "0$count";
     }
 
-    return (int) $count;
+    return $count;
 }
 ?>
