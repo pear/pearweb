@@ -26,7 +26,8 @@ foreach (category::listAll() as $category) {
     echo "done\n";
 }
 echo "Generating Maintainer REST...\n";
-$maintainers = $dbh->getAll('SELECT * FROM users', array(), DB_FETCHMODE_ASSOC);
+$maintainers = $dbh->getAll('SELECT users.* FROM users, karma WHERE users.handle = karma.user
+    AND (karma.level = "pear.dev" OR karma.level = "pear.admin")', array(), DB_FETCHMODE_ASSOC);
 foreach ($maintainers as $maintainer) {
     echo "  $maintainer[handle]...";
     $pear_rest->saveMaintainerREST($maintainer['handle']);
