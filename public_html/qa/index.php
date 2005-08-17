@@ -29,7 +29,7 @@ team works can be found in the
 <a href="/pepr/pepr-proposal-show.php?id=60">appendant RFC</a>.
 </p>
 
-<p>The first step was to elect the seven &quot;Core&quot; members of
+<p>The first step was to elect the six &quot;Core&quot; members of
 the <acronym title="Quality Assurance">QA</acronym> Team:</p>
 
 <ul>
