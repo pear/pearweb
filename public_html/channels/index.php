@@ -32,7 +32,7 @@ $tabs = array("List" => array("url" => "/channels/index.php",
 
 <h2>What&apos;s that?</h2>
 
-<p>A number of third-party sites provides their software in form of
+<p>A number of third-party sites provide their software in form of
 packages that are installable using the <a href="/package/PEAR/">PEAR
 installer</a>.  Some of them even provide <a href="/manual/en/guide.migrating.channels.php">channels</a> 
 for PEAR &gt;= 1.4.0.  Specific installation instructures are provided
