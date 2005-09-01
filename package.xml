@@ -229,6 +229,10 @@
           <file role="php" name="trusted-devs.inc"/>
          </dir> <!-- public_html/bugs/include -->
         </dir> <!-- public_html/bugs -->
+        <dir name="channels">
+         <file role="php" name="index.php"/>
+         <file role="php" name="add.php"/>
+        </dir> <!-- public_html/channels -->
         <dir name="css">
          <file role="php" name="bugs.css"/>
          <file role="php" name="bugs-controls.css"/>
