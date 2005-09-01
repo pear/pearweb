@@ -63,7 +63,7 @@ $form->applyFilter("email", "htmlspecialchars");
 $form->addRule("project[name]", "Please enter the project name", "required", null, "client");
 $form->applyFilter("project[name]", "htmlspecialchars");
 $form->addRule("project[link]", "Please enter the project link", "required", null, "client");
-$form->addRule("project[link]", "The project link has to begin with http://", "regex", "#^http://#", "client");
+$form->addRule("project[link]", "The project link has to begin with http://", "regex", "#^http://(.+)#", "client");
 $form->applyFilter("project[link]", "htmlspecialchars");
 
 if ($form->validate()) {
@@ -86,6 +86,10 @@ if ($form->validate()) {
     echo "be reviewed as soon as possible.</div>\n";
 } else {
     $form->display();
+
+    echo "<p>The &quot;Project Link&quot; should not point to the main ";
+    echo "homepage of the project, but rather to a page with installation ";
+    echo "instructures.</p>";
 }
 ?>
 
