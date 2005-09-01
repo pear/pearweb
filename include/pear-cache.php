@@ -53,6 +53,7 @@ $cache_files = array(
                                         ,
                                         'ttl'   =>60*60),
                     '/qa/packages_status.php' => array('ttl' => 60*60*24),
+                    '/channels/index.php' => '',
                     );
 
 $cache_dirs  = array(
