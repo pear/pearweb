@@ -63,7 +63,7 @@ $form->applyFilter("email", "htmlspecialchars");
 $form->addRule("project[name]", "Please enter the project name", "required", null, "client");
 $form->applyFilter("project[name]", "htmlspecialchars");
 $form->addRule("project[link]", "Please enter the project link", "required", null, "client");
-$form->addRule("project[link]", "The project link has to begin with http://", "regex", "#^http://(.+)#", "client");
+$form->addRule("project[link]", "Please supply a valid project link", "regex", "#^http(s?)://(.+)#", "client");
 $form->applyFilter("project[link]", "htmlspecialchars");
 
 if ($form->validate()) {
