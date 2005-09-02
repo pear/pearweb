@@ -97,7 +97,8 @@ do {
                     $errors[] = $pacid->getMessage();
                     break;
                 }
-                if (!user::isAdmin($_COOKIE['PEAR_USER']) &&
+                if (!auth_check('pear.admin') &&
+                    !auth_check('pear.qa') &&
                     !user::maintains($_COOKIE['PEAR_USER'], $pacid, 'lead')) {
                     $errors[] = 'You don\'t have permissions to upload this release.';
                     break;
@@ -140,7 +141,8 @@ do {
                 $errors[] = $pacid->getMessage();
                 break;
             }
-            if (!user::isAdmin($_COOKIE['PEAR_USER']) &&
+            if (!auth_check('pear.admin') &&
+                !auth_check('pear.qa') &&
                 !user::maintains($_COOKIE['PEAR_USER'], $pacid, 'lead')) {
                 $errors[] = 'You don\'t have permissions to upload this release.';
                 break;
