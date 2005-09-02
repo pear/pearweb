@@ -1368,8 +1368,8 @@ class maintainer
                 $logger->log("[Maintainer] NEW: " . $user . " (" . $role . ") to package " . $pkg_name . " by " . $auth_user->handle);
                 continue;
             }
-            // Users exists but role has changed -> update it
-            if ($role != $old[$user]['role']) {
+            // Users exists but the role or the "active" flag have changed -> update it
+            if ($role != $old[$user]['role'] || $active != $old[$user]['active']) {
                 $res = maintainer::update($pkgid, $user, $role, $active);
                 if (DB::isError($res)) {
                     return $res;
