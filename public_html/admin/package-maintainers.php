@@ -66,7 +66,15 @@ if (PEAR::isError($file) || !$file->isValid() || !preg_match("/^package[\-\d\w]*
 
     $maintainers = array();
     foreach ($pkg_info->getMaintainers() as $m) {
-        $active = (isset($m['active']) ? $m['active'] : 1);
+        if (isset($m['active'])) {
+            if (is_numeric($m['active'])) {
+                $active = $m['active'];
+            } else {
+                $active = ($m['active'] == "yes" ? 1 : 0);
+            }
+        } else {
+            $active = 1;
+        }
         $maintainers[$m['handle']] = array("role" => $m['role'], "active" => $active);
     }
 
