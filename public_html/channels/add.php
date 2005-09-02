@@ -45,6 +45,11 @@ staff may reject your submission if they do not consider it appropriate.</p>
 <?php
 $form = new HTML_QuickForm("submitForm");
 
+if (isset($auth_user)) {
+    $form->setDefaults(array("name" => $auth_user->name,
+                             "email" => $auth_user->email));
+}
+
 $form->addElement("text", "name", "Your name:", 
                   array("size" => 30));
 $form->addElement("text", "email", "Your email address:",
