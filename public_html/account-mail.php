@@ -48,7 +48,7 @@ if (isset($_POST['submit'])) {
     if (strlen($input_data['text'])) {
         $input_data['text'] = htmlentities(strip_tags($input_data['text']));
     }
-    if (!empty($input_data['captcha']) && !ereg('^[A-Z]{4}$', $input_data['captcha'])) {
+    if (!empty($input_data['captcha']) && !ereg('^[A-Za-z]{4}$', $input_data['captcha'])) {
         $input_data['captcha'] = '';
     } 
 } else {
@@ -81,6 +81,7 @@ function printForm($data = array(), $handle = '')
 
     $form = new HTML_Form('/account-mail.php?handle=' . $handle,
                           'post', 'contact');
+    $form->setDefaultFromInput(false);
 
     $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
             $data['name'], 40, null, 'accesskey="o"');
