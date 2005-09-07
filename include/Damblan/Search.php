@@ -50,19 +50,19 @@ class Damblan_Search {
 
         case "users" :
             require_once "Damblan/Search/Users.php";
-            return new Damblan_Search_Users($dbh);
+            $s = new Damblan_Search_Users($dbh);
 
             break;
 
         case "site" :
             require_once "Damblan/Search/Site.php";
-            return new Damblan_Search_Site;
+            $s = new Damblan_Search_Site;
 
             break;
 
         case "pepr" :
             require_once "Damblan/Search/PEPr.php";
-            return new Damblan_Search_PEPr;
+            $s = new Damblan_Search_PEPr;
 
             break;
 
@@ -70,17 +70,18 @@ class Damblan_Search {
         case "pear-cvs":
         case "pear-general":
             require_once "Damblan/Search/Lists.php";
-            return new Damblan_Search_Lists($searchType);
+            $s = new Damblan_Search_Lists($searchType);
 
             break;
 
         case "packages" :
         default :
             require_once "Damblan/Search/Packages.php";
-            return new Damblan_Search_Packages($dbh);
+            $s = new Damblan_Search_Packages($dbh);
 
             break;
         }
+        return $s;
     }
 
     /**
