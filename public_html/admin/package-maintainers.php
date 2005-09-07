@@ -30,7 +30,8 @@ if ($pid < 1) {
 
 $maintainers = maintainer::get($pid);
 
-if (!isset($maintainers[$auth_user->handle])) {
+// Maintainer being lead can go further, if not QA and up
+if (!(isset($maintainers[$auth_user->handle]) && $maintainers[$auth_user->handle]['role'] == 'lead')) {
    auth_require('pear.qa');
 }
 
