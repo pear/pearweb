@@ -13,80 +13,142 @@
    | obtain it through the world-wide-web, please send a note to          |
    | license@php.net so we can mail you a copy immediately.               |
    +----------------------------------------------------------------------+
-   | Authors: Martin Jansen <mj@php.net>                                  |
+   | Authors: Pierre-Alain Joye <pajoye@php.net>                                  |
    +----------------------------------------------------------------------+
    $Id$
 */
 
-require_once "HTML/Form.php";
-require_once "HTTP/Upload.php";
-require_once "PEAR/Config.php";
-require_once "PEAR/PackageFile.php";
-
 auth_require();
 
-response_header("PEAR Administration - Package Maintainers");
+response_header('Administration - Package Maintainers');
 
-echo "<h1>PEAR Administration - Package Maintainers</h1>";
+$pid = isset($_GET['pid']) ? (int)$_GET['pid'] : false;
 
-PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
-
-$upload = new HTTP_Upload;
-$file = $upload->getFiles("f");
-
-if (PEAR::isError($file) || !$file->isValid() || !preg_match("/^package[\-\d\w]*\.xml$/", $file->getProp("real"))) {
-
-    echo "<p>Welcome to the interface for managing package maintainers. ";
-    echo "In order to update the maintainer database you first have to ";
-    echo "apply the changes to the <tt>package(2).xml</tt> file for the ";
-    echo "package in question.  Afterwards this file can uploaded via the ";
-    echo "form below, and the database will be updated accordingly.</p>";
-
-    $form = new HTML_Form("/admin/package-maintainers.php", "post", "", "", "multipart/form-data");
-    $form->addFile("f", "File:");
-    $form->addSubmit();
-    $form->display();
-
-    echo "<p><strong>Warning:</strong> There is no confirmation screen, ";
-    echo "so you should make sure that the information in ";
-    echo "<tt>package(2).xml</tt> is correct before continuing.</p>";
-
-} else {
-    PEAR::popErrorHandling();
-
-    $config = &PEAR_Config::singleton();
-    $pf = &new PEAR_PackageFile($config);
-    
-    $pkg_info = $pf->fromPackageFile($file->getProp("tmp_name"), PEAR_VALIDATE_NORMAL);
-
-    $pkg_id = package::info($pkg_info->getName(), "id");
-    if (!$pkg_id) {
-        PEAR::raiseError("No such package " . $pkg_info->getName());
-    }
-
-    $maintainers = array();
-    foreach ($pkg_info->getMaintainers() as $m) {
-        if (isset($m['active'])) {
-            if (is_numeric($m['active'])) {
-                $active = $m['active'];
-            } else {
-                $active = ($m['active'] == "yes" ? 1 : 0);
-            }
-        } else {
-            $active = 1;
-        }
-        $maintainers[$m['handle']] = array("role" => $m['role'], "active" => $active);
-    }
-
-    echo "<div class=\"explain\">The following log messages were generated ";
-    echo "by the update process:\n<ul>";
-    $result = maintainer::updateAll($pkg_id, $maintainers, true);
-    echo "</ul>\n</div>\n";
-    if ($result) {
-        echo "<br /><div class=\"success\">The maintainers database was updated successfully.</div>\n";
-    }
-
-    echo hdelim() . "<p><a href=\"/admin/package-maintainers.php\">Start again</a></p>\n";
+if ($pid < 1) {
+   report_error('Invalid package');
 }
 
+$maintainers = maintainer::get($pid);
+
+if (!isset($maintainers[$auth_user->handle])) {
+   auth_require('pear.admin');
+}
+
+if (isset($_POST) && isset($_POST['role'])) {
+
+   // Got a new maintainer?
+   if (isset($_POST['handle']['new']) && !empty($_POST['handle']['new'])) {
+
+      $new = strip_tags($_POST['handle']['new']);
+      if (!ereg('^[0-9a-z_]{3,20}$', $new)) {
+         report_error('Invalid handle: ' . $new);
+      } elseif (!user::exists($new)) {
+         report_error($new . ' does not exist.');
+      } else {
+         $role = $_POST['role']['new'];
+
+         if (!maintainer::isValidRole($role)) {
+            report_error('Invalid role.');
+         } else {
+            if (maintainer::add($pid, $new, $role, 1)) {
+               $message = 'Maintainer ' .  $new . 'sucessfully added.';
+               $maintainers[$new] = array('role'=>$role, 'active' => 1);
+            }
+         }
+      }
+   }
+
+   // Role, active, and marked for removal
+   $roles   = $_POST['role'];
+   $active  = $_POST['active'];
+
+   if (isset($_POST['delete'])) {
+      $delete  = $_POST['delete'];
+   } else {
+      $delete = array();
+   }
+
+   $updates = array();
+   $update  = 0;
+   $new     = '';
+
+   foreach ($maintainers as $handle => $info) {
+      if (isset($delete[$handle]) && $delete[$handle]) {
+         maintainer::remove($pid, $handle);
+         unset($maintainers[$handle]);
+      }
+
+      if (isset($roles[$handle]) && $info['role'] != $roles[$handle]) {
+         $update = 1;
+         $update_role = $roles[$handle];
+      } else {
+         $update_role = $info['role'];
+      }
+
+      if (isset($active[$handle])) {
+         $update_active = 1;
+         $update = 1;
+      } elseif ($info['active'] == 1) {
+         $update_active = 0;
+         $update = 1;
+      }
+
+      // Do not add again the newly added maintainer to the list
+      if ($update == 1 && $handle != $new) {
+         maintainer::update($pid, $handle, $update_role, $update_active);
+         $maintainers[$handle]['role'] = $update_role;
+         $maintainers[$handle]['active'] = $update_active;
+      }
+
+      $update = 0;
+   }
+}
+
+include_once 'PEAR/Common.php';
+$roles = PEAR_Common::getUserRoles();
+
+?>
+<form name="maintainers_edit" method="post" action="?pid=<?php echo $pid; ?>">
+<table class="form-holder" style="margin-bottom: 2em;" cellspacing="1" border="0">
+<caption class="form-caption">Edit Maintainers list</caption>
+<thead class="form-label_left">
+   <th class="form-label_left">Handle</th><th class="form-label_left">Role</th><th class="form-label_left">Active</th><th class="form-label_left">Delete</th>
+</thead>
+<tbody>
+<?php
+
+foreach ($maintainers as $handle => $infos) {
+   $select = '<select name="role[' . $handle . ']">';
+   foreach($roles as $role) {
+      $select .= '<option value="' . $role. '"' . ($role == $infos['role'] ? 'selected' : '') . '>' . $role . '</option>';
+   }
+   $select .= '</select>';
+   $active_checkbox = '<input type="checkbox" value="1" name="active[' . $handle . ']" '. ($infos['active'] == 1 ? 'checked' : '' ) . '>';
+?>
+   <tr>
+      <td><?php echo $handle; ?></td>
+      <td><?php echo $select; ?></td><td><?php echo $active_checkbox; ?></td>
+      <td><input type="checkbox" name="delete[<?php echo $handle; ?>]" value="1"></td>
+   </tr>
+<?php
+}
+?>
+   <tr><td colspan="3"><b>Add a maintainer</b></tr>
+   <tr>
+      <td><input type="text" name="handle[new]" value="" /></td>
+      <td><select name="role[new]">
+      <?php foreach ($roles as $role) {
+         echo '<option value=' . $role . '>' . $role . '</role>';
+      }
+      ?>
+      </select>
+      </td>
+      <td>X</td>
+   </tr>
+</tbody>
+</table>
+<input type="submit" name="Save" value="Save">
+</form>
+
+<?php
 response_footer();
