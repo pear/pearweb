@@ -31,7 +31,7 @@ if ($pid < 1) {
 $maintainers = maintainer::get($pid);
 
 if (!isset($maintainers[$auth_user->handle])) {
-   auth_require('pear.admin');
+   auth_require('pear.qa');
 }
 
 if (isset($_POST) && isset($_POST['role'])) {
