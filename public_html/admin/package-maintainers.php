@@ -51,7 +51,7 @@ if (isset($_POST) && isset($_POST['role'])) {
          if (!maintainer::isValidRole($role)) {
             report_error('Invalid role.');
          } else {
-            if (maintainer::add($pid, $new, $role, 1)) {
+            if (maintainer::add($pid, $new, $role)) {
                $message = 'Maintainer ' .  $new . 'sucessfully added.';
                $maintainers[$new] = array('role'=>$role, 'active' => 1);
             }
@@ -77,6 +77,7 @@ if (isset($_POST) && isset($_POST['role'])) {
       if (isset($delete[$handle]) && $delete[$handle]) {
          maintainer::remove($pid, $handle);
          unset($maintainers[$handle]);
+         continue;
       }
 
       if (isset($roles[$handle]) && $info['role'] != $roles[$handle]) {
