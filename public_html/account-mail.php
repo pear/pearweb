@@ -81,7 +81,6 @@ function printForm($data = array(), $handle = '')
 
     $form = new HTML_Form('/account-mail.php?handle=' . $handle,
                           'post', 'contact');
-    $form->setDefaultFromInput(false);
 
     $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
             $data['name'], 40, null, 'accesskey="o"');
