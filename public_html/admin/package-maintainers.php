@@ -20,13 +20,17 @@
 
 auth_require();
 
-response_header('Administration - Package Maintainers');
 
 $pid = isset($_GET['pid']) ? (int)$_GET['pid'] : false;
 
 if ($pid < 1) {
    report_error('Invalid package');
 }
+
+$package_name = package::info($pid, 'name');
+
+response_header('Administration - ' . htmlspecialchars($package_name) . ' - Package Maintainers');
+
 
 $maintainers = maintainer::get($pid);
 
@@ -109,6 +113,10 @@ if (isset($_POST) && isset($_POST['role'])) {
 include_once 'PEAR/Common.php';
 $roles = PEAR_Common::getUserRoles();
 
+?>
+<h1>Package Information: <?php echo $package_name; ?></h1>
+<?php
+print_package_navigation($pid, $package_name, '/admin/package-maintainers.php?pid=' . $pid);
 ?>
 <form name="maintainers_edit" method="post" action="?pid=<?php echo $pid; ?>">
 <table class="form-holder" style="margin-bottom: 2em;" cellspacing="1" border="0">
