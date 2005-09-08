@@ -130,10 +130,9 @@ $accounts  = '<ul>';
 foreach ($maintainers as $handle => $row) {
     $accounts .= '<li>';
     $accounts .= user_link($handle);
-    $accounts .= sprintf("(%s%s)<br />",
-                         ($row['active'] == 0 ? "inactive " : ""),
-                         $row['role']
-                         );
+    $accounts .= '(' . $row['role'] . 
+                  ($row['active'] == 0 ? ', inactive' : '')
+		. ')';
     $accounts .= '</li>';
 }
 
