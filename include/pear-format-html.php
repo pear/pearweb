@@ -332,7 +332,7 @@ print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
          print '<i>This is an unofficial mirror!</i>';
      }
     ?>
- 
+
    </small>
   </td>
  </tr>
@@ -919,7 +919,7 @@ function print_tabbed_navigation($items)
         }
         echo '>' . $title . "</a>\n";
     }
-    echo '</div>';    
+    echo '</div>';
 }
 
 /**
@@ -973,7 +973,7 @@ function print_package_navigation($pacid, $name, $action)
             . ($action == $item['url'] ? ' class="active" ' : '')
             . '>'
             . $title
-            . '</a>';
+            . '</a> ';
     }
 
     print '</div>';
