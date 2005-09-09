@@ -1203,8 +1203,6 @@ class maintainer
             $package = package::info($package, 'id');
         }
 
-        $t = array($user, $package, $role, (int)$active);
-
         $err = $dbh->query("INSERT INTO maintains (handle, package, role, active) VALUES (?, ?, ?, ?)",
                            array($user, $package, $role, (int)$active));
 
