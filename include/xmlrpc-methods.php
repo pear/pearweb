@@ -21,7 +21,7 @@
 require_once "signatures.php";
 
 parse_signatures_from_file("../include/pear-database.php",
-                           &$xmlrpc_method_index, "index");
+                           $xmlrpc_method_index, "index");
 
 // {{{ pear_register_xmlrpc_methods()
 
@@ -91,7 +91,7 @@ function pear_xmlrpc_dispatcher($method_name, $params, $appdata)
 
 function pear_xmlrpc_introspection_callback($userdata)
 {
-    parse_signatures_from_file("../include/pear-database.php", &$signatures,
+    parse_signatures_from_file("../include/pear-database.php", $signatures,
                                "signatures");
     $ret = "<introspection version='1.0'>\n";
     $ret .= " <methodList>\n";

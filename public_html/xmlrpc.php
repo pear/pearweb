@@ -33,7 +33,7 @@ $cache = new XMLRPC_Cache;
 
 $method   = "";
 $response = null;
-$params   = xmlrpc_decode_request($HTTP_RAW_POST_DATA, &$method);
+$params   = xmlrpc_decode_request($HTTP_RAW_POST_DATA, $method);
 
 // Read cache
 if (isset($_GET['maxAge']) && ((int)$_GET['maxAge']) > 0) {
