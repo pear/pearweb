@@ -41,6 +41,7 @@ require_once 'Damblan/Karma.php';
  */
 function display_pepr_nav(&$proposal)
 {
+    global $auth_user;
     if ($proposal == null) {
         $id = 0;
     } else {
@@ -60,8 +61,8 @@ function display_pepr_nav(&$proposal)
     );
 
     if ($proposal != null &&
-        isset($_COOKIE['PEAR_USER']) &&
-        $proposal->mayEdit($_COOKIE['PEAR_USER']))
+        isset($auth_user) && $auth_user &&
+        $proposal->mayEdit($auth_user->handle))
     {
         $items['Edit'] = array(
             'url'   => 'pepr-proposal-edit.php?id=' . $id,
@@ -412,7 +413,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
     function addComment($comment, $table = 'package_proposal_changelog')
     {
         $commentData = array("pkg_prop_id" => $this->id,
-                             "user_handle" => $_COOKIE['PEAR_USER'],
+                             "user_handle" => $auth_user,
                              "comment"     => $comment);
         $comment = new ppComment( $commentData, $table );
         $comment->store($this->id);
