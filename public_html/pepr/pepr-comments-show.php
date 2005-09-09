@@ -37,7 +37,7 @@ include_once 'HTML/QuickForm.php';
 response_header('PEPr :: Comments :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Comments for &quot;' . htmlspecialchars($proposal->pkg_name) . "&quot;</h1>\n";
 
-if ($auth_user) &&
+if ($auth_user &&
     $proposal->getStatus() == 'proposal')
 {
     $form =& new HTML_QuickForm('comment', 'post',
