@@ -73,7 +73,7 @@ $cache_dirs  = array(
                      );
 
 if (DEVBOX === true ||
-    $auth_user || (
+    !empty($_COOKIE['PEAR_USER']) || (
     !in_array($_SERVER['PHP_SELF'], array_keys($cache_files)) &&
     !in_array(dirname($_SERVER['PHP_SELF']), array_keys($cache_dirs)))) {
     $no_cache = 1;
