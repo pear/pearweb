@@ -228,7 +228,7 @@ if ($changelog = @ppComment::getAll($proposal->id,
             default:
                 require_once 'HTML/BBCodeParser.php';
                 $bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));    
-                echo $bbparser->qparse(nl2br($comment->comment));
+                echo nl2br($bbparser->qparse($comment->comment));
                 break;
         }
         echo "</li>\n";
