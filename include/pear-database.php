@@ -453,9 +453,9 @@ class package
             }
         }
         if ($found) {
-            return 
+            return
                 array('version' => $ver,
-                      'info' => package::getPackageFile($packageinfo['package'], $ver), 
+                      'info' => package::getPackageFile($packageinfo['package'], $ver),
                       'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
                                $package . '-' . $ver);
         } else {
@@ -582,7 +582,7 @@ class package
         $found = false;
         $release = false;
         foreach ($info as $ver => $release) {
-	    
+
             if (in_array($ver, $exclude)) { // skip excluded versions
                 continue;
             }
@@ -625,7 +625,7 @@ class package
         if ($found) {
             return
                 array('version' => $ver,
-                      'info' => package::getPackageFile($dependency['name'], $ver), 
+                      'info' => package::getPackageFile($dependency['name'], $ver),
                       'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
                                $pinfo['package'] . '-' . $ver);
         } else {
@@ -669,7 +669,7 @@ class package
         } else {
              $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
         }
-        
+
         $pkg_sql = "SELECT p.id AS packageid, p.name AS name, ".
              "p.package_type AS type, ".
              "c.id AS categoryid, c.name AS category, ".
@@ -807,7 +807,7 @@ class package
         if ($include_pecl === null && isset($HTTP_RAW_POST_DATA)) {
             $include_pecl = true;
         }
-        
+
         $package_type = '';
         if (!$include_pecl) {
             $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
@@ -923,8 +923,8 @@ class package
         global $dbh;
 
         $query = "SELECT
-                      p.id AS pid, p.name, r.id AS rid, r.version, r.state 
-                  FROM packages p, releases r 
+                      p.id AS pid, p.name, r.id AS rid, r.version, r.state
+                  FROM packages p, releases r
                   WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package
                   ORDER BY p.name, r.version DESC";
         $sth = $dbh->query($query);
@@ -1087,8 +1087,8 @@ class package
             ' MAX(r.version) AS max_dep, ' .
             ' MAX(rm.version) as max_pkg ' .
             'FROM deps d, packages p ' .
-            '  LEFT JOIN releases AS r ON (r.id = d.release) ' . 
-            '  LEFT JOIN releases AS rm ON (rm.package = d.package) ' . 
+            '  LEFT JOIN releases AS r ON (r.id = d.release) ' .
+            '  LEFT JOIN releases AS rm ON (rm.package = d.package) ' .
             "WHERE d.package = p.id AND d.type = 'pkg' " .
             "      AND d.name = ? " .
             "GROUP BY d.package";
@@ -1202,8 +1202,12 @@ class maintainer
         if (is_string($package)) {
             $package = package::info($package, 'id');
         }
+
+        $t = array($user, $package, $role, (int)$active);
+
         $err = $dbh->query("INSERT INTO maintains (handle, package, role, active) VALUES (?, ?, ?, ?)",
-                           array($user, $package, $role, $active));
+                           array($user, $package, $role, (int)$active));
+
         if (DB::isError($err)) {
             return $err;
         }
@@ -1712,13 +1716,13 @@ class release
         if (is_array($storedeps)) {
             foreach ($storedeps as $dep) {
                 $prob = array();
-    
+
                 if (empty($dep['type']) ||
                     !in_array($dep['type'], $_PEAR_Common_dependency_types))
                 {
                     $prob[] = 'type';
                 }
-    
+
                 if (empty($dep['name'])) {
                     /*
                      * NOTE from pajoye in ver 1.166:
@@ -1741,13 +1745,13 @@ class release
                         $dep['name'] = 'PEAR Installer';
                     }
                 }
-    
+
                 if (empty($dep['rel']) ||
                     !in_array($dep['rel'], $_PEAR_Common_dependency_relations))
                 {
                     $prob[] = 'rel';
                 }
-    
+
                 if (empty($dep['optional'])) {
                     $optional = 0;
                 } else {
@@ -1760,7 +1764,7 @@ class release
                         $optional = 0;
                     }
                 }
-    
+
                 if (count($prob)) {
                     $res = PEAR::raiseError('The following attribute(s) ' .
                             'were missing or need proper values: ' .
@@ -1776,7 +1780,7 @@ class release
                                 $dep['name'],
                                 $optional));
                 }
-    
+
                 if (PEAR::isError($res)) {
                     $dbh->query('DELETE FROM deps WHERE ' .
                                 "release = $release_id");
@@ -1811,10 +1815,10 @@ class release
 
         $cache->remove('package.listAll', array(false, true));
         $cache->remove('package.listAll', array(false, false));
-        
+
         $cache->remove('package.listAll', array(true, true));
         $cache->remove('package.listAll', array(true, false));
-        
+
         $cache->remove('package.listAll', array(false, true, true));
         $cache->remove('package.listAll', array(false, true, false));
         $cache->remove('package.listAll', array(false, false, true));
@@ -2276,9 +2280,9 @@ class note
 
     function add($key, $value, $note, $author = "")
     {
-        global $dbh;
+        global $dbh, $auth_user;
         if (empty($author)) {
-            $author = $_COOKIE['PEAR_USER'];
+            $author = $auth_user->handle;
         }
         $nid = $dbh->nextId("notes");
         $stmt = $dbh->prepare("INSERT INTO notes (id,$key,nby,ntime,note) ".
@@ -2339,13 +2343,13 @@ class user
 
     function rejectRequest($uid, $reason)
     {
-        global $dbh;
+        global $dbh, $auth_user;
         list($email) = $dbh->getRow('SELECT email FROM users WHERE handle = ?',
                                     array($uid));
         note::add("uid", $uid, "Account rejected: $reason");
-        $msg = "Your PEAR account request was rejected by " . $_COOKIE['PEAR_USER'] . ":\n\n".
+        $msg = "Your PEAR account request was rejected by " . $auth_user->handle . ":\n\n".
              "$reason\n";
-        $xhdr = "From: " . $_COOKIE['PEAR_USER'] . "@php.net";
+        $xhdr = "From: " . $auth_user->handle . "@php.net";
         mail($email, "Your PEAR Account Request", $msg, $xhdr, "-f pear-sys@php.net");
         return true;
     }
@@ -2357,7 +2361,7 @@ class user
     {
         require_once "Damblan/Karma.php";
 
-        global $dbh;
+        global $dbh, $auth_user;
 
         $user =& new PEAR_User($dbh, $uid);
         $karma = new Damblan_Karma($dbh);
@@ -2373,7 +2377,7 @@ class user
             $user->set('userinfo', $arr[1]);
         }
         $user->set('created', gmdate('Y-m-d H:i'));
-        $user->set('createdby', $_COOKIE['PEAR_USER']);
+        $user->set('createdby', $auth_user->handle);
         $user->store();
         $karma->grant($user->handle, $karmalevel);
         if ($karma->has($user->handle, 'pear.dev')) {
@@ -2383,7 +2387,7 @@ class user
         $msg = "Your PEAR account request has been opened.\n".
              "To log in, go to http://" . PEAR_CHANNELNAME . "/ and click on \"login\" in\n".
              "the top-right menu.\n";
-        $xhdr = "From: " . $_COOKIE['PEAR_USER'] . "@php.net";
+        $xhdr = "From: " . $auth_user->handle . "@php.net";
         mail($user->email, "Your PEAR Account Request", $msg, $xhdr, "-f pear-sys@php.net");
         return true;
     }
@@ -2923,8 +2927,10 @@ class PEAR_User extends DB_storage
 
     function is($handle)
     {
-        if (!empty($_COOKIE['PEAR_USER'])) {
-            $ret = strtolower($_COOKIE['PEAR_USER']);
+        global $auth_user;
+
+        if (isset($auth_user) && $auth_user) {
+            $ret = strtolower($auth_user->handle);
         } else {
             $ret = strtolower($this->handle);
         }
