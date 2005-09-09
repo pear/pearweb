@@ -41,7 +41,7 @@ if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
     echo '<h1>Proposal Editor for &quot;' . htmlspecialchars($proposal->pkg_name);
     echo '&quot; (' . $proposal->getStatus(true) . ")</h1>\n";
 
-    if (!$proposal->mayEdit($_COOKIE['PEAR_USER']) && empty($_GET['next_stage'])) {
+    if (!$proposal->mayEdit($auth_user->handle) && empty($_GET['next_stage'])) {
         report_error('You are not allowed to edit this proposal,'
                      . ' probably due to it having reached the "'
                      . $proposal->getStatus(true) . '" phase.'
@@ -52,7 +52,7 @@ if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
     }
 
     if ($proposal->compareStatus('>', 'proposal') &&
-        $karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') &&
+        $karma->has($auth_user->handle, 'pear.pepr.admin') &&
         empty($_GET['next_stage']))
     {
         report_error('This proposal has reached the "'
@@ -169,7 +169,7 @@ if ($proposal != null) {
 
         case 'vote':
         default:
-            if ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') && ($proposal->user_handle != $_COOKIE['PEAR_USER'])) {
+            if ($karma->has($auth_user->handle, 'pear.pepr.admin') && ($proposal->user_handle != $auth_user->handle)) {
                 $next_stage_text = 'Extend vote time';
             } else {
                 $next_stage_text = '';
@@ -178,7 +178,7 @@ if ($proposal != null) {
     }
 
     $timeline = $proposal->checkTimeLine();
-    if (($timeline === true) || ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin') && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
+    if (($timeline === true) || ($karma->has($auth_user->handle, 'pear.pepr.admin') && ($proposal->user_handle != $auth_user->handle))) {
         $form->addElement('checkbox', 'next_stage', $next_stage_text);
     } else {
         $form->addElement('static', 'next_stage', '',
@@ -253,7 +253,7 @@ if (isset($_POST['submit'])) {
                     if ($proposal->checkTimeLine()) {
                        $values['proposal_date'] = time();
                        $proposal->status = 'proposal';
-                       $proposal->sendActionEmail('change_status_proposal', 'mixed', $_COOKIE['PEAR_USER']);
+                       $proposal->sendActionEmail('change_status_proposal', 'mixed', $auth_user->handle);
                     } else {
                        PEAR::raiseError('You can not change the status now.');
                     }
@@ -264,27 +264,27 @@ if (isset($_POST['submit'])) {
                        $values['vote_date'] = time();
                        $proposal->status = 'vote';
                        !$actionComment or $proposal->addComment($values['action_comment']);
-                       $proposal->sendActionEmail('change_status_vote', 'mixed', $_COOKIE['PEAR_USER'], $actionComment ? $values['action_comment'] : '');
+                       $proposal->sendActionEmail('change_status_vote', 'mixed', $auth_user->handle, $actionComment ? $values['action_comment'] : '');
                     } else {
                        PEAR::raiseError('You can not change the status now.');
                     }
                     break;
 
                 default:
-                    if ($proposal->mayEdit($_COOKIE['PEAR_USER'])) {
+                    if ($proposal->mayEdit($auth_user->handle)) {
                        $values['longened_date'] = time();
                        $proposal->status = 'vote';
-                       $proposal->sendActionEmail('longened_timeline_admin', 'mixed', $_COOKIE['PEAR_USER']);
+                       $proposal->sendActionEmail('longened_timeline_admin', 'mixed', $auth_user->handle);
                     }
             }
         } else {
             if (isset($proposal) && $proposal->status != 'draft') {
-                if ($actionComment || ($karma->has($_COOKIE['PEAR_USER'], "pear.pepr.admin") && ($proposal->user_handle != $_COOKIE['PEAR_USER']))) {
+                if ($actionComment || ($karma->has($auth_user->handle, "pear.pepr.admin") && ($proposal->user_handle != $auth_user->handle))) {
                     if (!$actionComment) {
                         PEAR::raiseError('A changelog comment is required.');
                     }
                     $proposal->addComment($values['action_comment']);
-                    $proposal->sendActionEmail('edit_proposal', 'mixed', $_COOKIE['PEAR_USER'], $values['action_comment']);
+                    $proposal->sendActionEmail('edit_proposal', 'mixed', $auth_user->handle, $values['action_comment']);
                 }
             }
         }
@@ -295,7 +295,7 @@ if (isset($_POST['submit'])) {
             $proposal->fromArray($values);
         } else {
             $proposal = new proposal($values);
-            $proposal->user_handle = $_COOKIE['PEAR_USER'];
+            $proposal->user_handle = $auth_user->handle;
         }
 
         unset($proposal->links);
@@ -339,7 +339,7 @@ if (!empty($_GET['next_stage'])) {
                     . ' No further changes are allowed.';
             break;
     }
-    if ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin')) {
+    if ($karma->has($auth_user->handle, 'pear.pepr.admin')) {
         $bbox[] = 'Your changes were recorded and necessary emails'
                 . ' were sent.';
     }

@@ -37,7 +37,7 @@ include_once 'HTML/QuickForm.php';
 response_header('PEPr :: Comments :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Comments for &quot;' . htmlspecialchars($proposal->pkg_name) . "&quot;</h1>\n";
 
-if (isset($_COOKIE['PEAR_USER']) &&
+if ($auth_user) &&
     $proposal->getStatus() == 'proposal')
 {
     $form =& new HTML_QuickForm('comment', 'post',
@@ -66,7 +66,7 @@ if (isset($_COOKIE['PEAR_USER']) &&
         if ($form->validate()) {
             $values = $form->exportValues();
             $proposal->sendActionEmail('proposal_comment', 'user',
-                                       $_COOKIE['PEAR_USER'],
+                                       $auth_user->handle,
                                        $values['comment']);
             $proposal->addComment($values['comment'],
                                   'package_proposal_comments');
@@ -92,7 +92,7 @@ display_pepr_nav($proposal);
 <?php
 
 if ($proposal->getStatus() == 'proposal') {
-    if (isset($_COOKIE['PEAR_USER'])) {
+    if ($auth_user) {
         $formArray = $form->toArray();
 
         echo $form->getValidationScript();

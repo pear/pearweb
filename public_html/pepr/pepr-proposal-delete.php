@@ -51,7 +51,7 @@ ob_start();
 response_header('PEPr :: Delete :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Delete Proposal &quot;' . htmlspecialchars($proposal->pkg_name) . "&quot;</h1>\n";
 
-if (!$proposal->mayEdit($_COOKIE['PEAR_USER'])) {
+if (!$proposal->mayEdit($auth_user->handle)) {
     report_error('You are not allowed to delete this proposal,'
                  . ' probably due to it having reached the "'
                  . $proposal->getStatus(true) . '" phase.'
@@ -63,7 +63,7 @@ if (!$proposal->mayEdit($_COOKIE['PEAR_USER'])) {
 
 if ($proposal->compareStatus('>', 'proposal')) {
     $karma =& new Damblan_Karma($dbh);
-    if ($karma->has($_COOKIE['PEAR_USER'], 'pear.pepr.admin')) {
+    if ($karma->has($auth_user->handle, 'pear.pepr.admin')) {
         report_error('This proposal has reached the "'
                      . $proposal->getStatus(true) . '" phase.'
                      . ' Are you SURE you want to delete it?',
@@ -92,7 +92,7 @@ if (isset($_POST['submit'])) {
     if ($form->validate()) {
         $proposal->delete($dbh);
         $proposal->sendActionEmail('proposal_delete', 'mixed',
-                                   $_COOKIE['PEAR_USER'],
+                                   $auth_user->handle,
                                    $form->exportValue('reason'));
         ob_end_clean();
         localRedirect('pepr-proposal-delete.php?id=' . $proposal->id . '&isDeleted=1');

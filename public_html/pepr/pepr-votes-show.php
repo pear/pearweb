@@ -38,7 +38,7 @@ include_once 'HTML/QuickForm.php';
 response_header('PEPr :: Votes :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Proposal Votes for "' . htmlspecialchars($proposal->pkg_name) . "\"</h1>\n";
 
-if ($proposal->mayVote($dbh, @$_COOKIE['PEAR_USER'])) {
+if ($auth_user && $proposal->mayVote($dbh, $auth_user->handle)) {
     $form =& new HTML_QuickForm('vote', 'post',
                                 'pepr-votes-show.php?id=' . $proposal->id);
 
@@ -81,7 +81,7 @@ if ($proposal->mayVote($dbh, @$_COOKIE['PEAR_USER'])) {
             $voteData['comment'] = $comment->getValue();
             $reviews = $form->getElement('reviews');
             $voteData['reviews'] = $reviews->getSelected();
-            $voteData['user_handle'] = $_COOKIE['PEAR_USER'];
+            $voteData['user_handle'] = $auth_user->handle;
 
             $errors = array();
 
@@ -105,7 +105,7 @@ if ($proposal->mayVote($dbh, @$_COOKIE['PEAR_USER'])) {
             } else {
                 $proposal->addVote($dbh, new ppVote($voteData));
                 $proposal->sendActionEmail('proposal_vote', 'user',
-                                           $_COOKIE['PEAR_USER']);
+                                           $auth_user->handle);
                 report_success('Your vote has been registered successfully');
                 $form->removeElement('submit');
                 $form->freeze();
