@@ -65,7 +65,7 @@ $mailData = array(
     'excerpt' => $trackback->get('excerpt'),
     'date' => make_utc_date($trackback->get('timestamp')),
     'timestamp' => $trackback->get('timestamp'),
-    'user' => $_COOKIE['PEAR_USER'],
+    'user' => $auth_user->handle,
 );
 
 $relocator = '<meta http-equiv="refresh" content="5; URL=http://' . PEAR_CHANNELNAME.

@@ -57,9 +57,14 @@ $number = (isset($_GET['number'])) ? (int)$_GET['number'] : 10;
 $lastMax = (isset($_GET['max'])) ? (int)$_GET['max'] : null;
 $unapprovedOnly = (isset($_GET['unapprovedOnly'])) ? true : false;
 
-// Determine administrative user
-$karma =& new Damblan_Karma($dbh);
-$trackbackIsAdmin = (isset($_COOKIE['PEAR_USER']) && $karma->has($_COOKIE['PEAR_USER'], 'pear.dev'));
+
+if ($auth_user) {
+    // Determine administrative user
+    $karma =& new Damblan_Karma($dbh);
+    $trackbackIsAdmin = $karma->has($auth_user->handle, 'pear.dev');
+} else {
+    $trackbackIsAdmin = false;
+}
 
 // Prepare pager
 $max = Damblan_Trackback::getCount($dbh, !$trackbackIsAdmin, $unapprovedOnly);
