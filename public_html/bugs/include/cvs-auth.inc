@@ -38,7 +38,9 @@ function find_password($user) {
 }
 
 function verify_password($user, $pass) {
-    return isset($_COOKIE['PEAR_USER']);
+    global $auth_user;
+    $loged = ($auth_user ? true : false);
+    return loged;
 	global $ignore_password;
 	$psw = find_password($user);
 	if (strlen($psw) > 0) {
