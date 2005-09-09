@@ -29,17 +29,15 @@ if (!isset($_COOKIE['PHPSESSID']) &&
 {
     auth_reject(PEAR_AUTH_REALM, 'Cookies must be enabled to log in.');
 }
-
+print_r($auth_user);
 /*
  * If they're already logged in, say so.
  */
-if (isset($_COOKIE['PEAR_USER']) && isset($_COOKIE['PEAR_PW'])) {
-    if (auth_verify($_COOKIE['PEAR_USER'], $_COOKIE['PEAR_PW'])) {
-        response_header('Login');
-        echo '<div class="warnings">You are already logged in.</div>';
-        response_footer();
-        exit;
-    }
+if (isset($auth_user)) && $auth_user)) {
+    response_header('Login');
+    echo '<div class="warnings">You are already logged in.</div>';
+    response_footer();
+    exit;
 }
 
 if (auth_verify(@$_POST['PEAR_USER'], @$_POST['PEAR_PW'])) {
