@@ -229,7 +229,8 @@ Proposer:                '.user_link($this->user_handle).'<br />
         if (!$res) {
             return $res;
         }
-        return new proposal($res);
+        $t = new proposal($res);
+        return $t;
     }
 
     /**
