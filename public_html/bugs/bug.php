@@ -61,11 +61,9 @@ if (!empty($_POST['pw'])) {
         $user = htmlspecialchars(rinse($_POST['user']));
     }
     $pw = rinse($_POST['pw']);
-} elseif (isset($_COOKIE['PEAR_USER']) &&
-          isset($_COOKIE['PEAR_PW']) &&
-          $edit == 1) {
-    $user = rinse($_COOKIE['PEAR_USER']);
-    $pw   = rinse($_COOKIE['PEAR_PW']);
+} elseif ($auth_user && $edit == 1) {
+    $user = rinse($auth_user->handle);
+    $pw   = rinse($auth_user->password);
 } elseif (isset($_COOKIE['MAGIC_COOKIE'])) {
     @list($user, $pw) = explode(':', base64_decode($_COOKIE['MAGIC_COOKIE']));
     $user = rinse($user);

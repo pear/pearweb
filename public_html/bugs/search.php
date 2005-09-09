@@ -29,7 +29,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 if (!empty($_GET['search_for']) &&
     !preg_match('/\\D/', trim($_GET['search_for'])))
 {
-    if (isset($_COOKIE['PEAR_USER'])) {
+    if ($auth_user) {
         $x = '&edit=1';
     } else {
         if (isset($_COOKIE['MAGIC_COOKIE'])) {
@@ -154,7 +154,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             break;
         case 'Stale':
             $where_clause .= ' AND bugdb.status NOT IN' .
-                             " ('Closed', 'Duplicate', 'Bogus')" .
+                             " ('cLOSEd', 'Duplicate', 'Bogus')" .
                              ' AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 30';
             break;
         case 'All':
@@ -508,7 +508,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
   <td style="white-space: nowrap">Return bugs <b>assigned</b> to</td>
   <td><input type="text" name="assign" value="<?php echo clean($assign);?>" />
 <?php
-    if (!empty($_COOKIE['PEAR_USER'])) {
+    if ($auth_user) {
         $u = rinse(htmlspecialchars($_REQUEST['PEAR_USER']));
         print "<input type=\"button\" value=\"set to $u\" onclick=\"form.assign.value='$u'\" />";
     }
@@ -520,7 +520,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
   <td nowrap="nowrap">Return only bugs in packages <b>maintained</b> by</td>
   <td><input type="text" name="maintain" value="<?php echo clean($maintain);?>" />
 <?php
-    if (!empty($_COOKIE['PEAR_USER'])) {
+    if ($auth_user) {
         $u = htmlspecialchars(stripslashes($_REQUEST['PEAR_USER']));
         print "<input type=\"button\" value=\"set to $u\" onclick=\"form.maintain.value='$u'\" />";
     }
