@@ -70,8 +70,7 @@ support resources</a>.</p>
 
 <?php
 echo hdelim();
-
-if (isset($_COOKIE['PEAR_USER'])) {
+if ($auth_user) {
     if (auth_check('pear.dev')) {
         echo '<h2>&raquo; Developers</h2>';
         echo '<div class="indent">';
@@ -88,7 +87,7 @@ if (isset($_COOKIE['PEAR_USER'])) {
 	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
     echo '</div>';
 
-    if (user::isAdmin($_COOKIE['PEAR_USER'])) {
+    if (user::isAdmin($auth_user->handle)) {
         echo '<h2>&raquo; Administrators</h2>';
         echo '<div class="indent">';
         echo menu_link("Overview", "/admin/");

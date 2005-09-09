@@ -54,9 +54,9 @@ if (!isset($_GET['id'])) {
 
 $package_id = strip_tags(htmlspecialchars($_GET['id']));
 
-if (!user::maintains($_COOKIE['PEAR_USER'], $_GET['id'], 'lead') &&
-    !user::isAdmin($_COOKIE['PEAR_USER']) &&
-    !user::isQA($_COOKIE['PEAR_USER']))
+if (!user::maintains($auth_user->handle, $package_id, 'lead') &&
+    !user::isAdmin($auth_user->handle) &&
+    !user::isQA($auth_user->handle))
 {
     report_error('Editing only permitted by package leads, PEAR Admins'
                  . ' or PEAR QA');

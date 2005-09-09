@@ -185,9 +185,8 @@ if ($mode_submit) {
         make_link('/support/lists.php', 'Support - Mailinglist') . ' page.</p>';
 
     // Guess the user if he is logged in
-    if (isset($_COOKIE['PEAR_USER'])) {
-        $user =& new PEAR_User($dbh, $_COOKIE['PEAR_USER']);
-        $data = array('email' => $user->email, 'name' => $user->name);
+    if ($auth_user) {
+        $data = array('email' => $auth_user->email, 'name' => $auth_user->name);
     } else {
         $data = array();
     }

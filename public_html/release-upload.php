@@ -99,7 +99,7 @@ do {
                 }
                 if (!auth_check('pear.admin') &&
                     !auth_check('pear.qa') &&
-                    !user::maintains($_COOKIE['PEAR_USER'], $pacid, 'lead')) {
+                    !user::maintains($auth_user->handle, $pacid, 'lead')) {
                     $errors[] = 'You don\'t have permissions to upload this release.';
                     break;
                 }
@@ -143,7 +143,7 @@ do {
             }
             if (!auth_check('pear.admin') &&
                 !auth_check('pear.qa') &&
-                !user::maintains($_COOKIE['PEAR_USER'], $pacid, 'lead')) {
+                !user::maintains($auth_user->handle, $pacid, 'lead')) {
                 $errors[] = 'You don\'t have permissions to upload this release.';
                 break;
             }
