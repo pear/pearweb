@@ -166,7 +166,7 @@ echo $extraHeaders;
   <td class="head-menu">
    <?php
 
-    if (empty($_COOKIE['PEAR_USER'])) {
+    if (!$auth_user) {
         print_link('/account-request.php', 'Register', false,
                    'class="menuBlack"');
         echo delim();
@@ -180,10 +180,10 @@ echo $extraHeaders;
         }
     } else {
         print '<small class="menuWhite">';
-        print 'Logged in as ' . strtoupper($_COOKIE['PEAR_USER']) . ' (';
-        print '<a class="menuWhite" href="/user/' . $_COOKIE['PEAR_USER'] . '">Info</a> | ';
-        print '<a class="menuWhite" href="/account-edit.php?handle=' . $_COOKIE['PEAR_USER'] . '">Profile</a> | ';
-        print '<a class="menuWhite" href="/bugs/search.php?handle=' . $_COOKIE['PEAR_USER'] . '&amp;cmd=display">Bugs</a>';
+        print 'Logged in as ' . strtoupper($auth_user->handle) . ' (';
+        print '<a class="menuWhite" href="/user/' . $auth_user->handle . '">Info</a> | ';
+        print '<a class="menuWhite" href="/account-edit.php?handle=' . $auth_user->handle . '">Profile</a> | ';
+        print '<a class="menuWhite" href="/bugs/search.php?handle=' . $auth_user->handle . '&amp;cmd=display">Bugs</a>';
         print ")</small><br />\n";
 
         if (empty($_SERVER['QUERY_STRING'])) {
