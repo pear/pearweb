@@ -23,6 +23,8 @@
  * To figure out cookies are REALLY off, check to see if the person came
  * from within the PEAR website or just submitted the login form.
  */
+session_start();
+
 if (!isset($_COOKIE['PHPSESSID']) &&
     ((strpos(@$_SERVER['HTTP_REFERER'], @$_GET['redirect']) !== false) ||
      (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']))))
