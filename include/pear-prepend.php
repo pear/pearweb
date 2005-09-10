@@ -111,5 +111,3 @@ if (!function_exists('file_put_contents')) {
     }
 }
 
-session_start();
-?>
