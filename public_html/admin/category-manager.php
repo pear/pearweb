@@ -19,6 +19,9 @@
 */
 
 auth_require(true);
+if (session_id() == '') {
+    session_start();
+}
 
 /**
  * TODO
