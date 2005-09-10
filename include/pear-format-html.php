@@ -1001,6 +1001,10 @@ function print_package_navigation($pacid, $name, $action)
  */
 function generate_captcha()
 {
+    if (session_id() == '') {
+        session_start();
+    }
+
     if (!isset($_SESSION['captcha'])) {
         $_SESSION['captcha'] = '';
         $useable = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
@@ -1046,6 +1050,10 @@ function generate_captcha()
  */
 function validate_captcha($max_age = 300)
 {
+    if (session_id() == '') {
+        session_start();
+    }
+
     if (!isset($_POST['captcha']) ||
         !isset($_SESSION['captcha']) ||
         (time() - $_SESSION['captcha_time']) > $max_age ||
