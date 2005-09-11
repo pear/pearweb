@@ -46,6 +46,7 @@
  * @see       generate_captcha(), validate_captcha()
  */
 
+session_start();
 if (!isset($_SESSION['captcha'])) {
     exit;
 }
