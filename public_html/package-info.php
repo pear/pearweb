@@ -19,7 +19,7 @@
    $Id$
 */
 
-require_once 'Damblan/Trackback.php';
+
 require_once 'Damblan/Karma.php';
 require_once 'Damblan/URL.php';
 
@@ -63,6 +63,7 @@ if (!empty($params['action'])) {
         break;
 
     case 'trackbacks' :
+        include_once 'Damblan/Trackback.php';
         if (isset($auth_user)) {
             $karma =& new Damblan_Karma($dbh);
             $trackbackIsAdmin = (isset($auth_user) && $karma->has($auth_user->handle, 'pear.dev'));
@@ -130,7 +131,7 @@ $accounts  = '<ul>';
 foreach ($maintainers as $handle => $row) {
     $accounts .= '<li>';
     $accounts .= user_link($handle);
-    $accounts .= '(' . $row['role'] . 
+    $accounts .= '(' . $row['role'] .
                   ($row['active'] == 0 ? ', inactive' : '')
 		. ')';
     $accounts .= '</li>';
@@ -138,22 +139,22 @@ foreach ($maintainers as $handle => $row) {
 
 $accounts .= '</ul>';
 
-// Workaround for my dev-env (running on 81)
-$port = ($_SERVER['SERVER_PORT'] == 80) ? '' : ':'.$_SERVER['SERVER_PORT'];
 
-// Preparing trackback data
-$uri = (isset($redirected) && $redirected === true) ? preg_replace('@/package(/[^/]+)/redirected@', '\1', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
-$url = 'http://'.$_SERVER['SERVER_NAME'].$port.$uri;
+$channel_name = PEAR_CHANNELNAME;
 
-// Get trackback autodiscovery code
-$tmpTrackback = Services_Trackback::create(array(
-    'id'            => $name,
-    'url'           => $url,
-    'title'         => 'Package :: ' . htmlspecialchars($name),
-    'trackback_url' => 'http://'.$_SERVER['SERVER_NAME'].$port.'/trackback/trackback.php?id='.$name,
-));
-
-$trackbackRDF = $tmpTrackback->getAutodiscoveryCode();
+$trackback_header = <<<EOD
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+    xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+    <rdf:Description
+        rdf:about="http://$channel_name/package/$name"
+        dc:identifier="http://$channel_name/package/$name"
+        dc:title="Package :: $name"
+        trackback:ping="http://$channel_name/trackback/trackback.php?id=$name" />
+</rdf:RDF>
+-->
+EOD;
 
 // }}}
 // {{{ page header
@@ -161,9 +162,9 @@ $trackbackRDF = $tmpTrackback->getAutodiscoveryCode();
 $name = htmlspecialchars(strip_tags($name));
 
 if ($version) {
-    response_header('Package :: ' . $name . ' :: ' . $version, null, $trackbackRDF);
+    response_header('Package :: ' . $name . ' :: ' . $version, null, $trackback_header);
 } else {
-    response_header('Package :: ' . $name, null, $trackbackRDF);
+    response_header('Package :: ' . $name, null, $trackback_header);
 }
 
 html_category_urhere($pkg['categoryid'], true);
@@ -432,6 +433,21 @@ if (empty($action)) {
     // }}}
 } elseif ($action == 'trackbacks') {
 
+    include_once 'Damblan/Trackback.php';
+
+
+    // Preparing trackback data
+    $uri = (isset($redirected) && $redirected === true) ? preg_replace('@/package(/[^/]+)/redirected@', '\1', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
+    $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SERVER_PORT'] . $uri;
+
+    // Get trackback autodiscovery code
+    $tmpTrackback = Services_Trackback::create(array(
+        'id'            => $name,
+        'url'           => $url,
+        'title'         => 'Package :: ' . htmlspecialchars($name),
+        'trackback_url' => 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SERVER_PORT'] . '/trackback/trackback.php?id=' . $name,
+    ));
+
     // Generate trackback list
     $trackbacks = Damblan_Trackback::listTrackbacks($dbh, $name, !$trackbackIsAdmin);
 
@@ -505,7 +521,7 @@ when a weblog entry is created, which is related to the package. If you want to 
             print $trackback->get('ip');
             print '</td>';
             print '</tr>';
-            
+
             print '<tr>';
             print '<th class="others">';
             print '</th>';
