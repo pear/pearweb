@@ -30,8 +30,8 @@ $handle = isset($_GET['handle']) ? $_GET['handle'] : false;
 if ($handle && !ereg('^[0-9a-z_]{3,20}$', $handle)) {
     localRedirect('/accounts.php');
 }
-
-/* 
+session_start();
+/*
  * HTML_Form accesses $_GET/$_POST directly and does no filtering, so we need to
  * do this.  Easier to do once and for all at the top than try to track them
  */
@@ -50,7 +50,7 @@ if (isset($_POST['submit'])) {
     }
     if (!empty($input_data['captcha']) && !ereg('^[A-Za-z]{4}$', $input_data['captcha'])) {
         $input_data['captcha'] = '';
-    } 
+    }
 } else {
     $mode_submit = false;
 }
@@ -67,7 +67,7 @@ define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 
 // {{{ printForm
-function printForm($data = array(), $handle = '') 
+function printForm($data = array(), $handle = '')
 {
     // The first field that's empty
     $focus = '';
