@@ -1047,7 +1047,7 @@ class package
         if (PEAR::isError($package_id) || empty($package_id)) {
             return PEAR::raiseError("Package not registered or not approved. Please register it first with \"New Package\" or wait until it gets approved.");
         }
-        if ($auth_user->isAdmin() == false) {
+        if ($auth_user->isAdmin() == false && $auth_user->isQA() == false) {
             $role = user::maintains($auth_user->handle, $package_id);
             if ($role != 'lead' && $role != 'developer') {
                 return PEAR::raiseError('package::updateInfo: insufficient privileges');
