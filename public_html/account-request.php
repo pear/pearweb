@@ -29,6 +29,10 @@ $jumpto       = 'handle';
 
 $clean = array_map('strip_tags', $_POST);
 
+// CAPTCHA needs it and we cannot start it in the 
+// CAPTCHA function, too much mess around here.
+session_start();
+
 response_header('Request Account');
 
 print '<h1>Request Account</h1>';
