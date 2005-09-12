@@ -77,7 +77,7 @@ if (!empty($_POST['pw'])) {
 
 // A dev wants in?
 if ($edit == 1 && empty($pw) && empty($user)) {
-    auth_require();
+    auth_require('pear.dev');
 }
 
 // fetch info about the bug into $bug
