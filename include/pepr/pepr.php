@@ -412,8 +412,10 @@ Proposer:                '.user_link($this->user_handle).'<br />
 
     function addComment($comment, $table = 'package_proposal_changelog')
     {
+        global $auth_user;
+
         $commentData = array("pkg_prop_id" => $this->id,
-                             "user_handle" => $auth_user,
+                             "user_handle" => $auth_user->handle,
                              "comment"     => $comment);
         $comment = new ppComment( $commentData, $table );
         $comment->store($this->id);
