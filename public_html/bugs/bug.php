@@ -61,7 +61,7 @@ if (!empty($_POST['pw'])) {
         $user = htmlspecialchars(rinse($_POST['user']));
     }
     $pw = rinse($_POST['pw']);
-} elseif ($auth_user && $edit == 1) {
+} elseif ($auth_user && $auth_user->handle && $edit == 1) {
     $user = rinse($auth_user->handle);
     $pw   = rinse($auth_user->password);
 } elseif (isset($_COOKIE['MAGIC_COOKIE'])) {
@@ -73,6 +73,11 @@ if (!empty($_POST['pw'])) {
 } else {
     $user = '';
     $pw   = '';
+}
+
+// A dev wants in?
+if ($edit == 1 && empty($pw) && empty($user)) {
+    auth_require();
 }
 
 // fetch info about the bug into $bug
