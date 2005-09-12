@@ -425,7 +425,9 @@ control(0, 'View');
 if ($edit != 2) {
     control(3, 'Add Comment');
 }
-control(1, 'Developer');
+if ($auth_user) {
+    control(1, 'Developer');
+}
 control(2, 'Edit Submission');
 
 ?>
