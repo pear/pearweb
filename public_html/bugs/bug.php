@@ -38,7 +38,7 @@ require_once './include/cvs-auth.inc';
  */
 require_once './include/trusted-devs.inc';
 
-
+session_start();
 error_reporting(E_ALL ^ E_NOTICE);
 
 if (empty($_REQUEST['id']) || !(int)$_REQUEST['id']) {
