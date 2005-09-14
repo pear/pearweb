@@ -21,15 +21,13 @@
          Gregory Beaver <cellog@php.net>
 
   -->
-
-<!ELEMENT package (name,extends?,summary,description,license?,maintainers,release,changelog?)>
+<!ENTITY % NUMBER "CDATA">
+<!ELEMENT package (name,summary,description,license?,maintainers,release,changelog?)>
 <!ATTLIST package type    (source|binary|empty) "empty"
                   version CDATA                 #REQUIRED
                   packagerversion CDATA         #IMPLIED>
 
 <!ELEMENT name (#PCDATA)>
-
-<!ELEMENT extends (#PCDATA)>
 
 <!ELEMENT summary (#PCDATA)>
 
@@ -39,7 +37,7 @@
 
 <!ELEMENT maintainers (maintainer)+>
 
-<!ELEMENT maintainer (user|role|name|email)*>
+<!ELEMENT maintainer (user|role|name|email)+>
 
 <!ELEMENT user (#PCDATA)>
 
@@ -47,9 +45,9 @@
 
 <!ELEMENT email (#PCDATA)>
 
-<!ELEMENT changelog (release)*>
+<!ELEMENT changelog (release)+>
 
-<!ELEMENT release (version,date,license,state,notes,warnings?,((deps?,configureoptions?,provides*,filelist?)|(configureoptions?,provides*,filelist?,deps?)))>
+<!ELEMENT release (version,date,license,state,notes,warnings?,provides*,deps?,configureoptions?,filelist)>
 
 <!ELEMENT version (#PCDATA)>
 
@@ -64,7 +62,7 @@
 <!ELEMENT deps (dep*)>
 
 <!ELEMENT dep (#PCDATA)>
-<!ATTLIST dep type    (pkg|ext|php|prog|ldlib|ltlib|os|websrv|sapi) #REQUIRED
+<!ATTLIST dep type    (pkg|ext|php) #REQUIRED
 	                       rel     (has|eq|lt|le|gt|ge)                          #IMPLIED
 	                       version CDATA                                     #IMPLIED
 	                       optional (yes|no)     'no'>
@@ -80,35 +78,26 @@
 <!ATTLIST provides type (ext|prog|class|function|feature|api) #REQUIRED
                                 name CDATA #REQUIRED
                                 extends CDATA #IMPLIED>
+<!ELEMENT filelist (dir|file)+>
 
-<!ELEMENT filelist (dir|file|libfile)*>
-
-<!ELEMENT dir (dir|file|libfile)*>
+<!ELEMENT dir (dir|file)+>
 <!ATTLIST dir name           CDATA #REQUIRED
+              role           (php|ext|src|test|doc|data|script) 'php'
               baseinstalldir CDATA #IMPLIED>
 
 <!ELEMENT file (replace*)>
-<!ATTLIST file role           (php|ext|test|doc|data|script|src) 'php'
+<!ATTLIST file role           (php|ext|src|test|doc|data|script) 'php'
                debug          (na|on|off)        'na'
-               threaded       (na|on|off)        'na'
                format         CDATA              #IMPLIED
                baseinstalldir CDATA              #IMPLIED
-               md5sum       CDATA              #IMPLIED
                platform       CDATA              #IMPLIED
-               install-as      CDATA              #IMPLIED
-               name           CDATA               #REQUIRED>
+               md5sum         CDATA              #IMPLIED
+               name           CDATA              #REQUIRED
+               install-as     CDATA              #IMPLIED>
 
 <!ELEMENT replace EMPTY>
 <!ATTLIST replace type (php-const|pear-config|package-info) #REQUIRED
                               from CDATA #REQUIRED
                               to CDATA #REQUIRED>
 
-<!ELEMENT libfile (libname|sources|includes|libadd)*>
 
-<!ELEMENT libname (#PCDATA)>
-
-<!ELEMENT sources (#PCDATA)>
-
-<!ELEMENT includes (#PCDATA)>
-
-<!ELEMENT libadd (#PCDATA)>
