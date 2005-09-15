@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Gregory Beaver (The Chiara String Quartet) -->
 <!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns="http://pear.php.net/dtd/package-1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://pear.php.net/dtd/package-1.0" elementFormDefault="unqualified" attributeFormDefault="unqualified">
  <xs:element name="package">
   <xs:complexType>
    <xs:sequence>
