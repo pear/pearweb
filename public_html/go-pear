@@ -159,8 +159,7 @@ if (WEBINSTALLER) {
     $installer_packages[] = 'Pager';
     $installer_packages[] = 'HTML_Template_IT';
     $installer_packages[] = 'Net_UserAgent_Detect';
-    $installer_packages[] = 'PEAR_Frontend_Web-0.4';
-    // otherwise things will break when PEAR 1.4.0 is out
+    $installer_packages[] = 'PEAR_Frontend_Web';
 }
 
 $pfc_packages = array(
