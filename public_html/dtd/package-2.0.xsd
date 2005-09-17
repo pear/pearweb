@@ -404,13 +404,19 @@
  <xs:element name="changelog">
   <xs:complexType>
    <xs:sequence>
-    <xs:element ref="lead" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element ref="developer" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element ref="date"/>
-    <xs:element ref="version"/>
-    <xs:element ref="stability"/>
-    <xs:element ref="license"/>
-    <xs:element ref="notes"/>
+    <xs:element name="release">
+     <xs:complexType>
+      <xs:sequence>
+       <xs:element ref="lead" minOccurs="0" maxOccurs="unbounded"/>
+       <xs:element ref="developer" minOccurs="0" maxOccurs="unbounded"/>
+       <xs:element ref="version"/>
+       <xs:element ref="stability"/>
+       <xs:element ref="date"/>
+       <xs:element ref="license"/>
+       <xs:element ref="notes"/>
+      </xs:sequence>
+     </xs:complexType>
+    </xs:element>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
