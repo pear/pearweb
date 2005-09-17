@@ -1292,7 +1292,7 @@ class maintainer
     function remove($package, $user)
     {
         global $dbh, $auth_user;
-        if (!$auth_user->isAdmin() && !user::maintains($auth_user->handle, $package, 'lead')) {
+        if (!$auth_user->isAdmin() && !$auth_user->isQA() && !user::maintains($auth_user->handle, $package, 'lead')) {
             return PEAR::raiseError('maintainer::remove: insufficient privileges');
         }
         if (is_string($package)) {
@@ -1544,7 +1544,7 @@ class release
     {
         global $auth_user;
         $role = user::maintains($auth_user->handle, $package);
-        if ($role != 'lead' && $role != 'developer' && !$auth_user->isAdmin()) {
+        if ($role != 'lead' && $role != 'developer' && !$auth_user->isAdmin() && !$auth_user->isQA()) {
             return PEAR::raiseError('release::upload: insufficient privileges');
         }
         $ref = release::validateUpload($package, $version, $state, $relnotes, $tarball, $md5sum);
@@ -1573,7 +1573,7 @@ class release
     {
         global $dbh, $auth_user;
         $role = user::maintains($auth_user->handle, $package);
-        if ($role != 'lead' && $role != 'developer' && !$auth_user->isAdmin()) {
+        if ($role != 'lead' && $role != 'developer' && !$auth_user->isAdmin() && !$auth_user->isQA()) {
             return PEAR::raiseError('release::validateUpload: insufficient privileges');
         }
         // (2) verify that package exists
