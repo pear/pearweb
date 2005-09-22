@@ -39,7 +39,7 @@
     </xs:choice>
     <xs:choice>
      <xs:element ref="phprelease" maxOccurs="unbounded"/>
-     <xs:element ref="extsrcrelease"/>
+     <xs:element ref="extsrcrelease" maxOccurs="unbounded"/>
      <xs:element ref="extbinrelease" maxOccurs="unbounded"/>
      <xs:element ref="bundle"/>
     </xs:choice>
@@ -206,8 +206,10 @@
   </xs:annotation>
   <xs:complexType>
    <xs:sequence>
+    <xs:element ref="installconditions" minOccurs="0"/>
     <xs:element ref="configureoption" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element name="binarypackage" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element ref="filelist" minOccurs="0"/>
    </xs:sequence>
   </xs:complexType>
  </xs:element>
