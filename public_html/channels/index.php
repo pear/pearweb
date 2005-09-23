@@ -46,6 +46,7 @@ on the individual pages.</p>
   <li><a href="http://pear.php-tools.net/">PHP Application Tools</a></li>
   <li><a href="http://seagull.phpkitchen.com/docs/wakka.php?wakka=UsingThePearPackageManager&v=18nk">Seagull</a></li>
   <li><a href="http://solarphp.com/home/index.php?area=Main&page=DownloadInstall#toc1">Solar</a></li>
+  <li><a href="http://pearadise.net/">pearadise.net - The PEAR channel portal</a></li>
 </ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
