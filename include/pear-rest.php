@@ -24,6 +24,7 @@ class pear_rest
             System::mkdir(array('-p', $cdir . DIRECTORY_SEPARATOR . urlencode($category['name'])));
             @chmod($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']), 0777);
         }
+        $category['description'] = htmlspecialchars($category['description']);
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <c xmlns="http://pear.php.net/dtd/rest.category"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.category
@@ -139,6 +140,8 @@ class pear_rest
         } else {
             $deprecated = '';
         }
+        $package['summary'] = htmlspecialchars($package['summary']);
+        $package['description'] = htmlspecialchars($package['description']);
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <p xmlns="http://pear.php.net/dtd/rest.package"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.package
@@ -337,15 +340,15 @@ class pear_rest
  <l>' . $pkgobj->getLicense() . '</l>
  <m>' . $releasedby . '</m>
  <s>' . (version_compare(phpversion(), '5.0.0', 'lt') ?
-            utf8_encode($pkgobj->getSummary()) :
-            $pkgobj->getSummary()) . '</s>
+            utf8_encode(htmlspecialchars($pkgobj->getSummary())) :
+            htmlspecialchars($pkgobj->getSummary())) . '</s>
  <d>' . (version_compare(phpversion(), '5.0.0', 'lt') ?
-            utf8_encode($pkgobj->getDescription()) :
-            $pkgobj->getDescription()) . '</d>
+            utf8_encode(htmlspecialchars($pkgobj->getDescription())) :
+            htmlspecialchars($pkgobj->getDescription())) . '</d>
  <da>' . $releasedate . '</da>
  <n>' . (version_compare(phpversion(), '5.0.0', 'lt') ?
-            utf8_encode($pkgobj->getNotes()) :
-            $pkgobj->getNotes()) . '</n>
+            utf8_encode(htmlspecialchars($pkgobj->getNotes())) :
+            htmlspecialchars($pkgobj->getNotes())) . '</n>
  <f>' . filesize($filepath) . '</f>
  <g>http://' . PEAR_CHANNELNAME . '/get/' . $package . '-' . $pkgobj->getVersion() . '</g>
  <x xlink:href="package.' . $pkgobj->getVersion() . '.xml"/>
@@ -437,6 +440,7 @@ class pear_rest
         } else {
             $uri = '';
         }
+        $maintainer['name'] = htmlspecialchars($maintainer['name']);
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <m xmlns="http://pear.php.net/dtd/rest.maintainer"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.maintainer
