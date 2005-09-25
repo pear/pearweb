@@ -248,8 +248,9 @@ class pear_rest
             if ($release['state'] == 'alpha' && !isset($alpha)) {
                 $alpha = $release['version'];
             }
-            $info .= ' <r><v>' . $release['version'] . '</v><s>' . $release['state'] . '</s></r>
-' . $extra;
+            $info .= ' <r><v>' . $release['version'] . '</v><s>' . $release['state'] . '</s>'
+                 . $extra . '</r>
+';
         }
         $info .= '</a>';
         if (!is_dir($rdir . DIRECTORY_SEPARATOR . strtolower($package))) {
