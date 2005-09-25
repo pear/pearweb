@@ -26,7 +26,7 @@
     <xs:element ref="contents"/>
     <xs:element ref="compatible" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="dependencies"/>
-    <xs:element ref="providesextension" minOccurs="0"/>
+    <xs:element ref="providesextension" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="usesrole" minOccurs="0" maxOccurs="unbounded"/>
     <xs:element ref="usestask" minOccurs="0" maxOccurs="unbounded"/>
     <xs:choice minOccurs="0">
@@ -276,7 +276,7 @@
         <xs:element ref="uri"/>
        </xs:choice>
        <xs:element ref="conflicts" minOccurs="0"/>
-       <xs:element ref="providesextension" minOccurs="0"/>
+       <xs:element ref="providesextension" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>
@@ -326,7 +326,7 @@
         </xs:sequence>
         <xs:element ref="uri"/>
        </xs:choice>
-       <xs:element ref="providesextension" minOccurs="0"/>
+       <xs:element ref="providesextension" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>
@@ -376,7 +376,7 @@
         </xs:sequence>
         <xs:element ref="uri"/>
        </xs:choice>
-       <xs:element ref="providesextension" minOccurs="0"/>
+       <xs:element ref="providesextension" minOccurs="0" maxOccurs="unbounded"/>
       </xs:sequence>
      </xs:complexType>
     </xs:element>
@@ -539,7 +539,11 @@
  <xs:element name="srcchannel" type="xs:string"/>
  <xs:element name="bundledpackage" type="xs:string"/>
  <xs:element name="filename" type="xs:string"/>
- <xs:element name="providesextension" type="xs:string"/>
+ <xs:element name="providesextension" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>if a package can provide one or more compatible extensions (dblib/sybase/mssql for instance)</xs:documentation>
+  </xs:annotation>
+ </xs:element>
  <xs:element name="usesrole">
   <xs:complexType>
    <xs:sequence>
