@@ -2225,13 +2225,13 @@ Authors
         $pname = package::info($package, 'name');
         $version = $dbh->getOne('SELECT version from releases WHERE package = ? and id = ?',
             array($package, $release));
-        $GLOBALS['pear_rest']->saveAllReleasesREST($pname);
-        $GLOBALS['pear_rest']->deleteReleaseREST($pname, $version);
         $query = sprintf("DELETE FROM releases WHERE package = '%s' AND id = '%s'",
                          $package,
                          $release
                          );
         $sth = $dbh->query($query);
+        $GLOBALS['pear_rest']->saveAllReleasesREST($pname);
+        $GLOBALS['pear_rest']->deleteReleaseREST($pname, $version);
 
         if (PEAR::isError($sth)) {
             return false;
