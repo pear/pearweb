@@ -1,590 +1,699 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<package version="1.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.4.1" version="2.0" 
+         xmlns="http://pear.php.net/dtd/package-2.0" 
+         xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+                             http://pear.php.net/dtd/tasks-1.0.xsd
+                             http://pear.php.net/dtd/package-2.0
+                             http://pear.php.net/dtd/package-2.0.xsd">
   <name>pearweb</name>
+  <channel>pear.php.net</channel>
   <summary>The source code for the PEAR website</summary>
-  <description>The pearweb package contains:</description>
-  <maintainers>
-    <maintainer>
-      <user>ssb</user>
-      <name>Stig Sæther Bakken</name>
-      <email>stig@php.net</email>
-      <role>developer</role>
-    </maintainer>
-    <maintainer>
-      <user>cox</user>
-      <name>Tomas V.V.Cox</name>
-      <email>cox@idecnet.com</email>
-      <role>developer</role>
-    </maintainer>
-    <maintainer>
-      <user>mj</user>
-      <name>Martin Jansen</name>
-      <email>mj@php.net</email>
-      <role>lead</role>
-    </maintainer>
-    <maintainer>
-      <user>pajoye</user>
-      <name>Pierre-Alain Joye</name>
-      <email>pajoye@pearfr.org</email>
-      <role>lead</role>
-    </maintainer>
-    <maintainer>
-      <user>cellog</user>
-      <name>Greg Beaver</name>
-      <email>cellog@php.net</email>
-      <role>developer</role>
-    </maintainer>
-    <maintainer>
-      <user>danielc</user>
-      <name>Daniel Convissor</name>
-      <email>danielc@php.net</email>
-      <role>developer</role>
-    </maintainer>
-    <maintainer>
-      <user>toby</user>
-      <name>Tobias Schlitt</name>
-      <email>toby@php.net</email>
-      <role>developer</role>
-    </maintainer>
-  </maintainers>
-  <release>
-    <version>0.1.1</version>
-    <date>2004-07-21</date>
-    <license>PHP License</license>
-    <state>devel</state>
-    <notes>Initial attempt to package the core elements of the PEAR website</notes>
-    <deps>
-      <dep type="php" rel="ge" version="4.2"/>
-      <dep type="pkg" rel="ge" version="1.3">PEAR</dep>
-      <dep type="pkg" rel="ge" version="1.1">Archive_Tar</dep>
-      <dep type="pkg" rel="ge" version="1.0.4">XML_RPC</dep>
-      <dep type="pkg" rel="has">HTTP</dep>
-      <dep type="pkg" rel="ge" version="1.2.2">HTTP_Request</dep>
-      <dep type="pkg" rel="ge" version="1.2">VFS</dep>
-      <dep type="pkg" rel="ge" version="1.6.5">DB</dep>
-<!-- not sure about this one      <dep type="pkg" rel="ge" version="2.1">HTML_Menu</dep> -->
-      <dep type="pkg" rel="ge" version="1.3.1">HTTP</dep>
-      <dep type="pkg" rel="ge" version="1.2">Cache</dep>
-      <dep type="ext" rel="has">xml</dep>
-      <dep type="ext" rel="has">pcre</dep>
-      <dep type="ext" rel="has">mysql</dep>
-      <dep type="pkg" rel="ge" version="1.1.0RC4">HTML_Form</dep>
-      <dep type="pkg" rel="ge" version="1.5">HTML_Table</dep>
-      <dep type="pkg" rel="ge" version="2.2.0">Pager</dep>
-      <dep type="pkg" rel="ge" version="1.0.14">Net_URL</dep>
-      <dep type="pkg" rel="ge" version="0.8.1">HTTP_Upload</dep>
-      <dep type="pkg" rel="ge" version="0.7">DB_Pager</dep>
+  <description>
+    The pearweb package contains:
+  </description>
 
-      <!-- Damblan deps -->
-      <dep type="pkg" rel="ge" version="1.8.4">Log</dep>
-      <dep type="pkg" rel="ge" version="2.0b2">XML_Tree</dep>
-      <dep type="pkg" rel="ge" version="2.0b2">Mail</dep>
-      <dep type="pkg" rel="ge" version="0.4.0">Services_Trackback</dep>
-
-      <!-- PEPr deps -->
-      <dep type="pkg" rel="ge" version="1.0">HTML_BBCodeParser</dep>
-      <dep type="pkg" rel="ge" version="3.2.3">HTML_QuickForm</dep>
-      <!-- also depends on Mail -->
-    </deps>
-    <filelist>
-      <dir baseinstalldir="" name="/">
-       <dir name="cron">
-        <file role="php" name="find-documentation.php"/>
-        <file role="php" name="package-stats.php"/>
-        <file role="php" name="pepr.php"/>
-       </dir> <!-- cron -->
-       <dir name="doc">
-        <file role="php" name="apache-setup.txt"/>
-        <file role="php" name="karma.txt"/>
-        <file role="php" name="logging.txt"/>
-        <file role="php" name="pear_package_manager.txt"/>
-        <file role="php" name="xmlrpc-api.txt"/>
-       </dir> <!-- doc -->
-       <dir name="include">
-        <file role="php" name="browser.php"/>
-        <file role="php" name="layout.php"/>
-        <file role="php" name="pear-auth.php"/>
-        <file role="php" name="pear-category.php"/>
-        <file role="php" name="pear-config.php"/>
-        <file role="php" name="pear-database.php"/>
-        <file role="php" name="pear-format-html.php"/>
-        <file role="php" name="pear-format-xmlrpc.php"/>
-        <file role="php" name="pear-manual.php"/>
-        <file role="php" name="pear-patches.php"/>
-        <file role="php" name="pear-prepend.php"/>
-        <file role="php" name="renum.php"/>
-        <file role="php" name="signatures.php"/>
-        <file role="php" name="site.php"/>
-        <file role="php" name="xmlrpc-cache.php"/>
-        <file role="php" name="xmlrpc-methods.php"/>
+  <lead>
+    <name>Martin Jansen</name>
+    <user>mj</user>
+    <email>mj@php.net</email>
+    <active>yes</active>
+  </lead>
+  <lead>
+    <name>Pierre-Alain Joye</name>
+    <user>pajoye</user>
+    <email>pajoye@pearfr.org</email>
+    <active>yes</active>
+  </lead>
+  <developer>
+    <name>Stig SÃ¦ther Bakken</name>
+    <user>ssb</user>
+    <email>stig@php.net</email>
+    <active>no</active>
+  </developer>
+  <developer>
+    <name>Tomas V.V.Cox</name>
+    <user>cox</user>
+    <email>cox@idecnet.com</email>
+    <active>no</active>
+  </developer>
+  <developer>
+    <name>Greg Beaver</name>
+    <user>cellog</user>
+    <email>cellog@php.net</email>
+    <active>yes</active>
+  </developer>
+  <developer>
+    <name>Daniel Convissor</name>
+    <user>danielc</user>
+    <email>danielc@php.net</email>
+    <active>yes</active>
+  </developer>
+  <developer>
+    <name>Tobias Schlitt</name>
+    <user>toby</user>
+    <email>toby@php.net</email>
+    <active>yes</active>
+  </developer>
+  <date>2005-09-30</date>
+  <time>19:24:43</time>
+  <version>
+    <release>0.1.1</release>
+    <api>0.1.1</api>
+  </version>
+  <stability>
+    <release>devel</release>
+    <api>devel</api>
+  </stability>
+  <license uri="http://www.php.net/license">PHP License</license>
+  <notes>
+    Initial attempt to package the core elements of the PEAR website
+  </notes>
+  <contents>
+    <dir name="/">
+      <dir name="cron">
+        <file baseinstalldir="" name="find-documentation.php" role="php" />
+        <file baseinstalldir="" name="package-stats.php" role="php" />
+        <file baseinstalldir="" name="pepr.php" role="php" />
+      </dir> <!-- /cron -->
+      <dir name="doc">
+        <file baseinstalldir="" name="apache-setup.txt" role="php" />
+        <file baseinstalldir="" name="karma.txt" role="php" />
+        <file baseinstalldir="" name="logging.txt" role="php" />
+        <file baseinstalldir="" name="pear_package_manager.txt" role="php" />
+        <file baseinstalldir="" name="xmlrpc-api.txt" role="php" />
+      </dir> <!-- /doc -->
+      <dir name="include">
         <dir name="Damblan">
-         <file role="php" name="Karma.php"/>
-         <file role="php" name="Log.php"/>
-         <file role="php" name="RSS.php"/>
-         <file role="php" name="Search.php"/>
-         <file role="php" name="Site.php"/>
-         <file role="php" name="URL.php"/>
-         <dir name="Log">
-          <file role="php" name="Mail.php"/>
-         </dir> <!-- include/Damblan/Log -->
-         <dir name="RSS">
-          <file role="php" name="Cache.php"/>
-          <file role="php" name="Category.php"/>
-          <file role="php" name="Common.php"/>
-          <file role="php" name="Latest.php"/>
-          <file role="php" name="Package.php"/>
-          <file role="php" name="User.php"/>
-         </dir> <!-- include/Damblan/RSS -->
-         <dir name="Search">
-          <file role="php" name="Lists.php"/>
-          <file role="php" name="PEPr.php"/>
-          <file role="php" name="Packages.php"/>
-          <file role="php" name="Site.php"/>
-          <file role="php" name="Users.php"/>
-         </dir> <!-- include/Damblan/Search -->
-        </dir> <!-- include/Damblan -->
+          <dir name="Log">
+            <file baseinstalldir="" name="Mail.php" role="php" />
+          </dir> <!-- /include/Damblan/Log -->
+          <dir name="RSS">
+            <file baseinstalldir="" name="Cache.php" role="php" />
+            <file baseinstalldir="" name="Category.php" role="php" />
+            <file baseinstalldir="" name="Common.php" role="php" />
+            <file baseinstalldir="" name="Latest.php" role="php" />
+            <file baseinstalldir="" name="Package.php" role="php" />
+            <file baseinstalldir="" name="User.php" role="php" />
+          </dir> <!-- /include/Damblan/RSS -->
+          <dir name="Search">
+            <file baseinstalldir="" name="Lists.php" role="php" />
+            <file baseinstalldir="" name="Packages.php" role="php" />
+            <file baseinstalldir="" name="PEPr.php" role="php" />
+            <file baseinstalldir="" name="Site.php" role="php" />
+            <file baseinstalldir="" name="Users.php" role="php" />
+          </dir> <!-- /include/Damblan/Search -->
+          <file baseinstalldir="" name="Karma.php" role="php" />
+          <file baseinstalldir="" name="Log.php" role="php" />
+          <file baseinstalldir="" name="RSS.php" role="php" />
+          <file baseinstalldir="" name="Search.php" role="php" />
+          <file baseinstalldir="" name="Site.php" role="php" />
+          <file baseinstalldir="" name="URL.php" role="php" />
+        </dir> <!-- /include/Damblan -->
         <dir name="HTML">
-         <file role="php" name="Menu.php"/>
-        </dir> <!-- include/HTML -->
+          <file baseinstalldir="" name="Menu.php" role="php" />
+        </dir> <!-- /include/HTML -->
         <dir name="jpgraph">
-         <file role="php" name="jpgraph.php"/>
-         <file role="php" name="jpgraph_bar.php"/>
-         <file role="php" name="jpgraph_canvas.php"/>
-         <file role="php" name="jpgraph_error.php"/>
-         <file role="php" name="jpgraph_gantt.php"/>
-         <file role="php" name="jpgraph_line.php"/>
-         <file role="php" name="jpgraph_log.php"/>
-         <file role="php" name="jpgraph_pie.php"/>
-         <file role="php" name="jpgraph_pie3d.php"/>
-         <file role="php" name="jpgraph_scatter.php"/>
-         <file role="php" name="jpgraph_spider.php"/>
-        </dir> <!-- include/jpgraph -->
+          <file baseinstalldir="" name="jpgraph.php" role="php" />
+          <file baseinstalldir="" name="jpgraph_bar.php" role="php" />
+          <file baseinstalldir="" name="jpgraph_canvas.php" role="php" />
+          <file baseinstalldir="" name="jpgraph_error.php" role="php" />
+          <file baseinstalldir="" name="jpgraph_gantt.php" role="php" />
+          <file baseinstalldir="" name="jpgraph_line.php" role="php" />
+          <file baseinstalldir="" name="jpgraph_log.php" role="php" />
+          <file baseinstalldir="" name="jpgraph_pie.php" role="php" />
+          <file baseinstalldir="" name="jpgraph_pie3d.php" role="php" />
+          <file baseinstalldir="" name="jpgraph_scatter.php" role="php" />
+          <file baseinstalldir="" name="jpgraph_spider.php" role="php" />
+        </dir> <!-- /include/jpgraph -->
         <dir name="pepr">
-         <file role="php" name="HTML_BBCodeParser_Filter_Extended.php"/>
-         <file role="php" name="pepr-emails.php"/>
-         <file role="php" name="pepr.php"/>
-        </dir> <!-- include/pepr -->
-       </dir> <!-- include -->
-       <dir name="public_html">
-        <file role="php" name="account-edit.php"/>
-        <file role="php" name="account-info.php"/>
-        <file role="php" name="account-mail.php"/>
-        <file role="php" name="account-request.php"/>
-        <file role="php" name="accounts.php"/>
-        <file role="php" name="copyright.php"/>
-        <file role="php" name="credits.php"/>
-        <file role="php" name="export.php"/>
-        <file role="php" name="faq.php"/>
-        <file role="php" name="fixdeps.php"/>
-        <file role="php" name="fixtree.php"/>
-        <file role="php" name="get"/>
-        <file role="php" name="go-pear"/>
-        <file role="php" name="index.php"/>
-        <file role="php" name="login.php"/>
-        <file role="php" name="logout.php"/>
-        <file role="php" name="mirrors.php"/>
-        <file role="php" name="package-changelog.php"/>
-        <file role="php" name="package-delete.php"/>
-        <file role="php" name="package-edit.php"/>
-        <file role="php" name="package-info.php"/>
-        <file role="php" name="package-new.php"/>
-        <file role="php" name="package-stats-graph.php"/>
-        <file role="php" name="package-stats.php"/>
-        <file role="php" name="packages.php"/>
-        <file role="php" name="provoke.php"/>
-        <file role="php" name="release-upload.php"/>
-        <file role="php" name="robots.txt"/>
-        <file role="php" name="search.php"/>
-        <file role="php" name="weeklynews.php"/>
-        <file role="php" name="wishlist.php"/>
-        <file role="php" name="xmlrpc.php"/>
+          <file baseinstalldir="" name="HTML_BBCodeParser_Filter_Extended.php" role="php" />
+          <file baseinstalldir="" name="pepr-emails.php" role="php" />
+          <file baseinstalldir="" name="pepr.php" role="php" />
+        </dir> <!-- /include/pepr -->
+        <file baseinstalldir="" name="browser.php" role="php" />
+        <file baseinstalldir="" name="layout.php" role="php" />
+        <file baseinstalldir="" name="pear-auth.php" role="php" />
+        <file baseinstalldir="" name="pear-category.php" role="php" />
+        <file baseinstalldir="" name="pear-config.php" role="php" />
+        <file baseinstalldir="" name="pear-database.php" role="php" />
+        <file baseinstalldir="" name="pear-format-html.php" role="php" />
+        <file baseinstalldir="" name="pear-format-xmlrpc.php" role="php" />
+        <file baseinstalldir="" name="pear-manual.php" role="php" />
+        <file baseinstalldir="" name="pear-patches.php" role="php" />
+        <file baseinstalldir="" name="pear-prepend.php" role="php" />
+        <file baseinstalldir="" name="renum.php" role="php" />
+        <file baseinstalldir="" name="signatures.php" role="php" />
+        <file baseinstalldir="" name="site.php" role="php" />
+        <file baseinstalldir="" name="xmlrpc-cache.php" role="php" />
+        <file baseinstalldir="" name="xmlrpc-methods.php" role="php" />
+      </dir> <!-- /include -->
+      <dir name="public_html">
         <dir name="about">
-         <file role="php" name="damblan.php"/>
-         <file role="php" name="index.php"/>
-         <file role="php" name="privacy.php"/>
-        </dir> <!-- public_html/about -->
+          <file baseinstalldir="" name="damblan.php" role="php" />
+          <file baseinstalldir="" name="index.php" role="php" />
+          <file baseinstalldir="" name="privacy.php" role="php" />
+        </dir> <!-- /public_html/about -->
         <dir name="admin">
-         <file role="php" name="category-manager.php"/>
-         <file role="php" name="chm-upload.php"/>
-         <file role="php" name="index.php"/>
-         <file role="php" name="karma.php"/>
-         <file role="php" name="package-approval.php"/>
-         <file role="php" name="package-maintainers.php"/>
-        </dir> <!-- public_html/admin -->
+          <file baseinstalldir="" name="category-manager.php" role="php" />
+          <file baseinstalldir="" name="chm-upload.php" role="php" />
+          <file baseinstalldir="" name="index.php" role="php" />
+          <file baseinstalldir="" name="karma.php" role="php" />
+          <file baseinstalldir="" name="package-approval.php" role="php" />
+          <file baseinstalldir="" name="package-maintainers.php" role="php" />
+        </dir> <!-- /public_html/admin -->
         <dir name="bugs">
-         <file role="php" name="bug.php"/>
-         <file role="php" name="bugtypes.inc"/>
-         <file role="php" name="index.php"/>
-         <file role="php" name="report.php"/>
-         <file role="php" name="search.php"/>
-         <dir name="include">
-          <file role="php" name="cvs-auth.inc"/>
-          <file role="php" name="functions.inc"/>
-          <file role="php" name="layout.inc"/>
-          <file role="php" name="prepend.inc"/>
-          <file role="php" name="resolve.inc"/>
-          <file role="php" name="trusted-devs.inc"/>
-         </dir> <!-- public_html/bugs/include -->
-        </dir> <!-- public_html/bugs -->
+          <dir name="include">
+            <file baseinstalldir="" name="cvs-auth.inc" role="php" />
+            <file baseinstalldir="" name="functions.inc" role="php" />
+            <file baseinstalldir="" name="layout.inc" role="php" />
+            <file baseinstalldir="" name="prepend.inc" role="php" />
+            <file baseinstalldir="" name="resolve.inc" role="php" />
+            <file baseinstalldir="" name="trusted-devs.inc" role="php" />
+          </dir> <!-- /public_html/bugs/include -->
+          <file baseinstalldir="" name="bug.php" role="php" />
+          <file baseinstalldir="" name="bugtypes.inc" role="php" />
+          <file baseinstalldir="" name="index.php" role="php" />
+          <file baseinstalldir="" name="report.php" role="php" />
+          <file baseinstalldir="" name="search.php" role="php" />
+        </dir> <!-- /public_html/bugs -->
         <dir name="channels">
-         <file role="php" name="index.php"/>
-         <file role="php" name="add.php"/>
-        </dir> <!-- public_html/channels -->
+          <file baseinstalldir="" name="add.php" role="php" />
+          <file baseinstalldir="" name="index.php" role="php" />
+        </dir> <!-- /public_html/channels -->
         <dir name="css">
-         <file role="php" name="bugs.css"/>
-         <file role="php" name="bugs-controls.css"/>
-         <file role="php" name="manual.css"/>
-         <file role="php" name="style.css"/>
-         <file role="php" name="tabs.css"/>
-        </dir> <!-- public_html/css -->
+          <file baseinstalldir="" name="bugs-controls.css" role="php" />
+          <file baseinstalldir="" name="bugs.css" role="php" />
+          <file baseinstalldir="" name="manual.css" role="php" />
+          <file baseinstalldir="" name="style.css" role="php" />
+          <file baseinstalldir="" name="tabs.css" role="php" />
+        </dir> <!-- /public_html/css -->
         <dir name="doc">
-         <file role="php" name="index.php"/>
-        </dir> <!-- public_html/doc -->
+          <file baseinstalldir="" name="index.php" role="php" />
+        </dir> <!-- /public_html/doc -->
         <dir name="dtd">
-         <file role="php" name="index.php"/>
-         <file role="php" name="package-1.0"/>
-         <file role="php" name="package-1.0.xsd"/>
-         <file role="php" name="package-1.1"/>
-        </dir> <!-- public_html/dtd -->
+          <file baseinstalldir="" name="index.php" role="php" />
+          <file baseinstalldir="" name="package-1.0" role="php" />
+          <file baseinstalldir="" name="package-1.0.xsd" role="php" />
+          <file baseinstalldir="" name="package-1.1" role="php" />
+        </dir> <!-- /public_html/dtd -->
         <dir name="error">
-         <file role="php" name="404-manual.php"/>
-         <file role="php" name="404.php"/>
-        </dir> <!-- public_html/error -->
+          <file baseinstalldir="" name="404-manual.php" role="php" />
+          <file baseinstalldir="" name="404.php" role="php" />
+        </dir> <!-- /public_html/error -->
         <dir name="feeds">
-         <file role="php" name="feeds.php"/>
-         <file role="php" name="index.php"/>
-        </dir> <!-- public_html/feeds -->
+          <file baseinstalldir="" name="feeds.php" role="php" />
+          <file baseinstalldir="" name="index.php" role="php" />
+        </dir> <!-- /public_html/feeds -->
         <dir name="gifs">
-         <file role="php" name="arrow_top.gif"/>
-         <file role="php" name="beta_bg.gif"/>
-         <file role="php" name="black.gif"/>
-         <file role="php" name="blank.gif"/>
-         <file role="php" name="box-0.gif"/>
-         <file role="php" name="box-1.gif"/>
-         <file role="php" name="calendar.gif"/>
-         <file role="php" name="caret-l.gif"/>
-         <file role="php" name="caret-r.gif"/>
-         <file role="php" name="caret-t.gif"/>
-         <file role="php" name="caret-u.gif"/>
-         <file role="php" name="checkerboard.gif"/>
-         <file role="php" name="close.gif"/>
-         <file role="php" name="delete.gif"/>
-         <file role="php" name="dynCalendar.gif"/>
-         <file role="php" name="edit.gif"/>
-         <file role="php" name="favicon.ico"/>
-         <file role="php" name="moreinfo-no.gif"/>
-         <file role="php" name="moreinfo-yes.gif"/>
-         <file role="php" name="moreinfo.gif"/>
-         <file role="php" name="next.gif"/>
-         <file role="php" name="pear-icon.gif"/>
-         <file role="php" name="pear-icon.png"/>
-         <file role="php" name="pear-power.gif"/>
-         <file role="php" name="pear-power.png"/>
-         <file role="php" name="pear.gif"/>
-         <file role="php" name="pearsmall.gif"/>
-         <file role="php" name="pear_item.gif"/>
-         <file role="php" name="pecl-icon.gif"/>
-         <file role="php" name="pecl-icon.png"/>
-         <file role="php" name="pecl-power.gif"/>
-         <file role="php" name="pecl-power.png"/>
-         <file role="php" name="pecl.gif"/>
-         <file role="php" name="peclsmall.gif"/>
-         <file role="php" name="pecl_item.gif"/>
-         <file role="php" name="php-logo.gif"/>
-         <file role="php" name="phpmag02cover.gif"/>
-         <file role="php" name="phpmagazine.gif"/>
-         <file role="php" name="prev.gif"/>
-         <file role="php" name="small_submit_black.gif"/>
-         <file role="php" name="small_submit_white.gif"/>
-         <file role="php" name="spacer.gif"/>
-         <file role="php" name="tri-back.gif"/>
-         <file role="php" name="tri.gif"/>
-         <dir name="TreeMenu">
-          <file role="php" name="branch.gif"/>
-          <file role="php" name="branchbottom.gif"/>
-          <file role="php" name="branchtop.gif"/>
-          <file role="php" name="folder.gif"/>
-          <file role="php" name="line.gif"/>
-          <file role="php" name="linebottom.gif"/>
-          <file role="php" name="minus.gif"/>
-          <file role="php" name="minusbottom.gif"/>
-          <file role="php" name="minustop.gif"/>
-          <file role="php" name="plus.gif"/>
-          <file role="php" name="plusbottom.gif"/>
-          <file role="php" name="plustop.gif"/>
-         </dir> <!-- public_html/gifs/TreeMenu -->
-        </dir> <!-- public_html/gifs -->
+          <dir name="TreeMenu">
+            <file baseinstalldir="" name="branch.gif" role="php" />
+            <file baseinstalldir="" name="branchbottom.gif" role="php" />
+            <file baseinstalldir="" name="branchtop.gif" role="php" />
+            <file baseinstalldir="" name="folder.gif" role="php" />
+            <file baseinstalldir="" name="line.gif" role="php" />
+            <file baseinstalldir="" name="linebottom.gif" role="php" />
+            <file baseinstalldir="" name="minus.gif" role="php" />
+            <file baseinstalldir="" name="minusbottom.gif" role="php" />
+            <file baseinstalldir="" name="minustop.gif" role="php" />
+            <file baseinstalldir="" name="plus.gif" role="php" />
+            <file baseinstalldir="" name="plusbottom.gif" role="php" />
+            <file baseinstalldir="" name="plustop.gif" role="php" />
+          </dir> <!-- /public_html/gifs/TreeMenu -->
+          <file baseinstalldir="" name="arrow_top.gif" role="php" />
+          <file baseinstalldir="" name="beta_bg.gif" role="php" />
+          <file baseinstalldir="" name="black.gif" role="php" />
+          <file baseinstalldir="" name="blank.gif" role="php" />
+          <file baseinstalldir="" name="box-0.gif" role="php" />
+          <file baseinstalldir="" name="box-1.gif" role="php" />
+          <file baseinstalldir="" name="calendar.gif" role="php" />
+          <file baseinstalldir="" name="caret-l.gif" role="php" />
+          <file baseinstalldir="" name="caret-r.gif" role="php" />
+          <file baseinstalldir="" name="caret-t.gif" role="php" />
+          <file baseinstalldir="" name="caret-u.gif" role="php" />
+          <file baseinstalldir="" name="checkerboard.gif" role="php" />
+          <file baseinstalldir="" name="close.gif" role="php" />
+          <file baseinstalldir="" name="delete.gif" role="php" />
+          <file baseinstalldir="" name="dynCalendar.gif" role="php" />
+          <file baseinstalldir="" name="edit.gif" role="php" />
+          <file baseinstalldir="" name="favicon.ico" role="php" />
+          <file baseinstalldir="" name="moreinfo-no.gif" role="php" />
+          <file baseinstalldir="" name="moreinfo-yes.gif" role="php" />
+          <file baseinstalldir="" name="moreinfo.gif" role="php" />
+          <file baseinstalldir="" name="next.gif" role="php" />
+          <file baseinstalldir="" name="pear-icon.gif" role="php" />
+          <file baseinstalldir="" name="pear-icon.png" role="php" />
+          <file baseinstalldir="" name="pear-power.gif" role="php" />
+          <file baseinstalldir="" name="pear-power.png" role="php" />
+          <file baseinstalldir="" name="pear.gif" role="php" />
+          <file baseinstalldir="" name="pearsmall.gif" role="php" />
+          <file baseinstalldir="" name="pear_item.gif" role="php" />
+          <file baseinstalldir="" name="pecl-icon.gif" role="php" />
+          <file baseinstalldir="" name="pecl-icon.png" role="php" />
+          <file baseinstalldir="" name="pecl-power.gif" role="php" />
+          <file baseinstalldir="" name="pecl-power.png" role="php" />
+          <file baseinstalldir="" name="pecl.gif" role="php" />
+          <file baseinstalldir="" name="peclsmall.gif" role="php" />
+          <file baseinstalldir="" name="pecl_item.gif" role="php" />
+          <file baseinstalldir="" name="php-logo.gif" role="php" />
+          <file baseinstalldir="" name="phpmag02cover.gif" role="php" />
+          <file baseinstalldir="" name="phpmagazine.gif" role="php" />
+          <file baseinstalldir="" name="prev.gif" role="php" />
+          <file baseinstalldir="" name="small_submit_black.gif" role="php" />
+          <file baseinstalldir="" name="small_submit_white.gif" role="php" />
+          <file baseinstalldir="" name="spacer.gif" role="php" />
+          <file baseinstalldir="" name="tri-back.gif" role="php" />
+          <file baseinstalldir="" name="tri.gif" role="php" />
+        </dir> <!-- /public_html/gifs -->
         <dir name="group">
-         <file role="php" name="index.php"/>
-         <dir name="docs">
-          <file role="php" name="20030820-vm.php"/>
-          <file role="php" name="20030904-pph.php"/>
-          <file role="php" name="20031114-bbr.php"/>
-          <file role="php" name="20031114-pcl.php"/>
-          <file role="php" name="20031114-pds.php"/>
-          <file role="php" name="index.php"/>
-         </dir> <!-- public_html/group/docs -->
-        </dir> <!-- public_html/group -->
+          <dir name="docs">
+            <file baseinstalldir="" name="20030820-vm.php" role="php" />
+            <file baseinstalldir="" name="20030904-pph.php" role="php" />
+            <file baseinstalldir="" name="20031114-bbr.php" role="php" />
+            <file baseinstalldir="" name="20031114-pcl.php" role="php" />
+            <file baseinstalldir="" name="20031114-pds.php" role="php" />
+            <file baseinstalldir="" name="index.php" role="php" />
+          </dir> <!-- /public_html/group/docs -->
+          <file baseinstalldir="" name="index.php" role="php" />
+        </dir> <!-- /public_html/group -->
         <dir name="javascript">
-         <file role="php" name="package-maintainers.js"/>
-         <dir name="calendar">
-          <file role="php" name="browserSniffer.js"/>
-          <file role="php" name="dynCalendar.css"/>
-          <file role="php" name="dynCalendar.js"/>
-         </dir> <!-- public_html/javascript/calendar -->
-         <dir name="TreeMenu">
-          <file role="php" name="TreeMenu.js"/>
-         </dir> <!-- public_html/javascript/TreeMenu -->
-        </dir> <!-- public_html/javascript -->
+          <dir name="calendar">
+            <file baseinstalldir="" name="browserSniffer.js" role="php" />
+            <file baseinstalldir="" name="dynCalendar.css" role="php" />
+            <file baseinstalldir="" name="dynCalendar.js" role="php" />
+          </dir> <!-- /public_html/javascript/calendar -->
+          <dir name="TreeMenu">
+            <file baseinstalldir="" name="TreeMenu.js" role="php" />
+          </dir> <!-- /public_html/javascript/TreeMenu -->
+          <file baseinstalldir="" name="package-maintainers.js" role="php" />
+        </dir> <!-- /public_html/javascript -->
         <dir name="manual">
-         <file role="php" name="index.php"/>
-        </dir> <!-- public_html/manual -->
+          <file baseinstalldir="" name="index.php" role="php" />
+        </dir> <!-- /public_html/manual -->
         <dir name="news">
-         <file role="php" name="activestate-award-ssb.php"/>
-         <file role="php" name="group-announce.php"/>
-         <file role="php" name="index.php"/>
-         <file role="php" name="meeting-2003-summary.php"/>
-         <file role="php" name="meeting-2003.php"/>
-         <file role="php" name="pecl-split.php"/>
-         <file role="php" name="release-1.0.php"/>
-        </dir> <!-- public_html/news -->
+          <file baseinstalldir="" name="activestate-award-ssb.php" role="php" />
+          <file baseinstalldir="" name="group-announce.php" role="php" />
+          <file baseinstalldir="" name="index.php" role="php" />
+          <file baseinstalldir="" name="meeting-2003-summary.php" role="php" />
+          <file baseinstalldir="" name="meeting-2003.php" role="php" />
+          <file baseinstalldir="" name="pecl-split.php" role="php" />
+          <file baseinstalldir="" name="release-1.0.php" role="php" />
+        </dir> <!-- /public_html/news -->
         <dir name="pepr">
-         <file role="php" name="index.php"/>
-         <file role="php" name="pepr-bbcode-help.php"/>
-         <file role="php" name="pepr-overview.php"/>
-         <file role="php" name="pepr-proposal-delete.php"/>
-         <file role="php" name="pepr-proposal-edit.php"/>
-         <file role="php" name="pepr-proposal-show.php"/>
-         <file role="php" name="pepr-vote-show.php"/>
-         <file role="php" name="pepr-votes-show.php"/>
-        </dir> <!-- public_html/pepr -->
+          <file baseinstalldir="" name="index.php" role="php" />
+          <file baseinstalldir="" name="pepr-bbcode-help.php" role="php" />
+          <file baseinstalldir="" name="pepr-overview.php" role="php" />
+          <file baseinstalldir="" name="pepr-proposal-delete.php" role="php" />
+          <file baseinstalldir="" name="pepr-proposal-edit.php" role="php" />
+          <file baseinstalldir="" name="pepr-proposal-show.php" role="php" />
+          <file baseinstalldir="" name="pepr-vote-show.php" role="php" />
+          <file baseinstalldir="" name="pepr-votes-show.php" role="php" />
+        </dir> <!-- /public_html/pepr -->
         <dir name="ppp">
-         <file role="php" name="index.php"/>
-         <file role="php" name="info.php"/>
-         <file role="php" name="propose.php"/>
-         <file role="php" name="vote.php"/>
-        </dir> <!-- public_html/ppp -->
+          <file baseinstalldir="" name="index.php" role="php" />
+          <file baseinstalldir="" name="info.php" role="php" />
+          <file baseinstalldir="" name="propose.php" role="php" />
+          <file baseinstalldir="" name="vote.php" role="php" />
+        </dir> <!-- /public_html/ppp -->
         <dir name="sidebar">
-         <file role="php" name="pear.src"/>
-        </dir> <!-- public_html/sidebar -->
+          <file baseinstalldir="" name="pear.src" role="php" />
+        </dir> <!-- /public_html/sidebar -->
         <dir name="support">
-         <file role="php" name="icons.php"/>
-         <file role="php" name="index.php"/>
-         <file role="php" name="lists.php"/>
-         <file role="php" name="slides.php"/>
-         <file role="php" name="tutorials.php"/>
-        </dir> <!-- public_html/support -->
-       </dir> <!-- public_html -->
-       <dir name="rfc">
-        <file role="php" name="003-dependencies.txt"/>
-        <file role="php" name="stats.txt"/>
-       </dir> <!-- rfc -->
-       <dir name="sql">
-        <file role="php" name="addacls.php"/>
-        <file role="php" name="addcategories.php"/>
-        <file role="php" name="addpackages.php"/>
-        <file role="php" name="addusers.php"/>
-        <file role="php" name="bugs.sql"/>
-        <file role="php" name="categories.sql"/>
-        <file role="php" name="create2drop"/>
-        <file role="php" name="createdb.sql"/>
-        <file role="php" name="cvs_acl.sql"/>
-        <file role="php" name="data.php"/>
-        <file role="php" name="deps.sql"/>
-        <file role="php" name="design.txt"/>
-        <file role="php" name="downloads.sql"/>
-        <file role="php" name="dropdb.sql"/>
-        <file role="php" name="files.sql"/>
-        <file role="php" name="karma.sql"/>
-        <file role="php" name="maintains.sql"/>
-        <file role="php" name="Makefile"/>
-        <file role="php" name="notes.sql"/>
-        <file role="php" name="packages.sql"/>
-        <file role="php" name="package_acl.sql"/>
-        <file role="php" name="package_stats.res"/>
-        <file role="php" name="package_stats.sql"/>
-        <file role="php" name="pepr.sql"/>
-        <file role="php" name="README"/>
-        <file role="php" name="releases.sql"/>
-        <file role="php" name="users.sql"/>
-       </dir> <!-- sql -->
-       <dir name="templates">
-        <file role="php" name="category-manager.html"/>
-        <file role="php" name="packages.html"/>
-       </dir> <!-- templates -->
-       <dir name="weeklynews">
-        <file role="php" name="20020707.de.html"/>
-        <file role="php" name="20020707.en.html"/>
-        <file role="php" name="20020714.de.html"/>
-        <file role="php" name="20020714.en.html"/>
-        <file role="php" name="20020714.fr.html"/>
-        <file role="php" name="20020714.pt_BR.html"/>
-        <file role="php" name="20020721.de.html"/>
-        <file role="php" name="20020721.en.html"/>
-        <file role="php" name="20020721.fr.html"/>
-        <file role="php" name="20020721.pl.html"/>
-        <file role="php" name="20020721.pt_BR.html"/>
-        <file role="php" name="20020728.de.html"/>
-        <file role="php" name="20020728.en.html"/>
-        <file role="php" name="20020728.fr.html"/>
-        <file role="php" name="20020728.pl.html"/>
-        <file role="php" name="20020728.pt_BR.html"/>
-        <file role="php" name="20020804.de.html"/>
-        <file role="php" name="20020804.en.html"/>
-        <file role="php" name="20020804.es.html"/>
-        <file role="php" name="20020804.fr.html"/>
-        <file role="php" name="20020804.pl.html"/>
-        <file role="php" name="20020804.pt_BR.html"/>
-        <file role="php" name="20020811.de.html"/>
-        <file role="php" name="20020811.en.html"/>
-        <file role="php" name="20020811.es.html"/>
-        <file role="php" name="20020811.fr.html"/>
-        <file role="php" name="20020811.pl.html"/>
-        <file role="php" name="20020818.de.html"/>
-        <file role="php" name="20020818.en.html"/>
-        <file role="php" name="20020818.es.html"/>
-        <file role="php" name="20020818.fr.html"/>
-        <file role="php" name="20020818.pl.html"/>
-        <file role="php" name="20020825.de.html"/>
-        <file role="php" name="20020825.en.html"/>
-        <file role="php" name="20020825.es.html"/>
-        <file role="php" name="20020825.pl.html"/>
-        <file role="php" name="20020901.de.html"/>
-        <file role="php" name="20020901.en.html"/>
-        <file role="php" name="20020901.pl.html"/>
-        <file role="php" name="20020908.de.html"/>
-        <file role="php" name="20020908.en.html"/>
-        <file role="php" name="20020908.fr.html"/>
-        <file role="php" name="20020908.pl.html"/>
-        <file role="php" name="20020915.de.html"/>
-        <file role="php" name="20020915.en.html"/>
-        <file role="php" name="20020915.fr.html"/>
-        <file role="php" name="20020915.pl.html"/>
-        <file role="php" name="20020922.de.html"/>
-        <file role="php" name="20020922.en.html"/>
-        <file role="php" name="20020922.fr.html"/>
-        <file role="php" name="20020922.pl.html"/>
-        <file role="php" name="20020929.de.html"/>
-        <file role="php" name="20020929.en.html"/>
-        <file role="php" name="20020929.fr.html"/>
-        <file role="php" name="20020929.pl.html"/>
-        <file role="php" name="20021006.de.html"/>
-        <file role="php" name="20021006.en.html"/>
-        <file role="php" name="20021006.fr.html"/>
-        <file role="php" name="20021006.pl.html"/>
-        <file role="php" name="20021013.de.html"/>
-        <file role="php" name="20021013.en.html"/>
-        <file role="php" name="20021013.fr.html"/>
-        <file role="php" name="20021013.pl.html"/>
-        <file role="php" name="20021013.pt_BR.html"/>
-        <file role="php" name="20021020.de.html"/>
-        <file role="php" name="20021020.en.html"/>
-        <file role="php" name="20021020.fr.html"/>
-        <file role="php" name="20021020.pl.html"/>
-        <file role="php" name="20021020.pt_BR.html"/>
-        <file role="php" name="20021027.de.html"/>
-        <file role="php" name="20021027.en.html"/>
-        <file role="php" name="20021027.fr.html"/>
-        <file role="php" name="20021027.pl.html"/>
-        <file role="php" name="20021027.pt_BR.html"/>
-        <file role="php" name="20021103.de.html"/>
-        <file role="php" name="20021103.en.html"/>
-        <file role="php" name="20021103.pl.html"/>
-        <file role="php" name="20021117.de.html"/>
-        <file role="php" name="20021117.en.html"/>
-        <file role="php" name="20021117.pl.html"/>
-        <file role="php" name="20021201.de.html"/>
-        <file role="php" name="20021201.en.html"/>
-        <file role="php" name="20021201.fr.html"/>
-        <file role="php" name="20021201.pl.html"/>
-        <file role="php" name="20030119.de.html"/>
-        <file role="php" name="20030119.en.html"/>
-        <file role="php" name="20030119.fr.html"/>
-        <file role="php" name="20030119.pl.html"/>
-        <file role="php" name="20030126.de.html"/>
-        <file role="php" name="20030126.en.html"/>
-        <file role="php" name="20030126.pl.html"/>
-        <file role="php" name="20030126.pt_BR.html"/>
-        <file role="php" name="20030202.de.html"/>
-        <file role="php" name="20030202.en.html"/>
-        <file role="php" name="20030202.fr.html"/>
-        <file role="php" name="20030202.pl.html"/>
-        <file role="php" name="20030209.de.html"/>
-        <file role="php" name="20030209.en.html"/>
-        <file role="php" name="20030209.pl.html"/>
-        <file role="php" name="20030216.de.html"/>
-        <file role="php" name="20030216.en.html"/>
-        <file role="php" name="20030216.fr.html"/>
-        <file role="php" name="20030216.pl.html"/>
-        <file role="php" name="20030223.en.html"/>
-        <file role="php" name="20030223.fr.html"/>
-        <file role="php" name="20030223.pl.html"/>
-        <file role="php" name="20030302.en.html"/>
-        <file role="php" name="20030302.fr.html"/>
-        <file role="php" name="20030302.pl.html"/>
-        <file role="php" name="20030309.de.html"/>
-        <file role="php" name="20030309.en.html"/>
-        <file role="php" name="20030309.fr.html"/>
-        <file role="php" name="20030309.pl.html"/>
-        <file role="php" name="20030309.pt_BR.html"/>
-        <file role="php" name="20030316.en.html"/>
-        <file role="php" name="20030316.pl.html"/>
-        <file role="php" name="20030413.en.html"/>
-        <file role="php" name="20030413.fr.html"/>
-        <file role="php" name="20030413.pl.html"/>
-        <file role="php" name="20030413.pt_BR.html"/>
+          <file baseinstalldir="" name="icons.php" role="php" />
+          <file baseinstalldir="" name="index.php" role="php" />
+          <file baseinstalldir="" name="lists.php" role="php" />
+          <file baseinstalldir="" name="slides.php" role="php" />
+          <file baseinstalldir="" name="tutorials.php" role="php" />
+        </dir> <!-- /public_html/support -->
+        <file baseinstalldir="" name="account-edit.php" role="php" />
+        <file baseinstalldir="" name="account-info.php" role="php" />
+        <file baseinstalldir="" name="account-mail.php" role="php" />
+        <file baseinstalldir="" name="account-request.php" role="php" />
+        <file baseinstalldir="" name="accounts.php" role="php" />
+        <file baseinstalldir="" name="copyright.php" role="php" />
+        <file baseinstalldir="" name="credits.php" role="php" />
+        <file baseinstalldir="" name="export.php" role="php" />
+        <file baseinstalldir="" name="faq.php" role="php" />
+        <file baseinstalldir="" name="fixdeps.php" role="php" />
+        <file baseinstalldir="" name="fixtree.php" role="php" />
+        <file baseinstalldir="" name="get" role="php" />
+        <file baseinstalldir="" name="go-pear" role="php" />
+        <file baseinstalldir="" name="index.php" role="php" />
+        <file baseinstalldir="" name="login.php" role="php" />
+        <file baseinstalldir="" name="logout.php" role="php" />
+        <file baseinstalldir="" name="mirrors.php" role="php" />
+        <file baseinstalldir="" name="package-changelog.php" role="php" />
+        <file baseinstalldir="" name="package-delete.php" role="php" />
+        <file baseinstalldir="" name="package-edit.php" role="php" />
+        <file baseinstalldir="" name="package-info.php" role="php" />
+        <file baseinstalldir="" name="package-new.php" role="php" />
+        <file baseinstalldir="" name="package-stats-graph.php" role="php" />
+        <file baseinstalldir="" name="package-stats.php" role="php" />
+        <file baseinstalldir="" name="packages.php" role="php" />
+        <file baseinstalldir="" name="provoke.php" role="php" />
+        <file baseinstalldir="" name="release-upload.php" role="php" />
+        <file baseinstalldir="" name="robots.txt" role="php" />
+        <file baseinstalldir="" name="search.php" role="php" />
+        <file baseinstalldir="" name="weeklynews.php" role="php" />
+        <file baseinstalldir="" name="wishlist.php" role="php" />
+        <file baseinstalldir="" name="xmlrpc.php" role="php" />
+      </dir> <!-- /public_html -->
+      <dir name="rfc">
+        <file baseinstalldir="" name="003-dependencies.txt" role="php" />
+        <file baseinstalldir="" name="stats.txt" role="php" />
+      </dir> <!-- /rfc -->
+      <dir name="sql">
+        <file baseinstalldir="" name="addacls.php" role="php" />
+        <file baseinstalldir="" name="addcategories.php" role="php" />
+        <file baseinstalldir="" name="addpackages.php" role="php" />
+        <file baseinstalldir="" name="addusers.php" role="php" />
+        <file baseinstalldir="" name="bugs.sql" role="php" />
+        <file baseinstalldir="" name="categories.sql" role="php" />
+        <file baseinstalldir="" name="create2drop" role="php" />
+        <file baseinstalldir="" name="createdb.sql" role="php" />
+        <file baseinstalldir="" name="cvs_acl.sql" role="php" />
+        <file baseinstalldir="" name="data.php" role="php" />
+        <file baseinstalldir="" name="deps.sql" role="php" />
+        <file baseinstalldir="" name="design.txt" role="php" />
+        <file baseinstalldir="" name="downloads.sql" role="php" />
+        <file baseinstalldir="" name="dropdb.sql" role="php" />
+        <file baseinstalldir="" name="files.sql" role="php" />
+        <file baseinstalldir="" name="karma.sql" role="php" />
+        <file baseinstalldir="" name="maintains.sql" role="php" />
+        <file baseinstalldir="" name="Makefile" role="php" />
+        <file baseinstalldir="" name="notes.sql" role="php" />
+        <file baseinstalldir="" name="packages.sql" role="php" />
+        <file baseinstalldir="" name="package_acl.sql" role="php" />
+        <file baseinstalldir="" name="package_stats.res" role="php" />
+        <file baseinstalldir="" name="package_stats.sql" role="php" />
+        <file baseinstalldir="" name="pepr.sql" role="php" />
+        <file baseinstalldir="" name="README" role="php" />
+        <file baseinstalldir="" name="releases.sql" role="php" />
+        <file baseinstalldir="" name="users.sql" role="php" />
+      </dir> <!-- /sql -->
+      <dir name="templates">
+        <file baseinstalldir="" name="category-manager.html" role="php" />
+        <file baseinstalldir="" name="packages.html" role="php" />
+      </dir> <!-- /templates -->
+      <dir name="weeklynews">
         <dir name="locale">
-         <dir name="de">
-          <dir name="LC_MESSAGES">
-           <file role="php" name="weeklynews.mo"/>
-           <file role="php" name="weeklynews.po"/>
-          </dir> <!-- weeklynews/locale/de/LC_MESSAGES -->
-         </dir> <!-- weeklynews/locale/de -->
-         <dir name="en">
-          <dir name="LC_MESSAGES">
-           <file role="php" name="weeklynews.mo"/>
-           <file role="php" name="weeklynews.po"/>
-          </dir> <!-- weeklynews/locale/en/LC_MESSAGES -->
-         </dir> <!-- weeklynews/locale/en -->
-         <dir name="es">
-          <dir name="LC_MESSAGES">
-           <file role="php" name="weeklynews.mo"/>
-           <file role="php" name="weeklynews.po"/>
-          </dir> <!-- weeklynews/locale/es/LC_MESSAGES -->
-         </dir> <!-- weeklynews/locale/es -->
-         <dir name="fr">
-          <dir name="LC_MESSAGES">
-           <file role="php" name="weeklynews.mo"/>
-           <file role="php" name="weeklynews.po"/>
-          </dir> <!-- weeklynews/locale/fr/LC_MESSAGES -->
-         </dir> <!-- weeklynews/locale/fr -->
-         <dir name="pl">
-          <dir name="LC_MESSAGES">
-           <file role="php" name="weeklynews.mo"/>
-           <file role="php" name="weeklynews.po"/>
-          </dir> <!-- weeklynews/locale/pl/LC_MESSAGES -->
-         </dir> <!-- weeklynews/locale/pl -->
-         <dir name="pt_BR">
-          <dir name="LC_MESSAGES">
-           <file role="php" name="weeklynews.mo"/>
-           <file role="php" name="weeklynews.po"/>
-          </dir> <!-- weeklynews/locale/pt_BR/LC_MESSAGES -->
-         </dir> <!-- weeklynews/locale/pt_BR -->
-        </dir> <!-- weeklynews/locale -->
-       </dir> <!-- weeklynews -->
-       <file role="php" name="testxmlrpc.pl"/>
-       <file role="php" name="TODO"/>
-      </dir> <!-- / -->
-    </filelist>
-  </release>
+          <dir name="de">
+            <dir name="LC_MESSAGES">
+              <file baseinstalldir="" name="weeklynews.mo" role="php" />
+              <file baseinstalldir="" name="weeklynews.po" role="php" />
+            </dir> <!-- /weeklynews/locale/de/LC_MESSAGES -->
+          </dir> <!-- /weeklynews/locale/de -->
+          <dir name="en">
+            <dir name="LC_MESSAGES">
+              <file baseinstalldir="" name="weeklynews.mo" role="php" />
+              <file baseinstalldir="" name="weeklynews.po" role="php" />
+            </dir> <!-- /weeklynews/locale/en/LC_MESSAGES -->
+          </dir> <!-- /weeklynews/locale/en -->
+          <dir name="es">
+            <dir name="LC_MESSAGES">
+              <file baseinstalldir="" name="weeklynews.mo" role="php" />
+              <file baseinstalldir="" name="weeklynews.po" role="php" />
+            </dir> <!-- /weeklynews/locale/es/LC_MESSAGES -->
+          </dir> <!-- /weeklynews/locale/es -->
+          <dir name="fr">
+            <dir name="LC_MESSAGES">
+              <file baseinstalldir="" name="weeklynews.mo" role="php" />
+              <file baseinstalldir="" name="weeklynews.po" role="php" />
+            </dir> <!-- /weeklynews/locale/fr/LC_MESSAGES -->
+          </dir> <!-- /weeklynews/locale/fr -->
+          <dir name="pl">
+            <dir name="LC_MESSAGES">
+              <file baseinstalldir="" name="weeklynews.mo" role="php" />
+              <file baseinstalldir="" name="weeklynews.po" role="php" />
+            </dir> <!-- /weeklynews/locale/pl/LC_MESSAGES -->
+          </dir> <!-- /weeklynews/locale/pl -->
+          <dir name="pt_BR">
+            <dir name="LC_MESSAGES">
+              <file baseinstalldir="" name="weeklynews.mo" role="php" />
+              <file baseinstalldir="" name="weeklynews.po" role="php" />
+            </dir> <!-- /weeklynews/locale/pt_BR/LC_MESSAGES -->
+          </dir> <!-- /weeklynews/locale/pt_BR -->
+        </dir> <!-- /weeklynews/locale -->
+        <file baseinstalldir="" name="20020707.de.html" role="php" />
+        <file baseinstalldir="" name="20020707.en.html" role="php" />
+        <file baseinstalldir="" name="20020714.de.html" role="php" />
+        <file baseinstalldir="" name="20020714.en.html" role="php" />
+        <file baseinstalldir="" name="20020714.fr.html" role="php" />
+        <file baseinstalldir="" name="20020714.pt_BR.html" role="php" />
+        <file baseinstalldir="" name="20020721.de.html" role="php" />
+        <file baseinstalldir="" name="20020721.en.html" role="php" />
+        <file baseinstalldir="" name="20020721.fr.html" role="php" />
+        <file baseinstalldir="" name="20020721.pl.html" role="php" />
+        <file baseinstalldir="" name="20020721.pt_BR.html" role="php" />
+        <file baseinstalldir="" name="20020728.de.html" role="php" />
+        <file baseinstalldir="" name="20020728.en.html" role="php" />
+        <file baseinstalldir="" name="20020728.fr.html" role="php" />
+        <file baseinstalldir="" name="20020728.pl.html" role="php" />
+        <file baseinstalldir="" name="20020728.pt_BR.html" role="php" />
+        <file baseinstalldir="" name="20020804.de.html" role="php" />
+        <file baseinstalldir="" name="20020804.en.html" role="php" />
+        <file baseinstalldir="" name="20020804.es.html" role="php" />
+        <file baseinstalldir="" name="20020804.fr.html" role="php" />
+        <file baseinstalldir="" name="20020804.pl.html" role="php" />
+        <file baseinstalldir="" name="20020804.pt_BR.html" role="php" />
+        <file baseinstalldir="" name="20020811.de.html" role="php" />
+        <file baseinstalldir="" name="20020811.en.html" role="php" />
+        <file baseinstalldir="" name="20020811.es.html" role="php" />
+        <file baseinstalldir="" name="20020811.fr.html" role="php" />
+        <file baseinstalldir="" name="20020811.pl.html" role="php" />
+        <file baseinstalldir="" name="20020818.de.html" role="php" />
+        <file baseinstalldir="" name="20020818.en.html" role="php" />
+        <file baseinstalldir="" name="20020818.es.html" role="php" />
+        <file baseinstalldir="" name="20020818.fr.html" role="php" />
+        <file baseinstalldir="" name="20020818.pl.html" role="php" />
+        <file baseinstalldir="" name="20020825.de.html" role="php" />
+        <file baseinstalldir="" name="20020825.en.html" role="php" />
+        <file baseinstalldir="" name="20020825.es.html" role="php" />
+        <file baseinstalldir="" name="20020825.pl.html" role="php" />
+        <file baseinstalldir="" name="20020901.de.html" role="php" />
+        <file baseinstalldir="" name="20020901.en.html" role="php" />
+        <file baseinstalldir="" name="20020901.pl.html" role="php" />
+        <file baseinstalldir="" name="20020908.de.html" role="php" />
+        <file baseinstalldir="" name="20020908.en.html" role="php" />
+        <file baseinstalldir="" name="20020908.fr.html" role="php" />
+        <file baseinstalldir="" name="20020908.pl.html" role="php" />
+        <file baseinstalldir="" name="20020915.de.html" role="php" />
+        <file baseinstalldir="" name="20020915.en.html" role="php" />
+        <file baseinstalldir="" name="20020915.fr.html" role="php" />
+        <file baseinstalldir="" name="20020915.pl.html" role="php" />
+        <file baseinstalldir="" name="20020922.de.html" role="php" />
+        <file baseinstalldir="" name="20020922.en.html" role="php" />
+        <file baseinstalldir="" name="20020922.fr.html" role="php" />
+        <file baseinstalldir="" name="20020922.pl.html" role="php" />
+        <file baseinstalldir="" name="20020929.de.html" role="php" />
+        <file baseinstalldir="" name="20020929.en.html" role="php" />
+        <file baseinstalldir="" name="20020929.fr.html" role="php" />
+        <file baseinstalldir="" name="20020929.pl.html" role="php" />
+        <file baseinstalldir="" name="20021006.de.html" role="php" />
+        <file baseinstalldir="" name="20021006.en.html" role="php" />
+        <file baseinstalldir="" name="20021006.fr.html" role="php" />
+        <file baseinstalldir="" name="20021006.pl.html" role="php" />
+        <file baseinstalldir="" name="20021013.de.html" role="php" />
+        <file baseinstalldir="" name="20021013.en.html" role="php" />
+        <file baseinstalldir="" name="20021013.fr.html" role="php" />
+        <file baseinstalldir="" name="20021013.pl.html" role="php" />
+        <file baseinstalldir="" name="20021013.pt_BR.html" role="php" />
+        <file baseinstalldir="" name="20021020.de.html" role="php" />
+        <file baseinstalldir="" name="20021020.en.html" role="php" />
+        <file baseinstalldir="" name="20021020.fr.html" role="php" />
+        <file baseinstalldir="" name="20021020.pl.html" role="php" />
+        <file baseinstalldir="" name="20021020.pt_BR.html" role="php" />
+        <file baseinstalldir="" name="20021027.de.html" role="php" />
+        <file baseinstalldir="" name="20021027.en.html" role="php" />
+        <file baseinstalldir="" name="20021027.fr.html" role="php" />
+        <file baseinstalldir="" name="20021027.pl.html" role="php" />
+        <file baseinstalldir="" name="20021027.pt_BR.html" role="php" />
+        <file baseinstalldir="" name="20021103.de.html" role="php" />
+        <file baseinstalldir="" name="20021103.en.html" role="php" />
+        <file baseinstalldir="" name="20021103.pl.html" role="php" />
+        <file baseinstalldir="" name="20021117.de.html" role="php" />
+        <file baseinstalldir="" name="20021117.en.html" role="php" />
+        <file baseinstalldir="" name="20021117.pl.html" role="php" />
+        <file baseinstalldir="" name="20021201.de.html" role="php" />
+        <file baseinstalldir="" name="20021201.en.html" role="php" />
+        <file baseinstalldir="" name="20021201.fr.html" role="php" />
+        <file baseinstalldir="" name="20021201.pl.html" role="php" />
+        <file baseinstalldir="" name="20030119.de.html" role="php" />
+        <file baseinstalldir="" name="20030119.en.html" role="php" />
+        <file baseinstalldir="" name="20030119.fr.html" role="php" />
+        <file baseinstalldir="" name="20030119.pl.html" role="php" />
+        <file baseinstalldir="" name="20030126.de.html" role="php" />
+        <file baseinstalldir="" name="20030126.en.html" role="php" />
+        <file baseinstalldir="" name="20030126.pl.html" role="php" />
+        <file baseinstalldir="" name="20030126.pt_BR.html" role="php" />
+        <file baseinstalldir="" name="20030202.de.html" role="php" />
+        <file baseinstalldir="" name="20030202.en.html" role="php" />
+        <file baseinstalldir="" name="20030202.fr.html" role="php" />
+        <file baseinstalldir="" name="20030202.pl.html" role="php" />
+        <file baseinstalldir="" name="20030209.de.html" role="php" />
+        <file baseinstalldir="" name="20030209.en.html" role="php" />
+        <file baseinstalldir="" name="20030209.pl.html" role="php" />
+        <file baseinstalldir="" name="20030216.de.html" role="php" />
+        <file baseinstalldir="" name="20030216.en.html" role="php" />
+        <file baseinstalldir="" name="20030216.fr.html" role="php" />
+        <file baseinstalldir="" name="20030216.pl.html" role="php" />
+        <file baseinstalldir="" name="20030223.en.html" role="php" />
+        <file baseinstalldir="" name="20030223.fr.html" role="php" />
+        <file baseinstalldir="" name="20030223.pl.html" role="php" />
+        <file baseinstalldir="" name="20030302.en.html" role="php" />
+        <file baseinstalldir="" name="20030302.fr.html" role="php" />
+        <file baseinstalldir="" name="20030302.pl.html" role="php" />
+        <file baseinstalldir="" name="20030309.de.html" role="php" />
+        <file baseinstalldir="" name="20030309.en.html" role="php" />
+        <file baseinstalldir="" name="20030309.fr.html" role="php" />
+        <file baseinstalldir="" name="20030309.pl.html" role="php" />
+        <file baseinstalldir="" name="20030309.pt_BR.html" role="php" />
+        <file baseinstalldir="" name="20030316.en.html" role="php" />
+        <file baseinstalldir="" name="20030316.pl.html" role="php" />
+        <file baseinstalldir="" name="20030413.en.html" role="php" />
+        <file baseinstalldir="" name="20030413.fr.html" role="php" />
+        <file baseinstalldir="" name="20030413.pl.html" role="php" />
+        <file baseinstalldir="" name="20030413.pt_BR.html" role="php" />
+      </dir> <!-- /weeklynews -->
+      <file baseinstalldir="" name="testxmlrpc.pl" role="php" />
+      <file baseinstalldir="" name="TODO" role="php" />
+    </dir> <!-- / -->
+  </contents>
+  <dependencies>
+    <required>
+      <php>
+        <min>4.2</min>
+      </php>
+      <pearinstaller>
+        <min>1.4.0b1</min>
+      </pearinstaller>
+      <package>
+        <name>PEAR</name>
+        <channel>pear.php.net</channel>
+        <min>1.3</min>
+      </package>
+      <package>
+        <name>Archive_Tar</name>
+        <channel>pear.php.net</channel>
+        <min>1.1</min>
+      </package>
+      <package>
+        <name>XML_RPC</name>
+        <channel>pear.php.net</channel>
+        <min>1.0.4</min>
+      </package>
+      <package>
+        <name>HTTP</name>
+        <channel>pear.php.net</channel>
+        <min>1.3.1</min>
+      </package>
+      <package>
+        <name>HTTP_Request</name>
+        <channel>pear.php.net</channel>
+        <min>1.2.2</min>
+      </package>
+      <package>
+        <name>VFS</name>
+        <channel>pear.php.net</channel>
+        <min>1.2</min>
+      </package>
+      <package>
+        <name>DB</name>
+        <channel>pear.php.net</channel>
+        <min>1.6.5</min>
+      </package>
+      <package>
+        <name>Cache</name>
+        <channel>pear.php.net</channel>
+        <min>1.2</min>
+      </package>
+      <package>
+        <name>HTML_Form</name>
+        <channel>pear.php.net</channel>
+        <min>1.1.0RC4</min>
+      </package>
+      <package>
+        <name>HTML_Table</name>
+        <channel>pear.php.net</channel>
+        <min>1.5</min>
+      </package>
+      <package>
+        <name>Pager</name>
+        <channel>pear.php.net</channel>
+        <min>2.2.0</min>
+      </package>
+      <package>
+        <name>Net_URL</name>
+        <channel>pear.php.net</channel>
+        <min>1.0.14</min>
+      </package>
+      <package>
+        <name>HTTP_Upload</name>
+        <channel>pear.php.net</channel>
+        <min>0.8.1</min>
+      </package>
+      <package>
+        <name>DB_Pager</name>
+        <channel>pear.php.net</channel>
+        <min>0.7</min>
+      </package>
+      <package>
+        <name>Log</name>
+        <channel>pear.php.net</channel>
+        <min>1.8.4</min>
+      </package>
+      <package>
+        <name>XML_Tree</name>
+        <channel>pear.php.net</channel>
+        <min>2.0b2</min>
+      </package>
+      <package>
+        <name>Mail</name>
+        <channel>pear.php.net</channel>
+        <min>2.0b2</min>
+      </package>
+      <package>
+        <name>Services_Trackback</name>
+        <channel>pear.php.net</channel>
+        <min>0.4.0</min>
+      </package>
+      <package>
+        <name>HTML_BBCodeParser</name>
+        <channel>pear.php.net</channel>
+        <min>1.0</min>
+      </package>
+      <package>
+        <name>HTML_QuickForm</name>
+        <channel>pear.php.net</channel>
+        <min>3.2.3</min>
+      </package>
+      <extension>
+        <name>xml</name>
+      </extension>
+      <extension>
+        <name>pcre</name>
+      </extension>
+      <extension>
+        <name>mysql</name>
+      </extension>
+    </required>
+  </dependencies>
+  <phprelease />
   <changelog>
     <release>
-      <version>0.1</version>
+      <version>
+        <release>0.1</release>
+        <api>0.1</api>
+      </version>
+      <stability>
+        <release>devel</release>
+        <api>devel</api>
+      </stability>
       <date>2004-02-20</date>
-      <license>PHP License</license>
-      <state>devel</state>
-      <notes>Initial attempt to package the core elements of the PEAR website</notes>
+      <license uri="http://www.php.net/license">PHP License</license>
+      <notes>Initial attempt to package the core elements of the PEAR website
+      </notes>
     </release>
   </changelog>
 </package>
