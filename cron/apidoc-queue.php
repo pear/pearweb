@@ -75,7 +75,7 @@ foreach ($rows as $filename) {
         }
         pclose($process);
 
-        $cmd = sprintf("ln -sf %s/%s-%s %s/%s-latest",
+        $cmd = sprintf("ln -shf %s/%s-%s %s/%s-latest",
                        PEAR_APIDOC_DIR,
                        $name,
                        $info['version'],
