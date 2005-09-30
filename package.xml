@@ -91,7 +91,6 @@
       <dir baseinstalldir="" name="/">
        <dir name="cron">
         <file role="php" name="find-documentation.php"/>
-        <file role="php" name="generate_rss_pwn.php"/>
         <file role="php" name="package-stats.php"/>
         <file role="php" name="pepr.php"/>
        </dir> <!-- cron -->
@@ -115,7 +114,6 @@
         <file role="php" name="pear-patches.php"/>
         <file role="php" name="pear-prepend.php"/>
         <file role="php" name="renum.php"/>
-        <file role="php" name="rss.php"/>
         <file role="php" name="signatures.php"/>
         <file role="php" name="site.php"/>
         <file role="php" name="xmlrpc-cache.php"/>
