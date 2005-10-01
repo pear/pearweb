@@ -42,14 +42,24 @@ if (isset($auth_user) && $auth_user) {
     exit;
 }
 
-if (auth_verify(@$_POST['PEAR_USER'], @$_POST['PEAR_PW'])) {
+if ($_SERVER['REQUEST_METHOD'] == "POST" && (empty($_POST['PEAR_USER']) || empty($_POST['PEAR_PW']))) {
+    auth_reject(PEAR_AUTH_REALM, 'You must provide a username and a password.');
+}
+
+if (!empty($_POST['isMD5'])) {
+    $password = @$_POST['PEAR_PW'];
+} else {
+    $password = md5(@$_POST['PEAR_PW']);
+}
+
+if (auth_verify(@$_POST['PEAR_USER'], $password)) {
     if (!empty($_POST['PEAR_PERSIST'])) {
         $expire = 2147483647;
     } else {
         $expire = 0;
     }
     setcookie('PEAR_USER', $_POST['PEAR_USER'], $expire, '/');
-    setcookie('PEAR_PW', md5($_POST['PEAR_PW']), $expire, '/');
+    setcookie('PEAR_PW', $password, $expire, '/');
 
     /*
      * Update users password if it is held in the db
@@ -57,7 +67,7 @@ if (auth_verify(@$_POST['PEAR_USER'], @$_POST['PEAR_PW'])) {
      */
     if (strlen(@$auth_user->password) == 13) { // $auth_user comes from auth_verify() function
         $query = "UPDATE users SET password = ? WHERE handle = ?";
-        $dbh->query($query, array(md5($_POST['PEAR_PW']), $_POST['PEAR_USER']));
+        $dbh->query($query, array($password, $_POST['PEAR_USER']));
     }
 
     /*

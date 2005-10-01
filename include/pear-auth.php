@@ -38,7 +38,15 @@ function auth_reject($realm = null, $message = null)
         if ($message) {
             report_error($message);
         }
-        print "<form name=\"login\" action=\"/login.php\" method=\"post\">\n";
+        print "<script type=\"text/javascript\" src=\"/javascript/md5.js\"></script>\n";
+        print "<script type=\"text/javascript\">\n";
+        print "function doMD5(frm) {\n";
+        print "    frm.PEAR_PW.value = hex_md5(frm.PEAR_PW.value);\n";
+        print "    frm.isMD5.value = 1;\n";
+        print "}\n";
+        print "</script>\n";
+        print "<form onsubmit=\"javascript:doMD5(document.forms['login'])\" name=\"login\" action=\"/login.php\" method=\"post\">\n";
+        print "<input type=\"hidden\" name=\"isMD5\" value=\"0\" />\n";
         print '<table class="form-holder" cellspacing="1">' . "\n";
         print " <tr>\n";
         print '  <th class="form-label_left">';
