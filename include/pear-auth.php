@@ -38,6 +38,12 @@ function auth_reject($realm = null, $message = null)
         if ($message) {
             report_error($message);
         }
+
+        if (DEVBOX == false) {
+            $action = "https://" . $_SERVER['SERVER_NAME'] . "/login.php";
+        } else {
+            $action = "/login.php";
+        }
         print "<script type=\"text/javascript\" src=\"/javascript/md5.js\"></script>\n";
         print "<script type=\"text/javascript\">\n";
         print "function doMD5(frm) {\n";
@@ -45,7 +51,7 @@ function auth_reject($realm = null, $message = null)
         print "    frm.isMD5.value = 1;\n";
         print "}\n";
         print "</script>\n";
-        print "<form onsubmit=\"javascript:doMD5(document.forms['login'])\" name=\"login\" action=\"/login.php\" method=\"post\">\n";
+        print "<form onsubmit=\"javascript:doMD5(document.forms['login'])\" name=\"login\" action=\"" . $action . "\" method=\"post\">\n";
         print "<input type=\"hidden\" name=\"isMD5\" value=\"0\" />\n";
         print '<table class="form-holder" cellspacing="1">' . "\n";
         print " <tr>\n";

@@ -76,11 +76,9 @@ if (auth_verify(@$_POST['PEAR_USER'], $password)) {
     if (isset($_POST['PEAR_OLDURL']) &&
         basename($_POST['PEAR_OLDURL']) != 'login.php')
     {
-        localRedirect($_POST['PEAR_OLDURL']);
+        localRedirect($_POST['PEAR_OLDURL'], false);
     } else {
-        response_header('Login');
-        report_success('Welcome.');
-        response_footer();
+        localRedirect("/index.php", false);
         exit;
     }
 
