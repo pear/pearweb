@@ -41,17 +41,14 @@ if (!empty($_GET['filename'])) {
     }
 }
 
-$query = "SELECT filename FROM apidoc_queue ORDER BY queued ASC";
-$rows = $dbh->getAll($query, array(), DB_FETCHMODE_ASSOC);
+$query = "SELECT filename FROM apidoc_queue ORDER BY queued DESC";
+$sth = $dbh->query($query);
 
 echo "<p>Select a filename:</p>\n\n";
 
 echo "<ul>";
-$self = htmlspecialchars($_SERVER['PHP_SELF']);
-
-foreach ($rows as $row) {
-    printf("<li><a href=\"%s?filename=%s\">%s</a></li>\n",
-           $self,
+while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
+    printf("<li><a href=\"/admin/apidoc-log.php?filename=%s\">%s</a></li>\n",
            urlencode($row['filename']),
            $row['filename']
            );
