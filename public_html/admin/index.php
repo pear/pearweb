@@ -136,7 +136,7 @@ function updateRejectReason(selectObj) {
 // }}}
 
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
-
+$acreq = isset($_GET['acreq']) ? strip_tags(htmlspecialchars($_GET['acreq'])) : '';
 do {
 
     // {{{ "approve account request" form
