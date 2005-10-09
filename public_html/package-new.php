@@ -31,7 +31,6 @@ $width = 60;
 $errors = array();
 $jumpto = 'name';
 
-print_r($_POST);
 /* May seem like overkill, but the prepended get() function checks both GET and POST */
 $valid_args = array('submit', 'name','category','license','summary','desc','homepage','cvs_link');
 foreach($valid_args as $arg) {
