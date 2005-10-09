@@ -31,15 +31,18 @@ $width = 60;
 $errors = array();
 $jumpto = 'name';
 
+print_r($_POST);
 /* May seem like overkill, but the prepended get() function checks both GET and POST */
-$valid_args = array('name','category','license','summary','desc','homepage','cvs_link');
+$valid_args = array('submit', 'name','category','license','summary','desc','homepage','cvs_link');
 foreach($valid_args as $arg) {
 	if(isset($_POST[$arg])) $_POST[$arg] = htmlspecialchars($_POST[$arg]);
 	if(isset($_GET[$arg])) $_GET[$arg] = htmlspecialchars($GET[$arg]);
 }
 
+$submit = isset($_POST['submit']) ? true : false;
+
 do {
-    if (isset($submit)) {
+    if ($submit) {
         $required = array('name'    => 'enter the package name',
                           'summary' => 'enter the one-liner description',
                           'desc'    => 'enter the full description',
