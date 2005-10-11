@@ -27,6 +27,19 @@ if (isset($_SERVER['PHP_AUTH_PW']) && !isset($_COOKIE['PEAR_PW'])) {
 
 PEAR::setErrorHandling(PEAR_ERROR_RETURN);
 
+
+include_once "DB.php";
+include_once "DB/storage.php";
+
+if (empty($dbh)) {
+    $options = array(
+        'persistent' => false,
+        'portability' => DB_PORTABILITY_ALL,
+    );
+    $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
+}
+
+
 // {{{ pear_xmlrpc_error()
 
 function pear_xmlrpc_error($error) {

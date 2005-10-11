@@ -38,11 +38,10 @@ if (empty($format)) {
 
 include_once "pear-format-$format.php";
 
-include_once "DB.php";
-include_once "DB/storage.php";
 include_once "pear-auth.php";
 include_once "pear-database.php";
 include_once "pear-rest.php";
+
 
 function get($name)
 {
@@ -55,13 +54,6 @@ function get($name)
     }
 }
 
-if (empty($dbh)) {
-    $options = array(
-        'persistent' => false,
-        'portability' => DB_PORTABILITY_ALL,
-    );
-    $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
-}
 if (!isset($pear_rest)) {
     if (!DEVBOX) {
         $pear_rest = new pear_rest('/var/lib/pearweb/rest');

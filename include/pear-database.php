@@ -360,7 +360,6 @@ class package
         $event = $auth_user->handle . " (" . $auth_user->name . ") has added a new package " . $name;
         $mailtext = $event . "\n\nApprove: http://" . PEAR_CHANNELNAME . "/admin/package-approval.php?approve=" . $id;
         $mailtext .= "\nReject: http://" . PEAR_CHANNELNAME . "/admin/package-approval.php?reject=" . $id;
-
         // {{{ Logging mechanism
         require_once "Damblan/Log.php";
         require_once "Damblan/Log/Mail.php";
@@ -377,7 +376,6 @@ class package
         $logger->setHeader("Subject", "New package");
         $logger->log($mailtext);
         // }}}
-
         return $id;
     }
 

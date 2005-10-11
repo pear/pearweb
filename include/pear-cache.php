@@ -17,7 +17,6 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-
 // Adding _no_cache=1 to the URL prevents caching
 if (!empty($_GET['_no_cache']) && (int)$_GET['_no_cache'] == 1) {
     $no_cache = 1;
@@ -121,3 +120,15 @@ if ($no_cache == 0) {
         }
     }
 }
+include_once "DB.php";
+include_once "DB/storage.php";
+
+if (empty($dbh)) {
+    $options = array(
+        'persistent' => false,
+        'portability' => DB_PORTABILITY_ALL,
+    );
+    $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
+}
+
+
