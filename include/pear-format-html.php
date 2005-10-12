@@ -65,7 +65,7 @@ $_style = '';
  */
 function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '')
 {
-    global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $self;
+    global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $self, $auth_user;
 
     $extra_styles = extra_styles();
 
