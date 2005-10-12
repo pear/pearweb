@@ -26,8 +26,8 @@
 auth_require('pear.qa');
 
 require 'HTML/Table.php';
+extra_styles('/css/packages_status.css');
 
-$extra_styles[] = '/css/packages_status.css';
 // Sortable tables http://www.kryogenix.org/code/browser/sorttable/
 $extra_header = '<script src="/javascript/sorttable.js"></script>';
 $states = array('snapshot', 'devel', 'alpha', 'beta', 'stable');
