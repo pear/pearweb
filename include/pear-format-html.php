@@ -20,17 +20,25 @@
 
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
 
+function extra_styles($new = null) {
+    static $extra_styles = array();
+    if (!is_null($new)) {
+        $extra_styles[] = $new;
+    }
+    return $extra_styles;
+}
+
 require_once 'pear-cache.php';
 
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 
 $encoding = 'iso-8859-1';
-$extra_styles = array();
 
 // Handling things related to the manual
 if (substr($self, 0, 7) == '/manual') {
     require_once 'pear-manual.php';
-    $extra_styles[] = '/css/manual.css';
+
+    extra_styles('/css/manual.css');
 
     // The Japanese manual translation needs UTF-8 encoding
     if (preg_match("=^/manual/ja=", $self)) {
@@ -44,43 +52,9 @@ if (substr($self, 0, 7) == '/manual') {
     }
 }
 
-$GLOBALS['main_menu'] = array(
-    '/index.php'           => 'Home',
-    '/news/'               => 'News',
-    '/qa/'                 => 'Quality Assurance',
-    '/group/'              => 'The PEAR Group',
-);
-
-$GLOBALS['docu_menu'] = array(
-    '/manual/en/about-pear.php' => 'About PEAR',
-    '/manual/index.php'    => 'Manual',
-    '/manual/en/faq.php'   => 'FAQ',
-    '/support/'            => 'Support',
-);
-
-$GLOBALS['downloads_menu'] = array(
-    '/packages.php'        => 'List Packages',
-    '/search.php'          => 'Search Packages',
-    '/package-stats.php'   => 'Statistics'
-);
-
-$GLOBALS['developer_menu'] = array(
-    '/accounts.php'        => 'List Accounts',
-    '/release-upload.php'  => 'Upload Release',
-    '/package-new.php'     => 'New Package'
-);
-
-$GLOBALS['proposal_menu'] = array(
-    '/pepr/pepr-overview.php'       => 'Browse Proposals',
-    '/pepr/pepr-proposal-edit.php'  => 'New Proposal'
-);
-
-$GLOBALS['admin_menu'] = array(
-    '/admin/'                     => 'Overview'
-);
 
 $GLOBALS['_style'] = '';
-
+$_style = '';
 
 /**
  * Prints out the XHTML headers and top of the page.
@@ -91,7 +65,9 @@ $GLOBALS['_style'] = '';
  */
 function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '')
 {
-    global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $extra_styles, $self;
+    global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $self;
+
+    $extra_styles = extra_styles();
 
     if ($_header_done) {
         return;
@@ -104,27 +80,25 @@ function response_header($title = 'The PHP Extension and Application Repository'
     if (substr($rts, -1) == '-') {
         $SIDEBAR_DATA = substr($rts, 0, -1);
     } else {
-        global $main_menu, $docu_menu, $downloads_menu, $auth_user, $proposal_menu;
-        $SIDEBAR_DATA .= draw_navigation($main_menu, 'Main:');
-        $SIDEBAR_DATA .= draw_navigation($docu_menu, 'Documentation:');
-        $SIDEBAR_DATA .= draw_navigation($downloads_menu, 'Downloads:');
-        $SIDEBAR_DATA .= draw_navigation($proposal_menu, 'Package Proposals:');
+
+        $SIDEBAR_DATA .= draw_navigation('main_menu', 'Main:');
+        $SIDEBAR_DATA .= draw_navigation('docu_menu', 'Documentation:');
+        $SIDEBAR_DATA .= draw_navigation('downloads_menu', 'Downloads:');
+        $SIDEBAR_DATA .= draw_navigation('proposal_menu', 'Package Proposals:');
         init_auth_user();
         if (!empty($auth_user)) {
             if (!empty($auth_user->registered)) {
                 if (auth_check('pear.dev')) {
                     global $developer_menu;
-                    $SIDEBAR_DATA .= draw_navigation($developer_menu, 'Developers:');
+                    $SIDEBAR_DATA .= draw_navigation('developer_menu', 'Developers:');
                 }
             }
             if ($auth_user->isAdmin()) {
                 global $admin_menu;
-                $SIDEBAR_DATA .= draw_navigation($admin_menu, 'Administrators:');
+                $SIDEBAR_DATA .= draw_navigation('admin_menu', 'Administrators:');
             }
         } else {
-            global $developer_menu;
-            $tmp = array_slice($developer_menu, 0, 1);
-            $SIDEBAR_DATA .= draw_navigation($tmp, 'Developers:');
+            $SIDEBAR_DATA .= draw_navigation('developer_menu_public', 'Developers:');
         }
     }
 
@@ -140,6 +114,7 @@ echo $extraHeaders;
  <link rel="shortcut icon" href="/gifs/favicon.ico" />
  <link rel="stylesheet" href="/css/style.css" />
 <?php
+
     foreach ($extra_styles as $style_file) {
         echo ' <link rel="stylesheet" href="' . $style_file . "\" />\n";
     }
@@ -347,9 +322,60 @@ print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
 }
 
 
-function &draw_navigation($data, $menu_title='')
+function draw_navigation($type, $menu_title='')
 {
     global $self;
+
+    switch ($type) {
+        case 'main_menu':
+            $data = array(
+                '/index.php'           => 'Home',
+                '/news/'               => 'News',
+                '/qa/'                 => 'Quality Assurance',
+                '/group/'              => 'The PEAR Group',
+            );
+            break;
+        case 'docu_menu':
+            $data = array(
+                '/manual/en/about-pear.php' => 'About PEAR',
+                '/manual/index.php'    => 'Manual',
+                '/manual/en/faq.php'   => 'FAQ',
+                '/support/'            => 'Support',
+            );
+            break;
+        case 'downloads_menu':
+            $data = array(
+                '/packages.php'        => 'List Packages',
+                '/search.php'          => 'Search Packages',
+                '/package-stats.php'   => 'Statistics'
+            );
+            break;
+        case 'developer_menu':
+            $data= array(
+                '/accounts.php'        => 'List Accounts',
+                '/release-upload.php'  => 'Upload Release',
+                '/package-new.php'     => 'New Package'
+            );
+            break;
+        case 'developer_menu_public':
+            $data= array(
+                '/accounts.php'        => 'List Accounts'
+            );
+            break;
+        case 'proposal_menu':
+            $data = array(
+                        '/pepr/pepr-overview.php'       => 'Browse Proposals',
+                        '/pepr/pepr-proposal-edit.php'  => 'New Proposal'
+                    );
+            break;
+        case 'admin_menu':
+            $data = array(
+                '/admin/'                     => 'Overview'
+            );
+            break;
+        default:
+            return '';
+    }
 
     $html = "\n";
     if (!empty($menu_title)) {
