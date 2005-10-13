@@ -85,6 +85,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
         $SIDEBAR_DATA .= draw_navigation('docu_menu', 'Documentation:');
         $SIDEBAR_DATA .= draw_navigation('downloads_menu', 'Downloads:');
         $SIDEBAR_DATA .= draw_navigation('proposal_menu', 'Package Proposals:');
+        include_once 'pear-auth.php';
         init_auth_user();
         if (!empty($auth_user)) {
             if (!empty($auth_user->registered)) {
