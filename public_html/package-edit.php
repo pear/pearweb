@@ -26,8 +26,8 @@ auth_require('pear.dev');
 
 $self = htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME']));
 
-require_once 'pear-format-html-form.php';
-$form = new PEAR_Web_Form($self);
+require_once 'HTML/Form.php';
+$form = new HTML_Form($self);
 
 response_header('Edit Package');
 ?>
