@@ -74,11 +74,6 @@ if (!empty($params['action'])) {
         $action = $params['action'];
         break;
 
-    case 'wiki':
-        header('Location: ' . PEAR_WIKI_URL . '/index.php?area=' . urlencode($pkg['name']));
-        exit();
-        break;
-
     case 'redirected' :
         $redirected = true;
         $params['action']= '';
@@ -113,16 +108,18 @@ if (!in_array($version, $versions)) {
 }
 
 
-$name        = $pkg['name'];
-$type        = $pkg['type'];
-$summary     = stripslashes($pkg['summary']);
-$license     = $pkg['license'];
-$description = stripslashes($pkg['description']);
-$category    = $pkg['category'];
-$homepage    = $pkg['homepage'];
-$pacid       = $pkg['packageid'];
-$cvs_link    = $pkg['cvs_link'];
-$doc_link    = $pkg['doc_link'];
+$name         = $pkg['name'];
+$type         = $pkg['type'];
+$summary      = stripslashes($pkg['summary']);
+$license      = $pkg['license'];
+$description  = stripslashes($pkg['description']);
+$category     = $pkg['category'];
+$homepage     = $pkg['homepage'];
+$pacid        = $pkg['packageid'];
+$cvs_link     = $pkg['cvs_link'];
+$doc_link     = $pkg['doc_link'];
+$unmaintained = ($pkg['unmaintained']) ? 'Y' : 'N';
+$new_package  = htmlspecialchars($pkg['new_package']);
 
 // Maintainer information
 $maintainers = maintainer::get($pacid);
@@ -184,6 +181,46 @@ print_package_navigation($pacid, $name, $action);
 if (empty($action)) {
 
     // {{{ General information
+
+    /* UNMAINTAINED OR SUPERCEEDED PACKAGES WARNING */
+    $dec_messages = array(
+        'abandonned' => 'This package is not maintained anymore and has been superceeded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a>.',
+        'superceeded' => 'This package been superceeded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a> but is still maintained for bugs and security fixes',
+        'unmaintained' => 'This package is not maintained, if you would like to take over please go to <a href="http://pear.php.net/manual/en/guide-newmaint.php">this page</a>'
+    );
+
+    $dec_table = array(
+        'abandonned'   => array('superceeded' => 'Y', 'unmaintained' => 'Y'),
+        'superceeded'  => array('superceeded' => 'Y', 'unmaintained' => 'N'),
+        'unmaintained' => array('superceeded' => 'N', 'unmaintained' => 'Y'),
+    );
+
+    $superceeded = 'N';
+    if ($new_package != '') {
+        $superceeded = 'Y';
+    }
+
+    $apply_rule = null;
+    foreach ($dec_table as $rule => $conditions) {
+        $match = true;
+        foreach ($conditions as $condition => $value) {
+            if ($$condition != $value) {
+                $match = false;
+                break;
+            }
+        }
+        if ($match) {
+            $apply_rule = $rule;
+        }
+    }
+
+    if (!is_null($apply_rule) && isset($dec_messages[$apply_rule])) {
+        $str  = '<div class="warnings">';
+        $str .= str_replace('{{PACKAGE_NAME}}', $new_package, $dec_messages[$apply_rule]);
+        $str .= '</div>';
+        echo $str;
+    }
+    /* UNMAINTAINED OR SUPERCEEDED PACKAGES WARNING */
 
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     print '<tr>';

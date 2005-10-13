@@ -26,8 +26,8 @@ auth_require('pear.dev');
 
 $self = htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME']));
 
-require_once 'HTML/Form.php';
-$form = new HTML_Form($self);
+require_once 'pear-format-html-form.php';
+$form = new PEAR_Web_Form($self);
 
 response_header('Edit Package');
 ?>
@@ -72,7 +72,7 @@ if (isset($_POST['submit'])) {
         $query = 'UPDATE packages SET name = ?, license = ?,
                   summary = ?, description = ?, category = ?,
                   homepage = ?, package_type = ?, doc_link = ?, cvs_link = ?,
-                  wiki_area = ?
+                  unmaintained = ?, newpk_id = ?
                   WHERE id = ?';
 
         $qparams = array(
@@ -85,7 +85,8 @@ if (isset($_POST['submit'])) {
                       'pear',
                       $_POST['doc_link'],
                       $_POST['cvs_link'],
-                      isset($_POST['wiki_area']) ? 1 : 0,
+                      isset($_POST['unmaintained']) ? 1 : 0 ,
+                      isset($_POST['newpk_id']) ? $_POST['newpk_id'] : null,
                       $package_id
                     );
 
@@ -94,83 +95,10 @@ if (isset($_POST['submit'])) {
         if (PEAR::isError($sth)) {
             report_error('Unable to save data!');
         } else {
-             $pear_rest->savePackageREST($_POST['name']);
-             $wikidb = DB::connect(PEAR_WIKI_DSN);
- 
-             $area_query = 'INSERT INTO yawiki_areas (name,title) VALUES (?,?)';
-             
-             $prep = $wikidb->prepare($area_query);
-             $res = $wikidb->execute($prep, array($_POST['name'], $_POST['name']));
- 
-             if (PEAR::isError($res)) {
-                 report_error('Cannot create the wiki area');
-             }
- 
-             $area_query = 'INSERT INTO yawiki_store (area,page,body,dt,username) VALUES (?,?,?,?,?)';
-             
-             $data = array(
-                 $_POST['name'], 'HomePage',
-                 'This is ' . $_POST['name'] . ' package HomePage',
-                 date('Y-m-d H:i:s'),
-                 'pear-qa'
-             );
- 
-             $prep = $wikidb->prepare($area_query);
-             $res = $wikidb->execute($prep, $data);
- 
-             if (PEAR::isError($res)) {
-                 report_error('Cannot create the main page of the area');
-                 response_footer();
-                 exit;
-             }
- 
-             $data = array(
-                 $_POST['name'], 'AreaMap',
-                 'HomePage',
-                 date('Y-m-d H:i:s'),
-                 'pear-qa'
-             );
- 
-             $prep = $wikidb->prepare($area_query);
-             $res = $wikidb->execute($prep, $data);
- 
-             if (PEAR::isError($res)) {
-                 report_error('Cannot create the area map');
-                 response_footer();
-                 exit;
-             }
- 
-             $query = 'INSERT INTO yawiki_acl (id, seq, flag, username, priv,
-             area, page) VALUES (?, ?, ?, ?, ?, ?, ?)';
- 
-             $maintainers = maintainer::get($_GET['id']);
-             $accounts  = array();
- 
-             foreach ($maintainers as $handle => $row) {
-                 if ($row['role'] == 'lead') {
-                     $accounts[] = array(
-                         $wikidb->nextId('_yawiki_acl_id'),
-                         100, 1, $handle, 'area_admin', $_POST['name'], '*'
-                     );
-                 }
-             }
- 
-             // Add the ACL only if there are lead(s) declared
-             if (count($accounts) > 0) {
-                 $prep = $wikidb->prepare($query);
-                 $res = $wikidb->executeMultiple($prep, $accounts);
-             }
- 
-             if (PEAR::isError($res)) {
-                 report_error('Cannot create the wiki area ACL entries');
-                 response_footer();
-                 exit;
-             }
-         }
- 
+            $pear_rest->savePackageREST($_POST['name']);
             echo "<b>Package information successfully updated.</b><br /><br />\n";
         }
-
+    }
 } else if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'release_remove':
@@ -260,16 +188,33 @@ $form->displaySelect("category", $rows, (int)$row['categoryid']);
     </td>
 </tr>
 <tr>
-    <th class="form-label_left">Activate wiki area ?</th>
+    <th class="form-label_left">Is this package unmaintained ?</th>
     <td class="form-input">
-    <?php $wiki_area = ($row['wiki_area'] == 1) ? 'readonly="readonly" disabled="disabled"' : '';
-    $form->displayCheckbox('wiki_area', ($row['wiki_area']) ? true : false, $wiki_area); ?>
+    <?php $form->displayCheckbox('unmaintained', ($row['unmaintained']) ? true : false); ?>
+    </td>
+</tr>
+<tr>
+    <th class="form-label_left">New package (superceeding this one):</th>
+    <td class="form-input">
+<?php
+$packages = package::listAllwithReleases();
+
+$rows = array(0 => "");
+foreach ($packages as $id => $info) {
+    if ($id == $package_id) {
+        continue;
+    }
+    $rows[$id] = $info['name'];
+}
+
+$form->displaySelect('newpk_id', $rows, (int)$row['newpk_id']);
+?>
     </td>
 </tr>
 <tr>
     <th class="form-label_left">&nbsp;</th>
     <td class="form-input"><input type="submit" name="submit" value="Save changes" />&nbsp;
-    <input type="reset" name="cancel" value="Cancel" onClick="javascript:window.location.href='/package/<?php echo $_GET['id']; ?>'; return false" />
+    <input type="reset" name="cancel" value="Cancel" onClick="javascript:window.location.href='/package/<?php echo htmlspecialchars($_GET['id']); ?>'; return false" />
     </td>
 </tr>
 </table>

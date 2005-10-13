@@ -675,7 +675,8 @@ class package
              "p.summary AS summary, p.homepage AS homepage, ".
              "p.description AS description, p.cvs_link AS cvs_link, ".
              "p.doc_link as doc_link, ".
-             "p.wiki_area as wiki_area".
+             "p.unmaintained AS unmaintained,".
+             "p.newpk_id AS newpk_id".
              " FROM packages p, categories c ".
              "WHERE " . $package_type . " c.id = p.category AND p.{$what} = ?";
         $rel_sql = "SELECT version, id, doneby, license, summary, ".
@@ -687,6 +688,7 @@ class package
         $deps_sql = "SELECT type, relation, version, name, release, optional
                      FROM deps
                      WHERE package = ? ORDER BY optional ASC";
+        $newpk_sql = "SELECT name FROM packages WHERE id=?";
         if ($field === null) {
             $info =
                  $dbh->getRow($pkg_sql, array($pkg), DB_FETCHMODE_ASSOC);
@@ -698,6 +700,9 @@ class package
             $info['notes'] =
                  $dbh->getAssoc($notes_sql, false, array(@$info['packageid']),
                  DB_FETCHMODE_ASSOC);
+            if (isset($info['newpk_id'])) {
+               $info['new_package'] = $dbh->getOne($newpk_sql, $info['newpk_id']);
+            }
             $deps =
                  $dbh->getAll($deps_sql, array(@$info['packageid']),
                  DB_FETCHMODE_ASSOC);
@@ -827,7 +832,7 @@ class package
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
             "FROM packages p, releases r ".
             "WHERE " . $package_type .
-            "p.id = r.package ".
+            ' p.id = r.package ' . $release_state . 
             "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
         $stablereleases = $dbh->getAssoc(
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
