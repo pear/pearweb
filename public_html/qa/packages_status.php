@@ -29,7 +29,6 @@ response_header('Quality Assurance Initiative - Packages status',
     false, $extra_header);
 
 $states = array('snapshot', 'devel', 'alpha', 'beta', 'stable');
-$tables = array();
 
 echo "View packages status for the following state\n";
 
