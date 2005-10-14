@@ -120,8 +120,8 @@ foreach ($packages as $package => $pck_data) {
                 $package, '', 'title="' . $package . '"'),
             $latest_release[0]['version'],
             date('Y-m-d', $release_date),
-            make_link("/bugs/search.php?cmd=display&package_name%5B%5D=" . urlencode($package)),
-            bugcount($package), '', 'title="Bugs for package ' . $package . '"' 
+            make_link("/bugs/search.php?cmd=display&package_name%5B%5D=" . urlencode($package),
+            bugcount($package), '', 'title="Bugs for package ' . $package . '"') 
         )
     );
 
