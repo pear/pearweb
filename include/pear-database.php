@@ -2034,11 +2034,13 @@ class release
 
         // {{{ Update package_stats table
 
-        // Check if an entry for the release already exists
-        $query = "SELECT COUNT(pid) FROM package_stats WHERE pid = ? AND rid = ?";
-        $exists = $dbh->getOne($query, array($package, $release_id));
+        $query = 'UPDATE package_stats '
+            . ' SET dl_number = dl_number + 1,'
+            . " last_dl = '" . date('Y-m-d H:i:s') . "'"
+            . ' WHERE pid = ? AND rid = ?';
+        $dbh->query($query, array($package, $release_id));
 
-        if ($exists == 0) {
+        if ($dbh->affectedRows() == 0) {
             $pkg_info = package::info($package, null);
 
             $query = 'SELECT version FROM releases'
@@ -2062,12 +2064,6 @@ class release
                                       date('Y-m-d H:i:s')
                                       )
                         );
-        } else {
-            $query = 'UPDATE package_stats '
-                   . ' SET dl_number = dl_number + 1,'
-                   . " last_dl = '" . date('Y-m-d H:i:s') . "'"
-                   . ' WHERE pid = ? AND rid = ?';
-            $dbh->query($query, array($package, $release_id));
         }
 
         // }}}
