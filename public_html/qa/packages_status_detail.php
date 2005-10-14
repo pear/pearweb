@@ -119,8 +119,9 @@ foreach ($packages as $package => $pck_data) {
             make_link('/package/' . $package, 
                 $package, '', 'title="' . $package . '"'),
             $latest_release[0]['version'],
-            date('d F Y', $release_date),
-            bugcount($package) 
+            date('Y-m-d', $release_date),
+            make_link("/bugs/search.php?cmd=display&package_name%5B%5D=" . urlencode($package)),
+            bugcount($package), '', 'title="Bugs for package ' . $package . '"' 
         )
     );
 
