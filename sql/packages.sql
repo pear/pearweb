@@ -8,7 +8,7 @@ CREATE TABLE packages (
   category int(11) default NULL,
   stablerelease varchar(20) default NULL,
   develrelease varchar(20) default NULL,
-  license varchar(20) default NULL,
+  license varchar(50) default NULL,
   summary text,
   description text,
   homepage varchar(255) default NULL,
