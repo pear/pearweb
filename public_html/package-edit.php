@@ -141,7 +141,7 @@ print_package_navigation($row['packageid'], $row['name'],
 <tr>
     <th class="form-label_left">License:</th>
     <td class="form-input">
-    <?php $form->displayText('license', $row['license'], 50, 20); ?>
+    <?php $form->displayText('license', $row['license'], 50, 50); ?>
     </td>
 </tr>
 <tr>
