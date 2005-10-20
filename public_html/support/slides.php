@@ -52,6 +52,17 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
+  <p><cite><a href="http://www.schlitt.info/misc/ZendPHPConf_PEAR.pdf">
+  PEAR (General overview, news in 1.4)</a></cite>
+  <ul>
+    <li>Date: 2005-10-20</li>
+    <li>Presenter: <?php echo user_link("toby", true); ?></li>
+    <li>Venue: Zend/PHP Conference and Expo, 
+    San Francisco, California / USA</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+ <li>
   <p><cite><a href="http://www.schlitt.info/misc/News_from_PEAR_Linuxtag2005_toby.tar.gz">
   News from PEAR (Slides + 10 pages elaboration + examples)</a></cite>
   <ul>
