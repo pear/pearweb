@@ -37,7 +37,7 @@ if (!$action || !$track_id || !$timestamp) {
 include_once 'Damblan/Trackback.php';
 include_once 'Damblan/Mailer.php';
 
-$trackback = new Damblan_Trackback(array('id' => $id, 'timestamp' => $timestamp));
+$trackback = new Damblan_Trackback(array('id' => $track_id, 'timestamp' => $timestamp));
 $res = $trackback->load($dbh);
 
 $error = false;
@@ -69,7 +69,7 @@ $mailData = array(
 );
 
 $relocator = '<meta http-equiv="refresh" content="5; URL=http://' . PEAR_CHANNELNAME.
-    '/package/'.$id.'/trackbacks">';
+    '/package/'.$track_id.'/trackbacks">';
 
 switch ($action) {
 case 'approve':
@@ -81,7 +81,7 @@ case 'approve':
     break;
 
 case 'delete':
-    $msg = '<div class="warnings">Really <a href="/trackback/trackback-admin.php?action=delete_verified&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">delete</a> trackback '.$timestamp.' for '.$id.'?</div>';
+    $msg = '<div class="warnings">Really <a href="/trackback/trackback-admin.php?action=delete_verified&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">delete</a> trackback '.$timestamp.' for '.$track_id.'?</div>';
 
     // Confirmation of the delete action, no auto redirect
     $relocator = '';
@@ -105,7 +105,7 @@ default:
 
 response_header('Trackback admin', null, $relocator);
 echo $msg;
-echo '<p>You should be redirected to the packages trackback page in 5 seconds. if this does not work, please click <a href="http://' . PEAR_CHANNELNAME . '/package/'.$id.'/trackbacks">here</a>.</p>';
+echo '<p>You should be redirected to the packages trackback page in 5 seconds. if this does not work, please click <a href="http://' . PEAR_CHANNELNAME . '/package/'.$track_id.'/trackbacks">here</a>.</p>';
 response_footer();
 
 ?>
