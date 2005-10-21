@@ -73,4 +73,10 @@ foreach (package::listAll(false, false, false) as $package => $info) {
         echo "  done\n";
     }
 }
+echo "Generating Category Package REST...\n";
+foreach (category::listAll() as $category) {
+    echo "  $category[name]...";
+    $pear_rest->savePackagesCategoryREST($category['name']);
+    echo "done\n";
+}
 ?>
