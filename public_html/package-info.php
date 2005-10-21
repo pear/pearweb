@@ -184,20 +184,20 @@ if (empty($action)) {
 
     /* UNMAINTAINED OR SUPERCEEDED PACKAGES WARNING */
     $dec_messages = array(
-        'abandonned' => 'This package is not maintained anymore and has been superceeded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a>.',
-        'superceeded' => 'This package been superceeded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a> but is still maintained for bugs and security fixes',
+        'abandoned' => 'This package is not maintained anymore and has been superceded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a>.',
+        'superceded' => 'This package been superceded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a> but is still maintained for bugs and security fixes',
         'unmaintained' => 'This package is not maintained, if you would like to take over please go to <a href="http://pear.php.net/manual/en/guide-newmaint.php">this page</a>'
     );
 
     $dec_table = array(
-        'abandonned'   => array('superceeded' => 'Y', 'unmaintained' => 'Y'),
-        'superceeded'  => array('superceeded' => 'Y', 'unmaintained' => 'N'),
-        'unmaintained' => array('superceeded' => 'N', 'unmaintained' => 'Y'),
+        'abandoned'   => array('superceded' => 'Y', 'unmaintained' => 'Y'),
+        'superceded'  => array('superceded' => 'Y', 'unmaintained' => 'N'),
+        'unmaintained' => array('superceded' => 'N', 'unmaintained' => 'Y'),
     );
 
-    $superceeded = 'N';
+    $superceded = 'N';
     if ($new_package != '') {
-        $superceeded = 'Y';
+        $superceded = 'Y';
     }
 
     $apply_rule = null;
@@ -220,7 +220,7 @@ if (empty($action)) {
         $str .= '</div>';
         echo $str;
     }
-    /* UNMAINTAINED OR SUPERCEEDED PACKAGES WARNING */
+    /* UNMAINTAINED OR SUPERCEDED PACKAGES WARNING */
 
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     print '<tr>';

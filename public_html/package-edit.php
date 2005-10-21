@@ -194,7 +194,7 @@ $form->displaySelect("category", $rows, (int)$row['categoryid']);
     </td>
 </tr>
 <tr>
-    <th class="form-label_left">New package (superceeding this one):</th>
+    <th class="form-label_left">New package (superceding this one):</th>
     <td class="form-input">
 <?php
 $packages = package::listAllwithReleases();
