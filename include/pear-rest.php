@@ -65,6 +65,57 @@ class pear_rest
             DIRECTORY_SEPARATOR . 'packages.xml', 0666);
     }
 
+    function savePackagesCategoryREST($category)
+    {
+        $cdir = $this->_restdir . DIRECTORY_SEPARATOR . 'c';
+        if (!is_dir($cdir)) {
+            return;
+        }
+        $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
+        $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
+        $packages = category::listPackages($category);
+        $fullpackageinfo = '<f>
+';
+        foreach ($packages as $package) {
+            if (!file_exists($pdir . DIRECTORY_SEPARATOR . strtolower($package['name']) .
+                    DIRECTORY_SEPARATOR . 'info.xml')) {
+                continue;
+            }
+            $fullpackageinfo .= '<pi>
+';
+            $fullpackageinfo .= str_replace(
+                '<?xml version="1.0" encoding="UTF-8" ?>
+<p xmlns="http://pear.php.net/dtd/rest.package"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.package
+    http://pear.php.net/dtd/rest.package.xsd">', '<p>',
+                file_get_contents($pdir . DIRECTORY_SEPARATOR . strtolower($package['name']) .
+                    DIRECTORY_SEPARATOR . 'info.xml'));
+            if (file_exists($rdir . DIRECTORY_SEPARATOR . strtolower($package['name']) .
+                    DIRECTORY_SEPARATOR . 'allreleases.xml')) {
+                $fullpackageinfo .= str_replace(
+                    '<?xml version="1.0" encoding="UTF-8" ?>
+<a xmlns="http://pear.php.net/dtd/rest.allreleases"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases
+    http://pear.php.net/dtd/rest.allreleases.xsd">
+ <p>' . $package['name'] . '</p>
+ <c>' . PEAR_CHANNELNAME . '</c>', '
+    <a>
+    ',
+                    file_get_contents($rdir . DIRECTORY_SEPARATOR .
+                        strtolower($package['name']) . DIRECTORY_SEPARATOR .
+                        'allreleases.xml'));
+            }
+            $fullpackageinfo .= '</pi>
+';
+        }
+        $fullpackageinfo .= '</f>';
+        // list packages in a category
+        file_put_contents($cdir . DIRECTORY_SEPARATOR . urlencode($category) .
+            DIRECTORY_SEPARATOR . 'packagesinfo.xml', $fullpackageinfo);
+        @chmod($cdir . DIRECTORY_SEPARATOR . urlencode($category) .
+            DIRECTORY_SEPARATOR . 'packagesinfo.xml', 0666);
+    }
+
     function deleteCategoryREST($category)
     {
         require_once 'System.php';
