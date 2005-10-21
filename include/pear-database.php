@@ -248,6 +248,29 @@ class category
     }
 
     // }}}
+    // {{{  proto array  category::listPackages(string) API 1.0
+
+    /**
+     * Return a list of packages in this category
+     *
+     * @param string $category
+     * @return array
+     */
+    function listPackages($category)
+    {
+        global $dbh;
+        $query = 'SELECT
+                p.id, p.name
+            FROM
+                packages p, categories c
+            WHERE
+                p.category = c.id AND
+                c.name = ?';
+        $recent = $dbh->getAll($query, array($category), DB_FETCHMODE_ASSOC);
+        return $recent;
+    }
+
+    // }}}
     // {{{  proto array  category::getRecent(int, string) API 1.0
 
     /**
@@ -832,7 +855,7 @@ class package
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
             "FROM packages p, releases r ".
             "WHERE " . $package_type .
-            ' p.id = r.package ' . $release_state . 
+            ' p.id = r.package ' . 
             "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
         $stablereleases = $dbh->getAssoc(
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
