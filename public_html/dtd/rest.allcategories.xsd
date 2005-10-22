@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Gregory Beaver (The Chiara String Quartet) -->
+<xs:schema xmlns="http://pear.php.net/dtd/rest.allcategories" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" targetNamespace="http://pear.php.net/dtd/rest.allcategories" elementFormDefault="qualified" attributeFormDefault="unqualified">
+ <xs:element name="a">
+  <xs:annotation>
+   <xs:documentation>all categories</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="ch"/>
+    <xs:element ref="c" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="c">
+  <xs:annotation>
+   <xs:documentation>category</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="xs:string">
+     <xs:attribute ref="xlink:type" fixed="simple"/>
+     <xs:attribute ref="xlink:href"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="ch" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>channel name</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+</xs:schema>
