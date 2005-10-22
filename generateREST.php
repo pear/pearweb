@@ -25,6 +25,7 @@ foreach (category::listAll() as $category) {
     $pear_rest->saveCategoryREST($category['name']);
     echo "done\n";
 }
+$pear_rest->saveAllCategoriesREST();
 echo "Generating Maintainer REST...\n";
 $maintainers = $dbh->getAll('SELECT users.* FROM users, karma WHERE users.handle = karma.user
     AND (karma.level = "pear.dev" OR karma.level = "pear.admin")', array(), DB_FETCHMODE_ASSOC);

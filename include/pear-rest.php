@@ -7,6 +7,37 @@ class pear_rest
         $this->_restdir = $base;
     }
 
+    function saveAllCategoriesREST()
+    {
+        require_once 'System.php';
+        global $dbh;
+        $extra = '/rest/';
+        $cdir = $this->_restdir . DIRECTORY_SEPARATOR . 'c';
+        if (!is_dir($cdir)) {
+            System::mkdir(array('-p', $cdir));
+            @chmod($cdir, 0777);
+        }
+
+        $categories = category::listAll();
+        $info = '<?xml version="1.0" encoding="UTF-8" ?>
+<a xmlns="http://pear.php.net/dtd/rest.allcategories"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.allcategories
+    http://pear.php.net/dtd/rest.allcategories.xsd">
+<ch>' . PEAR_CHANNELNAME . '</ch>
+';
+        foreach (category::listAll() as $category)
+        {
+            $info .= ' <c xlink:href="' . $extra . 'c/' .
+                urlencode(urlencode($category['name'])) .
+                '/info.xml">' .
+                htmlspecialchars(utf8_encode($category['name'])) . '</c>
+';
+        }
+        $info .= '</a>';
+        file_put_contents($cdir . DIRECTORY_SEPARATOR . 'categories.xml', $info);
+        @chmod($cdir . DIRECTORY_SEPARATOR . 'categories.xml', 0666);
+    }
+
     function saveCategoryREST($category)
     {
         require_once 'System.php';
@@ -74,7 +105,8 @@ class pear_rest
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
         $packages = category::listPackages($category);
-        $fullpackageinfo = '<f>
+        $fullpackageinfo = '<?xml version="1.0" encoding="UTF-8" ?>
+<f>
 ';
         foreach ($packages as $package) {
             if (!file_exists($pdir . DIRECTORY_SEPARATOR . strtolower($package['name']) .
@@ -104,6 +136,21 @@ class pear_rest
                     file_get_contents($rdir . DIRECTORY_SEPARATOR .
                         strtolower($package['name']) . DIRECTORY_SEPARATOR .
                         'allreleases.xml'));
+                $dirhandle = opendir($rdir . DIRECTORY_SEPARATOR .
+                    strtolower($package['name']));
+                while (false !== ($entry = readdir($dirhandle))) {
+                    if (strpos($entry, 'deps.') === 0) {
+                        $version = str_replace(array('deps.', '.txt'), array('', ''), $entry);
+                        $fullpackageinfo .= '
+<deps>
+ <v>' . $version . '</v>
+ <d>' . htmlspecialchars(utf8_encode(file_get_contents($rdir . DIRECTORY_SEPARATOR .
+                        strtolower($package['name']) . DIRECTORY_SEPARATOR .
+                        $entry))) . '</d>
+</deps>
+';
+                    }
+                }
             }
             $fullpackageinfo .= '</pi>
 ';

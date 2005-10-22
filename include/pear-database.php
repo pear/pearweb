@@ -172,6 +172,7 @@ class category
             return $err;
         }
         $GLOBALS['pear_rest']->saveCategoryREST($name);
+        $GLOBALS['pear_rest']->saveAllCategoriesREST();
         return $id;
     }
 
