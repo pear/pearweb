@@ -29,7 +29,7 @@ $doc_languages = array('en' => 'English',
                        'ja' => 'Japanese',
                        'pl' => 'Polish',
                        'ru' => 'Russian',
-                       'es' => 'Spanish',
+                       // 'es' => 'Spanish',
                        );
 
 $NEXT = $PREV = $UP = $HOME = array(false, false);
