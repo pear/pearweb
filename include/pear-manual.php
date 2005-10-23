@@ -21,15 +21,16 @@
 require_once 'site.php';
 
 $doc_languages = array('en' => 'English', 
-                       'fr' => 'French',
-                       'ja' => 'Japanese',
-                       'hu' => 'Hungarian',
-                       /*
-                         'de' => 'German', 
-                         'it' => 'Italian', 
-                       */
                        'nl' => 'Dutch', 
-                       'ru' => 'Russian');
+                       'fr' => 'French',
+                       'de' => 'German', 
+                       'hu' => 'Hungarian',
+                       // 'it' => 'Italian', 
+                       'ja' => 'Japanese',
+                       'pl' => 'Polish',
+                       'ru' => 'Russian',
+                       'es' => 'Spanish',
+                       );
 
 $NEXT = $PREV = $UP = $HOME = array(false, false);
 $TOC = array();
