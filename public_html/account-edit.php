@@ -82,8 +82,8 @@ switch ($command) {
 
             $user_data_post[$k] = htmlspecialchars($_POST[$k]);
 
-            if ($k == 'userinfo' && strlen($user_data_post[$k]) > '255') {
-                report_error('User information exceeds the allowed length (255 chars).');
+            if ($k == 'userinfo' && strlen($user_data_post[$k]) > 500) {
+                report_error('User information exceeds the allowed length of 500 characters.');
                 response_footer();
                 exit();
             }
