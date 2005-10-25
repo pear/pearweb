@@ -10,7 +10,7 @@ CREATE TABLE users (
   showemail tinyint(1) default NULL,
   registered tinyint(1) default NULL,
   admin tinyint(1) default NULL,
-  userinfo text,
+  userinfo varchar(255) default NULL,
   pgpkeyid varchar(20) default NULL,
   pgpkey text,
   wishlist varchar(255) NOT NULL default '',
