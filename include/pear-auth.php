@@ -277,6 +277,7 @@ function init_auth_user()
     if (!empty($auth_user)) {
         return true;
     }
+    require_once 'pear-database.php';
     $auth_user = new PEAR_User($dbh, $_COOKIE['PEAR_USER']);
     switch (strlen(@$auth_user->password)) {
         // handle old-style DES-encrypted passwords
