@@ -22,6 +22,8 @@ response_header("Accounts");
 
 $page_size = 40;
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
+$offset = isset($_GET['offset']) ? (int) $_GET['offset'] : null;
+$letter = isset($_GET['letter']) ? strip_tags($_GET['letter']) : null;
 
 print "<h1>Accounts</h1>\n";
 
