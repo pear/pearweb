@@ -18,3 +18,9 @@ CREATE TABLE users (
   KEY handle (handle,registered),
   KEY pgpkeyid (pgpkeyid)
 );
+
+-- Password is "admin"
+INSERT INTO users VALUES ('admin','21232f297a57a5a743894a0e4a801fc3','Administrator','root@example.com','http://www.example.com/',NOW(),NULL,NULL,1,1,0, 'This is the super user.',NULL,NULL,'');
+
+-- Password is "helloworld"
+INSERT INTO users VALUES ('johndoe','fc5e038d38a57032085441e7fe7010b0','John Doe','john@example.com','http://www.example.com/',NOW(),'root',NULL,1,1,0, 'Hi, I\'m John Doe.',NULL,NULL,'');
