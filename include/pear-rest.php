@@ -196,7 +196,7 @@ class pear_rest
     {
         return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" .
 "<p xmlns=\"http://pear.php.net/dtd/rest.package\"" .
-"    xsi:schemaLocation=\"http://pear.php.net/dtd/rest.package\"" .
+"    xsi:schemaLocation=\"http://pear.php.net/dtd/rest.package" .
 '    http://pear.php.net/dtd/rest.package.xsd">';
     }
 
