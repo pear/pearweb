@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+ <xs:element name="p">
+  <xs:annotation>
+   <xs:documentation>package</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="n"/>
+    <xs:element ref="c"/>
+    <xs:element ref="ca"/>
+    <xs:element ref="l"/>
+    <xs:element ref="lu" minOccurs="0"/>
+    <xs:element ref="s"/>
+    <xs:element ref="d"/>
+    <xs:element ref="r"/>
+    <xs:element ref="pa" minOccurs="0"/>
+    <xs:sequence minOccurs="0">
+     <xs:element ref="dc"/>
+     <xs:element ref="dp"/>
+    </xs:sequence>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="n" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>package name</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="c" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>channel</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="ca">
+  <xs:annotation>
+   <xs:documentation>category</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="xs:string">
+     <xs:attribute ref="xlink:type" fixed="simple"/>
+     <xs:attribute ref="xlink:href"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="l" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>license</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="lu" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>license URI</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="s">
+  <xs:annotation>
+   <xs:documentation>summary</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="d">
+  <xs:annotation>
+   <xs:documentation>description</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="r">
+  <xs:annotation>
+   <xs:documentation>package releases location</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:attribute ref="xlink:type" fixed="simple"/>
+   <xs:attribute ref="xlink:href" use="required"/>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="pa" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>parent package</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="dp">
+  <xs:annotation>
+   <xs:documentation>package this one is deprecated in favor of</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="xs:string">
+     <xs:attribute ref="xlink:type" fixed="simple"/>
+     <xs:attribute ref="xlink:href" use="optional"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="dc" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>channel of package this one is deprecated in favor of</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="f">
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="pi" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="pi">
+  <xs:annotation>
+   <xs:documentation>package information</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="p"/>
+    <xs:element ref="a" minOccurs="0"/>
+    <xs:element ref="deps" minOccurs="0" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="a">
+  <xs:annotation>
+   <xs:documentation>all releases</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence minOccurs="0" maxOccurs="unbounded">
+    <xs:element name="v" type="xs:string">
+     <xs:annotation>
+      <xs:documentation>release version</xs:documentation>
+     </xs:annotation>
+    </xs:element>
+    <xs:element name="s" type="xs:string">
+     <xs:annotation>
+      <xs:documentation>release stability</xs:documentation>
+     </xs:annotation>
+    </xs:element>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="deps">
+  <xs:annotation>
+   <xs:documentation>dependencies per release</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element name="v">
+     <xs:annotation>
+      <xs:documentation>release version</xs:documentation>
+     </xs:annotation>
+    </xs:element>
+    <xs:element name="d">
+     <xs:annotation>
+      <xs:documentation>serialized representation of dependency information</xs:documentation>
+     </xs:annotation>
+    </xs:element>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+</xs:schema>

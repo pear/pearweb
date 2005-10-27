@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://pear.php.net/dtd/rest.allmaintainers" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink" targetNamespace="http://pear.php.net/dtd/rest.allcategories" elementFormDefault="qualified" attributeFormDefault="unqualified">
+ <xs:element name="m">
+  <xs:annotation>
+   <xs:documentation>all maintainers</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:sequence>
+    <xs:element ref="h" maxOccurs="unbounded"/>
+   </xs:sequence>
+  </xs:complexType>
+ </xs:element>
+ <xs:element name="h">
+  <xs:annotation>
+   <xs:documentation>handle</xs:documentation>
+  </xs:annotation>
+  <xs:complexType>
+   <xs:simpleContent>
+    <xs:extension base="xs:string">
+     <xs:attribute ref="xlink:type" fixed="simple"/>
+     <xs:attribute ref="xlink:href"/>
+    </xs:extension>
+   </xs:simpleContent>
+  </xs:complexType>
+ </xs:element>
+</xs:schema>
