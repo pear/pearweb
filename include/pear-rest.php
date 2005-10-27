@@ -106,8 +106,11 @@ class pear_rest
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
         $packages = category::listPackages($category);
         $fullpackageinfo = '<?xml version="1.0" encoding="UTF-8" ?>
-<f>
+<f xmlns="http://pear.php.net/dtd/rest.categorypackageinfo"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.categorypackageinfo
+    http://pear.php.net/dtd/rest.categorypackageinfo.xsd">
 ';
+        clearstatcache();
         foreach ($packages as $package) {
             if (!file_exists($pdir . DIRECTORY_SEPARATOR . strtolower($package['name']) .
                     DIRECTORY_SEPARATOR . 'info.xml')) {
@@ -115,24 +118,15 @@ class pear_rest
             }
             $fullpackageinfo .= '<pi>
 ';
-            $fullpackageinfo .= str_replace(
-                '<?xml version="1.0" encoding="UTF-8" ?>
-<p xmlns="http://pear.php.net/dtd/rest.package"
-    xsi:schemaLocation="http://pear.php.net/dtd/rest.package
-    http://pear.php.net/dtd/rest.package.xsd">', '<p>',
+            $fullpackageinfo .= str_replace($this->_getPackageRESTProlog(), '<p>',
                 file_get_contents($pdir . DIRECTORY_SEPARATOR . strtolower($package['name']) .
                     DIRECTORY_SEPARATOR . 'info.xml'));
             if (file_exists($rdir . DIRECTORY_SEPARATOR . strtolower($package['name']) .
                     DIRECTORY_SEPARATOR . 'allreleases.xml')) {
                 $fullpackageinfo .= str_replace(
-                    '<?xml version="1.0" encoding="UTF-8" ?>
-<a xmlns="http://pear.php.net/dtd/rest.allreleases"
-    xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases
-    http://pear.php.net/dtd/rest.allreleases.xsd">
- <p>' . $package['name'] . '</p>
- <c>' . PEAR_CHANNELNAME . '</c>', '
-    <a>
-    ',
+                    $this->_getAllReleasesRESTProlog($package['name']), '
+<a>
+',
                     file_get_contents($rdir . DIRECTORY_SEPARATOR .
                         strtolower($package['name']) . DIRECTORY_SEPARATOR .
                         'allreleases.xml'));
@@ -198,6 +192,14 @@ class pear_rest
         @chmod($pdir . DIRECTORY_SEPARATOR . 'packages.xml', 0666);
     }
 
+    function _getPackageRESTProlog()
+    {
+        return "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" .
+"<p xmlns=\"http://pear.php.net/dtd/rest.package\"" .
+"    xsi:schemaLocation=\"http://pear.php.net/dtd/rest.package\"" .
+'    http://pear.php.net/dtd/rest.package.xsd">';
+    }
+
     function savePackageREST($package)
     {
         require_once 'System.php';
@@ -240,10 +242,7 @@ class pear_rest
         }
         $package['summary'] = htmlspecialchars($package['summary']);
         $package['description'] = htmlspecialchars($package['description']);
-        $info = '<?xml version="1.0" encoding="UTF-8" ?>
-<p xmlns="http://pear.php.net/dtd/rest.package"
-    xsi:schemaLocation="http://pear.php.net/dtd/rest.package
-    http://pear.php.net/dtd/rest.package.xsd">
+        $info = $this->_getPackageRESTProlog() . '
  <n>' . $package['name'] . '</n>
  <c>' . PEAR_CHANNELNAME . '</c>
  <ca xlink:href="' . $extra . 'c/' . htmlspecialchars(urlencode($catinfo)) . '">' .
@@ -278,6 +277,16 @@ class pear_rest
         System::rm(array('-r', $rdir . DIRECTORY_SEPARATOR . $package));
     }
 
+    function _getAllReleasesRESTProlog($package)
+    {
+        return '<?xml version="1.0" encoding="UTF-8" ?>' . "\n" .
+'<a xmlns="http://pear.php.net/dtd/rest.allreleases"' . "\n" .
+'    xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases' . "\n" .
+'    http://pear.php.net/dtd/rest.allreleases.xsd">' . "\n" .
+' <p>' . $package . '</p>' . "\n" .
+' <c>' . PEAR_CHANNELNAME . '</c>' . "\n";
+    }
+
     function saveAllReleasesREST($package)
     {
         require_once 'System.php';
@@ -298,13 +307,7 @@ class pear_rest
             System::rm(array('-r', $rdir . DIRECTORY_SEPARATOR . strtolower($package)));
             return;
         }
-        $info = '<?xml version="1.0" encoding="UTF-8" ?>
-<a xmlns="http://pear.php.net/dtd/rest.allreleases"
-    xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases
-    http://pear.php.net/dtd/rest.allreleases.xsd">
- <p>' . $package . '</p>
- <c>' . PEAR_CHANNELNAME . '</c>
-';
+        $info = $this->_getAllReleasesRESTProlog($package);
         foreach ($releases as $release) {
             $packagexml = $dbh->getOne('SELECT packagexml FROM files WHERE package = ? AND
                 release = ?', array($pid, $release['id']));
@@ -553,6 +556,33 @@ class pear_rest
             DIRECTORY_SEPARATOR . 'info.xml', $info);
         @chmod($mdir . DIRECTORY_SEPARATOR . $maintainer['handle'] .
             DIRECTORY_SEPARATOR . 'info.xml', 0666);
+    }
+
+    function saveAllMaintainersREST()
+    {
+        $maintainers = user::listAll();
+        $info = '<?xml version="1.0" encoding="UTF-8" ?>
+<m xmlns="http://pear.php.net/dtd/rest.allmaintainers"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.allmaintainers
+    http://pear.php.net/dtd/rest.allmaintainers.xsd">' . "\n";
+        // package information
+        require_once 'Damblan/Karma.php';
+        $karma = &new Damblan_Karma($GLOBALS['dbh']);
+        foreach ($maintainers as $maintainer) {
+            if (!$karma->has($maintainer['handle'], 'pear.dev')) {
+                continue;
+            }
+            $info .= ' <h xlink:href="/rest/m/' . $maintainer['handle'] . '">' .
+                $maintainer['handle'] . '</h>' . "\n";
+        }
+        $info .= '</m>';
+        $mdir = $this->_restdir . DIRECTORY_SEPARATOR . 'm';
+        if (!is_dir($mdir)) {
+            System::mkdir(array('-p', $mdir));
+            @chmod($mdir, 0777);
+        }
+        file_put_contents($mdir . DIRECTORY_SEPARATOR . 'allmaintainers.xml', $info);
+        @chmod($mdir . DIRECTORY_SEPARATOR . 'allmaintainers.xml', 0666);
     }
 }
 ?>

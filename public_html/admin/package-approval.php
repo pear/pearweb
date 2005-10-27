@@ -46,6 +46,7 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
         if ($action == 'approved') {
             $pear_rest->savePackageREST($row['name']);
             $pear_rest->saveAllPackagesREST();
+            $pear_rest->savePackagesCategoryREST(package::info($row['name'], 'category'));
         }
         // {{{ Logging mechanism
         require_once "Damblan/Log.php";

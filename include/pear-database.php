@@ -762,7 +762,7 @@ class package
             } elseif ($field == 'category') {
                 $sql = "SELECT c.name FROM categories c, packages p ".
                      "WHERE c.id = p.category AND " . $package_type . " p.{$what} = ?";
-                $info = $dbh->getAssoc($sql, false, array($pkg));
+                $info = $dbh->getOne($sql, array($pkg));
             } elseif ($field == 'description') {
                 $sql = "SELECT description FROM packages p WHERE " . $package_type . " p.{$what} = ?";
                 $info = $dbh->query($sql, array($pkg));
@@ -1095,7 +1095,9 @@ class package
         $sql = 'UPDATE packages SET ' . implode(', ', $fields) .
                " WHERE id=$package_id";
         $row = package::info($pkgid, 'name');
+        $GLOBALS['pear_rest']->saveAllPackagesREST();
         $GLOBALS['pear_rest']->savePackageREST($row);
+        $GLOBALS['pear_rest']->savePackagesCategoryREST(package::info($pkgid, 'category'));
         return $dbh->query($sql, $prep);
     }
 
@@ -1834,6 +1836,7 @@ class release
         $GLOBALS['pear_rest']->saveAllReleasesREST($package);
         $GLOBALS['pear_rest']->saveReleaseREST($file, $packagexml, $pkg_info, $auth_user->handle,
             $release_id);
+        $GLOBALS['pear_rest']->savePackagesCategoryREST(package::info($package, 'category'));
         // gotta clear all the permutations
         $cache->remove('package.listAll', array(false));
         $cache->remove('package.listAll', array(true));
@@ -2255,6 +2258,7 @@ Authors
         $sth = $dbh->query($query);
         $GLOBALS['pear_rest']->saveAllReleasesREST($pname);
         $GLOBALS['pear_rest']->deleteReleaseREST($pname, $version);
+        $GLOBALS['pear_rest']->savePackagesCategoryREST(package::info($pname, 'category'));
 
         if (PEAR::isError($sth)) {
             return false;
@@ -2355,6 +2359,7 @@ class user
         global $dbh;
         note::removeAll("uid", $uid);
         $GLOBALS['pear_rest']->deleteMaintainerREST($uid);
+        $GLOBALS['pear_rest']->saveAllMaintainersREST();
         $dbh->query('DELETE FROM users WHERE handle = '. $dbh->quote($uid));
         return ($dbh->affectedRows() > 0);
     }
@@ -2403,6 +2408,7 @@ class user
         $karma->grant($user->handle, $karmalevel);
         if ($karma->has($user->handle, 'pear.dev')) {
             $GLOBALS['pear_rest']->saveMaintainerREST($user->handle);
+            $GLOBALS['pear_rest']->saveAllmaintainerREST();
         }
         note::add("uid", $uid, "Account opened");
         $msg = "Your PEAR account request has been opened.\n".
