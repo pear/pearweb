@@ -482,7 +482,7 @@ if (empty($action)) {
         'id'            => $name,
         'url'           => $url,
         'title'         => 'Package :: ' . htmlspecialchars($name),
-        'trackback_url' => 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SERVER_PORT'] . '/trackback/trackback.php?id=' . $name,
+        'trackback_url' => 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/trackback/trackback.php?id=' . $name,
     ));
 
     // Generate trackback list
