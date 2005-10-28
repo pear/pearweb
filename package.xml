@@ -384,7 +384,6 @@
         <file baseinstalldir="" name="Makefile" role="php" />
         <file baseinstalldir="" name="notes.sql" role="php" />
         <file baseinstalldir="" name="packages.sql" role="php" />
-        <file baseinstalldir="" name="package_acl.sql" role="php" />
         <file baseinstalldir="" name="package_stats.res" role="php" />
         <file baseinstalldir="" name="package_stats.sql" role="php" />
         <file baseinstalldir="" name="pepr.sql" role="php" />
