@@ -44,6 +44,7 @@ contact with the members, you can write to
 <h2>&raquo; Administrative Documents</h2>
 
 <ul>
+  <li>04th November 2005: <?php echo make_link("docs/20051104-sa.php", "Security Vulnerability Announcement"); ?></li>
   <li>02nd April 2004:  <?php echo make_link("docs/20040402-la.php", "License Announcement"); ?></li>
   <li>19th March 2004:  <?php echo make_link("docs/20040322-vm.php", "Handling Votings and Membership (II)"); ?></li>
   <li>26th Februray 2004:  <?php echo make_link("docs/20040226-vn.php", "Version Naming"); ?></li>

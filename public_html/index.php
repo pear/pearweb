@@ -44,6 +44,15 @@ response_header();
 
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
+<h2>News</h2>
+
+<p>A <strong>serious vulnerability in the PEAR installer</strong> has 
+been discovered and fixed recently.  One is strongly encouraged to
+upgrade to version 1.4.3.  Details about the issue are 
+<a href="/group/docs/20051104-sa.php">available here</a>.</p>
+
+<h2>About PEAR</h2>
+
 <p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
 is a framework and distribution system for reusable PHP
 components. More <b>information</b> about PEAR can be found in the
