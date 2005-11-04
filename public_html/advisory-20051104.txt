@@ -1,0 +1,77 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SECURITY VULNERABILITY ANNOUNCEMENT
+November 4, 2005
+
+     Advisory: PEAR installer arbitrary code execution vulnerability
+ Release Date: 2005/11/04
+Last Modified: 2005/11/04
+       Author: Gregory Beaver [cellog@php.net]
+
+  Application: PEAR installer <= 1.4.2
+     Severity: A standard feature of the PEAR installer implemented in
+               all versions of PEAR can lead to the execution of
+               arbitrary PHP code upon running the "pear" command
+               or loading the Web/Gtk frontend.
+         Risk: Low
+Vendor Status: The PEAR project has released an updated version
+   References: http://pear.php.net/advisory-20051104.txt
+
+
+Overview:
+
+  The PEAR installer is available from http://pear.php.net/package/PEAR.
+The PEAR installer is used to install PHP-based software packages
+distributed from pear.php.net and PHP extensions from pecl.php.net.  As
+of version 1.4.0, the PEAR installer can also install software packages
+from other sources, known as "channels."
+
+A poorly-implemented feature allows a package installed by the PEAR
+installer to execute arbitrary code any time the "pear" command is
+executed or the Web/Gtk frontend is loaded.
+
+Details:
+
+  To be vulnerable, a user must explicitly install a publicly released
+malicious package using the PEAR installer, or explicitly install a
+package that depends on a malicious package.
+
+Full details of the vulnerability will be released at a later date.
+
+Proof of concept:
+
+  The PEAR development team will not release an example exploit to the
+public.
+
+Disclosure Timeline:
+
+  01. November 2005 - vulnerability discovered by Gregory Beaver
+  02. November 2005 - possible solutions discussed privately
+  03. November 2005 - The PEAR Project releases new bugfixed version
+  04. November 2005 - Public disclosure
+
+Recommendation:
+
+  We strongly recommend to upgrade to the new version
+
+  PEAR 1.4.3
+  pear upgrade PEAR-1.4.3
+  http://pear.php.net/get/PEAR-1.4.3.tgz
+
+GPG-Key:
+
+  http://pgp.mit.edu:11371/pks/lookup?search=0x1F81E560&op=get
+
+  pub  1024D/1F81E560 2004/12/30 Greg Beaver <greg@chiaraquartet.net>
+  Key fingerprint = B064 E549 8D51 712E 40E8  F9A1 B769 2595 1F81 E560
+
+Copyright 2005, The PHP Group.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.2 (MingW32)
+Comment: Using GnuPG with Thunderbird - http://enigmail.mozdev.org
+
+iD8DBQFDauf5t2kllR+B5WARAuGDAJ41MYVXi4Mx6zrGgAuBXJ9OMDPqHgCgwzdc
+GmGEMeOarN+uGLmir+OHivY=
+=hLfa
+-----END PGP SIGNATURE-----
