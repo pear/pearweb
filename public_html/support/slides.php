@@ -52,6 +52,17 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
+  <p><cite><a href="http://schlitt.info/misc/PEAR_distributing_PHP_Conf_2005_toby.tar.gz">
+  Distributing PHP applications with PEAR</a></cite>
+  <ul>
+    <li>Date: 2005-11-07</li>
+    <li>Presenter: <?php echo user_link("toby", true); ?></li>
+    <li>Venue: International PHP Conference, 
+    Frankfurt, Germany</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+ <li>
   <p><cite><a href="http://www.schlitt.info/misc/ZendPHPConf_PEAR.pdf">
   PEAR (General overview, news in 1.4)</a></cite>
   <ul>
