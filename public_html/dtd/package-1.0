@@ -47,7 +47,7 @@
 
 <!ELEMENT changelog (release)+>
 
-<!ELEMENT release (version,date,license,state,notes,warnings?,provides*,deps?,configureoptions?,filelist)>
+<!ELEMENT release (version,date,license,state,notes,warnings?,provides*,deps?,configureoptions?,filelist?)>
 
 <!ELEMENT version (#PCDATA)>
 
