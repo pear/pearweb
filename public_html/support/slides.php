@@ -52,6 +52,17 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
+  <p><cite><a href="http://kore-nordmann.de/slides.html">
+  3D rendering with PHP</a></cite>
+  <ul>
+    <li>Date: 2005-11-08</li>
+    <li>Presenter: <?php echo user_link("kore", true); ?></li>
+    <li>Venue: International PHP Conference, 
+    Frankfurt, Germany</li>
+    <li>Language: German</li>
+  </ul>
+ </li>
+ <li>
   <p><cite><a href="http://schlitt.info/misc/PEAR_distributing_PHP_Conf_2005_toby.tar.gz">
   Distributing PHP applications with PEAR</a></cite>
   <ul>
