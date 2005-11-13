@@ -2408,7 +2408,7 @@ class user
         $karma->grant($user->handle, $karmalevel);
         if ($karma->has($user->handle, 'pear.dev')) {
             $GLOBALS['pear_rest']->saveMaintainerREST($user->handle);
-            $GLOBALS['pear_rest']->saveAllmaintainerREST();
+            $GLOBALS['pear_rest']->saveAllMaintainersREST();
         }
         note::add("uid", $uid, "Account opened");
         $msg = "Your PEAR account request has been opened.\n".
