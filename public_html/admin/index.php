@@ -64,6 +64,7 @@ if (!empty($_REQUEST['cmd'])) {
         // another hack to remove the temporary "purpose" field
         // from the user's "userinfo"
         if (user::activate($_REQUEST['uid'], $karmalevel)) {
+            $uid = strip_tags(htmlspecialchars($_REQUEST['uid']));
             print "<p>Opened account $uid...</p>\n";
         }
 		
