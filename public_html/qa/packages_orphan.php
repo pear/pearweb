@@ -31,6 +31,12 @@ $packages = $dbh->getAll("SELECT p.name " .
     "WHERE p.unmaintained=1 AND p.package_type = 'pear' AND p.approved = 1 ".
     "ORDER BY p.name", null, DB_FETCHMODE_ASSOC);
 
+if (count($packages) == 0) {
+    echo '<p>There are no orphan packages</p>';
+    response_footer();
+    exit();
+}
+
 echo "<h3>List of orphan packages</h3>\n";
 
 $text_mode = '';
