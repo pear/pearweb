@@ -33,15 +33,21 @@ $packages = $dbh->getAssoc("SELECT p.name " .
 
 echo "<h3>List of orphan packages</h3>\n";
 
+$text_mode = '';
+
 echo "<ul>\n";
 foreach ($packages as $pck => $info) {
 
     $link = make_link('/package/' . $info['name'], 
-        $package, '', 'title="' . $info['name'] . '"');
+        $info['name'], '', 'title="' . $info['name'] . '"');
 
     echo '<li>' . $link . "</li>\n";
+    $text_mode .= $info['name'] . "\n";
 }
 echo "</ul>\n";
 
+// output the list as plain text. This will be added to a text
+// file so people can browse the list
+echo "<pre>" . $text_mode . "</pre>";
 response_footer();
 ?>
