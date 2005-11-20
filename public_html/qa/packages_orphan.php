@@ -24,12 +24,12 @@
 auth_require('pear.qa');
 
 response_header('Quality Assurance Initiative - Orphan packages',
-    false, $extra_header);
+    false);
 
-$packages = $dbh->getAssoc("SELECT p.name " .
+$packages = $dbh->getAll("SELECT p.name " .
     " FROM packages p ".
     "WHERE p.unmaintained=1 AND p.package_type = 'pear' AND p.approved = 1 ".
-    "ORDER BY p.name", false, null, DB_FETCHMODE_ASSOC);
+    "ORDER BY p.name", null, DB_FETCHMODE_ASSOC);
 
 echo "<h3>List of orphan packages</h3>\n";
 
