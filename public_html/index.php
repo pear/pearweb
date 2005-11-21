@@ -48,7 +48,7 @@ response_header();
 
 <p>A <strong>serious vulnerability in the PEAR installer</strong> has 
 been discovered and fixed recently.  One is strongly encouraged to
-upgrade to version 1.4.3.  Details about the issue are 
+upgrade to version 1.4.3 or newer.  Details about the issue are 
 <a href="/group/docs/20051104-sa.php">available here</a>.</p>
 
 <h2>About PEAR</h2>
