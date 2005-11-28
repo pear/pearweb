@@ -45,7 +45,7 @@ if (isset($_POST) && isset($_POST['role'])) {
    if (isset($_POST['handle']['new']) && !empty($_POST['handle']['new'])) {
 
       $new = strip_tags($_POST['handle']['new']);
-      if (!ereg('^[0-9a-z_]{3,20}$', $new)) {
+      if (!ereg('^[0-9a-z_]{2,20}$', $new)) {
          report_error('Invalid handle: ' . $new);
       } elseif (!user::exists($new)) {
          report_error($new . ' does not exist.');
