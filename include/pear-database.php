@@ -1569,7 +1569,8 @@ class release
      * @param string Filename of the release tarball
      * @param string MD5 checksum of the tarball
      */
-    function upload($package, $version, $state, $relnotes, $tarball, $md5sum)
+    function upload($package, $version, $state, $relnotes, $tarball, $md5sum,
+                    $pkg_info = false, $packagexml = false, $compatible = false)
     {
         global $auth_user;
         $role = user::maintains($auth_user->handle, $package);
@@ -1581,7 +1582,7 @@ class release
             return $ref;
         }
 
-        return release::confirmUpload($package, $version, $state, $relnotes, $md5sum, $ref['package_id'], $ref['file']);
+        return release::confirmUpload($package, $version, $state, $relnotes, $md5sum, $ref['package_id'], $ref['file'], $pkg_info, $packagexml, $compatible);
     }
 
     // }}}
@@ -1667,26 +1668,32 @@ class release
      * @static
      * @return string  the file name of the upload or PEAR_Error object if problems
      */
-    function confirmUpload($package, $version, $state, $relnotes, $md5sum, $package_id, $file)
+    function confirmUpload($package, $version, $state, $relnotes, $md5sum, $package_id, $file,
+                           $pkg_info = false, $packagexml = false, $compatible = false)
     {
         require_once "PEAR/Common.php";
 
         global $dbh, $auth_user, $_PEAR_Common_dependency_types,
                $_PEAR_Common_dependency_relations;
 
-        require_once 'Archive/Tar.php';
-        $tar = &new Archive_Tar($file);
-        $oldpackagexml = $tar->extractInString('package.xml');
-        if (($packagexml = $tar->extractInString('package2.xml')) ||
-              ($packagexml = $tar->extractInString('package.xml'))) {
-            // success
-        } else {
-            return PEAR::raiseError('Archive uploaded does not appear to contain a package.xml!');
-        }
-        if ($oldpackagexml != $packagexml) {
-            $compatible = true;
-        } else {
-            $compatible = false;
+        if (!$pkg_info) {
+            require_once 'Archive/Tar.php';
+            $tar = &new Archive_Tar($file);
+            $oldpackagexml = $tar->extractInString('package.xml');
+            if ($packagexml = $tar->extractInString('package2.xml')) {
+                // success
+            } else {
+                if ($oldpackagexml) {
+                    $packagexml = $oldpackagexml;
+                } else {
+                    return PEAR::raiseError('Archive uploaded does not appear to contain a package.xml!');
+                }
+            }
+            if ($oldpackagexml != $packagexml) {
+                $compatible = true;
+            } else {
+                $compatible = false;
+            }
         }
         // Update releases table
         $query = "INSERT INTO releases (id,package,version,state,doneby,".
@@ -1720,12 +1727,14 @@ class release
             "VALUES (?,?,?,?,?,?,?)";
         $sth = $dbh->prepare($query);
 
-        require_once 'PEAR/PackageFile.php';
-        require_once 'PEAR/Config.php';
-        $config = &PEAR_Config::singleton();
-        $pf = &new PEAR_PackageFile($config);
-        $pkg_info = $pf->fromXmlString($packagexml, PEAR_VALIDATE_DOWNLOADING,
-            $compatible ? 'package2.xml' : 'package.xml');
+        if (!$pkg_info) {
+            require_once 'PEAR/PackageFile.php';
+            require_once 'PEAR/Config.php';
+            $config = &PEAR_Config::singleton();
+            $pf = &new PEAR_PackageFile($config);
+            $pkg_info = $pf->fromXmlString($packagexml, PEAR_VALIDATE_DOWNLOADING,
+                $compatible ? 'package2.xml' : 'package.xml');
+        }
 
         $deps = $pkg_info->getDeps(true); // get the package2.xml actual content
         $storedeps = $pkg_info->getDeps(); // get the BC-compatible content
