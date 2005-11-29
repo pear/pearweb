@@ -28,7 +28,11 @@ function extra_styles($new = null) {
     return $extra_styles;
 }
 
+// needed for error reporting handling in startup
+$GLOBALS['_NODB'] = true;
 require_once 'pear-cache.php';
+// $dbh is initialized in pear-cache
+$GLOBALS['_NODB'] = false;
 
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 
@@ -85,8 +89,13 @@ function response_header($title = 'The PHP Extension and Application Repository'
         $SIDEBAR_DATA .= draw_navigation('docu_menu', 'Documentation:');
         $SIDEBAR_DATA .= draw_navigation('downloads_menu', 'Downloads:');
         $SIDEBAR_DATA .= draw_navigation('proposal_menu', 'Package Proposals:');
-        include_once 'pear-auth.php';
-        init_auth_user();
+        if (!$GLOBALS['_NODB']) {
+            // if reporting an error, no database access will be performed
+            include_once 'pear-auth.php';
+            init_auth_user();
+        } else {
+            $auth_user = null;
+        }
         if (!empty($auth_user)) {
             if (!empty($auth_user->registered)) {
                 if (auth_check('pear.dev')) {
