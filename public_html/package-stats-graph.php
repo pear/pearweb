@@ -28,7 +28,7 @@
  *  o Multiple releases per graph, ie side by side
  *    bar chart.
  */
-
+exit();
 include 'jpgraph/jpgraph.php';
 include 'jpgraph/jpgraph_bar.php';
 
