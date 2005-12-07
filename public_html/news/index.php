@@ -22,6 +22,11 @@ response_header('News');
 
 echo "<h1>PEAR News</h1>\n";
 
+echo '<h2>&raquo; <a name="yr2005" id="yr2005">Year 2005</a></h2>' . "\n";
+echo "<ul>\n";
+echo ' <li>' . make_link('vulnerability.php', 'Serious vulnerability in the PEAR installer') . " (November)</li>\n";
+echo "</ul>\n";
+
 echo '<h2>&raquo; <a name="yr2004" id="yr2004">Year 2004</a></h2>' . "\n";
 echo "<ul>\n";
 echo ' <li>' . make_link('nm-guide.php', 'New Maintainer&#39;s Guide') . " (August)</li>\n";
