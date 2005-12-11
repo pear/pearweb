@@ -44,7 +44,7 @@
 #  > cli/php -r "readfile('http://pear.php.net/go-pear');" > go-pear
 #  > cli/php go-pear
 #
-# In PHP 5.0.0, the PHP CLI binary is php.exe
+# In PHP 5.0.0+, the PHP CLI binary is php.exe
 #
 #  > php -r "readfile('http://pear.php.net/go-pear');" > go-pear
 #  > php go-pear
@@ -90,6 +90,15 @@ set_time_limit(0);
 @ob_end_clean();
 ob_implicit_flush(true);
 define('WEBINSTALLER', ($sapi_name != 'cli' && !(substr($sapi_name,0,3)=='cgi' && !isset($_SERVER['GATEWAY_INTERFACE']))));
+
+if (WEBINSTALLER) {
+    $msg = nl2br("Sorry! PEAR_Frontend_Web is not yet compatible
+with PEAR 1.4.x.  A new version will be available soon.
+Until then, you may install the CLI version of PEAR,
+or grab the CVS version of PEAR_Frontend_Web via
+anonymous CVS (WARNING: experienced developers only)");
+    displayHTML('error', $msg);
+}
 
 ini_set('track_errors', true);
 ini_set('html_errors', WEBINSTALLER);
@@ -602,7 +611,7 @@ foreach ($installer_packages as $pkg) {
 
 print 'Bootstrapping: PEAR...................';
 $r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['PEAR'], 5), 0, -4));
-$url = "http://cvs.php.net/co.php/pear-core/PEAR.php?p=1&r=$r";
+$url = "http://cvs.php.net/viewcvs.cgi/*checkout*/pear-core/PEAR.php?pathrev=$r";
 if (in_array('PEAR.php', $local_dir)) {
     copy(dirname(__FILE__).'/go-pear-bundle/PEAR.php', 'PEAR.php');
     echo "(local) ";
@@ -616,7 +625,7 @@ print "ok\n";
 
 print 'Bootstrapping: Archive_Tar............';
 $r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['Archive_Tar'], 12), 0, -4));
-$url = "http://cvs.php.net/co.php/pear/Archive_Tar/Archive/Tar.php?p=1&r=$r";
+$url = "http://cvs.php.net/viewcvs.cgi/*checkout*/pear/Archive_Tar/Archive/Tar.php?pathrev=$r";
 mkdir('Archive', 0700);
 
 if (in_array('Tar.php', $local_dir)) {
@@ -630,7 +639,7 @@ print "ok\n";
 
 print 'Bootstrapping: Console_Getopt.........';
 $r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['Console_Getopt'], 15), 0, -4));
-$url = "http://cvs.php.net/co.php/pear-core/Console/Getopt.php?p=1&r=$r";
+$url = "http://cvs.php.net/viewcvs.cgi/*checkout*/pear-core/Console/Getopt.php?pathrev=$r";
 mkdir('Console', 0700);
 if (in_array('Getopt.php', $local_dir)) {
     copy(dirname(__FILE__).'/go-pear-bundle/Getopt.php', 'Console/Getopt.php');
