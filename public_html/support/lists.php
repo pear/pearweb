@@ -111,7 +111,7 @@ $mailing_lists = array(
         'PEAR Core development list',
         'A list, where the core infrastructure of PEAR is discussed',
         false,
-        false,
+        true,
         true,
         'php.pear.core'
     ),
@@ -121,7 +121,7 @@ $mailing_lists = array(
         'PEAR webmaster list',
         'A list for managing the collaboration of the people working on the website.',
         false,
-        false,
+        true,
         true,
         'php.pear.webmaster'
     )
