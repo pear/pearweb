@@ -186,7 +186,7 @@ if (empty($action)) {
     $dec_messages = array(
         'abandoned' => 'This package is not maintained anymore and has been superceded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a>.',
         'superceded' => 'This package been superceded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a> but is still maintained for bugs and security fixes',
-        'unmaintained' => 'This package is not maintained, if you would like to take over please go to <a href="http://pear.php.net/manual/en/guide-newmaint.php">this page</a>'
+        'unmaintained' => 'This package is not maintained, if you would like to take over please go to <a href="http://pear.php.net/manual/en/newmaint.takingover.php">this page</a>'
     );
 
     $dec_table = array(
