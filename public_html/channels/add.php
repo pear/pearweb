@@ -20,6 +20,8 @@
 response_header("Channels :: Add");
 
 require_once "HTML/QuickForm.php";
+require_once "HTTP/Request.php";
+require_once "Net/URL.php";
 require_once "Damblan/Log.php";
 require_once "Damblan/Log/Mail.php";
 
@@ -72,23 +74,42 @@ $form->addRule("project[link]", "Please supply a valid project link", "regex", "
 $form->applyFilter("project[link]", "htmlspecialchars");
 
 if ($form->validate()) {
-    $text = sprintf("[Channels] Please add %s (%s) to the channel index.",
-                    $form->exportValue("project[name]"),
-                    $form->exportValue("project[link]"));
-    $from = sprintf('"%s" <%s>',
-                    $form->exportValue("name"),
-                    $form->exportValue("email"));
+    $req =& new HTTP_Request;
 
-    $logger = new Damblan_Log;
-    $observer = new Damblan_Log_Mail;
-    $observer->setRecipients("pear-webmaster@lists.php.net");
-    $observer->setHeader("From", $from);
-    $observer->setHeader("Subject", "Channel link submission");
-    $logger->attach($observer);
-    $logger->log($text);
+    $url =& new Net_URL($form->exportValue("project[link]"));
+    $req->setURL($url->protocol . "://" . $url->host . ":" . $url->port . "/channel.xml");
+    $req->sendRequest();
+    if ($req->getResponseCode() != 200) {
+        echo "<div class=\"errors\">The submitted URL does not ";
+        echo "appear to point to a valid channel site.  You will ";
+        echo "have to make sure that <tt>/channel.xml</tt> at least ";
+        echo "exists.  If you think that this mechanism does not work ";
+        echo "properly, please drop a mail to the ";
+        echo "<a href=\"mailto:pear-webmaster@lists.php.net\">webmasters</a>.";
+        echo "</div>";
 
-    echo "<div class=\"success\">Thanks for your submission.  It will ";
-    echo "be reviewed as soon as possible.</div>\n";
+        $form->display();
+    } else {
+        $text = sprintf("[Channels] Please add %s (%s) to the channel index.",
+                        $form->exportValue("project[name]"),
+                        $form->exportValue("project[link]"));
+        $from = sprintf('"%s" <%s>',
+                        $form->exportValue("name"),
+                        $form->exportValue("email"));
+
+        $logger = new Damblan_Log;
+
+        $observer = new Damblan_Log_Mail;
+        $observer->setRecipients("pear-webmaster@lists.php.net");
+        $observer->setHeader("From", $from);
+        $observer->setHeader("Subject", "Channel link submission");
+        $logger->attach($observer);
+
+        $logger->log($text);
+
+        echo "<div class=\"success\">Thanks for your submission.  It will ";
+        echo "be reviewed as soon as possible.</div>\n";
+    }
 } else {
     $form->display();
 
