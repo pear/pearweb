@@ -107,6 +107,18 @@ error_reporting( E_ALL & ~E_NOTICE);
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
 define('GO_PEAR_VER', '0.5.0');
 
+if (!function_exists('file_get_contents')) {
+    function file_get_contents($filename)
+    {
+        $fp = fopen($filename, 'rb');
+        $ret = '';
+        while (!feof($fp)) {
+            $ret .= fread($fp, 8092);;
+        }
+        return $ret;
+    }
+}
+
 define('WIN32GUI', !WEBINSTALLER && WINDOWS && $sapi_name=='cli' && which('cscript'));
 
 /*
