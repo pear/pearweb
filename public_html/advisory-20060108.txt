@@ -1,0 +1,77 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SECURITY VULNERABILITY ANNOUNCEMENT
+January 8, 2006
+
+     Advisory: PEAR installer arbitrary code execution vulnerability
+ Release Date: 2006/01/08
+Last Modified: 2006/01/08
+       Author: Gregory Beaver [cellog@php.net]
+
+  Application: PEAR installer 1.0 - 1.3.5 (version 1.4.0+ are not
+affected)
+     Severity: A flaw in file conflict checking can result in existing
+files
+               being overwritten, allowing surreptitious modification
+of existing
+               PEAR files without the user's knowledge.
+         Risk: Medium
+Vendor Status: The PEAR project has released an updated version
+   References: http://pear.php.net/advisory-20060108.txt
+
+
+Overview:
+
+  The PEAR installer is available from http://pear.php.net/package/PEAR.
+The PEAR installer is used to install PHP-based software packages
+distributed from pear.php.net and PHP extensions from pecl.php.net.
+
+A bug in file conflict checking allows any installed file to be
+overwritten
+without warning or error.
+
+Details:
+
+  To be vulnerable, a user must explicitly install a publicly released
+malicious package using the PEAR installer, or explicitly install a
+package that depends on a malicious package.
+
+Full details of the vulnerability will be released at a later date.
+
+Proof of concept:
+
+  The PEAR development team will not release an example exploit to the
+public.
+
+Disclosure Timeline:
+
+  18. September 2005 - fixed version of PEAR released (vulnerability
+not recognized as security issue)
+  06. January 2006 - vulnerability discovered by Gregory Beaver
+  04. November 2005 - Public disclosure
+
+Recommendation:
+
+  We strongly recommend to upgrade to the new version
+
+  PEAR 1.4.6
+  pear upgrade PEAR-1.4.6
+  http://pear.php.net/get/PEAR-1.4.6.tgz
+
+GPG-Key:
+
+  http://pgp.mit.edu:11371/pks/lookup?search=0x1F81E560&op=get
+
+  pub  1024D/1F81E560 2004/12/30 Greg Beaver <greg@chiaraquartet.net>
+  Key fingerprint = B064 E549 8D51 712E 40E8  F9A1 B769 2595 1F81 E560
+
+Copyright 2006, The PHP Group.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.1 (GNU/Linux)
+Comment: Using GnuPG with Thunderbird - http://enigmail.mozdev.org
+
+iD8DBQFDvpVtt2kllR+B5WARAtakAKDGYIKk5O7v9FPSika6Szdx974sgwCfZ5DS
+5dLDvqt7rmetVAyEcM+H6vU=
+=soHM
+-----END PGP SIGNATURE-----
