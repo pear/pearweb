@@ -3,7 +3,7 @@
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2003-2005 The PEAR Group                               |
+   | Copyright (c) 2003-2006 The PEAR Group                               |
    +----------------------------------------------------------------------+
    | This source file is subject to version 2.02 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -39,10 +39,10 @@ if (!empty($_REQUEST['handle'])) {
     }
 }
 
-$self = htmlspecialchars($_SERVER['PHP_SELF']);
-
 if ($handle === null || empty($handle)) {
-    $form = new PEAR_Web_Form($self, "post");
+    $form = new PEAR_Web_Form("karma.php", "post");
+    $form->setDefaultFromInput(false);
+
     $form->addUserSelect("handle", "Handle: ");
     $form->addSubmit();
     $form->display();
@@ -54,14 +54,18 @@ if ($handle === null || empty($handle)) {
         case "remove" :
             $res = $karma->remove($handle, $_GET['level']);
             if ($res) {
-                echo "Successfully <b>removed</b> karma &quot;" . $_GET['level'] . "&quot;<br /><br />";
+                echo "Successfully <b>removed</b> karma &quot;"
+                        . htmlspecialchars($_GET['level'])
+                        . "&quot;<br /><br />";
             }
             break;
 
         case "grant" :
             $res = $karma->grant($handle, $_POST['level']);
             if ($res) {
-                echo "Successfully <b>added</b> karma &quot;" . $_POST['level'] . "&quot;<br /><br />";
+                echo "Successfully <b>added</b> karma &quot;"
+                        . htmlspecialchars($_POST['level'])
+                        . "&quot;<br /><br />";
             }
             break;
         }
@@ -71,26 +75,32 @@ if ($handle === null || empty($handle)) {
     if (count($user_karma) == 0) {
         echo "No karma yet";
     } else {
-        $bb = new BorderBox("Karma levels for " . $handle, "90%", "", 4, true);
+        $bb = new BorderBox("Karma levels for " . htmlspecialchars($handle), "90%", "", 4, true);
         $bb->HeadRow("Level", "Added by", "Added at", "Remove");
         foreach ($user_karma as $item) {
-            $remove = sprintf("$self?action=remove&amp;handle=%s&amp;level=%s",
-                              $handle, $item['level']);
+            $remove = sprintf("karma.php?action=remove&amp;handle=%s&amp;level=%s",
+                              htmlspecialchars($handle),
+                              htmlspecialchars($item['level']));
 
-            $bb->plainRow($item['level'], $item['granted_by'], 
-                          $item['granted_at'], make_link($remove, make_image("delete.gif"),
+            $bb->plainRow(htmlspecialchars($item['level']),
+                          htmlspecialchars($item['granted_by']),
+                          htmlspecialchars($item['granted_at']),
+                          make_link($remove, make_image("delete.gif"),
                                                          false, 
-                                                         'onclick="javascript:return confirm(\'Do you really want to remove the karma level ' . $item['level' ] . '?\');"'));
+                                                         'onclick="javascript:return confirm(\'Do you really want to remove the karma level ' . htmlspecialchars($item['level' ]) . '?\');"'));
         }
         $bb->end();
     }
 
     echo "<br /><br />";
 
-    $bb = new BorderBox("Grant karma to " . $handle);
-    $form = new HTML_Form("$self?action=grant", "post");
+    $bb = new BorderBox("Grant karma to " . htmlspecialchars($handle));
+
+    $form = new HTML_Form("karma.php?action=grant", "post");
+    $form->setDefaultFromInput(false);
+
     $form->addText("level", "Level: ");
-    $form->addHidden("handle", $handle);
+    $form->addHidden("handle", htmlspecialchars($handle));
     $form->addSubmit();
     $form->display();
     $bb->end();
@@ -104,16 +114,20 @@ if (!empty($_GET['a']) && $_GET['a'] == "details" && !empty($_GET['level'])) {
     $bb->headRow("Handle", "Granted");
     foreach ($karma->getUsers($_GET['level']) as $user) {
         $detail = sprintf("Granted by <a href=\"/user/%s\">%s</a> on %s",
-                          $user['granted_by'],
-                          $user['granted_by'],
-                          $user['granted_at']
+                          htmlspecialchars($user['granted_by']),
+                          htmlspecialchars($user['granted_by']),
+                          htmlspecialchars($user['granted_at'])
                           );
-        $bb->plainRow(make_link("/user/" . $user['user'], $user['user']), $detail);
+        $bb->plainRow(make_link("/user/" . htmlspecialchars($user['user']),
+                      htmlspecialchars($user['user'])),
+                      $detail);
     }
 } else {
     $bb->headRow("Level", "# of users");
     foreach ($karma->getLevels() as $level) {
-        $bb->plainRow(make_link("$self?a=details&amp;level=" . $level['level'], $level['level']), $level['sum']);
+        $bb->plainRow(make_link("karma.php?a=details&amp;level=" . htmlspecialchars($level['level']),
+                                htmlspecialchars($level['level'])),
+                      htmlspecialchars($level['sum']));
     }
 }
 

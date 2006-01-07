@@ -3,7 +3,7 @@
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2003-2005 The PEAR Group                               |
+   | Copyright (c) 2003-2006 The PEAR Group                               |
    +----------------------------------------------------------------------+
    | This source file is subject to version 2.02 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -51,10 +51,13 @@ if (!empty($_POST['submit'])) {
     }
 }
 
-$form = new HTML_Form(htmlspecialchars($_SERVER['PHP_SELF']), "POST");
+$form = new HTML_Form("chm-upload.php", "POST");
+$form->setDefaultFromInput(false);
+
 foreach ($doc_languages as $shortcut => $name) {
     $form->addFile("chm_" . $shortcut, $name . ":");
 }
+
 $form->addPlainText("", "(Leave the field blank if there is no file for the language)");
 $form->addSubmit("submit", "Upload");
 $form->display();
