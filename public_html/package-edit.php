@@ -3,7 +3,7 @@
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2001-2005 The PHP Group                                |
+   | Copyright (c) 2001-2006 The PHP Group                                |
    +----------------------------------------------------------------------+
    | This source file is subject to version 2.02 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -24,10 +24,9 @@
 
 auth_require('pear.dev');
 
-$self = htmlspecialchars(strip_tags($_SERVER['SCRIPT_NAME']));
-
 require_once 'HTML/Form.php';
-$form = new HTML_Form($self);
+$form = new HTML_Form('package-edit.php');
+$form->setDefaultFromInput(false);
 
 response_header('Edit Package');
 ?>
@@ -46,15 +45,13 @@ function confirmed_goto(url, message) {
 <?php
 echo '<h1>Edit Package</h1>';
 
-if (!isset($_GET['id'])) {
+if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     report_error('No package ID specified.');
     response_footer();
     exit;
 }
 
-$package_id = strip_tags(htmlspecialchars($_GET['id']));
-
-if (!user::maintains($auth_user->handle, $package_id, 'lead') &&
+if (!user::maintains($auth_user->handle, $_GET['id'], 'lead') &&
     !user::isAdmin($auth_user->handle) &&
     !user::isQA($auth_user->handle))
 {
@@ -87,7 +84,7 @@ if (isset($_POST['submit'])) {
                       $_POST['cvs_link'],
                       isset($_POST['unmaintained']) ? 1 : 0 ,
                       isset($_POST['newpk_id']) ? $_POST['newpk_id'] : null,
-                      $package_id
+                      $_GET['id']
                     );
 
         $sth = $dbh->query($query, $qparams);
@@ -109,7 +106,7 @@ if (isset($_POST['submit'])) {
                 break;
             }
 
-            if (release::remove($package_id, $_GET['release'])) {
+            if (release::remove($_GET['id'], $_GET['release'])) {
                 echo "<b>Release successfully deleted.</b><br /><br />\n";
             } else {
                 report_error('An error occured while deleting the release!');
@@ -119,7 +116,7 @@ if (isset($_POST['submit'])) {
     }
 }
 
-$row = package::info((int)$package_id);
+$row = package::info((int)$_GET['id']);
 if (empty($row['name'])) {
     report_error('Illegal package id');
     response_footer();
@@ -131,31 +128,35 @@ print_package_navigation($row['packageid'], $row['name'],
 
 ?>
 
-<form action="<?php echo $self; ?>?id=<?php echo $_GET['id']; ?>" method="POST">
+<form action="package-edit.php?id=<?php echo $_GET['id']; ?>" method="POST">
 <table class="form-holder" style="margin-bottom: 2em;" cellspacing="1">
 <caption class="form-caption">Edit Package Information</caption>
 <tr>
     <th class="form-label_left">Pa<span class="accesskey">c</span>kage Name:</th>
     <td class="form-input">
-    <?php $form->displayText('name', $row['name'], 50, 80, 'accesskey="c"'); ?>
+    <?php $form->displayText('name',
+            htmlspecialchars($row['name']), 50, 80, 'accesskey="c"'); ?>
     </td>
 </tr>
 <tr>
     <th class="form-label_left">License:</th>
     <td class="form-input">
-    <?php $form->displayText('license', $row['license'], 50, 50); ?>
+    <?php $form->displayText('license',
+            htmlspecialchars($row['license']), 50, 50); ?>
     </td>
 </tr>
 <tr>
     <th class="form-label_left">Summary:</th>
     <td class="form-input">
-    <?php $form->displayTextarea("summary", $row['summary'], 40, 3, 255); ?>
+    <?php $form->displayTextarea('summary',
+            htmlspecialchars($row['summary']), 40, 3, 255); ?>
     </td>
 </tr>
 <tr>
     <th class="form-label_left">Description:</th>
     <td class="form-input">
-    <?php $form->displayTextarea("description", $row['description']); ?>
+    <?php $form->displayTextarea('description',
+            htmlspecialchars($row['description'])); ?>
     </td>
 </tr>
 <tr>
@@ -174,19 +175,22 @@ $form->displaySelect("category", $rows, (int)$row['categoryid']);
 <tr>
     <th class="form-label_left">H<span class="accesskey">o</span>mepage:</th>
     <td class="form-input">
-    <?php $form->displayText('homepage', $row['homepage'], 50, 255, 'accesskey="o"'); ?>
+    <?php $form->displayText('homepage',
+            htmlspecialchars($row['homepage']), 50, 255, 'accesskey="o"'); ?>
     </td>
 </tr>
 <tr>
     <th class="form-label_left">Documentation URI:</th>
     <td class="form-input">
-    <?php $form->displayText('doc_link', $row['doc_link'], 50, 255); ?>
+    <?php $form->displayText('doc_link',
+            htmlspecialchars($row['doc_link']), 50, 255); ?>
     </td>
 </tr>
 <tr>
     <th class="form-label_left">Web CVS URI:</th>
     <td class="form-input">
-    <?php $form->displayText('cvs_link', $row['cvs_link'], 50, 255); ?>
+    <?php $form->displayText('cvs_link',
+            htmlspecialchars($row['cvs_link']), 50, 255); ?>
     </td>
 </tr>
 <tr>
@@ -203,7 +207,7 @@ $packages = package::listAllwithReleases();
 
 $rows = array(0 => "");
 foreach ($packages as $id => $info) {
-    if ($id == $package_id) {
+    if ($id == $_GET['id']) {
         continue;
     }
     $rows[$id] = $info['name'];
@@ -216,7 +220,7 @@ $form->displaySelect('newpk_id', $rows, (int)$row['newpk_id']);
 <tr>
     <th class="form-label_left">&nbsp;</th>
     <td class="form-input"><input type="submit" name="submit" value="Save changes" />&nbsp;
-    <input type="reset" name="cancel" value="Cancel" onClick="javascript:window.location.href='/package/<?php echo htmlspecialchars($_GET['id']); ?>'; return false" />
+    <input type="reset" name="cancel" value="Cancel" onClick="javascript:window.location.href='/package/<?php echo $_GET['id']; ?>'; return false" />
     </td>
 </tr>
 </table>
@@ -235,15 +239,15 @@ $form->displaySelect('newpk_id', $rows, (int)$row['newpk_id']);
 
 foreach ($row['releases'] as $version => $release) {
     echo "<tr>\n";
-    echo '  <td class="form-input">' . $version . "</td>\n";
+    echo '  <td class="form-input">' . htmlspecialchars($version) . "</td>\n";
     echo '  <td class="form-input">';
     echo make_utc_date(strtotime($release['releasedate']));
     echo "</td>\n";
     echo '  <td class="form-input">' . "\n";
 
-    $url = $self . '?id=' .
+    $url = 'package-edit.php?id=' .
             $_GET['id'] . '&amp;release=' .
-            $release['id'] . '&amp;action=release_remove';
+            htmlspecialchars($release['id']) . '&amp;action=release_remove';
     $msg = 'Are you sure that you want to delete the release?';
 
     echo "<a href=\"javascript:confirmed_goto('$url', '$msg')\">"
