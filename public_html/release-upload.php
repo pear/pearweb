@@ -3,7 +3,7 @@
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2001-2005 The PHP Group                                |
+   | Copyright (c) 2001-2006 The PHP Group                                |
    +----------------------------------------------------------------------+
    | This source file is subject to version 2.02 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -216,6 +216,8 @@ MSG;
 
     $form =& new HTML_Form($script_name, 'post', '', '',
             'multipart/form-data');
+    $form->setDefaultFromInput(false);
+
     $form->addFile('distfile',
             '<label for="f" accesskey="i">D<span class="accesskey">i</span>'
             . 'stribution File</label>',
@@ -291,22 +293,25 @@ if ($display_verification) {
                  . 'You must correct your package.xml file:');
     report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
                  . 'You may want to correct your package.xml file:');
+
     $form =& new HTML_Form($script_name, 'post');
-    $form->addPlaintext('Package:', $info->getPackage());
-    $form->addPlaintext('Version:', $info->getVersion());
+    $form->setDefaultFromInput(false);
+
+    $form->addPlaintext('Package:', htmlspecialchars($info->getPackage()));
+    $form->addPlaintext('Version:', htmlspecialchars($info->getVersion()));
     $form->addPlaintext('Summary:', htmlspecialchars($info->getSummary()));
     $form->addPlaintext('Description:', nl2br(htmlspecialchars($info->getDescription())));
-    $form->addPlaintext('Release State:', $info->getState());
-    $form->addPlaintext('Release Date:', $info->getDate());
+    $form->addPlaintext('Release State:', htmlspecialchars($info->getState()));
+    $form->addPlaintext('Release Date:', htmlspecialchars($info->getDate()));
     $form->addPlaintext('Release Notes:', nl2br(htmlspecialchars($info->getNotes())));
-    $form->addPlaintext('Package Type:', $type);
+    $form->addPlaintext('Package Type:', htmlspecialchars($type));
     // Don't show the next step button when errors found
     if (!count($errors)) {
         $form->addSubmit('verify', 'Verify Release');
     }
 
     $form->addSubmit('cancel', 'Cancel');
-    $form->addHidden('distfile', $tmpfile);
+    $form->addHidden('distfile', htmlspecialchars($tmpfile));
     $form->display('class="form-holder" cellspacing="1"',
             'Please verify that the following release information is correct:',
             'class="form-caption"');
