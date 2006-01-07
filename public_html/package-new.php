@@ -3,7 +3,7 @@
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2001-2005 The PHP Group                                |
+   | Copyright (c) 2001-2006 The PHP Group                                |
    +----------------------------------------------------------------------+
    | This source file is subject to version 2.02 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -118,9 +118,10 @@ if ($display_form) {
     <?php
 
     $categories = $dbh->getAssoc("SELECT id,name FROM categories ORDER BY name");
-    $form =& new HTML_Form(htmlspecialchars($_SERVER['SCRIPT_NAME']), 'post');
+    $form =& new HTML_Form('package-new.php', 'post');
+    $form->setDefaultFromInput(false);
 
-    print "<form method=\"post\" action=\"" . htmlspecialchars($_SERVER['SCRIPT_NAME']) . "\">\n";
+    print '<form method="post" action="package-new.php">'."\n";
 
     $bb = new BorderBox("Register package", "100%", "", 2, true);
 
