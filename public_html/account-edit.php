@@ -3,7 +3,7 @@
    +----------------------------------------------------------------------+
    | PEAR Web site version 1.0                                            |
    +----------------------------------------------------------------------+
-   | Copyright (c) 2001-2005 The PHP Group                                |
+   | Copyright (c) 2001-2006 The PHP Group                                |
    +----------------------------------------------------------------------+
    | This source file is subject to version 2.02 of the PHP license,      |
    | that is bundled with this package in the file LICENSE, and is        |
@@ -44,7 +44,8 @@ ob_start();
 response_header('Edit Profile :: ' . $handle);
 
 print '<h1>Edit Profile: ';
-print '<a href="/user/'. $handle . '">' . $handle . '</a></h1>' . "\n";
+print '<a href="/user/'. htmlspecialchars($handle) . '">'
+        . htmlspecialchars($handle) . '</a></h1>' . "\n";
 
 print "<ul><li><a href=\"#password\">Manage your password</a></li></ul>";
 
@@ -104,8 +105,9 @@ switch ($command) {
                                  "AND path = ?");
             foreach ($lost_entries as $ent) {
                 $del = $dbh->affectedRows();
-                print "Removing CVS access to $ent for $handle...<br />\n";
                 $dbh->execute($sth, array($handle, $ent));
+                print "Removing CVS access to " . htmlspecialchars($ent)
+                        . " for " . htmlspecialchars($handle) . "...<br />\n";
             }
         }
 
@@ -113,8 +115,9 @@ switch ($command) {
             $sth = $dbh->prepare("INSERT INTO cvs_acl (username,path,access) ".
                                  "VALUES(?,?,?)");
             foreach ($new_entries as $ent) {
-                print "Adding CVS access to $ent for $handle...<br />\n";
                 $dbh->execute($sth, array($handle, $ent, 1));
+                print "Adding CVS access to " . htmlspecialchars($ent)
+                        . " for " . htmlspecialchars($handle) . "...<br />\n";
             }
         }
 
@@ -166,34 +169,36 @@ $cvs_acl_arr = $dbh->getCol('SELECT path FROM cvs_acl'
 $cvs_acl = implode("\n", $cvs_acl_arr);
 
 if ($row === null) {
-    error_handler($handle . ' is not a valid account name.', 'Invalid Account');
+    error_handler(htmlspecialchars($handle) . ' is not a valid account name.',
+                  'Invalid Account');
 }
 
 
 $form = new HTML_Form(htmlspecialchars($_SERVER['SCRIPT_NAME']), 'post');
+$form->setDefaultFromInput(false);
 
 $form->addText('name', '<span class="accesskey">N</span>ame:',
-        $row['name'], 40, null, 'accesskey="n"');
+        htmlspecialchars($row['name']), 40, null, 'accesskey="n"');
 $form->addText('email', 'Email:',
-        $row['email'], 40, null);
+        htmlspecialchars($row['email']), 40, null);
 $form->addCheckbox('showemail', 'Show email address?',
-        $row['showemail']);
+        htmlspecialchars($row['showemail']));
 $form->addText('homepage', 'Homepage:',
-        $row['homepage'], 40, null);
+        htmlspecialchars($row['homepage']), 40, null);
 $form->addText('wishlist', 'Wishlist URI:',
-        $row['wishlist'], 40, null);
+        htmlspecialchars($row['wishlist']), 40, null);
 $form->addText('pgpkeyid', 'PGP Key ID:'
         . '<p class="cell_note">(Without leading 0x)</p>',
-        $row['pgpkeyid'], 40, 20);
+        htmlspecialchars($row['pgpkeyid']), 40, 20);
 $form->addTextarea('userinfo',
         'Additional User Information:'
         . '<p class="cell_note">(limited to 255 chars)</p>',
-        $row['userinfo'], 40, 5, null);
+        htmlspecialchars($row['userinfo']), 40, 5, null);
 $form->addTextarea('cvs_acl',
         'CVS Access:',
-        $cvs_acl, 40, 5, null);
+        htmlspecialchars($cvs_acl), 40, 5, null);
 $form->addSubmit('submit', 'Submit');
-$form->addHidden('handle', $handle);
+$form->addHidden('handle', htmlspecialchars($handle));
 $form->addHidden('command', 'update');
 $form->display('class="form-holder" style="margin-bottom: 2em;"'
                . ' cellspacing="1"',
@@ -203,7 +208,9 @@ $form->display('class="form-holder" style="margin-bottom: 2em;"'
 print '<a name="password"></a>' . "\n";
 print '<h2>&raquo; Manage your password</h2>' . "\n";
 
-$form = new HTML_Form(htmlspecialchars($_SERVER['SCRIPT_NAME']), 'post');
+$form = new HTML_Form('account-edit.php', 'post');
+$form->setDefaultFromInput(false);
+
 $form->addPlaintext('<span class="accesskey">O</span>ld Password:',
         $form->returnPassword('password_old', '', 40, 0,
                               'accesskey="o"'));
@@ -212,7 +219,7 @@ $form->addPassword('password', 'Password',
 $form->addCheckbox('PEAR_PERSIST', 'Remember username and password?',
         '');
 $form->addSubmit('submit', 'Submit');
-$form->addHidden('handle', $handle);
+$form->addHidden('handle', htmlspecialchars($handle));
 $form->addHidden('command', 'change_password');
 $form->display('class="form-holder" cellspacing="1"',
                'Change Password', 'class="form-caption"');
