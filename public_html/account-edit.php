@@ -174,7 +174,7 @@ if ($row === null) {
 }
 
 
-$form = new HTML_Form(htmlspecialchars($_SERVER['SCRIPT_NAME']), 'post');
+$form = new HTML_Form('account-edit.php', 'post');
 $form->setDefaultFromInput(false);
 
 $form->addText('name', '<span class="accesskey">N</span>ame:',

@@ -196,7 +196,7 @@ MSG;
         $purposechecks .= "$purposeKey <br />";
     }
 
-    $form = new HTML_Form(htmlspecialchars($_SERVER['SCRIPT_NAME']) . '#requestform', 'post');
+    $form = new HTML_Form('account-request.php#requestform', 'post');
     $form->setDefaultFromInput(false);
 
     $hsc = array_map('htmlspecialchars', $stripped);
