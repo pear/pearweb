@@ -27,7 +27,7 @@ $width        = 60;
 $errors       = array();
 $jumpto       = 'handle';
 
-$clean = array_map('strip_tags', $_POST);
+$stripped = array_map('strip_tags', $_POST);
 
 // CAPTCHA needs it and we cannot start it in the 
 // CAPTCHA function, too much mess around here.
@@ -38,18 +38,24 @@ response_header('Request Account');
 print '<h1>Request Account</h1>';
 
 do {
-    if (isset($clean['submit'])) {
-        if (empty($clean['comments_read'])) {
+    if (isset($stripped['submit'])) {
+
+        if (empty($stripped['handle'])
+            || !ereg('^[0-9a-z_]{2,20}$', $stripped['handle']))
+        {
+            $errors[] = 'Username is invalid.';
+            $display_form = true;
+        }
+
+        if (empty($stripped['comments_read'])) {
             $errors[] = 'Obviously you did not read all the comments'
                       . ' concerning the need for an account. Please read '
                       . 'them again.';
             $display_form = true;
         }
 
-        if (isset($clean['purposecheck']) && count($clean['purposecheck'])) {
-            $errors[] = 'We could not have said it more clearly. Read '
-                      . 'everything on this page and look at the form '
-                      . 'you are submitting carefully.';
+        if (isset($_POST['purposecheck']) && count($_POST['purposecheck'])) {
+            $errors[] = 'The purpose(s) you selected do not require a PEAR account.';
             $display_form = true;
         }
 
@@ -63,14 +69,14 @@ do {
         }
 
         //  The add method performs further validation then creates the acct
-        $ok = user::add($clean);
+        $ok = user::add($stripped);
 
-        if (!empty($clean['jumpto'])) {
-            $jumpto = $clean['jumpto'];
+        if (!empty($stripped['jumpto'])) {
+            $jumpto = $stripped['jumpto'];
         }
 
-        if (isset($clean['display_form'])) {
-            $display_form = $clean['display_form'];
+        if (isset($stripped['display_form'])) {
+            $display_form = $stripped['display_form'];
         }
 
         if (is_array($ok)) {
@@ -182,43 +188,46 @@ MSG;
         'Suggest new features.',
         'Have an idea for a PEAR Package (no code yet, or not yet complete)',
         'Browse ' . PEAR_CHANNELNAME . '.'
-        );
+    );
     $purposechecks = '';
     foreach ($invalid_purposes as $i => $purposeKey)
     {
-        $purposechecks .= HTML_Form::returnCheckBox("purposecheck[$i]", @$clean['purposecheck'][$i] ? 'on' : 'off');
+        $purposechecks .= HTML_Form::returnCheckBox("purposecheck[$i]", @$_POST['purposecheck'][$i] ? 'on' : 'off');
         $purposechecks .= "$purposeKey <br />";
     }
 
     $form = new HTML_Form(htmlspecialchars($_SERVER['SCRIPT_NAME']) . '#requestform', 'post');
+    $form->setDefaultFromInput(false);
+
+    $hsc = array_map('htmlspecialchars', $stripped);
 
     $form->addText('handle', 'Use<span class="accesskey">r</span>name:',
-            @$clean['handle'], 12, 20, 'accesskey="r"');
+            @$hsc['handle'], 12, 20, 'accesskey="r"');
     $form->addText('firstname', 'First Name:',
-            @$clean['firstname'], 20, null);
+            @$hsc['firstname'], 20, null);
     $form->addText('lastname', 'Last Name:',
-            @$clean['lastname'], 20, null);
+            @$hsc['lastname'], 20, null);
     $form->addPassword('password', 'Password:', '', 10);
     $form->addPlaintext('CAPTCHA:', generate_captcha());
     $form->addText('email', 'Email Address:',
-            @$clean['email'], 20, null);
+            @$hsc['email'], 20, null);
     $form->addCheckbox('showemail', 'Show email address?',
-            @$clean['showemail']);
+            @$hsc['showemail']);
     $form->addText('homepage', 'Homepage:',
-            @$clean['homepage'], 20, null);
+            @$hsc['homepage'], 20, null);
     $form->addPlaintext('Purpose of your PEAR account:'
             . '<p class="cell_note">(Check all that apply)</p>',
             $purposechecks);
     $form->addTextarea('purpose',
             'Short summary of package that you have finished and are ready to propose:',
-            stripslashes(@$clean['purpose']), 40, 5);
+            @$hsc['purpose'], 40, 5);
     $form->addTextarea('moreinfo',
             'More relevant information about you:'
             . '<p class="cell_note">(optional)</p>',
-            stripslashes(@$clean['moreinfo']), 40, 5);
+            @$hsc['moreinfo'], 40, 5);
     $form->addCheckbox('comments_read',
             'You have read all of the comments above:',
-            @$clean['comments_read']);
+            @$hsc['comments_read']);
     $form->addSubmit('submit', 'Submit Query');
 
     $form->display('class="form-holder" cellspacing="1"',
