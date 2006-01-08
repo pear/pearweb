@@ -24,7 +24,9 @@ response_header("The PEAR Group: License Announcement");
 
 <h2>&raquo; License Announcement</h2>
 
-<p>Published: 02nd April 2004</p>
+<p>Published: 02 April 2004</p>
+
+<p>Revised: 08 January 2006 (MIT License added)</p>
 
 <p>The PEAR Group would like to announce the following refinement of the
 <a href="/manual/en/faq.licenses.php">current license faq entry</a>.</p>
@@ -47,6 +49,7 @@ following short list:</p>
   <li><a href="http://www.apache.org/licenses/">Apache</a></li>
   <li><a href="http://www.gnu.org/copyleft/lesser.html">LGPL</a></li>
   <li><a href="http://www.opensource.org/licenses/bsd-license.php">BSD style</a></li>
+  <li><a href="http://www.opensource.org/licenses/mit-license.html">MIT</a></li>
 </ul>
 
 <p>Other licenses may be accepted on a case by case basis, but will have to
