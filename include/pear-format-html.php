@@ -730,6 +730,16 @@ function get_license_link($license = "")
             $link = 'http://www.gnu.org/licenses/lgpl.html';
             break;
 
+        case 'BSD' :
+        case 'BSD License' :
+            $link = 'http://www.opensource.org/licenses/bsd-license.php';
+            break;
+
+        case 'MIT' :
+        case 'MIT License' :
+            $link = 'http://www.opensource.org/licenses/mit-license.php';
+            break;
+
         default :
             $link = '';
             break;
