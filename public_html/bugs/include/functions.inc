@@ -418,6 +418,7 @@ function show_reason_types($current = '', $expanded = 0)
 function show_version_options($current, $default = '')
 {
     $versions = array(
+        '4.4.2',
         '4.4.1',
         '4.4.0',
         '4.3.11',
@@ -432,10 +433,11 @@ function show_version_options($current, $default = '')
         '4.3.2',
         '4.3.1',
         '4.3.0',
-        '4.2.2',
-        '4.2.1',
-        '4.2.0',
         '4_3 CVS-' . date('Y-m-d'),
+        '5.1.2',
+        '5.1.1',
+        '5.1.0',
+        '5_1 CVS-' . date('Y-m-d'),
         '5.0.5',
         '5.0.4',
         '5.0.3',
@@ -443,9 +445,6 @@ function show_version_options($current, $default = '')
         '5.0.1',
         '5.0.0',
         '5_0 CVS-' . date('Y-m-d'),
-        '5.1.1',
-        '5.1.0',
-        '5_1 CVS-' . date('Y-m-d'),
         'Irrelevant'
     );
     $use = 0;
