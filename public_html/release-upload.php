@@ -269,6 +269,9 @@ if ($display_verification) {
                 $errors[] = "Stable versions must not have a postfix (use 'beta' for RC postfix)";
             }
         }
+        if (substr($verinfo[2], 1, 2) = 'rc') {
+            $errors[] = 'Release Candidate versions MUST use upper-case RC versioning, not rc';
+        }
     }
     if ($info->getChannel() != PEAR_CHANNELNAME) {
         $errors[] = 'Only channel ' . PEAR_CHANNELNAME .
