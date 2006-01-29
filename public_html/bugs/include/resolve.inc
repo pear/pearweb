@@ -82,7 +82,7 @@ report and change the status back to "Open". Thank you for helping
 us make PEAR better.',
   ),
   'oldversion' => array(
-    'status' => 'Bogus',
+    'status' => 'Feedback',
     'desc' => 'Try newer package version',
     'message' =>
 'Thank you for taking the time to report a problem with the package.
