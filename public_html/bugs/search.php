@@ -53,7 +53,8 @@ $order_options = array(
     'package_name' => 'package',
     'bug_type'     => 'bug_type',
     'status'       => 'status',
-    'php_version'  => 'version',
+    'package_version'  => 'package_version',
+    'php_version'  => 'php_version',
     'php_os'       => 'os',
     'sdesc'        => 'summary',
     'assign'       => 'assignment',
@@ -154,7 +155,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             break;
         case 'Stale':
             $where_clause .= ' AND bugdb.status NOT IN' .
-                             " ('cLOSEd', 'Duplicate', 'Bogus')" .
+                             " ('Closed', 'Duplicate', 'Bogus')" .
                              ' AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 30';
             break;
         case 'All':
@@ -375,6 +376,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;bug_updated='  . $bug_updated .
                     '&amp;order_by='    . $order_by .
                     '&amp;direction='   . $direction .
+                    '&amp;packagever='      . urlencode($packagever) .
                     '&amp;phpver='      . urlencode($phpver) .
                     '&amp;limit='       . $limit .
                     '&amp;handle='      . urlencode($handle) .
@@ -396,7 +398,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=package_name">Package</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=bug_type">Type</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=status">Status</a></th>
-  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=php_version">Version</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=package_version">Package Version</a></th>
+  <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=php_version">PHP Version</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=php_os">OS</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=sdesc">Summary</a></th>
   <th class="results"><a href="<?php echo $link;?>&amp;reorder_by=assign">Assigned</a></th>
@@ -419,6 +422,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     printf ("<br />%d day%s", $row['unchanged'], $row['unchanged'] > 1 ? 's' : '');
                 }
                 echo '</td>' . "\n";
+                echo '  <td>', htmlspecialchars($row['package_version']), '</td>';
                 echo '  <td>', htmlspecialchars($row['php_version']), '</td>';
                 echo '  <td>', $row['php_os'] ? htmlspecialchars($row['php_os']) : '&nbsp;', '</td>' . "\n";
                 echo '  <td>', $row['sdesc']  ? clean($row['sdesc'])             : '&nbsp;', '</td>' . "\n";
@@ -497,6 +501,11 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
   <th>OS</th>
   <td style="white-space: nowrap">Return bugs with <b>operating system</b></td>
   <td><input type="text" name="php_os" value="<?php echo clean($php_os);?>" /></td>
+</tr>
+<tr valign="top">
+  <th>Version</th>
+  <td style="white-space: nowrap">Return bugs reported with <b>Package version</b></td>
+  <td><input type="text" name="packagever" value="<?php echo clean($packagever);?>" /></td>
 </tr>
 <tr valign="top">
   <th>Version</th>

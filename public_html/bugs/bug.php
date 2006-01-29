@@ -212,6 +212,7 @@ if ($_POST['in'] && $edit == 3) {
                  " status='" . escapeSQL($_POST['in']['status']) . "'," .
                  " package_name='" . escapeSQL($_POST['in']['package_name']) . "'," .
                  " bug_type='" . escapeSQL($_POST['in']['bug_type']) . "'," .
+                 " package_version='" . escapeSQL($_POST['in']['package_version']) . "'," .
                  " php_version='" . escapeSQL($_POST['in']['php_version']) . "'," .
                  " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                  ' ts2=NOW(), ' .
@@ -287,6 +288,7 @@ if ($_POST['in'] && $edit == 3) {
                   " package_name='" . escapeSQL($_POST['in']['package_name']) . "'," .
                   " bug_type='" . escapeSQL($_POST['in']['bug_type']) . "'," .
                   " assign='" . escapeSQL($_POST['in']['assign']) . "'," .
+                  " package_version='" . escapeSQL($_POST['in']['package_version']) . "'," .
                   " php_version='" . escapeSQL($_POST['in']['php_version']) . "'," .
                   " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                   " ts2=NOW() WHERE id=$id";
@@ -660,10 +662,15 @@ if ($edit == 1 || $edit == 2) {
       </td>
      </tr>
      <tr>
-      <th class="details">Version:</th>
+      <th class="details">PHP Version:</th>
       <td>
        <input type="text" size="20" maxlength="100" name="in[php_version]"
         value="<?php echo field('php_version') ?>" />
+      </td>
+      <th class="details">Package Version:</th>
+      <td>
+       <input type="text" size="20" maxlength="100" name="in[package_version]"
+        value="<?php echo field('package_version') ?>" />
       </td>
       <th class="details">OS:</th>
       <td>
@@ -778,6 +785,13 @@ if (!$edit && canvote()) {
   <div id="canreproduce" class="sect" style="display: none">
    <fieldset>
     <legend>Are you using the same PHP version?</legend>
+    <div>
+     <input type="radio" id="ver-y" name="samever" value="1" /> <label for="ver-y">yes</label>
+     <input type="radio" id="ver-n" name="samever" value="0" checked="checked" /> <label for="ver-n">no</label>
+    </div>
+   </fieldset>
+   <fieldset>
+    <legend>Are you using the same Package version?</legend>
     <div>
      <input type="radio" id="ver-y" name="samever" value="1" /> <label for="ver-y">yes</label>
      <input type="radio" id="ver-n" name="samever" value="0" checked="checked" /> <label for="ver-n">no</label>

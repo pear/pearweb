@@ -173,6 +173,7 @@ if (isset($_POST['in'])) {
                      ' email,' .
                      ' sdesc,' .
                      ' ldesc,' .
+                     ' package_version,' .
                      ' php_version,' .
                      ' php_os,' .
                      ' status, ts1,' .
@@ -183,6 +184,7 @@ if (isset($_POST['in'])) {
                      " '" . escapeSQL($_POST['in']['email']) . "'," .
                      " '" . escapeSQL($_POST['in']['sdesc']) . "'," .
                      " '" . escapeSQL($fdesc) . "'," .
+                     " '" . escapeSQL($_POST['in']['package_version']) . "'," .
                      " '" . escapeSQL($_POST['in']['php_version']) . "'," .
                      " '" . escapeSQL($_POST['in']['php_os']) . "'," .
                      " 'Open', NOW(), " .
@@ -199,6 +201,7 @@ if (isset($_POST['in'])) {
             $report .= 'From:             ' . spam_protect(rinse($_POST['in']['email']),
                                                            'text') . "\n";
             $report .= 'Operating system: ' . rinse($_POST['in']['php_os']) . "\n";
+            $report .= 'Package version:      ' . rinse($_POST['in']['php_version']) . "\n";
             $report .= 'PHP version:      ' . rinse($_POST['in']['php_version']) . "\n";
             $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
             $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
@@ -236,6 +239,7 @@ if (isset($_POST['in'])) {
             $extra_headers  = 'From: '           . $protected_email . "\n";
             $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
             $extra_headers .= 'X-PHP-Type: '     . rinse($_POST['in']['bug_type']) . "\n";
+            $extra_headers .= 'X-PHP-PackageVersion: '  . rinse($_POST['in']['package_version']) . "\n";
             $extra_headers .= 'X-PHP-Version: '  . rinse($_POST['in']['php_version']) . "\n";
             $extra_headers .= 'X-PHP-Category: ' . rinse($_POST['in']['package_name']) . "\n";
             $extra_headers .= 'X-PHP-OS: '       . rinse($_POST['in']['php_os']) . "\n";
@@ -335,6 +339,15 @@ if (!package_exists($_REQUEST['package'])) {
    <select name="in[php_version]">
     <?php show_version_options($_POST['in']['php_version']); ?>
    </select>
+  </td>
+ </tr>
+ <tr>
+  <th class="form-label_left">
+   Package version:
+  </th>
+  <td class="form-input">
+   <input type="text" size="20" maxlength="100" name="in[package_version]"
+    value="<?php echo clean($_post['in']['package_version']) ?>" />
   </td>
  </tr>
  <tr>

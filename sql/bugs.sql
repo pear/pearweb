@@ -9,6 +9,7 @@ CREATE TABLE bugdb (
   email varchar(40) NOT NULL default '',
   sdesc varchar(80) NOT NULL default '',
   ldesc text NOT NULL,
+  package_version varchar(100) default NULL,
   php_version varchar(100) default NULL,
   php_os varchar(32) default NULL,
   status varchar(16) default NULL,
@@ -18,6 +19,7 @@ CREATE TABLE bugdb (
   passwd varchar(20) default NULL,
   PRIMARY KEY  (id),
   KEY php_version (php_version(1)),
+  KEY package_version (package_version(1)),
   FULLTEXT KEY email (email,sdesc,ldesc)
 ) TYPE=MyISAM;
 

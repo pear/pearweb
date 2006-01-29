@@ -659,6 +659,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
         'bug_type'     => 'Type',
         'package_name' => 'Package',
         'php_os'       => 'Operating System',
+        'package_version'  => 'Package Version',
         'php_version'  => 'PHP Version',
         'assign'       => 'Assigned To'
     );
@@ -754,6 +755,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
                   "From: $from\n".
                   "X-PHP-Bug: $bug[id]\n".
                   "X-PHP-Type: "       . rinse((($edit != 3) ? $in['bug_type']     : $bug['bug_type']))    . "\n" .
+                  "X-PHP-PackageVersion: "    . rinse((($edit != 3) ? $in['package_version']  : $bug['package_version'])) . "\n" .
                   "X-PHP-Version: "    . rinse((($edit != 3) ? $in['php_version']  : $bug['php_version'])) . "\n" .
                   "X-PHP-Category: "   . rinse((($edit != 3) ? $in['package_name'] : $bug['package_name']))    . "\n" .
                   "X-PHP-OS: "         . rinse((($edit != 3) ? $in['php_os']       : $bug['php_os']))      . "\n" .
