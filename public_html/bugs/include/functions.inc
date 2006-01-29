@@ -407,6 +407,42 @@ function show_reason_types($current = '', $expanded = 0)
     }
 }
 
+function show_package_version_options($package, $current)
+{
+    global $pseudo_pkgs, $dbh;
+    if (in_array($package, $pseudo_pkgs, true)) {
+        echo '<input type="text" size="20" maxlength="100" name="in[package_version]"
+    value="' . clean($current) . '" />';
+        return;
+    }
+    $pid = $dbh->getOne('SELECT id from packages where name = ?', array($package));
+    if (!$pid) {
+        echo '<input type="text" size="20" maxlength="100" name="in[package_version]"
+    value="' . clean($current) . '" />';
+        return;
+    }
+    $versions = $dbh->getAll('
+        SELECT releases.version
+            FROM releases, packages
+            WHERE packages.name = ? and releases.package = packages.id ORDER BY releases.releasedate DESC', array($package));
+    echo '<select name="in[package_version]">' . "\n";
+    echo '<option value="">--Please Select--</option>' . "\n";
+    while (list(,$v) = each($versions)) {
+        echo '<option';
+        if ($current == $v[0]) {
+            echo ' selected="selected"';
+        }
+        echo '>' . $v[0] . "</option>\n";
+        if ($current == $v[0]) {
+            $use++;
+        }
+    }
+    if (!$use && $current) {
+        echo '<option selected="selected">' . $current . "</option>\n";
+    }
+    echo '<option value="earlier">Earlier? Upgrade first!</option>' . "\n";
+    echo "</select>\n";
+}
 /**
  * Prints PHP version number <option>'s for use in a <select> list
  *
@@ -920,6 +956,10 @@ function incoming_details_are_valid($in, $initial = 0)
 
     if (empty($in['php_version'])) {
         $errors[] = 'Please select a valid PHP version.';
+    }
+
+    if (empty($in['package_version'])) {
+        $errors[] = 'Please select a valid Package version.';
     }
 
     if (empty($in['sdesc'])) {

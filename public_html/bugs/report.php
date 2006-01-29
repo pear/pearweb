@@ -201,7 +201,7 @@ if (isset($_POST['in'])) {
             $report .= 'From:             ' . spam_protect(rinse($_POST['in']['email']),
                                                            'text') . "\n";
             $report .= 'Operating system: ' . rinse($_POST['in']['php_os']) . "\n";
-            $report .= 'Package version:      ' . rinse($_POST['in']['php_version']) . "\n";
+            $report .= 'Package version:      ' . rinse($_POST['in']['package_version']) . "\n";
             $report .= 'PHP version:      ' . rinse($_POST['in']['php_version']) . "\n";
             $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
             $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
@@ -346,8 +346,8 @@ if (!package_exists($_REQUEST['package'])) {
    Package version:
   </th>
   <td class="form-input">
-   <input type="text" size="20" maxlength="100" name="in[package_version]"
-    value="<?php echo clean($_post['in']['package_version']) ?>" />
+   <?php echo show_package_version_options(clean($_REQUEST['package']),
+        clean($_post['in']['package_version'])); ?>
   </td>
  </tr>
  <tr>

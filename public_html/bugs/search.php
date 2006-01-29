@@ -222,6 +222,14 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                        . $dbh->escapeSimple($phpver) . "%'";
     }
 
+    if (empty($_GET['packagever'])) {
+        $packagever = '';
+    } else {
+        $packagever = $_GET['packagever'];
+        $where_clause .= " AND bugdb.package_version LIKE '"
+                       . $dbh->escapeSimple($packagever) . "%'";
+    }
+
     if (empty($_GET['handle'])) {
         $handle = '';
         if (empty($_GET['assign'])) {
@@ -508,7 +516,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
   <td><input type="text" name="packagever" value="<?php echo clean($packagever);?>" /></td>
 </tr>
 <tr valign="top">
-  <th>Version</th>
+  <th>PHP Version</th>
   <td style="white-space: nowrap">Return bugs reported with <b>PHP version</b></td>
   <td><input type="text" name="phpver" value="<?php echo clean($phpver);?>" /></td>
 </tr>
@@ -560,7 +568,7 @@ function show_prev_next($begin, $rows, $total_rows, $link, $limit)
 {
     echo "<!-- BEGIN PREV/NEXT -->\n";
     echo " <tr>\n";
-    echo '  <td class="search-prev_next" colspan="9">' . "\n";
+    echo '  <td class="search-prev_next" colspan="10">' . "\n";
 
     if ($limit=='All') {
         echo "$total_rows Bugs</td></tr>\n";

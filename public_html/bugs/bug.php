@@ -82,7 +82,7 @@ if ($edit == 1 && empty($pw) && empty($user)) {
 
 // fetch info about the bug into $bug
 $query = 'SELECT b.id, b.package_name, b.bug_type, b.email,
-        b.passwd, b.sdesc, b.ldesc, b.php_version, b.php_os,
+        b.passwd, b.sdesc, b.ldesc, b.php_version, b.package_version, b.php_os,
         b.status, b.ts1, b.ts2, b.assign, UNIX_TIMESTAMP(b.ts1) AS submitted, 
         UNIX_TIMESTAMP(b.ts2) AS modified,
         COUNT(bug=b.id) AS votes,
@@ -392,7 +392,7 @@ if ($bug['modified']) {
    <th class="details">Status:</th>
    <td><?php echo htmlspecialchars($bug['status']) ?></td>
    <th class="details">Package:</th>
-   <td><?php echo htmlspecialchars($bug['package_name']) ?></td>
+   <td><?php echo htmlspecialchars($bug['package_name']); if ($bug['package_version']): ?> (version <?php echo htmlspecialchars($bug['package_version']);?>)<?php endif; ?></td>
   </tr>
   <tr id="situation">
    <th class="details">Version:</th>
