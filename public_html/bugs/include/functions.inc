@@ -950,16 +950,16 @@ function incoming_details_are_valid($in, $initial = 0)
         $errors[] = 'Please select a valid PHP version. If your PHP version is too old, please upgrade first and see if the problem has not already been fixed.';
     }
 
+    if (isset($in['package_version']) && $in['package_version'] == 'earlier') {
+        $errors[] = 'Please select a valid Package version. If your Package version is too old, please upgrade first and see if the problem has not already been fixed.';
+    }
+
     if (!array_key_exists($in['bug_type'], $types)) {
         $errors[] = 'Please select a valid bug type.';
     }
 
     if (empty($in['php_version'])) {
         $errors[] = 'Please select a valid PHP version.';
-    }
-
-    if (empty($in['package_version'])) {
-        $errors[] = 'Please select a valid Package version.';
     }
 
     if (empty($in['sdesc'])) {

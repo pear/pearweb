@@ -341,6 +341,7 @@ if (!package_exists($_REQUEST['package'])) {
    </select>
   </td>
  </tr>
+ <?php if (!in_array(clean($_REQUEST['package']), $pseudo_pkgs, true)): ?>
  <tr>
   <th class="form-label_left">
    Package version:
@@ -350,6 +351,7 @@ if (!package_exists($_REQUEST['package'])) {
         clean($_post['in']['package_version'])); ?>
   </td>
  </tr>
+ <?php endif; ?>
  <tr>
   <th class="form-label_left">
    Package affected:
