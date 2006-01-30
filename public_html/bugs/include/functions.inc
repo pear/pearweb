@@ -421,10 +421,28 @@ function show_package_version_options($package, $current)
     value="' . clean($current) . '" />';
         return;
     }
-    $versions = $dbh->getAll('
-        SELECT releases.version
+    $candidates = $dbh->getAll('
+        SELECT releases.version, releases.state
             FROM releases, packages
             WHERE packages.name = ? and releases.package = packages.id ORDER BY releases.releasedate DESC', array($package));
+    $newest = count($candidates) ? $candidates[0] : false;
+    if ($newest) {
+        $stable = null;
+        if ($candidates[0][1] != 'stable') {
+            foreach ($candidates as $ver) {
+                if ($ver[0] == $newest[0] || $ver[1] != 'stable') {
+                    continue;
+                }
+                $stable = $ver;
+                break;
+            }
+        }
+        if (isset($stable)) {
+            $versions = array($newest, $stable);
+        } else {
+            $versions = array($newest);
+        }
+    }
     echo '<select name="in[package_version]">' . "\n";
     echo '<option value="">--Please Select--</option>' . "\n";
     $use = 0;
@@ -433,13 +451,15 @@ function show_package_version_options($package, $current)
         if ($current == $v[0]) {
             echo ' selected="selected"';
         }
-        echo '>' . $v[0] . "</option>\n";
+        echo ' value = "' . $v[0] . '">' . $v[0] . ' (' . $v[1] . ")</option>\n";
         if ($current == $v[0]) {
             $use++;
         }
     }
     if (!$use && $current) {
         echo '<option selected="selected">' . $current . "</option>\n";
+    } else {
+        echo '<option>CVS</option>' . "\n";    
     }
     echo '<option value="earlier">Earlier? Upgrade first!</option>' . "\n";
     echo "</select>\n";
