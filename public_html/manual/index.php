@@ -46,7 +46,15 @@ foreach ($doc_languages as $domain => $name) {
 </ul>
 
 <p>If you prefer to have an offline version of the documentation, you can
-download it in a variety of formats:</p>
+download it in a variety of formats.</p>
+
+<p><strong>Note to Windows users</strong>: If you are using
+Microsoft Internet Explorer under Windows XP SP2 or
+later and you are going to download the documentation in CHM
+format, you should "unblock" the file after downloading it, by
+right-clicking on it and selecting the properties menu item. Then click
+on the 'Unblock' button. Failing to do this may lead to errors
+in the visualization of the file, due to a Microsoft bug.</p>
 
 <?php
 $formats = array(
