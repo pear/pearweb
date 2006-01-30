@@ -427,6 +427,7 @@ function show_package_version_options($package, $current)
             WHERE packages.name = ? and releases.package = packages.id ORDER BY releases.releasedate DESC', array($package));
     echo '<select name="in[package_version]">' . "\n";
     echo '<option value="">--Please Select--</option>' . "\n";
+    $use = 0;
     while (list(,$v) = each($versions)) {
         echo '<option';
         if ($current == $v[0]) {

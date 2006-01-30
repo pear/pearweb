@@ -348,7 +348,7 @@ if (!package_exists($_REQUEST['package'])) {
   </th>
   <td class="form-input">
    <?php echo show_package_version_options(clean($_REQUEST['package']),
-        clean($_post['in']['package_version'])); ?>
+        clean($_POST['in']['package_version'])); ?>
   </td>
  </tr>
  <?php endif; ?>
