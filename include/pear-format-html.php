@@ -36,7 +36,7 @@ $GLOBALS['_NODB'] = false;
 
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 
-$encoding = 'iso-8859-1';
+$encoding = 'iso-8859-15';
 
 // Handling things related to the manual
 if (substr($self, 0, 7) == '/manual') {
@@ -111,7 +111,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
             $SIDEBAR_DATA .= draw_navigation('developer_menu_public', 'Developers:');
         }
     }
-
+header('Content-Type: text/html;charset=' . $encoding);
 echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
