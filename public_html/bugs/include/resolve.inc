@@ -95,6 +95,29 @@ versions, please change the package version on this bug report
 to the version you tested and change the status back to "Open".
 Again, thank you for your continued support of PEAR.',
   ),
+  'trycvs' => array(
+    'status' => 'Feedback',
+    'desc' => 'Try current CVS of package',
+    'message' =>
+'Thank you for taking the time to report a problem with the package.
+This problem may have been already fixed by a previous change that
+is in the CVS of the package.  Please log into CVS with:
+
+cvs -d :pserver:anoncvs@cvs.php.net:/repository login
+
+and check out the CVS repository of this package and upgrade
+
+cvs -d :pserver:anoncvs@cvs.php.net:/repository co @cvs@
+pear upgrade @cvs@/package2.xml
+
+or
+
+pear upgrade @cvs@/package.xml
+
+If you are able to reproduce the bug with the latest CVS,
+please change the status back to "Open".
+Again, thank you for your continued support of PEAR.',
+  ),
   'oldphpversion' => array(
     'status' => 'Bogus',
     'desc' => 'Try newer PHP version',
