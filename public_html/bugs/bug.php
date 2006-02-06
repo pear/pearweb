@@ -261,21 +261,23 @@ if ($_POST['in'] && $edit == 3) {
             require './include/resolve.inc';
             $reason = $RESOLVE_REASONS[$_POST['in']['resolve']]['message'];
             // do a replacement on @cvs@ to the likely location of CVS for this package
-            switch ($bug['package_name']) {
-                case 'Documentation' :
-                case 'Web Site' :
-                case 'Bug System' :
-                case 'PEPr' :
-                    $errors[] = 'Cannot use "try cvs" with ' . $bug['package_name'];
-                    break;
-                case 'PEAR' :
-                    $reason = str_replace('@cvs@', 'pear-core', $reason);
-                    $ncomment = "$reason\n\n$ncomment";
-                    break;
-                default :
-                    $reason = str_replace('@cvs@', 'pear/' . $bug['package_name'], $reason);
-                    $ncomment = "$reason\n\n$ncomment";
-                    break;
+            if ($_POST['in']['resolve'] == 'trycvs') {
+                switch ($bug['package_name']) {
+                    case 'Documentation' :
+                    case 'Web Site' :
+                    case 'Bug System' :
+                    case 'PEPr' :
+                        $errors[] = 'Cannot use "try cvs" with ' . $bug['package_name'];
+                        break;
+                    case 'PEAR' :
+                        $reason = str_replace('@cvs@', 'pear-core', $reason);
+                        $ncomment = "$reason\n\n$ncomment";
+                        break;
+                    default :
+                        $reason = str_replace('@cvs@', 'pear/' . $bug['package_name'], $reason);
+                        $ncomment = "$reason\n\n$ncomment";
+                        break;
+                }
             }
         }
     }
