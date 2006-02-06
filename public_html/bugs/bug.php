@@ -273,7 +273,7 @@ if ($_POST['in'] && $edit == 3) {
                     $ncomment = "$reason\n\n$ncomment";
                     break;
                 default :
-                    $reason = str_replace('@cvs@', 'pear/' . $bug['package_name']);
+                    $reason = str_replace('@cvs@', 'pear/' . $bug['package_name'], $reason);
                     $ncomment = "$reason\n\n$ncomment";
                     break;
             }
