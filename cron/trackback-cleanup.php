@@ -10,18 +10,15 @@
  * @version   $Id$
  */
 
-ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR
-        . '/usr/local/www/pearweb/include');
-
 /**
  * Get common settings.
  */
-require_once 'pear-config.php';
+require_once dirname(__FILE__) . '/../include/pear-config.php';
 
 /**
  * Obtain the system's common functions and classes.
  */
-require_once 'pear-database.php';
+require_once dirname(__FILE__) . '/../include/pear-database.php';
 
 /**
  * Get the database class.
@@ -39,5 +36,5 @@ if (DB::isError($dbh)) {
 $sql = 'DELETE FROM trackbacks WHERE timestamp <= '.(time() - TRACKBACK_PURGE_TIME).' AND approved = "false"';
 
 if (PEAR::isError($res = $dbh->query($sql))) {
-    die("SQL <$sql> returned error: <{$res->getMessage()}>.\n");
+    die("SQL <" . $sql . "> returned error: <" . $res->getMessage() . ">.\n");
 }
