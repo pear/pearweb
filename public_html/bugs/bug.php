@@ -278,6 +278,8 @@ if ($_POST['in'] && $edit == 3) {
                         $ncomment = "$reason\n\n$ncomment";
                         break;
                 }
+            } else {
+                $ncomment = "$reason\n\n$ncomment";
             }
         }
     }
