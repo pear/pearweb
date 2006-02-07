@@ -103,11 +103,11 @@ Again, thank you for your continued support of PEAR.',
 This problem may have been already fixed by a previous change that
 is in the CVS of the package.  Please log into CVS with:
 
-cvs -d :pserver:anoncvs@cvs.php.net:/repository login
+cvs -d :pserver:cvsread@cvs.php.net:/repository login
 
 and check out the CVS repository of this package and upgrade
 
-cvs -d :pserver:anoncvs@cvs.php.net:/repository co @cvs@
+cvs -d :pserver:cvsread@cvs.php.net:/repository co @cvs@
 pear upgrade @cvs@/package2.xml
 
 or
