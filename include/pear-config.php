@@ -340,4 +340,13 @@ define('PROPOSAL_EMAIL_POSTFIX', "\n\n-- \nSent by PEPr, the automatic proposal 
 
 define('PROPOSAL_OVERVIEW_FINISHED', 10);
 
+/**
+ * Number of trackbacks from 1 IP allowed within given timespan.
+ */
+define('TRACKBACK_REPOST_COUNT', 3);
+/**
+ * Timespan for above defined repost count. 3600 == 30 mins
+ */
+define('TRACKBACK_REPOST_TIMESPAN', 3600);
+
 ?>

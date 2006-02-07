@@ -63,7 +63,6 @@ if (!empty($params['action'])) {
         break;
 
     case 'trackbacks' :
-        include_once 'Damblan/Trackback.php';
         if (isset($auth_user)) {
             $karma =& new Damblan_Karma($dbh);
             $trackbackIsAdmin = (isset($auth_user) && $karma->has($auth_user->handle, 'pear.dev'));
@@ -136,8 +135,8 @@ foreach ($maintainers as $handle => $row) {
 
 $accounts .= '</ul>';
 
-
 $channel_name = PEAR_CHANNELNAME;
+$trackback_uri = "http://$channel_name/trackback/trackback.php?id=$name";
 
 $trackback_header = <<<EOD
 <!--
@@ -148,7 +147,7 @@ $trackback_header = <<<EOD
         rdf:about="http://$channel_name/package/$name"
         dc:identifier="http://$channel_name/package/$name"
         dc:title="Package :: $name"
-        trackback:ping="http://$channel_name/trackback/trackback.php?id=$name" />
+        trackback:ping="$trackback_uri" />
 </rdf:RDF>
 -->
 EOD;
@@ -472,19 +471,6 @@ if (empty($action)) {
 
     include_once 'Damblan/Trackback.php';
 
-
-    // Preparing trackback data
-    $uri = (isset($redirected) && $redirected === true) ? preg_replace('@/package(/[^/]+)/redirected@', '\1', $_SERVER['REQUEST_URI']) : $_SERVER['REQUEST_URI'];
-    $url = 'http://' . $_SERVER['SERVER_NAME'] . $_SERVER['SERVER_PORT'] . $uri;
-
-    // Get trackback autodiscovery code
-    $tmpTrackback = Services_Trackback::create(array(
-        'id'            => $name,
-        'url'           => $url,
-        'title'         => 'Package :: ' . htmlspecialchars($name),
-        'trackback_url' => 'http://' . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] . '/trackback/trackback.php?id=' . $name,
-    ));
-
     // Generate trackback list
     $trackbacks = Damblan_Trackback::listTrackbacks($dbh, $name, !$trackbackIsAdmin);
 
@@ -492,10 +478,10 @@ if (empty($action)) {
 when a weblog entry is created, which is related to the package. If you want to learn more about trackbacks, please take a look at
 &quot; <a href="http://www.movabletype.org/trackback/beginners/">A Beginner\'s Guide to TrackBack</a>&quot; (by movabletype.org).</p>';
 
-    print '<p>The trackback URL for this package is: <a href="'.$tmpTrackback->get('trackback_url').'">'.$tmpTrackback->get('trackback_url').'</a>';
+    print '<p>The trackback URL for this package is: <a href="'.$trackback_uri.'">'.$trackback_uri.'</a>';
 
     if ($trackbackIsAdmin) {
-        print '<div class="explain">You may manipulate the trackbacks of this package. In contrast to normal users, you see approved and pending trackbacks </div>';
+        print '<div class="explain">You may manipulate the trackbacks of this package. In contrast to normal users, you see approved and pending trackbacks, while normal users only see the approved ones.</div>';
     }
 
     if (count($trackbacks) == 0) {

@@ -66,14 +66,74 @@ if (PEAR::isError($res)) {
     exit;
 }
 
+$badWordOptions = array(
+    'comparefunc' => array( 'Damblan_Trackback', 'compareWords'),
+    'sources' => array(
+        'acne',
+        'adipex',
+        'anal',
+        'birth',
+        'blackjack',
+        'car',
+        'caribbean',
+        'cash',
+        'casino',
+        'cigar',
+        'closet',
+        'cruise',
+        'daystore',
+        'depression',
+        'diet',
+        'disney',
+        'drugs',
+        'erection',
+        'fruit',
+        'fundslender',
+        'gambling',
+        'gift',
+        'hire',
+        'hydrocodone',
+        'ifinanc',
+        'lasik',
+        'loan',
+        'mattress',
+        'mortgage',
+        'mp3 download',
+        'naproxen',
+        'neurontin',
+        'payday',
+        'penis',
+        'pharma',
+        'phentermine',
+        'poker',
+        'porn',
+        'rheuma',
+        'roulette',
+        'sadism',
+        'sex',
+        'smoking',
+        'texas hold',
+        'tramadol',
+        'uxury',
+        'viagra',
+        'vioxx',
+        'weight loss',
+        'xanax',
+        'zantac',
+    ),
+);
+
 // Check for possible spam
-$trackback->createSpamCheck('Wordlist');
+$trackback->createSpamCheck('Wordlist', $badWordOptions);
 $trackback->createSpamCheck('DNSBL');
 $trackback->createSpamCheck('SURBL');
 
+if ($trackback->checkRepost($dbh, TRACKBACK_REPOST_COUNT, TRACKBACK_REPOST_TIMESPAN) !== false) {
+    echo Services_Trackback::getResponseError('Only '.TRACKBACK_REPOST_COUNT.' trackbacks from 1 IP address within '.TRACKBACK_REPOST_TIMESPAN.' secs are allowed on this site. Please try again later.', 1);
+    exit;
+}
 
-$res = $trackback->checkSpam();
-if ($res) {
+if ($trackback->checkSpam() === true) {
     echo Services_Trackback::getResponseError('Your trackback seems to be spam. If it is not, please contact the webmaster of this site.', 1);
     exit;
 }

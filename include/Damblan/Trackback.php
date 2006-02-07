@@ -20,10 +20,6 @@ class Damblan_Trackback extends Services_Trackback {
      */
     var $_approved = false;
 
-    // How many trackbacks may be posted in a specific timespan?
-    var $_repostCount = 3;
-    // In which timespan?
-    var $_repostTimespan = 600; // 10 minutes
     // Blacklists to check, when a trackback is received.
     var $_blacklists = array(
         'bl.spamcop.net'
@@ -89,22 +85,21 @@ class Damblan_Trackback extends Services_Trackback {
      *
      * @since
      * @param object(DB) $dbh The database handle.
-     * @return mixed Bool true, if no repost, else or on error, PEAR::Error()
+     * @return bool True if this is a repost, otherwise false.
      */
-    function checkRepost(&$dbh)
+    function checkRepost(&$dbh, $count = TRACKBACK_REPOST_COUNT, $timespan = TRACKBACK_REPOST_TIMESPAN)
     {
         $sql = 'SELECT COUNT(timestamp) FROM trackbacks WHERE 
             ip = '.$dbh->quoteSmart($this->get('host')).' AND 
-            timestamp > '.$dbh->quoteSmart($this->get('timestamp') - $this->_repostTimespan).'
-            GROUP BY ip';
+            timestamp > '.$dbh->quoteSmart($this->get('timestamp') - $timespan);
         $res = $dbh->getOne($sql);
         if (PEAR::isError($res)) {
             return PEAR::raiseError('Database error, please try again later.');
         }
-        if ($res >= $this->_repostCount) {
-            return PEAR::raiseError('We only allow '.$this->_repostCount.' trackbacks in '.($this->_repostTimespan / 60).' minutes from a single host. Please try again later.');
+        if ($res >= $count) {
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -390,6 +385,11 @@ class Damblan_Trackback extends Services_Trackback {
             $res[] = $tmpUser['email'];
         }
         return $res;
+    }
+
+    function compareWords($source, $element)
+    {
+        return (strpos(strtolower(html_entity_decode($element)), strtolower($source)));
     }
 }
 
