@@ -1,13 +1,11 @@
 <?php
-
 /**
- * Automated cleanup of trackbacks that have not been approved within a certain
- * timespan.
+ * Automated deletion of TrackBack pings that have not been approved 
+ * within a certain time span.
  *
  * @category  pearweb
- * @package   PEPr
  * @author    Tobias Schlitt <toby@php.net>
- * @copyright Copyright (c) 1997-2005 The PHP Group
+ * @copyright Copyright (c) 1997-2006 The PHP Group
  * @license   http://www.php.net/license/3_0.txt  PHP License
  * @version   $Id$
  */
@@ -35,7 +33,7 @@ $options = array(
 );
 $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 if (DB::isError($dbh)) {
-    die ("Failed to connect: $dsn\n");
+    die("Failed to connect: $dsn\n");
 }
 
 $sql = 'DELETE FROM trackbacks WHERE timestamp <= '.(time() - TRACKBACK_PURGE_TIME).' AND approved = "false"';
@@ -43,5 +41,3 @@ $sql = 'DELETE FROM trackbacks WHERE timestamp <= '.(time() - TRACKBACK_PURGE_TI
 if (PEAR::isError($res = $dbh->query($sql))) {
     die("SQL <$sql> returned error: <{$res->getMessage()}>.\n");
 }
-
-?>
