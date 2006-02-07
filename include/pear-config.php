@@ -348,5 +348,9 @@ define('TRACKBACK_REPOST_COUNT', 3);
  * Timespan for above defined repost count. 3600 == 30 mins
  */
 define('TRACKBACK_REPOST_TIMESPAN', 3600);
+/**
+ * Auto purging time for trackbacks (14 days).
+ */
+define('TRACKBACK_PURGE_TIME', 14 * 27 * 60 * 60);
 
 ?>
