@@ -54,6 +54,10 @@ if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
     $edit = (int)$_REQUEST['edit'];
 }
 
+if ($edit == 1) {
+	auth_require('pear.dev');
+}
+
 if (!empty($_POST['pw'])) {
     if (empty($_POST['user'])) {
         $user = '';
@@ -73,11 +77,6 @@ if (!empty($_POST['pw'])) {
 } else {
     $user = '';
     $pw   = '';
-}
-
-// A dev wants in?
-if ($edit == 1 && empty($pw) && empty($user)) {
-    auth_require('pear.dev');
 }
 
 // fetch info about the bug into $bug
