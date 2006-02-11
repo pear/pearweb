@@ -25,13 +25,6 @@
  */
 session_start();
 
-if (!isset($_COOKIE['PHPSESSID']) &&
-    ((strpos(@$_SERVER['HTTP_REFERER'], @$_GET['redirect']) !== false) ||
-     (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']))))
-{
-    auth_reject(PEAR_AUTH_REALM, 'Cookies must be enabled to log in.');
-}
-
 /*
  * If they're already logged in, say so.
  */
