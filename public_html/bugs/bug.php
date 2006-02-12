@@ -55,7 +55,7 @@ if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
 }
 
 if ($edit == 1) {
-	auth_require('pear.dev');
+    auth_require('pear.dev');
 }
 
 if (!empty($_POST['pw'])) {
