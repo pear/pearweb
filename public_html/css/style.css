@@ -205,7 +205,7 @@ td.form-input {
 td.form-input_center {
     padding: 3px;
     text-align: center;
-    vertical-align: center;
+    vertical-align: middle;
     background-color: #e8e8e8;
 }
 
