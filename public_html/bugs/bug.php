@@ -79,6 +79,8 @@ if (!empty($_POST['pw'])) {
     $pw   = '';
 }
 
+$trytoforce = isset($_POST['trytoforce']) ? (int)$_POST['trytoforce'] : false;
+
 // fetch info about the bug into $bug
 $query = 'SELECT b.id, b.package_name, b.bug_type, b.email,
         b.passwd, b.sdesc, b.ldesc, b.php_version, b.package_version, b.php_os,
