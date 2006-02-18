@@ -42,8 +42,13 @@ require_once 'Damblan/Karma.php';
 function display_pepr_nav(&$proposal)
 {
     global $auth_user;
+
+    /* There is no point to have a pepr navigation bar for 
+       a new proposal
+     */
     if ($proposal == null) {
         $id = 0;
+        return;
     } else {
         $id = $proposal->id;
     }
