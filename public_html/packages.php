@@ -122,7 +122,7 @@ $sth = $dbh->query('SELECT c.*, COUNT(p.id) AS npackages' .
                    " WHERE p.package_type = 'pear'" .
                    '  AND p.approved = 1' .
                    "  AND c.parent $category_where " .
-                   ' GROUP BY c.id ' . 
+                   ' GROUP BY c.id ' .
                    'ORDER BY name');
 
 $table   = new HTML_Table('border="0" cellpadding="6" cellspacing="2" width="100%"');
@@ -154,6 +154,8 @@ while ($sth->fetchInto($row)) {
     if (!$showempty AND $npackages < 1) {
         continue;  // Show categories with packages
     }
+
+    $current_level_cat[$id] = $npackages;
 
     $sub_items = 0;
 
@@ -216,10 +218,16 @@ if (!empty($catpid)) {
     $nrow = 0;
     // Subcategories list
     $minPackages = ($showempty) ? 0 : 1;
+
     $subcats = $dbh->getAll("SELECT id, name, summary FROM categories WHERE " .
-                            "parent = $catpid AND npackages >= $minPackages", DB_FETCHMODE_ASSOC);
+                            "parent = $catpid", DB_FETCHMODE_ASSOC);
+
+
     if (count($subcats) > 0) {
         foreach ($subcats as $subcat) {
+            if ($current_level_cat[$subcat['id']] < 1) {
+                continue;
+            }
             $subCategories[] = sprintf('<b><a href="%s?catpid=%d&catname=%s" title="%s">%s</a></b>',
                                        $script_name,
                                        $subcat['id'],
