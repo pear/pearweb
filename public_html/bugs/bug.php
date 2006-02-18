@@ -128,7 +128,7 @@ if ($edit == 1 && isset($delete_comment)) {
 // handle any updates, displaying errors if there were any
 $errors = array();
 
-if ($_POST['in'] && $edit == 3) {
+if ($_POST['in'] && !isset($_POST['preview'])  && $edit == 3) {
     // Submission of additional comment by others
 
     if (!validate_captcha()) {
@@ -170,6 +170,9 @@ if ($_POST['in'] && $edit == 3) {
                  " '" . escapeSQL($ncomment) . "')";
         $dbh->query($query);
     }
+    $from = rinse($_POST['in']['commentemail']);
+} elseif ($_POST['in'] && isset($_POST['preview']) && $edit == 3) {
+    $ncomment = trim($_POST['ncomment']);
     $from = rinse($_POST['in']['commentemail']);
 
 } elseif ($_POST['in'] && $edit == 2) {
@@ -325,7 +328,6 @@ if ($_POST['in'] && $edit == 3) {
             $dbh->query($query);
         }
     }
-
 } elseif ($_POST['in']) {
     $errors[] = 'Invalid edit mode.';
     $ncomment = '';
@@ -333,7 +335,7 @@ if ($_POST['in'] && $edit == 3) {
     $ncomment = '';
 }
 
-if ($_POST['in']) {
+if ($_POST['in'] && !isset($_POST['preview'])) {
     if (!$errors) {
         mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit);
         localRedirect(htmlspecialchars($_SERVER['PHP_SELF']) . "?id=$id&thanks=$edit");
@@ -742,6 +744,15 @@ if ($edit == 3) {
         </div>
 
         <?php
+    } elseif (isset($_POST['preview']) && !empty($ncomment)) {
+        echo '<div class="comment">';
+        echo "<strong>[",format_date(time()),"] ";
+        echo spam_protect(htmlspecialchars($from))."</strong>\n";
+        echo '<pre class="note">';
+        $comment = make_ticket_links(addlinks($ncomment));
+        echo wordwrap($comment, 72);
+        echo "</pre>\n";
+        echo '</div>';
     }
 
     ?>
@@ -768,7 +779,7 @@ if ($edit == 3) {
     <div>
      <textarea cols="60" rows="10" name="ncomment"
       wrap="physical"><?php echo clean($ncomment) ?></textarea>
-     <br /><input type="submit" value="Submit" />
+     <br /><input type="submit" name="preview" value="Preview">&nbsp;<input type="submit" value="Submit" />
     </div>
 
     </form>
