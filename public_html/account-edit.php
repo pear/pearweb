@@ -75,6 +75,11 @@ switch ($command) {
                 continue;
             }
 
+            if ($k == 'wishlist') {
+                $user_data_post['wishlist'] = isset($_POST['wishlist']) ? strip_tags($_POST['wishlist']) : '';
+                continue;
+            }
+
             if (!isset($_POST[$k])) {
                 report_error('Invalid data submitted.');
                 response_footer();
@@ -82,7 +87,6 @@ switch ($command) {
             }
 
             $user_data_post[$k] = htmlspecialchars($_POST[$k]);
-
             if ($k == 'userinfo' && strlen($user_data_post[$k]) > 500) {
                 report_error('User information exceeds the allowed length of 500 characters.');
                 response_footer();
