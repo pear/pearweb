@@ -237,6 +237,7 @@ if (isset($_POST['in'])) {
             // }
 
             $extra_headers  = 'From: '           . $protected_email . "\n";
+            $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
             $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
             $extra_headers .= 'X-PHP-Type: '     . rinse($_POST['in']['bug_type']) . "\n";
             $extra_headers .= 'X-PHP-PackageVersion: '  . rinse($_POST['in']['package_version']) . "\n";
