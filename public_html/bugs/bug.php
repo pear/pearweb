@@ -84,15 +84,15 @@ $trytoforce = isset($_POST['trytoforce']) ? (int)$_POST['trytoforce'] : false;
 // fetch info about the bug into $bug
 $query = 'SELECT b.id, b.package_name, b.bug_type, b.email,
         b.passwd, b.sdesc, b.ldesc, b.php_version, b.package_version, b.php_os,
-        b.status, b.ts1, b.ts2, b.assign, UNIX_TIMESTAMP(b.ts1) AS submitted, 
+        b.status, b.ts1, b.ts2, b.assign, UNIX_TIMESTAMP(b.ts1) AS submitted,
         UNIX_TIMESTAMP(b.ts2) AS modified,
         COUNT(bug=b.id) AS votes,
         SUM(reproduced) AS reproduced,SUM(tried) AS tried,
         SUM(sameos) AS sameos, SUM(samever) AS samever,
         AVG(score)+3 AS average,STD(score) AS deviation,
         users.showemail, users.handle, p.package_type
-        FROM bugdb b 
-        LEFT JOIN bugdb_votes ON b.id = bug 
+        FROM bugdb b
+        LEFT JOIN bugdb_votes ON b.id = bug
         LEFT JOIN users ON users.email = b.email
         LEFT JOIN packages p ON b.package_name = p.name
         WHERE b.id = '.(int)$id.'
@@ -401,7 +401,7 @@ if ($bug['modified']) {
   <tr id="submitter">
    <th class="details">From:</th>
    <td>
-   <?php 
+   <?php
     if ($bug['showemail'] == '0') {
         echo $bug['handle'];
     } else {
@@ -722,7 +722,11 @@ if ($edit == 1 || $edit == 2) {
 
 if ($edit == 3) {
     ?>
-
+    <div class="explain">
+        If you're the original bug submitter, here's where you can edit the bug
+        or add additional notes. <a href="<?php
+        echo htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=2" ?>">Edit my bug</a>.
+    </div>
     <form id="comment" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
 
     <?php
@@ -854,10 +858,10 @@ if ($bug['ldesc']) {
 }
 
 // Display comments
-$query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, 
+$query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added,
         u.showemail, u.handle
         FROM bugdb_comments c
-        LEFT JOIN users u ON u.email = c.email    
+        LEFT JOIN users u ON u.email = c.email
         WHERE c.bug = '.(int)$id.'
         GROUP BY c.id ORDER BY c.ts';
 $res =& $dbh->query($query);
