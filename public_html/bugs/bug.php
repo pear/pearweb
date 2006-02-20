@@ -451,7 +451,7 @@ if ($bug['modified']) {
 <?php
 
 control(0, 'View');
-if ($edit != 2) {
+if (!($auth_user && $auth_user->registered) && $edit != 2) {
     control(3, 'Add Comment');
 }
 if ($auth_user) {
@@ -915,7 +915,7 @@ function delete_comment($id, $com_id)
     $res =& $dbh->query($query);
 }
 
-function control($num, $desc)
+function control($num, $desc, $dev = false)
 {
     echo '<span id="control_' . $num . '" class="control';
     if ($GLOBALS['edit'] == $num) {
