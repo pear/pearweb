@@ -68,13 +68,7 @@ $font_padding     = 2;
 $font_size_max    = 25;
 $font_size_min    = 18;
 
-/*
- * Use full path to the fonts to avoid problems.
- * The fonts are located in pearweb/include/fonts.
- * Ease dev box configuration by doing this funky string replace.
- */
-$font_dir = strtr($_SERVER['DOCUMENT_ROOT'],
-                  array('public_html' => 'include')) . '/fonts/';
+$font_dir = realpath(dirname(__FILE__) . '/../include/fonts/') . '/';
 
 /*
  * This array contains the list of font names and the number the base
