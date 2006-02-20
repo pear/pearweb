@@ -125,7 +125,7 @@ if (isset($_POST['in'])) {
                     $bug_url = "/bugs/bug.php?id=$row[id]&amp;edit=2";
 
                     echo " <tr>\n";
-                    echo '  <td colspan="2"><a href="' . $bug_url . '">Bug #';
+                    echo '  <td colspan="2"><strong>' . $row['package_name'] . '</strong> : <a href="' . $bug_url . '">Bug #';
                     echo $row['id'] . ': ' . htmlspecialchars($row['sdesc']);
                     echo "</a></td>\n";
                     echo " </tr>\n";
