@@ -82,7 +82,7 @@ if (!empty($_POST['pw'])) {
 $trytoforce = isset($_POST['trytoforce']) ? (int)$_POST['trytoforce'] : false;
 
 // fetch info about the bug into $bug
-$query = 'SELECT b.id, b.package_name, b.bug_type, b.email,
+$query = 'SELECT b.id, b.package_name, b.bug_type, b.email, b.reporter_name,
         b.passwd, b.sdesc, b.ldesc, b.php_version, b.package_version, b.php_os,
         b.status, b.ts1, b.ts2, b.assign, UNIX_TIMESTAMP(b.ts1) AS submitted,
         UNIX_TIMESTAMP(b.ts2) AS modified,
@@ -135,6 +135,8 @@ if ($_POST['in'] && !isset($_POST['preview'])  && $edit == 3) {
         $errors[] = 'Incorrect CAPTCHA';
     }
 
+	$comment_name = isset($_POST['in']['comment_name']) ? htmlspecialchars(strip_tags($_POST['in']['comment_name'])) : '';
+
     if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",
                     $_POST['in']['commentemail'])) {
         $errors[] = "You must provide a valid email address.";
@@ -163,11 +165,13 @@ if ($_POST['in'] && !isset($_POST['preview'])  && $edit == 3) {
 
     if (!$errors) {
         $query = 'INSERT INTO bugdb_comments' .
-                 ' (bug, email, ts, comment) VALUES (' .
+                 ' (bug, email, ts, comment, reporter_name) VALUES (' .
                  " $id," .
                  " '" . escapeSQL($_POST['in']['commentemail']) . "'," .
                  ' NOW(),' .
-                 " '" . escapeSQL($ncomment) . "')";
+                 " '" . escapeSQL($ncomment) . "'," .
+                 " '" . escapeSQL($comment_name) . "')";
+
         $dbh->query($query);
     }
     $from = rinse($_POST['in']['commentemail']);
@@ -763,6 +767,14 @@ if ($edit == 3) {
 
     <table>
      <tr>
+      <th class="details">Your <span class="accesskey">n</span>ame:</th>
+      <td>
+       <input type="text" size="40" maxlength="40" name="in[comment_name]"
+        value="<?php echo clean($_POST['in']['comment_name']) ?>"
+        accesskey="n" />
+      </td>
+     </tr>
+     <tr>
       <th class="details">Y<span class="accesskey">o</span>ur email address:</th>
       <td>
        <input type="text" size="40" maxlength="40" name="in[commentemail]"
@@ -854,11 +866,11 @@ if (!$edit && canvote()) {
 
 // Display original report
 if ($bug['ldesc']) {
-    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['handle']);
+    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['handle'], $bug['reporter_name']);
 }
 
 // Display comments
-$query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added,
+$query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name,
         u.showemail, u.handle
         FROM bugdb_comments c
         LEFT JOIN users u ON u.email = c.email
@@ -867,14 +879,14 @@ $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added,
 $res =& $dbh->query($query);
 if ($res) {
     while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-        output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['handle']);
+        output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['handle'], $row['comment_name']);
     }
 }
 
 response_footer();
 
 
-function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = null)
+function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = NULL, $comment_name = NULL)
 {
     global $edit, $id, $trusted_developers, $user, $dbh;
 
@@ -885,6 +897,9 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
     } else {
         echo spam_protect(htmlspecialchars($email))."</strong>\n";
     }
+    if ($comment_name) {
+        echo '(' . htmlspecialchars($comment_name) . ')';
+    } 
     echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"".htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
     echo '<pre class="note">';
     $comment = make_ticket_links(addlinks($comment));

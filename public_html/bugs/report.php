@@ -167,6 +167,8 @@ if (isset($_POST['in'])) {
                 $fdesc .= $_POST['in']['actres'] . "\n";
             }
 
+            $reporter_name = isset($_POST['in']['reporter_name']) ? htmlspecialchars(strip_tags($_POST['in']['reporter_name'])) : '';
+
             $query = 'INSERT INTO bugdb (' .
                      ' package_name,' .
                      ' bug_type,' .
@@ -177,7 +179,8 @@ if (isset($_POST['in'])) {
                      ' php_version,' .
                      ' php_os,' .
                      ' status, ts1,' .
-                     ' passwd' .
+                     ' passwd,' .
+                     ' reporter_name' .
                      ') VALUES (' .
                      " '" . escapeSQL($_POST['in']['package_name']) . "'," .
                      " '" . escapeSQL($_POST['in']['bug_type']) . "'," .
@@ -188,7 +191,9 @@ if (isset($_POST['in'])) {
                      " '" . escapeSQL($_POST['in']['php_version']) . "'," .
                      " '" . escapeSQL($_POST['in']['php_os']) . "'," .
                      " 'Open', NOW(), " .
-                     " '" . escapeSQL($_POST['in']['passwd']) . "')";
+                     " '" . escapeSQL($_POST['in']['passwd']) . "'," .
+                     " '" . escapeSQL($reporter_name) . "')";
+
 
             $dbh->query($query);
 
@@ -321,6 +326,16 @@ if (!package_exists($_REQUEST['package'])) {
  action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . '?package='
  . clean($_REQUEST['package']); ?>">
 <table class="form-holder" cellspacing="1">
+ <tr>
+  <th class="form-label_left">
+   Your <span class="accesskey">n</span>ame:
+  </th>
+  <td class="form-input">
+   <input type="text" size="20" maxlength="40" name="in[reporter_name]"
+    value="<?php echo clean($_POST['in']['reporter_name']); ?>" accesskey="n" />
+  </td>
+ </tr>
+
  <tr>
   <th class="form-label_left">
    Y<span class="accesskey">o</span>ur email address:
