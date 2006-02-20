@@ -30,7 +30,6 @@ require_once './include/prepend.inc';
  */
 require_once './include/cvs-auth.inc';
 
-
 error_reporting(E_ALL ^ E_NOTICE);
 $errors              = array();
 $ok_to_submit_report = false;
@@ -331,8 +330,20 @@ if (!package_exists($_REQUEST['package'])) {
    Your <span class="accesskey">n</span>ame:
   </th>
   <td class="form-input">
+<?php
+    if ($auth_user && $auth_user->registered) {
+?>
+   <?php echo clean($auth_user->name); ?>
+   <input type="hidden" size="20" maxlength="40" name="in[reporter_name]"
+    value="<?php echo clean($auth_user->name); ?>" accesskey="n" />
+<?php
+    } else {
+?>
    <input type="text" size="20" maxlength="40" name="in[reporter_name]"
     value="<?php echo clean($_POST['in']['reporter_name']); ?>" accesskey="n" />
+<?php
+   }
+?>
   </td>
  </tr>
 
@@ -343,8 +354,19 @@ if (!package_exists($_REQUEST['package'])) {
   <td class="form-input">
    <input type="hidden" name="in[did_luser_search]"
     value="<?php echo $_POST['in']['did_luser_search'] ? 1 : 0; ?>" />
+<?php
+if ($auth_user && $auth_user->registered) {
+?>
+   <input type="text" size="20" maxlength="40" name="in[email]"
+    value="<?php echo ($auth_user->showemail) ? $auth_user->email : ($auth_user->handle . '@php.net'); ?>" accesskey="o" />
+<?php
+} else {
+?>
    <input type="text" size="20" maxlength="40" name="in[email]"
     value="<?php echo clean($_POST['in']['email']); ?>" accesskey="o" />
+<?php
+}
+?>
   </td>
  </tr>
  <tr>
