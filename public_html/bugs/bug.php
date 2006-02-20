@@ -54,6 +54,12 @@ if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
     $edit = (int)$_REQUEST['edit'];
 }
 
+if ($auth_user && $auth_user->registered && isset($_GET['delete_comment'])) {
+    $delete_comment = (int)$_GET['delete_comment'];
+} else {
+    $delete_comment = false;
+}
+
 if ($edit == 1) {
     auth_require('pear.dev');
 }
@@ -115,20 +121,22 @@ if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
 }
 
 // Delete comment
-if ($edit == 1 && isset($delete_comment)) {
+if ($edit == 1 && $delete_comment) {
     $addon = '';
+
     if (in_array($user, $trusted_developers) && verify_password($user, $pw)) {
         delete_comment($id, $delete_comment);
         $addon = '&thanks=1';
     }
-    localRedirect(htmlspecialchars($_SERVER['PHP_SELF']) . "?id=$id&edit=1$addon");
+
+    localRedirect('/bugs/bug.php' . "?id=$id&edit=1$addon");
     exit();
 }
 
 // handle any updates, displaying errors if there were any
 $errors = array();
 
-if ($_POST['in'] && !isset($_POST['preview'])  && $edit == 3) {
+if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
     // Submission of additional comment by others
 
     if (!validate_captcha()) {
@@ -179,7 +187,7 @@ if ($_POST['in'] && !isset($_POST['preview'])  && $edit == 3) {
     $ncomment = trim($_POST['ncomment']);
     $from = rinse($_POST['in']['commentemail']);
 
-} elseif ($_POST['in'] && $edit == 2) {
+} elseif ($_POST['in'] && !isset($_POST['preview']) && $edit == 2) {
     // Edits submitted by original reporter
 
     if (!$bug['passwd'] || $bug['passwd'] != $pw) {
@@ -237,8 +245,10 @@ if ($_POST['in'] && !isset($_POST['preview'])  && $edit == 3) {
             $dbh->query($query);
         }
     }
-
-} elseif ($_POST['in'] && $edit == 1) {
+} elseif ($_POST['in'] && isset($_POST['preview']) && $edit == 2) {
+    $ncomment = trim($_POST['ncomment']);
+    $from = rinse($_POST['in']['commentemail']);
+} elseif ($_POST['in']  && !isset($_POST['preview']) && $edit == 1) {
     // Edits submitted by developer
 
     if (!verify_password($user, $pw)) {
@@ -332,6 +342,9 @@ if ($_POST['in'] && !isset($_POST['preview'])  && $edit == 3) {
             $dbh->query($query);
         }
     }
+} elseif ($_POST['in'] && isset($_POST['preview']) && $edit == 1) {
+    $ncomment = trim($_POST['ncomment']);
+    $from = rinse($_POST['in']['commentemail']);
 } elseif ($_POST['in']) {
     $errors[] = 'Invalid edit mode.';
     $ncomment = '';
@@ -466,6 +479,19 @@ control(2, 'Edit Submission');
 
 <?php
 
+if (isset($_POST['preview']) && !empty($ncomment)) {
+    $preview = '<div class="comment">';
+    $preview .= "<strong>[" . format_date(time()) . "] ";
+    $preview .= spam_protect(htmlspecialchars($from))."</strong>\n";
+    $preview .= '<pre class="note">';
+    $comment = make_ticket_links(addlinks($ncomment));
+    $preview .= wordwrap($comment, 72);
+    $preview .= "</pre>\n";
+    $preview .= '</div>';
+} else {
+    $preview = '';
+}
+
 if ($edit == 1 || $edit == 2) {
     ?>
 
@@ -509,6 +535,7 @@ if ($edit == 1 || $edit == 2) {
 
                 <?php
             }
+            echo $preview;
             ?>
 
              <table>
@@ -589,6 +616,7 @@ if ($edit == 1 || $edit == 2) {
             <?php
         }
     }
+    echo $preview;
     ?>
 
     <table>
@@ -715,14 +743,14 @@ if ($edit == 1 || $edit == 2) {
      wrap="physical"><?php echo clean($ncomment) ?></textarea>
 
     <p style="margin-top: 0em">
-    <input type="submit" value="Submit" />
+        <input type="submit" name="preview" value="Preview">&nbsp;<input type="submit" value="Submit" />
     </p>
 
     </form>
 
     <?php
-
 }
+
 
 if ($edit == 3) {
     ?>
@@ -752,17 +780,8 @@ if ($edit == 3) {
         </div>
 
         <?php
-    } elseif (isset($_POST['preview']) && !empty($ncomment)) {
-        echo '<div class="comment">';
-        echo "<strong>[",format_date(time()),"] ";
-        echo spam_protect(htmlspecialchars($from))."</strong>\n";
-        echo '<pre class="note">';
-        $comment = make_ticket_links(addlinks($ncomment));
-        echo wordwrap($comment, 72);
-        echo "</pre>\n";
-        echo '</div>';
     }
-
+    echo $preview;
     ?>
 
     <table>
@@ -899,7 +918,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
     }
     if ($comment_name) {
         echo '(' . htmlspecialchars($comment_name) . ')';
-    } 
+    }
     echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"".htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
     echo '<pre class="note">';
     $comment = make_ticket_links(addlinks($comment));
