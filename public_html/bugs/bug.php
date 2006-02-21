@@ -797,7 +797,8 @@ if ($edit == 1 || $edit == 2) {
     <?php
 }
 
-if ($user_auth && $user_auth->registered) {
+if ($auth_user && $auth_user->registered) {
+
 ?>
 <div class="explain">
 
