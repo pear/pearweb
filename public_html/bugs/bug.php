@@ -57,7 +57,7 @@ if (isset($_GET['unsubscribe'])) {
 
     if (!$hash) {
 
-        localRedirect('http://' . $redirect . '.local/bugs/bug.php?id='.$id);
+        localRedirect('http://' . $redirect . '.php.net/bugs/bug.php?id='.$id);
     }
 
     unsubscribe($id, $hash);
@@ -112,7 +112,7 @@ if (isset($_POST['subscribe_to_bug'])) {
 
         $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
 
-        localRedirect('http://' . $redirect . '.local/bugs/bug.php?id='.$id);
+        localRedirect('http://' . $redirect . '.php.net/bugs/bug.php?id='.$id);
         exit();
     }
 }
@@ -151,7 +151,7 @@ if (isset($_POST['unsubscribe_to_bug'])) {
 
         $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
 
-        localRedirect('http://' . $redirect . '.local/bugs/bug.php?id='.$id);
+        localRedirect('http://' . $redirect . '.php.net/bugs/bug.php?id='.$id);
         exit();
     }
 }
@@ -179,7 +179,7 @@ if ($edit == 1 && $delete_comment) {
         $addon = '&thanks=1';
     }
 
-    localRedirect('http://pear.local/bugs/bug.php' . "?id=$id&edit=1$addon");
+    localRedirect('http://pear.php.net/bugs/bug.php' . "?id=$id&edit=1$addon");
     exit();
 }
 
