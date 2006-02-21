@@ -41,11 +41,26 @@ require_once './include/trusted-devs.inc';
 session_start();
 error_reporting(E_ALL ^ E_NOTICE);
 
+
 if (empty($_REQUEST['id']) || !(int)$_REQUEST['id']) {
     localRedirect('search.php');
     exit;
 } else {
     $id = (int)$_REQUEST['id'];
+}
+
+
+if (isset($_GET['unsubscribe'])) {
+    $unsubcribe = (int)$_GET['unsubscribe'];
+    $hash = isset($_GET['t']) ? $_GET['t'] : false;
+    $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
+print_r($hash);
+    if (!$hash) {
+
+        localRedirect('http://' . $redirect . '.local/bugs/bug.php?id='.$id);
+    }
+
+    unsubscribe($id, $hash);
 }
 
 if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
@@ -85,6 +100,24 @@ if (!empty($_POST['pw'])) {
     $pw   = '';
 }
 
+// Subscribtion
+if (isset($_POST['subscribe_to_bug'])) {
+    $email = $_POST['subscribe_email'];
+    if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $email)) {
+        $errors[] = "You must provide a valid email address.";
+    } else {
+        $query = 'REPLACE INTO bugdb_subscribe SET bug_id=' . $id .
+                    ", email='" . escapeSQL($email) . "'";
+        $dbh->query($query);
+
+        $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
+
+        localRedirect('http://' . $redirect . '.local/bugs/bug.php?id='.$id);
+        exit();
+    }
+}
+
+
 $trytoforce = isset($_POST['trytoforce']) ? (int)$_POST['trytoforce'] : false;
 
 // fetch info about the bug into $bug
@@ -106,6 +139,23 @@ $query = 'SELECT b.id, b.package_name, b.bug_type, b.email, b.reporter_name,
 
 $bug =& $dbh->getRow($query, array(), DB_FETCHMODE_ASSOC);
 
+// Unsubscribe
+if (isset($_POST['unsubscribe_to_bug'])) {
+    $email = $_POST['subscribe_email'];
+
+    if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $email)) {
+        $errors[] = "You must provide a valid email address.";
+    } else {
+        /* Generate the hash */
+        unsubscribe_hash($id, $email, $bug);
+
+        $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
+
+        localRedirect('http://' . $redirect . '.local/bugs/bug.php?id='.$id);
+        exit();
+    }
+}
+
 if (!$bug) {
     response_header('No Such Bug');
     display_bug_error('No such bug #' . $id);
@@ -115,7 +165,7 @@ if (!$bug) {
 
 // Redirect to PECL if it's a PECL bug
 if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
-   $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
+    $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
     localRedirect('http://'.$redirect.'.php.net/bugs/bug.php?id='.$id);
     exit();
 }
@@ -129,7 +179,7 @@ if ($edit == 1 && $delete_comment) {
         $addon = '&thanks=1';
     }
 
-    localRedirect('/bugs/bug.php' . "?id=$id&edit=1$addon");
+    localRedirect('http://pear.local/bugs/bug.php' . "?id=$id&edit=1$addon");
     exit();
 }
 
@@ -143,10 +193,9 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
         $errors[] = 'Incorrect CAPTCHA';
     }
 
-	$comment_name = isset($_POST['in']['comment_name']) ? htmlspecialchars(strip_tags($_POST['in']['comment_name'])) : '';
+    $comment_name = isset($_POST['in']['comment_name']) ? htmlspecialchars(strip_tags($_POST['in']['comment_name'])) : '';
 
-    if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",
-                    $_POST['in']['commentemail'])) {
+    if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $_POST['in']['commentemail'])) {
         $errors[] = "You must provide a valid email address.";
     }
 
@@ -354,7 +403,7 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
 
 if ($_POST['in'] && !isset($_POST['preview'])) {
     if (!$errors) {
-        mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit);
+        mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit, $id);
         localRedirect(htmlspecialchars($_SERVER['PHP_SELF']) . "?id=$id&thanks=$edit");
         exit;
     }
@@ -475,8 +524,6 @@ control(2, 'Edit Submission');
 ?>
 
 </div>
-
-
 <?php
 
 if (isset($_POST['preview']) && !empty($ncomment)) {
@@ -745,12 +792,26 @@ if ($edit == 1 || $edit == 2) {
     <p style="margin-top: 0em">
         <input type="submit" name="preview" value="Preview">&nbsp;<input type="submit" value="Submit" />
     </p>
-
     </form>
 
     <?php
 }
 
+if ($user_auth && $user_auth->registered) {
+?>
+<div class="explain">
+
+    <form name="subscribetobug" action="/bugs/bug.php?id=<?php echo $id; ?>" method="post">
+    <table>
+      <th class="details" colspan="2">Subscribe to this entry?</th>
+      <th class="details">Your email</th><td><input type="text" name="subscribe_email" value="" /></td>
+      <th class="details" colspan="2"><input type="submit" name="subscribe_to_bug" value="Subscribe" /></th>
+      <th class="details" colspan="2"><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></th>
+    </table>
+    </form>
+</div>
+<?php
+}
 
 if ($edit == 3) {
     ?>
@@ -783,6 +844,7 @@ if ($edit == 3) {
     }
     echo $preview;
     ?>
+
 
     <table>
      <tr>

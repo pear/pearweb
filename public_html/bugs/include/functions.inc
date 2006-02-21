@@ -459,7 +459,7 @@ function show_package_version_options($package, $current)
     if (!$use && $current) {
         echo '<option selected="selected">' . $current . "</option>\n";
     } else {
-        echo '<option>CVS</option>' . "\n";    
+        echo '<option>CVS</option>' . "\n";
     }
     echo '<option value="earlier">Earlier? Upgrade first!</option>' . "\n";
     echo "</select>\n";
@@ -667,7 +667,7 @@ function display_bug_success($in)
  *
  * @return void
  */
-function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
+function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
 {
     global $tla, $types, $site, $siteBig;
 
@@ -675,7 +675,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
     $headers = array();
 
     /* Default addresses */
-    list($mailto,$mailfrom) = get_package_mail(oneof($in['package_name'],$bug['package_name']));
+    list($mailto,$mailfrom) = get_package_mail(oneof($in['package_name'],$bug['package_name']), $id);
 
     /* Get rid of slashes in bug status */
     $bug['status'] = rinse($bug['status']);
@@ -683,18 +683,18 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
     $headers[] = array(" ID", $bug['id']);
 
     switch ($edit) {
-    case 3:
-        $from = spam_protect(rinse($in['commentemail']), 'text');
-        $headers[] = array(" Comment by", $from);
-        $from = "\"$from\" <$mailfrom>";
-        break;
-    case 2:
-        $from = spam_protect(txfield('email'), 'text');
-        $headers[] = array(" User updated by", $from);
-        $from = "\"$from\" <$mailfrom>";
-        break;
-    default:
-        $headers[] = array(" Updated by", $from);
+        case 3:
+            $from = spam_protect(rinse($in['commentemail']), 'text');
+            $headers[] = array(" Comment by", $from);
+            $from = "\"$from\" <$mailfrom>";
+            break;
+        case 2:
+            $from = spam_protect(txfield('email'), 'text');
+            $headers[] = array(" User updated by", $from);
+            $from = "\"$from\" <$mailfrom>";
+            break;
+        default:
+            $headers[] = array(" Updated by", $from);
     }
 
     if (changed('sdesc')) {
@@ -806,6 +806,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1)
                   "In-Reply-To: <bug-$bug[id]@$site.php.net>",
                   "-fbounces-ignored@php.net");
             # but we go ahead and let the default sender get used for the list
+
             @mail($mailto,
                   "[$siteBig-BUG] " . rinse($subj) . txfield('sdesc'),
                   $dev_text,
@@ -1005,9 +1006,9 @@ function incoming_details_are_valid($in, $initial = 0)
  *
  * @return array  an array of eamil addresses
  */
-function get_package_mail($package_name)
+function get_package_mail($package_name, $bug_id)
 {
-    global $site, $bugEmail;
+    global $site, $bugEmail, $dbh;
     // XXX Change to pear-bugs when it gets opened
     //$to[] = "pear-dev@lists.php.net";
 
@@ -1026,6 +1027,9 @@ function get_package_mail($package_name)
     foreach ($maintainers as $data) {
         $to[] = $data['email'];
     }
+    $mails = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id=' . $bug_id);
+    $to = array_merge($to, $mails);
+    $to = array_unique($to);
 
     return array(implode(', ', $to), $bugEmail);
 }
@@ -1143,4 +1147,90 @@ function show_bugs_menu($pkgname, $status = null)
     echo "\n\n<!-- END BUG NAV -->\n\n";
 }
 
-?>
+/**
+ * Send the confirmation mail to confirm a subscription removal
+ *
+ * @param integer   bug ID
+ * @param string    email to remove
+ * @param array     bug data
+ *
+ * @return void
+ */
+ function unsubscribe_hash($bug_id, $email, $bug)
+ {
+    global $dbh, $siteBig, $site;
+
+    $now = time();
+    $hash = crypt($email . $id, $now);
+
+    $query = 'UPDATE bugdb_subscribe
+                SET unsubscribe_date=' . $now . ',
+                unsubscribe_hash=' . "'" . escapeSQL($hash) . "'" .
+                ' WHERE bug_id=' . $bug_id . ' AND email=' ."'" . escapeSQL($email) . "'";
+
+    $res = $dbh->query($query);
+
+    $affected = $dbh->affectedRows($res);
+
+    if ($affected > 0) {
+        $hash = urlencode($hash);
+        /* user text with attention, headers and previous messages */
+        $user_text  = "ATTENTION! Do NOT reply to this email!\n\n" .
+                      "A request has been made to remove your subscription to\n" .
+                      "$siteBig bug #$bug_id ($bug[sdesc])\n\n" .
+                      "To confirm the removal please use this link:\n" .
+                      "http://$site.php.net/bugs/bug.php?id=$bug[id]&unsubscribe=1&t=$hash\n\n\n";
+
+        @mail($email,
+              "[$siteBig-BUG-unsubscribe] " . rinse($bug['sdesc']),
+              $user_text,
+              "From: $siteBig Bug Database <$mailfrom>\n".
+              "X-PHP-Bug: $bug[id]\n".
+              "In-Reply-To: <bug-$bug[id]@$site.php.net>",
+              "-fbounces-ignored@php.net");
+    }
+}
+
+
+/**
+ * Remove a subscribtion
+ *
+ * @param integer   bug ID
+ * @param string    hash
+ *
+ * @return void
+ */
+ function unsubscribe($bug_id, $hash)
+ {
+    global $dbh;
+
+    $hash = escapeSQL($hash);
+    $query = 'SELECT
+                bug_id, email, unsubscribe_date, unsubscribe_hash
+            FROM
+                bugdb_subscribe
+            WHERE
+                bug_id=' . $bug_id . '
+            AND
+                unsubscribe_hash=' . "'" . $hash . "'
+            LIMIT 1";
+
+    $sub = $dbh->getRow($query, DB_FETCHMODE_ASSOC);
+
+    if (!$sub) {
+        return false;
+    }
+
+    $now = time();
+    $requested_on = $sub['unsubscribe_date'];
+    /* 24hours delay to answer the mail */
+    if (($now - $requested_on) > (24*60*60)) {
+        return false;
+    }
+
+    $query = 'DELETE FROM bugdb_subscribe WHERE bug_id=' . $bug_id . '
+                AND unsubscribe_hash=' . "'" . $hash . "'
+                AND email='"  . $sub['email'] . "'";
+    $dbh->query($query);
+    return true;
+ }
