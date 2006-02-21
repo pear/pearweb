@@ -53,8 +53,8 @@ CREATE TABLE bugdb_votes (
 CREATE TABLE `bugdb_subscribe` (
   bug_id int(8) NOT NULL default '0',
   email varchar(40) NOT NULL default '',
-  unsubcribe_date int(11) default '',
-  unsubcribe_hash varchar(80) default '',
+  unsubscribe_date int(11) default '',
+  unsubscribe_hash varchar(80) default '',
   PRIMARY KEY  (bug_id, email),
   KEY (unsubscribe_hash)
 ) TYPE=MyISAM;
