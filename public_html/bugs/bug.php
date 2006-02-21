@@ -54,7 +54,7 @@ if (isset($_GET['unsubscribe'])) {
     $unsubcribe = (int)$_GET['unsubscribe'];
     $hash = isset($_GET['t']) ? $_GET['t'] : false;
     $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
-print_r($hash);
+
     if (!$hash) {
 
         localRedirect('http://' . $redirect . '.local/bugs/bug.php?id='.$id);
