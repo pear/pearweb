@@ -1007,7 +1007,7 @@ function incoming_details_are_valid($in, $initial = 0)
  *
  * @return array  an array of eamil addresses
  */
-function get_package_mail($package_name, $bug_id)
+function get_package_mail($package_name, $bug_id=false)
 {
     global $site, $bugEmail, $dbh;
     // XXX Change to pear-bugs when it gets opened
@@ -1028,11 +1028,16 @@ function get_package_mail($package_name, $bug_id)
     foreach ($maintainers as $data) {
         $to[] = $data['email'];
     }
+
     /* subscription */
-    $bcc = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id=' . $bug_id);
-    $bcc = array_diff($bcc, $to);
-    $bcc = array_unique($bcc);
-    return array(implode(', ', $to), $bugEmail, implode(', ', $bcc));
+    if ($bug_id) {
+        $bcc = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id=' . $bug_id);
+        $bcc = array_diff($bcc, $to);
+        $bcc = array_unique($bcc);
+        return array(implode(', ', $to), $bugEmail, implode(', ', $bcc));
+    } else {
+        return array(implode(', ', $to), $bugEmail);
+    }
 }
 
 /**

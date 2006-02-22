@@ -218,8 +218,7 @@ if (isset($_POST['in'])) {
             $ascii_report .= "\n-- \nEdit bug report at ";
             $ascii_report .= "http://$site.php.net/bugs/bug.php?id=$cid&edit=";
 
-            list($mailto, $mailfrom) = get_package_mail(
-                    $_POST['in']['package_name']);
+            list($mailto, $mailfrom) = get_package_mail($_POST['in']['package_name']);
 
             $email = rinse($_POST['in']['email']);
             $protected_email  = '"' . spam_protect($email, 'text') . '"';
