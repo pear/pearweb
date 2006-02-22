@@ -675,7 +675,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
     $headers = array();
 
     /* Default addresses */
-    list($mailto,$mailfrom) = get_package_mail(oneof($in['package_name'],$bug['package_name']), $id);
+    list($mailto,$mailfrom, $Bcc) = get_package_mail(oneof($in['package_name'],$bug['package_name']), $id);
 
     /* Get rid of slashes in bug status */
     $bug['status'] = rinse($bug['status']);
@@ -802,6 +802,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
                   "[$siteBig-BUG] " . rinse($subj) . txfield('sdesc'),
                   $user_text,
                   "From: $siteBig Bug Database <$mailfrom>\n".
+                  "Bcc: $Bcc\n" .
                   "X-PHP-Bug: $bug[id]\n".
                   "In-Reply-To: <bug-$bug[id]@$site.php.net>",
                   "-fbounces-ignored@php.net");
@@ -1027,11 +1028,11 @@ function get_package_mail($package_name, $bug_id)
     foreach ($maintainers as $data) {
         $to[] = $data['email'];
     }
-    $mails = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id=' . $bug_id);
-    $to = array_merge($to, $mails);
-    $to = array_unique($to);
-
-    return array(implode(', ', $to), $bugEmail);
+    /* subscription */
+    $bcc = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id=' . $bug_id);
+    $bcc = array_diff($bcc, $to);
+    $bcc = array_unique($bcc);
+    return array(implode(', ', $to), $bugEmail, implode(', ', $bcc));
 }
 
 /**
