@@ -52,12 +52,12 @@ if (empty($_REQUEST['id']) || !(int)$_REQUEST['id']) {
 
 if (isset($_GET['unsubscribe'])) {
     $unsubcribe = (int)$_GET['unsubscribe'];
+
     $hash = isset($_GET['t']) ? $_GET['t'] : false;
     $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
 
     if (!$hash) {
-
-        localRedirect('http://' . $redirect . '.php.net/bugs/bug.php?id='.$id);
+        localRedirect('bug.php?id='.$id);
     }
 
     unsubscribe($id, $hash);
@@ -110,13 +110,10 @@ if (isset($_POST['subscribe_to_bug'])) {
                     ", email='" . escapeSQL($email) . "'";
         $dbh->query($query);
 
-        $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
-
-        localRedirect('http://' . $redirect . '.php.net/bugs/bug.php?id='.$id);
+        localRedirect('bug.php?id='.$id);
         exit();
     }
 }
-
 
 $trytoforce = isset($_POST['trytoforce']) ? (int)$_POST['trytoforce'] : false;
 
@@ -148,10 +145,7 @@ if (isset($_POST['unsubscribe_to_bug'])) {
     } else {
         /* Generate the hash */
         unsubscribe_hash($id, $email, $bug);
-
-        $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
-
-        localRedirect('http://' . $redirect . '.php.net/bugs/bug.php?id='.$id);
+        localRedirect('bug.php?id='.$id);
         exit();
     }
 }
@@ -166,7 +160,7 @@ if (!$bug) {
 // Redirect to PECL if it's a PECL bug
 if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
     $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
-    localRedirect('http://'.$redirect.'.php.net/bugs/bug.php?id='.$id);
+    localRedirect('http://' . $redirect . '.php.net/bugs/bug.php?id='.$id);
     exit();
 }
 
@@ -178,8 +172,7 @@ if ($edit == 1 && $delete_comment) {
         delete_comment($id, $delete_comment);
         $addon = '&thanks=1';
     }
-
-    localRedirect('http://pear.php.net/bugs/bug.php' . "?id=$id&edit=1$addon");
+    localRedirect('bug.php' . "?id=$id&edit=1$addon");
     exit();
 }
 
@@ -201,7 +194,7 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
 
     // Don't allow comments by the original report submitter
     if (rinse($_POST['in']['commentemail']) == $bug['email']) {
-        localRedirect(htmlspecialchars($_SERVER['PHP_SELF']) . "?id=$id&edit=2");
+        localRedirect('bug.php' . "?id=$id&edit=2");
         exit();
     }
 
@@ -404,7 +397,7 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
 if ($_POST['in'] && !isset($_POST['preview'])) {
     if (!$errors) {
         mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit, $id);
-        localRedirect(htmlspecialchars($_SERVER['PHP_SELF']) . "?id=$id&thanks=$edit");
+        localRedirect('bug.php' . "?id=$id&thanks=$edit");
         exit;
     }
 }
