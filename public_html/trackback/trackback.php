@@ -51,11 +51,14 @@ if (!isset($pkgInfo) || PEAR::isError($pkgInfo)) {
     echo Services_Trackback::getResponseError('No package with ID '.$id.' found. Trackback not possible.', 1);
     exit;
 }
-
+if ($pkgInfo['blocktrackbacks']) {
+    echo Services_Trackback::getResponseError('Package ' . $id . ' does not allow trackbacks.', 1);
+    exit;
+}
 
 // Creating new trackback
 $trackback = new Damblan_Trackback(array(
-    'id' => $id, 
+    'id' => $id,
     'timestamp' => time(),
 ));
 
@@ -141,7 +144,7 @@ if ($trackback->checkSpam() === true) {
 }
 
 $res = $trackback->save($dbh);
-if (PEAR::isError($res)) { 
+if (PEAR::isError($res)) {
     echo Services_Trackback::getResponseError('Your trackback could not be saved, please try again or inform the administrator.', 1);
     exit;
 }

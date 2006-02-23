@@ -27,8 +27,7 @@ $site = new Damblan_URL;
 
 
 // {{{ setup, queries
-
-$params = array('package|pacid' => '', 'action' => '', 'version' => '');
+$params = array('package|pacid' => '', 'action' => '', 'version' => '', 'allowtrackbacks' => '');
 $site->getElements($params);
 
 $pacid = $params['package|pacid'];
@@ -66,8 +65,21 @@ if (!empty($params['action'])) {
         if (isset($auth_user)) {
             $karma =& new Damblan_Karma($dbh);
             $trackbackIsAdmin = (isset($auth_user) && $karma->has($auth_user->handle, 'pear.dev'));
+            if ($trackbackIsAdmin) {
+                if ($pkg['blocktrackbacks'] && $params['allowtrackbacks'] == 1) {
+                    package::allowTrackbacks($pkg['name'], true);
+                    localRedirect('/package/' . $pkg['name'] . '/trackbacks');
+                } elseif ($params['allowtrackbacks'] == 2) {
+                    package::allowTrackbacks($pkg['name'], false);
+                    localRedirect('/package/' . $pkg['name'] . '/trackbacks');
+                }
+            }
         } else {
-            $trackbackIsAdmin = false;
+            if ($pkg['blocktrackbacks']) {
+                localRedirect('/package/' . $pkg['name']);
+            } else {
+                $trackbackIsAdmin = false;
+            }
         }
 
         $action = $params['action'];
@@ -136,9 +148,12 @@ foreach ($maintainers as $handle => $row) {
 $accounts .= '</ul>';
 
 $channel_name = PEAR_CHANNELNAME;
-$trackback_uri = "http://$channel_name/trackback/trackback.php?id=$name";
 
-$trackback_header = <<<EOD
+if ($pkg['blocktrackbacks']) {
+    $trackback_header = '';
+} else {
+    $trackback_uri = "http://$channel_name/trackback/trackback.php?id=$name";
+    $trackback_header = <<<EOD
 <!--
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -151,7 +166,7 @@ $trackback_header = <<<EOD
 </rdf:RDF>
 -->
 EOD;
-
+}
 // }}}
 // {{{ page header
 
@@ -469,6 +484,13 @@ if (empty($action)) {
     // }}}
 } elseif ($action == 'trackbacks') {
 
+    if ($pkg['blocktrackbacks']) {
+        echo '<p>Trackbacks are disabled for this package. If you like to enable them, click below:</p>';
+        echo '<p><a href="/package/' . $pkg['name'] . '/trackbacks/?allowtrackbacks=1">Allow trackbacks</a></p>';
+        response_footer();
+        exit();
+    }
+
     include_once 'Damblan/Trackback.php';
 
     // Generate trackback list
@@ -476,7 +498,9 @@ if (empty($action)) {
 
     print '<p>This page provides a list of trackbacks, which have been received to this package. A trackback is usually generated,
 when a weblog entry is created, which is related to the package. If you want to learn more about trackbacks, please take a look at
-&quot; <a href="http://www.movabletype.org/trackback/beginners/">A Beginner\'s Guide to TrackBack</a>&quot; (by movabletype.org).</p>';
+&quot; <a href="http://www.movabletype.org/trackback/beginners/">A Beginner\'s Guide to TrackBack</a>&quot; (by movabletype.org).</p>
+<p>If you like to disable the trackbacks for this package, click here:
+<p><a href="/package/' . $pkg['name'] . '/trackbacks/?allowtrackbacks=2">Disable trackbacks</a></p>';
 
     print '<p>The trackback URL for this package is: <a href="'.$trackback_uri.'">'.$trackback_uri.'</a>';
 
@@ -566,4 +590,3 @@ when a weblog entry is created, which is related to the package. If you want to 
 // }}}
 
 response_footer();
-?>

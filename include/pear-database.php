@@ -700,7 +700,8 @@ class package
              "p.description AS description, p.cvs_link AS cvs_link, ".
              "p.doc_link as doc_link, ".
              "p.unmaintained AS unmaintained,".
-             "p.newpk_id AS newpk_id".
+             "p.newpk_id AS newpk_id,".
+             "p.blocktrackbacks" .
              " FROM packages p, categories c ".
              "WHERE " . $package_type . " c.id = p.category AND p.{$what} = ?";
         $rel_sql = "SELECT version, id, doneby, license, summary, ".
@@ -856,7 +857,7 @@ class package
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
             "FROM packages p, releases r ".
             "WHERE " . $package_type .
-            ' p.id = r.package ' . 
+            ' p.id = r.package ' .
             "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
         $stablereleases = $dbh->getAssoc(
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
@@ -1195,6 +1196,24 @@ class package
         return $dbh->getAll($query, array($package), DB_FETCHMODE_ASSOC);
     }
 
+    // }}}
+    // {{{ allowTrackbacks()
+    /**
+     * Enable or disable trackbacks for a package
+     *
+     * @access public
+     * @param  int ID of the package
+     * @return void
+     */
+    function allowTrackbacks($name, $allow)
+    {
+        global $dbh;
+
+        $query = 'UPDATE packages
+                    SET blocktrackbacks=' . ((int) !$allow) . '
+                WHERE name=' . $dbh->quoteSmart($name);
+        $res = $dbh->query($query);
+    }
     // }}}
 }
 
