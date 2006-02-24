@@ -768,7 +768,7 @@ class package
                 $sql = "SELECT description FROM packages p WHERE " . $package_type . " p.{$what} = ?";
                 $info = $dbh->query($sql, array($pkg));
             } elseif ($field == 'authors') {
-                $sql = "SELECT u.handle, u.name, u.email, u.showemail, u.active, m.role
+                $sql = "SELECT u.handle, u.name, u.email, u.showemail, m.active, m.role
                         FROM maintains m, users u, packages p
                         WHERE " . $package_type ." m.package = p.id
                         AND p.$what = ?
