@@ -1026,11 +1026,16 @@ function get_package_mail($package_name, $bug_id=false)
 
     $to = array();
     foreach ($maintainers as $data) {
+        if (!$data['active']) {
+            continue;
+        }
         $to[] = $data['email'];
     }
 
     /* subscription */
     if ($bug_id) {
+        $bug_id = (int)$bug_id;
+
         $bcc = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id=' . $bug_id);
         $bcc = array_diff($bcc, $to);
         $bcc = array_unique($bcc);
@@ -1168,6 +1173,7 @@ function show_bugs_menu($pkgname, $status = null)
 
     $now = time();
     $hash = crypt($email . $id, $now);
+    $bug_id = (int)$bug_id;
 
     $query = 'UPDATE bugdb_subscribe
                 SET unsubscribe_date=' . $now . ',
@@ -1211,6 +1217,8 @@ function show_bugs_menu($pkgname, $status = null)
     global $dbh;
 
     $hash = escapeSQL($hash);
+    $bug_id = (int) $bug_id;
+
     $query = 'SELECT
                 bug_id, email, unsubscribe_date, unsubscribe_hash
             FROM
