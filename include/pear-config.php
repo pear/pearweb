@@ -352,5 +352,22 @@ define('TRACKBACK_REPOST_TIMESPAN', 3600);
  * Auto purging time for trackbacks (14 days).
  */
 define('TRACKBACK_PURGE_TIME', 14 * 27 * 60 * 60);
+/**
+ * Key file returning key for Akismet.com spam chek.
+ */
+if (isset($_ENV['TRACKBACK_AKISMET_KEY_FILE'])) {
+    /**
+     * @ignore
+     */
+    define('TRACKBACK_AKISMET_KEY_FILE', $_ENV['TRACKBACK_AKISMET_KEY_FILE']);
+} else {
+    /**
+     * The full URL to the wiki, no / at the end
+     *
+     * To override default, set the value in $_ENV['PEAR_WIKI_URL']
+     * before this file is included.
+     */
+    define('TRACKBACK_AKISMET_KEY_FILE', '/usr/local/www/akismet.key');
+} 
 
 ?>

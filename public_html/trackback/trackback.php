@@ -24,6 +24,7 @@
 require_once 'Damblan/Trackback.php';
 require_once 'Damblan/Mailer.php';
 require_once 'Damblan/URL.php';
+
 $site = new Damblan_URL;
 
 $params = array('action' => '', 'id' => '');
@@ -35,6 +36,7 @@ $id = htmlentities($params['id']);
 if (count($_POST) == 0) {
     PEAR::raiseError("This site is not intended for being viewed in a webbrowser, but to communicate with computer programs.");
 }
+
 
 // Switch error handling, to avoid further PEARWeb style error output
 PEAR::setErrorHandling(PEAR_ERROR_RETURN);
@@ -51,6 +53,7 @@ if (!isset($pkgInfo) || PEAR::isError($pkgInfo)) {
     echo Services_Trackback::getResponseError('No package with ID '.$id.' found. Trackback not possible.', 1);
     exit;
 }
+
 if ($pkgInfo['blocktrackbacks']) {
     echo Services_Trackback::getResponseError('Package ' . $id . ' does not allow trackbacks.', 1);
     exit;
@@ -69,79 +72,18 @@ if (PEAR::isError($res)) {
     exit;
 }
 
-$badWordOptions = array(
-    'comparefunc' => array( 'Damblan_Trackback', 'compareWords'),
-    'sources' => array(
-        'acne',
-        'adipex',
-        'anal',
-        'birth',
-        'blackjack',
-        'car',
-        'caribbean',
-        'cash',
-        'casino',
-        'cigar',
-        'closet',
-        'cruise',
-        'daystore',
-        'depression',
-        'diet',
-        'disney',
-        'drugs',
-        'erection',
-        'fruit',
-        'fundslender',
-        'gambling',
-        'gift',
-        'hire',
-        'hydrocodone',
-        'ifinanc',
-        'investing',
-        'lasik',
-        'loan',
-        'mattress',
-        'mortgage',
-        'mp3 download',
-        'naproxen',
-        'neurontin',
-        'payday',
-        'penis',
-        'pharma',
-        'phentermine',
-        'poker',
-        'porn',
-        'real estate',
-        'rheuma',
-        'roulette',
-        'sadism',
-        'sex',
-        'smoking',
-        'texas hold',
-        'tramadol',
-        'uxury',
-        'viagra',
-        'vioxx',
-        'weight loss',
-        'xanax',
-        'zantac',
-    ),
-);
-
-// Check for possible spam
-$trackback->createSpamCheck('Wordlist', $badWordOptions);
-$trackback->createSpamCheck('DNSBL');
-$trackback->createSpamCheck('SURBL');
-
 if ($trackback->checkRepost($dbh, TRACKBACK_REPOST_COUNT, TRACKBACK_REPOST_TIMESPAN) !== false) {
     echo Services_Trackback::getResponseError('Only '.TRACKBACK_REPOST_COUNT.' trackbacks from 1 IP address within '.TRACKBACK_REPOST_TIMESPAN.' secs are allowed on this site. Please try again later.', 1);
     exit;
 }
 
+$trackback->createSpamCheck('Akismet', $trackback->akismetOptions);
+
 if ($trackback->checkSpam() === true) {
     echo Services_Trackback::getResponseError('Your trackback seems to be spam. If it is not, please contact the webmaster of this site.', 1);
     exit;
 }
+
 
 $res = $trackback->save($dbh);
 if (PEAR::isError($res)) {

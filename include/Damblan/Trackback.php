@@ -20,10 +20,8 @@ class Damblan_Trackback extends Services_Trackback {
      */
     var $_approved = false;
 
-    // Blacklists to check, when a trackback is received.
-    var $_blacklists = array(
-        'bl.spamcop.net'
-    );
+
+    var $akismetOptions = array();
 
     /**
      * Constructor
@@ -49,6 +47,10 @@ class Damblan_Trackback extends Services_Trackback {
      */
     function Damblan_Trackback($data)
     {
+        $this->akismetOptions = array(
+            'url' =>  'http://'.PEAR_CHANNELNAME.'/',
+            'key' =>  include(TRACKBACK_AKISMET_KEY_FILE),
+        );
         foreach ($data as $key => $val) {
             if ($key == 'approved')
                 $val = ($val == 'true');
@@ -158,7 +160,8 @@ class Damblan_Trackback extends Services_Trackback {
         $this->_checkData($necessaryData);
         $data = $this->_getDecodedData($necessaryData);
         $approved = ($this->_approved) ? 'true' : 'false';
-        $sql = "INSERT INTO trackbacks (id, title, url, excerpt, blog_name, approved, timestamp, ip) VALUES (
+        $extra = $this->get('extra');
+        $sql = "INSERT INTO trackbacks (id, title, url, excerpt, blog_name, approved, timestamp, ip, referrer, user_agent) VALUES (
                     ".$dbh->quoteSmart($this->get('id')).",
                     ".$dbh->quoteSmart($this->get('title')).",
                     ".$dbh->quoteSmart($this->get('url')).",
@@ -166,7 +169,9 @@ class Damblan_Trackback extends Services_Trackback {
                     ".$dbh->quoteSmart($this->get('blog_name')).",
                     ".$dbh->quoteSmart($approved).",
                     ".$dbh->quoteSmart($this->get('timestamp')).",
-                    ".$dbh->quoteSmart($this->get('host'))."
+                    ".$dbh->quoteSmart($this->get('host')).",
+                    ".$dbh->quoteSmart(isset($extra['HTTP_REFERER']) ? $extra['HTTP_REFERER'] : '').",
+                    ".$dbh->quoteSmart(isset($extra['HTTP_USER_AGENT']) ? $extra['HTTP_USER_AGENT'] : '')."
                 )";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
@@ -201,7 +206,7 @@ class Damblan_Trackback extends Services_Trackback {
 
         $data = $this->_getDecodedData($necessaryData);
 
-        $sql = "SELECT id, title, excerpt, blog_name, url, timestamp, approved, ip FROM trackbacks WHERE
+        $sql = "SELECT id, title, excerpt, blog_name, url, timestamp, approved, ip, referrer, user_agent FROM trackbacks WHERE
                     id = ".$dbh->quoteSmart($this->get('id'))."
                     AND timestamp = ".$dbh->quoteSmart($this->get('timestamp'));
 
@@ -219,6 +224,12 @@ class Damblan_Trackback extends Services_Trackback {
             }
             if ($key == 'ip') {
                 $this->set('host', $val);
+            }
+            if ($key == 'referrer') {
+                $this->_data['extra']['HTTP_REFERER'] = $val;
+            }
+            if ($key == 'user_agent') {
+                $this->_data['extra']['HTTP_USER_AGENT'] = $val;
             }
             $this->set($key, $val);
         }
@@ -238,6 +249,10 @@ class Damblan_Trackback extends Services_Trackback {
      */
     function approve(&$dbh)
     {
+        $this->load($dbh);
+        $akismet = $this->createSpamCheck('Akismet', $this->akismetOptions);
+        $akismet->submitHam($this);
+
         $necessaryData = array('id');
         if (!isset($this->_timestamp)) {
             return PEAR::raiseError('Could not approve trackback. Timestamp missing.');
@@ -266,16 +281,20 @@ class Damblan_Trackback extends Services_Trackback {
      * @param
      * @return void
      */
-    function delete(&$dbh)
+    function delete(&$dbh, $asSpam = false)
     {
         $necessaryData = array('id');
         $data = $this->_getDecodedData($necessaryData);
         if (PEAR::isError($data)) {
             return $data;
         }
-        $res = $this->load($dbh, $this->get('timestamp'));
+        $res = $this->load($dbh);
         if (PEAR::isError($res)) {
             return $res;
+        }
+        if ($asSpam === true) {
+            $akismet = $this->createSpamCheck('Akismet', $this->akismetOptions);
+            $akismet->submitSpam($this);
         }
         $sql = "DELETE FROM trackbacks WHERE
                     id = ".$dbh->quoteSmart($this->get('id'))."

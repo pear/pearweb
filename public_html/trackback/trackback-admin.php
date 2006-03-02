@@ -81,14 +81,21 @@ case 'approve':
     break;
 
 case 'delete':
-    $msg = '<div class="warnings">Really <a href="/trackback/trackback-admin.php?action=delete_verified&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">delete</a> trackback '.$timestamp.' for '.$track_id.'?</div>';
+    $msg = '<div class="warnings">Really 
+<a href="/trackback/trackback-admin.php?action=delete_verified&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">delete</a> 
+or
+<a href="/trackback/trackback-admin.php?action=delete_spam&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">delete as spam</a> 
+trackback '.$timestamp.' for '.$track_id.'?</div>';
 
     // Confirmation of the delete action, no auto redirect
     $relocator = '';
     break;
-
+    
+case 'delete_spam':
+    $spam = true;
 case 'delete_verified':
-    $trackback->delete($dbh);
+    $spam = isset($spam) ? $spam : false;
+    $trackback->delete($dbh, $spam);
     $mailer = Damblan_Mailer::create('Trackback_Delete', $mailData);
     $additionalHeaders['To'] = $trackback->getMaintainers();
     $mailer->send($additionalHeaders);
