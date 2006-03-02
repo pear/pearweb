@@ -34,7 +34,7 @@ $id = htmlentities($params['id']);
 
 // This mostly occurs, when the URL is called by a human instead of a script
 if (count($_POST) == 0) {
-    PEAR::raiseError("This site is not intended for being viewed in a webbrowser, but to communicate with computer programs.");
+    PEAR::raiseError("This page is not intended for being viewed in a webbrowser, but to communicate with computer programs.");
 }
 
 
