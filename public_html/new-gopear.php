@@ -89,6 +89,15 @@
 #
 #
 
+function dump($var) {
+    if (defined('WEBINSTALLER') && WEBINSTALLER == 'cgi') {
+        echo '<pre>';
+        print_r($var);
+        echo '</pre>';
+    }
+    print_r($var);
+}
+error_reporting(E_ALL);
 $sapi_name = php_sapi_name();
 @ob_end_clean();
 define('WEBINSTALLER',
@@ -110,16 +119,19 @@ function installerbail($msg = '')
 {
     $GLOBALS['installer']->bail($msg);
 }
+
 register_shutdown_function('installerbail');
 
 $installer->setupConfigDesc();
 
 $installer->detect_install_dirs();
+
 $installer->doSetupConfigVars();
 
 $progress = 0;
 
 $installer->displayPreamble();
+
 $installer->setupTempStuff();
 
 $installer->doGetConfigVars();
@@ -155,7 +167,7 @@ if ($installer->install_pfc) {
 $installer->displayHTMLProgress($progress = 70);
 
 $installer->bootStrap('PEAR', $tarball, 'pear-core/PEAR.php', 'PEAR.php');
-include_once 'PEAR.php';   	 
+include_once 'PEAR.php';
 print "ok\n";
 
 $installer->displayHTMLProgress($progress = 71);
@@ -250,7 +262,7 @@ If your source is 4.3.x or newer, just make sure you don't run
 'configure' with --disable-cli, rebuild and copy sapi/cli/php.
 
 Please upgrade PHP to a newer version, and try again.  See you then.
-    
+
 ");
     }
 }
@@ -307,7 +319,7 @@ class Gopear_Base
     {
         ini_set('track_errors', true);
         ini_set('magic_quotes_runtime', false);
-        error_reporting(E_ALL & ~E_NOTICE);
+        error_reporting(E_ALL);
         define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
         ob_implicit_flush(true);
         set_time_limit(0);
@@ -375,7 +387,7 @@ class Gopear_Base
         if (!$this->have_gzip) {
             print "Downloading uncompressed packages\n";
         };
-        
+
         if ($this->install_pfc) {
             $this->to_install = array_merge($this->installer_packages, $this->pfc_packages);
         } else {
@@ -398,7 +410,7 @@ class Gopear_Base
                 $this->ptmp = $foo . '/' . $this->ptmp;
             }
         }
-        
+
         $this->rm_rf($this->ptmp);
         $this->mkdir_p($this->ptmp, 0700);
         $ok = @chdir($this->ptmp);
@@ -411,9 +423,9 @@ class Gopear_Base
     function setupConfigVars()
     {
         $this->origpwd = getcwd();
-        
+
         $this->config_vars = array_keys($this->config_desc);
-        
+
         // make indices run from 1...
         array_unshift($this->config_vars, "");
         unset($this->config_vars[0]);
@@ -436,11 +448,11 @@ class Gopear_Base
 
         foreach ($this->config_vars as $var) {
             $dir = $this->$var;
-        
+
             if (!preg_match('/_dir$/', $var)) {
                 continue;
             }
-        
+
             if (!@is_dir($dir)) {
                 if (!$this->mkdir_p($dir)) {
                     $root = WINDOWS ? 'administrator' : 'root';
@@ -470,7 +482,7 @@ Run this script as $root or pick another location.\n");
             {
                 unset($dirs[$key]);
             }
-    
+
             foreach ($dirs as $dir) {
                 $dir = str_replace('\\\\', '\\', $dir);
                 if (!strlen($dir)) {
@@ -525,7 +537,7 @@ Run this script as $root or pick another location.\n");
             } elseif ($this->my_env('SystemRoot')) {
                 $_temp = $this->my_env('SystemRoot') . '\temp';
             }
-    
+
             // handle ugly ENV var like \Temp instead of c:\Temp
             $dirs = explode("\\", realpath($_temp));
             if (strpos($_temp, ":") != 1) {
@@ -553,7 +565,7 @@ Run this script as $root or pick another location.\n");
                 }
             }
         }
-    
+
         // If for some reason the user has no rights to access to
         // the standard tempdir, we assume that he has the right
         // to access his prefix and choose $prefix/tmp as tempdir
@@ -563,7 +575,7 @@ Run this script as $root or pick another location.\n");
             if (!$res) {
                 $this->bail('mkdir ' . $this->prefix . '/tmp ... failed');
             }
-    
+
             $this->ptmp = $this->prefix . '/tmp';
             $_temp = tempnam($this->prefix . '/tmp', 'gope');
 
@@ -574,9 +586,9 @@ Run this script as $root or pick another location.\n");
             if (!$ok) { // This should not happen, really ;)
                 $this->bail('chdir ' . $this->ptmp . ' ... failed');
             }
-    
+
             print "ok\n";
-    
+
             // Adjust TEMPDIR envvars
             if (!isset($_ENV)) {
                 $_ENV = array();
@@ -648,6 +660,8 @@ Please fix the permission or select a new path.\n";
 
     function bail($msg = '')
     {
+        error_reporting(E_ALL);
+        ini_set('display_error',1);
         if ($this->ptmp && is_dir($this->ptmp)) {
             chdir($this->origpwd);
             $this->rm_rf($this->ptmp);
@@ -686,7 +700,7 @@ Please fix the permission or select a new path.\n";
                     $this->prefix = 'c:\php';
                 }
             }
-    
+
             $this->bin_dir   = '$prefix';
             $this->php_dir   = '$prefix\pear';
             $this->doc_dir   = '$php_dir\docs';
@@ -783,7 +797,7 @@ Please fix the permission or select a new path.\n";
         }
         $request = "GET $path HTTP/1.0\r\nHost: $tmp[host]:$tmp[port]\r\n".
             "User-Agent: go-pear\r\n";
-    
+
         if (!empty($proxy) && $tmp_proxy['user'] != '') {
             $request .= 'Proxy-Authorization: Basic ' .
                         base64_encode($tmp_proxy['user'] . ':' . $tmp_proxy['pass']) . "\r\n";
@@ -848,7 +862,7 @@ Please fix the permission or select a new path.\n";
                     continue 2;
                 };
             };
-        
+
             $msg = str_pad("Downloading package: $pkg", max(38, 21+strlen($pkg)+4), '.');
             print $msg;
             $url = sprintf($this->urltemplate, $pkg);
@@ -875,7 +889,7 @@ Please fix the permission or select a new path.\n";
         if ($pathIni && is_file($pathIni)) {
             return $pathIni;
         }
-    
+
         // Oh well, we can keep this too :)
         // I dunno if get_cfg_var() is safe on every OS
         if (WINDOWS) {
@@ -895,11 +909,11 @@ Please fix the permission or select a new path.\n";
         } else {
             $php_ini = PHP_CONFIG_FILE_PATH . DIRECTORY_SEPARATOR . 'php.ini';
         }
-    
+
         if (@is_file($php_ini)) {
             return $php_ini;
         }
-    
+
         // We re running in hackz&troubles :)
         ob_implicit_flush(false);
         ob_start();
@@ -907,7 +921,7 @@ Please fix the permission or select a new path.\n";
         $strInfo = ob_get_contents();
         ob_end_clean();
         ob_implicit_flush(true);
-    
+
         if (php_sapi_name() != 'cli') {
             $strInfo = strip_tags($strInfo,'<td>');
             $arrayInfo = explode("</td>", $strInfo );
@@ -916,7 +930,7 @@ Please fix the permission or select a new path.\n";
             $arrayInfo = explode("\n", $strInfo);
             $cli = true;
         }
-    
+
         foreach ($arrayInfo as $val) {
             if (strpos($val,"php.ini")) {
                 if ($cli) {
@@ -1071,7 +1085,7 @@ accept these locations.
             foreach ($this->config_vars as $n => $var) {
                 printf("%2d. $this->descfmt : %s\n", $n, $this->config_desc[$var], $this->$var);
             }
-    
+
             print "\n$this->first-$this->last, 'all' or Enter to continue: ";
             $tmp = trim(fgets($this->tty, 1024));
             if ( empty($tmp) ) {
@@ -1164,13 +1178,13 @@ Go-pear also lets you download and install the PEAR packages: " .
 
 
 If you wish to abort, press Control-C now, or press Enter to continue: ";
-    
+
         fgets($this->tty, 1024);
-    
+
         print "\n";
-    
+
             print "HTTP proxy (http://user:password@proxy.myhost.com:port), or Enter for none:";
-    
+
         if (!empty($this->http_proxy)) {
             print " [$this->http_proxy]:";
         }
@@ -1207,7 +1221,7 @@ contain the PEAR PHP directory you just specified:
 If the specified directory is also not in the include_path used by
 your scripts, you will have problems getting any PEAR packages working.
 ";
-    
+
             if ($php_ini = $this->getPhpiniPath()) {
                 print "\n\nWould you like to alter php.ini <$php_ini>? [Y/n] : ";
                 $alter_phpini = !stristr(fgets($this->tty, 1024), "n");
@@ -1227,20 +1241,20 @@ configuration to make sure $php_dir is in your include_path.
                     }
                 }
             }
-    
+
         print "
 Current include path           : ".ini_get('include_path')."
 Configured directory           : $this->php_dir
 Currently used php.ini (guess) : $this->php_ini
 ";
-    
+
             print "Press Enter to continue: ";
             fgets($this->tty, 1024);
         }
-    
+
         $pear_cmd = $this->bin_dir . DIRECTORY_SEPARATOR . 'pear';
         $pear_cmd = WINDOWS ? strtolower($pear_cmd).'.bat' : $pear_cmd;
-    
+
         // check that the installed pear and the one in tha path are the same (if any)
         $pear_old = $this->which(WINDOWS ? 'pear.bat' : 'pear', $this->bin_dir);
         if ($pear_old && ($pear_old != $pear_cmd)) {
@@ -1257,9 +1271,9 @@ Currently used php.ini (guess) : $this->php_ini
                       "be sure to use the new $pear_cmd command\n";
             }
         }
-    
+
         print "\nThe 'pear' command is now at your service at $pear_cmd\n";
-    
+
         // Alert the user if the pear cmd is not in PATH
         $old_dir = $pear_old ? dirname($pear_old) : false;
         if (!$this->which('pear', $old_dir)) {
@@ -1269,7 +1283,7 @@ Currently used php.ini (guess) : $this->php_ini
 ** '$this->bin_dir' to your PATH environment variable.
 
 ";
-    
+
         print "Run it without parameters to see the available actions, try 'pear list'
 to see what packages are installed, or 'pear help' for help.
 
@@ -1283,7 +1297,7 @@ Thanks for using go-pear!
 
 ";
         }
-    
+
         if (WINDOWS) {
             $this->win32CreateRegEnv();
         }
@@ -1334,7 +1348,7 @@ Thanks for using go-pear!
             } else {
                 $newPath[0] = $this->php_dir;
             }
-    
+
             foreach( $arrayPath as $path ){
                 $newPath[]= $path;
             }
@@ -1473,7 +1487,7 @@ End If
                 '"PHP_PEAR_DATA_DIR"="' . addslashes($this->data_dir) . '"' . $nl .
                 '"PHP_PEAR_PHP_BIN"="' . addslashes($this->php_bin) . '"' . $nl .
                 '"PHP_PEAR_TEST_DIR"="' . addslashes($this->test_dir) . '"' . $nl;
-    
+
         $fh = fopen($this->prefix . DIRECTORY_SEPARATOR . 'PEAR_ENV.reg', 'wb');
         if($fh){
             fwrite($fh, $reg, strlen($reg));
@@ -1503,6 +1517,7 @@ class Gopear_Web extends Gopear_Base
         'Net_UserAgent_Detect',
         'PEAR_Frontend_Web-0.4',
         );
+
     var $webfrontend_file;
     var $wwwerrors;
 
@@ -1534,7 +1549,9 @@ class Gopear_Web extends Gopear_Base
         parent::bail();
         $msg = @ob_get_contents() ."\n\n". $msg;
         @ob_end_clean();
-        $this->displayHTML('error', $msg);
+        if (!empty($msg)) {
+            //$this->displayHTML('error', $msg);
+        }
         exit;
     }
 
@@ -1579,8 +1596,6 @@ class Gopear_Web extends Gopear_Base
 
   <tr bgcolor="#003300"><td colspan="3"></td></tr>
 </table>
-
-
 <table cellpadding="0" cellspacing="0" width="100%">
  <tr valign="top">
   <td bgcolor="#f0f0f0" width="100">
@@ -1612,7 +1627,6 @@ class Gopear_Web extends Gopear_Base
    <table width="100%" cellpadding="10" cellspacing="0">
     <tr>
      <td valign="top">
-
 <table border="0">
 <tr>
   <td width="20">
@@ -1637,7 +1651,7 @@ class Gopear_Web extends Gopear_Base
             if (preg_match('/^Warning:/', $value)) {
                 $value = '<span style="color: #ff0000">'.$value.'</span>';
             }
-    
+
             echo nl2br($value);
         } elseif ($page == 'Welcome') {
 ?>
@@ -1661,6 +1675,14 @@ class Gopear_Web extends Gopear_Base
             <form action="<?php echo basename(__FILE__);?>?step=install" method="post">
             <span class="title">Configuration</span><br/>
             <br/>
+<?php
+            if (count($this->wwwerrors)) {
+                foreach ($this->wwwerrors as $_error) {
+                    echo '<span style="color: #ff0000">' . $_error . '</span><br/>';
+                }
+                echo "<br/>";
+            }
+?>
             HTTP proxy (host:port):
             <input type="text" name="proxy[host]" value="<?php echo $proxy_host;?>">
             <input type="text" name="proxy[port]" value="<?php echo $proxy_port;?>" size="6">
@@ -1705,7 +1727,7 @@ class Gopear_Web extends Gopear_Base
                     echo "</td></tr>\n";
                 }
             }
-    
+
             foreach ($this->config_vars as $n => $var) {
                 printf('<tr><td>%d. %s</td><td><input type="text" name="config[%s]" value="%s"></td></tr>',
                 $n,
@@ -1718,7 +1740,7 @@ class Gopear_Web extends Gopear_Base
             <br/><hr/><br/>
             The following PEAR packages are common ones, and can be installed<br/>
             by go-pear too: <br/>
-<?php echo implode(', ', $GLOBALS['pfc_packages']);?>.<br/>
+<?php echo implode(', ', $this->pfc_packages);?>.<br/>
             <input type="checkbox" name="install_pfc" <?php if($this->install_pfc) echo 'checked';?>> Install those too<br/>
             <br/><br/>
             <table border="0">
@@ -2159,7 +2181,7 @@ class Gopear_Web extends Gopear_Base
         };
         $msg = ob_get_contents();
         ob_end_clean();
-    
+
         echo '<script type="text/javascript"> parent.setdownloadprogress(' .
             ((int) $progress) . ');  </script>';
 
@@ -2171,20 +2193,20 @@ class Gopear_Web extends Gopear_Base
     {
         $next     = NULL;
         $prefix   = dirname($this->webfrontend_file);
-        $doc_root = strip_magic_quotes($_SERVER['DOCUMENT_ROOT']);
+        $doc_root = $this->strip_magic_quotes($_SERVER['DOCUMENT_ROOT']);
         $file_dir = dirname(__FILE__);
         if ( WINDOWS ) {
             $prefix   = str_replace('/', '\\', strtolower($prefix));
             $doc_root = str_replace('/', '\\', strtolower($doc_root));
             $file_dir = str_replace('/', '\\', strtolower($file_dir));
         }
-    
+
         if ($doc_root && substr($prefix, 0, strlen($doc_root)) == $doc_root) {
             $next = substr($prefix, strlen($doc_root)).'/index.php';
         } else if ($file_dir && substr($prefix, 0, strlen($file_dir)) == $file_dir) {
             $next = substr($prefix, strlen($file_dir)).'/index.php';
         }
-    
+
         if ($data) {
             echo "<br/>".$data;
         }
@@ -2248,7 +2270,7 @@ class Gopear_Web extends Gopear_Base
         };
         $msg = ob_get_contents();
         ob_end_clean();
-    
+
         $msg = explode("\n", $msg);
         foreach($msg as $key => $value) {
             if (preg_match('/ok$/', $value)) {
@@ -2266,10 +2288,10 @@ class Gopear_Web extends Gopear_Base
             $msg[$key] = $value;
         };
         $msg = implode('<br>', $msg);
-    
+
         $msg .= '<script type="text/javascript"> parent.setprogress(' .
             ((int) $progress) . ');  </script>';
-    
+
         echo $msg;
         ob_start();
     }
@@ -2281,9 +2303,9 @@ class Gopear_Web extends Gopear_Base
         };
         $msg = ob_get_contents();
         ob_end_clean();
-    
+
         echo '<script type="text/javascript"> parent.setdownloadfile("' . $file . '");  </script>';
-    
+
         ob_start();
         echo $msg;
     }
@@ -2294,8 +2316,7 @@ class Gopear_Web extends Gopear_Base
             $this->displayHTML('config');
             exit;
         } else {
-            if (isset($_SESSION['go-pear']['DHTML']) && $_SESSION['go-pear']['DHTML'] == true &&
-                  $_GET['step'] == 'install') {
+            if (isset($_SESSION['go-pear']['DHTML']) && $_SESSION['go-pear']['DHTML'] == true && $_GET['step'] == 'install') {
                 $_GET['step'] = 'preinstall';
             }
             if ($_GET['step'] != 'install' && $_GET['step'] != 'install-progress') {
@@ -2313,7 +2334,7 @@ class Gopear_Web extends Gopear_Base
     function doSetupConfigVars()
     {
         @session_start();
-    
+
         /*
             See bug #23069
         */
@@ -2329,7 +2350,7 @@ instructions) or use the CLI (cli\php.exe) in the console.
                 exit;
             }
         }
-    
+
         if (!isset($_SESSION['go-pear']) || isset($_GET['restart'])) {
             $_SESSION['go-pear'] = array(
                 'http_proxy' => $this->http_proxy,
@@ -2355,36 +2376,37 @@ instructions) or use the CLI (cli\php.exe) in the console.
             session_destroy();
         }
         if ($_GET['step'] == 'install') {
+
             $_SESSION['go-pear']['http_proxy'] =
-                strip_magic_quotes($_POST['proxy']['host']) . ':' .
-                        strip_magic_quotes($_POST['proxy']['port']);
+                $this->strip_magic_quotes($_POST['proxy']['host']) . ':' .
+                $this->strip_magic_quotes($_POST['proxy']['port']);
+
             if ($_SESSION['go-pear']['http_proxy'] == ':') {
                 $_SESSION['go-pear']['http_proxy'] = '';
-            };
-    
+            }
+
             $this->wwwerrors = array();
+
             foreach($_POST['config'] as $key => $value) {
-                $_POST['config'][$key] = strip_magic_quotes($value);
+                $_POST['config'][$key] = $this->strip_magic_quotes($value);
                 if($key!='cache_ttl'){
                     if ( empty($_POST['config'][$key]) ) {
                         if (WEBINSTALLER && $key != 'php_bin' ) {
-                            $this->wwwerrors[$key] =
-                              'Please fill this path, you can use $prefix, $php_dir or a full path.';
+                            $this->wwwerrors[$key] = 'Please fill this path, you can use $prefix, $php_dir or a full path.';
                         }
                     }
                 }
             }
-    
+
             if( sizeof($this->wwwerrors) > 0){
                 $_GET['step'] = 'config';
             }
-    
+
             $_SESSION['go-pear']['config'] = $_POST['config'];
-            $_SESSION['go-pear']['install_pfc'] =
-                    (isset($_POST['install_pfc']) && $_POST['install_pfc'] == 'on');
-            $_SESSION['go-pear']['DHTML'] = !($_POST['BCmode'] == "on");
+            $_SESSION['go-pear']['install_pfc'] = (isset($_POST['install_pfc']) && $_POST['install_pfc'] == 'on');
+            $_SESSION['go-pear']['DHTML'] = isset($_POST['BCmode']) ? !($_POST['BCmode'] == "on") : true;
         }
-    
+
         $http_proxy = $_SESSION['go-pear']['http_proxy'];
         foreach($_SESSION['go-pear']['config'] as $var => $value) {
             $this->$var = $value;
@@ -2410,7 +2432,7 @@ instructions) or use the CLI (cli\php.exe) in the console.
             $this->displayHTMLFooter();
         } else {
             $out = ob_get_contents();
-    
+
             $out = explode("\n", $out);
             foreach($out as $line => $value) {
                 if (preg_match('/ok$/', $value)) {
@@ -2426,7 +2448,7 @@ instructions) or use the CLI (cli\php.exe) in the console.
             };
             $out = nl2br(implode("\n",$out));
             ob_end_clean();
-    
+
             $this->displayHTML('install', $out);
         }
     }
@@ -2436,7 +2458,7 @@ instructions) or use the CLI (cli\php.exe) in the console.
         /*
          * See bug #23069
          */
-        
+
         if (WINDOWS) {
             $this->php_sapi_name = $this->win32DetectPHPSAPI();
             if ($this->php_sapi_name=='cgi') {
@@ -2448,7 +2470,7 @@ instructions) or use the CLI (cli\php.exe) in the console.
                 $this->displayHTML('error', $msg);
             }
         }
-        
+
         if (isset($_GET['action']) && $_GET['action'] == 'img' && isset($_GET['img'])) {
             switch ($_GET['img'])
             {
@@ -2479,7 +2501,7 @@ instructions) or use the CLI (cli\php.exe) in the console.
                 'data' => 'iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAAAAADFHGIkAAAAAmJLR0QAAKqNIzIAAAEESURBVHjaZZIhksMwDEV9voWFSwsLA0MLDf8VdARBUUNBQ1FBHcErZ5M0baXJjOPnb0vfLuMMn3H+lWMgBKL89A1Eq9Q9IrwB+gIOsnMPBR8giMclguQfBGS8x5xIoPQxnxqb4LL/eQ4l2AVNONP2ZshLCqJ3qqzWtT5pNgNnLU4OcNbuiqaLmFmHGhJ0TCMC99+f2wphlhaOYjuQVc0IIzLH2BRWfQoWsNSjct8AVop4rF3belTuVAb3MRj6kLrcTwtIy+g03V1vC57t1XrMzqfP5pln5yLTkk7+5UhstvOni1X3ixLEdf2c36+W0Q7kOb48hnSRLI/XdNPfX4kpMkgP5R+elfdkDPprQgAAAEN0RVh0U29mdHdhcmUAQCgjKUltYWdlTWFnaWNrIDQuMi44IDk5LzA4LzAxIGNyaXN0eUBteXN0aWMuZXMuZHVwb250LmNvbZG6IbgAAAAqdEVYdFNpZ25hdHVyZQAzYmQ3NDdjNWU0NTgwNzAwNmIwOTBkZDNlN2EyNmM0NBTTk/oAAAAOdEVYdFBhZ2UAMjR4MjQrMCswclsJMQAAAABJRU5ErkJggg==',
                 ),
             );
-    
+
         header('Content-Type: image/' . $images[$img]['type']);
         echo base64_decode($images[$img]['data']);
     }
