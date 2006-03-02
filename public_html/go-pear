@@ -85,20 +85,20 @@
 # Use .htaccess on Apache webservers for example.
 #
 #
+function dump($var) {
+    if (defined('WEBINSTALLER') && WEBINSTALLER == 'cgi') {
+        echo '<pre>';
+        print_r($var);
+        echo '</pre>';
+    }
+    print_r($var);
+}
+
 $sapi_name = php_sapi_name();
 set_time_limit(0);
 @ob_end_clean();
 ob_implicit_flush(true);
 define('WEBINSTALLER', ($sapi_name != 'cli' && !(substr($sapi_name,0,3)=='cgi' && !isset($_SERVER['GATEWAY_INTERFACE']))));
-
-if (WEBINSTALLER) {
-    $msg = nl2br("Sorry! PEAR_Frontend_Web is not yet compatible
-with PEAR 1.4.x.  A new version will be available soon.
-Until then, you may install the CLI version of PEAR,
-or grab the CVS version of PEAR_Frontend_Web via
-anonymous CVS (WARNING: experienced developers only)");
-    displayHTML('error', $msg);
-}
 
 ini_set('track_errors', true);
 ini_set('html_errors', WEBINSTALLER);
@@ -176,8 +176,8 @@ $installer_packages = array(
     'Console_Getopt-stable',
     'XML_RPC-stable'
     );
+
 if (WEBINSTALLER) {
-    $installer_packages[] = 'Pager';
     $installer_packages[] = 'HTML_Template_IT';
     $installer_packages[] = 'Net_UserAgent_Detect';
     $installer_packages[] = 'PEAR_Frontend_Web';
@@ -594,23 +594,21 @@ if ($dh) {
     while($file = @readdir($dh)) {
         if ($file == '.' || $file == '..' || !is_file(dirname(__FILE__).'/go-pear-bundle/'.$file)) {
             continue;
-        };
-        $local_dir[] = $file;
-    };
+        }
+        $file_pkg = substr($file, 0, strpos($file, '-'));
+        $local_dir[$file_pkg] = $file;
+    }
 }
-
+dump($local_dir);
 foreach ($installer_packages as $pkg) {
-    foreach($local_dir as $file) {
-        if (substr($file, 0, strlen(str_replace('-stable', '', $pkg))) == str_replace('-stable', '', $pkg)) {
-            $pkg = str_replace('-stable', '', $pkg);
-            echo str_pad("Using local package: $pkg", max(38,21+strlen($pkg)+4), '.');
-            copy(dirname(__FILE__).'/go-pear-bundle/'.$file, $file);
-            $tarball[$pkg] = $file;
-            echo "ok\n";
-            displayHTMLProgress($progress += round(65 / count($to_install)));
-            continue 2;
-        };
-    };
+    if (isset($local_dir[$pkg])) {
+        echo str_pad("Using local package: $pkg", max(38,21+strlen($pkg)+4), '.');
+        copy(dirname(__FILE__).'/go-pear-bundle/'.$local_dir[$pkg], $local_dir[$pkg]);
+        $tarball[$pkg] = $local_dir[$pkg];
+        echo "ok\n";
+        displayHTMLProgress($progress += round(65 / count($to_install)));
+        continue;
+    }
 
     $msg = str_pad("Downloading package: $pkg", max(38,21+strlen($pkg)+4), '.');
     print $msg;
@@ -632,7 +630,7 @@ if (in_array('PEAR.php', $local_dir)) {
     echo "(remote) ";
 }
 
-include_once 'PEAR.php';   	 
+include_once 'PEAR.php';
 print "ok\n";
 
 print 'Bootstrapping: Archive_Tar............';
@@ -1674,7 +1672,7 @@ function displayHTML($page = 'Welcome', $data = array())
             The following PEAR packages are common ones, and can be installed<br/>
             by go-pear too: <br/>
 <?php echo implode(', ', $GLOBALS['pfc_packages']);?>.<br/>
-            <input type="checkbox" name="install_pfc" <?php if($GLOBALS['install_pfc']) echo 'checked';?>> Install those too<br/>
+            <input type="checkbox" name="install_pfc" <?php if($GLOBALS['install_pfc']) ?>> Install those too<br/>
             <br/><br/>
             <table border="0">
               <TR>
