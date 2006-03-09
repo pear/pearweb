@@ -637,12 +637,12 @@ if (class_exists('PHP_Archive') && !in_array('phar', stream_get_wrappers())) {
 
 require_once 'phar://install-pear-nozlib.phar/index.php';
 __HALT_COMPILER();†
-  >       install-pear-nozlib.phar   Archive/Tar.phpáÍ  H±DáÍ  Êm—    Archive_Tar-1.3.1.tar P H±D P ipÃ+    Console/Getopt.php\%  H±D\%  Àh˚H    Console_Getopt-1.2.tar 6  H±D 6  ¶ÍhG 	   index.php¶  H±D¶  ÉÂ≤    OS/Guess.php∏*  H±D∏*  ®Ï¡    PEAR-1.4.8.tar  H±D  €~Ï    PEAR.phpÖ  H±DÖ  –∏]    PEAR/ChannelFile.phpxﬁ  H±Dxﬁ   $a…    PEAR/ChannelFile/Parser.phpú  H±Dú  Y»Åy    PEAR/Command.phpn2  H±Dn2  .àÁ    PEAR/Command/Common.phpP!  H±DP!  À …    PEAR/Command/Install.phpÃ  H±DÃ  øÃ-    PEAR/Command/Install.xmlá  H±Dá  ◊ˆ    PEAR/Common.php†å  H±D†å  WV\ˇ    PEAR/Config.php H±D È§j’    PEAR/Dependency2.php æ  H±D æ  _Ï9`    PEAR/DependencyDB.php0Z  H±D0Z  tÓÆ    PEAR/Downloader.phpΩË  H±DΩË  Œºà    PEAR/Downloader/Package.phpú H±Dú í3F    PEAR/ErrorStack.phpÌÉ  H±DÌÉ  ’/k    PEAR/Frontend.php’  H±D’  ôµ(Ç    PEAR/Frontend/CLI.phpKf  H±DKf  `˘ú     PEAR/Installer.phpæ˜  H±Dæ˜  ¢◊    PEAR/Installer/Role.php   H±D   ‹	f≠    PEAR/Installer/Role/Common.php˝  H±D˝  Ï.~∞    PEAR/Installer/Role/Data.phpº  H±Dº  d|4Ï    PEAR/Installer/Role/Data.xml@  H±D@  o    PEAR/Installer/Role/Doc.phpπ  H±Dπ  ≈Î˝„    PEAR/Installer/Role/Doc.xml?  H±D?   ç]    PEAR/Installer/Role/Php.phpπ  H±Dπ  Ï”≤˝    PEAR/Installer/Role/Php.xml[  H±D[  ‡’    PEAR/Installer/Role/Script.php¬  H±D¬  üN„@    PEAR/Installer/Role/Script.xml^  H±D^  c¨V*    PEAR/Installer/Role/Test.phpº  H±Dº  X2JÇ    PEAR/Installer/Role/Test.xml@  H±D@  v÷-X    PEAR/PackageFile.phpf<  H±Df<  › Œ‰ !   PEAR/PackageFile/Generator/v1.phpÊ≈  H±DÊ≈  çöâì !   PEAR/PackageFile/Generator/v2.php‰Ô  H±D‰Ô  ˚⁄>¢    PEAR/PackageFile/Parser/v1.phpÃA  H±DÃA  “^Ó    PEAR/PackageFile/Parser/v2.php∆  H±D∆  †ãµ    PEAR/PackageFile/v1.phpb≈  H±Db≈  Ùª¥    PEAR/PackageFile/v2.php∫ H±D∫ ∂Ê∂`    PEAR/PackageFile/v2/rw.phpÈ  H±DÈ  †!ìn !   PEAR/PackageFile/v2/Validator.php∫5 H±D∫5 <’Â    PEAR/Registry.php H±D 7z—    PEAR/Remote.phpXI  H±DXI  3ï¬L    PEAR/REST.php¸9  H±D¸9  Û¸∂i    PEAR/REST/10.phpø`  H±Dø`  €4=    PEAR/Task/Common.phpf  H±Df  <I-x    PEAR/Task/Postinstallscript.phpﬁ9  H±Dﬁ9  Ê3- "   PEAR/Task/Postinstallscript/rw.phpj  H±Dj  äˆ¡    PEAR/Task/Replace.php%  H±D%  Y∫1”    PEAR/Task/Replace/rw.php÷  H±D÷  ß˙Ó*    PEAR/Task/Unixeol.phpk
-  H±Dk
-  rKTx    PEAR/Task/Unixeol/rw.phpÊ  H±DÊ  m5›B    PEAR/Task/Windowseol.phpg
-  H±Dg
-  Ïˇ#◊    PEAR/Task/Windowseol/rw.php˚  H±D˚  ¿6í    PEAR/Validate.php^W  H±D^W  ïêêW    PEAR/Validator/PECL.phpR  H±DR  Œø˚p    PEAR/XMLParser.phpÅ  H±DÅ  É]Ø˛ 
-   System.phpıK  H±DıK  ◊cªÍ <?php
+  >       install-pear-nozlib.phar   Archive/Tar.phpáÍ  †DáÍ  Êm—    Archive_Tar-1.3.1.tar P †D P ipÃ+    Console/Getopt.php\%  †D\%  Àh˚H    Console_Getopt-1.2.tar 6  †D 6  ¶ÍhG 	   index.php™  †D™  Vƒ∆)    OS/Guess.php∏*  †D∏*  ®Ï¡    PEAR-1.4.8.tar  †D  €~Ï    PEAR.phpÖ  †DÖ  –∏]    PEAR/ChannelFile.phpxﬁ  †Dxﬁ   $a…    PEAR/ChannelFile/Parser.phpú  †Dú  Y»Åy    PEAR/Command.phpn2  †Dn2  .àÁ    PEAR/Command/Common.phpP!  †DP!  À …    PEAR/Command/Install.phpÃ  †DÃ  øÃ-    PEAR/Command/Install.xmlá  †Dá  ◊ˆ    PEAR/Common.php†å  †D†å  WV\ˇ    PEAR/Config.php †D È§j’    PEAR/Dependency2.php æ  †D æ  _Ï9`    PEAR/DependencyDB.php0Z  †D0Z  tÓÆ    PEAR/Downloader.phpΩË  †DΩË  Œºà    PEAR/Downloader/Package.phpú †Dú í3F    PEAR/ErrorStack.phpÌÉ  †DÌÉ  ’/k    PEAR/Frontend.php’  †D’  ôµ(Ç    PEAR/Frontend/CLI.phpKf  †DKf  `˘ú     PEAR/Installer.phpæ˜  †Dæ˜  ¢◊    PEAR/Installer/Role.php   †D   ‹	f≠    PEAR/Installer/Role/Common.php˝  †D˝  Ï.~∞    PEAR/Installer/Role/Data.phpº  †Dº  d|4Ï    PEAR/Installer/Role/Data.xml@  †D@  o    PEAR/Installer/Role/Doc.phpπ  †Dπ  ≈Î˝„    PEAR/Installer/Role/Doc.xml?  †D?   ç]    PEAR/Installer/Role/Php.phpπ  †Dπ  Ï”≤˝    PEAR/Installer/Role/Php.xml[  †D[  ‡’    PEAR/Installer/Role/Script.php¬  †D¬  üN„@    PEAR/Installer/Role/Script.xml^  †D^  c¨V*    PEAR/Installer/Role/Test.phpº  †Dº  X2JÇ    PEAR/Installer/Role/Test.xml@  †D@  v÷-X    PEAR/PackageFile.phpf<  †Df<  › Œ‰ !   PEAR/PackageFile/Generator/v1.phpÊ≈  †DÊ≈  çöâì !   PEAR/PackageFile/Generator/v2.php‰Ô  †D‰Ô  ˚⁄>¢    PEAR/PackageFile/Parser/v1.phpÃA  †DÃA  “^Ó    PEAR/PackageFile/Parser/v2.php∆  †D∆  †ãµ    PEAR/PackageFile/v1.phpb≈  †Db≈  Ùª¥    PEAR/PackageFile/v2.php∫ †D∫ ∂Ê∂`    PEAR/PackageFile/v2/rw.phpÈ  †DÈ  †!ìn !   PEAR/PackageFile/v2/Validator.php∫5 †D∫5 <’Â    PEAR/Registry.php †D 7z—    PEAR/Remote.phpXI  †DXI  3ï¬L    PEAR/REST.php¸9  †D¸9  Û¸∂i    PEAR/REST/10.phpø`  †Dø`  €4=    PEAR/Task/Common.phpf  †Df  <I-x    PEAR/Task/Postinstallscript.phpﬁ9  †Dﬁ9  Ê3- "   PEAR/Task/Postinstallscript/rw.phpj  †Dj  äˆ¡    PEAR/Task/Replace.php%  †D%  Y∫1”    PEAR/Task/Replace/rw.php÷  †D÷  ß˙Ó*    PEAR/Task/Unixeol.phpk
+  †Dk
+  rKTx    PEAR/Task/Unixeol/rw.phpÊ  †DÊ  m5›B    PEAR/Task/Windowseol.phpg
+  †Dg
+  Ïˇ#◊    PEAR/Task/Windowseol/rw.php˚  †D˚  ¿6í    PEAR/Validate.php^W  †D^W  ïêêW    PEAR/Validator/PECL.phpR  †DR  Œø˚p    PEAR/XMLParser.phpÅ  †DÅ  É]Ø˛ 
+   System.phpıK  †DıK  ◊cªÍ <?php
 /* vim: set ts=4 sw=4: */
 // +----------------------------------------------------------------------+
 // | PHP Version 5                                                        |
@@ -5336,7 +5336,7 @@ class Console_Getopt {
 ?>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?php
 
-/* $Id: install-pear.php,v 1.26 2006/01/02 15:29:03 cellog Exp $ */
+/* $Id: install-pear.php,v 1.26.2.1 2006/03/09 03:21:56 cellog Exp $ */
 
 error_reporting(E_ALL);
 $pear_dir = dirname(__FILE__);
@@ -5464,11 +5464,11 @@ $pkg = new PEAR_PackageFile($config, $debug);
 
 foreach ($install_files as $package => $instfile) {
     $info = $pkg->fromAnyFile($instfile, PEAR_VALIDATE_INSTALLING);
-    $new_ver = $info->getVersion();
     if (PEAR::isError($info)) {
         $ui->outputData(sprintf("[PEAR] %s: %s", $package, $info->getMessage()));
         continue;
     }
+    $new_ver = $info->getVersion();
     $downloaderpackage = new PEAR_Downloader_Package($installer);
     $err = $downloaderpackage->initialize($instfile);
     if (PEAR::isError($err)) {
