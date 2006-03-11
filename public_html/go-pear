@@ -599,7 +599,6 @@ if ($dh) {
         $local_dir[$file_pkg] = $file;
     }
 }
-dump($local_dir);
 foreach ($installer_packages as $pkg) {
     if (isset($local_dir[$pkg])) {
         echo str_pad("Using local package: $pkg", max(38,21+strlen($pkg)+4), '.');
