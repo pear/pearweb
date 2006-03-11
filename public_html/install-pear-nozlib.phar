@@ -637,17 +637,17 @@ if (class_exists('PHP_Archive') && !in_array('phar', stream_get_wrappers())) {
 
 require_once 'phar://install-pear-nozlib.phar/index.php';
 __HALT_COMPILER();†
-  >       install-pear-nozlib.phar   Archive/Tar.phpáÍ  †DáÍ  Êm—    Archive_Tar-1.3.1.tar P †D P ipÃ+    Console/Getopt.php\%  †D\%  Àh˚H    Console_Getopt-1.2.tar 6  †D 6  ¶ÍhG 	   index.php™  †D™  Vƒ∆)    OS/Guess.php∏*  †D∏*  ®Ï¡    PEAR-1.4.8.tar  †D  €~Ï    PEAR.phpÖ  †DÖ  –∏]    PEAR/ChannelFile.phpxﬁ  †Dxﬁ   $a…    PEAR/ChannelFile/Parser.phpú  †Dú  Y»Åy    PEAR/Command.phpn2  †Dn2  .àÁ    PEAR/Command/Common.phpP!  †DP!  À …    PEAR/Command/Install.phpÃ  †DÃ  øÃ-    PEAR/Command/Install.xmlá  †Dá  ◊ˆ    PEAR/Common.php†å  †D†å  WV\ˇ    PEAR/Config.php †D È§j’    PEAR/Dependency2.php æ  †D æ  _Ï9`    PEAR/DependencyDB.php0Z  †D0Z  tÓÆ    PEAR/Downloader.phpΩË  †DΩË  Œºà    PEAR/Downloader/Package.phpú †Dú í3F    PEAR/ErrorStack.phpÌÉ  †DÌÉ  ’/k    PEAR/Frontend.php’  †D’  ôµ(Ç    PEAR/Frontend/CLI.phpKf  †DKf  `˘ú     PEAR/Installer.phpæ˜  †Dæ˜  ¢◊    PEAR/Installer/Role.php   †D   ‹	f≠    PEAR/Installer/Role/Common.php˝  †D˝  Ï.~∞    PEAR/Installer/Role/Data.phpº  †Dº  d|4Ï    PEAR/Installer/Role/Data.xml@  †D@  o    PEAR/Installer/Role/Doc.phpπ  †Dπ  ≈Î˝„    PEAR/Installer/Role/Doc.xml?  †D?   ç]    PEAR/Installer/Role/Php.phpπ  †Dπ  Ï”≤˝    PEAR/Installer/Role/Php.xml[  †D[  ‡’    PEAR/Installer/Role/Script.php¬  †D¬  üN„@    PEAR/Installer/Role/Script.xml^  †D^  c¨V*    PEAR/Installer/Role/Test.phpº  †Dº  X2JÇ    PEAR/Installer/Role/Test.xml@  †D@  v÷-X    PEAR/PackageFile.phpf<  †Df<  › Œ‰ !   PEAR/PackageFile/Generator/v1.phpÊ≈  †DÊ≈  çöâì !   PEAR/PackageFile/Generator/v2.php‰Ô  †D‰Ô  ˚⁄>¢    PEAR/PackageFile/Parser/v1.phpÃA  †DÃA  “^Ó    PEAR/PackageFile/Parser/v2.php∆  †D∆  †ãµ    PEAR/PackageFile/v1.phpb≈  †Db≈  Ùª¥    PEAR/PackageFile/v2.php∫ †D∫ ∂Ê∂`    PEAR/PackageFile/v2/rw.phpÈ  †DÈ  †!ìn !   PEAR/PackageFile/v2/Validator.php∫5 †D∫5 <’Â    PEAR/Registry.php †D 7z—    PEAR/Remote.phpXI  †DXI  3ï¬L    PEAR/REST.php¸9  †D¸9  Û¸∂i    PEAR/REST/10.phpø`  †Dø`  €4=    PEAR/Task/Common.phpf  †Df  <I-x    PEAR/Task/Postinstallscript.phpﬁ9  †Dﬁ9  Ê3- "   PEAR/Task/Postinstallscript/rw.phpj  †Dj  äˆ¡    PEAR/Task/Replace.php%  †D%  Y∫1”    PEAR/Task/Replace/rw.php÷  †D÷  ß˙Ó*    PEAR/Task/Unixeol.phpk
-  †Dk
-  rKTx    PEAR/Task/Unixeol/rw.phpÊ  †DÊ  m5›B    PEAR/Task/Windowseol.phpg
-  †Dg
-  Ïˇ#◊    PEAR/Task/Windowseol/rw.php˚  †D˚  ¿6í    PEAR/Validate.php^W  †D^W  ïêêW    PEAR/Validator/PECL.phpR  †DR  Œø˚p    PEAR/XMLParser.phpÅ  †DÅ  É]Ø˛ 
-   System.phpıK  †DıK  ◊cªÍ <?php
+  >       install-pear-nozlib.phar   Archive/Tar.phpÓ  9PDÓ  ∫¥    Archive_Tar-1.3.1.tar P 9PD P ipÃ+    Console/Getopt.php\%  9PD\%  Àh˚H    Console_Getopt-1.2.tar 6  9PD 6  ¶ÍhG 	   index.php¶  9PD¶  ÉÂ≤    OS/Guess.php∏*  9PD∏*  ∏[f    PEAR-1.4.8.tar  9PD  €~Ï    PEAR.phpÖ  9PDÖ  –∏]    PEAR/ChannelFile.phpxﬁ  9PDxﬁ   $a…    PEAR/ChannelFile/Parser.phpú  9PDú  Y»Åy    PEAR/Command.phpn2  9PDn2  .àÁ    PEAR/Command/Common.phpP!  9PDP!  À …    PEAR/Command/Install.phpÃ  9PDÃ  øÃ-    PEAR/Command/Install.xmlá  9PDá  ◊ˆ    PEAR/Common.php†å  9PD†å  WV\ˇ    PEAR/Config.php 9PD È§j’    PEAR/Dependency2.php æ  9PD æ  Ü†6    PEAR/DependencyDB.php0Z  9PD0Z  tÓÆ    PEAR/Downloader.phpΩË  9PDΩË  Œºà    PEAR/Downloader/Package.phpú 9PDú ´ï@õ    PEAR/ErrorStack.phpÌÉ  9PDÌÉ  ’/k    PEAR/Frontend.php’  9PD’  ôµ(Ç    PEAR/Frontend/CLI.phpKf  9PDKf  `˘ú     PEAR/Installer.phpæ˜  9PDæ˜  ¢◊    PEAR/Installer/Role.php   9PD   ‹	f≠    PEAR/Installer/Role/Common.php˝  9PD˝  Ï.~∞    PEAR/Installer/Role/Data.phpº  9PDº  d|4Ï    PEAR/Installer/Role/Data.xml@  9PD@  o    PEAR/Installer/Role/Doc.phpπ  9PDπ  ≈Î˝„    PEAR/Installer/Role/Doc.xml?  9PD?   ç]    PEAR/Installer/Role/Php.phpπ  9PDπ  Ï”≤˝    PEAR/Installer/Role/Php.xml[  9PD[  ‡’    PEAR/Installer/Role/Script.php¬  9PD¬  üN„@    PEAR/Installer/Role/Script.xml^  9PD^  c¨V*    PEAR/Installer/Role/Test.phpº  9PDº  X2JÇ    PEAR/Installer/Role/Test.xml@  9PD@  v÷-X    PEAR/PackageFile.phpf<  9PDf<  7®Î‘ !   PEAR/PackageFile/Generator/v1.phpÊ≈  9PDÊ≈  À©¸¯ !   PEAR/PackageFile/Generator/v2.php‰Ô  9PD‰Ô  N	¡¢    PEAR/PackageFile/Parser/v1.phpÃA  9PDÃA  “^Ó    PEAR/PackageFile/Parser/v2.php∆  9PD∆  †ãµ    PEAR/PackageFile/v1.phpb≈  9PDb≈  Ùª¥    PEAR/PackageFile/v2.php∫ 9PD∫ ∂Ê∂`    PEAR/PackageFile/v2/rw.phpÈ  9PDÈ  !5üΩ !   PEAR/PackageFile/v2/Validator.php∫5 9PD∫5 <’Â    PEAR/Registry.phpk 9PDk êcv    PEAR/Remote.phpXI  9PDXI  3ï¬L    PEAR/REST.php¸9  9PD¸9  Û¸∂i    PEAR/REST/10.phpø`  9PDø`  €4=    PEAR/Task/Common.phpf  9PDf  <I-x    PEAR/Task/Postinstallscript.phpﬁ9  9PDﬁ9  Ê3- "   PEAR/Task/Postinstallscript/rw.phpj  9PDj  äˆ¡    PEAR/Task/Replace.php%  9PD%  Y∫1”    PEAR/Task/Replace/rw.php÷  9PD÷  ß˙Ó*    PEAR/Task/Unixeol.phpk
+  9PDk
+  rKTx    PEAR/Task/Unixeol/rw.phpÊ  9PDÊ  m5›B    PEAR/Task/Windowseol.phpg
+  9PDg
+  Ïˇ#◊    PEAR/Task/Windowseol/rw.php˚  9PD˚  ¿6í    PEAR/Validate.php^W  9PD^W  ïêêW    PEAR/Validator/PECL.phpR  9PDR  Œø˚p    PEAR/XMLParser.phpÅ  9PDÅ  É]Ø˛ 
+   System.phpıK  9PDıK  ◊cªÍ <?php
 /* vim: set ts=4 sw=4: */
 // +----------------------------------------------------------------------+
-// | PHP Version 5                                                        |
+// | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
+// | Copyright (c) 1997-2003 The PHP Group                                |
 // +----------------------------------------------------------------------+
 // | This source file is subject to version 3.0 of the PHP license,       |
 // | that is bundled with this package in the file LICENSE, and is        |
@@ -660,17 +660,7 @@ __HALT_COMPILER();†
 // | Author: Vincent Blavet <vincent@phpconcept.net>                      |
 // +----------------------------------------------------------------------+
 //
-// +----------------------------------------------------------------------+
-// | WARNING :                                                            |
-// | This file is a copy of pear/Archive_Tar/Archive/Tar.php              |
-// | NEVER MODIFY THIS FILE DIRECTLY WITHOUT MODIFYING THE REFERENCE FILE |
-// | If you modify this file without synchronizing with                   |
-// | pear/Archive_Tar/Archive/Tar.php, when the package will be upgraded  |
-// | with "pear upgrade Archive_Tar", it may result in software/bug       |
-// | regression.               |
-// +----------------------------------------------------------------------+
-//
-// $Id: Tar.php,v 1.22 2005/11/20 14:11:10 vblavet Exp $
+// $Id: Tar.php,v 1.29 2005/03/17 21:02:31 vblavet Exp $
 
 require_once 'phar://install-pear-nozlib.phar/PEAR.php';
 
@@ -681,7 +671,7 @@ define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
 * Creates a (compressed) Tar archive
 *
 * @author   Vincent Blavet <vincent@phpconcept.net>
-* @version  $Revision: 1.22 $
+* @version  $Revision: 1.29 $
 * @package  Archive
 */
 class Archive_Tar extends PEAR
@@ -1030,7 +1020,7 @@ class Archive_Tar extends PEAR
     function addString($p_filename, $p_string)
     {
         $v_result = true;
-
+        
         if (!$this->_isArchive()) {
             if (!$this->_openWrite()) {
                 return false;
@@ -1451,14 +1441,14 @@ class Archive_Tar extends PEAR
               $p_len = 1;
 
           if ($this->_compress_type == 'gz') {
-              @gzseek($this->_file, gztell($this->_file)+($p_len*512));
+              @gzseek($this->_file, @gztell($this->_file)+($p_len*512));
           }
           else if ($this->_compress_type == 'bz2') {
               // ----- Replace missing bztell() and bzseek()
               for ($i=0; $i<$p_len; $i++)
                   $this->_readBlock();
           } else if ($this->_compress_type == 'none')
-              @fseek($this->_file, ftell($this->_file)+($p_len*512));
+              @fseek($this->_file, @ftell($this->_file)+($p_len*512));
           else
               $this->_error('Unknown or missing compression type ('
 			                .$this->_compress_type.')');
@@ -1474,7 +1464,6 @@ class Archive_Tar extends PEAR
       if (is_resource($this->_file)) {
           // ----- Write the last 0 filled block for end of archive
           $v_binary_data = pack("a512", '');
-          $this->_writeBlock($v_binary_data);
           $this->_writeBlock($v_binary_data);
       }
       return true;
@@ -1527,10 +1516,10 @@ class Archive_Tar extends PEAR
             }
             while (false !== ($p_hitem = readdir($p_hdir))) {
                 if (($p_hitem != '.') && ($p_hitem != '..')) {
-                if ($v_filename != ".")
-                    $p_temp_list[0] = $v_filename.'/'.$p_hitem;
-                else
-                    $p_temp_list[0] = $p_hitem;
+                    if ($v_filename != ".")
+                        $p_temp_list[0] = $v_filename.'/'.$p_hitem;
+                    else
+                        $p_temp_list[0] = $p_hitem;
 
                     $v_result = $this->_addList($p_temp_list,
 					                            $p_add_dir,
@@ -1628,7 +1617,7 @@ class Archive_Tar extends PEAR
       $p_filename = $this->_translateWinPath($p_filename, false);;
 
       if (!$this->_writeHeaderBlock($p_filename, strlen($p_string),
-	                                  time(), 384, "", 0, 0))
+	                                0, 0, "", 0, 0))
           return false;
 
       $i=0;
@@ -2170,11 +2159,8 @@ class Archive_Tar extends PEAR
 
             // ----- Change the file mode, mtime
             @touch($v_header['filename'], $v_header['mtime']);
-            if ($v_header['mode'] & 0111) {
-                // make file executable, obey umask
-                $mode = fileperms($v_header['filename']) | (~umask() & 0111);
-                @chmod($v_header['filename'], $mode);
-            }
+            // To be completed
+            //chmod($v_header[filename], DecOct($v_header[mode]));
           }
 
           // ----- Check the file size
@@ -2401,7 +2387,7 @@ class Archive_Tar extends PEAR
     // {{{ _translateWinPath()
     function _translateWinPath($p_path, $p_remove_disk_letter=true)
     {
-      if (defined('OS_WINDOWS') && OS_WINDOWS) {
+      if (OS_WINDOWS) {
           // ----- Look for potential disk letter
           if (   ($p_remove_disk_letter)
 		      && (($v_position = strpos($p_path, ':')) != false)) {
@@ -5336,7 +5322,7 @@ class Console_Getopt {
 ?>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 <?php
 
-/* $Id: install-pear.php,v 1.26.2.1 2006/03/09 03:21:56 cellog Exp $ */
+/* $Id: install-pear.php,v 1.26 2006/01/02 15:29:03 cellog Exp $ */
 
 error_reporting(E_ALL);
 $pear_dir = dirname(__FILE__);
@@ -5464,11 +5450,11 @@ $pkg = new PEAR_PackageFile($config, $debug);
 
 foreach ($install_files as $package => $instfile) {
     $info = $pkg->fromAnyFile($instfile, PEAR_VALIDATE_INSTALLING);
+    $new_ver = $info->getVersion();
     if (PEAR::isError($info)) {
         $ui->outputData(sprintf("[PEAR] %s: %s", $package, $info->getMessage()));
         continue;
     }
-    $new_ver = $info->getVersion();
     $downloaderpackage = new PEAR_Downloader_Package($installer);
     $err = $downloaderpackage->initialize($instfile);
     if (PEAR::isError($err)) {
@@ -5633,7 +5619,7 @@ foreach ($install_files as $package => $instfile) {
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.8
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -58335,7 +58321,7 @@ require_once 'phar://install-pear-nozlib.phar/PEAR/Validate.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.8
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -58823,7 +58809,7 @@ class PEAR_Dependency2
      */
     function getPEARVersion()
     {
-        return '1.4.8';
+        return '1.4.9';
     }
 
     function validatePearinstallerDependency($dep)
@@ -61712,7 +61698,7 @@ define('PEAR_DOWNLOADER_PACKAGE_STATE', -1003);
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.8
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -67565,7 +67551,7 @@ define('PEAR_PACKAGEFILE_ERROR_INVALID_PACKAGEVERSION', 2);
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.8
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -67994,7 +67980,7 @@ require_once 'phar://install-pear-nozlib.phar/PEAR/PackageFile/v2.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.8
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -68011,7 +67997,7 @@ class PEAR_PackageFile_Generator_v1
 
     function getPackagerVersion()
     {
-        return '1.4.8';
+        return '1.4.9';
     }
 
     /**
@@ -68165,7 +68151,7 @@ class PEAR_PackageFile_Generator_v1
             );
         $ret = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
         $ret .= "<!DOCTYPE package SYSTEM \"http://pear.php.net/dtd/package-1.0\">\n";
-        $ret .= "<package version=\"1.0\" packagerversion=\"1.4.8\">\n" .
+        $ret .= "<package version=\"1.0\" packagerversion=\"1.4.9\">\n" .
 " <name>$pkginfo[package]</name>";
         if (isset($pkginfo['extends'])) {
             $ret .= "\n<extends>$pkginfo[extends]</extends>";
@@ -69260,7 +69246,7 @@ require_once 'phar://install-pear-nozlib.phar/System.php';
  * @author     Stephan Schmidt (original XML_Serializer code)
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.8
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -69339,7 +69325,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
      */
     function getPackagerVersion()
     {
-        return '1.4.8';
+        return '1.4.9';
     }
 
     /**
@@ -69583,7 +69569,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
             }
             $this->options['beautifyFilelist'] = true;
         }
-        $arr['attribs']['packagerversion'] = '1.4.8';
+        $arr['attribs']['packagerversion'] = '1.4.9';
         if ($this->serialize($arr, $options)) {
             return $this->_serializedData . "\n";
         }
@@ -74968,7 +74954,7 @@ require_once 'phar://install-pear-nozlib.phar/PEAR/PackageFile/v2.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.8
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a8
  */
@@ -78493,7 +78479,7 @@ class PEAR_PackageFile_v2_Validator
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Registry.php,v 1.150.2.1 2006/03/05 20:07:52 cellog Exp $
+ * @version    CVS: $Id: Registry.php,v 1.150.2.2 2006/03/11 04:16:48 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -79777,10 +79763,13 @@ class PEAR_Registry extends PEAR
     {
         $ch = false;
         if ($this->_channelExists($channel, $noaliases)) {
-            if (!class_exists('PEAR_ChannelFile')) {
-                require_once 'phar://install-pear-nozlib.phar/PEAR/ChannelFile.php';
+            $chinfo = $this->_channelInfo($channel, $noaliases);
+            if ($chinfo) {
+                if (!class_exists('PEAR_ChannelFile')) {
+                    require_once 'phar://install-pear-nozlib.phar/PEAR/ChannelFile.php';
+                }
+                $ch = &PEAR_ChannelFile::fromArrayWithErrors($chinfo);
             }
-            $ch = &PEAR_ChannelFile::fromArrayWithErrors($this->_channelInfo($channel, $noaliases));
         }
         if ($ch) {
             if ($ch->validate()) {
