@@ -94,6 +94,10 @@ switch ($site) {
         $where = ' WHERE 1=1';
 }
 
+if ($developer) {
+    $where .= ' AND m.active = 1';
+}
+
 if (empty($_GET['bug_type'])) {
     $bug_type = 'Bug';
     $where .= " AND bug_type = 'Bug'";
@@ -204,7 +208,7 @@ while ($u = $users->fetchRow(DB_FETCHMODE_ASSOC)) {
     echo '>' . $u['name'] . '</option>' . "\n";
 }
 
-?>    
+?>
 
    </select>
 
