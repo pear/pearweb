@@ -498,7 +498,7 @@ if (empty($action)) {
 
     print '<p>This page provides a list of trackbacks, which have been received to this package. A trackback is usually generated,
 when a weblog entry is created, which is related to the package. If you want to learn more about trackbacks, please take a look at
-&quot; <a href="http://www.movabletype.org/trackback/beginners/">A Beginner\'s Guide to TrackBack</a>&quot; (by movabletype.org).</p>
+what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about trackbacks</a>.</p>
 <p>If you like to disable the trackbacks for this package, click here:
 <p><a href="/package/' . $pkg['name'] . '/trackbacks/?allowtrackbacks=2">Disable trackbacks</a></p>';
 
