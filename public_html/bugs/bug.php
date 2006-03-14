@@ -797,10 +797,17 @@ if ($auth_user && $auth_user->registered) {
 
     <form name="subscribetobug" action="/bugs/bug.php?id=<?php echo $id; ?>" method="post">
     <table>
-      <th class="details" colspan="2">Subscribe to this entry?</th>
-      <th class="details">Your email</th><td><input type="text" name="subscribe_email" value="" /></td>
-      <th class="details" colspan="2"><input type="submit" name="subscribe_to_bug" value="Subscribe" /></th>
-      <th class="details" colspan="2"><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></th>
+      <tr>
+       <th class="details" colspan="2">Subscribe to this entry?</th>
+      </tr>
+      <tr>
+       <th class="details"><label for="subscribe_email">Your email:</label></th>
+       <td><input type="text" id="subscribe_email" name="subscribe_email" value="" /></td>
+      </tr>
+      <tr>
+       <td class="details"><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>
+       <td class="details"><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>
+      </tr>
     </table>
     </form>
 </div>
