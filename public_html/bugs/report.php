@@ -41,8 +41,8 @@ if (isset($_POST['save']) && isset($_POST['pw'])) {
 }
 
 if (isset($_POST['in'])) {
-    if (!($errors = incoming_details_are_valid($_POST['in'], 1))) {
-
+	$errors = incoming_details_are_valid($_POST['in'], 1, ($auth_user && $auth_user->registered));
+    if (!$errors) {
         /*
          * When user submits a report, do a search and display
          * the results before allowing them to continue.
@@ -452,8 +452,14 @@ if ($auth_user && $auth_user->registered) {
    Password:
   </th>
   <td class="form-input">
+<?php
+if (!($auth_user && $auth_user->registered)) {
+?>
    <input type="password" size="20" maxlength="20" name="in[passwd]"
     value="<?php echo clean($_POST['in']['passwd']); ?>" />
+<?php
+}
+?>
    <p class="cell_note">
     You may enter any password here, which will be stored for this bug report.
     This password allows you to come back and modify your submitted bug report

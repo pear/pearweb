@@ -952,7 +952,7 @@ function package_exists($type)
  *
  * @return void
  */
-function incoming_details_are_valid($in, $initial = 0)
+function incoming_details_are_valid($in, $initial = 0, $logged = false)
 {
     global $bug, $dbh, $types;
 
@@ -992,10 +992,9 @@ function incoming_details_are_valid($in, $initial = 0)
     if ($initial && empty($in['ldesc'])) {
         $errors[] = 'You must supply a long description of the bug you are reporting.';
     }
-
-    if ($initial && empty($in['passwd'])) {
-        $errors[] = 'You must supply a password for this bug report.';
-    }
+    if (!$logged && $initial && empty($in['passwd'])) {
+       $errors[] = 'You must supply a password for this bug report.';
+   }
 
     return $errors;
 }

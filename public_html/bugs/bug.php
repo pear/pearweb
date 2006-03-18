@@ -511,9 +511,9 @@ if (!($auth_user && $auth_user->registered) && $edit != 2) {
 }
 if ($auth_user) {
     control(1, 'Developer');
+} else {
+    control(2, 'Edit Submission');
 }
-control(2, 'Edit Submission');
-
 ?>
 
 </div>
