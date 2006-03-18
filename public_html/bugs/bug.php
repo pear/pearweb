@@ -188,6 +188,7 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
 
     $comment_name = isset($_POST['in']['comment_name']) ? htmlspecialchars(strip_tags($_POST['in']['comment_name'])) : '';
 
+
     if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $_POST['in']['commentemail'])) {
         $errors[] = "You must provide a valid email address.";
     }
@@ -297,7 +298,7 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
         $errors[] = "You have to login first in order to edit the bug report.";
         $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
     }
-
+    $comment_name = $auth_user->name;
     if (empty($_POST['ncomment'])) {
         $ncomment = '';
     } else {
@@ -376,11 +377,12 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
 
         if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
-                     ' (bug, email, ts, comment) VALUES (' .
+                     ' (bug, email, ts, comment, reporter_name) VALUES (' .
                      " $id," .
                      " '" . escapeSQL($from) . "'," .
                      ' NOW(),' .
-                     " '" . escapeSQL($ncomment) . "')";
+                     " '" . escapeSQL($ncomment) . "'," .
+                     " '" . escapeSQL($comment_name) . "')";
             $dbh->query($query);
         }
     }
