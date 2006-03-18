@@ -447,19 +447,18 @@ if ($auth_user && $auth_user->registered) {
     value="<?php echo clean($_POST['in']['sdesc']); ?>" />
   </td>
  </tr>
+<?php
+if (!($auth_user && $auth_user->registered)) {
+?>
  <tr>
   <th class="form-label_left">
    Password:
   </th>
   <td class="form-input">
-<?php
-if (!($auth_user && $auth_user->registered)) {
-?>
+
    <input type="password" size="20" maxlength="20" name="in[passwd]"
     value="<?php echo clean($_POST['in']['passwd']); ?>" />
-<?php
-}
-?>
+
    <p class="cell_note">
     You may enter any password here, which will be stored for this bug report.
     This password allows you to come back and modify your submitted bug report
@@ -467,6 +466,9 @@ if (!($auth_user && $auth_user->registered)) {
    </p>
   </td>
  </tr>
+<?php
+}
+?>
  <tr>
   <th class="form-label_left">
    Note:
