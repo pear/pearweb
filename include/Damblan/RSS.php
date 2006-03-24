@@ -102,7 +102,7 @@ class Damblan_RSS {
         if (PEAR::isError($ret)) {
             PEAR::raiseError($ret);
         } else {
-            header("Content-Type: text/xml");
+            header("Content-Type: text/xml; charset=iso-8859-1");
             print "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n";
             print $ret;
         }
