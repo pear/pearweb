@@ -31,7 +31,6 @@ $cache_files = array(
                     '/credits.php' => '',
                     '/copyright.php' => '',
                     '/dtd/index.php' => '',
-                    '/feeds/index.php' => '',
                     '/download-docs.php' => '',
                     '/support/index.php' => '',
                     '/support/tutorials.php' => '',
@@ -56,6 +55,7 @@ $cache_files = array(
                     );
 
 $cache_dirs  = array(
+                     "/feeds"      => "",
                      "/news"       => "",
                      "/about"      => "",
                      "/group"      => "",
