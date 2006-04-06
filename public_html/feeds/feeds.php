@@ -45,7 +45,11 @@ EOT;
         $item_entries = '';
 
         foreach ($items as $item) {
-            $date = date("Y-m-d\TH:i:s-05:00", strtotime($item['releasedate']));
+            if (is_int($item['releasedate'])) {
+                $date = date("Y-m-d\TH:i:s-05:00", $item['releasedate']);
+            } else {
+                $date = date("Y-m-d\TH:i:s-05:00", strtotime($item['releasedate']));
+            }
 
             /* allows to override the default link */
             if (!isset($item['link'])) {
@@ -179,10 +183,10 @@ switch ($type) {
         foreach ($obj_items as $id => $item) {
             $item = $item->toRSSArray();
             $items[] = array(
-                    'name'         => $item['title'],
+                    'name'          => $item['title'],
                     'link'          => $item['link'],
-                    'releasenotes'   => $item['desc'],
-                    'releasedate'       => $item['date'],
+                    'releasenotes'  => $item['desc'],
+                    'releasedate'   => (int)$item['date'],
                     'version'       => ''
                     );
         }
