@@ -43,7 +43,7 @@ function display_pepr_nav(&$proposal)
 {
     global $auth_user;
 
-    /* There is no point to have a pepr navigation bar for 
+    /* There is no point to have a pepr navigation bar for
        a new proposal
      */
     if ($proposal == null) {
@@ -82,7 +82,7 @@ function display_pepr_nav(&$proposal)
     print_tabbed_navigation($items);
 }
 
-function display_overview_nav () 
+function display_overview_nav ()
 {
     global $proposalStatiMap;
     $items = array(
@@ -95,12 +95,12 @@ function display_overview_nav ()
                               'title' => $name
         );
     }
-    
+
     print_tabbed_navigation($items);
 }
-    
-                      
-                     
+
+
+
 function shorten_string($string)
 {
     if (strlen($string) < 80) {
@@ -178,7 +178,7 @@ class proposal {
 Proposed package:        '.$this->pkg_category.'::'.$this->pkg_name.'<br />
 Proposer:                '.user_link($this->user_handle).'<br />
 '.$this->getParsedDescribtion(),
-            'date'          => date("Y-m-d\TH:i:s-05:00", $this->draft_date)
+            'date'          => $this->draft_date
          );
     }
 
@@ -203,7 +203,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
         }
         return $describtion;
     }
-    
+
     /**
      * Look up proposal information based on the proposal ID number
      *
@@ -247,7 +247,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
      * @param int    $limit  limit the number of proposals to receive
      * @param string $order  an SQL expression used by the "ORDER BY" statement
      *
-     * @return array   an array of proposal objects (maybe with 0 elements, 
+     * @return array   an array of proposal objects (maybe with 0 elements,
      *                 if no proposals received)
      *
      * @access public
@@ -308,7 +308,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
         }
         return $result;
     }
-        
+
 
 
     function getLinks(&$dbh)
@@ -666,7 +666,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
 
         if ($event == 'change_status_finished') {
             $proposalVotesSum = ppVote::getSum($dbh, $this->id);
-            
+
             $vote_result  = 'Sum of Votes: ' . $proposalVotesSum['all'];
             $vote_result .= ' (' . $proposalVotesSum['conditional']
                           . ' conditional)';
@@ -1008,5 +1008,3 @@ class ppLink {
         return $this->type;
     }
 }
-
-?>
