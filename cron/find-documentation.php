@@ -44,7 +44,8 @@ if (DB::isError($dbh)) {
     exit(1);
 }
 
-$update = $dbh->prepare("UPDATE packages SET doc_link = ? WHERE name = ?");
+$update = $dbh->prepare("UPDATE packages SET doc_link = ? 
+		WHERE name = ? AND doc_link not like 'http://%' or doc_link like 'http://pear.php.net/%'");
 
 // {{{ readFolder()
 
