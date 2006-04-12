@@ -165,11 +165,11 @@ if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
 }
 
 // Delete comment
-if ($edit == 1 && $delete_comment) {
+if ($edit == 1 && isset($_GET['delete_comment'])) {
     $addon = '';
 
     if (in_array($user, $trusted_developers) && verify_password($user, $pw)) {
-        delete_comment($id, $delete_comment);
+        delete_comment($id, $_GET['delete_comment']);
         $addon = '&thanks=1';
     }
     localRedirect('bug.php' . "?id=$id&edit=1$addon");
