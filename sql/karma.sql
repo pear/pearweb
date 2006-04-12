@@ -13,3 +13,9 @@ CREATE TABLE karma_seq (
   id int(10) unsigned NOT NULL auto_increment,
   PRIMARY KEY  (id)
 );
+
+-- Add karma to admin
+INSERT INTO karma (id, user, level, granted_by, granted_at)
+VALUES(1, 'admin', 'pear.admin', '', NOW());
+
+INSERT INTO karma_seq (id) VALUES(NULL);
