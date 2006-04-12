@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.4.1" version="2.0" 
-         xmlns="http://pear.php.net/dtd/package-2.0" 
-         xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+<package packagerversion="1.4.1" version="2.0"
+         xmlns="http://pear.php.net/dtd/package-2.0"
+         xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
                              http://pear.php.net/dtd/tasks-1.0.xsd
                              http://pear.php.net/dtd/package-2.0
@@ -54,6 +54,12 @@
     <name>Tobias Schlitt</name>
     <user>toby</user>
     <email>toby@php.net</email>
+    <active>yes</active>
+  </developer>
+  <developer>
+     <name>Helgi Þormar Þorbjörnsson</name>
+     <user>dufuz</user>
+    <email>dufuz@php.net</email>
     <active>yes</active>
   </developer>
   <date>2005-09-30</date>
