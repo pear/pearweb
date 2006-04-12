@@ -16,6 +16,6 @@ CREATE TABLE karma_seq (
 
 -- Add karma to admin
 INSERT INTO karma (id, user, level, granted_by, granted_at)
-VALUES(1, 'admin', 'pear.admin', '', NOW());
+VALUES(1, 'admin', 'pear.group', '', NOW());
 
 INSERT INTO karma_seq (id) VALUES(NULL);
