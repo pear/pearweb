@@ -18,8 +18,8 @@
    $Id$
 */
 
-require_once "Log.php";
-require_once "Log/syslog.php";
+require_once 'Log.php';
+require_once 'Log/syslog.php';
 
 /**
  * Basic class for logging to syslog
@@ -29,13 +29,14 @@ require_once "Log/syslog.php";
  * @version $Revision$
  * @package Damblan
  */
-class Damblan_Log extends Log_syslog {
-
+class Damblan_Log extends Log_syslog
+{
     var $_name = LOG_SYSLOG;
-    var $_ident = "pearweb";
+    var $_ident = 'pearweb';
     var $_mask = null;
 
-    function Damblan_Log() {
+    function Damblan_Log()
+    {
         $this->_mask = Log::UPTO(PEAR_LOG_DEBUG);
     }
 }

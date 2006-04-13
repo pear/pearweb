@@ -28,8 +28,8 @@
  * @author  Martin Jansen <mj@php.net>
  * @version $Revision$
  */
-class Damblan_Karma {
-
+class Damblan_Karma
+{
     var $_dbh;
 
     /**
@@ -38,7 +38,8 @@ class Damblan_Karma {
      * @access public
      * @param  object Instance of PEAR::DB
      */
-    function Damblan_Karma(&$dbh) {
+    function Damblan_Karma(&$dbh)
+    {
         $this->_dbh = $dbh;
     }
 
@@ -53,44 +54,45 @@ class Damblan_Karma {
      * @param  string Level
      * @return boolean
      */
-    function has($user, $level) {
+    function has($user, $level)
+    {
         $levels = array();
 
         switch ($level) {
-        case "pear.pepr" :
-        	$levels = array("pear.pepr", "pear.user", "pear.dev", "pear.admin", "pear.group" );
+        case 'pear.pepr' :
+        	$levels = array('pear.pepr', 'pear.user', 'pear.dev', 'pear.admin', 'pear.group' );
             break;
 
-        case "pear.pepr.admin" :
-            $levels = array("pear.admin", "pear.group", "pear.pepr.admin");
+        case 'pear.pepr.admin' :
+            $levels = array('pear.admin', 'pear.group', 'pear.pepr.admin');
             break;
 
-        case "pear.user" :
-            $levels = array("pear.user", "pear.pepr", "pear.dev", "pear.admin", "pear.group");
+        case 'pear.user' :
+            $levels = array('pear.user', 'pear.pepr', 'pear.dev', 'pear.admin', 'pear.group');
             break;
 
-        case "pear.dev" :
-            $levels = array("pear.dev", "pear.admin", "pear.group");
-            break;
-        
-        case "pear.qa" :
-            $levels = array("pear.qa", "pear.admin", "pear.group");
+        case 'pear.dev' :
+            $levels = array('pear.dev', 'pear.admin', 'pear.group');
             break;
 
-        case "pear.admin" :
-            $levels = array("pear.admin", "pear.group");
+        case 'pear.qa' :
+            $levels = array('pear.qa', 'pear.admin', 'pear.group');
             break;
 
-        case "pear.group" :
-            $levels = array("pear.group");
+        case 'pear.admin' :
+            $levels = array('pear.admin', 'pear.group');
             break;
 
-        case "global.karma.manager" :
-            $levels = array("pear.group");
+        case 'pear.group' :
+            $levels = array('pear.group');
             break;
 
-        case "doc.chm-upload" :
-            $levels = array("pear.doc.chm-upload", "pear.group");
+        case 'global.karma.manager' :
+            $levels = array('pear.group');
+            break;
+
+        case 'doc.chm-upload' :
+            $levels = array('pear.doc.chm-upload', 'pear.group');
             break;
 
         default :
@@ -113,7 +115,8 @@ class Damblan_Karma {
      * @param  string Level
      * @return boolean
      */
-    function grant($user, $level) {
+    function grant($user, $level)
+    {
         global $auth_user;
 
         $this->_requireKarma();
@@ -146,7 +149,8 @@ class Damblan_Karma {
      * @param  string Level
      * @return boolean
      */
-    function remove($user, $level) {
+    function remove($user, $level)
+    {
         global $auth_user;
 
         $this->_requireKarma();
@@ -169,7 +173,8 @@ class Damblan_Karma {
      * @param  string Name of the user
      * @return array
      */
-    function get($user) {
+    function get($user)
+    {
         $query = "SELECT * FROM karma WHERE user = ?";
         return $this->_dbh->getAll($query, array($user), DB_FETCHMODE_ASSOC);
     }
@@ -181,7 +186,8 @@ class Damblan_Karma {
      * @param  string Level
      * @return array
      */
-    function getUsers($level) {
+    function getUsers($level)
+    {
         $query = "SELECT * FROM karma WHERE level = ?";
         return $this->_dbh->getAll($query, array($level), DB_FETCHMODE_ASSOC);
     }
@@ -193,7 +199,8 @@ class Damblan_Karma {
      * @return array Nested array containing the name of each leven and
      *               the number of occurrences of this level.
      */
-    function getLevels() {
+    function getLevels()
+    {
         $query = "SELECT level, COUNT(level) AS sum FROM karma GROUP BY level";
         return $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
     }
@@ -204,7 +211,8 @@ class Damblan_Karma {
      * @access private
      * @return boolean False on error, true otherwise
      */
-    function _requireKarma() {
+    function _requireKarma()
+    {
         global $auth_user;
 
         if ($this->has($auth_user->handle, "global.karma.manager") == false) {
@@ -226,9 +234,10 @@ class Damblan_Karma {
      * @param  string Describes the type of karma update
      * @return void
      */
-    function _notify($admin_user, $user, $action) {
-        require_once "Damblan/Log.php";
-        require_once "Damblan/Log/Mail.php";
+    function _notify($admin_user, $user, $action)
+    {
+        require_once 'Damblan/Log.php';
+        require_once 'Damblan/Log/Mail.php';
 
         static $logger, $observer;
 
@@ -244,7 +253,7 @@ class Damblan_Karma {
             $logger->attach($observer);
         }
 
-        $text = $admin_user . " has updated karma for " . $user . ": " . $action;
+        $text = $admin_user . ' has updated karma for ' . $user . ': ' . $action;
         $logger->log($text);
     }
 }

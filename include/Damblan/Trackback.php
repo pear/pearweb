@@ -2,8 +2,8 @@
 
 require_once 'Services/Trackback.php';
 
-class Damblan_Trackback extends Services_Trackback {
-
+class Damblan_Trackback extends Services_Trackback
+{
     /**
      * The time the trackback has been discovered.
      *
@@ -51,6 +51,7 @@ class Damblan_Trackback extends Services_Trackback {
             'url' =>  'http://'.PEAR_CHANNELNAME.'/',
             'key' =>  include(TRACKBACK_AKISMET_KEY_FILE),
         );
+
         foreach ($data as $key => $val) {
             if ($key == 'approved')
                 $val = ($val == 'true');
@@ -91,16 +92,18 @@ class Damblan_Trackback extends Services_Trackback {
      */
     function checkRepost(&$dbh, $count = TRACKBACK_REPOST_COUNT, $timespan = TRACKBACK_REPOST_TIMESPAN)
     {
-        $sql = 'SELECT COUNT(timestamp) FROM trackbacks WHERE 
-            ip = '.$dbh->quoteSmart($this->get('host')).' AND 
+        $sql = 'SELECT COUNT(timestamp) FROM trackbacks WHERE
+            ip = '.$dbh->quoteSmart($this->get('host')).' AND
             timestamp > '.$dbh->quoteSmart($this->get('timestamp') - $timespan);
         $res = $dbh->getOne($sql);
         if (PEAR::isError($res)) {
             return PEAR::raiseError('Database error, please try again later.');
         }
+
         if ($res >= $count) {
             return true;
         }
+
         return false;
     }
 
@@ -118,11 +121,11 @@ class Damblan_Trackback extends Services_Trackback {
         $testKey = '_'.$key;
         if (isset($this->$testKey)) {
             return $this->$testKey;
-        } else {
-            return Services_Trackback::get($key);
         }
+
+        return Services_Trackback::get($key);
     }
-    
+
     /**
      * set
      * Overwritten set() to set timestamp, ip and approved state correctly.
@@ -138,9 +141,9 @@ class Damblan_Trackback extends Services_Trackback {
         if (isset($this->$testKey)) {
             $this->$testKey = $value;
             return true;
-        } else {
-            return Services_Trackback::set($key, $value);
-       }
+        }
+
+        return Services_Trackback::set($key, $value);
     }
 
     /**
@@ -161,7 +164,10 @@ class Damblan_Trackback extends Services_Trackback {
         $data = $this->_getDecodedData($necessaryData);
         $approved = ($this->_approved) ? 'true' : 'false';
         $extra = $this->get('extra');
-        $sql = "INSERT INTO trackbacks (id, title, url, excerpt, blog_name, approved, timestamp, ip, referrer, user_agent) VALUES (
+        $sql = "INSERT INTO trackbacks
+            (id, title, url, excerpt, blog_name, approved,
+             timestamp, ip, referrer, user_agent)
+            VALUES (
                     ".$dbh->quoteSmart($this->get('id')).",
                     ".$dbh->quoteSmart($this->get('title')).",
                     ".$dbh->quoteSmart($this->get('url')).",
@@ -177,6 +183,7 @@ class Damblan_Trackback extends Services_Trackback {
         if (DB::isError($res)) {
             return PEAR::raiseError('Unable to save trackback: '.$res->getMessage());
         }
+
         return true;
     }
 
@@ -341,12 +348,12 @@ class Damblan_Trackback extends Services_Trackback {
         }
         return $ret;
     }
-   
+
     /**
-     * recentTrackbacks 
+     * recentTrackbacks
      * Get a list of trackbacks independent from the package ID.
-     *  
-     * @since  
+     *
+     * @since
      * @access public
      * @static
      * @param object(DB)    $dbh            The database connection object (PEAR::DB).
@@ -364,7 +371,7 @@ class Damblan_Trackback extends Services_Trackback {
         if (($number < 1) || ($number > 50)) {
             return PEAR::raiseError('Number out of range. Number must be integer between 1 and 50.');
         }
-        $sql = 'SELECT id, title, excerpt, blog_name, url, timestamp, approved, ip 
+        $sql = 'SELECT id, title, excerpt, blog_name, url, timestamp, approved, ip
                 FROM trackbacks';
         if ($approvedOnly) {
             $sql .= ' WHERE approved = '.$dbh->quoteSmart('true');
@@ -382,7 +389,7 @@ class Damblan_Trackback extends Services_Trackback {
         }
         return $ret;
     }
-   
+
     /**
      * Get maintainers to inform of a trackback (the lead maintainers of a package).
      *
@@ -394,8 +401,11 @@ class Damblan_Trackback extends Services_Trackback {
      */
     function getMaintainers ()
     {
+        require_once 'pear-database-maintainer.php';
         $maintainers = maintainer::get($this->get('id'), true);
         $res = array();
+
+        require_once 'pear-database-user.php';
         foreach ($maintainers as $maintainer => $data) {
             $tmpUser = user::info($maintainer, 'email');
             if (empty($tmpUser['email'])) {

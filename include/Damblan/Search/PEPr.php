@@ -18,7 +18,7 @@
    $Id$
 */
 
-require_once "Damblan/Search.php";
+require_once 'Damblan/Search.php';
 
 /**
  * PEPr search class
@@ -28,13 +28,11 @@ require_once "Damblan/Search.php";
  * @version $Revision$
  * @extends Damblan_Search
  */
-class Damblan_Search_PEPr extends Damblan_Search {
-
-    function Damblan_Search_PEPr() {
-    }
-
-    function search($term) {
-        LocalRedirect("/pepr/pepr-overview.php?search="
+class Damblan_Search_PEPr extends Damblan_Search
+{
+    function search($term)
+    {
+        LocalRedirect('/pepr/pepr-overview.php?search='
                . urlencode($term));
         exit();
     }

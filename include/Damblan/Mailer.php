@@ -6,8 +6,8 @@
  */
 require_once 'Mail.php';
 
-class Damblan_Mailer {
-
+class Damblan_Mailer
+{
     /**
      * The template data.
      * A template consists of an array with several keys. The main key is "Body",
@@ -15,11 +15,11 @@ class Damblan_Mailer {
      * headers like "To", "From", "Reply-To" or "X-Mailer". Except the body, every
      * key may contain an array of strings, the body itself may only be a string.
      * If one of the header keys is an array, the elements of this array will be
-     * concated using the string ", ". For example templates, see the 
+     * concated using the string ", ". For example templates, see the
      * include/Damblan/Mail/ directory, where all templates are stored.
-     *  
+     *
      * @var array
-     * @since  
+     * @since
      */
     var $_template = '';
 
@@ -27,17 +27,17 @@ class Damblan_Mailer {
      * The data to replace in the template.
      * This is an array of keys which represent variables (without the %-sign
      * used in the template), associated with the data to replace the variables.
-     *  
+     *
      * @var array
      * @since
      */
-    var $_data = array(); 
+    var $_data = array();
 
     /**
      * Default headers.
      * These default headers will be used, if one of those is neither set through the
      * template nor through the additional headers submitted to the send() method.
-     *  
+     *
      * @var array
      * @since
      */
@@ -46,7 +46,7 @@ class Damblan_Mailer {
         'From'      => 'pear-sys@php.net',
         'Reply-To'  => PEAR_WEBMASTER_EMAIL,
         'X-Mailer'  => 'PEARWeb - http://pear.php.net'
-    ); 
+    );
 
     /**
      * Create a new mail from a template.
@@ -54,7 +54,7 @@ class Damblan_Mailer {
      * given parameters represent the $_template and $_data variables of this class.
      * See their documentation for further information.
      *
-     * @since  
+     * @since
      * @access public
      *
      * @param array $template The template. This can either be a name of a template or the
@@ -88,13 +88,13 @@ class Damblan_Mailer {
         $mailer->_data = $data;
         return $mailer;
     }
-    
+
     /**
      * Send the mail.
      * This method is used to send a generated email. When calling this method,
      * the template itself is compiled. Afterwards, the existing headers are merged
      * with the additional header submited to this method.
-     *  
+     *
      * @since
      * @access public
      * @param array $headers Additional headers to use when sending an email. Note, that
@@ -150,11 +150,11 @@ class Damblan_Mailer {
     }
 
     /**
-     * Sanitize headers. 
+     * Sanitize headers.
      * Sanity checks for the headers of the mail. If a header is missing, it's set to a
      * default value, provided from Damblan_Mail::$_defaultHeaders.
-     *  
-     * @since  
+     *
+     * @since
      * @access private
      * @return array $data The sanitized template data.
      */
@@ -181,8 +181,8 @@ class Damblan_Mailer {
      *    is added to the array.
      *  - If both (old and new header) are strings, the new header _overwrites_ the
      *    old one!!
-     *  
-     * @since  
+     *
+     * @since
      * @access private
      * @param array $data The compiled template data.
      * @param array $headers The new header data to merge.
@@ -218,8 +218,8 @@ class Damblan_Mailer {
     /**
      * Compile the data into the template.
      * The compilation is processed through all data elements (headers and body).
-     *  
-     * @since  
+     *
+     * @since
      * @access private
      * @return array $data The compiled data.
      */

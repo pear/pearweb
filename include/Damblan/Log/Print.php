@@ -18,7 +18,7 @@
    $Id$
 */
 
-require_once "Log/observer.php";
+require_once 'Log/observer.php';
 
 /**
  * Observer class for logging via email
@@ -28,20 +28,22 @@ require_once "Log/observer.php";
  * @version $Revision$
  * @package Damblan
  */
-class Damblan_Log_Print extends Log_observer {
-
-    function Damblan_Log_Print() {
+class Damblan_Log_Print extends Log_observer
+{
+    function Damblan_Log_Print()
+    {
         $this->Log_observer();
     }
-    
+
     /**
      * Generate logging email
      *
      * @param array Array containing the log information
      * @return void
      */
-    function notify($event) {
-        echo "<li>" . $event['message'] . "</li>\n";
+    function notify($event)
+    {
+        echo '<li>' . $event['message'] . "</li>\n";
     }
 
     /**
@@ -51,7 +53,8 @@ class Damblan_Log_Print extends Log_observer {
      * @param  string Log message
      * @return boolean
      */
-    function log($text) {
+    function log($text)
+    {
         $event['message'] = $text;
         return $this->notify($event);
     }

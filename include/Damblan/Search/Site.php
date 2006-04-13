@@ -18,7 +18,7 @@
    $Id$
 */
 
-require_once "Damblan/Search.php";
+require_once 'Damblan/Search.php';
 
 /**
  * Site-wide search class
@@ -28,12 +28,10 @@ require_once "Damblan/Search.php";
  * @version $Revision$
  * @extends Damblan_Search
  */
-class Damblan_Search_Site extends Damblan_Search {
-
-    function Damblan_Search_Site() {
-    }
-
-    function search($term) {
+class Damblan_Search_Site extends Damblan_Search
+{
+    function search($term)
+    {
         header('Location: http://search.yahoo.com/search?vs=' . PEAR_CHANNELNAME
                . '&va=' . urlencode($term));
         exit();

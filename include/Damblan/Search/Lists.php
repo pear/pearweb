@@ -18,7 +18,7 @@
    $Id$
 */
 
-require_once "Damblan/Search.php";
+require_once 'Damblan/Search.php';
 
 /**
  * Mailing list search class
@@ -28,15 +28,17 @@ require_once "Damblan/Search.php";
  * @version $Revision$
  * @extends Damblan_Search
  */
-class Damblan_Search_Lists extends Damblan_Search {
-
+class Damblan_Search_Lists extends Damblan_Search
+{
     var $_list;
 
-    function Damblan_Search_Lists($list) {
+    function Damblan_Search_Lists($list)
+    {
         $this->_list = $list;
     }
 
-    function search($term) {
+    function search($term)
+    {
         header('Location: http://marc.theaimsgroup.com/?'
                . 'l=' . $this->_list . '&w=2&r=1&q=b&s='
                . urlencode($term));

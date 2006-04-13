@@ -24,24 +24,25 @@
  * @author Martin Jansen <mj@php.net>
  * @package Damblan
  */
-class Damblan_URL {
-
+class Damblan_URL
+{
     var $_parameters    = array();
     var $_path_elements = array();
 
     /**
      * Constructor
      */
-    function Damblan_URL() {
+    function Damblan_URL()
+    {
         if (count($_GET) > 0) {
             $this->_parameters = $_GET;
         }
 
-        $path = preg_replace("=^" . preg_quote($_SERVER['SCRIPT_NAME']) . "=", "", $_SERVER['REQUEST_URI']);
+        $path = preg_replace("=^" . preg_quote($_SERVER['SCRIPT_NAME']) . '=', '', $_SERVER['REQUEST_URI']);
         if (!empty($path) && isset($path{0}) && $path{0} == "/") {
             $path = substr($path, 1);
 
-            $elements = explode("/", $path);
+            $elements = explode('/', $path);
             foreach ($elements as $e) {
                 $this->_path_elements[] = $e;
             }
@@ -58,17 +59,18 @@ class Damblan_URL {
      *    /scripts.php?bar=hello
      *
      * and
-     * 
+     *
      *    /scripts.php/hello
      *
      * will both have the same effect
      */
-    function getElements(&$field) {
+    function getElements(&$field)
+    {
         $i = 0;
 
         foreach ($field as $key => $value) {
-            if (strstr($key, "|")) {
-                foreach (explode("|", $key) as $k) {
+            if (strstr($key, '|')) {
+                foreach (explode('|', $key) as $k) {
                     $res = $this->_find($k);
                     if (!empty($res)) {
                         break;
@@ -82,10 +84,11 @@ class Damblan_URL {
         }
     }
 
-    function _find($name) {
+    function _find($name)
+    {
         static $i = 0;
 
-        $retVal = "";
+        $retVal = '';
         if (!empty($this->_parameters[$name])) {
             $retVal = $this->_parameters[$name];
         } else if (!empty($this->_path_elements[$i])) {

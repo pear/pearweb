@@ -18,10 +18,10 @@
    $Id$
 */
 
-require_once "Damblan/Search.php";
-require_once "Pager/Pager.php";
+require_once 'Damblan/Search.php';
+require_once 'Pager/Pager.php';
 
-define("ITEMS_PER_PAGE", 10);
+define('ITEMS_PER_PAGE', 10);
 
 /**
  * Package search class
@@ -31,13 +31,14 @@ define("ITEMS_PER_PAGE", 10);
  * @version $Revision$
  * @extends Damblan_Search
  */
-class Damblan_Search_Packages extends Damblan_Search {
-
-    var $_placeholders = "";
+class Damblan_Search_Packages extends Damblan_Search
+{
+    var $_placeholders = '';
     var $_where;
-    var $_title = "Packages";
+    var $_title = 'Packages';
 
-    function search($term) {
+    function search($term)
+    {
         if (empty($term)) {
             return;
         }
@@ -50,47 +51,50 @@ class Damblan_Search_Packages extends Damblan_Search {
         }
 
         // Select all results
-        $query = "SELECT SQL_CALC_FOUND_ROWS name, summary FROM packages WHERE " . $this->_where . " ORDER BY name";
-        $query .= " LIMIT " . (($pageID - 1) * ITEMS_PER_PAGE) . ", " . ITEMS_PER_PAGE;
+        $query = 'SELECT SQL_CALC_FOUND_ROWS name, summary FROM packages WHERE ' . $this->_where . ' ORDER BY name';
+        $query .= ' LIMIT ' . (($pageID - 1) * ITEMS_PER_PAGE) . ', ' . ITEMS_PER_PAGE;
         $this->_results = $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
 
         // Get number of overall results
-        $query = "SELECT FOUND_ROWS()";
+        $query = 'SELECT FOUND_ROWS()';
         $this->_total = $this->_dbh->getOne($query);
 
         $params = array(
-                        "mode"       => "Jumping",
-                        "perPage"    => ITEMS_PER_PAGE,
-                        "urlVar"     => "p",
-                        "itemData"   => range(1, $this->_total),
-                        "extraVars"  => array("q" => $term)
+                        'mode'       => 'Jumping',
+                        'perPage'    => ITEMS_PER_PAGE,
+                        'urlVar'     => 'p',
+                        'itemData'   => range(1, $this->_total),
+                        'extraVars'  => array('q' => $term)
                         );
         $this->_pager =& Pager::factory($params);
     }
 
-    function getResults() {
-        array_walk($this->_results, array(__CLASS__, "decorate"));
+    function getResults()
+    {
+        array_walk($this->_results, array(__CLASS__, 'decorate'));
         return $this->_results;
     }
 
-    function getWhere($term) {
+    function getWhere($term)
+    {
         $elements = preg_split("/\s/", $term, -1, PREG_SPLIT_NO_EMPTY);
 
         // we are only interested in the first 3 search words
         $elements = array_slice($elements, 0, 3);
 
         foreach ($elements as $t) {
-            foreach (array("name", "summary") as $field) {
-                $ors[] = $field . " LIKE " . $this->_dbh->quote("%" . $t . "%");
+            foreach (array('name', 'summary') as $field) {
+                $ors[] = $field . ' LIKE ' . $this->_dbh->quote('%' . $t . '%');
             }
-            $where[] = "(" . implode(" OR ", $ors) . ")";
+            $where[] = '(' . implode(' OR ', $ors) . ')';
             $ors = array();
         }
 
-        return implode(" AND ", $where) . " AND approved = 1 AND package_type = 'pear'";
+        return implode(' AND ', $where) . " AND approved = 1 AND package_type = 'pear'";
     }
 
-    function decorate(&$value, $key) {
-        $value['html'] = "<strong><a href=\"/package/" . $value['name'] . "\">" . $value['name']  . "</a></strong>: " . $value['summary'] . "\n";
+    function decorate(&$value, $key)
+    {
+        $value['html'] = '<strong><a href="/package/' . $value['name'] . '">' . $value['name']  . '</a></strong>: ' . $value['summary'] . "\n";
     }
 }

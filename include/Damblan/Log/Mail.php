@@ -18,10 +18,10 @@
    $Id$
 */
 
-require_once "Log.php";
-require_once "Log/observer.php";
+require_once 'Log.php';
+require_once 'Log/observer.php';
 
-require_once "Mail.php";
+require_once 'Mail.php';
 
 /**
  * Observer class for logging via email
@@ -31,28 +31,30 @@ require_once "Mail.php";
  * @version $Revision$
  * @package Damblan
  */
-class Damblan_Log_Mail extends Log_observer {
-
+class Damblan_Log_Mail extends Log_observer
+{
     var $_mailer = null;
 
     var $_headers = array();
     var $_recipients = "";
 
-    function Damblan_Log_Mail() {
+    function Damblan_Log_Mail()
+    {
         $this->Log_observer();
 
-        $this->_mailer =& Mail::factory("mail", "-f pear-sys@php.net");
+        $this->_mailer =& Mail::factory('mail', '-f pear-sys@php.net');
 
         $this->_headers['From'] = "\"PEAR System Administrators\" <pear-sys@php.net>";
     }
-    
+
     /**
      * Generate logging email
      *
      * @param array Array containing the log information
      * @return void
      */
-    function notify($event) {
+    function notify($event)
+    {
         if (DEVBOX) {
             return;
         }
@@ -60,7 +62,7 @@ class Damblan_Log_Mail extends Log_observer {
         $ok = $this->_mailer->send($this->_recipients, $this->_headers, $event['message']);
 
         if ($ok === false) {
-            trigger_error("Email notification routine failed.", 
+            trigger_error("Email notification routine failed.",
                           E_USER_WARNING);
         }
     }
@@ -72,7 +74,8 @@ class Damblan_Log_Mail extends Log_observer {
      * @param  string Log message
      * @return boolean
      */
-    function log($text) {
+    function log($text)
+    {
         $event['message'] = $text;
         return $this->notify($event);
     }
@@ -84,7 +87,8 @@ class Damblan_Log_Mail extends Log_observer {
      * @param  string Recipients
      * @return void
      */
-    function setRecipients($r) {
+    function setRecipients($r)
+    {
         $this->_recipients = $r;
     }
 
@@ -96,7 +100,8 @@ class Damblan_Log_Mail extends Log_observer {
      * @param  string Value of the header
      * @return void
      */
-    function setHeader($name, $value) {
+    function setHeader($name, $value)
+    {
         $this->_headers[$name] = $value;
     }
 }

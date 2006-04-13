@@ -24,15 +24,16 @@
  * @author  Martin Jansen <mj@php.net>
  * @package Damblan
  */
-class Damblan_Site {
-
+class Damblan_Site
+{
     /**
      * Factory method
      *
      * @access public
      * @return object Instance of Damblan_Site
      */
-    function &factory() {
+    function &factory()
+    {
         static $_instance;
 
         if (!isset($_instance)) {
@@ -48,21 +49,23 @@ class Damblan_Site {
      * @param  mixed
      * @return void
      */
-    function error404($error) {
-        header("HTTP/1.0 404 Not Found");
-        print "<h1>Not Found</h1>\n";
+    function error404($error)
+    {
+        header('HTTP/1.0 404 Not Found');
+        echo "<h1>Not Found</h1>\n";
         $this->_errorPrint($error);
         exit();
     }
 
-    function _errorPrint($error) {
+    function _errorPrint($error)
+    {
         if (is_object($error)) {
-            print $error->getMessage();
+            echo $error->getMessage();
             if (DEVBOX) {
-                print " " . $error->getDebugInfo();
+                echo ' ' . $error->getDebugInfo();
             }
         } else {
-            print $error;
+            echo $error;
         }
     }
 }

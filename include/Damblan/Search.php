@@ -25,15 +25,16 @@
  * @package Damblan
  * @version $Revision$
  */
-class Damblan_Search {
-
+class Damblan_Search
+{
     var $_dbh;
     var $_pager = null;
     var $_total = 0;
     var $_results = null;
-    var $_title = "";
+    var $_title = '';
 
-    function Damblan_Search(&$dbh) {
+    function Damblan_Search(&$dbh)
+    {
         $this->_dbh =& $dbh;
     }
 
@@ -45,42 +46,34 @@ class Damblan_Search {
      * @param  object Instance of PEAR::DB. Will be passed to the subclass
      * @return object The concrete instance of the search subclass
      */
-    function &factory($searchType, &$dbh) {
+    function &factory($searchType, &$dbh)
+    {
         switch ($searchType) {
-
-        case "users" :
-            require_once "Damblan/Search/Users.php";
-            $s = new Damblan_Search_Users($dbh);
-
-            break;
-
-        case "site" :
-            require_once "Damblan/Search/Site.php";
-            $s = new Damblan_Search_Site;
-
-            break;
-
-        case "pepr" :
-            require_once "Damblan/Search/PEPr.php";
-            $s = new Damblan_Search_PEPr;
-
-            break;
-
-        case "pear-dev":
-        case "pear-cvs":
-        case "pear-general":
-            require_once "Damblan/Search/Lists.php";
-            $s = new Damblan_Search_Lists($searchType);
-
-            break;
-
-        case "packages" :
-        default :
-            require_once "Damblan/Search/Packages.php";
-            $s = new Damblan_Search_Packages($dbh);
-
-            break;
+            case 'users' :
+                require_once 'Damblan/Search/Users.php';
+                $s = new Damblan_Search_Users($dbh);
+                break;
+            case 'site' :
+                require_once 'Damblan/Search/Site.php';
+                $s = new Damblan_Search_Site;
+                break;
+            case 'pepr' :
+                require_once 'Damblan/Search/PEPr.php';
+                $s = new Damblan_Search_PEPr;
+                break;
+            case 'pear-dev':
+            case 'pear-cvs':
+            case 'pear-general':
+                require_once 'Damblan/Search/Lists.php';
+                $s = new Damblan_Search_Lists($searchType);
+                break;
+            case 'packages' :
+            default :
+                require_once 'Damblan/Search/Packages.php';
+                $s = new Damblan_Search_Packages($dbh);
+                break;
         }
+
         return $s;
     }
 
@@ -90,7 +83,8 @@ class Damblan_Search {
      * @access public
      * @return array
      */
-    function getResults() {
+    function getResults()
+    {
         return $this->_results;
     }
 
@@ -100,7 +94,8 @@ class Damblan_Search {
      * @access public
      * @return int
      */
-    function getTotal() {
+    function getTotal()
+    {
         return $this->_total;
     }
 
@@ -110,7 +105,8 @@ class Damblan_Search {
      * @access public
      * @return string
      */
-    function getTitle() {
+    function getTitle()
+    {
         return $this->_title;
     }
 
@@ -120,7 +116,8 @@ class Damblan_Search {
      * @access public
      * @return object
      */
-    function &getPager() {
+    function &getPager()
+    {
         return $this->_pager;
     }
 }
