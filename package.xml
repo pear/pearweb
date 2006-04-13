@@ -149,7 +149,6 @@
         <file baseinstalldir="" name="pear-manual.php" role="php" />
         <file baseinstalldir="" name="pear-patches.php" role="php" />
         <file baseinstalldir="" name="pear-prepend.php" role="php" />
-        <file baseinstalldir="" name="renum.php" role="php" />
         <file baseinstalldir="" name="signatures.php" role="php" />
         <file baseinstalldir="" name="site.php" role="php" />
         <file baseinstalldir="" name="xmlrpc-cache.php" role="php" />
