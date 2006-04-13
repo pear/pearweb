@@ -41,14 +41,6 @@ function verify_password($user, $pass) {
     global $auth_user;
     $logged = ($auth_user ? true : false);
     return $logged;
-	global $ignore_password;
-	$psw = find_password($user);
-	if (strlen($psw) > 0) {
-		if ($ignore_password || crypt($pass,substr($psw,0,2)) == $psw) {
-			return true;
-		}
-	}
-	return false;
 }
 
 ?>
