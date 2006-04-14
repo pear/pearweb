@@ -28,7 +28,7 @@ require_once 'Damblan/Search.php';
  * @version $Revision$
  * @extends Damblan_Search
  */
-class Damblan_Search_Site extends Damblan_Search
+class Damblan_Search_Site
 {
     function search($term)
     {
