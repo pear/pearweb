@@ -95,7 +95,12 @@ function dump($var) {
 }
 
 $sapi_name = php_sapi_name();
-set_time_limit(0);
+
+$safe_mode = (bool)ini_get('safe_mode');
+if (!$safe_mode) {
+    set_time_limit(0);
+}
+
 @ob_end_clean();
 ob_implicit_flush(true);
 define('WEBINSTALLER', ($sapi_name != 'cli' && !(substr($sapi_name,0,3)=='cgi' && !isset($_SERVER['GATEWAY_INTERFACE']))));
