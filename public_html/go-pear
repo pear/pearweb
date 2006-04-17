@@ -15,7 +15,7 @@
 # | Authors: Tomas V.V.Cox <cox@idecnet.com>                             |
 # |          Stig Bakken <ssb@php.net>                                   |
 # |          Christian Dickmann <dickmann@php.net>                       |
-# |          Pierre-Alain Joye <pajoye@pearfr.org>                       |
+# |          Pierre-Alain Joye <pierre@php.net>                          |
 # |          Greg Beaver <cellog@php.net>                                |
 # +----------------------------------------------------------------------+
 # $Id$
@@ -109,6 +109,7 @@ ini_set('track_errors', true);
 ini_set('html_errors', WEBINSTALLER);
 ini_set('magic_quotes_runtime', false);
 error_reporting( E_ALL & ~E_NOTICE);
+error_reporting( E_ALL);
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
 define('GO_PEAR_VER', '0.5.0');
 
@@ -204,10 +205,13 @@ $config_desc = array(
     'doc_dir' => 'Documentation base directory',
     'data_dir' => 'Data base directory',
     'test_dir' => 'Tests base directory',
+    'tmp_dir' => 'Temporary files directory'
 );
+
 if(!WEBINSTALLER && WINDOWS){
     $config_desc['php_bin'] = 'php.exe path';
 }
+
 if (WEBINSTALLER) {
     $config_desc['cache_dir'] = 'PEAR Installer cache directory';
     $config_desc['cache_ttl'] = 'Cache TimeToLive';
@@ -250,13 +254,14 @@ if (WEBINSTALLER) {
         $_SESSION['go-pear'] = array(
             'http_proxy' => $http_proxy,
             'config' => array(
-                'prefix' => dirname(__FILE__),
-                'bin_dir' => $bin_dir,
-                'php_bin' => $php_bin,
-                'php_dir' => '$prefix/PEAR',
-                'doc_dir' => $doc_dir,
-                'data_dir' => $data_dir,
-                'test_dir' => $test_dir,
+                'prefix'    => dirname(__FILE__),
+                'bin_dir'   => $bin_dir,
+                'php_bin'   => $php_bin,
+                'php_dir'   => '$prefix/PEAR',
+                'doc_dir'   => $doc_dir,
+                'data_dir'  => $data_dir,
+                'test_dir'  => $test_dir,
+                'tmp_dir'   => '$prefix/temp',
                 'cache_dir' => '$php_dir/cache',
                 'cache_ttl' => 300,
                 'webfrontend_file' => '$prefix/index.php',
@@ -265,6 +270,7 @@ if (WEBINSTALLER) {
             'DHTML' => true,
             );
     }
+
     if (!isset($_GET['step'])) {
         $_GET['step'] = 'Welcome';
         /* clean up old sessions datas */
@@ -294,7 +300,7 @@ if (WEBINSTALLER) {
 
         $_SESSION['go-pear']['config'] = $_POST['config'];
         $_SESSION['go-pear']['install_pfc'] = (isset($_POST['install_pfc']) && $_POST['install_pfc'] == 'on');
-        $_SESSION['go-pear']['DHTML'] = !($_POST['BCmode'] == "on");
+        $_SESSION['go-pear']['DHTML'] = isset($_POST['BCmode']) ? false : true;
     }
 
     $http_proxy = $_SESSION['go-pear']['http_proxy'];
@@ -422,8 +428,12 @@ we strongly recommand to use it.
 ####
 # Temp stuff
 ####
+if (!empty($tmp_dir)) {
+    tmp_dir($tmp_dir);
+} else {
+    tmp_dir();
+}
 
-tmp_dir();
 $foo = $ptmp;
 $ptmp = tempnam($foo, 'gope');
 if (WINDOWS) {
@@ -1123,9 +1133,25 @@ Please fix the permission or select a new path.\n";
 /*
  * Fixes for winXP/wrong tmp set by Urs Gehrig (urs@circle.ch)
  */
-function tmp_dir()
+function tmp_dir($default=false)
 {
     global $ptmp, $prefix;
+
+    if ($default) {
+        if (!is_dir($default)) {
+            if (mkdir_p($default)) {
+                /* try it really, is_writable is buggy with openbasedir */
+                $fh = @fopen(realpath($default . "/test"),"wb");
+                if ($fh) {
+                    $ptmp = $default;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+
     $_temp = false;
     if (WINDOWS){
         if ( my_env('TEMP') ) {
@@ -1239,6 +1265,8 @@ function detect_install_dirs($_prefix = null) {
         $doc_dir   = '$php_dir\docs';
         $data_dir  = '$php_dir\data';
         $test_dir  = '$php_dir\tests';
+        $tmp_dir   = '$prefix\temp';
+
         /*
          * Detects php.exe
          */
@@ -1280,6 +1308,8 @@ function detect_install_dirs($_prefix = null) {
         $doc_dir   = '$php_dir/docs';
         $data_dir  = '$php_dir/data';
         $test_dir  = '$php_dir/tests';
+        $tmp_dir   = '$prefix/temp';
+
         // check if the user has installed PHP with PHP or GNU layout
         if (@is_dir("$prefix/lib/php/.registry")) {
             $php_dir = '$prefix/lib/php';
@@ -2153,7 +2183,7 @@ End If
  */
 function win32CreateRegEnv()
 {
-    global $prefix, $bin_dir, $php_dir, $php_bin, $doc_dir, $data_dir, $test_dir;
+    global $prefix, $bin_dir, $php_dir, $php_bin, $doc_dir, $data_dir, $test_dir, $tmp_dir;
     $nl = "\r\n";
     $reg ='REGEDIT4'.$nl.
             '[HKEY_CURRENT_USER\Environment]'.$nl.
@@ -2396,4 +2426,3 @@ php.ini <$pathIni> include_path updated.
     }
     return true;
 }
-?>
