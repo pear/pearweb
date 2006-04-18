@@ -22,25 +22,7 @@ response_header("Support - Mailing Lists");
 
 echo "<h1>Support</h1>";
 
-$items = array(
-               'Overview' => array('url'   => 'index.php',
-                                   'title' => 'Support Overview'
-                                   ),
-               'Mailing Lists' => array('url'   => 'lists.php',
-                                        'title' => 'PEAR Mailing Lists'
-                                        ),
-               'Tutorials' => array('url'   => 'tutorials.php',
-                                    'title' => 'Tutorials about PEAR (packages)'
-                                    ),
-               'Presentation Slides' => array('url'   => 'slides.php',
-                                              'title' => 'Slides of presentations about PEAR'
-                                              ),
-               'Icons' => array('url'   => 'icons.php',
-                                'title' => 'PEAR icons'
-                                )
-               );
-
-print_tabbed_navigation($items);
+include 'tabs_list.php';
 
 /*
  * array of lists (

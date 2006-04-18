@@ -24,26 +24,7 @@ response_header("Support");
 <h1>Support</h1>
 
 <?php
-// Todo: Move me to a shared place!
-$items = array(
-               'Overview' => array('url'   => 'index.php',
-                                   'title' => 'Support Overview'
-                                   ),
-               'Mailing Lists' => array('url'   => 'lists.php',
-                                        'title' => 'PEAR Mailing Lists'
-                                        ),
-               'Tutorials' => array('url'   => 'tutorials.php',
-                                    'title' => 'Tutorials about PEAR (packages)'
-                                    ),
-               'Presentation Slides' => array('url'   => 'slides.php',
-                                              'title' => 'Slides of presentations about PEAR'
-                                              ),
-               'Icons' => array('url'   => 'icons.php',
-                                'title' => 'PEAR icons'
-                                )
-               );
-
-print_tabbed_navigation($items);
+include './tabs_list.php';
 ?>
 
 <h2>&raquo; Overview</h2>
@@ -54,10 +35,7 @@ navigation tabs above.</p>
 
 <p>Additionaly one can ask for help on the <i>#pear</i> 
 <acronym title="Internet Relay Chat">IRC</acronym> channel at the 
-<a href="http://www.efnet.org"> Eris Free Net</a>.  For german-speaking 
-PEAR users  <a href="http://www.pear-forum.de/">PEAR.forum</a> provides 
-web discussion boards, where questions concerning PEAR can be discussed.
-</p>
+<a href="http://www.efnet.org"> Eris Free Net</a>.</p>
 
 <p>Some project members also write about PEAR in their weblogs or
 journals. Some of them are aggregated through 
