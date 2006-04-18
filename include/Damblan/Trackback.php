@@ -401,11 +401,9 @@ class Damblan_Trackback extends Services_Trackback
      */
     function getMaintainers ()
     {
-        require_once 'pear-database-maintainer.php';
         $maintainers = maintainer::get($this->get('id'), true);
         $res = array();
 
-        require_once 'pear-database-user.php';
         foreach ($maintainers as $maintainer => $data) {
             $tmpUser = user::info($maintainer, 'email');
             if (empty($tmpUser['email'])) {
