@@ -450,6 +450,7 @@ if (WINDOWS) {
 rm_rf($ptmp);
 mkdir_p($ptmp, 0700);
 $ok = @chdir($ptmp);
+$tmp_dir = $ptmp;
 
 while (!WEBINSTALLER) {
     print "
@@ -1221,7 +1222,7 @@ function tmp_dir($default=false)
         };
         $_ENV['TMPDIR'] = $_ENV['TEMP'] = $prefix.'/tmp';
     }
-    $ptmp = $_temp;
+    $tmp_dir = $ptmp = $_temp;
 }
 
 // }}}
