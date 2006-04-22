@@ -604,7 +604,10 @@ displayHTMLProgress($progress = 5);
 
 if (file_exists(dirname(__FILE__).'/go-pear-bundle') || is_dir(dirname(__FILE__).'/go-pear-bundle')) {
     $dh = @opendir(dirname(__FILE__).'/go-pear-bundle');
+} else {
+	$dh = false;
 }
+
 $local_dir = array();
 if ($dh) {
     while($file = @readdir($dh)) {
