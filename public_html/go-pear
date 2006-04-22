@@ -605,7 +605,7 @@ displayHTMLProgress($progress = 5);
 if (file_exists(dirname(__FILE__).'/go-pear-bundle') || is_dir(dirname(__FILE__).'/go-pear-bundle')) {
     $dh = @opendir(dirname(__FILE__).'/go-pear-bundle');
 } else {
-	$dh = false;
+    $dh = false;
 }
 
 $local_dir = array();
@@ -638,8 +638,17 @@ foreach ($installer_packages as $pkg) {
 }
 
 print 'Bootstrapping: PEAR...................';
-$r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['PEAR'], 5), 0, -4));
-$url = "http://cvs.php.net/viewcvs.cgi/*checkout*/pear-core/PEAR.php?pathrev=$r";
+$rev = ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['PEAR'], 5), 0, -4));
+
+/* Force the revision if we got something like "stable" as version */
+if ((int)substr($rev, 0, 1) != 1) {
+    $rev = "PEAR_1_4";
+} else {
+    $rev = 'RELEASE_' . $rev;
+}
+
+$url = "http://cvs.php.net/viewcvs.cgi/*checkout*/pear-core/PEAR.php?pathrev=$rev";
+
 if (in_array('PEAR.php', $local_dir)) {
     copy(dirname(__FILE__).'/go-pear-bundle/PEAR.php', 'PEAR.php');
     echo "(local) ";
