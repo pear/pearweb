@@ -30,7 +30,6 @@ response_header('Credits');
   <li><?php echo user_link('mj'); ?></li>
   <li><?php echo user_link('pajoye'); ?></li>
   <li><?php echo user_link('toby'); ?></li>
-  <li><?php echo user_link('dufuz'); ?></li>
 </ul>
 
 <h3>&raquo; Emeritus</h3>
@@ -40,6 +39,7 @@ response_header('Credits');
   <li><?php echo user_link('ssb'); ?></li>
   <li><?php echo user_link('richard'); ?></li>
   <li><?php echo user_link('cmv'); ?></li>
+  <li><?php echo user_link('dufuz'); ?></li>
 </ul>
 
 <small>(In alphabetic order)</small>
@@ -53,8 +53,8 @@ response_header('Credits');
 <h2>&raquo; PEAR Documentation Team</h2>
 
 <p>The authors of the documentation are listed on a
-<a href="/manual/en/authors.php">special page</a> in 
-the manual. The team can be reached via the mailing list 
+<a href="/manual/en/authors.php">special page</a> in
+the manual. The team can be reached via the mailing list
 <?php echo make_mailto_link('pear-doc@lists.php.net'); ?>
  (<a href="/support/lists.php">subscription information</a>).</p>
 
