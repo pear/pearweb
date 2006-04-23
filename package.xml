@@ -60,7 +60,7 @@
      <name>Helgi Þormar Þorbjörnsson</name>
      <user>dufuz</user>
     <email>dufuz@php.net</email>
-    <active>yes</active>
+    <active>no</active>
   </developer>
   <date>2005-09-30</date>
   <time>19:24:43</time>
@@ -139,11 +139,17 @@
           <file baseinstalldir="" name="pepr.php" role="php" />
         </dir> <!-- /include/pepr -->
         <file baseinstalldir="" name="browser.php" role="php" />
-        <file baseinstalldir="" name="layout.php" role="php" />
         <file baseinstalldir="" name="pear-auth.php" role="php" />
         <file baseinstalldir="" name="pear-category.php" role="php" />
         <file baseinstalldir="" name="pear-config.php" role="php" />
-        <file baseinstalldir="" name="pear-database.php" role="php" />
+        <file baseinstalldir="" name="pear-database-category.php" role="php" />
+        <file baseinstalldir="" name="pear-database-channel.php" role="php" />
+        <file baseinstalldir="" name="pear-database-maintainer.php" role="php" />
+        <file baseinstalldir="" name="pear-database-note.php" role="php" />
+        <file baseinstalldir="" name="pear-database-package.php" role="php" />
+        <file baseinstalldir="" name="pear-database-release.php" role="php" />
+        <file baseinstalldir="" name="pear-database-statistics.php" role="php" />
+        <file baseinstalldir="" name="pear-database-user.php" role="php" />
         <file baseinstalldir="" name="pear-format-html.php" role="php" />
         <file baseinstalldir="" name="pear-format-xmlrpc.php" role="php" />
         <file baseinstalldir="" name="pear-manual.php" role="php" />
@@ -153,6 +159,7 @@
         <file baseinstalldir="" name="site.php" role="php" />
         <file baseinstalldir="" name="xmlrpc-cache.php" role="php" />
         <file baseinstalldir="" name="xmlrpc-methods.php" role="php" />
+        <file baseinstalldir="" name="xmlrpc-testlogin.php" role="php" />
       </dir> <!-- /include -->
       <dir name="public_html">
         <dir name="about">
@@ -567,7 +574,7 @@
   <dependencies>
     <required>
       <php>
-        <min>4.2</min>
+        <min>4.3</min>
       </php>
       <pearinstaller>
         <min>1.4.3</min>
