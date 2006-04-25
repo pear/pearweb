@@ -41,7 +41,7 @@ $mailing_lists = array(
     array (
         'pear-general',
         'PEAR general list',
-        'A list for users of PEAR',
+        'A list for people who use PEAR',
         false,
         true,
         true,
@@ -51,7 +51,7 @@ $mailing_lists = array(
     array (
         'pear-dev',
         'PEAR developers list',
-        'A list for developers of PEAR',
+        'A list for the people who make PEAR packages',
         false,
         true,
         true,
@@ -61,7 +61,7 @@ $mailing_lists = array(
     array (
         'pear-cvs',
         'PEAR CVS list',
-        'All the commits of the cvs PEAR code repository are posted to this list automatically',
+        'All commits to PEAR\'s CVS repository get automatically posted to this list',
         false,
         true,
         true,
@@ -81,7 +81,7 @@ $mailing_lists = array(
     array (
         'pear-qa',
         'PEAR QA list',
-        'A list for managing the PEAR Quality Assurance',
+        'A list for managing PEAR\'s Quality Assurance process',
         false,
         true,
         true,
@@ -91,7 +91,7 @@ $mailing_lists = array(
     array (
         'pear-core',
         'PEAR Core development list',
-        'A list, where the core infrastructure of PEAR is discussed',
+        'A list for the people who make PEAR\'s core infrastructure',
         false,
         true,
         true,
@@ -101,7 +101,7 @@ $mailing_lists = array(
     array (
         'pear-webmaster',
         'PEAR webmaster list',
-        'A list for managing the collaboration of the people working on the website.',
+        'A list for the people managing PEAR\'s website',
         false,
         true,
         true,
