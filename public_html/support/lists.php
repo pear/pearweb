@@ -41,7 +41,7 @@ $mailing_lists = array(
     array (
         'pear-general',
         'PEAR general list',
-        'A list for people who use PEAR',
+        'A list for people with questions on how to use PEAR',
         false,
         true,
         true,
