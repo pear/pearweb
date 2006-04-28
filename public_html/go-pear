@@ -90,8 +90,10 @@ function dump($var) {
         echo '<pre>';
         print_r($var);
         echo '</pre>';
+    } else {
+        print_r($var);
+        print_r($var);
     }
-    print_r($var);
 }
 
 $sapi_name = php_sapi_name();
@@ -109,6 +111,7 @@ ini_set('track_errors', true);
 ini_set('html_errors', WEBINSTALLER);
 ini_set('magic_quotes_runtime', false);
 error_reporting( E_ALL & ~E_NOTICE);
+error_reporting( E_ALL);
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
 define('GO_PEAR_VER', '0.5.0');
 
@@ -424,33 +427,6 @@ we strongly recommand to use it.
     }
 }
 
-####
-# Temp stuff
-####
-if (!empty($tmp_dir)) {
-    tmp_dir($tmp_dir);
-} else {
-    tmp_dir();
-}
-
-$foo = $ptmp;
-$ptmp = tempnam($foo, 'gope');
-if (WINDOWS) {
-    $ptmp = str_replace($foo,'',$ptmp);
-    $foo=str_replace("\\\\",'/',$foo);
-    $s = substr($ptmp,0,1);
-    if($s=="\\" || $s=='/' ){
-        $ptmp = $foo.'/'.substr($ptmp,1);
-    } else {
-        $ptmp = $foo.'/'.$ptmp;
-    }
-}
-
-rm_rf($ptmp);
-mkdir_p($ptmp, 0700);
-$ok = @chdir($ptmp);
-$tmp_dir = $ptmp;
-
 while (!WEBINSTALLER) {
     print "
 Below is a suggested file layout for your new PEAR installation.  To
@@ -539,6 +515,49 @@ foreach ($config_vars as $n => $var) {
     }
 }
 
+
+####
+# Temp stuff
+####
+if (!empty($tmp_dir)) {
+    $_found = tmp_dir($tmp_dir);
+} else {
+    $_found = tmp_dir();
+}
+
+if (!$_found) {
+            print "
+******************************************************************************
+FATAL ERROR! We cannot initialize the temp directory. Please be sure to give
+full write access to this directory and the install directory.
+
+";
+
+    if (!empty($tmp_dir)) {
+        print "'$tmp_dir' was given.";
+    }
+}
+
+$foo = $ptmp;
+
+$ptmp = tempnam($ptmp, 'gope');
+
+if (WINDOWS) {
+    $ptmp = str_replace($foo,'',$ptmp);
+    $foo = str_replace("\\\\",'/',$foo);
+    $s = substr($ptmp,0,1);
+    if($s == "\\" || $s == '/' ){
+        $ptmp = $foo . '/' . substr($ptmp,1);
+    } else {
+        $ptmp = $foo . '/' . $ptmp;
+    }
+}
+
+rm_rf($ptmp);
+mkdir_p($ptmp, 0700);
+$ok = @chdir($ptmp);
+$tmp_dir = $ptmp;
+
 foreach ($config_vars as $var) {
     $dir = $$var;
 
@@ -588,7 +607,9 @@ if (!extension_loaded('zlib')) {
     $urltemplate = 'http://pear.php.net/get/%s';
     $have_gzip = true;
 }
+
 print "Loading zlib: ".($have_gzip ? 'ok' : 'failed')."\n";
+
 if (!$have_gzip) {
     print "Downloading uncompressed packages\n";
 };
@@ -617,10 +638,11 @@ if ($dh) {
         $local_dir[$file_pkg] = $file;
     }
 }
+
 foreach ($installer_packages as $pkg) {
     if (isset($local_dir[$pkg])) {
         echo str_pad("Using local package: $pkg", max(38,21+strlen($pkg)+4), '.');
-        copy(dirname(__FILE__).'/go-pear-bundle/'.$local_dir[$pkg], $local_dir[$pkg]);
+        copy(dirname(__FILE__) . '/go-pear-bundle/' . $local_dir[$pkg], $local_dir[$pkg]);
         $tarball[$pkg] = $local_dir[$pkg];
         echo "ok\n";
         displayHTMLProgress($progress += round(65 / count($to_install)));
@@ -630,7 +652,9 @@ foreach ($installer_packages as $pkg) {
     $msg = str_pad("Downloading package: $pkg", max(38,21+strlen($pkg)+4), '.');
     print $msg;
     $url = sprintf($urltemplate, $pkg);
+
     $pkg = str_replace('-stable', '', $pkg);
+
     $tarball[$pkg] = download_url($url, null, $http_proxy);
     print "ok\n";
     displayHTMLProgress($progress += round(65 / count($to_install)));
@@ -714,7 +738,7 @@ PEAR::setErrorHandling(PEAR_ERROR_DIE, "\n%s\n");
 print 'Extracting installer..................';
 $dot = strrpos($tarball['PEAR'], '.');
 $pkg = substr($tarball['PEAR'], 0, $dot);
-$ext = substr($tarball['PEAR'], $dot+1);
+$ext = substr($tarball['PEAR'], $dot + 1);
 
 include_once 'Archive/Tar.php';
 $tar = &new Archive_Tar($tarball['PEAR'], $have_gzip);
@@ -965,9 +989,7 @@ function download_url($url, $destfile = null, $proxy = null)
     if (!empty($proxy) && $tmp_proxy['user'] != '') {
         $request .= 'Proxy-Authorization: Basic ' .
                     base64_encode($tmp_proxy['user'] . ':' . $tmp_proxy['pass']) . "\r\n";
-//        print "\nauthenticating against proxy with : user = ${tmp_proxy['user']} \n";
-//        print "and pass = ${tmp_proxy['pass']}\n";
-    } // if
+    }
     $request .= "\r\n";
     fwrite($fp, $request);
     $cdh = "content-disposition:";
@@ -979,13 +1001,14 @@ function download_url($url, $destfile = null, $proxy = null)
         }
         if (preg_match('/^Content-Length: (.*)$/i', $line, $matches)) {
             $content_length = trim($matches[1]);
-        };
+        }
         if ($use_suggested_filename && !strncasecmp($line, $cdh, $cdhl)) {
             if (eregi('filename="([^"]+)"', $line, $matches)) {
                 $destfile = basename($matches[1]);
             }
         }
     }
+
     if ($content_length) {
         displayHTMLSetDownload($destfile);
     };
@@ -1151,16 +1174,19 @@ function tmp_dir($default=false)
 
     if ($default) {
         if (!is_dir($default)) {
-            if (mkdir_p($default)) {
-                /* try it really, is_writable is buggy with openbasedir */
-                $fh = @fopen(realpath($default . "/test"),"wb");
-                if ($fh) {
-                    $ptmp = $default;
-                    return true;
-                } else {
-                    return false;
-                }
+            if (!mkdir_p($default)) {
+                return false;
             }
+        }
+
+        /* try it really, is_writable is buggy with openbasedir */
+        $fh = fopen(realpath($default) . "/test","wb");
+        if ($fh) {
+            $ptmp = $default;
+            return true;
+        } else {
+            $ptmp = "failed";
+            return false;
         }
     }
 
