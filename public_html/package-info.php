@@ -196,7 +196,7 @@ if (empty($action)) {
 
     // {{{ General information
 
-    /* UNMAINTAINED OR SUPERCEEDED PACKAGES WARNING */
+    // {{{ Supeseded checks
     $dec_messages = array(
         'abandoned' => 'This package is not maintained anymore and has been superseded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a>.',
         'superseded' => 'This package been superseded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a> but is still maintained for bugs and security fixes',
@@ -235,7 +235,7 @@ if (empty($action)) {
         $str .= '</div>';
         echo $str;
     }
-    /* UNMAINTAINED OR SUPERCEDED PACKAGES WARNING */
+    // }}}
 
     print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     print '<tr>';
