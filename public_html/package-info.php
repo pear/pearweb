@@ -130,7 +130,7 @@ $pacid        = $pkg['packageid'];
 $cvs_link     = $pkg['cvs_link'];
 $doc_link     = $pkg['doc_link'];
 $unmaintained = ($pkg['unmaintained']) ? 'Y' : 'N';
-$new_package  = htmlspecialchars($pkg['new_package']);
+$superseded_by_new_package  = htmlspecialchars($pkg['new_package']);
 
 // Maintainer information
 $maintainers = maintainer::get($pacid);
@@ -198,20 +198,21 @@ if (empty($action)) {
 
     /* UNMAINTAINED OR SUPERCEEDED PACKAGES WARNING */
     $dec_messages = array(
-        'abandoned' => 'This package is not maintained anymore and has been superceded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a>.',
-        'superceded' => 'This package been superceded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a> but is still maintained for bugs and security fixes',
+        'abandoned' => 'This package is not maintained anymore and has been superseded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a>.',
+        'superseded' => 'This package been superseded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a> but is still maintained for bugs and security fixes',
         'unmaintained' => 'This package is not maintained, if you would like to take over please go to <a href="http://pear.php.net/manual/en/newmaint.takingover.php">this page</a>'
     );
 
     $dec_table = array(
-        'abandoned'   => array('superceded' => 'Y', 'unmaintained' => 'Y'),
-        'superceded'  => array('superceded' => 'Y', 'unmaintained' => 'N'),
-        'unmaintained' => array('superceded' => 'N', 'unmaintained' => 'Y'),
+        'abandoned'   => array('superseded' => 'Y', 'unmaintained' => 'Y'),
+        'superseded'  => array('superseded' => 'Y', 'unmaintained' => 'N'),
+        'unmaintained' => array('superseded' => 'N', 'unmaintained' => 'Y'),
     );
 
-    $superceded = 'N';
-    if ($new_package != '') {
-        $superceded = 'Y';
+    if ($superseded_by_new_package != '') {
+        $superseded = 'Y';
+    } else {
+        $superseded = 'N';
     }
 
     $apply_rule = null;
@@ -230,7 +231,7 @@ if (empty($action)) {
 
     if (!is_null($apply_rule) && isset($dec_messages[$apply_rule])) {
         $str  = '<div class="warnings">';
-        $str .= str_replace('{{PACKAGE_NAME}}', $new_package, $dec_messages[$apply_rule]);
+        $str .= str_replace('{{PACKAGE_NAME}}', $superseded_by_new_package, $dec_messages[$apply_rule]);
         $str .= '</div>';
         echo $str;
     }
