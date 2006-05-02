@@ -66,6 +66,7 @@ do {
         $display_verification = true;
 
     } elseif (isset($_POST['verify'])) {
+        set_time_limit(60);
         include_once 'PEAR/Config.php';
         include_once 'PEAR/PackageFile.php';
         // Verify Button
