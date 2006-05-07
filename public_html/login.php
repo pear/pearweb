@@ -66,16 +66,16 @@ if (auth_verify(@$_POST['PEAR_USER'], $password)) {
     /*
      * Determine URL
      */
-    if (!ereg('%3A%2F%2F', $_POST['PEAR_OLDURL']) && (isset($_POST['PEAR_OLDURL']) &&
-        basename($_POST['PEAR_OLDURL']) != 'login.php') )
+    if (isset($_POST['PEAR_OLDURL'])
+        && basename($_POST['PEAR_OLDURL']) != 'login.php'
+        && !ereg('%3A%2F%2F', $_POST['PEAR_OLDURL']))
     {
         localRedirect($_POST['PEAR_OLDURL'], false);
     } else {
         localRedirect("/index.php", false);
-        exit;
     }
-
     exit;
+
 }
 
 $msg = "";
