@@ -475,6 +475,7 @@ function show_package_version_options($package, $current)
 function show_version_options($current, $default = '')
 {
     $versions = array(
+        '4_4 CVS-' . date('Y-m-d'),
         '4.4.2',
         '4.4.1',
         '4.4.0',
@@ -491,6 +492,7 @@ function show_version_options($current, $default = '')
         '4.3.1',
         '4.3.0',
         '4_3 CVS-' . date('Y-m-d'),
+        '5_2 CVS-' . date('Y-m-d'),
         '5.1.4',
         '5.1.2',
         '5.1.1',
