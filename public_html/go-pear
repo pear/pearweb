@@ -1176,11 +1176,7 @@ function tmp_dir($default=false)
     global $ptmp, $prefix;
 
     if ($default) {
-        if (!@is_readable($default)) {
-            return false;
-        }
-
-        if (!is_dir($default)) {
+        if (!@is_dir($default)) {
             if (!mkdir_p($default)) {
                 return false;
             }
