@@ -103,6 +103,8 @@ if (!$safe_mode) {
     set_time_limit(0);
 }
 
+
+
 @ob_end_clean();
 ob_implicit_flush(true);
 define('WEBINSTALLER', ($sapi_name != 'cli' && !(substr($sapi_name,0,3)=='cgi' && !isset($_SERVER['GATEWAY_INTERFACE']))));
@@ -113,7 +115,7 @@ ini_set('magic_quotes_runtime', false);
 error_reporting( E_ALL & ~E_NOTICE);
 
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
-define('GO_PEAR_VER', '0.5.0');
+define('GO_PEAR_VER', '0.6.0');
 
 if (!function_exists('file_get_contents')) {
     function file_get_contents($filename)
@@ -132,7 +134,6 @@ define('WIN32GUI', !WEBINSTALLER && WINDOWS && $sapi_name=='cli' && which('cscri
 /*
  * See bug #23069
  */
-
 if ( WEBINSTALLER && WINDOWS ) {
     $php_sapi_name = win32DetectPHPSAPI();
     if($php_sapi_name=='cgi'){
@@ -527,6 +528,7 @@ if (!empty($tmp_dir)) {
 
 if (!$_found) {
             print "
+
 ******************************************************************************
 FATAL ERROR! We cannot initialize the temp directory. Please be sure to give
 full write access to this directory and the install directory.
@@ -536,6 +538,7 @@ full write access to this directory and the install directory.
     if (!empty($tmp_dir)) {
         print "'$tmp_dir' was given.";
     }
+    exit();
 }
 
 $foo = $ptmp;
@@ -1173,6 +1176,10 @@ function tmp_dir($default=false)
     global $ptmp, $prefix;
 
     if ($default) {
+        if (!@is_readable($default)) {
+            return false;
+        }
+
         if (!is_dir($default)) {
             if (!mkdir_p($default)) {
                 return false;
@@ -1256,7 +1263,7 @@ function tmp_dir($default=false)
         // Adjust TEMPDIR envvars
         if (!isset($_ENV)) {
             $_ENV = array();
-        };
+        }
         $_ENV['TMPDIR'] = $_ENV['TEMP'] = $prefix.'/tmp';
     }
     $tmp_dir = $ptmp = $_temp;
