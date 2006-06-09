@@ -591,8 +591,7 @@ if (!WEBINSTALLER) {
 # Download
 ####
 
-//ini_set("include_path", $ptmp);
-set_include_path('/usr/local/lib/php:.');
+set_include_path($ptmp);
 
 if (!extension_loaded('zlib') && !WEBINSTALLER) { // In Web context we could be in multithread env which makes dl() end up with a fatal error.
     if (WINDOWS) {
@@ -761,14 +760,10 @@ putenv('PHP_PEAR_SIG_KEYDIR=""');
 putenv('PHP_PEAR_DOWNLOAD_DIR=' . $temp_dir . '/download');
 putenv('PHP_PEAR_TEMP_DIR=' . $temp_dir);
 
-$wd= getcwd();
-chdir($prefix);
 include_once "PEAR.php";
 include_once "PEAR/Config.php";
 include_once "PEAR/Command.php";
 include_once "PEAR/Registry.php";
-chdir($wd);
-
 
 if (WEBINSTALLER || isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'local') {
     $config = &PEAR_Config::singleton($prefix."/pear.conf", '');
