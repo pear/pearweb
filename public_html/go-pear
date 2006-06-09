@@ -193,7 +193,7 @@ if (WEBINSTALLER) {
 }
 
 $pfc_packages = array(
-    'DB',
+    'MDB2',
     'Net_Socket',
     'Net_SMTP',
     'Mail',
@@ -208,7 +208,7 @@ $config_desc = array(
     'doc_dir' => 'Documentation base directory',
     'data_dir' => 'Data base directory',
     'test_dir' => 'Tests base directory',
-    'tmp_dir' => 'Temporary files directory'
+    'temp_dir' => 'Temporary files directory'
 );
 
 if(!WEBINSTALLER && WINDOWS){
@@ -264,7 +264,7 @@ if (WEBINSTALLER) {
                 'doc_dir'   => $doc_dir,
                 'data_dir'  => $data_dir,
                 'test_dir'  => $test_dir,
-                'tmp_dir'   => '$prefix/temp',
+                'temp_dir'   => '$prefix/temp',
                 'cache_dir' => '$php_dir/cache',
                 'cache_ttl' => 300,
                 'webfrontend_file' => '$prefix/index.php',
@@ -457,12 +457,14 @@ Please, enter the php.exe path.
         $var = $config_vars[(int)$tmp];
         $desc = $config_desc[$var];
         $current = $$var;
+
         if(WIN32GUI){
             $tmp = win32BrowseForFolder("$desc [$current] :");
         } else {
             print "$desc [$current] : ";
             $tmp = trim(fgets($tty, 1024));
         }
+
         $old = $$var;
         if(WINDOWS && $var=='php_bin' ){
             if(file_exists($tmp.DIRECTORY_SEPARATOR.'php.exe')){
@@ -520,10 +522,10 @@ foreach ($config_vars as $n => $var) {
 ####
 # Temp stuff
 ####
-if (!empty($tmp_dir)) {
-    $_found = tmp_dir($tmp_dir);
+if (!empty($temp_dir)) {
+    $_found = temp_dir($temp_dir);
 } else {
-    $_found = tmp_dir();
+    $_found = temp_dir();
 }
 
 if (!$_found) {
@@ -535,8 +537,8 @@ full write access to this directory and the install directory.
 
 ";
 
-    if (!empty($tmp_dir)) {
-        print "'$tmp_dir' was given.";
+    if (!empty($temp_dir)) {
+        print "'$temp_dir' was given.";
     }
     exit();
 }
@@ -559,7 +561,6 @@ if (WINDOWS) {
 rm_rf($ptmp);
 mkdir_p($ptmp, 0700);
 $ok = @chdir($ptmp);
-$tmp_dir = $ptmp;
 
 foreach ($config_vars as $var) {
     $dir = $$var;
@@ -590,7 +591,8 @@ if (!WEBINSTALLER) {
 # Download
 ####
 
-ini_set("include_path", $ptmp);
+//ini_set("include_path", $ptmp);
+set_include_path('/usr/local/lib/php:.');
 
 if (!extension_loaded('zlib') && !WEBINSTALLER) { // In Web context we could be in multithread env which makes dl() end up with a fatal error.
     if (WINDOWS) {
@@ -752,21 +754,35 @@ print "ok\n";
 
 $tarball['PEAR'] = 'package.xml'; // :-)
 
+// Default for sig_bin
+putenv('PHP_PEAR_SIG_BIN=""');
+// Default for sig_keydir
+putenv('PHP_PEAR_SIG_KEYDIR=""');
+putenv('PHP_PEAR_DOWNLOAD_DIR=' . $temp_dir . '/download');
+putenv('PHP_PEAR_TEMP_DIR=' . $temp_dir);
+
+$wd= getcwd();
+chdir($prefix);
 include_once "PEAR.php";
 include_once "PEAR/Config.php";
 include_once "PEAR/Command.php";
 include_once "PEAR/Registry.php";
+chdir($wd);
+
 
 if (WEBINSTALLER || isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'local') {
     $config = &PEAR_Config::singleton($prefix."/pear.conf", '');
 } else {
     $config = &PEAR_Config::singleton();
-};
+}
+
+
 $config->set('preferred_state', 'stable');
 foreach ($config_vars as $var) {
     $config->set($var, $$var);
 }
-
+$config->set('download_dir', $temp_dir . '/download');
+$config->set('temp_dir', $temp_dir);
 $config->store();
 
 $registry = new PEAR_Registry($php_dir);
@@ -1171,12 +1187,12 @@ Please fix the permission or select a new path.\n";
 /*
  * Fixes for winXP/wrong tmp set by Urs Gehrig (urs@circle.ch)
  */
-function tmp_dir($default=false)
+function temp_dir($default=false)
 {
     global $ptmp, $prefix;
 
     if ($default) {
-        if (!@is_dir($default)) {
+         if (!@is_dir($default)) {
             if (!mkdir_p($default)) {
                 return false;
             }
@@ -1262,7 +1278,7 @@ function tmp_dir($default=false)
         }
         $_ENV['TMPDIR'] = $_ENV['TEMP'] = $prefix.'/tmp';
     }
-    $tmp_dir = $ptmp = $_temp;
+    $temp_dir = $ptmp = $_temp;
 }
 
 // }}}
@@ -1306,7 +1322,7 @@ function detect_install_dirs($_prefix = null) {
         $doc_dir   = '$php_dir\docs';
         $data_dir  = '$php_dir\data';
         $test_dir  = '$php_dir\tests';
-        $tmp_dir   = '$prefix\temp';
+        $temp_dir   = '$prefix\temp';
 
         /*
          * Detects php.exe
@@ -1349,7 +1365,7 @@ function detect_install_dirs($_prefix = null) {
         $doc_dir   = '$php_dir/docs';
         $data_dir  = '$php_dir/data';
         $test_dir  = '$php_dir/tests';
-        $tmp_dir   = '$prefix/temp';
+        $temp_dir   = '$prefix/temp';
 
         // check if the user has installed PHP with PHP or GNU layout
         if (@is_dir("$prefix/lib/php/.registry")) {
@@ -2224,7 +2240,7 @@ End If
  */
 function win32CreateRegEnv()
 {
-    global $prefix, $bin_dir, $php_dir, $php_bin, $doc_dir, $data_dir, $test_dir, $tmp_dir;
+    global $prefix, $bin_dir, $php_dir, $php_bin, $doc_dir, $data_dir, $test_dir, $temp_dir;
     $nl = "\r\n";
     $reg ='REGEDIT4'.$nl.
             '[HKEY_CURRENT_USER\Environment]'.$nl.
