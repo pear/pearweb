@@ -674,8 +674,7 @@ if ((int)substr($rev, 0, 1) != 1) {
     $rev = 'RELEASE_' . $rev;
 }
 
-$url = "http://cvs.php.net/viewcvs.cgi/*checkout*/pear-core/PEAR.php?pathrev=$rev";
-
+$url = 'http://cvs.php.net/viewcvs.cgi/pear-core/PEAR.php?view=co&pathrev=' . $rev;
 if (in_array('PEAR.php', $local_dir)) {
     copy(dirname(__FILE__).'/go-pear-bundle/PEAR.php', 'PEAR.php');
     echo "(local) ";
