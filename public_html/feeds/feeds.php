@@ -87,8 +87,8 @@ $item_entries
 </rdf:RDF>";
 
         if ($dest_file && (!file_exists($dest_file) || filemtime($dest_file) < (time() - $timeout))) {
-            $stream = fopen($url,'r');
-            $tmpf = tempnam('/tmp','YWS');
+            $stream = fopen($url, 'r');
+            $tmpf = tempnam('/tmp', 'RSS');
             // Note the direct write from the stream here
             file_put_contents($tmpf, $stream);
             fclose($stream);
