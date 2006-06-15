@@ -964,18 +964,22 @@ function print_tabbed_navigation($items)
 {
     global $self;
 
-   $page = basename($self);
+    $page = basename($self);
 
     echo '<div id="nav">' . "\n";
+    echo "  <ul>\n";
     foreach ($items as $title => $item) {
+        echo "    <li>";
         echo '<a href="' . $item['url']
              . '" title="' . $item['title'] . '"';
         if ($page == $item['url']) {
             echo ' class="active"';
         }
-        echo '>' . $title . "</a>\n";
+        echo '>' . $title . "</a>";
+        echo "</li>\n";
     }
-    echo '</div>';
+    echo "  </ul>\n";
+    echo "</div>\n";
 }
 
 /**

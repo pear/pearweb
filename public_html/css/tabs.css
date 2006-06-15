@@ -8,6 +8,17 @@
     clear: both;
 }
 
+#nav ul {
+    padding: 0;
+    margin: 0;
+
+    list-style: none;
+}
+
+#nav li {
+    float: left;
+}
+
 #nav a {
     float: left;
     font-weight: bold;
