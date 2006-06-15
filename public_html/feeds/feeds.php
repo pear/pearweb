@@ -86,15 +86,14 @@ EOT;
 $item_entries
 </rdf:RDF>";
 
-        /* lock free write, thx rasmus for the tip */
-		if($dest_file && (!file_exists($dest_file) || filemtime($dest_file) < (time()-$timeout))) {
-			$stream = fopen($url,'r');
-			$tmpf = tempnam('/tmp','YWS');
-			// Note the direct write from the stream here
-			file_put_contents($tmpf, $stream);
-			fclose($stream);
-			rename($tmpf, $dest_file);
-		}
+        if ($dest_file && (!file_exists($dest_file) || filemtime($dest_file) < (time() - $timeout))) {
+            $stream = fopen($url,'r');
+            $tmpf = tempnam('/tmp','YWS');
+            // Note the direct write from the stream here
+            file_put_contents($tmpf, $stream);
+            fclose($stream);
+            rename($tmpf, $dest_file);
+        }
         header("Content-Type: text/xml; charset=iso-8859-1");
         echo $rss_feed;
     } else {
