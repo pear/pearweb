@@ -57,7 +57,7 @@ if ($selectStatus == '') {
     echo "please have a look at the <a href=\"/manual/en/guide-newmaint.php\">New Maintainer's Guide</a>.";
     echo "</p>";
     echo "<p>";
-    echo "<a href='/feeds/pepr$searchPostfix.rss'>Aggregate this.</a>";
+    echo "<a href=\"/feeds/pepr$searchPostfix.rss\"><img src=\"/gifs/feed.png\" width=\"16\" height=\"16\" alt=\"Aggregate this\" border=\"0\" /></a>";
     echo "</p>";
 }
 
