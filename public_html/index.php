@@ -33,7 +33,7 @@ if (@sizeof($recent) > 0) {
         $RSIDEBAR_DATA .= "<a href=\"/package/" . $name . "/\">";
         $RSIDEBAR_DATA .= "$name $version</a><br /> <small>($releasedate)</small></td></tr>";
     }
-    $feed_link = "<small><a href=\"/feeds/\">Syndicate this</a></small>";
+    $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" border="0" /></a>';
     $RSIDEBAR_DATA .= "<tr><td>&nbsp;</td></tr>\n";
     $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
