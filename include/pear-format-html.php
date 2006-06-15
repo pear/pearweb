@@ -111,9 +111,10 @@ function response_header($title = 'The PHP Extension and Application Repository'
             $SIDEBAR_DATA .= draw_navigation('developer_menu_public', 'Developers:');
         }
     }
-header('Content-Type: text/html;charset=' . $encoding);
+header('Content-Type: text/html; charset=' . $encoding);
 echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
 ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head>
