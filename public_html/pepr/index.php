@@ -72,9 +72,9 @@ foreach ($proposals as $proposal) {
         if ($last_status !== false) {
             echo "</ul>\n";
             echo "<p>";
-            echo "<a href='/feeds/pepr_".$last_status.".rss'>Aggregate this.</a>";
             echo "</p>\n\n";
         }
+        echo "<div style=\"float: right\"><a href='/feeds/pepr_".$proposal->getStatus().".rss'><img src=\"/gifs/feed.png\" width=\"16\" height=\"16\" alt=\"Aggregate this\" border=\"0\" /></a></div>";
         echo '<h2 name="' . $proposal->getStatus() . '" id="';
         echo $proposal->getStatus() . '">';
         echo '&raquo; ' . htmlspecialchars($proposal->getStatus(true));
@@ -139,9 +139,4 @@ if ($selectStatus == '' && isset($proposal) && $proposal->getStatus() == 'finish
 
 echo "</ul>\n";
 
-if (isset($proposal)) {
-    echo "<p>";
-    echo "<a href='/feeds/pepr_".@$proposal->getStatus().".rss'>Aggregate this.</a>";
-    echo "</p>\n\n";
-}
 response_footer();
