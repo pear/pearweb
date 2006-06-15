@@ -63,33 +63,31 @@ if ($selectStatus == '') {
 
 display_overview_nav();
 
-echo "<ul>";
-
 $last_status = false;
 
 $finishedCounter = 0;
 
 foreach ($proposals as $proposal) {
     if ($proposal->getStatus() != $last_status) {
-        echo "</ul>";
         if ($last_status !== false) {
+            echo "</ul>\n";
             echo "<p>";
             echo "<a href='/feeds/pepr_".$last_status.".rss'>Aggregate this.</a>";
-            echo "</p>";
+            echo "</p>\n\n";
         }
         echo '<h2 name="' . $proposal->getStatus() . '" id="';
         echo $proposal->getStatus() . '">';
         echo '&raquo; ' . htmlspecialchars($proposal->getStatus(true));
         echo "</h2>\n";
-        echo "<ul>";
+        echo "<ul>\n";
         $last_status = $proposal->getStatus();
     }
     $prpCat = $proposal->pkg_category;
     if ($selectStatus != '' && (!isset($lastChar) || $lastChar != $prpCat{0})) {
         $lastChar = $prpCat{0};
-        echo '</ul>';
-        echo "<h3>$lastChar</h3>";
-        echo '<ul>';
+        echo "</ul>\n";
+        echo "<h3>$lastChar</h3>\n";
+        echo "<ul>\n";
     }
     if ($proposal->getStatus() == 'finished' && $selectStatus != 'finished') {
         if (++$finishedCounter == 10) {
@@ -109,7 +107,7 @@ foreach ($proposals as $proposal) {
         }
     }
 
-    echo "<li>";
+    echo "  <li>";
     if ($already_voted) {
         echo '(Already voted) ';
     }
@@ -139,11 +137,11 @@ if ($selectStatus == '' && isset($proposal) && $proposal->getStatus() == 'finish
     print_link('/pepr/?filter=finished', 'All finished proposals');
 }
 
-echo "</ul>";
+echo "</ul>\n";
 
 if (isset($proposal)) {
     echo "<p>";
     echo "<a href='/feeds/pepr_".@$proposal->getStatus().".rss'>Aggregate this.</a>";
-    echo "</p>";
+    echo "</p>\n\n";
 }
 response_footer();
