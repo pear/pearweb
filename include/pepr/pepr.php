@@ -86,12 +86,12 @@ function display_overview_nav ()
 {
     global $proposalStatiMap;
     $items = array(
-        'All'       => array('url'   => 'pepr-overview.php?filter=',
+        'All'       => array('url'   => 'index.php?filter=',
                              'title' => 'All'
                        )
     );
     foreach ($proposalStatiMap as $status => $name) {
-        $items[$name] = array('url'   => 'pepr-overview.php?filter='.$status,
+        $items[$name] = array('url'   => 'index.php?filter='.$status,
                               'title' => $name
         );
     }

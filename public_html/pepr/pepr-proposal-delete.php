@@ -32,7 +32,7 @@ if (!empty($_GET['isDeleted'])) {
     echo "<h1>Delete Proposal</h1>\n";
     report_success('Proposal deleted successfully.');
     echo '<p>';
-    print_link('/pepr/pepr-overview.php', 'Back to PEPr Home Page');
+    print_link('/pepr/', 'Back to PEPr Home Page');
     echo "</p>\n";
     response_footer();
     exit;

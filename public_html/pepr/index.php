@@ -1,7 +1,9 @@
 <?php
-
 /**
- * Redirects hits from /pepr/ to /pepr/pepr-overview.php.
+ * Displays a list of all proposals.
+ *
+ * The <var>$proposalStatiMap</var> array is defined in
+ * pearweb/include/pepr/pepr.php.
  *
  * This source file is subject to version 3.0 of the PHP license,
  * that is bundled with this package in the file LICENSE, and is
@@ -20,6 +22,128 @@
  * @version   $Id$
  */
 
-localRedirect('pepr-overview.php');
+/**
+ * Obtain the common functions and classes.
+ */
+require_once 'pepr/pepr.php';
 
-?>
+if (isset($_GET['filter']) && isset($proposalStatiMap[$_GET['filter']])) {
+    $selectStatus = $_GET['filter'];
+} else {
+    $selectStatus = '';
+}
+
+if ($selectStatus != '') {
+    $order = ' pkg_category ASC, pkg_name ASC';
+}
+
+if (isset($_GET['search'])) {
+    $searchString = trim($_GET['search']);
+    $searchString = preg_replace('/;/', '', $searchString);
+    $proposals = proposal::search($searchString);    
+    $searchPostfix = '_search_'.urlencode($searchString);
+} else {
+    $proposals =& proposal::getAll($dbh, @$selectStatus, null, @$order);
+    $searchPostfix = '';
+}
+
+response_header('PEPr :: Package Proposals');
+
+echo '<h1>Package Proposals</h1>' . "\n";
+if ($selectStatus == '') {
+    echo "<p>";
+    echo "PEPr is PEAR's system for managing the process of submitting ";
+    echo "new packages. If you would like to submit your own package, ";
+    echo "please have a look at the <a href=\"/manual/en/guide-newmaint.php\">New Maintainer's Guide</a>.";
+    echo "</p>";
+    echo "<p>";
+    echo "<a href='/feeds/pepr$searchPostfix.rss'>Aggregate this.</a>";
+    echo "</p>";
+}
+
+display_overview_nav();
+
+echo "<ul>";
+
+$last_status = false;
+
+$finishedCounter = 0;
+
+foreach ($proposals as $proposal) {
+    if ($proposal->getStatus() != $last_status) {
+        echo "</ul>";
+        if ($last_status !== false) {
+            echo "<p>";
+            echo "<a href='/feeds/pepr_".$last_status.".rss'>Aggregate this.</a>";
+            echo "</p>";
+        }
+        echo '<h2 name="' . $proposal->getStatus() . '" id="';
+        echo $proposal->getStatus() . '">';
+        echo '&raquo; ' . htmlspecialchars($proposal->getStatus(true));
+        echo "</h2>\n";
+        echo "<ul>";
+        $last_status = $proposal->getStatus();
+    }
+    $prpCat = $proposal->pkg_category;
+    if ($selectStatus != '' && (!isset($lastChar) || $lastChar != $prpCat{0})) {
+        $lastChar = $prpCat{0};
+        echo '</ul>';
+        echo "<h3>$lastChar</h3>";
+        echo '<ul>';
+    }
+    if ($proposal->getStatus() == 'finished' && $selectStatus != 'finished') {
+        if (++$finishedCounter == 10) {
+            break;
+        }
+    }
+    if (!isset($users[$proposal->user_handle])) {
+        $users[$proposal->user_handle] = user::info($proposal->user_handle);
+    }
+
+    $already_voted = false;
+    if (isset($auth_user) && $proposal->getStatus(true) == "Called for Votes") {
+        $proposal->getVotes($dbh);
+
+        if (in_array($auth_user->handle, array_keys($proposal->votes))) {
+            $already_voted = true;
+        }
+    }
+
+    echo "<li>";
+    if ($already_voted) {
+        echo '(Already voted) ';
+    }
+    print_link('pepr-proposal-show.php?id=' . $proposal->id,
+               htmlspecialchars($proposal->pkg_category) . ' :: '
+               . htmlspecialchars($proposal->pkg_name));
+    echo ' by ';
+    print_link('/user/' . htmlspecialchars($proposal->user_handle),
+               htmlspecialchars($users[$proposal->user_handle]['name']));
+    switch ($proposal->getStatus()) {
+        case 'proposal':
+            echo ' &nbsp;(<a href="pepr-comments-show.php?id=' . $proposal->id;
+            echo '">Comments</a>)';
+            break;
+        case 'vote':
+        case 'finished':
+            $voteSums = ppVote::getSum($dbh, $proposal->id);
+            echo ' &nbsp;(<a href="pepr-votes-show.php?id=' . $proposal->id;
+            echo '">Vote</a> sum: <strong>' . $voteSums['all'] . '</strong>';
+            echo '<small>, ' . $voteSums['conditional'];
+            echo ' conditional</small>)';
+    }
+    echo "</li>\n";
+}
+
+if ($selectStatus == '' && isset($proposal) && $proposal->getStatus() == 'finished') {
+    print_link('/pepr/?filter=finished', 'All finished proposals');
+}
+
+echo "</ul>";
+
+if (isset($proposal)) {
+    echo "<p>";
+    echo "<a href='/feeds/pepr_".@$proposal->getStatus().".rss'>Aggregate this.</a>";
+    echo "</p>";
+}
+response_footer();
