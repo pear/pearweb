@@ -92,7 +92,7 @@ function dump($var) {
         echo '</pre>';
     } else {
         print_r($var);
-        print_r($var);
+        echo "\n";
     }
 }
 
@@ -1140,6 +1140,7 @@ function mkdir_p($dir, $mode = 0777)
     if (@is_dir($dir)) {
         return true;
     }
+
     $parent = dirname($dir);
     $ok = true;
     if (!@is_dir($parent) && $parent != $dir) {
@@ -1148,7 +1149,7 @@ function mkdir_p($dir, $mode = 0777)
     if ($ok) {
         $ok = @mkdir($dir, $mode);
         if (!$ok) {
-            print "mkdir failed: $dir\n";
+            print "mkdir failed: <$dir>\n";
         }
     }
     return $ok;
@@ -1277,8 +1278,11 @@ function temp_dir($default=false)
             $_ENV = array();
         }
         $_ENV['TMPDIR'] = $_ENV['TEMP'] = $prefix.'/tmp';
+    } else {
+        $_temp = tempnam($_temp.'/tmp', 'gope');
     }
     $temp_dir = $ptmp = $_temp;
+    return true;
 }
 
 // }}}
@@ -1299,7 +1303,7 @@ function my_env($var)
 // {{{ detect_install_dirs()
 
 function detect_install_dirs($_prefix = null) {
-    global $prefix, $bin_dir, $php_dir, $php_bin, $doc_dir, $data_dir, $test_dir;
+    global $temp_dir, $prefix, $bin_dir, $php_dir, $php_bin, $doc_dir, $data_dir, $test_dir;
     if (WINDOWS) {
         if ($_prefix === null) {
             $prefix = getcwd();
