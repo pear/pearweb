@@ -4,7 +4,7 @@
 
 CREATE TABLE bugdb (
   id int(8) NOT NULL auto_increment,
-  package_name varchar(32) default NULL,
+  package_name varchar(80) default NULL,
   bug_type varchar(32) NOT NULL default 'Bug',
   email varchar(40) NOT NULL default '',
   reporter_name varchar(80) default '',
