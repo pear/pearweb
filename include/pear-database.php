@@ -524,7 +524,7 @@ class package
         }
         if (is_array($relids) && isset($relids['rid'])) {
             $packagexml = $dbh->getOne('SELECT packagexml FROM files WHERE ' .
-                'package = ? AND release = ?', array($relids['pid'], $relids['rid']));
+                'package = ? AND `release` = ?', array($relids['pid'], $relids['rid']));
             if (is_string($packagexml)) {
                 return $packagexml;
             }
@@ -710,7 +710,7 @@ class package
              "WHERE package = ? ".
              "ORDER BY releasedate DESC";
         $notes_sql = "SELECT id, nby, ntime, note FROM notes WHERE pid = ?";
-        $deps_sql = "SELECT type, relation, version, name, release, optional
+        $deps_sql = "SELECT type, relation, version, name, `release` as `release`, optional
                      FROM deps
                      WHERE package = ? ORDER BY optional ASC";
         $newpk_sql = "SELECT name FROM packages WHERE id=?";
@@ -1116,8 +1116,8 @@ class package
         $query = 'SELECT p.name AS p_name, ' .
             ' MAX(r.version) AS max_dep, ' .
             ' MAX(rm.version) as max_pkg ' .
-            'FROM deps d, packages p ' .
-            '  LEFT JOIN releases AS r ON (r.id = d.release) ' .
+            'FROM packages p,  deps AS d ' .
+            '  LEFT JOIN  (releases AS r) ON (r.id = d.release) ' .
             '  LEFT JOIN releases AS rm ON (rm.package = d.package) ' .
             "WHERE d.package = p.id AND d.type = 'pkg' " .
             "      AND d.name = ? " .
