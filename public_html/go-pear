@@ -591,7 +591,11 @@ if (!WEBINSTALLER) {
 # Download
 ####
 
-set_include_path($ptmp);
+if (function_exists('set_include_path')) {
+   set_include_path($ptmp);
+} else {
+   ini_set('include_path', $ptmp);
+}
 
 if (!extension_loaded('zlib') && !WEBINSTALLER) { // In Web context we could be in multithread env which makes dl() end up with a fatal error.
     if (WINDOWS) {
