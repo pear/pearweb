@@ -112,7 +112,7 @@ $form->addGroup($helpLinks, 'markup_help', '', ' ');
 $form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '80'));
 $form->addElement('static', '', '', 'List seperated by linefeeds.');
 
-if (null != $proposal && (false === strpos('RFC', $proposal->pkg_category))) {
+if (null != $proposal && (false === strpos($proposal->pkg_category, 'RFC'))) {
     $form->addElement('static', '', '', '<small>' . (('draft' == $proposal->status)? 'The first two links are required for a change of status.<br />': '') . 'The first link must be of type &lt;PEAR package file&gt;.</small>');
 }
 
