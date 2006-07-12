@@ -224,7 +224,7 @@ $form->registerRule('checkLinkTypeAndUrl', 'callback', 'checkLinkTypeAndUrl');
 $peprNextStage = isset($_POST['submit'])? $form->getSubmitValue('next_stage'): false;
 
 if (null !== $proposal && ($peprNextStage || 'draft' !== $proposal->status)) {
-    if(!$isPeprRfc = (false !== strpos('RFC', $proposal->pkg_category))) {
+    if(!$isPeprRfc = (false !== strpos($proposal->pkg_category, 'RFC'))) {
         $form->addRule('link[0]', '', 'required');
         $form->addRule('link[1]', '', 'required');
     }
