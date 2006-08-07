@@ -73,6 +73,10 @@ foreach ($doc_languages as $domain => $name) {
     $bb->fullRow('<b>' . $name . '</b>');
 
     foreach ($formats as $filename => $information) {
+        if ($domain == "ru" && $information[1] == "chm") {
+            continue;
+        }
+
         $filename = str_replace("{LANG}", $domain, $filename);
 
         $link = make_link('/distributions/manual/' . $filename, $information[0]);
