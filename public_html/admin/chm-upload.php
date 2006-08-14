@@ -55,7 +55,7 @@ $form = new HTML_Form("chm-upload.php", "POST");
 $form->setDefaultFromInput(false);
 
 foreach ($doc_languages as $shortcut => $name) {
-    $form->addFile("chm_" . $shortcut, $name . ":");
+    $form->addFile("chm_" . $shortcut, $name . ":", 5242880);
 }
 
 $form->addPlainText("", "(Leave the field blank if there is no file for the language)");
