@@ -642,8 +642,12 @@ if ($dh) {
         if ($file == '.' || $file == '..' || !is_file(dirname(__FILE__).'/go-pear-bundle/'.$file)) {
             continue;
         }
-        $file_pkg = substr($file, 0, strpos($file, '-'));
-        $local_dir[$file_pkg] = $file;
+        $_pos = strpos($file, '-');
+        if ($_pos === false) {
+          $local_dir[$file] = $file;
+        } else {
+          $local_dir[substr($file, 0, $_pos)] = $file;
+        }
     }
 }
 
