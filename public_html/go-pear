@@ -194,11 +194,6 @@ if (WEBINSTALLER) {
 
 $pfc_packages = array(
     'MDB2',
-    'Net_Socket',
-    'Net_SMTP',
-    'Mail',
-    'XML_Parser',
-    'PHPUnit'
 );
 
 $config_desc = array(
@@ -674,22 +669,13 @@ foreach ($installer_packages as $pkg) {
 }
 
 print 'Bootstrapping: PEAR...................';
-$rev = ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['PEAR'], 5), 0, -4));
-
-/* Force the revision if we got something like "stable" as version */
-if ((int)substr($rev, 0, 1) != 1) {
-    $rev = "PEAR_1_4";
-} else {
-    $rev = 'RELEASE_' . $rev;
-}
-
-$url = 'http://cvs.php.net/viewcvs.cgi/pear-core/PEAR.php?view=co&pathrev=' . $rev;
 if (in_array('PEAR.php', $local_dir)) {
     copy(dirname(__FILE__).'/go-pear-bundle/PEAR.php', 'PEAR.php');
     echo "(local) ";
 } else {
-    download_url($url, 'PEAR.php', $http_proxy);
+    $url = 'http://cvs.php.net/viewcvs.cgi/pear-core/PEAR.php?view=co&pathrev=PEAR_1_4';
     echo "(remote) ";
+    download_url($url, 'PEAR.php', $http_proxy);
 }
 
 include_once 'PEAR.php';
