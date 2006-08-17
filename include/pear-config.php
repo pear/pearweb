@@ -295,7 +295,7 @@ if (isset($_ENV['PROPOSAL_MAIL_FROM'])) {
      * To override default, set the value in $_ENV['PROPOSAL_MAIL_FROM']
      * before this file is included.
      */
-    define('PROPOSAL_MAIL_FROM', 'PEPr <pear-sys@php.net>');
+    define('PROPOSAL_MAIL_FROM', 'PEPr <bounce-no-user@php.net>');
 }
 
 if (isset($_ENV['PEAR_WIKI_URL'])) {

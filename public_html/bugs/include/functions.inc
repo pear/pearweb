@@ -826,7 +826,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
                   "X-PHP-Status: "     . rinse($new_status) . "\n" .
                   "X-PHP-Old-Status: " . rinse($old_status) . "\n" .
                   "In-Reply-To: <bug-$bug[id]@$site.php.net>",
-                  "-fpear-sys@php.net");
+                  "-f bounce-no-user@php.net");
         }
     }
 
@@ -848,7 +848,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
                   "From: $from\n".
                   "X-PHP-Bug: $bug[id]\n".
                   "In-Reply-To: <bug-$bug[id]@$site.php.net>",
-                  "-fpear-sys@php.net");
+                  "-f bounce-no-user@php.net");
         }
     }
 }

@@ -70,7 +70,7 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
             $query = 'SELECT u.email FROM users u, maintains m WHERE m.package = ? AND u.handle = m.handle';
             $rows = $dbh->getAll($query, array($id), DB_FETCHMODE_ASSOC);
             foreach ($rows as $u_row) {
-                mail($u_row['email'], 'PEAR Package ' . $action, $mailtext, 'From: "PEAR Package Approval System" <pear-group@php.net>', '-f pear-sys@php.net');
+                mail($u_row['email'], 'PEAR Package ' . $action, $mailtext, 'From: "PEAR Package Approval System" <pear-group@php.net>', '-f bounce-no-user@php.net');
             }
         }
 

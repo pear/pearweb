@@ -2178,7 +2178,7 @@ END;
         $to   = '"PEAR general list" <' . PEAR_GENERAL_EMAIL . '>';
         $from = '"PEAR Announce" <' . PEAR_ANNOUNCE_EMAIL . '>';
         $subject = "[ANNOUNCEMENT] $release Released.";
-        mail($to, $subject, $txtanounce, "From: $from", "-f pear-sys@php.net");
+        mail($to, $subject, $txtanounce, "From: $from", "-f bounce-no-user@php.net");
     }
 
     // }}}
@@ -2234,7 +2234,7 @@ Authors
         $to   = '"PEAR general list" <' . PEAR_GENERAL_EMAIL . '>';
         $from = '"PEAR Announce" <' . PEAR_ANNOUNCE_EMAIL . '>';
         $subject = "[ANNOUNCEMENT] $release Released.";
-        mail($to, $subject, $txtanounce, "From: $from", "-f pear-sys@php.net");
+        mail($to, $subject, $txtanounce, "From: $from", "-f bounce-no-user@php.net");
     }
 
     // }}}
@@ -2404,7 +2404,7 @@ class user
         $msg = "Your PEAR account request was rejected by " . $auth_user->handle . ":\n\n".
              "$reason\n";
         $xhdr = "From: " . $auth_user->handle . "@php.net";
-        mail($email, "Your PEAR Account Request", $msg, $xhdr, "-f pear-sys@php.net");
+        mail($email, "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
         return true;
     }
 
@@ -2443,7 +2443,7 @@ class user
              "To log in, go to http://" . PEAR_CHANNELNAME . "/ and click on \"login\" in\n".
              "the top-right menu.\n";
         $xhdr = "From: " . $auth_user->handle . "@php.net";
-        mail($user->email, "Your PEAR Account Request", $msg, $xhdr, "-f pear-sys@php.net");
+        mail($user->email, "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
         return true;
     }
 
@@ -2709,7 +2709,7 @@ class user
         if (DEVBOX == false) {
             if (PEAR_CHANNELNAME == 'pear.php.net') {
                 $ok = @mail('pear-group@php.net', $subject, $msg, $xhdr,
-                            '-f pear-sys@php.net');
+                            '-f bounce-no-user@php.net');
             }
         } else {
             $ok = true;

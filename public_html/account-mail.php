@@ -129,7 +129,7 @@ if (isset($_POST['submit'])) {
 
         if (@mail($row['email'], $_POST['subject'], $text,
                   'From: "' . $_POST['name'] . '" <' . $_POST['email'] . '>',
-                  '-f pear-sys@php.net'))
+                  '-f bounce-no-user@php.net'))
         {
             report_success('Your message was successfully sent.');
 
@@ -138,7 +138,7 @@ if (isset($_POST['submit'])) {
 
                 @mail($_POST['email'], $_POST['subject'], $text,
                       'From: "' . $_POST['name'] . '" <' . $_POST['email'] . '>',
-                      '-f pear-sys@php.net');
+                      '-f bounce-no-user@php.net');
             }
 
         } else {

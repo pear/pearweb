@@ -42,7 +42,7 @@ class Damblan_Log_Mail extends Log_observer
     {
         $this->Log_observer();
 
-        $this->_mailer =& Mail::factory('mail', '-f pear-sys@php.net');
+        $this->_mailer =& Mail::factory('mail', '-f bounce-no-user@php.net');
 
         $this->_headers['From'] = "\"PEAR System Administrators\" <pear-sys@php.net>";
     }

@@ -754,7 +754,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
         }
 
         $res = mail($email['to'], $email['subject'], $email['text'],
-                    $headers, '-f pear-sys@php.net');
+                    $headers, '-f bounce-no-user@php.net');
         if (!$res) {
             return PEAR::raiseError('Could not send notification email.');
         }

@@ -256,14 +256,14 @@ if (isset($_POST['in'])) {
                 // mail to package developers
                 @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
                       $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
-                      '-fpear-sys@php.net');
+                      '-f bounce-no-user@php.net');
                 // mail to reporter
                 @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
                       $ascii_report . "2\n",
                       "From: $siteBig Bug Database <$mailfrom>\n" .
                       "X-PHP-Bug: $cid\n" .
                       "Message-ID: <bug-$cid@$site.php.net>",
-                      '-fpear-sys@php.net');
+                      '-f bounce-no-user@php.net');
             }
             localRedirect('bug.php?id=' . $cid . '&thanks=4');
             exit;
