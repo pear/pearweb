@@ -1819,7 +1819,7 @@ function displayHTML($page = 'Welcome', $data = array())
             <!--
 
                 var progress;
-                var downlodprogress;
+                var downloadprogress;
                 progress = 0;
                 downloadprogress = 0;
 
