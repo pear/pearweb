@@ -27,8 +27,8 @@ function rss_bailout() {
 }
 
 /* if file is given, the file will be used to store the rss feed */
-function rss_create($items, $channel_title, $channel_description, $dest_file=false) {
-    if (is_array($items) && count($items)>0) {
+function rss_create($items, $channel_title, $channel_description, $dest_file = false) {
+    if (is_array($items) && count($items) > 0) {
 
         $rss_top = <<<EOT
 <?xml version="1.0" encoding="iso-8859-1"?>
@@ -64,7 +64,6 @@ EOT;
                 $title = $item['name'];
             }
 
-            //$node = $this->newItem($title, $url, $item['releasenotes'], $date);
             $items_xml .= '<rdf:li rdf:resource="' . $url . '"/>' . "\n";
             $item_entries .= "<item rdf:about=" . '"' .$url . '"' . ">
 <title>$title</title>

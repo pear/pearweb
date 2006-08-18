@@ -21,12 +21,12 @@
 require_once 'site.php';
 
 $doc_languages = array('en' => 'English', 
-                       'nl' => 'Dutch', 
                        'fr' => 'French',
                        'de' => 'German', 
+                       'ja' => 'Japanese',
+                       'nl' => 'Dutch',
                        'hu' => 'Hungarian',
                        // 'it' => 'Italian', 
-                       'ja' => 'Japanese',
                        'pl' => 'Polish',
                        'ru' => 'Russian',
                        // 'es' => 'Spanish',

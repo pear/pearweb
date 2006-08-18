@@ -31,8 +31,10 @@ add the documentation for their package.</p>
 <ul>
 
 <?php
+$outdated_languages = array_slice($doc_languages, 4);
+
 $i = 0;
-foreach ($doc_languages as $domain => $name) {
+foreach (array_slice($doc_languages, 0, 4) as $domain => $name) {
     echo '<li>';
     if ($i++ == 0) {
         echo '<b>' . make_link('/manual/' . $domain . '/', $name) . '</b>';
@@ -43,6 +45,18 @@ foreach ($doc_languages as $domain => $name) {
 }
 ?>
 
+</ul>
+
+<p>The translations of the following languages are outdated but still available:</p>
+
+<ul>
+<?php
+foreach ($outdated_languages as $domain => $name) {
+    echo '<li>';
+    echo make_link('/manual/' . $domain . '/', $name);
+    echo '</li>';
+}
+?>
 </ul>
 
 <p>If you prefer to have an offline version of the documentation, you can
@@ -70,7 +84,11 @@ $bb = new BorderBox('Download Documentation', '70%', '', 2, true);
 $bb->HeadRow('Type', 'Format', 'Size');
 
 foreach ($doc_languages as $domain => $name) {
-    $bb->fullRow('<b>' . $name . '</b>');
+    $language = '<strong>' . $name . '</strong>';
+    if (array_key_exists($domain, $outdated_languages)) {
+        $language .= ' (outdated)';
+    }
+    $bb->fullRow($language);
 
     foreach ($formats as $filename => $information) {
         if ($domain == "ru" && $information[1] == "chm") {
