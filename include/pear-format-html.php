@@ -139,7 +139,7 @@ echo $extraHeaders;
     }
 ?>>
 <div>
-<a id="TOP" />
+<a id="TOP"></a>
 </div>
 
 <!-- START HEADER -->
