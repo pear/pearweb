@@ -50,8 +50,8 @@ if ($auth_user && $proposal->mayVote($dbh, $auth_user->handle)) {
                       'id="vote_field"');
     $form->addElement('checkbox', 'conditional', '', '', null, 1);
     $form->addElement('textarea', 'comment', null,
-                      array('cols' => 40,
-                            'rows' => 3));
+                      array('cols' => 70,
+                            'rows' => 20));
     $form->addElement('select', 'reviews', '', $proposalReviewsMap,
                       array('size' => count($proposalReviewsMap),
                             'multiple' => 'multiple'));

@@ -45,8 +45,8 @@ if ($auth_user &&
                                 'pepr-comments-show.php?id=' . $proposal->id);
 
     $form->addElement('textarea', 'comment', null,
-                      array('cols' => 40,
-                            'rows' => 6,
+                      array('cols' => 70,
+                            'rows' => 20,
                             'id'   => 'comment_field'));
 
     $form->addElement('static', '', '',
