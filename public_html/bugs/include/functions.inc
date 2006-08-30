@@ -476,6 +476,8 @@ function show_version_options($current, $default = '')
 {
     $versions = array(
         '4_4 CVS-' . date('Y-m-d'),
+        '4.4.4',
+        '4.4.3',
         '4.4.2',
         '4.4.1',
         '4.4.0',
