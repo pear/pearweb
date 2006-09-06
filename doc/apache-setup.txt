@@ -36,6 +36,7 @@ installed in /usr/share/pear):
  RedirectPermanent /weeklynews.php             http://pear.php.net/
  RedirectPermanent /support.php                http://pear.php.net/support/
  RedirectPermanent /credits.php                http://pear.php.net/about/credits.php
+ RedirectPermanent /pepr/pepr-overview.php     http://pear.php.net/pepr/
 
  RewriteEngine On
 
