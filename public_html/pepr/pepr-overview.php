@@ -1,2 +1,0 @@
-<?php
-localRedirect("index.php");
