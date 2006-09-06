@@ -23,7 +23,7 @@ response_header('About this site');
 <h1>About This Site</h1>
 
 <p>This site has been created and is maintained by a number of people,
-which are listed on the <a href="/credits.php">credits page</a>.
+which are listed on the <a href="credits.php">credits page</a>.
 If you would like to contact them, you can write to
 <?php echo make_mailto_link(PEAR_WEBMASTER_EMAIL, PEAR_WEBMASTER_EMAIL); ?>.
 </p>

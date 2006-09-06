@@ -28,7 +28,7 @@ $script_name = $_SERVER['SCRIPT_NAME'];
 
 $cache_files = array(
                     '/index.php'=>'',
-                    '/credits.php' => '',
+                    '/about/credits.php' => '',
                     '/copyright.php' => '',
                     '/dtd/index.php' => '',
                     '/download-docs.php' => '',

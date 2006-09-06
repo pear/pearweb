@@ -292,7 +292,7 @@ function response_footer($style = false)
 <?php
 print_link('/about/privacy.php', 'PRIVACY POLICY', false, 'class="menuBlack"');
 echo delim();
-print_link('/credits.php', 'CREDITS', false, 'class="menuBlack"');
+print_link('/about/credits.php', 'CREDITS', false, 'class="menuBlack"');
 ?>
   </td>
  </tr>
