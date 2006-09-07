@@ -375,7 +375,7 @@ function draw_navigation($type, $menu_title='')
             break;
         case 'proposal_menu':
             $data = array(
-                        '/pepr/pepr-overview.php'       => 'Browse Proposals',
+                        '/pepr/'       => 'Browse Proposals',
                         '/pepr/pepr-proposal-edit.php'  => 'New Proposal'
                     );
             break;
