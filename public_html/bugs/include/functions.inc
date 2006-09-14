@@ -495,7 +495,7 @@ function show_version_options($current, $default = '')
         '4.3.0',
         '4_3 CVS-' . date('Y-m-d'),
         '5_2 CVS-' . date('Y-m-d'),
-        '5.2.0 RC3',
+        '5.2.0 RC4',
         '5.1.6',
         '5.1.5',
         '5.1.4',
