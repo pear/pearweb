@@ -85,7 +85,7 @@ if ($auth_user) {
 
     echo '<h2>&raquo; Package Proposals (PEPr)</h2>';
 	echo '<div class="indent">';
-	echo menu_link("Browse Proposals", "pepr/pepr-overview.php");
+	echo menu_link("Browse Proposals", "pepr/");
 	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
     echo '</div>';
 
