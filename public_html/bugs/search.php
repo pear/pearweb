@@ -67,7 +67,13 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 /*
  * need to move this to DB eventually...
  */
-    $mysql4 = version_compare(mysql_get_server_info(), '4.0.0', 'ge');
+    $mysql4 = false;
+    if (function_exists('mysql_get_server_info')) {
+        $mysql4 = version_compare(mysql_get_server_info(), '4.0.0', 'ge');
+    } elseif (function_exists('mysqli_get_server_version')) {
+        $mysql4 = version_compare(mysqli_get_server_version($dbh->connection), '4.0.0', 'ge');
+        
+    }
 
     if ($mysql4) {
         $query = 'SELECT SQL_CALC_FOUND_ROWS';

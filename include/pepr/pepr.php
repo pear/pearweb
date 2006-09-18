@@ -386,7 +386,11 @@ Proposer:                '.user_link($this->user_handle).'<br />
                                             $res->getUserInfo());
                 }
             }
-            $this->id = mysql_insert_id($dbh->connection);
+            if (function_exists('mysql_insert_id')) {
+                $this->id = mysql_insert_id($dbh->connection);
+            } else {
+                $this->id = mysqli_insert_id($dbh->connection);
+            }
         }
         ppLink::deleteAll($dbh, $this->id);
         foreach ($this->links as $link) {
