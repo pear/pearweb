@@ -404,7 +404,11 @@ if ($_POST['in'] && !isset($_POST['preview'])) {
     }
 }
 
-$bug['bug_type'] == 'Bug' ? $bug_type = 'Bug' : $bug_type = 'Request';
+switch ($bug['bug_type']) {
+    case 'Bug' : $bug_type = 'Bug'; break;
+    case 'Feature/Change Request' : $bug_type = 'Request'; break;
+    case 'Documentation Problem' : $bug_type = 'Doc Bug'; break;
+}
 response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']));
 
 // DISPLAY BUG

@@ -193,7 +193,11 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $bug_type = '';
     } else {
         $bug_type = $_GET['bug_type'];
-        $where_clause .= ' AND bugdb.bug_type = ' . $dbh->quoteSmart($bug_type);
+        if ($bug_type == 'Bugs') {
+            $where_clause .= ' AND (bugdb.bug_type = "Bug" OR bugdb.bug_type="Documentation Problem")';
+        } else {
+            $where_clause .= ' AND bugdb.bug_type = ' . $dbh->quoteSmart($bug_type);
+        }
     }
 
     if (empty($_GET['bug_age']) || !(int)$_GET['bug_age']) {

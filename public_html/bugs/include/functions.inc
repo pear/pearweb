@@ -49,6 +49,7 @@ $tla = array(
 $types = array(
     'Bug'                     => 'Bug',
     'Feature/Change Request'  => 'Req',
+    'Documentation Problem'   => 'Doc',
 );
 
 // Used in show_state_options()
@@ -304,7 +305,7 @@ function show_limit_options($limit = 30)
 /**
  * Prints bug type <option>'s for use in a <select>
  *
- * Options include "Bug" and "Feature/Change Request."
+ * Options include "Bug", "Documentation Problem" and "Feature/Change Request."
  *
  * @param string $current  bug's current type
  * @param bool   $all      whether or not 'All' should be an option

@@ -99,8 +99,8 @@ if ($developer) {
 }
 
 if (empty($_GET['bug_type'])) {
-    $bug_type = 'Bug';
-    $where .= " AND bug_type = 'Bug'";
+    $bug_type = 'Bugs';
+    $where .= " AND (bug_type = 'Bug' OR bug_type = 'Documentation Problem')";
 } elseif ($_GET['bug_type'] == 'All') {
     $bug_type = '';
 } else {
