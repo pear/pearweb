@@ -109,6 +109,40 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                     break;
                 case 'Documentation':
                     $to = 'pear-doc@lists.php.net';
+                    // retrieve Documentation Problem bugs for each package
+                    $query = "
+                        SELECT
+                            b.id, b.package_name, b.status, b.sdesc, b.email
+                        FROM bugdb b
+                        LEFT JOIN packages AS p ON p.name = b.package_name
+                        WHERE
+                            b.status NOT IN ('Closed', 'Bogus', 'Duplicate', 'No Feedback', 'Wont fix', 'Suspended', 'Feedback')
+                          AND
+                            b.bug_type = 'Documentation Problem'
+                          AND
+                            p.package_type = '$site'
+                        ORDER BY b.package_name, b.id";
+                    $docbugs =& $dbh->getAll($query);
+                    if (count($docbugs)) {
+                        $dev_text .= "[Documentation Bugs by Package]\n";
+                    }
+                    $current_package = '#######';
+                    foreach ($docbugs as $bug_info) {
+                        if ($current_package != $bug_info['package_name']) {
+                            $dev_text .= 'Package ' . $bug_info['package_name'];
+                            $current_package = $bug_info['package_name'];
+                        }
+                        $text = sprintf("%4d ", $bug_info['id']);
+                        $text .= sprintf("%-8s ",$bug_info['status']);
+                        $text .= ' '.$bug_info['sdesc'].'. ';
+         
+                        // format mail so it looks nice, use 72 to make piners happy 
+                        $wrapped_text = wordwrap($text, 72);
+            
+                        $dev_text .= "\n" . $wrapped_text .
+                                    "\n\n" . '  Further comments can be seen at http://' . $site . '.php.net/bugs/' . $id.
+                                    "\n" . '  Edit this bug report at http://' . $site . '.php.net/bugs/bug.php?id=' . $id . '&edit=1' . "\n";
+                    }
                     break;
                 default:
                     $to = '';
