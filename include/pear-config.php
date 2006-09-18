@@ -117,13 +117,18 @@ if (isset($_ENV['PEAR_DATABASE_DSN'])) {
      */
     define('PEAR_DATABASE_DSN', $_ENV['PEAR_DATABASE_DSN']);
 } else {
-    /**
-     * The PEAR::DB DSN connection string
-     *
-     * To override default, set the value in $_ENV['PEAR_DATABASE_DSN']
-     * before this file is included.
-     */
-    define('PEAR_DATABASE_DSN', 'mysql://pear:pear@localhost/pear'); 
+    if (function_exists('mysql_connect')) {
+        /**
+         * The PEAR::DB DSN connection string
+         *
+         * To override default, set the value in $_ENV['PEAR_DATABASE_DSN']
+         * before this file is included.
+         */
+        define('PEAR_DATABASE_DSN', 'mysql://pear:pear@localhost/pear'); 
+    } elseif (function_exists('mysqli_connect')) {
+        /** @ignore */
+        define('PEAR_DATABASE_DSN', 'mysqli://pear:pear@localhost/pear'); 
+    }
 }
 
 if (isset($_ENV['PEAR_AUTH_REALM'])) {
