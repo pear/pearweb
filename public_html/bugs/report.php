@@ -199,7 +199,11 @@ if (isset($_POST['in'])) {
 /*
  * Need to move the insert ID determination to DB eventually...
  */
-            $cid = mysql_insert_id();
+            if (function_exists('mysql_insert_id')) {
+                $cid = mysql_insert_id();
+            } else {
+                $cid = mysqli_insert_id($dbh->connection);
+            }
 
             $report  = '';
             $report .= 'From:             ' . spam_protect(rinse($_POST['in']['email']),
