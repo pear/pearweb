@@ -36,24 +36,17 @@ $GLOBALS['_NODB'] = false;
 
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 
-$encoding = 'iso-8859-15';
-
 // Handling things related to the manual
+$in_manual = false;
+
 if (substr($self, 0, 7) == '/manual') {
+    if (substr($self, 7, 10) != "/index.php") {
+        $in_manual = true;
+    }
+
     require_once 'pear-manual.php';
 
     extra_styles('/css/manual.css');
-
-    // The Japanese manual translation needs UTF-8 encoding
-    if (preg_match("=^/manual/ja=", $self)) {
-        $encoding = 'utf-8';
-
-    // The Russian manual translation needs KOI8-R encoding
-    } else if (preg_match("=^/manual/ru=", $self)) {
-        $encoding = 'KOI8-R';
-    } else if (preg_match("=^/manual/(?:hu|pl)=", $self)) {
-        $encoding = 'iso-8859-2';
-    }
 }
 
 $GLOBALS['_style'] = '';
@@ -68,7 +61,7 @@ $_style = '';
  */
 function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '')
 {
-    global $_style, $_header_done, $SIDEBAR_DATA, $encoding, $self, $auth_user;
+    global $_style, $_header_done, $SIDEBAR_DATA, $self, $auth_user;
 
     $extra_styles = extra_styles();
 
@@ -110,8 +103,14 @@ function response_header($title = 'The PHP Extension and Application Repository'
             $SIDEBAR_DATA .= draw_navigation('developer_menu_public', 'Developers:');
         }
     }
-header('Content-Type: text/html; charset=' . $encoding);
-echo '<?xml version="1.0" encoding="' . $encoding . '" ?>';
+
+    if ($GLOBALS['in_manual'] == false) {
+        /* The manual-related code takes care of sending the right
+         * headers.
+         */
+        header('Content-Type: text/html; charset=ISO-8859-15');
+        echo '<?xml version="1.0" encoding="ISO-8859-15" ?>';
+    }
 ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
