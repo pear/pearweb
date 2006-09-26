@@ -106,7 +106,11 @@ if ($row['userinfo']) {
     <li>Username: <?php echo $row['handle']; ?></li>
 <?php
 
-if ($row['showemail'] || (isset($auth_user) && $auth_user->isAdmin())) {
+if (isset($auth_user)) {
+    echo "<li>Email: &nbsp;";
+    echo make_mailto_link($row['email']);
+    echo "</li>\n";
+} else if ($row['showemail']) {
     $row['email'] = str_replace(array('@', '.'),
                                 array(' at ', ' dot '),
                                 $row['email']);
