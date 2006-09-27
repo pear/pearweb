@@ -253,7 +253,7 @@ if (empty($action)) {
     print '<tr>';
     print '<td colspan="2" class="textcell">';
     if (isset($versions[0])) {
-        print '<a href="/get/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
+        print '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
         print ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
         print ' was released on ' . make_utc_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
         print ' (<a href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
@@ -262,7 +262,7 @@ if (empty($action)) {
             foreach ($pkg['releases'] as $rel_ver => $rel_arr) {
                 if ($rel_arr['state'] == 'stable') {
                     print "<br />\n";
-                    print '<a href="/get/' . htmlspecialchars($name) . '-';
+                    print '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-';
                     print $rel_ver . '.tgz">' . $rel_ver . '</a>';
                     print ' (stable)';
                     print ' was released on ';
@@ -364,7 +364,7 @@ if (empty($action)) {
 
             print '<td class="textcell">' . $release_version . '</td>';
             print '<td>';
-            print '<a href="/get/' . htmlspecialchars($name) . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
+            print '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
             print '<b>Release date:</b> ' . make_utc_date(strtotime($info['releasedate'])) . '<br />';
             print '<b>Release state:</b> ' . htmlspecialchars($info['state']) . '<br /><br />';
             print '<b>Changelog:</b><br /><br />' . nl2br(make_ticket_links(htmlspecialchars($info['releasenotes']))) . '<br /><br />';
