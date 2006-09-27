@@ -199,7 +199,7 @@ if (isset($_POST['in'])) {
 /*
  * Need to move the insert ID determination to DB eventually...
  */
-            if (function_exists('mysql_insert_id')) {
+            if ($dbh->phptype == 'mysql') {
                 $cid = mysql_insert_id();
             } else {
                 $cid = mysqli_insert_id($dbh->connection);
