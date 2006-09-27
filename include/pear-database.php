@@ -1666,6 +1666,11 @@ class release
             return PEAR::raiseError("bad md5 checksum (checksum=$testsum ($bytes bytes: $data), specified=$md5sum)");
         }
 
+        // (6) unpack tarball
+        $decompress = sprintf("/usr/bin/env gunzip -q -d -c %s > %s/%s-%s.tar",
+                              $file, PEAR_TARBALL_DIR, $package, $version);
+        system($decompress);
+
         return array("package_id" => $package_id,
                      "file" => $file
                      );
