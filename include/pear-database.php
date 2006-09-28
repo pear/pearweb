@@ -1667,9 +1667,11 @@ class release
         }
 
         // (6) unpack tarball
-        $decompress = sprintf("/usr/bin/env gunzip -q -d -c %s > %s/%s-%s.tar",
-                              $file, PEAR_TARBALL_DIR, $package, $version);
-        system($decompress);
+        $target = @fopen(PEAR_TARBALL_DIR . "/" . $package . "-" . $version . ".tar", "w+");
+        if ($target) {
+            fwrite($target, file_get_contents("compress.zlib://" . $file));
+            fclose($target);
+        }
 
         return array("package_id" => $package_id,
                      "file" => $file
