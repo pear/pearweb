@@ -2172,7 +2172,7 @@ Related Links
 -------------
 Package home: http://$channel/package/$pkginfo[package]
    Changelog: http://$channel/package/$pkginfo[package]/download/$pkginfo[version]
-    Download: http://$channel/get/$upload
+    Download: http://download.$channel/package/$upload
 
 Authors
 -------------
@@ -2229,7 +2229,7 @@ Related Links
 Package home: http://' . PEAR_CHANNELNAME . '/package/' . $pkginfo->getPackage() . '
    Changelog: http://' . PEAR_CHANNELNAME . '/package/' . $pkginfo->getPackage() . '/download/' .
         $pkginfo->getVersion() . '
-    Download: http://' . PEAR_CHANNELNAME . '/get/' . $upload . '
+    Download: http://download.' . PEAR_CHANNELNAME . '/package/' . $upload . '
 
 Authors
 -------------
