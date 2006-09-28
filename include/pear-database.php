@@ -1930,8 +1930,6 @@ class release
     {
         global $dbh;
 
-        require_once "HTTP.php";
-
         $package_id = package::info($package, 'packageid', true);
 
         if (!$package_id) {
@@ -2012,7 +2010,8 @@ class release
 
             release::logDownload($package_id, $log_release, $log_file);
 
-            header('Last-modified: '.HTTP::date(filemtime($path)));
+            header('Last-modified: ' .
+                gmdate('D, d M Y H:i:s \G\M\T', filemtime($path)));
             header('Content-type: application/octet-stream');
             if ($uncompress) {
                 $tarname = preg_replace('/\.tgz$/', '.tar', $basename);
