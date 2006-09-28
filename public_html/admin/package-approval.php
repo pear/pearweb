@@ -18,7 +18,7 @@
    $Id$
 */
 
-auth_require("pear.group");
+auth_require("pear.admin");
 
 response_header("PEAR Administration :: Package Approval");
 
