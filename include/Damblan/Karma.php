@@ -88,7 +88,7 @@ class Damblan_Karma
             break;
 
         case 'global.karma.manager' :
-            $levels = array('pear.group');
+            $levels = array('pear.admin', 'pear.group');
             break;
 
         case 'doc.chm-upload' :
