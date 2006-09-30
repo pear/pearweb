@@ -314,6 +314,8 @@
 
  <table>
 
+  <name>bugdb_subscribe</name>
+
   <declaration>
 
    <field>
