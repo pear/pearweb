@@ -54,9 +54,8 @@
 
    <field>
     <name>ldesc</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
-    <default></default>
    </field>
 
    <field>
@@ -150,6 +149,7 @@
     <field>
      <name>ldesc</name>
      <sorting>descending</sorting>
+     <length>255</length>
     </field>
    </index>
 
@@ -214,9 +214,8 @@
 
    <field>
     <name>comment</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
-    <default></default>
    </field>
 
    <index>
@@ -224,6 +223,7 @@
     <field>
      <name>comment</name>
      <sorting>descending</sorting>
+     <length>255</length>
     </field>
    </index>
 
@@ -258,7 +258,6 @@
     <name>ts</name>
     <type>timestamp</type>
     <notnull>false</notnull>
-    <default>CURRENT_TIMESTAMP</default>
    </field>
 
    <field>
@@ -315,6 +314,68 @@
 
  <table>
 
+  <declaration>
+
+   <field>
+    <name>bug_id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>email</name>
+    <type>text</type>
+    <length>40</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>unsubscribe_date</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>unsubscribe_hash</name>
+    <type>text</type>
+    <length>80</length>
+    <notnull>false</notnull>
+    <default></default>
+   </field>
+
+   <index>
+    <name>unsubscribe_hash</name>
+    <field>
+     <name>unsubscribe_hash</name>
+     <sorting>ascending</sorting>
+     <length>255</length>
+    </field>
+   </index>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>bug_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>email</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
   <name>categories</name>
 
   <declaration>
@@ -345,16 +406,14 @@
 
    <field>
     <name>summary</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
-    <default></default>
    </field>
 
    <field>
     <name>description</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
-    <default></default>
    </field>
 
    <field>
@@ -1175,9 +1234,8 @@
 
    <field>
     <name>note</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
-    <default></default>
    </field>
 
    <index>
@@ -1421,16 +1479,14 @@
 
    <field>
     <name>summary</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
-    <default></default>
    </field>
 
    <field>
     <name>description</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
-    <default></default>
    </field>
 
    <field>
@@ -1567,16 +1623,14 @@
 
    <field>
     <name>summary</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
-    <default></default>
    </field>
 
    <field>
     <name>description</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
-    <default></default>
    </field>
 
    <field>
@@ -1589,9 +1643,8 @@
 
    <field>
     <name>source_links</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
-    <default></default>
    </field>
 
    <field>
@@ -1610,9 +1663,8 @@
 
    <field>
     <name>status</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
-    <default></default>
    </field>
 
    <index>
@@ -1675,9 +1727,8 @@
 
    <field>
     <name>comment</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
-    <default></default>
    </field>
 
    <index>
@@ -1827,16 +1878,14 @@
 
    <field>
     <name>summary</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
-    <default></default>
    </field>
 
    <field>
     <name>description</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
-    <default></default>
    </field>
 
    <field>
@@ -1848,9 +1897,8 @@
 
    <field>
     <name>releasenotes</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
-    <default></default>
    </field>
 
    <field>
@@ -2068,9 +2116,8 @@
 
    <field>
     <name>userinfo</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
-    <default></default>
    </field>
 
    <field>
@@ -2083,9 +2130,8 @@
 
    <field>
     <name>pgpkey</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
-    <default></default>
    </field>
 
    <field>
