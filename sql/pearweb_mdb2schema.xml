@@ -355,7 +355,6 @@
     <field>
      <name>unsubscribe_hash</name>
      <sorting>ascending</sorting>
-     <length>255</length>
     </field>
    </index>
 
