@@ -21,8 +21,36 @@ class pearweb_postinstall
     function run($answers, $phase)
     {
         switch ($phase) {
+            case 'askdb' :
+                if ($answers['yesno'] != 'y') {
+                    $this->_ui->skipParamgroup('init');
+                }
+                return true;
+                break;
             case 'init' :
+                PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
+                if (PEAR::isError($err = MDB2::loadFile('Driver' . DIRECTORY_SEPARATOR .
+                      $answers['driver']))) {
+                    PEAR::popErrorHandling();
+                    $this->_ui->outputData('ERROR: Unknown MDB2 driver "' .
+                        $answers['driver'] . '": ' .
+                        $err->getUserInfo() . '. Be sure you have installed ' .
+                        'MDB2_Driver_' . $answers['driver']);
+                    return false;
+                }
+                PEAR::popErrorHandling();
+                return true;
                 return $this->initializeDatabase($answers);
+                break;
+            case 'askhttpd' :
+                if ($answers['yesno'] != 'y') {
+                    $this->_ui->skipParamgroup('httpdconf');
+                }
+                return true;
+                break;
+            case 'httpdconf' :
+                $this->_ui->outputData('httpdconf');
+                return true;
                 break;
         }
         return true;
@@ -44,6 +72,7 @@ class pearweb_postinstall
             realpath('@web-dir@/sql/pearweb_mdb2schema.xml'));
         $c['name'] = $answers['database'];
         $c['create'] = 1;
+        $c['overwrite'] = 0;
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $err = $a->createDatabase($c);
         PEAR::staticPopErrorHandling();

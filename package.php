@@ -9,7 +9,7 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
         'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
     ));
-$a->setReleaseVersion('0.2.0');
+$a->setReleaseVersion('0.3.0');
 $a->setNotes('use web role, add post-install script');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
@@ -41,6 +41,12 @@ $a->addExtensionDep('optional', 'mysqli');
 $a->addPackageDepWithChannel('required', 'Role_Web', 'pearified.com');
 $script = &$a->initPostinstallScript('pearweb.php');
 $script->addParamGroup(
+    'askdb',
+    array(
+        $script->getParam('yesno', 'Update pearweb database?', 'yesno', 'y'),
+    )
+    );
+$script->addParamGroup(
     'init',
     array(
         $script->getParam('driver', 'Database driver', 'string', 'mysqli'),
@@ -48,7 +54,20 @@ $script->addParamGroup(
         $script->getParam('password', 'Database password', 'password', 'pear'),
         $script->getParam('host', 'Database host', 'string', 'localhost'),
         $script->getParam('database', 'Database name', 'string', 'pear'),
-    ));
+    )
+    );
+$script->addParamGroup(
+    'askhttpd',
+    array(
+        $script->getParam('yesno', 'Update httpd.conf to add pearweb? (y/n)', 'yesno', 'y'),
+    )
+    );
+$script->addParamGroup(
+    'httpdconf',
+    array(
+        $script->getParam('path', 'Full path to httpd.conf', 'string'),
+    )
+    );
 
 $a->addPostinstallTask($script, 'pearweb.php');
 $a->addReplacement('pearweb.php', 'pear-config', '@web-dir@', 'web_dir');
