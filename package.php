@@ -13,7 +13,7 @@ $a->setReleaseVersion('0.4.0');
 $a->setNotes('
  * add HTML_TreeMenu dep
  * add dep group for PHP4-based install and mysql
- * add dep group for PHP5-based intsall and mysqli');
+ * add dep group for PHP5-based install and mysqli');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
 $a->clearDeps();
