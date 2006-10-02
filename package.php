@@ -66,11 +66,16 @@ $script->addParamGroup(
     'httpdconf',
     array(
         $script->getParam('path', 'Full path to httpd.conf', 'string'),
+        $script->getParam('addnamev', 'Add NameVirtualHost directive? (yes/no)', 'string', 'yes'),
+        $script->getParam('namehost', 'Virtual Host IP address', 'string', '*'),
+        $script->getParam('pear', 'PEAR subdomain name', 'string', 'localhost'),
     )
     );
 
 $a->addPostinstallTask($script, 'pearweb.php');
 $a->addReplacement('pearweb.php', 'pear-config', '@web-dir@', 'web_dir');
+$a->addReplacement('pearweb.php', 'pear-config', '@php-dir@', 'php_dir');
+$a->addReplacement('pearweb.php', 'package-info', '@version@', 'version');
 $a->generateContents();
 $a->writePackageFile();
 ?>
