@@ -859,13 +859,17 @@ class package
             "WHERE " . $package_type .
             ' p.id = r.package ' .
             "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
-        $stablereleases = $dbh->getAssoc(
-            "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
-            "FROM packages p, releases r ".
-            "WHERE " . $package_type .
-            "p.id = r.package ".
-            ($released_only ? "AND r.state = 'stable' " : "").
-            "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
+        if ($released_only) {
+            $stablereleases = $dbh->getAssoc(
+                "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
+                "FROM packages p, releases r ".
+                "WHERE " . $package_type .
+                "p.id = r.package ".
+                "AND r.state = 'stable' " .
+                "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
+        } else {
+            $stablereleases = $allreleases;
+        }
         $deps = $dbh->getAll(
             "SELECT package, release , type, relation, version, name ".
             "FROM deps", null, DB_FETCHMODE_ASSOC);
