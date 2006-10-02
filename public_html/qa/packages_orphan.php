@@ -21,7 +21,7 @@
 /**
  * List orphan packages
  */
-auth_require('pear.qa');
+auth_require('pear.dev');
 
 response_header('Quality Assurance Initiative - Orphan packages',
     false);
@@ -48,12 +48,12 @@ foreach ($packages as $pck => $info) {
         $info['name'], '', 'title="' . $info['name'] . '"');
 
     echo '<li>' . $link . "</li>\n";
-    $text_mode .= $info['name'] . "\n";
+//    $text_mode .= $info['name'] . "\n";
 }
 echo "</ul>\n";
 
 // output the list as plain text. This will be added to a text
 // file so people can browse the list
-echo "<pre>" . $text_mode . "</pre>";
+//echo "<pre>" . $text_mode . "</pre>";
 response_footer();
 ?>
