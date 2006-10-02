@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-10-01</date>
- <time>23:33:23</time>
+ <date>2006-10-02</date>
+ <time>15:54:46</time>
  <version>
-  <release>0.3.0</release>
+  <release>0.4.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -63,7 +63,10 @@
   <api>devel</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>use web role, add post-install script</notes>
+ <notes>
+ * add HTML_TreeMenu dep
+ * add dep group for PHP4-based install and mysql
+ * add dep group for PHP5-based intsall and mysqli</notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="cron">
@@ -684,6 +687,11 @@
     <min>3.2.3</min>
    </package>
    <package>
+    <name>HTML_TreeMenu</name>
+    <channel>pear.php.net</channel>
+    <min>1.2.0</min>
+   </package>
+   <package>
     <name>Role_Web</name>
     <channel>pearified.com</channel>
    </package>
@@ -699,6 +707,18 @@
     <name>mysqli</name>
    </extension>
   </optional>
+  <group hint="Use this for PHP 4 (mysql ext)" name="php4">
+   <package>
+    <name>MDB2_Driver_mysql</name>
+    <channel>pear.php.net</channel>
+   </package>
+  </group>
+  <group hint="Use this for PHP 5 (mysqli ext)" name="php5">
+   <package>
+    <name>MDB2_Driver_mysqli</name>
+    <channel>pear.php.net</channel>
+   </package>
+  </group>
  </dependencies>
  <usesrole>
   <role>web</role>
@@ -745,6 +765,22 @@
    <date>2006-10-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>use web role, add post-install script</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+ * add HTML_TreeMenu dep
+ * add dep group for PHP4-based install and mysql
+ * add dep group for PHP5-based intsall and mysqli</notes>
   </release>
  </changelog>
 </package>

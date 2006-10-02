@@ -9,8 +9,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
         'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
     ));
-$a->setReleaseVersion('0.3.0');
-$a->setNotes('use web role, add post-install script');
+$a->setReleaseVersion('0.4.0');
+$a->setNotes('
+ * add HTML_TreeMenu dep
+ * add dep group for PHP4-based install and mysql
+ * add dep group for PHP5-based intsall and mysqli');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
 $a->clearDeps();
@@ -35,6 +38,11 @@ $a->addPackageDepWithChannel('required', 'Mail', 'pear.php.net', '1.1.13');
 $a->addPackageDepWithChannel('required', 'Services_Trackback', 'pear.php.net', '0.4.0');
 $a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1.0');
 $a->addPackageDepWithChannel('required', 'HTML_QuickForm', 'pear.php.net', '3.2.3');
+$a->addPackageDepWithChannel('required', 'HTML_TreeMenu', 'pear.php.net', '1.2.0');
+$a->addDependencyGroup('php4', 'Use this for PHP 4 (mysql ext)');
+$a->addDependencyGroup('php5', 'Use this for PHP 5 (mysqli ext)');
+$a->addGroupPackageDepWithChannel('package', 'php4', 'MDB2_Driver_mysql', 'pear.php.net');
+$a->addGroupPackageDepWithChannel('package', 'php5', 'MDB2_Driver_mysqli', 'pear.php.net');
 $a->addExtensionDep('required', 'pcre');
 $a->addExtensionDep('optional', 'mysql');
 $a->addExtensionDep('optional', 'mysqli');
