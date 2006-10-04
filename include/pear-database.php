@@ -833,7 +833,7 @@ class package
     {
         global $dbh;
 
-        return $dbh->getAssoc("SELECT id, name FROM packages WHERE package_type = 'pear' AND approved = 1");
+        return $dbh->getAssoc("SELECT id, name FROM packages WHERE package_type = 'pear' AND approved = 1 ORDER BY name");
     }
 
     // }}}
