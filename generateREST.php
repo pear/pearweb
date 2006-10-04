@@ -90,7 +90,7 @@ require_once 'Archive/Tar.php';
 require_once 'PEAR/PackageFile.php';
 $config = &PEAR_Config::singleton();
 $pkg = new PEAR_PackageFile($config);
-foreach (package::listAll(false, false, false) as $package => $info) {
+foreach (package::listAllNames() as $package) {
     echo "  $package\n";
     $pear_rest->savePackageREST($package);
     echo "     Maintainers...";

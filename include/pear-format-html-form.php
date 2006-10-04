@@ -47,9 +47,9 @@ class PEAR_Web_Form extends HTML_Form {
         static $values = null;
 
         if (!is_array($values)) {
-            $list = package::listAll(false);
+            $list = package::listAllNames();
 
-            foreach ($list as $p_name => $package) {
+            foreach ($list as $p_name) {
                 $values[$p_name] = $p_name;
             }
         }

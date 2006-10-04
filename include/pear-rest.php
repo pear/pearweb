@@ -182,7 +182,7 @@ class pear_rest
     http://pear.php.net/dtd/rest.allpackages.xsd">
 <c>' . PEAR_CHANNELNAME . '</c>
 ';
-        foreach (package::listAll(false, false, false) as $package => $gh)
+        foreach (package::listAllNames() as $package)
         {
             $info .= ' <p>' . $package . '</p>
 ';

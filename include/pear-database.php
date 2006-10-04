@@ -817,6 +817,26 @@ class package
     }
 
     // }}}
+    // {{{ NOEXPORT  struct package::listAllNames()
+
+    /**
+     * Lists the IDs and names of all approved PEAR packages
+     *
+     * Returns an associative array where the key of each element is
+     * a package ID, while the value is the name of the corresponding
+     * package.
+     *
+     * @static
+     * @return array
+     */
+    function listAllNames()
+    {
+        global $dbh;
+
+        return $dbh->getAssoc("SELECT id, name FROM packages WHERE package_type = 'pear' AND approved = 1");
+    }
+
+    // }}}
     // {{{  proto struct package::listAll([bool], [bool], [bool]) API 1.0
 
     /**
