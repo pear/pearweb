@@ -2174,6 +2174,9 @@ class release
         $authors = package::info($pkginfo['package'], 'authors');
         $txt_authors = '';
         foreach ($authors as $a) {
+            if (!$a['active']) {
+                continue;
+            }
             $txt_authors .= $a['name'];
             if ($a['showemail']) {
                 $txt_authors .= " <{$a['email']}>";
@@ -2191,7 +2194,7 @@ Release notes
 {$pkginfo['release_notes']}
 
 Package Info
--------------
+------------
 {$pkginfo['description']}
 
 Related Links
@@ -2201,7 +2204,7 @@ Package home: http://$channel/package/$pkginfo[package]
     Download: http://download.$channel/package/$upload
 
 Authors
--------------
+-------
 $txt_authors
 END;
 
@@ -2230,6 +2233,9 @@ END;
         $authors = package::info($pkginfo->getPackage(), 'authors');
         $txt_authors = '';
         foreach ($authors as $a) {
+            if (!$a['active']) {
+                continue;
+            }
             $txt_authors .= $a['name'];
             if ($a['showemail']) {
                 $txt_authors .= " <{$a['email']}>";
@@ -2247,7 +2253,7 @@ Release notes
 ' . $pkginfo->getNotes() . '
 
 Package Info
--------------
+------------
 ' . $pkginfo->getDescription() . '
 
 Related Links
@@ -2258,7 +2264,7 @@ Package home: http://' . PEAR_CHANNELNAME . '/package/' . $pkginfo->getPackage()
     Download: http://download.' . PEAR_CHANNELNAME . '/package/' . $upload . '
 
 Authors
--------------
+-------
 ' . $txt_authors;
 
         $to   = '"PEAR general list" <' . PEAR_GENERAL_EMAIL . '>';
