@@ -21,6 +21,7 @@
 define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
 define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
+require_once 'Damblan/Mailer.php';
 
 $display_form = true;
 $width        = 60;
@@ -29,7 +30,7 @@ $jumpto       = 'handle';
 
 $stripped = array_map('strip_tags', $_POST);
 
-// CAPTCHA needs it and we cannot start it in the 
+// CAPTCHA needs it and we cannot start it in the
 // CAPTCHA function, too much mess around here.
 session_start();
 
@@ -89,6 +90,15 @@ do {
                   . ' time people have.'
                   . ' You will get an email when your account is open,'
                   . ' or if your request was rejected for some reason.');
+
+            $mailData = array(
+                'username'  => $stripped['handle'],
+                'firstname' => $stripped['firstname'],
+                'lastname'  => $stripped['lastname'],
+            );
+            $mailer = Damblan_Mailer::create('pearweb_account_request', $mailData);
+            $additionalHeaders['To'] = '"Arnaud Limbourg" <arnaud@limbourg.com>';
+            $mailer->send($additionalHeaders);
         } elseif ($ok === false) {
             $msg = 'Your account request has been submitted, but there'
                  . ' were problems mailing one or more administrators.'
@@ -169,7 +179,7 @@ $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing li
 
 <p>
 If your first name or last name begins with a non-latin character like
-vowels with accents you cannot use those due to strict validation 
+vowels with accents you cannot use those due to strict validation
 routines. Please use the &quot;latin counterparts&quot; of those
 characters instead.
 </p>
