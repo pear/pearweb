@@ -221,7 +221,7 @@ class pearweb_postinstall
         $middle[] = ' ServerName ' . $answers['pear'] . $eol;
         $middle[] = $eol;
         // apache requires all path separators to be "/" even on windows
-        $middle[] = ' DocumentRoot ' . str_replace('\\', '/', '@web-dir@') . $eol;
+        $middle[] = ' DocumentRoot ' . str_replace('\\', '/', '@web-dir@') . '/public_html' . $eol;
         $middle[] = ' DirectoryIndex index.php index.html' . $eol;
         $middle[] = $eol;
         $middle[] = ' php_value include_path .' . PATH_SEPARATOR .
