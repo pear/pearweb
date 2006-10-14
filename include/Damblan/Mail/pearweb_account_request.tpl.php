@@ -15,7 +15,7 @@
         'Body' => 'An account has been requested by %firstname% %lastname%
 
 To handle the request please click on the following link:
-Delete: http://' . PEAR_CHANNELNAME . '/admin/index.php?acreq=%username%'
+http://' . PEAR_CHANNELNAME . '/admin/index.php?acreq=%username%'
      );
 
 ?>
