@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-10-02</date>
- <time>16:02:30</time>
+ <date>2006-10-14</date>
+ <time>13:49:04</time>
  <version>
-  <release>0.4.0</release>
+  <release>0.4.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,9 +64,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * add HTML_TreeMenu dep
- * add dep group for PHP4-based install and mysql
- * add dep group for PHP5-based install and mysqli</notes>
+ * add gettext extension dep for VFS package (simplifies installation)
+ </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="cron">
@@ -698,6 +697,9 @@
    <extension>
     <name>pcre</name>
    </extension>
+   <extension>
+    <name>gettext</name>
+   </extension>
   </required>
   <optional>
    <extension>
@@ -777,10 +779,24 @@
    </stability>
    <date>2006-10-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add HTML_TreeMenu dep
+* add dep group for PHP4-based install and mysql
+* add dep group for PHP5-based install and mysqli</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-14</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * add HTML_TreeMenu dep
- * add dep group for PHP4-based install and mysql
- * add dep group for PHP5-based install and mysqli</notes>
+ * add gettext extension dep for VFS package (simplifies installation)
+   </notes>
   </release>
  </changelog>
 </package>

@@ -9,11 +9,10 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
         'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
     ));
-$a->setReleaseVersion('0.4.0');
+$a->setReleaseVersion('0.4.1');
 $a->setNotes('
- * add HTML_TreeMenu dep
- * add dep group for PHP4-based install and mysql
- * add dep group for PHP5-based install and mysqli');
+ * add gettext extension dep for VFS package (simplifies installation)
+');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
 $a->clearDeps();
@@ -44,6 +43,8 @@ $a->addDependencyGroup('php5', 'Use this for PHP 5 (mysqli ext)');
 $a->addGroupPackageDepWithChannel('package', 'php4', 'MDB2_Driver_mysql', 'pear.php.net');
 $a->addGroupPackageDepWithChannel('package', 'php5', 'MDB2_Driver_mysqli', 'pear.php.net');
 $a->addExtensionDep('required', 'pcre');
+// required by VFS
+$a->addExtensionDep('required', 'gettext');
 $a->addExtensionDep('optional', 'mysql');
 $a->addExtensionDep('optional', 'mysqli');
 $a->addPackageDepWithChannel('required', 'Role_Web', 'pearified.com');
