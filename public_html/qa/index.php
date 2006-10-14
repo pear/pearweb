@@ -47,12 +47,22 @@ the <acronym title="Quality Assurance">QA</acronym> Team:</p>
 
 </ul>
 
-<p>If you are interested in helping out, or if you have questions 
-concerning the <acronym title="Quality Assurance">QA</acronym> 
+<p>If you are interested in helping out, or if you have questions
+concerning the <acronym title="Quality Assurance">QA</acronym>
 initiative, you can contact the team using the mailing list
 <?php echo make_mailto_link('pear-qa@lists.php.net'); ?>
  (<a href="/support/lists.php">subscription information</a>).</p>
 
 <?php
+if ($auth_user) {
+    if (auth_check('pear.dev')) {
+        $str = '<h2>Related Tools: </h2>';
+        $str .= '<ul>';
+        $str .= '<li><a href="/qa/packages_orphan.php">List of orphan packages</a></li>';
+        $str .= '</ul>';
+        echo $str;
+    }
+}
+
 response_footer();
 ?>
