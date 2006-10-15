@@ -394,7 +394,7 @@ class package
 
         // Logging via email
         $logger = new Damblan_Log_Mail;
-        $logger->setRecipients("pear-group@php.net");
+        $logger->setRecipients("pear-group@php.net,arnaud@limbourg.com");
         $logger->setHeader("From", $auth_user->email);
         $logger->setHeader("Message-Id", "<approve-request-" . $id . "@" . PEAR_CHANNELNAME . ">");
         $logger->setHeader("Subject", "New package");
