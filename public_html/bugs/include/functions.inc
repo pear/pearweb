@@ -44,6 +44,7 @@ $tla = array(
     'Verified'    => 'Ver',
     'Suspended'   => 'Sus',
     'Closed'      => 'Csd',
+    'Spam'        => 'Spm',
 );
 
 $types = array(
@@ -70,6 +71,7 @@ $state_types =  array (
     'Stale'        => 0,
     'Fresh'        => 0,
     'Bogus'        => 2,
+    'Spam'         => 2,
     'All'          => 0
 );
 
@@ -447,6 +449,11 @@ function show_package_version_options($package, $current)
     echo '<select name="in[package_version]">' . "\n";
     echo '<option value="">--Please Select--</option>' . "\n";
     $use = 0;
+
+    if (count($versions) == 0) {
+        $versions = array(1 => 1);
+    }
+
     while (list(,$v) = each($versions)) {
         echo '<option';
         if ($current == $v[0]) {
@@ -1257,3 +1264,4 @@ function show_bugs_menu($pkgname, $status = null)
     $dbh->query($query);
     return true;
  }
+

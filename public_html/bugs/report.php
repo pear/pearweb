@@ -1,5 +1,5 @@
 <?php /* vim: set noet ts=4 sw=4: : */
-
+session_start();
 /**
  * Procedures for reporting bugs
  *
@@ -30,9 +30,19 @@ require_once './include/prepend.inc';
  */
 require_once './include/cvs-auth.inc';
 
+/**
+ * Numeral Captcha Class
+ */
+require_once './include/NumeralCaptcha.php';
+
 error_reporting(E_ALL ^ E_NOTICE);
 $errors              = array();
 $ok_to_submit_report = false;
+
+/**
+ * Instantiate the numeral captcha object.
+ */
+$numeralCaptcha = new NumeralCaptcha();
 
 if (isset($_POST['save']) && isset($_POST['pw'])) {
     // non-developers don't have $user set
@@ -41,8 +51,21 @@ if (isset($_POST['save']) && isset($_POST['pw'])) {
 }
 
 if (isset($_POST['in'])) {
-	$errors = incoming_details_are_valid($_POST['in'], 1, ($auth_user && $auth_user->registered));
+    $errors = incoming_details_are_valid($_POST['in'], 1, ($auth_user && $auth_user->registered));
+
+    /**
+     * Check if session answer is set, then compare
+     * it with the post captcha value. If it's not
+     * the same, then it's an incorrect password.
+     */
+    if (isset($_SESSION['answer'])) {
+        if ($_POST['captcha'] != $_SESSION['answer']) {
+            $errors[] = 'Incorrect Captcha';
+        }
+    }
+
     if (!$errors) {
+
         /*
          * When user submits a report, do a search and display
          * the results before allowing them to continue.
@@ -550,6 +573,13 @@ if (!($auth_user && $auth_user->registered)) {
     wrap="physical"><?php echo clean($_POST['in']['actres']); ?></textarea>
   </td>
  </tr>
+ <?php if (!$auth_user) { ?>
+ <tr>
+  <th>What is the answer to this? : <?php print $numeralCaptcha->getOperation(); ?></th>
+  <td><input type="text" name="captcha" /></td>
+ </tr>
+ <?php $_SESSION['answer'] = $numeralCaptcha->getAnswer(); ?>
+ <?php } ?>
  <tr>
   <th class="form-label_left">
    Submit:
