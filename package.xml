@@ -177,6 +177,7 @@
       <file name="prepend.inc" role="web" />
       <file name="resolve.inc" role="web" />
       <file name="trusted-devs.inc" role="web" />
+      <file name="NumeralCaptcha.php" role="web" />
      </dir> <!-- /public_html/bugs/include -->
      <file name="bug-pwd-finder.php" role="web" />
      <file name="bug.php" role="web" />
