@@ -96,9 +96,12 @@ do {
                 'firstname' => $stripped['firstname'],
                 'lastname'  => $stripped['lastname'],
             );
-            $mailer = Damblan_Mailer::create('pearweb_account_request', $mailData);
-            $additionalHeaders['To'] = '"Arnaud Limbourg" <arnaud@limbourg.com>';
-            $mailer->send($additionalHeaders);
+
+            if (!DEVBOX) {
+                $mailer = Damblan_Mailer::create('pearweb_account_request', $mailData);
+                $additionalHeaders['To'] = '"Arnaud Limbourg" <arnaud@limbourg.com>';
+                $mailer->send($additionalHeaders);
+            }
         } elseif ($ok === false) {
             $msg = 'Your account request has been submitted, but there'
                  . ' were problems mailing one or more administrators.'
