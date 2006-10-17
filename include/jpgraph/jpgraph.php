@@ -314,6 +314,23 @@ class JpGraphError {
     }
 }
 
+
+//
+// Check what version of the GD library is being used
+//
+if( USE_LIBRARY_GD2 ) {
+    $GLOBALS['gd2'] = true;
+    $copyfunc = "imagecopyresampled";
+} elseif(function_exists('imagecopyresized')) {
+    $copyfunc = "imagecopyresized";
+    $GLOBALS['gd2'] = false;
+}
+else {
+    JpGraphError::Raise(" Your PHP installation does not seem to 
+	have the required GD library.
+	Please see the PHP documentation on how to install and enable the GD library.");
+}
+
 //
 // ... and install the default error handler
 //
@@ -328,26 +345,11 @@ else {
 //
 //Check if there were any warnings, perhaps some wrong includes by the
 //user
+// jpgraph is not E_STRICT so this breaks in PHP 5+
 //
-if( isset($GLOBALS['php_errormsg']) ) {
-    JpGraphError::Raise("<b>General PHP error:</b><br>".$GLOBALS['php_errormsg']);
-}
-
-//
-// Check what version of the GD library is being used
-//
-if( USE_LIBRARY_GD2 ) {
-    $gd2 = true;
-    $copyfunc = "imagecopyresampled";
-} elseif(function_exists('imagecopyresized')) {
-    $copyfunc = "imagecopyresized";
-    $gd2 = false;
-}
-else {
-    JpGraphError::Raise(" Your PHP installation does not seem to 
-	have the required GD library.
-	Please see the PHP documentation on how to install and enable the GD library.");
-}
+//if( isset($GLOBALS['php_errormsg']) ) {
+//    JpGraphError::Raise("<b>General PHP error:</b><br>".$GLOBALS['php_errormsg']);
+//}
 
 // Usefull mathematical function
 function sign($a) {if( $a>=0) return 1; else return -1;}
