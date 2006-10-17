@@ -25,8 +25,6 @@ response_header('Package Statistics');
 ?>
 
 <h1>Package Statistics</h1>
-The statistics page is not yet available.
-<?php response_footer(); exit()?>
 
 <script language="JavaScript" type="text/javascript">
 <!--
