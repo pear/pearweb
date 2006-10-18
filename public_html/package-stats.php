@@ -109,6 +109,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     $query = "SELECT id, version FROM releases WHERE package = '" . $_GET['pid'] . "'";
     $rows = $dbh->getAll($query, DB_FETCHMODE_ASSOC);
 
+    usort($rows, create_function('$a,$b', 'return version_compare($b[\'version\'],$a[\'version\']);'));
     foreach ($rows as $row) {
         $selected = '';
         if (isset($_GET['rid']) && $_GET['rid'] == $row['id']) {
