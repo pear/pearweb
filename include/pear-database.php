@@ -1565,7 +1565,8 @@ class release
         $sth = $dbh->limitQuery('
             SELECT
                 packages.name, releases.version,
-                SUM(downloads)/DATEDIFF(NOW(),MAX(releases.releasedate)) as d
+                SUM(downloads)/
+                    ((unix_timestamp(NOW()) - unix_timestamp(MAX(releases.releasedate))/86400) as d
                 FROM releases, packages, aggregated_package_stats a
                 WHERE
                     packages.id = releases.package AND
