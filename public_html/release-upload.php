@@ -273,6 +273,13 @@ if ($display_verification) {
         if (substr($verinfo[2], 1, 2) == 'rc') {
             $errors[] = 'Release Candidate versions MUST use upper-case RC versioning, not rc';
         }
+        $filelist = $info->getFilelist();
+        if (isset($filelist['package.xml'])) {
+            $warnings[] = 'package.xml should not be present in package.xml, installation may fail';
+        }
+        if (isset($filelist['package2.xml'])) {
+            $warnings[] = 'package2.xml should not be present in package.xml, installation may fail';
+        }
     }
     if ($info->getChannel() != PEAR_CHANNELNAME) {
         $errors[] = 'Only channel ' . PEAR_CHANNELNAME .
