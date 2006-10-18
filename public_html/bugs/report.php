@@ -53,12 +53,19 @@ if (isset($_POST['save']) && isset($_POST['pw'])) {
 if (isset($_POST['in'])) {
     $errors = incoming_details_are_valid($_POST['in'], 1, ($auth_user && $auth_user->registered));
 
+    // captcha is not necessary if the user is logged in
+    if ($auth_user && $auth_user->registered) {
+        if (isset($_SESSION['answer'])) {
+            unset($_SESSION['answer']);
+        }
+    }
+
     /**
      * Check if session answer is set, then compare
      * it with the post captcha value. If it's not
      * the same, then it's an incorrect password.
      */
-    if (isset($_SESSION['answer'])) {
+    if (isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
         if ($_POST['captcha'] != $_SESSION['answer']) {
             $errors[] = 'Incorrect Captcha';
         }
@@ -465,6 +472,13 @@ if ($auth_user && $auth_user->registered) {
     value="<?php echo clean($_POST['in']['php_os']); ?>" />
   </td>
  </tr>
+ <?php if (!$auth_user): ?>
+ <tr>
+  <th>Solve the problem : <?php print $numeralCaptcha->getOperation(); ?> = ?</th>
+  <td class="form-input"><input type="text" name="captcha" /></td>
+ </tr>
+ <?php $_SESSION['answer'] = $numeralCaptcha->getAnswer(); ?>
+ <?php endif; // if (!$auth_user): ?>
  <tr>
   <th class="form-label_left">
    Summary:
@@ -573,13 +587,6 @@ if (!($auth_user && $auth_user->registered)) {
     wrap="physical"><?php echo clean($_POST['in']['actres']); ?></textarea>
   </td>
  </tr>
- <?php if (!$auth_user) { ?>
- <tr>
-  <th>What is the answer to this? : <?php print $numeralCaptcha->getOperation(); ?></th>
-  <td><input type="text" name="captcha" /></td>
- </tr>
- <?php $_SESSION['answer'] = $numeralCaptcha->getAnswer(); ?>
- <?php } ?>
  <tr>
   <th class="form-label_left">
    Submit:
