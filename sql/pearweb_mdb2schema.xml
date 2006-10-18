@@ -7,6 +7,97 @@
 
  <table>
 
+  <name>aggregated_package_stats</name>
+
+  <declaration>
+
+   <field>
+    <name>package_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>release_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>yearmonth</name>
+    <type>timestamp</type>
+    <length>32</length>
+    <notnull>false</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>downloads</name>
+    <type>integer</type>
+    <length>10</length>
+    <unsigned>1</unsigned>
+    <notnull>false</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>release_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>yearmonth</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>package_id</name>
+    <primary>false</primary>
+    <field>
+     <name>package_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>downloads</name>
+    <primary>false</primary>
+    <field>
+     <name>downloads</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>package_id_2</name>
+    <primary>false</primary>
+    <field>
+     <name>package_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>release_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>yearmonth</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
   <name>bugdb</name>
 
   <declaration>
@@ -756,140 +847,6 @@
     </field>
     <field>
      <name>version</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>downloads</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>file</name>
-    <type>integer</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>package</name>
-    <type>integer</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>release</name>
-    <type>integer</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>author</name>
-    <type>integer</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>category</name>
-    <type>integer</type>
-    <length>11</length>
-    <notnull>true</notnull>
-    <default>0</default>
-   </field>
-
-   <field>
-    <name>dl_when</name>
-    <type>timestamp</type>
-    <notnull>true</notnull>
-    <default>0000-00-00 00:00:00</default>
-   </field>
-
-   <field>
-    <name>dl_who</name>
-    <type>text</type>
-    <length>20</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <field>
-    <name>dl_host</name>
-    <type>text</type>
-    <length>100</length>
-    <notnull>false</notnull>
-    <default></default>
-   </field>
-
-   <index>
-    <name>package</name>
-    <field>
-     <name>package</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-    <name>release</name>
-    <field>
-     <name>release</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-   <index>
-    <name>primary</name>
-    <primary>true</primary>
-    <field>
-     <name>id</name>
-     <sorting>ascending</sorting>
-    </field>
-   </index>
-
-  </declaration>
-
- </table>
-
- <table>
-
-  <name>downloads_seq</name>
-
-  <declaration>
-
-   <field>
-    <name>id</name>
-    <type>integer</type>
-    <length>10</length>
-    <notnull>true</notnull>
-    <default>0</default>
-    <autoincrement>1</autoincrement>
-   </field>
-
-   <index>
-    <name>primary</name>
-    <primary>true</primary>
-    <field>
-     <name>id</name>
      <sorting>ascending</sorting>
     </field>
    </index>

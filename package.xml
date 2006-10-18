@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-10-14</date>
- <time>13:49:04</time>
+ <date>2006-10-18</date>
+ <time>12:15:09</time>
  <version>
-  <release>0.4.1</release>
+  <release>0.5.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,7 +64,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * add gettext extension dep for VFS package (simplifies installation)
+ * new statistics
+ * remove unused database table &quot;downloads&quot;
+ * add popular packages to homepage
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -90,6 +92,7 @@
       <file name="Print.php" role="web" />
      </dir> <!-- /include/Damblan/Log -->
      <dir name="Mail">
+      <file name="pearweb_account_request.tpl.php" role="web" />
       <file name="Trackback_Approve.tpl.php" role="web" />
       <file name="Trackback_Delete.tpl.php" role="web" />
       <file name="Trackback_New.tpl.php" role="web" />
@@ -174,10 +177,10 @@
       <file name="cvs-auth.inc" role="web" />
       <file name="functions.inc" role="web" />
       <file name="layout.inc" role="web" />
+      <file name="NumeralCaptcha.php" role="web" />
       <file name="prepend.inc" role="web" />
       <file name="resolve.inc" role="web" />
       <file name="trusted-devs.inc" role="web" />
-      <file name="NumeralCaptcha.php" role="web" />
      </dir> <!-- /public_html/bugs/include -->
      <file name="bug-pwd-finder.php" role="web" />
      <file name="bug.php" role="web" />
@@ -424,6 +427,7 @@
     <file name="stats.txt" role="web" />
    </dir> <!-- /rfc -->
    <dir name="sql">
+    <file name="aggregated_package_stats.sql" role="web" />
     <file name="apidoc_queue.sql" role="web" />
     <file name="bugs.sql" role="web" />
     <file name="categories.sql" role="web" />
@@ -435,7 +439,6 @@
     <file name="cvs_group_membership.sql" role="web" />
     <file name="deps.sql" role="web" />
     <file name="design.txt" role="web" />
-    <file name="downloads.sql" role="web" />
     <file name="dropdb.sql" role="web" />
     <file name="files.sql" role="web" />
     <file name="karma.sql" role="web" />
@@ -448,6 +451,7 @@
     <file name="pepr.sql" role="web" />
     <file name="README" role="web" />
     <file name="releases.sql" role="web" />
+    <file name="stats_updated.sql" role="web" />
     <file name="users.sql" role="web" />
    </dir> <!-- /sql -->
    <dir name="templates">
@@ -795,8 +799,23 @@
    </stability>
    <date>2006-10-14</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add gettext extension dep for VFS package (simplifies installation)</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.5.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-18</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * add gettext extension dep for VFS package (simplifies installation)
+ * new statistics
+ * remove unused database table &quot;downloads&quot;
+ * add popular packages to homepage
    </notes>
   </release>
  </changelog>

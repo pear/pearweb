@@ -1557,6 +1557,33 @@ class release
     // }}}
     // {{{  proto array  release::getDateRange(int,int) API 1.0
 
+    // }}}
+    // {{{  proto array  release::getPopular(int) API 1.0
+    function getPopular($n = 5)
+    {
+        global $dbh;
+        $sth = $dbh->limitQuery('
+            SELECT
+                packages.name, releases.version,
+                SUM(downloads)/DATEDIFF(NOW(),MAX(releases.releasedate)) as d
+                FROM releases, packages, aggregated_package_stats a
+                WHERE
+                    packages.id = releases.package AND
+                    packages.package_type = \'pear\' AND
+                    a.release_id = releases.id AND
+                    a.package_id = packages.id AND
+                    packages.newpk_id IS NULL AND
+                    packages.unmaintained = 0
+                GROUP BY releases.package, a.release_id
+                ORDER BY d DESC', 0, $n);
+        $recent = array();
+        // XXX Fixme when DB gets limited getAll()
+        while ($sth->fetchInto($row, DB_FETCHMODE_ASSOC)) {
+            $recent[] = $row;
+        }
+        return $recent;
+    }
+
     /**
      * Get release in a specific time range
      *

@@ -35,6 +35,21 @@ $pacid = $params['package|pacid'];
 // Package data
 if (!empty($pacid)) {
     $pkg = package::info($pacid);
+//    $stats = $dbh->getAssoc('SELECT
+//releases.package,
+//dl_number/DATEDIFF(NOW(),MIN(releases.releasedate)) as d
+//FROM releases, packages, package_stats
+//WHERE
+//    packages.id = releases.package AND
+//    packages.package_type = \'pear\' AND
+//    package_stats.release = releases.version AND
+//    package_stats.package = packages.name
+//GROUP BY releases.package
+//ORDER BY d DESC');
+//    
+//    $amount = $stats[$pkg['packageid']];
+//    $newstats = array_flip(array_values($stats));
+//    $rank = ($newstats[$amount] + 1) . ' of ' . count($stats);
 
     $rel_count = count($pkg['releases']);
 }
@@ -180,7 +195,7 @@ if ($version) {
 
 html_category_urhere($pkg['categoryid'], true);
 
-print '<h1>Package Information: ' . $name;
+print '<h1>Package Information: ' . $name; // . ' (download rank: ' . $rank . ')';
 if ($version) {
     print ' ' .  $version;
 }

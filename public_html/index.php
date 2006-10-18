@@ -18,23 +18,39 @@
    $Id$
 */
 
-$recent = release::getRecent(10);
+$recent = release::getRecent(5);
 if (@sizeof($recent) > 0) {
     $RSIDEBAR_DATA = "<strong>Recent&nbsp;Releases:</strong>\n";
     $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
     $today = date("D, jS M y");
     foreach ($recent as $release) {
-        extract($release);
-        $releasedate = make_utc_date(strtotime($releasedate), "D, jS M y");
+        $releasedate = make_utc_date(strtotime($release['releasedate']), "D, jS M y");
         if ($releasedate == $today) {
             $releasedate = "today";
         }
         $RSIDEBAR_DATA .= "<tr><td valign=\"top\" class=\"compact\">";
-        $RSIDEBAR_DATA .= "<a href=\"/package/" . $name . "/\">";
-        $RSIDEBAR_DATA .= "$name $version</a><br /> <small>($releasedate)</small></td></tr>";
+        $RSIDEBAR_DATA .= "<a href=\"/package/" . $release['name'] . "/\">";
+        $RSIDEBAR_DATA .= $release['name'] . ' ' .
+                          $release['version'] . '</a><br /> <small>(' .
+                          $releasedate . ')</small></td></tr>';
     }
     $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" border="0" /></a>';
     $RSIDEBAR_DATA .= "<tr><td>&nbsp;</td></tr>\n";
+    $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
+    $RSIDEBAR_DATA .= "</table>\n";
+}
+$popular = release::getPopular(5);
+if (@sizeof($popular) > 0) {
+    $RSIDEBAR_DATA .= "<strong>Popular&nbsp;Packages*:</strong>\n";
+    $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
+    foreach ($popular as $package) {
+        $RSIDEBAR_DATA .= "<tr><td valign=\"top\" class=\"compact\">";
+        $RSIDEBAR_DATA .= "<a href=\"/package/" . $package['name'] . "/\">";
+        $RSIDEBAR_DATA .= $package['name'] . ' ' . $package['version'] . '</a><br /> <small>(' .
+                          $package['d'] . ')</small></td></tr>';
+    }
+    $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" border="0" /></a>';
+    $RSIDEBAR_DATA .= "<tr><td><small>* downloads per day</small></td></tr>\n";
     $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
 }

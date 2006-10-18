@@ -9,9 +9,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
         'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
     ));
-$a->setReleaseVersion('0.4.1');
+$a->setReleaseVersion('0.5.0');
 $a->setNotes('
- * add gettext extension dep for VFS package (simplifies installation)
+ * new statistics
+ * remove unused database table "downloads"
+ * add popular packages to homepage
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
