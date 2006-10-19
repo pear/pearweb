@@ -320,7 +320,8 @@ if (empty($action)) {
         print '<li><a href="' . htmlspecialchars($cvs_link) . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
     }
     print '<li><a href="/feeds/pkg_' . strtolower(htmlspecialchars($name)) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>';
-    print '<li><a href="/package-stats.php?pid=' . $pkg['packageid'] . '" title="View download statistics for this package">View Download Statistics</a></li>';
+    print '<li><a href="/package-stats.php?pid=' . $pkg['packageid'] . '&cid=' .
+        $pkg['categoryid'] . '" title="View download statistics for this package">View Download Statistics</a></li>';
     print '</ul>';
     print '</td>';
     print '</tr>';
