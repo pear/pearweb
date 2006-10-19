@@ -16,5 +16,6 @@ CREATE TABLE releases (
   releasenotes text,
   PRIMARY KEY  (id),
   UNIQUE KEY package (package,version),
+  KEY releasedate (releasedate,package),
   KEY state (state)
 );

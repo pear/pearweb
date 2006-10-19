@@ -1917,6 +1917,19 @@
     </field>
    </index>
 
+   <index>
+    <name>package</name>
+    <unique>true</unique>
+    <field>
+     <name>releasedate</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>package</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
   </declaration>
 
  </table>
