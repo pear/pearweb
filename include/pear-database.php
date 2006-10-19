@@ -1313,7 +1313,7 @@ class maintainer
         }
 
         if ($active) {
-            $query . ' AND active = 1';
+            $query .= ' AND active = 1';
         }
 
         $query .= " ORDER BY active DESC";
