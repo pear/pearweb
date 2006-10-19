@@ -34,7 +34,8 @@ CREATE TABLE bugdb_comments (
   ts datetime NOT NULL default '0000-00-00 00:00:00',
   comment text NOT NULL,
   PRIMARY KEY  (id),
-  FULLTEXT KEY comment (comment)
+  FULLTEXT KEY comment (comment),
+  INDEX bug (bug, id, ts)
 ) TYPE=MyISAM;
 
 -- score's value can be 1 through 5

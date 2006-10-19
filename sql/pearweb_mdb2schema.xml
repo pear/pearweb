@@ -327,6 +327,22 @@
     </field>
    </index>
 
+   <index>
+    <name>bug</name>
+    <field>
+     <name>bug</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>ts</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
   </declaration>
 
  </table>
@@ -2142,6 +2158,15 @@
     <field>
      <name>pgpkeyid</name>
      <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>email</name>
+    <field>
+     <name>email</name>
+     <sorting>descending</sorting>
+     <length>25</length>
     </field>
    </index>
 

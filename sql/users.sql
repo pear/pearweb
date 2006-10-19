@@ -16,7 +16,8 @@ CREATE TABLE users (
   wishlist varchar(255) NOT NULL default '',
   PRIMARY KEY  (handle),
   KEY handle (handle,registered),
-  KEY pgpkeyid (pgpkeyid)
+  KEY pgpkeyid (pgpkeyid),
+  KEY email (email(25))
 );
 
 -- Password is "admin"
