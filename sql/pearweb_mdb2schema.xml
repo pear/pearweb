@@ -31,7 +31,7 @@
     <name>yearmonth</name>
     <type>timestamp</type>
     <length>32</length>
-    <notnull>false</notnull>
+    <notnull>true</notnull>
     <default>0000-00-00 00:00:00</default>
    </field>
 
