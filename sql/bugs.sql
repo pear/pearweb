@@ -21,6 +21,7 @@ CREATE TABLE bugdb (
   PRIMARY KEY  (id),
   KEY php_version (php_version(1)),
   KEY package_version (package_version(1)),
+  KEY package_name(package_name),
   FULLTEXT KEY email (email,sdesc,ldesc)
 ) TYPE=MyISAM;
 

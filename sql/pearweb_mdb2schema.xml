@@ -228,6 +228,14 @@
    </index>
 
    <index>
+    <name>package_name</name>
+    <field>
+     <name>package_name</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
     <name>email</name>
     <field>
      <name>email</name>
