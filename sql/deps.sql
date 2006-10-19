@@ -12,5 +12,6 @@ CREATE TABLE deps (
   name varchar(100) NOT NULL default '',
   optional tinyint(4) NOT NULL default '0',
   KEY release (release),
-  KEY package (package,version)
+  KEY package (package,version),
+  KEY package_2 (package,optional)
 );
