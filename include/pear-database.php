@@ -1296,18 +1296,26 @@ class maintainer
      * @static
      * @param  mixed Name of the package or it's ID
      * @param  boolean Only return lead maintainers?
+     * @param  boolean Only get all maintainers but possibility
+     *                 of getting all maintainer if active is set to false.
      * @return array
      */
-    function get($package, $lead = false)
+    function get($package, $lead = false, $active = false)
     {
         global $dbh;
         if (is_string($package)) {
             $package = package::info($package, 'id');
         }
         $query = "SELECT handle, role, active FROM maintains WHERE package = ?";
+
         if ($lead) {
             $query .= " AND role = 'lead'";
         }
+
+        if ($active) {
+            $query . ' AND active = 1';
+        }
+
         $query .= " ORDER BY active DESC";
 
         return $dbh->getAssoc($query, true, array($package), DB_FETCHMODE_ASSOC);
@@ -1466,7 +1474,7 @@ class maintainer
     }
 
     // }}}
-    // {{{
+    // {{{ update
 
     /**
      * Update maintainer entry
@@ -1484,7 +1492,7 @@ class maintainer
             "WHERE package = ? AND handle = ?";
         return $dbh->query($query, array($role, $active, $package, $user));
     }
-
+    // }}}
     // {{{ NOEXPORT  maintainer::mayUpdate(int)
 
     /**

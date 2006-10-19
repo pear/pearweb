@@ -102,7 +102,9 @@ $mailData = array(
 );
 
 $mailer = Damblan_Mailer::create('Trackback_New', $mailData);
-$additionalHeaders['To'] = $trackback->getMaintainers();
+
+// Get active maintainers only
+$additionalHeaders['To'] = $trackback->getMaintainers(true);
 if (!DEVBOX) {
     $res = $mailer->send($additionalHeaders);
 } else {

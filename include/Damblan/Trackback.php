@@ -396,12 +396,15 @@ class Damblan_Trackback extends Services_Trackback
      *
      * @since
      * @access public
-     * @param
+     * @param  boolean $activeOnly  To get only active leads
+     *                 is set to false by default so there's
+     *                 no bc problems.
+     *
      * @return array(string) The list of maintainer emails.
      */
-    function getMaintainers ()
+    function getMaintainers ($activeOnly = false)
     {
-        $maintainers = maintainer::get($this->get('id'), true);
+        $maintainers = maintainer::get($this->get('id'), true, $activeOnly);
         $res = array();
 
         foreach ($maintainers as $maintainer => $data) {
