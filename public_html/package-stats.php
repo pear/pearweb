@@ -321,7 +321,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 	$query = sprintf("SELECT SUM(ps.dl_number) AS dl_number, ps.package, ps.release, ps.pid, ps.rid, ps.cid 
 	                  FROM package_stats ps, packages p 
 	                  WHERE p.package_type = 'pear' AND p.id = ps.pid AND
-	                  p.category = %s GROUP BY ps.pid ORDER BY ps.dl_number DESC",
+	                  p.category = %s GROUP BY ps.pid ORDER BY dl_number DESC",
                      $_GET['cid']
                      );
 
