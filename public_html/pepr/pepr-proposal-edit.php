@@ -98,9 +98,20 @@ $form->addElement('select', 'pkg_category', '<label for="pkg_category" accesskey
 $categoryNewElements[] =& HTML_QuickForm::createElement('checkbox', 'pkg_category_new_do', '');
 $categoryNewElements[] =& HTML_QuickForm::createElement('text', 'pkg_category_new_text', '');
 $categoryNew = $form->addGroup($categoryNewElements, 'pkg_category_new', 'New category:', '<br />');
+/**
+ * Dropdown possible licenses, less confusing for users
+ */
+$possibleLicenses = array(
+                        'PHP License 3.01', 
+                        'Apache License', 
+                        'LGPL', 
+                        'BSD Style',
+                        'MIT License',
+                    );
+
 
 $form->addElement('text', 'pkg_name', 'Package name:');
-$form->addElement('text', 'pkg_license', 'License:');
+$form->addElement('select', 'pkg_license', 'License:', $possibleLicenses);
 
 $form->addElement('textarea', 'pkg_describtion', 'Package description:', array('rows' => 20, 'cols' => '80'));
 $form->addElement('select', 'markup', 'Markup', array('bbcode' => 'BBCode', 'wiki' => 'Wiki'));

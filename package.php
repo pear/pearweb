@@ -9,11 +9,9 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
         'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
     ));
-$a->setReleaseVersion('0.5.0');
+$a->setReleaseVersion('0.6.0');
 $a->setNotes('
- * new statistics
- * remove unused database table "downloads"
- * add popular packages to homepage
+ * add license dropdown to PEPr
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
@@ -37,7 +35,8 @@ $a->addPackageDepWithChannel('required', 'DB_Pager', 'pear.php.net', '0.7');
 $a->addPackageDepWithChannel('required', 'Log', 'pear.php.net', '1.8.4');
 $a->addPackageDepWithChannel('required', 'Mail', 'pear.php.net', '1.1.13');
 $a->addPackageDepWithChannel('required', 'Services_Trackback', 'pear.php.net', '0.4.0');
-$a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1.0');
+// required for PEPr
+$a->addPackageDepWithChannel('required', 'Text_Wiki', 'pear.php.net', '1.1.0');
 $a->addPackageDepWithChannel('required', 'HTML_QuickForm', 'pear.php.net', '3.2.3');
 $a->addPackageDepWithChannel('required', 'HTML_TreeMenu', 'pear.php.net', '1.2.0');
 $a->addDependencyGroup('php4', 'Use this for PHP 4 (mysql ext)');

@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-10-18</date>
- <time>12:21:58</time>
+ <date>2006-10-19</date>
+ <time>22:50:55</time>
  <version>
-  <release>0.5.0</release>
+  <release>0.6.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,9 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * new statistics
- * remove unused database table &quot;downloads&quot;
- * add popular packages to homepage
+ * add license dropdown to PEPr
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -680,9 +678,9 @@
     <min>0.4.0</min>
    </package>
    <package>
-    <name>HTML_BBCodeParser</name>
+    <name>Text_Wiki</name>
     <channel>pear.php.net</channel>
-    <min>1.0</min>
+    <min>1.1.0</min>
    </package>
    <package>
     <name>HTML_QuickForm</name>
@@ -811,10 +809,23 @@
    </stability>
    <date>2006-10-18</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* new statistics
+* remove unused database table &quot;downloads&quot;
+* add popular packages to homepage</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-19</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * new statistics
- * remove unused database table &quot;downloads&quot;
- * add popular packages to homepage
+ * add license dropdown to PEPr
    </notes>
   </release>
  </changelog>
