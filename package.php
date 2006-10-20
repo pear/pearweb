@@ -9,9 +9,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
         'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
     ));
-$a->setReleaseVersion('0.6.0');
+$a->setReleaseVersion('0.7.0');
 $a->setNotes('
- * add license dropdown to PEPr
+ * fix Bug #9113: Package stats problems
+   - order releases in category page
+   - remove stats for removed releases
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
