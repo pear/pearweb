@@ -355,7 +355,7 @@ class package
         // lead
         extract($data);
         if (empty($license)) {
-            $license = "PEAR License";
+            $license = "PHP License";
         }
         if (!empty($category) && (int)$category == 0) {
             $category = $dbh->getOne("SELECT id FROM categories WHERE name = ?",
