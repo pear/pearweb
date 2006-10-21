@@ -20,7 +20,7 @@
 TABLE_FILES=\
     bugs.sql \
     cvs_acl.sql \
-    downloads.sql \
+    aggregated_package_stats.sql \
     files.sql \
     maintains.sql \
     categories.sql \
