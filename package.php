@@ -14,6 +14,7 @@ $a->setNotes('
  * fix Bug #9113: Package stats problems
    - order releases in category page
    - remove stats for removed releases
+ * implement Request #9112 Changes for "Popular Packages"
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

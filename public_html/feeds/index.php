@@ -29,6 +29,7 @@ feeds available for your viewing pleasure:</p>
 
 <ul>
   <li><?php echo make_link('/feeds/latest.rss'); ?>: The latest 10 releases</li>
+  <li><?php echo make_link('/feeds/popular.rss'); ?>: The most popular 10 releases</li>
   <li>Package feeds per category:
     <ul>
       <li><?php echo make_link('/feeds/cat_authentication.rss'); ?>: Authentication</li>

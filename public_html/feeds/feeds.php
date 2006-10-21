@@ -122,6 +122,16 @@ switch ($type) {
         $channel_description = 'The latest releases in PEAR.';
         break;
 
+    case 'popular':
+        include_once 'pear-database.php';
+        $items = release::getPopular(10, true);
+        foreach ($items as $i => $item) {
+            $items[$i]['releasenotes'] = 'Downloads per day: ' . number_format($item['releasenotes'], 2);
+        }
+        $channel_title = 'PEAR: Popular releases';
+        $channel_description = 'The most popular releases in PEAR.';
+        break;
+
     case 'user':
         $user = $argument;
         if (!user::exists($user)) {

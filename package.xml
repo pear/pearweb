@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2006-10-20</date>
- <time>18:49:03</time>
+ <time>19:16:56</time>
  <version>
   <release>0.7.0</release>
   <api>0.1.1</api>
@@ -67,6 +67,7 @@
  * fix Bug #9113: Package stats problems
    - order releases in category page
    - remove stats for removed releases
+ * implement Request #9112 Changes for &quot;Popular Packages&quot;
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -843,6 +844,7 @@
  * fix Bug #9113: Package stats problems
    - order releases in category page
    - remove stats for removed releases
+ * implement Request #9112 Changes for &quot;Popular Packages&quot;
    </notes>
   </release>
  </changelog>

@@ -47,7 +47,7 @@ if (@sizeof($popular) > 0) {
         $RSIDEBAR_DATA .= "<tr><td valign=\"top\" class=\"compact\">";
         $RSIDEBAR_DATA .= "<a href=\"/package/" . $package['name'] . "/\">";
         $RSIDEBAR_DATA .= wordwrap($package['name'],25,"\n",1) . ' ' . $package['version'] . '</a><br /> <small>(' .
-                          $package['d'] . ')</small></td></tr>';
+                          number_format($package['d'],2) . ')</small></td></tr>';
     }
     $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" border="0" /></a>';
     $RSIDEBAR_DATA .= "<tr><td><small>* downloads per day</small></td></tr>\n";

@@ -1567,10 +1567,26 @@ class release
 
     // }}}
     // {{{  proto array  release::getPopular(int) API 1.0
-    function getPopular($n = 5)
+    function getPopular($n = 5, $rss = false)
     {
         global $dbh;
-        $sth = $dbh->limitQuery('
+        if ($rss) {
+            $query = '
+            SELECT
+                packages.name, releases.version, MAX(releases.releasedate) AS releasedate,
+                    SUM(downloads)/((unix_timestamp(NOW()) - unix_timestamp(MAX(releases.releasedate)))/86400) as releasenotes
+                FROM releases, packages, aggregated_package_stats a
+                WHERE
+                    packages.id = releases.package AND
+                    packages.package_type = \'pear\' AND
+                    a.release_id = releases.id AND
+                    a.package_id = packages.id AND
+                    packages.newpk_id IS NULL AND
+                    packages.unmaintained = 0
+                GROUP BY releases.package, a.release_id
+                ORDER BY releasenotes DESC';
+        } else {
+            $query = '
             SELECT
                 packages.name, releases.version,
                     SUM(downloads)/((unix_timestamp(NOW()) - unix_timestamp(MAX(releases.releasedate)))/86400) as d
@@ -1583,7 +1599,9 @@ class release
                     packages.newpk_id IS NULL AND
                     packages.unmaintained = 0
                 GROUP BY releases.package, a.release_id
-                ORDER BY d DESC', 0, $n);
+                ORDER BY d DESC';
+        }
+        $sth = $dbh->limitQuery($query, 0, $n);
         $recent = array();
         // XXX Fixme when DB gets limited getAll()
         while ($sth->fetchInto($row, DB_FETCHMODE_ASSOC)) {
