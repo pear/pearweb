@@ -731,6 +731,8 @@ function get_license_link($license = "")
 
         case 'BSD' :
         case 'BSD License' :
+        case 'New BSD License' :
+        case 'New BSD' :
             $link = 'http://www.opensource.org/licenses/bsd-license.php';
             break;
 
