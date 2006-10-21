@@ -2387,6 +2387,9 @@ Authors
                          $release
                          );
         $sth = $dbh->query($query);
+        // remove statistics on this release
+        $dbh->query('DELETE FROM package_stats WHERE pid = ? AND rid = ?', array($package, $release));
+        $dbh->query('DELETE FROM aggregated_package_stats WHERE package_id = ? AND release_id = ?', array($package, $release));
         $GLOBALS['pear_rest']->saveAllReleasesREST($pname);
         $GLOBALS['pear_rest']->deleteReleaseREST($pname, $version);
         $GLOBALS['pear_rest']->savePackagesCategoryREST(package::info($pname, 'category'));
