@@ -1,0 +1,4 @@
+#!/bin/sh
+export PATH=/usr/lib/firefox:$PATH
+java -jar /usr/local/lib/php/data/Testing_Selenium/selenium-server.jar -interactive
+

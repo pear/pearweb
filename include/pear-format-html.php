@@ -142,7 +142,7 @@ echo $extraHeaders;
 
 <!-- START HEADER -->
 
-<table class="head" cellspacing="0" cellpadding="0">
+<table id="head-menu" class="head" cellspacing="0" cellpadding="0">
  <tr>
   <td class="head-logo">
    <?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
@@ -226,7 +226,9 @@ echo $extraHeaders;
 
 <!-- START LEFT SIDEBAR -->
   <td class="sidebar_left">
+   <span id="sidebar">
    <?php echo $SIDEBAR_DATA ?>
+   </span>
   </td>
 <!-- END LEFT SIDEBAR -->
 

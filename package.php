@@ -8,6 +8,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
         'roles' => array('*' => 'web'),
         'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
+        'ignore' => array(
+            'package.xml',
+            'package.php',
+            'tests/',
+        ),
     ));
 $a->setReleaseVersion('0.7.0');
 $a->setNotes('
