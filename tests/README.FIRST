@@ -13,6 +13,12 @@ Finally, you must be running PHP 5.1.0 or newer
 If you are running unix, please verify that the path to firefox is correct in
 firefox_settings.php.inc.  Firefox is generally in /usr/lib/firefox as firefox-bin
 
+----------
+IMPORTANT:
+----------
+Before running the tests, you need to start the selenium server.  run the "setup_tests"
+script and it will do this, assuming that selenium is in /usr/local/lib/php
+
 At this point, the tests will successfully run.
 
 $Id$
