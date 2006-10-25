@@ -52,22 +52,19 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-10-21</date>
- <time>13:02:33</time>
+ <date>2006-10-24</date>
+ <time>19:09:22</time>
  <version>
-  <release>0.7.0</release>
+  <release>1.0.0RC1</release>
   <api>0.1.1</api>
  </version>
  <stability>
-  <release>devel</release>
-  <api>devel</api>
+  <release>beta</release>
+  <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * fix Bug #9113: Package stats problems
-   - order releases in category page
-   - remove stats for removed releases
- * implement Request #9112 Changes for &quot;Popular Packages&quot;
+ Prepare for deployment through PEAR channel
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -839,11 +836,24 @@
    </stability>
    <date>2006-10-21</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #9113: Package stats problems
+  - order releases in category page
+  - remove stats for removed releases
+* implement Request #9112 Changes for &quot;Popular Packages&quot;</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0RC1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-10-24</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * fix Bug #9113: Package stats problems
-   - order releases in category page
-   - remove stats for removed releases
- * implement Request #9112 Changes for &quot;Popular Packages&quot;
+ Prepare for deployment through PEAR channel
    </notes>
   </release>
  </changelog>

@@ -14,12 +14,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('0.7.0');
+$a->setReleaseVersion('1.0.0RC1');
+$a->setReleaseStability('beta');
+$a->setAPIStability('stable');
 $a->setNotes('
- * fix Bug #9113: Package stats problems
-   - order releases in category page
-   - remove stats for removed releases
- * implement Request #9112 Changes for "Popular Packages"
+ Prepare for deployment through PEAR channel
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
