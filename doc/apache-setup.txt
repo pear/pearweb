@@ -41,6 +41,11 @@ installed in /usr/share/pear):
  RewriteEngine On
 
  #
+ # Rewrite all PHPUnit traffic to its new home
+ #
+ RewriteRule   /package/PHPUnit(.*) http://phpunit.de/ [R=301, NC]
+
+ #
  # Rewriting rules for the RSS feeds
  #
  RewriteRule   /feeds/(.+)\.rss$ /feeds/feeds.php?type=$1
