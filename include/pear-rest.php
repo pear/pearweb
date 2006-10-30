@@ -151,6 +151,9 @@ class pear_rest
         }
         $fullpackageinfo .= '</f>';
         // list packages in a category
+        if (!is_dir($cdir . DIRECTORY_SEPARATOR . urlencode($category))) {
+            mkdir($cdir . DIRECTORY_SEPARATOR . urlencode($category));
+        }
         file_put_contents($cdir . DIRECTORY_SEPARATOR . urlencode($category) .
             DIRECTORY_SEPARATOR . 'packagesinfo.xml', $fullpackageinfo);
         @chmod($cdir . DIRECTORY_SEPARATOR . urlencode($category) .
@@ -226,17 +229,13 @@ class pear_rest
         } else {
             $parent = '';
         }
-        if (isset($package['deprecated_package']) && $package['deprecated_package']) {
-            if ($package['deprecated_channel'] == PEAR_CHANNELNAME) {
-                $deprecated = '
- <dc>' . $package['deprecated_channel'] . '</dc>
- <dp href="' . $extra . 'p/' . $package['deprecated_package'] . '"> ' .
-                $package['deprecated_package'] . '</dp>';
-            } else {
-                $deprecated = '
- <dc>' . $package['deprecated_channel'] . '</dc>
- <dp> ' . $package['deprecated_package'] . '</dp>';
-            }
+        if ($package['unmaintained'] && $package['newpk_id']) {
+            $dpackage = $dbh->getOne('SELECT packages.name FROM packages WHERE
+                id = ' . $package['newpk_id']);
+            $deprecated = '
+<dc>pear.php.net</dc>
+<dp href="' . $extra . 'p/' . strtolower($dpackage) . '"> ' .
+            $dpackage . '</dp>';
         } else {
             $deprecated = '';
         }

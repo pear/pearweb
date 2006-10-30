@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-10-24</date>
- <time>19:09:22</time>
+ <date>2006-10-29</date>
+ <time>23:43:01</time>
  <version>
-  <release>1.0.0RC1</release>
+  <release>1.0.0RC2</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,7 +64,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- Prepare for deployment through PEAR channel
+ * fix REST generation for deprecated packages/channels
+ * fix REST generation of packagesinfo.xml for categories
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -850,10 +851,24 @@
     <release>beta</release>
     <api>stable</api>
    </stability>
-   <date>2006-10-24</date>
+   <date>2006-10-29</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Prepare for deployment through PEAR channel</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0RC2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-10-29</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- Prepare for deployment through PEAR channel
+ * fix REST generation for deprecated packages/channels
+ * fix REST generation of packagesinfo.xml for categories
    </notes>
   </release>
  </changelog>

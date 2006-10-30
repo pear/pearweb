@@ -14,11 +14,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.0.0RC1');
+$a->setReleaseVersion('1.0.0RC2');
 $a->setReleaseStability('beta');
 $a->setAPIStability('stable');
 $a->setNotes('
- Prepare for deployment through PEAR channel
+ * fix REST generation for deprecated packages/channels
+ * fix REST generation of packagesinfo.xml for categories
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
