@@ -70,6 +70,9 @@ if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
     $proposal = null;
 }
 
+?>
+<script language="javascript" src="/javascript/pear_editor.js"></script>
+<?php
 include_once 'HTML/QuickForm.php';
 $form =& new HTML_QuickForm('proposal_edit', 'post',
                             'pepr-proposal-edit.php?id=' . $id);
@@ -113,7 +116,35 @@ $possibleLicenses = array(
 $form->addElement('text', 'pkg_name', 'Package name:');
 $form->addElement('select', 'pkg_license', 'License:', $possibleLicenses);
 
-$form->addElement('textarea', 'pkg_describtion', 'Package description:', array('rows' => 20, 'cols' => '80'));
+/**
+ * Easy codes. makes it easier for people to put
+ * bb codes 
+ */
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Bold', 
+                                              array('onclick' =>
+                              "insertTags('pkg_description', '[b]', '[/b]','bold')"));
+
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Italic', 
+                                              array('onclick' => 
+                              "insertTags('pkg_description', '[i]', '[/i]','italic')"));
+
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Underline', 
+                                              array('onclick' =>
+                              "insertTags('pkg_description', '[u]', '[/u]','underline')"));
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Red Txt', 
+                                              array('onclick' =>
+                              "insertTags('pkg_description', '[color=red]', '[/color]','red text')"));
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'PHPCode', 
+                                              array('onclick' =>
+                              "insertTags('pkg_description', '[code=php]', '[/code]','print \'php code\';')"));
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'List', 
+                                              array('onclick' => 
+                              "insertTags('pkg_description', '[list]\\n[*]', '\\n[/list]','list')"));
+
+$form->addGroup($bbhelpers, 'markup_help', 'BB Helpers (beta)', ' | ');
+
+
+$form->addElement('textarea', 'pkg_description', 'Package description:', array('rows' => 20, 'cols' => '80', 'id' => 'pkg_description'));
 $form->addElement('select', 'markup', 'Markup', array('bbcode' => 'BBCode', 'wiki' => 'Wiki'));
 
 $helpLinks[] =& HTML_QuickForm::createElement('link', 'help_bbcode', '_blank', 'pepr-bbcode-help.php', 'You can use BBCode inside your description', array('target' => '_blank'));
@@ -149,7 +180,7 @@ $form->addElement('submit', 'submit', 'Save');
 if ($proposal != null) {
     $defaults = array('pkg_name'    => $proposal->pkg_name,
                       'pkg_license' => $proposal->pkg_license,
-                      'pkg_describtion' => $proposal->pkg_describtion,
+                      'pkg_description' => $proposal->pkg_description,
                       'pkg_deps'    => $proposal->pkg_deps,
                       'markup'      => $proposal->markup);
     if (isset($mapCategories[$proposal->pkg_category])) {
@@ -201,13 +232,13 @@ if ($proposal != null) {
 
 
 $form->applyFilter('pkg_name', 'trim');
-$form->applyFilter('pkg_describtion', 'trim');
+$form->applyFilter('pkg_description', 'trim');
 $form->applyFilter('pkg_deps', 'trim');
 
 $form->addRule('pkg_category', 'You have to select a package category!', 'required', '', 'client');
 $form->addRule('pkg_name', 'You have to select a package name!', 'required', '', 'client');
 $form->addRule('pkg_license', 'you have to specify the license of your package!', 'required', '', 'client');
-$form->addRule('pkg_describtion', 'You have to enter a package description!', 'required', '', 'client');
+$form->addRule('pkg_description', 'You have to enter a package description!', 'required', '', 'client');
 
 function checkLinkTypeAndUrl($link, $linkCount) {
     list($key, $type) = each($link);

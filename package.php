@@ -23,6 +23,7 @@ $a->setNotes('
  * fix Bug #5340: User details are overescaped
  * fix Bug #8842: package.xml package name need not match case and must
  * implement Request #7828: PEAR Bug Summary Report
+ * implement Request #9118: Added new feature to pepr
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
