@@ -252,6 +252,14 @@ if ($display_verification) {
         $errors[] = $info->getMessage();
     } else {
         $id = package::info($info->getPackage(), 'id');
+        $name = package::info($info->getPackage(), 'name');
+        if ($info->getPackage() != $name) {
+            // case does not match
+            $errors[] = 'Package name in package.xml "' .
+                htmlspecialchars($info->getPackage()) .
+                '" MUST match exactly package name on the website "' .
+                htmlspecialchars($name) . '"';
+        }
         $version = $info->getVersion();
         $verinfo = explode('.', $version);
         if (count($verinfo) != 3) {

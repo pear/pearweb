@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-10-30</date>
- <time>22:37:07</time>
+ <date>2006-10-31</date>
+ <time>16:22:08</time>
  <version>
   <release>1.0.0RC2</release>
   <api>0.1.1</api>
@@ -67,6 +67,7 @@
  * fix REST generation for deprecated packages/channels
  * fix REST generation of packagesinfo.xml for categories
  * fix Bug #5340: User details are overescaped
+ * fix Bug #8842: package.xml package name need not match case and must
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -865,12 +866,13 @@
     <release>beta</release>
     <api>stable</api>
    </stability>
-   <date>2006-10-30</date>
+   <date>2006-10-31</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * fix REST generation for deprecated packages/channels
  * fix REST generation of packagesinfo.xml for categories
  * fix Bug #5340: User details are overescaped
+ * fix Bug #8842: package.xml package name need not match case and must
    </notes>
   </release>
  </changelog>

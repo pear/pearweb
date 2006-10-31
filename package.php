@@ -21,6 +21,7 @@ $a->setNotes('
  * fix REST generation for deprecated packages/channels
  * fix REST generation of packagesinfo.xml for categories
  * fix Bug #5340: User details are overescaped
+ * fix Bug #8842: package.xml package name need not match case and must
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
