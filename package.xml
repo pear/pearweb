@@ -11,10 +11,16 @@
   <active>yes</active>
  </lead>
  <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
   <name>Pierre-Alain Joye</name>
   <user>pajoye</user>
   <email>pajoye@pearfr.org</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
  <developer>
   <name>Stig Bakken</name>
@@ -27,12 +33,6 @@
   <user>cox</user>
   <email>cox@idecnet.com</email>
   <active>no</active>
- </developer>
- <developer>
-  <name>Greg Beaver</name>
-  <user>cellog</user>
-  <email>cellog@php.net</email>
-  <active>yes</active>
  </developer>
  <developer>
   <name>Daniel Convissor</name>
