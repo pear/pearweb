@@ -20,6 +20,7 @@ $a->setAPIStability('stable');
 $a->setNotes('
  * fix REST generation for deprecated packages/channels
  * fix REST generation of packagesinfo.xml for categories
+ * fix Bug #5340: User details are overescaped
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
