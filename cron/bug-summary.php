@@ -45,14 +45,14 @@ $query = "
     FROM bugdb b
     LEFT JOIN packages AS p ON p.name = b.package_name
     WHERE
-        b.status NOT IN ('Closed', 'Bogus', 'Duplicate', 'No Feedback', 'Wont fix', 'Suspended', 'Feedback')
+        b.status NOT IN ('Closed', 'Bogus', 'Duplicate', 'No Feedback', 'Wont fix', 'Suspended')
       AND
         b.bug_type = 'Bug'
       AND
         (p.package_type = '$site'
              OR
          b.package_name IN ('" . implode("', '", $pseudo_pkgs) . "'))
-    ORDER BY b.package_name, b.id";
+    ORDER BY b.package_name, b.id, b.status";
 $result =& $dbh->getAll($query);
 
 if (count($result) > 0 && !PEAR::isError($result)) {
