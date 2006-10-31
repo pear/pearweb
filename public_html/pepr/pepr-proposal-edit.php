@@ -102,11 +102,11 @@ $categoryNew = $form->addGroup($categoryNewElements, 'pkg_category_new', 'New ca
  * Dropdown possible licenses, less confusing for users
  */
 $possibleLicenses = array(
-                        'PHP License 3.01', 
-                        'Apache License', 
-                        'LGPL', 
-                        'BSD Style',
-                        'MIT License',
+                        'PHP License 3.01' => 'PHP License 3.01', 
+                        'Apache License' => 'Apache License',
+                        'LGPL' => 'LGPL',
+                        'BSD Style' => 'BSD Style',
+                        'MIT License' => 'MIT License',
                     );
 
 
