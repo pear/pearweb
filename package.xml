@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-10-31</date>
- <time>16:37:56</time>
+ <date>2006-11-01</date>
+ <time>16:40:13</time>
  <version>
   <release>1.0.0RC2</release>
   <api>0.1.1</api>
@@ -68,6 +68,7 @@
  * fix REST generation of packagesinfo.xml for categories
  * fix Bug #5340: User details are overescaped
  * fix Bug #8842: package.xml package name need not match case and must
+ * fix Bug #9209: Missing package description in proposal editor
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
  </notes>
@@ -78,6 +79,7 @@
     <file name="bug-summary.php" role="web" />
     <file name="cache-garbage-collector.php" role="web" />
     <file name="find-documentation.php" role="web" />
+    <file name="load-chm.sh" role="web" />
     <file name="pepr.php" role="web" />
     <file name="trackback-cleanup.php" role="web" />
    </dir> <!-- /cron -->
@@ -335,6 +337,7 @@
      </dir> <!-- /public_html/javascript/TreeMenu -->
      <file name="md5.js" role="web" />
      <file name="package-maintainers.js" role="web" />
+     <file name="pear_editor.js" role="web" />
      <file name="sorttable.js" role="web" />
     </dir> <!-- /public_html/javascript -->
     <dir name="manual">
@@ -868,13 +871,14 @@
     <release>beta</release>
     <api>stable</api>
    </stability>
-   <date>2006-10-31</date>
+   <date>2006-11-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * fix REST generation for deprecated packages/channels
  * fix REST generation of packagesinfo.xml for categories
  * fix Bug #5340: User details are overescaped
  * fix Bug #8842: package.xml package name need not match case and must
+ * fix Bug #9209: Missing package description in proposal editor
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
    </notes>

@@ -131,7 +131,7 @@ class proposal {
 
     var $pkg_license;
 
-    var $pkg_describtion;
+    var $pkg_description;
 
     var $pkg_deps;
 
@@ -177,13 +177,13 @@ class proposal {
             'desc'          => '
 Proposed package:        '.$this->pkg_category.'::'.$this->pkg_name.'<br />
 Proposer:                '.user_link($this->user_handle).'<br />
-'.$this->getParsedDescribtion(),
+'.$this->getParsedDescription(),
             'date'          => $this->draft_date
          );
     }
 
-    function getParsedDescribtion ( ) {
-        if (empty($this->pkg_describtion)) {
+    function getParsedDescription ( ) {
+        if (empty($this->pkg_description)) {
             return '';
         }
         // Switching markup types
@@ -192,16 +192,16 @@ Proposer:                '.user_link($this->user_handle).'<br />
                include_once 'Text/Wiki.php';
                $wiki =& new Text_Wiki();
                $wiki->disableRule('wikilink');
-               $describtion = $wiki->transform($this->pkg_describtion);
+               $description = $wiki->transform($this->pkg_description);
                break;
             case 'bbcode':
             default:
                include_once 'HTML/BBCodeParser.php';
                $bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
-               $describtion = $bbparser->qparse(nl2br(htmlentities($this->pkg_describtion)));
+               $description = $bbparser->qparse(nl2br(htmlentities($this->pkg_description)));
                break;
         }
-        return $describtion;
+        return $description;
     }
 
     /**
@@ -336,7 +336,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
                     pkg_category = ".$dbh->quoteSmart($this->pkg_category).",
                     pkg_name = ".$dbh->quoteSmart($this->pkg_name).",
                     pkg_license = ".$dbh->quoteSmart($this->pkg_license).",
-                    pkg_describtion = ".$dbh->quoteSmart($this->pkg_describtion).",
+                    pkg_describtion = ".$dbh->quoteSmart($this->pkg_description).",
                     pkg_deps = ".$dbh->quoteSmart($this->pkg_deps).",
                     draft_date = FROM_UNIXTIME({$this->draft_date}),
                     proposal_date = FROM_UNIXTIME({$this->proposal_date}),
@@ -366,7 +366,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
                         ".$dbh->quoteSmart($this->pkg_category).",
                         ".$dbh->quoteSmart($this->pkg_name).",
                         ".$dbh->quoteSmart($this->pkg_license).",
-                        ".$dbh->quoteSmart($this->pkg_describtion).",
+                        ".$dbh->quoteSmart($this->pkg_description).",
                         ".$dbh->quoteSmart($this->pkg_deps).",
                         FROM_UNIXTIME(".time()."),
                         ".$dbh->quoteSmart($this->status).",
