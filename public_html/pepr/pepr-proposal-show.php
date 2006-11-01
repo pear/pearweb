@@ -40,7 +40,7 @@ echo '<h1>Proposal for &quot;' . htmlspecialchars($proposal->pkg_name) . "&quot;
 
 display_pepr_nav($proposal);
 
-$describtion = $proposal->getParsedDescribtion();
+$description = $proposal->getParsedDescription();
 
 ?>
 
@@ -123,7 +123,7 @@ if ($proposal->status == 'finished') {
  </tr>
  <tr>
   <td class="textcell" valign="top" colspan="2">
-   <?php echo $describtion; ?>
+   <?php echo $description; ?>
   </td>
  </tr>
 
