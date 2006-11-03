@@ -164,6 +164,9 @@ class proposal {
             return false;
         }
         foreach ($dbhResArr as $name => $value) {
+            if ($name == 'describtion') {
+                $name = 'description';
+            }
             $this->$name = $value;
         }
         return true;
