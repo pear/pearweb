@@ -164,8 +164,8 @@ class proposal {
             return false;
         }
         foreach ($dbhResArr as $name => $value) {
-            if ($name == 'describtion') {
-                $name = 'description';
+            if ($name == 'pkg_describtion') {
+                $name = 'pkg_description';
             }
             $this->$name = $value;
         }
