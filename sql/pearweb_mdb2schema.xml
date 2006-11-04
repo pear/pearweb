@@ -2191,4 +2191,347 @@
 
  </table>
 
+ <table>
+
+  <name>package_proposal_changelog</name>
+
+  <declaration>
+   <field>
+    <name>pkg_prop_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>timestamp</name>
+    <type>integer</type>
+    <length>14</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>user_handle</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>comment</name>
+    <type>text</type>
+    <notnull>false</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>pkg_prop_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>timestamp</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>user_handle</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+ </table>
+
+ <table>
+
+  <name>package_proposal_comments</name>
+
+  <declaration>
+
+   <field>
+    <name>user_handle</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>pkg_prop_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>timestamp</name>
+    <type>integer</type>
+    <length>14</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>comment</name>
+    <type>text</type>
+    <notnull>false</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>user_handle</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>pkg_prop_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>timestamp</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+ </table>
+
+ <table>
+
+  <name>package_proposal_links</name>
+
+  <declaration>
+
+   <field>
+    <name>user_handle</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>type</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default>pkg_file</default>
+   </field>
+
+   <field>
+    <name>url</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+  </declaration>
+ </table>
+
+ <table>
+
+  <name>package_proposal_votes</name>
+
+  <declaration>
+
+   <field>
+    <name>pkg_prop_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>user_handle</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>vote</name>
+    <type>boolean</type>
+    <notnull>true</notnull>
+    <default>1</default>
+   </field>
+
+   <field>
+    <name>reviews</name>
+    <type>text</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>is_conditional</name>
+    <type>boolean</type>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <field>
+    <name>comment</name>
+    <type>text</type>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>timestamp</name>
+    <type>integer</type>
+    <length>14</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>pkg_prop_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>user_handle</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+ </table>
+
+ <table>
+
+  <name>package_proposals</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <autoincrement>true</autoincrement>
+   </field>
+
+   <field>
+    <name>pkg_category</name>
+    <type>text</type>
+    <length>80</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>pkg_name</name>
+    <type>text</type>
+    <length>80</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>pkg_license</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>pkg_describtion</name>
+    <type>text</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>pkg_deps</name>
+    <type>text</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>draft_date</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>proposal_date</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>vote_date</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>longened_date</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+    <default>0000-00-00 00:00:00</default>
+   </field>
+
+   <field>
+    <name>status</name>
+    <type>text</type>
+    <length>15</length>
+    <notnull>true</notnull>
+    <default>draft</default>
+   </field>
+
+   <field>
+    <name>user_handle</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default></default>
+   </field>
+
+   <field>
+    <name>markup</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+    <default>bbcode</default>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+   <index>
+    <name>cat_name</name>
+    <unique>true</unique>
+    <field>
+     <name>pkg_category</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>pkg_name</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+ </table>
+
 </database>
