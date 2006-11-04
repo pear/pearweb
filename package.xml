@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-11-01</date>
- <time>16:40:13</time>
+ <date>2006-11-03</date>
+ <time>20:40:23</time>
  <version>
   <release>1.0.0RC2</release>
   <api>0.1.1</api>
@@ -71,6 +71,10 @@
  * fix Bug #9209: Missing package description in proposal editor
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
+ * completely rework account requests, both to simplify/clarify and to allow
+   for the possibility of having general election accounts with no developer
+   privileges
+ * add missing PEPr tables to the MDB2 schema .xml file
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -871,7 +875,7 @@
     <release>beta</release>
     <api>stable</api>
    </stability>
-   <date>2006-11-01</date>
+   <date>2006-11-03</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * fix REST generation for deprecated packages/channels
@@ -881,6 +885,10 @@
  * fix Bug #9209: Missing package description in proposal editor
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
+ * completely rework account requests, both to simplify/clarify and to allow
+   for the possibility of having general election accounts with no developer
+   privileges
+ * add missing PEPr tables to the MDB2 schema .xml file
    </notes>
   </release>
  </changelog>

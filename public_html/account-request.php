@@ -37,101 +37,23 @@ session_start();
 response_header('Request Account');
 
 print '<h1>Request Account</h1>';
-
-do {
-    if (isset($stripped['submit'])) {
-
-        if (empty($stripped['handle'])
-            || !ereg('^[0-9a-z_]{2,20}$', $stripped['handle']))
-        {
-            $errors[] = 'Username is invalid.';
-            $display_form = true;
-        }
-
-        if (empty($stripped['comments_read'])) {
-            $errors[] = 'Obviously you did not read all the comments'
-                      . ' concerning the need for an account. Please read '
-                      . 'them again.';
-            $display_form = true;
-        }
-
-        if (isset($_POST['purposecheck']) && count($_POST['purposecheck'])) {
-            $errors[] = 'The purpose(s) you selected do not require a PEAR account.';
-            $display_form = true;
-        }
-
-        if (!validate_captcha()) {
-            $errors[] = 'Incorrect CAPTCHA';
-            $display_form = true;
-        }
-
-        if ($errors) {
-            break;
-        }
-
-        //  The add method performs further validation then creates the acct
-        $ok = user::add($stripped);
-
-        if (!empty($stripped['jumpto'])) {
-            $jumpto = $stripped['jumpto'];
-        }
-
-        if (isset($stripped['display_form'])) {
-            $display_form = $stripped['display_form'];
-        }
-
-        if (is_array($ok)) {
-            $errors = $ok;
-            break;
-        } elseif ($ok === true) {
-            report_success('Your account request has been submitted, it will'
-                  . ' be reviewed by a human shortly.  This may take from'
-                  . ' two minutes to several days, depending on how much'
-                  . ' time people have.'
-                  . ' You will get an email when your account is open,'
-                  . ' or if your request was rejected for some reason.');
-
-            $mailData = array(
-                'username'  => $stripped['handle'],
-                'firstname' => $stripped['firstname'],
-                'lastname'  => $stripped['lastname'],
-            );
-
-            if (!DEVBOX) {
-                $mailer = Damblan_Mailer::create('pearweb_account_request', $mailData);
-                $additionalHeaders['To'] = '"Arnaud Limbourg" <arnaud@limbourg.com>';
-                $mailer->send($additionalHeaders);
-            }
-        } elseif ($ok === false) {
-            $msg = 'Your account request has been submitted, but there'
-                 . ' were problems mailing one or more administrators.'
-                 . ' If you don\'t hear anything about your account in'
-                 . ' a few days, please drop a mail about it to the'
-                 . ' <i>pear-dev</i> mailing list.';
-            report_error($msg, 'warnings', 'WARNING:');
-        }
-
-        $display_form = false;
-    }
-} while (0);
-
-
-if ($display_form) {
 $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing list');
     print <<<MSG
-<p>
+<h1>PLEASE READ THIS CAREFULLY!</h1>
+<h3>
  You only need to request an account if you:
-</p>
+</h3>
 
 <ul>
  <li>
-  Have written (completed) a new PEAR package and want to propose this
-  to the PEAR developer community.
+  <a href="/account-request-newpackage.php">Want to propose a new (and <strong>complete</strong>) package for inclusion in PEAR.</a>
  </li>
  <li>
-  Are going to help in the maintenance of an existing package. This needs
-  to be approved by the current maintainers of the package or by the <a
-  href="/group/">PEAR Group</a>.
+  <a href="/account-request-existingpackage.php">Will be helping develop an existing package.</a>  Seek approval first for this by mailing
+  the $mailto and developers of the package.
+ </li>
+ <li>
+  <a href="/account-request-vote.php">Want to vote in a general PEAR election.</a>
  </li>
 </ul>
 
@@ -140,119 +62,28 @@ $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing li
  reasons above, please contact the $mailto;
 </p>
 
-<p>
+<h3>
  You do <strong>not</strong> need an account to:
-</p>
+</h3>
 
 <ul>
  <li>
-  Download, install and/or use PEAR packages.
+  Use PEAR packages.
  </li>
  <li>
-  Submit patches or code improvements for a particular package.
-  Please use the <a href="/bugs/">bug reporting system</a> for that purpose.
+  Browse the PEAR website.
  </li>
  <li>
-  Propose modifications to an existing package. Please use the $mailto
-  for that or directly contact the maintainers of the package in question.
+  Download PEAR packages.
  </li>
  <li>
-  Express an idea for a PEAR package.  Write to $mailto if your package is not
-  written or is not yet complete. Please start your proposal
-  when the code both is <strong>complete</strong> and mostly <strong>works</strongs>
+  Report bugs or request changes to a package.  Use the <a href="/bugs/">bug tracker</a>.
+ </li>
+ <li>
+  Express an idea for a PEAR package.  Only completed code can be proposed.
  </li>
 </ul>
-
-<p>
- These are not the only reasons for requests being rejected, but the most
- common ones.
-</p>
-
-<p>
- If you want to contribute a package to PEAR, make sure that you have
- followed all rules concerning PEAR packages.  Also, before a package
- may be released, the code code must comply with the
- <a href="http://pear.php.net/manual/en/standards.php">PEAR Coding
- Standards</a>.
-</p>
-
-<p>
- Bogus, incomplete or incorrect requests will be summarily denied.
-</p>
-
-<p>
-If your first name or last name begins with a non-latin character like
-vowels with accents you cannot use those due to strict validation
-routines. Please use the &quot;latin counterparts&quot; of those
-characters instead.
-</p>
-
 MSG;
-
-    print '<a name="requestform" id="requestform"></a>';
-
-    report_error($errors);
-
-    $invalid_purposes = array(
-        'Learn about PEAR.',
-        'Use PEAR.',
-        'Download PEAR Packages.',
-        'Submit patches/bugs.',
-        'Suggest new features.',
-        'Have an idea for a PEAR Package (no code yet, or not yet complete)',
-        'Browse ' . PEAR_CHANNELNAME . '.'
-    );
-    $purposechecks = '';
-    foreach ($invalid_purposes as $i => $purposeKey)
-    {
-        $purposechecks .= HTML_Form::returnCheckBox("purposecheck[$i]", @$_POST['purposecheck'][$i] ? 'on' : 'off');
-        $purposechecks .= "$purposeKey <br />";
-    }
-
-    $form = new HTML_Form('account-request.php#requestform', 'post');
-    $form->setDefaultFromInput(false);
-
-    $hsc = array_map('htmlspecialchars', $stripped);
-
-    $form->addText('handle', 'Use<span class="accesskey">r</span>name:',
-            @$hsc['handle'], 12, 20, 'accesskey="r"');
-    $form->addText('firstname', 'First Name:',
-            @$hsc['firstname'], 20, null);
-    $form->addText('lastname', 'Last Name:',
-            @$hsc['lastname'], 20, null);
-    $form->addPassword('password', 'Password:', '', 10);
-    $form->addPlaintext('CAPTCHA:', generate_captcha());
-    $form->addText('email', 'Email Address:',
-            @$hsc['email'], 20, null);
-    $form->addCheckbox('showemail', 'Show email address?',
-            @$hsc['showemail']);
-    $form->addText('homepage', 'Homepage:',
-            @$hsc['homepage'], 20, null);
-    $form->addPlaintext('Purpose of your PEAR account:'
-            . '<p class="cell_note">(Check all that apply)</p>',
-            $purposechecks);
-    $form->addTextarea('purpose',
-            'Short summary of package that you have finished and are ready to propose:',
-            @$hsc['purpose'], 40, 5);
-    $form->addTextarea('moreinfo',
-            'More relevant information about you:'
-            . '<p class="cell_note">(optional)</p>',
-            @$hsc['moreinfo'], 40, 5);
-    $form->addCheckbox('comments_read',
-            'You have read all of the comments above:',
-            @$hsc['comments_read']);
-    $form->addSubmit('submit', 'Submit Query');
-
-    $form->display('class="form-holder" cellspacing="1"',
-                   'Request Account', 'class="form-caption"');
-
-    if ($jumpto) {
-        print "<script language=\"JavaScript\" type=\"text/javascript\">\n<!--\n";
-        print "if (!document.forms[1].$jumpto.disabled) document.forms[1].$jumpto.focus();\n";
-        print "\n// -->\n</script>\n";
-    }
-}
-
 response_footer();
 
 ?>

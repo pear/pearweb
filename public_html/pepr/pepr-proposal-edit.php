@@ -66,7 +66,15 @@ if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
 } else {
     response_header('PEPr :: Editor :: New Proposal');
     echo '<h1>New Package Proposal</h1>' . "\n";
-    $id = 0;
+?>
+<p>
+ If you want to contribute a package to PEAR, make sure that you have
+ followed all rules concerning PEAR packages.  Also, before a package
+ may be released, the code code must comply with the
+ <a href="http://pear.php.net/manual/en/standards.php">PEAR Coding
+ Standards</a>.
+</p>
+<?php    $id = 0;
     $proposal = null;
 }
 

@@ -25,6 +25,10 @@ $a->setNotes('
  * fix Bug #9209: Missing package description in proposal editor
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
+ * completely rework account requests, both to simplify/clarify and to allow
+   for the possibility of having general election accounts with no developer
+   privileges
+ * add missing PEPr tables to the MDB2 schema .xml file
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
