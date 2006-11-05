@@ -245,6 +245,29 @@ submit {
     border: 0px;
 }
 
+/* === Voting === */
+
+td.vote-active {
+    padding: 3px;
+    text-align: left;
+    vertical-align: top;
+    background-color: #ffbbaa;
+}
+
+td.vote-complete {
+    padding: 3px;
+    text-align: left;
+    vertical-align: top;
+    background-color: #bbaaff;
+}
+
+td.vote-inactive {
+    padding: 3px;
+    text-align: left;
+    vertical-align: top;
+    background-color: #e8e8e8;
+}
+
 
 /* === User Submission Responses === */
 
