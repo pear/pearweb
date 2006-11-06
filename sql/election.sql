@@ -33,7 +33,6 @@ CREATE TABLE elections (
   voteend DATE NOT NULL,
   creator VARCHAR(20) NOT NULL,
   createdate DATETIME NOT NULL,
-  winner TINYINT,
   minimum_choices TINYINT DEFAULT '1' NOT NULL,
   maximum_choicse TINYINT DEFAULT '1' NOT NULL,
   PRIMARY KEY (id)
@@ -51,4 +50,11 @@ CREATE TABLE election_handle_votes (
   election_id INT NOT NULL,
   handle VARCHAR(20) NOT NULL,
   PRIMARY KEY (election_id, handle)
+);
+
+CREATE TABLE election_results (
+  election_id INT NOT NULL,
+  choice TINYINT NOT NULL,
+  votepercent FLOAT NOT NULL,
+  PRIMARY KEY (election_id, choice)
 );

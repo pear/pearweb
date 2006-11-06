@@ -113,4 +113,8 @@ if (isset($_GET['vote'])) {
         require dirname(dirname(__FILE__)) . '/templates/election-dovote.tpl.php';
     }
 }
+if (isset($_GET['results'])) {
+    $info = $voter->electionInfo($_GET['election']);
+    require dirname(dirname(__FILE__)) . '/templates/election-showresults.tpl.php';
+}
 ?>

@@ -39,6 +39,7 @@ endforeach; // foreach ($currentelections as $election):
 ?>
 </table>
 <?php endif; // if (count($currentelections))
+require dirname(dirname(__FILE__)) . '/templates/election-results.tpl.php';
 if (count($allelections)):
 if ($retrieval && isset($info)): ?>
 <h3>Your vote information:</h3>
@@ -79,4 +80,3 @@ endif; // if ($retrieval && isset($info)) ?>
 <input type="submit" value="Retrieve Vote" />
 </form>
 <?php endif; // if (count($allelections))
-require dirname(__FILE__) . '/election-results.tpl.php';
