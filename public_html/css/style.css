@@ -247,7 +247,7 @@ submit {
 
 /* === Voting === */
 
-td.vote-active {
+td.vote-active, td.vote-winner {
     padding: 3px;
     text-align: left;
     vertical-align: top;

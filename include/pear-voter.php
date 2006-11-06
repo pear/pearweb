@@ -166,6 +166,23 @@ class PEAR_Voter
                 c.choice = e.choice
             ORDER BY e.votepercent DESC
         ', array($id), DB_FETCHMODE_ASSOC);
+        $abstain = $this->dbh->getOne('
+            SELECT COUNT(*) FROM election_votes_abstain
+            WHERE election_id=?
+        ', array($id));
+        if ($info['maximum_choices'] > 1) {
+            $total = $this->dbh->getOne('
+                SELECT COUNT(*) FROM election_votes_multiple WHERE
+                election_id=?
+            ', array($id));
+        } else {
+            $total = $this->dbh->getOne('
+                SELECT COUNT(*) FROM election_votes_single WHERE
+                election_id=?
+            ', array($id));
+        }
+        // percentage of abstaining voters
+        $info['abstain'] = $abstain / ($total + $abstain);
         return $info;
     }
 
