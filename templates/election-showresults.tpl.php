@@ -3,7 +3,7 @@
 <table>
  <tr>
   <th class="form-label_left">Election Issue</td>
-  <td class="form-input"><?php echo htmlspecialchars($info['detail']) ?></td>
+  <td class="form-input"><?php echo $info['detail'] ?></td>
  </tr>
  <tr>
   <th class="form-label_left">Election dates</th>

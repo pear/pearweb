@@ -109,8 +109,11 @@ if (isset($_GET['vote'])) {
         $error = 'You cannot vote twice in the same election';
         require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
         exit;
-    } else {
+    } elseif ($voter->canVote($_GET['election'])) {
         require dirname(dirname(__FILE__)) . '/templates/election-dovote.tpl.php';
+    } else {
+        $info = $voter->electionInfo($_GET['election']);
+        require dirname(dirname(__FILE__)) . '/templates/election-showresults.tpl.php';
     }
 }
 if (isset($_GET['results'])) {

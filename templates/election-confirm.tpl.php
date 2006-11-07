@@ -5,7 +5,7 @@
 <div class="errors"><?php echo $error; ?></div>
 <?php endif; // if (isset($error)): ?>
 <h2>Detail on the election</h2>
-<?php echo nl2br(htmlspecialchars($info['detail'])); ?>
+<?php echo $info['detail']; ?>
 <h2>Your Vote:</h2>
 <form action="/election-info.php" method="post">
 <input type="hidden" name="election" value="<?php echo $info['id']; ?>" />

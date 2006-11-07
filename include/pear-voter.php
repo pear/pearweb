@@ -1,4 +1,5 @@
 <?php
+require 'Text/Wiki.php';
 class PEAR_Voter
 {
     var $dbh;
@@ -170,6 +171,9 @@ class PEAR_Voter
             SELECT COUNT(*) FROM election_votes_abstain
             WHERE election_id=?
         ', array($id));
+       $wiki =& new Text_Wiki();
+       $wiki->disableRule('wikilink');
+       $info['detail'] = $wiki->transform($info['detail']);
         if ($info['maximum_choices'] > 1) {
             $total = $this->dbh->getOne('
                 SELECT COUNT(*) FROM election_votes_multiple WHERE
@@ -182,7 +186,11 @@ class PEAR_Voter
             ', array($id));
         }
         // percentage of abstaining voters
-        $info['abstain'] = $abstain / ($total + $abstain);
+        if ($total + $abstain > 0) {
+            $info['abstain'] = $abstain / ($total + $abstain);
+        } else {
+            $info['abstain'] = 0;
+        }
         return $info;
     }
 
@@ -191,6 +199,22 @@ class PEAR_Voter
         return $this->dbh->getOne('
             SELECT COUNT(*) FROM election_handle_votes WHERE election_id=?
             AND handle=?', array($id, $this->user));
+    }
+
+    function canVote($id)
+    {
+        if ($this->hasVoted($id)) {
+            return false;
+        }
+        $info = $this->electionInfo($id);
+        if (strtotime($info['votestart']) - time() > 0) {
+            // election is not active
+            return false;
+        }
+        if (strtotime($info['voteend']) - time() < 0) {
+            // election is finished
+            return false;
+        }
     }
 
     function getVoteSalt()
