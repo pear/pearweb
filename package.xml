@@ -75,6 +75,7 @@
    for the possibility of having general election accounts with no developer
    privileges
  * add missing PEPr tables to the MDB2 schema .xml file
+ * add list of PEAR books in the support section
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -381,6 +382,7 @@
      <file name="pear.src" role="web" />
     </dir> <!-- /public_html/sidebar -->
     <dir name="support">
+     <file name="books.php" role="web" />
      <file name="forums.php" role="web" />
      <file name="icons.php" role="web" />
      <file name="index.php" role="web" />
