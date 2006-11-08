@@ -7,6 +7,9 @@ $items = array(
                'Mailing Lists' => array('url'   => 'lists.php',
                                         'title' => 'PEAR Mailing Lists'
                                         ),
+               'Books' => array('url'   => 'books.php',
+                                'title' => 'Books'
+                                ),
                'Tutorials' => array('url'   => 'tutorials.php',
                                     'title' => 'Tutorials about PEAR (packages)'
                                     ),
