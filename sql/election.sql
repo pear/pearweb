@@ -56,5 +56,6 @@ CREATE TABLE election_results (
   election_id INT NOT NULL,
   choice TINYINT NOT NULL,
   votepercent FLOAT NOT NULL,
+  votetotal BIGINT NOT NULL,
   PRIMARY KEY (election_id, choice)
 );

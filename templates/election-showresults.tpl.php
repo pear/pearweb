@@ -11,28 +11,30 @@
     $info['voteend']; ?></td>
  </tr>
  <tr>
-  <th class="form-label_left">Results</th>
+  <th class="form-label_left">Results (<?php echo $info['maximum_choices'] ?> winners)</th>
   <td class="form-input">
    <table>
-    <tr><td class="vote-winner">Winners</td><td class="vote-winner"><?php echo $info['maximum_choices'] ?></td></tr>
+    <tr><th>Vote percentage</th><th>Choice</th><th>Votes</th></td></tr>
    <?php
    $winners = array();
   foreach ($info['results'] as $i => $result) {
-      $winners[number_format($result['votepercent'] * 100, 2)] = 1;
+      $winners[$result['votetotal']] = 1;
       if (count($winners) <= $info['maximum_choices']) {
           echo '<tr><td class="vote-winner">' . number_format($result['votepercent'] * 100, 2) .
               '%</td><td class="vote-winner"><a href="' . $result['summary_link'] . '">' .
               htmlspecialchars($result['summary']) .
-              '</a></td></tr>';
+              '</a></td><td class="vote-winner">' . number_format($result['votetotal']) . 
+              '</td></tr>';
       } else {
           echo '<tr><td>' . number_format($result['votepercent'] * 100, 2) .
               '%</td><td><a href="' . $result['summary_link'] . '">' .
               htmlspecialchars($result['summary']) .
-              '</a></td></tr>';
+              '</a></td><td>' . number_format($result['votetotal']) . 
+              '</td></tr>';
       }
   }
    ?>
-    <tr><td><?php echo number_format($info['abstain'] * 100, 2) ?>%</td><td>Abstained</td></tr>
+    <tr><td><?php echo number_format($info['abstain'] * 100, 2) ?>%</td><td>Abstained</td><td><?php echo number_format($info['abstaincount']) ?></td></tr>
    </table>
   </td>
  </tr>

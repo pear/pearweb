@@ -51,9 +51,10 @@ if (count($toProcess)) {
         foreach ($results as $vote) {
             $dbh->query('
                 INSERT INTO election_results
-                (election_id, choice, votepercent)
-                VALUES(?,?,?)
-            ', array($election['id'], $vote['vote'], $vote['total'] / $totalvotes));
+                (election_id, choice, votepercent, votetotal)
+                VALUES(?,?,?,?)
+            ', array($election['id'], $vote['vote'], $vote['total'] / $totalvotes,
+                $vote['total']));
         }
     }
 }

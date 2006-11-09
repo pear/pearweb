@@ -160,12 +160,12 @@ class PEAR_Voter
             ', array($id), DB_FETCHMODE_ASSOC);
         $info['choices'] = $choices;
         $info['results'] = $this->dbh->getAll('
-            SELECT e.votepercent, c.summary, c.summary_link
+            SELECT e.votepercent, e.votetotal, c.summary, c.summary_link
             FROM election_results e, election_choices c
             WHERE e.election_id = ? AND
                 c.election_id = e.election_id AND
                 c.choice = e.choice
-            ORDER BY e.votepercent DESC
+            ORDER BY e.votetotal DESC
         ', array($id), DB_FETCHMODE_ASSOC);
         $abstain = $this->dbh->getOne('
             SELECT COUNT(*) FROM election_votes_abstain
@@ -188,8 +188,10 @@ class PEAR_Voter
         // percentage of abstaining voters
         if ($total + $abstain > 0) {
             $info['abstain'] = $abstain / ($total + $abstain);
+            $info['abstaincount'] = $abstain;
         } else {
             $info['abstain'] = 0;
+            $info['abstaincount'] = 0;
         }
         return $info;
     }
