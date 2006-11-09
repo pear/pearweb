@@ -5,10 +5,12 @@ class PEAR_Voter
     var $dbh;
     var $user = false;
     var $voteSalt;
+    var $damblan;
     function PEAR_Voter()
     {
         $this->dbh = &$GLOBALS['dbh'];
         $this->user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : false;
+        $this->damblan = new Damblan_Karma($this->dbh);
     }
 
     function listCurrentElections()
@@ -217,6 +219,29 @@ class PEAR_Voter
             // election is finished
             return false;
         }
+        if ($info['eligiblevoters'] == 1) {
+            // PEAR developers
+            if ($this->karma->has($this->user, 'pear.dev')) {
+                return true;
+            }
+            if ($this->karma->has($this->user, 'pear.admin')) {
+                return true;
+            }
+            return false;
+        } elseif ($info['eligiblevoters'] == 2) {
+            // general PHP public + PEAR developers
+            if ($this->karma->has($this->user, 'pear.dev')) {
+                return true;
+            }
+            if ($this->karma->has($this->user, 'pear.admin')) {
+                return true;
+            }
+            if ($this->karma->has($this->user, 'pear.voter')) {
+                return true;
+            }
+            return false;
+        }
+        return false;
     }
 
     function getVoteSalt()

@@ -14,6 +14,7 @@ if (!isset($_POST['step'])) {
         'length' => 7,
         'minimum' => 1,
         'maximum' => 1,
+        'eligiblevoters' => 1,
     );
     require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
 } elseif ($_POST['step'] == 2) {
@@ -29,6 +30,7 @@ if (!isset($_POST['step'])) {
     $info['length'] = (int) $_POST['length'];
     $info['minimum'] = (int) $_POST['minimum'];
     $info['maximum'] = (int) $_POST['maximum'];
+    $info['eligiblevoters'] = (int) $_POST['eligiblevoters'];
     if ($error) {
         require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
         exit;
@@ -52,6 +54,7 @@ if (!isset($_POST['step'])) {
     $info['length'] = (int) $_POST['length'];
     $info['minimum'] = (int) $_POST['minimum'];
     $info['maximum'] = (int) $_POST['maximum'];
+    $info['eligiblevoters'] = (int) $_POST['eligiblevoters'];
     if ($error) {
         // this should never happen.  It will only occur
         // if the user manually fills POST data without going
@@ -59,29 +62,8 @@ if (!isset($_POST['step'])) {
         require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
         exit;
     }
-    if (isset($_POST['add1choice'])) {
-        $info['choices']++;
-        for ($i = 1; $i <= $info['choices']; $i++) {
-            $info['summary' . $i] =
-                empty($_POST['summary' . $i]) ? '' : $_POST['summary' . $i];
-            $info['summary_link' . $i] =
-                empty($_POST['summary_link' . $i]) ? '' : $_POST['summary_link' . $i];
-        }
-        require dirname(dirname(__FILE__)) . '/templates/election-new-step2.tpl.php';
-        exit;
-    }
-    if (isset($_POST['delete1choice']) && $info['choices'] > 2) {
-        $info['choices']--;
-        for ($i = 1; $i <= $info['choices']; $i++) {
-            $info['summary' . $i] =
-                empty($_POST['summary' . $i]) ? '' : $_POST['summary' . $i];
-            $info['summary_link' . $i] =
-                empty($_POST['summary_link' . $i]) ? '' : $_POST['summary_link' . $i];
-        }
-        require dirname(dirname(__FILE__)) . '/templates/election-new-step2.tpl.php';
-        exit;
-    }
     $error = $election->validateStep2();
+    $info['choices'] = (int) $_POST['choices'];
     for ($i = 1; $i <= $info['choices']; $i++) {
         $info['summary' . $i] = empty($_POST['summary' . $i]) ? '' : $_POST['summary' . $i];
         $info['summary_link' . $i] =
@@ -93,6 +75,16 @@ if (!isset($_POST['step'])) {
     }
     require dirname(dirname(__FILE__)) . '/templates/election-new-step3.tpl.php';
 } elseif ($_POST['step'] == 4) {
+    if (isset($_POST['cancel'])) {
+        require 'pear-voter.php';
+        $voter = new PEAR_Voter;
+        $currentelections = $voter->listCurrentElections();
+        $completedelections = $voter->listCompletedElections();
+        $allelections = $voter->listAllElections();
+        $error = 'Election creation cancelled';
+        require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
+        exit;
+    }
     require 'pear-election.php';
     $election = new PEAR_Election;
     $error = $election->validateStep1();
@@ -105,6 +97,7 @@ if (!isset($_POST['step'])) {
     $info['length'] = (int) $_POST['length'];
     $info['minimum'] = (int) $_POST['minimum'];
     $info['maximum'] = (int) $_POST['maximum'];
+    $info['eligiblevoters'] = (int) $_POST['eligiblevoters'];
     if ($error) {
         // this should never happen.  It will only occur
         // if the user manually fills POST data without going
@@ -127,5 +120,11 @@ if (!isset($_POST['step'])) {
     }
     $election->saveNewElection();
     $error = '';
+    require 'pear-voter.php';
+    $voter = new PEAR_Voter;
+    $currentelections = $voter->listCurrentElections();
+    $completedelections = $voter->listCompletedElections();
+    $allelections = $voter->listAllElections();
+    $error = 'Election saved';
     require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
 }

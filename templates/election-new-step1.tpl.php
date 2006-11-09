@@ -16,6 +16,24 @@ if ($error) {
    <th class="form-label_left" colspan="2">(All entries are required)</th>
   </tr>
   <tr>
+   <th class="form-label_left">Eligible Voters</th>
+   <td class="form-input">
+    <select name="eligiblevoters">
+    <?php
+     if ($info['eligiblevoters'] == '1') {
+         $ev1 = ' selected="true"';
+         $ev2 = '';
+     } else {
+         $ev2 = ' selected="true"';
+         $ev1 = '';
+     }
+    ?>
+     <option value="1"<?php echo $ev1 ?>>PEAR Developers</option>
+     <option value="2"<?php echo $ev2 ?>>General PHP Public</option>
+    </select>
+   </td>
+  </tr>
+  <tr>
    <th class="form-label_left">Election Purpose (summary)</th>
    <td class="form-input">
     <input type="text" name="purpose" size="100" maxlength="100" value="<?php

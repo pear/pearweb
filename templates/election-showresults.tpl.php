@@ -6,6 +6,11 @@
   <td class="form-input"><?php echo $info['detail'] ?></td>
  </tr>
  <tr>
+  <th class="form-label_left">Eligible Voters</td>
+  <td class="form-input"><?php echo $info['eligiblevoters'] == 1 ? 
+    'PEAR Developers' : 'General PHP Public' ?></td>
+ </tr>
+ <tr>
   <th class="form-label_left">Election dates</th>
   <td class="form-input"><?php echo $info['votestart'] . ' until ' .
     $info['voteend']; ?></td>

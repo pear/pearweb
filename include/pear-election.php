@@ -20,11 +20,22 @@ class PEAR_Election
         if (empty($_POST['choices'])) {
             $error[] = 'Number of Choices is required'; 
         } else {
-            if ((int) $_POST['choices'] != $_POST['choices']) {
+            if (!is_numeric($_POST['choices']) ||
+                  ((int) $_POST['choices'] != $_POST['choices'])) {
                 $error[] = 'Number of Choices must be an integer';
             }
             if ($_POST['choices'] < 2 || $_POST['choices'] > 20) {
                 $error[] = 'Number of Choices must be between 2 and 20';
+            }
+        }
+        if (empty($_POST['eligiblevoters'])) {
+            $error[] = 'Eligible Voters is required';
+        } else {
+            if (!is_numeric($_POST['eligiblevoters'])) {
+                $error[] = 'Eligible Voters must be "PEAR Developers" or "General PHP Public"';
+            }
+            if ($_POST['eligiblevoters'] != 1 && $_POST['eligiblevoters'] != 2) {
+                $error[] = 'Eligible Voters must be "PEAR Developers" or "General PHP Public"';
             }
         }
         if (empty($_POST['detail'])) {
@@ -100,18 +111,33 @@ class PEAR_Election
         if ($_POST['maximum'] < $_POST['minimum']) {
             $error[] = 'Maximum votes needed must be greater or the same as minimum votes needed';
         }
+        if ($_POST['minimum'] > $_POST['choices']) {
+            $error[] = 'Minimum votes needed must be greater or equal to the number of choices';
+        }
         return $error;
     }
 
     function validateStep2()
     {
         $error = array();
-        for ($i = 1; $i <= $_POST['choices']; $i++) {
-            if (empty($_POST['summary' . $i])) {
-                $error[] = 'Summary for Choice #' . $i . ' must not be empty';
+        if (isset($_POST['add1choice'])) {
+            $error[] = 'Added one choice';
+            $_POST['choices']++;
+        } elseif (isset($_POST['delete1choice'])) {
+            if ($_POST['choices'] < $_POST['minimum']) {
+                $error[] = 'Cannot delete, must have at least the Minimum votes needed';
+            } else {
+                $error[] = 'Deleted last choice';
+                $_POST['choices']--;
             }
-            if (empty($_POST['summary_link' . $i])) {
-                $error[] = 'Link to more info for Choice #' . $i . ' must not be empty';
+        } else {
+            for ($i = 1; $i <= $_POST['choices']; $i++) {
+                if (empty($_POST['summary' . $i])) {
+                    $error[] = 'Summary for Choice #' . $i . ' must not be empty';
+                }
+                if (empty($_POST['summary_link' . $i])) {
+                    $error[] = 'Link to more info for Choice #' . $i . ' must not be empty';
+                }
             }
         }
         return $error;
@@ -126,8 +152,8 @@ class PEAR_Election
         $this->dbh->query('
             INSERT INTO elections
              (purpose, detail, votestart, voteend, creator, createdate, minimum_choices,
-              maximum_choices)
-            VALUES(?,?,?,?,?,NOW(),?,?)
+              maximum_choices, eligiblevoters)
+            VALUES(?,?,?,?,?,NOW(),?,?,?)
         ', array(
             $_POST['purpose'],
             $_POST['detail'],
@@ -136,6 +162,7 @@ class PEAR_Election
             $this->user,
             $_POST['minimum'],
             $_POST['maximum'],
+            $_POST['eligiblevoters']
             ));
         $id = $this->dbh->phptype == 'mysql' ?
             mysql_insert_id() : mysqli_insert_id($this->dbh->connection);

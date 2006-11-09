@@ -34,6 +34,17 @@ if ($error) {
    <th class="form-label_left" colspan="2">Entered data (can be edited later)</th>
   </tr>
   <tr>
+   <th class="form-label_left">Eligible Voters</th>
+   <td class="form-input">
+    <input type="hidden" name="eligiblevoters" value="<?php echo $info['eligiblevoters'] ?>" />
+    <?php if ($info['eligiblevoters'] == 1) {
+        echo 'PEAR Developers';
+} else {
+        echo 'General PHP Public';
+} ?>
+   </td>
+  </tr>
+  <tr>
    <th class="form-label_left">Election Purpose</th>
    <td class="form-input">
     <input type="hidden" name="purpose" value="<?php echo htmlspecialchars($info['purpose']); ?>" />
