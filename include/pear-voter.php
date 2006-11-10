@@ -221,22 +221,22 @@ class PEAR_Voter
         }
         if ($info['eligiblevoters'] == 1) {
             // PEAR developers
-            if ($this->karma->has($this->user, 'pear.dev')) {
+            if ($this->damblan->has($this->user, 'pear.dev')) {
                 return true;
             }
-            if ($this->karma->has($this->user, 'pear.admin')) {
+            if ($this->damblan->has($this->user, 'pear.admin')) {
                 return true;
             }
             return false;
         } elseif ($info['eligiblevoters'] == 2) {
             // general PHP public + PEAR developers
-            if ($this->karma->has($this->user, 'pear.dev')) {
+            if ($this->damblan->has($this->user, 'pear.dev')) {
                 return true;
             }
-            if ($this->karma->has($this->user, 'pear.admin')) {
+            if ($this->damblan->has($this->user, 'pear.admin')) {
                 return true;
             }
-            if ($this->karma->has($this->user, 'pear.voter')) {
+            if ($this->damblan->has($this->user, 'pear.voter')) {
                 return true;
             }
             return false;
