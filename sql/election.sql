@@ -34,7 +34,7 @@ CREATE TABLE elections (
   creator VARCHAR(20) NOT NULL,
   createdate DATETIME NOT NULL,
   minimum_choices TINYINT DEFAULT '1' NOT NULL,
-  maximum_choicse TINYINT DEFAULT '1' NOT NULL,
+  maximum_choices TINYINT DEFAULT '1' NOT NULL,
   eligiblevoters TINYINT DEFAULT '1' NOT NULL,
   PRIMARY KEY (id)
 );
