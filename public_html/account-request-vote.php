@@ -141,22 +141,6 @@ MSG;
 
     report_error($errors);
 
-    $invalid_purposes = array(
-        'Learn about PEAR.',
-        'Submit patches/bugs.',
-        'Suggest new features.',
-        'Download PEAR Packages.',
-        'Express an idea for a PEAR package',
-        'Use PEAR',
-        'Browse ' . PEAR_CHANNELNAME . '.'
-    );
-    $purposechecks = '';
-    foreach ($invalid_purposes as $i => $purposeKey)
-    {
-        $purposechecks .= HTML_Form::returnCheckBox("purposecheck[$i]", @$_POST['purposecheck'][$i] ? 'on' : 'off');
-        $purposechecks .= "$purposeKey <br />";
-    }
-
     $form = new HTML_Form('account-request-vote.php#requestform', 'post');
     $form->setDefaultFromInput(false);
 
@@ -174,12 +158,6 @@ MSG;
             @$hsc['email'], 20, null);
     $form->addCheckbox('showemail', 'Show email address?',
             @$hsc['showemail']);
-    $form->addPlaintext('Purpose of your PEAR account:'
-            . '<p class="cell_note">(Check all that apply)</p>',
-            $purposechecks);
-    $form->addTextarea('purpose',
-            'Short summary of package that you have finished and are ready to propose:',
-            @$hsc['purpose'], 40, 5);
     $form->addText('homepage', 'Homepage:'
             . '<p class="cell_note">(optional)</p>',
             @$hsc['homepage'], 20, null);
