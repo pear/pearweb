@@ -6,7 +6,7 @@
 <?php endif; // if (isset($error)): ?>
 <h2>Detail on the election</h2>
 <?php echo $info['detail']; ?>
-<h2>Your Vote:</h2>
+<h2>Your Vote (PLEASE CONFIRM BELOW, YOUR VOTE IS NOT SAVED):</h2>
 <form action="/election-info.php" method="post">
 <input type="hidden" name="election" value="<?php echo $info['id']; ?>" />
 <table>
