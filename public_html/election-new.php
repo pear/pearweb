@@ -1,5 +1,6 @@
 <?php
 auth_require('pear.election');
+$new = 'new';
 $year = date('Y') + 1;
 $years = array($year--, $year);
 if (!isset($_POST['step'])) {

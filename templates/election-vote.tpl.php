@@ -80,3 +80,4 @@ endif; // if ($retrieval && isset($info)) ?>
 <input type="submit" value="Retrieve Vote" />
 </form>
 <?php endif; // if (count($allelections))
+response_footer();

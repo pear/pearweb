@@ -11,7 +11,76 @@ class PEAR_Election
         $this->karma =& new Damblan_Karma($this->dbh);
     }
 
-    function validateStep1()
+    function listElections()
+    {
+        if ($this->karma->has($this->user, 'pear.admin')) {
+            return $this->dbh->getAll('
+                SELECT
+                    IF(votestart > NOW(),"no","yes") as active, elections.*
+                FROM elections
+                ORDER BY votestart DESC
+            ', array(), DB_FETCHMODE_ASSOC);
+        } else {
+            // if we aren't admin, we can't touch other people's elections
+            return $this->dbh->getAll('
+                SELECT 
+                    IF(votestart > NOW(),"no","yes") as active, elections.*
+                FROM elections WHERE
+                    votestart > NOW() AND
+                    creator=?
+            ', array($this->user), DB_FETCHMODE_ASSOC);
+        }
+    }
+
+    function electionExists($id)
+    {
+        return $this->dbh->getOne('SELECT id FROM elections WHERE id=?', array($id));
+    }
+
+    function setupChoices($id, $info)
+    {
+        $all = $this->dbh->getAssoc('
+            SELECT choice,summary,summary_link
+            FROM election_choices
+            WHERE election_id=?
+            ORDER BY choice
+        ', false, array($id), DB_FETCHMODE_ASSOC);
+        for ($i = 1; $i <= $_POST['choices']; $i++) {
+            if (isset($all[$i])) {
+                $info['summary' . $i] = $all[$i]['summary'];
+                $info['summary_link' . $i] = $all[$i]['summary_link'];
+            } else {
+                $info['summary' . $i] = 
+                    empty($_POST['summary' . $i]) ? '' : $_POST['summary' . $i];
+                $info['summary_link' . $i] = 
+                    empty($_POST['summary_link' . $i]) ? '' : $_POST['summary_link' . $i];
+            }
+        }
+        $info['choices'] = $_POST['choices'];
+        return $info;
+    }
+
+    function getInfo($id)
+    {
+        $all = $this->dbh->getAll('
+            SELECT
+                purpose, detail,
+                YEAR(votestart) as year, MONTH(votestart) as month,
+                DAYOFMONTH(votestart) as day, voteend - votestart as length,
+                minimum_choices as minimum, maximum_choices maximum,
+                eligiblevoters, COUNT(c.choice) as choices
+            FROM elections e, election_choices c
+            WHERE id=? AND c.election_id = e.id
+            GROUP BY c.election_id
+        ', array($id), DB_FETCHMODE_ASSOC);
+        if (!count($all)) {
+            return false;
+        }
+        $info = $all[0];
+        return $info;
+    }
+
+    function validateStep1($new = true)
     {
         $error = array();
         if (empty($_POST['purpose'])) {
@@ -76,7 +145,7 @@ class PEAR_Election
         if (strtotime($date) != strtotime(date('Y-m-d', strtotime($date)))) {
             $error[] = 'Full date is invalid';
         }
-        if ((strtotime($date) - time()) / 86400 < 29.0) {
+        if ($new && (strtotime($date) - time()) / 86400 < 29.0) {
             $error[] = 'Voting must start at least 30 days from today';
         }
         if (empty($_POST['length'])) {
@@ -175,8 +244,65 @@ class PEAR_Election
         }
     }
 
+    function saveEditedElection()
+    {
+        $id = $_POST['election_id'];
+        $info = $this->getInfo($id);
+        $startdate = date('Y-m-d',
+            strtotime($_POST['year'] . '-' . $_POST['month'] . '-' . $_POST['day']));
+        $enddate = date('Y-m-d',
+            strtotime($startdate . '. +' . $_POST['length'] . ' days'));
+        $this->dbh->query('
+            UPDATE elections
+            SET
+                purpose=?,
+                detail=?,
+                votestart=?,
+                voteend=?,
+                minimum_choices=?,
+                maximum_choices=?,
+                eligiblevoters=?
+            WHERE
+                id=?
+        ', array(
+            $_POST['purpose'],
+            $_POST['detail'],
+            $startdate,
+            $enddate,
+            $_POST['minimum'],
+            $_POST['maximum'],
+            $_POST['eligiblevoters'],
+            $id
+            ));
+        $this->dbh->query('DELETE FROM election_choices WHERE election_id=?', array($id));
+        for ($i = 1; $i <= $_POST['choices']; $i++) {
+            $this->dbh->query('
+                INSERT INTO election_choices
+                    (election_id, choice, summary, summary_link)
+                VALUES(?,?,?,?)
+            ', array($id, $i, $_POST['summary' . $i], $_POST['summary_link' . $i]));
+        }
+    }
+
     function canEdit($id)
     {
-        
+        if ('yes' == $this->dbh->getOne('
+            SELECT
+                IF(votestart > NOW(),"no","yes") FROM elections
+                WHERE id=?', array($id))) {
+            // cannot edit active or old elections
+            return false;
+        }
+        if ($this->karma->has($this->user, 'pear.admin')) {
+            return true;
+        }
+        if (!$this->electionExists($id)) {
+            return false;
+        }
+        if ($this->user == $this->dbh->getOne('SELECT creator FROM elections WHERE id=?', 
+              array($id))) {
+            return true;
+        }
+        return false;
     }
 }

@@ -1,5 +1,5 @@
 <?php
-response_header('Election :: New');
+response_header('Election :: ' . ucfirst($new));
 ?>
 <h1>Confirm Election Details [Step 3]</h1>
 <?php
@@ -9,8 +9,11 @@ if ($error) {
     }
 }
 ?>
-<form name="newelection" action="/election-new.php" method="post">
+<form name="newelection" action="/election-<?php echo $new ?>.php" method="post">
 <input type="hidden" name="step" value="4" />
+<?php if ($new == 'edit'): ?>
+<input type="hidden" name="election_id" value="<?php echo $election_id ?>" />
+<?php endif; // if ($new == 'edit'): ?>
 <input type="hidden" name="choices" value="<?php echo $info['choices'] ?>" />
  <table>
  <?php for ($i = 1; $i <= $info['choices']; $i++): ?>
@@ -83,6 +86,6 @@ if ($error) {
    </td>
   </tr>
  </table>
- <input type="submit" name="newelection" value="Create New Election" /><input type="submit" name="cancel" value="Cancel" />
+ <input type="submit" name="newelection" value="Save Election" /><input type="submit" name="cancel" value="Cancel" />
 </form>
 <?php response_footer();

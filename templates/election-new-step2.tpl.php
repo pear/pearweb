@@ -1,7 +1,7 @@
 <?php
-response_header('Election :: New');
+response_header('Election :: ' . ucfirst($new));
 ?>
-<h1>Create New Election [Step 2]</h1>
+<h1><?php echo ucfirst($new) ?> Election [Step 2]</h1>
 <?php
 if ($error) {
     foreach ($error as $err) {
@@ -9,8 +9,11 @@ if ($error) {
     }
 }
 ?>
-<form name="newelection" action="/election-new.php" method="post">
+<form name="newelection" action="/election-<?php echo $new ?>.php" method="post">
 <input type="hidden" name="step" value="3" />
+<?php if ($new == 'edit'): ?>
+<input type="hidden" name="election_id" value="<?php echo $election_id ?>" />
+<?php endif; // if ($new == 'edit'): ?>
 <input type="hidden" name="choices" value="<?php echo $info['choices'] ?>" />
  <table>
  <?php for ($i = 1; $i <= $info['choices']; $i++): ?>
@@ -90,6 +93,6 @@ if ($error) {
    </td>
   </tr>
  </table>
- <input type="submit" name="newelection" value="Create New Election" />
+ <input type="submit" name="newelection" value="Save Election" />
 </form>
 <?php response_footer();

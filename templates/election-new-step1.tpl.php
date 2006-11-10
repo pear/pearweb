@@ -1,7 +1,7 @@
 <?php
-response_header('Election :: New');
+response_header('Election :: ' . ucfirst($new));
 ?>
-<h1>Create New Election [Step 1]</h1>
+<h1><?php echo ucfirst($new) ?> Election [Step 1]</h1>
 <?php
 if ($error) {
     foreach ($error as $err) {
@@ -9,8 +9,11 @@ if ($error) {
     }
 }
 ?>
-<form name="newelection" action="/election-new.php" method="post">
+<form name="newelection" action="/election-<?php echo $new ?>.php" method="post">
 <input type="hidden" name="step" value="2" />
+<?php if ($new == 'edit'): ?>
+<input type="hidden" name="election_id" value="<?php echo $election_id ?>" />
+<?php endif; // if ($new == 'edit'): ?>
  <table>
   <tr>
    <th class="form-label_left" colspan="2">(All entries are required)</th>
@@ -63,7 +66,10 @@ if ($error) {
    </td>
   </tr>
   <tr>
-   <th class="form-label_left">Election start date (must be at least 30 days from now)</th>
+   <th class="form-label_left">Election start date <?php if ($new == 'new'): ?>
+   (must be at least 30 days from now)
+   <?php endif; // if ($new == 'new') ?>
+   </th>
    <td class="form-input">
     <select name="year">
     <?php
@@ -157,6 +163,6 @@ if ($error) {
    </td>
   </tr>
  </table>
- <input type="submit" name="newelection" value="Create New Election" />
+ <input type="submit" name="newelection" value="Save Election" />
 </form>
 <?php response_footer();
