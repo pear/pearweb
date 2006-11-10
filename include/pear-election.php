@@ -217,7 +217,7 @@ class PEAR_Election
         $startdate = date('Y-m-d',
             strtotime($_POST['year'] . '-' . $_POST['month'] . '-' . $_POST['day']));
         $enddate = date('Y-m-d',
-            strtotime($startdate . '. +' . $_POST['length'] . ' days'));
+            strtotime($startdate . ' +' . $_POST['length'] . ' days'));
         $this->dbh->query('
             INSERT INTO elections
              (purpose, detail, votestart, voteend, creator, createdate, minimum_choices,
