@@ -55,11 +55,6 @@ do {
             $display_form = true;
         }
 
-        if (isset($_POST['purposecheck']) && count($_POST['purposecheck'])) {
-            $errors[] = 'The purpose(s) you selected do not require a PEAR account.';
-            $display_form = true;
-        }
-
         if (!validate_captcha()) {
             $errors[] = 'Incorrect CAPTCHA';
             $display_form = true;
