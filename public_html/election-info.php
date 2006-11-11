@@ -2,7 +2,7 @@
 if (!isset($auth_user) || !$auth_user) {
     if (isset($_GET['vote'])) {
         if (strlen($_SERVER['QUERY_STRING'])) {
-            $query = '?' . $_SERVER['QUERY_STRING'];
+            $query = '?' . strip_tags($_SERVER['QUERY_STRING']);
         } else {
             $query = '';
         }
