@@ -26,7 +26,7 @@ class PEAR_Voter
                 FROM
                     elections e
                 WHERE
-                    e.votestart > NOW() OR
+                    e.votestart >= NOW() OR
                      (e.votestart < NOW() AND e.voteend >= NOW())
                 ORDER BY e.votestart
             ', array(), DB_FETCHMODE_ASSOC);
@@ -48,7 +48,7 @@ class PEAR_Voter
                 FROM
                     elections e
                 WHERE
-                    e.votestart > NOW() OR
+                    e.votestart >= NOW() OR
                      (e.votestart < NOW() AND e.voteend >= NOW())
                 ORDER BY e.votestart
             ', array(), DB_FETCHMODE_ASSOC);
