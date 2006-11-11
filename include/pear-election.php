@@ -181,7 +181,10 @@ class PEAR_Election
             $error[] = 'Maximum votes needed must be greater or the same as minimum votes needed';
         }
         if ($_POST['minimum'] > $_POST['choices']) {
-            $error[] = 'Minimum votes needed must be greater or equal to the number of choices';
+            $error[] = 'Minimum votes needed must be less than or equal to the number of choices';
+        }
+        if ($_POST['maximum'] > $_POST['choices']) {
+            $error[] = 'Maximum votes allowed must be less than or equal to the number of choices';
         }
         return $error;
     }
@@ -193,8 +196,9 @@ class PEAR_Election
             $error[] = 'Added one choice';
             $_POST['choices']++;
         } elseif (isset($_POST['delete1choice'])) {
-            if ($_POST['choices'] < $_POST['minimum']) {
-                $error[] = 'Cannot delete, must have at least the Minimum votes needed';
+            if ($_POST['choices'] <= $_POST['maximum']) {
+                $error[] = 'Cannot delete, must have at least the as many choices as ' .
+                    'the Maximum votes allowed';
             } else {
                 $error[] = 'Deleted last choice';
                 $_POST['choices']--;
