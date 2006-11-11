@@ -1,5 +1,7 @@
 <?php
 require 'Text/Wiki.php';
+require_once 'Damblan/Karma.php';
+
 class PEAR_Voter
 {
     var $dbh;
@@ -96,7 +98,7 @@ class PEAR_Voter
                     e.voteend,
                     e.id,
                     c.summary as winner,
-                    c.summary_link as winnerlink
+                    c.summary_link as winnerlink,
                     e.id
                 FROM
                     elections e, election_choices c, election_results r
