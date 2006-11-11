@@ -1,5 +1,5 @@
 <?php
-auth_require('pear.election');
+auth_require('pear.election', 'pear.admin');
 $new = 'new';
 $year = date('Y') + 1;
 $years = array($year--, $year);
