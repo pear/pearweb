@@ -35,7 +35,7 @@ following information:</p>
 
 <p>Please also make sure that you are sending the mail using the 
 address with which you signed up for an account initially.  It will be
-used to confirm that your request is valid.  If that isn&apos;t possible
+used to confirm that your request is valid.  If that isn&#39;t possible
 for some reason, include the address in the mail body.</p>
 
 <p>The MD5 hash can be created by using PHP's <code><a href="http://php.net/md5">md5()</a></code>
