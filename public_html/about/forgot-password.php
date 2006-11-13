@@ -22,7 +22,7 @@ response_header("Forgot your password?");
 
 <h1>Forgot your password?</h1>
 
-<p>Forgot your password for logging in to the website?  Don&apos;t 
+<p>Forgot your password for logging in to the website?  Don&#39;t 
 worry &mdash; this happens to the best of us.  Currently there is no
 automated way to reset the password, but you can send a mail to the
 <a href="mailto:pear-group@php.net">PEAR Group</a> that includes the
