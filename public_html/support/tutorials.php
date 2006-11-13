@@ -94,6 +94,17 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
     talks about using the <a href="/package/XML_Statistics/">XML_Statistics</a>
     package.
  </li>
+ <li>
+  <cite>
+   <a href="http://www.samalyse.com/code/pear/dgdo/index.php">
+    Database frontend with PEAR DataGrid and DataObject
+   </a>
+  </cite>
+  discusses using <a href="/package/Structures_DataGrid">Structures_Datagrid</a>
+  and <a href="/package/DB_DataObject">DB_DataObject</a>.  This tutorial is
+  also <a href="http://www.samalyse.com/code/pear/dgdo/index.fr.php">available in 
+  French</a>.
+ </li>
 </ul>
 
 <h3>DB Tutorials</h3>
