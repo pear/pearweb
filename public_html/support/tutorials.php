@@ -69,15 +69,15 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
    Caching PHP Programs with PEAR
    </a>
   </cite>
-  on O&apos;Reilly Network
+  on O&#39;Reilly Network
  </li>
-    <li><a href="http://www.onlamp.com/pub/a/php/2001/07/19/pear.html">A Detailed Look at PEAR</a> on O&apos;Reilly Network</li>
+    <li><a href="http://www.onlamp.com/pub/a/php/2001/07/19/pear.html">A Detailed Look at PEAR</a> on O&#39;Reilly Network</li>
 
-    <li><a href="http://www.onlamp.com/pub/a/php/2001/05/24/pear.html">An Introduction to PEAR</a> on O&apos;Reilly Network</li>
+    <li><a href="http://www.onlamp.com/pub/a/php/2001/05/24/pear.html">An Introduction to PEAR</a> on O&#39;Reilly Network</li>
 
     <li><a href="http://www.phpconcept.net/articles/article.en.php?id=1">Configure WinCVS for PEAR</a> by Vincent Blavet</li>
 
-    <li><a href="http://www.macdevcenter.com/pub/a/mac/2003/01/21/pear_macosx.html">O&apos;Reilly Network: PHP&apos;s PEAR on Mac OS X</a></li>
+    <li><a href="http://www.macdevcenter.com/pub/a/mac/2003/01/21/pear_macosx.html">O&#39;Reilly Network: PHP&#39;s PEAR on Mac OS X</a></li>
  <li>
   <cite>
    <a href="http://www.devshed.com/c/a/PHP/Configuration-Manipulation-With-PHP-Config/">
@@ -112,15 +112,15 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
 
  <li>
   <cite><a href="http://www.onlamp.com/pub/a/php/2001/11/29/peardb.html">PEAR::DB
-  Primer</a></cite> on O&apos;Reilly Network.
+  Primer</a></cite> on O&#39;Reilly Network.
  </li>
  <li>
   <cite><a href="http://www.nusphere.com/products/library/script_peardb.pdf">Writing
-  Scripts with PHP&apos;s PEAR DB Class</a></cite> - by Paul DuBois (PDF) in nusphere.com.
+  Scripts with PHP&#39;s PEAR DB Class</a></cite> - by Paul DuBois (PDF) in nusphere.com.
  </li>
  <li>
   <cite><a href="http://evolt.org/article/Abstract_PHP_s_database_code_with_PEAR_DB/17/21927/index.html">Abstract
-  PHP&apos;s database code with PEAR::DB</a></cite> on evolt.org.
+  PHP&#39;s database code with PEAR::DB</a></cite> on evolt.org.
  </li>
 
  <li>
@@ -129,7 +129,7 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
  </li>
  <li>
   <cite><a href="http://nyphp.org/content/presentations/db160/">PEAR DB:
-  What&apos;s New in 1.6.0</a></cite> by Daniel Convissor.
+  What&#39;s New in 1.6.0</a></cite> by Daniel Convissor.
  </li>
 </ul>
 

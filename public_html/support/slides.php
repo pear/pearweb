@@ -336,7 +336,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2001-07-26</li>
     <li>Presenter: <?php echo user_link("jon", true); ?></li>
-    <li>Venue: O&apos;Reilly Open Source Convention 2001, San Diego,
+    <li>Venue: O&#39;Reilly Open Source Convention 2001, San Diego,
         United States</li>
     <li>Language: English</li>
   </ul>

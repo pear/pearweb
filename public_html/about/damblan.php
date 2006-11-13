@@ -24,7 +24,7 @@ response_header("Damblan");
 
 <p>Damblan is a set of utility classes, which we are using on
 pear.php.net. Some people might even call Damblan a framework, but we
-don&apos;t. For now.</p>
+don&#39;t. For now.</p>
 
 <p>The name is derived from the Nepalese summit
 <a href="http://www.summitpost.com/show/mountain_link.pl/mountain_id/52">Ama Dablam</a>

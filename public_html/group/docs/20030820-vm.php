@@ -54,7 +54,7 @@ Please refer to the new document for up-to-date information.</p>
   Any member can call a vote, but it must be seconded by one other
   member before the vote can begin.  The voting period will begin the
   following midnight (UTC).  Each voting period lasts four days. 
-  Votes that haven&apos;t been cast by the end of the voting period default
+  Votes that haven&#39;t been cast by the end of the voting period default
   to &quot;abstain&quot;.</p>
 
   </li>

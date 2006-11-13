@@ -27,7 +27,7 @@ response_header("The PEAR Group: Handling Package Proposals");
 <p><strong>Important note:</strong> The information provided in this 
 document has been superseded by the web-based proposal interface 
 <a href="/pepr/">PEPr</a>.  Details on the proposal process are 
-explained in the <a href="/manual/en/guide-newmaint.php">New Maintainers&apos;
+explained in the <a href="/manual/en/guide-newmaint.php">New Maintainers&#39;
 Guide</a> that is part of the PEAR manual.</p>
 
 <?php echo hdelim(); ?>

@@ -30,7 +30,7 @@ $tabs = array("List" => array("url" => "/channels/index.php",
 
 <?php print_tabbed_navigation($tabs); ?>
 
-<h2>What&apos;s that?</h2>
+<h2>What&#39;s that?</h2>
 
 <p>A number of third-party sites make it possible to install their
 software package using the new <a href="/manual/en/guide.migrating.channels.php">channels</a>

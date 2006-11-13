@@ -116,7 +116,7 @@ foreach ($books as $book) {
 
 <p>Are you an author or publisher of one of the above books?  No image?
 Let <a href="mailto:<?php echo PEAR_WEBMASTER_EMAIL; ?>">us know</a>
-if we are allowed to use an image of your book&apos;s cover page
+if we are allowed to use an image of your book&#39;s cover page
 here.  Is your book missing?  Then tell us about it, too.</p>
 
 <p><a href="/support/">&laquo; Back to the Support overview</a></p>
