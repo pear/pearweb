@@ -45,7 +45,8 @@ $mailing_lists = array(
         false,
         true,
         true,
-        'php.pear.general'
+        'php.pear.general',
+        'php.pear.general', // identifier for gmane.org
     ),
 
     array (
@@ -55,7 +56,8 @@ $mailing_lists = array(
         false,
         true,
         true,
-        'php.pear.dev'
+        'php.pear.dev',
+        'php.pear.devel',
     ),
 
     array (
@@ -65,7 +67,8 @@ $mailing_lists = array(
         false,
         true,
         true,
-        'php.pear.cvs'
+        'php.pear.cvs',
+        'php.cvs.pear',
     ),
 
     array (
@@ -75,7 +78,8 @@ $mailing_lists = array(
         false,
         true,
         true,
-        'php.pear.doc'
+        'php.pear.doc',
+        'php.pear.documentation',
     ),
 
     array (
@@ -85,7 +89,8 @@ $mailing_lists = array(
         false,
         true,
         true,
-        'php.pear.qa'
+        'php.pear.qa',
+        'php.pear.qa',
     ),
 
     array (
@@ -95,7 +100,8 @@ $mailing_lists = array(
         false,
         true,
         true,
-        'php.pear.core'
+        'php.pear.core',
+        'php.pear.core',
     ),
 
     array (
@@ -105,7 +111,8 @@ $mailing_lists = array(
         false,
         true,
         true,
-        'php.pear.webmaster'
+        'php.pear.webmaster',
+        'php.pear.website',
     )
 );
 
@@ -182,7 +189,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
         echo ' <tr>' . "\n";
         echo '  <td class="form-input"><strong>' . $listinfo[1] . '</strong><br /><small>'. $listinfo[2] . "</small></td>\n";
         echo '  <td class="form-input_center">' . ($listinfo[3] ? 'yes' : 'no') . "</td>\n";
-        echo '  <td class="form-input_center">' . ($listinfo[4] ? make_link("http://beeblex.com/search.php?s=l%3Aphp.".str_replace('-', '.', $listinfo[0]).'&amp;o=1', 'yes') : 'n/a') . "</td>\n";
+        echo '  <td class="form-input_center">' . ($listinfo[4] ? make_link("http://news.gmane.org/gmane.comp." . $listinfo[7], 'yes') : 'n/a') . "</td>\n";
         echo '  <td class="form-input_center">' . ($listinfo[6] ? make_link("news://news.php.net/".$listinfo[6], 'yes') . ' ' . make_link("http://news.php.net/group.php?group=".$listinfo[6], 'http') : 'n/a') . "</td>\n";
         echo '  <td class="form-input_center"><input name="maillist[' . $listinfo[0] . ']" type="radio" value="normal" /></td>';
         echo '  <td class="form-input_center">' . ($listinfo[5] ? '<input name="maillist[' . $listinfo[0] . ']" type="radio" value="digest" />' : 'n/a' ) . "</td>\n";
