@@ -51,7 +51,8 @@ $books = array(
                      "pearuser" => array(),
                      "isbn" => "1590597397",
                      "url" => "http://apress.com/book/bookDisplay.html?bID=10181",
-                     "publisher" => "Apress"
+                     "publisher" => "Apress",
+                     "image" => "foundations-of-pear.gif"
                      )
                );
                
@@ -70,7 +71,7 @@ foreach ($books as $book) {
     echo "<tr>\n";
     echo "  <td rowspan=\"4\" class=\"form-input\">\n";
     if (isset($book['image'])) {
-        echo "    <img src=\"/gifs/books/" . $book['image'] . ".gif\" width=\"50\" height=\"100\" />\n";
+        echo "    <img src=\"/gifs/books/" . $book['image'] . "\" />\n";
     } else {
         echo "    <img src=\"/gifs/blank.gif\" width=\"50\" height=\"100\" />\n";
     }
