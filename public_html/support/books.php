@@ -62,7 +62,7 @@ $books = array(
 
 <p>The following is a list of books that have been written about PEAR.
 There are a lot more PHP books that describe some PEAR packages.
-You can search for them at <a href="http://www.amazon.com/exec/obidos/external-search?mode=books&keyword=PHP">
+You can search for them at <a href="http://www.amazon.com/exec/obidos/external-search?mode=books&amp;keyword=PHP">
 Amazon.com</a>.</p>
 
 <table class="form-holder" cellpadding="5" cellspacing="1">
@@ -71,9 +71,9 @@ foreach ($books as $book) {
     echo "<tr>\n";
     echo "  <td rowspan=\"4\" class=\"form-input\">\n";
     if (isset($book['image'])) {
-        echo "    <img src=\"/gifs/books/" . $book['image'] . "\" />\n";
+        echo "    <img src=\"/gifs/books/" . $book['image'] . "\" alt=\"Cover image for " . $book['title'] . "\" />\n";
     } else {
-        echo "    <img src=\"/gifs/blank.gif\" width=\"50\" height=\"100\" />\n";
+        echo "    <img src=\"/gifs/blank.gif\" width=\"50\" height=\"100\" alt=\"\" />\n";
     }
     echo "</td>\n";
     echo "  <td colspan=\"2\" valign=\"top\" class=\"form-input\">\n";
