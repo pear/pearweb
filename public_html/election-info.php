@@ -120,4 +120,5 @@ if (isset($_GET['results'])) {
     $info = $voter->electionInfo($_GET['election']);
     require dirname(dirname(__FILE__)) . '/templates/election-showresults.tpl.php';
 }
+response_footer();
 ?>
