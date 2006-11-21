@@ -30,14 +30,15 @@ $books = array(
                      "pearuser" => array("cellog"),
                      "isbn" => "1904811191",
                      "url" => "http://www.packtpub.com/PEAR-Installer/book",
-                     "publisher" => "Packt Publishing"
+                     "publisher" => "Packt Publishing",
+                     "image" => '1904811191.png'
                      ),
                array("title" => "PHP Programming with PEAR",
                      "authors" => array("Stoyan Stefanov", "Stephan Schmidt", "Aaron Wormus", "Carsten Lucke"),
                      "pearuser" => array("stoyan", "schst", "wormus", "luckec"),
                      "isbn" => "1904811795",
                      "url" => "http://www.packtpub.com/pear/book",
-                     "publisher" => "Packt Publishing"
+                     "publisher" => "Packt Publishing",
                      ),
                array("title" => "PHP PEAR &mdash; Anwendung und Entwicklung - Erweiterungen für PHP schreiben",
                      "authors" => array("Carsten M&ouml;hrke"),
