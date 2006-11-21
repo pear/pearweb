@@ -38,8 +38,8 @@ if ($info['maximum_choices'] > 1) {
  <tr>
   <td>
    <?php foreach ($info['choices'] as $choice): ?>
-   <input type="<?php echo $inputtype; ?>" name="<?php echo $inputname; ?>" value="<?php echo $choice['choice']; ?>" />
-   <?php echo htmlspecialchars($choice['summary']); ?> <a href="<?php echo $choice['summary_link']; ?>">(more info)</a><br />
+   <input type="<?php echo $inputtype; ?>" name="<?php echo $inputname; ?>" value="<?php echo $choice['choice']; ?>" id="<?php echo $inputname . $choice['choice'] ?>"/>
+   <label for="<?php echo $inputname . $choice['choice'] ?>"><?php echo htmlspecialchars($choice['summary']); ?></label> <a href="<?php echo $choice['summary_link']; ?>">(more info)</a><br />
    <?php endforeach; // foreach ($info['choices'] as $choice): ?>
   </td>
  </tr>
