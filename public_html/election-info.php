@@ -13,19 +13,20 @@ if (!isset($auth_user) || !$auth_user) {
 require 'pear-voter.php';
 $voter = &new PEAR_Voter;
 if (isset($_POST['confirm'])) {
-    if (isset($_POST['cancel'])) {
-        $currentelections = $voter->listCurrentElections();
-        $completedelections = $voter->listCompletedElections();
-        $allelections = $voter->listAllElections();
-        require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
-        exit;
-    }
     // display vote confirmation page
     if (!$voter->electionExists($_POST['election'])) {
         $currentelections = $voter->listCurrentElections();
         $completedelections = $voter->listCompletedElections();
         $allelections = $voter->listAllElections();
         $error = 'No such election id: ' . htmlspecialchars($_GET['election']);
+        require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
+        exit;
+    }
+    if ($voter->hasVoted($_POST['election'])) {
+        $currentelections = $voter->listCurrentElections();
+        $completedelections = $voter->listCompletedElections();
+        $allelections = $voter->listAllElections();
+        $error = 'You have already voted in this election';
         require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
         exit;
     }
@@ -62,6 +63,14 @@ if (isset($_POST['finalvote'])) {
         $completedelections = $voter->listCompletedElections();
         $allelections = $voter->listAllElections();
         $error = 'No such election id: ' . htmlspecialchars($_GET['election']);
+        require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
+        exit;
+    }
+    if ($voter->hasVoted($_POST['election'])) {
+        $currentelections = $voter->listCurrentElections();
+        $completedelections = $voter->listCompletedElections();
+        $allelections = $voter->listAllElections();
+        $error = 'You have already voted in this election';
         require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
         exit;
     }

@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2006-11-20</date>
- <time>23:23:37</time>
+ <time>23:26:56</time>
  <version>
   <release>1.0.0RC2</release>
   <api>0.1.1</api>
@@ -73,6 +73,8 @@
  * fix Bug #9368: election interface needs labels for radio buttons/checkboxes
  * fix Bug #9369: email vote hash and vote choice
  * fix Bug #9370: add easy &quot;back&quot; navigation button for voting interface
+ * fix Bug #9371: election interface: each page should check whether voting
+                  has already occurred
  * fix Bug #9372: election interface should separate Abstain button visually on page
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
@@ -923,6 +925,8 @@
  * fix Bug #9368: election interface needs labels for radio buttons/checkboxes
  * fix Bug #9369: email vote hash and vote choice
  * fix Bug #9370: add easy &quot;back&quot; navigation button for voting interface
+ * fix Bug #9371: election interface: each page should check whether voting
+                  has already occurred
  * fix Bug #9372: election interface should separate Abstain button visually on page
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
