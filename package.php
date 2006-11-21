@@ -20,6 +20,7 @@ $a->setAPIStability('stable');
 $a->setNotes('
  * fix REST generation for deprecated packages/channels
  * fix REST generation of packagesinfo.xml for categories
+ * fix winner calculation in election interface
  * fix Bug #5340: User details are overescaped
  * fix Bug #8842: package.xml package name need not match case and must
  * fix Bug #9209: Missing package description in proposal editor

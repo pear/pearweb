@@ -164,20 +164,49 @@ class PEAR_Voter
             ', array($id), DB_FETCHMODE_ASSOC);
         $info['choices'] = $choices;
         $info['results'] = $this->dbh->getAll('
-            SELECT e.votepercent, e.votetotal, c.summary, c.summary_link
+            SELECT e.votepercent, e.votetotal, c.choice, c.summary, c.summary_link
             FROM election_results e, election_choices c
             WHERE e.election_id = ? AND
                 c.election_id = e.election_id AND
                 c.choice = e.choice
             ORDER BY e.votetotal DESC
         ', array($id), DB_FETCHMODE_ASSOC);
+        
+        // calculate winners
+        $order = array();
+        foreach ($info['results'] as $result) {
+            $order[$result['votetotal']][] = $result;
+        }
+        krsort($order, SORT_NUMERIC);
+        $winners = array();
+        foreach ($order as $results) {
+            if (count($winners) >= $info['maximum_choices']) {
+                break; // done
+            }
+            foreach ($results as $result) {
+                $winners[] = $result['choice'];
+            }
+        }
+        $info['winners'] = $winners;
+
         $abstain = $this->dbh->getOne('
             SELECT COUNT(*) FROM election_votes_abstain
             WHERE election_id=?
         ', array($id));
-       $wiki =& new Text_Wiki();
-       $wiki->disableRule('wikilink');
-       $info['detail'] = $wiki->transform($info['detail']);
+        $allvoters = $this->dbh->getOne("
+        SELECT
+            COUNT(DISTINCT k.user)
+        FROM karma k, users u
+        WHERE
+            k.user = u.handle AND
+            k.level in ('pear.dev', 'pear.voter', 'pear.admin')", array());
+        $votedthis = $this->dbh->getOne('
+        SELECT count(*) FROM election_handle_votes where election_id=?
+        ', array($id));
+        $info['turnout'] = $votedthis / $allvoters;
+        $wiki =& new Text_Wiki();
+        $wiki->disableRule('wikilink');
+        $info['detail'] = $wiki->transform($info['detail']);
         if ($info['maximum_choices'] > 1) {
             $total = $this->dbh->getOne('
                 SELECT COUNT(*) FROM election_votes_multiple WHERE

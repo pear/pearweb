@@ -16,15 +16,17 @@
     $info['voteend']; ?></td>
  </tr>
  <tr>
-  <th class="form-label_left">Results (<?php echo $info['maximum_choices'] ?> winners)</th>
+  <th class="form-label_left">Voter turnout</th>
+  <td class="form-input"><?php echo number_format($info['turnout'] * 100, 2) ?>%</td>
+ </tr>
+ <tr>
+  <th class="form-label_left">Results (<?php echo count($info['winners']) ?> winners)</th>
   <td class="form-input">
    <table>
     <tr><th>Vote percentage</th><th>Choice</th><th>Votes</th></td></tr>
    <?php
-   $winners = array();
   foreach ($info['results'] as $i => $result) {
-      $winners[$result['votetotal']] = 1;
-      if (count($winners) <= $info['maximum_choices']) {
+      if (in_array($result['choice'], $info['winners'])) {
           echo '<tr><td class="vote-winner">' . number_format($result['votepercent'] * 100, 2) .
               '%</td><td class="vote-winner"><a href="' . $result['summary_link'] . '">' .
               htmlspecialchars($result['summary']) .
