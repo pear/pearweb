@@ -338,7 +338,40 @@ class PEAR_Voter
             return false;
         }
         PEAR::popErrorHandling();
+        $this->email($info, $votes, $this->getVoteSalt());
         return true;
+    }
+
+    function email($election, $votes, $salt)
+    {
+        $info = user::info($this->user);
+        $email = '"' . $info['name'] . '" <' . $info['email'] . '>';
+        $headers = "From: bounce-no-user@php.net\n";
+        $headers .= "X-Mailer: PEAR election voting interface\n";
+        $headers .= "X-PEAR-Election: " . $election['id'] . "\n";
+
+        $subject = '[PEAR-ELECTION] Your vote in election ' . $election['purpose'];
+
+        if ($votes) {
+            $text = 'Your vote for the election: ' . $election['purpose'] . "\n" .
+                'has been registered.  You voted for:
+';
+            $text .= implode("\n", $votes) . "\n";
+            $text .= 'Your vote salt is ' . $salt . "\n";
+            $text .= 'this is your only record of the vote salt, without it your vote ' .
+                'cannot be retrieved.  Thank you for voting';
+        } else {
+            $text = 'Your abstaining vote for the election: ' . $election['purpose'] . "\n" .
+                'has been registered.' . "\n";
+            $text .= 'Your vote salt is ' . $salt . "\n";
+            $text .= 'this is your only record of the vote salt, without it your vote ' .
+                'cannot be retrieved.  Thank you for voting';
+        }
+        $text .= "\nVisit http://pear.php.net/election.php to retrieve your vote";
+
+        $res = mail($email, $subject, $text,
+                    $headers, '-f bounce-no-user@php.net');
+        return $res;
     }
 
     function abstain($id)
@@ -371,6 +404,7 @@ class PEAR_Voter
             return false;
         }
         PEAR::popErrorHandling();
+        $this->email($this->electionInfo($id), false, $this->getVoteSalt());
         return true;
     }
 
