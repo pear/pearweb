@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.0a2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.0RC1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-11-03</date>
- <time>20:40:23</time>
+ <date>2006-11-20</date>
+ <time>22:30:11</time>
  <version>
   <release>1.0.0RC2</release>
   <api>0.1.1</api>
@@ -66,6 +66,7 @@
  <notes>
  * fix REST generation for deprecated packages/channels
  * fix REST generation of packagesinfo.xml for categories
+ * fix winner calculation in election interface
  * fix Bug #5340: User details are overescaped
  * fix Bug #8842: package.xml package name need not match case and must
  * fix Bug #9209: Missing package description in proposal editor
@@ -75,7 +76,6 @@
    for the possibility of having general election accounts with no developer
    privileges
  * add missing PEPr tables to the MDB2 schema .xml file
- * add list of PEAR books in the support section
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -83,6 +83,7 @@
     <file name="apidoc-queue.php" role="web" />
     <file name="bug-summary.php" role="web" />
     <file name="cache-garbage-collector.php" role="web" />
+    <file name="election_results.php" role="web" />
     <file name="find-documentation.php" role="web" />
     <file name="load-chm.sh" role="web" />
     <file name="pepr.php" role="web" />
@@ -103,6 +104,9 @@
      </dir> <!-- /include/Damblan/Log -->
      <dir name="Mail">
       <file name="pearweb_account_request.tpl.php" role="web" />
+      <file name="pearweb_account_request_existing.tpl.php" role="web" />
+      <file name="pearweb_account_request_new.tpl.php" role="web" />
+      <file name="pearweb_account_request_vote.tpl.php" role="web" />
       <file name="Trackback_Approve.tpl.php" role="web" />
       <file name="Trackback_Delete.tpl.php" role="web" />
       <file name="Trackback_New.tpl.php" role="web" />
@@ -153,6 +157,7 @@
     <file name="pear-category.php" role="web" />
     <file name="pear-config.php" role="web" />
     <file name="pear-database.php" role="web" />
+    <file name="pear-election.php" role="web" />
     <file name="pear-format-html-form.php" role="web" />
     <file name="pear-format-html.php" role="web" />
     <file name="pear-format-xmlrpc.php" role="web" />
@@ -160,6 +165,7 @@
     <file name="pear-patches.php" role="web" />
     <file name="pear-prepend.php" role="web" />
     <file name="pear-rest.php" role="web" />
+    <file name="pear-voter.php" role="web" />
     <file name="signatures.php" role="web" />
     <file name="site.php" role="web" />
     <file name="xmlrpc-cache.php" role="web" />
@@ -252,6 +258,9 @@
      <file name="index.php" role="web" />
     </dir> <!-- /public_html/feeds -->
     <dir name="gifs">
+     <dir name="books">
+      <file name="foundations-of-pear.gif" role="web" />
+     </dir> <!-- /public_html/gifs/books -->
      <dir name="TreeMenu">
       <file name="branch.gif" role="web" />
       <file name="branchbottom.gif" role="web" />
@@ -400,6 +409,9 @@
     <file name="account-edit.php" role="web" />
     <file name="account-info.php" role="web" />
     <file name="account-mail.php" role="web" />
+    <file name="account-request-existingpackage.php" role="web" />
+    <file name="account-request-newpackage.php" role="web" />
+    <file name="account-request-vote.php" role="web" />
     <file name="account-request.php" role="web" />
     <file name="accounts.php" role="web" />
     <file name="advisory-20051104.txt" role="web" />
@@ -409,6 +421,10 @@
     <file name="channel.xml" role="web" />
     <file name="copyright.php" role="web" />
     <file name="credits.php" role="web" />
+    <file name="election-edit.php" role="web" />
+    <file name="election-info.php" role="web" />
+    <file name="election-new.php" role="web" />
+    <file name="election.php" role="web" />
     <file name="faq.php" role="web" />
     <file name="favicon.ico" role="web" />
     <file name="get" role="web" />
@@ -452,6 +468,7 @@
     <file name="deps.sql" role="web" />
     <file name="design.txt" role="web" />
     <file name="dropdb.sql" role="web" />
+    <file name="election.sql" role="web" />
     <file name="files.sql" role="web" />
     <file name="karma.sql" role="web" />
     <file name="maintains.sql" role="web" />
@@ -467,6 +484,17 @@
    </dir> <!-- /sql -->
    <dir name="templates">
     <file name="category-manager.html" role="web" />
+    <file name="election-confirm.tpl.php" role="web" />
+    <file name="election-confirmed.tpl.php" role="web" />
+    <file name="election-dovote.tpl.php" role="web" />
+    <file name="election-listforedit.tpl.php" role="web" />
+    <file name="election-new-step1.tpl.php" role="web" />
+    <file name="election-new-step2.tpl.php" role="web" />
+    <file name="election-new-step3.tpl.php" role="web" />
+    <file name="election-register.tpl.php" role="web" />
+    <file name="election-results.tpl.php" role="web" />
+    <file name="election-showresults.tpl.php" role="web" />
+    <file name="election-vote.tpl.php" role="web" />
     <file name="packages.html" role="web" />
    </dir> <!-- /templates -->
    <dir name="weeklynews">
@@ -877,11 +905,12 @@
     <release>beta</release>
     <api>stable</api>
    </stability>
-   <date>2006-11-03</date>
+   <date>2006-11-20</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * fix REST generation for deprecated packages/channels
  * fix REST generation of packagesinfo.xml for categories
+ * fix winner calculation in election interface
  * fix Bug #5340: User details are overescaped
  * fix Bug #8842: package.xml package name need not match case and must
  * fix Bug #9209: Missing package description in proposal editor
