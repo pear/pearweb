@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2006-11-20</date>
- <time>22:30:11</time>
+ <time>22:36:58</time>
  <version>
   <release>1.0.0RC2</release>
   <api>0.1.1</api>
@@ -76,6 +76,7 @@
    for the possibility of having general election accounts with no developer
    privileges
  * add missing PEPr tables to the MDB2 schema .xml file
+ * add list of PEAR books in the support section
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -259,6 +260,7 @@
     </dir> <!-- /public_html/feeds -->
     <dir name="gifs">
      <dir name="books">
+      <file name="1904811191.png" role="web" />
       <file name="foundations-of-pear.gif" role="web" />
      </dir> <!-- /public_html/gifs/books -->
      <dir name="TreeMenu">
@@ -920,6 +922,7 @@
    for the possibility of having general election accounts with no developer
    privileges
  * add missing PEPr tables to the MDB2 schema .xml file
+ * add list of PEAR books in the support section
    </notes>
   </release>
  </changelog>

@@ -30,6 +30,7 @@ $a->setNotes('
    for the possibility of having general election accounts with no developer
    privileges
  * add missing PEPr tables to the MDB2 schema .xml file
+ * add list of PEAR books in the support section
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
