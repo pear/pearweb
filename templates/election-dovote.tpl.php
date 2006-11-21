@@ -44,5 +44,10 @@ if ($info['maximum_choices'] > 1) {
   </td>
  </tr>
 </table>
-<input type="submit" name="abstain" value="Abstain (pass)" /><input type="submit" name="votesubmit" value="Vote" /><input type="submit" value="cancel" name="cancel" />
+<table border="0" width="400">
+ <tr>
+  <td><input type="submit" name="votesubmit" value="Vote" /></td>
+  <td align="center"><input type="submit" name="abstain" value="Abstain (pass)" /></td>
+ </tr>
+</table>
 </form>

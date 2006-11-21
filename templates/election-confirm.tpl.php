@@ -35,5 +35,10 @@
 <input type="hidden" name="abstain" value="1" />
 <h1>are you SURE you wish to abstain?</h1>
 <?php endif; ?>
-<input type="submit" name="finalvote" value="<?php echo $info['abstain'] ? 'Abstain' : 'Confirm Vote'; ?>" /><input type="submit" value="cancel" />
+<table border="0" width="400">
+ <tr>
+  <td><input type="submit" name="finalvote" value="<?php echo $info['abstain'] ? 'Abstain' : 'Confirm Vote'; ?>" /></td>
+  <td align="center"><input type="button" name="abstain" value="<< Back" onclick="javascript:back()"/></td>
+ </tr>
+</table>
 </form>

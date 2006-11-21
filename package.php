@@ -26,6 +26,7 @@ $a->setNotes('
  * fix Bug #9209: Missing package description in proposal editor
  * fix Bug #9368: election interface needs labels for radio buttons/checkboxes
  * fix Bug #9369: email vote hash and vote choice
+ * fix Bug #9372: election interface should separate Abstain button visually on page
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
  * completely rework account requests, both to simplify/clarify and to allow
