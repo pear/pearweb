@@ -46,3 +46,4 @@
   </td>
  </tr>
 </table>
+<?php response_footer();

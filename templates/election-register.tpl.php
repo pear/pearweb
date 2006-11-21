@@ -2,7 +2,7 @@
 <h1>Register to Vote</h1>
 
 <h2>
- If you already have a PEAR developer account, Please <a href="login.php?redirect=/election.php<?php
+ If you already have a PEAR developer account, Please <a href="/login.php?redirect=/election/<?php
     if ($query) {
         echo urlencode($query);
     } ?>">Log in</a>, you are already registered to vote.

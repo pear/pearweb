@@ -25,7 +25,7 @@ foreach ($elections as $election):
     $class = $election['active'] == 'yes' ? 'vote-active' : 'vote-inactive';
 ?>
 <tr>
- <td class="<?php echo $class; ?>"><a href="/election-edit.php?election=<?php
+ <td class="<?php echo $class; ?>"><a href="/election/edit.php?election=<?php
     echo $election['id']; ?>"><?php echo htmlspecialchars($election['purpose']); ?></a></td>
  <td class="<?php echo $class; ?>"><?php echo $election['votestart'] . ' until ' .
     $election['voteend']; ?></td>

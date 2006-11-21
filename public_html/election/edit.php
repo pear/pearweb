@@ -20,7 +20,7 @@
  */
 
 auth_require('pear.election');
-require 'pear-election.php';
+require 'election/pear-election.php';
 $new = 'edit';
 $year = date('Y');
 $years = array($year + 1, $year--, $year--, $year--);
@@ -30,32 +30,32 @@ if (isset($_GET['election'])) {
     if (!$info) {
         $error = 'Unknown election';
         $elections = $election->listElections();
-        require dirname(dirname(__FILE__)) . '/templates/election-listforedit.tpl.php';
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-listforedit.tpl.php';
         exit;
     }
     if (!$election->canEdit($_GET['election'])) {
         $error = 'Cannot edit that election';
         $elections = $election->listElections();
-        require dirname(dirname(__FILE__)) . '/templates/election-listforedit.tpl.php';
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-listforedit.tpl.php';
         exit;
     }
     $error = array();
     $election_id = (int) $_GET['election'];
-    require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
+    require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step1.tpl.php';
     exit;
 }
 if (isset($_POST['step'])) {
     if (!isset($_POST['election_id']) || !$election->electionExists($_POST['election_id'])) {
         $error = 'Unknown election';
         $elections = $election->listElections();
-        require dirname(dirname(__FILE__)) . '/templates/election-listforedit.tpl.php';
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-listforedit.tpl.php';
         exit;
     }
     $election_id = (int) $_POST['election_id'];
     if (!$election->canEdit($election_id)) {
         $error = 'Cannot edit that election';
         $elections = $election->listElections();
-        require dirname(dirname(__FILE__)) . '/templates/election-listforedit.tpl.php';
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-listforedit.tpl.php';
         exit;
     }
     switch ($_POST['step']) {
@@ -72,11 +72,11 @@ if (isset($_POST['step'])) {
             $info['maximum'] = (int) $_POST['maximum'];
             $info['eligiblevoters'] = (int) $_POST['eligiblevoters'];
             if ($error) {
-                require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
+                require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step1.tpl.php';
                 exit;
             }
             $info = $election->setupChoices($election_id, $info);
-            require dirname(dirname(__FILE__)) . '/templates/election-new-step2.tpl.php';
+            require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step2.tpl.php';
             exit;
         case '3' :
             $error = $election->validateStep1(false);
@@ -91,16 +91,16 @@ if (isset($_POST['step'])) {
             $info['maximum'] = (int) $_POST['maximum'];
             $info['eligiblevoters'] = (int) $_POST['eligiblevoters'];
             if ($error) {
-                require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
+                require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step1.tpl.php';
                 exit;
             }
             $error = $election->validateStep2();
             $info = $election->setupChoices($election_id, $info);
             if ($error) {
-                require dirname(dirname(__FILE__)) . '/templates/election-new-step2.tpl.php';
+                require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step2.tpl.php';
                 exit;
             }
-            require dirname(dirname(__FILE__)) . '/templates/election-new-step3.tpl.php';
+            require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step3.tpl.php';
             exit;
         case '4' :
             if (isset($_POST['cancel'])) {
@@ -119,7 +119,7 @@ if (isset($_POST['step'])) {
             $info['maximum'] = (int) $_POST['maximum'];
             $info['eligiblevoters'] = (int) $_POST['eligiblevoters'];
             if ($error) {
-                require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
+                require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step1.tpl.php';
                 exit;
             }
             $error = $election->validateStep2();
@@ -130,7 +130,7 @@ if (isset($_POST['step'])) {
                     empty($_POST['summary_link' . $i]) ? '' : $_POST['summary_link' . $i];
             }
             if ($error) {
-                require dirname(dirname(__FILE__)) . '/templates/election-new-step2.tpl.php';
+                require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step2.tpl.php';
                 exit;
             }
             // safe to save
@@ -139,4 +139,4 @@ if (isset($_POST['step'])) {
     }
 }
 $elections = $election->listElections();
-require dirname(dirname(__FILE__)) . '/templates/election-listforedit.tpl.php';
+require dirname(dirname(dirname(__FILE__))) . '/templates/election-listforedit.tpl.php';

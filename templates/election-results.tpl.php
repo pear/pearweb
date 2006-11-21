@@ -14,7 +14,7 @@ foreach ($completedelections as $election):
     }
 ?>
 <tr>
- <td class="<?php echo $class; ?>"><a href="/election-info.php?election=<?php
+ <td class="<?php echo $class; ?>"><a href="/election/info.php?election=<?php
     echo $election['id']; ?>&results=1"><?php echo htmlspecialchars($election['purpose']); ?></a></td>
  <td class="<?php echo $class; ?>"><?php echo $election['votestart'] . ' until ' .
     $election['voteend']; ?></td>

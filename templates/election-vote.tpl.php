@@ -27,7 +27,7 @@ foreach ($currentelections as $election):
  <?php if ($election['voted'] == 'yes'): ?>
  <td class="<?php echo $class; ?>"><?php echo htmlspecialchars($election['purpose']); ?></td>
  <?php else: // if ($election['voted'] == 'yes'): ?>
- <td class="<?php echo $class; ?>"><a href="/election-info.php?election=<?php
+ <td class="<?php echo $class; ?>"><a href="/election/info.php?election=<?php
     echo $election['id']; ?>&vote=1"><?php echo htmlspecialchars($election['purpose']); ?></a></td>
  <?php endif; // if ($election['voted'] == 'yes'): ?>
  <td class="<?php echo $class; ?>"><?php echo $election['votestart'] . ' until ' .
@@ -70,7 +70,7 @@ if ($info['vote'] == array('(abstain)')) {
 };
 endif; // if ($retrieval && isset($info)) ?>
 <h3>Retrieve your vote in an election:</h3>
-<form name="checkvote" action="/election.php" method="post">
+<form name="checkvote" action="/election/index.php" method="post">
 <select name="election">
 <?php foreach ($allelections as $election): ?>
  <option value="<?php echo $election['id']; ?>"><?php echo htmlspecialchars($election['purpose']); ?></option>

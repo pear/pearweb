@@ -9,7 +9,7 @@ if ($error) {
     }
 }
 ?>
-<form name="newelection" action="/election-<?php echo $new ?>.php" method="post">
+<form name="newelection" action="/election/<?php echo $new ?>.php" method="post">
 <input type="hidden" name="step" value="3" />
 <?php if ($new == 'edit'): ?>
 <input type="hidden" name="election_id" value="<?php echo $election_id ?>" />

@@ -5,7 +5,7 @@ if (!isset($auth_user) || !$auth_user) {
     } else {
         $query = '';
     }
-    require dirname(dirname(__FILE__)) . '/templates/election-register.tpl.php';
+    require dirname(dirname(dirname(__FILE__))) . '/templates/election-register.tpl.php';
 } else {
     require 'pear-voter.php';
     $voter = &new PEAR_Voter;
@@ -22,6 +22,6 @@ if (!isset($auth_user) || !$auth_user) {
     $currentelections = $voter->listCurrentElections();
     $completedelections = $voter->listCompletedElections();
     $allelections = $voter->listAllElections();
-    require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
+    require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
 }
 ?>

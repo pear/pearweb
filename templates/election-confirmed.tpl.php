@@ -42,5 +42,5 @@
  allowed to vote again in this election.  Thank you for voting!
 </p>
 <p>
- <a href="/election.php">Return to Elections</a>
+ <a href="/election/">Return to Elections</a>
 </p>

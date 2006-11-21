@@ -17,9 +17,9 @@ if (!isset($_POST['step'])) {
         'maximum' => 1,
         'eligiblevoters' => 1,
     );
-    require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
+    require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step1.tpl.php';
 } elseif ($_POST['step'] == 2) {
-    require 'pear-election.php';
+    require 'election/pear-election.php';
     $election = new PEAR_Election;
     $error = $election->validateStep1();
     $info['purpose'] = $_POST['purpose'];
@@ -33,7 +33,7 @@ if (!isset($_POST['step'])) {
     $info['maximum'] = (int) $_POST['maximum'];
     $info['eligiblevoters'] = (int) $_POST['eligiblevoters'];
     if ($error) {
-        require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step1.tpl.php';
         exit;
     }
     for ($i = 1; $i <= $info['choices']; $i++) {
@@ -41,9 +41,9 @@ if (!isset($_POST['step'])) {
         $info['summary_link' . $i] =
             empty($_POST['summary_link' . $i]) ? '' : $_POST['summary_link' . $i];
     }
-    require dirname(dirname(__FILE__)) . '/templates/election-new-step2.tpl.php';
+    require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step2.tpl.php';
 } elseif ($_POST['step'] == 3) {
-    require 'pear-election.php';
+    require 'election/pear-election.php';
     $election = new PEAR_Election;
     $error = $election->validateStep1();
     $info['purpose'] = $_POST['purpose'];
@@ -60,7 +60,7 @@ if (!isset($_POST['step'])) {
         // this should never happen.  It will only occur
         // if the user manually fills POST data without going
         // through the official form, and makes a mistake.
-        require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step1.tpl.php';
         exit;
     }
     $error = $election->validateStep2();
@@ -71,22 +71,23 @@ if (!isset($_POST['step'])) {
             empty($_POST['summary_link' . $i]) ? '' : $_POST['summary_link' . $i];
     }
     if ($error) {
-        require dirname(dirname(__FILE__)) . '/templates/election-new-step2.tpl.php';
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step2.tpl.php';
         exit;
     }
-    require dirname(dirname(__FILE__)) . '/templates/election-new-step3.tpl.php';
+    require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step3.tpl.php';
 } elseif ($_POST['step'] == 4) {
     if (isset($_POST['cancel'])) {
-        require 'pear-voter.php';
+        require 'election/pear-voter.php';
         $voter = new PEAR_Voter;
         $currentelections = $voter->listCurrentElections();
         $completedelections = $voter->listCompletedElections();
         $allelections = $voter->listAllElections();
         $error = 'Election creation cancelled';
-        require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
+        $retrieval = false;
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
         exit;
     }
-    require 'pear-election.php';
+    require 'election/pear-election.php';
     $election = new PEAR_Election;
     $error = $election->validateStep1();
     $info['purpose'] = $_POST['purpose'];
@@ -103,7 +104,7 @@ if (!isset($_POST['step'])) {
         // this should never happen.  It will only occur
         // if the user manually fills POST data without going
         // through the official form, and makes a mistake.
-        require dirname(dirname(__FILE__)) . '/templates/election-new-step1.tpl.php';
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step1.tpl.php';
         exit;
     }
     for ($i = 1; $i <= $info['choices']; $i++) {
@@ -116,16 +117,17 @@ if (!isset($_POST['step'])) {
         // this should never happen.  It will only occur
         // if the user manually fills POST data without going
         // through the official form, and makes a mistake.
-        require dirname(dirname(__FILE__)) . '/templates/election-new-step2.tpl.php';
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-new-step2.tpl.php';
         exit;
     }
     $election->saveNewElection();
     $error = '';
-    require 'pear-voter.php';
+    require 'election/pear-voter.php';
     $voter = new PEAR_Voter;
     $currentelections = $voter->listCurrentElections();
     $completedelections = $voter->listCompletedElections();
     $allelections = $voter->listAllElections();
     $error = 'Election saved';
-    require dirname(dirname(__FILE__)) . '/templates/election-vote.tpl.php';
+    $retrieval = false;
+    require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
 }
