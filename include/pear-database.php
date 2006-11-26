@@ -986,6 +986,7 @@ class package
             return $sth;
         }
 
+        $packages = array();
         while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
             $packages[$row['pid']]['name'] = $row['name'];
             $packages[$row['pid']]['releases'][] = array('id' => $row['rid'],
