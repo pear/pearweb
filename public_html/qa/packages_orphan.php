@@ -26,10 +26,15 @@ auth_require('pear.dev');
 response_header('Quality Assurance Initiative - Orphan packages',
     false);
 
-$packages = $dbh->getAll("SELECT p.name " .
-    " FROM packages p ".
-    "WHERE p.unmaintained=1 AND p.package_type = 'pear' AND p.approved = 1 ".
-    "ORDER BY p.name", null, DB_FETCHMODE_ASSOC);
+$query = "
+    select p1.name as name1, p2.name as name2
+    from packages p1
+    left join packages p2 on p1.newpk_id=p2.id
+    where p1.unmaintained=1 and p1.package_type = 'pear' and p1.approved = 1
+    order by p1.name
+";
+
+$packages = $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
 
 if (count($packages) == 0) {
     echo '<p>There are no orphan packages</p>';
@@ -39,21 +44,23 @@ if (count($packages) == 0) {
 
 echo "<h3>List of orphan packages</h3>\n";
 
-$text_mode = '';
-
 echo "<ul>\n";
 foreach ($packages as $pck => $info) {
 
-    $link = make_link('/package/' . $info['name'], 
-        $info['name'], '', 'title="' . $info['name'] . '"');
+    $link = make_link('/package/' . $info['name1'],
+        $info['name1'], '', 'title="' . $info['name1'] . '"');
 
-    echo '<li>' . $link . "</li>\n";
-//    $text_mode .= $info['name'] . "\n";
+    $link_superseding = '';
+
+    if (!empty($info['name2'])) {
+        $link_superseding = 'There is a superseding package: ';
+        $link_superseding .= make_link('/package/' . $info['name2'],
+        $info['name2'], '', 'title="' . $info['name2'] . '"');
+    }
+
+    echo '<li>' . $link . ' ' . $link_superseding . "</li>\n";
 }
 echo "</ul>\n";
 
-// output the list as plain text. This will be added to a text
-// file so people can browse the list
-//echo "<pre>" . $text_mode . "</pre>";
 response_footer();
 ?>
