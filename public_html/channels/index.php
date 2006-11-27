@@ -42,6 +42,7 @@ provided on the individual pages.</p>
 <ul>
   <li><a href="http://pear.crtx.org/">Cerebral Cortex</a></li>
   <li><a href="http://pear.crisscott.com/">Crisscott</a></li>
+  <li><a href="http://components.ez.no/">eZ components</a></li>
   <li><a href="http://gnope.org/pearfront/">Gnope PHP-GTK2 applications</a></li>
   <li><a href="http://pear.horde.org/">Horde</a></li>
   <li><a href="http://pear.midcom-project.org/">Midgard Project</a></li>
