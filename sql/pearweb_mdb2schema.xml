@@ -2534,4 +2534,356 @@
   </declaration>
  </table>
 
+ <table>
+
+  <name>election_choices</name>
+
+  <declaration>
+
+   <field>
+    <name>election_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>choice</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>summary</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>summary_link</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>election_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>choice</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>election_handle_votes</name>
+
+  <declaration>
+
+   <field>
+    <name>election_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>handle</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>election_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>handle</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>election_results</name>
+
+  <declaration>
+
+   <field>
+    <name>election_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>choice</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>votepercent</name>
+    <type>float</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>votetotal</name>
+    <type>integer</type>
+    <length>14</length>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>election_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>choice</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>election_votes_abstain</name>
+
+  <declaration>
+
+   <field>
+    <name>election_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>vote_hash</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>election_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>vote_hash</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>election_votes_multiple</name>
+
+  <declaration>
+
+   <field>
+    <name>election_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>vote</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>vote_hash</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>election_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>vote</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>vote_hash</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>election_votes_single</name>
+
+  <declaration>
+
+   <field>
+    <name>election_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>vote</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>vote_hash</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>election_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>vote_hash</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
+ <table>
+
+  <name>elections</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <autoincrement>1</autoincrement>
+   </field>
+
+   <field>
+    <name>purpose</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>detail</name>
+    <type>clob</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>votestart</name>
+    <type>date</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>voteend</name>
+    <type>date</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>creator</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>createdate</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>minimum_choices</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>maximum_choices</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>eligiblevoters</name>
+    <type>integer</type>
+    <length>4</length>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>election_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
 </database>
