@@ -64,6 +64,9 @@ do {
             break;
         }
 
+        // hard-code this data
+        $stripped['purpose'] = 'vote in general election';
+
         //  The add method performs further validation then creates the acct
         $ok = user::add($stripped);
 

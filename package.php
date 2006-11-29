@@ -33,6 +33,7 @@ $a->setNotes('
  * fix Bug #9403: more informative election vote email
  * fix Bug #9404: clarify "retrieve vote"
  * fix Bug #9405: add back button to info.php
+ * fix Bug #9483: registering for voter account "enter intended purpose"
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
  * completely rework account requests, both to simplify/clarify and to allow
