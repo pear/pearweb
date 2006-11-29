@@ -31,6 +31,7 @@ $a->setNotes('
                   has already occurred
  * fix Bug #9372: election interface should separate Abstain button visually on page
  * fix Bug #9403: more informative election vote email
+ * fix Bug #9404: clarify "retrieve vote"
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
  * completely rework account requests, both to simplify/clarify and to allow

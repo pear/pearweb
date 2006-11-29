@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2006-11-28</date>
- <time>22:46:23</time>
+ <time>22:54:00</time>
  <version>
   <release>1.0.0RC2</release>
   <api>0.1.1</api>
@@ -77,6 +77,7 @@
                   has already occurred
  * fix Bug #9372: election interface should separate Abstain button visually on page
  * fix Bug #9403: more informative election vote email
+ * fix Bug #9404: clarify &quot;retrieve vote&quot;
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
  * completely rework account requests, both to simplify/clarify and to allow
@@ -934,6 +935,7 @@
                   has already occurred
  * fix Bug #9372: election interface should separate Abstain button visually on page
  * fix Bug #9403: more informative election vote email
+ * fix Bug #9404: clarify &quot;retrieve vote&quot;
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
  * completely rework account requests, both to simplify/clarify and to allow

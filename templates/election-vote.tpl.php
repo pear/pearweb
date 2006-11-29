@@ -71,12 +71,24 @@ if ($info['vote'] == array('(abstain)')) {
 endif; // if ($retrieval && isset($info)) ?>
 <h3>Retrieve your vote in an election:</h3>
 <form name="checkvote" action="/election/index.php" method="post">
-<select name="election">
-<?php foreach ($allelections as $election): ?>
- <option value="<?php echo $election['id']; ?>"><?php echo htmlspecialchars($election['purpose']); ?></option>
-<?php endforeach; // foreach ($allelections as $elections): ?>
-</select>
-<input type="text" size="17" name="salt" />
+<table>
+ <tr>
+  <th class="form-label_top">Election Issue</th>
+  <th class="form-label_top">Vote Salt (was emailed to you)</th>
+ </tr>
+ <tr>
+  <td class="form-input">
+   <select name="election">
+   <?php foreach ($allelections as $election): ?>
+    <option value="<?php echo $election['id']; ?>"><?php echo htmlspecialchars($election['purpose']); ?></option>
+   <?php endforeach; // foreach ($allelections as $elections): ?>
+   </select>
+  </td>
+  <td class="form-input">
+   <input type="text" size="17" name="salt" value="<?php echo date('YmdHis') . mt_rand(1,999) ?>"/>
+  </td>
+ </tr>
+</table>
 <input type="submit" value="Retrieve Vote" />
 </form>
 <?php endif; // if (count($allelections))
