@@ -14,8 +14,8 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.0.0RC2');
-$a->setReleaseStability('beta');
+$a->setReleaseVersion('1.0.0');
+$a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
  * fix REST generation for deprecated packages/channels

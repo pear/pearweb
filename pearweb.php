@@ -93,8 +93,18 @@ class pearweb_postinstall
                 return false;
             }
         }
+        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $c = $a->parseDatabaseDefinitionFile(
             realpath('@web-dir@/sql/pearweb_mdb2schema.xml'));
+        PEAR::staticPopErrorHandling();
+        if (PEAR::isError($c)) {
+            $extra = '';
+            if (MDB2::isError($c)) {
+                $extra = "\n" . $c->getUserInfo();
+            }
+            $this->_ui->outputData('ERROR: ' . $c->getMessage() . $extra);
+            return false;
+        }
         $c['name'] = $answers['database'];
         $c['create'] = 1;
         $c['overwrite'] = 0;
