@@ -342,6 +342,20 @@ class PEAR_Voter
         return true;
     }
 
+    function prettifyVotes($election, $votes)
+    {
+        $res = '';
+        foreach ($election['choices'] as $choice) {
+            if (in_array($choice['choice'], $votes)) {
+                $res .= '[X] ';
+            } else {
+                $res .= '[ ] ';
+            }
+            $res .= $choice['summary'] . "\n";
+        }
+        return $res;
+    }
+
     function email($election, $votes, $salt)
     {
         $info = user::info($this->user);
@@ -353,10 +367,11 @@ class PEAR_Voter
         $subject = '[PEAR-ELECTION] Your vote in election ' . $election['purpose'];
 
         if ($votes) {
+            $votes = $this->prettifyVotes($election, $votes);
             $text = 'Your vote for the election: ' . $election['purpose'] . "\n" .
                 'has been registered.  You voted for:
 ';
-            $text .= implode("\n", $votes) . "\n";
+            $text .= $votes . "\n";
             $text .= 'Your vote salt is ' . $salt . "\n";
             $text .= 'this is your only record of the vote salt, without it your vote ' .
                 'cannot be retrieved.  Thank you for voting';
