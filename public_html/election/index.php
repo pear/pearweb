@@ -7,7 +7,7 @@ if (!isset($auth_user) || !$auth_user) {
     }
     require dirname(dirname(dirname(__FILE__))) . '/templates/election-register.tpl.php';
 } else {
-    require 'pear-voter.php';
+    require 'election/pear-voter.php';
     $voter = &new PEAR_Voter;
     $retrieval = false;
     if (isset($_POST['salt'])) {
