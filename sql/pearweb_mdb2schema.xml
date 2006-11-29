@@ -876,7 +876,7 @@
    </index>
 
    <index>
-    <name>package</name>
+    <name>package_2</name>
     <field>
      <name>package</name>
      <sorting>ascending</sorting>
@@ -1942,7 +1942,7 @@
    </index>
 
    <index>
-    <name>package</name>
+    <name>package_2</name>
     <unique>true</unique>
     <field>
      <name>releasedate</name>
@@ -2366,7 +2366,7 @@
 
    <field>
     <name>reviews</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
    </field>
 
@@ -2447,13 +2447,13 @@
 
    <field>
     <name>pkg_describtion</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
    </field>
 
    <field>
     <name>pkg_deps</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>true</notnull>
    </field>
 

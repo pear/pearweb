@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2006-11-28</date>
- <time>23:13:07</time>
+ <time>23:21:54</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.1</api>
@@ -79,6 +79,7 @@
  * fix Bug #9403: more informative election vote email
  * fix Bug #9404: clarify &quot;retrieve vote&quot;
  * fix Bug #9405: add back button to info.php
+ * fix Bug #9476: schema validation error on postinstall script
  * fix Bug #9483: registering for voter account &quot;enter intended purpose&quot;
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
@@ -974,6 +975,7 @@
  * fix Bug #9403: more informative election vote email
  * fix Bug #9404: clarify &quot;retrieve vote&quot;
  * fix Bug #9405: add back button to info.php
+ * fix Bug #9476: schema validation error on postinstall script
  * fix Bug #9483: registering for voter account &quot;enter intended purpose&quot;
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
