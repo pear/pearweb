@@ -46,4 +46,5 @@
   </td>
  </tr>
 </table>
+<a href="/election/"><< Back to elections list</a>
 <?php response_footer();
