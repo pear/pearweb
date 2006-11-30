@@ -220,6 +220,9 @@ do {
   <td align="left" colspan="3"><input type="radio" value="pear.dev" name="karma" /> PEAR Developer</td>
  </tr>
  <tr>
+  <td align="left" colspan="3"><input type="radio" value="pear.voter" name="karma" /> PEAR Voter <strong>only</strong></td>
+ </tr>
+ <tr>
   <td align="center"><input type="button" value="Open Account" onclick="confirmed_submit(this, 'open this account')" /></td>
   <td align="center"><input type="button" value="Reject Request" onclick="confirmed_submit(this, 'reject this request', this.form.reason, 'You must give a reason for rejecting the request.')" /></td>
   <td align="center"><input type="button" value="Delete Request" onclick="confirmed_submit(this, 'delete this request')" /></td>
