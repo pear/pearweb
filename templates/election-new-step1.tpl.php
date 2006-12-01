@@ -109,7 +109,7 @@ if ($error) {
    <td class="form-input">
     <select name="length">
     <?php
-    for ($i = 1; $i <= 7; $i++) {
+    for ($i = 1; $i <= 14; $i++) {
         if ($info['length'] == $i) {
             $sel = ' selected="selected"';
         } else {

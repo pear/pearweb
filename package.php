@@ -35,6 +35,8 @@ $a->setNotes('
  * fix Bug #9405: add back button to info.php
  * fix Bug #9476: schema validation error on postinstall script
  * fix Bug #9483: registering for voter account "enter intended purpose"
+ * fix Bug #9526: if date is next year, election interface won\'t
+                  properly save new election
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
  * completely rework account requests, both to simplify/clarify and to allow

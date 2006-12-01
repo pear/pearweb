@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-11-28</date>
- <time>23:21:54</time>
+ <date>2006-12-01</date>
+ <time>16:06:34</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.1</api>
@@ -922,7 +922,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2006-11-28</date>
+   <date>2006-12-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * fix REST generation for deprecated packages/channels
