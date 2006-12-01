@@ -2222,7 +2222,7 @@
 
    <field>
     <name>comment</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
    </field>
 
@@ -2278,7 +2278,7 @@
 
    <field>
     <name>comment</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
    </field>
 
@@ -2379,7 +2379,7 @@
 
    <field>
     <name>comment</name>
-    <type>text</type>
+    <type>clob</type>
     <notnull>false</notnull>
    </field>
 
