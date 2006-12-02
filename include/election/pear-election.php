@@ -161,8 +161,8 @@ class PEAR_Election
         } else {
             if (!is_numeric($_POST['length']) || $_POST['length'] != (int) $_POST['length']) {
                 $error[] = 'Voting length is invalid';
-            } elseif ($_POST['length'] < 1 || $_POST['length'] > 7) {
-                $error[] = 'Voting length must be between 1 and 7 days';
+            } elseif ($_POST['length'] < 1 || $_POST['length'] > 14) {
+                $error[] = 'Voting length must be between 1 and 14 days';
             }
         }
         if (empty($_POST['minimum'])) {
