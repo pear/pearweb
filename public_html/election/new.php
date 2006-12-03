@@ -26,8 +26,8 @@ if (!isset($_POST['step'])) {
     $info['detail'] = $_POST['detail'];
     $info['choices'] = (int) $_POST['choices'];
     $info['year'] = (int) $_POST['year'];
-    $info['month'] = (int) $_POST['month'];
-    $info['day'] = (int) $_POST['day'];
+    $info['month'] = $_POST['month'];
+    $info['day'] = $_POST['day'];
     $info['length'] = (int) $_POST['length'];
     $info['minimum'] = (int) $_POST['minimum'];
     $info['maximum'] = (int) $_POST['maximum'];
@@ -50,8 +50,8 @@ if (!isset($_POST['step'])) {
     $info['detail'] = $_POST['detail'];
     $info['choices'] = (int) $_POST['choices'];
     $info['year'] = (int) $_POST['year'];
-    $info['month'] = (int) $_POST['month'];
-    $info['day'] = (int) $_POST['day'];
+    $info['month'] = $_POST['month'];
+    $info['day'] = $_POST['day'];
     $info['length'] = (int) $_POST['length'];
     $info['minimum'] = (int) $_POST['minimum'];
     $info['maximum'] = (int) $_POST['maximum'];
@@ -94,8 +94,8 @@ if (!isset($_POST['step'])) {
     $info['detail'] = $_POST['detail'];
     $info['choices'] = (int) $_POST['choices'];
     $info['year'] = (int) $_POST['year'];
-    $info['month'] = (int) $_POST['month'];
-    $info['day'] = (int) $_POST['day'];
+    $info['month'] = $_POST['month'];
+    $info['day'] = $_POST['day'];
     $info['length'] = (int) $_POST['length'];
     $info['minimum'] = (int) $_POST['minimum'];
     $info['maximum'] = (int) $_POST['maximum'];
