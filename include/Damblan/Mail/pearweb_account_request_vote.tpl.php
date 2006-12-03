@@ -4,20 +4,23 @@
      * Used variables in this template:
      *
      * %username%       username of the requested account
-     * %firstname%      first name of the person requesting the account
-     * %lastname%       last name of the person requesting the account
+     * %salt%           salt for confirmation
      */
 
     $tpl = array(
         'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
         'From' => 'pear-sys@php.net',
-        'Subject' => '[ACCOUNT-REQUEST] Account request : %username%',
-        'Body' => 'An account has been requested by %firstname% %lastname%
+        'Subject' => '[PEAR-ACCOUNT-REQUEST] Your account request : %username%',
+        'Body' => 'You have requested an account to vote in general PEAR elections.
 
-This account is for voting in general PEAR elections.
+This account is only for voting, and is not for proposing a new package.
 
-To handle the request please click on the following link:
-http://' . PEAR_CHANNELNAME . '/admin/index.php?acreq=%username%'
-     );
+To confirm please follow the link
+  http://' . PEAR_CHANNELNAME . '/account-request-confirm.php?salt=%salt%
+
+If you have received this email by mistake we apologize for any
+inconvenience. You do not need to reply to this email.
+ 
+PEAR Quality Assurance.');
 
 ?>

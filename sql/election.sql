@@ -60,3 +60,12 @@ CREATE TABLE election_results (
   votetotal BIGINT NOT NULL,
   PRIMARY KEY (election_id, choice)
 );
+
+CREATE TABLE election_account_request (
+  id INT NOT NULL AUTO_INCREMENT,
+  created_on DATE NOT NULL,
+  handle VARCHAR(20) NOT NULL,
+  salt CHAR(32) NOT NULL,
+  email VARCHAR(65) NOT NULL,
+  PRIMARY KEY(id)
+);

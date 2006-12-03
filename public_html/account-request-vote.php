@@ -22,6 +22,7 @@ define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
 define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 require_once 'Damblan/Mailer.php';
+require_once 'election/pear-election-accountrequest.php';
 
 $display_form = true;
 $width        = 60;
@@ -64,11 +65,9 @@ do {
             break;
         }
 
-        // hard-code this data
-        $stripped['purpose'] = 'vote in general election';
-
-        //  The add method performs further validation then creates the acct
-        $ok = user::add($stripped);
+        $request = new PEAR_Election_Accountrequest();
+        $salt = $request->addRequest($stripped['handle'], $stripped['email'],
+            $stripped['firstname'], $stripped['lastname'], $stripped);
 
         if (!empty($stripped['jumpto'])) {
             $jumpto = $stripped['jumpto'];
@@ -78,33 +77,28 @@ do {
             $display_form = $stripped['display_form'];
         }
 
-        if (is_array($ok)) {
-            $errors = $ok;
+        if (is_array($salt)) {
+            $errors = $salt;
             break;
-        } elseif ($ok === true) {
-            report_success('Your account request has been submitted, it will'
-                  . ' be reviewed by a human shortly.  This may take from'
-                  . ' two minutes to several days, depending on how much'
-                  . ' time people have.'
-                  . ' You will get an email when your account is open,'
-                  . ' or if your request was rejected for some reason.');
+        } elseif (strlen($salt) == 32) {
+            report_success('Your account request confirmation has been submitted, '
+                  . ' You must follow the link provided in the email '
+                  . ' in order to activate your account.'
+                  . ' Until this is done you cannot vote in any election.');
 
             $mailData = array(
                 'username'  => $stripped['handle'],
-                'firstname' => $stripped['firstname'],
-                'lastname'  => $stripped['lastname'],
+                'salt' => $salt,
             );
 
             if (!DEVBOX) {
                 $mailer = Damblan_Mailer::create('pearweb_account_request_vote', $mailData);
-                $additionalHeaders['To'] = '"Arnaud Limbourg" <arnaud@limbourg.com>';
+                $additionalHeaders['To'] = $stripped['email'];
                 $mailer->send($additionalHeaders);
             }
-        } elseif ($ok === false) {
-            $msg = 'Your account request has been submitted, but there'
-                 . ' were problems mailing one or more administrators.'
-                 . ' If you don\'t hear anything about your account in'
-                 . ' a few days, please drop a mail about it to the'
+        } elseif ($salt === false) {
+            $msg = 'Your account cannot be added to the queue.'
+                 . ' Please drop a mail to the '
                  . ' <i>pear-dev</i> mailing list.';
             report_error($msg, 'warnings', 'WARNING:');
         }

@@ -39,6 +39,7 @@ $a->setNotes('
                   properly save new election
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
+ * implement Request #9527: Implement automatic voter registration (arnaud, cellog)
  * completely rework account requests, both to simplify/clarify and to allow
    for the possibility of having general election accounts with no developer
    privileges

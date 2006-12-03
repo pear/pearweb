@@ -2886,4 +2886,59 @@
   </declaration>
 
  </table>
+
+ <table>
+
+  <name>election_account_request</name>
+
+  <declaration>
+
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <autoincrement>true</autoincrement>
+   </field>
+
+   <field>
+    <name>created_on</name>
+    <type>date</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>handle</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>salt</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>email</name>
+    <type>text</type>
+    <length>65</length>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
+
 </database>
