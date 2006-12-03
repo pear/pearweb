@@ -22,6 +22,7 @@
 
 require_once 'Damblan/Karma.php';
 require_once 'Damblan/URL.php';
+require_once 'bugs/pear-bugs.php';
 
 $site = new Damblan_URL;
 
@@ -263,10 +264,11 @@ if (empty($action)) {
     print '</tr>';
 
     print '<tr>';
-    print '<th colspan="2" class="headrow">&raquo; Current Release</th>';
+    print '<th width="50%" class="headrow">&raquo; Current Release</th>';
+    print '<th width="50%" class="headrow">&raquo; Bug Summary</th>';
     print '</tr>';
     print '<tr>';
-    print '<td colspan="2" class="textcell">';
+    print '<td width="50%" class="textcell">';
     if (isset($versions[0])) {
         print '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
         print ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
@@ -293,8 +295,31 @@ if (empty($action)) {
         print 'No releases have been made yet.';
     }
     print '</td>';
+    print '<td width="50%" class="textcell">';
+    $bugs = new PEAR_Bugs;
+    $buginfo = $bugs->packageBugStats($pkg['name']);
+    if (!$buginfo['count']) {
+        print 'No open bugs';
+    } else {
+        print '<ul>';
+        $bstats = $bugs->bugRank();
+        foreach ($bstats as $i => $pi) {
+            if ($pi['name'] == $pkg['name']) {
+                print '<li>Package Maintenance Rank: <strong>' . ++$i . '</strong> of ' .
+                    count ($bstats) .
+                    ' packages with open bugs</li>';
+                break;
+            }
+        }
+        print '<li>Number of <a href="/bugs/search.php?cmd=display&package_name[]=' .
+            $pkg['name'] . '&status=OpenFeedback&bug_type=Bugs">open bugs</a>: <strong>' .
+            $buginfo['count'] . '</strong></li>';
+        print '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>';
+        print '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>';
+        print '</ul>';
+    }
+    print '</td>';
     print '</tr>';
-
     print '<tr>';
     print '<th colspan="2" class="headrow">&raquo; Description</th>';
     print '</tr>';

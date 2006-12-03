@@ -175,6 +175,10 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         default:
             $where_clause .= " AND bugdb.status IN ('Open', 'Assigned'," .
                              " 'Analyzed', 'Critical', 'Verified')";
+        case 'OpenFeedback':
+        default:
+            $where_clause .= " AND bugdb.status IN ('Open', 'Assigned'," .
+                             " 'Analyzed', 'Critical', 'Verified', 'Feedback')";
     }
 
     if (empty($_GET['search_for'])) {

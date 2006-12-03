@@ -44,6 +44,8 @@ $a->setNotes('
    privileges
  * add missing PEPr tables to the MDB2 schema .xml file
  * add list of PEAR books in the support section
+ * add bug summary statistics to package homepages, clearly showing
+   packages with little or no attention to bugs
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

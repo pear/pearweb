@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-12-01</date>
- <time>16:06:34</time>
+ <date>2006-12-03</date>
+ <time>00:29:45</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.1</api>
@@ -81,6 +81,8 @@
  * fix Bug #9405: add back button to info.php
  * fix Bug #9476: schema validation error on postinstall script
  * fix Bug #9483: registering for voter account &quot;enter intended purpose&quot;
+ * fix Bug #9526: if date is next year, election interface won&apos;t
+                  properly save new election
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
  * completely rework account requests, both to simplify/clarify and to allow
@@ -88,6 +90,8 @@
    privileges
  * add missing PEPr tables to the MDB2 schema .xml file
  * add list of PEAR books in the support section
+ * add bug summary statistics to package homepages, clearly showing
+   packages with little or no attention to bugs
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -922,7 +926,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2006-12-01</date>
+   <date>2006-12-03</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * fix REST generation for deprecated packages/channels
@@ -942,6 +946,8 @@
  * fix Bug #9405: add back button to info.php
  * fix Bug #9476: schema validation error on postinstall script
  * fix Bug #9483: registering for voter account &quot;enter intended purpose&quot;
+ * fix Bug #9526: if date is next year, election interface won&apos;t
+                  properly save new election
  * implement Request #7828: PEAR Bug Summary Report
  * implement Request #9118: Added new feature to pepr
  * completely rework account requests, both to simplify/clarify and to allow
@@ -949,6 +955,8 @@
    privileges
  * add missing PEPr tables to the MDB2 schema .xml file
  * add list of PEAR books in the support section
+ * add bug summary statistics to package homepages, clearly showing
+   packages with little or no attention to bugs
    </notes>
   </release>
  </changelog>
