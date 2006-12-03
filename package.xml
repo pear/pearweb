@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2006-12-03</date>
- <time>01:11:46</time>
+ <time>01:14:54</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.1</api>
@@ -147,6 +147,7 @@
      <file name="URL.php" role="web" />
     </dir> <!-- /include/Damblan -->
     <dir name="election">
+     <file name="pear-election-accountrequest.php" role="web" />
      <file name="pear-election.php" role="web" />
      <file name="pear-voter.php" role="web" />
     </dir> <!-- /include/election -->
@@ -438,6 +439,7 @@
     <file name="account-edit.php" role="web" />
     <file name="account-info.php" role="web" />
     <file name="account-mail.php" role="web" />
+    <file name="account-request-confirm.php" role="web" />
     <file name="account-request-existingpackage.php" role="web" />
     <file name="account-request-newpackage.php" role="web" />
     <file name="account-request-vote.php" role="web" />
