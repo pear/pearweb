@@ -114,7 +114,7 @@ class PEAR_Election_Accountrequest
         $id = $this->dbh->nextId("karma");
 
         $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
-        $sth = $this->dbh->query($query, array($id, $user, 'pear.voter', 'pearweb'));
+        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', 'pearweb'));
 
         if (!DB::isError($sth)) {
             note::add("uid", $this->handle, "Account opened", 'pearweb');
