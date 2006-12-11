@@ -29,23 +29,27 @@ response_header('PEAR Maps', false, $map);
 <?php
 $maps = array(
     'world' => 
-        array('name' => 'World Maps', 
-              'link' => 'http://pear.cweiske.de/devmaps/peardev-world.jpg',
+        array('name'  => 'World Maps', 
+              'link'  => 'http://pear.cweiske.de/devmaps/peardev-world.jpg',
+              'thumb' => 'http://pear.cweiske.de/devmaps/peardev-world.200.jpg'
         ),
         
     'northamerica' => 
-        array('name' => 'North America Maps',
-              'link' => 'http://pear.cweiske.de/devmaps/peardev-northamerica.jpg',
+        array('name'  => 'North America Maps',
+              'link'  => 'http://pear.cweiske.de/devmaps/peardev-northamerica.jpg',
+              'thumb' => 'http://pear.cweiske.de/devmaps/peardev-northamerica.200.jpg',
         ),
         
     'southamerica' => 
-        array('name' => 'South America Maps',
-              'link' => 'http://pear.cweiske.de/devmaps/peardev-southamerica.jpg',
+        array('name'  => 'South America Maps',
+              'link'  => 'http://pear.cweiske.de/devmaps/peardev-southamerica.jpg',
+              'thumb' => 'http://pear.cweiske.de/devmaps/peardev-southamerica.200.jpg',
         ),
         
     'europe' => 
-        array('name' => 'Europe Maps',
-              'link' => 'http://pear.cweiske.de/devmaps/peardev-europe.jpg',
+        array('name'  => 'Europe Maps',
+              'link'  => 'http://pear.cweiske.de/devmaps/peardev-europe.jpg',
+              'thumb' => 'http://pear.cweiske.de/devmaps/peardev-europe.200.jpg',
         ),
 );
 ?>
