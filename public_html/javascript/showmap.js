@@ -24,7 +24,7 @@ function showmap() {
         if (lat.length > 5 && lng.length > 5) {
             var point = new GLatLng(lat, lng);
             var icon = new GIcon();
-            icon.image = 'http://pear.php.net/gifs/pearpoint.gif';
+            icon.image = 'http://pear.php.net/pngs/pearpoint.png';
             icon.iconSize = new GSize(15, 20);
             icon.shadowSize = new GSize(25, 30);
             icon.iconAnchor = new GPoint(0, 0);
