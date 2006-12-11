@@ -245,7 +245,7 @@ echo $extraHeaders;
 }
 
 
-function response_footer($style = false)
+function response_footer($style = false, $extraContent = false)
 {
     global $LAST_UPDATED, $MIRRORS, $MYSITE, $COUNTRIES,$SCRIPT_NAME, $RSIDEBAR_DATA;
 
@@ -327,6 +327,11 @@ print_link('/about/credits.php', 'CREDITS', false, 'class="menuBlack"');
 <!-- END FOOTER -->
 
 </body>
+<?php
+if ($extraContent) {
+    print $extraContent;
+}
+?>
 </html>
 
     <?php

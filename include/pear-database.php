@@ -2858,7 +2858,16 @@ class user
     function update($data) {
         global $dbh;
 
-        $fields = array("name", "email", "homepage", "showemail", "userinfo", "pgpkeyid", "wishlist");
+        $fields = array('name', 
+                        'email', 
+                        'homepage', 
+                        'showemail', 
+                        'userinfo', 
+                        'pgpkeyid', 
+                        'wishlist', 
+                        'latitude', 
+                        'longitude',
+                  );
 
         $user =& new PEAR_User($dbh, $data['handle']);
         foreach ($data as $key => $value) {

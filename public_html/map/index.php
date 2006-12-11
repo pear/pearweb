@@ -29,25 +29,25 @@ response_header('PEAR Maps', false, $map);
 <?php
 $maps = array(
     'world' => 
-        array('name'  => 'World Maps', 
+        array('name'  => 'World Map', 
               'link'  => 'http://pear.cweiske.de/devmaps/peardev-world.jpg',
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-world.200.jpg'
         ),
-        
+
     'northamerica' => 
-        array('name'  => 'North America Maps',
+        array('name'  => 'North America Map',
               'link'  => 'http://pear.cweiske.de/devmaps/peardev-northamerica.jpg',
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-northamerica.200.jpg',
         ),
-        
+
     'southamerica' => 
-        array('name'  => 'South America Maps',
+        array('name'  => 'South America Map',
               'link'  => 'http://pear.cweiske.de/devmaps/peardev-southamerica.jpg',
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-southamerica.200.jpg',
         ),
-        
+
     'europe' => 
-        array('name'  => 'Europe Maps',
+        array('name'  => 'Europe Map',
               'link'  => 'http://pear.cweiske.de/devmaps/peardev-europe.jpg',
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-europe.200.jpg',
         ),
@@ -62,42 +62,13 @@ $maps = array(
  <br />
  <noscript>
   <?php
-  $gets = $_GET;
-
-  if (!isset($gets['region'])) {
-      print '<h1>Maps Links</h1>';
-      print '<a href="index.php?region=world&js=no">World Map</a><br />';
-      print '<a href="index.php?region=europe&js=no">Europe Map</a><br />';
-      print '<a href="index.php?region=northamerica&js=no">North America Map</a><br />';
-      print '<a href="index.php?region=southamerica&js=no">South America Map</a><br />';
-      print '<hr noshade/>';
-  }
-
-  if (isset($gets['region']) && 
-      isset($gets['js']) && $gets['js'] == 'no') 
-  {
-      print '<a href="index.php">List Maps</a><br />';
-      $mapContent = '';
-      $region = $gets['region'];
-      switch (strtolower($region)) {
-          case 'world':
-          case 'europe':
-          case 'northamerica':
-          case 'southamerica':
-              $mapContent = '
-                  <h1>'.$maps[$region]['name'].'</h1>
-                  <a href="'.$maps[$region]['link'].'">
-                  <img style="width: 90%; 
-                              height: 400";
-                              border; 1px solid black;
-                       src="'.$maps[$region]['link'].'"
-                       alt="'.$maps[$region]['name'].'"/></a>
-              ';
-              break;
-      }
-      print $mapContent;
-  }
-
+    print '<h1>Maps Links</h1>';
+    foreach ($maps as $map) {
+        echo '<a href="' . $map['link'] . '">'
+            .'<img src="' . $map['thumb'] . '" alt="' . $map['name'] . '" width="300px"/>'
+            .'</a>' . "\r\n";
+    }
+    print '<hr noshade/>';
   ?>
  </noscript>
  <br /><br />
