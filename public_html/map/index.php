@@ -107,6 +107,8 @@ $maps = array(
     $sql = "
     SELECT latitude, longitude, handle, homepage, email
      FROM users
+      WHERE latitude <> ''
+      AND longitude  <> ''
     ";
 
     $infos = $dbh->getAll($sql);
