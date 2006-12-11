@@ -41,7 +41,11 @@ if ($handle && !ereg('^[0-9a-z_]{2,20}$', $handle)) {
 
 
 ob_start();
-response_header('Edit Profile :: ' . $handle);
+
+$map = '
+<script language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjPqDvnoTwt1l2d9kE7aeSRTvq1EzFJ2An5H6gf53tkxXc1_4QRTnOsnCZUu9PPUZxp0ZM7HYMmpIew"></script>
+';
+response_header('Edit Profile :: ' . $handle, false, $map);
 
 print '<h1>Edit Profile: ';
 print '<a href="/user/'. htmlspecialchars($handle) . '">'
@@ -66,7 +70,7 @@ if (isset($_POST['command']) && strlen($_POST['command'] < 32)) {
 
 switch ($command) {
     case 'update':
-        $fields_list = array("name", "email", "homepage", "showemail", "userinfo", "pgpkeyid", "wishlist");
+        $fields_list = array("name", "email", "homepage", "showemail", "userinfo", "pgpkeyid", "wishlist", "latitude", "longitude");
 
         $user_data_post = array('handle' => $handle);
         foreach ($fields_list as $k) {
@@ -78,6 +82,18 @@ switch ($command) {
             if ($k == 'wishlist') {
                 $user_data_post['wishlist'] = isset($_POST['wishlist']) ? strip_tags($_POST['wishlist']) : '';
                 continue;
+            }
+
+            if ($k == 'latitude') {
+                $user_data_post['latitude'] = 
+                    isset($_POST['latitude']) ?
+                    strip_tags($_POST['latitude']) : '';
+            }
+
+            if ($k == 'longitude') {
+                $user_data_post['longitude'] = 
+                    isset($_POSt['longitude']) ?
+                    strip_tags($_POST['longituded']) : '';
             }
 
             if (!isset($_POST[$k])) {
@@ -193,6 +209,7 @@ $form->addCheckbox('showemail', 'Show email address?',
         htmlspecialchars($row['showemail']));
 $form->addText('homepage', 'Homepage:',
         htmlspecialchars($row['homepage']), 40, null);
+
 $form->addText('wishlist', 'Wishlist URI:',
         htmlspecialchars($row['wishlist']), 40, null);
 $form->addText('pgpkeyid', 'PGP Key ID:'
@@ -205,6 +222,16 @@ $form->addTextarea('userinfo',
 $form->addTextarea('cvs_acl',
         'CVS Access:',
         htmlspecialchars($cvs_acl), 40, 5, null);
+$form->addText('latitude', 'Latitude Point:',
+        htmlspecialchars($row['latitude']), 40, null, 'id="latitude"');
+$form->addText('longitude', 'Longitude Point:',
+        htmlspecialchars($row['longitude']), 40, null, 'id="longitude"');
+$form->addPlaintext('
+<script language="javascript" src="javascript/showmap.js"></script>
+<script language="javascript" src="javascript/popmap.js"></script>
+');
+$form->addPlaintext('<a href="#" onclick="pearweb.display_map(event); showmap();">Open map</a>');
+
 $form->addSubmit('submit', 'Submit');
 $form->addHidden('handle', htmlspecialchars($handle));
 $form->addHidden('command', 'update');
@@ -212,6 +239,8 @@ $form->display('class="form-holder" style="margin-bottom: 2em;"'
                . ' cellspacing="1"',
                'Edit Your Information', 'class="form-caption"');
 
+print '
+<div style="position:absolute; visibility: hidden;" id="pearweb_map"></div>';
 
 print '<a name="password"></a>' . "\n";
 print '<h2>&raquo; Manage your password</h2>' . "\n";

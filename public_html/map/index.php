@@ -19,7 +19,7 @@
  * @version   $Id$
  */
 $map = '
-<script language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjPqDvnoTwt1l2d9kE7aeSRTvq1EzFJ2An5H6gf53tkxXc1_4QRTnOsnCZUu9PPUZxp0ZM7HYMmpIew"></script>
+<script language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjPqDvnoTwt1l2d9kE7aeSRSaX3uuPis-gsi6PocQln0mfq-TehSSt5OZ9q0OyzKSOAfNu8NuLlNgWA"></script>
 ';
 response_header('PEAR Maps', false, $map);
 
