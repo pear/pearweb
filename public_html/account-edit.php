@@ -92,7 +92,7 @@ switch ($command) {
 
             if ($k == 'longitude') {
                 $user_data_post['longitude'] = 
-                    isset($_POSt['longitude']) ?
+                    isset($_POST['longitude']) ?
                     strip_tags($_POST['longitude']) : '';
             }
 
