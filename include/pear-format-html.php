@@ -368,6 +368,7 @@ function draw_navigation($type, $menu_title='')
             break;
         case 'developer_menu':
             $data= array(
+                '/map/'                => 'Find a Developer',
                 '/accounts.php'        => 'List Accounts',
                 '/release-upload.php'  => 'Upload Release',
                 '/package-new.php'     => 'New Package'

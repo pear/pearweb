@@ -26,7 +26,7 @@ $query = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
  * not on php5 yet, so we can't use DOM or
  * xmlwriter. Let's just build custom XML
  */
-$xml  = '<?xml version="1.0" encoding="UTF-8" ?>' . "\n";
+$xml  = '<?xml version="1.0" encoding="iso-8859-1" ?>' . "\n";
 $xml .= '
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"

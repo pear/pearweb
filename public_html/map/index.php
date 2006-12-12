@@ -19,7 +19,7 @@
  * @version   $Id$
  */
 $map = '
-<script language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjPqDvnoTwt1l2d9kE7aeSRSaX3uuPis-gsi6PocQln0mfq-TehSSt5OZ9q0OyzKSOAfNu8NuLlNgWA"></script>
+<script type="text/javascript" language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjPqDvnoTwt1l2d9kE7aeSRSaX3uuPis-gsi6PocQln0mfq-TehSSt5OZ9q0OyzKSOAfNu8NuLlNgWA"></script>
 ';
 response_header('PEAR Maps', false, $map);
 
@@ -28,28 +28,46 @@ response_header('PEAR Maps', false, $map);
 <h1>PEAR Developer's locations!</h1>
 <?php
 $maps = array(
-    'world' => 
-        array('name'  => 'World Map', 
+    'world' =>
+        array('name'  => 'World Map',
               'link'  => 'http://pear.cweiske.de/devmaps/peardev-world.jpg',
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-world.200.jpg'
         ),
 
-    'northamerica' => 
-        array('name'  => 'North America Map',
+    'northamerica' =>
+        array('name'  => 'North America',
               'link'  => 'http://pear.cweiske.de/devmaps/peardev-northamerica.jpg',
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-northamerica.200.jpg',
         ),
 
-    'southamerica' => 
-        array('name'  => 'South America Map',
+    'southamerica' =>
+        array('name'  => 'South America',
               'link'  => 'http://pear.cweiske.de/devmaps/peardev-southamerica.jpg',
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-southamerica.200.jpg',
         ),
 
     'europe' => 
-        array('name'  => 'Europe Map',
+        array('name'  => 'Europe',
               'link'  => 'http://pear.cweiske.de/devmaps/peardev-europe.jpg',
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-europe.200.jpg',
+        ),
+
+    'mideast' =>
+        array('name'  => 'Middle East',
+              'link'  => 'http://pear.cweiske.de/devmaps/peardev-mideast.jpg',
+              'thumb' => 'http://pear.cweiske.de/devmaps/peardev-mideast.200.jpg',
+        ),
+
+    'asia' =>
+        array('name'  => 'Asia',
+              'link'  => 'http://pear.cweiske.de/devmaps/peardev-asia.jpg',
+              'thumb' => 'http://pear.cweiske.de/devmaps/peardev-asia.200.jpg',
+        ),
+
+    'australia' =>
+        array('name'  => 'Australia',
+              'link'  => 'http://pear.cweiske.de/devmaps/peardev-australia.jpg',
+              'thumb' => 'http://pear.cweiske.de/devmaps/peardev-australia.200.jpg',
         ),
 );
 ?>
@@ -65,15 +83,15 @@ $maps = array(
     print '<h1>Maps Links</h1>';
     foreach ($maps as $map) {
         echo '<a href="' . $map['link'] . '">'
-            .'<img src="' . $map['thumb'] . '" alt="' . $map['name'] . '" width="300px"/>'
+            .'<img src="' . $map['thumb'] . '" alt="' . $map['name'] . '" width="200px"/>'
             .'</a>' . "\r\n";
     }
-    print '<hr noshade/>';
+    print '<hr noshade="noshade"/>';
   ?>
  </noscript>
  <br /><br />
  <?php print_link('/support/', 'support channels'); ?>.
- </p>
+
  <script language="javascript" type="text/javascript">
 
  points = new Array();
