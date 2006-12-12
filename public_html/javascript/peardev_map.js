@@ -12,7 +12,7 @@ var baseIcon              = new GIcon();
 
 baseIcon.iconSize         = new GSize(20, 20);
 baseIcon.shadowSize       = new GSize(37, 34);
-baseIcon.iconAnchor       = new GPoint(-16, -16);
+baseIcon.iconAnchor       = new GPoint(0, 0);
 baseIcon.infoWindowAnchor = new GPoint(9, 2);
 baseIcon.infoShadowAnchor = new GPoint(18, 25);
 // }}}
