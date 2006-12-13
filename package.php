@@ -14,39 +14,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.0.0');
+$a->setReleaseVersion('1.0.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * fix REST generation for deprecated packages/channels
- * fix REST generation of packagesinfo.xml for categories
- * fix winner calculation in election interface
- * fix Bug #5340: User details are overescaped
- * fix Bug #8842: package.xml package name need not match case and must
- * fix Bug #9209: Missing package description in proposal editor
- * fix Bug #9368: election interface needs labels for radio buttons/checkboxes
- * fix Bug #9369: email vote hash and vote choice
- * fix Bug #9370: add easy "back" navigation button for voting interface
- * fix Bug #9371: election interface: each page should check whether voting
-                  has already occurred
- * fix Bug #9372: election interface should separate Abstain button visually on page
- * fix Bug #9403: more informative election vote email
- * fix Bug #9404: clarify "retrieve vote"
- * fix Bug #9405: add back button to info.php
- * fix Bug #9476: schema validation error on postinstall script
- * fix Bug #9483: registering for voter account "enter intended purpose"
- * fix Bug #9526: if date is next year, election interface won\'t
-                  properly save new election
- * implement Request #7828: PEAR Bug Summary Report
- * implement Request #9118: Added new feature to pepr
- * implement Request #9527: Implement automatic voter registration (arnaud, cellog)
- * completely rework account requests, both to simplify/clarify and to allow
-   for the possibility of having general election accounts with no developer
-   privileges
- * add missing PEPr tables to the MDB2 schema .xml file
- * add list of PEAR books in the support section
- * add bug summary statistics to package homepages, clearly showing
-   packages with little or no attention to bugs
+ * hide emails of developers in maps who request it
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
