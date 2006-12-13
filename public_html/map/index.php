@@ -96,7 +96,7 @@ $maps = array(
  
  <?php
     $sql = "
-    SELECT latitude, longitude, handle, homepage, email
+    SELECT latitude, longitude, handle, homepage, IF(showemail,email,'') as email
      FROM users
       WHERE latitude <> ''
       AND longitude  <> ''
