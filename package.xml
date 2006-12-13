@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-12-03</date>
- <time>01:14:54</time>
+ <date>2006-12-13</date>
+ <time>10:24:25</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.1</api>
@@ -336,6 +336,7 @@
      <file name="pear-power.gif" role="web" />
      <file name="pear-power.png" role="web" />
      <file name="pear.gif" role="web" />
+     <file name="pearpoint.gif" role="web" />
      <file name="pearsmall.gif" role="web" />
      <file name="pear_item.gif" role="web" />
      <file name="pecl-icon.gif" role="web" />
@@ -381,12 +382,19 @@
      </dir> <!-- /public_html/javascript/TreeMenu -->
      <file name="md5.js" role="web" />
      <file name="package-maintainers.js" role="web" />
+     <file name="peardev_map.js" role="web" />
      <file name="pear_editor.js" role="web" />
+     <file name="popmap.js" role="web" />
+     <file name="showmap.js" role="web" />
      <file name="sorttable.js" role="web" />
     </dir> <!-- /public_html/javascript -->
     <dir name="manual">
      <file name="index.php" role="web" />
     </dir> <!-- /public_html/manual -->
+    <dir name="map">
+     <file name="index.php" role="web" />
+     <file name="locationREST.php" role="web" />
+    </dir> <!-- /public_html/map -->
     <dir name="news">
      <file name="activestate-award-ssb.php" role="web" />
      <file name="group-announce.php" role="web" />
@@ -411,6 +419,11 @@
      <file name="pepr-vote-show.php" role="web" />
      <file name="pepr-votes-show.php" role="web" />
     </dir> <!-- /public_html/pepr -->
+    <dir name="pngs">
+     <file name="dev.png" role="web" />
+     <file name="pearpoint.png" role="web" />
+     <file name="users.png" role="web" />
+    </dir> <!-- /public_html/pngs -->
     <dir name="qa">
      <file name="index.php" role="web" />
      <file name="packages_orphan.php" role="web" />
@@ -932,7 +945,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2006-12-03</date>
+   <date>2006-12-13</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * fix REST generation for deprecated packages/channels
