@@ -74,7 +74,7 @@ $maps = array(
 <p>
  This map contains the location of the PEAR developers that were kind enough
  to put their location or close to their location up there. If you need support
- just visit the support's page <?php print_link('/support/', 'support page'); ?>
+ just visit the <?php print_link('/support/', 'support page'); ?>.
  <br /></p>
  <p>Now that you are ready to proceed:</p>
  <br />
