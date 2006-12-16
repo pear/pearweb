@@ -77,7 +77,7 @@ class PEAR_Bugs
               b.package_name = p.name AND
               b.bug_type \!= "Feature/Change Request" AND
               b.status IN ("Assigned", "Analyzed", "Feedback", "Open", "Critical", "Verified") AND
-              b.assign = ?', array($handle, $handle));
+              (b.assign = ? OR b.assign IS NULL OR b.assign="")', array($handle, $handle));
         $opencount = $this->_dbh->getOne('SELECT COUNT(*)
              FROM bugdb b, maintains m, packages p
              WHERE
@@ -86,7 +86,7 @@ class PEAR_Bugs
               b.package_name = p.name AND
               b.bug_type \!= "Feature/Change Request" AND
               b.status IN ("Assigned", "Analyzed", "Feedback", "Open", "Critical", "Verified") AND
-              b.assign = ?', array($handle, $handle));
+              (b.assign = ? OR b.assign IS NULL OR b.assign="")', array($handle, $handle));
         $bugrank = $this->_dbh->getAll('SELECT COUNT(*) as c, m.handle
              FROM bugdb b, maintains m, packages p
              WHERE
@@ -97,7 +97,7 @@ class PEAR_Bugs
               b.status = "Closed"
              GROUP BY m.handle
              ORDER BY c DESC, b.ts1 DESC', array(), DB_FETCHMODE_ASSOC);
-        $rank = count($bugrank) + 1;
+        $rank = count($bugrank);
         $alltimecount = 0;
         foreach ($bugrank as $i => $inf) {
             if ($inf['handle'] == $handle) {
@@ -108,9 +108,9 @@ class PEAR_Bugs
         }
         return array(
             'total' => $total,
-            'assigned' => $assigned / $total,
-            'openage' => $openage,
-            'opencount' => $opencount,
+            'assigned' => $total ? $assigned / $total : 0,
+            'openage' => $openage ? $openage : 0,
+            'opencount' => $opencount ? $opencount : 0,
             'info' => $allbugs,
             'rankings' => $bugrank,
             'rank' => $rank,
