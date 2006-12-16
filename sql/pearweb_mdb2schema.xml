@@ -248,7 +248,7 @@
     <field>
      <name>ldesc</name>
      <sorting>descending</sorting>
-     <length>255</length>
+     <length>200</length>
     </field>
    </index>
 
