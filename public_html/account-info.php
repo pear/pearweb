@@ -148,6 +148,19 @@ echo '<li>RSS Feed: &nbsp;';
 print_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/feeds/user_' . $handle . '.rss');
 echo '</li>';
 
+echo '<li>Bug Statistics: <br /><ul>';
+
+require 'bugs/pear-bugs.php';
+$bugs = new PEAR_Bugs;
+$info = $bugs->developerBugStats($handle);
+echo '<li>Rank: <strong><a href="/bugs/stats.php#devs">#' . $info['rank'] . ' of ' . count($info['rankings']) . '</a></strong> developers who have fixed bugs <strong>(' .
+    $info['alltime'] . ' fixed bugs)</strong></li>';
+echo '<li>Average age of open bugs: <strong>' . $info['openage'] . ' days</strong></li>';
+echo '<li>Number of open bugs: <strong>' . $info['opencount'] . ' days</strong></li>';
+echo '<li>Assigned bugs relative to all maintained packages\' bugs: <strong>' .
+    round($info['assigned'] * 100) . '%</strong></li>';
+echo '</ul></li>';
+
 ?>
 
    </ul>

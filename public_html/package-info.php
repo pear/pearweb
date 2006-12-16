@@ -151,13 +151,16 @@ $superseded_by_new_package  = htmlspecialchars($pkg['new_package']);
 // Maintainer information
 $maintainers = maintainer::get($pacid);
 $accounts  = '<ul>';
+$bugs = new PEAR_Bugs;
 
 foreach ($maintainers as $handle => $row) {
+    $buginfo = $bugs->getRank($handle);
     $accounts .= '<li>';
     $accounts .= user_link($handle);
     $accounts .= '(' . $row['role'] .
                   ($row['active'] == 0 ? ', inactive' : '')
-		. ')';
+		. ')<br /> Bug fixer Rank: <strong>#' . $buginfo[0] . ' of ' . $buginfo[1] .
+		'</strong>';
     $accounts .= '</li>';
 }
 

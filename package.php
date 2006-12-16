@@ -14,11 +14,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.0.1');
+$a->setReleaseVersion('1.1.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * hide emails of developers in maps who request it
+ * add statistics for developers\' bug activity
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

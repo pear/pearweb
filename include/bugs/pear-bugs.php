@@ -45,5 +45,118 @@ class PEAR_Bugs
         ', array(), DB_FETCHMODE_ASSOC);
         return $info;
     }
+
+    function developerBugStats($handle)
+    {
+        $allbugs = $this->_dbh->getAssoc('SELECT b.status, COUNT(b.status) as c
+             FROM bugdb b, maintains m, packages p
+             WHERE
+              m.handle = ? AND
+              p.id = m.package AND
+              b.package_name = p.name AND
+              b.bug_type \!= "Feature/Change Request"
+             GROUP BY b.status;', false, array($handle));
+        $total = 0;
+        foreach ($allbugs as $buginfo)
+        {
+            $total += $buginfo;
+        }
+        $assigned = $this->_dbh->getOne('SELECT COUNT(b.status)
+             FROM bugdb b, maintains m, packages p
+             WHERE
+              m.handle = ? AND
+              p.id = m.package AND
+              b.package_name = p.name AND
+              b.bug_type \!= "Feature/Change Request" AND
+              b.assign = ?', array($handle, $handle));
+        $openage = $this->_dbh->getOne('SELECT ROUND(AVG(TO_DAYS(NOW()) - TO_DAYS(b.ts1)))
+             FROM bugdb b, maintains m, packages p
+             WHERE
+              m.handle = ? AND
+              p.id = m.package AND
+              b.package_name = p.name AND
+              b.bug_type \!= "Feature/Change Request" AND
+              b.status IN ("Assigned", "Analyzed", "Feedback", "Open", "Critical", "Verified") AND
+              b.assign = ?', array($handle, $handle));
+        $opencount = $this->_dbh->getOne('SELECT COUNT(*)
+             FROM bugdb b, maintains m, packages p
+             WHERE
+              m.handle = ? AND
+              p.id = m.package AND
+              b.package_name = p.name AND
+              b.bug_type \!= "Feature/Change Request" AND
+              b.status IN ("Assigned", "Analyzed", "Feedback", "Open", "Critical", "Verified") AND
+              b.assign = ?', array($handle, $handle));
+        $bugrank = $this->_dbh->getAll('SELECT COUNT(*) as c, m.handle
+             FROM bugdb b, maintains m, packages p
+             WHERE
+              p.id = m.package AND
+              b.package_name = p.name AND
+              b.bug_type != "Feature/Change Request" AND
+              b.assign = m.handle AND
+              b.status = "Closed"
+             GROUP BY m.handle
+             ORDER BY c DESC, b.ts1 DESC', array(), DB_FETCHMODE_ASSOC);
+        $rank = count($bugrank) + 1;
+        $alltimecount = 0;
+        foreach ($bugrank as $i => $inf) {
+            if ($inf['handle'] == $handle) {
+                $rank = $i + 1;
+                $alltimecount = $inf['c'];
+                break;
+            }
+        }
+        return array(
+            'total' => $total,
+            'assigned' => $assigned / $total,
+            'openage' => $openage,
+            'opencount' => $opencount,
+            'info' => $allbugs,
+            'rankings' => $bugrank,
+            'rank' => $rank,
+            'alltime' => $alltimecount,
+        );
+    }
+
+    function getRank($handle)
+    {
+        static $bugrank = false;
+        if (!$bugrank) {
+            $bugrank = $this->_dbh->getAll('SELECT COUNT(*) as c, m.handle
+                 FROM bugdb b, maintains m, packages p
+                 WHERE
+                  p.id = m.package AND
+                  b.package_name = p.name AND
+                  b.bug_type != "Feature/Change Request" AND
+                  b.assign = m.handle AND
+                  b.status = "Closed"
+                 GROUP BY m.handle
+                 ORDER BY c DESC, b.ts1 DESC', array(), DB_FETCHMODE_ASSOC);
+        }
+        $rank = count($bugrank) + 1;
+        $alltimecount = 0;
+        foreach ($bugrank as $i => $inf) {
+            if ($inf['handle'] == $handle) {
+                $rank = $i + 1;
+                $alltimecount = $inf['c'];
+                break;
+            }
+        }
+        return array($rank, count($bugrank) + 1);
+    }
+
+    function allDevelStats()
+    {
+        return $this->_dbh->getAll('SELECT COUNT(*) as c, m.handle
+             FROM bugdb b, maintains m, packages p
+             WHERE
+              p.id = m.package AND
+              b.package_name = p.name AND
+              b.bug_type != "Feature/Change Request" AND
+              b.assign = m.handle AND
+              b.status = "Closed"
+             GROUP BY m.handle
+             ORDER BY c DESC', array(), DB_FETCHMODE_ASSOC);
+    }
 }
 ?>

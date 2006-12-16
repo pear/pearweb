@@ -275,6 +275,26 @@ foreach ($pkg[$sort_by] as $name => $value) {
 }
 
 echo "</table>\n";
+echo '<a name="devs">&nbsp;</a>';
+echo "<h1>Most Active Bug-fixing Developers</h1>";
+echo "<p>The following is a list of developers who have bugs marked <strong>Closed</strong> and assigned to them ranked by the number of closed bugs.</p>";
+require_once 'bugs/pear-bugs.php';
+$bugs = new PEAR_Bugs;
+$develstats = $bugs->allDevelStats();
+echo '<table>'; ?>
+ <tr>
+  <th class="bug_head">Closed Bugs</th>
+  <th class="bug_head">Developer</th>
+ </tr>
+<?php
+foreach ($develstats as $stat) {
+    echo " <tr>\n";
+    echo '  <td class="bug_bg0">' . $stat['c'] . "</td>\n";
+    echo '  <td class="bug_bg0"><a href="/user/' . $stat['handle'] . '">' .
+        $stat['handle'] . "</a></td>\n";
+    echo " </tr>\n";
+}
+echo "</table>\n";
 
 response_footer();
 
