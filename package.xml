@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2006-12-16</date>
- <time>17:05:27</time>
+ <date>2006-12-17</date>
+ <time>12:17:09</time>
  <version>
   <release>1.1.0</release>
   <api>0.1.1</api>
@@ -65,6 +65,7 @@
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
  * add statistics for developers&apos; bug activity
+ * auto-assign to developer when a developer marks a bug closed
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -971,10 +972,11 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2006-12-16</date>
+   <date>2006-12-17</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * add statistics for developers&apos; bug activity
+ * auto-assign to developer when a developer marks a bug closed
    </notes>
   </release>
  </changelog>

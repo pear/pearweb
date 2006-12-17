@@ -19,6 +19,7 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
  * add statistics for developers\' bug activity
+ * auto-assign to developer when a developer marks a bug closed
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

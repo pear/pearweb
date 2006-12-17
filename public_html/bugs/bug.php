@@ -364,6 +364,9 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
             $status = $_POST['in']['status'];
         }
 
+        if ($status == 'Closed' && $_POST['in']['assign'] == '') {
+            $_POST['in']['assign'] = $auth_user->handle;
+        }
         $query .= " sdesc='" . escapeSQL($_POST['in']['sdesc']) . "'," .
                   " status='" . escapeSQL($status) . "'," .
                   " package_name='" . escapeSQL($_POST['in']['package_name']) . "'," .
