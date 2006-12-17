@@ -87,16 +87,15 @@ class PEAR_Bugs
               b.bug_type \!= "Feature/Change Request" AND
               b.status IN ("Assigned", "Analyzed", "Feedback", "Open", "Critical", "Verified") AND
               (b.assign = ? OR b.assign IS NULL OR b.assign="")', array($handle, $handle));
-        $bugrank = $this->_dbh->getAll('SELECT COUNT(*) as c, m.handle
-             FROM bugdb b, maintains m, packages p
-             WHERE
-              p.id = m.package AND
-              b.package_name = p.name AND
-              b.bug_type != "Feature/Change Request" AND
-              b.assign = m.handle AND
-              b.status = "Closed"
-             GROUP BY m.handle
-             ORDER BY c DESC, b.ts1 DESC', array(), DB_FETCHMODE_ASSOC);
+        $bugrank = $this->_dbh->getAll('SELECT COUNT(*) as c, u.handle
+                 FROM bugdb b, users u, packages p
+                 WHERE
+                  b.package_name = p.name AND
+                  b.bug_type != "Feature/Change Request" AND
+                  b.assign = u.handle AND
+                  b.status = "Closed"
+                 GROUP BY u.handle
+                 ORDER BY c DESC, b.ts2 DESC', array(), DB_FETCHMODE_ASSOC);
         $rank = count($bugrank);
         $alltimecount = 0;
         foreach ($bugrank as $i => $inf) {
@@ -122,16 +121,15 @@ class PEAR_Bugs
     {
         static $bugrank = false;
         if (!$bugrank) {
-            $bugrank = $this->_dbh->getAll('SELECT COUNT(*) as c, m.handle
-                 FROM bugdb b, maintains m, packages p
+            $bugrank = $this->_dbh->getAll('SELECT COUNT(*) as c, u.handle
+                 FROM bugdb b, users u, packages p
                  WHERE
-                  p.id = m.package AND
                   b.package_name = p.name AND
                   b.bug_type != "Feature/Change Request" AND
-                  b.assign = m.handle AND
+                  b.assign = u.handle AND
                   b.status = "Closed"
-                 GROUP BY m.handle
-                 ORDER BY c DESC, b.ts1 DESC', array(), DB_FETCHMODE_ASSOC);
+                 GROUP BY u.handle
+                 ORDER BY c DESC, b.ts2 DESC', array(), DB_FETCHMODE_ASSOC);
         }
         $rank = count($bugrank) + 1;
         $alltimecount = 0;
@@ -147,16 +145,15 @@ class PEAR_Bugs
 
     function allDevelStats()
     {
-        return $this->_dbh->getAll('SELECT COUNT(*) as c, m.handle
-             FROM bugdb b, maintains m, packages p
-             WHERE
-              p.id = m.package AND
-              b.package_name = p.name AND
-              b.bug_type != "Feature/Change Request" AND
-              b.assign = m.handle AND
-              b.status = "Closed"
-             GROUP BY m.handle
-             ORDER BY c DESC', array(), DB_FETCHMODE_ASSOC);
+        return $this->_dbh->getAll('SELECT COUNT(*) as c, u.handle
+                 FROM bugdb b, users u, packages p
+                 WHERE
+                  b.package_name = p.name AND
+                  b.bug_type != "Feature/Change Request" AND
+                  b.assign = u.handle AND
+                  b.status = "Closed"
+                 GROUP BY u.handle
+                 ORDER BY c DESC, b.ts2 DESC', array(), DB_FETCHMODE_ASSOC);
     }
 }
 ?>
