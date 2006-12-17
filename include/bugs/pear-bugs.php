@@ -88,9 +88,8 @@ class PEAR_Bugs
               b.status IN ("Assigned", "Analyzed", "Feedback", "Open", "Critical", "Verified") AND
               (b.assign = ? OR b.assign IS NULL OR b.assign="")', array($handle, $handle));
         $bugrank = $this->_dbh->getAll('SELECT COUNT(*) as c, u.handle
-                 FROM bugdb b, users u, packages p
+                 FROM bugdb b, users u
                  WHERE
-                  b.package_name = p.name AND
                   b.bug_type != "Feature/Change Request" AND
                   b.assign = u.handle AND
                   b.status = "Closed"
@@ -122,9 +121,8 @@ class PEAR_Bugs
         static $bugrank = false;
         if (!$bugrank) {
             $bugrank = $this->_dbh->getAll('SELECT COUNT(*) as c, u.handle
-                 FROM bugdb b, users u, packages p
+                 FROM bugdb b, users u
                  WHERE
-                  b.package_name = p.name AND
                   b.bug_type != "Feature/Change Request" AND
                   b.assign = u.handle AND
                   b.status = "Closed"
@@ -146,9 +144,8 @@ class PEAR_Bugs
     function allDevelStats()
     {
         return $this->_dbh->getAll('SELECT COUNT(*) as c, u.handle
-                 FROM bugdb b, users u, packages p
+                 FROM bugdb b, users u
                  WHERE
-                  b.package_name = p.name AND
                   b.bug_type != "Feature/Change Request" AND
                   b.assign = u.handle AND
                   b.status = "Closed"
