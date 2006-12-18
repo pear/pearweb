@@ -190,7 +190,7 @@
    <field>
     <name>assign</name>
     <type>text</type>
-    <length>16</length>
+    <length>20</length>
     <notnull>false</notnull>
     <default></default>
    </field>

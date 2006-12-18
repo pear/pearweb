@@ -16,7 +16,7 @@ CREATE TABLE bugdb (
   status varchar(16) default NULL,
   ts1 datetime default NULL,
   ts2 datetime default NULL,
-  assign varchar(16) default NULL,
+  assign varchar(20) default NULL,
   passwd varchar(20) default NULL,
   PRIMARY KEY  (id),
   KEY php_version (php_version(1)),
