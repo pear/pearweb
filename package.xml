@@ -66,6 +66,7 @@
  <notes>
  * add statistics for developers&apos; bug activity
  * auto-assign to developer when a developer marks a bug closed
+ * adjusted the bugtracker&apos;s database schema to handle developer usernames of up to 20 characters length
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
