@@ -486,7 +486,7 @@ if ($bug['modified']) {
    <td><?php echo htmlspecialchars($bug['package_name']); if ($bug['package_version']): ?> (version <?php echo htmlspecialchars($bug['package_version']);?>)<?php endif; ?></td>
   </tr>
   <tr id="situation">
-   <th class="details">Version:</th>
+   <th class="details">PHP Version:</th>
    <td><?php echo htmlspecialchars($bug['php_version']) ?></td>
    <th class="details">OS:</th>
    <td><?php echo htmlspecialchars($bug['php_os']) ?></td>
