@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2006-12-22</date>
- <time>22:04:23</time>
+ <time>22:20:12</time>
  <version>
   <release>1.1.0</release>
   <api>0.1.1</api>
@@ -72,6 +72,7 @@
  * fix Bug #8682: Assigning a bug to a new package doesn&apos;t reset the package version field.
  * fix Bug #8795: Bug ID is given two times in mails
  * fix Bug #9134: Bugtracker suggests PECL bugs
+ * fix Bug #9205: URL needs to be escaped in &quot;quick fix&quot; text
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -989,6 +990,7 @@
  * fix Bug #8682: Assigning a bug to a new package doesn&apos;t reset the package version field.
  * fix Bug #8795: Bug ID is given two times in mails
  * fix Bug #9134: Bugtracker suggests PECL bugs
+ * fix Bug #9205: URL needs to be escaped in &quot;quick fix&quot; text
    </notes>
   </release>
  </changelog>

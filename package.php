@@ -26,6 +26,7 @@ $a->setNotes('
  * fix Bug #8682: Assigning a bug to a new package doesn\'t reset the package version field.
  * fix Bug #8795: Bug ID is given two times in mails
  * fix Bug #9134: Bugtracker suggests PECL bugs
+ * fix Bug #9205: URL needs to be escaped in "quick fix" text
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

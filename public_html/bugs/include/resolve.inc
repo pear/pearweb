@@ -66,7 +66,7 @@ Thank you for the report and for helping us make PEAR better.',
     'message' =>
 'Thank you for your bug report. This issue has been fixed
 in the latest released version of the package, which you can download at
-http://' . PEAR_CHANNELNAME . '/get/' . @txfield('package_name'),
+http://' . PEAR_CHANNELNAME . '/get/' . urlencode(@txfield('package_name')),
   ),
   'needtrace' => array(
     'status' => 'Feedback',
