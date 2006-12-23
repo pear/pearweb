@@ -14,19 +14,14 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.1.1');
+$a->setReleaseVersion('1.1.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
  * add statistics for developers\' bug activity
  * auto-assign to developer when a developer marks a bug closed
  * adjusted the bugtracker\'s database schema to handle developer usernames of up to 20 characters length
- * fix Bug #7246: missing "Need reproduce script" quick fix
- * fix Bug #8082: Developer\'s bugs list doesn\'t include Feedback status
- * fix Bug #8682: Assigning a bug to a new package doesn\'t reset the package version field.
- * fix Bug #8795: Bug ID is given two times in mails
- * fix Bug #9134: Bugtracker suggests PECL bugs
- * fix Bug #9205: URL needs to be escaped in "quick fix" text
+ * fix Bug #7970: Sorting by table headers not working inb bug list
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
