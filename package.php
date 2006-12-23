@@ -23,6 +23,7 @@ $a->setNotes('
  * adjusted the bugtracker\'s database schema to handle developer usernames of up to 20 characters length
  * fix Bug #7246: missing "Need reproduce script" quick fix
  * fix Bug #8082: Developer\'s bugs list doesn\'t include Feedback status
+ * fix Bug #8682: Assigning a bug to a new package doesn\'t reset the package version field.
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
