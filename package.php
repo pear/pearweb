@@ -21,6 +21,7 @@ $a->setNotes('
  * add statistics for developers\' bug activity
  * auto-assign to developer when a developer marks a bug closed
  * adjusted the bugtracker\'s database schema to handle developer usernames of up to 20 characters length
+ * fix Bug #7246: missing "Need reproduce script" quick fix
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

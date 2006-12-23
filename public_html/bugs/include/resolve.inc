@@ -173,8 +173,21 @@ If you can provide more information, feel free to add it
 to this bug and change the status back to "Open".
 
 Thank you for your interest in PEAR.
-',
-  ),
+'),
+  'needreproducescript' => array(
+    'status' => 'Feedback',
+    'desc' => 'Need Reproduce Script',
+    'message' =>
+'We are unable to reproduce the bug as reported.
+Please provide a simple script (10 lines or less)
+or a link to an external script that can be used
+to reproduce the bug.
+
+If you can provide the script, feel free to add it
+to this bug and change the status back to "Open".
+
+Thank you for your interest in PEAR.
+'),
   'submittedtwice' => array(
     'status' => 'Bogus',
     'desc' => 'Submitted twice',
