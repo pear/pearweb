@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2006-12-22</date>
- <time>21:03:52</time>
+ <time>21:50:37</time>
  <version>
   <release>1.1.0</release>
   <api>0.1.1</api>
@@ -70,6 +70,7 @@
  * fix Bug #7246: missing &quot;Need reproduce script&quot; quick fix
  * fix Bug #8082: Developer&apos;s bugs list doesn&apos;t include Feedback status
  * fix Bug #8682: Assigning a bug to a new package doesn&apos;t reset the package version field.
+ * fix Bug #8795: Bug ID is given two times in mails
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -985,6 +986,7 @@
  * fix Bug #7246: missing &quot;Need reproduce script&quot; quick fix
  * fix Bug #8082: Developer&apos;s bugs list doesn&apos;t include Feedback status
  * fix Bug #8682: Assigning a bug to a new package doesn&apos;t reset the package version field.
+ * fix Bug #8795: Bug ID is given two times in mails
    </notes>
   </release>
  </changelog>

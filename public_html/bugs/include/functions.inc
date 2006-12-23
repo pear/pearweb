@@ -729,7 +729,6 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
 
     $fields = array(
         'status'       => 'Status',
-        'id'           => 'Id',
         'bug_type'     => 'Type',
         'package_name' => 'Package',
         'php_os'       => 'Operating System',
