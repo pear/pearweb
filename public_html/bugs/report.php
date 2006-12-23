@@ -89,17 +89,20 @@ if (isset($_POST['in'])) {
              * only look for similar features
              */
             $package_name = $_POST['in']['package_name'];
+            $where_clause = 'WHERE bugdb.package_name=p.name ';
             if ($package_name == 'Feature/Change Request') {
-                $where_clause = "WHERE package_name = '$package_name'";
+                $where_clause .= "AND package_name = '$package_name'";
             } else {
-                $where_clause = "WHERE package_name != 'Feature/Change Request'";
+                $where_clause .= "AND package_name != 'Feature/Change Request'";
             }
 
             list($sql_search, $ignored) = format_search_string($sdesc);
 
             $where_clause .= $sql_search;
 
-            $query = "SELECT * from bugdb $where_clause LIMIT 5";
+            $where_clause .= ' AND p.package_type="pear"';
+
+            $query = "SELECT * from bugdb, packages p $where_clause LIMIT 5";
 
             $res =& $dbh->query($query);
 

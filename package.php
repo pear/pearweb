@@ -25,6 +25,7 @@ $a->setNotes('
  * fix Bug #8082: Developer\'s bugs list doesn\'t include Feedback status
  * fix Bug #8682: Assigning a bug to a new package doesn\'t reset the package version field.
  * fix Bug #8795: Bug ID is given two times in mails
+ * fix Bug #9134: Bugtracker suggests PECL bugs
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
