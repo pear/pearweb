@@ -245,7 +245,7 @@ class BarPlot extends Plot {
     function SetYBase($y) {
 	$this->ybase=$y;
     }
-	
+
     function Legend(&$graph) {
 	if( $this->fill_color && $this->legend!="" ) {
 	    if( is_array($this->fill_color) )
@@ -443,8 +443,9 @@ class BarPlot extends Plot {
 		$this->csimareas .= " href=\"".$this->csimtargets[$i]."\"";
 	    if( !empty($this->csimalts[$i]) ) {
 		$sval=sprintf($this->csimalts[$i],$this->coords[0][$i]);
-		$this->csimareas .= " alt=\"$sval\" title=\"$sval\" ";
-	    }
+	$this->csimareas .= " alt=\"$sval\" title=\"$sval\" ";
+
+    }
 	    $this->csimareas .= ">\r\n";
 	}
 	return true;

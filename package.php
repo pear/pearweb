@@ -14,14 +14,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.1.2');
+$a->setReleaseVersion('1.1.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * add statistics for developers\' bug activity
- * auto-assign to developer when a developer marks a bug closed
- * adjusted the bugtracker\'s database schema to handle developer usernames of up to 20 characters length
- * fix Bug #7970: Sorting by table headers not working inb bug list
+ * fix line spacing in jpgraph_bar.php so statistics graphs will display
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
