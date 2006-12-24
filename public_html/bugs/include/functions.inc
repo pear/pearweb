@@ -791,6 +791,10 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
                 "\n-- \nEdit this bug report at " .
                 "http://$site.php.net/bugs/bug.php?id=$bug[id]&edit=1\n";
 
+    if (preg_match('/.*@php\.net$/', $bug['email'])) {
+        $user_text = $dev_text;
+    }
+
     /* send mail if status was changed or there is a comment */
     if ($in[status] != $bug[status] || $ncomment != "") {
 
@@ -814,7 +818,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
 
         # the user gets sent mail with an envelope sender that ignores bounces
         if (DEVBOX == false) {
-            @mail($bug[email],
+            @mail($bug['email'],
                   "[$siteBig-BUG] " . rinse($subj) . txfield('sdesc'),
                   $user_text,
                   "From: $siteBig Bug Database <$mailfrom>\n".
