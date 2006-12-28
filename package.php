@@ -14,11 +14,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.1.3');
+$a->setReleaseVersion('1.1.4');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
  * fix line spacing in jpgraph_bar.php so statistics graphs will display
+ * fix Bug #9702: captcha problem
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
