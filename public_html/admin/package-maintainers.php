@@ -61,6 +61,8 @@ if (isset($_POST) && isset($_POST['role'])) {
             }
          }
       }
+   } else {
+       $new     = '';
    }
 
    // Role, active, and marked for removal
@@ -75,7 +77,6 @@ if (isset($_POST) && isset($_POST['role'])) {
 
    $updates = array();
    $update  = 0;
-   $new     = '';
 
    foreach ($maintainers as $handle => $info) {
       if (isset($delete[$handle]) && $delete[$handle]) {
@@ -94,7 +95,7 @@ if (isset($_POST) && isset($_POST['role'])) {
       if (isset($active[$handle])) {
          $update_active = 1;
          $update = 1;
-      } elseif ($info['active'] == 1) {
+      } elseif ($info['active'] == 1 && $handle != $new) {
          $update_active = 0;
          $update = 1;
       }
