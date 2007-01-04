@@ -28,6 +28,7 @@ $a->setPearInstallerDep('1.4.11');
 $a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.11');
 $a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.1');
 $a->addPackageDepWithChannel('required', 'HTTP_Request', 'pear.php.net', '1.2.2');
+$a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
 // used only in cron jobs
 $a->addPackageDepWithChannel('required', 'VFS', 'pear.php.net', '0.1.0');
 $a->addPackageDepWithChannel('required', 'DB', 'pear.php.net', '1.6.5');

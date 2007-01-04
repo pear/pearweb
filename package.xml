@@ -667,6 +667,11 @@
     <min>1.2.2</min>
    </package>
    <package>
+    <name>HTTP</name>
+    <channel>pear.php.net</channel>
+    <min>1.4.0</min>
+   </package>
+   <package>
     <name>VFS</name>
     <channel>pear.php.net</channel>
     <min>0.1.0</min>

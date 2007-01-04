@@ -22,12 +22,13 @@
  * Details about PEAR accounts
  */
 require_once 'Damblan/URL.php';
+require_once 'HTTP.php';
 $site = new Damblan_URL();
 
-$params = array('handle' => '');
+$params = array('handle' => '', 'action' => '');
 $site->getElements($params);
 
-$handle = strtolower($params['handle']);
+$handle = htmlspecialchars(strtolower($params['handle']));
 
 /*
  * Redirect to the accounts list if no handle was specified
@@ -44,7 +45,24 @@ if ($row === null) {
     error_handler($handle . ' is not a valid account name.', 'Invalid Account');
 }
 
-$handle = htmlspecialchars($handle);
+switch ($params['action']) {
+ case "wishlist" :
+     if (!empty($row['wishlist'])) {
+         HTTP::redirect($row['wishlist']);
+     } else {
+         PEAR::raiseError(htmlspecialchars($row['name']) . " has not registered a wishlist");
+     }
+     break;
+
+ case "bugs" :
+     HTTP::redirect("/bugs/search.php?handle=" . $handle . "&cmd=display");
+     break;
+
+ case "rss" :
+     HTTP::redirect("/feeds/user_" . $handle . ".rss");
+     break;
+
+}
 
 response_header('User Information :: ' . htmlspecialchars($row['name']));
 
@@ -132,7 +150,7 @@ if ($row['homepage']) {
 
 if ($row['wishlist']) {
     echo '<li>Wishlist: &nbsp;';
-    print_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/wishlist.php/' . $handle);
+    print_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/user/' . $handle . '/wishlist');
     echo "</li>\n";
 }
 
