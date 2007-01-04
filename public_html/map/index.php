@@ -1,7 +1,6 @@
 <?php
-
 /**
- * The Developers location's map system
+ * The Developers locations map system
  *
  * This source file is subject to version 3.0 of the PHP license,
  * that is bundled with this package in the file LICENSE, and is
@@ -18,14 +17,12 @@
  * @license   http://www.php.net/license/3_0.txt  PHP License
  * @version   $Id$
  */
-$map = '
-<script type="text/javascript" language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjPqDvnoTwt1l2d9kE7aeSRSaX3uuPis-gsi6PocQln0mfq-TehSSt5OZ9q0OyzKSOAfNu8NuLlNgWA"></script>
-';
-response_header('PEAR Maps', false, $map);
+$map = '<script type="text/javascript" language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
 
+response_header('PEAR Maps', false, $map);
 ?>
 
-<h1>PEAR Developer's locations!</h1>
+<h1>PEAR Developer Locations</h1>
 <?php
 $maps = array(
     'world' =>
@@ -72,12 +69,9 @@ $maps = array(
 );
 ?>
 <p>
- This map contains the location of the PEAR developers that were kind enough
- to put their location or close to their location up there. If you need support
- just visit the <?php print_link('/support/', 'support page'); ?>.
- <br /></p>
- <p>Now that you are ready to proceed:</p>
- <br />
+ The map below contains the locations of the PEAR developers who have added
+ their location to their user profile.
+</p>
  <noscript>
   <?php
     print '<h1>Maps Links</h1>';
@@ -88,7 +82,7 @@ $maps = array(
     }
     print '<hr noshade="noshade"/>';
   ?>
- </noscript>
+  </noscript>
 
  <script language="javascript" type="text/javascript">
 
@@ -96,7 +90,7 @@ $maps = array(
  
  <?php
     $sql = "
-    SELECT latitude, longitude, handle, homepage, IF(showemail,email,'') as email
+    SELECT latitude, longitude, name, handle
      FROM users
       WHERE latitude <> ''
       AND longitude  <> ''
@@ -104,12 +98,7 @@ $maps = array(
 
     $infos = $dbh->getAll($sql);
     foreach ($infos as $info) {
-        echo "points.push([
-                          '{$info[0]}',
-                          '{$info[1]}',
-                          '{$info[2]}',
-                          '{$info[3]}',
-                          '{$info[4]}']);\n";
+        echo "points.push(['" . addslashes($info[0]) . "', '" . addslashes($info[1]) . "', '" . addslashes($info[2]) . "', '" . addslashes($info[3]) . "']);\n";
 
     }
  ?>
@@ -117,19 +106,19 @@ $maps = array(
 </script>
 <script language="javascript" type="text/javascript" src="../javascript/peardev_map.js"></script>
 
-<div style="width: 80%; height: 300px; border: none;" 
+<div style="width: 100%; height: 500px; border: 1px solid black;" 
      id="peardev_map">
 </div>
 <?php
-$showMap = '
-<script language="javascript" type="text/javascript">
-tmp = document.getElementById(\'peardev_map\');
-tmp.style.border = \'1px solid black\';
+if ($auth_user && empty($auth_user->latitude)) {
+    echo "<p><strong>Tip:</strong> You can add your coordinates in your " 
+    . make_link("/account-edit.php?handle=" . $auth_user->handle, "profile") 
+    . ".</p>";
+}
+?>
+<?php
+$showMap = '<script language="javascript" type="text/javascript">
 showfullmap();
-
-</script>
-';
+</script>';
 
 response_footer(false, $showMap);
-
-?>

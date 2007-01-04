@@ -15,6 +15,8 @@ installed in /usr/share/pear):
 # SSLCertificateKeyFile /usr/local/apache2/ssl/pear.php.net.key
 # SetEnvIf User-Agent ".*MSIE.*" nokeepalive ssl-unclean-shutdown 
 
+ SetEnv Google_API_Key "ABQIAAAAjPqDvnoTwt1l2d9kE7aeSRSaX3uuPis-gsi6PocQln0mfq-TehSSt5OZ9q0OyzKSOAfNu8NuLlNgWA"
+
  php_value include_path .:/path/to/pearweb/include:/usr/share/pear
  php_value auto_prepend_file pear-prepend.php
  php_value auto_append_file pear-append.php
