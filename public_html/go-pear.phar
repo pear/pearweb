@@ -374,6 +374,7 @@ class PHP_Archive
             // 3 = crc32
             // 4 = flags
             $ret['manifest'][$savepath] = array_values(unpack('Va/Vb/Vc/Vd/Ce', substr($manifest, $start, 17)));
+            $ret['manifest'][$savepath][3] = sprintf('%u', $ret['manifest'][$savepath][3]);
             $ret['manifest'][$savepath][5] = $offset;
             $offset += $ret['manifest'][$savepath][2];
             $start += 17;
@@ -655,12 +656,14 @@ if (class_exists('PHP_Archive') && !in_array('phar', stream_get_wrappers())) {
 @ini_set('memory_limit', -1);
 
 require_once 'phar://go-pear.phar/index.php';
-__HALT_COMPILER();!  @       go-pear.phar   Archive/Tar.phpdÓ  xπFEdÓ  EyN    Console/Getopt.phpK&  xπFEK&  î^ëe 	   index.phpê   xπFEê   ó∑˜    OS/Guess.php},  xπFE},  â«™‡    PEAR.phpiã  xπFEiã  S*Ae    PEAR/ChannelFile.php3Ê  xπFE3Ê  Õx°    PEAR/ChannelFile/Parser.phpÃ  xπFEÃ  ôf™    PEAR/Command.php5  xπFE5  7’∆    PEAR/Command/Common.php$  xπFE$  € Ö    PEAR/Command/Install.php–±  xπFE–±  †çô~    PEAR/Command/Install.xmlÑ  xπFEÑ  ¢√¥    PEAR/Common.phpPê  xπFEPê  ?«¯‹    PEAR/Config.php  xπFE  2'mì    PEAR/Dependency2.phpù¬  xπFEù¬  ÷n¥    PEAR/DependencyDB.php7e  xπFE7e  4ﬂ‚î    PEAR/Downloader.php7  xπFE7  ø=óa    PEAR/Downloader/Package.php∞# xπFE∞# ¡–*í    PEAR/ErrorStack.phpíà  xπFEíà  ÿı„Î    PEAR/Frontend.phpÇ  xπFEÇ  t#Í    PEAR/Frontend/CLI.php∑p  xπFE∑p  ◊#0  +   PEAR/go-pear-tarballs/Archive_Tar-1.3.1.tar P xπFE P ipÃ+ ,   PEAR/go-pear-tarballs/Console_Getopt-1.2.tar 6  xπFE 6  ¶ÍhG %   PEAR/go-pear-tarballs/PEAR-1.4.11.tar ¶ xπFE ¶ 3íW    PEAR/Installer.phpê xπFEê ¯l    PEAR/Installer/Role.phpÖ!  xπFEÖ!   ,    PEAR/Installer/Role/Common.php¥  xπFE¥  G“›9    PEAR/Installer/Role/Data.php›  xπFE›  3D@    PEAR/Installer/Role/Data.xml†  xπFE†    ©    PEAR/Installer/Role/Doc.php⁄  xπFE⁄  öôS    PEAR/Installer/Role/Doc.xmlü  xπFEü  _5Ó—    PEAR/Installer/Role/Php.php⁄  xπFE⁄  »uw    PEAR/Installer/Role/Php.xmlª  xπFEª  ÈÄ!Ë    PEAR/Installer/Role/Script.php„  xπFE„  Nu[k    PEAR/Installer/Role/Script.xmlæ  xπFEæ  –Tƒ    PEAR/Installer/Role/Test.php›  xπFE›  +Ú~\    PEAR/Installer/Role/Test.xml†  xπFE†  ﬂ¡ªa    PEAR/PackageFile.php+C  xπFE+C  Íòs !   PEAR/PackageFile/Generator/v1.phpåÀ  xπFEåÀ  Å≈÷∫ !   PEAR/PackageFile/Generator/v2.phpÙ  xπFEÙ  *ÄIg    PEAR/PackageFile/Parser/v1.phpãC  xπFEãC  €nœ    PEAR/PackageFile/Parser/v2.php   xπFE   ß≥    PEAR/PackageFile/v1.phpòÀ  xπFEòÀ  2rGb    PEAR/PackageFile/v2.phpß xπFEß  ËÑ˛    PEAR/PackageFile/v2/rw.phpÃ˝  xπFEÃ˝  ÆïuF !   PEAR/PackageFile/v2/Validator.phpjK xπFEjK ªàEB    PEAR/Registry.php=& xπFE=& BÛÅR    PEAR/Remote.phpÄI  xπFEÄI  ‹õô    PEAR/REST.php‡;  xπFE‡;  öpwm    PEAR/REST/10.phpSm  xπFESm  ∂È¢¿    PEAR/Start.phpÀ4  xπFEÀ4  9…Ö¿    PEAR/Start/CLI.phpT  xπFET  π]´⁄    PEAR/Task/Common.php)  xπFE)  ˘uè    PEAR/Task/Postinstallscript.php;  xπFE;  ;7®° "   PEAR/Task/Postinstallscript/rw.php  xπFE  ’Ú÷R    PEAR/Task/Replace.phpŒ  xπFEŒ  U©ñ™    PEAR/Task/Replace/rw.php  xπFE  „Ï	3    PEAR/Task/Unixeol.php±
-  xπFE±
-  –@⁄ì    PEAR/Task/Unixeol/rw.php  xπFE  Fú'v    PEAR/Task/Windowseol.php≠
-  xπFE≠
-  ß    PEAR/Task/Windowseol/rw.php,  xπFE,  r|¬Q    PEAR/Validate.phpÊY  xπFEÊY  …‡"'    PEAR/Validator/PECL.php   xπFE   o	Á(    PEAR/XMLParser.phpj  xπFEj  nÁŒv 
-   System.php˝N  xπFE˝N  ^ñ£ <?php
+__HALT_COMPILER();   D       go-pear.phar   Archive/Tar.phpÏÓ  ”(üEÏÓ  Ê±≈@    Console/Getopt.phpS%  ”(üES%  WÁ”  	   index.phpã   ”(üEã   Aè#    OS/Guess.phpO+  ”(üEO+  ≤Ëƒ    PEAR.phpá  ”(üEá  5ÆÊ∂    PEAR/ChannelFile.php›ﬂ  ”(üE›ﬂ  ÛX*3    PEAR/ChannelFile/Parser.phpÑ  ”(üEÑ  PL:    PEAR/Command.phpo3  ”(üEo3  %`    PEAR/Command/Common.php‡"  ”(üE‡"   sSv    PEAR/Command/Install.phpÊ≠  ”(üEÊ≠  ŒÛn    PEAR/Command/Install.xmlá  ”(üEá  ◊ˆ    PEAR/Common.phpÎã  ”(üEÎã  â8UÜ    PEAR/Config.phpõ ”(üEõ ≈ﬁü    PEAR/Dependency2.phpÓΩ  ”(üEÓΩ  êÈ
+K    PEAR/DependencyDB.php◊c  ”(üE◊c  aØ<Ú    PEAR/Downloader.php& ”(üE& s›¸ü    PEAR/Downloader/Package.phpæ ”(üEæ i·N    PEAR/ErrorStack.phpπÑ  ”(üEπÑ  $€?Î    PEAR/Frontend.php…  ”(üE…  >}…ä    PEAR/Frontend/CLI.php¢m  ”(üE¢m  ﬁ–aé +   PEAR/go-pear-tarballs/Archive_Tar-1.3.2.tar Z ”(üE Z §≥Æ ,   PEAR/go-pear-tarballs/Console_Getopt-1.2.tar 6  ”(üE 6  ¶ÍhG %   PEAR/go-pear-tarballs/PEAR-1.4.11.tar ¶ ”(üE ¶ 3íW    PEAR/Installer.php∏ ”(üE∏ P≥˜    PEAR/Installer/Role.phpâ   ”(üEâ   `fÇ    PEAR/Installer/Role/Common.php  ”(üE  ‘‚F    PEAR/Installer/Role/Data.phpº  ”(üEº  d|4Ï    PEAR/Installer/Role/Data.xmlí  ”(üEí  fçsz    PEAR/Installer/Role/Doc.phpπ  ”(üEπ  ≈Î˝„    PEAR/Installer/Role/Doc.xmlë  ”(üEë  h&P*    PEAR/Installer/Role/Php.phpπ  ”(üEπ  Ï”≤˝    PEAR/Installer/Role/Php.xml≠  ”(üE≠  zùqç    PEAR/Installer/Role/Script.php¬  ”(üE¬  üN„@    PEAR/Installer/Role/Script.xml∞  ”(üE∞  @vß–    PEAR/Installer/Role/Test.phpº  ”(üEº  X2JÇ    PEAR/Installer/Role/Test.xmlí  ”(üEí  B]     PEAR/PackageFile.phpRA  ”(üERA  ◊⁄=R !   PEAR/PackageFile/Generator/v1.phpò∆  ”(üEò∆  ÙıZL !   PEAR/PackageFile/Generator/v2.phpÓ  ”(üEÓ  t√ìÑ    PEAR/PackageFile/Parser/v1.phpøA  ”(üEøA  ñ˘V    PEAR/PackageFile/Parser/v2.phpÆ  ”(üEÆ  <ÅÅ    PEAR/PackageFile/v1.phpU≈  ”(üEU≈  ¿8â˚    PEAR/PackageFile/v2.php∏ ”(üE∏ ±Œ∆û    PEAR/PackageFile/v2/rw.phpç˜  ”(üEç˜  c(∏ !   PEAR/PackageFile/v2/Validator.phpyD ”(üEyD : kÏ    PEAR/Registry.php± ”(üE± ˙>bé    PEAR/Remote.phpéG  ”(üEéG  Ë‘ä    PEAR/REST.phpU:  ”(üEU:  
+Y‹    PEAR/REST/10.php»j  ”(üE»j  !ı|º    PEAR/Start.phpF3  ”(üEF3  1U€V    PEAR/Start/CLI.php¥Q  ”(üE¥Q  (ÉÛ    PEAR/Task/Common.php]  ”(üE]  «ÄÎ    PEAR/Task/Postinstallscript.php“9  ”(üE“9  E£§Ä "   PEAR/Task/Postinstallscript/rw.php^  ”(üE^  Sﬁ±d    PEAR/Task/Replace.php  ”(üE  –ç†ÿ    PEAR/Task/Replace/rw.php   ”(üE   Hu–    PEAR/Task/Unixeol.php_
+  ”(üE_
+  ÊÅœX    PEAR/Task/Unixeol/rw.php⁄  ”(üE⁄  €í„’    PEAR/Task/Windowseol.php[
+  ”(üE[
+  û ¸    PEAR/Task/Windowseol/rw.phpÔ  ”(üEÔ  î´Wõ    PEAR/Validate.phplW  ”(üElW  éRÖ    PEAR/Validator/PECL.phpå  ”(üEå  ø?)€    PEAR/XMLParser.phpf  ”(üEf  oIQ    Structures/Graph.phpõ  ”(üEõ  ≈ÌN ,   Structures/Graph/Manipulator/AcyclicTest.php¨  ”(üE¨  ± 2   Structures/Graph/Manipulator/TopologicalSorter.phpÄ  ”(üEÄ  ÏZ÷!    Structures/Graph/Node.phpê*  ”(üEê*  dÅh 
+   System.phpÆL  ”(üEÆL  Eœú <?php
 /* vim: set ts=4 sw=4: */
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
@@ -678,18 +681,19 @@ __HALT_COMPILER();!  @       go-pear.phar   Archive/Tar.phpdÓ  xπFEdÓ  EyN 
 // | Author: Vincent Blavet <vincent@phpconcept.net>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Tar.php,v 1.23 2006/05/12 02:38:58 cellog Exp $
+// $Id: Tar.php,v 1.24 2007/01/06 04:03:32 cellog Exp $
 
 require_once 'phar://go-pear.phar/PEAR.php';
 
 
 define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
+define ('ARCHIVE_TAR_END_BLOCK', pack("a512", ''));
 
 /**
 * Creates a (compressed) Tar archive
 *
 * @author   Vincent Blavet <vincent@phpconcept.net>
-* @version  $Revision: 1.23 $
+* @version  $Revision: 1.24 $
 * @package  Archive
 */
 class Archive_Tar extends PEAR
@@ -1459,14 +1463,14 @@ class Archive_Tar extends PEAR
               $p_len = 1;
 
           if ($this->_compress_type == 'gz') {
-              @gzseek($this->_file, @gztell($this->_file)+($p_len*512));
+              @gzseek($this->_file, gztell($this->_file)+($p_len*512));
           }
           else if ($this->_compress_type == 'bz2') {
               // ----- Replace missing bztell() and bzseek()
               for ($i=0; $i<$p_len; $i++)
                   $this->_readBlock();
           } else if ($this->_compress_type == 'none')
-              @fseek($this->_file, @ftell($this->_file)+($p_len*512));
+              @fseek($this->_file, ftell($this->_file)+($p_len*512));
           else
               $this->_error('Unknown or missing compression type ('
 			                .$this->_compress_type.')');
@@ -1481,7 +1485,7 @@ class Archive_Tar extends PEAR
     {
       if (is_resource($this->_file)) {
           // ----- Write the last 0 filled block for end of archive
-          $v_binary_data = pack("a512", '');
+          $v_binary_data = pack('a1024', '');
           $this->_writeBlock($v_binary_data);
       }
       return true;
@@ -1635,7 +1639,7 @@ class Archive_Tar extends PEAR
       $p_filename = $this->_translateWinPath($p_filename, false);;
 
       if (!$this->_writeHeaderBlock($p_filename, strlen($p_string),
-	                                0, 0, "", 0, 0))
+	                                  time(), 384, "", 0, 0))
           return false;
 
       $i=0;
@@ -1916,6 +1920,11 @@ class Archive_Tar extends PEAR
 
         // ----- Extract the properties
         $v_header['filename'] = trim($v_data['filename']);
+        if ($this->_maliciousFilename($v_header['filename'])) {
+            $this->_error('Malicious .tar detected, file "' . $v_header['filename'] .
+                '" will not install in desired directory tree');
+            return false;
+        }
         $v_header['mode'] = OctDec(trim($v_data['mode']));
         $v_header['uid'] = OctDec(trim($v_data['uid']));
         $v_header['gid'] = OctDec(trim($v_data['gid']));
@@ -1924,9 +1933,9 @@ class Archive_Tar extends PEAR
         if (($v_header['typeflag'] = $v_data['typeflag']) == "5") {
           $v_header['size'] = 0;
         }
+        $v_header['link'] = trim($v_data['link']);
         /* ----- All these fields are removed form the header because
 		they do not carry interesting info
-        $v_header[link] = trim($v_data[link]);
         $v_header[magic] = trim($v_data[magic]);
         $v_header[version] = trim($v_data[version]);
         $v_header[uname] = trim($v_data[uname]);
@@ -1936,6 +1945,26 @@ class Archive_Tar extends PEAR
         */
 
         return true;
+    }
+    // }}}
+
+    // {{{ _maliciousFilename()
+    /**
+     * Detect and report a malicious file name
+     *
+     * @param string $file
+     * @return bool
+     * @access private
+     */
+    function _maliciousFilename($file)
+    {
+        if (strpos($file, '/../') !== false) {
+            return true;
+        }
+        if (strpos($file, '../') === 0) {
+            return true;
+        }
+        return false;
     }
     // }}}
 
@@ -1960,6 +1989,11 @@ class Archive_Tar extends PEAR
         return false;
 
       $v_header['filename'] = $v_filename;
+        if ($this->_maliciousFilename($v_filename)) {
+            $this->_error('Malicious .tar detected, file "' . $v_filename .
+                '" will not install in desired directory tree');
+            return false;
+      }
 
       return true;
     }
@@ -2160,6 +2194,12 @@ class Archive_Tar extends PEAR
                     return false;
                 }
             }
+          } elseif ($v_header['typeflag'] == "2") {
+              if (!@symlink($v_header['link'], $v_header['filename'])) {
+                  $this->_error('Unable to extract symbolic link {'
+                                .$v_header['filename'].'}');
+                  return false;
+              }
           } else {
               if (($v_dest_file = @fopen($v_header['filename'], "wb")) == 0) {
                   $this->_error('Error while opening {'.$v_header['filename']
@@ -2180,8 +2220,11 @@ class Archive_Tar extends PEAR
 
             // ----- Change the file mode, mtime
             @touch($v_header['filename'], $v_header['mtime']);
-            // To be completed
-            //chmod($v_header[filename], DecOct($v_header[mode]));
+            if ($v_header['mode'] & 0111) {
+                // make file executable, obey umask
+                $mode = fileperms($v_header['filename']) | (~umask() & 0111);
+                @chmod($v_header['filename'], $mode);
+            }
           }
 
           // ----- Check the file size
@@ -2218,6 +2261,9 @@ class Archive_Tar extends PEAR
           $v_file_dir = '/';
 
         $p_list_detail[$v_nb++] = $v_header;
+        if (is_array($p_file_list) && (count($p_list_detail) == count($p_file_list))) {
+            return true;
+        }
       }
     }
 
@@ -2259,29 +2305,25 @@ class Archive_Tar extends PEAR
             }
 
             if ($this->_compress_type == 'gz') {
-                $v_buffer = @gzread($v_temp_tar, 512);
-
-                // ----- Read the following blocks but not the last one
-                if (!@gzeof($v_temp_tar)) {
-                    do{
-                        $v_binary_data = pack("a512", $v_buffer);
-                        $this->_writeBlock($v_binary_data);
-                        $v_buffer = @gzread($v_temp_tar, 512);
-
-                    } while (!@gzeof($v_temp_tar));
+                while (!@gzeof($v_temp_tar)) {
+                    $v_buffer = @gzread($v_temp_tar, 512);
+                    if ($v_buffer == ARCHIVE_TAR_END_BLOCK) {
+                        // do not copy end blocks, we will re-make them
+                        // after appending
+                        continue;
+                    }
+                    $v_binary_data = pack("a512", $v_buffer);
+                    $this->_writeBlock($v_binary_data);
                 }
 
                 @gzclose($v_temp_tar);
             }
             elseif ($this->_compress_type == 'bz2') {
-                $v_buffered_lines   = array();
-                $v_buffered_lines[] = @bzread($v_temp_tar, 512);
-
-                // ----- Read the following blocks but not the last one
-                while (strlen($v_buffered_lines[]
-				              = @bzread($v_temp_tar, 512)) > 0) {
-                    $v_binary_data = pack("a512",
-					                      array_shift($v_buffered_lines));
+                while (strlen($v_buffer = @bzread($v_temp_tar, 512)) > 0) {
+                    if ($v_buffer == ARCHIVE_TAR_END_BLOCK) {
+                        continue;
+                    }
+                    $v_binary_data = pack("a512", $v_buffer);
                     $this->_writeBlock($v_binary_data);
                 }
 
@@ -2295,13 +2337,23 @@ class Archive_Tar extends PEAR
 
         } else {
             // ----- For not compressed tar, just add files before the last
-			//       512 bytes block
+			//       one or two 512 bytes block
             if (!$this->_openReadWrite())
                return false;
 
             clearstatcache();
             $v_size = filesize($this->_tarname);
-            fseek($this->_file, $v_size-512);
+
+            // We might have zero, one or two end blocks.
+            // The standard is two, but we should try to handle 
+            // other cases.
+            fseek($this->_file, $v_size - 1024);
+            if (fread($this->_file, 512) == ARCHIVE_TAR_END_BLOCK) {
+                fseek($this->_file, $v_size - 1024);
+            }
+            elseif (fread($this->_file, 512) == ARCHIVE_TAR_END_BLOCK) {
+                fseek($this->_file, $v_size - 512);    
+            }
         }
 
         return true;
@@ -2335,6 +2387,7 @@ class Archive_Tar extends PEAR
      */
     function _dirCheck($p_dir)
     {
+        clearstatcache();
         if ((@is_dir($p_dir)) || ($p_dir == ''))
             return true;
 
@@ -2408,7 +2461,7 @@ class Archive_Tar extends PEAR
     // {{{ _translateWinPath()
     function _translateWinPath($p_path, $p_remove_disk_letter=true)
     {
-      if (OS_WINDOWS) {
+      if (defined('OS_WINDOWS') && OS_WINDOWS) {
           // ----- Look for potential disk letter
           if (   ($p_remove_disk_letter)
 		      && (($v_position = strpos($p_path, ':')) != false)) {
@@ -2443,7 +2496,7 @@ class Archive_Tar extends PEAR
 // | Author: Andrei Zmievski <andrei@php.net>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id: Getopt.php,v 1.28 2004/01/08 17:33:10 sniper Exp $
+// $Id: Getopt.php,v 1.29 2006/12/08 17:28:37 andrei Exp $
 
 require_once 'phar://go-pear.phar/PEAR.php';
 
@@ -2611,7 +2664,7 @@ class Console_Getopt {
      */
     function _parseLongOption($arg, $long_options, &$opts, &$args)
     {
-        @list($opt, $opt_arg) = explode('=', $arg);
+        @list($opt, $opt_arg) = explode('=', $arg, 2);
         $opt_len = strlen($opt);
 
         for ($i = 0; $i < count($long_options); $i++) {
@@ -2699,7 +2752,7 @@ $a->run();
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Guess.php,v 1.23 2006/06/16 11:42:16 pajoye Exp $
+ * @version    CVS: $Id: Guess.php,v 1.25 2006/12/14 00:24:37 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since PEAR 0.1
  */
@@ -2776,7 +2829,7 @@ $a->run();
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  1997-2005 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.0a2
+ * @version    Release: 1.5.0RC3
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 0.1
  */
@@ -2884,12 +2937,13 @@ class OS_Guess
         if ($glibc !== false) {
             return $glibc; // no need to run this multiple times
         }
+        $major = $minor = 0;
         include_once "phar://go-pear.phar/System.php";
-        if (!@file_exists('/usr/bin/cpp') || !@is_executable('/usr/bin/cpp')) {
-            // Use glibc's <features.h> header file to
-            // get major and minor version number:
-            if (@file_exists('/usr/include/features.h') &&
-                  @is_readable('/usr/include/features.h')) {
+        // Use glibc's <features.h> header file to
+        // get major and minor version number:
+        if (@file_exists('/usr/include/features.h') &&
+              @is_readable('/usr/include/features.h')) {
+            if (!@file_exists('/usr/bin/cpp') || !@is_executable('/usr/bin/cpp')) {
                 $features_file = fopen('/usr/include/features.h', 'rb');
                 while (!feof($features_file)) {
                     $line = fgets($features_file, 8192);
@@ -2921,29 +2975,27 @@ class OS_Guess
                     return $glibc = '';
                 }
                 return $glibc = 'glibc' . trim($glibc_major) . "." . trim($glibc_minor) ;
+            } // no cpp
+            $tmpfile = System::mktemp("glibctest");
+            $fp = fopen($tmpfile, "w");
+            fwrite($fp, "#include <features.h>\n__GLIBC__ __GLIBC_MINOR__\n");
+            fclose($fp);
+            $cpp = popen("/usr/bin/cpp $tmpfile", "r");
+            while ($line = fgets($cpp, 1024)) {
+                if ($line{0} == '#' || trim($line) == '') {
+                    continue;
+                }
+                if (list($major, $minor) = explode(' ', trim($line))) {
+                    break;
+                }
             }
-            return $glibc = '';
-        }
-        $tmpfile = System::mktemp("glibctest");
-        $fp = fopen($tmpfile, "w");
-        fwrite($fp, "#include <features.h>\n__GLIBC__ __GLIBC_MINOR__\n");
-        fclose($fp);
-        $cpp = popen("/usr/bin/cpp $tmpfile", "r");
-        $major = $minor = 0;
-        while ($line = fgets($cpp, 1024)) {
-            if ($line{0} == '#' || trim($line) == '') {
-                continue;
-            }
-            if (list($major, $minor) = explode(' ', trim($line))) {
-                break;
-            }
-        }
-        pclose($cpp);
-        unlink($tmpfile);
-        if (!($major && $minor) && is_link('/lib/libc.so.6')) {
+            pclose($cpp);
+            unlink($tmpfile);
+        } // features.h
+        if (!($major && $minor) && @is_link('/lib/libc.so.6')) {
             // Let's try reading the libc.so.6 symlink
-            if (ereg('^libc-([.*])\.so$', basename(readlink('/lib/libc.so.6')), $matches)) {
-                list($major, $minor) = explode('.', $matches);
+            if (ereg('^libc-(.*)\.so$', basename(readlink('/lib/libc.so.6')), $matches)) {
+                list($major, $minor) = explode('.', $matches[1]);
             }
         }
         if (!($major && $minor)) {
@@ -4151,7 +4203,7 @@ class PEAR_Error
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: ChannelFile.php,v 1.77 2006/03/25 21:09:08 cellog Exp $
+ * @version    CVS: $Id: ChannelFile.php,v 1.78 2006/10/31 02:54:40 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -5846,7 +5898,7 @@ class PEAR_ChannelFile_Parser extends PEAR_XMLParser
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Command.php,v 1.37 2006/06/09 00:17:50 pajoye Exp $
+ * @version    CVS: $Id: Command.php,v 1.38 2006/10/31 02:54:40 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -6553,7 +6605,7 @@ class PEAR_Command_Common extends PEAR
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Install.php,v 1.120 2006/10/22 18:20:58 cellog Exp $
+ * @version    CVS: $Id: Install.php,v 1.121 2007/01/06 04:41:31 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -7137,6 +7189,7 @@ Run post-installation scripts in package <package>, if any exist.
         }
         $errors = $this->downloader->getErrorMsgs();
         if (count($errors)) {
+            $err['data'] = array();
             foreach ($errors as $error) {
                 $err['data'][] = array($error);
             }
@@ -8969,7 +9022,7 @@ require_once 'phar://go-pear.phar/PEAR/PackageFile.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Config.php,v 1.135 2006/09/24 05:45:26 cellog Exp $
+ * @version    CVS: $Id: Config.php,v 1.137 2006/11/19 21:33:00 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -9734,7 +9787,7 @@ class PEAR_Config extends PEAR
                     return true;
                 }
             } else {
-                return PEAR::raiseError('Net_FTP must be installed to use remote config');
+                return PEAR::raiseError('PEAR_RemoteInstaller must be installed to use remote config');
             }
         } while (false); // poor man's catch
         unset($this->files['ftp']);
@@ -11098,7 +11151,7 @@ require_once 'phar://go-pear.phar/PEAR/Validate.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.0a2
+ * @version    Release: 1.5.0RC3
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -11586,7 +11639,7 @@ class PEAR_Dependency2
      */
     function getPEARVersion()
     {
-        return '1.5.0a2';
+        return '1.5.0RC3';
     }
 
     function validatePearinstallerDependency($dep)
@@ -12278,7 +12331,7 @@ class PEAR_Dependency2
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: DependencyDB.php,v 1.33 2006/05/25 21:40:36 cellog Exp $
+ * @version    CVS: $Id: DependencyDB.php,v 1.35 2007/01/06 04:03:32 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -12489,6 +12542,12 @@ class PEAR_DependencyDB
             foreach ($temp as $dep) {
                 if (strtolower($dep['dep']['channel']) == strtolower($channel) &&
                       strtolower($dep['dep']['name']) == strtolower($package)) {
+                    if (!isset($dependencies[$info['channel']])) {
+                        $dependencies[$info['channel']] = array();
+                    }
+                    if (!isset($dependencies[$info['channel']][$info['package']])) {
+                        $dependencies[$info['channel']][$info['package']] = array();
+                    }
                     $dependencies[$info['channel']][$info['package']][] = $dep;
                 }
             }
@@ -12980,7 +13039,7 @@ class PEAR_DependencyDB
  * @author     Martin Jansen <mj@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Downloader.php,v 1.115 2006/09/24 22:50:44 cellog Exp $
+ * @version    CVS: $Id: Downloader.php,v 1.120 2006/12/23 00:26:41 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.3.0
  */
@@ -13739,7 +13798,8 @@ class PEAR_Downloader extends PEAR_Common
             PEAR::staticPopErrorHandling();
             if (!isset($this->_options['force']) &&
                   !isset($this->_options['downloadonly']) &&
-                  !PEAR::isError($testversion)) {
+                  !PEAR::isError($testversion) &&
+                  !isset($parr['group'])) {
                 if (version_compare($testversion, $url['version'], '>=')) {
                     return PEAR::raiseError($this->_registry->parsedPackageNameToString(
                         $parr, true) . ' is already installed and is newer than detected ' .
@@ -14122,142 +14182,219 @@ class PEAR_Downloader extends PEAR_Common
             $this->sortPackagesForInstall($packages);
     }
 
-    function _getDepTreeDP($package, $packages, &$deps, &$checked)
-    {
-        $pf = $package->getPackageFile();
-        if (!is_array($checked)) {
-            $checked = array();
-        }
-        if (!isset($checked[strtolower($package->getChannel())])) {
-            $checked[strtolower($package->getChannel())] = array();
-        }
-        if (!isset($checked[strtolower($package->getChannel())][strtolower($package->getPackage())])) {
-            $checked[strtolower($package->getChannel())][strtolower($package->getPackage())] = array();
-        }
-        $checked[strtolower($package->getChannel())][strtolower($package->getPackage())]
-            = true;
-        $pdeps = $pf->getDeps(true);
-        if (!$pdeps) {
-            return;
-        }
-        if ($pf->getPackagexmlVersion() == '1.0') {
-            foreach ($pdeps as $dep) {
-                if ($dep['type'] != 'pkg') {
-                    continue;
-                }
-                $deps['pear.php.net'][strtolower($dep['name'])] = true;
-                foreach ($packages as $p) {
-                    $dep['channel'] = 'pear.php.net';
-                    $dep['package'] = $dep['name'];
-                    if ($p->isEqual($dep)) {
-                        if (!isset($checked[strtolower($p->getChannel())]
-                              [strtolower($p->getPackage())])) {
-                            // add the dependency's dependencies to the tree
-                            $this->_getDepTreeDP($p, $packages, $deps, $checked);
-                        }
-                    }
-                }
-            }
-        } else {
-            $tdeps = array();
-            if (isset($pdeps['required']['package'])) {
-                $t = $pdeps['required']['package'];
-                if (!isset($t[0])) {
-                    $t = array($t);
-                }
-                $tdeps = array_merge($tdeps, $t);
-            }
-            if (isset($pdeps['required']['subpackage'])) {
-                $t = $pdeps['required']['subpackage'];
-                if (!isset($t[0])) {
-                    $t = array($t);
-                }
-                $tdeps = array_merge($tdeps, $t);
-            }
-            if (isset($pdeps['optional']['package'])) {
-                $t = $pdeps['optional']['package'];
-                if (!isset($t[0])) {
-                    $t = array($t);
-                }
-                $tdeps = array_merge($tdeps, $t);
-            }
-            if (isset($pdeps['optional']['subpackage'])) {
-                $t = $pdeps['optional']['subpackage'];
-                if (!isset($t[0])) {
-                    $t = array($t);
-                }
-                $tdeps = array_merge($tdeps, $t);
-            }
-            if (isset($pdeps['group'])) {
-                if (!isset($pdeps['group'][0])) {
-                    $pdeps['group'] = array($pdeps['group']);
-                }
-                foreach ($pdeps['group'] as $group) {
-                    if (isset($group['package'])) {
-                        $t = $group['package'];
-                        if (!isset($t[0])) {
-                            $t = array($t);
-                        }
-                        $tdeps = array_merge($tdeps, $t);
-                    }
-                    if (isset($group['subpackage'])) {
-                        $t = $group['subpackage'];
-                        if (!isset($t[0])) {
-                            $t = array($t);
-                        }
-                        $tdeps = array_merge($tdeps, $t);
-                    }
-                }
-            }
-            foreach ($tdeps as $dep) {
-                if (!isset($dep['channel'])) {
-                    $depchannel = '__uri';
-                } else {
-                    $depchannel = $dep['channel'];
-                }
-                if (!is_array($deps)) {
-                    $deps = array();
-                }
-                if (!isset($deps[$depchannel])) {
-                    $deps[$depchannel] = array();
-                }
-                $deps[$depchannel][strtolower($dep['name'])] = true;
-                foreach ($packages as $p) {
-                    $dep['channel'] = $depchannel;
-                    $dep['package'] = $dep['name'];
-                    if ($p->isEqual($dep)) {
-                        if (!isset($checked[strtolower($p->getChannel())]
-                              [strtolower($p->getPackage())])) {
-                            // add the dependency's dependencies to the tree
-                            $this->_getDepTreeDP($p, $packages, $deps, $checked);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     /**
      * Sort a list of arrays of array(downloaded packagefilename) by dependency.
      *
-     * It also removes duplicate dependencies
+     * This uses the topological sort method from graph theory, and the
+     * Structures_Graph package to properly sort dependencies for installation.
      * @param array an array of downloaded PEAR_Downloader_Packages
      * @return array array of array(packagefilename, package.xml contents)
      */
     function sortPackagesForInstall(&$packages)
     {
+        require_once 'phar://go-pear.phar/Structures/Graph.php';
+        require_once 'phar://go-pear.phar/Structures/Graph/Node.php';
+        require_once 'phar://go-pear.phar/Structures/Graph/Manipulator/TopologicalSorter.php';
+        $depgraph = new Structures_Graph(true);
+        $nodes = array();
+        $reg = &$this->config->getRegistry();
         foreach ($packages as $i => $package) {
-            $checked = $deps = array();
-            $this->_getDepTreeDP($packages[$i], $packages, $deps, $checked);
-            if (!isset($this->_depTree)) {
-                $this->_depTree = array();
-            }
-            if (!isset($this->_depTree[$package->getChannel()])) {
-                $this->_depTree[$package->getChannel()] = array();
-            }
-            $this->_depTree[$package->getChannel()][$package->getPackage()] = $deps;
+            $pname = $reg->parsedPackageNameToString(
+                array(
+                    'channel' => $package->getChannel(),
+                    'package' => strtolower($package->getPackage()),
+                ));
+            $nodes[$pname] = new Structures_Graph_Node;
+            $nodes[$pname]->setData($packages[$i]);
+            $depgraph->addNode($nodes[$pname]);
         }
-        usort($packages, array(&$this, '_sortInstall'));
+        $deplinks = array();
+        foreach ($nodes as $package => $node) {
+            $pf = &$node->getData();
+            $pdeps = $pf->getDeps(true);
+            if (!$pdeps) {
+                continue;
+            }
+            if ($pf->getPackagexmlVersion() == '1.0') {
+                foreach ($pdeps as $dep) {
+                    if ($dep['type'] != 'pkg' ||
+                          (isset($dep['optional']) && $dep['optional'] == 'yes')) {
+                        continue;
+                    }
+                    $dname = $reg->parsedPackageNameToString(
+                          array(
+                              'channel' => 'pear.php.net',
+                              'package' => strtolower($dep['name']),
+                          ));
+                    if (isset($nodes[$dname]))
+                    {
+                        if (!isset($deplinks[$dname])) {
+                            $deplinks[$dname] = array();
+                        }
+                        $deplinks[$dname][$package] = 1;
+                        // dependency is in installed packages
+                        continue;
+                    }
+                    $dname = $reg->parsedPackageNameToString(
+                          array(
+                              'channel' => 'pecl.php.net',
+                              'package' => strtolower($dep['name']),
+                          ));
+                    if (isset($nodes[$dname]))
+                    {
+                        if (!isset($deplinks[$dname])) {
+                            $deplinks[$dname] = array();
+                        }
+                        $deplinks[$dname][$package] = 1;
+                        // dependency is in installed packages
+                        continue;
+                    }
+                }
+            } else {
+                // the only ordering we care about is:
+                // 1) subpackages must be installed before packages that depend on them
+                // 2) required deps must be installed before packages that depend on them
+                if (isset($pdeps['required']['subpackage'])) {
+                    $t = $pdeps['required']['subpackage'];
+                    if (!isset($t[0])) {
+                        $t = array($t);
+                    }
+                    $this->_setupGraph($t, $reg, $deplinks, $nodes, $package);
+                }
+                if (isset($pdeps['group'])) {
+                    if (!isset($pdeps['group'][0])) {
+                        $pdeps['group'] = array($pdeps['group']);
+                    }
+                    foreach ($pdeps['group'] as $group) {
+                        if (isset($group['subpackage'])) {
+                            $t = $group['subpackage'];
+                            if (!isset($t[0])) {
+                                $t = array($t);
+                            }
+                            $this->_setupGraph($t, $reg, $deplinks, $nodes, $package);
+                        }
+                    }
+                }
+                if (isset($pdeps['optional']['subpackage'])) {
+                    $t = $pdeps['optional']['subpackage'];
+                    if (!isset($t[0])) {
+                        $t = array($t);
+                    }
+                    $this->_setupGraph($t, $reg, $deplinks, $nodes, $package);
+                }
+                if (isset($pdeps['required']['package'])) {
+                    $t = $pdeps['required']['package'];
+                    if (!isset($t[0])) {
+                        $t = array($t);
+                    }
+                    $this->_setupGraph($t, $reg, $deplinks, $nodes, $package);
+                }
+                if (isset($pdeps['group'])) {
+                    if (!isset($pdeps['group'][0])) {
+                        $pdeps['group'] = array($pdeps['group']);
+                    }
+                    foreach ($pdeps['group'] as $group) {
+                        if (isset($group['package'])) {
+                            $t = $group['package'];
+                            if (!isset($t[0])) {
+                                $t = array($t);
+                            }
+                            $this->_setupGraph($t, $reg, $deplinks, $nodes, $package);
+                        }
+                    }
+                }
+            }
+        }
+        $this->_detectDepCycle($deplinks);
+        foreach ($deplinks as $dependent => $parents) {
+            foreach ($parents as $parent => $unused) {
+                $nodes[$dependent]->connectTo($nodes[$parent]);
+            }
+        }
+        $installOrder = Structures_Graph_Manipulator_TopologicalSorter::sort($depgraph);
+        $ret = array();
+        for ($i = 0; $i < count($installOrder); $i++) {
+            foreach ($installOrder[$i] as $index => $sortedpackage) {
+                $data = &$installOrder[$i][$index]->getData();
+                $ret[] = &$nodes[$reg->parsedPackageNameToString(
+                          array(
+                              'channel' => $data->getChannel(),
+                              'package' => strtolower($data->getPackage()),
+                          ))]->getData();
+            }
+        }
+        $packages = $ret;
+        return;
+    }
+
+    /**
+     * Detect recursive links between dependencies and break the cycles
+     *
+     * @param array
+     * @access private
+     */
+    function _detectDepCycle(&$deplinks)
+    {
+        do {
+            $keepgoing = false;
+            foreach ($deplinks as $dep => $parents) {
+                foreach ($parents as $parent => $unused) {
+                    if ($this->_testCycle($dep, $deplinks, $parent)) {
+                        $keepgoing = true;
+                        unset($deplinks[$dep][$parent]);
+                        if (count($deplinks[$dep]) == 0) {
+                            unset($deplinks[$dep]);
+                        }
+                        continue 3;
+                    }
+                }
+            }
+        } while ($keepgoing);
+    }
+
+    function _testCycle($test, $deplinks, $dep)
+    {
+        if ($test == $dep) {
+            return true;
+        }
+        if (isset($deplinks[$dep])) {
+            foreach ($deplinks[$dep] as $parent => $unused) {
+                if ($this->_testCycle($test, $deplinks, $parent)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Set up the dependency for installation parsing
+     *
+     * @param array $t dependency information
+     * @param PEAR_Registry $reg
+     * @param array $deplinks list of dependency links already established
+     * @param array $nodes all existing package nodes
+     * @param string $package parent package name
+     * @access private
+     */
+    function _setupGraph($t, $reg, &$deplinks, &$nodes, $package)
+    {
+        foreach ($t as $dep) {
+            $depchannel = !isset($dep['channel']) ?
+                '__uri': $dep['channel'];
+            $dname = $reg->parsedPackageNameToString(
+                  array(
+                      'channel' => $depchannel,
+                      'package' => strtolower($dep['name']),
+                  ));
+            if (isset($nodes[$dname]))
+            {
+                if (!isset($deplinks[$dname])) {
+                    $deplinks[$dname] = array();
+                }
+                $deplinks[$dname][$package] = 1;
+            }
+        }
     }
 
     function _dependsOn($a, $b)
@@ -14612,7 +14749,7 @@ define('PEAR_DOWNLOADER_PACKAGE_STATE', -1003);
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.0a2
+ * @version    Release: 1.5.0RC3
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -16365,7 +16502,7 @@ class PEAR_Downloader_Package
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  2004-2006 Greg Beaver
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: ErrorStack.php,v 1.25 2006/09/22 03:13:17 cellog Exp $
+ * @version    CVS: $Id: ErrorStack.php,v 1.26 2006/10/31 02:54:40 cellog Exp $
  * @link       http://pear.php.net/package/PEAR_ErrorStack
  */
 
@@ -16479,7 +16616,7 @@ define('PEAR_ERRORSTACK_ERR_OBJTOSTRING', 2);
  * @category   Debugging
  * @copyright  2004-2006 Greg Beaver
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: ErrorStack.php,v 1.25 2006/09/22 03:13:17 cellog Exp $
+ * @version    CVS: $Id: ErrorStack.php,v 1.26 2006/10/31 02:54:40 cellog Exp $
  * @link       http://pear.php.net/package/PEAR_ErrorStack
  */
 class PEAR_ErrorStack {
@@ -17528,7 +17665,7 @@ class PEAR_Frontend extends PEAR
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: CLI.php,v 1.65 2006/10/01 22:29:13 cellog Exp $
+ * @version    CVS: $Id: CLI.php,v 1.66 2006/11/19 23:56:32 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -17912,7 +18049,7 @@ class PEAR_Frontend_CLI extends PEAR_Frontend
             if (isset($testprompts[(int)$tmp - 1])) {
                 $var = $testprompts[(int)$tmp - 1];
                 $desc = $prompts[$var];
-                $current = $result[$var];
+                $current = @$result[$var];
                 print "$desc [$current] : ";
                 $tmp = trim(fgets($fp, 1024));
                 if (trim($tmp) !== '') {
@@ -18300,129 +18437,212 @@ class PEAR_Frontend_CLI extends PEAR_Frontend
 }
 
 ?>
-package.xml                                                                                         100666       0       0         7350 10216370533   6234                                                                                                                                                                                                                                                                                                                                                                      <?xml version="1.0" encoding="ISO-8859-1" ?>
-<!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
-<package version="1.0">
-  <name>Archive_Tar</name>
-  <summary>Tar file management class</summary>
-  <description>This class provides handling of tar files in PHP.
+package.xml                                                                                         100644    1750    1750        13604 10547623416   6451                                                                                                                                                                                                                                                                                                                                                                      <?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.5.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Archive_Tar</name>
+ <channel>pear.php.net</channel>
+ <summary>Tar file management class</summary>
+ <description>This class provides handling of tar files in PHP.
 It supports creating, listing, extracting and adding to tar files.
 Gzip support is available if PHP has the zlib extension built-in or
 loaded. Bz2 compression is also supported with the bz2 extension loaded.</description>
-  <maintainers>
-    <maintainer>
-      <user>vblavet</user>
-      <name>Vincent Blavet</name>
-      <email>vincent@phpconcept.net</email>
-      <role>lead</role>
-    </maintainer>
-    <maintainer>
-      <user>ssb</user>
-      <name>Stig Bakken</name>
-      <email>stig@php.net</email>
-      <role>helper</role>
-    </maintainer>
-  </maintainers>
+ <lead>
+  <name>Gregory Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Vincent Blavet</name>
+  <user>vblavet</user>
+  <email>vincent@phpconcept.net</email>
+  <active>no</active>
+ </lead>
+ <helper>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>stig@php.net</email>
+  <active>no</active>
+ </helper>
+ <date>2007-01-05</date>
+ <time>22:35:26</time>
+ <version>
+  <release>1.3.2</release>
+  <api>1.3.2</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>Correct Bug #4016
+Remove duplicate remove error display with &apos;@&apos;
+Correct Bug #3909 : Check existence of OS_WINDOWS constant
+Correct Bug #5452 fix for &quot;lone zero block&quot; when untarring packages
+Change filemode (from pear-core/Archive/Tar.php v.1.21)
+Correct Bug #6486 Can not extract symlinks
+Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal	
+Correct Bug #8114 Files added on-the-fly not storing date
+Correct Bug #9352 Bug on _dirCheck function over nfs path</notes>
+ <contents>
+  <dir name="/">
+   <file baseinstalldir="/" md5sum="06409d39f4268a9aa9e2924c7f397a38" name="Archive/Tar.php" role="php" />
+   <file baseinstalldir="/" md5sum="29b03715377b18b1fafcff98a99cc9a7" name="docs/Archive_Tar.txt" role="doc" />
+  </dir>
+ </contents>
+ <compatible>
+  <name>PEAR</name>
+  <channel>pear.php.net</channel>
+  <min>1.4.0</min>
+  <max>1.5.0RC2</max>
+ </compatible>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.0.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
   <release>
-    <version>1.3.1</version>
-    <date>2005-03-17</date>
-    <license>PHP License</license>
-    <state>stable</state>
-    <notes>Correct Bug #3855</notes>
-    <provides type="class" name="Archive_Tar" />
-    <provides type="function" name="Archive_Tar::create" />
-    <provides type="function" name="Archive_Tar::add" />
-    <provides type="function" name="Archive_Tar::extract" />
-    <provides type="function" name="Archive_Tar::listContent" />
-    <provides type="function" name="Archive_Tar::createModify" />
-    <provides type="function" name="Archive_Tar::addModify" />
-    <provides type="function" name="Archive_Tar::addString" />
-    <provides type="function" name="Archive_Tar::extractModify" />
-    <provides type="function" name="Archive_Tar::extractInString" />
-    <provides type="function" name="Archive_Tar::extractList" />
-    <provides type="function" name="Archive_Tar::setAttribute" />
-    <filelist>
-      <file role="php" baseinstalldir="/" md5sum="5a9ef212cbfc1789c875870b3a4db6e5" name="Archive/Tar.php"/>
-      <file role="doc" baseinstalldir="/" md5sum="ae640b797078a6542ea0d236f28efffb" name="docs/Archive_Tar.txt"/>
-    </filelist>
+   <version>
+    <release>1.3.1</release>
+    <api>1.3.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-03-17</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Correct Bug #3855</notes>
   </release>
-  <changelog>
-    <release>
-      <version>1.3.0</version>
-      <date>2005-03-06</date>
-      <state>stable</state>
-      <notes>Bugs correction (2475, 2488, 2135, 2176)
-	
-</notes>
-    </release>
-    <release>
-      <version>1.2</version>
-      <date>2004-05-08</date>
-      <state>stable</state>
-      <notes>Add support for other separator than the space char and bug
-	correction
-	
-</notes>
-    </release>
-    <release>
-      <version>1.1</version>
-      <date>2003-05-28</date>
-      <state>stable</state>
-      <notes>* Add support for BZ2 compression
-* Add support for add and extract without using temporary files : methods addString() and extractInString()
-</notes>
-    </release>
-    <release>
-      <version>1.0</version>
-      <date>2003-01-24</date>
-      <state>stable</state>
-      <notes>Change status to stable
-
-</notes>
-    </release>
-    <release>
-      <version>0.10-b1</version>
-      <date>2003-01-08</date>
-      <state>beta</state>
-      <notes>Add support for long filenames (greater than 99 characters)
-
-</notes>
-    </release>
-    <release>
-      <version>0.9</version>
-      <date>2002-05-27</date>
-      <state>stable</state>
-      <notes>Auto-detect gzip'ed files
-
-</notes>
-    </release>
-    <release>
-      <version>0.4</version>
-      <date>2002-05-20</date>
-      <state>stable</state>
-      <notes>Windows bugfix: use forward slashes inside archives
-
-</notes>
-    </release>
-    <release>
-      <version>0.2</version>
-      <date>2002-02-18</date>
-      <state>stable</state>
-      <notes>From initial commit to stable
-
-</notes>
-    </release>
-    <release>
-      <version>0.3</version>
-      <date>2002-04-13</date>
-      <state>stable</state>
-      <notes>Windows bugfix: used wrong directory separators
-
-</notes>
-    </release>
-  </changelog>
+  <release>
+   <version>
+    <release>1.3.0</release>
+    <api>1.3.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2005-03-06</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Bugs correction (2475, 2488, 2135, 2176)</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2</release>
+    <api>1.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2004-05-08</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Add support for other separator than the space char and bug
+	correction</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1</release>
+    <api>1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2003-05-28</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Add support for BZ2 compression
+* Add support for add and extract without using temporary files : methods addString() and extractInString()</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0</release>
+    <api>1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2003-01-24</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Change status to stable</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.10-b1</release>
+    <api>0.10-b1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2003-01-08</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Add support for long filenames (greater than 99 characters)</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.9</release>
+    <api>0.9</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-05-27</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Auto-detect gzip&apos;ed files</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4</release>
+    <api>0.4</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-05-20</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Windows bugfix: use forward slashes inside archives</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2</release>
+    <api>0.2</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-02-18</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>From initial commit to stable</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3</release>
+    <api>0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2002-04-13</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Windows bugfix: used wrong directory separators</notes>
+  </release>
+ </changelog>
 </package>
-                                                                                                                                                                                                                                                                                        Archive_Tar-1.3.1/Archive/Tar.php                                                                   100666       0       0       166777 10216370147  11650                                                                                                                                                                                                                                                                                                                                                                      <?php
+                                                                                                                            Archive_Tar-1.3.2/Archive/Tar.php                                                                   100644    1750    1750       167330 10547623416  12030                                                                                                                                                                                                                                                                                                                                                                      <?php
 /* vim: set ts=4 sw=4: */
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
@@ -18440,18 +18660,19 @@ loaded. Bz2 compression is also supported with the bz2 extension loaded.</descri
 // | Author: Vincent Blavet <vincent@phpconcept.net>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Tar.php,v 1.29 2005/03/17 21:02:31 vblavet Exp $
+// $Id: Tar.php,v 1.39 2006/12/22 19:20:08 cellog Exp $
 
 require_once 'PEAR.php';
 
 
 define ('ARCHIVE_TAR_ATT_SEPARATOR', 90001);
+define ('ARCHIVE_TAR_END_BLOCK', pack("a512", ''));
 
 /**
 * Creates a (compressed) Tar archive
 *
 * @author   Vincent Blavet <vincent@phpconcept.net>
-* @version  $Revision: 1.29 $
+* @version  $Revision: 1.39 $
 * @package  Archive
 */
 class Archive_Tar extends PEAR
@@ -19221,14 +19442,14 @@ class Archive_Tar extends PEAR
               $p_len = 1;
 
           if ($this->_compress_type == 'gz') {
-              @gzseek($this->_file, @gztell($this->_file)+($p_len*512));
+              @gzseek($this->_file, gztell($this->_file)+($p_len*512));
           }
           else if ($this->_compress_type == 'bz2') {
               // ----- Replace missing bztell() and bzseek()
               for ($i=0; $i<$p_len; $i++)
                   $this->_readBlock();
           } else if ($this->_compress_type == 'none')
-              @fseek($this->_file, @ftell($this->_file)+($p_len*512));
+              @fseek($this->_file, ftell($this->_file)+($p_len*512));
           else
               $this->_error('Unknown or missing compression type ('
 			                .$this->_compress_type.')');
@@ -19243,7 +19464,7 @@ class Archive_Tar extends PEAR
     {
       if (is_resource($this->_file)) {
           // ----- Write the last 0 filled block for end of archive
-          $v_binary_data = pack("a512", '');
+          $v_binary_data = pack('a1024', '');
           $this->_writeBlock($v_binary_data);
       }
       return true;
@@ -19397,7 +19618,7 @@ class Archive_Tar extends PEAR
       $p_filename = $this->_translateWinPath($p_filename, false);;
 
       if (!$this->_writeHeaderBlock($p_filename, strlen($p_string),
-	                                0, 0, "", 0, 0))
+	                                  time(), 384, "", 0, 0))
           return false;
 
       $i=0;
@@ -19641,6 +19862,9 @@ class Archive_Tar extends PEAR
             return false;
         }
 
+        if (!is_array($v_header)) {
+            $v_header = array();
+        }
         // ----- Calculate the checksum
         $v_checksum = 0;
         // ..... First part of the header
@@ -19675,6 +19899,11 @@ class Archive_Tar extends PEAR
 
         // ----- Extract the properties
         $v_header['filename'] = trim($v_data['filename']);
+        if ($this->_maliciousFilename($v_header['filename'])) {
+            $this->_error('Malicious .tar detected, file "' . $v_header['filename'] .
+                '" will not install in desired directory tree');
+            return false;
+        }
         $v_header['mode'] = OctDec(trim($v_data['mode']));
         $v_header['uid'] = OctDec(trim($v_data['uid']));
         $v_header['gid'] = OctDec(trim($v_data['gid']));
@@ -19683,9 +19912,9 @@ class Archive_Tar extends PEAR
         if (($v_header['typeflag'] = $v_data['typeflag']) == "5") {
           $v_header['size'] = 0;
         }
+        $v_header['link'] = trim($v_data['link']);
         /* ----- All these fields are removed form the header because
 		they do not carry interesting info
-        $v_header[link] = trim($v_data[link]);
         $v_header[magic] = trim($v_data[magic]);
         $v_header[version] = trim($v_data[version]);
         $v_header[uname] = trim($v_data[uname]);
@@ -19695,6 +19924,26 @@ class Archive_Tar extends PEAR
         */
 
         return true;
+    }
+    // }}}
+
+    // {{{ _maliciousFilename()
+    /**
+     * Detect and report a malicious file name
+     *
+     * @param string $file
+     * @return bool
+     * @access private
+     */
+    function _maliciousFilename($file)
+    {
+        if (strpos($file, '/../') !== false) {
+            return true;
+        }
+        if (strpos($file, '../') === 0) {
+            return true;
+        }
+        return false;
     }
     // }}}
 
@@ -19719,6 +19968,11 @@ class Archive_Tar extends PEAR
         return false;
 
       $v_header['filename'] = $v_filename;
+        if ($this->_maliciousFilename($v_filename)) {
+            $this->_error('Malicious .tar detected, file "' . $v_filename .
+                '" will not install in desired directory tree');
+            return false;
+      }
 
       return true;
     }
@@ -19919,6 +20173,12 @@ class Archive_Tar extends PEAR
                     return false;
                 }
             }
+          } elseif ($v_header['typeflag'] == "2") {
+              if (!@symlink($v_header['link'], $v_header['filename'])) {
+                  $this->_error('Unable to extract symbolic link {'
+                                .$v_header['filename'].'}');
+                  return false;
+              }
           } else {
               if (($v_dest_file = @fopen($v_header['filename'], "wb")) == 0) {
                   $this->_error('Error while opening {'.$v_header['filename']
@@ -19939,8 +20199,11 @@ class Archive_Tar extends PEAR
 
             // ----- Change the file mode, mtime
             @touch($v_header['filename'], $v_header['mtime']);
-            // To be completed
-            //chmod($v_header[filename], DecOct($v_header[mode]));
+            if ($v_header['mode'] & 0111) {
+                // make file executable, obey umask
+                $mode = fileperms($v_header['filename']) | (~umask() & 0111);
+                @chmod($v_header['filename'], $mode);
+            }
           }
 
           // ----- Check the file size
@@ -19977,6 +20240,9 @@ class Archive_Tar extends PEAR
           $v_file_dir = '/';
 
         $p_list_detail[$v_nb++] = $v_header;
+        if (is_array($p_file_list) && (count($p_list_detail) == count($p_file_list))) {
+            return true;
+        }
       }
     }
 
@@ -20018,29 +20284,25 @@ class Archive_Tar extends PEAR
             }
 
             if ($this->_compress_type == 'gz') {
-                $v_buffer = @gzread($v_temp_tar, 512);
-
-                // ----- Read the following blocks but not the last one
-                if (!@gzeof($v_temp_tar)) {
-                    do{
-                        $v_binary_data = pack("a512", $v_buffer);
-                        $this->_writeBlock($v_binary_data);
-                        $v_buffer = @gzread($v_temp_tar, 512);
-
-                    } while (!@gzeof($v_temp_tar));
+                while (!@gzeof($v_temp_tar)) {
+                    $v_buffer = @gzread($v_temp_tar, 512);
+                    if ($v_buffer == ARCHIVE_TAR_END_BLOCK) {
+                        // do not copy end blocks, we will re-make them
+                        // after appending
+                        continue;
+                    }
+                    $v_binary_data = pack("a512", $v_buffer);
+                    $this->_writeBlock($v_binary_data);
                 }
 
                 @gzclose($v_temp_tar);
             }
             elseif ($this->_compress_type == 'bz2') {
-                $v_buffered_lines   = array();
-                $v_buffered_lines[] = @bzread($v_temp_tar, 512);
-
-                // ----- Read the following blocks but not the last one
-                while (strlen($v_buffered_lines[]
-				              = @bzread($v_temp_tar, 512)) > 0) {
-                    $v_binary_data = pack("a512",
-					                      array_shift($v_buffered_lines));
+                while (strlen($v_buffer = @bzread($v_temp_tar, 512)) > 0) {
+                    if ($v_buffer == ARCHIVE_TAR_END_BLOCK) {
+                        continue;
+                    }
+                    $v_binary_data = pack("a512", $v_buffer);
                     $this->_writeBlock($v_binary_data);
                 }
 
@@ -20054,13 +20316,23 @@ class Archive_Tar extends PEAR
 
         } else {
             // ----- For not compressed tar, just add files before the last
-			//       512 bytes block
+			//       one or two 512 bytes block
             if (!$this->_openReadWrite())
                return false;
 
             clearstatcache();
             $v_size = filesize($this->_tarname);
-            fseek($this->_file, $v_size-512);
+
+            // We might have zero, one or two end blocks.
+            // The standard is two, but we should try to handle 
+            // other cases.
+            fseek($this->_file, $v_size - 1024);
+            if (fread($this->_file, 512) == ARCHIVE_TAR_END_BLOCK) {
+                fseek($this->_file, $v_size - 1024);
+            }
+            elseif (fread($this->_file, 512) == ARCHIVE_TAR_END_BLOCK) {
+                fseek($this->_file, $v_size - 512);    
+            }
         }
 
         return true;
@@ -20094,6 +20366,7 @@ class Archive_Tar extends PEAR
      */
     function _dirCheck($p_dir)
     {
+        clearstatcache();
         if ((@is_dir($p_dir)) || ($p_dir == ''))
             return true;
 
@@ -20167,7 +20440,7 @@ class Archive_Tar extends PEAR
     // {{{ _translateWinPath()
     function _translateWinPath($p_path, $p_remove_disk_letter=true)
     {
-      if (OS_WINDOWS) {
+      if (defined('OS_WINDOWS') && OS_WINDOWS) {
           // ----- Look for potential disk letter
           if (   ($p_remove_disk_letter)
 		      && (($v_position = strpos($p_path, ':')) != false)) {
@@ -20184,7 +20457,7 @@ class Archive_Tar extends PEAR
 
 }
 ?>
- Archive_Tar-1.3.1/docs/Archive_Tar.txt                                                              100666       0       0        44610 10166453403  12646                                                                                                                                                                                                                                                                                                                                                                      Documentation for class Archive_Tar
+                                                                                                                                                                                                                                                                                                        Archive_Tar-1.3.2/docs/Archive_Tar.txt                                                              100644    1750    1750        43673 10547623416  13053                                                                                                                                                                                                                                                                                                                                                                      Documentation for class Archive_Tar
 ===================================
 Last update : 2001-08-15
 
@@ -20645,7 +20918,7 @@ How it works :
   Go through the archive and extract only the files present in the
   list. 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        package.xml                                                                                         100644       0       0         4022  7766142160   6212                                                                                                                                                                                                                                                                                                                                                                      <?xml version="1.0" encoding="ISO-8859-1" ?>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     package.xml                                                                                         100644       0       0         4022  7766142160   6212                                                                                                                                                                                                                                                                                                                                                                      <?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
 <package version="1.0">
   <name>Console_Getopt</name>
@@ -66531,7 +66804,7 @@ users who use --packagingroot may find that installation fails
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Installer.php,v 1.237 2006/09/25 23:01:05 cellog Exp $
+ * @version    CVS: $Id: Installer.php,v 1.239 2006/12/20 19:34:03 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -67576,6 +67849,11 @@ class PEAR_Installer extends PEAR_Downloader
             $this->_registry = &$this->config->getRegistry();
             if (isset($this->_options['packagingroot'])) {
                 $installregistry = &new PEAR_Registry($regdir);
+                if (!$installregistry->channelExists($channel, true)) {
+                    // we need to fake a channel-discover of this channel
+                    $chanobj = $this->_registry->getChannel($channel, true);
+                    $installregistry->addChannel($chanobj);
+                }
                 $php_dir = $packrootphp_dir;
             } else {
                 $installregistry = &$this->_registry;
@@ -67593,6 +67871,8 @@ class PEAR_Installer extends PEAR_Downloader
             if (PEAR::isError($instfilelist)) {
                 return $instfilelist;
             }
+            // ensure we have the most accurate registry
+            $installregistry->flushFileMap();
             $test = $installregistry->checkFileMap($instfilelist, $testp, '1.1');
             if (PEAR::isError($test)) {
                 return $test;
@@ -68172,7 +68452,7 @@ if (!function_exists("md5_file")) {
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Role.php,v 1.15 2006/05/12 02:38:58 cellog Exp $
+ * @version    CVS: $Id: Role.php,v 1.16 2006/10/31 02:54:41 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -68188,7 +68468,7 @@ require_once 'phar://go-pear.phar/PEAR/XMLParser.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.0a2
+ * @version    Release: 1.5.0RC3
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -68865,7 +69145,7 @@ define('PEAR_PACKAGEFILE_ERROR_INVALID_PACKAGEVERSION', 2);
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.0a2
+ * @version    Release: 1.5.0RC3
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -69333,7 +69613,7 @@ require_once 'phar://go-pear.phar/PEAR/PackageFile/v2.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.0a2
+ * @version    Release: 1.5.0RC3
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -69350,7 +69630,7 @@ class PEAR_PackageFile_Generator_v1
 
     function getPackagerVersion()
     {
-        return '1.5.0a2';
+        return '1.5.0RC3';
     }
 
     /**
@@ -69504,7 +69784,7 @@ class PEAR_PackageFile_Generator_v1
             );
         $ret = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
         $ret .= "<!DOCTYPE package SYSTEM \"http://pear.php.net/dtd/package-1.0\">\n";
-        $ret .= "<package version=\"1.0\" packagerversion=\"1.5.0a2\">\n" .
+        $ret .= "<package version=\"1.0\" packagerversion=\"1.5.0RC3\">\n" .
 " <name>$pkginfo[package]</name>";
         if (isset($pkginfo['extends'])) {
             $ret .= "\n<extends>$pkginfo[extends]</extends>";
@@ -70604,7 +70884,7 @@ require_once 'phar://go-pear.phar/System.php';
  * @author     Stephan Schmidt (original XML_Serializer code)
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.0a2
+ * @version    Release: 1.5.0RC3
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -70683,7 +70963,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
      */
     function getPackagerVersion()
     {
-        return '1.5.0a2';
+        return '1.5.0RC3';
     }
 
     /**
@@ -70921,7 +71201,7 @@ http://pear.php.net/dtd/package-2.0.xsd',
             }
             $this->options['beautifyFilelist'] = true;
         }
-        $arr['attribs']['packagerversion'] = '1.5.0a2';
+        $arr['attribs']['packagerversion'] = '1.5.0RC3';
         if ($this->serialize($arr, $options)) {
             return $this->_serializedData . "\n";
         }
@@ -72684,7 +72964,7 @@ class PEAR_PackageFile_Parser_v2 extends PEAR_XMLParser
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: v1.php,v 1.71 2006/04/12 21:44:50 cellog Exp $
+ * @version    CVS: $Id: v1.php,v 1.72 2006/10/31 02:54:41 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -74287,7 +74567,7 @@ class PEAR_PackageFile_v1
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: v2.php,v 1.134 2006/09/25 05:12:21 cellog Exp $
+ * @version    CVS: $Id: v2.php,v 1.135 2006/10/31 02:54:41 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -76332,7 +76612,7 @@ require_once 'phar://go-pear.phar/PEAR/PackageFile/v2.php';
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.5.0a2
+ * @version    Release: 1.5.0RC3
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a8
  */
@@ -77920,7 +78200,7 @@ class PEAR_PackageFile_v2_rw extends PEAR_PackageFile_v2
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Validator.php,v 1.93 2006/09/25 05:12:21 cellog Exp $
+// $Id: Validator.php,v 1.96 2006/11/21 03:17:17 cellog Exp $
 /**
  * Private validation class used by PEAR_PackageFile_v2 - do not use directly, its
  * sole purpose is to split up the PEAR/PackageFile/v2.php file to make it smaller
@@ -78012,7 +78292,7 @@ class PEAR_PackageFile_v2_Validator
               isset($test['dependencies']['required']) &&
               isset($test['dependencies']['required']['pearinstaller']) &&
               isset($test['dependencies']['required']['pearinstaller']['min']) &&
-              version_compare('1.5.0a2',
+              version_compare('1.5.0RC3',
                 $test['dependencies']['required']['pearinstaller']['min'], '<')) {
             $this->_pearVersionTooLow($test['dependencies']['required']['pearinstaller']['min']);
             return false;
@@ -78077,6 +78357,9 @@ class PEAR_PackageFile_v2_Validator
             $this->_validateCompatible();
         }
         if (!isset($this->_packageInfo['bundle'])) {
+            if (empty($this->_packageInfo['contents'])) {
+                $this->_tagCannotBeEmpty('contents');
+            }
             if (!isset($this->_packageInfo['contents']['dir'])) {
                 $this->_filelistMustContainDir('contents');
                 return false;
@@ -79225,7 +79508,7 @@ class PEAR_PackageFile_v2_Validator
         $this->_stack->push(__FUNCTION__, 'error',
             array('version' => $version),
             'This package.xml requires PEAR version %version% to parse properly, we are ' .
-            'version 1.5.0a2');
+            'version 1.5.0RC3');
     }
 
     function _invalidTagOrder($oktags, $actual, $root)
@@ -79631,6 +79914,10 @@ class PEAR_PackageFile_v2_Validator
         $log = isset($this->_pf->_logger) ? array(&$this->_pf->_logger, 'log') :
             array(&$common, 'log');
         $info = $this->_pf->getContents();
+        if (!$info || !isset($info['dir']['file'])) {
+            $this->_tagCannotBeEmpty('contents><dir');
+            return false;
+        }
         $info = $info['dir']['file'];
         if (isset($info['attribs'])) {
             $info = array($info);
@@ -79970,7 +80257,7 @@ class PEAR_PackageFile_v2_Validator
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Registry.php,v 1.157 2006/09/22 02:48:43 cellog Exp $
+ * @version    CVS: $Id: Registry.php,v 1.159 2006/12/20 19:34:03 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 0.1
  */
@@ -81902,6 +82189,18 @@ class PEAR_Registry extends PEAR
     }
 
     // }}}
+    // {{{ flush()
+    /**
+     * Force a reload of the filemap
+     * @since 1.5.0RC3
+     */
+    function flushFileMap()
+    {
+        $this->filemap_cache = null;
+        clearstatcache(); // ensure that the next read gets the full, current filemap
+    }
+
+    // }}}
     // {{{ apiVersion()
     /**
      * Get the expected API version.  Channels API is version 1.1, as it is backwards
@@ -83063,7 +83362,7 @@ class PEAR_REST
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: 10.php,v 1.42 2006/04/03 01:07:19 cellog Exp $
+ * @version    CVS: $Id: 10.php,v 1.43 2006/11/01 05:09:05 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a12
  */
@@ -83654,7 +83953,7 @@ class PEAR_REST_10
             if (!class_exists('PEAR_PackageFile_v2')) {
                 require_once 'phar://go-pear.phar/PEAR/PackageFile/v2.php';
             }
-            if (!is_array($allreleases['r'])) {
+            if (!is_array($allreleases['r']) || !isset($allreleases['r'][0])) {
                 $allreleases['r'] = array($allreleases['r']);
             }
             $pf = new PEAR_PackageFile_v2;
@@ -84742,7 +85041,7 @@ Double-click this file to add it to the current user registry.
  * @author     Greg Beaver <cellog@php.net>
  * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Common.php,v 1.15 2006/01/06 04:47:37 cellog Exp $
+ * @version    CVS: $Id: Common.php,v 1.16 2006/11/12 05:02:41 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -84848,7 +85147,7 @@ class PEAR_Task_Common
      * @static
      * @abstract
      */
-    function validXml($pkg, $xml, &$config, $fileXml)
+    function validateXml($pkg, $xml, &$config, $fileXml)
     {
     }
 
@@ -86925,6 +87224,785 @@ class PEAR_XMLParser
     }
 }
 ?><?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 foldmethod=marker: */
+// +-----------------------------------------------------------------------------+
+// | Copyright (c) 2003 SÈrgio GonÁalves Carvalho                                |
+// +-----------------------------------------------------------------------------+
+// | This file is part of Structures_Graph.                                      |
+// |                                                                             |
+// | Structures_Graph is free software; you can redistribute it and/or modify    |
+// | it under the terms of the GNU Lesser General Public License as published by |
+// | the Free Software Foundation; either version 2.1 of the License, or         |
+// | (at your option) any later version.                                         |
+// |                                                                             |
+// | Structures_Graph is distributed in the hope that it will be useful,         |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+// | GNU Lesser General Public License for more details.                         |
+// |                                                                             |
+// | You should have received a copy of the GNU Lesser General Public License    |
+// | along with Structures_Graph; if not, write to the Free Software             |
+// | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA                    |
+// | 02111-1307 USA                                                              |
+// +-----------------------------------------------------------------------------+
+// | Author: SÈrgio Carvalho <sergio.carvalho@portugalmail.com>                  |
+// +-----------------------------------------------------------------------------+
+//
+/**
+ * The Graph.php file contains the definition of the Structures_Graph class 
+ *
+ * @see Structures_Graph
+ * @package Structures_Graph
+ */
+
+/* dependencies {{{ */
+/** PEAR base classes */
+require_once 'phar://go-pear.phar/PEAR.php';
+/** Graph Node */
+require_once 'phar://go-pear.phar/Structures/Graph/Node.php';
+/* }}} */
+
+define('STRUCTURES_GRAPH_ERROR_GENERIC', 100);
+
+/* class Structures_Graph {{{ */
+/**
+ * The Structures_Graph class represents a graph data structure. 
+ *
+ * A Graph is a data structure composed by a set of nodes, connected by arcs.
+ * Graphs may either be directed or undirected. In a directed graph, arcs are 
+ * directional, and can be traveled only one way. In an undirected graph, arcs
+ * are bidirectional, and can be traveled both ways.
+ *
+ * @author		SÈrgio Carvalho <sergio.carvalho@portugalmail.com> 
+ * @copyright	(c) 2004 by SÈrgio Carvalho
+ * @package Structures_Graph
+ */
+/* }}} */
+class Structures_Graph {
+    /* fields {{{ */
+    /**
+     * @access private
+     */
+    var $_nodes = array();
+    /**
+     * @access private
+     */
+    var $_directed = false;
+    /* }}} */
+
+    /* Constructor {{{ */
+    /**
+    *
+    * Constructor
+    *
+    * @param    boolean    Set to true if the graph is directed. Set to false if it is not directed. (Optional, defaults to true)
+    * @access	public
+    */
+    function Structures_Graph($directed = true) {
+        $this->_directed = $directed;
+    }
+    /* }}} */
+
+    /* isDirected {{{ */
+    /**
+    *
+    * Return true if a graph is directed
+    *
+    * @return	boolean	 true if the graph is directed
+    * @access	public
+    */
+    function isDirected() {
+        return (boolean) $this->_directed;
+    }
+    /* }}} */
+
+    /* addNode {{{ */
+    /**
+    *
+    * Add a Node to the Graph
+    *
+    * @param    Structures_Graph_Node   The node to be added.
+    * @access	public
+    */
+    function addNode(&$newNode) {
+        // We only add nodes
+        if (!is_a($newNode, 'Structures_Graph_Node')) return Pear::raiseError('Structures_Graph::addNode received an object that is not a Structures_Graph_Node', STRUCTURES_GRAPH_ERROR_GENERIC);
+        // Graphs are node *sets*, so duplicates are forbidden. We allow nodes that are exactly equal, but disallow equal references.
+        foreach($this->_nodes as $key => $node) {
+            /*
+             ZE1 equality operators choke on the recursive cycle introduced by the _graph field in the Node object.
+             So, we'll check references the hard way (change $this->_nodes[$key] and check if the change reflects in 
+             $node)
+            */
+            $savedData = $this->_nodes[$key];
+            $referenceIsEqualFlag = false;
+            $this->_nodes[$key] = true;
+            if ($node === true) {
+                $this->_nodes[$key] = false;
+                if ($node === false) $referenceIsEqualFlag = true;
+            }
+            $this->_nodes[$key] = $savedData;
+            if ($referenceIsEqualFlag) return Pear::raiseError('Structures_Graph::addNode received an object that is a duplicate for this dataset', STRUCTURES_GRAPH_ERROR_GENERIC);
+        }
+        $this->_nodes[] =& $newNode;
+        $newNode->setGraph($this);
+    }
+    /* }}} */
+
+    /* removeNode (unimplemented) {{{ */
+    /**
+    *
+    * Remove a Node from the Graph
+    *
+    * @todo     This is unimplemented
+    * @param    Structures_Graph_Node   The node to be removed from the graph
+    * @access	public
+    */
+    function removeNode(&$node) {
+    }
+    /* }}} */
+
+    /* getNodes {{{ */
+    /**
+    *
+    * Return the node set, in no particular order. For ordered node sets, use a Graph Manipulator insted.
+    *
+    * @access   public
+    * @see      Structures_Graph_Manipulator_TopologicalSorter
+    * @return   array The set of nodes in this graph
+    */
+    function &getNodes() {
+        return $this->_nodes;
+    }
+    /* }}} */
+}
+?>
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 foldmethod=marker: */
+// +-----------------------------------------------------------------------------+
+// | Copyright (c) 2003 SÈrgio GonÁalves Carvalho                                |
+// +-----------------------------------------------------------------------------+
+// | This file is part of Structures_Graph.                                      |
+// |                                                                             |
+// | Structures_Graph is free software; you can redistribute it and/or modify    |
+// | it under the terms of the GNU Lesser General Public License as published by |
+// | the Free Software Foundation; either version 2.1 of the License, or         |
+// | (at your option) any later version.                                         |
+// |                                                                             |
+// | Structures_Graph is distributed in the hope that it will be useful,         |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+// | GNU Lesser General Public License for more details.                         |
+// |                                                                             |
+// | You should have received a copy of the GNU Lesser General Public License    |
+// | along with Structures_Graph; if not, write to the Free Software             |
+// | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA                    |
+// | 02111-1307 USA                                                              |
+// +-----------------------------------------------------------------------------+
+// | Author: SÈrgio Carvalho <sergio.carvalho@portugalmail.com>                  |
+// +-----------------------------------------------------------------------------+
+//
+/**
+ * This file contains the definition of the Structures_Graph_Manipulator_AcyclicTest graph manipulator.
+ * 
+ * @see Structures_Graph_Manipulator_AcyclicTest
+ * @package Structures_Graph
+ */
+
+/* dependencies {{{ */
+/** */
+require_once 'phar://go-pear.phar/PEAR.php';
+/** */
+require_once 'phar://go-pear.phar/Structures/Graph.php';
+/** */
+require_once 'phar://go-pear.phar/Structures/Graph/Node.php';
+/* }}} */
+
+/* class Structures_Graph_Manipulator_AcyclicTest {{{ */
+/**
+ * The Structures_Graph_Manipulator_AcyclicTest is a graph manipulator
+ * which tests whether a graph contains a cycle. 
+ * 
+ * The definition of an acyclic graph used in this manipulator is that of a 
+ * DAG. The graph must be directed, or else it is considered cyclic, even when 
+ * there are no arcs.
+ *
+ * @author		SÈrgio Carvalho <sergio.carvalho@portugalmail.com> 
+ * @copyright	(c) 2004 by SÈrgio Carvalho
+ * @package Structures_Graph
+ */
+class Structures_Graph_Manipulator_AcyclicTest {
+    /* _nonVisitedInDegree {{{ */
+    /**
+    *
+    * This is a variant of Structures_Graph::inDegree which does 
+    * not count nodes marked as visited.
+    *
+    * @access   private
+    * @return	integer	 Number of non-visited nodes that link to this one
+    */
+    function _nonVisitedInDegree(&$node) {
+        $result = 0;
+        $graphNodes =& $node->_graph->getNodes();
+        foreach (array_keys($graphNodes) as $key) {
+            if ((!$graphNodes[$key]->getMetadata('acyclic-test-visited')) && $graphNodes[$key]->connectsTo($node)) $result++;
+        }
+        return $result;
+        
+    }
+    /* }}} */
+
+    /* _isAcyclic {{{ */
+    /**
+    * @access   private
+    */
+    function _isAcyclic(&$graph) {
+        // Mark every node as not visited
+        $nodes =& $graph->getNodes();
+        $nodeKeys = array_keys($nodes);
+        $refGenerator = array();
+        foreach($nodeKeys as $key) {
+            $refGenerator[] = false;
+            $nodes[$key]->setMetadata('acyclic-test-visited', $refGenerator[sizeof($refGenerator) - 1]);
+        }
+
+        // Iteratively peel off leaf nodes
+        do {
+            // Find out which nodes are leafs (excluding visited nodes)
+            $leafNodes = array();
+            foreach($nodeKeys as $key) {
+                if ((!$nodes[$key]->getMetadata('acyclic-test-visited')) && Structures_Graph_Manipulator_AcyclicTest::_nonVisitedInDegree($nodes[$key]) == 0) {
+                    $leafNodes[] =& $nodes[$key];
+                }
+            }
+            // Mark leafs as visited
+            for ($i=sizeof($leafNodes) - 1; $i>=0; $i--) {
+                $visited =& $leafNodes[$i]->getMetadata('acyclic-test-visited');
+                $visited = true;
+                $leafNodes[$i]->setMetadata('acyclic-test-visited', $visited);
+            }
+        } while (sizeof($leafNodes) > 0);
+
+        // If graph is a DAG, there should be no non-visited nodes. Let's try to prove otherwise
+        $result = true;
+        foreach($nodeKeys as $key) if (!$nodes[$key]->getMetadata('acyclic-test-visited')) $result = false;
+        
+        // Cleanup visited marks
+        foreach($nodeKeys as $key) $nodes[$key]->unsetMetadata('acyclic-test-visited');
+
+        return $result;
+    }
+    /* }}} */
+
+    /* isAcyclic {{{ */
+    /**
+    *
+    * isAcyclic returns true if a graph contains no cycles, false otherwise.
+    *
+    * @return	boolean	 true iff graph is acyclic
+    * @access	public
+    */
+    function isAcyclic(&$graph) {
+        // We only test graphs
+        if (!is_a($graph, 'Structures_Graph')) return Pear::raiseError('Structures_Graph_Manipulator_AcyclicTest::isAcyclic received an object that is not a Structures_Graph', STRUCTURES_GRAPH_ERROR_GENERIC);
+        if (!$graph->isDirected()) return false; // Only directed graphs may be acyclic
+
+        return Structures_Graph_Manipulator_AcyclicTest::_isAcyclic($graph);
+    }
+    /* }}} */
+}
+/* }}} */
+?>
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 foldmethod=marker: */
+// +-----------------------------------------------------------------------------+
+// | Copyright (c) 2003 SÔøΩrgio GonÔøΩalves Carvalho                                |
+// +-----------------------------------------------------------------------------+
+// | This file is part of Structures_Graph.                                      |
+// |                                                                             |
+// | Structures_Graph is free software; you can redistribute it and/or modify    |
+// | it under the terms of the GNU Lesser General Public License as published by |
+// | the Free Software Foundation; either version 2.1 of the License, or         |
+// | (at your option) any later version.                                         |
+// |                                                                             |
+// | Structures_Graph is distributed in the hope that it will be useful,         |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+// | GNU Lesser General Public License for more details.                         |
+// |                                                                             |
+// | You should have received a copy of the GNU Lesser General Public License    |
+// | along with Structures_Graph; if not, write to the Free Software             |
+// | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA                    |
+// | 02111-1307 USA                                                              |
+// +-----------------------------------------------------------------------------+
+// | Author: SÔøΩrgio Carvalho <sergio.carvalho@portugalmail.com>                  |
+// +-----------------------------------------------------------------------------+
+//
+/**
+ * This file contains the definition of the Structures_Graph_Manipulator_TopologicalSorter class.
+ * 
+ * @see Structures_Graph_Manipulator_TopologicalSorter
+ * @package Structures_Graph
+ */
+
+/* dependencies {{{ */
+/** */
+require_once 'phar://go-pear.phar/PEAR.php';
+/** */
+require_once 'phar://go-pear.phar/Structures/Graph.php';
+/** */
+require_once 'phar://go-pear.phar/Structures/Graph/Node.php';
+/** */
+require_once 'phar://go-pear.phar/Structures/Graph/Manipulator/AcyclicTest.php';
+/* }}} */
+
+/* class Structures_Graph_Manipulator_TopologicalSorter {{{ */
+/**
+ * The Structures_Graph_Manipulator_TopologicalSorter is a manipulator 
+ * which is able to return the set of nodes in a graph, sorted by topological 
+ * order.
+ *
+ * A graph may only be sorted topologically iff it's a DAG. You can test it
+ * with the Structures_Graph_Manipulator_AcyclicTest.
+ * 
+ * @author		SÔøΩrgio Carvalho <sergio.carvalho@portugalmail.com> 
+ * @copyright	(c) 2004 by SÔøΩrgio Carvalho
+ * @see     Structures_Graph_Manipulator_AcyclicTest
+ * @package Structures_Graph
+ */
+class Structures_Graph_Manipulator_TopologicalSorter {
+    /* _nonVisitedInDegree {{{ */
+    /**
+    *
+    * This is a variant of Structures_Graph::inDegree which does 
+    * not count nodes marked as visited.
+    *
+    * @access   private
+    * @return	integer	 Number of non-visited nodes that link to this one
+    */
+    function _nonVisitedInDegree(&$node) {
+        $result = 0;
+        $graphNodes =& $node->_graph->getNodes();
+        foreach (array_keys($graphNodes) as $key) {
+            if ((!$graphNodes[$key]->getMetadata('topological-sort-visited')) && $graphNodes[$key]->connectsTo($node)) $result++;
+        }
+        return $result;
+        
+    }
+    /* }}} */
+
+    /* _sort {{{ */
+    /**
+    * @access   private
+    */
+    function _sort(&$graph) {
+        // Mark every node as not visited
+        $nodes =& $graph->getNodes();
+        $nodeKeys = array_keys($nodes);
+        $refGenerator = array();
+        foreach($nodeKeys as $key) {
+            $refGenerator[] = false;
+            $nodes[$key]->setMetadata('topological-sort-visited', $refGenerator[sizeof($refGenerator) - 1]);
+        }
+
+        // Iteratively peel off leaf nodes
+        $topologicalLevel = 0;
+        do {
+            // Find out which nodes are leafs (excluding visited nodes)
+            $leafNodes = array();
+            foreach($nodeKeys as $key) {
+                if ((!$nodes[$key]->getMetadata('topological-sort-visited')) && Structures_Graph_Manipulator_TopologicalSorter::_nonVisitedInDegree($nodes[$key]) == 0) {
+                    $leafNodes[] =& $nodes[$key];
+                }
+            }
+            // Mark leafs as visited
+            $refGenerator[] = $topologicalLevel;
+            for ($i=sizeof($leafNodes) - 1; $i>=0; $i--) {
+                $visited =& $leafNodes[$i]->getMetadata('topological-sort-visited');
+                $visited = true;
+                $leafNodes[$i]->setMetadata('topological-sort-visited', $visited);
+                $leafNodes[$i]->setMetadata('topological-sort-level', $refGenerator[sizeof($refGenerator) - 1]);
+            }
+            $topologicalLevel++;
+        } while (sizeof($leafNodes) > 0);
+
+        // Cleanup visited marks
+        foreach($nodeKeys as $key) $nodes[$key]->unsetMetadata('topological-sort-visited');
+    }
+    /* }}} */
+
+    /* sort {{{ */
+    /**
+    *
+    * sort returns the graph's nodes, sorted by topological order. 
+    * 
+    * The result is an array with 
+    * as many entries as topological levels. Each entry in this array is an array of nodes within
+    * the given topological level.
+    *
+    * @return	array	 The graph's nodes, sorted by topological order.
+    * @access	public
+    */
+    function sort(&$graph) {
+        // We only sort graphs
+        if (!is_a($graph, 'Structures_Graph')) return Pear::raiseError('Structures_Graph_Manipulator_TopologicalSorter::sort received an object that is not a Structures_Graph', STRUCTURES_GRAPH_ERROR_GENERIC);
+        if (!Structures_Graph_Manipulator_AcyclicTest::isAcyclic($graph)) return Pear::raiseError('Structures_Graph_Manipulator_TopologicalSorter::sort received an graph that has cycles', STRUCTURES_GRAPH_ERROR_GENERIC);
+
+        Structures_Graph_Manipulator_TopologicalSorter::_sort($graph);
+        $result = array();
+
+        // Fill out result array
+        $nodes =& $graph->getNodes();
+        $nodeKeys = array_keys($nodes);
+        foreach($nodeKeys as $key) {
+            if (!array_key_exists($nodes[$key]->getMetadata('topological-sort-level'), $result)) $result[$nodes[$key]->getMetadata('topological-sort-level')] = array();
+            $result[$nodes[$key]->getMetadata('topological-sort-level')][] =& $nodes[$key];
+            $nodes[$key]->unsetMetadata('topological-sort-level');
+        }
+
+        return $result;
+    }
+    /* }}} */
+}
+/* }}} */
+?>
+<?php
+/* vim: set expandtab tabstop=4 shiftwidth=4 foldmethod=marker: */
+// +-----------------------------------------------------------------------------+
+// | Copyright (c) 2003 SÈrgio GonÁalves Carvalho                                |
+// +-----------------------------------------------------------------------------+
+// | This file is part of Structures_Graph.                                      |
+// |                                                                             |
+// | Structures_Graph is free software; you can redistribute it and/or modify    |
+// | it under the terms of the GNU Lesser General Public License as published by |
+// | the Free Software Foundation; either version 2.1 of the License, or         |
+// | (at your option) any later version.                                         |
+// |                                                                             |
+// | Structures_Graph is distributed in the hope that it will be useful,         |
+// | but WITHOUT ANY WARRANTY; without even the implied warranty of              |
+// | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the               |
+// | GNU Lesser General Public License for more details.                         |
+// |                                                                             |
+// | You should have received a copy of the GNU Lesser General Public License    |
+// | along with Structures_Graph; if not, write to the Free Software             |
+// | Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA                    |
+// | 02111-1307 USA                                                              |
+// +-----------------------------------------------------------------------------+
+// | Author: SÈrgio Carvalho <sergio.carvalho@portugalmail.com>                  |
+// +-----------------------------------------------------------------------------+
+//
+/**
+ * This file contains the definition of the Structures_Graph_Node class
+ * 
+ * @see Structures_Graph_Node
+ * @package Structures_Graph
+ */
+
+/* dependencies {{{ */
+/** */
+require_once 'phar://go-pear.phar/PEAR.php';
+/** */
+require_once 'phar://go-pear.phar/Structures/Graph.php';
+/* }}} */
+
+/* class Structures_Graph_Node {{{ */
+/**
+ * The Structures_Graph_Node class represents a Node that can be member of a 
+ * graph node set.
+ *
+ * A graph node can contain data. Under this API, the node contains default data, 
+ * and key index data. It behaves, thus, both as a regular data node, and as a 
+ * dictionary (or associative array) node.
+ * 
+ * Regular data is accessed via getData and setData. Key indexed data is accessed
+ * via getMetadata and setMetadata.
+ *
+ * @author		SÈrgio Carvalho <sergio.carvalho@portugalmail.com> 
+ * @copyright	(c) 2004 by SÈrgio Carvalho
+ * @package Structures_Graph
+ */
+/* }}} */
+class Structures_Graph_Node {
+    /* fields {{{ */
+    /** 
+     * @access private 
+     */
+    var $_data = null;
+    /** @access private */
+    var $_metadata = array();
+    /** @access private */
+    var $_arcs = array();
+    /** @access private */
+    var $_graph = null;
+    /* }}} */
+
+    /* Constructor {{{ */
+    /**
+    *
+    * Constructor
+    *
+    * @access	public
+    */
+    function Structures_Graph_Node() {
+    }
+    /* }}} */
+
+    /* getGraph {{{ */
+    /**
+    *
+    * Node graph getter
+    *
+    * @return	Structures_Graph	Graph where node is stored
+    * @access	public
+    */
+    function &getGraph() {
+        return $this->_graph;
+    }
+    /* }}} */
+
+    /* setGraph {{{ */
+    /**
+    *
+    * Node graph setter. This method should not be called directly. Use Graph::addNode instead.
+    *
+    * @param    Structures_Graph   Set the graph for this node. 
+    * @see      Structures_Graph::addNode()
+    * @access	public
+    */
+    function setGraph(&$graph) {
+        $this->_graph =& $graph;
+    }
+    /* }}} */
+
+    /* getData {{{ */
+    /**
+    *
+    * Node data getter.
+    * 
+    * Each graph node can contain a reference to one variable. This is the getter for that reference.
+    *
+    * @return	mixed	Data stored in node
+    * @access	public
+    */
+    function &getData() {
+        return $this->_data;
+    }
+    /* }}} */
+
+    /* setData {{{ */
+    /**
+    *
+    * Node data setter
+    *
+    * Each graph node can contain a reference to one variable. This is the setter for that reference.
+    *
+    * @return	mixed	Data to store in node
+    * @access	public
+    */
+    function setData($data) {
+        $this->_data =& $data;
+    }
+    /* }}} */
+
+    /* metadataKeyExists {{{ */
+    /**
+    *
+    * Test for existence of metadata under a given key.
+    *
+    * Each graph node can contain multiple 'metadata' entries, each stored under a different key, as in an 
+    * associative array or in a dictionary. This method tests whether a given metadata key exists for this node.
+    *
+    * @param    string    Key to test
+    * @return	boolean	 
+    * @access	public
+    */
+    function metadataKeyExists($key) {
+        return array_key_exists($key, $this->_metadata);
+    }
+    /* }}} */
+
+    /* getMetadata {{{ */
+    /**
+    *
+    * Node metadata getter
+    *
+    * Each graph node can contain multiple 'metadata' entries, each stored under a different key, as in an 
+    * associative array or in a dictionary. This method gets the data under the given key. If the key does
+    * not exist, an error will be thrown, so testing using metadataKeyExists might be needed.
+    *
+    * @param    string  Key
+    * @param    boolean nullIfNonexistent (defaults to false).
+    * @return	mixed	Metadata Data stored in node under given key
+    * @see      metadataKeyExists
+    * @access	public
+    */
+    function &getMetadata($key, $nullIfNonexistent = false) {
+        if (array_key_exists($key, $this->_metadata)) {
+            return $this->_metadata[$key];
+        } else {
+            if ($nullIfNonexistent) {
+                return null;
+            } else {
+                return Pear::raiseError('Structures_Graph_Node::getMetadata: Requested key does not exist', STRUCTURES_GRAPH_ERROR_GENERIC);
+            }
+        }
+    }
+    /* }}} */
+
+    /* unsetMetadata {{{ */
+    /**
+    *
+    * Delete metadata by key
+    *
+    * Each graph node can contain multiple 'metadata' entries, each stored under a different key, as in an 
+    * associative array or in a dictionary. This method removes any data that might be stored under the provided key.
+    * If the key does not exist, no error is thrown, so it is safe using this method without testing for key existence.
+    *
+    * @param    string  Key
+    * @access	public
+    */
+    function unsetMetadata($key) {
+        if (array_key_exists($key, $this->_metadata)) unset($this->_metadata[$key]);
+    }
+    /* }}} */
+
+    /* setMetadata {{{ */
+    /**
+    *
+    * Node metadata setter
+    *
+    * Each graph node can contain multiple 'metadata' entries, each stored under a different key, as in an 
+    * associative array or in a dictionary. This method stores data under the given key. If the key already exists,
+    * previously stored data is discarded.
+    *
+    * @param    string  Key
+    * @param    mixed   Data 
+    * @access	public
+    */
+    function setMetadata($key, $data) {
+        $this->_metadata[$key] =& $data;
+    }
+    /* }}} */
+
+    /* _connectTo {{{ */
+    /** @access private */
+    function _connectTo(&$destinationNode) {
+        $this->_arcs[] =& $destinationNode;
+    }
+    /* }}} */
+
+    /* connectTo {{{ */
+    /**
+    *
+    * Connect this node to another one.
+    * 
+    * If the graph is not directed, the reverse arc, connecting $destinationNode to $this is also created.
+    *
+    * @param    Structures_Graph Node to connect to
+    * @access	public
+    */
+    function connectTo(&$destinationNode) {
+        // We only connect to nodes
+        if (!is_a($destinationNode, 'Structures_Graph_Node')) return Pear::raiseError('Structures_Graph_Node::connectTo received an object that is not a Structures_Graph_Node', STRUCTURES_GRAPH_ERROR_GENERIC);
+        // Nodes must already be in graphs to be connected
+        if ($this->_graph == null) return Pear::raiseError('Structures_Graph_Node::connectTo Tried to connect a node that is not in a graph', STRUCTURES_GRAPH_ERROR_GENERIC);
+        if ($destinationNode->getGraph() == null) return Pear::raiseError('Structures_Graph_Node::connectTo Tried to connect to a node that is not in a graph', STRUCTURES_GRAPH_ERROR_GENERIC);
+        // Connect here
+        $this->_connectTo($destinationNode);
+        // If graph is undirected, connect back
+        if (!$this->_graph->isDirected()) {
+            $destinationNode->_connectTo($this);
+        }
+    }
+    /* }}} */
+
+    /* getNeighbours {{{ */
+    /**
+    *
+    * Return nodes connected to this one.
+    * 
+    * @return   array   Array of nodes
+    * @access	public
+    */
+    function getNeighbours() {
+        return $this->_arcs;
+    }
+    /* }}} */
+
+    /* connectsTo {{{ */
+    /**
+    *
+    * Test wether this node has an arc to the target node
+    *
+    * @return	boolean   True if the two nodes are connected
+    * @access	public
+    */
+    function connectsTo(&$target) {
+        $copy = $target;
+        $arcKeys = array_keys($this->_arcs);
+        foreach($arcKeys as $key) {
+            /* ZE1 chokes on this expression:
+                if ($target === $arc) return true;
+              so, we'll use more convoluted stuff
+            */
+            $arc =& $this->_arcs[$key];
+            $target = true;
+            if ($arc === true) {
+                $target = false;
+                if ($arc === false) {
+                    $target = $copy;
+                    return true;
+                }
+            }
+        }
+        $target = $copy;
+        return false;
+    }
+    /* }}} */
+
+    /* inDegree {{{ */
+    /**
+    *
+    * Calculate the in degree of the node.
+    * 
+    * The indegree for a node is the number of arcs entering the node. For non directed graphs, 
+    * the indegree is equal to the outdegree.
+    *
+    * @return	integer	 In degree of the node
+    * @access	public
+    */
+    function inDegree() {
+        if ($this->_graph == null) return 0;
+        if (!$this->_graph->isDirected()) return $this->outDegree();
+        $result = 0;
+        $graphNodes =& $this->_graph->getNodes();
+        foreach (array_keys($graphNodes) as $key) {
+            if ($graphNodes[$key]->connectsTo($this)) $result++;
+        }
+        return $result;
+        
+    }
+    /* }}} */
+
+    /* outDegree {{{ */
+    /**
+    *
+    * Calculate the out degree of the node.
+    *
+    * The outdegree for a node is the number of arcs exiting the node. For non directed graphs,
+    * the outdegree is always equal to the indegree.
+    * 
+    * @return	integer	 Out degree of the node
+    * @access	public
+    */
+    function outDegree() {
+        if ($this->_graph == null) return 0;
+        return sizeof($this->_arcs);
+    }
+    /* }}} */
+}
+?>
+<?php
 /**
  * File/Directory manipulation
  *
