@@ -18,7 +18,7 @@ $a->setReleaseVersion('1.1.5');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * fix Bug #9362: Added maintainers are inactive by defaul
+updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
