@@ -14,13 +14,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.1.6');
+$a->setReleaseVersion('1.1.7');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
-  (32-bit only had problem)
 * Hide PECL packages in the developer profiles.
+* fix #9796: xmlrpc function package.info raised DB error syntax
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
