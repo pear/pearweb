@@ -715,7 +715,7 @@ class package
                      FROM deps
                      WHERE package = ? ORDER BY optional ASC";
         $newpk_sql = "SELECT name FROM packages WHERE id=?";
-        if ($field === null) {
+        if ($field == null) {
             $info =
                  $dbh->getRow($pkg_sql, array($pkg), DB_FETCHMODE_ASSOC);
             $info['releases'] =
