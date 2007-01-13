@@ -197,12 +197,16 @@ echo '</ul></li>';
 
 $query = 'SELECT p.id, p.name, m.role, m.active'
        . ' FROM packages p, maintains m'
-       . ' WHERE m.handle = ? AND p.id = m.package'
+       . ' WHERE m.handle = ? AND p.id = m.package AND p.package_type = "pear"'
        . ' ORDER BY p.name';
 
-$maintained_pkg = $dbh->getAll($query, array($handle));
+$packages = $dbh->query($query, array($handle));
 
-foreach ($maintained_pkg as $row) {
+if ($packages->numRows() == 0) {
+    echo '<p>This user does not maintain any PEAR packages.</p>';
+}
+
+while ($row = $packages->fetchRow(DB_FETCHMODE_ASSOC)) {
     echo '<li>';
     print_link('/package/' . htmlspecialchars($row['name']),
                htmlspecialchars($row['name']));

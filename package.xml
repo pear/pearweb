@@ -64,8 +64,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
-(32-bit only had problem)
+* updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
+  (32-bit only had problem)
+* Hide PECL packages in developer profiles.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">

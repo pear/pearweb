@@ -18,8 +18,9 @@ $a->setReleaseVersion('1.1.6');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
-(32-bit only had problem)
+* updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
+  (32-bit only had problem)
+* Hide PECL packages in the developer profiles.
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
