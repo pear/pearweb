@@ -4,7 +4,7 @@
  *
  * @package pearweb
  * @author  David Coallier <davidc@php.net>
- * @version CVS: $Id: peardev_map.js,v 1.4 2007-01-13 21:06:23 davidc Exp $
+ * @version CVS: $Id: peardev_map.js,v 1.5 2007-01-13 21:08:34 davidc Exp $
  */
 
 var map = document.getElementById('peardev_map');
@@ -98,7 +98,7 @@ function showfullmap()
             if (!points[i][4]) {
                 email = 'Hidden Email';
             } else {
-                email = '<a href="mailto: ' + points[i][4] + '">points[i][4]</a>';
+                email = '<a href="mailto: ' + points[i][4] + '">' + points[i][4] + '</a>';
             }
             
             var peardevdesc = "User: "  + username + "<br />";
