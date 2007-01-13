@@ -2501,6 +2501,17 @@ class note
     }
 
     // }}}
+    // {{{
+
+    function getAll($user)
+    {
+        global $dbh;
+        return $dbh->getAll('SELECT id, nby, ntime, note FROM notes'
+                            . ' WHERE uid = ? ORDER BY ntime',
+                            array($user));
+    }
+
+    // }}}
 }
 
 class user
@@ -2639,6 +2650,20 @@ class user
         }
         return $dbh->getOne('SELECT role FROM maintains WHERE handle = ? AND package = ? '.
                             'AND role = ?', array($user, $package_id, $role));
+    }
+
+    // }}}
+    // {{{
+
+    function getPackages($user)
+    {
+        global $dbh;
+        $query = 'SELECT p.id, p.name, m.role, m.active'
+            . ' FROM packages p, maintains m'
+            . ' WHERE m.handle = ? AND p.id = m.package AND p.package_type = "pear"'
+            . ' ORDER BY p.name';
+
+        return $dbh->getAll($query, array($user));
     }
 
     // }}}

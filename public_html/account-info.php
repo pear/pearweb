@@ -185,28 +185,28 @@ echo '</ul></li>';
   </td>
  </tr>
 
+<?php
+$packages = user::getPackages($handle);
+$notes = note::getAll($handle);
+
+if (count($packages) > 0 || count($notes) > 0) {
+?>
+
  <tr>
   <th class="headrow" style="width: 50%">&raquo; Maintains These Packages</th>
   <th class="headrow" style="width: 50%">&raquo; Notes Regarding User</th>
  </tr>
  <tr>
   <td valign="top">
-   <ul>
 
 <?php
-
-$query = 'SELECT p.id, p.name, m.role, m.active'
-       . ' FROM packages p, maintains m'
-       . ' WHERE m.handle = ? AND p.id = m.package AND p.package_type = "pear"'
-       . ' ORDER BY p.name';
-
-$packages = $dbh->query($query, array($handle));
-
-if ($packages->numRows() == 0) {
-    echo '<p>This user does not maintain any PEAR packages.</p>';
+if (count($packages) == 0) {
+    echo '<p>This user does not maintain any packages.</p>';
 }
-
-while ($row = $packages->fetchRow(DB_FETCHMODE_ASSOC)) {
+?>
+   <ul>
+<?php
+foreach ($packages as $row) {
     echo '<li>';
     print_link('/package/' . htmlspecialchars($row['name']),
                htmlspecialchars($row['name']));
@@ -221,14 +221,13 @@ while ($row = $packages->fetchRow(DB_FETCHMODE_ASSOC)) {
    </ul>
   </td>
   <td valign="top">
-   <ul>
-
 <?php
-
-$notes = $dbh->getAll('SELECT id, nby, ntime, note FROM notes'
-                      . ' WHERE uid = ? ORDER BY ntime',
-                      array($handle));
-
+if (count($notes) == 0) {
+    echo '<p>There are no notes for this user.</p>';
+}
+?>
+   <ul>
+<?php
 foreach ($notes as $nid => $data) {
     echo ' <li>' . "\n";
     echo '' . $data['nby'] . ' ';
@@ -242,6 +241,9 @@ foreach ($notes as $nid => $data) {
    </ul>
   </td>
  </tr>
+<?php
+}
+?>
 </table>
 
 <?php
