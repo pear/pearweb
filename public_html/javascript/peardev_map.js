@@ -1,3 +1,12 @@
+/**
+ * This file is used to display the markers above
+ * the developers icons on the javascript map.
+ *
+ * @package pearweb
+ * @author  David Coallier <davidc@php.net>
+ * @version CVS: $Id: peardev_map.js,v 1.4 2007-01-13 21:06:23 davidc Exp $
+ */
+
 var map = document.getElementById('peardev_map');
 
 if (map) {
@@ -82,9 +91,19 @@ function showfullmap()
             /**
              * The html in the marker
              */
-            var peardevdesc = "User: "  + points[i][2] + "<br />";
-            peardevdesc    += "Page: "  + points[i][3] + "<br />";
-            peardevdesc    += "Email: " + points[i][4] + "<br />";
+            var email = '';
+            var username = points[i][2];
+            var page     = points[i][3];
+            
+            if (!points[i][4]) {
+                email = 'Hidden Email';
+            } else {
+                email = '<a href="mailto: ' + points[i][4] + '">points[i][4]</a>';
+            }
+            
+            var peardevdesc = "User: "  + username + "<br />";
+            peardevdesc    += "Page: <a href='" + page + "'>" + page + "</a><br />";
+            peardevdesc    += "Email: " + email + "<br />";
 
             var newpoint = new GLatLng(points[i][0], points[i][1]);
             gmapped.addOverlay(createMarker(newpoint, peardevdesc));
