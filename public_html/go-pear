@@ -710,6 +710,19 @@ if (in_array('Getopt.php', $local_dir)) {
 }
 print "ok\n";
 
+print 'Bootstrapping: Console_Getopt.........';
+$r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['Console_Getopt'], 15), 0, -4));
+$url = "http://cvs.php.net/viewcvs.cgi/pear-core/Console/Getopt.php?view=co&pathrev=PEAR_1_4";
+mkdir('Console', 0700);
+if (in_array('Getopt.php', $local_dir)) {
+    copy(dirname(__FILE__).'/go-pear-bundle/Getopt.php', 'Console/Getopt.php');
+    echo "(local) ";
+} else {
+    download_url($url, 'Console/Getopt.php', $http_proxy);
+    echo "(remote) ";
+}
+print "ok\n";
+
 if ($install_pfc) {
     foreach ($pfc_packages as $pkg) {
         foreach($local_dir as $file) {
@@ -736,11 +749,21 @@ displayHTMLProgress($progress = 70);
 
 PEAR::setErrorHandling(PEAR_ERROR_DIE, "\n%s\n");
 print 'Extracting installer..................';
+
+$dot = strrpos($tarball['Structures_Graph'], '.');
+$pkg = substr($tarball['Structures_Graph'], 0, $dot);
+$ext = substr($tarball['Structures_Graph'], $dot + 1);
+
+include_once 'Archive/Tar.php';
+
+$tar = &new Archive_Tar($tarball['Structures_Graph'], $have_gzip);
+if (!$tar->extractModify($ptmp, $pkg)) {
+    bail("failed!\n");
+}
+
 $dot = strrpos($tarball['PEAR'], '.');
 $pkg = substr($tarball['PEAR'], 0, $dot);
 $ext = substr($tarball['PEAR'], $dot + 1);
-
-include_once 'Archive/Tar.php';
 
 $tar = &new Archive_Tar($tarball['PEAR'], $have_gzip);
 if (!$tar->extractModify($ptmp, $pkg)) {
