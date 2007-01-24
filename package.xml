@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.0RC3" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-01-06</date>
- <time>16:06:43</time>
+ <date>2007-01-23</date>
+ <time>18:15:28</time>
  <version>
-  <release>1.1.6</release>
+  <release>1.1.7</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,9 +64,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
-  (32-bit only had problem)
-* Hide PECL packages in developer profiles.
+* Hide PECL packages in the developer profiles.
+* fix #9796: xmlrpc function package.info raised DB error syntax
+* update go-pear for PEAR 1.5.0 release
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1075,9 +1075,24 @@
    </stability>
    <date>2007-01-06</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
+(32-bit only had problem)</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.7</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
-(32-bit only had problem)
+* Hide PECL packages in the developer profiles.
+* fix #9796: xmlrpc function package.info raised DB error syntax
+* update go-pear for PEAR 1.5.0 release
    </notes>
   </release>
  </changelog>

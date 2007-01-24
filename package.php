@@ -20,6 +20,7 @@ $a->setAPIStability('stable');
 $a->setNotes('
 * Hide PECL packages in the developer profiles.
 * fix #9796: xmlrpc function package.info raised DB error syntax
+* update go-pear for PEAR 1.5.0 release
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

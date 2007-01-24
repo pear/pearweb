@@ -183,7 +183,7 @@ $installer_packages = array(
     'PEAR-stable',
     'Archive_Tar-stable',
     'Console_Getopt-stable',
-    'XML_RPC-stable'
+    'Structures_Graph-stable',
     );
 
 if (WEBINSTALLER) {
