@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-01-23</date>
- <time>18:15:28</time>
+ <time>18:54:34</time>
  <version>
-  <release>1.1.7</release>
+  <release>1.1.8</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,9 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* Hide PECL packages in the developer profiles.
-* fix #9796: xmlrpc function package.info raised DB error syntax
-* update go-pear for PEAR 1.5.0 release
+* fix go-pear to work with PEAR 1.5.0
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1089,10 +1087,23 @@
    </stability>
    <date>2007-01-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-* Hide PECL packages in the developer profiles.
+   <notes>* Hide PECL packages in the developer profiles.
 * fix #9796: xmlrpc function package.info raised DB error syntax
-* update go-pear for PEAR 1.5.0 release
+* update go-pear for PEAR 1.5.0 release</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.8</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+* fix go-pear to work with PEAR 1.5.0
    </notes>
   </release>
  </changelog>
