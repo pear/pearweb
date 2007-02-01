@@ -86,7 +86,7 @@ class package_releasehelper
             }
             if (preg_match('/RC([1-9][0-9]?)/', $last, $numbah)) {
                 $last = str_replace($numbah[0], 'RC' . ($numbah[1] + 1), $last);
-                return array(implode('.', $version) . $last, 'beta');
+                return array(implode('.', $version) . '.' . $last, 'beta');
             } else {
                 // crap version number "X.Y.ZRC", convert to good one "X.Y.ZRC1"
                 return array(implode('.', $version) . 'RC1', 'beta');
