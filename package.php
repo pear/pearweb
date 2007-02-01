@@ -14,10 +14,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.2.0RC1');
+$a->setReleaseVersion('1.2.0RC2');
 $a->setReleaseStability('beta');
 $a->setAPIStability('stable');
 $a->setNotes('
+# fix next version for 1.0.0RC3 and company
 * add helpful hints on next package versions to package homepages
 * add vivid warning for packages using package.xml 1.0
 * officially deprecate package.xml 1.0 on the homepage

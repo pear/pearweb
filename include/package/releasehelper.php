@@ -144,7 +144,7 @@ class package_releasehelper
     function getNewFeatureVersion()
     {
         if (strpos($this->_lastversion, 'RC')) {
-            return array(preg_replace('/RC.*$/', '', $version, 'stable'));
+            return array(preg_replace('/RC.*$/', '', $this->_lastversion), 'stable');
         }
         $version = explode('.', $this->_lastversion);
         $last = array_pop($version);
