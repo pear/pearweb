@@ -89,7 +89,7 @@ class package_releasehelper
                 return array(implode('.', $version) . '.' . $last, 'beta');
             } else {
                 // crap version number "X.Y.ZRC", convert to good one "X.Y.ZRC1"
-                return array(implode('.', $version) . 'RC1', 'beta');
+                return array(implode('.', $version) . '.' . $last[0] . 'RC1', 'beta');
             }
         }
         if (strpos($last, 'a') !== false) {

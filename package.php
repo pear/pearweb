@@ -14,8 +14,8 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.2.0RC2');
-$a->setReleaseStability('beta');
+$a->setReleaseVersion('1.2.0');
+$a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 # fix next version for 1.0.0RC3 and company
@@ -23,14 +23,15 @@ $a->setNotes('
 * add vivid warning for packages using package.xml 1.0
 * officially deprecate package.xml 1.0 on the homepage
 * dis-allow uploading of package.xml 1.0-based packages in release-upload.php
+* up PEAR and Archive_Tar dependencies
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
 $a->clearDeps();
 $a->setPhpDep('4.3.0');
 $a->setPearInstallerDep('1.4.11');
-$a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.4.11');
-$a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.1');
+$a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.5.0');
+$a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.2');
 $a->addPackageDepWithChannel('required', 'HTTP_Request', 'pear.php.net', '1.2.2');
 $a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
 // used only in cron jobs
