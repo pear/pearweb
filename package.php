@@ -14,11 +14,14 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.1.8');
-$a->setReleaseStability('stable');
+$a->setReleaseVersion('1.2.0RC1');
+$a->setReleaseStability('beta');
 $a->setAPIStability('stable');
 $a->setNotes('
-* fix go-pear to work with PEAR 1.5.0
+* add helpful hints on next package versions to package homepages
+* add vivid warning for packages using package.xml 1.0
+* officially deprecate package.xml 1.0 on the homepage
+* dis-allow uploading of package.xml 1.0-based packages in release-upload.php
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
@@ -36,6 +39,7 @@ $a->addPackageDepWithChannel('required', 'Cache', 'pear.php.net', '1.2');
 $a->addPackageDepWithChannel('required', 'HTML_Form', 'pear.php.net', '1.3.0');
 $a->addPackageDepWithChannel('required', 'HTML_Table', 'pear.php.net', '1.5');
 $a->addPackageDepWithChannel('required', 'Pager', 'pear.php.net', '2.2.0');
+$a->addPackageDepWithChannel('required', 'PEAR_PackageFileManager', 'pear.php.net', '1.6.0');
 $a->addPackageDepWithChannel('required', 'Net_URL', 'pear.php.net', '1.0.14');
 $a->addPackageDepWithChannel('required', 'HTTP_Upload', 'pear.php.net', '0.8.1');
 $a->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.6.0');

@@ -22,6 +22,10 @@ response_header('News');
 
 echo "<h1>PEAR News</h1>\n";
 
+echo '<h2>&raquo; <a name="yr2007" id="yr2007">Year 2007</a></h2>' . "\n";
+echo "<ul>\n";
+echo ' <li>' . make_link('package.xml1.0.php', 'Innovating the future: Package.xml 1.0 and PEAR 1.3.6 are officially deprecated') . " (January)</li>\n";
+echo "</ul>\n";
 echo '<h2>&raquo; <a name="yr2005" id="yr2005">Year 2005</a></h2>' . "\n";
 echo "<ul>\n";
 echo ' <li>' . make_link('vulnerability.php', 'Serious vulnerability in the PEAR installer') . " (November)</li>\n";

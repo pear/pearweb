@@ -288,6 +288,10 @@ if ($display_verification) {
         if (isset($filelist['package2.xml'])) {
             $warnings[] = 'package2.xml should not be present in package.xml, installation may fail';
         }
+        if ($info->getPackageXmlVersion() == '1.0') {
+            $errors[] = 'Only packages using package.xml version 2.0 or newer may be' .
+                ' released - use the "pear convert" command to create a new package.xml';
+        }
     }
     if ($info->getChannel() != PEAR_CHANNELNAME) {
         $errors[] = 'Only channel ' . PEAR_CHANNELNAME .

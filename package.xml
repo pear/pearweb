@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.0RC3" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -52,19 +52,22 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-01-23</date>
- <time>18:54:34</time>
+ <date>2007-01-31</date>
+ <time>19:01:58</time>
  <version>
-  <release>1.1.8</release>
+  <release>1.2.0RC1</release>
   <api>0.1.1</api>
  </version>
  <stability>
-  <release>stable</release>
+  <release>beta</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* fix go-pear to work with PEAR 1.5.0
+* add helpful hints on next package versions to package homepages
+* add vivid warning for packages using package.xml 1.0
+* officially deprecate package.xml 1.0 on the homepage
+* dis-allow uploading of package.xml 1.0-based packages in release-upload.php
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -142,6 +145,9 @@
      <file name="jpgraph_scatter.php" role="web" />
      <file name="jpgraph_spider.php" role="web" />
     </dir> <!-- /include/jpgraph -->
+    <dir name="package">
+     <file name="releasehelper.php" role="web" />
+    </dir> <!-- /include/package -->
     <dir name="pepr">
      <file name="HTML_BBCodeParser_Filter_Extended.php" role="web" />
      <file name="pepr-emails.php" role="web" />
@@ -374,6 +380,7 @@
      <file name="meeting-2003-summary.php" role="web" />
      <file name="meeting-2003.php" role="web" />
      <file name="nm-guide.php" role="web" />
+     <file name="package.xml.1.0.php" role="web" />
      <file name="pecl-split.php" role="web" />
      <file name="pepr.php" role="web" />
      <file name="release-1.0.php" role="web" />
@@ -699,6 +706,11 @@
     <name>Pager</name>
     <channel>pear.php.net</channel>
     <min>2.2.0</min>
+   </package>
+   <package>
+    <name>PEAR_PackageFileManager</name>
+    <channel>pear.php.net</channel>
+    <min>1.6.0</min>
    </package>
    <package>
     <name>Net_URL</name>
@@ -1102,8 +1114,24 @@
    </stability>
    <date>2007-01-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix go-pear to work with PEAR 1.5.0</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.0RC1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-31</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* fix go-pear to work with PEAR 1.5.0
+* add helpful hints on next package versions to package homepages
+* add vivid warning for packages using package.xml 1.0
+* officially deprecate package.xml 1.0 on the homepage
+* dis-allow uploading of package.xml 1.0-based packages in release-upload.php
    </notes>
   </release>
  </changelog>

@@ -60,31 +60,34 @@ response_header();
 
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
-<h2>About PEAR</h2>
+<h2>&raquo; Hot off the Press</h2>
+<p><strong>[February 1, 2007]</strong> As of January 1, 2008, PEAR will be dropping
+support for PEAR versions 1.3.6 and earlier.  If you are using PEAR 1.3.6 or earlier,
+we <strong>strongly</strong> encourage you to upgrade using these simple steps:
+<code>
+<pre>
+pear upgrade --force PEAR-1.3.6 Archive_Tar-1.3.1 Console_Getopt-1.2
+pear upgrade --force PEAR-1.4.11
+pear upgrade PEAR
+</pre>
+</code>
+The full story on what has changed, and what will change is <a href="/news/package.xml.1.0.php">here</a>.</p>
 
+<h2>&raquo; Users</h2>
+<div class="indent">
 <p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
 is a framework and distribution system for reusable PHP
-components. More <b>information</b> about PEAR can be found in the
+components. You can find help using PEAR packages in the
 <a href="/manual/en/">online manual</a> and the
 <a href="/manual/en/faq.php">FAQ</a>.</p>
-
-<p>If you are a first time user, you might be especially interested in
-the manual chapter &quot;<a href="/manual/en/about-pear.php">About PEAR</a>&quot;.</p>
-
-<p>Recent <b>news</b> about PEAR can be found <a href="/news/">here</a>.</p>
-
-<p>PEAR provides the above mentioned PHP components in the form of so
-called &quot;Packages&quot;. If you would like to <b>download</b> PEAR
-packages, you can <a href="/packages.php">browse the complete list</a>
-here.  Alternatively you  can  search for packages by some keywords
-using the search box above. Apart from simply downloading a package,
-PEAR also provides a command-line interface that can be used to
-automatically <b>install</b> packages. The manual <a href="/manual/en/installation.cli.php">
-describes this procedure</a> in detail.</p>
-
-<p>In case you need <b>support</b> for PEAR in general or a package
-in special, we have compiled a list of the <a href="/support/">available
-support resources</a>.</p>
+<?php
+echo menu_link('Download Packages', '/packages.php');
+echo menu_link('Support', '/support');
+echo menu_link('Installation Help', '/manual/en/installation.cli.php');
+echo menu_link('About PEAR', '/manual/en/about-pear.php');
+echo menu_link('News', '/news/');
+?>
+</div>
 
 <?php
 echo hdelim();

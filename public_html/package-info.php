@@ -322,10 +322,77 @@ if (empty($action)) {
     print '</td>';
     print '</tr>';
     print '<tr>';
-    print '<th colspan="2" class="headrow">&raquo; Description</th>';
+    if (isset($auth_user)) {
+        print '<th class="headrow">&raquo; Description</th>';
+        print '<th class="headrow">&raquo; Package.xml suggestions (for developers)</th>';
+    } else {
+        print '<th colspan="2" class="headrow">&raquo; Description</th>';
+    }
     print '</tr>';
     print '<tr>';
-    print '<td colspan="2" class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
+    if (isset($auth_user)) {
+        require 'package/releasehelper.php';
+        $helper = new package_releasehelper($pkg['name']);
+        print '<td class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
+        print '<td class="textcell">';
+        print '<ul>';
+        if (!$helper->hasReleases()) {
+            print '   <li>First release should be version <strong>0.1.0</strong>, stability <strong>alpha</strong>';
+            print '   </li>';
+        } else {
+            $bugfix = $helper->getNextBugfixVersion();
+            $newfeatures =  $helper->getNewFeatureVersion();
+            if ($helper->nextCanBeStable()) {
+                print '   <li>';
+                print '    Next Bugfix release should be: <strong>' . $bugfix[0] . '</strong>, stability ' .
+                      '<strong>' . $bugfix[1] . '</strong>';
+                print '   </li>';
+                print '   <li>';
+                if ($helper->lastWasReleaseCandidate()) {
+                    print '    Next Stable release should be: <strong>';
+                } else {
+                    print '    Next New Feature release should be: <strong>';
+                }
+                print $newfeatures[0] .
+                      '</strong>, stability <strong>' . $newfeatures[1] . '</strong>';
+                print '   </li>';
+            } else {
+                print '   <li>';
+                print '    Next Bugfix release should be: <strong>' . $bugfix[0] . '</strong>, stability ' .
+                      '<strong>' . $bugfix[1] . '</strong>';
+                print '   </li>';
+                $beta =  $helper->getNextBetaRelease();
+                if ($beta) {
+                    print '   <li>';
+                    print '    Next Stable API release should be: <strong>';
+                    print $beta[0] .
+                          '</strong>, stability <strong>' . $beta[1] . '</strong>';
+                    print '   </li>';
+                }
+                if ($helper->canAddFeatures()) {
+                    print '   <li>';
+                    print '    Next New Feature release should be: <strong>';
+                    print $newfeatures[0] .
+                          '</strong>, stability <strong>' . $newfeatures[1] . '</strong>';
+                    print '   </li>';
+                }
+            }
+        }
+        if ($helper->hasOldPackagexml()) {
+            print ' <li>';
+            print '  <strong><blink>WARNING</blink>: the last release of this package used ';
+            print '  package.xml version 1.0</strong>, which is deprecated.';
+            print '  To use package.xml version 2.0, run &quot;pear convert&quot;';
+            print '  to create package2.xml. ';
+            print '  Both package.xml and package2.xml may be used together, or you may ';
+            print '  choose to replace package.xml with package2.xml for the next release.';
+            print ' </li>';
+        }
+        print '</ul>';
+        print '</td>';
+    } else {
+        print '<td colspan="2" class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
+    }
     print '</tr>';
 
     print '<tr>';
