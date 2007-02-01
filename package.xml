@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-02-01</date>
- <time>17:20:07</time>
+ <time>17:47:12</time>
  <version>
-  <release>1.2.0</release>
+  <release>1.2.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,12 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-# fix next version for 1.0.0RC3 and company
-* add helpful hints on next package versions to package homepages
-* add vivid warning for packages using package.xml 1.0
-* officially deprecate package.xml 1.0 on the homepage
-* dis-allow uploading of package.xml 1.0-based packages in release-upload.php
-* up PEAR and Archive_Tar dependencies
+* fix unneeded require, fatal error
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1157,13 +1152,26 @@
    </stability>
    <date>2007-02-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-# fix next version for 1.0.0RC3 and company
+   <notes># fix next version for 1.0.0RC3 and company
 * add helpful hints on next package versions to package homepages
 * add vivid warning for packages using package.xml 1.0
 * officially deprecate package.xml 1.0 on the homepage
 * dis-allow uploading of package.xml 1.0-based packages in release-upload.php
-* up PEAR and Archive_Tar dependencies
+* up PEAR and Archive_Tar dependencies</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-01</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+* fix unneeded require, fatal error
    </notes>
   </release>
  </changelog>

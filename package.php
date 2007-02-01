@@ -14,16 +14,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.2.0');
+$a->setReleaseVersion('1.2.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-# fix next version for 1.0.0RC3 and company
-* add helpful hints on next package versions to package homepages
-* add vivid warning for packages using package.xml 1.0
-* officially deprecate package.xml 1.0 on the homepage
-* dis-allow uploading of package.xml 1.0-based packages in release-upload.php
-* up PEAR and Archive_Tar dependencies
+* fix unneeded require, fatal error
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
