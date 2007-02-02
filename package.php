@@ -18,7 +18,8 @@ $a->setReleaseVersion('1.2.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* always save package.xml version 2.0 on upload
+* fix Bug #9974: BBCode dependency
+* fix Bug #10014: package2.xml is never used
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
@@ -33,6 +34,7 @@ $a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
 $a->addPackageDepWithChannel('required', 'VFS', 'pear.php.net', '0.1.0');
 $a->addPackageDepWithChannel('required', 'DB', 'pear.php.net', '1.6.5');
 $a->addPackageDepWithChannel('required', 'Cache', 'pear.php.net', '1.2');
+$a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1.1');
 $a->addPackageDepWithChannel('required', 'HTML_Form', 'pear.php.net', '1.3.0');
 $a->addPackageDepWithChannel('required', 'HTML_Table', 'pear.php.net', '1.5');
 $a->addPackageDepWithChannel('required', 'Pager', 'pear.php.net', '2.2.0');

@@ -36,7 +36,6 @@ PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
 do {
     if (isset($_POST['upload'])) {
         // Upload Button
-
         include_once 'HTTP/Upload.php';
         $upload_obj = new HTTP_Upload('en');
         $file = $upload_obj->getFiles('distfile');
@@ -90,10 +89,10 @@ do {
             break;
         } else {
             $tar = &new Archive_Tar($distfile);
-            $compatible_pxml = in_array('package2.xml', $tar->listContent());
-            if ($compatible_pxml) {
-                $packagexml = $tar->extractInString('package2.xml');
+            if ($packagexml = $tar->extractInString('package2.xml')) {
+                $compatible_pxml = true;
             } else {
+                $compatible_pxml = false;
                 $packagexml = $tar->extractInString('package.xml');
             }
             $pacid = package::info($info->getPackage(), 'id');
