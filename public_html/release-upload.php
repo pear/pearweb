@@ -91,7 +91,11 @@ do {
         } else {
             $tar = &new Archive_Tar($distfile);
             $compatible_pxml = in_array('package2.xml', $tar->listContent());
-            $packagexml = $tar->extractInString('package.xml');
+            if ($compatible_pxml) {
+                $packagexml = $tar->extractInString('package2.xml');
+            } else {
+                $packagexml = $tar->extractInString('package.xml');
+            }
             $pacid = package::info($info->getPackage(), 'id');
             if (PEAR::isError($pacid)) {
                 $errors[] = $pacid->getMessage();
