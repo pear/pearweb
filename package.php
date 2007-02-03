@@ -19,6 +19,7 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 * fix Bug #10009: Two errors on developer map
+* do not generate API docs for the pearweb package
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
