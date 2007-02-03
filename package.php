@@ -14,12 +14,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.2.2');
+$a->setReleaseVersion('1.2.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* fix Bug #9974: BBCode dependency
-* fix Bug #10014: package2.xml is never used
+* fix Bug #10009: Two errors on developer map
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

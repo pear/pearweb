@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-02-02</date>
- <time>17:23:37</time>
+ <time>18:28:50</time>
  <version>
-  <release>1.2.2</release>
+  <release>1.2.3</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,8 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* fix Bug #9974: BBCode dependency
-* fix Bug #10014: package2.xml is never used
+* fix Bug #10009: Two errors on developer map
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1189,9 +1188,22 @@
    </stability>
    <date>2007-02-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #9974: BBCode dependency
+* fix Bug #10014: package2.xml is never used</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* fix Bug #9974: BBCode dependency
-* fix Bug #10014: package2.xml is never used
+* fix Bug #10009: Two errors on developer map
    </notes>
   </release>
  </changelog>

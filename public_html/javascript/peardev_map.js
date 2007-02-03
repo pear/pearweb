@@ -4,7 +4,7 @@
  *
  * @package pearweb
  * @author  David Coallier <davidc@php.net>
- * @version CVS: $Id: peardev_map.js,v 1.5 2007-01-13 21:08:34 davidc Exp $
+ * @version CVS: $Id: peardev_map.js,v 1.6 2007-02-03 00:28:17 cellog Exp $
  */
 
 var map = document.getElementById('peardev_map');
@@ -102,8 +102,7 @@ function showfullmap()
             }
             
             var peardevdesc = "User: "  + username + "<br />";
-            peardevdesc    += "Page: <a href='" + page + "'>" + page + "</a><br />";
-            peardevdesc    += "Email: " + email + "<br />";
+            peardevdesc    += "Page: <a href='/user/" + page + "'>" + page + "</a><br />";
 
             var newpoint = new GLatLng(points[i][0], points[i][1]);
             gmapped.addOverlay(createMarker(newpoint, peardevdesc));
