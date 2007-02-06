@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2007-02-06</date>
- <time>11:18:34</time>
+ <time>12:43:38</time>
  <version>
   <release>1.2.4</release>
   <api>0.1.1</api>
@@ -64,7 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* use bounces-ignored@php.net instead of pear-sys@php.net for trackbacks
+* fix Bug #10038: PHP License = PHP License 3.01, or latest license
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1217,7 +1217,7 @@
    <date>2007-02-06</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* use bounces-ignored@php.net instead of pear-sys@php.net for trackbacks
+* fix Bug #10038: PHP License = PHP License 3.01, or latest license
    </notes>
   </release>
  </changelog>

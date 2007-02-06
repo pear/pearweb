@@ -18,7 +18,7 @@ $a->setReleaseVersion('1.2.4');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* use bounces-ignored@php.net instead of pear-sys@php.net for trackbacks
+* fix Bug #10038: PHP License = PHP License 3.01, or latest license
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

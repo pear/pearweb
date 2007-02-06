@@ -718,11 +718,11 @@ function get_license_link($license = "")
     switch ($license) {
 
         case 'PHP License 3.01' :
+        case 'PHP License' :
         case 'PHP 3.01' :
             $link = 'http://www.php.net/license/3_01.txt';
             break;
 
-        case 'PHP License' :
         case 'PHP 2.02' :
             $link = 'http://www.php.net/license/2_02.txt';
             break;
