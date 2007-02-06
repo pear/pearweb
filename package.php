@@ -14,12 +14,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.2.3');
+$a->setReleaseVersion('1.2.4');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* fix Bug #10009: Two errors on developer map
-* do not generate API docs for the pearweb package
+* use bounces-ignored@php.net instead of pear-sys@php.net for trackbacks
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

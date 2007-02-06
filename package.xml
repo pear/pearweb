@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-02-02</date>
- <time>18:37:02</time>
+ <date>2007-02-06</date>
+ <time>11:18:34</time>
  <version>
-  <release>1.2.3</release>
+  <release>1.2.4</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,8 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* fix Bug #10009: Two errors on developer map
-* do not generate API docs for the pearweb package
+* use bounces-ignored@php.net instead of pear-sys@php.net for trackbacks
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1203,9 +1202,22 @@
    </stability>
    <date>2007-02-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #10009: Two errors on developer map
+* do not generate API docs for the pearweb package</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.4</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-06</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* fix Bug #10009: Two errors on developer map
-* do not generate API docs for the pearweb package
+* use bounces-ignored@php.net instead of pear-sys@php.net for trackbacks
    </notes>
   </release>
  </changelog>
