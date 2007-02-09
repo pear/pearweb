@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-02-06</date>
- <time>12:43:38</time>
+ <date>2007-02-09</date>
+ <time>00:42:41</time>
  <version>
-  <release>1.2.4</release>
+  <release>1.2.5</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,7 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* fix Bug #10038: PHP License = PHP License 3.01, or latest license
+* fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1216,8 +1216,21 @@
    </stability>
    <date>2007-02-06</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #10038: PHP License = PHP License 3.01, or latest license</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.5</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-09</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* fix Bug #10038: PHP License = PHP License 3.01, or latest license
+* fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
    </notes>
   </release>
  </changelog>

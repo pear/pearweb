@@ -102,7 +102,7 @@ if (isset($_POST['in'])) {
 
             $where_clause .= ' AND p.package_type="pear"';
 
-            $query = "SELECT * from bugdb, packages p $where_clause LIMIT 5";
+            $query = "SELECT bugdb.* from bugdb, packages p $where_clause LIMIT 5";
 
             $res =& $dbh->query($query);
 

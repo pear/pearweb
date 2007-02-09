@@ -14,11 +14,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.2.4');
+$a->setReleaseVersion('1.2.5');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* fix Bug #10038: PHP License = PHP License 3.01, or latest license
+* fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
