@@ -9,19 +9,17 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
         'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
         'ignore' => array(
+            '*.phar',
             'package.xml',
             'package.php',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.2.5');
+$a->setReleaseVersion('1.3.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* add PHP 5.2.1 to the list of versions
-* fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
-* fix Bug #10040: Download page shows <conflicts/> deps as "dependencies"
-* fix Bug #9603: deprecated packages should use channel/package
+* remove the phars, release as package pearweb_phars
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

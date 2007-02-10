@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-02-09</date>
- <time>23:58:51</time>
+ <date>2007-02-10</date>
+ <time>00:13:06</time>
  <version>
-  <release>1.2.5</release>
+  <release>1.3.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,10 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* add PHP 5.2.1 to the list of versions
-* fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
-* fix Bug #10040: Download page shows &lt;conflicts/&gt; deps as &quot;dependencies&quot;
-* fix Bug #9603: deprecated packages should use channel/package
+* remove the phars, release as package pearweb_phars
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -448,10 +445,7 @@
     <file name="favicon.ico" role="web" />
     <file name="get" role="web" />
     <file name="go-pear" role="web" />
-    <file name="go-pear.phar" role="web" />
     <file name="index.php" role="web" />
-    <file name="install-pear-nozlib.phar" role="web" />
-    <file name="install-pear.phar" role="web" />
     <file name="login.php" role="web" />
     <file name="mirrors.php" role="web" />
     <file name="new-gopear.php" role="web" />
@@ -1232,11 +1226,24 @@
    </stability>
    <date>2007-02-09</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-* add PHP 5.2.1 to the list of versions
+   <notes>* add PHP 5.2.1 to the list of versions
 * fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
 * fix Bug #10040: Download page shows &lt;conflicts/&gt; deps as &quot;dependencies&quot;
-* fix Bug #9603: deprecated packages should use channel/package
+* fix Bug #9603: deprecated packages should use channel/package</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-10</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+* remove the phars, release as package pearweb_phars
    </notes>
   </release>
  </changelog>
