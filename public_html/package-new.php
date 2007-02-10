@@ -117,7 +117,40 @@ if ($display_form) {
 
     <?php
 
-    $categories = $dbh->getAssoc("SELECT id,name FROM categories ORDER BY name");
+    // get parent categories
+    $parentcategories = $dbh->getAssoc("SELECT id,name FROM categories
+        WHERE parent IS NULL ORDER BY name");
+    // get child categories
+    $children = $dbh->getAll("SELECT parent,id,name FROM categories
+        WHERE parent IS NOT NULL ORDER BY parent, name");
+    $childcategories = array();
+    foreach ($children as $cinfo) {
+        $id = array_shift($cinfo);
+        $childcategories[$id][] = $cinfo;
+    }
+
+    $categories = array();
+    function recur_categories($childcategories, $parentcategories, $me,
+                              &$categories, $indent = '--')
+    {
+        foreach ($childcategories[$me] as $category) {
+            $nid = $category[0];
+            $category = $category[1];
+            $category = $indent . $category;
+            $categories[$nid] = $category;
+            if (isset($childcategories[$nid])) {
+                recur_categories($childcategories, $parentcategories, $nid, $categories,
+                    $indent . '--');
+            }
+        }
+    }
+    foreach ($parentcategories as $id => $category) {
+        $categories[$id] = $category;
+        if (isset($childcategories[$id])) {
+            recur_categories($childcategories, $parentcategories, $id, $categories,
+                '--');
+        }
+    }
     $form =& new HTML_Form('package-new.php', 'post');
     $form->setDefaultFromInput(false);
 
