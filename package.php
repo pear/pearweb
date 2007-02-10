@@ -18,6 +18,7 @@ $a->setReleaseVersion('1.2.5');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
+* add PHP 5.2.1 to the list of versions
 * fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
 * fix Bug #10040: Download page shows <conflicts/> deps as "dependencies"
 * fix Bug #9603: deprecated packages should use channel/package
