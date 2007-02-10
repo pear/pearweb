@@ -19,6 +19,7 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 * fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
+* fix Bug #10040: Download page shows <conflicts/> deps as "dependencies"
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

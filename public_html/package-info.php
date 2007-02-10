@@ -520,6 +520,9 @@ if (empty($action)) {
                     if ($dependency['optional'] == 1) {
                         $dep_text .= ' (optional)';
                     }
+                    if ($dependency['relation'] == 'not') {
+                        $dep_text .= ' (conflicts with some versions)';
+                    }
 
                     $dep_text .= '</li>';
                 }
