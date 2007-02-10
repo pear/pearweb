@@ -322,7 +322,7 @@ if (empty($action)) {
         }
         print '<li>Number of <a href="/bugs/search.php?cmd=display&package_name[]=' .
             $pkg['name'] . '&status=OpenFeedback&bug_type=Bugs">open bugs</a>: <strong>' .
-            $buginfo['count'] . '</strong></li>';
+            $buginfo['count'] . ' (' . $buginfo['total'] . ' total bugs)</strong></li>';
         print '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>';
         print '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>';
         print '</ul>';

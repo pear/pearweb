@@ -25,7 +25,10 @@ class PEAR_Bugs
                 status IN ("Open","Feedback","Assigned","Analyzed","Verified","Critical") AND
                 bug_type IN ("Bug","Documentation Problem")
             ', array($packageid), DB_FETCHMODE_ASSOC);
-        return $info[0];
+        $total = $this->_dbh->getOne('
+            SELECT COUNT(bugdb.id) FROM bugdb WHERE bugdb.package_name=?
+            ', array($packageid));
+        return array_merge($info[0], array('total' => $total));
     }
 
     function bugRank()

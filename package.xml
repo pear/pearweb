@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-02-10</date>
- <time>00:13:06</time>
+ <time>14:13:59</time>
  <version>
-  <release>1.3.0</release>
+  <release>1.4.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,7 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* remove the phars, release as package pearweb_phars
+* implement Request #9543: Change the bug summary, add total
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -553,6 +553,7 @@
     <file name="weeklynews-2003.tar.gz" role="web" />
    </dir> <!-- /weeklynews -->
    <file name="generateREST.php" role="web" />
+   <file name="package-phars.xml" role="web" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
@@ -1242,8 +1243,21 @@
    </stability>
    <date>2007-02-10</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* remove the phars, release as package pearweb_phars</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-10</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* remove the phars, release as package pearweb_phars
+* implement Request #9543: Change the bug summary, add total
    </notes>
   </release>
  </changelog>
