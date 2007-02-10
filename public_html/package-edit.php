@@ -65,13 +65,32 @@ if (!user::maintains($auth_user->handle, $_GET['id'], 'lead') &&
 if (isset($_POST['submit'])) {
     if (!$_POST['name'] || !$_POST['license'] || !$_POST['summary']) {
         report_error('You have to enter values for name, license and summary!');
+    } elseif (($_POST['new_channel'] && !$_POST['new_package']) ||
+              ($_POST['new_package'] && !$_POST['new_channel'])) {
+        report_error('You have to enter both channel + package name for packages moved out of PEAR!');
     } else {
         $query = 'UPDATE packages SET name = ?, license = ?,
                   summary = ?, description = ?, category = ?,
                   homepage = ?, package_type = ?, doc_link = ?, cvs_link = ?,
-                  unmaintained = ?, newpk_id = ?
+                  unmaintained = ?, newpk_id = ?, newchannel = ?, newpackagename = ?
                   WHERE id = ?';
 
+        if (!empty($_POST['newpk_id'])) {
+            $_POST['new_channel'] = 'pear.php.net';
+            $_POST['new_package'] = $dbh->getOne('SELECT name from packages WHERE id=?',
+                array($_POST['newpk_id']));
+            if (!$_POST['new_package']) {
+                $_POST['new_channel'] = $_POST['newpk_id'] = null;
+            }
+        } else {
+            if ($_POST['new_channel'] == 'pear.php.net') {
+                $_POST['newpk_id'] = $dbh->getOne('SELECT id from packages WHERE name=?',
+                    array($_POST['new_package']));
+                if (!$_POST['newpk_id']) {
+                    $_POST['new_channel'] = $_POST['new_package'] = null;
+                }
+            }
+        }
         $qparams = array(
                       $_POST['name'],
                       $_POST['license'],
@@ -84,6 +103,8 @@ if (isset($_POST['submit'])) {
                       $_POST['cvs_link'],
                       isset($_POST['unmaintained']) ? 1 : 0 ,
                       isset($_POST['newpk_id']) ? $_POST['newpk_id'] : null,
+                      $_POST['new_channel'],
+                      $_POST['new_package'],
                       $_GET['id']
                     );
 
@@ -200,8 +221,9 @@ $form->displaySelect("category", $rows, (int)$row['categoryid']);
     </td>
 </tr>
 <tr>
-    <th class="form-label_left">New package (superceding this one):</th>
+    <th class="form-label_left">New package (superseding this one):</th>
     <td class="form-input">
+    Choose either a PEAR package:
 <?php
 $packages = package::listAllwithReleases();
 
@@ -214,7 +236,14 @@ foreach ($packages as $id => $info) {
 }
 
 $form->displaySelect('newpk_id', $rows, (int)$row['newpk_id']);
-?>
+?><br />
+Or a package moved out of PEAR<br />Channel:
+<?php $form->displayText('new_channel',
+            htmlspecialchars($row['new_channel']), 50, 255); ?><br />
+Package:
+            <?php $form->displayText('new_package',
+            htmlspecialchars($row['new_package']), 50, 255); ?>
+
     </td>
 </tr>
 <tr>

@@ -1547,6 +1547,20 @@
     <default></default>
    </field>
 
+   <field>
+    <name>newpackagename</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>newchannel</name>
+    <type>text</type>
+    <length>255</length>
+    <notnull>false</notnull>
+   </field>
+
    <index>
     <name>category</name>
     <field>

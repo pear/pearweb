@@ -146,7 +146,7 @@ $pacid        = $pkg['packageid'];
 $cvs_link     = $pkg['cvs_link'];
 $doc_link     = $pkg['doc_link'];
 $unmaintained = ($pkg['unmaintained']) ? 'Y' : 'N';
-$superseded_by_new_package  = htmlspecialchars($pkg['new_package']);
+$supersede = (bool) $pkg['new_package'];
 
 // Maintainer information
 $maintainers = maintainer::get($pacid);
@@ -215,9 +215,9 @@ if (empty($action)) {
 
     // {{{ Supeseded checks
     $dec_messages = array(
-        'abandoned' => 'This package is not maintained anymore and has been superseded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a>.',
-        'superseded' => 'This package been superseded by <a href="/package/{{PACKAGE_NAME}}">{{PACKAGE_NAME}}</a> but is still maintained for bugs and security fixes',
-        'unmaintained' => 'This package is not maintained, if you would like to take over please go to <a href="http://pear.php.net/manual/en/newmaint.takingover.php">this page</a>'
+        'abandoned' => 'This package is not maintained anymore and has been superseded.',
+        'superseded' => 'This package been superseded but is still maintained for bugs and security fixes.',
+        'unmaintained' => 'This package is not maintained, if you would like to take over please go to <a href="http://pear.php.net/manual/en/newmaint.takingover.php">this page</a>.'
     );
 
     $dec_table = array(
@@ -226,7 +226,7 @@ if (empty($action)) {
         'unmaintained' => array('superseded' => 'N', 'unmaintained' => 'Y'),
     );
 
-    if ($superseded_by_new_package != '') {
+    if ($supersede) {
         $superseded = 'Y';
     } else {
         $superseded = 'N';
@@ -248,7 +248,15 @@ if (empty($action)) {
 
     if (!is_null($apply_rule) && isset($dec_messages[$apply_rule])) {
         $str  = '<div class="warnings">';
-        $str .= str_replace('{{PACKAGE_NAME}}', $superseded_by_new_package, $dec_messages[$apply_rule]);
+        $str .= $dec_messages[$apply_rule];
+        if ($pkg['new_channel'] == 'pear.php.net') {
+            $str .= '  Use <a href="/package/' . $pkg['new_package'] .
+                '">' . htmlspecialchars($pkg['new_package']) . '</a> instead.';
+        } else {
+            $str .= '  Package has moved to channel <a href="http://' . $pkg['new_channel'] .
+            '">' . htmlspecialchars($pkg['new_channel']) . '</a>, package ' .
+            $pkg['new_package'] . '.';
+        }
         $str .= '</div>';
         echo $str;
     }

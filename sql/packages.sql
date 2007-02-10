@@ -20,6 +20,8 @@ CREATE TABLE packages (
   blocktrackbacks tinyint(1) NOT NULL default '0',
   unmaintained tinyint(1) NOT NULL default '0',
   newpk_id int(11) default NULL,
+  newpackagename varchar(100) default NULL,
+  newchannel varchar(255) default NULL,
   PRIMARY KEY  (id),
   UNIQUE KEY name (name),
   KEY category (category)

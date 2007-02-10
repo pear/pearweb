@@ -20,6 +20,7 @@ $a->setAPIStability('stable');
 $a->setNotes('
 * fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
 * fix Bug #10040: Download page shows <conflicts/> deps as "dependencies"
+* fix Bug #9603: deprecated packages should use channel/package
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

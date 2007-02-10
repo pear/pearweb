@@ -701,8 +701,10 @@ class package
              "p.description AS description, p.cvs_link AS cvs_link, ".
              "p.doc_link as doc_link, ".
              "p.unmaintained AS unmaintained,".
-             "p.newpk_id AS newpk_id,".
-             "p.blocktrackbacks" .
+             "p.newpk_id AS newpk_id,
+              p.newpackagename as new_package,
+              p.newchannel as new_channel,
+              p.blocktrackbacks" .
              " FROM packages p, categories c ".
              "WHERE " . $package_type . " c.id = p.category AND p.{$what} = ?";
         $rel_sql = "SELECT version, id, doneby, license, summary, ".
@@ -726,9 +728,6 @@ class package
             $info['notes'] =
                  $dbh->getAssoc($notes_sql, false, array(@$info['packageid']),
                  DB_FETCHMODE_ASSOC);
-            if (isset($info['newpk_id'])) {
-               $info['new_package'] = $dbh->getOne($newpk_sql, $info['newpk_id']);
-            }
             $deps =
                  $dbh->getAll($deps_sql, array(@$info['packageid']),
                  DB_FETCHMODE_ASSOC);

@@ -241,12 +241,11 @@ class pear_rest
         } else {
             $parent = '';
         }
-        if ($package['unmaintained'] && $package['newpk_id']) {
-            $dpackage = $dbh->getOne('SELECT packages.name FROM packages WHERE
-                id = ' . $package['newpk_id']);
+        if ($package['new_package']) {
+            $dpackage = $package['new_package'];
             $deprecated = '
-<dc>pear.php.net</dc>
-<dp href="' . $extra . 'p/' . strtolower($dpackage) . '"> ' .
+<dc>' . $package['new_channel'] . '</dc>
+<dp> ' .
             $dpackage . '</dp>';
         } else {
             $deprecated = '';
