@@ -18,16 +18,16 @@
  </lead>
  <date>2007-02-10</date>
  <version>
-  <release>0.1.0</release>
+  <release>1.0.0</release>
   <api>1.0.0</api>
  </version>
  <stability>
-  <release>alpha</release>
+  <release>stable</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- Test the release
+ Test the release (2)
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -52,16 +52,31 @@
   <release>
    <version>
     <release>0.1.0</release>
-    <api>0.1.0</api>
+    <api>1.0.0</api>
    </version>
    <stability>
     <release>alpha</release>
     <api>stable</api>
    </stability>
-   <date>2006-02-20</date>
+   <date>2007-02-10</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
    Test the release
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-10</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+   Test the release (2)
    </notes>
   </release>
  </changelog>
