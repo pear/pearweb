@@ -13,7 +13,7 @@
  * | obtain it through the world-wide-web, please send a note to          |
  * | license@php.net so we can mail you a copy immediately.               |
  * +----------------------------------------------------------------------+
- * | Authors: Helgi Þormar Þorbjörnsson <dufuz@php.net>                   |
+ * | Authors: Helgi ï¿½ormar ï¿½orbjï¿½rnsson <dufuz@php.net>                   |
  * +----------------------------------------------------------------------+
  *
  * $Id$
@@ -47,7 +47,8 @@ $query = "
     WHERE
         b.status NOT IN ('Closed', 'Bogus', 'Duplicate', 'No Feedback', 'Wont fix', 'Suspended')
       AND
-        b.bug_type = 'Bug'
+        (b.bug_type = 'Bug' OR b.bug_type = 'Documentation Problem' OR
+         b.bug_type = 'Feature/Change Request')
       AND
         (p.package_type = '$site'
              OR

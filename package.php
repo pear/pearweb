@@ -19,6 +19,7 @@ $a->setReleaseVersion('1.4.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
+* fix implementation of Request #7828 (now Bug #7828): PEAR Bug Summary Report
 * implement Request #9543: Change the bug summary, add total
 ');
 $a->resetUsesrole();
