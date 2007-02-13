@@ -20,6 +20,7 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 * don\'t generate docs for pearweb_phars package
+* remove unneeded headers from Damblan_Mailer templates
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
