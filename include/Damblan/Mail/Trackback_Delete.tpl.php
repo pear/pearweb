@@ -14,8 +14,9 @@
      */
 
     $tpl = array(
-        'Reply-To' => 'PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>',
-        'From' => 'bounces-ignored@php.net',
+        'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
+        'From' => 'pear-sys@php.net',
+        'Return-Path' => 'bounces-ignored@php.net',
         'Subject' => '[Trackback] Trackback deleted for %id%',
         'Body' => 'Dear maintainer,
 

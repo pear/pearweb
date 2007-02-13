@@ -10,6 +10,7 @@
     $tpl = array(
         'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
         'From' => 'pear-sys@php.net',
+        'Return-Path' => 'bounces-ignored@php.net',
         'Subject' => '[PEAR-ACCOUNT-REQUEST] Your account request : %username%',
         'Body' => 'You have requested an account to vote in general PEAR elections.
 

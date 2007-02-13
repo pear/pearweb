@@ -19,6 +19,7 @@ $a->setReleaseVersion('1.4.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
+* fix email headers for auto-generated mails
 * fix Bug #9165: Category dropdown in New Package should indent subcategories
 * fix implementation of Request #7828 (now Bug #7828): PEAR Bug Summary Report
 * implement Request #9543: Change the bug summary, add total

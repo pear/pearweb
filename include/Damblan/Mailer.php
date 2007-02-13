@@ -45,7 +45,7 @@ class Damblan_Mailer
         'To'        => PEAR_WEBMASTER_EMAIL,
         'From'      => 'pear-sys@php.net',
         'Reply-To'  => PEAR_WEBMASTER_EMAIL,
-			 	'Return-Path' => 'bounces-ignored@php.net',
+        'Return-Path' => 'bounces-ignored@php.net',
         'X-Mailer'  => 'PEARWeb - http://pear.php.net'
     );
 

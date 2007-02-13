@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-02-10</date>
- <time>15:48:34</time>
+ <date>2007-02-12</date>
+ <time>19:56:21</time>
  <version>
   <release>1.4.0</release>
   <api>0.1.1</api>
@@ -64,6 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
+* fix email headers for auto-generated mails
 * fix Bug #9165: Category dropdown in New Package should indent subcategories
 * fix implementation of Request #7828 (now Bug #7828): PEAR Bug Summary Report
 * implement Request #9543: Change the bug summary, add total
@@ -555,7 +556,6 @@
     <file name="weeklynews-2003.tar.gz" role="web" />
    </dir> <!-- /weeklynews -->
    <file name="generateREST.php" role="web" />
-   <file name="package-phars.xml" role="web" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
@@ -1256,9 +1256,10 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-02-10</date>
+   <date>2007-02-12</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
+* fix email headers for auto-generated mails
 * fix Bug #9165: Category dropdown in New Package should indent subcategories
 * fix implementation of Request #7828 (now Bug #7828): PEAR Bug Summary Report
 * implement Request #9543: Change the bug summary, add total
