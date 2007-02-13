@@ -1932,7 +1932,7 @@ class release
             }
         }
 
-        if (package::info($package, 'name') != 'pearweb') {
+        if (!in_array(package::info($package, 'name'), array('pearweb', 'pearweb_phars'), true)) {
             // Add release archive file to API documentation queue
             $query = "INSERT INTO apidoc_queue (filename, queued) "
                  . "VALUES ('" . $file. "', NOW())";

@@ -15,8 +15,6 @@
 
     $tpl = array(
         'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
-        'From' => 'pear-sys@php.net',
-        'Return-Path' => 'bounces-ignored@php.net',
         'Subject' => '[Trackback] Trackback approved for %id%',
         'Body' => 'Dear maintainer,
 

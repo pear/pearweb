@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-02-12</date>
- <time>19:56:21</time>
+ <time>20:06:07</time>
  <version>
-  <release>1.4.0</release>
+  <release>1.4.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,10 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* fix email headers for auto-generated mails
-* fix Bug #9165: Category dropdown in New Package should indent subcategories
-* fix implementation of Request #7828 (now Bug #7828): PEAR Bug Summary Report
-* implement Request #9543: Change the bug summary, add total
+* don&apos;t generate docs for pearweb_phars package
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1258,11 +1255,24 @@
    </stability>
    <date>2007-02-12</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-* fix email headers for auto-generated mails
+   <notes>* fix email headers for auto-generated mails
 * fix Bug #9165: Category dropdown in New Package should indent subcategories
 * fix implementation of Request #7828 (now Bug #7828): PEAR Bug Summary Report
-* implement Request #9543: Change the bug summary, add total
+* implement Request #9543: Change the bug summary, add total</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-12</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+* don&apos;t generate docs for pearweb_phars package
    </notes>
   </release>
  </changelog>

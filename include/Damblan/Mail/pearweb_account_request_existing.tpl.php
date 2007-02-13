@@ -10,8 +10,6 @@
 
     $tpl = array(
         'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
-        'From' => 'pear-sys@php.net',
-        'Return-Path' => 'bounces-ignored@php.net',
         'Subject' => '[ACCOUNT-REQUEST] Account request : %username%',
         'Body' => 'An account has been requested by %firstname% %lastname%
 
