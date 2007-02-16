@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-02-12</date>
- <time>20:06:50</time>
+ <date>2007-02-16</date>
+ <time>14:40:51</time>
  <version>
-  <release>1.4.1</release>
+  <release>1.4.2</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,8 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* don&apos;t generate docs for pearweb_phars package
-* remove unneeded headers from Damblan_Mailer templates
+* another attempt to stop spamming pear-sys
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -78,6 +77,7 @@
     <file name="load-chm.sh" role="web" />
     <file name="pepr.php" role="web" />
     <file name="trackback-cleanup.php" role="web" />
+    <file name="update-website.php" role="web" />
    </dir> <!-- /cron -->
    <dir name="doc">
     <file name="apache-setup.txt" role="web" />
@@ -1272,9 +1272,22 @@
    </stability>
    <date>2007-02-12</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* don&apos;t generate docs for pearweb_phars package
+* remove unneeded headers from Damblan_Mailer templates</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-16</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* don&apos;t generate docs for pearweb_phars package
-* remove unneeded headers from Damblan_Mailer templates
+* another attempt to stop spamming pear-sys
    </notes>
   </release>
  </changelog>

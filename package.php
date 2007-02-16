@@ -15,12 +15,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.4.1');
+$a->setReleaseVersion('1.4.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* don\'t generate docs for pearweb_phars package
-* remove unneeded headers from Damblan_Mailer templates
+* another attempt to stop spamming pear-sys
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
