@@ -492,6 +492,99 @@
 
  <table>
 
+  <name>bugdb_roadmap_links</name>
+
+  <declaration>
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+    <autoincrement></autoincrement>
+   </field>
+   <field>
+    <name>roadmap_id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>roadmap_id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+  </declaration>
+ </table>
+ <table>
+
+  <name>bugdb_roadmap</name>
+
+  <declaration>
+   <field>
+    <name>id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+    <autoincrement></autoincrement>
+   </field>
+   <field>
+    <name>package</name>
+    <type>text</type>
+    <length>80</length>
+    <notnull>true</notnull>
+    <default>''</default>
+   </field>
+   <field>
+    <name>description</name>
+    <type>clob</type>
+    <notnull>true</notnull>
+   </field>
+   <field>
+    <name>roadmap_version</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+    <default>''</default>
+   </field>
+   <field>
+    <name>releasedate</name>
+    <type>datetime</type>
+    <notnull>true</notnull>
+    <default>'0000-00-00'</default>
+   </field>
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+   <index>
+    <name>package</name>
+    <unique>true</unique>
+    <field>
+     <name>package</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>roadmap_version</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+  </declaration>
+ </table>
+
+ <table>
+
   <name>categories</name>
 
   <declaration>

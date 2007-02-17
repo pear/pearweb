@@ -37,6 +37,7 @@ require_once './include/cvs-auth.inc';
  * Obtain a list of the trusted developers
  */
 require_once './include/trusted-devs.inc';
+Bug_DataObject::init();
 
 session_start();
 error_reporting(E_ALL ^ E_NOTICE);
@@ -390,6 +391,14 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
                   " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                   " ts2=NOW() WHERE id=$id";
         $dbh->query($query);
+        $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
+        $link->id = $id;
+        $link->delete();
+        foreach ($_POST['in']['fixed_versions'] as $rid) {
+            $link->id = $id;
+            $link->roadmap_id = $rid;
+            $link->insert();
+        }
 
         if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
@@ -793,6 +802,32 @@ if ($edit == 1 || $edit == 2) {
       <td>
        <input type="text" size="20" maxlength="32" name="in[php_os]"
         value="<?php echo field('php_os') ?>" />
+      </td>
+     </tr>
+     <tr>
+      <th class="details">Assigned to <br />Roadmap Version(s):</th>
+      <td><?php
+        $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
+        $link->id = $id;
+        $link->find(false);
+        $links = array();
+        while ($link->fetch()) {
+            $links[$link->roadmap_id] = true;
+        }
+        $db = Bug_DataObject::bugDB('bugdb_roadmap');
+        $db->package = $bug['package_name'];
+        if ($db->find(false)) {
+            while ($db->fetch()) {
+                ?><input type="checkbox" name="in[fixed_versions][]" value="<?php
+                echo $db->id . '"';
+                if (isset($links[$db->id])) {
+                    echo ' checked="true"';
+                }?>/> <?php echo $db->roadmap_version; '<br />';
+            }
+        } else {
+            ?>(No roadmap defined)<?php
+        }
+        ?>
       </td>
      </tr>
     </table>

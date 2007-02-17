@@ -61,3 +61,18 @@ CREATE TABLE `bugdb_subscribe` (
   KEY (unsubscribe_hash)
 ) TYPE=MyISAM;
 
+CREATE TABLE bugdb_roadmap_link (
+  id int(8) NOT NULL auto_increment,
+  roadmap_id int(8) NOT NULL default 0,
+  PRIMARY KEY  (id, roadmap_id)
+);
+
+CREATE TABLE bugdb_roadmap (
+  id int(8) NOT NULL auto_increment,
+  package varchar(80) NOT NULL default '',
+  roadmap_version varchar(100) NOT NULL,
+  releasedate datetime NOT NULL default '0000-00-00',
+  description text NOT NULL,
+  PRIMARY KEY  (id),
+  UNIQUE KEY (package, roadmap_version)
+);

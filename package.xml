@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-02-16</date>
- <time>14:40:51</time>
+ <date>2007-02-17</date>
+ <time>17:03:10</time>
  <version>
   <release>1.4.2</release>
   <api>0.1.1</api>
@@ -683,6 +683,16 @@
     <min>1.6.5</min>
    </package>
    <package>
+    <name>DB_DataObject</name>
+    <channel>pear.php.net</channel>
+    <min>1.8.5</min>
+   </package>
+   <package>
+    <name>Savant3</name>
+    <channel>savant.pearified.com</channel>
+    <min>3.0.0</min>
+   </package>
+   <package>
     <name>Cache</name>
     <channel>pear.php.net</channel>
     <min>1.2</min>
@@ -1284,7 +1294,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-02-16</date>
+   <date>2007-02-17</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 * another attempt to stop spamming pear-sys

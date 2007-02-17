@@ -303,6 +303,8 @@ if (empty($action)) {
     } else {
         print 'No releases have been made yet.';
     }
+    print '<br /><a href="/bugs/roadmap.php?package=' . urlencode($name) .
+        '">Development Road Map</a>';
     print '</td>';
     print '<td width="50%" class="textcell">';
     $bugs = new PEAR_Bugs;

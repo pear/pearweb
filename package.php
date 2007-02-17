@@ -15,11 +15,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.4.2');
-$a->setReleaseStability('stable');
+$a->setReleaseVersion('1.5.0RC1');
+$a->setReleaseStability('beta');
 $a->setAPIStability('stable');
 $a->setNotes('
-* another attempt to stop spamming pear-sys
+* implement initial roadmap support for packages
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
@@ -33,6 +33,8 @@ $a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
 // used only in cron jobs
 $a->addPackageDepWithChannel('required', 'VFS', 'pear.php.net', '0.1.0');
 $a->addPackageDepWithChannel('required', 'DB', 'pear.php.net', '1.6.5');
+$a->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '1.8.5');
+$a->addPackageDepWithChannel('required', 'Savant3', 'savant.pearified.com', '3.0.0');
 $a->addPackageDepWithChannel('required', 'Cache', 'pear.php.net', '1.2');
 $a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1.1');
 $a->addPackageDepWithChannel('required', 'HTML_Form', 'pear.php.net', '1.3.0');
