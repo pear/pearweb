@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -53,18 +53,18 @@
   <active>no</active>
  </developer>
  <date>2007-02-17</date>
- <time>17:03:10</time>
+ <time>17:29:44</time>
  <version>
-  <release>1.4.2</release>
+  <release>1.5.0RC1</release>
   <api>0.1.1</api>
  </version>
  <stability>
-  <release>stable</release>
+  <release>beta</release>
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* another attempt to stop spamming pear-sys
+* implement initial roadmap support for packages
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -89,6 +89,8 @@
    <dir name="include">
     <dir name="bugs">
      <file name="pear-bugs.php" role="web" />
+     <file name="pear.ini" role="web" />
+     <file name="pear.links.ini" role="web" />
     </dir> <!-- /include/bugs -->
     <dir name="Damblan">
      <dir name="Log">
@@ -119,6 +121,17 @@
      <file name="Trackback.php" role="web" />
      <file name="URL.php" role="web" />
     </dir> <!-- /include/Damblan -->
+    <dir name="DataObject">
+     <file name="Bugdb.php" role="web" />
+     <file name="Bugdb_comments.php" role="web" />
+     <file name="Bugdb_roadmap.php" role="web" />
+     <file name="Bugdb_roadmap_link.php" role="web" />
+     <file name="Categories.php" role="web" />
+     <file name="Maintains.php" role="web" />
+     <file name="Packages.php" role="web" />
+     <file name="Releases.php" role="web" />
+     <file name="Users.php" role="web" />
+    </dir> <!-- /include/DataObject -->
     <dir name="election">
      <file name="pear-election-accountrequest.php" role="web" />
      <file name="pear-election.php" role="web" />
@@ -203,6 +216,7 @@
      <file name="lstat.php" role="web" />
      <file name="quick-fix-desc.php" role="web" />
      <file name="report.php" role="web" />
+     <file name="roadmap.php" role="web" />
      <file name="search.php" role="web" />
      <file name="stats.php" role="web" />
     </dir> <!-- /public_html/bugs -->
@@ -497,6 +511,11 @@
     <file name="users.sql" role="web" />
    </dir> <!-- /sql -->
    <dir name="templates">
+    <dir name="bugs">
+     <file name="roadmap.php" role="web" />
+     <file name="roadmapform.php" role="web" />
+     <file name="searchresults.php" role="web" />
+    </dir> <!-- /templates/bugs -->
     <file name="category-manager.html" role="web" />
     <file name="election-confirm.tpl.php" role="web" />
     <file name="election-confirmed.tpl.php" role="web" />
@@ -716,6 +735,10 @@
     <name>Pager</name>
     <channel>pear.php.net</channel>
     <min>2.2.0</min>
+   </package>
+   <package>
+    <name>PEAR_PackageUpdate</name>
+    <channel>pear.php.net</channel>
    </package>
    <package>
     <name>Net_URL</name>
@@ -1296,8 +1319,21 @@
    </stability>
    <date>2007-02-17</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* another attempt to stop spamming pear-sys</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.0RC1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-17</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* another attempt to stop spamming pear-sys
+* implement initial roadmap support for packages
    </notes>
   </release>
  </changelog>
