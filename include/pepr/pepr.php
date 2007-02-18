@@ -688,12 +688,16 @@ Proposer:                '.user_link($this->user_handle).'<br />
         $proposal_url = "http://pear.php.net/pepr/pepr-proposal-show.php?id=".$this->id;
         $end_voting_time = (@$this->longened_date > 0) ? $this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE : @$this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE;
 
-        if (!isset($user_handle)) {
-            $email['to'] = $email['to']['pearweb'];
-        } else if ($karma->has($user_handle, "pear.pepr.admin")) {
-            $email['to'] = $email['to']['admin'];
+        if ($event == 'proposal_comment' && $user_handle == $this->user_handle) {
+            $email['to'] = $email['to']['owner'];
         } else {
-            $email['to'] = $email['to']['user'];
+            if (!isset($user_handle)) {
+                $email['to'] = $email['to']['pearweb'];
+            } else if ($karma->has($user_handle, "pear.pepr.admin")) {
+                $email['to'] = $email['to']['admin'];
+            } else {
+                $email['to'] = $email['to']['user'];
+            }
         }
 
         $email['subject'] = $prefix . $email['subject'];

@@ -20,6 +20,7 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 * implement initial roadmap support for packages
+* fix Bug #1467: Two E-mails are sent when the proposer comments on his own PEPr
 * fix Bug #10115: if you don\'t maintain a bug, and are assigned, no update emails
 ');
 $a->resetUsesrole();

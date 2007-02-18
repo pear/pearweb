@@ -103,6 +103,7 @@ $proposalEmailTexts = array(
     'proposal_comment' => array(
         'to'        => array (
             'user'    => '{email_pear_dev}, {actor_name} <{actor_email}>, {owner_name} {owner_email}',
+            'owner'   => '{email_pear_dev}, {owner_name} {owner_email}',
             'admin'   => '{email_pear_dev}, {actor_name} <{actor_email}>, {owner_name} {owner_email}'
         ),
         'subject'   => 'Comment on {pkg_category}::{pkg_name}',
