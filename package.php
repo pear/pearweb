@@ -15,11 +15,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.5.0RC1');
-$a->setReleaseStability('beta');
+$a->setReleaseVersion('1.5.0');
+$a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 * implement initial roadmap support for packages
+* fix Bug #10115: if you don\'t maintain a bug, and are assigned, no update emails
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
@@ -40,6 +41,7 @@ $a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1
 $a->addPackageDepWithChannel('required', 'HTML_Form', 'pear.php.net', '1.3.0');
 $a->addPackageDepWithChannel('required', 'HTML_Table', 'pear.php.net', '1.5');
 $a->addPackageDepWithChannel('required', 'Pager', 'pear.php.net', '2.2.0');
+$a->addPackageDepWithChannel('required', 'PEAR_PackageUpdate', 'pear.php.net');
 //$a->addPackageDepWithChannel('required', 'PEAR_PackageFileManager', 'pear.php.net', '1.6.0');
 $a->addPackageDepWithChannel('required', 'Net_URL', 'pear.php.net', '1.0.14');
 $a->addPackageDepWithChannel('required', 'HTTP_Upload', 'pear.php.net', '0.8.1');

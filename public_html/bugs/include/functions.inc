@@ -1021,11 +1021,11 @@ function incoming_details_are_valid($in, $initial = 0, $logged = false)
 }
 
 /**
- * Produces an array of eamil addresses the report should go to
+ * Produces an array of email addresses the report should go to
  *
  * @param string $package_name  the package's name
  *
- * @return array  an array of eamil addresses
+ * @return array  an array of email addresses
  */
 function get_package_mail($package_name, $bug_id=false)
 {
@@ -1056,6 +1056,14 @@ function get_package_mail($package_name, $bug_id=false)
     if ($bug_id) {
         $bug_id = (int)$bug_id;
 
+        $assigned = $dbh->getOne('SELECT assign FROM bugdb WHERE id=' . $bug_id);
+        if ($assigned) {
+            $assigned = $dbh->getOne('SELECT email FROM users WHERE handle="' . $assigned . '"');
+            if ($assigned && !in_array($to, $assigned)) {
+                // assigned is not a maintainer
+                $to[] = $assigned;
+            }
+        }
         $bcc = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id=' . $bug_id);
         $bcc = array_diff($bcc, $to);
         $bcc = array_unique($bcc);
