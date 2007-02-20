@@ -1340,12 +1340,12 @@ class Bug_DataObject
     {
         return str_replace(array('.'),
             array('\\.'),
-            Bug_DBDataObject::getHost());
+            Bug_DataObject::getHost());
     }
 
     function isDeveloper($email)
     {
-        $db = Bug_DBDataObject::pearDB('users');
+        $db = Bug_DataObject::pearDB('users');
         $db->email = $email;
         return $db->find();
     }
@@ -1355,7 +1355,7 @@ class Bug_DataObject
         if ($bugs) {
             $uri = '/bugs/' . $uri;
         }
-        return str_replace(Bug_DBDataObject::getHost(), '', PEAR_CHANNELNAME) . '/' . $uri;
+        return str_replace(Bug_DataObject::getHost(), '', PEAR_CHANNELNAME) . '/' . $uri;
     }
 
     /**
@@ -1426,7 +1426,7 @@ class Bug_DataObject
     function getSavant()
     {
         return new Savant2(array(
-            'template_path' => dirname(dirname(dirname(dirname(__FILE__)))) . '/templates/' . Bug_DBDataObject::template(),
+            'template_path' => dirname(dirname(dirname(dirname(__FILE__)))) . '/templates/' . Bug_DataObject::template(),
         ));
     }
 }
