@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2007-02-19</date>
- <time>21:25:05</time>
+ <time>23:09:39</time>
  <version>
   <release>1.5.0</release>
   <api>0.1.1</api>
@@ -511,6 +511,7 @@
     <file name="package_stats.sql" role="web" />
     <file name="pearweb_mdb2schema.xml" role="web" />
     <file name="pepr.sql" role="web" />
+    <file name="process_mysqldump_for5.sh" role="web" />
     <file name="README" role="web" />
     <file name="releases.sql" role="web" />
     <file name="users.sql" role="web" />
