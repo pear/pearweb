@@ -1299,7 +1299,7 @@ class Bug_DataObject
     {
         $a = DB_DataObject::factory($table);
         if (!is_a($a, 'DB_DataObject')) {
-            throw new Chiara_Bug_Exception('unknown table "' . $table . '"');
+            PEAR::raiseError('unknown table "' . $table . '"');
         }
         $a->database('pear');
         return $a;
@@ -1309,7 +1309,7 @@ class Bug_DataObject
     {
         $a = DB_DataObject::factory($table);
         if (!is_a($a, 'DB_DataObject')) {
-            throw new Chiara_Bug_Exception('unknown table "' . $table . '"');
+            PEAR::raiseError('unknown table "' . $table . '"');
         }
         $a->database('pear');
         return $a;
