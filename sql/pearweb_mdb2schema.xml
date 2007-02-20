@@ -556,9 +556,9 @@
    </field>
    <field>
     <name>releasedate</name>
-    <type>datetime</type>
+    <type>date</type>
     <notnull>true</notnull>
-    <default>'0000-00-00'</default>
+    <default>0000-00-00</default>
    </field>
    <index>
     <name>primary</name>
