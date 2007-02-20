@@ -42,6 +42,7 @@ if (isset($_GET['new']) && isset($_POST['go'])) {
     $bugdb->roadmap_version = $_POST['roadmap_version'];
     $bugdb->releasedate = date('Y-m-d H:i:s', strtotime($_POST['releasedate']));
     $bugdb->package = $_GET['package'];
+    $bugdb->description = $_POST['description'];
     $bugdb->insert();
     unset($_GET['new']);
 }

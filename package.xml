@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-02-19</date>
- <time>23:39:09</time>
+ <time>23:40:44</time>
  <version>
-  <release>1.5.0</release>
+  <release>1.5.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,12 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* implement initial roadmap support for packages
-* fix potential fatal error in package editing while updating REST
-* fix pearweb.php run-scripts
-* fix mdb2 schema xml
-* fix Bug #1467: Two E-mails are sent when the proposer comments on his own PEPr
-* fix Bug #10115: if you don&apos;t maintain a bug, and are assigned, no update emails
+* roadmap description not being set on creation
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1351,13 +1346,26 @@
    </stability>
    <date>2007-02-19</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-* implement initial roadmap support for packages
+   <notes>* implement initial roadmap support for packages
 * fix potential fatal error in package editing while updating REST
 * fix pearweb.php run-scripts
 * fix mdb2 schema xml
 * fix Bug #1467: Two E-mails are sent when the proposer comments on his own PEPr
-* fix Bug #10115: if you don&apos;t maintain a bug, and are assigned, no update emails
+* fix Bug #10115: if you don&apos;t maintain a bug, and are assigned, no update emails</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-19</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+* roadmap description not being set on creation
    </notes>
   </release>
  </changelog>
