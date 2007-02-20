@@ -99,7 +99,7 @@ class pearweb_postinstall
         PEAR::staticPopErrorHandling();
         if (PEAR::isError($c)) {
             $extra = '';
-            if (MDB2::isError($c)) {
+            if (MDB2_Schema::isError($c) || MDB2::isError($c)) {
                 $extra = "\n" . $c->getUserInfo();
             }
             $this->_ui->outputData('ERROR: ' . $c->getMessage() . $extra);
