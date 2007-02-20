@@ -20,6 +20,7 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 * roadmap description not being set on creation
+* wrong parameter order for in_array() caused fatal error on assigning bugs to a roadmap
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
