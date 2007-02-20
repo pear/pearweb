@@ -229,7 +229,6 @@ while ($allroadmaps->fetch()) {
                 '&amp;direction='   . $direction .
                 '&amp;limit='       . $limit;
 
-        $savant->status = $status;
         $savant->begin = $begin;
         $savant->rows = $rows;
         $savant->total_rows = $total_rows;
