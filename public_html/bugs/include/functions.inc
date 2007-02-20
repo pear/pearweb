@@ -1059,7 +1059,7 @@ function get_package_mail($package_name, $bug_id=false)
         $assigned = $dbh->getOne('SELECT assign FROM bugdb WHERE id=' . $bug_id);
         if ($assigned) {
             $assigned = $dbh->getOne('SELECT email FROM users WHERE handle="' . $assigned . '"');
-            if ($assigned && !in_array($to, $assigned)) {
+            if ($assigned && !in_array($assigned, $to)) {
                 // assigned is not a maintainer
                 $to[] = $assigned;
             }
