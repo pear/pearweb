@@ -153,6 +153,10 @@ class pearweb_postinstall
             // get a database diff (MDB2_Schema is very useful here)
             $c = $a->compareDefinitions($c, $curdef);
         }
+        if ($c == array()) {
+            $this->_ui->outputData('No difference, no changes made to database');
+            return true;
+        }
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $err = $a->createDatabase($c);
         PEAR::staticPopErrorHandling();
