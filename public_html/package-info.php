@@ -146,7 +146,7 @@ $pacid        = $pkg['packageid'];
 $cvs_link     = $pkg['cvs_link'];
 $doc_link     = $pkg['doc_link'];
 $unmaintained = ($pkg['unmaintained']) ? 'Y' : 'N';
-$supersede = (bool) $pkg['new_package'];
+$supersede = (bool) $pkg['new_channel'];
 
 // Maintainer information
 $maintainers = maintainer::get($pacid);
@@ -252,7 +252,7 @@ if (empty($action)) {
         if ($pkg['new_channel'] == 'pear.php.net') {
             $str .= '  Use <a href="/package/' . $pkg['new_package'] .
                 '">' . htmlspecialchars($pkg['new_package']) . '</a> instead.';
-        } else {
+        } elseif ($pkg['new_channel']) {
             $str .= '  Package has moved to channel <a href="http://' . $pkg['new_channel'] .
             '">' . htmlspecialchars($pkg['new_channel']) . '</a>, package ' .
             $pkg['new_package'] . '.';
