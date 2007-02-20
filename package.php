@@ -20,6 +20,9 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 * implement initial roadmap support for packages
+* fix potential fatal error in package editing while updating REST
+* fix pearweb.php run-scripts
+* fix mdb2 schema xml
 * fix Bug #1467: Two E-mails are sent when the proposer comments on his own PEPr
 * fix Bug #10115: if you don\'t maintain a bug, and are assigned, no update emails
 ');
