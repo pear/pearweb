@@ -151,15 +151,21 @@ class pearweb_postinstall
                 $this->_ui->outputData('invalid data returned from previous version');
             }
             // get a database diff (MDB2_Schema is very useful here)
+            PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
             $c = $a->compareDefinitions($c, $curdef);
+            if (PEAR::isError($c)) {
+                $this->_ui->outputData($err->getMessage());
+                $this->_ui->outputData($err->getUserInfo());
+                $this->_ui->outputData('Unable to automatically update database');
+                return false;
+            }
+            $err = $a->updateDatabase($curdef, $c);
+            PEAR::staticPopErrorHandling();
+        } else {
+            PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
+            $err = $a->createDatabase($c);
+            PEAR::staticPopErrorHandling();
         }
-        if ($c == array()) {
-            $this->_ui->outputData('No difference, no changes made to database');
-            return true;
-        }
-        PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $err = $a->createDatabase($c);
-        PEAR::staticPopErrorHandling();
         if (PEAR::isError($err)) {
             $this->_ui->outputData($err->getUserInfo());
             $this->_ui->outputData($err->getMessage());
