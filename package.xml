@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2007-02-19</date>
- <time>23:16:39</time>
+ <time>23:19:12</time>
  <version>
   <release>1.5.0</release>
   <api>0.1.1</api>
@@ -715,7 +715,7 @@
    <package>
     <name>Savant2</name>
     <channel>savant.pearified.com</channel>
-    <min>3.0.0</min>
+    <min>2.4.2</min>
    </package>
    <package>
     <name>Cache</name>

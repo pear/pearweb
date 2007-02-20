@@ -39,7 +39,7 @@ $a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
 $a->addPackageDepWithChannel('required', 'VFS', 'pear.php.net', '0.1.0');
 $a->addPackageDepWithChannel('required', 'DB', 'pear.php.net', '1.6.5');
 $a->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '1.8.5');
-$a->addPackageDepWithChannel('required', 'Savant2', 'savant.pearified.com', '3.0.0');
+$a->addPackageDepWithChannel('required', 'Savant2', 'savant.pearified.com', '2.4.2');
 $a->addPackageDepWithChannel('required', 'Cache', 'pear.php.net', '1.2');
 $a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1.1');
 $a->addPackageDepWithChannel('required', 'HTML_Form', 'pear.php.net', '1.3.0');
