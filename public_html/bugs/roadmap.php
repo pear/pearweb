@@ -65,12 +65,116 @@ if (isset($_GET['delete'])) {
     $links->delete();
     $bugdb->delete();
 }
+if (isset($_POST['saveaddbugs'])) {
+    if (!isset($_POST['package'])) {
+        response_header('Error :: No package selected');
+        display_bug_error('No package selected');
+        response_footer();
+        exit;
+    }
+    $roadmap = Bug_DataObject::bugDB('bugdb_roadmap');
+    $roadmap->package = $_POST['package'];
+    if (!isset($_POST['roadmap'])) {
+        response_header('Error :: No roadmap selected');
+        display_bug_error('No roadmap selected');
+        response_footer();
+        exit;
+    }
+    if (!$roadmap->find(true)) {
+        response_header('Error :: no such roadmap');
+        display_bug_error('Unknown roadmap "' . clean($_GET['roadmap']) . '"');
+        response_footer();
+        exit;
+    }
+    $roadmaps = Bug_DataObject::bugDB('bugdb_roadmap_link');
+    $roadmaps->roadmap_id = $roadmap->id;
+    $roadmaps->delete(); // empty out existing
+    foreach ($_POST['bugs'] as $bug => $unused) {
+        $roadmaps->id = $bug;
+        $roadmaps->roadmap_id = $roadmap->id;
+        $roadmaps->insert();
+    }
+    $_GET['package'] = $_POST['package'];
+    $_GET['roadmap'] = $_POST['roadmap'];
+    $_GET['addbugs'] = 1;
+}
 $test = Bug_DataObject::pearDB('packages');
 $test->name = $_GET['package'];
-if (!isset($_GET['package']) || !$test->find()) {
-    response_header('Error :: no such package');
-    display_bug_error('Unknown package "' . clean($_GET['package']));
+if (!isset($_GET['package'])) {
+    response_header('Error :: No package selected');
+    display_bug_error('No package selected');
     response_footer();
+    exit;
+}
+if (!$test->find()) {
+    response_header('Error :: no such package');
+    display_bug_error('Unknown package "' . clean($_GET['package']) . '"');
+    response_footer();
+    exit;
+}
+if (isset($_GET['addbugs'])) {
+    $roadmap = Bug_DataObject::bugDB('bugdb_roadmap');
+    $roadmap->package = $_GET['package'];
+    if (!isset($_GET['roadmap'])) {
+        response_header('Error :: No roadmap selected');
+        display_bug_error('No roadmap selected');
+        response_footer();
+        exit;
+    }
+    $roadmap->roadmap_version = $_GET['roadmap'];
+    if (!$roadmap->find(true)) {
+        response_header('Error :: no such roadmap');
+        display_bug_error('Unknown roadmap "' . clean($_GET['roadmap']) . '"');
+        response_footer();
+        exit;
+    }
+    $bugdb = Bug_DataObject::bugDB('bugdb');
+    $bugdb->package_name = $_GET['package'];
+    $bugdb->selectAs();
+    $bugdb->whereAdd('status in ("Open", "Feedback", "Analyzed", ' .
+        '"Assigned", "Critical", "Verified", "Suspended")');
+    $bugdb->orderBy('ts2 DESC');
+    $features = clone($bugdb);
+    $bugdb->whereAdd('bug_type IN ("Bug", "Documentation Bug")');
+    $features->bug_type = 'Feature/Change Request';
+    $bugdb->find();
+    $roadmaps = Bug_DataObject::bugDB('bugdb_roadmap_link');
+    $roadmaps->roadmap_id = $roadmap->id;
+    $roadmaps->find();
+    $existing = array();
+    while ($roadmaps->fetch()) {
+        $existing[$roadmaps->id] = 1;
+    }
+    $allb = $allf = array();
+    while ($bugdb->fetch()) {
+        $allb[$bugdb->id] = array(
+            'summary' => $bugdb->sdesc,
+            'status' => $bugdb->status,
+            'lastupdate' => $bugdb->ts2,
+            'inroadmap' => false);
+        if (isset($existing[$bugdb->id])) {
+            $allb[$bugdb->id]['inroadmap'] = true;
+        }
+    }
+    $features->find();
+    while ($features->fetch()) {
+        $allf[$features->id] = array(
+            'summary' => $features->sdesc,
+            'status' => $features->status,
+            'lastupdate' => $features->ts2,
+            'inroadmap' => false);
+        if (isset($existing[$features->id])) {
+            $allf[$features->id]['inroadmap'] = true;
+        }
+    }
+    $savant = Bug_DataObject::getSavant();
+    $savant->saved = isset($_POST['saveaddbugs']);
+    $savant->package = $_GET['package'];
+    $savant->roadmap = $_GET['roadmap'];
+    $savant->bugs = $allb;
+    $savant->features = $allf;
+    $savant->tla = $tla;
+    $savant->display('roadmapadd.php');
     exit;
 }
 $order_options = array(
