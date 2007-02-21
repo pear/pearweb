@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-02-21</date>
- <time>15:46:58</time>
+ <time>15:51:00</time>
  <version>
-  <release>1.6.0</release>
+  <release>1.6.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,8 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* fix Bug #10133: foreach() error when closing PEAR bug
-* enhance roadmap functionality - make it much easier to add/remove bugs from a roadmap
+* add needed authorization for roadmap modification ease form
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1393,9 +1392,22 @@
    </stability>
    <date>2007-02-21</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #10133: foreach() error when closing PEAR bug
+* enhance roadmap functionality - make it much easier to add/remove bugs from a roadmap</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.6.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-21</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* fix Bug #10133: foreach() error when closing PEAR bug
-* enhance roadmap functionality - make it much easier to add/remove bugs from a roadmap
+* add needed authorization for roadmap modification ease form
    </notes>
   </release>
  </changelog>

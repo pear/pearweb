@@ -15,12 +15,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.6.0');
+$a->setReleaseVersion('1.6.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* fix Bug #10133: foreach() error when closing PEAR bug
-* enhance roadmap functionality - make it much easier to add/remove bugs from a roadmap
+* add needed authorization for roadmap modification ease form
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
