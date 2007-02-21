@@ -394,10 +394,12 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
         $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
         $link->id = $id;
         $link->delete();
-        foreach ($_POST['in']['fixed_versions'] as $rid) {
-            $link->id = $id;
-            $link->roadmap_id = $rid;
-            $link->insert();
+        if (isset($_POST['in']['fixed_versions'])) {
+            foreach ($_POST['in']['fixed_versions'] as $rid) {
+                $link->id = $id;
+                $link->roadmap_id = $rid;
+                $link->insert();
+            }
         }
 
         if (!empty($ncomment)) {
