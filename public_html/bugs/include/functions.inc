@@ -1164,6 +1164,10 @@ function show_bugs_menu($pkgname, $status = null)
     }
 
     echo make_link('/bugs/search.php', 'New search');
+    if (count($pkgname) == 1) {
+        echo delim();
+        echo make_link('/bugs/roadmap.php?package=' . $pkgname[0], 'Development Road Map');
+    }
 
     echo "\n</td>\n";
 

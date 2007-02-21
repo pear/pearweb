@@ -1,5 +1,6 @@
 <?php response_header('Roadmap :: ' . clean($this->package)); ?>
 <h1>Roadmap for Package <?php echo clean($this->package); ?></h1>
+<a href="/bugs/search.php?package_name[]=<?php echo urlencode(clean($this->package)) ?>&status=Open">Bug Tracker</a>
 <ul class="side_pages">
 <?php foreach ($this->roadmap as $info): ?>
  <li class="side_page"><a href="#a<?php echo $info['roadmap_version'] ?>"><?php echo $info['roadmap_version'] ?></a> (<a href="roadmap.php?edit=<?php echo $info['id']
