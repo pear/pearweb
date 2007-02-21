@@ -66,6 +66,7 @@ if (isset($_GET['delete'])) {
     $bugdb->delete();
 }
 if (isset($_POST['saveaddbugs'])) {
+    auth_require();
     if (!isset($_POST['package'])) {
         response_header('Error :: No package selected');
         display_bug_error('No package selected');
@@ -113,6 +114,7 @@ if (!$test->find()) {
     exit;
 }
 if (isset($_GET['addbugs'])) {
+    auth_require();
     $roadmap = Bug_DataObject::bugDB('bugdb_roadmap');
     $roadmap->package = $_GET['package'];
     if (!isset($_GET['roadmap'])) {
