@@ -58,7 +58,7 @@ if ($error) {
    <th class="form-label_left">Election detail</th>
    <td class="form-input">
     <input type="hidden" name="detail" value="<?php echo htmlspecialchars($info['detail']); ?>" />
-    <?php echo htmlspecialchars($info['purpose']) ?>
+    <?php echo htmlspecialchars($info['detail']) ?>
    </td>
   </tr>
   <tr>
