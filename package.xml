@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-02-21</date>
- <time>15:51:00</time>
+ <time>23:50:06</time>
  <version>
-  <release>1.6.1</release>
+  <release>1.6.2</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,7 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* add needed authorization for roadmap modification ease form
+* add list of closed bugs since last release
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1406,8 +1406,21 @@
    </stability>
    <date>2007-02-21</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add needed authorization for roadmap modification ease form</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.6.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-21</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* add needed authorization for roadmap modification ease form
+* add list of closed bugs since last release
    </notes>
   </release>
  </changelog>

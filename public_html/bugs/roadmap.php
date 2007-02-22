@@ -130,14 +130,28 @@ if (isset($_GET['addbugs'])) {
         response_footer();
         exit;
     }
+
     $bugdb = Bug_DataObject::bugDB('bugdb');
     $bugdb->package_name = $_GET['package'];
-    $bugdb->selectAs();
-    $bugdb->whereAdd('status in ("Open", "Feedback", "Analyzed", ' .
-        '"Assigned", "Critical", "Verified", "Suspended")');
     $bugdb->orderBy('ts2 DESC');
     $features = clone($bugdb);
     $bugdb->whereAdd('bug_type IN ("Bug", "Documentation Bug")');
+    $releases = Bug_DataObject::pearDB('releases');
+    $releases->package = package::info($_GET['package'], 'id');
+    $releases->orderBy('releasedate DESC');
+    if ($releases->find(true)) {
+        $bugdb->whereAdd('(ts2 > "' . date('Y-m-d', strtotime($releases->releasedate)) .
+            '" AND status="Closed") OR status in ("Open", "Feedback", "Analyzed", ' .
+            '"Assigned", "Critical", "Verified", "Suspended")');
+        $features->whereAdd('(ts2 > "' . date('Y-m-d', strtotime($releases->releasedate)) .
+            '" AND status="Closed") OR status in ("Open", "Feedback", "Analyzed", ' .
+            '"Assigned", "Critical", "Verified", "Suspended")');
+    } else {
+        $bugdb->whereAdd('status in ("Open", "Feedback", "Analyzed", ' .
+            '"Assigned", "Critical", "Verified", "Suspended")');
+        $features->whereAdd('status in ("Open", "Feedback", "Analyzed", ' .
+            '"Assigned", "Critical", "Verified", "Suspended")');
+    }
     $features->bug_type = 'Feature/Change Request';
     $bugdb->find();
     $roadmaps = Bug_DataObject::bugDB('bugdb_roadmap_link');
