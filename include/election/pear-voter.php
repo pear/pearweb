@@ -61,8 +61,13 @@ class PEAR_Voter
         return $all;
     }
 
-    function listCompletedElections()
+    function listCompletedElections($old = false)
     {
+        if ($old) {
+            $extra = '';
+        } else {
+            $extra = ' AND DATEDIFF(NOW(), e.voteend) < 30';
+        }
         if ($this->user) {
             $all = $this->dbh->getAll('
                 SELECT
@@ -74,7 +79,7 @@ class PEAR_Voter
                     elections e, election_results r
                 WHERE
                     e.id = r.election_id AND
-                    e.voteend < NOW()
+                    e.voteend < NOW()' . $extra . '
                 GROUP BY e.id
                 ORDER BY e.voteend DESC
             ', array(), DB_FETCHMODE_ASSOC);
@@ -105,7 +110,7 @@ class PEAR_Voter
                 WHERE
                     e.id = r.election_id AND
                     c.election_id = e.id AND
-                    e.voteend < NOW()
+                    e.voteend < NOW()' . $extra . '
                 ORDER BY e.voteend DESC
             ', array(), DB_FETCHMODE_ASSOC);
             foreach ($all as $i => $election) {
