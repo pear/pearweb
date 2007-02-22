@@ -129,7 +129,7 @@ class PEAR_Election
             } elseif ($_POST['month'] < 1 || $_POST['month'] > 12) {
                 $error[] = 'Month is invalid, must be 1-12';
             } else {
-                if ($_POST['month'] < 10) {
+                if ($_POST['month'] < 10 && $_POST['month'][0] != '0') {
                     $_POST['month'] = '0' . $_POST['month'];
                 }
             }
@@ -144,7 +144,7 @@ class PEAR_Election
                 $error[] = 'Day is invalid, must be 1-' . date('d', strtotime(
                     $_POST['year'] . '-' . $_POST['month'] . '-01 +1 month -1 day'));
             } else {
-                if ($_POST['day'] < 10) {
+                if ($_POST['day'] < 10 && $_POST['day'][0] != '0') {
                     $_POST['day'] = '0' . $_POST['day'];
                 }
             }
