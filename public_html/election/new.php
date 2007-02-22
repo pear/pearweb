@@ -84,6 +84,7 @@ if (!isset($_POST['step'])) {
         $allelections = $voter->listAllElections();
         $error = 'Election creation cancelled';
         $retrieval = false;
+        $old = false;
         require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
         exit;
     }
@@ -129,5 +130,6 @@ if (!isset($_POST['step'])) {
     $allelections = $voter->listAllElections();
     $error = 'Election saved';
     $retrieval = false;
+    $old = false;
     require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
 }

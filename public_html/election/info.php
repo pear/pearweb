@@ -20,6 +20,7 @@ if (isset($_POST['confirm'])) {
         $allelections = $voter->listAllElections();
         $error = 'No such election id: ' . htmlspecialchars($_GET['election']);
         $retrieval = false;
+        $old = false;
         require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
         exit;
     }
@@ -29,6 +30,7 @@ if (isset($_POST['confirm'])) {
         $allelections = $voter->listAllElections();
         $error = 'You have already voted in this election';
         $retrieval = false;
+        $old = false;
         require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
         exit;
     }
@@ -66,6 +68,7 @@ if (isset($_POST['finalvote'])) {
         $allelections = $voter->listAllElections();
         $error = 'No such election id: ' . htmlspecialchars($_GET['election']);
         $retrieval = false;
+        $old = false;
         require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
         exit;
     }
@@ -75,6 +78,7 @@ if (isset($_POST['finalvote'])) {
         $allelections = $voter->listAllElections();
         $error = 'You have already voted in this election';
         $retrieval = false;
+        $old = false;
         require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
         exit;
     }
@@ -102,6 +106,7 @@ if (!isset($_GET['election'])) {
     $completedelections = $voter->listCompletedElections();
     $allelections = $voter->listAllElections();
     $retrieval = false;
+        $old = false;
     require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
     exit;
 }
@@ -112,6 +117,7 @@ if (!$voter->electionExists($_GET['election'])) {
     $allelections = $voter->listAllElections();
     $error = 'No such election id: ' . htmlspecialchars($_GET['election']);
     $retrieval = false;
+    $old = false;
     require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
     exit;
 }
@@ -123,6 +129,7 @@ if (isset($_GET['vote'])) {
         $allelections = $voter->listAllElections();
         $error = 'You cannot vote twice in the same election';
         $retrieval = false;
+        $old = false;
         require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
         exit;
     } elseif ($voter->canVote($_GET['election'])) {
