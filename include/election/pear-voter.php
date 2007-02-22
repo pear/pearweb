@@ -66,7 +66,7 @@ class PEAR_Voter
         if ($old) {
             $extra = '';
         } else {
-            $extra = ' AND DATEDIFF(NOW(), e.voteend) < 30';
+            $extra = ' AND UNIX_TIMESTAMP() - UNIX_TIMESTAMP(e.voteend) < 2592000';
         }
         if ($this->user) {
             $all = $this->dbh->getAll('
