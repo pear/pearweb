@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-02-22</date>
- <time>17:32:23</time>
+ <time>17:38:15</time>
  <version>
-  <release>1.6.4</release>
+  <release>1.7.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,9 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* hide old elections
-* fix election creation interface date validation
-* fix display of election detail
+* add note about PEAR structure election on front page
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1449,10 +1447,23 @@
    </stability>
    <date>2007-02-22</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-* hide old elections
+   <notes>* hide old elections
 * fix election creation interface date validation
-* fix display of election detail
+* fix display of election detail</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.7.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-22</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+* add note about PEAR structure election on front page
    </notes>
   </release>
  </changelog>

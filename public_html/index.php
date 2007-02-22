@@ -61,6 +61,11 @@ response_header();
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
 <h2>&raquo; Hot off the Press</h2>
+<p><strong>[February 22, 2007]</strong> Voting for the new structure of PEAR has
+commenced.  If you are a PEAR developer, please register your vote for the future
+direction of PEAR at
+<a href="http://pear.php.net/election/info.php?election=6&vote=1">http://pear.php.net/election/info.php?election=6&vote=1</a>.
+The voting will conclude on March 8, 2007.</p>
 <p><strong>[February 1, 2007]</strong> As of January 1, 2008, PEAR will be dropping
 support for PEAR versions 1.3.6 and earlier.  If you are using PEAR 1.3.6 or earlier,
 we <strong>strongly</strong> encourage you to upgrade using these simple steps:
