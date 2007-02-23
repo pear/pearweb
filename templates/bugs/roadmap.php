@@ -54,7 +54,7 @@
                     $this->totalbugs[$info['roadmap_version']]);
             ?>
    (<?php echo number_format($percent)?>% done: <?php
-   echo $this->closedbugs[$info['roadmap_version']] ?> of <?php
+   echo $this->closedbugs[$info['roadmap_version']] ?> fixed of <?php
    echo $this->totalbugs[$info['roadmap_version']]
    ?>) <a href="?roadmapdetail=<?php echo htmlspecialchars(urlencode($info['roadmap_version'])) ?>&package=<?php echo $this->package ?>">Show Bug Detail</a>
       <?php endif;//if (!$this->totalbugs[$info['roadmap_version']])
@@ -76,7 +76,7 @@
                     $this->totalfeatures[$info['roadmap_version']]);
             ?>
    (<?php echo number_format($percent)?>% done: <?php
-   echo $this->closedfeatures[$info['roadmap_version']] ?> of <?php
+   echo $this->closedfeatures[$info['roadmap_version']] ?> implemented of <?php
    echo $this->totalfeatures[$info['roadmap_version']]
    ?>) <a href="?roadmapdetail=<?php echo htmlspecialchars(urlencode($info['roadmap_version'])) ?>&package=<?php echo $this->package ?>">Show Feature Detail</a>
       <?php endif;//if (!$this->totalfeatures[$info['roadmap_version']])
