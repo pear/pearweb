@@ -46,7 +46,21 @@
    Bugs
   </th>
   <td class="form-input">
-   <?php echo $this->bugs[$info['roadmap_version']] ?>
+   <?php if ($this->summary[$info['roadmap_version']]):
+            if (!$this->totalbugs[$info['roadmap_version']]): ?>
+   No bugs
+      <?php else://if (!$this->totalbugs[$info['roadmap_version']])
+                $percent = 100 * ($this->closedbugs[$info['roadmap_version']] /
+                    $this->totalbugs[$info['roadmap_version']]);
+            ?>
+   (<?php echo number_format($percent)?>% done: <?php
+   echo $this->closedbugs[$info['roadmap_version']] ?> of <?php
+   echo $this->totalbugs[$info['roadmap_version']]
+   ?>) <a href="?roadmapdetail=<?php echo htmlspecialchars(urlencode($info['roadmap_version'])) ?>&package=<?php echo $this->package ?>">Show Bug Detail</a>
+      <?php endif;//if (!$this->totalbugs[$info['roadmap_version']])
+         else: //if ($this->summary[$info['roadmap_version']])
+            echo $this->bugs[$info['roadmap_version']];
+         endif; //if ($this->summary[$info['roadmap_version']]) ?>
   </td>
  </tr>
  <tr>
@@ -54,7 +68,21 @@
    Feature Requests
   </th>
   <td class="form-input">
-   <?php echo $this->feature_requests[$info['roadmap_version']] ?>
+   <?php if ($this->summary[$info['roadmap_version']]):
+            if (!$this->totalfeatures[$info['roadmap_version']]): ?>
+   No features
+      <?php else://if (!$this->totalfeatures[$info['roadmap_version']])
+                $percent = 100 * ($this->closedfeatures[$info['roadmap_version']] /
+                    $this->totalfeatures[$info['roadmap_version']]);
+            ?>
+   (<?php echo number_format($percent)?>% done: <?php
+   echo $this->closedfeatures[$info['roadmap_version']] ?> of <?php
+   echo $this->totalfeatures[$info['roadmap_version']]
+   ?>) <a href="?roadmapdetail=<?php echo htmlspecialchars(urlencode($info['roadmap_version'])) ?>&package=<?php echo $this->package ?>">Show Feature Detail</a>
+      <?php endif;//if (!$this->totalfeatures[$info['roadmap_version']])
+         else: //if ($this->summary[$info['roadmap_version']])
+            echo $this->feature_requests[$info['roadmap_version']];
+         endif; //if ($this->summary[$info['roadmap_version']]) ?>
   </td>
  </tr>
 </table>

@@ -275,7 +275,9 @@ $allroadmaps->package = $_GET['package'];
 $allroadmaps->find(false);
 $roadmaps = Bug_DataObject::bugDB('bugdb_roadmap_link');
 $roadmaps->selectAs();
-$savant->bugs = $savant->features = $savant->roadmap = array();
+$savant->bugs = $savant->features = $savant->roadmap = $savant->totalbugs =
+    $savant->closedbugs = $savant->totalfeatures = $savant->closedfeatures =
+    $savant->summary = array();
 $peardb = Bug_DataObject::pearDB('releases');
 $peardb->package = $_GET['package'];
 while ($allroadmaps->fetch()) {
@@ -285,89 +287,121 @@ while ($allroadmaps->fetch()) {
         // already released, so this is defunct
         continue;
     }
-    $features = clone($bugdb);
-    $bugs = clone($bugdb);
-
-    $roadmaps->roadmap_id = $allroadmaps->id;
-    $features->selectAs();
-    $features->joinAdd($roadmaps);
-    $features->bug_type = 'Feature/Change Request';
-    $rows = $features->find(false);
-
-    if ($mysql4) {
-        $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
-    } else {
-        /* lame mysql 3 compatible attempt to allow browsing the search */
-        $total_rows = $rows < 10 ? $rows : $begin + $rows + 10;
-    }
-
-    if ($rows) {
-        $package_string = '';
-
-        $link = 'roadmap.php' .
-                '?' .
-                $package_string  .
-                '&amp;order_by='    . $order_by .
-                '&amp;direction='   . $direction .
-                '&amp;limit='       . $limit;
-
-        $savant->begin = $begin;
-        $savant->rows = $rows;
-        $savant->total_rows = $total_rows;
-        $savant->link = $link;
-        $savant->limit = $limit;
-        $results = array();
-        while ($features->fetch()) {
-            $results[] = $features->toArray();
+    if (isset($_GET['roadmapdetail']) && $_GET['roadmapdetail'] === $allroadmaps->roadmap_version) {
+        $features = clone($bugdb);
+        $bugs = clone($bugdb);
+    
+        $roadmaps->roadmap_id = $allroadmaps->id;
+        $features->selectAs();
+        $features->joinAdd($roadmaps);
+        $features->bug_type = 'Feature/Change Request';
+        $rows = $features->find(false);
+    
+        if ($mysql4) {
+            $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
+        } else {
+            /* lame mysql 3 compatible attempt to allow browsing the search */
+            $total_rows = $rows < 10 ? $rows : $begin + $rows + 10;
         }
-        $savant->results = $results;
-        $savant->tla = $tla;
-        $savant->types = $types;
-        $features = $savant->fetch('searchresults.php');
-    } else {
-        $features = 'None';
-    }
-
-    $bugs->bug_type = 'Bug';
-    $bugs->selectAs();
-    $bugs->joinAdd($roadmaps);
-    $rows = $bugs->find(false);
-
-    if ($mysql4) {
-        $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
-    } else {
-        /* lame mysql 3 compatible attempt to allow browsing the search */
-        $total_rows = $rows < 10 ? $rows : $begin + $rows + 10;
-    }
-
-    if ($rows) {
-        $package_string = '';
-
-        $link = 'roadmap.php' .
-                '?' .
-                $package_string  .
-                '&amp;order_by='    . $order_by .
-                '&amp;direction='   . $direction .
-                '&amp;limit='       . $limit;
-
-        $savant->begin = $begin;
-        $savant->rows = $rows;
-        $savant->total_rows = $total_rows;
-        $savant->link = $link;
-        $savant->limit = $limit;
-        $results = array();
-        while ($bugs->fetch()) {
-            $results[] = $bugs->toArray();
+    
+        if ($rows) {
+            $package_string = '';
+    
+            $link = 'roadmap.php' .
+                    '?' .
+                    $package_string  .
+                    '&amp;order_by='    . $order_by .
+                    '&amp;direction='   . $direction .
+                    '&amp;limit='       . $limit;
+    
+            $savant->begin = $begin;
+            $savant->rows = $rows;
+            $savant->total_rows = $total_rows;
+            $savant->link = $link;
+            $savant->limit = $limit;
+            $results = array();
+            while ($features->fetch()) {
+                $results[] = $features->toArray();
+            }
+            $savant->results = $results;
+            $savant->tla = $tla;
+            $savant->types = $types;
+            $features = $savant->fetch('searchresults.php');
+        } else {
+            $features = 'None';
         }
-        $savant->results = $results;
-        $savant->tla = $tla;
-        $savant->types = $types;
-        $bugs = $savant->fetch('searchresults.php');
+    
+        $bugs->bug_type = 'Bug';
+        $bugs->selectAs();
+        $bugs->joinAdd($roadmaps);
+        $rows = $bugs->find(false);
+    
+        if ($mysql4) {
+            $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
+        } else {
+            /* lame mysql 3 compatible attempt to allow browsing the search */
+            $total_rows = $rows < 10 ? $rows : $begin + $rows + 10;
+        }
+    
+        if ($rows) {
+            $package_string = '';
+    
+            $link = 'roadmap.php' .
+                    '?' .
+                    $package_string  .
+                    '&amp;order_by='    . $order_by .
+                    '&amp;direction='   . $direction .
+                    '&amp;limit='       . $limit;
+    
+            $savant->begin = $begin;
+            $savant->rows = $rows;
+            $savant->total_rows = $total_rows;
+            $savant->link = $link;
+            $savant->limit = $limit;
+            $results = array();
+            while ($bugs->fetch()) {
+                $results[] = $bugs->toArray();
+            }
+            $savant->results = $results;
+            $savant->tla = $tla;
+            $savant->types = $types;
+            $bugs = $savant->fetch('searchresults.php');
+        } else {
+            $bugs = 'None';
+        }
+        $savant->bugs[$allroadmaps->roadmap_version] = $bugs;
+        $savant->feature_requests[$allroadmaps->roadmap_version] = $features;
+        $savant->summary[$allroadmaps->roadmap_version] = false;
     } else {
-        $bugs = 'None';
+        // this just shows a summary of closed bugs and a percentage fixed
+        $savant->summary[$allroadmaps->roadmap_version] = true;
+        $bugquery = 'SELECT COUNT(bugdb.id) FROM bugdb_roadmap_link r, bugdb
+            WHERE r.roadmap_id = ? AND bugdb.id = r.id AND bugdb.bug_type IN
+                ("Bug", "Documentation Bug")';
+        $featurequery = 'SELECT COUNT(bugdb.id) FROM bugdb_roadmap_link r, bugdb
+            WHERE r.roadmap_id = ? AND bugdb.id = r.id AND bugdb.bug_type =
+                "Feature/Change Request"';
+        if ($savant->totalbugs[$allroadmaps->roadmap_version] = $dbh->getOne($bugquery,
+              array($allroadmaps->id))) {
+            $savant->closedbugs[$allroadmaps->roadmap_version] = $dbh->getOne('
+                SELECT COUNT(bugdb.id) FROM bugdb, bugdb_roadmap_link r
+                WHERE
+                    bugdb.id = r.id AND
+                    r.roadmap_id = ? AND
+                    bugdb.bug_type IN ("Bug", "Documentation Bug") AND
+                    bugdb.status = "Closed"', array($allroadmaps->id));
+        }
+        if ($savant->totalfeatures[$allroadmaps->roadmap_version] = $dbh->getOne($featurequery,
+              array($allroadmaps->id))) {
+            $savant->closedfeatures[$allroadmaps->roadmap_version] = $dbh->getOne('
+                SELECT COUNT(bugdb.id) FROM bugdb, bugdb_roadmap_link r
+                WHERE
+                    bugdb.id = r.id AND
+                    r.roadmap_id = ? AND
+                    bugdb.bug_type = "Feature/Change Request" AND
+                    bugdb.status = "Closed"', array($allroadmaps->id));
+        }
     }
-    $savant->bugs[$allroadmaps->roadmap_version] = $bugs;
-    $savant->feature_requests[$allroadmaps->roadmap_version] = $features;
     $savant->roadmap[] = $allroadmaps->toArray();
 }
 $savant->package = $_GET['package'];
