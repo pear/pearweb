@@ -531,7 +531,7 @@ class pear_rest
             @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package) .
                 DIRECTORY_SEPARATOR . 'maintainers.xml', 0666);
             file_put_contents($pdir . DIRECTORY_SEPARATOR . strtolower($package) .
-                DIRECTORY_SEPARATOR . 'maintainers2.xml', $info);
+                DIRECTORY_SEPARATOR . 'maintainers2.xml', $info2);
             @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package) .
                 DIRECTORY_SEPARATOR . 'maintainers2.xml', 0666);
         } else {
