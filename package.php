@@ -15,14 +15,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.8.0');
+$a->setReleaseVersion('1.9.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* hide bug/feature detail by default in roadmap [cellog]
-* re-order PHP versions so that 5.x is first, remove old CVS tags, add HEAD [cellog]
-* implement REST1.2 (maintainer role information in p/maintainers2.xml)
-* Fixed bug #9127 extending make_ticket_links() matched words [mj]
+* fix release upload: don\'t let custom non-pear built packages with no package.xml
+  in root dir slip through the cracks
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

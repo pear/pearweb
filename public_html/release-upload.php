@@ -95,6 +95,10 @@ do {
                 $compatible_pxml = false;
                 $packagexml = $tar->extractInString('package.xml');
             }
+            if ($packagexml === null) {
+                $errors[] = 'No package.xml found in this release';
+                break;
+            }
             $pacid = package::info($info->getPackage(), 'id');
             if (PEAR::isError($pacid)) {
                 $errors[] = $pacid->getMessage();
