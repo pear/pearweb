@@ -66,6 +66,7 @@
  <notes>
 * hide bug/feature detail by default in roadmap
 * re-order PHP versions so that 5.x is first, remove old CVS tags, add HEAD
+* Fixed bug #9127.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
