@@ -107,6 +107,10 @@ if (isset($_ENV['PEAR_TMPDIR'])) {
      * @ignore
      */
     define('PEAR_UPLOAD_TMPDIR', $_ENV['PEAR_TMPDIR'].'/uploads');
+    /**
+     * @ignore
+     */
+    define('PEAR_PATCHTRACKER_TMPDIR', $_ENV['PEAR_TMPDIR'].'/patch');
 } else {
     /**
      * Where pearweb's temporary files should be stored
@@ -120,6 +124,10 @@ if (isset($_ENV['PEAR_TMPDIR'])) {
      * Where pearweb's temporary uploads should be stored
      */
     define('PEAR_UPLOAD_TMPDIR', '/var/tmp/pear/uploads');
+    /**
+     * Where pearweb's temporary uploads should be stored
+     */
+    define('PEAR_PATCHTRACKER_TMPDIR', '/var/tmp/pear/patch');
 }
 
 if (isset($_ENV['PEAR_DATABASE_DSN'])) {

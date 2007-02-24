@@ -510,7 +510,7 @@ class pear_rest
                 System::mkdir(array('-p', $pdir . DIRECTORY_SEPARATOR . strtolower($package)));
                 @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package), 0777);
             }
-            $info = '<?xml version="1.0" encoding="UTF-8" ?>
+            $info2 = $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <m xmlns="http://pear.php.net/dtd/rest.packagemaintainers"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -522,15 +522,23 @@ class pear_rest
             foreach ($maintainers as $maintainer) {
                 $info .= ' <m><h>' . $maintainer['handle'] . '</h><a>' . $maintainer['active'] .
                     '</a></m>';
+                $info2 .= ' <m><h>' . $maintainer['handle'] . '</h><a>' . $maintainer['active'] .
+                    '</a><r>' . $maintainer['role'] . '</r></m>';
             }
             $info .= '</m>';
             file_put_contents($pdir . DIRECTORY_SEPARATOR . strtolower($package) .
                 DIRECTORY_SEPARATOR . 'maintainers.xml', $info);
             @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package) .
                 DIRECTORY_SEPARATOR . 'maintainers.xml', 0666);
+            file_put_contents($pdir . DIRECTORY_SEPARATOR . strtolower($package) .
+                DIRECTORY_SEPARATOR . 'maintainers2.xml', $info);
+            @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package) .
+                DIRECTORY_SEPARATOR . 'maintainers2.xml', 0666);
         } else {
             @unlink($pdir . DIRECTORY_SEPARATOR . strtolower($package) .
                 DIRECTORY_SEPARATOR . 'maintainers.xml');
+            @unlink($pdir . DIRECTORY_SEPARATOR . strtolower($package) .
+                DIRECTORY_SEPARATOR . 'maintainers2.xml');
         }
     }
 
