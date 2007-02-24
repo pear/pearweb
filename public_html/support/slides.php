@@ -34,6 +34,15 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
+  <p><cite><a href="http://www.prophp.com.br/downloads/phpconf2006/igorfeghali_mdb2schema.zip">MDB2_Schema</a></cite>
+  <ul>
+    <li>Date: 2006-12-02</li>
+    <li>Presenter: <?php echo user_link("ifeghali", true); ?></li>
+    <li>Venue: PHP Conference Brasil 2006, Sao Paulo, Brazil</li>
+    <li>Language: Portugese</li>
+  </ul>
+ </li>
+ <li>
   <p><cite><a href="http://kore-nordmann.de/slides.html">
   3D rendering with PHP</a></cite>
   <ul>
