@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2007-02-25</date>
- <time>12:27:28</time>
+ <time>13:48:58</time>
  <version>
   <release>1.9.0</release>
   <api>0.1.1</api>
@@ -68,6 +68,7 @@
   in root dir slip through the cracks
 * implement Request #10150: Allow &quot;future&quot; roadmap versions
 * implement Request #10176: patch tracker for bugs
+* fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1520,6 +1521,7 @@
   in root dir slip through the cracks
 * implement Request #10150: Allow &quot;future&quot; roadmap versions
 * implement Request #10176: patch tracker for bugs
+* fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
    </notes>
   </release>
  </changelog>

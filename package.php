@@ -23,6 +23,7 @@ $a->setNotes('
   in root dir slip through the cracks
 * implement Request #10150: Allow "future" roadmap versions
 * implement Request #10176: patch tracker for bugs
+* fix Bug #10183: roadmap link to bug tracker needs &cmd=display
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
