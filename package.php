@@ -21,9 +21,11 @@ $a->setAPIStability('stable');
 $a->setNotes('
 * fix release upload: don\'t let custom non-pear built packages with no package.xml
   in root dir slip through the cracks
+* fix Bug #10183: roadmap link to bug tracker needs &cmd=display
 * implement Request #10150: Allow "future" roadmap versions
 * implement Request #10176: patch tracker for bugs
-* fix Bug #10183: roadmap link to bug tracker needs &cmd=display
+* implement Request #10180: require account to open/edit bugs,
+  use auto-email verification like pear.voter
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

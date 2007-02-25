@@ -276,7 +276,7 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
                     $_POST['PEAR_PW2'] = md5($_POST['PEAR_PW2']);
                 }
                 $salt = $buggie->addRequest($_POST['PEAR_USER'],
-                      $_POST['in']['email'], $_POST['in']['reporter_name'],
+                      $_POST['in']['commentemail'], $_POST['in']['comment_name'],
                       $_POST['PEAR_PW'], $_POST['PEAR_PW2']);
                 if (is_array($salt)) {
                     $errors = $salt;
@@ -1162,21 +1162,12 @@ foreach ($p as $name => $revisions) {
         echo urlencode($name) ?>&revision=latest"><?php echo clean($name) ?></a> (last revision <?php echo date('Y-m-d H:i:s', $revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php
 }
 // Display comments
-if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
-    $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name, u.registered,
-        u.showemail, u.handle
-        FROM bugdb_comments c
-        LEFT JOIN users u ON u.email = c.email
-        WHERE c.bug = '.(int)$id.'
-        GROUP BY c.id ORDER BY c.ts';
-} else {
-    $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name, 1 as registered,
-        u.showemail, u.handle
-        FROM bugdb_comments c
-        LEFT JOIN users u ON u.email = c.email
-        WHERE c.bug = '.(int)$id.'
-        GROUP BY c.id ORDER BY c.ts';
-}
+$query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name, IF(c.handle <> "",u.registered,1) as registered,
+    u.showemail, u.handle
+    FROM bugdb_comments c
+    LEFT JOIN users u ON u.handle = c.handle
+    WHERE c.bug = '.(int)$id.'
+    GROUP BY c.id ORDER BY c.ts';
 $res =& $dbh->query($query);
 if ($res) {
     while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {

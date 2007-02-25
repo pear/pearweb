@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2007-02-25</date>
- <time>13:48:58</time>
+ <time>17:38:57</time>
  <version>
   <release>1.9.0</release>
   <api>0.1.1</api>
@@ -66,9 +66,11 @@
  <notes>
 * fix release upload: don&apos;t let custom non-pear built packages with no package.xml
   in root dir slip through the cracks
+* fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
 * implement Request #10150: Allow &quot;future&quot; roadmap versions
 * implement Request #10176: patch tracker for bugs
-* fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
+* implement Request #10180: require account to open/edit bugs,
+  use auto-email verification like pear.voter
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -92,8 +94,8 @@
    </dir> <!-- /doc -->
    <dir name="include">
     <dir name="bugs">
-     <file name="pear-bugs.php" role="web" />
      <file name="pear-bug-accountrequest.php" role="web" />
+     <file name="pear-bugs.php" role="web" />
      <file name="pear.ini" role="web" />
      <file name="pear.links.ini" role="web" />
     </dir> <!-- /include/bugs -->
@@ -104,6 +106,7 @@
      </dir> <!-- /include/Damblan/Log -->
      <dir name="Mail">
       <file name="pearweb_account_request.tpl.php" role="web" />
+      <file name="pearweb_account_request_bug.tpl.php" role="web" />
       <file name="pearweb_account_request_existing.tpl.php" role="web" />
       <file name="pearweb_account_request_new.tpl.php" role="web" />
       <file name="pearweb_account_request_vote.tpl.php" role="web" />
@@ -1520,9 +1523,11 @@
    <notes>
 * fix release upload: don&apos;t let custom non-pear built packages with no package.xml
   in root dir slip through the cracks
+* fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
 * implement Request #10150: Allow &quot;future&quot; roadmap versions
 * implement Request #10176: patch tracker for bugs
-* fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
+* implement Request #10180: require account to open/edit bugs,
+  use auto-email verification like pear.voter
    </notes>
   </release>
  </changelog>
