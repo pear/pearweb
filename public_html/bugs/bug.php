@@ -1,5 +1,5 @@
 <?php /* vim: set noet ts=4 sw=4: : */
-
+session_start();
 /**
  * User interface for viewing and editing bug details
  *
@@ -37,9 +37,19 @@ require_once './include/cvs-auth.inc';
  * Obtain a list of the trusted developers
  */
 require_once './include/trusted-devs.inc';
+
+/**
+ * Numeral Captcha Class
+ */
+require_once './include/NumeralCaptcha.php';
+
+/**
+ * Instantiate the numeral captcha object.
+ */
+$numeralCaptcha = new NumeralCaptcha();
+
 Bug_DataObject::init();
 
-session_start();
 error_reporting(E_ALL ^ E_NOTICE);
 
 
@@ -68,6 +78,13 @@ if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
     $edit = 0;
 } else {
     $edit = (int)$_REQUEST['edit'];
+}
+
+// captcha is not necessary if the user is logged in
+if ($auth_user && $auth_user->registered) {
+    if (isset($_SESSION['answer'])) {
+        unset($_SESSION['answer']);
+    }
 }
 
 if ($auth_user && $auth_user->registered && isset($_GET['delete_comment'])) {
@@ -101,7 +118,7 @@ if (!empty($_POST['pw'])) {
     $pw   = '';
 }
 
-// Subscribtion
+// Subscription
 if (isset($_POST['subscribe_to_bug'])) {
     $email = $_POST['subscribe_email'];
     if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $email)) {
@@ -119,9 +136,11 @@ if (isset($_POST['subscribe_to_bug'])) {
 $trytoforce = isset($_POST['trytoforce']) ? (int)$_POST['trytoforce'] : false;
 
 // fetch info about the bug into $bug
-$query = 'SELECT b.id, b.package_name, b.bug_type, b.email, b.reporter_name,
+if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
+    $query = 'SELECT b.id, b.package_name, b.bug_type, b.email, b.handle, b.reporter_name,
         b.passwd, b.sdesc, b.ldesc, b.php_version, b.package_version, b.php_os,
         b.status, b.ts1, b.ts2, b.assign, UNIX_TIMESTAMP(b.ts1) AS submitted,
+        users.registered,
         UNIX_TIMESTAMP(b.ts2) AS modified,
         COUNT(bug=b.id) AS votes,
         SUM(reproduced) AS reproduced,SUM(tried) AS tried,
@@ -130,10 +149,28 @@ $query = 'SELECT b.id, b.package_name, b.bug_type, b.email, b.reporter_name,
         users.showemail, users.handle, p.package_type
         FROM bugdb b
         LEFT JOIN bugdb_votes ON b.id = bug
+        LEFT JOIN users ON users.handle = b.handle
+        LEFT JOIN packages p ON b.package_name = p.name
+        WHERE b.id = '.(int)$id.'
+        GROUP BY bug';
+} else {
+    $query = 'SELECT b.id, b.package_name, b.bug_type, b.email, b.handle, b.reporter_name,
+        b.passwd, b.sdesc, b.ldesc, b.php_version, b.package_version, b.php_os,
+        b.status, b.ts1, b.ts2, b.assign, UNIX_TIMESTAMP(b.ts1) AS submitted,
+        UNIX_TIMESTAMP(b.ts2) AS modified,
+        COUNT(bug=b.id) AS votes,
+        SUM(reproduced) AS reproduced,SUM(tried) AS tried,
+        SUM(sameos) AS sameos, SUM(samever) AS samever,
+        AVG(score)+3 AS average,STD(score) AS deviation,
+        users.showemail, users.handle, p.package_type,
+        1 as registered
+        FROM bugdb b
+        LEFT JOIN bugdb_votes ON b.id = bug
         LEFT JOIN users ON users.email = b.email
         LEFT JOIN packages p ON b.package_name = p.name
         WHERE b.id = '.(int)$id.'
         GROUP BY bug';
+}
 
 $bug =& $dbh->getRow($query, array(), DB_FETCHMODE_ASSOC);
 
@@ -165,6 +202,16 @@ if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
     exit();
 }
 
+// if the user is not registered, this might be spam, don't display
+if (!$bug['registered']) {
+    response_header('User has not confirmed identity');
+    display_bug_error('The user who submitted this bug has not yet confirmed ' .
+        'their email address.  If you submitted this bug, please check your email.' .
+        '  If you do not have a confirmation message, please write a message to' .
+        ' pear-dev@lists.php.net asking for manual approval of your account');
+    response_footer();
+    exit;
+}
 // Delete comment
 if ($edit == 1 && isset($_GET['delete_comment'])) {
     $addon = '';
@@ -183,31 +230,34 @@ $errors = array();
 if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
     // Submission of additional comment by others
 
-    if (!validate_captcha()) {
-        $errors[] = 'Incorrect CAPTCHA';
-    }
-
-    $comment_name = isset($_POST['in']['comment_name']) ? htmlspecialchars(strip_tags($_POST['in']['comment_name'])) : '';
-
-
-    if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $_POST['in']['commentemail'])) {
-        $errors[] = "You must provide a valid email address.";
-    }
-
-    // Don't allow comments by the original report submitter
-    if (rinse($_POST['in']['commentemail']) == $bug['email']) {
-        localRedirect('bug.php' . "?id=$id&edit=2");
-        exit();
-    }
-
-    /* check that they aren't using a php.net mail address without
-       being authenticated (oh, the horror!) */
-    if (preg_match('/^(.+)@php\.net/i', rinse($_POST['in']['commentemail']), $m)) {
-        if ($user != rinse($m[1]) || !verify_password($user, $pass)) {
-            $errors[] = 'You have to be logged in as a developer and be'
-                      . ' editing the bug via the "Developer" tab in order'
-                      . ' to use your php.net email address.';
+    /**
+     * Check if session answer is set, then compare
+     * it with the post captcha value. If it's not
+     * the same, then it's an incorrect password.
+     */
+    if (isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
+        if ($_POST['captcha'] != $_SESSION['answer']) {
+            $errors[] = 'Incorrect Captcha';
         }
+    }
+
+    // try to verify the user
+    if (!$auth_user) {
+        if (!empty($_POST['isMD5'])) {
+            $password = @$_POST['PEAR_PW'];
+        } else {
+            $password = md5(@$_POST['PEAR_PW']);
+        }
+        if (user::exists($_POST['in']['PEAR_USER'])) {
+            if (auth_verify($_POST['in']['PEAR_USER'], $password)) {
+                $POST['in']['handle'] = $_POST['in']['PEAR_USER'];
+            } else {
+                $errors[] = 'User name "' . clean($_POST['in']['PEAR_USER']) .
+                    '" already exists, please choose another user name';
+            }
+        }
+    } else {
+        $_POST['in']['handle'] = $auth_user->handle;
     }
 
     $ncomment = trim($_POST['ncomment']);
@@ -216,15 +266,60 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
     }
 
     if (!$errors) {
-        $query = 'INSERT INTO bugdb_comments' .
-                 ' (bug, email, ts, comment, reporter_name) VALUES (' .
-                 " $id," .
-                 " '" . escapeSQL($_POST['in']['commentemail']) . "'," .
-                 ' NOW(),' .
-                 " '" . escapeSQL($ncomment) . "'," .
-                 " '" . escapeSQL($comment_name) . "')";
+        do {
+            if (!$auth_user) {
+                // user doesn't exist yet
+                require 'bugs/pear-bug-accountrequest.php';
+                $buggie = new PEAR_Bug_Accountrequest;
+                if (empty($_POST['isMD5'])) {
+                    $_POST['PEAR_PW'] = md5($_POST['PEAR_PW']);
+                    $_POST['PEAR_PW2'] = md5($_POST['PEAR_PW2']);
+                }
+                $salt = $buggie->addRequest($_POST['PEAR_USER'],
+                      $_POST['in']['email'], $_POST['in']['reporter_name'],
+                      $_POST['PEAR_PW'], $_POST['PEAR_PW2']);
+                if (is_array($salt)) {
+                    $errors = $salt;
+                    response_header('Report - Problems');
+                    break; // skip bug comment addition
+                }
+                if (PEAR::isError($salt)) {
+                    $errors[] = $salt;
+                    response_header('Report - Problems');
+                    break;
+                }
+                if ($salt === false) {
+                    $errors[] = 'Your account cannot be added to the queue.'
+                         . ' Please write a mail message to the '
+                         . ' <i>pear-dev</i> mailing list.';
+                    response_header('Report - Problems');
+                    break;
+                }
 
-        $dbh->query($query);
+                $_POST['in']['handle'] = $_POST['PEAR_USER'];
+                $mailData = array(
+                    'username'  => $_POST['in']['handle'],
+                    'salt' => $salt,
+                );
+
+                if (!DEVBOX) {
+                    $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
+                    $additionalHeaders['To'] = $_POST['in']['email'];
+                    $mailer->send($additionalHeaders);
+                }
+            }
+
+            $query = 'INSERT INTO bugdb_comments' .
+                     ' (bug, email, handle, ts, comment, reporter_name) VALUES (' .
+                     " $id," .
+                     " '" . escapeSQL($_POST['in']['commentemail']) . "',
+                     '" . $_POST['in']['handle'] . "'," .
+                     ' NOW(),' .
+                     " '" . escapeSQL($ncomment) . "'," .
+                     " '" . escapeSQL($comment_name) . "')";
+
+            $dbh->query($query);
+        } while (false);
     }
     $from = rinse($_POST['in']['commentemail']);
 } elseif ($_POST['in'] && isset($_POST['preview']) && $edit == 3) {
@@ -545,7 +640,7 @@ if (!($auth_user && $auth_user->registered) && $edit != 2) {
 if ($auth_user) {
     control(1, 'Developer');
 } else {
-    control(2, 'Edit Submission');
+    control(1, 'Edit Submission');
 }
 ?>
 
@@ -881,12 +976,47 @@ if ($auth_user && $auth_user->registered) {
 
 if ($edit == 3) {
     ?>
-    <div class="explain">
-        If you're the original bug submitter, here's where you can edit the bug
-        or add additional notes. <a href="<?php
-        echo htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=2" ?>">Edit my bug</a>.
-    </div>
-    <form id="comment" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
+    <form<?php
+$action = htmlspecialchars($_SERVER['PHP_SELF']);
+if (!$auth_user && DEVBOX == false) {
+    $action = "https://" . $_SERVER['SERVER_NAME'] . '/' . $action;
+}
+if (!$auth_user) {
+    echo ' onsubmit="javascript:doMD5(document.forms[\'comment\'])" ' ;
+} ?> name="comment" id="comment" action="<?php echo $action ?>" method="post">
+<?php if (!$auth_user): ?>
+ <div class="explain">
+ Please choose a username/password or <a href="<?php echo '/login.php?redirect=' .
+        urlencode("{$self}?{$_SERVER['QUERY_STRING']}") ?>">Log in</a>
+<script type="text/javascript" src="/javascript/md5.js"></script>
+<script type="text/javascript">
+function doMD5(frm) {
+    frm.PEAR_PW.value = hex_md5(frm.PEAR_PW.value);
+    frm.PEAR_PW2.value = hex_md5(frm.PEAR_PW2.value);
+    frm.isMD5.value = 1;
+}
+</script>
+<input type="hidden" name="isMD5" value="0" />
+<table class="form-holder" cellspacing="1">
+ <tr>
+  <th class="form-label_left">
+Use<span class="accesskey">r</span>name:</th>
+  <td class="form-input">
+<input size="20" name="PEAR_USER" accesskey="r" /></td>
+ </tr>
+ <tr>
+  <th class="form-label_left">Password:</th>
+  <td class="form-input">
+<input size="20" name="PEAR_PW" type="password" /></td>
+ </tr>
+ <tr>
+  <th class="form-label_left">Confirm Password:</th>
+  <td class="form-input">
+<input size="20" name="PEAR_PW2" type="password" /></td>
+ </tr>
+</table>
+</div>
+<?php endif; //if (!$auth_user) ?>
 
     <?php
     if (!$_POST['in']) {
@@ -931,12 +1061,13 @@ if ($edit == 3) {
        <input type="hidden" name="edit" value="<?php echo $edit?>" />
       </td>
      </tr>
+     <?php if (!$auth_user): ?>
      <tr>
-      <th class="details">CAPTCHA:</th>
-      <td>
-       <?php echo generate_captcha() ?>
-      </td>
+      <th>Solve the problem : <?php print $numeralCaptcha->getOperation(); ?> = ?</th>
+      <td class="form-input"><input type="text" name="captcha" /></td>
      </tr>
+     <?php $_SESSION['answer'] = $numeralCaptcha->getAnswer(); ?>
+     <?php endif; // if (!$auth_user): ?>
     </table>
 
     <div>
@@ -1013,7 +1144,7 @@ if (!$edit && canvote()) {
 
 // Display original report
 if ($bug['ldesc']) {
-    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['handle'], $bug['reporter_name']);
+    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['handle'], $bug['reporter_name'], 1);
 }
 
 // Display patches
@@ -1031,28 +1162,44 @@ foreach ($p as $name => $revisions) {
         echo urlencode($name) ?>&revision=latest"><?php echo clean($name) ?></a> (last revision <?php echo date('Y-m-d H:i:s', $revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php
 }
 // Display comments
-$query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name,
+if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
+    $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name, u.registered,
         u.showemail, u.handle
         FROM bugdb_comments c
         LEFT JOIN users u ON u.email = c.email
         WHERE c.bug = '.(int)$id.'
         GROUP BY c.id ORDER BY c.ts';
+} else {
+    $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name, 1 as registered,
+        u.showemail, u.handle
+        FROM bugdb_comments c
+        LEFT JOIN users u ON u.email = c.email
+        WHERE c.bug = '.(int)$id.'
+        GROUP BY c.id ORDER BY c.ts';
+}
 $res =& $dbh->query($query);
 if ($res) {
     while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-        output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['handle'], $row['comment_name']);
+        output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['handle'], $row['comment_name'], $row['reigstered']);
     }
 }
 
 response_footer();
 
 
-function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = NULL, $comment_name = NULL)
+function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = NULL, $comment_name = NULL, $registered)
 {
     global $edit, $id, $trusted_developers, $user, $dbh;
 
     echo '<div class="comment">';
     echo "<strong>[",format_date($ts),"] ";
+    if (!$registered) {
+        echo 'User who submitted this comment has not confirmed identity</strong>';
+        echo '<pre class="note">If you submitted this note, check your email.';
+        echo '  If you do not have a message, write a mail to pear-dev@lists.php.net';
+        echo ' asking for manual approval</pre></div>';
+        return;
+    }
     if ($showemail == '0' && !is_null($handle)) {
         echo $handle."</strong>\n";
     } else {

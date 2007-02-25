@@ -1,5 +1,5 @@
 <?php
-class PEAR_Election_Accountrequest
+class PEAR_Bug_Accountrequest
 {
     var $dbh;
     var $id;
@@ -8,7 +8,7 @@ class PEAR_Election_Accountrequest
     var $salt;
     var $email;
 
-    function PEAR_Election_Accountrequest()
+    function PEAR_Bug_Accountrequest()
     {
         $this->dbh = &$GLOBALS['dbh'];
         $this->user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : false;
@@ -25,7 +25,7 @@ class PEAR_Election_Accountrequest
     {
         $request = $this->dbh->getRow('
             SELECT id, created_on, salt, handle
-            FROM election_account_request
+            FROM bug_account_request
             WHERE salt=?
         ', array($salt), DB_FETCHMODE_ASSOC);
 
@@ -43,17 +43,27 @@ class PEAR_Election_Accountrequest
      *
      * @return string salt
      */
-    function addRequest($handle, $email, $firstName, $lastName, $additionnalData)
+    function addRequest($handle, $email, $name, $password, $password2)
     {
+        if ($handle == $this->dbh->getOne('SELECT handle FROM users WHERE 
+              handle=?', array($handle))) {
+            $id = $this->dbh->nextId("karma");
+
+            $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
+            $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', 'pearweb'));
+            return true;
+        }
+
+        list($firstname, $lastname) = explode(' ', $name, 2);
         $data = array(
             'handle'     => $handle,
-            'firstname'  => $firstName,
-            'lastname'   => $lastName,
+            'firstname'  => $firstname,
+            'lastname'   => $lastname,
             'email'      => $email,
-            'purpose'    => 'vote in general election'
+            'purpose'    => 'bug tracker',
+            'password'   => $password,
+            'password2'  => $password2,
         );
-
-        $data = array_merge($additionnalData, $data);
 
         $useradd = user::add($data);
 
@@ -65,7 +75,7 @@ class PEAR_Election_Accountrequest
         $created_on = gmdate('Y-m-d H:i:s');
 
         $query = '
-        insert into election_account_request (created_on, handle, email, salt)
+        insert into bug_account_request (created_on, handle, email, salt)
         values (?, ?, ?, ?)';
 
         $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt));
@@ -82,7 +92,7 @@ class PEAR_Election_Accountrequest
 
     function deleteRequest()
     {
-        $query = 'delete from election_account_request where salt=?';
+        $query = 'delete from bug_account_request where salt=?';
 
         return $this->dbh->query($query, array($this->salt));
     }
@@ -114,15 +124,15 @@ class PEAR_Election_Accountrequest
         $id = $this->dbh->nextId("karma");
 
         $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
-        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', 'pearweb'));
+        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', 'pearweb'));
 
         if (!DB::isError($sth)) {
             note::add("uid", $this->handle, "Account opened", 'pearweb');
-            $msg = "Your PEAR voter account has been opened.\n"
-                . "You can now participate in the elections  by going to\n"
-                . "    http://" . PEAR_CHANNELNAME . "/election/";
+            $msg = "Your PEAR bug tracker account has been opened.\n"
+                . "Bugs you have opened will now be displayed, and you can\n"
+                . "add new comments to existing bugs";
             $xhdr = "From: pear-webmaster@lists.php.net";
-            mail($user->email, "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+            mail($user->email, "Your PEAR Bug Tracker Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
             $this->deleteRequest();
             return true;
         }
@@ -135,9 +145,9 @@ class PEAR_Election_Accountrequest
 
     function cleanOldRequests()
     {
-        $old = gmdate('Y-m-d H:i:s', time() - 900);
+        $old = gmdate('Y-m-d H:i:s', time() - 90000);
         $findquery = '
-            select handle from election_account_request
+            select handle from bug_account_request
             where created_on < ?';
         $all = $this->dbh->getAll($findquery, array($old));
         // purge reserved usernames as well as their account requests
@@ -155,7 +165,7 @@ class PEAR_Election_Accountrequest
             }
         }
         $query = '
-            delete from election_account_request
+            delete from bug_account_request
             where created_on < ?';
         // purge out-of-date account requests
         return $this->dbh->query($query, array($old));

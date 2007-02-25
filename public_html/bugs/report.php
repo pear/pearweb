@@ -51,6 +51,15 @@ if (isset($_POST['save']) && isset($_POST['pw'])) {
 }
 
 if (isset($_POST['in'])) {
+    if (isset($_POST['PEAR_PW'])) {
+        $_POST['in']['PEAR_PW'] = $_POST['PEAR_PW'];
+    }
+    if (isset($_POST['PEAR_PW2'])) {
+        $_POST['in']['PEAR_PW2'] = $_POST['PEAR_PW2'];
+    }
+    if (isset($_POST['PEAR_USER'])) {
+        $_POST['in']['PEAR_USER'] = $_POST['PEAR_USER'];
+    }
     $errors = incoming_details_are_valid($_POST['in'], 1, ($auth_user && $auth_user->registered));
 
     // captcha is not necessary if the user is logged in
@@ -69,6 +78,25 @@ if (isset($_POST['in'])) {
         if ($_POST['captcha'] != $_SESSION['answer']) {
             $errors[] = 'Incorrect Captcha';
         }
+    }
+
+    // try to verify the user
+    if (!$auth_user) {
+        if (!empty($_POST['isMD5'])) {
+            $password = @$_POST['PEAR_PW'];
+        } else {
+            $password = md5(@$_POST['PEAR_PW']);
+        }
+        if (user::exists($_POST['in']['PEAR_USER'])) {
+            if (auth_verify($_POST['in']['PEAR_USER'], $password)) {
+                $POST['in']['handle'] = $_POST['in']['PEAR_USER'];
+            } else {
+                $errors[] = 'User name "' . clean($_POST['in']['PEAR_USER']) .
+                    '" already exists, please choose another user name';
+            }
+        }
+    } else {
+        $_POST['in']['handle'] = $auth_user->handle;
     }
 
     if (!$errors) {
@@ -179,132 +207,177 @@ if (isset($_POST['in'])) {
             $ok_to_submit_report = true;
         }
 
-        if ($ok_to_submit_report) {
-            // Put all text areas together.
-            $fdesc = "Description:\n------------\n" . $_POST['in']['ldesc'] . "\n\n";
-            if (!empty($_POST['in']['repcode'])) {
-                $fdesc .= "Test script:\n---------------\n";
-                $fdesc .= $_POST['in']['repcode'] . "\n\n";
+        do {
+            if ($ok_to_submit_report) {
+                if (!$auth_user) {
+                    // user doesn't exist yet
+                    require 'bugs/pear-bug-accountrequest.php';
+                    $buggie = new PEAR_Bug_Accountrequest;
+                    if (empty($_POST['isMD5'])) {
+                        $_POST['PEAR_PW'] = md5($_POST['PEAR_PW']);
+                        $_POST['PEAR_PW2'] = md5($_POST['PEAR_PW2']);
+                    }
+                    $salt = $buggie->addRequest($_POST['PEAR_USER'],
+                          $_POST['in']['email'], $_POST['in']['reporter_name'],
+                          $_POST['PEAR_PW'], $_POST['PEAR_PW2']);
+                    if (is_array($salt)) {
+                        $errors = $salt;
+                        response_header('Report - Problems');
+                        break; // skip bug addition
+                    }
+                    if (PEAR::isError($salt)) {
+                        $errors[] = $salt;
+                        response_header('Report - Problems');
+                        break;
+                    }
+                    if ($salt === false) {
+                        $errors[] = 'Your account cannot be added to the queue.'
+                             . ' Please write a mail message to the '
+                             . ' <i>pear-dev</i> mailing list.';
+                        response_header('Report - Problems');
+                        break;
+                    }
+        
+                    $_POST['in']['handle'] = $_POST['PEAR_USER'];
+                    $mailData = array(
+                        'username'  => $_POST['in']['handle'],
+                        'salt' => $salt,
+                    );
+        
+                    if (!DEVBOX) {
+                        $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
+                        $additionalHeaders['To'] = $_POST['in']['email'];
+                        $mailer->send($additionalHeaders);
+                    }
+                }
+                // Put all text areas together.
+                $fdesc = "Description:\n------------\n" . $_POST['in']['ldesc'] . "\n\n";
+                if (!empty($_POST['in']['repcode'])) {
+                    $fdesc .= "Test script:\n---------------\n";
+                    $fdesc .= $_POST['in']['repcode'] . "\n\n";
+                }
+                if (!empty($_POST['in']['expres']) ||
+                    $_POST['in']['expres'] === '0')
+                {
+                    $fdesc .= "Expected result:\n----------------\n";
+                    $fdesc .= $_POST['in']['expres'] . "\n\n";
+                }
+                if (!empty($_POST['in']['actres']) ||
+                    $_POST['in']['actres'] === '0')
+                {
+                    $fdesc .= "Actual result:\n--------------\n";
+                    $fdesc .= $_POST['in']['actres'] . "\n";
+                }
+    
+                $reporter_name = isset($_POST['in']['reporter_name']) ? htmlspecialchars(strip_tags($_POST['in']['reporter_name'])) : '';
+    
+                
+                $query = 'INSERT INTO bugdb (
+                          package_name,
+                          bug_type,
+                          email,
+                          handle,
+                          sdesc,
+                          ldesc,
+                          package_version,
+                          php_version,
+                          php_os,
+                          status, ts1,
+                          passwd,
+                          reporter_name
+                         ) VALUES (' .
+                         " '" . escapeSQL($_POST['in']['package_name']) . "'," .
+                         " '" . escapeSQL($_POST['in']['bug_type']) . "'," .
+                         " '" . escapeSQL($_POST['in']['email']) . "'," .
+                         " '" . escapeSQL($_POST['in']['handle']) . "'," .
+                         " '" . escapeSQL($_POST['in']['sdesc']) . "'," .
+                         " '" . escapeSQL($fdesc) . "'," .
+                         " '" . escapeSQL($_POST['in']['package_version']) . "'," .
+                         " '" . escapeSQL($_POST['in']['php_version']) . "'," .
+                         " '" . escapeSQL($_POST['in']['php_os']) . "'," .
+                         " 'Open', NOW(), " .
+                         " '" . escapeSQL($_POST['in']['passwd']) . "'," .
+                         " '" . escapeSQL($reporter_name) . "')";
+    
+    
+                $dbh->query($query);
+    
+    /*
+     * Need to move the insert ID determination to DB eventually...
+     */
+                if ($dbh->phptype == 'mysql') {
+                    $cid = mysql_insert_id();
+                } else {
+                    $cid = mysqli_insert_id($dbh->connection);
+                }
+    
+                $report  = '';
+                $report .= 'From:             ' . $_POST['in']['handle'] . "\n";
+                $report .= 'Operating system: ' . rinse($_POST['in']['php_os']) . "\n";
+                $report .= 'Package version:  ' . rinse($_POST['in']['package_version']) . "\n";
+                $report .= 'PHP version:      ' . rinse($_POST['in']['php_version']) . "\n";
+                $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
+                $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
+                $report .= 'Bug description:  ';
+    
+                $fdesc = rinse($fdesc);
+                $sdesc = rinse($_POST['in']['sdesc']);
+    
+                $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
+                $ascii_report .= "\n-- \nEdit bug report at ";
+                $ascii_report .= "http://$site.php.net/bugs/bug.php?id=$cid&edit=";
+    
+                list($mailto, $mailfrom) = get_package_mail($_POST['in']['package_name']);
+    
+                $email = rinse($_POST['in']['email']);
+                $protected_email  = '"' . spam_protect($email, 'text') . '"';
+                $protected_email .= '<' . $mailfrom . '>';
+    
+                // provide shortcut URLS for "quick bug fixes"
+                // $dev_extra = '';
+                // $maxkeysize = 0;
+                // foreach ($RESOLVE_REASONS as $v) {
+                //     if (!$v['webonly']) {
+                //         $actkeysize = strlen($v['desc']) + 1;
+                //         $maxkeysize = (($maxkeysize < $actkeysize) ? $actkeysize : $maxkeysize);
+                //     }
+                // }
+                // foreach ($RESOLVE_REASONS as $k => $v) {
+                //     if (!$v['webonly'])
+                //         $dev_extra .= str_pad($v['desc'] . ":", $maxkeysize) .
+                //             " http://bugs.php.net/fix.php?id=$cid&r=$k\n";
+                // }
+    
+                $extra_headers  = 'From: '           . $protected_email . "\n";
+                $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
+                $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
+                $extra_headers .= 'X-PHP-Type: '     . rinse($_POST['in']['bug_type']) . "\n";
+                $extra_headers .= 'X-PHP-PackageVersion: '  . rinse($_POST['in']['package_version']) . "\n";
+                $extra_headers .= 'X-PHP-Version: '  . rinse($_POST['in']['php_version']) . "\n";
+                $extra_headers .= 'X-PHP-Category: ' . rinse($_POST['in']['package_name']) . "\n";
+                $extra_headers .= 'X-PHP-OS: '       . rinse($_POST['in']['php_os']) . "\n";
+                $extra_headers .= 'X-PHP-Status: Open' . "\n";
+                $extra_headers .= 'Message-ID: <bug-' . $cid . '@'.$site.'.php.net>';
+    
+                $type = @$types[$_POST['in']['bug_type']];
+    
+                if (DEVBOX == false) {
+                    // mail to package developers
+                    @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
+                          $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
+                          '-f bounce-no-user@php.net');
+                    // mail to reporter
+                    @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
+                          $ascii_report . "2\n",
+                          "From: $siteBig Bug Database <$mailfrom>\n" .
+                          "X-PHP-Bug: $cid\n" .
+                          "Message-ID: <bug-$cid@$site.php.net>",
+                          '-f bounce-no-user@php.net');
+                }
+                localRedirect('bug.php?id=' . $cid . '&thanks=4');
+                exit;
             }
-            if (!empty($_POST['in']['expres']) ||
-                $_POST['in']['expres'] === '0')
-            {
-                $fdesc .= "Expected result:\n----------------\n";
-                $fdesc .= $_POST['in']['expres'] . "\n\n";
-            }
-            if (!empty($_POST['in']['actres']) ||
-                $_POST['in']['actres'] === '0')
-            {
-                $fdesc .= "Actual result:\n--------------\n";
-                $fdesc .= $_POST['in']['actres'] . "\n";
-            }
-
-            $reporter_name = isset($_POST['in']['reporter_name']) ? htmlspecialchars(strip_tags($_POST['in']['reporter_name'])) : '';
-
-            $query = 'INSERT INTO bugdb (' .
-                     ' package_name,' .
-                     ' bug_type,' .
-                     ' email,' .
-                     ' sdesc,' .
-                     ' ldesc,' .
-                     ' package_version,' .
-                     ' php_version,' .
-                     ' php_os,' .
-                     ' status, ts1,' .
-                     ' passwd,' .
-                     ' reporter_name' .
-                     ') VALUES (' .
-                     " '" . escapeSQL($_POST['in']['package_name']) . "'," .
-                     " '" . escapeSQL($_POST['in']['bug_type']) . "'," .
-                     " '" . escapeSQL($_POST['in']['email']) . "'," .
-                     " '" . escapeSQL($_POST['in']['sdesc']) . "'," .
-                     " '" . escapeSQL($fdesc) . "'," .
-                     " '" . escapeSQL($_POST['in']['package_version']) . "'," .
-                     " '" . escapeSQL($_POST['in']['php_version']) . "'," .
-                     " '" . escapeSQL($_POST['in']['php_os']) . "'," .
-                     " 'Open', NOW(), " .
-                     " '" . escapeSQL($_POST['in']['passwd']) . "'," .
-                     " '" . escapeSQL($reporter_name) . "')";
-
-
-            $dbh->query($query);
-
-/*
- * Need to move the insert ID determination to DB eventually...
- */
-            if ($dbh->phptype == 'mysql') {
-                $cid = mysql_insert_id();
-            } else {
-                $cid = mysqli_insert_id($dbh->connection);
-            }
-
-            $report  = '';
-            $report .= 'From:             ' . spam_protect(rinse($_POST['in']['email']),
-                                                           'text') . "\n";
-            $report .= 'Operating system: ' . rinse($_POST['in']['php_os']) . "\n";
-            $report .= 'Package version:  ' . rinse($_POST['in']['package_version']) . "\n";
-            $report .= 'PHP version:      ' . rinse($_POST['in']['php_version']) . "\n";
-            $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
-            $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
-            $report .= 'Bug description:  ';
-
-            $fdesc = rinse($fdesc);
-            $sdesc = rinse($_POST['in']['sdesc']);
-
-            $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
-            $ascii_report .= "\n-- \nEdit bug report at ";
-            $ascii_report .= "http://$site.php.net/bugs/bug.php?id=$cid&edit=";
-
-            list($mailto, $mailfrom) = get_package_mail($_POST['in']['package_name']);
-
-            $email = rinse($_POST['in']['email']);
-            $protected_email  = '"' . spam_protect($email, 'text') . '"';
-            $protected_email .= '<' . $mailfrom . '>';
-
-            // provide shortcut URLS for "quick bug fixes"
-            // $dev_extra = '';
-            // $maxkeysize = 0;
-            // foreach ($RESOLVE_REASONS as $v) {
-            //     if (!$v['webonly']) {
-            //         $actkeysize = strlen($v['desc']) + 1;
-            //         $maxkeysize = (($maxkeysize < $actkeysize) ? $actkeysize : $maxkeysize);
-            //     }
-            // }
-            // foreach ($RESOLVE_REASONS as $k => $v) {
-            //     if (!$v['webonly'])
-            //         $dev_extra .= str_pad($v['desc'] . ":", $maxkeysize) .
-            //             " http://bugs.php.net/fix.php?id=$cid&r=$k\n";
-            // }
-
-            $extra_headers  = 'From: '           . $protected_email . "\n";
-            $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
-            $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
-            $extra_headers .= 'X-PHP-Type: '     . rinse($_POST['in']['bug_type']) . "\n";
-            $extra_headers .= 'X-PHP-PackageVersion: '  . rinse($_POST['in']['package_version']) . "\n";
-            $extra_headers .= 'X-PHP-Version: '  . rinse($_POST['in']['php_version']) . "\n";
-            $extra_headers .= 'X-PHP-Category: ' . rinse($_POST['in']['package_name']) . "\n";
-            $extra_headers .= 'X-PHP-OS: '       . rinse($_POST['in']['php_os']) . "\n";
-            $extra_headers .= 'X-PHP-Status: Open' . "\n";
-            $extra_headers .= 'Message-ID: <bug-' . $cid . '@'.$site.'.php.net>';
-
-            $type = @$types[$_POST['in']['bug_type']];
-
-            if (DEVBOX == false) {
-                // mail to package developers
-                @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
-                      $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
-                      '-f bounce-no-user@php.net');
-                // mail to reporter
-                @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
-                      $ascii_report . "2\n",
-                      "From: $siteBig Bug Database <$mailfrom>\n" .
-                      "X-PHP-Bug: $cid\n" .
-                      "Message-ID: <bug-$cid@$site.php.net>",
-                      '-f bounce-no-user@php.net');
-            }
-            localRedirect('bug.php?id=' . $cid . '&thanks=4');
-            exit;
-        }
+        } while (false);
     } else {
         // had errors...
         response_header('Report - Problems');
@@ -357,9 +430,51 @@ if (!package_exists($_REQUEST['package'])) {
 
     ?>
 
-<form method="post"
- action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . '?package='
- . clean($_REQUEST['package']); ?>">
+<?php
+$self = htmlspecialchars($_SERVER['PHP_SELF']);
+$action = $self . '?package=' . clean($_REQUEST['package']);
+if (!$auth_user && DEVBOX == false) {
+    $action = "https://" . $_SERVER['SERVER_NAME'] . '/' . $action;
+}
+?>
+<form<?php
+if (!$auth_user) {
+    echo ' onsubmit="javascript:doMD5(document.forms[\'bugreport\'])" ' ;
+} ?>method="post"
+ action="<?php echo $action ?>" name="bugreport" id="bugreport">
+<?php if (!$auth_user): ?>
+ <div class="explain">
+ Please choose a username/password or <a href="<?php echo '/login.php?redirect=' .
+        urlencode("{$self}?{$_SERVER['QUERY_STRING']}") ?>">Log in</a>
+<script type="text/javascript" src="/javascript/md5.js"></script>
+<script type="text/javascript">
+function doMD5(frm) {
+    frm.PEAR_PW.value = hex_md5(frm.PEAR_PW.value);
+    frm.PEAR_PW2.value = hex_md5(frm.PEAR_PW2.value);
+    frm.isMD5.value = 1;
+}
+</script>
+<input type="hidden" name="isMD5" value="0" />
+<table class="form-holder" cellspacing="1">
+ <tr>
+  <th class="form-label_left">
+Use<span class="accesskey">r</span>name:</th>
+  <td class="form-input">
+<input size="20" name="PEAR_USER" accesskey="r" /></td>
+ </tr>
+ <tr>
+  <th class="form-label_left">Password:</th>
+  <td class="form-input">
+<input size="20" name="PEAR_PW" type="password" /></td>
+ </tr>
+ <tr>
+  <th class="form-label_left">Confirm Password:</th>
+  <td class="form-input">
+<input size="20" name="PEAR_PW2" type="password" /></td>
+ </tr>
+</table>
+</div>
+<?php endif; //if (!$auth_user) ?>
 <table class="form-holder" cellspacing="1">
  <tr>
   <th class="form-label_left">
@@ -491,28 +606,6 @@ if ($auth_user && $auth_user->registered) {
     value="<?php echo clean($_POST['in']['sdesc']); ?>" />
   </td>
  </tr>
-<?php
-if (!($auth_user && $auth_user->registered)) {
-?>
- <tr>
-  <th class="form-label_left">
-   Password:
-  </th>
-  <td class="form-input">
-
-   <input type="password" size="20" maxlength="20" name="in[passwd]"
-    value="<?php echo clean($_POST['in']['passwd']); ?>" />
-
-   <p class="cell_note">
-    You may enter any password here, which will be stored for this bug report.
-    This password allows you to come back and modify your submitted bug report
-    at a later date.
-   </p>
-  </td>
- </tr>
-<?php
-}
-?>
  <tr>
   <th class="form-label_left">
    Note:

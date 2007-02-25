@@ -6,6 +6,7 @@ CREATE TABLE bugdb (
   id int(8) NOT NULL auto_increment,
   package_name varchar(80) default NULL,
   bug_type varchar(32) NOT NULL default 'Bug',
+  handle varchar(20) NOT NULL default '',
   email varchar(40) NOT NULL default '',
   reporter_name varchar(80) default '',
   sdesc varchar(80) NOT NULL default '',
@@ -31,6 +32,7 @@ CREATE TABLE bugdb_comments (
   id int(8) NOT NULL auto_increment,
   bug int(8) NOT NULL default '0',
   email varchar(40) NOT NULL default '',
+  handle varchar(20) NOT NULL default '',
   reporter_name varchar(80) default '',
   ts datetime NOT NULL default '0000-00-00 00:00:00',
   comment text NOT NULL,
@@ -83,4 +85,13 @@ CREATE TABLE bugdb_patchtracker (
   revision int(8) NOT NULL,
   developer varchar(20) NOT NULL,
   PRIMARY KEY (bugdb_id, patch, revision)
+);
+
+CREATE TABLE bug_account_request (
+  id INT NOT NULL AUTO_INCREMENT,
+  created_on DATE NOT NULL,
+  handle VARCHAR(20) NOT NULL,
+  salt CHAR(32) NOT NULL,
+  email VARCHAR(65) NOT NULL,
+  PRIMARY KEY(id)
 );

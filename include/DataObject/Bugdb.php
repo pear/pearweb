@@ -14,6 +14,7 @@ class Bugs_DBDataObject_Bugdb extends DB_DataObject
     var $package_name;                    // string(80)  not_null
     var $bug_type;                        // string(32)  not_null
     var $email;                           // string(40)  not_null
+    var $handle;                          // string(20)  not_null
     var $sdesc;                           // string(80)  not_null
     var $ldesc;                           // blob(65535)  not_null blob
     var $package_version;                 // string(100)

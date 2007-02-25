@@ -897,7 +897,7 @@ function get_old_comments($bug_id, $all = 0)
     $max_comments = 5;
     $output = ""; $count = 0;
 
-    $res =& $dbh->query("SELECT ts, email, comment FROM bugdb_comments WHERE bug=$bug_id ORDER BY ts DESC");
+    $res =& $dbh->query("SELECT ts, email, comment, handle FROM bugdb_comments WHERE bug=$bug_id ORDER BY ts DESC");
 
     # skip the most recent unless the caller wanted all comments
     if (!$all) {
@@ -908,11 +908,14 @@ function get_old_comments($bug_id, $all = 0)
     }
 
     while (($row =& $res->fetchRow(DB_FETCHMODE_ORDERED)) && strlen($output) < $max_message_length && $count++ < $max_comments) {
-        $output .= "[$row[0]] ". spam_protect($row[1], 'text') ."\n\n$row[2]\n\n$divider\n\n";
+        $email = $row[3] ?
+            $row[3] :
+            spam_protect($row[1], 'text');
+        $output .= "[$row[0]] $email\n\n$row[2]\n\n$divider\n\n";
     }
 
     if (strlen($output) < $max_message_length && $count < $max_comments) {
-        $res =& $dbh->query("SELECT ts1,email,ldesc FROM bugdb WHERE id=$bug_id");
+        $res =& $dbh->query("SELECT ts1,email,ldesc,handle FROM bugdb WHERE id=$bug_id");
         if (!$res) {
             return $output;
         }
@@ -920,7 +923,10 @@ function get_old_comments($bug_id, $all = 0)
         if (!$row) {
             return $output;
         }
-        return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "[$row[0]] ". spam_protect($row[1], 'text') ."\n\n$row[2]\n\n$divider\n\n");
+        $email = $row[3] ?
+            $row[3] :
+            spam_protect($row[1], 'text');
+        return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "[$row[0]] $email\n\n$row[2]\n\n$divider\n\n");
     } else {
         return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "The remainder of the comments for this report are too long. To view\nthe rest of the comments, please view the bug report online at\n    http://$site.php.net/bugs/bug.php?id=$bug_id\n");
     }
@@ -974,7 +980,7 @@ function package_exists($type)
  */
 function incoming_details_are_valid($in, $initial = 0, $logged = false)
 {
-    global $bug, $dbh, $types;
+    global $bug, $dbh, $types, $auth_user;
 
     $errors = array();
     if (empty ($in['package_name']) || $in['package_name'] == 'none') {
@@ -983,9 +989,28 @@ function incoming_details_are_valid($in, $initial = 0, $logged = false)
         $errors[] = 'Please select an appropriate bug type.';
     }
 
-    if ($initial || (!empty($in[email]) && $bug[email] != $in[email])) {
+    if ($initial || (!empty($in['email']) && $bug['email'] != $in['email'])) {
         if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",$in['email'])) {
             $errors[] = 'Please provide a valid email address.';
+        }
+    }
+
+    if (!$auth_user) {
+        if (empty($in['PEAR_USER'])) {
+            $errors[] = 'Please type a username';
+        } elseif (!preg_match(PEAR_COMMON_USER_NAME_REGEX, $in['PEAR_USER'])) {
+            $errors[] = 'Username must start with a letter and contain'
+                      . ' only letters and digits';
+        }
+
+        if (empty($in['PEAR_PW'])) {
+            $errors[] = 'Please type a password';
+        }
+        if (empty($in['PEAR_PW2'])) {
+            $errors[] = 'Please confirm your password';
+        }
+        if ($in['PEAR_PW'] !== $in['PEAR_PW2']) {
+            $errors[] = 'Passwords do not match';
         }
     }
 
@@ -1012,9 +1037,6 @@ function incoming_details_are_valid($in, $initial = 0, $logged = false)
     if ($initial && empty($in['ldesc'])) {
         $errors[] = 'You must supply a long description of the bug you are reporting.';
     }
-    if (!$logged && $initial && empty($in['passwd'])) {
-       $errors[] = 'You must supply a password for this bug report.';
-   }
 
     return $errors;
 }
@@ -1036,7 +1058,9 @@ function get_package_mail($package_name, $bug_id=false)
         case 'Bug System':
         case 'PEPr':
         case 'Web Site':
-            return array(PEAR_WEBMASTER_EMAIL, PEAR_WEBMASTER_EMAIL);
+            $arr = get_package_mail('pearweb');
+            $arr[0][] = PEAR_WEBMASTER_EMAIL;
+            return array($arr[0], PEAR_WEBMASTER_EMAIL);
         case 'Documentation':
             return array(PEAR_DOC_EMAIL, PEAR_DOC_EMAIL);
     }

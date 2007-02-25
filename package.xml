@@ -93,6 +93,7 @@
    <dir name="include">
     <dir name="bugs">
      <file name="pear-bugs.php" role="web" />
+     <file name="pear-bug-accountrequest.php" role="web" />
      <file name="pear.ini" role="web" />
      <file name="pear.links.ini" role="web" />
     </dir> <!-- /include/bugs -->
