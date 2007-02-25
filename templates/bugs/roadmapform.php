@@ -36,10 +36,15 @@
  </tr>
  <tr>
   <th class="form-label_left">
-   Scheduled Release Date
+   Scheduled Release Date<br />(use &quot;future&quot; for uncertain release date)
   </th>
   <td class="form-input">
-   <input type="text" name="releasedate" value="<?php echo $this->info['releasedate'] ?>" />
+   <input type="text" name="releasedate" value="<?php
+       if ($this->info['releasedate'] == '1976-09-02 17:15:30') {
+           echo 'future';
+       } else {
+           echo $this->info['releasedate'];
+       } ?>" />
   </td>
  </tr>
 </table>

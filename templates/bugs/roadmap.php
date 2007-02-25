@@ -1,8 +1,10 @@
-<?php response_header('Roadmap :: ' . clean($this->package)); ?>
+<?php response_header('Roadmap :: ' . clean($this->package));?>
 <h1>Roadmap for Package <?php echo clean($this->package); ?></h1>
 <a href="/bugs/search.php?package_name[]=<?php echo urlencode(clean($this->package)) ?>&status=Open">Bug Tracker</a>
 <ul class="side_pages">
-<?php foreach ($this->roadmap as $info): ?>
+<?php foreach ($this->roadmap as $info):
+$future = ($info['releasedate'] == '1976-09-02 17:15:30');
+?>
  <li class="side_page"><a href="#a<?php echo $info['roadmap_version'] ?>"><?php echo $info['roadmap_version'] ?></a> (<a href="roadmap.php?edit=<?php echo $info['id']
  ?>">edit</a>|<a href="roadmap.php?delete=<?php echo $info['id']
  ?>" onclick="return confirm('Really delete roadmap <?php echo $info['roadmap_version']
@@ -27,10 +29,22 @@
    Scheduled Release Date
   </th>
   <td class="form-input">
-   <strong<?php if ($x < 0) echo ' class="lateRelease"' ?>><?php echo date('Y-m-d', strtotime($info['releasedate'])) .
-                      ' (' . $x . ' day';
-                 if ($x != 1) echo 's';
-                 if ($x < 0) echo '!!'; ?>)</strong>
+   <strong<?php
+    if ($future) {
+    } else {
+        if ($x < 0) {
+            echo ' class="lateRelease"';
+        }
+    } ?>><?php
+    if ($future) {
+        echo 'future';
+    } else {
+        echo date('Y-m-d', strtotime($info['releasedate'])) .
+                  ' (' . $x . ' day';
+        if ($x != 1) echo 's';
+        if ($x < 0) echo '!!';
+        echo ')';
+    } ?></strong>
   </td>
  </tr>
  <tr>

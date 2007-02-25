@@ -40,6 +40,10 @@ if (isset($_GET['edit']) || isset($_GET['new']) || isset($_GET['delete'])) {
 if (isset($_GET['new']) && isset($_POST['go'])) {
     $bugdb = Bug_DataObject::bugDB('bugdb_roadmap');
     $bugdb->roadmap_version = $_POST['roadmap_version'];
+    if ($_POST['releasedate'] == 'future') {
+        // my birthday will represent the future ;)
+        $_POST['releasedate'] = '1976-09-02 17:15:30';
+    }
     $bugdb->releasedate = date('Y-m-d H:i:s', strtotime($_POST['releasedate']));
     $bugdb->package = $_GET['package'];
     $bugdb->description = $_POST['description'];
@@ -51,6 +55,10 @@ if (isset($_GET['edit']) && isset($_POST['go'])) {
     $bugdb->id = $_GET['edit'];
     if ($bugdb->find(false)) {
         $bugdb->roadmap_version = $_POST['roadmap_version'];
+        if ($_POST['releasedate'] == 'future') {
+            // my birthday will represent the future ;)
+            $_POST['releasedate'] = '1976-09-02 17:15:30';
+        }
         $bugdb->releasedate = date('Y-m-d H:i:s', strtotime($_POST['releasedate']));
         $bugdb->package = $_GET['package'];
         $bugdb->description = $_POST['description'];

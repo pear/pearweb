@@ -21,6 +21,7 @@ $a->setAPIStability('stable');
 $a->setNotes('
 * fix release upload: don\'t let custom non-pear built packages with no package.xml
   in root dir slip through the cracks
+* implement Request #10150: Allow "future" roadmap versions
 * implement Request #10176: patch tracker for bugs
 ');
 $a->resetUsesrole();
