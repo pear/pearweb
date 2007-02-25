@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-02-24</date>
- <time>12:23:24</time>
+ <date>2007-02-25</date>
+ <time>01:07:56</time>
  <version>
   <release>1.9.0</release>
   <api>0.1.1</api>
@@ -64,10 +64,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* hide bug/feature detail by default in roadmap [cellog]
-* re-order PHP versions so that 5.x is first, remove old CVS tags, add HEAD [cellog]
-* implement REST1.2 (maintainer role information in p/maintainers2.xml)
-* Fixed bug #9127 extending make_ticket_links() matched words [mj]
+* fix release upload: don&apos;t let custom non-pear built packages with no package.xml
+  in root dir slip through the cracks
+* implement Request #10176: patch tracker for bugs
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1499,11 +1498,26 @@
    </stability>
    <date>2007-02-24</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-* hide bug/feature detail by default in roadmap [cellog]
+   <notes>* hide bug/feature detail by default in roadmap [cellog]
 * re-order PHP versions so that 5.x is first, remove old CVS tags, add HEAD [cellog]
 * implement REST1.2 (maintainer role information in p/maintainers2.xml)
-* Fixed bug #9127 extending make_ticket_links() matched words [mj]
+* Fixed bug #9127 extending make_ticket_links() matched words [mj]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-25</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+* fix release upload: don&apos;t let custom non-pear built packages with no package.xml
+  in root dir slip through the cracks
+* implement Request #10176: patch tracker for bugs
    </notes>
   </release>
  </changelog>
