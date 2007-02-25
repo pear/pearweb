@@ -1180,7 +1180,7 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
 $res =& $dbh->query($query);
 if ($res) {
     while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-        output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['handle'], $row['comment_name'], $row['reigstered']);
+        output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['handle'], $row['comment_name'], $row['registered']);
     }
 }
 
