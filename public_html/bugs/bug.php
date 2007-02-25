@@ -1010,6 +1010,17 @@ if ($bug['ldesc']) {
     output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['handle'], $bug['reporter_name']);
 }
 
+// Display patches
+require 'include/patchtracker.inc';
+$patches = new Bug_Patchtracker;
+$p = $patches->listPatches($id);
+if (count($p)) {
+    ?><h2>Patches</h2><?php
+}
+foreach ($p as $name => $revisions) {
+    ?><a href="patch-display.php?bug=<?php echo $bug['id'] ?>&patch=<?php
+        echo urlencode($name) ?>&revision=latest"><?php echo clean($name) ?></a> (last revision <?php echo date('Y-m-d H:i:s', $revisions[0]) ?>)<br /><?php
+}
 // Display comments
 $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name,
         u.showemail, u.handle

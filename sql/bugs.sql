@@ -76,3 +76,10 @@ CREATE TABLE bugdb_roadmap (
   PRIMARY KEY  (id),
   UNIQUE KEY (package, roadmap_version)
 );
+
+CREATE TABLE bugdb_patchtracker (
+  bugdb_id int(8) NOT NULL,
+  patch varchar(40) NOT NULL,
+  revision int(8) NOT NULL,
+  PRIMARY KEY (bugdb_id, patch, revision)
+);

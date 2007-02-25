@@ -492,6 +492,49 @@
 
  <table>
 
+  <name>bugdb_patchtracker</name>
+
+  <declaration>
+   <field>
+    <name>bugdb_id</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+   </field>
+   <field>
+    <name>patch</name>
+    <type>text</type>
+    <length>40</length>
+    <notnull>true</notnull>
+   </field>
+   <field>
+    <name>revision</name>
+    <type>integer</type>
+    <length>8</length>
+    <notnull>true</notnull>
+   </field>
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>bugdb_id</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>patch</name>
+     <sorting>ascending</sorting>
+    </field>
+    <field>
+     <name>revision</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+  </declaration>
+ </table>
+ <table>
+
+ <table>
+
   <name>bugdb_roadmap_links</name>
 
   <declaration>

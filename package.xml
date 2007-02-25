@@ -55,7 +55,7 @@
  <date>2007-02-24</date>
  <time>12:23:24</time>
  <version>
-  <release>1.8.0</release>
+  <release>1.9.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -209,6 +209,7 @@
       <file name="functions.inc" role="web" />
       <file name="layout.inc" role="web" />
       <file name="NumeralCaptcha.php" role="web" />
+      <file name="patchtracker.inc" role="web" />
       <file name="prepend.inc" role="web" />
       <file name="resolve.inc" role="web" />
       <file name="trusted-devs.inc" role="web" />
@@ -217,6 +218,8 @@
      <file name="bug.php" role="web" />
      <file name="index.php" role="web" />
      <file name="lstat.php" role="web" />
+     <file name="patch-add.php" role="web" />
+     <file name="patch-display.php" role="web" />
      <file name="quick-fix-desc.php" role="web" />
      <file name="report.php" role="web" />
      <file name="roadmap.php" role="web" />
@@ -516,6 +519,10 @@
    </dir> <!-- /sql -->
    <dir name="templates">
     <dir name="bugs">
+     <file name="addpatch.php" role="web" />
+     <file name="listpatches.php" role="web" />
+     <file name="patchadded.php" role="web" />
+     <file name="patchdisplay.php" role="web" />
      <file name="roadmap.php" role="web" />
      <file name="roadmapadd.php" role="web" />
      <file name="roadmapform.php" role="web" />
