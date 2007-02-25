@@ -177,6 +177,8 @@ echo '<li>Average age of open bugs: <strong>' . $info['openage'] . ' days</stron
 echo '<li>Number of open bugs: <strong>' . $info['opencount'] . '</strong></li>';
 echo '<li>Assigned bugs relative to all maintained packages\' bugs: <strong>' .
     round($info['assigned'] * 100) . '%</strong></li>';
+echo '<li>Number of submitted patches: <strong>' .
+    $info['patches'] . '</strong></li>';
 echo '</ul></li>';
 
 ?>

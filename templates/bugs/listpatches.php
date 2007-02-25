@@ -1,3 +1,4 @@
+<div class="explain">
 <table>
  <tr>
   <td>
@@ -16,16 +17,14 @@
     foreach ($patches as $patch => $revisions):
 ?>
  <tr>
-  <th class="form-label_left">
+  <th class="details">
    Patch <a href="?bug=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
-      ?>&revision=latest&display=1"><?php echo clean($patch); ?></a>
+      ?>"><?php echo clean($patch); ?></a>
   </th>
   <td>
-   Patch Versions: <a href="?bug=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
-      ?>&revision=latest&display=1">latest</a>
    <?php foreach ($revisions as $revision): ?>
-   <a href="?bug=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
-      ?>&revision=<?php echo $revision ?>&display=1"><?php echo date('Y-m-d H:i:s', $revision) ?></a>
+   revision <a href="patch-display.php?bug=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
+      ?>&revision=<?php echo $revision[0] ?>&display=1"><?php echo date('Y-m-d H:i:s', $revision[0]) ?></a> by <a href="/user/<?php echo $revision[1] ?>"><?php echo $revision[1] ?></a><br />
    <?php endforeach; //foreach ($revisions as $revision) ?>
   </td>
  </tr>
@@ -33,3 +32,4 @@
     endforeach; //foreach ($patches as $name => $revisions)
 endif; //if (!count($patches)) ?>
 </table>
+</div>

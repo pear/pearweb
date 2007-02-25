@@ -69,7 +69,7 @@ if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_GET['bug']))) {
 $errors = array();
 $package = $buginfo['package_name'];
 $bug = $buginfo['id'];
-$name = '';
+$name = isset($_GET['patch']) ? $_GET['patch'] : '';
 $patches = $patchinfo->listPatches($bug);
 include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/addpatch.php';
 ?>

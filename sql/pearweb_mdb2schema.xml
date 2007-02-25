@@ -513,6 +513,12 @@
     <length>8</length>
     <notnull>true</notnull>
    </field>
+   <field>
+    <name>developer</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+   </field>
    <index>
     <name>primary</name>
     <primary>true</primary>

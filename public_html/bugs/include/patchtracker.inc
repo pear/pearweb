@@ -192,7 +192,7 @@ class Bug_Patchtracker
      */
     function getPatch($bugid, $name, $revision)
     {
-        if ($this->_dbh->getOne('SELECT bugid FROM bugdb_patchtracker
+        if ($this->_dbh->getOne('SELECT bugdb_id FROM bugdb_patchtracker
               WHERE bugdb_id = ? AND patch = ? AND revision = ?',
               array($bugid, $name, $revision))) {
             $contents = @file_get_contents($this->getPatchFullpath($bugid, $name, $revision));
@@ -215,7 +215,7 @@ class Bug_Patchtracker
     function listPatches($bugid)
     {
         return $this->_dbh->getAssoc(
-            'SELECT patch, revision FROM bugdb_patchtracker WHERE bugdb_id = ?
+            'SELECT patch, revision, developer FROM bugdb_patchtracker WHERE bugdb_id = ?
              ORDER BY revision DESC',
             false, array($bugid),
             DB_FETCHMODE_ORDERED, true
@@ -236,6 +236,29 @@ class Bug_Patchtracker
              patch = ?
              ORDER BY revision DESC', array($bugid, $patch),
             DB_FETCHMODE_ORDERED
+        );
+    }
+
+    /**
+     * Retrieve the developer who uploaded this patch
+     *
+     * @param int $bugid
+     * @param string $patch
+     * @param int $revision
+     * @return string|array array if no revision is selected
+     */
+    function getDeveloper($bugid, $patch, $revision = false)
+    {
+        if ($revision) {
+            return $this->_dbh->getOne(
+                'SELECT developer FROM bugdb_patchtracker
+                 WHERE bugdb_id=? AND patch=? AND revision=?
+                ', array($bugid, $patch, $revision));
+        }
+        return $this->_dbh->getAll(
+            'SELECT developer,revision FROM bugdb_patchtracker
+             WHERE bugdb_id=? AND patch=? ORDER BY revision DESC',
+            array($bugid, $patch), DB_FETCHMODE_ASSOC
         );
     }
 

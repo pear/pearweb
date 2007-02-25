@@ -77,7 +77,7 @@ if ($auth_user && $auth_user->registered && isset($_GET['delete_comment'])) {
 }
 
 if ($edit == 1) {
-    auth_require('pear.dev');
+    auth_require('pear.bug', 'pear.dev');
 }
 
 if (!empty($_POST['pw'])) {
@@ -832,8 +832,11 @@ if ($edit == 1 || $edit == 2) {
         ?>
       </td>
      </tr>
+     <tr>
     </table>
-
+    <div class="explain">
+     <h1><a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
+    </div>
     <p style="margin-bottom: 0em">
     <label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<span class="accesskey">m</span>ment:</b></label>
     </p>
@@ -852,6 +855,9 @@ if ($edit == 1 || $edit == 2) {
 if ($auth_user && $auth_user->registered) {
 
 ?>
+<div class="explain">
+ <h1><a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
+</div>
 <div class="explain">
 
     <form name="subscribetobug" action="/bugs/bug.php?id=<?php echo $id; ?>" method="post">
@@ -1014,12 +1020,15 @@ if ($bug['ldesc']) {
 require 'include/patchtracker.inc';
 $patches = new Bug_Patchtracker;
 $p = $patches->listPatches($id);
-if (count($p)) {
+if (count($p) || $edit == 1) {
     ?><h2>Patches</h2><?php
+    if ($edit == 1) {
+        ?><a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Add a Patch</a><br /><?php
+    }
 }
 foreach ($p as $name => $revisions) {
     ?><a href="patch-display.php?bug=<?php echo $bug['id'] ?>&patch=<?php
-        echo urlencode($name) ?>&revision=latest"><?php echo clean($name) ?></a> (last revision <?php echo date('Y-m-d H:i:s', $revisions[0]) ?>)<br /><?php
+        echo urlencode($name) ?>&revision=latest"><?php echo clean($name) ?></a> (last revision <?php echo date('Y-m-d H:i:s', $revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php
 }
 // Display comments
 $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name,

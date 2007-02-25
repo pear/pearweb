@@ -10,6 +10,7 @@ Patch Revisions:
     echo urlencode($patch) ?>&revision=<?php echo urlencode($revision[0]) ?>"><?php
     echo date('Y-m-d H:i:s', $revision[0]) ?></a><?php if ($i < count($revisions) - 1) echo ' | '; ?>
 <?php endforeach; //foreach ($revisions as $i => $revision) ?>
+<h3>Developer: <a href="/user/<?php echo $handle ?>"><?php echo $handle ?></a></h3>
 <pre>
 <?php echo $patchcontents ?>
 </pre>

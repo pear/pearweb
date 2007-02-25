@@ -98,6 +98,10 @@ class PEAR_Bugs
                   b.status = "Closed"
                  GROUP BY u.handle
                  ORDER BY c DESC, b.ts2 DESC', array(), DB_FETCHMODE_ASSOC);
+        $patches = $this->_dbh->getOne('SELECT COUNT(*)
+                FROM bugdb_patchtracker
+                WHERE
+                 developer=?', array($handle));
         $rank = count($bugrank);
         $alltimecount = 0;
         foreach ($bugrank as $i => $inf) {
@@ -116,6 +120,7 @@ class PEAR_Bugs
             'rankings' => $bugrank,
             'rank' => $rank,
             'alltime' => $alltimecount,
+            'patches' => $patches,
         );
     }
 
