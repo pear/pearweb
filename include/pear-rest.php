@@ -468,8 +468,42 @@ class pear_rest
  <g>http://' . PEAR_CHANNELNAME . '/get/' . $package . '-' . $pkgobj->getVersion() . '</g>
  <x xlink:href="package.' . $pkgobj->getVersion() . '.xml"/>
 </r>';
+        $d = $pkgobj->getDependencies();
+        $minphp = $d['required']['php']['min'];
+        $info2 = '<?xml version="1.0" encoding="UTF-8" ?>
+<r xmlns="http://pear.php.net/dtd/rest.release2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.release2
+    http://pear.php.net/dtd/rest.release2.xsd">
+ <p xlink:href="' . $extra . 'p/' . strtolower($package) . '">' . $package . '</p>
+ <c>' . PEAR_CHANNELNAME . '</c>
+ <v>' . $pkgobj->getVersion() . '</v>
+ <a>' . $pkgobj->getVersion('api') . '</a>
+ <mp>' . $minphp . '</mp>
+ <st>' . $pkgobj->getState() . '</st>
+ <l>' . $pkgobj->getLicense() . '</l>
+ <m>' . $releasedby . '</m>
+ <s>' . (version_compare(phpversion(), '5.0.0', 'lt') ?
+            utf8_encode(htmlspecialchars($pkgobj->getSummary())) :
+            htmlspecialchars($pkgobj->getSummary())) . '</s>
+ <d>' . (version_compare(phpversion(), '5.0.0', 'lt') ?
+            utf8_encode(htmlspecialchars($pkgobj->getDescription())) :
+            htmlspecialchars($pkgobj->getDescription())) . '</d>
+ <da>' . $releasedate . '</da>
+ <n>' . (version_compare(phpversion(), '5.0.0', 'lt') ?
+            utf8_encode(htmlspecialchars($pkgobj->getNotes())) :
+            htmlspecialchars($pkgobj->getNotes())) . '</n>
+ <f>' . filesize($filepath) . '</f>
+ <g>http://' . PEAR_CHANNELNAME . '/get/' . $package . '-' . $pkgobj->getVersion() . '</g>
+ <x xlink:href="package.' . $pkgobj->getVersion() . '.xml"/>
+</r>';
         file_put_contents($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
             DIRECTORY_SEPARATOR . $pkgobj->getVersion() . '.xml', $info);
+        @chmod($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+            DIRECTORY_SEPARATOR . $pkgobj->getVersion() . '.xml', 0666);
+        file_put_contents($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+            DIRECTORY_SEPARATOR . 'v2.' . $pkgobj->getVersion() . '.xml', $info2);
         @chmod($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
             DIRECTORY_SEPARATOR . $pkgobj->getVersion() . '.xml', 0666);
         file_put_contents($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
@@ -510,13 +544,24 @@ class pear_rest
                 System::mkdir(array('-p', $pdir . DIRECTORY_SEPARATOR . strtolower($package)));
                 @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package), 0777);
             }
-            $info2 = $info = '<?xml version="1.0" encoding="UTF-8" ?>
+            $info2 = '<?xml version="1.0" encoding="UTF-8" ?>
+<m xmlns="http://pear.php.net/dtd/rest.packagemaintainers2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xsi:schemaLocation="http://pear.php.net/dtd/rest.packagemaintainers2
+    http://pear.php.net/dtd/rest.packagemaintainers2.xsd">
+';
+            $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <m xmlns="http://pear.php.net/dtd/rest.packagemaintainers"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.packagemaintainers
     http://pear.php.net/dtd/rest.packagemaintainers.xsd">
- <p>' . $package . '</p>
+';
+            $info .= ' <p>' . $package . '</p>
+ <c>' . PEAR_CHANNELNAME . '</c>
+';
+            $info2 .= ' <p>' . $package . '</p>
  <c>' . PEAR_CHANNELNAME . '</c>
 ';
             foreach ($maintainers as $maintainer) {

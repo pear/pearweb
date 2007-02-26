@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-02-25</date>
- <time>17:38:57</time>
+ <date>2007-02-26</date>
+ <time>15:19:34</time>
  <version>
   <release>1.9.0</release>
   <api>0.1.1</api>
@@ -66,11 +66,13 @@
  <notes>
 * fix release upload: don&apos;t let custom non-pear built packages with no package.xml
   in root dir slip through the cracks
+* fix .xsd for REST1.2
 * fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
 * implement Request #10150: Allow &quot;future&quot; roadmap versions
 * implement Request #10176: patch tracker for bugs
 * implement Request #10180: require account to open/edit bugs,
   use auto-email verification like pear.voter
+* implement Request #10197: add PHP version and API version to release REST
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1518,16 +1520,18 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-02-25</date>
+   <date>2007-02-26</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 * fix release upload: don&apos;t let custom non-pear built packages with no package.xml
   in root dir slip through the cracks
+* fix .xsd for REST1.2
 * fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
 * implement Request #10150: Allow &quot;future&quot; roadmap versions
 * implement Request #10176: patch tracker for bugs
 * implement Request #10180: require account to open/edit bugs,
   use auto-email verification like pear.voter
+* implement Request #10197: add PHP version and API version to release REST
    </notes>
   </release>
  </changelog>

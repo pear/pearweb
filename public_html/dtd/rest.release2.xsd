@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2005 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
  <xs:element name="r">
   <xs:annotation>
@@ -10,6 +9,8 @@
     <xs:element ref="p"/>
     <xs:element ref="c"/>
     <xs:element ref="v"/>
+    <xs:element ref="a"/>
+    <xs:element ref="mp"/>
     <xs:element ref="st"/>
     <xs:element ref="l"/>
     <xs:element ref="m"/>
@@ -43,6 +44,16 @@
  <xs:element name="v" type="xs:string">
   <xs:annotation>
    <xs:documentation>version</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="a" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>API version</xs:documentation>
+  </xs:annotation>
+ </xs:element>
+ <xs:element name="mp" type="xs:string">
+  <xs:annotation>
+   <xs:documentation>minimum PHP version needed</xs:documentation>
   </xs:annotation>
  </xs:element>
  <xs:element name="st" type="xs:string">
