@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2007-02-26</date>
- <time>15:19:34</time>
+ <time>15:20:06</time>
  <version>
   <release>1.9.0</release>
   <api>0.1.1</api>
@@ -272,7 +272,9 @@
      <file name="rest.maintainer.xsd" role="web" />
      <file name="rest.package.xsd" role="web" />
      <file name="rest.packagemaintainers.xsd" role="web" />
+     <file name="rest.packagemaintainers2.xsd" role="web" />
      <file name="rest.release.xsd" role="web" />
+     <file name="rest.release2.xsd" role="web" />
      <file name="tasks-1.0.xsd" role="web" />
     </dir> <!-- /public_html/dtd -->
     <dir name="election">
