@@ -174,7 +174,7 @@ if (!$test->find()) {
     exit;
 }
 if (isset($_GET['addbugs'])) {
-    auth_require();
+    auth_require('pear.dev');
     $roadmap = Bug_DataObject::bugDB('bugdb_roadmap');
     $roadmap->package = $_GET['package'];
     if (!isset($_GET['roadmap'])) {
@@ -193,7 +193,7 @@ if (isset($_GET['addbugs'])) {
 
     $bugdb = Bug_DataObject::bugDB('bugdb');
     $bugdb->package_name = $_GET['package'];
-    $bugdb->orderBy('ts2 DESC');
+    $bugdb->orderBy('id');
     $features = clone($bugdb);
     $bugdb->whereAdd('bug_type IN ("Bug", "Documentation Bug")');
     $releases = Bug_DataObject::pearDB('releases');

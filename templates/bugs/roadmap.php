@@ -1,6 +1,6 @@
 <?php response_header('Roadmap :: ' . clean($this->package));?>
 <h1>Roadmap for Package <?php echo clean($this->package); ?></h1>
-<a href="/bugs/search.php?package_name[]=<?php echo urlencode(clean($this->package)) ?>&status=Open&cmd=display">Bug Tracker</a>
+<a href="/bugs/search.php?package_name[]=<?php echo urlencode(clean($this->package)) ?>&status=Open&cmd=display">Bug Tracker</a> | <a href="/<?php echo urlencode(clean($this->package)) ?>">Package Home</a>
 <ul class="side_pages">
 <?php foreach ($this->roadmap as $info):
 $future = ($info['releasedate'] == '1976-09-02 17:15:30');
