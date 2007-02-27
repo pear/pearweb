@@ -73,6 +73,8 @@
 * implement Request #10180: require account to open/edit bugs,
   use auto-email verification like pear.voter
 * implement Request #10197: add PHP version and API version to release REST
+* implement Request #10179: implement package.xml generation with auto-changelog
+  from roadmap
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -174,6 +176,9 @@
      <file name="pepr-emails.php" role="web" />
      <file name="pepr.php" role="web" />
     </dir> <!-- /include/pepr -->
+    <dir name="roadmap">
+     <file name="package-generator.php" role="web" />
+    </dir> <!-- /include/roadmap -->
     <file name="browser.php" role="web" />
     <file name="pear-append.php" role="web" />
     <file name="pear-auth.php" role="web" />
@@ -533,6 +538,7 @@
      <file name="patchadded.php" role="web" />
      <file name="patchdisplay.php" role="web" />
      <file name="roadmap.php" role="web" />
+     <file name="roadmap_packagexml.php" role="web" />
      <file name="roadmapadd.php" role="web" />
      <file name="roadmapform.php" role="web" />
      <file name="searchresults.php" role="web" />

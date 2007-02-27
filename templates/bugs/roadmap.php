@@ -21,7 +21,9 @@ $future = ($info['releasedate'] == '1976-09-02 17:15:30');
  <tr>
   <td>
    <a href="roadmap.php?package=<?php echo urlencode($this->package) ?>&addbugs=1&roadmap=<?php
-    echo urlencode($info['roadmap_version']) ?>">Add Bugs/Features to this Roadmap</a>
+    echo urlencode($info['roadmap_version']) ?>">Add Bugs/Features to this Roadmap</a><br />
+   <a href="roadmap.php?package=<?php echo urlencode($this->package) ?>&packagexml=1&roadmap=<?php
+    echo urlencode($info['roadmap_version']) ?>">Generate package.xml for this release</a>
   </td>
  </tr>
  <tr>

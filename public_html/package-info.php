@@ -23,6 +23,7 @@
 require_once 'Damblan/Karma.php';
 require_once 'Damblan/URL.php';
 require_once 'bugs/pear-bugs.php';
+require 'roadmap/info.php';
 
 $site = new Damblan_URL;
 
@@ -305,6 +306,18 @@ if (empty($action)) {
     }
     print '<br /><a href="/bugs/roadmap.php?package=' . urlencode($name) .
         '">Development Road Map</a>';
+    $nextrelease = Roadmap_Info::nextRelease($name);
+    if ($nextrelease) {
+        $x = ceil((((strtotime($nextrelease[1]) - time()) / 60) / 60) / 24);
+        echo ' (next release: <strong><a href="/bugs/roadmap.php?package=' .
+            urlencode($name) .'&roadmapdetail=' . $nextrelease[0]
+             . '#a' . $nextrelease[0] . '">' . $nextrelease[0] .
+            '</a></strong> in ';
+        echo $x . ' day';
+        if ($x != 1) echo 's';
+        if ($x < 0) echo '!!';
+        echo ', ' . Roadmap_Info::percentDone($name) . '% complete)';
+    }
     print '</td>';
     print '<td width="50%" class="textcell">';
     $bugs = new PEAR_Bugs;
@@ -354,7 +367,9 @@ if (empty($action)) {
             $newfeatures =  $helper->getNewFeatureVersion();
             if ($helper->nextCanBeStable()) {
                 print '   <li>';
-                print '    Next Bugfix release should be: <strong>' . $bugfix[0] . '</strong>, stability ' .
+                print '    Next Bugfix release should be: <strong><a href="' .
+                    '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
+                    $bugfix[0]. '#a' . $bugfix[0] . '">' . $bugfix[0] . '</a></strong>, stability ' .
                       '<strong>' . $bugfix[1] . '</strong>';
                 print '   </li>';
                 print '   <li>';
@@ -363,27 +378,33 @@ if (empty($action)) {
                 } else {
                     print '    Next New Feature release should be: <strong>';
                 }
-                print $newfeatures[0] .
-                      '</strong>, stability <strong>' . $newfeatures[1] . '</strong>';
+                print '<a href="' .
+                    '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
+                    $newfeatures[0]. '#a' . $newfeatures[0] . '">' . $newfeatures[0] .
+                      '</a></strong>, stability <strong>' . $newfeatures[1] . '</strong>';
                 print '   </li>';
             } else {
                 print '   <li>';
-                print '    Next Bugfix release should be: <strong>' . $bugfix[0] . '</strong>, stability ' .
+                print '    Next Bugfix release should be: <strong><a href="' .
+                    '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
+                    $bugfix[0]. '#a' . $bugfix[0] . '">' . $bugfix[0] . '</a></strong>, stability ' .
                       '<strong>' . $bugfix[1] . '</strong>';
                 print '   </li>';
                 $beta =  $helper->getNextBetaRelease();
                 if ($beta) {
                     print '   <li>';
-                    print '    Next Stable API release should be: <strong>';
-                    print $beta[0] .
-                          '</strong>, stability <strong>' . $beta[1] . '</strong>';
+                    print '    Next Stable API release should be: <strong><a href="' .
+                        '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
+                        $beta[0] . '#a' . $beta[0] . '">' . $beta[0] .
+                        '</a></strong>, stability <strong>' . $beta[1] . '</strong>';
                     print '   </li>';
                 }
                 if ($helper->canAddFeatures()) {
                     print '   <li>';
-                    print '    Next New Feature release should be: <strong>';
-                    print $newfeatures[0] .
-                          '</strong>, stability <strong>' . $newfeatures[1] . '</strong>';
+                    print '    Next New Feature release should be: <strong><a href="' .
+                        '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
+                        $newfeatures[0] . '#a' . $newfeatures[0] . '">' . $newfeatures[0] .
+                        '</a></strong>, stability <strong>' . $newfeatures[1] . '</strong>';
                     print '   </li>';
                 }
             }

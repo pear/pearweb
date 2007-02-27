@@ -5,6 +5,58 @@
  */
 require dirname(__FILE__) . '/include/functions.inc';
 Bug_DataObject::init();
+if (isset($_GET['packagexml'])) {
+    $roadmap = Bug_DataObject::bugDB('bugdb_roadmap');
+    if (!isset($_GET['package'])) {
+        response_header('Error :: No package selected');
+        display_bug_error('No package selected');
+        response_footer();
+        exit;
+    }
+    if (!isset($_GET['roadmap'])) {
+        response_header('Error :: No roadmap selected');
+        display_bug_error('No roadmap selected, cannot generate package.xml');
+        response_footer();
+        exit;
+    }
+    $roadmap->package = $_GET['package'];
+    $roadmap->roadmap_version = $_GET['roadmap'];
+    if (!$roadmap->find()) {
+        response_header('Error :: No roadmap found');
+        display_bug_error('Roadmap not found, cannot generate package.xml');
+        response_footer();
+        exit;
+    }
+    require 'roadmap/package-generator.php';
+    $gen = new Roadmap_Package_Generator($_GET['package']);
+    $xml = $gen->getRoadmapPackage($_GET['roadmap']);
+    if (!$xml) {
+        require 'roadmap/info.php';
+        if (!Roadmap_Info::percentDone($_GET['package'], $_GET['roadmap'])) {
+            $xml = 'Unable to generate package.xml, no bugs closed yet';
+        } else {
+            $xml = 'Unable to generate package.xml, problems detected, please report to
+            ' . PEAR_WEBMASTER_EMAIL . '.';
+        }
+    }
+    $savant = Bug_DataObject::getSavant();
+    $savant->xml = $xml;
+    $savant->package = $_GET['package'];
+    $savant->roadmap = $_GET['roadmap'];
+    $savant->display('roadmap_packagexml.php');
+    exit;
+}
+if (isset($_GET['showornew'])) {
+    $roadmap = Bug_DataObject::bugDB('bugdb_roadmap');
+    $roadmap->roadmap_version = $_GET['showornew'];
+    if (!$roadmap->find()) {
+        // populate form with default values
+        $_POST['roadmap_version'] = $_GET['showornew'];
+        $_GET['new'] = 1;
+        $_POST['description'] = 'Enter roadmap description';
+        $_POST['releasedate'] = 'future';
+    }
+}
 if (isset($_GET['edit'])) {
     $bugdb = Bug_DataObject::bugDB('bugdb_roadmap');
     $bugdb->id = $_GET['edit'];
@@ -429,6 +481,10 @@ if (isset($_GET['edit'])) {
 }
 if (isset($_GET['new'])) {
     if (isset($_POST['go'])) {
+        if ($_POST['releasedate'] == 'future') {
+            // my birthday will represent the future ;)
+            $_POST['releasedate'] = '1976-09-02 17:15:30';
+        }
         $bugdb = Bug_DataObject::bugDB('bugdb_roadmap');
         $bugdb->description = $_POST['description'];
         $bugdb->roadmap_version = $_POST['roadmap_version'];
@@ -436,10 +492,13 @@ if (isset($_GET['new'])) {
         $bugdb->package = $_GET['package'];
         $bugdb->insert();
     }
+    if (isset($_POST['releasedate']) && $_POST['releasedate'] != 'future') {
+        $_POST['releasedate'] = date('Y-m-d', strtotime($_POST['releasedate']));
+    }
     $savant->info = array(
         'package' => clean($_GET['package']),
         'releasedate' => isset($_POST['releasedate']) ?
-            date('Y-m-d H:i:s', strtotime($_POST['releasedate'])) : '',
+            $_POST['releasedate'] : '',
         'roadmap_version' => isset($_POST['roadmap_version']) ? clean($_POST['roadmap_version']) :
             '',
         'description' => isset($_POST['description']) ? clean($_POST['description']) :

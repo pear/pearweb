@@ -440,7 +440,7 @@ if (!$auth_user && DEVBOX == false) {
 <form<?php
 if (!$auth_user) {
     echo ' onsubmit="javascript:doMD5(document.forms[\'bugreport\'])" ' ;
-} ?>method="post"
+} ?> method="post"
  action="<?php echo $action ?>" name="bugreport" id="bugreport">
 <?php if (!$auth_user): ?>
  <div class="explain">

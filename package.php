@@ -28,6 +28,8 @@ $a->setNotes('
 * implement Request #10180: require account to open/edit bugs,
   use auto-email verification like pear.voter
 * implement Request #10197: add PHP version and API version to release REST
+* implement Request #10179: implement package.xml generation with auto-changelog
+  from roadmap
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
