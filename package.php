@@ -23,13 +23,15 @@ $a->setNotes('
   in root dir slip through the cracks
 * fix .xsd for REST1.2
 * fix Bug #10183: roadmap link to bug tracker needs &cmd=display
+* implement Request #9973: Add a "developing with PEAR effectively"
+  document to the site
 * implement Request #10150: Allow "future" roadmap versions
 * implement Request #10176: patch tracker for bugs
+* implement Request #10179: implement package.xml generation with auto-changelog
+  from roadmap
 * implement Request #10180: require account to open/edit bugs,
   use auto-email verification like pear.voter
 * implement Request #10197: add PHP version and API version to release REST
-* implement Request #10179: implement package.xml generation with auto-changelog
-  from roadmap
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

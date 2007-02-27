@@ -68,13 +68,15 @@
   in root dir slip through the cracks
 * fix .xsd for REST1.2
 * fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
+* implement Request #9973: Add a &quot;developing with PEAR effectively&quot;
+  document to the site
 * implement Request #10150: Allow &quot;future&quot; roadmap versions
 * implement Request #10176: patch tracker for bugs
+* implement Request #10179: implement package.xml generation with auto-changelog
+  from roadmap
 * implement Request #10180: require account to open/edit bugs,
   use auto-email verification like pear.voter
 * implement Request #10197: add PHP version and API version to release REST
-* implement Request #10179: implement package.xml generation with auto-changelog
-  from roadmap
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -446,6 +448,7 @@
     </dir> <!-- /public_html/sidebar -->
     <dir name="support">
      <file name="books.php" role="web" />
+     <file name="effectivepearuse.php" role="web" />
      <file name="forums.php" role="web" />
      <file name="icons.php" role="web" />
      <file name="index.php" role="web" />
