@@ -13,6 +13,7 @@ $future = ($info['releasedate'] == '1976-09-02 17:15:30');
  <li><a href="roadmap.php?package=<?php echo urlencode($this->package) ?>&new=1">New roadmap</a></li>
 </ul>
 <?php foreach ($this->roadmap as $info):
+    $future = ($info['releasedate'] == '1976-09-02 17:15:30');
     $x = ceil((((strtotime($info['releasedate']) - time()) / 60) / 60) / 24);
 ?>
 <a name="a<?php echo $info['roadmap_version'] ?>"></a>
@@ -32,8 +33,7 @@ $future = ($info['releasedate'] == '1976-09-02 17:15:30');
   </th>
   <td class="form-input">
    <strong<?php
-    if ($future) {
-    } else {
+    if (!$future) {
         if ($x < 0) {
             echo ' class="lateRelease"';
         }
