@@ -1059,7 +1059,7 @@ function get_package_mail($package_name, $bug_id=false)
         case 'PEPr':
         case 'Web Site':
             $arr = get_package_mail('pearweb');
-            $arr[0][] = PEAR_WEBMASTER_EMAIL;
+            $arr[0] .= ',' . PEAR_WEBMASTER_EMAIL;
             return array($arr[0], PEAR_WEBMASTER_EMAIL);
         case 'Documentation':
             return array(PEAR_DOC_EMAIL, PEAR_DOC_EMAIL);

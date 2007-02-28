@@ -174,6 +174,12 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
 
 $bug =& $dbh->getRow($query, array(), DB_FETCHMODE_ASSOC);
 
+if ($auth_user && auth_check('pear.bug') && !auth_check('pear.dev') && $edit == 1) {
+    if ($bug['handle'] != $auth_user->handle) {
+        $edit = 3; // can't edit a bug you didn't create
+    }
+}
+
 // Unsubscribe
 if (isset($_POST['unsubscribe_to_bug'])) {
     $email = $_POST['subscribe_email'];
@@ -637,11 +643,7 @@ control(0, 'View');
 if (!($auth_user && $auth_user->registered) && $edit != 2) {
     control(3, 'Add Comment');
 }
-if ($auth_user) {
-    control(1, 'Developer');
-} else {
-    control(1, 'Edit Submission');
-}
+control(1, 'Edit');
 ?>
 
 </div>
@@ -791,7 +793,7 @@ if ($edit == 1 || $edit == 2) {
 
     <?php
 
-    if ($edit == 1) {
+    if ($edit == 1 && auth_check('pear.dev')):
         // Developer Edit Form
         ?>
 
@@ -817,9 +819,8 @@ if ($edit == 1 || $edit == 2) {
           <small>(<a href="/bugs/quick-fix-desc.php">description</a>)</small>
          </td>
         </tr>
-
-        <?php
-    }
+    <?php
+    endif; // if ($edit == 1 && auth_check('pear.dev'))
     ?>
 
      <tr>
@@ -830,7 +831,7 @@ if ($edit == 1 || $edit == 2) {
        </select>
 
     <?php
-    if ($edit == 1) {
+    if ($edit == 1 && auth_check('pear.dev')) {
         ?>
 
         </td>
@@ -901,6 +902,7 @@ if ($edit == 1 || $edit == 2) {
         value="<?php echo field('php_os') ?>" />
       </td>
      </tr>
+     <?php if (auth_check('pear.dev')): ?>
      <tr>
       <th class="details">Assigned to <br />Roadmap Version(s):</th>
       <td><?php
@@ -927,6 +929,7 @@ if ($edit == 1 || $edit == 2) {
         ?>
       </td>
      </tr>
+     <?php endif; //if (auth_check('pear.dev'))?>
      <tr>
     </table>
     <div class="explain">
@@ -950,9 +953,6 @@ if ($edit == 1 || $edit == 2) {
 if ($auth_user && $auth_user->registered) {
 
 ?>
-<div class="explain">
- <h1><a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
-</div>
 <div class="explain">
 
     <form name="subscribetobug" action="/bugs/bug.php?id=<?php echo $id; ?>" method="post">
@@ -1043,6 +1043,7 @@ Use<span class="accesskey">r</span>name:</th>
 
 
     <table>
+     <?php if (!$auth_user): ?>
      <tr>
       <th class="details">Your <span class="accesskey">n</span>ame:</th>
       <td>
@@ -1061,7 +1062,6 @@ Use<span class="accesskey">r</span>name:</th>
        <input type="hidden" name="edit" value="<?php echo $edit?>" />
       </td>
      </tr>
-     <?php if (!$auth_user): ?>
      <tr>
       <th>Solve the problem : <?php print $numeralCaptcha->getOperation(); ?> = ?</th>
       <td class="form-input"><input type="text" name="captcha" /></td>
