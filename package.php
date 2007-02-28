@@ -23,6 +23,8 @@ $a->setNotes('
   in root dir slip through the cracks
 * fix .xsd for REST1.2
 * fix Bug #10183: roadmap link to bug tracker needs &cmd=display
+* fix Bug #10212: if multiple roadmaps exist, assigning bugs to one
+  may overwrite the other
 * implement Request #9973: Add a "developing with PEAR effectively"
   document to the site
 * implement Request #10150: Allow "future" roadmap versions

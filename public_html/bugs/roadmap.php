@@ -126,7 +126,7 @@ if (isset($_GET['delete'])) {
     $bugdb->delete();
 }
 if (isset($_POST['saveaddbugs'])) {
-    auth_require();
+    auth_require('pear.dev');
     if (!isset($_POST['package'])) {
         response_header('Error :: No package selected');
         display_bug_error('No package selected');
@@ -141,6 +141,7 @@ if (isset($_POST['saveaddbugs'])) {
         response_footer();
         exit;
     }
+    $roadmap->roadmap_version = $_POST['roadmap'];
     if (!$roadmap->find(true)) {
         response_header('Error :: no such roadmap');
         display_bug_error('Unknown roadmap "' . clean($_GET['roadmap']) . '"');

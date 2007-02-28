@@ -68,6 +68,8 @@
   in root dir slip through the cracks
 * fix .xsd for REST1.2
 * fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
+* fix Bug #10212: if multiple roadmaps exist, assigning bugs to one
+  may overwrite the other
 * implement Request #9973: Add a &quot;developing with PEAR effectively&quot;
   document to the site
 * implement Request #10150: Allow &quot;future&quot; roadmap versions
