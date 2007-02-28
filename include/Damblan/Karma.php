@@ -68,7 +68,7 @@ class Damblan_Karma
             break;
 
         case 'pear.user' :
-            $levels = array('pear.user', 'pear.pepr', 'pear.dev', 'pear.admin', 'pear.group', 'pear.voter');
+            $levels = array('pear.user', 'pear.pepr', 'pear.dev', 'pear.admin', 'pear.group', 'pear.voter', 'pear.bug');
             break;
 
         case 'pear.dev' :
