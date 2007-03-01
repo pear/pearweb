@@ -59,7 +59,15 @@ class Roadmap_Package_Generator
             $pf = $this->getBlankPackage();
         }
         $pf->setDate(date('Y-m-d'));
-        $pf->setNotes($this->getReleaseNotes($version));
+        if ($version == '0.1.0') {
+            $notes = $this->getReleaseNotes($version);
+            if (!trim($notes)) {
+                $notes = 'Initial Release';
+            }
+            $pf->setNotes($notes);
+        } else {
+            $pf->setNotes($this->getReleaseNotes($version));
+        }
         require_once 'PEAR/Config.php';
         $config = PEAR_Config::singleton();
         $pf->setConfig($config);
