@@ -442,7 +442,14 @@ if (!$auth_user) {
     echo ' onsubmit="javascript:doMD5(document.forms[\'bugreport\'])" ' ;
 } ?> method="post"
  action="<?php echo $action ?>" name="bugreport" id="bugreport">
-<?php if (!$auth_user): ?>
+<?php if (!$auth_user):
+    if (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2'])):
+        ?><input type="hidden" name="PEAR_USER" value="<?php echo htmlspecialchars($_POST['PEAR_USER']) ?>" />
+        <input type="hidden" name="PEAR_PW" value="<?php echo htmlspecialchars($_POST['PEAR_PW']) ?>" />
+        <input type="hidden" name="PEAR_PW2" value="<?php echo htmlspecialchars($_POST['PEAR_PW2']) ?>" />
+        <input type="hidden" name="isMD5" value="<?php echo htmlspecialchars($_POST['isMD5']) ?>" />
+        <?php
+    else: //if (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2'])) ?>
  <div class="explain">
  Please choose a username/password or <a href="<?php echo '/login.php?redirect=' .
         urlencode("{$self}?{$_SERVER['QUERY_STRING']}") ?>">Log in</a>
@@ -460,21 +467,23 @@ function doMD5(frm) {
   <th class="form-label_left">
 Use<span class="accesskey">r</span>name:</th>
   <td class="form-input">
-<input size="20" name="PEAR_USER" accesskey="r" /></td>
+<input size="20" name="PEAR_USER" accesskey="r"/></td>
  </tr>
  <tr>
   <th class="form-label_left">Password:</th>
   <td class="form-input">
-<input size="20" name="PEAR_PW" type="password" /></td>
+<input size="20" name="PEAR_PW" type="password"/></td>
  </tr>
  <tr>
   <th class="form-label_left">Confirm Password:</th>
   <td class="form-input">
-<input size="20" name="PEAR_PW2" type="password" /></td>
+<input size="20" name="PEAR_PW2" type="password"/></td>
  </tr>
 </table>
 </div>
-<?php endif; //if (!$auth_user) ?>
+<?php
+    endif; //if (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2']))
+endif; //if (!$auth_user) ?>
 <table class="form-holder" cellspacing="1">
  <tr>
   <th class="form-label_left">
