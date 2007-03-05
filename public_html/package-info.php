@@ -360,7 +360,8 @@ if (empty($action)) {
         print '<td class="textcell">';
         print '<ul>';
         if (!$helper->hasReleases()) {
-            print '   <li>First release should be version <strong>0.1.0</strong>, stability <strong>alpha</strong>';
+            print '   <li>First release should be version <strong><a href="/bugs/roadmap.php?package=' .
+            urlencode($name) . '&showornew=0.1.0">0.1.0</a></strong>, stability <strong>alpha</strong>';
             print '   </li>';
         } else {
             $bugfix = $helper->getNextBugfixVersion();
