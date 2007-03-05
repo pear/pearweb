@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-03-05</date>
- <time>16:26:59</time>
+ <time>16:56:40</time>
  <version>
-  <release>1.9.3</release>
+  <release>1.9.4</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,7 +64,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix patch tracker developer naming
+ * Implement *much* better popular packages algorithm: only
+   count downloads per day for the current month.  This gives
+   newer packages a fighting chance to be popular :)
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1578,8 +1580,23 @@
    </stability>
    <date>2007-03-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix patch tracker developer naming</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.4</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix patch tracker developer naming
+ * Implement *much* better popular packages algorithm: only
+   count downloads per day for the current month.  This gives
+   newer packages a fighting chance to be popular :)
    </notes>
   </release>
  </changelog>

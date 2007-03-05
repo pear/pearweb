@@ -1577,12 +1577,15 @@ class release
                     SUM(downloads)/((unix_timestamp(NOW()) - unix_timestamp(MAX(releases.releasedate)))/86400) as releasenotes
                 FROM releases, packages, aggregated_package_stats a
                 WHERE
+                    packages.name <> "pearweb" AND
+                    packages.name <> "pearweb_phars" AND
                     packages.id = releases.package AND
                     packages.package_type = \'pear\' AND
                     a.release_id = releases.id AND
                     a.package_id = packages.id AND
                     packages.newpk_id IS NULL AND
-                    packages.unmaintained = 0
+                    packages.unmaintained = 0 AND
+                    a.yearmonth = "' . date('Y-m-01 00:00:00', time()) . '"
                 GROUP BY releases.package, a.release_id
                 ORDER BY releasenotes DESC';
         } else {
@@ -1592,12 +1595,15 @@ class release
                     SUM(downloads)/((unix_timestamp(NOW()) - unix_timestamp(MAX(releases.releasedate)))/86400) as d
                 FROM releases, packages, aggregated_package_stats a
                 WHERE
+                    packages.name <> "pearweb" AND
+                    packages.name <> "pearweb_phars" AND
                     packages.id = releases.package AND
                     packages.package_type = \'pear\' AND
                     a.release_id = releases.id AND
                     a.package_id = packages.id AND
                     packages.newpk_id IS NULL AND
-                    packages.unmaintained = 0
+                    packages.unmaintained = 0 AND
+                    a.yearmonth = "' . date('Y-m-01 00:00:00', time()) . '"
                 GROUP BY releases.package, a.release_id
                 ORDER BY d DESC';
         }

@@ -15,11 +15,13 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.9.3');
+$a->setReleaseVersion('1.9.4');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix patch tracker developer naming
+ * Implement *much* better popular packages algorithm: only
+   count downloads per day for the current month.  This gives
+   newer packages a fighting chance to be popular :)
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
