@@ -53,7 +53,7 @@
   <active>no</active>
  </developer>
  <date>2007-03-05</date>
- <time>12:30:03</time>
+ <time>13:19:59</time>
  <version>
   <release>1.9.2</release>
   <api>0.1.1</api>
@@ -64,8 +64,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* fix Bug #10267: Wrong link to user profile [quipo]
-* fix Bug #10271: passwords are double-MD5()ed [cellog]
+ * Fix Bug #10263: old roadmaps not hidden upon release [cellog]
+ * Fix Bug #10268: Incorrect vote retrieval link [cellog]
+ * Fix Bug #10270: roadmap versions should be sorted by release date [cellog]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1550,9 +1551,24 @@
    </stability>
    <date>2007-03-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #10267: Wrong link to user profile [quipo]
+* fix Bug #10271: passwords are double-MD5()ed [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-* fix Bug #10267: Wrong link to user profile [quipo]
-* fix Bug #10271: passwords are double-MD5()ed [cellog]
+ * Fix Bug #10263: old roadmaps not hidden upon release [cellog]
+ * Fix Bug #10268: Incorrect vote retrieval link [cellog]
+ * Fix Bug #10270: roadmap versions should be sorted by release date [cellog]
    </notes>
   </release>
  </changelog>

@@ -19,8 +19,9 @@ $a->setReleaseVersion('1.9.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* fix Bug #10267: Wrong link to user profile [quipo]
-* fix Bug #10271: passwords are double-MD5()ed [cellog]
+ * Fix Bug #10263: old roadmaps not hidden upon release [cellog]
+ * Fix Bug #10268: Incorrect vote retrieval link [cellog]
+ * Fix Bug #10270: roadmap versions should be sorted by release date [cellog]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
