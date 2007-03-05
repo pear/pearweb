@@ -37,6 +37,9 @@ if (isset($_GET['packagexml'])) {
         } else {
             $xml = 'Unable to generate package.xml, problems detected, please report to
             ' . PEAR_WEBMASTER_EMAIL . '.';
+            foreach ($gen->getErrors() as $error) {
+                $xml .= htmlspecialchars($error['message']) . "<br />";
+            }
         }
     }
     $savant = Bug_DataObject::getSavant();

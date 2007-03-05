@@ -6,6 +6,7 @@ class Roadmap_Package_Generator
 {
     var $_dbh;
     var $_package;
+    var $_errors;
     /**
      * @param string $package Package for this roadmap
      */
@@ -83,7 +84,14 @@ class Roadmap_Package_Generator
         if ($xml) {
             return $xml;
         }
+        $pf = new pEAR_PackageFile_v2;
+        $this->_errors = $pf->getValidationWarnings(true);
         return false;
+    }
+
+    function getErrors()
+    {
+        return $this->_errors;
     }
 
     /**
