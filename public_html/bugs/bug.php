@@ -302,6 +302,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                     break;
                 }
 
+                $auth_user = new PEAR_User($dbh, $_POST['PEAR_USER']);
                 $_POST['in']['handle'] = $_POST['PEAR_USER'];
                 $mailData = array(
                     'username'  => $_POST['in']['handle'],
