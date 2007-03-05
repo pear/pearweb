@@ -387,7 +387,7 @@ class PEAR_Voter
             $text .= 'this is your only record of the vote salt, without it your vote ' .
                 'cannot be retrieved.  Thank you for voting';
         }
-        $text .= "\nVisit http://pear.php.net/election.php to retrieve your vote";
+        $text .= "\nVisit http://pear.php.net/election/ to retrieve your vote";
 
         $res = mail($email, $subject, $text,
                     $headers, '-f bounce-no-user@php.net');
