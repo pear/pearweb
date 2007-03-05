@@ -137,7 +137,7 @@ $trytoforce = isset($_POST['trytoforce']) ? (int)$_POST['trytoforce'] : false;
 
 // fetch info about the bug into $bug
 if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
-    $query = 'SELECT b.id, b.package_name, b.bug_type, b.email, b.handle, b.reporter_name,
+    $query = 'SELECT b.id, b.package_name, b.bug_type, b.email, b.handle as bughandle, b.reporter_name,
         b.passwd, b.sdesc, b.ldesc, b.php_version, b.package_version, b.php_os,
         b.status, b.ts1, b.ts2, b.assign, UNIX_TIMESTAMP(b.ts1) AS submitted,
         users.registered,
@@ -151,10 +151,10 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
         LEFT JOIN bugdb_votes ON b.id = bug
         LEFT JOIN users ON users.handle = b.handle
         LEFT JOIN packages p ON b.package_name = p.name
-        WHERE b.id = '.(int)$id.'
+        WHERE b.id = ?
         GROUP BY bug';
 } else {
-    $query = 'SELECT b.id, b.package_name, b.bug_type, b.email, b.handle, b.reporter_name,
+    $query = 'SELECT b.id, b.package_name, b.bug_type, b.email, b.handle as bughandle, b.reporter_name,
         b.passwd, b.sdesc, b.ldesc, b.php_version, b.package_version, b.php_os,
         b.status, b.ts1, b.ts2, b.assign, UNIX_TIMESTAMP(b.ts1) AS submitted,
         UNIX_TIMESTAMP(b.ts2) AS modified,
@@ -168,14 +168,14 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
         LEFT JOIN bugdb_votes ON b.id = bug
         LEFT JOIN users ON users.email = b.email
         LEFT JOIN packages p ON b.package_name = p.name
-        WHERE b.id = '.(int)$id.'
+        WHERE b.id = ?
         GROUP BY bug';
 }
 
-$bug =& $dbh->getRow($query, array(), DB_FETCHMODE_ASSOC);
+$bug =& $dbh->getRow($query, array($id), DB_FETCHMODE_ASSOC);
 
 if ($auth_user && auth_check('pear.bug') && !auth_check('pear.dev') && $edit == 1) {
-    if ($bug['handle'] != $auth_user->handle) {
+    if ($bug['bughandle'] != $auth_user->handle) {
         $edit = 3; // can't edit a bug you didn't create
     }
 }
@@ -233,7 +233,7 @@ if ($edit == 1 && isset($_GET['delete_comment'])) {
 // handle any updates, displaying errors if there were any
 $errors = array();
 
-if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
+if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
     // Submission of additional comment by others
 
     /**
@@ -254,11 +254,11 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
         } else {
             $password = md5(@$_POST['PEAR_PW']);
         }
-        if (user::exists($_POST['in']['PEAR_USER'])) {
-            if (auth_verify($_POST['in']['PEAR_USER'], $password)) {
-                $POST['in']['handle'] = $_POST['in']['PEAR_USER'];
+        if (user::exists($_POST['PEAR_USER'])) {
+            if (auth_verify($_POST['PEAR_USER'], $password)) {
+                $POST['in']['handle'] = $_POST['PEAR_USER'];
             } else {
-                $errors[] = 'User name "' . clean($_POST['in']['PEAR_USER']) .
+                $errors[] = 'User name "' . clean($_POST['PEAR_USER']) .
                     '" already exists, please choose another user name';
             }
         }
@@ -317,20 +317,15 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
 
             $query = 'INSERT INTO bugdb_comments' .
                      ' (bug, email, handle, ts, comment, reporter_name) VALUES (' .
-                     " $id," .
-                     " '" . escapeSQL($_POST['in']['commentemail']) . "',
-                     '" . $_POST['in']['handle'] . "'," .
-                     ' NOW(),' .
-                     " '" . escapeSQL($ncomment) . "'," .
-                     " '" . escapeSQL($comment_name) . "')";
+                     '?,?,?,NOW(),?,?)';
 
-            $dbh->query($query);
+            $dbh->query($query, array($id, $auth_user->email, $auth_user->handle,
+                $ncomment, $auth_user->name));
         } while (false);
     }
-    $from = rinse($_POST['in']['commentemail']);
-} elseif ($_POST['in'] && isset($_POST['preview']) && $edit == 3) {
+    $from = $auth_user->email;
+} elseif ($_POST['ncomment'] && isset($_POST['preview']) && $edit == 3) {
     $ncomment = trim($_POST['ncomment']);
-    $from = rinse($_POST['in']['commentemail']);
 
 } elseif ($_POST['in'] && !isset($_POST['preview']) && $edit == 2) {
     // Edits submitted by original reporter
@@ -453,7 +448,7 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
         }
     }
 
-    $from = $auth_user->handle . '@php.net';
+    $from = $auth_user->email;
 
     if (!$errors && !($errors = incoming_details_are_valid($_POST['in']))) {
         $query = 'UPDATE bugdb SET';
@@ -505,18 +500,13 @@ if ($_POST['in'] && !isset($_POST['preview']) && $edit == 3) {
 
         if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
-                     ' (bug, email, ts, comment, reporter_name) VALUES (' .
-                     " $id," .
-                     " '" . escapeSQL($from) . "'," .
-                     ' NOW(),' .
-                     " '" . escapeSQL($ncomment) . "'," .
-                     " '" . escapeSQL($comment_name) . "')";
-            $dbh->query($query);
+                     ' (bug, email, ts, comment, reporter_name, handle) VALUES (?,?,NOW(),?,?,?)';
+            $dbh->query($query, array($id, $from, $ncomment, $comment_name, $auth_user->handle));
         }
     }
 } elseif ($_POST['in'] && isset($_POST['preview']) && $edit == 1) {
     $ncomment = trim($_POST['ncomment']);
-    $from = rinse($_POST['in']['commentemail']);
+    $from = $auth_user->email;
 } elseif ($_POST['in']) {
     $errors[] = 'Invalid edit mode.';
     $ncomment = '';
@@ -595,9 +585,9 @@ if ($bug['modified']) {
    <th class="details">From:</th>
    <td>
    <?php
-    if ($bug['showemail'] == '0') {
-        echo $bug['handle'];
-    } else {
+    if ($bug['bughandle']) {
+        echo '<a href="/users/' . $bug['bughandle'] . '">' . $bug['bughandle'] . '</a>';
+    } elseif ($bug['handle'] && $bug['showemail'] != '0') {
         echo spam_protect(htmlspecialchars($bug['email']));
     }
     ?></td>
@@ -652,7 +642,12 @@ control(1, 'Edit');
 if (isset($_POST['preview']) && !empty($ncomment)) {
     $preview = '<div class="comment">';
     $preview .= "<strong>[" . format_date(time()) . "] ";
-    $preview .= spam_protect(htmlspecialchars($from))."</strong>\n";
+    if ($auth_user) {
+        $preview .= '<a href="/user/' . $auth_user->handle . '">' .
+            $auth_user->handle . '</a>';
+    } else {
+        $preview .= spam_protect(htmlspecialchars($from))."</strong>\n";
+    }
     $preview .= '<pre class="note">';
     $comment = make_ticket_links(addlinks($ncomment));
     $preview .= wordwrap($comment, 72);
@@ -948,7 +943,7 @@ if ($edit == 1 || $edit == 2) {
     </form>
 
     <?php
-}
+} // if ($edit == 1 || $edit == 2)
 
 if ($auth_user && $auth_user->registered) {
 
@@ -1016,6 +1011,11 @@ Use<span class="accesskey">r</span>name:</th>
  </tr>
 </table>
 </div>
+<?php else: //if (!$auth_user) ?>
+    <div class="explain">
+     <h1><a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
+    </div>
+
 <?php endif; //if (!$auth_user) ?>
 
     <?php
@@ -1071,6 +1071,8 @@ Use<span class="accesskey">r</span>name:</th>
     </table>
 
     <div>
+     <input type="hidden" name="id" value="<?php echo $id ?>" />
+     <input type="hidden" name="edit" value="<?php echo $edit ?>" />
      <textarea cols="60" rows="10" name="ncomment"
       wrap="physical"><?php echo clean($ncomment) ?></textarea>
      <br /><input type="submit" name="preview" value="Preview">&nbsp;<input type="submit" value="Submit" />
@@ -1079,7 +1081,7 @@ Use<span class="accesskey">r</span>name:</th>
     </form>
 
     <?php
-}
+} // if ($edit == 3)
 
 
 if (!$edit && canvote()) {
@@ -1144,7 +1146,7 @@ if (!$edit && canvote()) {
 
 // Display original report
 if ($bug['ldesc']) {
-    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['handle'], $bug['reporter_name'], 1);
+    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['bughandle'], $bug['reporter_name'], 1);
 }
 
 // Display patches
@@ -1163,15 +1165,15 @@ foreach ($p as $name => $revisions) {
 }
 // Display comments
 $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name, IF(c.handle <> "",u.registered,1) as registered,
-    u.showemail, u.handle
+    u.showemail, u.handle,c.handle as bughandle
     FROM bugdb_comments c
     LEFT JOIN users u ON u.handle = c.handle
-    WHERE c.bug = '.(int)$id.'
+    WHERE c.bug = ?
     GROUP BY c.id ORDER BY c.ts';
-$res =& $dbh->query($query);
+$res =& $dbh->query($query, array($id));
 if ($res) {
     while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-        output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['handle'], $row['comment_name'], $row['registered']);
+        output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['bughandle'] ? $row['bughandle'] : $row['handle'], $row['comment_name'], $row['registered']);
     }
 }
 
@@ -1191,8 +1193,8 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
         echo ' asking for manual approval</pre></div>';
         return;
     }
-    if ($showemail == '0' && !is_null($handle)) {
-        echo $handle."</strong>\n";
+    if ($handle) {
+        echo '<a href="/user/' . $handle . '">' . $handle . "</a></strong>\n";
     } else {
         echo spam_protect(htmlspecialchars($email))."</strong>\n";
     }

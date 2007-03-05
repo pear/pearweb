@@ -81,6 +81,10 @@ class PEAR_Bugs
               b.bug_type \!= "Feature/Change Request" AND
               b.status IN ("Assigned", "Analyzed", "Feedback", "Open", "Critical", "Verified") AND
               (b.assign = ? OR b.assign IS NULL OR b.assign="")', array($handle, $handle));
+        $opened = $this->_dbh->getOne('SELECT COUNT(*) FROM bugdb WHERE
+            handle=?', array($handle));
+        $commented = $this->_dbh->getOne('SELECT COUNT(*) FROM bugdb_comments WHERE
+            handle=?', array($handle));
         $opencount = $this->_dbh->getOne('SELECT COUNT(*)
              FROM bugdb b, maintains m, packages p
              WHERE
@@ -121,6 +125,8 @@ class PEAR_Bugs
             'rank' => $rank,
             'alltime' => $alltimecount,
             'patches' => $patches,
+            'opened' => $opened,
+            'commented' => $commented,
         );
     }
 

@@ -179,6 +179,10 @@ echo '<li>Assigned bugs relative to all maintained packages\' bugs: <strong>' .
     round($info['assigned'] * 100) . '%</strong></li>';
 echo '<li>Number of submitted patches: <strong>' .
     $info['patches'] . '</strong></li>';
+echo '<li>Number of bugs opened using account: <strong>' .
+    $info['opened'] . '</strong></li>';
+echo '<li>Number of bug comments using account: <strong>' .
+    $info['commented'] . '</strong></li>';
 echo '</ul></li>';
 
 ?>
