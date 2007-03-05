@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-03-05</date>
- <time>13:19:59</time>
+ <time>16:26:59</time>
  <version>
-  <release>1.9.2</release>
+  <release>1.9.3</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,9 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10263: old roadmaps not hidden upon release [cellog]
- * Fix Bug #10268: Incorrect vote retrieval link [cellog]
- * Fix Bug #10270: roadmap versions should be sorted by release date [cellog]
+ * Fix patch tracker developer naming
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1565,10 +1563,23 @@
    </stability>
    <date>2007-03-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10263: old roadmaps not hidden upon release [cellog]
+* Fix Bug #10268: Incorrect vote retrieval link [cellog]
+* Fix Bug #10270: roadmap versions should be sorted by release date [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix Bug #10263: old roadmaps not hidden upon release [cellog]
- * Fix Bug #10268: Incorrect vote retrieval link [cellog]
- * Fix Bug #10270: roadmap versions should be sorted by release date [cellog]
+ * Fix patch tracker developer naming
    </notes>
   </release>
  </changelog>

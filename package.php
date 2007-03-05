@@ -15,13 +15,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.9.2');
+$a->setReleaseVersion('1.9.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10263: old roadmaps not hidden upon release [cellog]
- * Fix Bug #10268: Incorrect vote retrieval link [cellog]
- * Fix Bug #10270: roadmap versions should be sorted by release date [cellog]
+ * Fix patch tracker developer naming
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
