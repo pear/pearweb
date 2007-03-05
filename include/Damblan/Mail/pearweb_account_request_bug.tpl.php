@@ -8,6 +8,7 @@
      */
 
     $tpl = array(
+        'To'       => array(),
         'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
         'Subject' => '[PEAR-ACCOUNT-REQUEST] Your bug tracker account request : %username%',
         'Body' => 'You have requested an account to open bugs or comment on existing bugs.
