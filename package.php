@@ -19,21 +19,8 @@ $a->setReleaseVersion('1.9.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* fix release upload: don\'t let custom non-pear built packages with no package.xml
-  in root dir slip through the cracks
-* fix .xsd for REST1.2
-* fix Bug #10183: roadmap link to bug tracker needs &cmd=display
-* fix Bug #10212: if multiple roadmaps exist, assigning bugs to one
-  may overwrite the other
-* implement Request #9973: Add a "developing with PEAR effectively"
-  document to the site
-* implement Request #10150: Allow "future" roadmap versions
-* implement Request #10176: patch tracker for bugs
-* implement Request #10179: implement package.xml generation with auto-changelog
-  from roadmap
-* implement Request #10180: require account to open/edit bugs,
-  use auto-email verification like pear.voter
-* implement Request #10197: add PHP version and API version to release REST
+* fix Bug #10267: Wrong link to user profile [quipo]
+* fix Bug #10271: passwords are double-MD5()ed [cellog]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

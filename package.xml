@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-04</date>
- <time>23:56:22</time>
+ <date>2007-03-05</date>
+ <time>12:30:03</time>
  <version>
-  <release>1.9.0</release>
+  <release>1.9.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,21 +64,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* fix release upload: don&apos;t let custom non-pear built packages with no package.xml
-  in root dir slip through the cracks
-* fix .xsd for REST1.2
-* fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
-* fix Bug #10212: if multiple roadmaps exist, assigning bugs to one
-  may overwrite the other
-* implement Request #9973: Add a &quot;developing with PEAR effectively&quot;
-  document to the site
-* implement Request #10150: Allow &quot;future&quot; roadmap versions
-* implement Request #10176: patch tracker for bugs
-* implement Request #10179: implement package.xml generation with auto-changelog
-  from roadmap
-* implement Request #10180: require account to open/edit bugs,
-  use auto-email verification like pear.voter
-* implement Request #10197: add PHP version and API version to release REST
+* fix Bug #10267: Wrong link to user profile [quipo]
+* fix Bug #10271: passwords are double-MD5()ed [cellog]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1536,8 +1523,7 @@
    </stability>
    <date>2007-03-04</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-* fix release upload: don&apos;t let custom non-pear built packages with no package.xml
+   <notes>* fix release upload: don&apos;t let custom non-pear built packages with no package.xml
   in root dir slip through the cracks
 * fix .xsd for REST1.2
 * fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
@@ -1551,7 +1537,22 @@
   from roadmap
 * implement Request #10180: require account to open/edit bugs,
   use auto-email verification like pear.voter
-* implement Request #10197: add PHP version and API version to release REST
+* implement Request #10197: add PHP version and API version to release REST</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+* fix Bug #10267: Wrong link to user profile [quipo]
+* fix Bug #10271: passwords are double-MD5()ed [cellog]
    </notes>
   </release>
  </changelog>
