@@ -283,7 +283,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                 }
                 $salt = $buggie->addRequest($_POST['PEAR_USER'],
                       $_POST['in']['commentemail'], $_POST['in']['comment_name'],
-                      $_POST['PEAR_PW'], $_POST['PEAR_PW2']);
+                      $_POST['PEAR_PW'], $_POST['PEAR_PW2'], $_POST['isMD5']);
                 if (is_array($salt)) {
                     $errors = $salt;
                     response_header('Report - Problems');
@@ -588,7 +588,7 @@ if ($bug['modified']) {
    <td>
    <?php
     if ($bug['bughandle']) {
-        echo '<a href="/users/' . $bug['bughandle'] . '">' . $bug['bughandle'] . '</a>';
+        echo '<a href="/user/' . $bug['bughandle'] . '">' . $bug['bughandle'] . '</a>';
     } elseif ($bug['handle'] && $bug['showemail'] != '0') {
         echo spam_protect(htmlspecialchars($bug['email']));
     }
