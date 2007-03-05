@@ -84,7 +84,6 @@ class Roadmap_Package_Generator
         if ($xml) {
             return $xml;
         }
-        $pf = new pEAR_PackageFile_v2;
         $this->_errors = $pf->getValidationWarnings(true);
         return false;
     }
