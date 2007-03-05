@@ -204,10 +204,10 @@ if (isset($_GET['addbugs'])) {
     $releases->package = package::info($_GET['package'], 'id');
     $releases->orderBy('releasedate DESC');
     if ($releases->find(true)) {
-        $bugdb->whereAdd('(ts2 > "' . date('Y-m-d', strtotime($releases->releasedate)) .
+        $bugdb->whereAdd('(ts2 > "' . date('Y-m-d H:i:s', strtotime($releases->releasedate)) .
             '" AND status="Closed") OR status in ("Open", "Feedback", "Analyzed", ' .
             '"Assigned", "Critical", "Verified", "Suspended")');
-        $features->whereAdd('(ts2 > "' . date('Y-m-d', strtotime($releases->releasedate)) .
+        $features->whereAdd('(ts2 > "' . date('Y-m-d H:i:s', strtotime($releases->releasedate)) .
             '" AND status="Closed") OR status in ("Open", "Feedback", "Analyzed", ' .
             '"Assigned", "Critical", "Verified", "Suspended")');
     } else {
