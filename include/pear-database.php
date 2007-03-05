@@ -1573,8 +1573,8 @@ class release
         if ($rss) {
             $query = '
             SELECT
-                packages.name, releases.version, MAX(releases.releasedate) AS releasedate,
-                    SUM(downloads)/((unix_timestamp(NOW()) - unix_timestamp(MAX(releases.releasedate)))/86400) as releasenotes
+                packages.name, releases.version, downloads, releasedate
+                    downloads/(CEIL((unix_timestamp(NOW()) - unix_timestamp(releases.releasedate))/86400)) as releasenotes
                 FROM releases, packages, aggregated_package_stats a
                 WHERE
                     packages.name <> "pearweb" AND
@@ -1586,13 +1586,12 @@ class release
                     packages.newpk_id IS NULL AND
                     packages.unmaintained = 0 AND
                     a.yearmonth = "' . date('Y-m-01 00:00:00', time()) . '"
-                GROUP BY releases.package, a.release_id
                 ORDER BY releasenotes DESC';
         } else {
             $query = '
             SELECT
-                packages.name, releases.version,
-                    SUM(downloads)/((unix_timestamp(NOW()) - unix_timestamp(MAX(releases.releasedate)))/86400) as d
+                packages.name, releases.version, downloads,
+                    downloads/(CEIL((unix_timestamp(NOW()) - unix_timestamp(releases.releasedate))/86400)) as d
                 FROM releases, packages, aggregated_package_stats a
                 WHERE
                     packages.name <> "pearweb" AND
@@ -1604,7 +1603,6 @@ class release
                     packages.newpk_id IS NULL AND
                     packages.unmaintained = 0 AND
                     a.yearmonth = "' . date('Y-m-01 00:00:00', time()) . '"
-                GROUP BY releases.package, a.release_id
                 ORDER BY d DESC';
         }
         $sth = $dbh->limitQuery($query, 0, $n);
