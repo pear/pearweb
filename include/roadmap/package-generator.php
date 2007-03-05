@@ -79,7 +79,7 @@ class Roadmap_Package_Generator
         }
         // ooh hacky, will need to fix PEAR in 1.5.2 to make this easier
         $pf->_packageInfo['contents'] = $contents;
-        $gen = new PEAR_PackageFile_Generator_v2($pf);
+        $gen = &new PEAR_PackageFile_Generator_v2($pf);
         $xml = $gen->toXml();
         if ($xml) {
             return $xml;
