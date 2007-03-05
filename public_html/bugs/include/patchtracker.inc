@@ -71,13 +71,13 @@ class Bug_Patchtracker
         $id = time();
         PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
         $e = $this->_dbh->query('INSERT INTO bugdb_patchtracker
-            (bugdb_id, patch, revision, developer) VALUES(?, ?, ?)',
+            (bugdb_id, patch, revision, developer) VALUES(?, ?, ?, ?)',
             array($bugid, $patch, $id, $handle));
         if (PEAR::isError($e)) {
             // try with another timestamp
             $id++;
             $e = $this->_dbh->query('INSERT INTO bugdb_patchtracker
-                (bugdb_id, patch, revision, developer) VALUES(?, ?, ?)',
+                (bugdb_id, patch, revision, developer) VALUES(?, ?, ?, ?)',
                 array($bugid, $patch, $id, $handle));
         }
         PEAR::popErrorHandling();
