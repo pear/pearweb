@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-02-26</date>
- <time>15:20:06</time>
+ <date>2007-03-04</date>
+ <time>23:56:22</time>
  <version>
   <release>1.9.0</release>
   <api>0.1.1</api>
@@ -181,6 +181,7 @@
      <file name="pepr.php" role="web" />
     </dir> <!-- /include/pepr -->
     <dir name="roadmap">
+     <file name="info.php" role="web" />
      <file name="package-generator.php" role="web" />
     </dir> <!-- /include/roadmap -->
     <file name="browser.php" role="web" />
@@ -543,9 +544,9 @@
      <file name="patchadded.php" role="web" />
      <file name="patchdisplay.php" role="web" />
      <file name="roadmap.php" role="web" />
-     <file name="roadmap_packagexml.php" role="web" />
      <file name="roadmapadd.php" role="web" />
      <file name="roadmapform.php" role="web" />
+     <file name="roadmap_packagexml.php" role="web" />
      <file name="searchresults.php" role="web" />
     </dir> <!-- /templates/bugs -->
     <file name="category-manager.html" role="web" />
@@ -1533,15 +1534,21 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-02-26</date>
+   <date>2007-03-04</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 * fix release upload: don&apos;t let custom non-pear built packages with no package.xml
   in root dir slip through the cracks
 * fix .xsd for REST1.2
 * fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
+* fix Bug #10212: if multiple roadmaps exist, assigning bugs to one
+  may overwrite the other
+* implement Request #9973: Add a &quot;developing with PEAR effectively&quot;
+  document to the site
 * implement Request #10150: Allow &quot;future&quot; roadmap versions
 * implement Request #10176: patch tracker for bugs
+* implement Request #10179: implement package.xml generation with auto-changelog
+  from roadmap
 * implement Request #10180: require account to open/edit bugs,
   use auto-email verification like pear.voter
 * implement Request #10197: add PHP version and API version to release REST
