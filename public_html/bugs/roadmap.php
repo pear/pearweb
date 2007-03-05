@@ -331,8 +331,12 @@ if (empty($_GET['limit']) || !(int)$_GET['limit']) {
     $bugdb->limit($begin, $limit);
 }
 
+$releases = package::info($_GET['package'], 'releases');
+$savant->showold = isset($_GET['showold']);
+$savant->releases = array_keys($releases);
 $allroadmaps = Bug_DataObject::bugDB('bugdb_roadmap');
 $allroadmaps->package = $_GET['package'];
+$allroadmaps->orderBy('releasedate ASC');
 $allroadmaps->find(false);
 $roadmaps = Bug_DataObject::bugDB('bugdb_roadmap_link');
 $roadmaps->selectAs();
