@@ -8,12 +8,16 @@ class Roadmap_Info
             FROM bugdb_roadmap WHERE
             package=? AND
             releasedate <> "1976-09-02 17:15:30"
-            ORDER BY releasedate DESC
+            ORDER BY releasedate ASC
         ',array($package));
         if (!$ret) {
             return false;
         }
-        return $ret[0];
+        $releases = array_keys(package::info($package, 'releases'));
+        foreach ($ret as $roadmap) {
+            if (in_array($roadmap[0], $releases)) continue;
+            return $roadmap;
+        }
     }
 
     function percentDone($package, $next = false)
