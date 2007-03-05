@@ -2723,7 +2723,7 @@ class user
      *
      * @access public
      */
-    function add(&$data)
+    function add(&$data, $md5ed = false)
     {
         global $dbh;
 
@@ -2817,7 +2817,11 @@ class user
         }
 
         $data['display_form'] = false;
-        $md5pw = md5($data['password']);
+        if ($md5ed) {
+            $md5pw = $data['password'];
+        } else {
+            $md5pw = md5($data['password']);
+        }
         $showemail = @(bool)$data['showemail'];
         // hack to temporarily embed the "purpose" in
         // the user's "userinfo" column

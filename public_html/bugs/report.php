@@ -219,7 +219,7 @@ if (isset($_POST['in'])) {
                     }
                     $salt = $buggie->addRequest($_POST['PEAR_USER'],
                           $_POST['in']['email'], $_POST['in']['reporter_name'],
-                          $_POST['PEAR_PW'], $_POST['PEAR_PW2'], $_POST['isMD5']);
+                          $_POST['PEAR_PW'], $_POST['PEAR_PW2']);
                     if (is_array($salt)) {
                         $errors = $salt;
                         response_header('Report - Problems');

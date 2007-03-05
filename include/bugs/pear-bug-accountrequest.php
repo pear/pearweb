@@ -43,7 +43,7 @@ class PEAR_Bug_Accountrequest
      *
      * @return string salt
      */
-    function addRequest($handle, $email, $name, $password, $password2, $ismd5)
+    function addRequest($handle, $email, $name, $password, $password2)
     {
         if ($handle == $this->dbh->getOne('SELECT handle FROM users WHERE 
               handle=?', array($handle))) {
@@ -65,12 +65,7 @@ class PEAR_Bug_Accountrequest
             'password2'  => $password2,
         );
 
-        $useradd = user::add($data);
-        
-        if ($ismd5) {
-            // password is double-md5()ed otherwise
-            $this->dbh->query('UPDATE users set password=?', array($password));
-        }
+        $useradd = user::add($data, true);
 
         if (is_array($useradd)) {
             return $useradd;
