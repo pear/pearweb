@@ -66,17 +66,19 @@ class Bug_Patchtracker
      * @param int $bugid
      * @param string $patch
      */
-    function newPatchFileName($bugid, $patch)
+    function newPatchFileName($bugid, $patch, $handle)
     {
         $id = time();
         PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
         $e = $this->_dbh->query('INSERT INTO bugdb_patchtracker
-            (bugdb_id, patch, revision) VALUES(?, ?, ?)', array($bugid, $patch, $id));
+            (bugdb_id, patch, revision, developer) VALUES(?, ?, ?)',
+            array($bugid, $patch, $id, $handle));
         if (PEAR::isError($e)) {
             // try with another timestamp
             $id++;
             $e = $this->_dbh->query('INSERT INTO bugdb_patchtracker
-                (bugdb_id, patch, revision) VALUES(?, ?, ?)', array($bugid, $patch, $id));
+                (bugdb_id, patch, revision, developer) VALUES(?, ?, ?)',
+                array($bugid, $patch, $id, $handle));
         }
         PEAR::popErrorHandling();
         if (PEAR::isError($e)) {
@@ -118,7 +120,7 @@ class Bug_Patchtracker
      * @param string $patch uploaded patch filename form variable
      * @param string $name patch name (allows several patches to be versioned)
      */
-    function attach($bugid, $patch, $name)
+    function attach($bugid, $patch, $name, $handle)
     {
         if (!$this->_upload) {
             return PEAR::raiseError('Upload directory for patches could not be' .
@@ -135,7 +137,7 @@ class Bug_Patchtracker
             return $file;
         }
         if ($file->isValid()) {
-            $res = $this->newPatchFileName($bugid, $name);
+            $res = $this->newPatchFileName($bugid, $name, $handle);
             if (PEAR::isError($res)) {
                 return $res;
             }

@@ -31,7 +31,7 @@ if (isset($_POST['addpatch'])) {
     }
     $bug = $buginfo['id'];
     PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
-    $e = $patchinfo->attach($bug, 'patch', $_POST['name']);
+    $e = $patchinfo->attach($bug, 'patch', $_POST['name'], $auth_user->handle);
     PEAR::popErrorHandling();
     if (PEAR::isError($e)) {
         $package = $buginfo['package_name'];
