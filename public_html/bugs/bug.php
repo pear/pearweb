@@ -312,7 +312,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                 if (!DEVBOX) {
                     require_once 'Damblan/Mailer.php';
                     $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
-                    $additionalHeaders['To'] = $_POST['in']['email'];
+                    $additionalHeaders['To'] = $auth_user->email;
                     $mailer->send($additionalHeaders);
                 }
             }
