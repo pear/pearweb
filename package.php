@@ -15,13 +15,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.9.4');
+$a->setReleaseVersion('1.9.5');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Implement *much* better popular packages algorithm: only
-   count downloads per day for the current month.  This gives
-   newer packages a fighting chance to be popular :)
+ * Fix Bug #10291: if no username is entered, then the login box disappears [cellog]
+ * Fix Bug #10292: empty password is possible [cellog]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

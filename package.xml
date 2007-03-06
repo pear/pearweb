@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-05</date>
- <time>16:56:40</time>
+ <date>2007-03-06</date>
+ <time>17:40:46</time>
  <version>
-  <release>1.9.4</release>
+  <release>1.9.5</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,9 +64,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Implement *much* better popular packages algorithm: only
-   count downloads per day for the current month.  This gives
-   newer packages a fighting chance to be popular :)
+ * Fix Bug #10291: if no username is entered, then the login box disappears [cellog]
+ * Fix Bug #10292: empty password is possible [cellog]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1593,10 +1592,24 @@
    </stability>
    <date>2007-03-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Implement *much* better popular packages algorithm: only
+  count downloads per day for the current month.  This gives
+  newer packages a fighting chance to be popular :)</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.5</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-06</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Implement *much* better popular packages algorithm: only
-   count downloads per day for the current month.  This gives
-   newer packages a fighting chance to be popular :)
+ * Fix Bug #10291: if no username is entered, then the login box disappears [cellog]
+ * Fix Bug #10292: empty password is possible [cellog]
    </notes>
   </release>
  </changelog>
