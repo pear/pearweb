@@ -33,5 +33,5 @@ if ($errors) {
 <h2>Existing patches:</h2>
 <?php
 $canpatch = false;
-require 'listpatches.php';
+require dirname(__FILE__) . '/listpatches.php';
 response_footer(); ?>
