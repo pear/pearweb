@@ -1003,10 +1003,10 @@ function incoming_details_are_valid($in, $initial = 0, $logged = false)
                       . ' only letters and digits';
         }
 
-        if (empty($in['PEAR_PW'])) {
+        if (empty($in['PEAR_PW']) || $in['PEAR_PW'] == md5('')) {
             $errors[] = 'Please type a password';
         }
-        if (empty($in['PEAR_PW2'])) {
+        if (empty($in['PEAR_PW2']) || $in['PEAR_PW'] == md5('')) {
             $errors[] = 'Please confirm your password';
         }
         if ($in['PEAR_PW'] !== $in['PEAR_PW2']) {
