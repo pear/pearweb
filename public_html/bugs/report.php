@@ -444,13 +444,13 @@ if (!$auth_user) {
 } ?> method="post"
  action="<?php echo $action ?>" name="bugreport" id="bugreport">
 <?php if (!$auth_user):
-    if (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2'])):
+    if (!$errors && isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2'])):
         ?><input type="hidden" name="PEAR_USER" value="<?php echo htmlspecialchars($_POST['PEAR_USER']) ?>" />
         <input type="hidden" name="PEAR_PW" value="<?php echo htmlspecialchars($_POST['PEAR_PW']) ?>" />
         <input type="hidden" name="PEAR_PW2" value="<?php echo htmlspecialchars($_POST['PEAR_PW2']) ?>" />
         <input type="hidden" name="isMD5" value="<?php echo htmlspecialchars($_POST['isMD5']) ?>" />
         <?php
-    else: //if (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2'])) ?>
+    else: //if (!$errors && isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2'])) ?>
  <div class="explain">
  Please choose a username/password or <a href="<?php echo '/login.php?redirect=' .
         urlencode("{$self}?{$_SERVER['QUERY_STRING']}") ?>">Log in</a>
