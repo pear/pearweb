@@ -978,7 +978,7 @@ function package_exists($type)
  *
  * @return void
  */
-function incoming_details_are_valid($in, $initial = 0, $logged = false)
+function incoming_details_are_valid($in, $initial = 0, $logged = false, $edit = 0)
 {
     global $bug, $dbh, $types, $auth_user;
 
@@ -995,7 +995,7 @@ function incoming_details_are_valid($in, $initial = 0, $logged = false)
         }
     }
 
-    if (!$auth_user) {
+    if (!$auth_user && $edit != 2) {
         if (empty($in['PEAR_USER'])) {
             $errors[] = 'Please type a username';
         } elseif (!preg_match(PEAR_COMMON_USER_NAME_REGEX, $in['PEAR_USER'])) {

@@ -82,6 +82,12 @@ if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
 
 // captcha is not necessary if the user is logged in
 if ($auth_user && $auth_user->registered) {
+    if (!auth_check('pear.dev') && auth_check('pear.voter') && !auth_check('pear.bug')) {
+        // auto-grant bug tracker karma if it isn't present
+        require 'Damblan/Karma.php';
+        $karma = new Damblan_Karma($dbh);
+        $karma->grant($auth_user->user, 'pear.bug');
+    }
     if (isset($_SESSION['answer'])) {
         unset($_SESSION['answer']);
     }
@@ -91,46 +97,6 @@ if ($auth_user && $auth_user->registered && isset($_GET['delete_comment'])) {
     $delete_comment = (int)$_GET['delete_comment'];
 } else {
     $delete_comment = false;
-}
-
-if ($edit == 1) {
-    auth_require('pear.bug', 'pear.dev');
-}
-
-if (!empty($_POST['pw'])) {
-    if (empty($_POST['user'])) {
-        $user = '';
-    } else {
-        $user = htmlspecialchars(rinse($_POST['user']));
-    }
-    $pw = rinse($_POST['pw']);
-} elseif ($auth_user && $auth_user->handle && $edit == 1) {
-    $user = rinse($auth_user->handle);
-    $pw   = rinse($auth_user->password);
-} elseif (isset($_COOKIE['MAGIC_COOKIE'])) {
-    @list($user, $pw) = explode(':', base64_decode($_COOKIE['MAGIC_COOKIE']));
-    $user = rinse($user);
-    if ($pw === null) {
-        $pw = '';
-    }
-} else {
-    $user = '';
-    $pw   = '';
-}
-
-// Subscription
-if (isset($_POST['subscribe_to_bug'])) {
-    $email = $_POST['subscribe_email'];
-    if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $email)) {
-        $errors[] = "You must provide a valid email address.";
-    } else {
-        $query = 'REPLACE INTO bugdb_subscribe SET bug_id=' . $id .
-                    ", email='" . escapeSQL($email) . "'";
-        $dbh->query($query);
-
-        localRedirect('bug.php?id='.$id);
-        exit();
-    }
 }
 
 $trytoforce = isset($_POST['trytoforce']) ? (int)$_POST['trytoforce'] : false;
@@ -174,9 +140,57 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
 
 $bug =& $dbh->getRow($query, array($id), DB_FETCHMODE_ASSOC);
 
-if ($auth_user && auth_check('pear.bug') && !auth_check('pear.dev') && $edit == 1) {
-    if ($bug['bughandle'] != $auth_user->handle) {
-        $edit = 3; // can't edit a bug you didn't create
+
+if ($edit == 1) {
+    if ($auth_user) {
+        if (auth_check('pear.bug') && !auth_check('pear.dev') &&
+              $bug['bughandle'] != $auth_user->handle) {
+            $edit = 3; // can't edit a bug you didn't create
+        }
+    } else {
+        if (empty($bug['bughandle'])) {
+            $edit = 2; // old bug, may be original author, try the old way
+        }
+    }
+}
+
+if ($edit == 1) {
+    auth_require('pear.bug', 'pear.dev');
+}
+
+if (!empty($_POST['pw'])) {
+    if (empty($_POST['user'])) {
+        $user = '';
+    } else {
+        $user = htmlspecialchars(rinse($_POST['user']));
+    }
+    $pw = rinse($_POST['pw']);
+} elseif ($auth_user && $auth_user->handle && $edit == 1) {
+    $user = rinse($auth_user->handle);
+    $pw   = rinse($auth_user->password);
+} elseif (isset($_COOKIE['MAGIC_COOKIE'])) {
+    @list($user, $pw) = explode(':', base64_decode($_COOKIE['MAGIC_COOKIE']));
+    $user = rinse($user);
+    if ($pw === null) {
+        $pw = '';
+    }
+} else {
+    $user = '';
+    $pw   = '';
+}
+
+// Subscription
+if (isset($_POST['subscribe_to_bug'])) {
+    $email = $_POST['subscribe_email'];
+    if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $email)) {
+        $errors[] = "You must provide a valid email address.";
+    } else {
+        $query = 'REPLACE INTO bugdb_subscribe SET bug_id=' . $id .
+                    ", email='" . escapeSQL($email) . "'";
+        $dbh->query($query);
+
+        localRedirect('bug.php?id='.$id);
+        exit();
     }
 }
 
@@ -370,7 +384,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
         $_POST['in']['package_version'] = '';
     }
 
-    if (!$errors && !($errors = incoming_details_are_valid($_POST['in']))) {
+    if (!$errors && !($errors = incoming_details_are_valid($_POST['in'], false, false, $edit))) {
         $query = 'UPDATE bugdb SET' .
                  " sdesc='" . escapeSQL($_POST['in']['sdesc']) . "'," .
                  " status='" . escapeSQL($_POST['in']['status']) . "'," .

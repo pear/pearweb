@@ -50,6 +50,19 @@ if (isset($_POST['save']) && isset($_POST['pw'])) {
               time() + 3600 * 24 * 12, '/', '.php.net');
 }
 
+// captcha is not necessary if the user is logged in
+if ($auth_user && $auth_user->registered) {
+    if (!auth_check('pear.dev') && auth_check('pear.voter') && !auth_check('pear.bug')) {
+        // auto-grant bug tracker karma if it isn't present
+        require 'Damblan/Karma.php';
+        $karma = new Damblan_Karma($dbh);
+        $karma->grant($auth_user->user, 'pear.bug');
+    }
+    if (isset($_SESSION['answer'])) {
+        unset($_SESSION['answer']);
+    }
+}
+
 if (isset($_POST['in'])) {
     if (isset($_POST['PEAR_PW'])) {
         $_POST['in']['PEAR_PW'] = $_POST['PEAR_PW'];
@@ -61,13 +74,6 @@ if (isset($_POST['in'])) {
         $_POST['in']['PEAR_USER'] = $_POST['PEAR_USER'];
     }
     $errors = incoming_details_are_valid($_POST['in'], 1, ($auth_user && $auth_user->registered));
-
-    // captcha is not necessary if the user is logged in
-    if ($auth_user && $auth_user->registered) {
-        if (isset($_SESSION['answer'])) {
-            unset($_SESSION['answer']);
-        }
-    }
 
     /**
      * Check if session answer is set, then compare
