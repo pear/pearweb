@@ -727,7 +727,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
     }
 
     $fields = array(
-        'sdesc'        => 'Sumamry',
+        'sdesc'        => 'Summary',
         'status'       => 'Status',
         'bug_type'     => 'Type',
         'package_name' => 'Package',
