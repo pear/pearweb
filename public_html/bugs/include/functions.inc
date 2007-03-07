@@ -701,7 +701,6 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
 
     switch ($edit) {
         case 3:
-            $from = spam_protect(rinse($in['commentemail']), 'text');
             $headers[] = array(" Comment by", $from);
             $from = "\"$from\" <$mailfrom>";
             break;
@@ -728,6 +727,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
     }
 
     $fields = array(
+        'sdesc'        => 'Sumamry',
         'status'       => 'Status',
         'bug_type'     => 'Type',
         'package_name' => 'Package',

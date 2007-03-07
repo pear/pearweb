@@ -518,7 +518,11 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
 
 if ($_POST['in'] && !isset($_POST['preview'])) {
     if (!$errors) {
-        mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit, $id);
+        if ($auth_user) {
+            mail_bug_updates($bug, $_POST['in'], $auth_user->email, $ncomment, $edit, $id);
+        } else {
+            mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit, $id);
+        }
         localRedirect('bug.php' . "?id=$id&thanks=$edit");
         exit;
     }
