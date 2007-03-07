@@ -458,8 +458,8 @@ if (!$auth_user) {
         <?php
     else: //if (!$errors && isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2'])) ?>
  <div class="explain">
- Please choose a username/password or <a href="<?php echo '/login.php?redirect=' .
-        urlencode("{$self}?{$_SERVER['QUERY_STRING']}") ?>">Log in</a>
+ Please create a username/password or <a href="<?php echo '/login.php?redirect=' .
+        urlencode("{$self}?{$_SERVER['QUERY_STRING']}") ?>">Log in</a> to your existing account
 <script type="text/javascript" src="/javascript/md5.js"></script>
 <script type="text/javascript">
 function doMD5(frm) {
