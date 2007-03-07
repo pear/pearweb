@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-06</date>
- <time>17:40:46</time>
+ <date>2007-03-07</date>
+ <time>14:57:36</time>
  <version>
   <release>1.9.5</release>
   <api>0.1.1</api>
@@ -64,8 +64,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10291: if no username is entered, then the login box disappears [cellog]
- * Fix Bug #10292: empty password is possible [cellog]
+ * Fix Bug #10293: &quot;Comment by:&quot; is emtpy in bug emails [cellog]
+ * Fix Bug #10294: problems with &quot;voting-only&quot;-account [cellog]
+ * Fix Bug #10301: no easy way to edit old bugs submitted [cellog]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1605,11 +1606,12 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-03-06</date>
+   <date>2007-03-07</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix Bug #10291: if no username is entered, then the login box disappears [cellog]
- * Fix Bug #10292: empty password is possible [cellog]
+ * Fix Bug #10293: &quot;Comment by:&quot; is emtpy in bug emails [cellog]
+ * Fix Bug #10294: problems with &quot;voting-only&quot;-account [cellog]
+ * Fix Bug #10301: no easy way to edit old bugs submitted [cellog]
    </notes>
   </release>
  </changelog>

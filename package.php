@@ -19,8 +19,9 @@ $a->setReleaseVersion('1.9.5');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10291: if no username is entered, then the login box disappears [cellog]
- * Fix Bug #10292: empty password is possible [cellog]
+ * Fix Bug #10293: "Comment by:" is emtpy in bug emails [cellog]
+ * Fix Bug #10294: problems with "voting-only"-account [cellog]
+ * Fix Bug #10301: no easy way to edit old bugs submitted [cellog]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
