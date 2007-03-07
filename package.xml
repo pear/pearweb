@@ -53,9 +53,9 @@
   <active>no</active>
  </developer>
  <date>2007-03-07</date>
- <time>14:57:36</time>
+ <time>15:00:59</time>
  <version>
-  <release>1.9.5</release>
+  <release>1.9.6</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -1600,6 +1600,21 @@
   <release>
    <version>
     <release>1.9.5</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-07</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10293: &quot;Comment by:&quot; is emtpy in bug emails [cellog]
+* Fix Bug #10294: problems with &quot;voting-only&quot;-account [cellog]
+* Fix Bug #10301: no easy way to edit old bugs submitted [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.6</release>
     <api>0.1.1</api>
    </version>
    <stability>
