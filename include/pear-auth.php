@@ -95,7 +95,8 @@ function auth_reject($realm = null, $message = null)
         print "automatically. You can sign up for an account ";
         print "<a href=\"/account-request.php\">over here</a>.</p>";
         print "<p>If you forgot your password, instructions for resetting ";
-        print "it can be found on a <a href=\"/about/forgot-password.php\">";
+        print "it can be found on a <a href=\"https://" . PEAR_CHANNELNAME .
+              "/about/forgot-password.php\">";
         print "dedicated page</a>.</p>";
 
     }
