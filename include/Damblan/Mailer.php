@@ -60,7 +60,7 @@ class Damblan_Mailer
      * @since
      * @access public
      *
-     * @param array $template The template. This can either be a name of a template or the
+     * @param array|string $template The template. This can either be a name of a template or the
      *                        the template itself (the array). If you choose to use the template's
      *                        name, the template file will automatically be included. The template
      *                        file has to reside in the include/Damblan/Mail/ directory and follow
@@ -79,9 +79,13 @@ class Damblan_Mailer
      */
     function &create($template, $data)
     {
-        require 'Damblan/Mail/'.$template.'.tpl.php';
-        if (!isset($tpl)) {
-            return PEAR::raiseError('Template '.$template.' does not exist.');
+        if (!is_array($template)) {
+            require 'Damblan/Mail/'.$template.'.tpl.php';
+            if (!isset($tpl)) {
+                return PEAR::raiseError('Template '.$template.' does not exist.');
+            }
+        } else {
+            $tpl = $template;
         }
         if (!is_array($data)) {
             return PEAR::raiseError('Data not in correct format, has to be array.');

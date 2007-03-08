@@ -2194,6 +2194,47 @@
  </table>
 
  <table>
+  <name>lostpassword</name>
+  <declaration>
+   <field>
+    <name>handle</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>newpassword</name>
+    <type>text</type>
+    <length>64</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>salt</name>
+    <type>text</type>
+    <length>32</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>requested</name>
+    <type>datetime</type>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>handle</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+  </declaration>
+ </table>
+
+ <table>
 
   <name>users</name>
 

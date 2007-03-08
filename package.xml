@@ -55,7 +55,7 @@
  <date>2007-03-07</date>
  <time>15:00:59</time>
  <version>
-  <release>1.9.6</release>
+  <release>1.10.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,9 +64,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10293: &quot;Comment by:&quot; is emtpy in bug emails [cellog]
- * Fix Bug #10294: problems with &quot;voting-only&quot;-account [cellog]
- * Fix Bug #10301: no easy way to edit old bugs submitted [cellog]
+ * Implement Request #10302: password reset form for pear.dev accounts
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -172,6 +170,9 @@
      <file name="info.php" role="web" />
      <file name="package-generator.php" role="web" />
     </dir> <!-- /include/roadmap -->
+    <dir name="users">
+     <file name="passwordmanage.php" role="web" />
+    </dir> <!-- /templates/users -->
     <file name="browser.php" role="web" />
     <file name="pear-append.php" role="web" />
     <file name="pear-auth.php" role="web" />
@@ -199,6 +200,9 @@
      <file name="index.php" role="web" />
      <file name="privacy.php" role="web" />
     </dir> <!-- /public_html/about -->
+    <dir name="account">
+     <file name="password-confirm-change.php" role="web" />
+    </dir> <!-- /public_html/account -->
     <dir name="admin">
      <file name="apidoc-log.php" role="web" />
      <file name="category-manager.php" role="web" />
@@ -537,6 +541,12 @@
      <file name="roadmap_packagexml.php" role="web" />
      <file name="searchresults.php" role="web" />
     </dir> <!-- /templates/bugs -->
+    <dir name="users">
+     <file name="lostpassword.php" role="web" />
+     <file name="passwordform.php" role="web" />
+     <file name="passwordreset.php" role="web" />
+     <file name="passwordresetconfirmed.php" role="web" />
+    </dir> <!-- /templates/users -->
     <file name="category-manager.html" role="web" />
     <file name="election-confirm.tpl.php" role="web" />
     <file name="election-confirmed.tpl.php" role="web" />
@@ -1627,6 +1637,21 @@
  * Fix Bug #10293: &quot;Comment by:&quot; is emtpy in bug emails [cellog]
  * Fix Bug #10294: problems with &quot;voting-only&quot;-account [cellog]
  * Fix Bug #10301: no easy way to edit old bugs submitted [cellog]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.10.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-07</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+ * Implement Request #10302: password reset form for pear.dev accounts
    </notes>
   </release>
  </changelog>

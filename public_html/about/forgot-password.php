@@ -14,33 +14,43 @@
    | license@php.net so we can mail you a copy immediately.               |
    +----------------------------------------------------------------------+
    | Authors: Martin Jansen <mj@php.net>                                  |
+   |          Gregory Beaver <cellog@php.net>                             |
    +----------------------------------------------------------------------+
    $Id$
 */
-response_header("Forgot your password?");
-?>
-
-<h1>Forgot your password?</h1>
-
-<p>Forgot your password for logging in to the website?  Don&#39;t 
-worry &mdash; this happens to the best of us.  Currently there is no
-automated way to reset the password, but you can send a mail to the
-<a href="mailto:pear-group@php.net">PEAR Group</a> that includes the
-following information:</p>
-
-<ul>
-  <li>your PEAR username</li>
-  <li>the new password for your account as an MD5 hash</li>
-</ul>
-
-<p>Please also make sure that you are sending the mail using the 
-address with which you signed up for an account initially.  It will be
-used to confirm that your request is valid.  If that isn&#39;t possible
-for some reason, include the address in the mail body.</p>
-
-<p>The MD5 hash can be created by using PHP's <code><a href="http://php.net/md5">md5()</a></code>
-function.</p>
-
-<?php
-response_footer();
+$errors = array();
+if (isset($_POST['resetpass'])) {
+    if (!isset($_POST['handle']) || empty($_POST['handle'])) {
+        $errors[] = 'Please enter your username';
+    }
+    if (!isset($_POST['password']) || empty($_POST['password'])) {
+        $errors[] = 'Please enter your new password';
+    }
+    if (!isset($_POST['password2']) || empty($_POST['password2'])) {
+        $errors[] = 'Please confirm your new password';
+    }
+    if (isset($_POST['password']) && isset($_POST['password2'])) {
+        if ($_POST['password'] !== $_POST['password2']) {
+            $errors[] = 'Passwords do not match';
+        }
+    }
+    if (array('handle' => $_POST['handle']) != user::info($_POST['handle'], 'handle')) {
+        $errors[] = 'Unknown user "' . $_POST['handle'] . '"';
+        $_POST['handle'] = '';
+    }
+    if (!count($errors)) {
+        require 'users/passwordmanage.php';
+        $manager = new Users_PasswordManage;
+        $errors = $manager->resetPassword($_POST['handle'], $_POST['password'],
+                                          $_POST['password2']);
+        if (!count($errors)) {
+            $user = $_POST['handle'];
+            require dirname(dirname(dirname(__FILE__))) . '/templates/users/passwordreset.php';
+            exit;
+        }
+    }
+}
+response_header("PEAR :: Forgot your password?");
+$handle = isset($_POST['handle']) ? $_POST['handle'] : '';
+require dirname(dirname(dirname(__FILE__))) . '/templates/users/lostpassword.php';
 ?>

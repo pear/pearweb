@@ -25,3 +25,11 @@ INSERT INTO users VALUES ('admin','21232f297a57a5a743894a0e4a801fc3','Administra
 
 -- Password is "helloworld"
 INSERT INTO users VALUES ('johndoe','fc5e038d38a57032085441e7fe7010b0','John Doe','john@example.com','http://www.example.com/',NOW(),'root',NULL,1,1,0, 'Hi, I\'m John Doe.',NULL,NULL,'');
+
+CREATE TABLE lostpassword (
+  handle varchar(20) NOT NULL,
+  newpassword varchar(64) default NULL,
+  salt CHAR(32) NOT NULL,
+  requested datetime NOT NULL,
+  PRIMARY KEY (handle)
+);

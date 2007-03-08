@@ -15,14 +15,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.9.6');
+$a->setReleaseVersion('1.10.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10293: "Comment by:" is emtpy in bug emails [cellog]
- * Fix Bug #10294: problems with "voting-only"-account [cellog]
- * Fix Bug #10301: no easy way to edit old bugs submitted [cellog]
-');
+ * Implement Request #10302: password reset form for pear.dev accounts
+ ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
 $a->clearDeps();
