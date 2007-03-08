@@ -72,7 +72,7 @@ class Users_PasswordManage
 at pear.php.net.
 
 If you intended to reset the password, please navigate to this page:
-  http://' . PEAR_CHANNELNAME . '/account/password-retrieve.php
+  http://' . PEAR_CHANNELNAME . '/account/password-confirm-change.php
 and follow the instructions.  Your password reset code is:
 
 %salt%
