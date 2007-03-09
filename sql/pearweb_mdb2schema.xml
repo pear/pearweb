@@ -553,7 +553,7 @@
    </index>
   </declaration>
  </table>
- <table>
+
 
  <table>
 
@@ -2219,7 +2219,7 @@
 
    <field>
     <name>requested</name>
-    <type>datetime</type>
+    <type>timestamp</type>
     <notnull>true</notnull>
    </field>
 
