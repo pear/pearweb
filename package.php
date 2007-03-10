@@ -15,11 +15,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.10.0');
+$a->setReleaseVersion('1.10.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Implement Request #10302: password reset form for pear.dev accounts
+ * Fix Bug #10318: Don\'t send remainders for Spam bugs
  ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
