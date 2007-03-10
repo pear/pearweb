@@ -141,8 +141,8 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                         $wrapped_text = wordwrap($text, 72);
             
                         $dev_text .= "\n" . $wrapped_text .
-                                    "\n\n" . '  Further comments can be seen at http://' . $site . '.php.net/bugs/' . $id.
-                                    "\n" . '  Edit this bug report at http://' . $site . '.php.net/bugs/bug.php?id=' . $id . '&edit=1' . "\n";
+                                    "\n\n" . '  Further comments can be seen at http://' . $site . '.php.net/bugs/' . $bug_info['id'] .
+                                    "\n" . '  Edit this bug report at http://' . $site . '.php.net/bugs/bug.php?id=' . $bug_info['id'] . '&edit=1' . "\n";
                     }
                     break;
                 default:

@@ -20,6 +20,7 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
  * Fix Bug #10318: Don\'t send remainders for Spam bugs
+ * Fix Bug #10319: Wrong ID in links for Documentation bugs
  ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
