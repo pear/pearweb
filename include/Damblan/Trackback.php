@@ -402,7 +402,7 @@ class Damblan_Trackback extends Services_Trackback
      *
      * @return array(string) The list of maintainer emails.
      */
-    function getMaintainers ($activeOnly = false)
+    function getMaintainers ($activeOnly = true)
     {
         $maintainers = maintainer::get($this->get('id'), true, $activeOnly);
         $res = array();
