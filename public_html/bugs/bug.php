@@ -1192,6 +1192,7 @@ $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporte
     GROUP BY c.id ORDER BY c.ts';
 $res =& $dbh->query($query, array($id));
 if ($res) {
+    ?><h2>Comments</h2><?php
     while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
         output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['bughandle'] ? $row['bughandle'] : $row['handle'], $row['comment_name'], $row['registered']);
     }
