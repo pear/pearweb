@@ -24,7 +24,8 @@ if ($errors) {
    Patch File
   </th>
   <td class="form-input">
-   <input type="file" name="patch"/>
+   <input type="file" name="patch"/><br />
+   <small>The patch name must be shorter than 40 characters and it must only contain alpha-numeric characters or hyphens.</small>
   </td>
  </tr>
 </table>

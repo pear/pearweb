@@ -126,7 +126,7 @@ class Bug_Patchtracker
             return PEAR::raiseError('Upload directory for patches could not be' .
                 ' initialized');
         }
-        if (!preg_match('/^[a-zA-Z_-]+$/', $name) || strlen($name) > 40) {
+        if (!preg_match('/^[\w\-]+$/', $name) || strlen($name) > 40) {
             return PEAR::raiseError('Invalid patch name "' . $name . '"');
         }
         if (PEAR::isError($e = $this->setupPatchDir($bugid, $name))) {

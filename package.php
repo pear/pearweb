@@ -23,6 +23,8 @@ $a->setNotes('
  * Fix Bug #10319: Wrong ID in links for Documentation bugs
  * Fix Bug #10323: HTML special characters not escaped in patch output
  * Fix Bug #10321: Separate patches from comments in the bug report page
+ * Fix Bug #10320: Allow numbers in patch name
+ * Fix Bug #10322: Explain allowed chars in patch name
  ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
