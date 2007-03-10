@@ -21,6 +21,7 @@ $a->setAPIStability('stable');
 $a->setNotes('
  * Fix Bug #10318: Don\'t send remainders for Spam bugs
  * Fix Bug #10319: Wrong ID in links for Documentation bugs
+ * Fix Bug #10323: HTML special characters not escaped in patch output
  ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
