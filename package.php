@@ -19,6 +19,7 @@ $a->setReleaseVersion('1.11.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
+ * Fix Bug #10307: Added make_ticket_link to make it find feature #xx as well
  * Fix Bug #9214 : Add search and list packages to Users category on main page
  * Fix bug #10035: Don\'t send trackbacks notifications to inactive maintainers
  * Fix Bug #10318: Don\'t send remainders for Spam bugs
