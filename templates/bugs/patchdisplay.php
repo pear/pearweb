@@ -12,6 +12,6 @@ Patch Revisions:
 <?php endforeach; //foreach ($revisions as $i => $revision) ?>
 <h3>Developer: <a href="/user/<?php echo $handle ?>"><?php echo $handle ?></a></h3>
 <pre>
-<?php echo $patchcontents; ?>
+<?php echo htmlentities($patchcontents, ENT_QUOTES, 'UTF-8'); ?>
 </pre>
 <?php response_footer();
