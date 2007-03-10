@@ -35,7 +35,8 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
         echo readfile($path);
         exit;
     }
-    $patchcontents = htmlentities($patchinfo->getPatch($buginfo['id'], $_GET['patch'], $_GET['revision']), ENT_QUOTES, 'UTF-8');;
+    $patchcontents = $patchinfo->getPatch($buginfo['id'], $_GET['patch'], $_GET['revision']);
+
     if (PEAR::isError($patchcontents)) {
         response_header('Error :: Cannot retrieve patch');
         display_bug_error('Internal error: Invalid patch/revision specified (is in database, but not in filesystem)');
@@ -46,7 +47,7 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
     $bug = $buginfo['id'];
     $handle = $patchinfo->getDeveloper($bug, $_GET['patch'], $_GET['revision']);
     $revision = $_GET['revision'];
-    $patch = htmlentities($_GET['patch'], ENT_QUTOES, 'UTF-8');
+    $patch = $_GET['patch'];
     include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/patchdisplay.php';
 }
 response_header('Bug #' . clean($buginfo['id']) . ' :: Patches');
