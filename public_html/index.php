@@ -91,6 +91,9 @@ echo menu_link('Support', '/support');
 echo menu_link('Installation Help', '/manual/en/installation.cli.php');
 echo menu_link('About PEAR', '/manual/en/about-pear.php');
 echo menu_link('News', '/news/');
+echo menu_link('List Packages', '/packages.php');
+echo menu_link('Search', '/search.php');
+
 ?>
 </div>
 
