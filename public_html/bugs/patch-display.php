@@ -10,7 +10,7 @@ require 'include/patchtracker.inc';
 $patchinfo = new Bug_Patchtracker;
 if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_GET['bug']))) {
     response_header('Error :: invalid bug selected');
-    display_bug_error('Invalid bug "' . $GET['bug'] . '" selected');
+    display_bug_error('Invalid bug "' . (int)$GET['bug'] . '" selected');
     response_footer();
     exit;
 }
@@ -35,7 +35,7 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
         echo readfile($path);
         exit;
     }
-    $patchcontents = $patchinfo->getPatch($buginfo['id'], $_GET['patch'], $_GET['revision']);
+    $patchcontents = htmlentities($patchinfo->getPatch($buginfo['id'], $_GET['patch'], $_GET['revision']), ENT_QUOTES, 'UTF-8');;
     if (PEAR::isError($patchcontents)) {
         response_header('Error :: Cannot retrieve patch');
         display_bug_error('Internal error: Invalid patch/revision specified (is in database, but not in filesystem)');
@@ -46,7 +46,7 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
     $bug = $buginfo['id'];
     $handle = $patchinfo->getDeveloper($bug, $_GET['patch'], $_GET['revision']);
     $revision = $_GET['revision'];
-    $patch = $_GET['patch'];
+    $patch = htmlentities($_GET['patch'], ENT_QUTOES, 'UTF-8');
     include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/patchdisplay.php';
 }
 response_header('Bug #' . clean($buginfo['id']) . ' :: Patches');
