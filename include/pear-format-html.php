@@ -1150,10 +1150,10 @@ function validate_captcha($max_age = 300)
  */
 function make_ticket_links($text)
 {
-    $text = preg_replace('/(?<=php)\s*(bug(?:fix)?|req(?:uest)?)\s+#?([0-9]+)/i',
+    $text = preg_replace('/(?<=php)\s*(bug(?:fix)?|feat(?:ure)?|req(?:uest)?)\s+#?([0-9]+)/i',
                          ' <a href="http://bugs.php.net/\\2">\\1 \\2</a>',
                          $text);
-    $text = preg_replace('/(?<![>a-z])(bug(?:fix)?|req(?:uest)?)\s+#?([0-9]+)/i',
+    $text = preg_replace('/(?<![>a-z])(bug(?:fix)?|feat(?:ure)?|req(?:uest)?)\s+#?([0-9]+)/i',
                          '<a href="/bugs/\\2">\\0</a>', $text);
     return $text;
 }
