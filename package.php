@@ -15,20 +15,24 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.11.0');
+$a->setReleaseVersion('1.10.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10307: Added make_ticket_link to make it find feature #xx as well
- * Fix Bug #9214 : Add search and list packages to Users category on main page
- * Fix bug #10035: Don\'t send trackbacks notifications to inactive maintainers
- * Fix Bug #10318: Don\'t send remainders for Spam bugs
- * Fix Bug #10319: Wrong ID in links for Documentation bugs
- * Fix Bug #10323: HTML special characters not escaped in patch output
- * Fix Bug #10321: Separate patches from comments in the bug report page
- * Fix Bug #10320: Allow numbers in patch name
- * Fix Bug #10322: Explain allowed chars in patch name
- ');
+ * Fix Bug #10307: Feature #1234 texts don\'t become links [davidc]
+ * Fix Bug #10309: Badly formed XML schema [davidc]
+ * Fix Bug #10318: Don\'t send remainders for Spam bugs [mj]
+ * Fix Bug #10319: Wrong ID in links for Documentation bugs [mj]
+ * Fix Bug #10321: Separate patches from comments in the bug report page [mj]
+ * Fix Bug #10323: HTML special characters not escaped in patch output [mj]
+ * Fix Bug #10324: Unescaped values on invalid bugs [davidc]
+ * Fix Bug #10328: no verification sent for new users who comment on bugs [cellog]
+ * Implement Feature #9214: Patch to add "Users" category on main page [davidc]
+ * Implement Feature #10035: No trackback notifications for in active developers [davidc]
+ * Implement Feature #10320: Allow numbers in patch name [mj]
+ * Implement Feature #10322: Explain allowed chars in patch name [mj]
+ * Implement Feature #10329: add "resend account confirmation" link for unconfirmed account bugs [cellog]
+');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
 $a->clearDeps();
