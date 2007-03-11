@@ -22,9 +22,9 @@
 require_once 'PEAR.php';
 
 // Get common settings.
-require_once dirname(__FILE__) . '/../include/pear-config.php';
-require_once dirname(__FILE__) . '/../include/pear-format-html.php';
-require_once dirname(__FILE__) . '/../public_html/bugs/include/functions.inc';
+require_once dirname(dirname(__FILE__)) . '/include/pear-config.php';
+require_once dirname(dirname(__FILE__)) . '/include/pear-format-html.php';
+require_once dirname(dirname(__FILE__)) . '/public_html/bugs/include/functions.inc';
 
 // Get the database class.
 require_once 'DB.php';
