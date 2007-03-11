@@ -227,7 +227,8 @@ if (!$bug['registered']) {
     response_header('User has not confirmed identity');
     display_bug_error('The user who submitted this bug has not yet confirmed ' .
         'their email address.  If you submitted this bug, please check your email.' .
-        '  If you do not have a confirmation message, please write a message to' .
+        '  If you do not have a confirmation message, <a href="resend-request-email.php?' .
+        'handle=' . $handle . '">click here to re-send</a> or write a message to' .
         ' pear-dev@lists.php.net asking for manual approval of your account');
     response_footer();
     exit;
@@ -317,18 +318,10 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                 }
 
                 $auth_user = new PEAR_User($dbh, $_POST['PEAR_USER']);
-                $_POST['in']['handle'] = $_POST['PEAR_USER'];
-                $mailData = array(
-                    'username'  => $_POST['in']['handle'],
-                    'salt' => $salt,
-                );
-
                 if (!DEVBOX) {
-                    require_once 'Damblan/Mailer.php';
-                    $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
-                    $additionalHeaders['To'] = $auth_user->email;
-                    $mailer->send($additionalHeaders);
+                    $buggie->sendEmail();
                 }
+                $_POST['in']['handle'] = $_POST['PEAR_USER'];
             }
 
             $query = 'INSERT INTO bugdb_comments' .
@@ -1210,7 +1203,9 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
     if (!$registered) {
         echo 'User who submitted this comment has not confirmed identity</strong>';
         echo '<pre class="note">If you submitted this note, check your email.';
-        echo '  If you do not have a message, write a mail to pear-dev@lists.php.net';
+        echo 'If you do not have a message, <a href="resend-request-email.php?' .
+            'handle=' . $handle . "\">click here to re-send</a>\nor write a mail to" .
+            ' pear-dev@lists.php.net';
         echo ' asking for manual approval</pre></div>';
         return;
     }

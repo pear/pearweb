@@ -231,6 +231,7 @@
      <file name="patch-display.php" role="web" />
      <file name="quick-fix-desc.php" role="web" />
      <file name="report.php" role="web" />
+     <file name="resend-request-email.php" role="web" />
      <file name="roadmap.php" role="web" />
      <file name="search.php" role="web" />
      <file name="stats.php" role="web" />

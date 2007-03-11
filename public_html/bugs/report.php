@@ -245,16 +245,8 @@ if (isset($_POST['in'])) {
                     }
         
                     $_POST['in']['handle'] = $_POST['PEAR_USER'];
-                    $mailData = array(
-                        'username'  => $_POST['in']['handle'],
-                        'salt' => $salt,
-                    );
-        
                     if (!DEVBOX) {
-                        require_once 'Damblan/Mailer.php';
-                        $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
-                        $additionalHeaders['To'] = $_POST['in']['email'];
-                        $mailer->send($additionalHeaders);
+                        $buggie->sendEmail();
                     }
                 }
                 // Put all text areas together.

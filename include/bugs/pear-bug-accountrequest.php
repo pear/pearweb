@@ -8,11 +8,57 @@ class PEAR_Bug_Accountrequest
     var $salt;
     var $email;
 
-    function PEAR_Bug_Accountrequest()
+    function PEAR_Bug_Accountrequest($handle = false)
     {
         $this->dbh = &$GLOBALS['dbh'];
-        $this->user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : false;
+        if ($handle) {
+            $this->user = $handle;
+        } else {
+            $this->user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : false;
+        }
         $this->cleanOldRequests();
+    }
+
+    function pending()
+    {
+        $request = $this->dbh->getOne('
+            SELECT handle
+            FROM bug_account_request
+            WHERE handle=?
+        ', array($this->user));
+
+        if ($request) {
+            return true;
+        }
+        return false;
+    }
+
+    function sendEmail()
+    {
+        $salt = $this->dbh->getOne('
+            SELECT salt
+            FROM bug_account_request
+            WHERE handle=?
+        ', array($this->user));
+        if (!$salt) {
+            return false;
+        }
+        $email = $this->dbh->getOne('
+            SELECT email
+            FROM users
+            WHERE handle=?
+        ', array($this->user));
+        if (!$email) {
+            return false;
+        }
+        $mailData = array(
+            'username'  => $this->user,
+            'salt' => $salt,
+        );
+        require_once 'Damblan/Mailer.php';
+        $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
+        $additionalHeaders['To'] = $email;
+        $mailer->send($additionalHeaders);
     }
 
     function _makeSalt($handle)
