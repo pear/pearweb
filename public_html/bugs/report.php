@@ -287,69 +287,56 @@ if (isset($_POST['in'])) {
                 } else {
                     $cid = mysqli_insert_id($dbh->connection);
                 }
-    
-                $report  = '';
-                $report .= 'From:             ' . $_POST['in']['handle'] . "\n";
-                $report .= 'Operating system: ' . rinse($_POST['in']['php_os']) . "\n";
-                $report .= 'Package version:  ' . rinse($_POST['in']['package_version']) . "\n";
-                $report .= 'PHP version:      ' . rinse($_POST['in']['php_version']) . "\n";
-                $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
-                $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
-                $report .= 'Bug description:  ';
-    
-                $fdesc = rinse($fdesc);
-                $sdesc = rinse($_POST['in']['sdesc']);
-    
-                $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
-                $ascii_report .= "\n-- \nEdit bug report at ";
-                $ascii_report .= "http://$site.php.net/bugs/bug.php?id=$cid&edit=";
-    
-                list($mailto, $mailfrom) = get_package_mail($_POST['in']['package_name']);
-    
-                $email = rinse($_POST['in']['email']);
-                $protected_email  = '"' . spam_protect($email, 'text') . '"';
-                $protected_email .= '<' . $mailfrom . '>';
-    
-                // provide shortcut URLS for "quick bug fixes"
-                // $dev_extra = '';
-                // $maxkeysize = 0;
-                // foreach ($RESOLVE_REASONS as $v) {
-                //     if (!$v['webonly']) {
-                //         $actkeysize = strlen($v['desc']) + 1;
-                //         $maxkeysize = (($maxkeysize < $actkeysize) ? $actkeysize : $maxkeysize);
-                //     }
-                // }
-                // foreach ($RESOLVE_REASONS as $k => $v) {
-                //     if (!$v['webonly'])
-                //         $dev_extra .= str_pad($v['desc'] . ":", $maxkeysize) .
-                //             " http://bugs.php.net/fix.php?id=$cid&r=$k\n";
-                // }
-    
-                $extra_headers  = 'From: '           . $protected_email . "\n";
-                $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
-                $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
-                $extra_headers .= 'X-PHP-Type: '     . rinse($_POST['in']['bug_type']) . "\n";
-                $extra_headers .= 'X-PHP-PackageVersion: '  . rinse($_POST['in']['package_version']) . "\n";
-                $extra_headers .= 'X-PHP-Version: '  . rinse($_POST['in']['php_version']) . "\n";
-                $extra_headers .= 'X-PHP-Category: ' . rinse($_POST['in']['package_name']) . "\n";
-                $extra_headers .= 'X-PHP-OS: '       . rinse($_POST['in']['php_os']) . "\n";
-                $extra_headers .= 'X-PHP-Status: Open' . "\n";
-                $extra_headers .= 'Message-ID: <bug-' . $cid . '@'.$site.'.php.net>';
-    
-                $type = @$types[$_POST['in']['bug_type']];
-    
-                if (DEVBOX == false) {
-                    // mail to package developers
-                    @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
-                          $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
-                          '-f bounce-no-user@php.net');
-                    // mail to reporter
-                    @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
-                          $ascii_report . "2\n",
-                          "From: $siteBig Bug Database <$mailfrom>\n" .
-                          "X-PHP-Bug: $cid\n" .
-                          "Message-ID: <bug-$cid@$site.php.net>",
-                          '-f bounce-no-user@php.net');
+
+                if (!isset($buggie)) {
+                    $report  = '';
+                    $report .= 'From:             ' . $_POST['in']['handle'] . "\n";
+                    $report .= 'Operating system: ' . rinse($_POST['in']['php_os']) . "\n";
+                    $report .= 'Package version:  ' . rinse($_POST['in']['package_version']) . "\n";
+                    $report .= 'PHP version:      ' . rinse($_POST['in']['php_version']) . "\n";
+                    $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
+                    $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
+                    $report .= 'Bug description:  ';
+        
+                    $fdesc = rinse($fdesc);
+                    $sdesc = rinse($_POST['in']['sdesc']);
+        
+                    $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
+                    $ascii_report .= "\n-- \nEdit bug report at ";
+                    $ascii_report .= "http://$site.php.net/bugs/bug.php?id=$cid&edit=";
+        
+                    list($mailto, $mailfrom) = get_package_mail($_POST['in']['package_name']);
+        
+                    $email = rinse($_POST['in']['email']);
+                    $protected_email  = '"' . spam_protect($email, 'text') . '"';
+                    $protected_email .= '<' . $mailfrom . '>';
+        
+                    $extra_headers  = 'From: '           . $protected_email . "\n";
+                    $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
+                    $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
+                    $extra_headers .= 'X-PHP-Type: '     . rinse($_POST['in']['bug_type']) . "\n";
+                    $extra_headers .= 'X-PHP-PackageVersion: '  . rinse($_POST['in']['package_version']) . "\n";
+                    $extra_headers .= 'X-PHP-Version: '  . rinse($_POST['in']['php_version']) . "\n";
+                    $extra_headers .= 'X-PHP-Category: ' . rinse($_POST['in']['package_name']) . "\n";
+                    $extra_headers .= 'X-PHP-OS: '       . rinse($_POST['in']['php_os']) . "\n";
+                    $extra_headers .= 'X-PHP-Status: Open' . "\n";
+                    $extra_headers .= 'Message-ID: <bug-' . $cid . '@'.$site.'.php.net>';
+        
+                    $type = @$types[$_POST['in']['bug_type']];
+        
+                    if (DEVBOX == false) {
+                        // mail to package developers
+                        @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
+                              $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
+                              '-f bounce-no-user@php.net');
+                        // mail to reporter
+                        @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
+                              $ascii_report . "2\n",
+                              "From: $siteBig Bug Database <$mailfrom>\n" .
+                              "X-PHP-Bug: $cid\n" .
+                              "Message-ID: <bug-$cid@$site.php.net>",
+                              '-f bounce-no-user@php.net');
+                    }
                 }
                 localRedirect('bug.php?id=' . $cid . '&thanks=4');
                 exit;

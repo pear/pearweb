@@ -244,6 +244,22 @@ class PEAR_Bug_Accountrequest
 
         if (!DB::isError($sth)) {
             note::add("uid", $this->handle, "Account opened", 'pearweb');
+            $bugs = $this->dbh->getAll('SELECT * FROM bugdb WHERE handle=?',
+                array($this->handle), DB_FETCHMODE_ASSOC);
+            foreach ($bugs as $bug) {
+                $this->sendBugEmail($bug);
+            }
+            $bugs = $this->dbh->getAll('SELECT bugdb_comments.email,bugdb_comments.comment,
+                    bugdb_comments.reporter_name, bugdb.id,
+                    bugdb.bug_type,bugdb.package_name,bugdb.sdesc,
+                    bugdb.ldesc,bugdb.php_version, bugdb.php_os,bugdb.status,
+                    bugdb.assign,bugdb.package_version
+                 FROM bugdb_comments,bugdb WHERE bugdb.id=bugdb_comments.bug AND
+                 bugdb_comments.handle=?',
+                array($this->handle), DB_FETCHMODE_ASSOC);
+            foreach ($bugs as $bug) {
+                $this->sendBugCommentEmail($bug);
+            }
             $msg = "Your PEAR bug tracker account has been opened.\n"
                 . "Bugs you have opened will now be displayed, and you can\n"
                 . "add new comments to existing bugs";
@@ -257,6 +273,325 @@ class PEAR_Bug_Accountrequest
         return false;
     }
 
+    /**
+     * Produces an array of email addresses the report should go to
+     *
+     * @param string $package_name  the package's name
+     *
+     * @return array  an array of email addresses
+     */
+    function get_package_mail($package_name, $bug_id=false)
+    {
+        global $site, $bugEmail, $dbh;
+        switch ($package_name) {
+            case 'Bug System':
+            case 'PEPr':
+            case 'Web Site':
+                $arr = $this->get_package_mail('pearweb');
+                $arr[0] .= ',' . PEAR_WEBMASTER_EMAIL;
+                return array($arr[0], PEAR_WEBMASTER_EMAIL);
+            case 'Documentation':
+                return array(PEAR_DOC_EMAIL, PEAR_DOC_EMAIL);
+        }
+
+        $maintainers = package::info($package_name, 'authors');
+
+        $to = array();
+        foreach ($maintainers as $data) {
+            if (!$data['active']) {
+                continue;
+            }
+            $to[] = $data['email'];
+        }
+
+        /* subscription */
+        if ($bug_id) {
+            $bug_id = (int)$bug_id;
+    
+            $assigned = $dbh->getOne('SELECT assign FROM bugdb WHERE id=' . $bug_id);
+            if ($assigned) {
+                $assigned = $dbh->getOne('SELECT email FROM users WHERE handle="' . $assigned . '"');
+                if ($assigned && !in_array($assigned, $to)) {
+                    // assigned is not a maintainer
+                    $to[] = $assigned;
+                }
+            }
+            $bcc = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id=' . $bug_id);
+            $bcc = array_diff($bcc, $to);
+            $bcc = array_unique($bcc);
+            return array(implode(', ', $to), $bugEmail, implode(', ', $bcc));
+        } else {
+            return array(implode(', ', $to), $bugEmail);
+        }
+    }
+
+    function sendBugCommentEmail($bug)
+    {
+        $ncomment = trim($bug['comment']);
+        $tla = array(
+            'Open'        => 'Opn',
+            'Bogus'       => 'Bgs',
+            'Feedback'    => 'Fbk',
+            'No Feedback' => 'NoF',
+            'Wont fix'    => 'WFx',
+            'Duplicate'   => 'Dup',
+            'Critical'    => 'Ctl',
+            'Assigned'    => 'Asn',
+            'Analyzed'    => 'Ana',
+            'Verified'    => 'Ver',
+            'Suspended'   => 'Sus',
+            'Closed'      => 'Csd',
+            'Spam'        => 'Spm',
+        );
+        $types = array(
+            'Bug'                     => 'Bug',
+            'Feature/Change Request'  => 'Req',
+            'Documentation Problem'   => 'Doc',
+        );
+
+        $text = array();
+        $headers = array();
+
+        /* Default addresses */
+        list($mailto,$mailfrom, $Bcc) =
+            $this->get_package_mail($bug['package_name'], $bug['id']);
+
+        $headers[] = array(" ID", $bug['id']);
+
+        $headers[] = array(" Comment by", $this->handle);
+        $from = "\"$this->handle\" <$this->email>";
+
+        $prefix = " ";
+        if ($f = $this->spam_protect($this->email, 'text')) {
+            $headers[] = array($prefix.'Reported By', $f);
+        }
+
+        $fields = array(
+            'sdesc'        => 'Summary',
+            'status'       => 'Status',
+            'bug_type'     => 'Type',
+            'package_name' => 'Package',
+            'php_os'       => 'Operating System',
+            'package_version'  => 'Package Version',
+            'php_version'  => 'PHP Version',
+            'assign'       => 'Assigned To'
+        );
+
+        foreach ($fields as $name => $desc) {
+            $prefix = " ";
+            /* only fields that are set get added. */
+            if ($f = $bug[$name]) {
+                $headers[] = array($prefix . $desc, $f);
+            }
+        }
+
+        # make header output aligned
+        $maxlength = 0;
+        $actlength = 0;
+        foreach ($headers as $v) {
+            $actlength = strlen($v[0]) + 1;
+            $maxlength = (($maxlength < $actlength) ? $actlength : $maxlength);
+        }
+
+        # align header content with headers (if a header contains
+        # more than one line, wrap it intelligently)
+        $header_text = "";
+        $spaces = str_repeat(" ", $maxlength + 1);
+        foreach ($headers as $v) {
+            $hcontent = wordwrap($v[1], 72-$maxlength, "\n$spaces"); # wrap and indent
+            $hcontent = rtrim($hcontent); # wordwrap may add spacer to last line
+            $header_text .= str_pad($v[0] . ":", $maxlength) . " " . $hcontent . "\n";
+        }
+
+        if ($ncomment) {
+            $text[] = " New Comment:\n\n".$ncomment;
+        }
+
+        $text[] = $this->get_old_comments($bug['id'], empty($ncomment));
+
+        /* format mail so it looks nice, use 72 to make piners happy */
+        $wrapped_text = wordwrap(join("\n",$text), 72);
+
+        /* developer text with headers, previous messages, and edit link */
+        $dev_text = 'Edit report at ' .
+                    "http://pear.php.net/bugs/bug.php?id=$bug[id]&edit=1\n\n" .
+                    $header_text .
+                    $wrapped_text .
+                    "\n-- \nEdit this bug report at " .
+                    "http://pear.php.net/bugs/bug.php?id=$bug[id]&edit=1\n";
+
+        $user_text = $dev_text;
+
+        $subj = $types[$bug['bug_type']];
+
+        $new_status = $bug['status'];
+
+        $subj .= " #{$bug['id']} [Com]: ";
+
+        # the user gets sent mail with an envelope sender that ignores bounces
+        if (DEVBOX == false) {
+            @mail($bug['email'],
+                  "[PEAR-BUG] " . $subj . $bug['sdesc'],
+                  $user_text,
+                  "From: PEAR Bug Database <$mailfrom>\n".
+                  "Bcc: $Bcc\n" .
+                  "X-PHP-Bug: $bug[id]\n".
+                  "In-Reply-To: <bug-$bug[id]@pear.php.net>",
+                  "-fbounces-ignored@php.net");
+            # but we go ahead and let the default sender get used for the list
+
+            @mail($mailto,
+                  "[PEAR-BUG] " . $subj . $bug['sdesc'],
+                  $dev_text,
+                  "From: $from\n".
+                  "X-PHP-Bug: $bug[id]\n".
+                  "X-PHP-Type: "       . $bug['bug_type']    . "\n" .
+                  "X-PHP-PackageVersion: "    . $bug['package_version'] . "\n" .
+                  "X-PHP-Version: "    . $bug['php_version'] . "\n" .
+                  "X-PHP-Category: "   . $bug['package_name']    . "\n" .
+                  "X-PHP-OS: "         . $bug['php_os']      . "\n" .
+                  "X-PHP-Status: "     . $new_status . "\n" .
+                  "In-Reply-To: <bug-$bug[id]@pear.php.net>",
+                  "-f bounce-no-user@php.net");
+        }
+    }
+
+    /**
+     * Produces a string containing the bug's prior comments
+     *
+     * @param int $bug_id  the bug's id number
+     * @param int $all     should all existing comments be returned?
+     *
+     * @return string  the comments
+     */
+    function get_old_comments($bug_id, $all = 0)
+    {
+        $divider = str_repeat("-", 72);
+        $max_message_length = 10 * 1024;
+        $max_comments = 5;
+        $output = ""; $count = 0;
+    
+        $res =& $this->dbh->query("SELECT ts, email, comment, handle FROM bugdb_comments WHERE bug=$bug_id ORDER BY ts DESC");
+    
+        # skip the most recent unless the caller wanted all comments
+        if (!$all) {
+            $row =& $res->fetchRow(DB_FETCHMODE_ORDERED);
+            if (!$row) {
+                return '';
+            }
+        }
+    
+        while (($row =& $res->fetchRow(DB_FETCHMODE_ORDERED)) &&
+                strlen($output) < $max_message_length && $count++ < $max_comments) {
+            $email = $row[3] ?
+                $row[3] :
+                $this->spam_protect($row[1], 'text');
+            $output .= "[$row[0]] $email\n\n$row[2]\n\n$divider\n\n";
+        }
+    
+        if (strlen($output) < $max_message_length && $count < $max_comments) {
+            $res =& $this->dbh->query("SELECT ts1,email,ldesc,handle FROM bugdb WHERE id=$bug_id");
+            if (!$res) {
+                return $output;
+            }
+            $row =& $res->fetchRow(DB_FETCHMODE_ORDERED);
+            if (!$row) {
+                return $output;
+            }
+            $email = $row[3] ?
+                $row[3] :
+                $this->spam_protect($row[1], 'text');
+            return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "[$row[0]] $email\n\n$row[2]\n\n$divider\n\n");
+        } else {
+            return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "The remainder of the comments for this report are too long. To view\nthe rest of the comments, please view the bug report online at\n    http://pear.php.net/bugs/bug.php?id=$bug_id\n");
+        }
+    
+        return '';
+    }
+
+    /**
+     * Obfuscates email addresses to hinder spammer's spiders
+     *
+     * Turns "@" into character entities that get interpreted as "at" and
+     * turns "." into character entities that get interpreted as "dot".
+     *
+     * @param string $txt     the email address to be obfuscated
+     * @param string $format  how the output will be displayed ('html', 'text')
+     *
+     * @return string  the altered email address
+     */
+    function spam_protect($txt, $format = 'html')
+    {
+        if ($format == 'html') {
+            $translate = array(
+                '@' => ' &#x61;&#116; ',
+                '.' => ' &#x64;&#111;&#x74; ',
+            );
+        } else {
+            $translate = array(
+                '@' => ' at ',
+                '.' => ' dot ',
+            );
+        }
+        return strtr($txt, $translate);
+    }
+
+    function sendBugEmail($buginfo)
+    {
+        $report  = '';
+        $report .= 'From:             ' . $this->handle . "\n";
+        $report .= 'Operating system: ' . $buginfo['php_os'] . "\n";
+        $report .= 'Package version:  ' . $buginfo['package_version'] . "\n";
+        $report .= 'PHP version:      ' . $buginfo['php_version'] . "\n";
+        $report .= 'Package:          ' . $buginfo['package_name'] . "\n";
+        $report .= 'Bug Type:         ' . $buginfo['bug_type'] . "\n";
+        $report .= 'Bug description:  ';
+
+        $fdesc = $buginfo['ldesc'];
+        $sdesc = $buginfo['sdesc'];
+
+        $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
+        $ascii_report .= "\n-- \nEdit bug report at ";
+        $ascii_report .= "http://pear.php.net/bugs/bug.php?id=$buginfo[id]&edit=1";
+
+        list($mailto, $mailfrom) = $this->get_package_mail($buginfo['package_name']);
+
+        $email = $this->email;
+        $protected_email  = '"' . $this->spam_protect($email, 'text') . '"';
+        $protected_email .= '<' . $mailfrom . '>';
+
+        $extra_headers  = 'From: '           . $protected_email . "\n";
+        $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
+        $extra_headers .= 'X-PHP-Bug: '      . $buginfo['id'] . "\n";
+        $extra_headers .= 'X-PHP-Type: '     . $buginfo['bug_type'] . "\n";
+        $extra_headers .= 'X-PHP-PackageVersion: '  . $buginfo['package_version'] . "\n";
+        $extra_headers .= 'X-PHP-Version: '  . $buginfo['php_version'] . "\n";
+        $extra_headers .= 'X-PHP-Category: ' . $buginfo['package_name'] . "\n";
+        $extra_headers .= 'X-PHP-OS: '       . $buginfo['php_os'] . "\n";
+        $extra_headers .= 'X-PHP-Status: Open' . "\n";
+        $extra_headers .= 'Message-ID: <bug-' . $buginfo['id'] . '@pear.php.net>';
+
+        $types = array(
+            'Bug'                     => 'Bug',
+            'Feature/Change Request'  => 'Req',
+            'Documentation Problem'   => 'Doc',
+        );
+        $type = @$types[$buginfo['bug_type']];
+
+        if (DEVBOX == false) {
+            // mail to package developers
+            @mail($mailto, "[PEAR-BUG] $buginfo[bug_type] #$buginfo[id] [NEW]: $sdesc",
+                  $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
+                  '-f bounce-no-user@php.net');
+            // mail to reporter
+            @mail($email, "[PEAR-BUG] $buginfo[bug_type] #$buginfo[id]: $sdesc",
+                  $ascii_report . "2\n",
+                  "From: pear.php.net Bug Database <$mailfrom>\n" .
+                  "X-PHP-Bug: $buginfo[id]\n" .
+                  "Message-ID: <bug-$buginfo[id]@pear.php.net>",
+                  '-f bounce-no-user@php.net');
+        }
+    }
     function listRequests()
     {
     }
