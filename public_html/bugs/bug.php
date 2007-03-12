@@ -915,6 +915,7 @@ if ($edit == 1 || $edit == 2) {
         }
         $db = Bug_DataObject::bugDB('bugdb_roadmap');
         $db->package = $bug['package_name'];
+        $db->orderBy('releasedate DESC');
         if ($db->find(false)) {
             while ($db->fetch()) {
                 ?><input type="checkbox" name="in[fixed_versions][]" value="<?php
