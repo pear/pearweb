@@ -154,6 +154,13 @@ if ($edit == 1) {
     }
 }
 
+// 2 is not possible for newer bugs, problem encountered by spin
+if ($edit == 2) {
+    if (!empty($bug['bughandle'])) {
+        $edit = 1;
+    }
+}
+
 if ($edit == 1) {
     auth_require('pear.bug', 'pear.dev');
 }
