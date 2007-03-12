@@ -3215,5 +3215,92 @@
   </declaration>
 
  </table>
+ 
+ <table>
+  <name>manual_notes</name>
+  <declaration>
+
+   <field>
+    <name>note_id</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>true</notnull>
+    <autoincrement>true</autoincrement>
+   </field>
+
+   <field>
+    <name>page_url</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>user_name</name>
+    <type>text</type>
+    <length>100</length>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>note_text</name>
+    <type>clob</type>
+    <notnull>true</notnull>
+   </field>
+   
+   <field>
+    <name>note_time</name>
+    <type>timestamp</type>
+    <notnull>true</notnull>
+   </field>
+
+   <field>
+    <name>note_approved</name>
+    <type>text</type>
+    <length>6</length>
+    <notnull>true</notnull>
+    <default>pending</default>
+   </field>
+
+   <field>
+    <name>note_approved_by</name>
+    <type>integer</type>
+    <length>11</length>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
+    <name>note_deleted</name>
+    <type>boolean</type>
+    <notnull>true</notnull>
+    <default>0</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>id</name>
+     <sorting>ascending</sorting>
+    </field>
+   </index>
+    
+   <index>
+    <name>IDX_page_url</name>
+    <field>
+     <name>page_url</name>
+    </field>
+   </index>
+
+   <index>
+    <name>IDX_note_time</name>
+    <field>
+     <name>note_time</name>
+    </field>
+   </index>
+
+  </declaration>
+
+ </table>
 
 </database>
