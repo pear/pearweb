@@ -407,9 +407,6 @@ if (!package_exists($_REQUEST['package'])) {
 <?php
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 $action = $self . '?package=' . clean($_REQUEST['package']);
-if (!$auth_user && DEVBOX == false) {
-    $action = "https://" . $_SERVER['SERVER_NAME'] . '/' . $action;
-}
 ?>
 <form method="post"
  action="<?php echo $action ?>" name="bugreport" id="bugreport">
