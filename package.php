@@ -15,25 +15,13 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.10.1');
+$a->setReleaseVersion('1.10.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10307: Feature #1234 texts don\'t become links [davidc]
- * Fix Bug #10309: Badly formed XML schema [davidc]
- * Fix Bug #10318: Don\'t send remainders for Spam bugs [mj]
- * Fix Bug #10319: Wrong ID in links for Documentation bugs [mj]
- * Fix Bug #10321: Separate patches from comments in the bug report page [mj]
- * Fix Bug #10323: HTML special characters not escaped in patch output [mj]
- * Fix Bug #10324: Unescaped values on invalid bugs [davidc]
- * Fix Bug #10328: no verification sent for new users who comment on bugs [cellog]
- * Fix Bug #10331: no log-in needed until after the bug is reported/comment is added [cellog]
- * Fix Bug #10334: edit=2 should shunt to edit=1 for newer bugs [cellog]
- * Implement Feature #9214: Patch to add "Users" category on main page [davidc]
- * Implement Feature #10035: No trackback notifications for in active developers [davidc]
- * Implement Feature #10320: Allow numbers in patch name [mj]
- * Implement Feature #10322: Explain allowed chars in patch name [mj]
- * Implement Feature #10329: add "resend account confirmation" link for unconfirmed account bugs [cellog]
+ * Fix Bug #10332: in bug.php, roadmaps randomly ordered [cellog]
+ * Fix Bug #10344: don\'t send out bug emails until accounts are confirmed [cellog]
+ * Fix Bug #10345: if logged in, email address is asked for [cellog]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
