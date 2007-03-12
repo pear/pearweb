@@ -204,10 +204,10 @@ class PEAR_Bug_Accountrequest
         $temphandle = $this->dbh->getOne('
             SELECT handle from bug_account_request WHERE salt=?', array($this->salt));
         // update all relevant records to the new handle
+        $this->dbh->query('UPDATE bugdb_comments set reporter_name=? WHERE handle=?', array($name, $temphandle));
+        $this->dbh->query('UPDATE bugdb set reporter_name=? WHERE handle=?', array($name, $temphandle));
         $this->dbh->query('UPDATE users set handle=? WHERE handle=?', array($handle, $temphandle));
         $this->dbh->query('UPDATE bugdb set handle=? WHERE handle=?', array($handle, $temphandle));
-        $this->dbh->query('UPDATE bugdb set reporter_name=? WHERE handle=?', array($name, $temphandle));
-        $this->dbh->query('UPDATE bugdb_comments set reporter_name=? WHERE handle=?', array($name, $handle));
         $this->dbh->query('UPDATE bugdb_comments set handle=? WHERE handle=?', array($handle, $temphandle));
         $this->handle = $handle;
         // activate the handle and grant karma
