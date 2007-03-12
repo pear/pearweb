@@ -17,7 +17,8 @@ CREATE TABLE users (
   PRIMARY KEY  (handle),
   KEY handle (handle,registered),
   KEY pgpkeyid (pgpkeyid),
-  KEY email (email(25))
+  KEY email (email(25)),
+  UNIQUE KEY email_u (email)
 );
 
 -- Password is "admin"

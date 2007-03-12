@@ -2392,6 +2392,15 @@
    </index>
 
    <index>
+    <name>email_u</name>
+    <unique>true</unique>
+    <field>
+     <name>email</name>
+     <sorting>descending</sorting>
+    </field>
+   </index>
+
+   <index>
     <name>primary</name>
     <primary>true</primary>
     <field>
