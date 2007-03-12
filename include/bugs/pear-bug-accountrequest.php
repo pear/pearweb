@@ -105,6 +105,10 @@ class PEAR_Bug_Accountrequest
         $handle = '#' . substr($salt, 0, 20);
         $created_on = gmdate('Y-m-d H:i:s');
 
+        $test = $this->dbh->getOne('SELECT email from users where email=?', array($email));
+        if ($test === $email) {
+            return PEAR::raiseError('Email is already in use for an existing account');
+        }
         $query = '
         insert into bug_account_request (created_on, handle, email, salt)
         values (?, ?, ?, ?)';
