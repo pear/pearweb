@@ -64,6 +64,7 @@ class PEAR_Bug_Accountrequest
         $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
         $additionalHeaders['To'] = $email;
         $mailer->send($additionalHeaders);
+        return true;
     }
 
     function _makeSalt($handle)
