@@ -52,8 +52,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-11</date>
- <time>18:46:01</time>
+ <date>2007-03-12</date>
+ <time>12:05:21</time>
  <version>
   <release>1.10.1</release>
   <api>0.1.1</api>
@@ -72,6 +72,8 @@
  * Fix Bug #10323: HTML special characters not escaped in patch output [mj]
  * Fix Bug #10324: Unescaped values on invalid bugs [davidc]
  * Fix Bug #10328: no verification sent for new users who comment on bugs [cellog]
+ * Fix Bug #10331: no log-in needed until after the bug is reported/comment is added [cellog]
+ * Fix Bug #10334: edit=2 should shunt to edit=1 for newer bugs [cellog]
  * Implement Feature #9214: Patch to add &quot;Users&quot; category on main page [davidc]
  * Implement Feature #10035: No trackback notifications for in active developers [davidc]
  * Implement Feature #10320: Allow numbers in patch name [mj]
@@ -1673,7 +1675,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-03-11</date>
+   <date>2007-03-12</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * Fix Bug #10307: Feature #1234 texts don&apos;t become links [davidc]
@@ -1684,6 +1686,8 @@
  * Fix Bug #10323: HTML special characters not escaped in patch output [mj]
  * Fix Bug #10324: Unescaped values on invalid bugs [davidc]
  * Fix Bug #10328: no verification sent for new users who comment on bugs [cellog]
+ * Fix Bug #10331: no log-in needed until after the bug is reported/comment is added [cellog]
+ * Fix Bug #10334: edit=2 should shunt to edit=1 for newer bugs [cellog]
  * Implement Feature #9214: Patch to add &quot;Users&quot; category on main page [davidc]
  * Implement Feature #10035: No trackback notifications for in active developers [davidc]
  * Implement Feature #10320: Allow numbers in patch name [mj]

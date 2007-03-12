@@ -27,6 +27,8 @@ $a->setNotes('
  * Fix Bug #10323: HTML special characters not escaped in patch output [mj]
  * Fix Bug #10324: Unescaped values on invalid bugs [davidc]
  * Fix Bug #10328: no verification sent for new users who comment on bugs [cellog]
+ * Fix Bug #10331: no log-in needed until after the bug is reported/comment is added [cellog]
+ * Fix Bug #10334: edit=2 should shunt to edit=1 for newer bugs [cellog]
  * Implement Feature #9214: Patch to add "Users" category on main page [davidc]
  * Implement Feature #10035: No trackback notifications for in active developers [davidc]
  * Implement Feature #10320: Allow numbers in patch name [mj]
