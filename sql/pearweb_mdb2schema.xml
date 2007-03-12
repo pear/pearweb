@@ -3273,7 +3273,7 @@
     <name>note_deleted</name>
     <type>boolean</type>
     <notnull>true</notnull>
-    <default>0</notnull>
+    <default>0</default>
    </field>
 
    <index>
