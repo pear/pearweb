@@ -7,7 +7,7 @@ if (count($errors)) {
     echo '</div>';
 }
 ?>
-<form name="confirmaccount" onsubmit="javascript:doMD5(document.forms['confirmaccount'])" method="POST">
+<form name="confirmaccount" onsubmit="javascript:doMD5(document.forms['confirmaccount'])" method="POST" <?php if (!DEVBOX)  { ?>action="https://pear.php.net/account-request-confirm.php" <?php } ?>>
 <input type="hidden" name="salt" value="<?php echo htmlspecialchars($salt) ?>" />
 <script type="text/javascript" src="/javascript/md5.js"></script>
 <script type="text/javascript">
