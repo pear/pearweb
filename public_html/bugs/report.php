@@ -61,6 +61,9 @@ if ($auth_user && $auth_user->registered) {
     if (isset($_SESSION['answer'])) {
         unset($_SESSION['answer']);
     }
+    if (isset($_POST['in'])) {
+        $_POST['in']['email'] = $auth_user->email;
+    }
 }
 
 if (isset($_POST['in'])) {
