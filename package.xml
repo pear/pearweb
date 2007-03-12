@@ -548,6 +548,7 @@
      <file name="listpatches.php" role="web" />
      <file name="patchadded.php" role="web" />
      <file name="patchdisplay.php" role="web" />
+     <file name="registernewaccount.php" role="web" />
      <file name="roadmap.php" role="web" />
      <file name="roadmapadd.php" role="web" />
      <file name="roadmapform.php" role="web" />

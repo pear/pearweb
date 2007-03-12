@@ -64,15 +64,6 @@ if ($auth_user && $auth_user->registered) {
 }
 
 if (isset($_POST['in'])) {
-    if (isset($_POST['PEAR_PW'])) {
-        $_POST['in']['PEAR_PW'] = $_POST['PEAR_PW'];
-    }
-    if (isset($_POST['PEAR_PW2'])) {
-        $_POST['in']['PEAR_PW2'] = $_POST['PEAR_PW2'];
-    }
-    if (isset($_POST['PEAR_USER'])) {
-        $_POST['in']['PEAR_USER'] = $_POST['PEAR_USER'];
-    }
     $errors = incoming_details_are_valid($_POST['in'], 1, ($auth_user && $auth_user->registered));
 
     /**
@@ -87,21 +78,7 @@ if (isset($_POST['in'])) {
     }
 
     // try to verify the user
-    if (!$auth_user) {
-        if (!empty($_POST['isMD5'])) {
-            $password = @$_POST['PEAR_PW'];
-        } else {
-            $password = md5(@$_POST['PEAR_PW']);
-        }
-        if (user::exists($_POST['in']['PEAR_USER'])) {
-            if (auth_verify($_POST['in']['PEAR_USER'], $password)) {
-                $POST['in']['handle'] = $_POST['in']['PEAR_USER'];
-            } else {
-                $errors[] = 'User name "' . clean($_POST['in']['PEAR_USER']) .
-                    '" already exists, please choose another user name';
-            }
-        }
-    } else {
+    if ($auth_user) {
         $_POST['in']['handle'] = $auth_user->handle;
     }
 
@@ -219,13 +196,7 @@ if (isset($_POST['in'])) {
                     // user doesn't exist yet
                     require 'bugs/pear-bug-accountrequest.php';
                     $buggie = new PEAR_Bug_Accountrequest;
-                    if (empty($_POST['isMD5'])) {
-                        $_POST['PEAR_PW'] = md5($_POST['PEAR_PW']);
-                        $_POST['PEAR_PW2'] = md5($_POST['PEAR_PW2']);
-                    }
-                    $salt = $buggie->addRequest($_POST['PEAR_USER'],
-                          $_POST['in']['email'], $_POST['in']['reporter_name'],
-                          $_POST['PEAR_PW'], $_POST['PEAR_PW2']);
+                    $salt = $buggie->addRequest($_POST['in']['email']);
                     if (is_array($salt)) {
                         $errors = $salt;
                         response_header('Report - Problems');
@@ -244,10 +215,14 @@ if (isset($_POST['in'])) {
                         break;
                     }
         
-                    $_POST['in']['handle'] = $_POST['PEAR_USER'];
+                    $_POST['in']['handle'] =
+                    $_POST['in']['reporter_name'] = substr('#' . $salt, 0, 20);
                     if (!DEVBOX) {
                         $buggie->sendEmail();
                     }
+                } else {
+                    $_POST['in']['reporter_name'] = $auth_user->name;
+                    $_POST['in']['handle'] = $auth_user->handle;
                 }
                 // Put all text areas together.
                 $fdesc = "Description:\n------------\n" . $_POST['in']['ldesc'] . "\n\n";
@@ -436,97 +411,32 @@ if (!$auth_user && DEVBOX == false) {
     $action = "https://" . $_SERVER['SERVER_NAME'] . '/' . $action;
 }
 ?>
-<form<?php
-if (!$auth_user) {
-    echo ' onsubmit="javascript:doMD5(document.forms[\'bugreport\'])" ' ;
-} ?> method="post"
+<form method="post"
  action="<?php echo $action ?>" name="bugreport" id="bugreport">
-<?php if (!$auth_user):
-    if (!$errors && isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2'])):
-        ?><input type="hidden" name="PEAR_USER" value="<?php echo htmlspecialchars($_POST['PEAR_USER']) ?>" />
-        <input type="hidden" name="PEAR_PW" value="<?php echo htmlspecialchars($_POST['PEAR_PW']) ?>" />
-        <input type="hidden" name="PEAR_PW2" value="<?php echo htmlspecialchars($_POST['PEAR_PW2']) ?>" />
-        <input type="hidden" name="isMD5" value="<?php echo htmlspecialchars($_POST['isMD5']) ?>" />
-        <?php
-    else: //if (!$errors && isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2'])) ?>
- <div class="explain">
- Please create a username/password or <a href="<?php echo '/login.php?redirect=' .
-        urlencode("{$self}?{$_SERVER['QUERY_STRING']}") ?>">Log in</a> to your existing account
-<script type="text/javascript" src="/javascript/md5.js"></script>
-<script type="text/javascript">
-function doMD5(frm) {
-    frm.PEAR_PW.value = hex_md5(frm.PEAR_PW.value);
-    frm.PEAR_PW2.value = hex_md5(frm.PEAR_PW2.value);
-    frm.isMD5.value = 1;
-}
-</script>
-<input type="hidden" name="isMD5" value="0" />
 <table class="form-holder" cellspacing="1">
  <tr>
   <th class="form-label_left">
-Use<span class="accesskey">r</span>name:</th>
-  <td class="form-input">
-<input size="20" name="PEAR_USER" accesskey="r"/></td>
- </tr>
- <tr>
-  <th class="form-label_left">Password:</th>
-  <td class="form-input">
-<input size="20" name="PEAR_PW" type="password"/></td>
- </tr>
- <tr>
-  <th class="form-label_left">Confirm Password:</th>
-  <td class="form-input">
-<input size="20" name="PEAR_PW2" type="password"/></td>
- </tr>
-</table>
-</div>
-<?php
-    endif; //if (isset($_POST['PEAR_USER']) && isset($_POST['PEAR_PW']) && isset($_POST['PEAR_PW2']))
-endif; //if (!$auth_user) ?>
-<table class="form-holder" cellspacing="1">
- <tr>
-  <th class="form-label_left">
-   Your <span class="accesskey">n</span>ame:
-  </th>
-  <td class="form-input">
-<?php
-    if ($auth_user && $auth_user->registered) {
-?>
-   <?php echo clean($auth_user->name); ?>
-   <input type="hidden" size="20" maxlength="40" name="in[reporter_name]"
-    value="<?php echo clean($auth_user->name); ?>" accesskey="n" />
-<?php
-    } else {
-?>
-   <input type="text" size="20" maxlength="40" name="in[reporter_name]"
-    value="<?php echo clean($_POST['in']['reporter_name']); ?>" accesskey="n" />
-<?php
-   }
-?>
-  </td>
- </tr>
-
- <tr>
-  <th class="form-label_left">
-   Y<span class="accesskey">o</span>ur email address:
+<?php if ($auth_user): ?>
+   Your handle:
   </th>
   <td class="form-input">
    <input type="hidden" name="in[did_luser_search]"
     value="<?php echo $_POST['in']['did_luser_search'] ? 1 : 0; ?>" />
+   <?php echo $auth_user->handle; ?>
+  </td>
 <?php
-if ($auth_user && $auth_user->registered) {
+else: // if ($auth_user)
 ?>
-   <input type="text" size="20" maxlength="40" name="in[email]"
-    value="<?php echo ($auth_user->showemail) ? $auth_user->email : ($auth_user->handle . '@php.net'); ?>" accesskey="o" />
-<?php
-} else {
-?>
+   Y<span class="accesskey">o</span>ur email address:<br />
+   <strong>MUST BE VALID</strong>
+  </th>
+  <td class="form-input">
+   <input type="hidden" name="in[did_luser_search]"
+    value="<?php echo $_POST['in']['did_luser_search'] ? 1 : 0; ?>" />
    <input type="text" size="20" maxlength="40" name="in[email]"
     value="<?php echo clean($_POST['in']['email']); ?>" accesskey="o" />
-<?php
-}
-?>
   </td>
+<?php endif; // if ($auth_user) ?>
  </tr>
  <tr>
   <th class="form-label_left">

@@ -233,10 +233,11 @@ if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
 if (!$bug['registered']) {
     response_header('User has not confirmed identity');
     display_bug_error('The user who submitted this bug has not yet confirmed ' .
-        'their email address.  If you submitted this bug, please check your email.' .
-        '  If you do not have a confirmation message, <a href="resend-request-email.php?' .
-        'handle=' . $handle . '">click here to re-send</a> or write a message to' .
-        ' pear-dev@lists.php.net asking for manual approval of your account');
+        'their email address.  ');
+    echo '<p>If you submitted this bug, please check your email.</p>' .
+        '<p><strong>If you do not have a confirmation message</strong>, <a href="resend-request-email.php?' .
+        'handle=' . urlencode($bug['bughandle']) . '">click here to re-send</a> or write a message to' .
+        ' <a href="mailto:pear-dev@lists.php.net">pear-dev@lists.php.net</a> asking for manual approval of your account.</p>';
     response_footer();
     exit;
 }
@@ -270,21 +271,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
     }
 
     // try to verify the user
-    if (!$auth_user) {
-        if (!empty($_POST['isMD5'])) {
-            $password = @$_POST['PEAR_PW'];
-        } else {
-            $password = md5(@$_POST['PEAR_PW']);
-        }
-        if (user::exists($_POST['PEAR_USER'])) {
-            if (auth_verify($_POST['PEAR_USER'], $password)) {
-                $POST['in']['handle'] = $_POST['PEAR_USER'];
-            } else {
-                $errors[] = 'User name "' . clean($_POST['PEAR_USER']) .
-                    '" already exists, please choose another user name';
-            }
-        }
-    } else {
+    if ($auth_user) {
         $_POST['in']['handle'] = $auth_user->handle;
     }
 
@@ -299,13 +286,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                 // user doesn't exist yet
                 require 'bugs/pear-bug-accountrequest.php';
                 $buggie = new PEAR_Bug_Accountrequest;
-                if (empty($_POST['isMD5'])) {
-                    $_POST['PEAR_PW'] = md5($_POST['PEAR_PW']);
-                    $_POST['PEAR_PW2'] = md5($_POST['PEAR_PW2']);
-                }
-                $salt = $buggie->addRequest($_POST['PEAR_USER'],
-                      $_POST['in']['commentemail'], $_POST['in']['comment_name'],
-                      $_POST['PEAR_PW'], $_POST['PEAR_PW2']);
+                $salt = $buggie->addRequest($_POST['in']['commentemail']);
                 if (is_array($salt)) {
                     $errors = $salt;
                     response_header('Report - Problems');
@@ -324,27 +305,33 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                     break;
                 }
 
-                $auth_user = new PEAR_User($dbh, $_POST['PEAR_USER']);
                 if (!DEVBOX) {
                     $buggie->sendEmail();
                 }
-                $_POST['in']['handle'] = $_POST['PEAR_USER'];
+                $_POST['in']['handle'] =
+                $_POST['in']['name'] = substr('#' . $salt, 0, 20);
+            } else {
+                $_POST['in']['commentemail'] = $auth_user->email;
+                $_POST['in']['handle'] = $auth_user->handle;
+                $_POST['in']['name'] = $auth_user->name;
             }
 
             $query = 'INSERT INTO bugdb_comments' .
                      ' (bug, email, handle, ts, comment, reporter_name) VALUES (' .
                      '?,?,?,NOW(),?,?)';
 
-            $dbh->query($query, array($id, $auth_user->email, $auth_user->handle,
-                $ncomment, $auth_user->name));
+            $dbh->query($query, array($id, $_POST['in']['commentemail'], $_POST['in']['handle'],
+                $ncomment, $_POST['in']['name']));
         } while (false);
+        $from = $auth_user->email;
+    } else {
+        $from = '';
     }
-    $from = $auth_user->email;
 } elseif ($_POST['ncomment'] && isset($_POST['preview']) && $edit == 3) {
     $ncomment = trim($_POST['ncomment']);
 
 } elseif ($_POST['in'] && !isset($_POST['preview']) && $edit == 2) {
-    // Edits submitted by original reporter
+    // Edits submitted by original reporter for old bugs
 
     if (!$bug['passwd'] || $bug['passwd'] != $pw) {
         $errors[] = 'The password you supplied was incorrect.';
@@ -384,7 +371,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
         $_POST['in']['package_version'] = '';
     }
 
-    if (!$errors && !($errors = incoming_details_are_valid($_POST['in'], false, false, $edit))) {
+    if (!$errors && !($errors = incoming_details_are_valid($_POST['in'], false, false))) {
         $query = 'UPDATE bugdb SET' .
                  " sdesc='" . escapeSQL($_POST['in']['sdesc']) . "'," .
                  " status='" . escapeSQL($_POST['in']['status']) . "'," .
@@ -530,13 +517,9 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
     $ncomment = '';
 }
 
-if ($_POST['in'] && !isset($_POST['preview'])) {
+if ($_POST['in'] && !isset($_POST['preview']) && $ncomment) {
     if (!$errors) {
-        if ($auth_user) {
-            mail_bug_updates($bug, $_POST['in'], $auth_user->email, $ncomment, $edit, $id);
-        } else {
-            mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit, $id);
-        }
+        mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit, $id);
         localRedirect('bug.php' . "?id=$id&thanks=$edit");
         exit;
     }
@@ -990,53 +973,15 @@ if ($auth_user && $auth_user->registered) {
 }
 
 if ($edit == 3) {
-    ?>
-    <form<?php
 $action = htmlspecialchars($_SERVER['PHP_SELF']);
-if (!$auth_user && DEVBOX == false) {
-    $action = "https://" . $_SERVER['SERVER_NAME'] . '/' . $action;
-}
-if (!$auth_user) {
-    echo ' onsubmit="javascript:doMD5(document.forms[\'comment\'])" ' ;
-} ?> name="comment" id="comment" action="<?php echo $action ?>" method="post">
-<?php if (!$auth_user): ?>
- <div class="explain">
- Please create a username/password or <a href="<?php echo '/login.php?redirect=' .
-        urlencode("{$self}?{$_SERVER['QUERY_STRING']}") ?>">Log in</a> to your existing account
-<script type="text/javascript" src="/javascript/md5.js"></script>
-<script type="text/javascript">
-function doMD5(frm) {
-    frm.PEAR_PW.value = hex_md5(frm.PEAR_PW.value);
-    frm.PEAR_PW2.value = hex_md5(frm.PEAR_PW2.value);
-    frm.isMD5.value = 1;
-}
-</script>
-<input type="hidden" name="isMD5" value="0" />
-<table class="form-holder" cellspacing="1">
- <tr>
-  <th class="form-label_left">
-Use<span class="accesskey">r</span>name:</th>
-  <td class="form-input">
-<input size="20" name="PEAR_USER" accesskey="r" /></td>
- </tr>
- <tr>
-  <th class="form-label_left">Password:</th>
-  <td class="form-input">
-<input size="20" name="PEAR_PW" type="password" /></td>
- </tr>
- <tr>
-  <th class="form-label_left">Confirm Password:</th>
-  <td class="form-input">
-<input size="20" name="PEAR_PW2" type="password" /></td>
- </tr>
-</table>
-</div>
-<?php else: //if (!$auth_user) ?>
+?>
+    <form name="comment" id="comment" action="<?php echo $action ?>" method="post">
+<?php if ($auth_user): ?>
     <div class="explain">
      <h1><a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
     </div>
 
-<?php endif; //if (!$auth_user) ?>
+<?php endif; //if ($auth_user) ?>
 
     <?php
     if (!$_POST['in']) {
@@ -1065,16 +1010,9 @@ Use<span class="accesskey">r</span>name:</th>
     <table>
      <?php if (!$auth_user): ?>
      <tr>
-      <th class="details">Your <span class="accesskey">n</span>ame:</th>
-      <td>
-       <input type="text" size="40" maxlength="40" name="in[comment_name]"
-        value="<?php echo clean($_POST['in']['comment_name']) ?>"
-        accesskey="n" />
-      </td>
-     </tr>
-     <tr>
-      <th class="details">Y<span class="accesskey">o</span>ur email address:</th>
-      <td>
+      <th class="details">Y<span class="accesskey">o</span>ur email address:<br />
+      <strong>MUST BE VALID</strong></th>
+      <td class="form-input">
        <input type="text" size="40" maxlength="40" name="in[commentemail]"
         value="<?php echo clean($_POST['in']['commentemail']) ?>"
         accesskey="o" />
@@ -1211,7 +1149,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
         echo 'User who submitted this comment has not confirmed identity</strong>';
         echo '<pre class="note">If you submitted this note, check your email.';
         echo 'If you do not have a message, <a href="resend-request-email.php?' .
-            'handle=' . $handle . "\">click here to re-send</a>\nor write a mail to" .
+            'handle=' . urlencode($handle) . "\">click here to re-send</a>\nor write a mail to" .
             ' pear-dev@lists.php.net';
         echo ' asking for manual approval</pre></div>';
         return;

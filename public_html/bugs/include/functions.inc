@@ -978,9 +978,9 @@ function package_exists($type)
  *
  * @return void
  */
-function incoming_details_are_valid($in, $initial = 0, $logged = false, $edit = 0)
+function incoming_details_are_valid($in, $initial = 0, $logged = false)
 {
-    global $bug, $dbh, $types, $auth_user;
+    global $bug, $dbh, $types;
 
     $errors = array();
     if (empty ($in['package_name']) || $in['package_name'] == 'none') {
@@ -992,25 +992,6 @@ function incoming_details_are_valid($in, $initial = 0, $logged = false, $edit = 
     if ($initial || (!empty($in['email']) && $bug['email'] != $in['email'])) {
         if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",$in['email'])) {
             $errors[] = 'Please provide a valid email address.';
-        }
-    }
-
-    if (!$auth_user && $edit != 2) {
-        if (empty($in['PEAR_USER'])) {
-            $errors[] = 'Please type a username';
-        } elseif (!preg_match(PEAR_COMMON_USER_NAME_REGEX, $in['PEAR_USER'])) {
-            $errors[] = 'Username must start with a letter and contain'
-                      . ' only letters and digits';
-        }
-
-        if (empty($in['PEAR_PW']) || $in['PEAR_PW'] == md5('')) {
-            $errors[] = 'Please type a password';
-        }
-        if (empty($in['PEAR_PW2']) || $in['PEAR_PW'] == md5('')) {
-            $errors[] = 'Please confirm your password';
-        }
-        if ($in['PEAR_PW'] !== $in['PEAR_PW2']) {
-            $errors[] = 'Passwords do not match';
         }
     }
 

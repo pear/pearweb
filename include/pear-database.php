@@ -2846,6 +2846,7 @@ class user
                 return 'set error';
             }
         }
+        $obj->store();
         PEAR::popErrorHandling();
 
         $msg = "Requested from:   {$_SERVER['REMOTE_ADDR']}\n".

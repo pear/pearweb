@@ -10,7 +10,7 @@
     $tpl = array(
         'To'       => array(),
         'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
-        'Subject' => '[PEAR-ACCOUNT-REQUEST] Your bug tracker account request : %username%',
+        'Subject' => '[PEAR-ACCOUNT-REQUEST] Your bug tracker account request',
         'Body' => 'You have requested an account to open bugs or comment on existing bugs.
 
 This account is only for use with the bug tracker, but can be updated to allow voting

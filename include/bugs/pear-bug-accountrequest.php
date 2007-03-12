@@ -21,6 +21,9 @@ class PEAR_Bug_Accountrequest
 
     function pending()
     {
+        if (!$this->user) {
+            return false;
+        }
         $request = $this->dbh->getOne('
             SELECT handle
             FROM bug_account_request
@@ -35,6 +38,9 @@ class PEAR_Bug_Accountrequest
 
     function sendEmail()
     {
+        if (!$this->user) {
+            return false;
+        }
         $salt = $this->dbh->getOne('
             SELECT salt
             FROM bug_account_request
@@ -45,14 +51,13 @@ class PEAR_Bug_Accountrequest
         }
         $email = $this->dbh->getOne('
             SELECT email
-            FROM users
+            FROM bug_account_request
             WHERE handle=?
         ', array($this->user));
         if (!$email) {
             return false;
         }
         $mailData = array(
-            'username'  => $this->user,
             'salt' => $salt,
         );
         require_once 'Damblan/Mailer.php';
@@ -69,8 +74,11 @@ class PEAR_Bug_Accountrequest
 
     function find($salt)
     {
+        if (!$salt) {
+            return false;
+        }
         $request = $this->dbh->getRow('
-            SELECT id, created_on, salt, handle
+            SELECT id, created_on, salt, handle, email
             FROM bug_account_request
             WHERE salt=?
         ', array($salt), DB_FETCHMODE_ASSOC);
@@ -79,6 +87,7 @@ class PEAR_Bug_Accountrequest
             foreach ($request as $field => $value) {
                 $this->$field = $value;
             }
+            $this->user = $this->handle;
             return true;
         }
         return false;
@@ -89,7 +98,78 @@ class PEAR_Bug_Accountrequest
      *
      * @return string salt
      */
-    function addRequest($handle, $email, $name, $password, $password2)
+    function addRequest($email)
+    {
+        $salt = $this->_makeSalt($email);
+        $handle = '#' . substr($salt, 0, 20);
+        $created_on = gmdate('Y-m-d H:i:s');
+
+        $query = '
+        insert into bug_account_request (created_on, handle, email, salt)
+        values (?, ?, ?, ?)';
+
+        $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt));
+
+        if (DB::isError($res)) {
+            return $res;
+        }
+
+        return $salt;
+    }
+
+    function deleteRequest()
+    {
+        $query = 'delete from bug_account_request where salt=?';
+
+        return $this->dbh->query($query, array($this->salt));
+    }
+
+    function validateRequest($handle, $password, $password2, $name)
+    {
+        $errors = array();
+        if (empty($handle) || !preg_match('/^[0-9a-z_]{2,20}$/', $handle)) {
+            $errors[] = 'Username is invalid.';
+            $display_form = true;
+        }
+
+        if ($password == md5('') || empty($password)) {
+            $errors[] = 'Password must not be empty';
+        }
+        if ($password !== $password2) {
+            $errors[] = 'Passwords do not match';
+        }
+        if (user::exists($handle)) {
+            $errors[] = 'User name "' . $handle .
+                '" already exists, please choose another user name';
+        }
+        @list($firstname, $lastname) = explode(' ', $name, 2);
+        // First- and lastname must be longer than 1 character
+        if (strlen($firstname) == 1) {
+            $errors[] = 'Your firstname appears to be too short.';
+        }
+        if (strlen($lastname) == 1) {
+            $errors[] = 'Your lastname appears to be too short.';
+        }
+
+        // Firstname and lastname must start with an uppercase letter
+        if (!preg_match("/^[A-Z]/", $firstname)) {
+            $errors[] = 'Your firstname must begin with an uppercase letter';
+        }
+        if (!preg_match("/^[A-Z]/", $lastname)) {
+            $errors[] = 'Your lastname must begin with an uppercase letter';
+        }
+
+        // No names with only uppercase letters
+        if ($firstname === strtoupper($firstname)) {
+            $errors[] = 'Your firstname must not consist of only uppercase letters.';
+        }
+        if ($lastname === strtoupper($lastname)) {
+            $errors[] = 'Your lastname must not consist of only uppercase letters.';
+        }
+        return $errors;
+    }
+
+    function confirmRequest($handle, $password, $name)
     {
         if ($handle == $this->dbh->getOne('SELECT handle FROM users WHERE 
               handle=?', array($handle))) {
@@ -105,10 +185,13 @@ class PEAR_Bug_Accountrequest
             'handle'     => $handle,
             'firstname'  => $firstname,
             'lastname'   => $lastname,
-            'email'      => $email,
+            'email'      => $this->email,
             'purpose'    => 'bug tracker',
             'password'   => $password,
-            'password2'  => $password2,
+            'password2'  => $password,
+            'purpose'    => 'Open/Comment on bugs',
+            'moreinfo'   => 'Automatic Account Request',
+            'homepage'   => '',
         );
 
         $useradd = user::add($data, true);
@@ -117,38 +200,15 @@ class PEAR_Bug_Accountrequest
             return $useradd;
         }
 
-        $salt = $this->_makeSalt($handle);
-        $created_on = gmdate('Y-m-d H:i:s');
-
-        $query = '
-        insert into bug_account_request (created_on, handle, email, salt)
-        values (?, ?, ?, ?)';
-
-        $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt));
-
-        if (DB::isError($res)) {
-            return $res;
-        }
-
-        //$this->find($salt);
-        //$this->sendRequest();
-
-        return $salt;
-    }
-
-    function deleteRequest()
-    {
-        $query = 'delete from bug_account_request where salt=?';
-
-        return $this->dbh->query($query, array($this->salt));
-    }
-
-    function confirmRequest($salt)
-    {
-        if (!$this->find($salt)) {
-            return PEAR::raiseError('cannot find request');
-        }
-
+        $temphandle = $this->dbh->getOne('
+            SELECT handle from bug_account_request WHERE salt=?', array($this->salt));
+        // update all relevant records to the new handle
+        $this->dbh->query('UPDATE users set handle=? WHERE handle=?', array($handle, $temphandle));
+        $this->dbh->query('UPDATE bugdb set handle=? WHERE handle=?', array($handle, $temphandle));
+        $this->dbh->query('UPDATE bugdb set reporter_name=? WHERE handle=?', array($name, $temphandle));
+        $this->dbh->query('UPDATE bugdb_comments set reporter_name=? WHERE handle=?', array($name, $temphandle));
+        $this->dbh->query('UPDATE bugdb_comments set handle=? WHERE handle=?', array($handle, $temphandle));
+        $this->handle = $handle;
         // activate the handle and grant karma
         // implicitly without human intervention
         // copied from the user class and Damblan_Karma
@@ -160,6 +220,8 @@ class PEAR_Bug_Accountrequest
         @$arr = unserialize($user->userinfo);
         note::removeAll("uid", $this->handle);
         $user->set('registered', 1);
+        $user->set('password', $password);
+        $user->set('name', $name);
         if (is_array($arr)) {
             $user->set('userinfo', $arr[1]);
         }
@@ -172,13 +234,18 @@ class PEAR_Bug_Accountrequest
         $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
         $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', 'pearweb'));
 
+        $id = $this->dbh->nextId("karma");
+        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', 'pearweb'));
+
         if (!DB::isError($sth)) {
             note::add("uid", $this->handle, "Account opened", 'pearweb');
             $msg = "Your PEAR bug tracker account has been opened.\n"
                 . "Bugs you have opened will now be displayed, and you can\n"
                 . "add new comments to existing bugs";
             $xhdr = "From: pear-webmaster@lists.php.net";
-            mail($user->email, "Your PEAR Bug Tracker Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+            if (!DEVBOX) {
+                mail($user->email, "Your PEAR Bug Tracker Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+            }
             $this->deleteRequest();
             return true;
         }
