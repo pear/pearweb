@@ -15,13 +15,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.10.2');
+$a->setReleaseVersion('1.10.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10332: in bug.php, roadmaps randomly ordered [cellog]
- * Fix Bug #10344: don\'t send out bug emails until accounts are confirmed [cellog]
- * Fix Bug #10345: if logged in, email address is asked for [cellog]
+ * Implement Feature #10351: Don\'t show edit/delete links in roadmap view [mj]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
