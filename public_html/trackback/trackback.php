@@ -47,8 +47,14 @@ if (!isset($params['id'])) {
     exit;
 }
 
-// Sanity check, if package exists
-$pkgInfo = package::info($id);
+// Sanity check, see if package exists
+$testid = package::info($id, 'id');
+if (!$testid || PEAR::isError($testid)) {
+    echo Services_Trackback::getResponseError('No package with ID '.$id.' found. Trackback not possible.', 1);
+    exit;
+}
+// Now grab package information
+$pkgInfo = package::info($testid);
 if (!isset($pkgInfo) || PEAR::isError($pkgInfo)) {
     echo Services_Trackback::getResponseError('No package with ID '.$id.' found. Trackback not possible.', 1);
     exit;
