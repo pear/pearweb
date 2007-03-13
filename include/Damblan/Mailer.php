@@ -48,7 +48,8 @@ class Damblan_Mailer
         'Return-Path' => 'bounces-ignored@php.net',
         'Errors-To' => 'bounces-ignored@php.net',
         'Bounces-To' => 'bounces-ignored@php.net',
-        'X-Mailer'  => 'PEARWeb - http://pear.php.net'
+        'X-Mailer'  => 'PEARWeb - http://pear.php.net',
+        'Auto-Submitted' => 'auto-generated',
     );
 
     /**
@@ -145,7 +146,7 @@ class Damblan_Mailer
             }
         }
         // Attempt to send mail:
-        $mail = Mail::factory('mail', array('-f pear-sys@php.net'));
+        $mail = Mail::factory('mail', array('-f bounces-ignored@php.net'));
         if (PEAR::isError($mail)) {
             return PEAR::raiseError('Could not create Mail instance. '.$mail->getMessage());
         }
