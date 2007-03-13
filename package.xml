@@ -52,10 +52,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-12</date>
- <time>16:35:28</time>
+ <date>2007-03-13</date>
+ <time>18:19:57</time>
  <version>
-  <release>1.10.2</release>
+  <release>1.10.3</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -64,9 +64,10 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10332: in bug.php, roadmaps randomly ordered [cellog]
- * Fix Bug #10344: don&apos;t send out bug emails until accounts are confirmed [cellog]
- * Fix Bug #10345: if logged in, email address is asked for [cellog]
+ * Fix Bug #10360: trackbacks for non-existent packages allowed [cellog]
+ * Fix Bug #10361: emails still bounce to pear-sys@php.net [timj]
+ * Implement Feature #10322: Explain allowed chars in patch name [mj]
+ * Implement Feature #10351: Don&apos;t show edit/delete links in roadmap view [mj]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -160,6 +161,9 @@
      <file name="jpgraph_scatter.php" role="web" />
      <file name="jpgraph_spider.php" role="web" />
     </dir> <!-- /include/jpgraph -->
+    <dir name="notes">
+     <file name="ManualNotes.class.php" role="web" />
+    </dir> <!-- /include/notes -->
     <dir name="package">
      <file name="releasehelper.php" role="web" />
     </dir> <!-- /include/package -->
@@ -522,6 +526,7 @@
     <file name="karma.sql" role="web" />
     <file name="maintains.sql" role="web" />
     <file name="Makefile" role="web" />
+    <file name="manual_notes.sql" role="web" />
     <file name="notes.sql" role="web" />
     <file name="packages.sql" role="web" />
     <file name="package_stats.sql" role="web" />
@@ -1692,10 +1697,26 @@
    </stability>
    <date>2007-03-12</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10332: in bug.php, roadmaps randomly ordered [cellog]
+* Fix Bug #10344: don&apos;t send out bug emails until accounts are confirmed [cellog]
+* Fix Bug #10345: if logged in, email address is asked for [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.10.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-13</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix Bug #10332: in bug.php, roadmaps randomly ordered [cellog]
- * Fix Bug #10344: don&apos;t send out bug emails until accounts are confirmed [cellog]
- * Fix Bug #10345: if logged in, email address is asked for [cellog]
+ * Fix Bug #10360: trackbacks for non-existent packages allowed [cellog]
+ * Fix Bug #10361: emails still bounce to pear-sys@php.net [timj]
+ * Implement Feature #10322: Explain allowed chars in patch name [mj]
+ * Implement Feature #10351: Don&apos;t show edit/delete links in roadmap view [mj]
    </notes>
   </release>
  </changelog>
