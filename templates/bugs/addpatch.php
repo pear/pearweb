@@ -16,7 +16,8 @@ if ($errors) {
    Choose an existing Patch to update, or add a new one
   </th>
   <td class="form-input">
-   <input type="text" maxlength="40" name="name" value="<?php echo clean($name) ?>" />
+   <input type="text" maxlength="40" name="name" value="<?php echo clean($name) ?>" /><br />
+   <small>The patch name must be shorter than 40 characters and it must only contain alpha-numeric characters or hyphens.</small>
   </td>
  </tr>
  <tr>
@@ -24,8 +25,7 @@ if ($errors) {
    Patch File
   </th>
   <td class="form-input">
-   <input type="file" name="patch"/><br />
-   <small>The patch name must be shorter than 40 characters and it must only contain alpha-numeric characters or hyphens.</small>
+   <input type="file" name="patch"/>
   </td>
  </tr>
 </table>
