@@ -1,6 +1,7 @@
 <?php response_header('Roadmap :: ' . clean($this->package));?>
 <h1>Roadmap for Package <?php echo clean($this->package); ?></h1>
 <a href="/bugs/search.php?package_name[]=<?php echo urlencode(clean($this->package)) ?>&status=Open&cmd=display">Bug Tracker</a> | <a href="/<?php echo urlencode(clean($this->package)) ?>">Package Home</a> | <a href="roadmap.php?showold=1&package=<?php echo urlencode($this->package) ?>">Show Old Roadmaps</a>
+<?php if ($GLOBALS['auth_user']) { ?>
 <ul class="side_pages">
 <?php foreach ($this->roadmap as $info):
 if (in_array($info['roadmap_version'], $this->releases)) {
@@ -15,7 +16,10 @@ $future = ($info['releasedate'] == '1976-09-02 17:15:30');
 <?php endforeach; ?>
  <li><a href="roadmap.php?package=<?php echo urlencode($this->package) ?>&new=1">New roadmap</a></li>
 </ul>
-<?php foreach ($this->roadmap as $info):
+<?php
+}
+
+foreach ($this->roadmap as $info):
 if (in_array($info['roadmap_version'], $this->releases)) {
     if (!$this->showold) {
         continue;
@@ -33,8 +37,10 @@ if (in_array($info['roadmap_version'], $this->releases)) {
 <table>
  <tr>
   <td>
+   <?php if ($GLOBALS['auth_user']) { ?>
    <a href="roadmap.php?package=<?php echo urlencode($this->package). $showold ?>&addbugs=1&roadmap=<?php
     echo urlencode($info['roadmap_version']) ?>">Add Bugs/Features to this Roadmap</a><br />
+   <?php } ?>
    <a href="roadmap.php?package=<?php echo urlencode($this->package). $showold ?>&packagexml=1&roadmap=<?php
     echo urlencode($info['roadmap_version']) ?>">Generate package.xml for this release</a>
   </td>
