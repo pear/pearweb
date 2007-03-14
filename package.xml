@@ -23,6 +23,12 @@
   <active>no</active>
  </lead>
  <developer>
+  <name>David Coallier</name>
+  <user>davidc</user>
+  <email>davidc@php.net</email>
+  <active>yes</active>
+ </developer>
+ <developer>
   <name>Stig Bakken</name>
   <user>ssb</user>
   <email>stig@php.net</email>
