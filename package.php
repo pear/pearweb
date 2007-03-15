@@ -15,14 +15,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.10.3');
+$a->setReleaseVersion('1.10.4');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10360: trackbacks for non-existent packages allowed [cellog]
- * Fix Bug #10361: emails still bounce to pear-sys@php.net [timj]
- * Implement Feature #10322: Explain allowed chars in patch name [mj]
- * Implement Feature #10351: Don\'t show edit/delete links in roadmap view [mj]
+ * Fix Bug #10379: election results are inaccurately calculated [cellog]
+ * Implement Feature #10380: announce new constitution on front page [cellog]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

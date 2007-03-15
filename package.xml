@@ -58,10 +58,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-13</date>
- <time>18:19:57</time>
+ <date>2007-03-14</date>
+ <time>19:11:41</time>
  <version>
-  <release>1.10.3</release>
+  <release>1.10.4</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -70,10 +70,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10360: trackbacks for non-existent packages allowed [cellog]
- * Fix Bug #10361: emails still bounce to pear-sys@php.net [timj]
- * Implement Feature #10322: Explain allowed chars in patch name [mj]
- * Implement Feature #10351: Don&apos;t show edit/delete links in roadmap view [mj]
+ * Fix Bug #10379: election results are inaccurately calculated [cellog]
+ * Implement Feature #10380: announce new constitution on front page [cellog]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1718,11 +1716,25 @@
    </stability>
    <date>2007-03-13</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10360: trackbacks for non-existent packages allowed [cellog]
+* Fix Bug #10361: emails still bounce to pear-sys@php.net [timj]
+* Implement Feature #10322: Explain allowed chars in patch name [mj]
+* Implement Feature #10351: Don&apos;t show edit/delete links in roadmap view [mj]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.10.4</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-14</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix Bug #10360: trackbacks for non-existent packages allowed [cellog]
- * Fix Bug #10361: emails still bounce to pear-sys@php.net [timj]
- * Implement Feature #10322: Explain allowed chars in patch name [mj]
- * Implement Feature #10351: Don&apos;t show edit/delete links in roadmap view [mj]
+ * Fix Bug #10379: election results are inaccurately calculated [cellog]
+ * Implement Feature #10380: announce new constitution on front page [cellog]
    </notes>
   </release>
  </changelog>
