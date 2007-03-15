@@ -27,8 +27,8 @@ if (count($toProcess)) {
         ', array($election['id']));
         if ($election['maximum_choices'] == 1) {
             $totalvotes = $dbh->getOne('
-                SELECT COUNT(*) FROM election_votes_single
-            ') + $totalabstain;
+                SELECT COUNT(*) FROM election_votes_single WHERE election_id=?
+            ', array($election['id'])) + $totalabstain;
             $results = $dbh->getAll('
                 SELECT COUNT(*) as total, vote
                 FROM election_votes_single
@@ -38,8 +38,8 @@ if (count($toProcess)) {
             ', array($election['id']), DB_FETCHMODE_ASSOC);
         } else {
             $totalvotes = $dbh->getOne('
-                SELECT COUNT(*) FROM election_votes_multiple
-            ') + $totalabstain;
+                SELECT COUNT(*) FROM election_votes_multiple WHERE election_id=?
+            ', array($election['id'])) + $totalabstain;
             $results = $dbh->getAll('
                 SELECT COUNT(*) as total, vote
                 FROM election_votes_multiple
