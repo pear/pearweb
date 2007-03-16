@@ -84,7 +84,7 @@ if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
 if ($auth_user && $auth_user->registered) {
     if (!auth_check('pear.dev') && auth_check('pear.voter') && !auth_check('pear.bug')) {
         // auto-grant bug tracker karma if it isn't present
-        require 'Damblan/Karma.php';
+        require_once 'Damblan/Karma.php';
         $karma = new Damblan_Karma($dbh);
         $karma->grant($auth_user->user, 'pear.bug');
     }
