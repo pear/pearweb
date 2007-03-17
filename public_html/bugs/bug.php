@@ -593,6 +593,8 @@ if ($bug['modified']) {
     if ($bug['bughandle']) {
         echo '<a href="/user/' . $bug['bughandle'] . '">' . $bug['bughandle'] . '</a>';
     } elseif ($bug['handle'] && $bug['showemail'] != '0') {
+        echo '<a href="/user/' . $bug['handle'] . '">' . $bug['handle'] . '</a>';
+    } else {
         echo spam_protect(htmlspecialchars($bug['email']));
     }
     ?></td>
