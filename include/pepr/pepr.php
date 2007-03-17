@@ -434,10 +434,11 @@ Proposer:                '.user_link($this->user_handle).'<br />
         return true;
     }
 
-    function addLink($dbh, $link)
+    function addLink($link)
     {
+        $link = new ppLink($link);
         $link->pkg_prop_id = $this->id;
-        $this->links[] =& $link;
+        $this->links[] = $link;
         return true;
     }
 

@@ -350,11 +350,12 @@ if (isset($_POST['submit'])) {
 
         unset($proposal->links);
         for ($i = 0; $i < count($linksData); $i++) {
+            $linkData = array();
             $linkData['type'] = $linksData[$i]['type'];
             $linkData['url']  = $linksData[$i]['url'];
 
             if ($linksData[$i]['url']) {
-                $proposal->addLink($dbh, new ppLink($linkData));
+                $proposal->addLink($linkData);
             }
         }
 
