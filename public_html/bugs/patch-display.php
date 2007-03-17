@@ -48,7 +48,16 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
     $handle = $patchinfo->getDeveloper($bug, $_GET['patch'], $_GET['revision']);
     $revision = $_GET['revision'];
     $patch = $_GET['patch'];
+    response_header('Bug #' . clean($buginfo['id']) . ' :: Patches');
+    $bug = $buginfo['id'];
+    $patches = $patchinfo->listPatches($buginfo['id']);
+    $canpatch = auth_check('pear.bug') || auth_check('pear.dev');
+    include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/listpatches.php';
+    $revision = $_GET['revision'];
+    $patch = $_GET['patch'];
     include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/patchdisplay.php';
+    response_footer();
+    exit;
 }
 response_header('Bug #' . clean($buginfo['id']) . ' :: Patches');
 $bug = $buginfo['id'];

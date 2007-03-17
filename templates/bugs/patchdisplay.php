@@ -14,4 +14,3 @@ Patch Revisions:
 <pre>
 <?php echo htmlentities($patchcontents, ENT_QUOTES, 'UTF-8'); ?>
 </pre>
-<?php response_footer();
