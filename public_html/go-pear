@@ -710,19 +710,6 @@ if (in_array('Getopt.php', $local_dir)) {
 }
 print "ok\n";
 
-print 'Bootstrapping: Console_Getopt.........';
-$r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['Console_Getopt'], 15), 0, -4));
-$url = "http://cvs.php.net/viewcvs.cgi/pear-core/Console/Getopt.php?view=co&pathrev=PEAR_1_4";
-mkdir('Console', 0700);
-if (in_array('Getopt.php', $local_dir)) {
-    copy(dirname(__FILE__).'/go-pear-bundle/Getopt.php', 'Console/Getopt.php');
-    echo "(local) ";
-} else {
-    download_url($url, 'Console/Getopt.php', $http_proxy);
-    echo "(remote) ";
-}
-print "ok\n";
-
 if ($install_pfc) {
     foreach ($pfc_packages as $pkg) {
         foreach($local_dir as $file) {
