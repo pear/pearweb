@@ -19,8 +19,13 @@ $a->setReleaseVersion('1.10.4');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
+ * Fix Bug #10280: go-pear tries to install Console_Getopt twice [rosier]
+ * Fix Bug #10375: The list of patches gets displayed after the footer [cellog]
+ * Fix Bug #10376: [go-pear] webfrontend filename is ignored [tias]
  * Fix Bug #10379: election results are inaccurately calculated [cellog]
  * Implement Feature #10380: announce new constitution on front page [cellog]
+
+ Also, fix fatal error in some cases if user is not pear.dev karma user
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

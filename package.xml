@@ -58,8 +58,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-14</date>
- <time>19:11:41</time>
+ <date>2007-03-17</date>
+ <time>16:44:56</time>
  <version>
   <release>1.10.4</release>
   <api>0.1.1</api>
@@ -70,8 +70,13 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
+ * Fix Bug #10280: go-pear tries to install Console_Getopt twice [rosier]
+ * Fix Bug #10375: The list of patches gets displayed after the footer [cellog]
+ * Fix Bug #10376: [go-pear] webfrontend filename is ignored [tias]
  * Fix Bug #10379: election results are inaccurately calculated [cellog]
  * Implement Feature #10380: announce new constitution on front page [cellog]
+
+ Also, fix fatal error in some cases if user is not pear.dev karma user
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1730,11 +1735,16 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-03-14</date>
+   <date>2007-03-17</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
+ * Fix Bug #10280: go-pear tries to install Console_Getopt twice [rosier]
+ * Fix Bug #10375: The list of patches gets displayed after the footer [cellog]
+ * Fix Bug #10376: [go-pear] webfrontend filename is ignored [tias]
  * Fix Bug #10379: election results are inaccurately calculated [cellog]
  * Implement Feature #10380: announce new constitution on front page [cellog]
+
+ Also, fix fatal error in some cases if user is not pear.dev karma user
    </notes>
   </release>
  </changelog>
