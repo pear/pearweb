@@ -1998,19 +1998,19 @@ function displayHTMLFooter()
 function displayHTMLInstallationSummary($data = '')
 {
     $next     = NULL;
-    $prefix   = dirname($GLOBALS['webfrontend_file']);
+    $file   = $GLOBALS['webfrontend_file'];
     $doc_root = strip_magic_quotes($_SERVER['DOCUMENT_ROOT']);
     $file_dir = dirname(__FILE__);
     if ( WINDOWS ) {
-        $prefix   = str_replace('/', '\\', strtolower($prefix));
+        $file   = str_replace('/', '\\', strtolower($file));
         $doc_root = str_replace('/', '\\', strtolower($doc_root));
         $file_dir = str_replace('/', '\\', strtolower($file_dir));
     }
 
-    if ($doc_root && substr($prefix, 0, strlen($doc_root)) == $doc_root) {
-        $next = substr($prefix, strlen($doc_root)).'/index.php';
-    } else if ($file_dir && substr($prefix, 0, strlen($file_dir)) == $file_dir) {
-        $next = substr($prefix, strlen($file_dir)).'/index.php';
+    if ($doc_root && substr($file, 0, strlen($doc_root)) == $doc_root) {
+        $next = substr($file, strlen($doc_root));
+    } elseif ($file_dir && substr($file, 0, strlen($file_dir)) == $file_dir) {
+        $next = substr($file, strlen($file_dir));
     }
 
     if ($data) {
