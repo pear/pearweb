@@ -64,7 +64,7 @@ response_header();
 <p><strong>[March 18, 2007]</strong> Official results of PEAR's future direction are 
 <a href="http://pear.php.net/election/info.php?election=6&results=1">here</a>.  The official
 new Constitution for PEAR is available for
-viewing <a href="http://pear.php.net/manual/en/constitution.html">here</a>.  Elections
+viewing <a href="http://pear.php.net/manual/en/constitution.php">here</a>.  Elections
 for the PEAR Group and President will be announced soon, and are open to all developers
 with <var>pear.dev</var> karma, stay tuned for details.</p>
 <p><strong>[February 1, 2007]</strong> As of January 1, 2008, PEAR will be dropping
