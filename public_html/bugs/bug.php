@@ -906,7 +906,8 @@ if ($edit == 1 || $edit == 2) {
      </tr>
      <?php if (auth_check('pear.dev')): ?>
      <tr>
-      <th class="details">Assigned to <br />Roadmap Version(s):</th>
+      <th class="details">Assigned to <br />Roadmap Version(s):<br />
+      (<span class="headerbottom">Already released</span>)</th>
       <td><?php
         $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
         $link->id = $id;
@@ -920,11 +921,24 @@ if ($edit == 1 || $edit == 2) {
         $db->orderBy('releasedate DESC');
         if ($db->find(false)) {
             while ($db->fetch()) {
+                $released = $dbh->getOne('SELECT releases.id
+                 FROM packages, releases, bugdb_roadmap b
+                 WHERE
+                    b.id=? AND
+                    packages.name=b.package AND releases.package=packages.id AND
+                    releases.version=b.roadmap_version',
+                    array($db->id));
+                if ($released) {
+                    echo '<span class="headerbottom">';
+                }
                 ?><input type="checkbox" name="in[fixed_versions][]" value="<?php
                 echo $db->id . '"';
                 if (isset($links[$db->id])) {
                     echo ' checked="true"';
                 }?>/> <?php echo $db->roadmap_version; '<br />';
+                if ($released) {
+                    echo '</span>';
+                }
             }
         } else {
             ?>(No roadmap defined)<?php
