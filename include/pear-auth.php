@@ -56,7 +56,7 @@ function auth_reject($realm = null, $message = null)
         print '<table class="form-holder" cellspacing="1">' . "\n";
         print " <tr>\n";
         print '  <th class="form-label_left">';
-        print 'Use<span class="accesskey">r</span>name:</th>' . "\n";
+        print 'Use<span class="accesskey">r</span>name or email address:</th>' . "\n";
         print '  <td class="form-input">';
         print '<input size="20" name="PEAR_USER" accesskey="r" /></td>' . "\n";
         print " </tr>\n";

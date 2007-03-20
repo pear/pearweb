@@ -3144,6 +3144,11 @@ class PEAR_User extends DB_storage
     function PEAR_User(&$dbh, $user)
     {
         $this->DB_storage("users", "handle", $dbh);
+        if (strpos($user, '@')) {
+            $this->DB_storage('users', 'email', $dbh);
+        } else {
+            $this->DB_storage('users', 'handle', $dbh);
+        }
         $this->pushErrorHandling(PEAR_ERROR_RETURN);
         $this->setup($user);
         $this->popErrorHandling();
