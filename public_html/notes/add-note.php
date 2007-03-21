@@ -49,10 +49,6 @@ foreach ($keys as $key => $message) {
     }
 }
 
-if (isset($_SESSION['answer'])) {
-    unset($_SESSION['answer']);
-}
-
 if (empty($errors)) {
     
     require_once 'notes/ManualNotes.class.php';
@@ -80,6 +76,12 @@ if (empty($errors)) {
             $noteUrl = strip_tags($post['noteUrl']);
         }
         $errors[] = $added->getMessage() . ' please contact <a mailto="pear-webaster@lists.php.net">Webmaster</a> , Thanks';
+    }
+    /**
+     * We need no further answers
+     */
+    if (isset($_SESSION['answer'])) {
+        unset($_SESSION['answer']);
     }
 }
 
