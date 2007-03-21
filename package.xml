@@ -573,6 +573,7 @@
     <file name="election-new-step1.tpl.php" role="web" />
     <file name="election-new-step2.tpl.php" role="web" />
     <file name="election-new-step3.tpl.php" role="web" />
+    <file name="election-pending.tpl.php" role="web" />
     <file name="election-register.tpl.php" role="web" />
     <file name="election-results.tpl.php" role="web" />
     <file name="election-showresults.tpl.php" role="web" />

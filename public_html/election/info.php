@@ -132,6 +132,9 @@ if (isset($_GET['vote'])) {
         $old = false;
         require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
         exit;
+    } elseif ($voter->pendingElection($_GET['election'])) {
+        $info = $voter->electionInfo($_GET['election']);
+        require dirname(dirname(dirname(__FILE__))) . '/templates/election-pending.tpl.php';
     } elseif ($voter->canVote($_GET['election'])) {
         require dirname(dirname(dirname(__FILE__))) . '/templates/election-dovote.tpl.php';
     } else {

@@ -241,6 +241,16 @@ class PEAR_Voter
             AND handle=?', array($id, $this->user));
     }
 
+    function pendingElection($id)
+    {
+        $info = $this->electionInfo($id);
+        if (strtotime($info['votestart']) - time() > 0) {
+            // election is not active
+            return true;
+        }
+        return false;
+    }
+
     function canVote($id)
     {
         if ($this->hasVoted($id)) {
