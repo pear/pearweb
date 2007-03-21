@@ -102,7 +102,7 @@ foreach (package::listAllNames() as $package) {
         $pear_rest->saveAllReleasesREST($package);
         echo "done\n";
         foreach ($releases as $version => $blah) {
-            $fileinfo = $dbh->getOne('SELECT fullpath FROM files WHERE release = ?',
+            $fileinfo = $dbh->getOne('SELECT fullpath FROM files WHERE `release` = ?',
                 array($blah['id']));
             $tar = &new Archive_Tar($fileinfo);
             if ($pxml = $tar->extractInString('package2.xml')) {

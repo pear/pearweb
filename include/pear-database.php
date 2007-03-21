@@ -891,7 +891,7 @@ class package
             $stablereleases = $allreleases;
         }
         $deps = $dbh->getAll(
-            "SELECT package, release , type, relation, version, name ".
+            "SELECT package, `release` , type, relation, `version`, name ".
             "FROM deps", null, DB_FETCHMODE_ASSOC);
         foreach ($packageinfo as $pkg => $info) {
             $packageinfo[$pkg]['stable'] = false;
@@ -1831,7 +1831,7 @@ class release
 
         // Update dependency table
         $query = "INSERT INTO deps " .
-            "(package, release, type, relation, version, name, optional) " .
+            "(package, `release`, type, relation, version, name, optional) " .
             "VALUES (?,?,?,?,?,?,?)";
         $sth = $dbh->prepare($query);
 
@@ -2030,7 +2030,7 @@ class release
                 $file = substr($file, 0, -4) . '.tgz';
                 $uncompress = true;
             }
-            $row = $dbh->getRow("SELECT fullpath, release, id FROM files ".
+            $row = $dbh->getRow("SELECT fullpath, `release`, id FROM files ".
                                 "WHERE UPPER(basename) = ?", array(strtoupper($file)),
                                 DB_FETCHMODE_ASSOC);
             if (PEAR::isError($row)) {
@@ -2229,7 +2229,7 @@ class release
             }
 
             $query = 'INSERT INTO package_stats'
-                   . ' (dl_number, package, release, pid, rid, cid, last_dl)'
+                   . ' (dl_number, package, `release`, pid, rid, cid, last_dl)'
                    . ' VALUES (1, ?, ?, ?, ?, ?, ?)';
 
             $dbh->query($query, array($pkg_info['name'],
@@ -2397,7 +2397,7 @@ Authors
             }
         }
 
-        $query = sprintf("DELETE FROM files WHERE package = '%s' AND release = '%s'",
+        $query = sprintf("DELETE FROM files WHERE package = '%s' AND `release` = '%s'",
                          $package,
                          $release
                          );
