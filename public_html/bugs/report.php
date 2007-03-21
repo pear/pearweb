@@ -33,7 +33,7 @@ require_once './include/cvs-auth.inc';
 /**
  * Numeral Captcha Class
  */
-require_once 'include/NumeralCaptcha.php';
+require_once 'NumeralCaptcha.php';
 
 error_reporting(E_ALL ^ E_NOTICE);
 $errors              = array();

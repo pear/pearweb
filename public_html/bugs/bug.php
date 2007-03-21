@@ -41,7 +41,7 @@ require_once './include/trusted-devs.inc';
 /**
  * Numeral Captcha Class
  */
-require_once 'include/NumeralCaptcha.php';
+require_once 'NumeralCaptcha.php';
 
 /**
  * Instantiate the numeral captcha object.
