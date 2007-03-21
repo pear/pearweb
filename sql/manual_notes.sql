@@ -9,7 +9,7 @@ CREATE TABLE manual_notes
     user_name varchar(100) NOT NULL,
     note_text text NOT NULL,
     note_time timestamp NOT NULL,
-    note_approved varchar(6) NOT NULL DEFAULT 'pending',
+    note_approved varchar(7) NOT NULL DEFAULT 'pending',
     note_approved_by int(11) NULL,
     note_deleted tinyint(1) NULL DEFAULT '0',
     PRIMARY KEY (note_id),
