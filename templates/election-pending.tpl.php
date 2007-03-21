@@ -16,10 +16,6 @@
     $info['voteend']; ?></td>
  </tr>
  <tr>
-  <th class="form-label_left">Voter turnout</th>
-  <td class="form-input"><?php echo number_format($info['turnout'] * 100, 2) ?>%</td>
- </tr>
- <tr>
   <th class="form-label_left">Choices</th>
   <td class="form-input">
    <table>
