@@ -1,7 +1,7 @@
 <?php
+session_start();
 
 $post = $_POST;
-
 unset($_POST);
 
 /**
@@ -20,6 +20,26 @@ $keys = array(
 $errors = array();
 
 /**
+ * Check if the spam check is passed. 
+ * @todo Use real cpatchas as this is 
+ * going to be highly used.
+ *
+ * If the captcha is wrong, then regenerate it.
+ */
+if (isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
+    if ($post['answer'] != $_SESSION['answer']) {
+
+        $errors[] = 'Incorrect Captcha';
+        
+        require_once 'NumeralCaptcha.php';
+
+        $captcha            = new NumeralCaptcha;
+        $spamCheck          = $captcha->getOperation();
+        $_SESSION['answer'] = $captcha->getAnswer();
+    }
+}
+
+/**
  * Check if the keys are set, if not
  * then set an error..
  */
@@ -29,7 +49,12 @@ foreach ($keys as $key => $message) {
     }
 }
 
+if (isset($_SESSION['answer'])) {
+    unset($_SESSION['answer']);
+}
+
 if (empty($errors)) {
+    
     require_once 'notes/ManualNotes.class.php';
 
     $manualNote = new ManualNotes;
