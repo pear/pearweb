@@ -46,7 +46,7 @@ class PEAR_Election
             ORDER BY choice
         ', false, array($id), DB_FETCHMODE_ASSOC);
         for ($i = 1; $i <= $_POST['choices']; $i++) {
-            if (isset($all[$i])) {
+            if (empty($_POST['summary' . $i]) && isset($all[$i])) {
                 $info['summary' . $i] = $all[$i]['summary'];
                 $info['summary_link' . $i] = $all[$i]['summary_link'];
             } else {
