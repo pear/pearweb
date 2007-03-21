@@ -1,6 +1,4 @@
-/**
- * Create tables for user comments
- */
+-- Create tables for user comments
 
 CREATE TABLE manual_notes
 (
