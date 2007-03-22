@@ -2,12 +2,17 @@
 <h1>Note Management Area</h1>
 
 <?php 
-// {{{ isset($error)
+ // {{{ isset($error)
 if (strlen(trim($error)) > 0):
 ?>
 <div class="errors"><?php echo $error; ?></div>
 <?php endif; // }}} ?>
 
+<?php 
+if (strlen(trim($message)) > 0):
+?>
+<div class="message"><?php echo $message; ?></div>
+<?php endif; ?>
 
 <form action="/notes/admin/trans.php" method="post">
 <input type="hidden" name="action" value="updateMass" />
