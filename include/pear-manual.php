@@ -278,7 +278,9 @@ function getComments($uri, $status = 'yes')
     foreach ($comments as $comment) {
         $time       = date('d-M-Y H:i', strtotime($comment['note_time']));
         $noteId     =  (int)$comment['note_id'];
-        $userHandle = $comment['user_handle'] ? $comment['user_handle'] :
+        $userHandle = $comment['user_handle'] ? 
+            '<a href="/user/' . $comment['user_handle'] . '">' . $comment['user_handle'] .
+            '</a>' :
             htmlentities($comment['user_name']);
 
         /**
@@ -291,12 +293,10 @@ function getComments($uri, $status = 'yes')
 
         $output .= "
             $linkName \n
-            <div id=\"note\">
-             <div id=\"top\">
-              $userHandle <br />
-              $linkUrl
-             </div>
-             <div id=\"text\">
+            <div class=\"note\">
+             <div class=\"note_handle\">Note by: $userHandle</div>
+             <div class=\"note_time\">$linkUrl</div>
+             <div class=\"note_text\">
               $comment
              </div>
             </div>\n\n
