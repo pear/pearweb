@@ -59,7 +59,7 @@
   <active>no</active>
  </developer>
  <date>2007-03-22</date>
- <time>12:42:35</time>
+ <time>15:53:56</time>
  <version>
   <release>1.10.4</release>
   <api>0.1.1</api>
@@ -70,11 +70,16 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10280: go-pear tries to install Console_Getopt twice [rosier]
- * Fix Bug #10375: The list of patches gets displayed after the footer [cellog]
- * Fix Bug #10376: [go-pear] webfrontend filename is ignored [tias]
- * Fix Bug #10379: election results are inaccurately calculated [cellog]
- * Implement Feature #10380: announce new constitution on front page [cellog]
+ * Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
+ * Fix Bug #10445: election edit does not allow changing choices [cellog]
+ * Fix Bug #10446: election choices not shown if the election has not yet happened [cellog]
+ * Fix Bug #10455: multiple bug account requests with the same email [cellog]
+ * Implement Feature #10078: add user notes to manual [davidc]
+ * Implement Feature #10330: allow users to log in using their email address as well as handle [cellog]
+ * Implement Feature #10355: notification emails when patches are attached/modified [davidc]
+ * Implement Feature #10356: notification emails when roadmap has bugs assigned/removed [cellog]
+ * Implement Feature #10357: Allow dots in patch name [quipo]
+ * Implement Feature #10362: fade roadmap versions already released in bug edit [cellog]
 
  Also, fix fatal error in some cases if user is not pear.dev karma user
  </notes>
@@ -111,6 +116,7 @@
       <file name="Print.php" role="web" />
      </dir> <!-- /include/Damblan/Log -->
      <dir name="Mail">
+      <file name="Patch_Added.tpl.php" role="web" />
       <file name="pearweb_account_request.tpl.php" role="web" />
       <file name="pearweb_account_request_bug.tpl.php" role="web" />
       <file name="pearweb_account_request_existing.tpl.php" role="web" />
@@ -127,6 +133,7 @@
       <file name="Site.php" role="web" />
       <file name="Users.php" role="web" />
      </dir> <!-- /include/Damblan/Search -->
+     <file name="Bugs.php" role="web" />
      <file name="Karma.php" role="web" />
      <file name="Log.php" role="web" />
      <file name="Mailer.php" role="web" />
@@ -571,7 +578,6 @@
      <file name="add-note-form.tpl.php" role="web" />
      <file name="add-note.tpl.php" role="web" />
      <file name="note-manage-admin.tpl.php" role="web" />
-     <file name="note.tpl.php" role="web" />
     </dir> <!-- /templates/notes -->
     <dir name="users">
      <file name="lostpassword.php" role="web" />
@@ -1753,11 +1759,16 @@
    <date>2007-03-22</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix Bug #10280: go-pear tries to install Console_Getopt twice [rosier]
- * Fix Bug #10375: The list of patches gets displayed after the footer [cellog]
- * Fix Bug #10376: [go-pear] webfrontend filename is ignored [tias]
- * Fix Bug #10379: election results are inaccurately calculated [cellog]
- * Implement Feature #10380: announce new constitution on front page [cellog]
+ * Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
+ * Fix Bug #10445: election edit does not allow changing choices [cellog]
+ * Fix Bug #10446: election choices not shown if the election has not yet happened [cellog]
+ * Fix Bug #10455: multiple bug account requests with the same email [cellog]
+ * Implement Feature #10078: add user notes to manual [davidc]
+ * Implement Feature #10330: allow users to log in using their email address as well as handle [cellog]
+ * Implement Feature #10355: notification emails when patches are attached/modified [davidc]
+ * Implement Feature #10356: notification emails when roadmap has bugs assigned/removed [cellog]
+ * Implement Feature #10357: Allow dots in patch name [quipo]
+ * Implement Feature #10362: fade roadmap versions already released in bug edit [cellog]
 
  Also, fix fatal error in some cases if user is not pear.dev karma user
    </notes>

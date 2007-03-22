@@ -19,11 +19,16 @@ $a->setReleaseVersion('1.10.4');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10280: go-pear tries to install Console_Getopt twice [rosier]
- * Fix Bug #10375: The list of patches gets displayed after the footer [cellog]
- * Fix Bug #10376: [go-pear] webfrontend filename is ignored [tias]
- * Fix Bug #10379: election results are inaccurately calculated [cellog]
- * Implement Feature #10380: announce new constitution on front page [cellog]
+ * Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
+ * Fix Bug #10445: election edit does not allow changing choices [cellog]
+ * Fix Bug #10446: election choices not shown if the election has not yet happened [cellog]
+ * Fix Bug #10455: multiple bug account requests with the same email [cellog]
+ * Implement Feature #10078: add user notes to manual [davidc]
+ * Implement Feature #10330: allow users to log in using their email address as well as handle [cellog]
+ * Implement Feature #10355: notification emails when patches are attached/modified [davidc]
+ * Implement Feature #10356: notification emails when roadmap has bugs assigned/removed [cellog]
+ * Implement Feature #10357: Allow dots in patch name [quipo]
+ * Implement Feature #10362: fade roadmap versions already released in bug edit [cellog]
 
  Also, fix fatal error in some cases if user is not pear.dev karma user
 ');
