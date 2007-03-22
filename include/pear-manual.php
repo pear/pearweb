@@ -243,9 +243,11 @@ function navigationBar($title, $id, $loc)
         echo "\n";
         echo '    Do you think that something on this page is wrong?';
         echo '    Please <a href="/bugs/report.php?package=Documentation">file a bug report</a> ';
-        echo '    or <a href="/notes/add-note-form.php?uri=' . $_SERVER['REQUEST_URI'] . '>add a note/comment</a>. ';
+        echo '    or <a href="/notes/add-note-form.php?uri=' . htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8') . '>add a note/comment</a>. ';
         echo "\n";
         echo '   </td></tr>';
+        echo "\n";
+        echo getComments();
         echo "\n";
     }
 
@@ -257,6 +259,54 @@ function navigationBar($title, $id, $loc)
     echo "\n";
     echo "</table>\n";
 
+}
+
+function getComments($status = 'yes')
+{
+    $output = '';
+    
+    $uri = $_SERVER['REQUEST_URI'];
+
+    require_once 'notes/ManualNotes.class.php';
+    $manualNotes = new Manual_Notes;
+    $comments = $manualNotes->getPageComments($uri, $status);
+
+    $output .= "<tr><td>\n";
+
+    if (empty($comment)) {
+        $output .= 'There are no user contributed notes for this page.';
+    }
+    
+    foreach ($comments as $comment) {
+        $time       = date('Y-m-d H:i:s', $comment['note_time']);
+        $noteId     =  (int)$comment['note_id'];
+        $userHandle = htmlentities($comment['user_handle']);
+
+        /**
+         * For now then we can implement more things like
+         * code highlight, etc.
+         */
+        $comment    = nl2br(htmlentities($comment['note_text']));
+        $linkUrl    = '<a href="#' . $noteId . '">' . $time . '</a>';
+        $linkName   = '<a name="#' . $noteId . '"></a>';
+
+        $output .= "
+            $linkName \n
+            <div id=\"note\">
+             <div id=\"top\">
+              $userHandle <br />
+              $linkUrl
+             </div>
+             <div id=\"text\">
+              $comment
+             </div>
+            </div>\n\n
+        ";
+
+    }
+    $output .= "</td></tr>";
+   
+    return $output;
 }
 
 function sendManualHeaders($charset, $lang)
