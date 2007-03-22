@@ -853,7 +853,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
                   "X-PHP-Status: "     . rinse($new_status) . "\n" .
                   "X-PHP-Old-Status: " . rinse($old_status) . "\n" .
                   "In-Reply-To: <bug-$bug[id]@$site.php.net>",
-                  "-f bounce-no-user@php.net");
+                  "-f bounces-ignored@php.net");
         }
     }
 
@@ -875,7 +875,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
                   "From: $from\n".
                   "X-PHP-Bug: $bug[id]\n".
                   "In-Reply-To: <bug-$bug[id]@$site.php.net>",
-                  "-f bounce-no-user@php.net");
+                  "-f bounces-ignored@php.net");
         }
     }
 }
