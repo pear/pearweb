@@ -14,7 +14,7 @@ foreach ($errors as $error) {
 </div>
 
 <form action="/notes/add-note.php" method="post">
-<input type="hidden" name="noteUrl" value="<?=$noteUrl?>" />
+<input type="hidden" name="noteUrl" value="<?php echo $noteUrl ?>" />
 <tbody>
  <tr>
   <td colspan="2"></td>
@@ -33,7 +33,7 @@ foreach ($errors as $error) {
   </td>
  </tr>
  <tr>
-  <th class="subr">What is the result ? : "<?=$spamCheck?>"<br/></th>
+  <th class="subr">What is the result ? : "<?php echo $spamCheck ?>"<br/></th>
   <td><input name="answer" size="60" maxlength="10" type="text"></td>
  </tr>
  <tr>
@@ -49,8 +49,8 @@ foreach ($errors as $error) {
 ?>
     <div>
     Note added, it will be reviewed soon and you will be contacted if there's any problem.
-    Go back to the previous url <a href="http://pear.php.net/<?=$noteUrl?>" 
-                                   title="Previous Note">http://<?=htmlentities($_SERVER['SERVER_NAME'], ENT_QUOTES, 'UTF-8');?><?=$noteUrl?></a>
+    Go back to the previous url <a href="http://pear.php.net/<?php echo $noteUrl ?>" 
+                                   title="Previous Note">http://<?php echo htmlentities($_SERVER['SERVER_NAME'], ENT_QUOTES, 'UTF-8'), $noteUrl ?></a>
     </div>
 <?php 
 

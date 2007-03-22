@@ -19,7 +19,7 @@
 ?>
 
 <form action="/notes/add-note.php" method="post">
-<input type="hidden" name="noteUrl" value="<?=$noteUrl?>" />
+<input type="hidden" name="noteUrl" value="<?php echo $noteUrl ?>" />
 <tbody>
  <tr>
   <td colspan="2"></td>
@@ -38,7 +38,7 @@
   </td>
  </tr>
  <tr>
-  <th class="subr">What is the result of this ? "<?=$spamCheck?>"<br/></th>
+  <th class="subr">What is the result of this ? "<?php echo $spamCheck?>"<br/></th>
   <td><input name="answer" size="60" maxlength="10" type="text"></td>
  </tr>
  <tr>
