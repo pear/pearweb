@@ -59,7 +59,7 @@
   <active>no</active>
  </developer>
  <date>2007-03-22</date>
- <time>15:56:55</time>
+ <time>18:40:26</time>
  <version>
   <release>1.11.0</release>
   <api>0.1.1</api>
@@ -578,6 +578,7 @@
      <file name="add-note-form.tpl.php" role="web" />
      <file name="add-note.tpl.php" role="web" />
      <file name="note-manage-admin.tpl.php" role="web" />
+     <file name="note.tpl.php" role="web" />
     </dir> <!-- /templates/notes -->
     <dir name="users">
      <file name="lostpassword.php" role="web" />
