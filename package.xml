@@ -58,8 +58,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-21</date>
- <time>21:53:11</time>
+ <date>2007-03-22</date>
+ <time>00:02:02</time>
  <version>
   <release>1.10.4</release>
   <api>0.1.1</api>
@@ -433,6 +433,10 @@
      <file name="weekly-summaries.php" role="web" />
     </dir> <!-- /public_html/news -->
     <dir name="notes">
+     <dir name="admin">
+      <file name="index.php" role="web" />
+      <file name="trans.php" role="web" />
+     </dir> <!-- /public_html/notes/admin -->
      <file name="add-note-form.php" role="web" />
      <file name="add-note.php" role="web" />
     </dir> <!-- /public_html/notes -->
@@ -566,6 +570,7 @@
     <dir name="notes">
      <file name="add-note-form.tpl.php" role="web" />
      <file name="add-note.tpl.php" role="web" />
+     <file name="note-manage-admin.tpl.php" role="web" />
     </dir> <!-- /templates/notes -->
     <dir name="users">
      <file name="lostpassword.php" role="web" />
@@ -1744,7 +1749,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-03-21</date>
+   <date>2007-03-22</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * Fix Bug #10280: go-pear tries to install Console_Getopt twice [rosier]

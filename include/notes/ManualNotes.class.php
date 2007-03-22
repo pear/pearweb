@@ -127,6 +127,7 @@ class Manual_Notes
      * @param  string $url    The url of the comments
      * @param  string $status The status of the comment.. whether
      *                        it's approved, unapproved, pending
+     * @param  bool   $all    if true, return all comments matching this status
      *
      * @return mixed  $res    It returns an error object if there was an error
      *                        executing the query, will return an empty array
@@ -134,17 +135,28 @@ class Manual_Notes
      *                        this will return an associative array of the comments
      *                        per page.
      */
-    function getPageComments($url, $status = '1')
+    function getPageComments($url, $status = '1', $all = false)
     {
 
-        $sql = "
-            SELECT *
-             FROM {$this->notesTableName}
-              WHERE page_url = ?
-              AND note_approved = ?
-        ";
+        if ($all) {
+            $sql = "
+                SELECT *
+                 FROM {$this->notesTableName}
+                  WHERE
+                  note_approved = ?
+            ";
 
-        $res = $this->dbc->getAll($sql, array($url, $status), DB_FETCHMODE_ASSOC);
+            $res = $this->dbc->getAll($sql, array($status), DB_FETCHMODE_ASSOC);
+        } else {
+            $sql = "
+                SELECT *
+                 FROM {$this->notesTableName}
+                  WHERE page_url = ?
+                  AND note_approved = ?
+            ";
+
+            $res = $this->dbc->getAll($sql, array($url, $status), DB_FETCHMODE_ASSOC);
+        }
 
         if (PEAR::isError($res)) {
             return $res;
@@ -169,20 +181,22 @@ class Manual_Notes
      */
     function updateCommentList($noteIds, $status)
     {
+        $qs = array();
+        $noteIdList = array($status);
         foreach ($noteIds as $noteId) {
-            $noteIdList[]   = (int)$noteId; 
+            $noteIdList[]   = $noteId;
+            $qs[] = '?';
         }
-       
-        $approved = $this->_safeSql($approved);
+        $qs = implode(',', $qs);
 
         $sql = "
             UPDATE {$this->notesTableName}
-             SET approved = ?
-              WHERE note_id IN (" . implode(', ', $noteIdList) . ") 
+             SET note_approved   = ?
+              WHERE note_id IN ($qs) 
               LIMIT 1
         ";
 
-        $res = $this->dbc->query($sql, array($approved));
+        $res = $this->dbc->query($sql, $noteIdList);
 
         if (PEAR::isError($res)) {
             return $res;
@@ -216,7 +230,7 @@ class Manual_Notes
             UPDATE {$this->notesTableName}
              SET page_url   = ?,
                  user_name  = ?,
-                 approved   = ?
+                 note_approved   = ?
               WHERE note_id = ?
               LIMIT 1
         ";
@@ -258,7 +272,7 @@ class Manual_Notes
 
         $sql = "
             UPDATE {$this->notesTableName}
-             SET note_deleted = 'yes'
+             SET note_deleted = 1, note_approved='no'
               WHERE note_id IN($notes)
         ";
 

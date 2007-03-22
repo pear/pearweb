@@ -12,12 +12,12 @@ if (isset($_REQUEST['action'])) {
 }
 
 switch ($action) {
-    case 'updateMass':
+    case 'updatemass':
         if (isset($_POST['noteIds']) && is_array($_POST['noteIds'])) {
             $manualNotes->updateCommentList($_POST['noteIds'], 'yes');
         }
         break;
-    case 'updateSingle':
+    case 'updatesingle':
         break;
     default:
        response_header('Note Administration', null, null);
