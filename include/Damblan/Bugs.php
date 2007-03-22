@@ -42,7 +42,7 @@ class Damblan_Bugs
      */
     function getMaintainers ($id, $leadOnly = true, $activeOnly = true)
     {
-        $maintainers = maintainer::get($id, true, $activeOnly);
+        $maintainers = maintainer::get($id, $leadOnly, $activeOnly);
         $res = array();
 
         foreach ($maintainers as $maintainer => $data) {
