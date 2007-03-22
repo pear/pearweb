@@ -14,8 +14,17 @@ if (isset($_REQUEST['action'])) {
 switch ($action) {
     case 'updatemass':
         if (isset($_POST['noteIds']) && is_array($_POST['noteIds'])) {
-            $manualNotes->updateCommentList($_POST['noteIds'], 'yes');
+            $notes = $manualNotes->updateCommentList($_POST['noteIds'], 'yes');
+
+            if (PEAR::isError($notes)) {
+                $error = 'Error approving the comments, contact webmaster';
+            } else {
+                $message = 'Comment(s) successfully approved';
+            }
+            
+            include dirnname(__FILE__) . '/index.php';
         }
+        
         break;
     case 'updatesingle':
         break;
