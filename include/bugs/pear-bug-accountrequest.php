@@ -109,6 +109,12 @@ class PEAR_Bug_Accountrequest
         if ($test === $email) {
             return PEAR::raiseError('Email is already in use for an existing account');
         }
+        $test = $this->dbh->getOne('SELECT email from bug_account_request where email=?',
+            array($email));
+        if ($test === $email) {
+            // re-use existing request
+            return $this->dbh->getOne('SELECT salt FROM bug_account_request WHERE email=?');
+        }
         $query = '
         insert into bug_account_request (created_on, handle, email, salt)
         values (?, ?, ?, ?)';
