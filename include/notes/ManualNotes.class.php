@@ -112,9 +112,34 @@ class Manual_Notes
             return $res;
         }
 
+        $this->_compileComment($this->dbc->getOne('SELECT LAST_INSERT_ID()'), $note);
         return true;
     }
     // }}}
+
+    function _compileComment($id, $note)
+    {
+        $split = explode('<?php', $note);
+        if (count($split) == 1) {
+            // no PHP code
+            $this->dbc->query('UPDATE ' . $this->notesTableName . '
+                SET note_compiled=? WHERE note_id=?',
+            array(nl2br(htmlspecialchars($note)), $id));
+        } else {
+            // compile PHP code
+            $compiled = nl2br(htmlspecialchars(array_shift($split)));
+            foreach ($split as $segment) {
+                $segment = explode('?>', $segment);
+                $compiled .= highlight_string('<?php' . $segment[0] . '?>', true);
+                if (isset($segment[1])) {
+                    $compiled .= nl2br(htmlspecialchars($segment[1]));
+                }
+            }
+            $this->dbc->query('UPDATE ' . $this->notesTableName . '
+                SET note_compiled=? WHERE note_id=?', array($compiled, $id));
+        }
+    }
+
     // {{{ public function getPageComments
     /**
      * Get Page Comments
@@ -146,32 +171,42 @@ class Manual_Notes
                  FROM {$this->notesTableName}
                   WHERE
                   note_approved = ?
+                  ORDER BY note_time DESC
             ";
 
             $res = $this->dbc->getAll($sql, array($status), DB_FETCHMODE_ASSOC);
         } else {
             if ($status === true) {
                 $sql = "
-                    SELECT *
+                    SELECT note_id, page_url, user_name, user_handle,
+                    note_compiled as note_text, note_time, note_approved,
+                    note_approved_by, note_deleted
                      FROM {$this->notesTableName}
                       WHERE page_url = ?
                       AND note_approved = 'yes' OR note_approved = 'pending'
+                     ORDER BY note_time DESC
                 ";
                 $res = $this->dbc->getAll($sql, array($url), DB_FETCHMODE_ASSOC);
             } elseif ($status === false) {
                 $sql = "
-                    SELECT *
+                    SELECT note_id, page_url, user_name, user_handle,
+                    note_compiled as note_text, note_time, note_approved,
+                    note_approved_by, note_deleted
                      FROM {$this->notesTableName}
                       WHERE page_url = ?
-                      AND note_approved = 'yes'
+                      AND note_approved = 'yes' OR note_approved = 'pending'
+                     ORDER BY note_time DESC
                 ";
                 $res = $this->dbc->getAll($sql, array($url), DB_FETCHMODE_ASSOC);
             } else {
                 $sql = "
-                    SELECT *
+                    SELECT note_id, page_url, user_name, user_handle,
+                    note_compiled as note_text, note_time, note_approved,
+                    note_approved_by, note_deleted
                      FROM {$this->notesTableName}
                       WHERE page_url = ?
-                      AND note_approved = ?
+                      AND note_approved = 'yes' OR note_approved = 'pending'
+                     ORDER BY note_time DESC
                 ";
 
                 $res = $this->dbc->getAll($sql, array($url, $status), DB_FETCHMODE_ASSOC);
@@ -340,12 +375,7 @@ class Manual_Notes
             htmlentities($comment['user_name']);
         $pending    = $comment['note_approved'] == 'pending';
         $id = $comment['page_url'];
-
-        /**
-         * For now then we can implement more things like
-         * code highlight, etc.
-         */
-        $comment    = nl2br(htmlentities($comment['note_text']));
+        $comment    = $comment['note_text'];
         $linkUrl    = '<a href="#' . $noteId . '">' . $time . '</a>';
         $linkName   = '<a name="#' . $noteId . '"></a>';
         include dirname(dirname(dirname(__FILE__))) . '/templates/notes/note.tpl.php';
