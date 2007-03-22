@@ -269,7 +269,7 @@ function getComments($uri, $status = 'yes')
     $manualNotes = new Manual_Notes;
     $comments = $manualNotes->getPageComments($uri, $status);
 
-    $output .= "<tr><td>\n";
+    $output .= "<tr><td colspan=\"2\"><strong>User Comments:</strong><br />\n";
 
     if (empty($comments)) {
         $output .= 'There are no user contributed notes for this page.';
