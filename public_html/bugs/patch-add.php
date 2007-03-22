@@ -26,7 +26,8 @@ if (isset($_POST['addpatch'])) {
         $name = $_POST['name'];
         $patches = $patchinfo->listPatches($bug);
         $errors = array('No patch name entered');
-        include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/addpatch.php';
+        include dirname(dirname(dirname(__FILE__))) . 
+                '/templates/bugs/addpatch.php';
         exit;
     }
     $bug = $buginfo['id'];
@@ -42,10 +43,48 @@ if (isset($_POST['addpatch'])) {
         $name = $_POST['name'];
         $patches = $patchinfo->listPatches($bug);
         $errors = array($e->getMessage(),
-            'Could not attach patch "' . $_POST['name'] . '" to Bug #' . $bug);
-        include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/addpatch.php';
+            'Could not attach patch "' . 
+            htmlspecialchars($_POST['name']) . 
+            '" to Bug #' . $bug);
+
+        include dirname(dirname(dirname(__FILE__))) . 
+                '/templates/bugs/addpatch.php';
         exit;
     }
+    // {{{ Email after the patch is added.
+    /**
+     * Email the package maintainers/leaders about
+     * the new patch added to their bug request.
+     */
+    require_once 'Damblan/Mailer.php';
+    require_once 'Damblan/Bugs.php';
+
+    $patchName = htmlspecialchars($_['name']);
+
+    $rev       = $patchinfo->getBugInfo($bug);
+    $rev       = $rev['revision'];
+
+    $mailData = array(
+        'id' => $bug,
+        'url' => 'http://' . PEAR_CHANNELNAME . 
+                 "/bugs/patch-display.php?bug=$bug&patch=$patchName&revision=$rev&display=1",
+        'date' => date('Y-m-d H:i:s'),
+    );
+
+    $additionalHeaders['To'] = Damblan_Bugs::getMaintainers($bug);
+
+    $mailer = Damblan_Mailer::create('Patch_Added', $mailData);
+
+    $res = true;
+
+    if (!DEVBOX) {
+        $res = $mailer->send($additionalHeaders);
+    }
+
+    if (PEAR::isError($res)) {
+        // Patch not sent. Let's handle it here but not now..
+    }
+    // }}}
     $package = $buginfo['package_name'];
     $bug = $buginfo['id'];
     $name = $_POST['name'];
