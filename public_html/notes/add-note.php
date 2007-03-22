@@ -11,10 +11,11 @@ unset($_POST);
  * totally wrong.
  */
 $keys = array(
-        'noteUrl' => 'Note Address', 
-        'user'    => 'Username/Email', 
-        'note'    => 'User comment/note', 
-        'answer'  => 'Captcha Answer');
+        'noteUrl'  => 'Note Address',
+        'redirect' => 'Original Manual Page',
+        'user'     => 'Username/Email', 
+        'note'     => 'User comment/note', 
+        'answer'   => 'Captcha Answer');
 
 
 $errors = array();

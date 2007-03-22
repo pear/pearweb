@@ -58,8 +58,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-18</date>
- <time>21:30:37</time>
+ <date>2007-03-21</date>
+ <time>21:53:11</time>
  <version>
   <release>1.10.4</release>
   <api>0.1.1</api>
@@ -189,6 +189,7 @@
      <file name="passwordmanage.php" role="web" />
     </dir> <!-- /include/users -->
     <file name="browser.php" role="web" />
+    <file name="NumeralCaptcha.php" role="web" />
     <file name="pear-append.php" role="web" />
     <file name="pear-auth.php" role="web" />
     <file name="pear-cache.php" role="web" />
@@ -232,7 +233,6 @@
       <file name="cvs-auth.inc" role="web" />
       <file name="functions.inc" role="web" />
       <file name="layout.inc" role="web" />
-      <file name="NumeralCaptcha.php" role="web" />
       <file name="patchtracker.inc" role="web" />
       <file name="prepend.inc" role="web" />
       <file name="resolve.inc" role="web" />
@@ -432,6 +432,10 @@
      <file name="vulnerability.php" role="web" />
      <file name="weekly-summaries.php" role="web" />
     </dir> <!-- /public_html/news -->
+    <dir name="notes">
+     <file name="add-note-form.php" role="web" />
+     <file name="add-note.php" role="web" />
+    </dir> <!-- /public_html/notes -->
     <dir name="pepr">
      <file name="index.php" role="web" />
      <file name="pepr-bbcode-help.php" role="web" />
@@ -559,6 +563,10 @@
      <file name="roadmap_packagexml.php" role="web" />
      <file name="searchresults.php" role="web" />
     </dir> <!-- /templates/bugs -->
+    <dir name="notes">
+     <file name="add-note-form.tpl.php" role="web" />
+     <file name="add-note.tpl.php" role="web" />
+    </dir> <!-- /templates/notes -->
     <dir name="users">
      <file name="lostpassword.php" role="web" />
      <file name="passwordform.php" role="web" />
@@ -1736,7 +1744,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-03-18</date>
+   <date>2007-03-21</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * Fix Bug #10280: go-pear tries to install Console_Getopt twice [rosier]

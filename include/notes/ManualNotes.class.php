@@ -83,17 +83,15 @@ class Manual_Notes
      */
     function addComment($pageUrl, $userName, $note, $approved = 'pending')
     {
-        $pageUrl  = $this->_safeSql($pageUrl);
-        $userName = $this->_safeSql($userName);
-        $note     = $this->_safeSql($note);
-        $aproved  = $this->_safeSql($approved);
-
+        $user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : '';
         $sql = "
             INSERT INTO {$this->notesTableName}
-            VALUES (null, $pageUrl, $userName, $note, NOW(), $approved, null, 0)
+            (page_url, user_name, user_handle, note_text, note_time,
+             note_approved, note_approved_by, note_deleted)
+            VALUES (?, ?, ?, ?, NOW(), ?, null, 0)
         ";
 
-        $res = $this->dbc->query($sql);
+        $res = $this->dbc->query($sql, array($pageUrl, $userName, $user, $note, $approved));
 
         if (PEAR::isError($res)) {
             return $res;
@@ -123,17 +121,15 @@ class Manual_Notes
      */
     function getPageComments($url, $status = '1')
     {
-        $url    = $this->_safeSql($url);
-        $status = $this->_safeSql($status);
 
         $sql = "
             SELECT *
              FROM {$this->notesTableName}
-              WHERE page_url = $url
-              AND note_approved = $status
+              WHERE page_url = ?
+              AND note_approved = ?
         ";
 
-        $res = $this->dbc->getAll($sql);
+        $res = $this->dbc->getAll($sql, array($url, $status), DB_FETCHMODE_ASSOC);
 
         if (PEAR::isError($res)) {
             return $res;
@@ -163,21 +159,16 @@ class Manual_Notes
      */
     function updateComment($noteId, $url, $userName, $approved)
     {
-        $noteId   = $this->_safeSql($noteId);
-        $url      = $this->_safeSql($url);
-        $userName = $this->_safeSql($userName);
-        $approved = $this->_safeSql($approved);
-
         $sql = "
             UPDATE {$this->notesTableName}
-             SET page_url   = $url,
-                 user_name  = $userName,
-                 approved   = $approved
-              WHERE note_id = $noteId
+             SET page_url   = ?,
+                 user_name  = ?,
+                 approved   = ?
+              WHERE note_id = ?
               LIMIT 1
         ";
 
-        $res = $this->dbc->query($sql);
+        $res = $this->dbc->query($sql, array($url, $userName, $approved, $noteId));
 
         if (PEAR::isError($res)) {
             return $res;
@@ -248,42 +239,6 @@ class Manual_Notes
         }
 
         return true;
-    }
-    // }}}
-    // {{{ protected function _safeSql
-    /**
-     * Safe SQL 
-     *
-     * This is a rudimentary function that will 
-     * make sure the string returned is safe...
-     *
-     * @access protected
-     * @param  mixed     $var    String, int, etc
-     * @return mixed     $newvar The new string, int, etc.
-     */
-    function _safeSql($var, $escape = true)
-    {
-        if (strlen(trim($var)) == 0) {
-            return null;
-        }
-
-        if (!$escape) {
-            return "'" . $var . "'";
-        }
-
-        if (ctype_digit($var)) {
-            return (int)$var;
-        }
-
-        if (ctype_alpha($var)) {
-            return "'$var'";
-        }
-
-        if (function_exists('mysql_real_escape_string')) {
-            return "'" . mysql_real_escape_string($var) . "'";
-        }
-
-        return "'" . mysql_escape_string($var) . "'";
     }
     // }}}
 }

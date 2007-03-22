@@ -25,6 +25,7 @@ if (!isset($_GET['uri'])) {
 
 
 $noteUrl   = strip_tags($_GET['uri']);
+$redirect  = strip_tags($_GET['redirect']);
 $spamCheck = $captcha->getOperation();
 
 $_SESSION['answer'] = $captcha->getAnswer();

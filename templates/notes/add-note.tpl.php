@@ -49,8 +49,8 @@ foreach ($errors as $error) {
 ?>
     <div>
     Note added, it will be reviewed soon and you will be contacted if there's any problem.
-    Go back to the previous url <a href="http://pear.php.net/<?php echo $noteUrl ?>" 
-                                   title="Previous Note">http://<?php echo htmlentities($_SERVER['SERVER_NAME'], ENT_QUOTES, 'UTF-8'), $noteUrl ?></a>
+    Go back to the previous url <a href="http://pear.php.net/<?php echo htmlspecialchars($redirect) ?>" 
+                                   title="Previous Note">http://pear.php.net/<?php echo htmlspecialchars($redirect) ?></a>
     </div>
 <?php 
 
