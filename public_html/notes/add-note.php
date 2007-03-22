@@ -53,7 +53,7 @@ if (empty($errors)) {
     
     require_once 'notes/ManualNotes.class.php';
 
-    $manualNote = new ManualNotes;
+    $manualNote = new Manual_Notes;
     /**
      * @todo Check the captcha here.
      * @todo Check akismet here aswell ?
