@@ -3257,7 +3257,7 @@
    <field>
     <name>note_approved</name>
     <type>text</type>
-    <length>6</length>
+    <length>7</length>
     <notnull>true</notnull>
     <default>pending</default>
    </field>
