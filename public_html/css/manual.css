@@ -99,6 +99,13 @@ table.EXAMPLE p {
 	color: inherit;
 }
 
+.pending_note {
+    border-style: dashed;
+    border-width: 1px;
+	background-color: #909090;
+	color: inherit;
+}
+
 .note_text {
 	background-color: #f0f0f0;
 	color: inherit;

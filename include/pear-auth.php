@@ -168,6 +168,9 @@ function auth_check($atom)
     
     global $auth_user;
 
+    if (!isset($auth_user)) {
+        return false;
+    }
     // Check for backwards compatibility
     if (is_bool($atom)) {
         if ($atom == true) {

@@ -124,10 +124,12 @@ class Manual_Notes
      * pending comments, etc. (Per manual page)
      *
      * @access public
-     * @param  string $url    The url of the comments
-     * @param  string $status The status of the comment.. whether
-     *                        it's approved, unapproved, pending
-     * @param  bool   $all    if true, return all comments matching this status
+     * @param  string      $url    The url of the comments
+     * @param  string|bool $status The status of the comment.. whether
+     *                             it's approved, unapproved, pending.  If
+     *                             a boolean is passed in, determine whether to
+     *                             display approved/pending, or just approved
+     * @param  bool        $all    if true, return all comments matching this status
      *
      * @return mixed  $res    It returns an error object if there was an error
      *                        executing the query, will return an empty array
@@ -148,14 +150,32 @@ class Manual_Notes
 
             $res = $this->dbc->getAll($sql, array($status), DB_FETCHMODE_ASSOC);
         } else {
-            $sql = "
-                SELECT *
-                 FROM {$this->notesTableName}
-                  WHERE page_url = ?
-                  AND note_approved = ?
-            ";
+            if ($status === true) {
+                $sql = "
+                    SELECT *
+                     FROM {$this->notesTableName}
+                      WHERE page_url = ?
+                      AND note_approved = 'yes' OR note_approved = 'pending'
+                ";
+                $res = $this->dbc->getAll($sql, array($url), DB_FETCHMODE_ASSOC);
+            } elseif ($status === false) {
+                $sql = "
+                    SELECT *
+                     FROM {$this->notesTableName}
+                      WHERE page_url = ?
+                      AND note_approved = 'yes'
+                ";
+                $res = $this->dbc->getAll($sql, array($url), DB_FETCHMODE_ASSOC);
+            } else {
+                $sql = "
+                    SELECT *
+                     FROM {$this->notesTableName}
+                      WHERE page_url = ?
+                      AND note_approved = ?
+                ";
 
-            $res = $this->dbc->getAll($sql, array($url, $status), DB_FETCHMODE_ASSOC);
+                $res = $this->dbc->getAll($sql, array($url, $status), DB_FETCHMODE_ASSOC);
+            }
         }
 
         if (PEAR::isError($res)) {
@@ -309,5 +329,26 @@ class Manual_Notes
         return true;
     }
     // }}}
+
+    function display($comment)
+    {
+        $time       = date('d-M-Y H:i', strtotime($comment['note_time']));
+        $noteId     =  (int)$comment['note_id'];
+        $userHandle = $comment['user_handle'] ? 
+            '<a href="/user/' . $comment['user_handle'] . '">' . $comment['user_handle'] .
+            '</a>' :
+            htmlentities($comment['user_name']);
+        $pending    = $comment['note_approved'] == 'pending';
+        $id = $comment['page_url'];
+
+        /**
+         * For now then we can implement more things like
+         * code highlight, etc.
+         */
+        $comment    = nl2br(htmlentities($comment['note_text']));
+        $linkUrl    = '<a href="#' . $noteId . '">' . $time . '</a>';
+        $linkName   = '<a name="#' . $noteId . '"></a>';
+        include dirname(dirname(dirname(__FILE__))) . '/templates/notes/note.tpl.php';
+    }
 }
 // }}}

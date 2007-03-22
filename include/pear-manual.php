@@ -261,13 +261,13 @@ function navigationBar($title, $id, $loc)
 
 }
 
-function getComments($uri, $status = 'yes')
+function getComments($uri)
 {
     $output = '';
 
     require_once 'notes/ManualNotes.class.php';
     $manualNotes = new Manual_Notes;
-    $comments = $manualNotes->getPageComments($uri, $status);
+    $comments = $manualNotes->getPageComments($uri, auth_check('pear.dev'));
 
     $output .= "<tr><td colspan=\"2\"><strong>User Comments:</strong><br />\n";
 
@@ -276,32 +276,7 @@ function getComments($uri, $status = 'yes')
     }
     
     foreach ($comments as $comment) {
-        $time       = date('d-M-Y H:i', strtotime($comment['note_time']));
-        $noteId     =  (int)$comment['note_id'];
-        $userHandle = $comment['user_handle'] ? 
-            '<a href="/user/' . $comment['user_handle'] . '">' . $comment['user_handle'] .
-            '</a>' :
-            htmlentities($comment['user_name']);
-
-        /**
-         * For now then we can implement more things like
-         * code highlight, etc.
-         */
-        $comment    = nl2br(htmlentities($comment['note_text']));
-        $linkUrl    = '<a href="#' . $noteId . '">' . $time . '</a>';
-        $linkName   = '<a name="#' . $noteId . '"></a>';
-
-        $output .= "
-            $linkName \n
-            <div class=\"note\">
-             <div class=\"note_handle\">Note by: $userHandle</div>
-             <div class=\"note_time\">$linkUrl</div>
-             <div class=\"note_text\">
-              $comment
-             </div>
-            </div>\n\n
-        ";
-
+        $manualNotes->display($comment);
     }
     $output .= "</td></tr>";
    
