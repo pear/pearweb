@@ -26,6 +26,10 @@ foreach ($pendingComments as $pendingComment):
  <td class="form-input"><?php echo htmlspecialchars($pendingComment['user_name']); ?></td>
 </tr>
 <?php endforeach; ?>
+<tr>
+ <th class="form-label_left">Approve</th>
+ <td class="form-input"><input type="submit" value="Approve selected comments" /></td>
+ <td class="form-input"></td>
 </table>
 </form>
 <?php response_footer(); ?>
