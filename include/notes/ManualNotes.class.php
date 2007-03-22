@@ -153,6 +153,44 @@ class Manual_Notes
         return (array)$res;
     }
     // }}}
+    // {{{ public function updateCommentList
+    /**
+     * Update Comment List
+     *
+     * This function will update a current comment (status, note text, url, 
+     * username, etc)
+     *
+     * @access public
+     * @param  integer $noteId   The id of the note to update
+     * 
+     * @param  string $status    The status of the note, default = 'pending'
+     *
+     * @return mixed  $res       An error if an error object occured with the query
+     */
+    function updateCommentList($noteIds, $status)
+    {
+        foreach ($noteIds as $noteId) {
+            $noteIdList[]   = $this->_safeSql($noteId);
+        }
+       
+        $approved = $this->_safeSql($approved);
+
+        $sql = "
+            UPDATE {$this->notesTableName}
+             SET approved   = $approved
+              WHERE note_id IN (" . implode(', ', $noteIdList) . ") 
+              LIMIT 1
+        ";
+
+        $res = $this->dbc->query($sql);
+
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+
+        return true;
+    }
+    // }}}
     // {{{ public function updateComment
     /**
      * Update Comment
