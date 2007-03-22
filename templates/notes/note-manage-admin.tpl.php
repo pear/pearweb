@@ -6,24 +6,24 @@
 if (strlen(trim($error)) > 0):
 ?>
 <div class="errors"><?php echo $error; ?></div>
-<?php endif; ?>
+<?php endif; // }}} ?>
 
 
 <form action="/notes/admin/trans.php" method="post">
 <input type="hidden" name="action" value="updateMass" />
-<table>
+<table class="form-holder" cellspacing="1">
  <tr>
-  <th>Approve</th>
-  <td>Comment</td>
-  <td>Name/Email</td>
+  <th class="form-label_left">Approve</th>
+  <td class="form-input">Comment</td>
+  <td class="form-input">Name/Email</td>
  </tr>
 <?php
 foreach ($pendingComments as $pendingComment):
 ?>
 <tr>
- <th><input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" /></th>
- <td><?php echo substr(htmlspecialchars($pendingComment['note_text']), 0, 200) . '...'; ?></td>
- <td><?php echo htmlspecialchars($pendingComment['user_name']); ?></td>
+ <th class="form-label_left"><input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" /></th>
+ <td class="form-input"><?php echo substr(htmlspecialchars($pendingComment['note_text']), 0, 200) . '...'; ?></td>
+ <td class="form-input"><?php echo htmlspecialchars($pendingComment['user_name']); ?></td>
 </tr>
 <?php endforeach; ?>
 </table>
