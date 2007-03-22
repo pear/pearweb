@@ -205,7 +205,7 @@ class Manual_Notes
                     note_approved_by, note_deleted
                      FROM {$this->notesTableName}
                       WHERE page_url = ?
-                      AND note_approved = 'yes' OR note_approved = 'pending'
+                      AND note_approved = ?
                      ORDER BY note_time DESC
                 ";
 
