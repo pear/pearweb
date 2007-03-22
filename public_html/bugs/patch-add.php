@@ -65,10 +65,14 @@ if (isset($_POST['addpatch'])) {
     $rev       = $rev['revision'];
 
     $mailData = array(
-        'id' => $bug,
-        'url' => 'http://' . PEAR_CHANNELNAME . 
-                 "/bugs/patch-display.php?bug=$bug&patch=$patchName&revision=$rev&display=1",
-        'date' => date('Y-m-d H:i:s'),
+        'id'         => $bug,
+        'url'        => 'http://' . PEAR_CHANNELNAME . 
+                        "/bugs/patch-display.php?bug=$bug&patch=$patchName&revision=$rev&display=1",
+
+        'date'       => date('Y-m-d H:i:s'),
+
+        'packageUrl' => 'http://' . PEAR_CHANNELNAME .
+                        '/bugs/bug.php?id=' . $bug,
     );
 
     $additionalHeaders['To'] = Damblan_Bugs::getMaintainers($bug);
