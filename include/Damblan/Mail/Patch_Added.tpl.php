@@ -19,7 +19,7 @@ The following patch has been added/updated for bug #%id%:
 URL:        %url%
 Date:       %date%
 
-View package at : %packageUrl%
+View bug report at : %packageUrl%
 '
      );
 
