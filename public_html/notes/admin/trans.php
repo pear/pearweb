@@ -22,7 +22,7 @@ switch ($action) {
                 $message = 'Comment(s) successfully approved';
             }
             
-            include dirnname(__FILE__) . '/index.php';
+            include dirname(__FILE__) . '/index.php';
         }
         
         break;
