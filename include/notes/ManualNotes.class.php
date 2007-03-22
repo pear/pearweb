@@ -170,19 +170,19 @@ class Manual_Notes
     function updateCommentList($noteIds, $status)
     {
         foreach ($noteIds as $noteId) {
-            $noteIdList[]   = $this->_safeSql($noteId);
+            $noteIdList[]   = (int)$noteId; 
         }
        
         $approved = $this->_safeSql($approved);
 
         $sql = "
             UPDATE {$this->notesTableName}
-             SET approved   = $approved
+             SET approved = ?
               WHERE note_id IN (" . implode(', ', $noteIdList) . ") 
               LIMIT 1
         ";
 
-        $res = $this->dbc->query($sql);
+        $res = $this->dbc->query($sql, array($approved));
 
         if (PEAR::isError($res)) {
             return $res;
