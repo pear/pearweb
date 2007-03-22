@@ -185,16 +185,17 @@ class Manual_Notes
         $noteIdList = array($status);
         foreach ($noteIds as $noteId) {
             $noteIdList[]   = $noteId;
-            $qs[] = '?';
+            $qs[] = 'note_id = ?';
         }
-        $qs = implode(',', $qs);
+        $qs = implode(' OR ', $qs);
 
         $sql = "
             UPDATE {$this->notesTableName}
              SET note_approved   = ?
-              WHERE note_id IN ($qs) 
-              LIMIT 1
+              WHERE $qs
+              LIMIT ?
         ";
+        $noteIdList[] = count($noteIdList);
 
         $res = $this->dbc->query($sql, $noteIdList);
 
