@@ -685,7 +685,8 @@ function display_bug_success($in)
  *
  * @return void
  */
-function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
+function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous = array(),
+    $current = array())
 {
     global $tla, $types, $site, $siteBig;
 
@@ -747,6 +748,16 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id)
         /* only fields that are set get added. */
         if ($f = txfield($name)) {
             $headers[] = array($prefix.$desc, $f);
+        }
+    }
+    if ($current != $previous) {
+        if (count($previous)) {
+            array_walk($previous, create_function('&$a', '$a=$a[0];'));
+            $headers[] = array('-Roadmap Versions', implode($previous, ', '));
+        }
+        if (count($current)) {
+            array_walk($current, create_function('&$a', '$a=$a[0];'));
+            $headers[] = array('+Roadmap Versions', implode($current, ', '));
         }
     }
 

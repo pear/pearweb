@@ -241,6 +241,7 @@ if (!$bug['registered']) {
     response_footer();
     exit;
 }
+$previous = $current = array();
 // Delete comment
 if ($edit == 1 && isset($_GET['delete_comment'])) {
     $addon = '';
@@ -490,6 +491,10 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                   " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                   " ts2=NOW() WHERE id=$id";
         $dbh->query($query);
+        $previous = $dbh->getAll('SELECT roadmap_version
+            FROM bugdb_roadmap_link l, bugdb_roadmap b
+            WHERE
+                l.id=? AND b.id=l.roadmap_id', array($id));
         $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
         $link->id = $id;
         $link->delete();
@@ -500,6 +505,10 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                 $link->insert();
             }
         }
+        $current = $dbh->getAll('SELECT roadmap_version
+            FROM bugdb_roadmap_link l, bugdb_roadmap b
+            WHERE
+                l.id=? AND b.id=l.roadmap_id', array($id));
 
         if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
@@ -517,10 +526,11 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
     $ncomment = '';
 }
 
-if ($_POST['in'] && !isset($_POST['preview']) && $ncomment) {
+if ($_POST['in'] && (!isset($_POST['preview']) && $ncomment ||
+      $previous != $current)) {
     if (!$errors) {
         if (!isset($buggie)) {
-            mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit, $id);
+            mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit, $id, $previous, $current);
         }
         localRedirect('bug.php' . "?id=$id&thanks=$edit");
         exit;
