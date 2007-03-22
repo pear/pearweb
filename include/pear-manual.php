@@ -243,7 +243,7 @@ function navigationBar($title, $id, $loc)
         echo "\n";
         echo '    Do you think that something on this page is wrong?';
         echo '    Please <a href="/bugs/report.php?package=Documentation">file a bug report</a> ';
-        echo '    or <a href="/notes/add-note-form.php?uri=' . htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8') . '>add a note/comment</a>. ';
+        echo '    or <a href="/notes/add-note-form.php?uri=' . htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8') . '">add a note/comment</a>. ';
         echo "\n";
         echo '   </td></tr>';
         echo "\n";
