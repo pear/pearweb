@@ -11,7 +11,7 @@ if (strlen(trim($error)) > 0):
 
 <form action="/notes/admin/trans.php" method="post">
 <input type="hidden" name="action" value="updateMass" />
-<tbody>
+<table>
  <tr>
   <th>Approve</th>
   <td>Comment</td>
@@ -26,6 +26,6 @@ foreach ($pendingComments as $pendingComment):
  <td><?php echo htmlspecialchars($pendingComment['user_name']); ?></td>
 </tr>
 <?php endforeach; ?>
-</tbody>
+</table>
 </form>
 <?php response_footer(); ?>
