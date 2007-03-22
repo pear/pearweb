@@ -59,7 +59,7 @@ if (isset($_POST['addpatch'])) {
     require_once 'Damblan/Mailer.php';
     require_once 'Damblan/Bugs.php';
 
-    $patchName = htmlspecialchars($_['name']);
+    $patchName = htmlspecialchars($_POST['name']);
 
     $rev       = $patchinfo->getBugInfo($bug);
     $rev       = $rev['revision'];
@@ -70,7 +70,7 @@ if (isset($_POST['addpatch'])) {
                         "/bugs/patch-display.php?bug=$bug&patch=$patchName&revision=$rev&display=1",
 
         'date'       => date('Y-m-d H:i:s'),
-
+        'name'       => $_POST['name'],
         'packageUrl' => 'http://' . PEAR_CHANNELNAME .
                         '/bugs/bug.php?id=' . $bug,
     );

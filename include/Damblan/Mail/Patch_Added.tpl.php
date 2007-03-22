@@ -16,6 +16,7 @@
 
 The following patch has been added/updated for bug #%id%:
 
+Patch Name: %name%
 URL:        %url%
 Date:       %date%
 
