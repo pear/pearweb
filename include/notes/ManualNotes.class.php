@@ -268,7 +268,7 @@ class Manual_Notes
         }
 
         if (!$escape) {
-            return "'" . $var . "'"
+            return "'" . $var . "'";
         }
 
         if (ctype_digit($var)) {
