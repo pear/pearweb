@@ -3243,6 +3243,13 @@
    </field>
 
    <field>
+    <name>user_handle</name>
+    <type>text</type>
+    <length>20</length>
+    <notnull>false</notnull>
+   </field>
+
+   <field>
     <name>note_text</name>
     <type>clob</type>
     <notnull>true</notnull>
@@ -3274,6 +3281,12 @@
     <type>boolean</type>
     <notnull>true</notnull>
     <default>0</default>
+   </field>
+
+   <field>
+    <name>note_compiled</name>
+    <type>clob</type>
+    <notnull>false</notnull>
    </field>
 
    <index>

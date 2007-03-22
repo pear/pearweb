@@ -11,6 +11,7 @@ CREATE TABLE manual_notes
     note_approved varchar(7) NOT NULL DEFAULT 'pending',
     note_approved_by varchar(20) NULL,
     note_deleted tinyint(1) NULL DEFAULT '0',
+    note_compiled text NULL,
     PRIMARY KEY (note_id),
     INDEX idx_page_url (page_url),
     INDEX idx_note_time (note_time)
