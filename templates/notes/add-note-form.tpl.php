@@ -38,7 +38,7 @@
   </td>
  </tr>
  <tr>
-  <th class="subr"><?=$spamCheck?><br/></th>
+  <th class="subr">What is the result of this ? "<?=$spamCheck?>"<br/></th>
   <td><input name="answer" size="60" maxlength="10" type="text"></td>
  </tr>
  <tr>
