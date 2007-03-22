@@ -1,21 +1,16 @@
 <?php response_header('Add a User Note'); ?>
 <h1>Add a Note to <?php echo htmlspecialchars($noteUrl) ?></h1>
 <?php 
-    // {{{ isset($error)
-    if (isset($error)) {
+// {{{ isset($error)
+if (isset($errors)) {
 ?>
 
-<div class="errors"><?php echo $error; ?></div>
-
-<?php 
-    /**
-     * If there's no uri then let's just quit..
-     */
-    response_footer(); 
-    exit;
-    
+<?php
+    foreach ($errors as $error) {
+        echo '<div class="errors">', htmlspecialchars($error), '</div>';
     }
-    // }}}
+}
+// }}}
 ?>
 
 <p>
@@ -40,25 +35,31 @@
 <table>
 <tbody>
  <tr>
-  <td colspan="2"></td>
- </tr>
+  <td colspan="2">
+ <?php if (!$loggedin) { ?>
+ </td></tr>
  <tr>
   <!-- We will care after about finding the user, this is quick fix. -->
   <th class="form-label_left">Your email address (or name):</th>
   <td class="form-input">
-   <input name="user" size="40" maxlength="40" value="user@example.com" type="text" />
+   <input name="user" size="40" maxlength="40" value="<?php echo htmlspecialchars($email) ?>" type="text" />
   </td>
  </tr>
+ <?php } // if ($loggedin) ?>
  <tr>
   <th class="form-label_left">Your notes:</th>
-  <td class="form-input"><textarea name="note" rows="16" cols="60" wrap="virtual"></textarea>
+  <td class="form-input"><textarea name="note" rows="16" cols="60" wrap="virtual"><?php
+  echo htmlspecialchars($note);
+  ?></textarea>
    <br />
   </td>
  </tr>
+ <?php if (!$loggedin) { ?>
  <tr>
   <th class="form-label_left">Solve this: "<?php echo $spamCheck?> = ?"<br/></th>
   <td class="form-input"><input name="answer" size="40" maxlength="10" type="text"></td>
  </tr>
+ <?php } // if ($loggedin) ?>
  <tr>
   <th colspan="2">
    <!-- I'll add the preview soon -->

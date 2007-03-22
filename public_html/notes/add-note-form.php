@@ -24,11 +24,15 @@ if (!isset($_GET['uri'])) {
 }
 
 
+$loggedin = isset($auth_user) && $auth_user->registered;
+$email = 'user@example.com';
+$note = '';
 $noteUrl   = strip_tags($_GET['uri']);
 $redirect  = strip_tags($_GET['redirect']);
-$spamCheck = $captcha->getOperation();
-
-$_SESSION['answer'] = $captcha->getAnswer();
+if (!$loggedin) {
+    $spamCheck = $captcha->getOperation();
+    $_SESSION['answer'] = $captcha->getAnswer();
+}
 /**
  * Template of the form to add a note
  */

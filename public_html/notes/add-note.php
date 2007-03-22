@@ -4,18 +4,36 @@ session_start();
 $post = $_POST;
 unset($_POST);
 
-/**
- * These are the keys that have to be set
- * in order to get no errors. If someone is
- * missing one of them, then something is 
- * totally wrong.
- */
-$keys = array(
-        'noteUrl'  => 'Note Address',
-        'redirect' => 'Original Manual Page',
-        'user'     => 'Username/Email', 
-        'note'     => 'User comment/note', 
-        'answer'   => 'Captcha Answer');
+$loggedin = isset($auth_user) && $auth_user->registered;
+
+if ($loggedin) {
+    /**
+     * These are the keys that have to be set
+     * in order to get no errors. If someone is
+     * missing one of them, then something is 
+     * totally wrong.
+     */
+    $keys = array(
+            'noteUrl'  => 'Note Address',
+            'redirect' => 'Original Manual Page',
+            'note'     => 'User comment/note', 
+    );
+    $post['user'] = $auth_user->name;
+} else {
+    /**
+     * These are the keys that have to be set
+     * in order to get no errors. If someone is
+     * missing one of them, then something is 
+     * totally wrong.
+     */
+    $keys = array(
+            'noteUrl'  => 'Note Address',
+            'redirect' => 'Original Manual Page',
+            'user'     => 'Username/Email', 
+            'note'     => 'User comment/note', 
+            'answer'   => 'Captcha Answer'
+    );
+}
 
 
 $errors = array();
@@ -27,7 +45,7 @@ $errors = array();
  *
  * If the captcha is wrong, then regenerate it.
  */
-if (isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
+if (!$loggedin && isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
     if ($post['answer'] != $_SESSION['answer']) {
 
         $errors[] = 'Incorrect Captcha';
@@ -45,7 +63,7 @@ if (isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
  * then set an error..
  */
 foreach ($keys as $key => $message) {
-    if (!isset($post[$key])) {
+    if (!isset($post[$key]) || empty($post[$key])) {
         $errors[] = 'Error occured, missing: ' . $message;
     }
 }
@@ -84,6 +102,10 @@ if (empty($errors)) {
     if (isset($_SESSION['answer'])) {
         unset($_SESSION['answer']);
     }
+    require dirname(dirname(dirname(__FILE__))) . '/templates/notes/add-note.tpl.php';
+} else {
+    $email = $post['user'];
+    $note = $post['note'];
+    require dirname(dirname(dirname(__FILE__))) . '/templates/notes/add-note-form.tpl.php';
 }
 
-require dirname(dirname(dirname(__FILE__))) . '/templates/notes/add-note.tpl.php';

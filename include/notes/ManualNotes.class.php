@@ -83,15 +83,30 @@ class Manual_Notes
      */
     function addComment($pageUrl, $userName, $note, $approved = 'pending')
     {
-        $user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : '';
-        $sql = "
-            INSERT INTO {$this->notesTableName}
-            (page_url, user_name, user_handle, note_text, note_time,
-             note_approved, note_approved_by, note_deleted)
-            VALUES (?, ?, ?, ?, NOW(), ?, null, 0)
-        ";
+        $user = isset($GLOBALS['auth_user'])
+        ? $GLOBALS['auth_user']->handle : '';
+        if ($user) {
+            $sql = "
+                INSERT INTO {$this->notesTableName}
+                (page_url, user_name, user_handle, note_text, note_time,
+                 note_approved, note_approved_by, note_deleted)
+                VALUES (?, ?, ?, ?, NOW(), ?, ?, 0)
+            ";
 
-        $res = $this->dbc->query($sql, array($pageUrl, $userName, $user, $note, $approved));
+            // always approve pear.dev account holder comments, moderate others
+            $res = $this->dbc->query($sql, array($pageUrl, $userName, $user, $note,
+                auth_check('pear.dev') ? 'yes' : $approved,
+                auth_check('pear.dev') ? $user : ''));
+        } else {
+            $sql = "
+                INSERT INTO {$this->notesTableName}
+                (page_url, user_name, user_handle, note_text, note_time,
+                 note_approved, note_approved_by, note_deleted)
+                VALUES (?, ?, ?, ?, NOW(), ?, null, 0)
+            ";
+
+            $res = $this->dbc->query($sql, array($pageUrl, $userName, $user, $note, $approved));
+        }
 
         if (PEAR::isError($res)) {
             return $res;
