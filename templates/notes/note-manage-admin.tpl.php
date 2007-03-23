@@ -57,7 +57,11 @@ if (isset($url) && !empty($url)) {
    </td>
    <td class="form-input">
     <a class="thickbox" href="view-note.php?height=300&width=300&ajax=yes&noteId=<?php echo $pendingComment['note_id'] ?>" 
-       title="Seeing full comment">View</a>
+       title="Seeing full comment">View</a> 
+       <noscript>
+        <a href="view-note.php?ajax=no&status=<?php echo $status ?>&noteId=<?php echo $pendingComment['note_id'] ?>" 
+           title="No JS View">(no js)</a>
+       </noscript>
   </tr>
   </tr>
  <?php endforeach; ?>
