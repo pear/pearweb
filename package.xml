@@ -59,7 +59,7 @@
   <active>no</active>
  </developer>
  <date>2007-03-23</date>
- <time>11:42:29</time>
+ <time>11:55:40</time>
  <version>
   <release>1.11.0</release>
   <api>0.1.1</api>
@@ -411,6 +411,7 @@
      <dir name="TreeMenu">
       <file name="TreeMenu.js" role="web" />
      </dir> <!-- /public_html/javascript/TreeMenu -->
+     <file name="jquery.js" role="web" />
      <file name="md5.js" role="web" />
      <file name="package-maintainers.js" role="web" />
      <file name="peardev_map.js" role="web" />
