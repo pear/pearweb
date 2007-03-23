@@ -12,7 +12,7 @@ if (!$ajax) {
   if (PEAR::isError($noteContent)) {
       echo 'Problem retrieving the note';
   } else {
-     echo htmlspecialchars($noteContent['note_text']); 
+     echo $noteContent['note_text']; 
   }   
   ?>
 </p>

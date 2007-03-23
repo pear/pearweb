@@ -38,7 +38,7 @@ if (isset($url) && !empty($url)) {
   </tr>
   <?php foreach ($pendingComments as $pendingComment): ?>
   <div id="noteView<?php echo $pendingComment['note_id'] ?>" style="visibility: hidden; display: none;">
-   <?php echo htmlspecialchars($pendingComment['note_text']); ?>
+   <?php echo $pendingComment['note_text']; ?>
   </div>
   <tr>
   <th class="form-label_left">
@@ -46,10 +46,10 @@ if (isset($url) && !empty($url)) {
    </th>
    <td class="form-input">
    <?php 
-     if (strlen($pendingComment['note_text']) > 200) {
-        echo substr(htmlspecialchars($pendingComment['note_text']), 0, 200) . '...';
+     if (strlen($pendingComment['unfiltered_note']) > 200) {
+         echo substr(htmlspecialchars($pendingComment['unfiltered_note']), 0, 200) . '...';
      } else {
-         echo htmlspecialchars($pendingComment['note_text']);
+         echo $pendingComment['note_text'];
      } 
    ?></td>
    <td class="form-input">

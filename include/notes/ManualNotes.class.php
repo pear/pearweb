@@ -195,7 +195,9 @@ class Manual_Notes
 
         if ($all) {
             $sql = "
-                SELECT *
+                SELECT note_id, page_url, user_name, user_handle,
+                    note_compiled as note_text, note_time, note_approved,
+                    note_approved_by, note_deleted, note_text as unfiltered_note
                  FROM {$this->notesTableName}
                   WHERE
                   note_approved = ?
@@ -208,7 +210,7 @@ class Manual_Notes
                 $sql = "
                     SELECT note_id, page_url, user_name, user_handle,
                     note_compiled as note_text, note_time, note_approved,
-                    note_approved_by, note_deleted
+                    note_approved_by, note_deleted, note_text as unfiltered_note
                      FROM {$this->notesTableName}
                       WHERE page_url = ?
                       AND note_approved = 'yes' OR note_approved = 'pending'
@@ -219,7 +221,7 @@ class Manual_Notes
                 $sql = "
                     SELECT note_id, page_url, user_name, user_handle,
                     note_compiled as note_text, note_time, note_approved,
-                    note_approved_by, note_deleted
+                    note_approved_by, note_deleted, note_text as unfiltered_note
                      FROM {$this->notesTableName}
                       WHERE page_url = ?
                       AND note_approved = 'yes'
@@ -230,7 +232,7 @@ class Manual_Notes
                 $sql = "
                     SELECT note_id, page_url, user_name, user_handle,
                     note_compiled as note_text, note_time, note_approved,
-                    note_approved_by, note_deleted
+                    note_approved_by, note_deleted, note_text as unfiltered_note
                      FROM {$this->notesTableName}
                       WHERE page_url = ?
                       AND note_approved = ?
