@@ -1,6 +1,6 @@
-<?php response_header('Approve Pending User Notes'); ?>
-<h1>Note Management Area</h1>
-
+<?php response_header($title); ?>
+<h1>Notes Management Area</h1>
+<?php include dirname(dirname(dirname(__FILE__))) . '/templates/notes/note-manage-links.tpl.php'; ?>
 <?php if (strlen(trim($error)) > 0): // {{{ error ?>
 <div class="errors"><?php echo $error; ?></div>
 <?php endif; // }}} ?>
@@ -19,11 +19,11 @@ if (isset($url) && !empty($url)) {
 ?>
 
 <form action="/notes/admin/trans.php" method="post">
- <input type="hidden" name="action" value="updateMass" />
+ <input type="hidden" name="action" value="<?php echo $action ?>" />
  <input type="hidden" name="url" value="<?php echo htmlspecialchars($url) ?>" />
  <table class="form-holder" cellspacing="1">
   <tr>
-   <th class="form-label_left">Approve</th>
+   <th class="form-label_left">Status</th>
    <td class="form-input">Comment</td>
    <td class="form-input">Name/Email</td>
   </tr>
@@ -46,9 +46,9 @@ if (isset($url) && !empty($url)) {
   </tr>
  <?php endforeach; ?>
   <tr>
-   <th class="form-label_left">Approve</th>
+   <th class="form-label_left"><?php echo $caption ?></th>
    <td class="form-input">
-    <input type="submit" name="approve" value="Approve selected comments" />
+    <input type="submit" name="<?php echo $name ?>" value="<?php echo $button ?>" />
    </td>
    <td class="form-input"></td>
   </tr>
