@@ -395,7 +395,13 @@ class Manual_Notes
 
     function display($comment)
     {
-        $time       = date('d-M-Y H:i', strtotime($comment['note_time']));
+        // MySQL 4.1 displays timestamps as if they were datetimes, so make
+        // sure this doesn't break on upgrade
+        if (is_numeric($comment['note_time'])) {
+            $time = date('d-M-Y H:i', $comment['note_time']);
+        } else {
+            $time = date('d-M-Y H:i', strtotime($comment['note_time']));
+        }
         $noteId     =  (int)$comment['note_id'];
         $userHandle = $comment['user_handle'] ? 
             '<a href="/user/' . $comment['user_handle'] . '">' . $comment['user_handle'] .
