@@ -12,8 +12,6 @@
 <?php if (strlen(trim($error)) > 0): // {{{ error ?>
 <div class="errors"><?php echo $error; ?></div>
 <?php endif; // }}} ?>
-
-
 <?php if (isset($message) && strlen(trim($message)) > 0): // {{{ message?>
 <div class="message"><?php echo $message; ?></div>
 <?php endif; ?>
@@ -37,9 +35,6 @@ if (isset($url) && !empty($url)) {
    <td class="form-input">View Note</td>
   </tr>
   <?php foreach ($pendingComments as $pendingComment): ?>
-  <div id="noteView<?php echo $pendingComment['note_id'] ?>" style="visibility: hidden; display: none;">
-   <?php echo $pendingComment['note_text']; ?>
-  </div>
   <tr>
   <th class="form-label_left">
    <input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" />
@@ -51,7 +46,8 @@ if (isset($url) && !empty($url)) {
      } else {
          echo $pendingComment['note_text'];
      } 
-   ?></td>
+   ?>
+   </td>
    <td class="form-input">
    <?php echo htmlspecialchars($pendingComment['user_name']); ?>
    </td>
