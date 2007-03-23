@@ -59,7 +59,7 @@
   <active>no</active>
  </developer>
  <date>2007-03-23</date>
- <time>11:55:40</time>
+ <time>13:10:28</time>
  <version>
   <release>1.11.0</release>
   <api>0.1.1</api>
@@ -354,6 +354,7 @@
      <file name="edit.gif" role="web" />
      <file name="favicon.ico" role="web" />
      <file name="feed.png" role="web" />
+     <file name="loadingAnimation.gif" role="web" />
      <file name="moreinfo-no.gif" role="web" />
      <file name="moreinfo-yes.gif" role="web" />
      <file name="moreinfo.gif" role="web" />
