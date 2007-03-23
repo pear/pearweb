@@ -40,14 +40,14 @@ class Damblan_Bugs
      *
      * @return array(string) The list of maintainer emails.
      */
-    function getMaintainers ($id, $leadOnly = true, $activeOnly = true)
+    function getMaintainers ($id, $leadOnly = false, $activeOnly = true)
     {
         $maintainers = maintainer::get($id, $leadOnly, $activeOnly);
         $res = array();
 
         foreach ($maintainers as $maintainer => $data) {
             $tmpUser = user::info($maintainer, 'email');
-            if (empty($tmpUser['email'])) {
+            if (!is_array($tmpUser) || !isset($tmpUser['email'])) {
                 continue;
             }
             $res[] = $tmpUser['email'];

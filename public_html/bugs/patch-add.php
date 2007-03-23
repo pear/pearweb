@@ -61,8 +61,7 @@ if (isset($_POST['addpatch'])) {
 
     $patchName = htmlspecialchars($_POST['name']);
 
-    $rev       = $patchinfo->getBugInfo($bug);
-    $rev       = $rev['revision'];
+    $rev       = $e;
 
     $mailData = array(
         'id'         => $bug,
@@ -75,7 +74,7 @@ if (isset($_POST['addpatch'])) {
                         '/bugs/bug.php?id=' . $bug,
     );
 
-    $additionalHeaders['To'] = Damblan_Bugs::getMaintainers($bug);
+    $additionalHeaders['To'] = Damblan_Bugs::getMaintainers($buginfo['package_name']);
 
     $mailer = Damblan_Mailer::create('Patch_Added', $mailData);
 
