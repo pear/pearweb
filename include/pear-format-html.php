@@ -131,11 +131,7 @@ echo $extraHeaders;
  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo htmlspecialchars($_SERVER['HTTP_HOST']); ?>/feeds/latest.rss" />
 </head>
 
-<body <?php
-    if (!empty($GLOBALS['ONLOAD'])) {
-        print 'onload="' . $GLOBALS['ONLOAD']. '"';
-    }
-?>>
+<body>
 <div>
 <a id="TOP"></a>
 </div>
@@ -323,6 +319,27 @@ print_link('/about/credits.php', 'CREDITS', false, 'class="menuBlack"');
   </td>
  </tr>
 </table>
+<!-- Onload focus to pear -->
+<?php if (isset($GLOBALS['ONLOAD'])): ?>
+<script language="javascript">
+function makeFocus() {
+    <?php echo htmlspecialchars($GLOBALS['ONLOAD']); ?>
+}
+
+function addEvent(obj, eventType, functionCall){ 
+    if (obj.addEventListener){ 
+        obj.addEventListener(eventType, functionCall, false); 
+        return true; 
+    } else if (obj.attachEvent){ 
+        var r = obj.attachEvent("on"+eventType, functionCall); 
+        return r; 
+    } else { 
+        return false; 
+    } 
+}
+addEvent(window, 'load', makeFocus);
+</script>
+<?php endif; ?>
 
 <!-- END FOOTER -->
 
