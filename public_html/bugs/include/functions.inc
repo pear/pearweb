@@ -808,7 +808,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
     }
 
     /* send mail if status was changed or there is a comment */
-    if ($in[status] != $bug[status] || $ncomment != "") {
+    if ($in[status] != $bug[status] || $ncomment != "" || ($current != $previous)) {
 
         if (isset($in['bug_type']) && $in['bug_type'] != $bug['bug_type']) {
             $subj = $types[$bug['bug_type']] . '->' . $types[$in['bug_type']];
