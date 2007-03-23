@@ -58,8 +58,8 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-22</date>
- <time>19:25:26</time>
+ <date>2007-03-23</date>
+ <time>11:42:29</time>
  <version>
   <release>1.11.0</release>
   <api>0.1.1</api>
@@ -269,6 +269,7 @@
      <file name="packages_status.css" role="web" />
      <file name="style.css" role="web" />
      <file name="tabs.css" role="web" />
+     <file name="thickbox.css" role="web" />
     </dir> <!-- /public_html/css -->
     <dir name="doc">
      <file name="index.php" role="web" />
@@ -417,6 +418,7 @@
      <file name="popmap.js" role="web" />
      <file name="showmap.js" role="web" />
      <file name="sorttable.js" role="web" />
+     <file name="thickbox.js" role="web" />
     </dir> <!-- /public_html/javascript -->
     <dir name="manual">
      <file name="index.php" role="web" />
@@ -443,6 +445,7 @@
      <dir name="admin">
       <file name="index.php" role="web" />
       <file name="trans.php" role="web" />
+      <file name="view-note.php" role="web" />
      </dir> <!-- /public_html/notes/admin -->
      <file name="add-note-form.php" role="web" />
      <file name="add-note.php" role="web" />
@@ -578,7 +581,9 @@
      <file name="add-note-form.tpl.php" role="web" />
      <file name="add-note.tpl.php" role="web" />
      <file name="note-manage-admin.tpl.php" role="web" />
+     <file name="note-manage-links.tpl.php" role="web" />
      <file name="note.tpl.php" role="web" />
+     <file name="view-full-note.tpl.php" role="web" />
     </dir> <!-- /templates/notes -->
     <dir name="users">
      <file name="lostpassword.php" role="web" />
@@ -1780,7 +1785,7 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-03-22</date>
+   <date>2007-03-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
