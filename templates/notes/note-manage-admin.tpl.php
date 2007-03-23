@@ -56,7 +56,7 @@ if (isset($url) && !empty($url)) {
    <?php echo htmlspecialchars($pendingComment['user_name']); ?>
    </td>
    <td class="form-input">
-    <a class="thickbox" href="view-note.php?height=300&width=300&ajax=yes&noteId=<?php echo $pendingComment['note_id'] ?>" 
+    <a class="thickbox" href="view-note.php?height=300&width=450&ajax=yes&noteId=<?php echo $pendingComment['note_id'] ?>" 
        title="See full comment">View</a> 
     | 
     <a href="view-note.php?ajax=no&status=<?php echo $status ?>&noteId=<?php echo $pendingComment['note_id'] ?>" 
