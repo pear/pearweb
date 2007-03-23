@@ -1,4 +1,12 @@
 <?php response_header($title); ?>
+
+<script src="/javascript/jquery.js"></script>
+<script src="/javascript/thickbox.js"></script>
+
+<style type="text/css">
+@import "/css/thickbox.css";
+</style>
+
 <h1>Notes Management Area</h1>
 <?php include dirname(dirname(dirname(__FILE__))) . '/templates/notes/note-manage-links.tpl.php'; ?>
 <?php if (strlen(trim($error)) > 0): // {{{ error ?>
@@ -26,8 +34,12 @@ if (isset($url) && !empty($url)) {
    <th class="form-label_left">Status</th>
    <td class="form-input">Comment</td>
    <td class="form-input">Name/Email</td>
+   <td class="form-input">View Note</td>
   </tr>
   <?php foreach ($pendingComments as $pendingComment): ?>
+  <div id="noteView<?php echo $pendingComment['note_id'] ?>" style="visibility: hidden; display: none;">
+   <?php echo htmlspecialchars($pendingComment['note_text']); ?>
+  </div>
   <tr>
   <th class="form-label_left">
    <input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" />
@@ -43,6 +55,10 @@ if (isset($url) && !empty($url)) {
    <td class="form-input">
    <?php echo htmlspecialchars($pendingComment['user_name']); ?>
    </td>
+   <td class="form-input">
+    <a class="thickbox" href="view-note.php?height=300&width=300&ajax=yes&noteId=<?php echo $pendingComment['note_id'] ?>" 
+       title="Seeing full comment">View</a>
+  </tr>
   </tr>
  <?php endforeach; ?>
   <tr>
@@ -51,6 +67,7 @@ if (isset($url) && !empty($url)) {
     <input type="submit" name="<?php echo $name ?>" value="<?php echo $button ?>" />
    </td>
    <td class="form-input"></td>
+   <td class="form-input"></td>
   </tr>
   <tr>
    <th class="form-label_left">Delete</th>
@@ -58,7 +75,8 @@ if (isset($url) && !empty($url)) {
     <input type="submit" name="delete" value="Delete selected comments" />
    </td>
    <td class="form-input"></td>
-  </tr>
+   <td class="form-input"></td>
+   
  </table>
 </form>
 <?php response_footer(); ?>
