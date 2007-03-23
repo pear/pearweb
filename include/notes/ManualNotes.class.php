@@ -139,7 +139,35 @@ class Manual_Notes
                 SET note_compiled=? WHERE note_id=?', array($compiled, $id));
         }
     }
+    // {{{ public function getSingleCommentById
+    /**
+     * Get a single comment by id
+     *
+     * This function will retrieve the single
+     * comment's information by note_id.
+     *
+     * @access public
+     * @param  integer  $noteId  The note id to retrieve
+     * @return mixed    $res     Error on query fail and associative
+     *                           array on success.
+     */
+    function getSingleCommentById($noteId)
+    {
+        $sql = "
+            SELECT note_id, page_url, user_name, user_handle,
+            note_compiled as note_text, note_time, note_approved,
+            note_approved_by, note_deleted
+             FROM {$this->notesTableName}
+              WHERE note_id = ?";
+        $res = $this->dbc->getRow($sql, array($noteId), DB_FETCHMODE_ASSOC);
 
+        if (PEAR::isError($res)) {
+            return $res;
+        }
+
+        return $res;
+    }
+    // }}}
     // {{{ public function getPageComments
     /**
      * Get Page Comments
