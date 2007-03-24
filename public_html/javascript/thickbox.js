@@ -224,9 +224,9 @@ function TB_show(caption, url, rel) {
 			}else{
 				$("#TB_ajaxContent").load(url, function(){
 					TB_position();
-
 					$("#TB_load").remove();
-					$("#TB_window").fadeIn("fast", function() {$("#TB_window").css({display:"block"})}); 
+//					$("#TB_window").fadeIn("fast", function() {$("#TB_window").css({display:"block"})}); 
+					$("#TB_window").css({display:"block"}); 
 				});
 			}
 		
