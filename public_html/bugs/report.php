@@ -33,7 +33,7 @@ require_once './include/cvs-auth.inc';
 /**
  * Numeral Captcha Class
  */
-require_once 'NumeralCaptcha.php';
+require_once 'Text/CAPTCHA/Numeral.php';
 
 error_reporting(E_ALL ^ E_NOTICE);
 $errors              = array();
@@ -42,7 +42,7 @@ $ok_to_submit_report = false;
 /**
  * Instantiate the numeral captcha object.
  */
-$numeralCaptcha = new NumeralCaptcha();
+$numeralCaptcha = new Text_CAPTCHA_Numeral;
 
 if (isset($_POST['save']) && isset($_POST['pw'])) {
     // non-developers don't have $user set

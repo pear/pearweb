@@ -41,12 +41,12 @@ require_once './include/trusted-devs.inc';
 /**
  * Numeral Captcha Class
  */
-require_once 'NumeralCaptcha.php';
+require_once 'Text/CAPTCHA/Numeral.php';
 
 /**
  * Instantiate the numeral captcha object.
  */
-$numeralCaptcha = new NumeralCaptcha();
+$numeralCaptcha = new Text_CAPTCHA_Numeral;
 
 Bug_DataObject::init();
 
