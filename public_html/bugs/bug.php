@@ -652,8 +652,9 @@ if ($bug['modified']) {
 						'</a>';
                 }
             }
-        } else {
-            $assignedRoadmap[] = '(No roadmap defined)';
+        }
+        if (!count($assignedRoadmap)) {
+            $assignedRoadmap[] = '(Not assigned)';
         }
         ?>
   <tr id="roadmap">
