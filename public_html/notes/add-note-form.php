@@ -9,9 +9,9 @@ define ('NOTE_ADD_ERROR_NO_URI', 'No URI passed to the form');
 /**
  * Numeral Captcha Class
  */
-require_once 'NumeralCaptcha.php';
+require_once 'Text/CAPTCHA/Numeral.php';
 
-$captcha = new NumeralCaptcha;
+$captcha = new Text_CAPTCHA_Numeral;
 
 /**
  * This parameter should be passed from the 

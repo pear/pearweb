@@ -50,9 +50,9 @@ if (!$loggedin && isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])
 
         $errors[] = 'Incorrect Captcha';
         
-        require_once 'NumeralCaptcha.php';
+        require_once 'Text/CAPTCHA/Numeral.php';
 
-        $captcha            = new NumeralCaptcha;
+        $captcha            = new Text_CAPTCHA_Numeral;
         $spamCheck          = $captcha->getOperation();
         $_SESSION['answer'] = $captcha->getAnswer();
     }
