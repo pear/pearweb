@@ -42,7 +42,7 @@ $ok_to_submit_report = false;
 /**
  * Instantiate the numeral captcha object.
  */
-$numeralCaptcha = new Text_CAPTCHA_Numeral;
+$numeralCaptcha = new Text_CAPTCHA_Numeral();
 
 if (isset($_POST['save']) && isset($_POST['pw'])) {
     // non-developers don't have $user set

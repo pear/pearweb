@@ -46,7 +46,7 @@ require_once 'Text/CAPTCHA/Numeral.php';
 /**
  * Instantiate the numeral captcha object.
  */
-$numeralCaptcha = new Text_CAPTCHA_Numeral;
+$numeralCaptcha = new Text_CAPTCHA_Numeral();
 
 Bug_DataObject::init();
 
