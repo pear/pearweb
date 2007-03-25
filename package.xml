@@ -189,7 +189,6 @@
      <file name="passwordmanage.php" role="web" />
     </dir> <!-- /include/users -->
     <file name="browser.php" role="web" />
-    <file name="NumeralCaptcha.php" role="web" />
     <file name="pear-append.php" role="web" />
     <file name="pear-auth.php" role="web" />
     <file name="pear-cache.php" role="web" />
