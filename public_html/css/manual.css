@@ -97,6 +97,7 @@ table.EXAMPLE p {
     border-width: 1px;
 	background-color: #e0e0e0;
 	color: inherit;
+    text-align: left;
 }
 
 .pending_note {
@@ -104,6 +105,7 @@ table.EXAMPLE p {
     border-width: 1px;
 	background-color: #909090;
 	color: inherit;
+    text-align: left;
 }
 
 .note_text {
@@ -116,4 +118,5 @@ table.EXAMPLE p {
 
 .note_handle {
     font-weight: bold;
+    text-align: left;
 }
