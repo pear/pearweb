@@ -13,11 +13,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
             dirname(__FILE__) . '/public_html/channel.xml',
         ),
     ));
-$a->setReleaseVersion('1.0.0');
-$a->setReleaseStability('beta');
-$a->setAPIStability('beta');
+$a->setReleaseVersion('1.12.0');
+$a->setReleaseStability('stable');
+$a->setAPIStability('stable');
 $a->setNotes('
-add us.pear.php.net and de.pear.php.net official PEAR channel mirrors
+jump to 1.12.0 so we can tag
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

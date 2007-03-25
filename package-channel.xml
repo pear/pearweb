@@ -41,18 +41,18 @@
   <active>no</active>
  </developer>
  <date>2007-03-25</date>
- <time>16:56:32</time>
+ <time>18:08:26</time>
  <version>
-  <release>1.0.0</release>
+  <release>1.12.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
-  <release>beta</release>
-  <api>beta</api>
+  <release>stable</release>
+  <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-add us.pear.php.net and de.pear.php.net official PEAR channel mirrors
+jump to 1.12.0 so we can tag
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -106,8 +106,21 @@ add us.pear.php.net and de.pear.php.net official PEAR channel mirrors
    </stability>
    <date>2007-03-25</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>add us.pear.php.net and de.pear.php.net official PEAR channel mirrors</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.12.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-25</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-add us.pear.php.net and de.pear.php.net official PEAR channel mirrors
+jump to 1.12.0 so we can tag
    </notes>
   </release>
  </changelog>
