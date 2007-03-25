@@ -634,6 +634,7 @@ if ($bug['modified']) {
         $db = Bug_DataObject::bugDB('bugdb_roadmap');
         $db->package = $bug['package_name'];
         $db->orderBy('releasedate DESC');
+        $assignedRoadmap = array();
         if ($db->find(false)) {
             while ($db->fetch()) {
                 $released = $dbh->getOne('SELECT releases.id
@@ -644,11 +645,11 @@ if ($bug['modified']) {
                     releases.version=b.roadmap_version',
                     array($db->id));
                 if (isset($links[$db->id])) {
-					$url = '/bugs/roadmap.php?package=' . $db->package . 
-						   '&roadmapdetail=' . $db->roadmap_version .
-						   '#a' . $db->roadmap_version;
-					
-                    $assignedRoadmap[$url] = $db->roadmap_version;
+					$assignedRoadmap[] = '<a href="/bugs/roadmap.php?package=' .
+				        $db->package . ($released ? '&showold=1' : '') .
+				        '&roadmapdetail=' . $db->roadmap_version .
+						'#a' . $db->roadmap_version . '">' . $db->roadmap_version .
+						'</a>';
                 }
             }
         } else {
@@ -660,23 +661,7 @@ if ($bug['modified']) {
 
    <td>
    <?php
-    $i        = 0;
-    $maxValue = count($assignedRoadmap) - 1;
-	
-    foreach ($assignedRoadmap as $roadmap => $key) {
-		/**
-		 * @todo remove this and store that into a template when 
-		 *       we decide to move everythign to templates in this file.
-		 *       I could make it include this part but that's gonna be
-		 *       wasting time for nothing as later is going to be easier
-		 * 		 to just move everything to templates.
-		 */
-        echo '<a href="' . $roadmap . '">' . $key . '</a>';
-		if ($i < $maxValue) {
-			echo ', ';
-		}
-		++$i;
-    }
+    echo implode(', ', $assignedRoadmap);
    ?>
    </td>
    <th>&nbsp;</th>
