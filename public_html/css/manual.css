@@ -111,6 +111,7 @@ table.EXAMPLE p {
 	color: inherit;
 	padding: 2px;
 	margin-top: 4px;
+    text-align: left;
 }
 
 .note_handle {
