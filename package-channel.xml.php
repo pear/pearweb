@@ -13,7 +13,7 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
             dirname(__FILE__) . '/public_html/channel.xml',
         ),
     ));
-$a->setReleaseVersion('1.0.0RC1');
+$a->setReleaseVersion('1.0.0');
 $a->setReleaseStability('beta');
 $a->setAPIStability('beta');
 $a->setNotes('
