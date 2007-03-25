@@ -24,7 +24,6 @@ require_once dirname(__FILE__) . "/../include/pear-config.php";
 
 $basepath = PEAR_TMPDIR . "/webcache/";
 
-$basepath = '/home/cellog/fronk';
 $iter = new RecursiveDirectoryIterator($basepath, RecursiveDirectoryIterator::CURRENT_AS_FILEINFO);
 
 foreach (new RecursiveIteratorIterator($iter) as $file) {
