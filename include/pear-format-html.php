@@ -388,7 +388,8 @@ function draw_navigation($type, $menu_title='')
                 '/map/'                => 'Find a Developer',
                 '/accounts.php'        => 'List Accounts',
                 '/release-upload.php'  => 'Upload Release',
-                '/package-new.php'     => 'New Package'
+                '/package-new.php'     => 'New Package',
+                '/notes/admin'         => 'Manage User Notes',
             );
             break;
         case 'developer_menu_public':
