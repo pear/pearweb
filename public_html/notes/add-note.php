@@ -52,7 +52,7 @@ if (!$loggedin && isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])
         
         require_once 'Text/CAPTCHA/Numeral.php';
 
-        $captcha            = new Text_CAPTCHA_Numeral;
+        $captcha            = new Text_CAPTCHA_Numeral();
         $spamCheck          = $captcha->getOperation();
         $_SESSION['answer'] = $captcha->getAnswer();
     }

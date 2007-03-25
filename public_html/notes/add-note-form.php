@@ -11,7 +11,7 @@ define ('NOTE_ADD_ERROR_NO_URI', 'No URI passed to the form');
  */
 require_once 'Text/CAPTCHA/Numeral.php';
 
-$captcha = new Text_CAPTCHA_Numeral;
+$captcha = new Text_CAPTCHA_Numeral();
 
 /**
  * This parameter should be passed from the 
