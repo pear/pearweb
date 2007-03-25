@@ -12,10 +12,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             '*.phar',
             'package.xml',
             'package.php',
+            'channel.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.11.1');
+$a->setReleaseVersion('1.12.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
@@ -34,6 +35,7 @@ $a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.5.0');
 $a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.2');
 $a->addPackageDepWithChannel('required', 'HTTP_Request', 'pear.php.net', '1.2.2');
 $a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
+$a->addPackageDepWithChannel('required', 'Text_CAPTCHA_Numeral', 'pear.php.net', '1.1.0');
 // used only in cron jobs
 $a->addPackageDepWithChannel('required', 'DB', 'pear.php.net', '1.6.5');
 $a->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '1.8.5');

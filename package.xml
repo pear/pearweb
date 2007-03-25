@@ -58,10 +58,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-24</date>
- <time>22:34:44</time>
+ <date>2007-03-25</date>
+ <time>16:48:01</time>
  <version>
-  <release>1.11.1</release>
+  <release>1.12.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -499,7 +499,6 @@
     <file name="advisory-20060108.txt" role="web" />
     <file name="captcha-help.php" role="web" />
     <file name="captcha-image.php" role="web" />
-    <file name="channel.xml" role="web" />
     <file name="copyright.php" role="web" />
     <file name="credits.php" role="web" />
     <file name="faq.php" role="web" />
@@ -762,6 +761,11 @@
     <min>1.4.0</min>
    </package>
    <package>
+    <name>Text_CAPTCHA_Numeral</name>
+    <channel>pear.php.net</channel>
+    <min>1.1.0</min>
+   </package>
+   <package>
     <name>DB</name>
     <channel>pear.php.net</channel>
     <min>1.6.5</min>
@@ -858,11 +862,6 @@
    <package>
     <name>Role_Web</name>
     <channel>pearified.com</channel>
-   </package>
-   <package>
-    <name>Text_CAPTCHA_Numeral</name>
-    <channel>pear.php.net</channel>
-    <min>1.1.0</min>
    </package>
    <extension>
     <name>pcre</name>
@@ -1800,6 +1799,23 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
     <api>stable</api>
    </stability>
    <date>2007-03-24</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10468: user notes approval page needs links back to comments [davidc]
+* Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
+* Implement Feature #10463: Moving a comment to pending [davidc]
+* Implement Feature #10464: display assigned roadmap versions in non-edit [davidc]
+* Implement Feature #10477: onload focus [davidc]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.12.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-25</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * Fix Bug #10468: user notes approval page needs links back to comments [davidc]
