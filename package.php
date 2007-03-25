@@ -15,22 +15,15 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.11.0');
+$a->setReleaseVersion('1.11.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
- * Fix Bug #10445: election edit does not allow changing choices [cellog]
- * Fix Bug #10446: election choices not shown if the election has not yet happened [cellog]
- * Fix Bug #10455: multiple bug account requests with the same email [cellog]
- * Implement Feature #10078: add user notes to manual [davidc]
- * Implement Feature #10330: allow users to log in using their email address as well as handle [cellog]
- * Implement Feature #10355: notification emails when patches are attached/modified [davidc]
- * Implement Feature #10356: notification emails when roadmap has bugs assigned/removed [cellog]
- * Implement Feature #10357: Allow dots in patch name [quipo]
- * Implement Feature #10362: fade roadmap versions already released in bug edit [cellog]
-
- Also, fix fatal error in some cases if user is not pear.dev karma user
+ * Fix Bug #10468: user notes approval page needs links back to comments [davidc]
+ * Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
+ * Implement Feature #10463: Moving a comment to pending [davidc]
+ * Implement Feature #10464: display assigned roadmap versions in non-edit [davidc]
+ * Implement Feature #10477: onload focus [davidc]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

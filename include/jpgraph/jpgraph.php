@@ -14,6 +14,7 @@
 // Directories. Must be updated to reflect your installation
 //------------------------------------------------------------------------
 
+error_reporting(E_ALL & ~E_NOTICE);
 // The full absolute name of directory to be used as a cache. This directory MUST
 // be readable and writable for PHP. Must end with '/'
 DEFINE("CACHE_DIR", "/tmp/");
