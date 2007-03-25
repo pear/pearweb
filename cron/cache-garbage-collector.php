@@ -13,37 +13,25 @@
  * | obtain it through the world-wide-web, please send a note to          |
  * | license@php.net so we can mail you a copy immediately.               |
  * +----------------------------------------------------------------------+
- * | Authors: Martin Jansen <mj@php.net>                                  |
+ * | Authors: Gregory Beaver <cellog@php.net>                             |
+ * |          Martin Jansen <mj@php.net>                                  |
  * +----------------------------------------------------------------------+
  *
  * $Id$
  */
 
-require_once "PEAR.php";
 require_once dirname(__FILE__) . "/../include/pear-config.php";
-require_once "VFS.php";
-require_once "VFS/file.php";
 
 $basepath = PEAR_TMPDIR . "/webcache/";
 
-$vfs = new VFS_file(array("vfsroot" => $basepath));
+$basepath = '/home/cellog/fronk';
+$iter = new RecursiveDirectoryIterator($basepath, RecursiveDirectoryIterator::CURRENT_AS_FILEINFO);
 
-// {{{ cleanFolder()
-
-function cleanFolder($folder) {
-    global $vfs, $basepath;
-
-    $result = $vfs->listFolder($folder);
-
-    foreach ($result as $file) {
-        $age = time() - $file['date'];
-
-        if ($age > CACHE_LIFETIME) {
-            $vfs->deleteFile($folder, $file['name']);
-        }
+foreach (new RecursiveIteratorIterator($iter) as $file) {
+    if ($file->isDir()) {
+        continue;
+    }
+    if (time() - $file->getCTime() > CACHE_LIFETIME) {
+        unlink($file->getPathName());
     }
 }
-
-// }}}
-
-cleanFolder(".");

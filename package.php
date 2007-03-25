@@ -35,7 +35,6 @@ $a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.2')
 $a->addPackageDepWithChannel('required', 'HTTP_Request', 'pear.php.net', '1.2.2');
 $a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
 // used only in cron jobs
-$a->addPackageDepWithChannel('required', 'VFS', 'pear.php.net', '0.1.0');
 $a->addPackageDepWithChannel('required', 'DB', 'pear.php.net', '1.6.5');
 $a->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '1.8.5');
 $a->addPackageDepWithChannel('required', 'Savant2', 'savant.pearified.com', '2.4.2');
@@ -62,8 +61,6 @@ $a->addDependencyGroup('php5', 'Use this for PHP 5 (mysqli ext)');
 $a->addGroupPackageDepWithChannel('package', 'php4', 'MDB2_Driver_mysql', 'pear.php.net');
 $a->addGroupPackageDepWithChannel('package', 'php5', 'MDB2_Driver_mysqli', 'pear.php.net');
 $a->addExtensionDep('required', 'pcre');
-// required by VFS
-$a->addExtensionDep('required', 'gettext');
 $a->addExtensionDep('optional', 'mysql');
 $a->addExtensionDep('optional', 'mysqli');
 $a->addPackageDepWithChannel('required', 'Role_Web', 'pearified.com');

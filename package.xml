@@ -59,7 +59,7 @@
   <active>no</active>
  </developer>
  <date>2007-03-24</date>
- <time>21:42:58</time>
+ <time>22:34:44</time>
  <version>
   <release>1.11.1</release>
   <api>0.1.1</api>
@@ -763,11 +763,6 @@
     <min>1.4.0</min>
    </package>
    <package>
-    <name>VFS</name>
-    <channel>pear.php.net</channel>
-    <min>0.1.0</min>
-   </package>
-   <package>
     <name>DB</name>
     <channel>pear.php.net</channel>
     <min>1.6.5</min>
@@ -867,9 +862,6 @@
    </package>
    <extension>
     <name>pcre</name>
-   </extension>
-   <extension>
-    <name>gettext</name>
    </extension>
   </required>
   <optional>
