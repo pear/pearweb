@@ -623,6 +623,65 @@ if ($bug['modified']) {
    <th class="details">OS:</th>
    <td><?php echo htmlspecialchars($bug['php_os']) ?></td>
   </tr>
+<?php
+        $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
+        $link->id = $id;
+        $link->find(false);
+        $links = array();
+        while ($link->fetch()) {
+            $links[$link->roadmap_id] = true;
+        }
+        $db = Bug_DataObject::bugDB('bugdb_roadmap');
+        $db->package = $bug['package_name'];
+        $db->orderBy('releasedate DESC');
+        if ($db->find(false)) {
+            while ($db->fetch()) {
+                $released = $dbh->getOne('SELECT releases.id
+                 FROM packages, releases, bugdb_roadmap b
+                 WHERE
+                    b.id=? AND
+                    packages.name=b.package AND releases.package=packages.id AND
+                    releases.version=b.roadmap_version',
+                    array($db->id));
+                if (isset($links[$db->id])) {
+					$url = '/bugs/roadmap.php?package=' . $db->package . 
+						   '&roadmapdetail=' . $db->roadmap_version .
+						   '#a' . $db->roadmap_version;
+					
+                    $assignedRoadmap[$url] = $db->roadmap_version;
+                }
+            }
+        } else {
+            $assignedRoadmap[] = '(No roadmap defined)';
+        }
+        ?>
+  <tr id="roadmap">
+   <th class="details">Roadmaps: </th>
+
+   <td>
+   <?php
+    $i        = 0;
+    $maxValue = count($assignedRoadmap) - 1;
+	
+    foreach ($assignedRoadmap as $roadmap => $key) {
+		/**
+		 * @todo remove this and store that into a template when 
+		 *       we decide to move everythign to templates in this file.
+		 *       I could make it include this part but that's gonna be
+		 *       wasting time for nothing as later is going to be easier
+		 * 		 to just move everything to templates.
+		 */
+        echo '<a href="' . $roadmap . '">' . $key . '</a>';
+		if ($i < $maxValue) {
+			echo ', ';
+		}
+		++$i;
+    }
+   ?>
+   </td>
+   <th>&nbsp;</th>
+   <td>&nbsp;</td>
+  </tr>
 
 <?php if ($bug['votes']) {?>
   <tr id="votes">
