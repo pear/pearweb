@@ -17,7 +17,7 @@ $a->setReleaseVersion('1.0.0RC1');
 $a->setReleaseStability('beta');
 $a->setAPIStability('beta');
 $a->setNotes('
-first release
+add us.pear.php.net and de.pear.php.net official PEAR channel mirrors
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
