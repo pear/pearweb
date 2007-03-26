@@ -16,15 +16,14 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.12.0');
+$a->setReleaseVersion('1.11.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10468: user notes approval page needs links back to comments [davidc]
- * Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
- * Implement Feature #10463: Moving a comment to pending [davidc]
- * Implement Feature #10464: display assigned roadmap versions in non-edit [davidc]
- * Implement Feature #10477: onload focus [davidc]
+ * Fix Bug #10482: PHP4 obsolete package [davidc]
+ * Fix Bug #10486: Opera centers text in the new notes section of the manual [davidc]
+ * Implement Feature #10480: split channel.xml into its own package [cellog]
+ * Implement Feature #10481: Adding link to manage notes in the developer menu [davidc]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
