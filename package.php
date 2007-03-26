@@ -18,14 +18,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.11.2');
+$a->setReleaseVersion('1.12.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10482: PHP4 obsolete package [davidc]
- * Fix Bug #10486: Opera centers text in the new notes section of the manual [davidc]
- * Implement Feature #10480: split channel.xml into its own package [cellog]
- * Implement Feature #10481: Adding link to manage notes in the developer menu [davidc]
+ * start over
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
