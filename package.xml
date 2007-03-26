@@ -14,7 +14,7 @@
  - templates
  
  See the pearweb_phars package for install-pear-nozlib.phar/go-pear.phar
- See teh pearweb_channelxml package for channel.xml
+ See the pearweb_channelxml package for channel.xml
  </description>
  <lead>
   <name>Martin Jansen</name>
