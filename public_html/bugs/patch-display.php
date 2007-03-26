@@ -32,7 +32,7 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
         header('Content-type: application/octet-stream');
         header('Content-disposition: attachment; filename="' . $_GET['patch'] . '.patch.txt"');
         header('Content-length: '.filesize($path));
-        echo readfile($path);
+        readfile($path);
         exit;
     }
     $patchcontents = $patchinfo->getPatch($buginfo['id'], $_GET['patch'], $_GET['revision']);
