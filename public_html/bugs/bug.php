@@ -963,7 +963,7 @@ if ($edit == 1 || $edit == 2) {
      <tr>
       <th class="details">Assigned to <br />Roadmap Version(s):<br />
       (<span class="headerbottom">Already released</span>)</th>
-      <td><?php
+      <td colspan="5"><?php
         $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
         $link->id = $id;
         $link->find(false);
