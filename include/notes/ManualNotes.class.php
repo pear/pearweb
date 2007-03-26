@@ -400,7 +400,10 @@ class Manual_Notes
         // MySQL 4.1 displays timestamps as if they were datetimes, so make
         // sure this doesn't break on upgrade
         if (is_numeric($comment['note_time'])) {
-            $time = date('d-M-Y H:i', $comment['note_time']);
+            $pretime = strptime($comment['note_time'], '%Y%m%d%H%M%S');
+            $mytime = mktime($pretime['tm_hour'], $pretime['tm_min'], $pretime['tm_sec'],
+                   $pretime['tm_mon'] + 1, $pretime['tm_mday'], $pretime['tm_year'] + 1900);
+            $time = date('d-M-Y H:i', $mytime);
         } else {
             $time = date('d-M-Y H:i', strtotime($comment['note_time']));
         }
