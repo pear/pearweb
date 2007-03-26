@@ -59,7 +59,7 @@
   <active>no</active>
  </developer>
  <date>2007-03-25</date>
- <time>19:34:18</time>
+ <time>19:38:48</time>
  <version>
   <release>1.11.2</release>
   <api>0.1.1</api>
@@ -641,8 +641,6 @@
     <file name="weeklynews-2003.tar.gz" role="web" />
    </dir> <!-- /weeklynews -->
    <file name="generateREST.php" role="web" />
-   <file name="package-channel.xml" role="web" />
-   <file name="package-channel.xml.php" role="web" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
