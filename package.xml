@@ -3,7 +3,19 @@
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
- <description>The pearweb package contains:</description>
+ <description>The pearweb package contains:
+ - cron jobs for the website in cron/
+ - off-public web files in include
+ - public web files
+ - the PEAR bug tracker public_html/bugs
+ - the PEPr proposal system public_html/pepr
+ - sql defining the database and an MDB2_Schema files
+ - a few regression tests
+ - templates
+ 
+ See the pearweb_phars package for install-pear-nozlib.phar/go-pear.phar
+ See teh pearweb_channelxml package for channel.xml
+ </description>
  <lead>
   <name>Martin Jansen</name>
   <user>mj</user>
