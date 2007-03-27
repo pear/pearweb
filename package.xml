@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -14,8 +14,7 @@
  - templates
  
  See the pearweb_phars package for install-pear-nozlib.phar/go-pear.phar
- See the pearweb_channelxml package for channel.xml
- </description>
+ See the pearweb_channelxml package for channel.xml</description>
  <lead>
   <name>Martin Jansen</name>
   <user>mj</user>
@@ -70,10 +69,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-25</date>
- <time>19:38:48</time>
+ <date>2007-03-27</date>
+ <time>10:07:29</time>
  <version>
-  <release>1.11.2</release>
+  <release>1.11.3</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -82,10 +81,11 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10482: PHP4 obsolete package [davidc]
- * Fix Bug #10486: Opera centers text in the new notes section of the manual [davidc]
- * Implement Feature #10480: split channel.xml into its own package [cellog]
- * Implement Feature #10481: Adding link to manage notes in the developer menu [davidc]
+ * Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
+ * Fix Bug #10484: Bug edit form has gotten &amp;quot;ugly&amp;quot; [cellog]
+ * Fix Bug #10487: Package description is almost empty [cellog]
+ * Fix Bug #10498: extra symbols are appended to patches [cellog]
+ * Fix Bug #10523: Bug tracker emails need validation to prevent ,another@example.com [cellog]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1828,12 +1828,10 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-03-25</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
- * Fix Bug #10482: PHP4 obsolete package [davidc]
- * Fix Bug #10486: Opera centers text in the new notes section of the manual [davidc]
- * Implement Feature #10480: split channel.xml into its own package [cellog]
- * Implement Feature #10481: Adding link to manage notes in the developer menu [davidc]
-   </notes>
+   <notes>* Fix Bug #10482: PHP4 obsolete package [davidc]
+* Fix Bug #10486: Opera centers text in the new notes section of the manual [davidc]
+* Implement Feature #10480: split channel.xml into its own package [cellog]
+* Implement Feature #10481: Adding link to manage notes in the developer menu [davidc]</notes>
   </release>
   <release>
    <version>
@@ -1851,6 +1849,25 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
 * Implement Feature #10463: Moving a comment to pending [davidc]
 * Implement Feature #10464: display assigned roadmap versions in non-edit [davidc]
 * Implement Feature #10477: onload focus [davidc]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.11.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-27</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+ * Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
+ * Fix Bug #10484: Bug edit form has gotten &amp;quot;ugly&amp;quot; [cellog]
+ * Fix Bug #10487: Package description is almost empty [cellog]
+ * Fix Bug #10498: extra symbols are appended to patches [cellog]
+ * Fix Bug #10523: Bug tracker emails need validation to prevent ,another@example.com [cellog]
+   </notes>
   </release>
  </changelog>
 </package>

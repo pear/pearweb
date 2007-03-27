@@ -18,11 +18,15 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.12.0');
+$a->setReleaseVersion('1.11.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * start over
+ * Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
+ * Fix Bug #10484: Bug edit form has gotten &quot;ugly&quot; [cellog]
+ * Fix Bug #10487: Package description is almost empty [cellog]
+ * Fix Bug #10498: extra symbols are appended to patches [cellog]
+ * Fix Bug #10523: Bug tracker emails need validation to prevent ,another@example.com [cellog]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
