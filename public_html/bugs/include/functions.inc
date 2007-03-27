@@ -1002,7 +1002,7 @@ function incoming_details_are_valid($in, $initial = 0, $logged = false)
     }
 
     if ($initial || (!empty($in['email']) && $bug['email'] != $in['email'])) {
-        if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i",$in['email'])) {
+        if (!preg_match("/^[.\\w+-]+@[.\\w-]+\\.\\w{2,}$/i",$in['email'])) {
             $errors[] = 'Please provide a valid email address.';
         }
     }
