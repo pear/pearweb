@@ -16,7 +16,7 @@ if ($loggedin) {
     $keys = array(
             'noteUrl'  => 'Note Address',
             'redirect' => 'Original Manual Page',
-            'note'     => 'User comment/note', 
+            'note'     => 'User note', 
     );
     $post['user'] = $auth_user->name;
 } else {
@@ -30,7 +30,7 @@ if ($loggedin) {
             'noteUrl'  => 'Note Address',
             'redirect' => 'Original Manual Page',
             'user'     => 'Username/Email', 
-            'note'     => 'User comment/note', 
+            'note'     => 'User note', 
             'answer'   => 'Captcha Answer'
     );
 }

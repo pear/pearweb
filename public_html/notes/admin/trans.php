@@ -24,7 +24,7 @@ switch ($action) {
             }
 
             if (PEAR::isError($notes)) {
-                $error = 'Error while making the comments pending, contact webmaster';
+                $error = 'Error while making the note pending, contact webmaster';
             } else {
                 $message = 'Comment(s) successfully ';
                 $message .= isset($_POST['pending']) ? 'pending' : 'deleted';
