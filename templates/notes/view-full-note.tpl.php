@@ -1,7 +1,7 @@
 <?php
 if (!$ajax) {
-    response_header('View Full Comment');
-    echo '<h1>View Comment</h1>';
+    response_header('View Full Note');
+    echo '<h1>View Note</h1>';
 ?>
 <a href="/notes/admin/index.php<?php $status = $status ? '?status=approved' : '';  echo $status ?>" title="go back">Go back to administration</a>
 <div style="width: 80%; wrap: virtual; background: #C0C0C0; border: 1px dashed black;">

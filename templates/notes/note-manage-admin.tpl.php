@@ -30,7 +30,7 @@ if (isset($url) && !empty($url)) {
  <table class="form-holder" cellspacing="1">
   <tr>
    <th class="form-label_left">Status</th>
-   <td class="form-input">Comment</td>
+   <td class="form-input">Note</td>
    <td class="form-input">Name/Email</td>
    <td class="form-input">View Note</td>
   </tr>
@@ -53,7 +53,7 @@ if (isset($url) && !empty($url)) {
    </td>
    <td class="form-input">
     <a class="thickbox" href="view-note.php?height=300&width=450&ajax=yes&noteId=<?php echo $pendingComment['note_id'] ?>" 
-       title="See full comment">View</a> 
+       title="See full note">View</a> 
     | 
     <a href="view-note.php?ajax=no&status=<?php echo $status ?>&noteId=<?php echo $pendingComment['note_id'] ?>" 
        title="No JS View">(no js)</a>
@@ -72,7 +72,7 @@ if (isset($url) && !empty($url)) {
   <tr>
    <th class="form-label_left">Delete</th>
    <td class="form-input">
-    <input type="submit" name="delete" value="Delete selected comments" />
+    <input type="submit" name="delete" value="Delete selected notes" />
    </td>
    <td class="form-input"></td>
    <td class="form-input"></td>
