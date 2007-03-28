@@ -411,7 +411,7 @@ class Manual_Notes
         $userHandle = $comment['user_handle'] ? 
             '<a href="/user/' . $comment['user_handle'] . '">' . $comment['user_handle'] .
             '</a>' :
-            htmlentities($comment['user_name']);
+            $this->obfuscateAnonLink($comment['user_name']));
         $pending    = $comment['note_approved'] == 'pending';
         $id = $comment['page_url'];
         $comment    = $comment['note_text'];
@@ -419,5 +419,33 @@ class Manual_Notes
         $linkName   = '<a name="#' . $noteId . '"></a>';
         include dirname(dirname(dirname(__FILE__))) . '/templates/notes/note.tpl.php';
     }
+
+    // {{{ public function obfuscateAnonLink
+    /**
+     * Obfuscate Anonymous link
+     *
+     * This function will take a parameter and
+     * make it obfuscated in a manner that no
+     * script can find @ . , etc. This is the same
+     * method used for bugs and all mailto_links 
+     * on the site (site-wide)
+     *
+     * @access public
+     * @param  string $text   The text to obfuscate
+     * @return string $obText The text obfuscated
+     */
+    public function obfuscateAnonLink($text)
+    {
+        $tmp = '';
+        for ($i = 0, $l = strlen($text); $i<$l; $i++) {
+            if ($i % 2) {
+                $tmp .= '&#' . ord($text[$i]) . ';';
+            } else {
+                $tmp .= '&#x' . dechex(ord($text[$i])) . ';';
+            }
+        }
+        return $tmp;
+    }
+    // }}}
 }
 // }}}
