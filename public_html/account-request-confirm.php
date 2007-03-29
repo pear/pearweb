@@ -22,13 +22,18 @@ if (isset($_POST['confirmdetails'])) {
             response_footer();
             exit;
         }
-        if ($request->confirmRequest($_POST['PEAR_USER'], $_POST['PEAR_PW'], $_POST['name'])) {
+        $errors = $request->confirmRequest($_POST['PEAR_USER'],
+            $_POST['PEAR_PW'], $_POST['name']);
+        if ($errors === true) {
             report_success('Your account has been activated, bugs you have opened and comments
         you have made are now available to the public for viewing');
             echo '<a href="login.php">Log In</a> to continue.';
             response_footer();
             exit;    
         }
+        include dirname(dirname(__FILE__)) . '/templates/bugs/registernewaccount.php';
+        response_footer();
+        exit;
     } else {
         report_error('Unknown account, or account is not pending approval');
     }
