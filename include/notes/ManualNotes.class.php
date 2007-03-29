@@ -411,7 +411,7 @@ class Manual_Notes
         $userHandle = $comment['user_handle'] ? 
             '<a href="/user/' . $comment['user_handle'] . '">' . $comment['user_handle'] .
             '</a>' :
-            $this->obfuscateAnonLink($comment['user_name']));
+            $this->obfuscateAnonLink($comment['user_name']);
         $pending    = $comment['note_approved'] == 'pending';
         $id = $comment['page_url'];
         $comment    = $comment['note_text'];
