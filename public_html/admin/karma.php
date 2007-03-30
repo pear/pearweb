@@ -19,6 +19,7 @@
 */
 
 require_once "Damblan/Karma.php";
+require_once "Damblan/Mailer.php";
 require_once "HTML/Form.php";
 require_once "pear-format-html-form.php";
 
@@ -57,6 +58,8 @@ if ($handle === null || empty($handle)) {
                 echo "Successfully <b>removed</b> karma &quot;"
                         . htmlspecialchars($_GET['level'])
                         . "&quot;<br /><br />";
+                note::add('uid', $handle, 'removed ' . $_GET['level'] . ' karma',
+                    $auth_user->handle);
             }
             break;
 
@@ -66,6 +69,9 @@ if ($handle === null || empty($handle)) {
                 echo "Successfully <b>added</b> karma &quot;"
                         . htmlspecialchars($_POST['level'])
                         . "&quot;<br /><br />";
+                        
+                note::add('uid', $handle, 'added ' . $_GET['level'] . ' karma',
+                    $auth_user->handle);
             }
             break;
         }
