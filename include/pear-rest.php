@@ -468,7 +468,7 @@ class pear_rest
  <g>http://' . PEAR_CHANNELNAME . '/get/' . $package . '-' . $pkgobj->getVersion() . '</g>
  <x xlink:href="package.' . $pkgobj->getVersion() . '.xml"/>
 </r>';
-        $d = $pkgobj->getDependencies();
+        $d = $pkgobj->getDeps(true);
         $minphp = $d['required']['php']['min'];
         $info2 = '<?xml version="1.0" encoding="UTF-8" ?>
 <r xmlns="http://pear.php.net/dtd/rest.release2"
