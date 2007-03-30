@@ -469,7 +469,11 @@ class pear_rest
  <x xlink:href="package.' . $pkgobj->getVersion() . '.xml"/>
 </r>';
         $d = $pkgobj->getDeps(true);
-        $minphp = $d['required']['php']['min'];
+        if (isset($d['required'])) {
+            $minphp = $d['required']['php']['min'];
+        } else {
+            $minphp = '4.0.0';
+        }
         $info2 = '<?xml version="1.0" encoding="UTF-8" ?>
 <r xmlns="http://pear.php.net/dtd/rest.release2"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
