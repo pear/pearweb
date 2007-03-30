@@ -62,12 +62,6 @@ class Manual_Notes
         $this->dbc = $dbh;
     }
     // }}}
-    // {{{ php4 Constructor
-    function Manual_Notes()
-    {
-        $this->__construct();
-    }
-    // }}}
     // {{{ public function addComment
     /**
      * Add a comment
@@ -213,7 +207,7 @@ class Manual_Notes
                     note_approved_by, note_deleted, note_text as unfiltered_note
                      FROM {$this->notesTableName}
                       WHERE page_url = ?
-                      AND note_approved = 'yes' OR note_approved = 'pending'
+                      AND (note_approved = 'yes' OR note_approved = 'pending')
                      ORDER BY note_time DESC
                 ";
                 $res = $this->dbc->getAll($sql, array($url), DB_FETCHMODE_ASSOC);
