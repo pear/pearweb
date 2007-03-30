@@ -30,7 +30,8 @@ if (isset($url) && !empty($url)) {
  <table class="form-holder" cellspacing="1">
   <tr>
    <th class="form-label_left">Status</th>
-   <td class="form-input">Note</td>
+   <td class="form-input">Manual</td>
+   <td class="form-input">Comment</td>
    <td class="form-input">Name/Email</td>
    <td class="form-input">View Note</td>
   </tr>
@@ -39,6 +40,10 @@ if (isset($url) && !empty($url)) {
   <th class="form-label_left">
    <input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" />
    </th>
+   <td class="form-input">
+   <a href="/manual/en/<?php echo $pendingComment['page_url'] ?>.php"><?php
+    echo $pendingComment['page_url'] ?></a>
+   </td>
    <td class="form-input">
    <?php 
      if (strlen($pendingComment['unfiltered_note']) > 200) {
@@ -63,20 +68,16 @@ if (isset($url) && !empty($url)) {
  <?php endforeach; ?>
   <tr>
    <th class="form-label_left"><?php echo $caption ?></th>
-   <td class="form-input">
+   <td class="form-input" colspan="4">
     <input type="submit" name="<?php echo $name ?>" value="<?php echo $button ?>" />
    </td>
-   <td class="form-input"></td>
-   <td class="form-input"></td>
   </tr>
   <tr>
-   <th class="form-label_left">Delete</th>
-   <td class="form-input">
-    <input type="submit" name="delete" value="Delete selected notes" />
+   <th class="form-label_left">Delete Notes</th>
+   <td class="form-input" colspan="4">
+    <div align="right"><input type="submit" name="delete" value="Delete" /></div>
    </td>
-   <td class="form-input"></td>
-   <td class="form-input"></td>
-   
+  </tr>   
  </table>
 </form>
 <?php response_footer(); ?>

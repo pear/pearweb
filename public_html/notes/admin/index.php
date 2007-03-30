@@ -11,15 +11,15 @@ $manualNotes = new Manual_Notes;
 $status  = 'pending';
 $action  = 'approveMass';
 $title   = 'Approve Pending User Notes';
-$button  = 'Approve Selected Notes';
-$caption = 'Approve';
+$button  = 'Approve';
+$caption = 'Approve Notes';
 $name    = 'approve';
 
 if (isset($_GET['status']) && $_GET['status'] == 'approved') {
     $status  = 'yes';
     $action  = 'updateApproved';
     $title   = 'Move Approved Notes to Pending';
-    $button  = 'Make Pending Selected Notes';
+    $button  = 'Make Pending';
     $caption = 'Pending';
     $name    = 'pending';
 }
