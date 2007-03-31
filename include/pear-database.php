@@ -677,7 +677,7 @@ class package
      * @param  boolean Should PECL packages also be taken into account?
      * @return mixed
      */
-    function info($pkg, $field = null, $allow_pecl = false)
+    static function info($pkg, $field = null, $allow_pecl = false)
     {
         global $dbh;
 

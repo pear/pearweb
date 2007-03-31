@@ -25,6 +25,7 @@
 auth_require('pear.dev');
 
 require_once 'HTML/Form.php';
+require_once 'tags/Manager.php';
 $form = new HTML_Form('package-edit.php');
 $form->setDefaultFromInput(false);
 
@@ -113,6 +114,14 @@ if (isset($_POST['submit'])) {
         if (PEAR::isError($sth)) {
             report_error('Unable to save data!');
         } else {
+            if (is_array($_POST['tags'])) {
+                $manager = new Tags_Manager;
+                $manager->clearTags($_POST['name']);
+                foreach ($_POST['tags'] as $tag) {
+                    if (!$tag) continue;
+                    $manager->createPackageTag($tag, $_POST['name']);
+                }
+            }
             $pear_rest->saveAllPackagesREST();
             $pear_rest->savePackageREST($_POST['name']);
             $pear_rest->savePackagesCategoryREST(package::info($_POST['name'], 'category'));
@@ -190,6 +199,15 @@ while ($cat_row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
     $rows[$cat_row['id']] = $cat_row['name'];
 }
 $form->displaySelect("category", $rows, (int)$row['categoryid']);
+?>
+    </td>
+</tr>
+<tr>
+    <th class="form-label_left">Tags:</th>
+    <td class="form-input">
+<?php
+$manager = new Tags_Manager;
+$form->displaySelect("tags", $manager->getTags(false, true), array_keys($manager->getTags($row['name'], true)), 10, '(none)', true);
 ?>
     </td>
 </tr>

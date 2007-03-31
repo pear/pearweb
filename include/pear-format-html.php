@@ -19,6 +19,7 @@
 */
 
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
+set_exception_handler('error_handler');
 
 function extra_styles($new = null) {
     static $extra_styles = array();
@@ -451,7 +452,7 @@ function menu_link($text, $url) {
  *   + PEAR_Error: prints the value of getMessage() and getUserInfo()
  *                 if DEVBOX is true, otherwise prints data from getMessage().
  *
- * @param string|array|PEAR_Error $in  see long description
+ * @param string|array|PEAR_Error|Exception $in  see long description
  * @param string $class  name of the HTML class for the <div> tag.
  *                        ("errors", "warnings")
  * @param string $head   string to be put above the message
@@ -460,9 +461,13 @@ function menu_link($text, $url) {
  */
 function report_error($in, $class = 'errors', $head = 'ERROR:')
 {
-    if (PEAR::isError($in)) {
+    if (PEAR::isError($in) || $in instanceof Exception) {
         if (DEVBOX == true) {
-            $in = array($in->getMessage() . '... ' . $in->getUserInfo());
+            if ($in instanceof Exception) {
+                $in = array($in->__toString());
+            } else {
+                $in = array($in->getMessage() . '... ' . $in->getUserInfo());
+            }
         } else {
             $in = array($in->getMessage());
         }
@@ -474,9 +479,13 @@ function report_error($in, $class = 'errors', $head = 'ERROR:')
 
     echo '<div class="' . $class . '">' . $head . '<ul>';
     foreach ($in as $msg) {
-        if (PEAR::isError($msg)) {
+        if (PEAR::isError($msg) || $msg instanceof Exception) {
             if (DEVBOX == true) {
-                $msg = $msg->getMessage() . '... ' . $msg->getUserInfo();
+                if ($msg instanceof Exception) {
+                    $msg = array($msg->__toString());
+                } else {
+                    $msg = array($msg->getMessage() . '... ' . $msg->getUserInfo());
+                }
             } else {
                 $msg = $msg->getMessage();
             }

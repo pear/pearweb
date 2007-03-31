@@ -3315,5 +3315,72 @@
   </declaration>
 
  </table>
+ <table>
+  <name>tagid</name>
+  <declaration>
+   <field>
+    <name>tagid</name>
+    <type>integer</type>
+    <notnull>true</notnull>
+    <autoincrement>true</autoincrement>
+   </field>
+   <field>
+    <name>tagname</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>50</length>
+   </field>
+   <field>
+    <name>tagdesc</name>
+    <type>text</type>
+    <notnull>true</notnull>
+    <length>200</length>
+   </field>
+   <field>
+    <name>adminkey</name>
+    <type>boolean</type>
+    <notnull>true</notnull>
+    <default>0</default>
+   </field>
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>tagid</name>
+    </field>
+   </index>
+   <index>
+    <name>tagname_idx</name>
+    <unique>true</unique>
+    <field>
+     <name>tagname</name>
+    </field>
+   </index>
+ </table>
 
+ <table>
+  <name>tag_package_link</name>
+  <declaration>
+   <field>
+    <name>package_id</name>
+    <type>integer</type>
+    <notnull>true</notnull>
+   </field>
+   <field>
+    <name>tagid</name>
+    <type>integer</type>
+    <notnull>true</notnull>
+   </field>
+
+   <index>
+    <name>primary</name>
+    <primary>true</primary>
+    <field>
+     <name>package_id</name>
+    </field>
+    <field>
+     <name>tagid</name>
+    </field>
+   </index>
+  </table>
 </database>

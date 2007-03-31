@@ -45,6 +45,7 @@ $a->addPackageDepWithChannel('required', 'Savant2', 'savant.pearified.com', '2.4
 $a->addPackageDepWithChannel('required', 'Cache', 'pear.php.net', '1.2');
 $a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1.1');
 $a->addPackageDepWithChannel('required', 'HTML_Form', 'pear.php.net', '1.3.0');
+$a->addPackageDepWithChannel('required', 'HTML_TagCloud', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTML_Table', 'pear.php.net', '1.5');
 $a->addPackageDepWithChannel('required', 'Pager', 'pear.php.net', '2.2.0');
 $a->addPackageDepWithChannel('required', 'PEAR_PackageUpdate', 'pear.php.net');
