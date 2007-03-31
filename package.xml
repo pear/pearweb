@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.5.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -69,10 +69,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-03-27</date>
- <time>10:07:29</time>
+ <date>2007-03-31</date>
+ <time>00:01:00</time>
  <version>
-  <release>1.11.3</release>
+  <release>1.12.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -196,6 +196,10 @@
      <file name="info.php" role="web" />
      <file name="package-generator.php" role="web" />
     </dir> <!-- /include/roadmap -->
+    <dir name="tags">
+     <file name="Cloud.php" role="web" />
+     <file name="Manager.php" role="web" />
+    </dir> <!-- /include/tags -->
     <dir name="users">
      <file name="passwordmanage.php" role="web" />
     </dir> <!-- /include/users -->
@@ -237,6 +241,7 @@
      <file name="karma.php" role="web" />
      <file name="package-approval.php" role="web" />
      <file name="package-maintainers.php" role="web" />
+     <file name="tags.php" role="web" />
     </dir> <!-- /public_html/admin -->
     <dir name="bugs">
      <dir name="include">
@@ -492,6 +497,10 @@
      <file name="tabs_list.php" role="web" />
      <file name="tutorials.php" role="web" />
     </dir> <!-- /public_html/support -->
+    <dir name="tags">
+     <file name="admin.php" role="web" />
+     <file name="packages.php" role="web" />
+    </dir> <!-- /public_html/tags -->
     <dir name="trackback">
      <file name="trackback-admin.php" role="web" />
      <file name="trackback-overview.php" role="web" />
@@ -566,6 +575,7 @@
     <file name="process_mysqldump_for5.sh" role="web" />
     <file name="README" role="web" />
     <file name="releases.sql" role="web" />
+    <file name="tags.sql" role="web" />
     <file name="users.sql" role="web" />
    </dir> <!-- /sql -->
    <dir name="templates">
@@ -589,6 +599,11 @@
      <file name="note.tpl.php" role="web" />
      <file name="view-full-note.tpl.php" role="web" />
     </dir> <!-- /templates/notes -->
+    <dir name="tags">
+     <file name="admin.tpl.php" role="web" />
+     <file name="cloud.tpl.php" role="web" />
+     <file name="package.tpl.php" role="web" />
+    </dir> <!-- /templates/tags -->
     <dir name="users">
      <file name="lostpassword.php" role="web" />
      <file name="passwordform.php" role="web" />
@@ -805,6 +820,10 @@
     <name>HTML_Form</name>
     <channel>pear.php.net</channel>
     <min>1.3.0</min>
+   </package>
+   <package>
+    <name>HTML_TagCloud</name>
+    <channel>pear.php.net</channel>
    </package>
    <package>
     <name>HTML_Table</name>
@@ -1835,23 +1854,6 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
   </release>
   <release>
    <version>
-    <release>1.12.0</release>
-    <api>0.1.1</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2007-03-25</date>
-   <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10468: user notes approval page needs links back to comments [davidc]
-* Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
-* Implement Feature #10463: Moving a comment to pending [davidc]
-* Implement Feature #10464: display assigned roadmap versions in non-edit [davidc]
-* Implement Feature #10477: onload focus [davidc]</notes>
-  </release>
-  <release>
-   <version>
     <release>1.11.3</release>
     <api>0.1.1</api>
    </version>
@@ -1860,6 +1862,23 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
     <api>stable</api>
    </stability>
    <date>2007-03-27</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
+* Fix Bug #10484: Bug edit form has gotten &amp;quot;ugly&amp;quot; [cellog]
+* Fix Bug #10487: Package description is almost empty [cellog]
+* Fix Bug #10498: extra symbols are appended to patches [cellog]
+* Fix Bug #10523: Bug tracker emails need validation to prevent ,another@example.com [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.12.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-31</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
