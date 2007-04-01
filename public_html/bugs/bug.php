@@ -82,12 +82,6 @@ if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
 
 // captcha is not necessary if the user is logged in
 if ($auth_user && $auth_user->registered) {
-    if (!auth_check('pear.dev') && auth_check('pear.voter') && !auth_check('pear.bug')) {
-        // auto-grant bug tracker karma if it isn't present
-        require_once 'Damblan/Karma.php';
-        $karma = new Damblan_Karma($dbh);
-        $karma->grant($auth_user->user, 'pear.bug');
-    }
     if (isset($_SESSION['answer'])) {
         unset($_SESSION['answer']);
     }
@@ -237,7 +231,9 @@ if (!$bug['registered']) {
     echo '<p>If you submitted this bug, please check your email.</p>' .
         '<p><strong>If you do not have a confirmation message</strong>, <a href="resend-request-email.php?' .
         'handle=' . urlencode($bug['bughandle']) . '">click here to re-send</a> or write a message to' .
-        ' <a href="mailto:pear-dev@lists.php.net">pear-dev@lists.php.net</a> asking for manual approval of your account.</p>';
+        ' <a href="mailto:pear-dev@lists.php.net">pear-dev@lists.php.net</a> asking for manual approval of your account.  All bugs/comments/patches associated with this
+        email address will be deleted
+                within 48 hours if the account request is not confirmed.</p>';
     response_footer();
     exit;
 }
@@ -1182,15 +1178,11 @@ if ($bug['ldesc']) {
 }
 
 // Display patches
-require 'include/patchtracker.inc';
-$patches = new Bug_Patchtracker;
+require_once 'bugs/patchtracker.php';
+$patches = new Bugs_Patchtracker;
 $p = $patches->listPatches($id);
-if (count($p) || $edit == 1) {
-    ?><h2>Patches</h2><?php
-    if ($edit == 1) {
-        ?><a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Add a Patch</a><br /><?php
-    }
-}
+?><h2>Patches</h2>
+<a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Add a Patch</a><br /><?php
 foreach ($p as $name => $revisions) {
     ?><a href="patch-display.php?bug=<?php echo $bug['id'] ?>&patch=<?php
         echo urlencode($name) ?>&revision=latest"><?php echo clean($name) ?></a> (last revision <?php echo date('Y-m-d H:i:s', $revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php

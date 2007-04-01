@@ -16,9 +16,11 @@
 
 The following patch has been added/updated for bug #%id%:
 
-Patch Name: %name%
-URL:        %url%
-Date:       %date%
+Bug Package: %package%
+Bug Summary: %summary%
+Patch Name:  %name%
+URL:         %url%
+Date:        %date%
 
 View bug report at : %packageUrl%
 '

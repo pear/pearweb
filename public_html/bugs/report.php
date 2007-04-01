@@ -124,6 +124,10 @@ if (isset($_POST['in'])) {
                 $ok_to_submit_report = 1;
             } else {
                 response_header("Report - Confirm");
+                if (count($_FILES)) {
+                    echo '<h1>WARNING: YOU MUST RE-UPLOAD YOUR PATCH, OR IT WILL BE IGNORED</h1>';
+                    
+                }
 
                 ?>
 
@@ -288,6 +292,19 @@ if (isset($_POST['in'])) {
                     $cid = mysqli_insert_id($dbh->connection);
                 }
 
+                $redirectToPatchAdd = false;
+                if (!empty($_POST['in']['patchname']) && $_POST['in']['patchname']) {
+                    require_once 'bugs/patchtracker.php';
+                    $tracker = new Bugs_Patchtracker;
+                    PEAR::staticPushErrorHandling(PEAR_ERROR_RETUNR);
+                    $patchrevision = $tracker->attach($cid, 'patchfile', 
+                        $_POST['in']['patchname'], $_POST['in']['handle']);
+                    PEAR::staticPopErrorHandling();
+                    if (PEAR::isError($patchrevision)) {
+                        $redirectToPatchAdd = true;
+                    }
+                }
+
                 if (!isset($buggie)) {
                     $report  = '';
                     $report .= 'From:             ' . $_POST['in']['handle'] . "\n";
@@ -337,6 +354,14 @@ if (isset($_POST['in'])) {
                               "Message-ID: <bug-$cid@$site.php.net>",
                               '-f bounce-no-user@php.net');
                     }
+                }
+                if ($redirectToPatchAdd) {
+                    localRedirect('patch-add.php?bug=' . $cid . '&patch=' .
+                        $_POST['in']['patchname'] . '&email=' .
+                        $_POST['in']['email']);
+                } elseif (!isset($buggie) && !empty($_POST['in']['patchname'])) {
+                    $info = PEAR_Bug_Accountrequest::sendPatchEmail($cid, $patchrevision,
+                        $_POST['in']['package_name'], $auth_user->handle);
                 }
                 localRedirect('bug.php?id=' . $cid . '&thanks=4');
                 exit;
@@ -399,7 +424,7 @@ $self = htmlspecialchars($_SERVER['PHP_SELF']);
 $action = $self . '?package=' . clean($_REQUEST['package']);
 ?>
 <form method="post"
- action="<?php echo $action ?>" name="bugreport" id="bugreport">
+ action="<?php echo $action ?>" name="bugreport" id="bugreport" enctype="multipart/form-data">
 <table class="form-holder" cellspacing="1">
  <tr>
   <th class="form-label_left">
@@ -537,8 +562,9 @@ else: // if ($auth_user)
   <th class="form-label_left">
    Description:
    <p class="cell_note">
-    Put patches and code samples in the
-    &quot;Test script&quot; section, <strong>below</strong>.
+    Put code samples in the
+    &quot;Test script&quot; section <strong>below</strong>
+    and upload patches <strong>below</strong>.
    </p>
   </th>
   <td class="form-input">
@@ -561,6 +587,10 @@ else: // if ($auth_user)
     wrap="no"><?php echo clean($_POST['in']['repcode']); ?></textarea>
   </td>
  </tr>
+ <?php
+ $patchname = isset($_POST['in']['patchname']) ? $_POST['in']['patchname'] : '';
+ $patchfile = isset($_FILES['patchfile']['name']) ? $_FILES['patchfile']['name'] : '';
+ include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/patchform.php'; ?>
  <tr>
   <th class="form-label_left">
    Expected result:

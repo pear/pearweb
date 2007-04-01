@@ -87,6 +87,16 @@ CREATE TABLE bugdb_patchtracker (
   PRIMARY KEY (bugdb_id, patch, revision)
 );
 
+CREATE TABLE bugdb_obsoletes_patches (
+  bugdb_id int(8) NOT NULL,
+  patch varchar(40) NOT NULL,
+  revision int(8) NOT NULL,
+  obsolete_patch varchar(40) NOT NULL,
+  obsolete_revision int(8) NOT NULL,
+  PRIMARY KEY (bugdb_id, patch, revision,
+               obsolete_patch, obsolete_revision)
+);
+
 CREATE TABLE bug_account_request (
   id INT NOT NULL AUTO_INCREMENT,
   created_on DATE NOT NULL,

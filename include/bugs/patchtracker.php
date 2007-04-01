@@ -1,11 +1,11 @@
 <?php
 require_once 'HTTP/Upload.php';
-class Bug_Patchtracker
+class Bugs_Patchtracker
 {
     var $_upload;
     var $_patchdir;
     var $_dbh;
-    function Bug_Patchtracker()
+    function __construct()
     {
         if (!file_exists(PEAR_PATCHTRACKER_TMPDIR)) {
             if (!@mkdir(PEAR_PATCHTRACKER_TMPDIR)) {
@@ -15,7 +15,7 @@ class Bug_Patchtracker
             }
         }
         $this->_upload = new HTTP_Upload('en');
-        $this->_dbh = &$GLOBALS['dbh'];
+        $this->_dbh = $GLOBALS['dbh'];
     }
 
     /**
@@ -65,6 +65,7 @@ class Bug_Patchtracker
      *
      * @param int $bugid
      * @param string $patch
+     * @return array array(revision, patch file name)
      */
     function newPatchFileName($bugid, $patch, $handle)
     {
@@ -113,14 +114,26 @@ class Bug_Patchtracker
             DIRECTORY_SEPARATOR . $this->getPatchFileName($revision);
     }
 
+    function userNotRegistered($bugid, $name, $revision)
+    {
+        $user = $this->_dbh->getOne('SELECT registered from bugdb_patchtracker, users
+            WHERE bugdb_id=? AND patch=? AND revision=?
+                AND users.handle=bugdb_patchtracker.developer',
+            array($bugid, $name, $revision));
+        return !$user;
+    }
+
     /**
      * Attach a patch to this bug
      *
      * @param int $bugid
      * @param string $patch uploaded patch filename form variable
      * @param string $name patch name (allows several patches to be versioned)
+     * @param string $handle developer handle
+     * @param array  $obsoletes obsoleted patches
+     * @return int patch revision
      */
-    function attach($bugid, $patch, $name, $handle)
+    function attach($bugid, $patch, $name, $handle, $obsoletes)
     {
         if (!$this->_upload) {
             return PEAR::raiseError('Upload directory for patches could not be' .
@@ -128,6 +141,22 @@ class Bug_Patchtracker
         }
         if (!preg_match('/^[\w\-\.]+$/', $name) || strlen($name) > 40) {
             return PEAR::raiseError('Invalid patch name "' . $name . '"');
+        }
+        if (!is_array($obsoletes)) {
+            return PEAR::raiseError('Invalid obsoleted patches');
+        }
+        $newobsoletes = array();
+        foreach ($obsoletes as $who) {
+            if (!$who) {
+                continue; // remove (none)
+            }
+            $who = explode('#', $who);
+            if (count($who) != 2) {
+                continue;
+            }
+            if (file_exists($this->getPatchFullpath($bugid, $who[0], $who[1]))) {
+                $newobsoletes[] = $who;
+            }
         }
         if (PEAR::isError($e = $this->setupPatchDir($bugid, $name))) {
             return $e;
@@ -158,6 +187,9 @@ class Bug_Patchtracker
             if ($file->getProp('size') > 10240) {
                 $this->detach($bugid, $name, $id);
                 return PEAR::raiseError('Patch files cannot be larger than 10k');
+            }
+            foreach ($newobsoletes as $obsolete) {
+                $this->obsoletePatch($bugid, $name, $id, $obsolete[0], $obsolete[1]);
             }
             return $id;
         } elseif ($file->isMissing()) {
@@ -197,6 +229,12 @@ class Bug_Patchtracker
         if ($this->_dbh->getOne('SELECT bugdb_id FROM bugdb_patchtracker
               WHERE bugdb_id = ? AND patch = ? AND revision = ?',
               array($bugid, $name, $revision))) {
+            if (!$this->_dbh->getOne('SELECT registered FROM users, bugdb_patchtracker
+                WHERE bugdb_id=? AND patch=? AND revision=? AND
+                users.handle=bugdb_patchtracker.developer', array($bugid, $name, $revision))) {
+                // user is not registered
+                throw new Exception('User who submitted this patch has not registered');
+            }
             $contents = @file_get_contents($this->getPatchFullpath($bugid, $name, $revision));
             if (!$contents) {
                 return PEAR::raiseError('Cannot retrieve patch revision "' .
@@ -217,7 +255,9 @@ class Bug_Patchtracker
     function listPatches($bugid)
     {
         return $this->_dbh->getAssoc(
-            'SELECT patch, revision, developer FROM bugdb_patchtracker WHERE bugdb_id = ?
+            'SELECT patch, revision, developer
+                FROM bugdb_patchtracker, users
+                WHERE bugdb_id = ? AND users.handle=bugdb_patchtracker.developer
              ORDER BY revision DESC',
             false, array($bugid),
             DB_FETCHMODE_ORDERED, true
@@ -234,8 +274,10 @@ class Bug_Patchtracker
     function listRevisions($bugid, $patch)
     {
         return $this->_dbh->getAll(
-            'SELECT revision FROM bugdb_patchtracker WHERE bugdb_id = ? AND
-             patch = ?
+            'SELECT revision FROM bugdb_patchtracker, users
+                WHERE bugdb_id = ? AND
+             patch = ? AND users.handle=bugdb_patchtracker.developer AND
+             users.registered=1
              ORDER BY revision DESC', array($bugid, $patch),
             DB_FETCHMODE_ORDERED
         );
@@ -262,6 +304,42 @@ class Bug_Patchtracker
              WHERE bugdb_id=? AND patch=? ORDER BY revision DESC',
             array($bugid, $patch), DB_FETCHMODE_ASSOC
         );
+    }
+
+    function getObsoletingPatches($bugid, $patch, $revision)
+    {
+        return $this->_dbh->getAll('SELECT bugdb_id, patch, revision
+            FROM bugdb_obsoletes_patches 
+                WHERE bugdb_id=? AND
+                      obsolete_patch=? AND
+                      obsolete_revision=?', array($bugid, $patch, $revision),
+         DB_FETCHMODE_ASSOC);
+    }
+
+    function getObsoletePatches($bugid, $patch, $revision)
+    {
+        return $this->_dbh->getAll('SELECT bugdb_id, obsolete_patch, obsolete_revision
+            FROM bugdb_obsoletes_patches 
+                WHERE bugdb_id=? AND
+                      patch=? AND
+                      revision=?', array($bugid, $patch, $revision),
+         DB_FETCHMODE_ASSOC);
+    }
+
+    /**
+     * link to an obsolete patch from the new one
+     *
+     * @param int $bugid
+     * @param string $name better patch name
+     * @param int $revision better patch revision
+     * @param string $obsoletename
+     * @param int $obsoleterevision
+     */
+    function obsoletePatch($bugid, $name, $revision, $obsoletename, $obsoleterevision)
+    {
+        $this->_dbh->query('INSERT INTO bugdb_obsoletes_patches
+            VALUES(?,?,?,?,?)', array($bugid, $name, $revision, $obsoletename, 
+                                      $obsoleterevision));
     }
 
     /**

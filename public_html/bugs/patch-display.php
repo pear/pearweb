@@ -6,8 +6,8 @@ if (!isset($_GET['bug'])) {
     response_footer();
     exit;
 }
-require 'include/patchtracker.inc';
-$patchinfo = new Bug_Patchtracker;
+require 'bugs/patchtracker.php';
+$patchinfo = new Bugs_Patchtracker;
 if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_GET['bug']))) {
     response_header('Error :: invalid bug selected');
     display_bug_error('Invalid bug "' . (int)$GET['bug'] . '" selected');
@@ -15,14 +15,28 @@ if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_GET['bug']))) {
     exit;
 }
 if (isset($_GET['patch']) && isset($_GET['revision'])) {
-    $revisions = $patchinfo->listRevisions($buginfo['id'], $_GET['patch']);
-    if ($_GET['revision'] == 'latest' && isset($revisions[0])) {
-        $_GET['revision'] = $revisions[0][0];
+    if ($_GET['revision'] == 'latest') {
+        $revisions = $patchinfo->listRevisions($buginfo['id'], $_GET['patch']);
+        if (isset($revisions[0])) {
+            $_GET['revision'] = $revisions[0][0];
+        }
     }
     if (!file_exists($path = $patchinfo->getPatchFullpath($_GET['bug'], $_GET['patch'],
                                                         $_GET['revision']))) {
         response_header('Error :: no such patch/revision');
         display_bug_error('Invalid patch/revision specified');
+        response_footer();
+        exit;
+    }
+    if ($patchinfo->userNotRegistered($_GET['bug'], $_GET['patch'], $_GET['revision'])) {
+        response_header('User has not confirmed identity');
+        display_bug_error('The user who submitted this patch has not yet confirmed ' .
+            'their email address.  ');
+        echo '<p>If you submitted this patch, please check your email.</p>' .
+            '<p><strong>If you do not have a confirmation message</strong>, <a href="resend-request-email.php?' .
+            'handle=' . urlencode($patchinfo->getDeveloper($_GET['bug'], $_GET['patch'],
+                $_GET['revision'])) . '">click here to re-send</a> or write a message to' .
+            ' <a href="mailto:pear-dev@lists.php.net">pear-dev@lists.php.net</a> asking for manual approval of your account.</p>';
         response_footer();
         exit;
     }
@@ -50,6 +64,8 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
     $patch = $_GET['patch'];
     response_header('Bug #' . clean($buginfo['id']) . ' :: Patches');
     $bug = $buginfo['id'];
+    $obsoletedby = $patchinfo->getObsoletingPatches($bug, $_GET['patch'], $_GET['revision']);
+    $obsoletes = $patchinfo->getObsoletePatches($bug, $_GET['patch'], $_GET['revision']);
     $patches = $patchinfo->listPatches($buginfo['id']);
     $canpatch = auth_check('pear.bug') || auth_check('pear.dev');
     include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/listpatches.php';

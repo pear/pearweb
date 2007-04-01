@@ -113,7 +113,8 @@ class PEAR_Bug_Accountrequest
             array($email));
         if ($test === $email) {
             // re-use existing request
-            return $this->dbh->getOne('SELECT salt FROM bug_account_request WHERE email=?');
+            return $this->dbh->getOne('SELECT salt FROM bug_account_request WHERE email=?',
+                array($email));
         }
         $query = '
         insert into bug_account_request (created_on, handle, email, salt)
@@ -219,6 +220,7 @@ class PEAR_Bug_Accountrequest
         $this->dbh->query('UPDATE users set handle=? WHERE handle=?', array($handle, $temphandle));
         $this->dbh->query('UPDATE bugdb set handle=? WHERE handle=?', array($handle, $temphandle));
         $this->dbh->query('UPDATE bugdb_comments set handle=? WHERE handle=?', array($handle, $temphandle));
+        $this->dbh->query('UPDATE bugdb_patchtracker set developer=? WHERE developer=?', array($handle, $temphandle));
         $this->handle = $handle;
         // activate the handle and grant karma
         // implicitly without human intervention
@@ -254,6 +256,14 @@ class PEAR_Bug_Accountrequest
                 array($this->handle), DB_FETCHMODE_ASSOC);
             foreach ($bugs as $bug) {
                 $this->sendBugEmail($bug);
+            }
+            $patches = $this->dbh->getAll('SELECT bugdb.package_name,bugdb_patchtracker.*
+                FROM bugdb_patchtracker, bugdb
+                WHERE bugdb_patchtracker.developer=? 
+                    AND bugdb.id=bugdb_patchtracker.bugdb_id', array($this->handle),
+                    DB_FETCHMODE_ASSOC);
+            foreach ($patches as $patch) {
+                $this->sendPatchEmail($patch);
             }
             $bugs = $this->dbh->getAll('SELECT bugdb_comments.email,bugdb_comments.comment,
                     bugdb_comments.reporter_name, bugdb.id,
@@ -462,6 +472,33 @@ class PEAR_Bug_Accountrequest
         }
     }
 
+    static function sendPatchEmail($patch)
+    {
+        require_once 'Damblan/Mailer.php';
+        require_once 'Damblan/Bugs.php';
+        $patchName = urlencode($patch['patch']);
+        $mailData = array(
+            'id'         => $patch['bugdb_id'],
+            'url'        => 'http://' . PEAR_CHANNELNAME . 
+                            "/bugs/patch-display.php?bug=$patch[bugdb_id]&patch=$patchName&revision=$patch[revision]&display=1",
+    
+            'date'       => date('Y-m-d H:i:s'),
+            'name'       => $patch['patch'],
+            'package'    => $patch['package_name'],
+            'summary'    => $this->dbh->getOne('SELECT sdesc from bugdb
+                WHERE id=?', array($patch['bugdb_id'])),
+            'packageUrl' => 'http://' . PEAR_CHANNELNAME .
+                            '/bugs/bug.php?id=' . $patch['bugdb_id'],
+        );
+    
+        $additionalHeaders['To'] = Damblan_Bugs::getMaintainers($patch['package_name']);
+        $mailer = Damblan_Mailer::create('Patch_Added', $mailData);
+        $res = true;
+        if (!DEVBOX) {
+            $res = $mailer->send($additionalHeaders);
+        }
+    }
+
     /**
      * Produces a string containing the bug's prior comments
      *
@@ -609,6 +646,8 @@ class PEAR_Bug_Accountrequest
             select handle from bug_account_request
             where created_on < ?';
         $all = $this->dbh->getAll($findquery, array($old));
+        require_once 'bugs/patchtracker.php';
+        $p = new Bugs_Patchtracker;
         // purge reserved usernames as well as their account requests
         if (is_array($all)) {
             foreach ($all as $data) {
@@ -621,6 +660,11 @@ class PEAR_Bug_Accountrequest
                 $this->dbh->query('
                     DELETE FROM bugdb_comments WHERE handle=?
                 ', array($data[0]));
+                $patches = $this->dbh->getAll('SELECT * FROM bugdb_patchtracker
+                    WHERE developer=?', array($data[0]), DB_FETCHMODE_ASSOC);
+                foreach ($patches as $patch) {
+                    $p->detach($patch['bugdb_id'], $patch['patch'], $patch['revision']);
+                }
             }
         }
         $query = '
