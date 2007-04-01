@@ -24,7 +24,7 @@
   <td>
    <?php foreach ($revisions as $revision): ?>
    revision <a href="patch-display.php?bug=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
-      ?>&revision=<?php echo $revision[0] ?>&display=1"><?php echo date('Y-m-d H:i:s', $revision[0]) ?></a> by <a href="/user/<?php echo $revision[1] ?>"><?php echo $revision[1] ?></a><br />
+      ?>&revision=<?php echo $revision[0] ?>&display=1"><?php echo format_date($revision[0]) ?></a> by <a href="/user/<?php echo $revision[1] ?>"><?php echo $revision[1] ?></a><br />
    <?php endforeach; //foreach ($revisions as $revision) ?>
   </td>
  </tr>
