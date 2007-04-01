@@ -14,6 +14,7 @@ $numeralCaptcha = new Text_CAPTCHA_Numeral();
 $patchinfo = new Bugs_Patchtracker;
 // captcha is not necessary if the user is logged in
 if (isset($auth_user) && $auth_user->registered) {
+    auth_require('pear.dev', 'pear.bug');
     if (isset($_SESSION['answer'])) {
         unset($_SESSION['answer']);
     }
