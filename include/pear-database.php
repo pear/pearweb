@@ -28,7 +28,7 @@ require_once 'DB/storage.php';
 function validate($entity, $field, $value /* , $oldvalue, $object */) {
     switch ("$entity/$field") {
         case "users/handle":
-            if (!preg_match('/^[a-z][a-z0-9]+$/i', $value)) {
+            if (!preg_match('/^[a-z][a-z0-9]+\z/i', $value)) {
                 return false;
             }
             break;
@@ -2100,7 +2100,7 @@ class release
                 gmdate('D, d M Y H:i:s \G\M\T', filemtime($path)));
             header('Content-type: application/octet-stream');
             if ($uncompress) {
-                $tarname = preg_replace('/\.tgz$/', '.tar', $basename);
+                $tarname = preg_replace('/\.tgz\z/', '.tar', $basename);
                 header('Content-disposition: attachment; filename="'.$tarname.'"');
                 readgzfile($path);
             } else {

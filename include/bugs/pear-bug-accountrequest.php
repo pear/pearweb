@@ -139,7 +139,7 @@ class PEAR_Bug_Accountrequest
     function validateRequest($handle, $password, $password2, $name)
     {
         $errors = array();
-        if (empty($handle) || !preg_match('/^[0-9a-z_]{2,20}$/', $handle)) {
+        if (empty($handle) || !preg_match('/^[0-9a-z_]{2,20}\z/', $handle)) {
             $errors[] = 'Username is invalid.';
             $display_form = true;
         }

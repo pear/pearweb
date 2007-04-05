@@ -85,10 +85,10 @@ if (isset($_GET['uncompress']) && in_array($_GET['uncompress'], array('1', 'yes'
 }
 switch (sizeof($opts)) {
     case 2: {
-        if (preg_match('/^([a-zA-Z0-9_]+)-(.+)\.(tar|tgz)$/', $opts[1], $matches)) {
+        if (preg_match('/^([a-zA-Z0-9_]+)-(.+)\.(tar|tgz)\z/', $opts[1], $matches)) {
             list(, $package, $version) = $matches;
             $ok = release::HTTPdownload($package, $version, $opts[1], $uncompress);
-        } elseif (preg_match('/^([a-zA-Z0-9_]+)-(.+)$/', $opts[1], $matches)) {
+        } elseif (preg_match('/^([a-zA-Z0-9_]+)-(.+)\z/', $opts[1], $matches)) {
             list(, $package, $version) = $matches;
             $ok = release::HTTPdownload($package, $version, null, $uncompress);
         } else {

@@ -139,7 +139,7 @@ class Bugs_Patchtracker
             return PEAR::raiseError('Upload directory for patches could not be' .
                 ' initialized');
         }
-        if (!preg_match('/^[\w\-\.]+$/', $name) || strlen($name) > 40) {
+        if (!preg_match('/^[\w\-\.]+\z/', $name) || strlen($name) > 40) {
             return PEAR::raiseError('Invalid patch name "' . $name . '"');
         }
         if (!is_array($obsoletes)) {

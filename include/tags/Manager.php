@@ -135,7 +135,7 @@ class Tags_Manager
     function validateNewTag($tag, $desc, $admin)
     {
         $errors = array();
-        if (!preg_match('/^[a-zA-Z_\.0-9]+$/', $tag)) {
+        if (!preg_match('/^[a-zA-Z_\.0-9]+\z/', $tag)) {
             $errors[] = 'Invalid tag name, must be letters, numbers, underscore (_) or period (.)';
         }
         if (empty($desc)) {

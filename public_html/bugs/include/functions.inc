@@ -803,7 +803,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
                 "\n-- \nEdit this bug report at " .
                 "http://$site.php.net/bugs/bug.php?id=$bug[id]&edit=1\n";
 
-    if (preg_match('/.*@php\.net$/', $bug['email'])) {
+    if (preg_match('/.*@php\.net\z/', $bug['email'])) {
         $user_text = $dev_text;
     }
 
@@ -1002,7 +1002,7 @@ function incoming_details_are_valid($in, $initial = 0, $logged = false)
     }
 
     if ($initial || (!empty($in['email']) && $bug['email'] != $in['email'])) {
-        if (!preg_match("/^[.\\w+-]+@[.\\w-]+\\.\\w{2,}$/i",$in['email'])) {
+        if (!preg_match("/^[.\\w+-]+@[.\\w-]+\\.\\w{2,}\z/i",$in['email'])) {
             $errors[] = 'Please provide a valid email address.';
         }
     }
@@ -1156,7 +1156,7 @@ function show_bugs_menu($pkgname, $status = null)
     $home    = true;
 
     foreach ($pkgname as $key => $value) {
-        if (!preg_match('/^[A-Za-z0-9_ ]+$/', $value)) {
+        if (!preg_match('/^[A-Za-z0-9_ ]+\z/', $value)) {
             return;
         }
         if (in_array($value, $pseudo_pkgs)) {
