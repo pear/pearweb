@@ -251,7 +251,12 @@ if (isset($_POST['in'])) {
                 }
     
                 $reporter_name = isset($_POST['in']['reporter_name']) ? htmlspecialchars(strip_tags($_POST['in']['reporter_name'])) : '';
-    
+
+                // shunt website bugs to the website package
+                if (in_array($_POST['in']['package_name'], array(
+                            'Web Site', 'PEPr', 'Bug System'), true)) {
+                    $_POST['in']['package_name'] = 'pearweb';
+                }
                 
                 $query = 'INSERT INTO bugdb (
                           package_name,
