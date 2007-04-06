@@ -28,17 +28,17 @@
   <active>yes</active>
  </lead>
  <lead>
+  <name>David Coallier</name>
+  <user>davidc</user>
+  <email>davidc@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
   <name>Pierre-Alain Joye</name>
   <user>pajoye</user>
   <email>pajoye@pearfr.org</email>
   <active>no</active>
  </lead>
- <developer>
-  <name>David Coallier</name>
-  <user>davidc</user>
-  <email>davidc@php.net</email>
-  <active>yes</active>
- </developer>
  <developer>
   <name>Stig Bakken</name>
   <user>ssb</user>
