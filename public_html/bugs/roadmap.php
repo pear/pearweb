@@ -94,6 +94,34 @@ if (isset($_GET['edit']) || isset($_GET['new']) || isset($_GET['delete'])) {
 }
 if (isset($_GET['new']) && isset($_POST['go'])) {
     $bugdb = Bug_DataObject::bugDB('bugdb_roadmap');
+    if (empty($_POST['roadmap_version'])) {
+        $savant = Bug_DataObject::getSavant();
+        $savant->package = $_GET['package'];
+        $allroadmaps = Bug_DataObject::bugDB('bugdb_roadmap');
+        $allroadmaps->package = $_GET['package'];
+        $allroadmaps->orderBy('releasedate ASC');
+        $allroadmaps->find(false);
+        $savant->roadmap = array();
+        while ($allroadmaps->fetch()) {
+            $savant->roadmap[] = $allroadmaps->toArray();
+        }
+        if (isset($_POST['releasedate']) && $_POST['releasedate'] != 'future') {
+            $_POST['releasedate'] = date('Y-m-d', strtotime($_POST['releasedate']));
+        }
+        $savant->info = array(
+            'package' => clean($_GET['package']),
+            'releasedate' => isset($_POST['releasedate']) ?
+                $_POST['releasedate'] : '',
+            'roadmap_version' => isset($_POST['roadmap_version']) ? clean($_POST['roadmap_version']) :
+                '',
+            'description' => isset($_POST['description']) ? clean($_POST['description']) :
+                '',
+            );
+        $savant->isnew = true;
+        $savant->errors = array('Roadmap version cannot be empty');
+        $savant->display('roadmapform.php');
+        exit;
+    }
     $bugdb->roadmap_version = $_POST['roadmap_version'];
     if ($_POST['releasedate'] == 'future') {
         // my birthday will represent the future ;)
@@ -108,6 +136,34 @@ if (isset($_GET['new']) && isset($_POST['go'])) {
 if (isset($_GET['edit']) && isset($_POST['go'])) {
     $bugdb = Bug_DataObject::bugDB('bugdb_roadmap');
     $bugdb->id = $_GET['edit'];
+    if (empty($_POST['roadmap_version'])) {
+        $savant = Bug_DataObject::getSavant();
+        $savant->package = $_GET['package'];
+        $allroadmaps = Bug_DataObject::bugDB('bugdb_roadmap');
+        $allroadmaps->package = $_GET['package'];
+        $allroadmaps->orderBy('releasedate ASC');
+        $allroadmaps->find(false);
+        $savant->roadmap = array();
+        while ($allroadmaps->fetch()) {
+            $savant->roadmap[] = $allroadmaps->toArray();
+        }
+        if (isset($_POST['releasedate']) && $_POST['releasedate'] != 'future') {
+            $_POST['releasedate'] = date('Y-m-d', strtotime($_POST['releasedate']));
+        }
+        $savant->info = array(
+            'package' => clean($_GET['package']),
+            'releasedate' => isset($_POST['releasedate']) ?
+                $_POST['releasedate'] : '',
+            'roadmap_version' => isset($_POST['roadmap_version']) ? clean($_POST['roadmap_version']) :
+                '',
+            'description' => isset($_POST['description']) ? clean($_POST['description']) :
+                '',
+            );
+        $savant->isnew = true;
+        $savant->errors = array('Roadmap version cannot be empty');
+        $savant->display('roadmapform.php');
+        exit;
+    }
     if ($bugdb->find(false)) {
         $bugdb->roadmap_version = $_POST['roadmap_version'];
         if ($_POST['releasedate'] == 'future') {
@@ -484,10 +540,12 @@ if (isset($_GET['edit'])) {
     }
     $savant->info = $bugdb->toArray();
     $savant->isnew = false;
+    $savant->errors = false;
     $savant->display('roadmapform.php');
     exit;
 }
 if (isset($_GET['new'])) {
+    $savant->errors = false;
     if (isset($_POST['go'])) {
         if ($_POST['releasedate'] == 'future') {
             // my birthday will represent the future ;)
@@ -495,10 +553,14 @@ if (isset($_GET['new'])) {
         }
         $bugdb = Bug_DataObject::bugDB('bugdb_roadmap');
         $bugdb->description = $_POST['description'];
-        $bugdb->roadmap_version = $_POST['roadmap_version'];
         $bugdb->releasedate = date('Y-m-d H:i:s', strtotime($_POST['releasedate']));
         $bugdb->package = $_GET['package'];
-        $bugdb->insert();
+        $bugdb->roadmap_version = $_POST['roadmap_version'];
+        if (empty($_POST['roadmap_version'])) {
+            $savant->errors = array('Roadmap version cannot be empty');
+        } else {
+            $bugdb->insert();
+        }
     }
     if (isset($_POST['releasedate']) && $_POST['releasedate'] != 'future') {
         $_POST['releasedate'] = date('Y-m-d', strtotime($_POST['releasedate']));

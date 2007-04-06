@@ -10,6 +10,11 @@
 <?php endforeach; ?>
  <li><a href="roadmap.php?package=<?php echo urlencode($this->package) ?>&new=1">New roadmap</a></li>
 </ul>
+<?php if ($this->errors) {
+    foreach ($this->errors as $error) {
+        echo '<div class="errors">', htmlspecialchars($error), '</div>';
+    }
+} ?>
 <h2><?php if ($this->isnew) { echo 'Create new'; } else { echo 'Edit'; } ?> Roadmap</h2>
 <form name="roadmapform" method="post" action="roadmap.php?<?php
     if ($this->isnew) {
