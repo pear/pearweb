@@ -41,7 +41,7 @@ if (isset($url) && !empty($url)) {
    <input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" />
    </th>
    <td class="form-input">
-   <a href="/manual/en/<?php echo $pendingComment['page_url'] ?>.php"><?php
+   <a href="/manual/en/<?php echo $pendingComment['page_url'] ?>"><?php
     echo $pendingComment['page_url'] ?></a>
    </td>
    <td class="form-input">
