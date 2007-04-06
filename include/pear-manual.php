@@ -269,7 +269,9 @@ function getComments($uri)
     $manualNotes = new Manual_Notes;
     $comments = $manualNotes->getPageComments($uri, auth_check('pear.dev'));
 
-    $output .= "<tr><td colspan=\"2\"><strong>User Notes:</strong><br />\n";
+    $output .= "<tr><td colspan=\"2\"><strong>User Notes:</strong></td></tr>\n";
+
+    $output .= "<tr><td colspan=\"2\">\n";
 
     if (empty($comments)) {
         $output .= 'There are no user contributed notes for this page.';
