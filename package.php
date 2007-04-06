@@ -22,11 +22,23 @@ $a->setReleaseVersion('1.12.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
- * Fix Bug #10484: Bug edit form has gotten &quot;ugly&quot; [cellog]
- * Fix Bug #10487: Package description is almost empty [cellog]
- * Fix Bug #10498: extra symbols are appended to patches [cellog]
- * Fix Bug #10523: Bug tracker emails need validation to prevent ,another@example.com [cellog]
+ * Fix Bug #10479: Approving a bug accont to a developer account doesn\'t show the right
+   notes [cellog]
+ * Fix Bug #10485: Difference between "Notes" and "User comments" [davidc]
+ * Fix Bug #10504: MySQL 5 and DEFAULT value for INT columns [davidc]
+ * Fix Bug #10514: Pending manual notes are shown on every page [cellog]
+ * Fix Bug #10528: Wrongly formatted packageinfo.xml [cellog]
+ * Fix Bug #10540: obfuscated emails [davidc]
+ * Fix Bug #10576: Wrong time format for patches [davidc]
+ * Fix Bug #10577: roadmap.php warning (server is no display_error=off ??? [cellog]
+ * Fix Bug #10587: release version validation does not catch bad versions [cellog]
+ * Fix Bug #10622: use \\z instead of $ in regexes [cellog]
+ * Implement Feature #10370: attaching patch with initial bug-report [cellog]
+ * Implement Feature #10462: add tags to packages in order to define subgroups [cellog]
+ * Implement Feature #10492: Patch obsoletes previous one [cellog]
+ * Implement Feature #10519: Jump to notes page from notes manager [cellog]
+ * Implement Feature #10526: anonymous patch registration like bug tracker registration [cellog]
+ * Implement Feature #10582: shunt Bug System/Website/PEPr bugs to pearweb package [cellog]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
