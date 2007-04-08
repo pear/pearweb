@@ -301,9 +301,9 @@ if (isset($_POST['in'])) {
                 if (!empty($_POST['in']['patchname']) && $_POST['in']['patchname']) {
                     require_once 'bugs/patchtracker.php';
                     $tracker = new Bugs_Patchtracker;
-                    PEAR::staticPushErrorHandling(PEAR_ERROR_RETUNR);
+                    PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
                     $patchrevision = $tracker->attach($cid, 'patchfile', 
-                        $_POST['in']['patchname'], $_POST['in']['handle']);
+                        $_POST['in']['patchname'], $_POST['in']['handle'], array());
                     PEAR::staticPopErrorHandling();
                     if (PEAR::isError($patchrevision)) {
                         $redirectToPatchAdd = true;
