@@ -210,10 +210,13 @@ if (isset($_POST['saveaddbugs'])) {
     $roadmaps = Bug_DataObject::bugDB('bugdb_roadmap_link');
     $roadmaps->roadmap_id = $roadmap->id;
     $roadmaps->delete(); // empty out existing
-    foreach ($_POST['bugs'] as $bug => $unused) {
-        $roadmaps->id = $bug;
-        $roadmaps->roadmap_id = $roadmap->id;
-        $roadmaps->insert();
+
+    if (isset($_POST['bugs']) && is_array($_POST['bugs'])) {
+        foreach ($_POST['bugs'] as $bug => $unused) {
+            $roadmaps->id = $bug;
+            $roadmaps->roadmap_id = $roadmap->id;
+            $roadmaps->insert();
+        }
     }
     $_GET['package'] = $_POST['package'];
     $_GET['roadmap'] = $_POST['roadmap'];
