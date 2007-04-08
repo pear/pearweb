@@ -365,6 +365,7 @@ if (isset($_POST['in'])) {
                         $_POST['in']['patchname'] . '&email=' .
                         $_POST['in']['email']);
                 } elseif (!isset($buggie) && !empty($_POST['in']['patchname'])) {
+                    require_once 'bugs/pear-bug-accountrequest.php';
                     $info = PEAR_Bug_Accountrequest::sendPatchEmail($cid, $patchrevision,
                         $_POST['in']['package_name'], $auth_user->handle);
                 }
