@@ -485,7 +485,7 @@ class PEAR_Bug_Accountrequest
             'date'       => date('Y-m-d H:i:s'),
             'name'       => $patch['patch'],
             'package'    => $patch['package_name'],
-            'summary'    => $this->dbh->getOne('SELECT sdesc from bugdb
+            'summary'    => $GLOBALS['dbh']->getOne('SELECT sdesc from bugdb
                 WHERE id=?', array($patch['bugdb_id'])),
             'packageUrl' => 'http://' . PEAR_CHANNELNAME .
                             '/bugs/bug.php?id=' . $patch['bugdb_id'],
