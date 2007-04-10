@@ -69,10 +69,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-04-05</date>
- <time>23:58:08</time>
+ <date>2007-04-09</date>
+ <time>22:13:38</time>
  <version>
-  <release>1.12.0</release>
+  <release>1.12.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -81,23 +81,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10479: Approving a bug accont to a developer account doesn&apos;t show the right
-   notes [cellog]
- * Fix Bug #10485: Difference between &quot;Notes&quot; and &quot;User comments&quot; [davidc]
- * Fix Bug #10504: MySQL 5 and DEFAULT value for INT columns [davidc]
- * Fix Bug #10514: Pending manual notes are shown on every page [cellog]
- * Fix Bug #10528: Wrongly formatted packageinfo.xml [cellog]
- * Fix Bug #10540: obfuscated emails [davidc]
- * Fix Bug #10576: Wrong time format for patches [davidc]
- * Fix Bug #10577: roadmap.php warning (server is no display_error=off ??? [cellog]
- * Fix Bug #10587: release version validation does not catch bad versions [cellog]
- * Fix Bug #10622: use \z instead of $ in regexes [cellog]
- * Implement Feature #10370: attaching patch with initial bug-report [cellog]
- * Implement Feature #10462: add tags to packages in order to define subgroups [cellog]
- * Implement Feature #10492: Patch obsoletes previous one [cellog]
- * Implement Feature #10519: Jump to notes page from notes manager [cellog]
- * Implement Feature #10526: anonymous patch registration like bug tracker registration [cellog]
- * Implement Feature #10582: shunt Bug System/Website/PEPr bugs to pearweb package [cellog]
+ * Fix Bug #10644: Add patch when creating bug fails [cellog]
+ * Fix Bug #10658: Error when removing all bugs from a roadmap [davidc]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1893,24 +1878,38 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-04-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10479: Approving a bug accont to a developer account doesn&apos;t show the right
+  notes [cellog]
+* Fix Bug #10485: Difference between &quot;Notes&quot; and &quot;User comments&quot; [davidc]
+* Fix Bug #10504: MySQL 5 and DEFAULT value for INT columns [davidc]
+* Fix Bug #10514: Pending manual notes are shown on every page [cellog]
+* Fix Bug #10528: Wrongly formatted packageinfo.xml [cellog]
+* Fix Bug #10540: obfuscated emails [davidc]
+* Fix Bug #10576: Wrong time format for patches [davidc]
+* Fix Bug #10577: roadmap.php warning (server is no display_error=off ??? [cellog]
+* Fix Bug #10587: release version validation does not catch bad versions [cellog]
+* Fix Bug #10622: use \z instead of $ in regexes [cellog]
+* Implement Feature #10370: attaching patch with initial bug-report [cellog]
+* Implement Feature #10462: add tags to packages in order to define subgroups [cellog]
+* Implement Feature #10492: Patch obsoletes previous one [cellog]
+* Implement Feature #10519: Jump to notes page from notes manager [cellog]
+* Implement Feature #10526: anonymous patch registration like bug tracker registration [cellog]
+* Implement Feature #10582: shunt Bug System/Website/PEPr bugs to pearweb package [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.12.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-04-09</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix Bug #10479: Approving a bug accont to a developer account doesn&apos;t show the right
-   notes [cellog]
- * Fix Bug #10485: Difference between &quot;Notes&quot; and &quot;User comments&quot; [davidc]
- * Fix Bug #10504: MySQL 5 and DEFAULT value for INT columns [davidc]
- * Fix Bug #10514: Pending manual notes are shown on every page [cellog]
- * Fix Bug #10528: Wrongly formatted packageinfo.xml [cellog]
- * Fix Bug #10540: obfuscated emails [davidc]
- * Fix Bug #10576: Wrong time format for patches [davidc]
- * Fix Bug #10577: roadmap.php warning (server is no display_error=off ??? [cellog]
- * Fix Bug #10587: release version validation does not catch bad versions [cellog]
- * Fix Bug #10622: use \z instead of $ in regexes [cellog]
- * Implement Feature #10370: attaching patch with initial bug-report [cellog]
- * Implement Feature #10462: add tags to packages in order to define subgroups [cellog]
- * Implement Feature #10492: Patch obsoletes previous one [cellog]
- * Implement Feature #10519: Jump to notes page from notes manager [cellog]
- * Implement Feature #10526: anonymous patch registration like bug tracker registration [cellog]
- * Implement Feature #10582: shunt Bug System/Website/PEPr bugs to pearweb package [cellog]
+ * Fix Bug #10644: Add patch when creating bug fails [cellog]
+ * Fix Bug #10658: Error when removing all bugs from a roadmap [davidc]
    </notes>
   </release>
  </changelog>
