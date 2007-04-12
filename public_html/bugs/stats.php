@@ -277,10 +277,16 @@ foreach ($pkg[$sort_by] as $name => $value) {
 echo "</table>\n";
 echo '<a name="devs">&nbsp;</a>';
 echo "<h1>Most Active Bug-fixing Developers</h1>";
-echo "<p>The following is a list of developers who have bugs marked <strong>Closed</strong> and assigned to them ranked by the number of closed bugs.</p>";
+echo "<p>The following is some informational statistics on bug fixing and reporting.
+Developers are considered to have fixed a bug if the bug is marked <strong>Closed</strong> and is assigned to the developer.</p>";
+echo '<table>';
+echo '<tr><th>All Time</th><th>Past Month</th><th>Bug Reporting</th></tr>';
+echo '<tr><td valign="top">';
 require_once 'bugs/pear-bugs.php';
 $bugs = new PEAR_Bugs;
 $develstats = $bugs->allDevelStats();
+$lastmonth = $bugs->lastMonthStats();
+$reporters = $bugs->reporterStats();
 echo '<table>'; ?>
  <tr>
   <th class="bug_head">Closed Bugs</th>
@@ -295,6 +301,40 @@ foreach ($develstats as $stat) {
     echo " </tr>\n";
 }
 echo "</table>\n";
+
+echo '</td><td valign="top">';
+echo '<table>'; ?>
+ <tr>
+  <th class="bug_head">Closed Bugs</th>
+  <th class="bug_head">Developer</th>
+ </tr>
+<?php
+foreach ($lastmonth as $stat) {
+    echo " <tr>\n";
+    echo '  <td class="bug_bg0">' . $stat['c'] . "</td>\n";
+    echo '  <td class="bug_bg0"><a href="/user/' . $stat['handle'] . '">' .
+        $stat['handle'] . "</a></td>\n";
+    echo " </tr>\n";
+}
+echo "</table>\n";
+echo '</td><td valign="top">';
+echo '<table>'; ?>
+ <tr>
+  <th class="bug_head">Bugs + Comments + Patches</th>
+  <th class="bug_head">Developer</th>
+ </tr>
+<?php
+foreach ($reporters as $dev => $stat) {
+    echo " <tr>\n";
+    echo '  <td class="bug_bg0">' . $stat . "</td>\n";
+    echo '  <td class="bug_bg0"><a href="/user/' . $dev . '">' .
+        $dev . "</a></td>\n";
+    echo " </tr>\n";
+}
+echo "</table>\n";
+echo '</td>';
+echo '</tr>';
+echo '</table>';
 
 response_footer();
 

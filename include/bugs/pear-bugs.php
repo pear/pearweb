@@ -166,5 +166,62 @@ class PEAR_Bugs
                  GROUP BY u.handle
                  ORDER BY c DESC, b.ts2 DESC', array(), DB_FETCHMODE_ASSOC);
     }
+
+    function lastMonthStats()
+    {
+        return $this->_dbh->getAll('SELECT COUNT(*) as c, u.handle
+                 FROM bugdb b, users u
+                 WHERE
+                  TO_DAYS(NOW()) - TO_DAYS(b.ts2) <= 30 AND
+                  b.bug_type != "Feature/Change Request" AND
+                  b.assign = u.handle AND
+                  b.status = "Closed"
+                 GROUP BY u.handle
+                 ORDER BY c DESC, b.ts2 DESC', array(), DB_FETCHMODE_ASSOC);
+    }
+
+    function reporterStats()
+    {
+        $bugs = $this->_dbh->getAssoc('SELECT u.handle, COUNT(*) as c
+                 FROM bugdb b, users u
+                 WHERE
+                  b.handle = u.handle AND
+                  u.registered = 1 AND
+                  b.status NOT IN ("Spam", "Bogus")
+                 GROUP BY u.handle
+                 ORDER BY u.handle', false, array(), DB_FETCHMODE_ASSOC);
+        $comments = $this->_dbh->getAssoc('SELECT u.handle, COUNT(*) as c
+                 FROM bugdb_comments b, bugdb d, users u
+                 WHERE
+                  b.handle = u.handle AND
+                  u.registered = 1 AND
+                  d.id = b.bug AND
+                  d.status NOT IN ("Spam", "Bogus")
+                 GROUP BY u.handle
+                 ORDER BY u.handle', false, array(), DB_FETCHMODE_ASSOC);
+        $patches = $this->_dbh->getAssoc('SELECT u.handle, COUNT(*) as c
+                 FROM bugdb_patchtracker p, bugdb b, users u
+                 WHERE
+                  b.handle = u.handle AND
+                  u.registered = 1 AND
+                  b.id = p.bugdb_id AND
+                  b.status NOT IN ("Spam", "Bogus")
+                 GROUP BY u.handle
+                 ORDER BY u.handle', false, array(), DB_FETCHMODE_ASSOC);
+        foreach ($comments as $handle => $count) {
+            if (!isset($bugs[$handle])) {
+                $bugs[$handle] = 0;
+            }
+            $bugs[$handle] += $count;
+        }
+        foreach ($patches as $handle => $count) {
+            if (!isset($bugs[$handle])) {
+                $bugs[$handle] = 0;
+            }
+            $bugs[$handle] += $count;
+        }
+        arsort($bugs);
+        return $bugs;
+    }
 }
 ?>
