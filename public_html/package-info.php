@@ -217,7 +217,7 @@ if (empty($action)) {
     // {{{ Supeseded checks
     $dec_messages = array(
         'abandoned' => 'This package is not maintained anymore and has been superseded.',
-        'superseded' => 'This package been superseded but is still maintained for bugs and security fixes.',
+        'superseded' => 'This package has been superseded, but is still maintained for bugs and security fixes.',
         'unmaintained' => 'This package is not maintained, if you would like to take over please go to <a href="http://pear.php.net/manual/en/newmaint.takingover.php">this page</a>.'
     );
 
