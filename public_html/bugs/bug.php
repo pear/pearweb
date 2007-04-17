@@ -306,7 +306,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                     if (PEAR::isError($e)) {
                         $errors[] = 'Critical internal error: could not send' .
                             ' email to your address ' . $_POST['in']['email'] .
-                            ', please write a mail message to the <i>pear-div</i>' .
+                            ', please write a mail message to the <i>pear-dev</i>' .
                             'mailing list and report this problem with details.' .
                             '  We apologize for the problem, your report will help' .
                             ' us to fix it for future users.';
