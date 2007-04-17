@@ -195,7 +195,7 @@ class Bugs_Patchtracker
         } elseif ($file->isMissing()) {
             return PEAR::raiseError('No patch has been uploaded.');
         } elseif ($file->isError()) {
-            return $file;
+            return PEAR::raiseError($file->errorMsg());
         }
         return PEAR::raiseError('Unable to attach patch');
     }
