@@ -1573,7 +1573,7 @@ class release
         if ($rss) {
             $query = '
             SELECT
-                packages.name, releases.version, downloads, releasedate
+                packages.name, releases.version, downloads, releasedate,
                     downloads/(CEIL((unix_timestamp(NOW()) - unix_timestamp(releases.releasedate))/86400)) as releasenotes
                 FROM releases, packages, aggregated_package_stats a
                 WHERE
