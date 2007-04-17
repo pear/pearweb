@@ -118,8 +118,10 @@ class PEAR_Bug_Accountrequest
             array($email));
         if ($test === $email) {
             // re-use existing request
-            return $this->dbh->getOne('SELECT salt FROM bug_account_request WHERE email=?',
+            $salt = $this->dbh->getOne('SELECT salt FROM bug_account_request WHERE email=?',
                 array($email));
+            $this->find($salt);
+            return $salt;
         }
         $query = '
         insert into bug_account_request (created_on, handle, email, salt)
