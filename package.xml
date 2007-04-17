@@ -69,10 +69,10 @@
   <email>dufuz@php.net</email>
   <active>no</active>
  </developer>
- <date>2007-04-09</date>
- <time>22:13:38</time>
+ <date>2007-04-17</date>
+ <time>17:29:19</time>
  <version>
-  <release>1.12.1</release>
+  <release>1.13.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -81,8 +81,14 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10644: Add patch when creating bug fails [cellog]
- * Fix Bug #10658: Error when removing all bugs from a roadmap [davidc]
+ * Fix Bug #10563: search bugs for current package [cellog]
+ * Fix Bug #10683: &quot;This package been superseded&quot; problem [cweiske]
+ * Fix Bug #10694: RC releases not accepted when uploading new release [cipri]
+ * Fix Bug #10706: popular.rss feed broken [cellog]
+ * Fix Bug #10710: errors/glitches confirming account [cellog]
+ * Fix Bug #10756: Can&apos;t upload patch [cellog]
+ * Implement Feature #10359: Developer bugfix stats for last month [cellog]
+ * Implement Feature #10368: Bug reporting stats [cellog]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -1907,9 +1913,29 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-04-09</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10644: Add patch when creating bug fails [cellog]
+* Fix Bug #10658: Error when removing all bugs from a roadmap [davidc]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.13.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-04-17</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix Bug #10644: Add patch when creating bug fails [cellog]
- * Fix Bug #10658: Error when removing all bugs from a roadmap [davidc]
+ * Fix Bug #10563: search bugs for current package [cellog]
+ * Fix Bug #10683: &quot;This package been superseded&quot; problem [cweiske]
+ * Fix Bug #10694: RC releases not accepted when uploading new release [cipri]
+ * Fix Bug #10706: popular.rss feed broken [cellog]
+ * Fix Bug #10710: errors/glitches confirming account [cellog]
+ * Fix Bug #10756: Can&apos;t upload patch [cellog]
+ * Implement Feature #10359: Developer bugfix stats for last month [cellog]
+ * Implement Feature #10368: Bug reporting stats [cellog]
    </notes>
   </release>
  </changelog>

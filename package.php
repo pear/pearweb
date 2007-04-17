@@ -18,12 +18,18 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.12.1');
+$a->setReleaseVersion('1.13.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10644: Add patch when creating bug fails [cellog]
- * Fix Bug #10658: Error when removing all bugs from a roadmap [davidc]
+ * Fix Bug #10563: search bugs for current package [cellog]
+ * Fix Bug #10683: "This package been superseded" problem [cweiske]
+ * Fix Bug #10694: RC releases not accepted when uploading new release [cipri]
+ * Fix Bug #10706: popular.rss feed broken [cellog]
+ * Fix Bug #10710: errors/glitches confirming account [cellog]
+ * Fix Bug #10756: Can\'t upload patch [cellog]
+ * Implement Feature #10359: Developer bugfix stats for last month [cellog]
+ * Implement Feature #10368: Bug reporting stats [cellog]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

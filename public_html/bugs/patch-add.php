@@ -95,7 +95,7 @@ if (isset($_POST['addpatch'])) {
                 $errors[] = 'Your account cannot be added to the queue.'
                      . ' Please write a mail message to the '
                      . ' <i>pear-dev</i> mailing list.';
-                response_header('Report - Problems');
+                response_header('Add patch - Problems');
                 throw new Exception('');
             }
 
