@@ -9,6 +9,7 @@ response_header('Account confirmation');
 if (isset($_POST['confirmdetails'])) {
     $request = new PEAR_Bug_Accountrequest;
     if ($request->find($_POST['salt']) && $request->pending()) {
+        $salt = $_POST['salt'];
         if (empty($_POST['isMD5'])) {
             $_POST['PEAR_PW'] = md5($_POST['PEAR_PW']);
             $_POST['PEAR_PW2'] = md5($_POST['PEAR_PW2']);

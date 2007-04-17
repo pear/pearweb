@@ -230,10 +230,9 @@ if (!$bug['registered']) {
         'their email address.  ');
     echo '<p>If you submitted this bug, please check your email.</p>' .
         '<p><strong>If you do not have a confirmation message</strong>, <a href="resend-request-email.php?' .
-        'handle=' . urlencode($bug['bughandle']) . '">click here to re-send</a> or write a message to' .
-        ' <a href="mailto:pear-dev@lists.php.net">pear-dev@lists.php.net</a> asking for manual approval of your account.  All bugs/comments/patches associated with this
+        'handle=' . urlencode($bug['bughandle']) . '">click here to re-send</a>.  MANUAL CONFIRMATION IS NOT POSSIBLE.  Write a message to <a href="mailto:pear-dev@lists.php.net">pear-dev@lists.php.net</a> to request the confirmation link.  All bugs/comments/patches associated with this
         email address will be deleted
-                within 48 hours if the account request is not confirmed.</p>';
+                within 48 hours if the account request is not confirmed!</p>';
     response_footer();
     exit;
 }
@@ -303,7 +302,17 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                 }
 
                 if (!DEVBOX) {
-                    $buggie->sendEmail();
+                    $e = $buggie->sendEmail();
+                    if (PEAR::isError($e)) {
+                        $errors[] = 'Critical internal error: could not send' .
+                            ' email to your address ' . $_POST['in']['email'] .
+                            ', please write a mail message to the <i>pear-div</i>' .
+                            'mailing list and report this problem with details.' .
+                            '  We apologize for the problem, your report will help' .
+                            ' us to fix it for future users.';
+                    }
+                    response_header('Report - Problems');
+                    break;
                 }
                 $_POST['in']['handle'] =
                 $_POST['in']['name'] = substr('#' . $salt, 0, 20);
@@ -1215,9 +1224,10 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
         echo 'User who submitted this comment has not confirmed identity</strong>';
         echo '<pre class="note">If you submitted this note, check your email.';
         echo 'If you do not have a message, <a href="resend-request-email.php?' .
-            'handle=' . urlencode($handle) . "\">click here to re-send</a>\nor write a mail to" .
-            ' pear-dev@lists.php.net';
-        echo ' asking for manual approval</pre></div>';
+            'handle=' . urlencode($handle) . "\">click here to re-send</a>\n",
+            "MANUAL CONFIRMATION IS NOT POSSIBLE.  Write a message to <a href=\"mailto:pear-dev@lists.php.net\">pear-dev@lists.php.net</a>\n",
+            "to request the confirmation link.  All bugs/comments/patches associated with this
+\nemail address will be deleted within 48 hours if the account request is not confirmed!";
         return;
     }
     if ($handle) {

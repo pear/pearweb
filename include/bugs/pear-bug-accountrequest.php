@@ -63,8 +63,7 @@ class PEAR_Bug_Accountrequest
         require_once 'Damblan/Mailer.php';
         $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
         $additionalHeaders['To'] = $email;
-        $mailer->send($additionalHeaders);
-        return true;
+        return $mailer->send($additionalHeaders);
     }
 
     function _makeSalt($handle)
@@ -126,6 +125,7 @@ class PEAR_Bug_Accountrequest
             return $res;
         }
 
+        $this->user = $salt;
         return $salt;
     }
 

@@ -225,7 +225,17 @@ if (isset($_POST['in'])) {
                     $_POST['in']['handle'] =
                     $_POST['in']['reporter_name'] = substr('#' . $salt, 0, 20);
                     if (!DEVBOX) {
-                        $buggie->sendEmail();
+                        $e = $buggie->sendEmail();
+                        if (PEAR::isError($e)) {
+                            $errors[] = 'Critical internal error: could not send' .
+                                ' email to your address ' . $_POST['in']['email'] .
+                                ', please write a mail message to the <i>pear-div</i>' .
+                                'mailing list and report this problem with details.' .
+                                '  We apologize for the problem, your report will help' .
+                                ' us to fix it for future users.';
+                        }
+                        response_header('Report - Problems');
+                        break;
                     }
                 } else {
                     $_POST['in']['reporter_name'] = $auth_user->name;
