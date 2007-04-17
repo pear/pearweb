@@ -39,7 +39,7 @@ class PEAR_Bug_Accountrequest
     function sendEmail()
     {
         if (!$this->user) {
-            return false;
+            return PEAR::raiseError('Internal fault: user was not set when sending email, please report to pear-core@lists.php.net');
         }
         $salt = $this->dbh->getOne('
             SELECT salt
@@ -47,15 +47,15 @@ class PEAR_Bug_Accountrequest
             WHERE handle=?
         ', array($this->user));
         if (!$salt) {
-            return false;
+            throw new Exception('No such handle found, cannot send confirmation email');
         }
         $email = $this->dbh->getOne('
             SELECT email
             FROM bug_account_request
-            WHERE handle=?
-        ', array($this->user));
+            WHERE salt=?
+        ', array($salt));
         if (!$email) {
-            return false;
+            throw new Exception('No such salt found, cannot send confirmation email');
         }
         $mailData = array(
             'salt' => $salt,
@@ -63,7 +63,13 @@ class PEAR_Bug_Accountrequest
         require_once 'Damblan/Mailer.php';
         $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
         $additionalHeaders['To'] = $email;
-        return $mailer->send($additionalHeaders);
+        PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
+        $e = $mailer->send($additionalHeaders);
+        PEAR::popErrorHandling();
+        if (PEAR::isError($e)) {
+            throw new Exception('Cannot send confirmation email: ' . $e->getMessage());
+        }
+        return true;
     }
 
     function _makeSalt($handle)
@@ -125,7 +131,7 @@ class PEAR_Bug_Accountrequest
             return $res;
         }
 
-        $this->user = $salt;
+        $this->user = $handle;
         return $salt;
     }
 

@@ -8,9 +8,11 @@ if (!isset($_GET['handle'])) {
 require 'bugs/pear-bug-accountrequest.php';
 $account = new PEAR_Bug_Accountrequest($_GET['handle']);
 if ($account->pending()) {
-    if (!$account->sendEmail()) {
+    try {
+        $account->sendEmail();
+    } catch (Exception $e) {
         response_header('Error: cannot send confirmation email');
-        report_error('Error: confirmation email could not be sent');
+        report_error('Error: confirmation email could not be sent: ' . $e->getMessage());
         response_footer();
         exit;
     }

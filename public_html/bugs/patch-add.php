@@ -125,7 +125,14 @@ if (isset($_POST['addpatch'])) {
                 exit;
             }
             if (!DEVBOX) {
-                $buggie->sendEmail();
+                try {
+                    $buggie->sendEmail();
+                } catch (Exception $e) {
+                    response_header('Error sending confirmation email');
+                    report_error(array('Patch was successfully attached, but account confirmation email not sent, please report to pear-core@lists.php.net', $e));
+                    response_footer();
+                    exit;
+                }
             }
             localRedirect('/bugs/patch-display.php?bug=' . $bug . '&patch=' .
                 urlencode($_POST['name']) . '&revision=' . $e);
