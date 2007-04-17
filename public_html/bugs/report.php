@@ -234,9 +234,9 @@ if (isset($_POST['in'])) {
                                 'mailing list and report this problem with details.' .
                                 '  We apologize for the problem, your report will help' .
                                 ' us to fix it for future users: ' . $e->getMessage();
+                            response_header('Report - Problems');
+                            break;
                         }
-                        response_header('Report - Problems');
-                        break;
                     }
                 } else {
                     $_POST['in']['reporter_name'] = $auth_user->name;
