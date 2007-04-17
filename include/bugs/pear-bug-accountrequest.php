@@ -649,7 +649,7 @@ class PEAR_Bug_Accountrequest
 
     function cleanOldRequests()
     {
-        $old = gmdate('Y-m-d H:i:s', time() - 90000);
+        $old = gmdate('Y-m-d H:i:s', time() - 604800);
         $findquery = '
             select handle from bug_account_request
             where created_on < ?';
