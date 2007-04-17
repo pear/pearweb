@@ -39,7 +39,7 @@ class PEAR_Bug_Accountrequest
     function sendEmail()
     {
         if (!$this->user) {
-            return PEAR::raiseError('Internal fault: user was not set when sending email, please report to pear-core@lists.php.net');
+            throw new Exception('Internal fault: user was not set when sending email, please report to pear-core@lists.php.net');
         }
         $salt = $this->dbh->getOne('
             SELECT salt
