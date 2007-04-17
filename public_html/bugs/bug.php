@@ -285,12 +285,12 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                 $salt = $buggie->addRequest($_POST['in']['commentemail']);
                 if (is_array($salt)) {
                     $errors = $salt;
-                    response_header('Report - Problems');
+                    response_header('Add Comment - Problems');
                     break; // skip bug comment addition
                 }
                 if (PEAR::isError($salt)) {
                     $errors[] = $salt;
-                    response_header('Report - Problems');
+                    response_header('Add Comment - Problems');
                     break;
                 }
                 if ($salt === false) {
@@ -311,9 +311,9 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                             'mailing list and report this problem with details.' .
                             '  We apologize for the problem, your report will help' .
                             ' us to fix it for future users: ' . $e->getMessage();
+                        response_header('Add Comment - Problems');
+                        break;
                     }
-                    response_header('Report - Problems');
-                    break;
                 }
                 $_POST['in']['handle'] =
                 $_POST['in']['name'] = substr('#' . $salt, 0, 20);
