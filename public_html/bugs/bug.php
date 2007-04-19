@@ -282,6 +282,11 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
                 // user doesn't exist yet
                 require 'bugs/pear-bug-accountrequest.php';
                 $buggie = new PEAR_Bug_Accountrequest;
+                if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $_POST['in']['commentemail'])) {
+                    $errors[] = "You must provide a valid email address.";
+                    response_header('Add Comment - Problems');
+                    break; // skip bug comment addition
+                }
                 $salt = $buggie->addRequest($_POST['in']['commentemail']);
                 if (is_array($salt)) {
                     $errors = $salt;
