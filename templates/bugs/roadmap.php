@@ -37,12 +37,14 @@ if (in_array($info['roadmap_version'], $this->releases)) {
 <table>
  <tr>
   <td>
-   <?php if ($GLOBALS['auth_user']) { ?>
+   <?php if ($GLOBALS['auth_user']) : ?>
    <a href="roadmap.php?package=<?php echo urlencode($this->package). $showold ?>&addbugs=1&roadmap=<?php
     echo urlencode($info['roadmap_version']) ?>">Add Bugs/Features to this Roadmap</a><br />
-   <?php } ?>
+   <?php endif; ?>
+   <?php if (auth_check('pear.dev')) : ?>
    <a href="roadmap.php?package=<?php echo urlencode($this->package). $showold ?>&packagexml=1&roadmap=<?php
     echo urlencode($info['roadmap_version']) ?>">Generate package.xml for this release</a>
+   <?php endif; ?>
   </td>
  </tr>
  <tr>
