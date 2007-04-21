@@ -500,11 +500,8 @@ class package
     function getPackageFile($package, $version)
     {
         global $dbh;
-        if (is_numeric($package)) {
-            $what = "id";
-        } else {
-            $what = "name";
-        }
+        $what = is_numeric($package) ? 'id' : 'name';
+
         $relids = $dbh->getRow('SELECT releases.id as rid, packages.id as pid' .
             ' FROM releases, packages WHERE ' .
             "packages.$what = ? AND releases.version = ? AND " .
@@ -680,12 +677,7 @@ class package
     static function info($pkg, $field = null, $allow_pecl = false)
     {
         global $dbh;
-
-        if (is_numeric($pkg)) {
-            $what = "id";
-        } else {
-            $what = "name";
-        }
+        $what = is_numeric($pkg) ? 'id' : 'name';
 
         if ($allow_pecl) {
              $package_type = "((p.package_type = 'pear' AND p.approved = 1) OR p.package_type = 'pecl') AND ";
@@ -922,9 +914,9 @@ class package
             }
         }
         $var = !$stable_only ? 'allreleases' : 'stablereleases';
-        foreach(array_keys($packageinfo) as $pkg) {
+        foreach (array_keys($packageinfo) as $pkg) {
             $_deps = array();
-            foreach($deps as $dep) {
+            foreach ($deps as $dep) {
                 if ($dep['package'] == $packageinfo[$pkg]['packageid']
                     && isset($$var[$pkg])
                     && $dep['release'] == $$var[$pkg]['rid'])
@@ -1787,21 +1779,17 @@ class release
         if (!$pkg_info) {
             require_once 'Archive/Tar.php';
             $tar = &new Archive_Tar($file);
+
             $oldpackagexml = $tar->extractInString('package.xml');
-            if ($packagexml = $tar->extractInString('package2.xml')) {
-                // success
-            } else {
-                if ($oldpackagexml) {
-                    $packagexml = $oldpackagexml;
-                } else {
+            if (null === $packagexml = $tar->extractInString('package2.xml')) {
+                if ($oldpackagexml === null) {
                     return PEAR::raiseError('Archive uploaded does not appear to contain a package.xml!');
                 }
+
+                $packagexml = $oldpackagexml;
             }
-            if ($oldpackagexml != $packagexml) {
-                $compatible = true;
-            } else {
-                $compatible = false;
-            }
+
+            $compatible = $oldpackagexml != $packagexml ? true : false;
         }
         // Update releases table
         $query = "INSERT INTO releases (id,package,version,state,doneby,".
@@ -1902,11 +1890,8 @@ class release
                     if ($dep['optional'] != strtolower($dep['optional'])) {
                         $prob[] = 'optional';
                     }
-                    if ($dep['optional'] == 'yes') {
-                        $optional = 1;
-                    } else {
-                        $optional = 0;
-                    }
+
+                    $optional = $dep['optional'] == 'yes' ? 1 : 0;
                 }
 
                 if (count($prob)) {
@@ -1950,13 +1935,14 @@ class release
         }
 
         // Update Cache
-        include_once 'xmlrpc-cache.php';
-        $cache = new XMLRPC_Cache;
         $GLOBALS['pear_rest']->saveAllReleasesREST($package);
         $GLOBALS['pear_rest']->saveReleaseREST($file, $packagexml, $pkg_info, $auth_user->handle,
             $release_id);
         $GLOBALS['pear_rest']->savePackagesCategoryREST(package::info($package, 'category'));
+
         // gotta clear all the permutations
+        include_once 'xmlrpc-cache.php';
+        $cache = new XMLRPC_Cache;
         $cache->remove('package.listAll', array(false));
         $cache->remove('package.listAll', array(true));
 
@@ -2176,30 +2162,30 @@ class release
                 yearmonth="' . date('Y-m-01') . '"',
             array($package, $release_id));
         if ($dbh->affectedRows() == 0) {
-    		$dbh->query('INSERT INTO aggregated_package_stats
-    			(package_id, release_id, yearmonth, downloads)
-    			VALUES(?,?,?,1)',
-    			array($package, $release_id, date('Y-m-01')));
+            $dbh->query('INSERT INTO aggregated_package_stats
+                (package_id, release_id, yearmonth, downloads)
+                VALUES(?,?,?,1)',
+                array($package, $release_id, date('Y-m-01')));
         }
 
 //      This method can be used when we have MySQL 4.1,
 //      30% efficiency gain at least over previous method
-//		$dbh->query('INSERT INTO aggregated_package_stats
-//			(package_id, release_id, yearmonth, downloads)
-//			VALUES(?,?,?,1)
-//			ON DUPLICATE KEY UPDATE downloads=downloads+1',
-//			array($package, $release_id, date('Y-m-01')));
+//      $dbh->query('INSERT INTO aggregated_package_stats
+//          (package_id, release_id, yearmonth, downloads)
+//          VALUES(?,?,?,1)
+//          ON DUPLICATE KEY UPDATE downloads=downloads+1',
+//          array($package, $release_id, date('Y-m-01')));
 
         // {{{ Update package_stats table
 
 //      This method can be used when we have MySQL 4.1,
 //      30% efficiency gain at least over previous method
 //        $query = 'INSERT INTO package_stats
-//        			 (dl_number, package, release, pid, rid, cid, last_dl)
-//               	     VALUES (1, ?, ?, ?, ?, ?, ?)
-//               	     ON DUPLICATE KEY UPDATE
-//               	     	dl_number=dl_number+1,
-//               	     	last_dl = "' . date('Y-m-d H:i:s') . '"';
+//                      (dl_number, package, release, pid, rid, cid, last_dl)
+//                      VALUES (1, ?, ?, ?, ?, ?, ?)
+//                      ON DUPLICATE KEY UPDATE
+//                      dl_number=dl_number+1,
+//                      last_dl = "' . date('Y-m-d H:i:s') . '"';
 //
 //        $dbh->query($query, array($pkg_info['name'],
 //                                  $version,
@@ -2420,9 +2406,9 @@ Authors
 
         if (PEAR::isError($sth)) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     // }}}
@@ -2897,14 +2883,14 @@ class user
     function update($data) {
         global $dbh;
 
-        $fields = array('name', 
-                        'email', 
-                        'homepage', 
-                        'showemail', 
-                        'userinfo', 
-                        'pgpkeyid', 
-                        'wishlist', 
-                        'latitude', 
+        $fields = array('name',
+                        'email',
+                        'homepage',
+                        'showemail',
+                        'userinfo',
+                        'pgpkeyid',
+                        'wishlist',
+                        'latitude',
                         'longitude',
                   );
 
