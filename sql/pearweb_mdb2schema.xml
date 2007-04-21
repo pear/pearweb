@@ -3275,7 +3275,7 @@
   </declaration>
 
  </table>
- 
+
  <table>
   <name>manual_notes</name>
   <declaration>
@@ -3314,7 +3314,7 @@
     <type>clob</type>
     <notnull>true</notnull>
    </field>
-   
+
    <field>
     <name>note_time</name>
     <type>timestamp</type>
@@ -3357,7 +3357,7 @@
      <sorting>ascending</sorting>
     </field>
    </index>
-    
+
    <index>
     <name>IDX_page_url</name>
     <field>
@@ -3375,6 +3375,7 @@
   </declaration>
 
  </table>
+
  <table>
   <name>tagid</name>
   <declaration>
@@ -3416,6 +3417,8 @@
      <name>tagname</name>
     </field>
    </index>
+
+   </declaration>
  </table>
 
  <table>
@@ -3442,5 +3445,6 @@
      <name>tagid</name>
     </field>
    </index>
+   </declaration>
   </table>
 </database>
