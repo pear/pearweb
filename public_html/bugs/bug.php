@@ -50,9 +50,6 @@ $numeralCaptcha = new Text_CAPTCHA_Numeral();
 
 Bug_DataObject::init();
 
-error_reporting(E_ALL ^ E_NOTICE);
-
-
 if (empty($_REQUEST['id']) || !(int)$_REQUEST['id']) {
     localRedirect('search.php');
     exit;
@@ -224,7 +221,7 @@ if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
 }
 
 // if the user is not registered, this might be spam, don't display
-if (!$bug['registered']) {
+if (!$bug['registered'] && !auth_check('pear.dev')) {
     response_header('User has not confirmed identity');
     display_bug_error('The user who submitted this bug has not yet confirmed ' .
         'their email address.  ');
