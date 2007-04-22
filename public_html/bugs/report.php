@@ -312,8 +312,8 @@ if (isset($_POST['in'])) {
                 $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
                 $link->id = $cid;
                 $link->delete();
-                if (isset($_POST['in']['milestone'])) {
-                    foreach ($_POST['in']['milestone'] as $rid) {
+                if (isset($_POST['in']['roadmap'])) {
+                    foreach ($_POST['in']['roadmap'] as $rid) {
                         $link->id = $cid;
                         $link->roadmap_id = $rid;
                         $link->insert();
@@ -562,8 +562,8 @@ if (auth_check('pear.dev')) {
             }
 
             if (!$released || ($released && isset($_GET['showold']))) {
-                $content .= '<input type="checkbox" name="in[milestone][]" value="' . $db->id . '"';
-                if (isset($_POST['in']['milestone'][$db->id])) {
+                $content .= '<input type="checkbox" name="in[roadmap][]" value="' . $db->id . '"';
+                if (isset($_POST['in']['roadmap'][$db->id])) {
                     $content .= ' checked="checked" ';
                 }
                 $content .= '/>';
@@ -586,9 +586,9 @@ if (auth_check('pear.dev')) {
   <td class="form-input">
    <?php
     if (isset($_GET['showold'])) {
-        echo '<a href="report.php?package=' . clean($_REQUEST['package']) . '">Hide released milestones</a>';
+        echo '<a href="report.php?package=' . clean($_REQUEST['package']) . '">Hide released roadmaps</a>';
     } else {
-        echo '<a href="report.php?package=' . clean($_REQUEST['package']) . '&amp;showold=1">Show released milestones</a>';
+        echo '<a href="report.php?package=' . clean($_REQUEST['package']) . '&amp;showold=1">Show released roadmaps</a>';
     }
     echo '<br />' . $content;
    ?>
