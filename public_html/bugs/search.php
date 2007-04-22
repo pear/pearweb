@@ -72,7 +72,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $mysql4 = version_compare(mysql_get_server_info(), '4.0.0', 'ge');
     } else {
         $mysql4 = version_compare(mysqli_get_server_version($dbh->connection), '4.0.0', 'ge');
-        
+
     }
 
     if ($mysql4) {
@@ -272,8 +272,9 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $author_email = '';
     } else {
         $author_email = $_GET['author_email'];
-        $where_clause .= ' AND bugdb.email = '
-                       . $dbh->quoteSmart($author_email);
+        $qae = $dbh->quoteSmart($author_email);
+        $where_clause .= ' AND (bugdb.email = '
+                       . $qae . ' OR bugdb.handle=' . $qae . ')';
     }
 
     $where_clause .= ' AND (packages.package_type = '
@@ -325,7 +326,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     }
 
     $query .= ' ORDER BY ' . $order_by . ' ' . $direction;
-    
+
     // if status Feedback then sort also after last updated time.
     if ($status == 'Feedback') {
         $query .= ', bugdb.ts2 ' . $direction;
@@ -557,8 +558,15 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
  </tr>
 <tr valign="top">
   <th>Author e<span class="accesskey">m</span>ail</th>
-  <td style="white-space: nowrap">Return bugs with author email</td>
-  <td><input accesskey="m" type="text" name="author_email" value="<?php echo clean($author_email); ?>" /></td>
+  <td style="white-space: nowrap">Return bugs with author email/handle</td>
+  <td><input accesskey="m" type="text" name="author_email" value="<?php echo clean($author_email); ?>" />
+<?php
+    if ($auth_user) {
+        $u = rinse(htmlspecialchars($_REQUEST['PEAR_USER']));
+        print "<input type=\"button\" value=\"set to $u\" onclick=\"form.author_email.value='$u'\" />";
+    }
+?>
+  </td>
 </tr>
 <tr valign="top">
   <th>Date</th>
