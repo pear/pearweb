@@ -25,6 +25,7 @@ $a->setNotes('
  * Request #10798 Split up the pear-database file [helgi]
  * Request #10668 Assign roadmap version at bug entry time [helgi]
  * Request #10764 Strike-through obsolete patches [helgi]
+ * Request #10766 Highlight own name on bug stats page [helgi]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
