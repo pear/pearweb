@@ -126,7 +126,7 @@ if (isset($_POST['in'])) {
                 response_header("Report - Confirm");
                 if (count($_FILES)) {
                     echo '<h1>WARNING: YOU MUST RE-UPLOAD YOUR PATCH, OR IT WILL BE IGNORED</h1>';
-                    
+
                 }
 
                 ?>
@@ -221,7 +221,7 @@ if (isset($_POST['in'])) {
                         response_header('Report - Problems');
                         break;
                     }
-        
+
                     $_POST['in']['handle'] =
                     $_POST['in']['reporter_name'] = substr('#' . $salt, 0, 20);
                     if (!DEVBOX) {
@@ -260,7 +260,7 @@ if (isset($_POST['in'])) {
                     $fdesc .= "Actual result:\n--------------\n";
                     $fdesc .= $_POST['in']['actres'] . "\n";
                 }
-    
+
                 $reporter_name = isset($_POST['in']['reporter_name']) ? htmlspecialchars(strip_tags($_POST['in']['reporter_name'])) : '';
 
                 // shunt website bugs to the website package
@@ -268,7 +268,7 @@ if (isset($_POST['in'])) {
                             'Web Site', 'PEPr', 'Bug System'), true)) {
                     $_POST['in']['package_name'] = 'pearweb';
                 }
-                
+
                 $query = 'INSERT INTO bugdb (
                           package_name,
                           bug_type,
@@ -295,10 +295,10 @@ if (isset($_POST['in'])) {
                          " 'Open', NOW(), " .
                          " '" . escapeSQL($_POST['in']['passwd']) . "'," .
                          " '" . escapeSQL($reporter_name) . "')";
-    
-    
+
+
                 $dbh->query($query);
-    
+
     /*
      * Need to move the insert ID determination to DB eventually...
      */
@@ -308,12 +308,24 @@ if (isset($_POST['in'])) {
                     $cid = mysqli_insert_id($dbh->connection);
                 }
 
+                Bug_DataObject::init();
+                $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
+                $link->id = $cid;
+                $link->delete();
+                if (isset($_POST['in']['milestone'])) {
+                    foreach ($_POST['in']['milestone'] as $rid) {
+                        $link->id = $cid;
+                        $link->roadmap_id = $rid;
+                        $link->insert();
+                    }
+                }
+
                 $redirectToPatchAdd = false;
                 if (!empty($_POST['in']['patchname']) && $_POST['in']['patchname']) {
                     require_once 'bugs/patchtracker.php';
                     $tracker = new Bugs_Patchtracker;
                     PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-                    $patchrevision = $tracker->attach($cid, 'patchfile', 
+                    $patchrevision = $tracker->attach($cid, 'patchfile',
                         $_POST['in']['patchname'], $_POST['in']['handle'], array());
                     PEAR::staticPopErrorHandling();
                     if (PEAR::isError($patchrevision)) {
@@ -330,20 +342,20 @@ if (isset($_POST['in'])) {
                     $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
                     $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
                     $report .= 'Bug description:  ';
-        
+
                     $fdesc = rinse($fdesc);
                     $sdesc = rinse($_POST['in']['sdesc']);
-        
+
                     $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
                     $ascii_report .= "\n-- \nEdit bug report at ";
                     $ascii_report .= "http://$site.php.net/bugs/bug.php?id=$cid&edit=";
-        
+
                     list($mailto, $mailfrom) = get_package_mail($_POST['in']['package_name']);
-        
+
                     $email = rinse($_POST['in']['email']);
                     $protected_email  = '"' . spam_protect($email, 'text') . '"';
                     $protected_email .= '<' . $mailfrom . '>';
-        
+
                     $extra_headers  = 'From: '           . $protected_email . "\n";
                     $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
                     $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
@@ -354,9 +366,9 @@ if (isset($_POST['in'])) {
                     $extra_headers .= 'X-PHP-OS: '       . rinse($_POST['in']['php_os']) . "\n";
                     $extra_headers .= 'X-PHP-Status: Open' . "\n";
                     $extra_headers .= 'Message-ID: <bug-' . $cid . '@'.$site.'.php.net>';
-        
+
                     $type = @$types[$_POST['in']['bug_type']];
-        
+
                     if (DEVBOX == false) {
                         // mail to package developers
                         @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
@@ -529,6 +541,62 @@ else: // if ($auth_user)
    </select>
   </td>
  </tr>
+<?php
+if (auth_check('pear.dev')) {
+    $content = '';
+    Bug_DataObject::init();
+    $db = Bug_DataObject::bugDB('bugdb_roadmap');
+    $db->package = clean($_REQUEST['package']);
+    $db->orderBy('releasedate ASC');
+    if ($db->find(false)) {
+        while ($db->fetch()) {
+            $released = $dbh->getOne('SELECT releases.id
+                FROM packages, releases, bugdb_roadmap b
+                WHERE
+                b.id=? AND
+                packages.name=b.package AND releases.package=packages.id AND
+                releases.version=b.roadmap_version',
+                array($db->id));
+            if ($released) {
+                $content .= '<span class="headerbottom">';
+            }
+
+            if (!$released || ($released && isset($_GET['showold']))) {
+                $content .= '<input type="checkbox" name="in[milestone][]" value="' . $db->id . '"';
+                if (isset($_POST['in']['milestone'][$db->id])) {
+                    $content .= ' checked="checked" ';
+                }
+                $content .= '/>';
+                $content .= $db->roadmap_version . '<br />';
+            }
+
+            if ($released) {
+                $content .= '</span>';
+            }
+        }
+    } else {
+        $content .= '(No roadmap defined)';
+    }
+
+?>
+ <tr>
+  <th class="form-label_left">
+   Milestone:
+  </th>
+  <td class="form-input">
+   <?php
+    if (isset($_GET['showold'])) {
+        echo '<a href="report.php?package=' . clean($_REQUEST['package']) . '">Hide released milestones</a>';
+    } else {
+        echo '<a href="report.php?package=' . clean($_REQUEST['package']) . '&amp;showold=1">Show released milestones</a>';
+    }
+    echo '<br />' . $content;
+   ?>
+  </td>
+ </tr>
+<?php
+}
+?>
  <tr>
   <th class="form-label_left">
    Operating system:
