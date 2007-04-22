@@ -62,6 +62,16 @@ if (!array_key_exists($sort_by, $titles)) {
     $sort_by = 'Open';
 }
 
+// Fetch all packages of the user if someone is logged in
+if ($auth_user) {
+    include_once 'pear-database-user.php';
+    $pck = user::getPackages($auth_user->handle);
+    $packages = array();
+    foreach ($pck as $p) {
+        $packages[] = $p['name'];
+    }
+}
+
 $query  = 'SELECT b.package_name, b.status, COUNT(*) AS quant'
         . ' FROM bugdb AS b';
 
@@ -256,19 +266,26 @@ echo ' </tr>' . "\n";
 
 $stat_row = 1;
 foreach ($pkg[$sort_by] as $name => $value) {
+    // Check if the logged in user maintains this package
+    if (in_array($name, $packages)) {
+        $class = ' bug_bg_selected';
+    } else {
+        $class = '';
+    }
+
     if ($name != 'all') {
         /* Output a new header row every 40 lines */
         if (($stat_row++ % 40) == 0) {
             echo display_stat_header($total, false);
         }
         echo " <tr>\n";
-        echo '  <td class="bug_head">' . package_link($name) . "</td>\n";
-        echo '  <td class="bug_bg0">' . $pkg_total[$name];
+        echo '  <td class="bug_head'.$class.'">' . package_link($name) . "</td>\n";
+        echo '  <td class="bug_bg0'.$class.'">' . $pkg_total[$name];
         echo "</td>\n";
 
         $i = 1;
         foreach ($titles as $key => $val) {
-            echo '  <td class="bug_bg' . $i++ % 2 . '">';
+            echo '  <td class="bug_bg' . $i++ % 2 . ''.$class.'">';
             echo bugstats($key, $name) . "</td>\n";
         }
         echo ' </tr>' . "\n";
@@ -294,10 +311,13 @@ echo '<table>'; ?>
   <th class="bug_head">Developer</th>
  </tr>
 <?php
+$handle = isset($auth_user->handle) ? $auth_user->handle : '';
+
 foreach ($develstats as $stat) {
+    $style = $stat['handle'] == $handle ? ' style="background-color: yellow;"' : '';
     echo " <tr>\n";
-    echo '  <td class="bug_bg0">' . $stat['c'] . "</td>\n";
-    echo '  <td class="bug_bg0"><a href="/user/' . $stat['handle'] . '">' .
+    echo '  <td class="bug_bg0"'.$style.'>' . $stat['c'] . "</td>\n";
+    echo '  <td class="bug_bg0"'.$style.'><a href="/user/' . $stat['handle'] . '">' .
         $stat['handle'] . "</a></td>\n";
     echo " </tr>\n";
 }
@@ -311,9 +331,10 @@ echo '<table>'; ?>
  </tr>
 <?php
 foreach ($lastmonth as $stat) {
+    $style = $stat['handle'] == $handle ? ' style="background-color: yellow;"' : '';
     echo " <tr>\n";
-    echo '  <td class="bug_bg0">' . $stat['c'] . "</td>\n";
-    echo '  <td class="bug_bg0"><a href="/user/' . $stat['handle'] . '">' .
+    echo '  <td class="bug_bg0"'.$style.'>' . $stat['c'] . "</td>\n";
+    echo '  <td class="bug_bg0"'.$style.'><a href="/user/' . $stat['handle'] . '">' .
         $stat['handle'] . "</a></td>\n";
     echo " </tr>\n";
 }
@@ -326,9 +347,10 @@ echo '<table>'; ?>
  </tr>
 <?php
 foreach ($reporters as $dev => $stat) {
+    $style = $dev == $handle ? ' style="background-color: yellow;"' : '';
     echo " <tr>\n";
-    echo '  <td class="bug_bg0">' . $stat . "</td>\n";
-    echo '  <td class="bug_bg0"><a href="/user/' . $dev . '">' .
+    echo '  <td class="bug_bg0"'.$style.'>' . $stat . "</td>\n";
+    echo '  <td class="bug_bg0"'.$style.'><a href="/user/' . $dev . '">' .
         $dev . "</a></td>\n";
     echo " </tr>\n";
 }

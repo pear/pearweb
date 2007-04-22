@@ -152,6 +152,13 @@ a.bug_stats_choosen {
     color: #FFFF00;
 }
 
+.bug_bg_selected {
+    background-color: yellow;
+}
+.bug_bg_selected a {
+    color: #006600;
+}
+
 /* === Search === */
 
 a.status_active {
