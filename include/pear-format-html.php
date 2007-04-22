@@ -327,16 +327,16 @@ function makeFocus() {
     <?php echo htmlspecialchars($GLOBALS['ONLOAD']); ?>
 }
 
-function addEvent(obj, eventType, functionCall){ 
-    if (obj.addEventListener){ 
-        obj.addEventListener(eventType, functionCall, false); 
-        return true; 
-    } else if (obj.attachEvent){ 
-        var r = obj.attachEvent("on"+eventType, functionCall); 
-        return r; 
-    } else { 
-        return false; 
-    } 
+function addEvent(obj, eventType, functionCall){
+    if (obj.addEventListener){
+        obj.addEventListener(eventType, functionCall, false);
+        return true;
+    } else if (obj.attachEvent){
+        var r = obj.attachEvent("on"+eventType, functionCall);
+        return r;
+    } else {
+        return false;
+    }
 }
 addEvent(window, 'load', makeFocus);
 </script>
@@ -842,12 +842,13 @@ function user_link($handle, $compact = false)
 /**
  * Returns a hyperlink to something
  */
-function make_link($url, $linktext = '', $target = '', $extras = '')
+function make_link($url, $linktext = '', $target = '', $extras = '', $title = '')
 {
-    return sprintf('<a href="%s"%s%s>%s</a>',
+    return sprintf('<a href="%s"%s%s%s>%s</a>',
         $url,
         ($target ? ' target="'.$target.'"' : ''),
         ($extras ? ' '.$extras : ''),
+        ($title ? ' title="'.$title.'"' : ''),
         ($linktext != '' ? $linktext : $url)
     );
 }
