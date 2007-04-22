@@ -137,6 +137,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $status = $_GET['status'];
     }
     switch ($status) {
+        case 'All':
+            break;
         case 'Closed':
         case 'Duplicate':
         case 'Critical':
@@ -164,12 +166,29 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                              " ('Closed', 'Duplicate', 'Bogus')" .
                              ' AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 30';
             break;
-        case 'All':
-            break;
         case 'Not Assigned':
             $where_clause .= ' AND bugdb.status NOT IN' .
                              " ('Closed', 'Duplicate', 'Bogus', 'Assigned'," .
                              " 'Wont Fix', 'Suspended')";
+            break;
+        // Closed Reports Since Last Release
+        case 'CRSLR':
+            if (!isset($_GET['package_name']) || count($_GET['package_name']) > 1) {
+                // Act as ALL
+                break;
+            }
+
+            // Fetch the last release date
+            include_once 'pear-database-package.php';
+            $releaseDate = package::getRecent(1, rinse($_GET['package_name'][0]));
+            if (PEAR::isError($releaseDate)) {
+                break;
+            }
+
+            $where_clause .= ' AND bugdb.status IN' .
+                             " ('Closed', 'Duplicate', 'Bogus', 'Wont Fix', 'Suspended')
+                               AND (UNIX_TIMESTAMP('" . $releaseDate[0]['releasedate'] . "') < UNIX_TIMESTAMP(bugdb.ts2))
+                             ";
             break;
         case 'Open':
         default:

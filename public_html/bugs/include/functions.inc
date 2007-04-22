@@ -1203,7 +1203,9 @@ function show_bugs_menu($pkgname, $status = null)
     echo delim();
     echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
                    '&amp;status=All', 'All', '', $style['All']);
-
+    echo delim();
+    echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
+                   '&amp;status=CRSLR', 'CRSLR', '', $style['CRSLR'], 'Closed reports since last release');
     echo "\n</td></tr></table>\n";
     echo '<hr />';
     echo "\n\n<!-- END BUG NAV -->\n\n";
