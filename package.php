@@ -23,6 +23,8 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
  * Request #10798 Split up the pear-database file [helgi]
+ * Request #10668 Assign roadmap version at bug entry time [helgi]
+ * Request #10764 Strike-through obsolete patches [helgi]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
