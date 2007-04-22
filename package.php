@@ -27,6 +27,7 @@ $a->setNotes('
  * Request #10764 Strike-through obsolete patches [helgi]
  * Request #10766 Highlight own name on bug stats page [helgi]
  * Bug #10725 bug date/time values inconsistent with bug view [helgi]
+ * Request #10801   Links to packages homepage in the search view [helgi]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
