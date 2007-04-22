@@ -71,7 +71,7 @@ if ($handle === null || empty($handle)) {
                         . htmlspecialchars($_POST['level'])
                         . "&quot;<br /><br />";
 
-                note::add('uid', $handle, 'added ' . $_GET['level'] . ' karma',
+                note::add('uid', $handle, 'added ' . $_POST['level'] . ' karma',
                     $auth_user->handle);
             }
             break;
