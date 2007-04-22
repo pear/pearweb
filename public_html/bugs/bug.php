@@ -249,7 +249,7 @@ if ($edit == 1 && isset($_GET['delete_comment'])) {
 // handle any updates, displaying errors if there were any
 $errors = array();
 
-if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
+if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
     // Submission of additional comment by others
 
     /**
@@ -336,7 +336,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
     } else {
         $from = '';
     }
-} elseif ($_POST['ncomment'] && isset($_POST['preview']) && $edit == 3) {
+} elseif (isset($_POST['ncomment']) && isset($_POST['preview']) && $edit == 3) {
     $ncomment = trim($_POST['ncomment']);
 
 } elseif ($_POST['in'] && !isset($_POST['preview']) && $edit == 2) {
@@ -373,7 +373,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
     } else {
         $from = $bug['email'];
     }
-    
+
     if (!empty($_POST['in']['package_name']) &&
         $bug['package_name'] != $_POST['in']['package_name']) {
         // reset package version if we change package name
@@ -488,7 +488,7 @@ if ($_POST['ncomment'] && !isset($_POST['preview']) && $edit == 3) {
             // reset package version if we change package name
             $_POST['in']['package_version'] = '';
         }
-    
+
         $query .= " sdesc='" . escapeSQL($_POST['in']['sdesc']) . "'," .
                   " status='" . escapeSQL($status) . "'," .
                   " package_name='" . escapeSQL($_POST['in']['package_name']) . "'," .
@@ -1196,8 +1196,11 @@ $p = $patches->listPatches($id);
 ?><h2>Patches</h2>
 <a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Add a Patch</a><br /><?php
 foreach ($p as $name => $revisions) {
+    $obsolete = $patches->getObsoletingPatches($bug['id'], $name, $revisions[0][0]);
+    $style = !empty($obsolete) ? ' style="background-color: yellow; text-decoration: line-through;" ' : '';
     ?><a href="patch-display.php?bug=<?php echo $bug['id'] ?>&patch=<?php
-        echo urlencode($name) ?>&revision=latest"><?php echo clean($name) ?></a> (last revision <?php echo format_date($revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php
+        echo urlencode($name) ?>&revision=latest" <?php echo $style; ?>><?php echo clean($name) ?></a> (last revision <?php echo format_date($revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php
+        echo "\n";
 }
 // Display comments
 $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name, IF(c.handle <> "",u.registered,1) as registered,
