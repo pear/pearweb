@@ -92,7 +92,7 @@ if (in_array($info['roadmap_version'], $this->releases)) {
    (<?php echo number_format($percent)?>% done: <?php
    echo $this->closedbugs[$info['roadmap_version']] ?> fixed of <?php
    echo $this->totalbugs[$info['roadmap_version']]
-   ?>) <a href="?roadmapdetail=<?php echo htmlspecialchars(urlencode($info['roadmap_version'])). $showold ?>&package=<?php echo $this->package ?>">Show Bug Detail</a>
+   ?>) <a href="?roadmapdetail=<?php echo htmlspecialchars(urlencode($info['roadmap_version'])). $showold ?>&package=<?php echo $this->package . '#a'. $info['roadmap_version']; ?>">Show Bug Detail</a>
       <?php endif;//if (!$this->totalbugs[$info['roadmap_version']])
          else: //if ($this->summary[$info['roadmap_version']])
             echo $this->bugs[$info['roadmap_version']];
@@ -114,7 +114,7 @@ if (in_array($info['roadmap_version'], $this->releases)) {
    (<?php echo number_format($percent)?>% done: <?php
    echo $this->closedfeatures[$info['roadmap_version']] ?> implemented of <?php
    echo $this->totalfeatures[$info['roadmap_version']]
-   ?>) <a href="?roadmapdetail=<?php echo htmlspecialchars(urlencode($info['roadmap_version'])) ?>&package=<?php echo $this->package. $showold ?>">Show Feature Detail</a>
+   ?>) <a href="?roadmapdetail=<?php echo htmlspecialchars(urlencode($info['roadmap_version'])) ?>&package=<?php echo $this->package. $showold . '#a'. $info['roadmap_version'];  ?>">Show Feature Detail</a>
       <?php endif;//if (!$this->totalfeatures[$info['roadmap_version']])
          else: //if ($this->summary[$info['roadmap_version']])
             echo $this->feature_requests[$info['roadmap_version']];
