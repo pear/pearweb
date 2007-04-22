@@ -435,7 +435,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
                 /* Date */
                 echo '  <td align="center">'.format_date(strtotime($row['ts1'])).'</td>' . "\n";
-                echo '  <td>', htmlspecialchars($row['package_name']), '</td>' . "\n";
+                $pck = htmlspecialchars($row['package_name']);
+                echo '  <td><a href="/package/'.$pck.'">'.$pck.'</a></td>' . "\n";
                 echo '  <td>', htmlspecialchars(@$types[$row['bug_type']]), '</td>' . "\n";
                 echo '  <td>', htmlspecialchars($row['status']);
                 if ($row['status'] == 'Feedback' && $row['unchanged'] > 0) {
