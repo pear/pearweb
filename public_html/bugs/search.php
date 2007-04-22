@@ -434,7 +434,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>' . "\n";
 
                 /* Date */
-                echo '  <td align="center">'.date ('Y-m-d H:i:s', strtotime ($row['ts1'])).'</td>' . "\n";
+                echo '  <td align="center">'.format_date(strtotime($row['ts1'])).'</td>' . "\n";
                 echo '  <td>', htmlspecialchars($row['package_name']), '</td>' . "\n";
                 echo '  <td>', htmlspecialchars(@$types[$row['bug_type']]), '</td>' . "\n";
                 echo '  <td>', htmlspecialchars($row['status']);
