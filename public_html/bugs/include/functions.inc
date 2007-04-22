@@ -859,7 +859,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
 
     /* if a developer assigns someone else, let that other person know about it */
     if ($edit == 1 && $in['assign'] && $in['assign'] != $bug['assign']) {
-
+        include_once 'pear-database-user.php';
         $info = user::info($in['assign'], "email");
         $email = $info['email'];
 
@@ -1058,6 +1058,7 @@ function get_package_mail($package_name, $bug_id=false)
             return array(PEAR_DOC_EMAIL, PEAR_DOC_EMAIL);
     }
 
+    include_once 'pear-database-package.php';
     $maintainers = package::info($package_name, 'authors');
 
     $to = array();
@@ -1298,7 +1299,7 @@ function show_bugs_menu($pkgname, $status = null)
     $dbh->query($query);
     return true;
  }
-    
+
 
 class Bug_DataObject
 {

@@ -17,7 +17,8 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-require_once "pear-config.php";
+
+require_once 'pear-config.php';
 if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
     error_reporting(E_ALL);
     define('DEVBOX', true);
@@ -37,11 +38,8 @@ if (empty($format)) {
 }
 
 include_once "pear-format-$format.php";
-
 include_once "pear-auth.php";
-include_once "pear-database.php";
 include_once "pear-rest.php";
-
 
 function get($name)
 {
@@ -70,7 +68,7 @@ if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
     auth_logout();
 }
 
-if (!empty($_COOKIE['PEAR_USER']) && !@auth_verify($_COOKIE['PEAR_USER'], $_COOKIE['PEAR_PW'])) {
+if (!empty($_COOKIE['PEAR_USER']) && !auth_verify($_COOKIE['PEAR_USER'], $_COOKIE['PEAR_PW'])) {
     $__user = $_COOKIE['PEAR_USER'];
     setcookie('PEAR_USER', '', 0, '/');
     unset($_COOKIE['PEAR_USER']);
@@ -83,23 +81,19 @@ if (!empty($_COOKIE['PEAR_USER']) && !@auth_verify($_COOKIE['PEAR_USER'], $_COOK
     auth_reject(null, $msg);
 }
 
-if (!function_exists('file_get_contents')) {
-    function file_get_contents($file, $use_include_path = false) {
-        if (!$fp = fopen($file, 'r', $use_include_path)) {
-            return false;
-        }
-        $data = fread($fp, filesize($file));
-        fclose($fp);
-        return $data;
+/**
+ * Converts a Unix timestamp to a date() formatted string in the UTC time zone
+ *
+ * @param int    $ts      a Unix timestamp from the local machine.  If none
+ *                         is provided the current time is used.
+ * @param string $format  a format string, as per http://php.net/date
+ *
+ * @return string  the time formatted time
+ */
+function make_utc_date($ts = null, $format = 'Y-m-d H:i \U\T\C')
+{
+    if (!$ts) {
+        $ts = time();
     }
+    return gmdate($format, $ts);
 }
-
-if (!function_exists('file_put_contents')) {
-    function file_put_contents($fname, $contents)
-    {
-        $fp = fopen($fname, 'wb');
-        fwrite($fp, $contents);
-        fclose($fp);
-    }
-}
-

@@ -63,6 +63,7 @@ do {
         }
 
         $dbh->expectError(DB_ERROR_CONSTRAINT);
+        include_once 'pear-database-package.php';
         $pkg = package::add(array(
                                   'name'        => $_POST['name'],
                                   'type'        => 'pear',

@@ -21,7 +21,7 @@
 require_once "HTML/Form.php";
 
 /**
- * Subclass of HTML_Form that provides methods to create special form 
+ * Subclass of HTML_Form that provides methods to create special form
  * fields for the PEAR website.
  *
  * This class is derived from HTML_Form and provides a number of methods
@@ -47,6 +47,7 @@ class PEAR_Web_Form extends HTML_Form {
         static $values = null;
 
         if (!is_array($values)) {
+            include_once 'pear-database-package.php';
             $list = package::listAllNames();
 
             foreach ($list as $p_name) {
@@ -71,6 +72,7 @@ class PEAR_Web_Form extends HTML_Form {
         static $values = null;
 
         if (!is_array($values)) {
+            include_once 'pear-database-user.php';
             $list = user::listAll(true);
 
             foreach ($list as $user) {

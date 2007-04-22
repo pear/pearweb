@@ -101,6 +101,7 @@ class Roadmap_Package_Generator
     function getBlankPackage()
     {
         require_once 'PEAR/Validate.php';
+        include_once 'pear-database-package.php';
         $info = package::info($this->_package);
         $maintainers = package::info($this->_package, 'authors');
         $pf = new PEAR_PackageFile_v2_rw;

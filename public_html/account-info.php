@@ -39,6 +39,7 @@ if (empty($handle)) {
 
 $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
 
+include_once 'pear-database-user.php';
 $row = user::info($handle);
 
 if ($row === null) {
@@ -68,7 +69,7 @@ response_header('User Information :: ' . htmlspecialchars($row['name']));
 
 echo '<h1>User Information: ' . htmlspecialchars($row['name']) . "</h1>\n";
 
-if (isset($auth_user) && is_object($auth_user) 
+if (isset($auth_user) && is_object($auth_user)
     && ($auth_user->handle == $handle ||
         auth_check('pear.admin'))) {
 
@@ -193,6 +194,8 @@ echo '</ul></li>';
 
 <?php
 $packages = user::getPackages($handle);
+
+include_once 'pear-database-note.php';
 $notes = note::getAll($handle);
 
 if (count($packages) > 0 || count($notes) > 0) {

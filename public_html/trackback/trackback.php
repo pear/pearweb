@@ -48,6 +48,7 @@ if (!isset($params['id'])) {
 }
 
 // Sanity check, see if package exists
+include_once 'pear-database-package.php';
 $testid = package::info($id, 'id');
 if (!$testid || PEAR::isError($testid)) {
     echo Services_Trackback::getResponseError('No package with ID '.$id.' found. Trackback not possible.', 1);

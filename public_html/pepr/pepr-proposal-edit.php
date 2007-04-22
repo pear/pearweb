@@ -99,6 +99,7 @@ $renderer->setElementTemplate('
  </tr>
 ');
 
+include_once 'pear-database-category.php';
 $categories = category::listAll();
 $mapCategories['RFC'] = 'RFC (No package category!)';
 foreach ($categories as $categorie) {
@@ -113,7 +114,7 @@ $categoryNew = $form->addGroup($categoryNewElements, 'pkg_category_new', 'New ca
  * Dropdown possible licenses, less confusing for users
  */
 $possibleLicenses = array(
-                        'PHP License 3.01' => 'PHP License 3.01', 
+                        'PHP License 3.01' => 'PHP License 3.01',
                         'Apache License' => 'Apache License',
                         'LGPL' => 'LGPL',
                         'BSD Style' => 'BSD Style',
@@ -126,27 +127,27 @@ $form->addElement('select', 'pkg_license', 'License:', $possibleLicenses);
 
 /**
  * Easy codes. makes it easier for people to put
- * bb codes 
+ * bb codes
  */
-$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Bold', 
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Bold',
                                               array('onclick' =>
                               "insertTags('pkg_description', '[b]', '[/b]','bold')"));
 
-$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Italic', 
-                                              array('onclick' => 
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Italic',
+                                              array('onclick' =>
                               "insertTags('pkg_description', '[i]', '[/i]','italic')"));
 
-$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Underline', 
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Underline',
                                               array('onclick' =>
                               "insertTags('pkg_description', '[u]', '[/u]','underline')"));
-$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Red Txt', 
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Red Txt',
                                               array('onclick' =>
                               "insertTags('pkg_description', '[color=red]', '[/color]','red text')"));
-$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'PHPCode', 
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'PHPCode',
                                               array('onclick' =>
                               "insertTags('pkg_description', '[code=php]', '[/code]','print \'php code\';')"));
-$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'List', 
-                                              array('onclick' => 
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'List',
+                                              array('onclick' =>
                               "insertTags('pkg_description', '[list]\\n[*]', '\\n[/list]','list')"));
 
 $form->addGroup($bbhelpers, 'markup_help', 'BB Helpers (beta)', ' | ');

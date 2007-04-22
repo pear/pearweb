@@ -13,6 +13,8 @@ class Roadmap_Info
         if (!$ret) {
             return false;
         }
+
+        include_once 'pear-database-package.php';
         $releases = array_keys(package::info($package, 'releases'));
         foreach ($ret as $roadmap) {
             if (in_array($roadmap[0], $releases)) continue;

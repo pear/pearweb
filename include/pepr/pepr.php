@@ -657,6 +657,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
             $prefix = "";
         }
         $prefix = PROPOSAL_EMAIL_PREFIX . $prefix . " ";
+        include_once 'pear-database-user.php';
         $actorinfo = user::info($user_handle);
         $ownerinfo = user::info($this->user_handle);
         $this->getVotes($dbh);

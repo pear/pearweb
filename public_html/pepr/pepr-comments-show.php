@@ -156,6 +156,7 @@ $userInfos = array();
 if (is_array($comments) && (count($comments) > 0)) {
     echo '  <td class="ulcell" valign="top">' . "\n";
     echo '   <ul class="spaced">' . "\n";
+    include_once 'pear-database-user.php';
     foreach ($comments as $comment) {
         if (empty($userInfos[$comment->user_handle])) {
             $userInfos[$comment->user_handle] = user::info($comment->user_handle);

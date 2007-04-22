@@ -50,6 +50,7 @@ if ($handle === null || empty($handle)) {
 } else {
 
     if (!empty($_GET['action'])) {
+        include_once 'pear-database-note.php';
         switch ($_GET['action']) {
 
         case "remove" :
@@ -69,7 +70,7 @@ if ($handle === null || empty($handle)) {
                 echo "Successfully <b>added</b> karma &quot;"
                         . htmlspecialchars($_POST['level'])
                         . "&quot;<br /><br />";
-                        
+
                 note::add('uid', $handle, 'added ' . $_GET['level'] . ' karma',
                     $auth_user->handle);
             }
@@ -92,7 +93,7 @@ if ($handle === null || empty($handle)) {
                           htmlspecialchars($item['granted_by']),
                           htmlspecialchars($item['granted_at']),
                           make_link($remove, make_image("delete.gif"),
-                                                         false, 
+                                                         false,
                                                          'onclick="javascript:return confirm(\'Do you really want to remove the karma level ' . htmlspecialchars($item['level' ]) . '?\');"'));
         }
         $bb->end();

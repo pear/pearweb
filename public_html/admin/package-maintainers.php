@@ -27,11 +27,12 @@ if ($pid < 1) {
    report_error('Invalid package');
 }
 
+include_once 'pear-database-package.php';
 $package_name = package::info($pid, 'name');
 
 response_header('Administration - ' . htmlspecialchars($package_name) . ' - Package Maintainers');
 
-
+include_once 'pear-database-maintainer.php';
 $maintainers = maintainer::get($pid);
 
 // Maintainer being lead can go further, if not QA and up
@@ -45,6 +46,7 @@ if (isset($_POST) && isset($_POST['role'])) {
    if (isset($_POST['handle']['new']) && !empty($_POST['handle']['new'])) {
 
       $new = strip_tags($_POST['handle']['new']);
+      include_once 'pear-database-user.php';
       if (!ereg('^[0-9a-z_]{2,20}$', $new)) {
          report_error('Invalid handle: ' . $new);
       } elseif (!user::exists($new)) {

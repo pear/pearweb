@@ -70,6 +70,7 @@ echo '  <tr>'."\n";
 echo '  <td>'."\n";
 echo '   <select name="cid" onchange="javascript:reloadMe();">'."\n";
 echo '    <option value="">Select category ...</option>'."\n";
+include_once 'pear-database-category.php';
 foreach (category::listAll() as $value) {
     $selected = '';
     if (isset($_GET['cid']) && $_GET['cid'] == $value['id']) {
@@ -135,7 +136,8 @@ echo "</form>\n";
 $bb->end();
 
 if (isset($_GET['pid']) && (int)$_GET['pid']) {
-
+    include_once 'pear-database-statistics.php';
+    include_once 'pear-database-package.php';
     $info = package::info($_GET['pid'],null,false);
 
     if (isset($info['releases']) && sizeof($info['releases'])>0) {
@@ -318,8 +320,8 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 	$total_categories  = $dbh->getOne(sprintf("SELECT COUNT(*) FROM categories WHERE parent = %d", $_GET['cid']));
 
 	// Query to get package list from package_stats_table
-	$query = sprintf("SELECT SUM(ps.dl_number) AS dl_number, ps.package, ps.release, ps.pid, ps.rid, ps.cid 
-	                  FROM package_stats ps, packages p 
+	$query = sprintf("SELECT SUM(ps.dl_number) AS dl_number, ps.package, ps.release, ps.pid, ps.rid, ps.cid
+	                  FROM package_stats ps, packages p
 	                  WHERE p.package_type = 'pear' AND p.id = ps.pid AND
 	                  p.category = %s GROUP BY ps.pid ORDER BY dl_number DESC",
                      $_GET['cid']
@@ -337,7 +339,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 	$total_categories  = number_format($dbh->getOne('SELECT COUNT(*) FROM categories'), 0, '.', ',');
     $total_downloads   = number_format($dbh->getOne('SELECT SUM(dl_number) FROM package_stats, packages p
                        WHERE package_stats.pid = p.id AND p.package_type="pear"'), 0, '.', ',');
-	$query             = "SELECT sum(ps.dl_number) as dl_number, ps.package, ps.pid, ps.rid, ps.cid 
+	$query             = "SELECT sum(ps.dl_number) as dl_number, ps.package, ps.pid, ps.rid, ps.cid
 	                      FROM package_stats ps, packages p
 	                      WHERE p.id = ps.pid AND p.package_type = 'pear'
 	                      GROUP BY ps.pid ORDER BY dl_number DESC";

@@ -55,6 +55,7 @@ class PEAR_Election_Accountrequest
 
         $data = array_merge($additionnalData, $data);
 
+        include_once 'pear-database-user.php';
         $useradd = user::add($data);
 
         if (is_array($useradd)) {
@@ -97,11 +98,13 @@ class PEAR_Election_Accountrequest
         // implicitly without human intervention
         // copied from the user class and Damblan_Karma
 
+        include_once 'pear-database-user.php';
         $user =& new PEAR_User($this->dbh, $this->handle);
         if (@$user->registered) {
             return false;
         }
         @$arr = unserialize($user->userinfo);
+        include_once 'pear-database-note.php';
         note::removeAll("uid", $this->handle);
         $user->set('registered', 1);
         if (is_array($arr)) {

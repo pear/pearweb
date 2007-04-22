@@ -18,6 +18,7 @@ class pear_rest
             @chmod($cdir, 0777);
         }
 
+        include_once 'pear-database-category.php';
         $categories = category::listAll();
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <a xmlns="http://pear.php.net/dtd/rest.allcategories"
@@ -110,6 +111,8 @@ class pear_rest
         }
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
+
+        include_once 'pear-database-category.php';
         $packages = category::listPackages($category);
         $fullpackageinfo = '<?xml version="1.0" encoding="UTF-8" ?>
 <f xmlns="http://pear.php.net/dtd/rest.categorypackageinfo"
@@ -196,8 +199,8 @@ class pear_rest
     http://pear.php.net/dtd/rest.allpackages.xsd">
 <c>' . PEAR_CHANNELNAME . '</c>
 ';
-        foreach (package::listAllNames() as $package)
-        {
+        include_once 'pear-database-package.php';
+        foreach (package::listAllNames() as $package) {
             $info .= ' <p>' . $package . '</p>
 ';
         }
@@ -221,6 +224,7 @@ class pear_rest
         require_once 'System.php';
         global $dbh;
         $extra = '/rest/';
+        include_once 'pear-database-package.php';
         $package = package::info($package);
 
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
@@ -233,11 +237,11 @@ class pear_rest
                 strtolower($package['name'])));
             @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package['name']), 0777);
         }
-        $catinfo = $dbh->getOne('SELECT c.name FROM packages, categories c WHERE 
+        $catinfo = $dbh->getOne('SELECT c.name FROM packages, categories c WHERE
             c.id = ?', array($package['categoryid']), DB_FETCHMODE_ASSOC);
         if (isset($package['parent']) && $package['parent']) {
             $parent = '
- <pa xlink:href="' . $extra . 'p/' . $package['parent'] . '">' . 
+ <pa xlink:href="' . $extra . 'p/' . $package['parent'] . '">' .
                 $package['parent'] . '</pa>';
         } else {
             $parent = '';
@@ -306,6 +310,7 @@ class pear_rest
         require_once 'PEAR/Config.php';
         global $dbh;
         $extra = '/rest/';
+        include_once 'pear-database-package.php';
         $pid = package::info($package, 'id');
         $releases = $dbh->getAll('SELECT * FROM releases WHERE package = ? ORDER BY releasedate DESC',
             array($pid), DB_FETCHMODE_ASSOC);
@@ -534,6 +539,7 @@ class pear_rest
     {
         require_once 'System.php';
         global $dbh;
+        include_once 'pear-database-package.php';
         $pid = package::info($package, 'id');
         $maintainers = $dbh->getAll('SELECT * FROM maintains WHERE package = ?', array($pid),
             DB_FETCHMODE_ASSOC);
@@ -635,6 +641,7 @@ class pear_rest
 
     function saveAllMaintainersREST()
     {
+        include_once 'pear-database-user.php';
         $maintainers = user::listAll();
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <m xmlns="http://pear.php.net/dtd/rest.allmaintainers"

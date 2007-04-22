@@ -11,6 +11,8 @@ class package_releasehelper
     function package_releasehelper($package)
     {
         $this->_dbh = &$GLOBALS['dbh'];
+
+        include_once 'pear-database-package.php';
         $this->_info = package::info($package, 'releases');
         $this->_pkgid = package::info($package, 'id');
         if (is_array($this->_info) && $this->_info) {
@@ -30,8 +32,8 @@ class package_releasehelper
         if (!isset($this->_lastid)) {
             return false;
         }
-        $info = $this->_dbh->getOne('SELECT packagexml FROM files WHERE release="' .
-            $this->_lastid . '" AND package="' . $this->_pkgid . '"', array());
+        $info = $this->_dbh->getOne('SELECT packagexml FROM files WHERE `release`="' .
+            $this->_lastid . '" AND `package`="' . $this->_pkgid . '"', array());
         return !preg_match('/<package[^>]+version\s*=\s*"2.0"/', $info);
     }
 
@@ -179,7 +181,7 @@ class package_releasehelper
                 }
             }
         }
-        $version = explode('.', $this->_lastversion);        
+        $version = explode('.', $this->_lastversion);
         if ($this->_laststate == 'stable') {
             return array($version[0] . '.' . ($version[1] + 1) . '.0a1', 'alpha');
         }

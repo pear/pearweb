@@ -12,7 +12,7 @@
  - sql defining the database and an MDB2_Schema files
  - a few regression tests
  - templates
- 
+
  See the pearweb_phars package for install-pear-nozlib.phar/go-pear.phar
  See the pearweb_channelxml package for channel.xml</description>
  <lead>
@@ -64,15 +64,15 @@
   <active>yes</active>
  </developer>
  <developer>
-  <name>Helgi Bormar</name>
+  <name>Helgi Thormar</name>
   <user>dufuz</user>
   <email>dufuz@php.net</email>
-  <active>no</active>
+  <active>yes</active>
  </developer>
- <date>2007-04-17</date>
- <time>17:29:19</time>
+ <date>2007-04-22</date>
+ <time>01:20:05</time>
  <version>
-  <release>1.13.0</release>
+  <release>1.14.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -200,10 +200,6 @@
      <file name="info.php" role="web" />
      <file name="package-generator.php" role="web" />
     </dir> <!-- /include/roadmap -->
-    <dir name="tags">
-     <file name="Cloud.php" role="web" />
-     <file name="Manager.php" role="web" />
-    </dir> <!-- /include/tags -->
     <dir name="users">
      <file name="passwordmanage.php" role="web" />
     </dir> <!-- /include/users -->
@@ -213,7 +209,14 @@
     <file name="pear-cache.php" role="web" />
     <file name="pear-category.php" role="web" />
     <file name="pear-config.php" role="web" />
-    <file name="pear-database.php" role="web" />
+    <file name="pear-database-user.php" role="web" />
+    <file name="pear-database-note.php" role="web" />
+    <file name="pear-database-maintainer.php" role="web" />
+    <file name="pear-database-release.php" role="web" />
+    <file name="pear-database-channel.php" role="web" />
+    <file name="pear-database-statistics.php" role="web" />
+    <file name="pear-database-package.php" role="web" />
+    <file name="pear-database-category.php" role="web" />
     <file name="pear-format-html-form.php" role="web" />
     <file name="pear-format-html.php" role="web" />
     <file name="pear-format-xmlrpc.php" role="web" />
@@ -225,6 +228,7 @@
     <file name="site.php" role="web" />
     <file name="xmlrpc-cache.php" role="web" />
     <file name="xmlrpc-methods.php" role="web" />
+    <file name="xmlrpc-testlogin.php" role="web" />
    </dir> <!-- /include -->
    <dir name="public_html">
     <dir name="about">
@@ -500,10 +504,6 @@
      <file name="tabs_list.php" role="web" />
      <file name="tutorials.php" role="web" />
     </dir> <!-- /public_html/support -->
-    <dir name="tags">
-     <file name="admin.php" role="web" />
-     <file name="packages.php" role="web" />
-    </dir> <!-- /public_html/tags -->
     <dir name="trackback">
      <file name="trackback-admin.php" role="web" />
      <file name="trackback-overview.php" role="web" />
@@ -603,11 +603,6 @@
      <file name="note.tpl.php" role="web" />
      <file name="view-full-note.tpl.php" role="web" />
     </dir> <!-- /templates/notes -->
-    <dir name="tags">
-     <file name="admin.tpl.php" role="web" />
-     <file name="cloud.tpl.php" role="web" />
-     <file name="package.tpl.php" role="web" />
-    </dir> <!-- /templates/tags -->
     <dir name="users">
      <file name="lostpassword.php" role="web" />
      <file name="passwordform.php" role="web" />
@@ -1925,7 +1920,27 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-04-17</date>
+   <date>2007-04-21</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10563: search bugs for current package [cellog]
+* Fix Bug #10683: &quot;This package been superseded&quot; problem [cweiske]
+* Fix Bug #10694: RC releases not accepted when uploading new release [cipri]
+* Fix Bug #10706: popular.rss feed broken [cellog]
+* Fix Bug #10710: errors/glitches confirming account [cellog]
+* Fix Bug #10756: Can&apos;t upload patch [cellog]
+* Implement Feature #10359: Developer bugfix stats for last month [cellog]
+* Implement Feature #10368: Bug reporting stats [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.14.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-04-22</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * Fix Bug #10563: search bugs for current package [cellog]

@@ -34,6 +34,8 @@ if (isset($_POST['resetpass'])) {
             $errors[] = 'Passwords do not match';
         }
     }
+
+    include_once 'pear-database-user.php';
     if (array('handle' => $_POST['handle']) != user::info($_POST['handle'], 'handle')) {
         $errors[] = 'Unknown user "' . $_POST['handle'] . '"';
         $_POST['handle'] = '';

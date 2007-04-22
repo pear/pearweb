@@ -109,6 +109,7 @@ function auth_verify($user, $passwd)
     global $dbh, $auth_user;
 
     if (empty($auth_user)) {
+        include_once 'pear-database-user.php';
         $auth_user = new PEAR_User($dbh, $user);
     }
     $error = '';
@@ -133,7 +134,7 @@ function auth_verify($user, $passwd)
             } else {
                 $crypted = md5($passwd);
             }
-            
+
             if ($crypted == @$auth_user->password) {
                 $ok = true;
             } else {
@@ -165,7 +166,7 @@ function auth_check($atom)
     static $karma;
 
     require_once "Damblan/Karma.php";
-    
+
     global $auth_user;
 
     if (!isset($auth_user)) {

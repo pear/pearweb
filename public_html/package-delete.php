@@ -34,8 +34,8 @@ if (!isset($_GET['id'])) {
 }
 
 
+include_once 'pear-database-package.php';
 if (!isset($_POST['confirm'])) {
-
     $pkg = package::info($_GET['id']);
     print_package_navigation($_GET['id'], $pkg['name'],
                              '/package-delete.php?id=' . $_GET['id']);
@@ -72,9 +72,9 @@ if (!isset($_POST['confirm'])) {
     // XXX: Implement backup functionality
     // make_backup($_GET['id']);
 
-    $tables = array('releases'  => 'package', 
+    $tables = array('releases'  => 'package',
                     'maintains' => 'package',
-                    'deps'      => 'package', 
+                    'deps'      => 'package',
                     'files'     => 'package',
                     'packages'  => 'id');
 

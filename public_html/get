@@ -85,6 +85,7 @@ if (isset($_GET['uncompress']) && in_array($_GET['uncompress'], array('1', 'yes'
 }
 switch (sizeof($opts)) {
     case 2: {
+        include_once 'pear-database-release.php';
         if (preg_match('/^([a-zA-Z0-9_]+)-(.+)\.(tar|tgz)\z/', $opts[1], $matches)) {
             list(, $package, $version) = $matches;
             $ok = release::HTTPdownload($package, $version, $opts[1], $uncompress);
@@ -97,6 +98,7 @@ switch (sizeof($opts)) {
         break;
     }
     case 3: {
+        include_once 'pear-database-release.php';
         $ok = release::HTTPdownload($opts[1], $opts[2], null, $uncompress);
         break;
     }

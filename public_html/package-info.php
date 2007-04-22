@@ -36,6 +36,7 @@ $pacid = $params['package|pacid'];
 
 // Package data
 if (!empty($pacid)) {
+    include_once 'pear-database-package.php';
     $pkg = package::info($pacid);
 //    $stats = $dbh->getAssoc('SELECT
 //releases.package,
@@ -48,7 +49,7 @@ if (!empty($pacid)) {
 //    package_stats.package = packages.name
 //GROUP BY releases.package
 //ORDER BY d DESC');
-//    
+//
 //    $amount = $stats[$pkg['packageid']];
 //    $newstats = array_flip(array_values($stats));
 //    $rank = ($newstats[$amount] + 1) . ' of ' . count($stats);
@@ -83,6 +84,7 @@ if (!empty($params['action'])) {
             $karma =& new Damblan_Karma($dbh);
             $trackbackIsAdmin = (isset($auth_user) && $karma->has($auth_user->handle, 'pear.dev'));
             if ($trackbackIsAdmin) {
+                include_once 'pear-database-package.php';
                 if ($pkg['blocktrackbacks'] && $params['allowtrackbacks'] == 1) {
                     package::allowTrackbacks($pkg['name'], true);
                     localRedirect('/package/' . $pkg['name'] . '/trackbacks');
@@ -116,6 +118,7 @@ if (!empty($params['action'])) {
 if (empty($pacid) || !isset($pkg['name'])) {
     // Let's see if $pacid is a PECL package
     if (!isset($pkg['name'])) {
+        include_once 'pear-database-package.php';
         $pkg_name = package::info($pacid, 'name', true);
         if (!empty($pkg_name)) {
             header('HTTP/1.0 301 Moved Permanently');
@@ -150,6 +153,7 @@ $unmaintained = ($pkg['unmaintained']) ? 'Y' : 'N';
 $supersede = (bool) $pkg['new_channel'];
 
 // Maintainer information
+include_once 'pear-database-maintainer.php';
 $maintainers = maintainer::get($pacid);
 $accounts  = '<ul>';
 //$bugs = new PEAR_Bugs;
@@ -453,6 +457,7 @@ if (empty($action)) {
 
     // {{{ Dependants
 
+    include_once 'pear-database-package.php';
     $dependants = package::getDependants($name);
     if ($rel_count > 0 && count($dependants) > 0) {
         print '<tr>';

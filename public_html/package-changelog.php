@@ -25,6 +25,7 @@ if (isset($_GET['package']) && empty($_GET['pacid'])) {
     $pacid = (isset($_GET['pacid'])) ? (int) $_GET['pacid'] : null;
 }
 
+include_once 'pear-database-package.php';
 $pkg = package::info($pacid);
 
 if (empty($pkg['name'])) {

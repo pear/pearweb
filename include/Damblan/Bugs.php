@@ -29,7 +29,7 @@ class Damblan_Bugs
     /**
      * Get maintainers
      *
-     * Get maintainers to inform of a trackback (the 
+     * Get maintainers to inform of a trackback (the
      * lead maintainers of a package).
      *
      * @since
@@ -42,9 +42,11 @@ class Damblan_Bugs
      */
     function getMaintainers ($id, $leadOnly = false, $activeOnly = true)
     {
+        include_once 'pear-database-maintainer.php';
         $maintainers = maintainer::get($id, $leadOnly, $activeOnly);
         $res = array();
 
+        include_once 'pear-database-user.php';
         foreach ($maintainers as $maintainer => $data) {
             $tmpUser = user::info($maintainer, 'email');
             if (!is_array($tmpUser) || !isset($tmpUser['email'])) {

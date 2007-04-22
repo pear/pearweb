@@ -31,6 +31,7 @@
  */
 if (strlen($_SERVER['REDIRECT_URL']) > 0 && $_SERVER['REDIRECT_URL']{1} == '~') {
     $user = substr($_SERVER['REDIRECT_URL'], 2);
+    include_once 'pear-database-user.php';
     if (preg_match(PEAR_COMMON_USER_NAME_REGEX, $user) && user::exists($user)) {
         localRedirect("/user/" . urlencode($user));
     }
@@ -41,6 +42,7 @@ $pkg = htmlentities($pkg);
 $pinfo_url = '/package/';
 
 // Check strictly
+include_once 'pear-database-package.php';
 $name = package::info(basename($pkg), 'name');
 if (!DB::isError($name)) {
     if (!empty($name)) {
@@ -83,7 +85,7 @@ found on this server.</p>
 	Searching the current list of packages for
 	<i><?php echo basename(strip_tags($_SERVER['REQUEST_URI'])); ?></i> included the
 	following results:
-	
+
 	<ul>
 	<?php foreach($packages as $p) { ?>
 		<li>
@@ -92,7 +94,7 @@ found on this server.</p>
 		</li>
 	<?php } ?>
 	</ul>
-	
+
 	<?php if($show_search_link) { ?>
 		<p align="center">
 			<?php print_link(getURL('/search.php?q=' . basename(strip_tags($_SERVER['REQUEST_URI']))), 'View full search results...'); ?>

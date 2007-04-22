@@ -52,6 +52,7 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     exit;
 }
 
+include_once 'pear-database-user.php';
 if (!user::maintains($auth_user->handle, $_GET['id'], 'lead') &&
     !user::isAdmin($auth_user->handle) &&
     !user::isQA($auth_user->handle))
@@ -63,6 +64,7 @@ if (!user::maintains($auth_user->handle, $_GET['id'], 'lead') &&
 }
 
 // Update
+include_once 'pear-database-package.php';
 if (isset($_POST['submit'])) {
     if (!$_POST['name'] || !$_POST['license'] || !$_POST['summary']) {
         report_error('You have to enter values for name, license and summary!');
@@ -136,6 +138,7 @@ if (isset($_POST['submit'])) {
                 break;
             }
 
+            include_once 'pear-datbase-release.php';
             if (release::remove($_GET['id'], $_GET['release'])) {
                 echo "<b>Release successfully deleted.</b><br /><br />\n";
             } else {

@@ -40,7 +40,7 @@ if ($selectStatus != '') {
 if (isset($_GET['search'])) {
     $searchString = trim($_GET['search']);
     $searchString = preg_replace('/;/', '', $searchString);
-    $proposals = proposal::search($searchString);    
+    $proposals = proposal::search($searchString);
     $searchPostfix = '_search_'.urlencode($searchString);
 } else {
     $proposals =& proposal::getAll($dbh, @$selectStatus, null, @$order);
@@ -94,6 +94,8 @@ foreach ($proposals as $proposal) {
             break;
         }
     }
+
+    include_once 'pear-database-user.php';
     if (!isset($users[$proposal->user_handle])) {
         $users[$proposal->user_handle] = user::info($proposal->user_handle);
     }

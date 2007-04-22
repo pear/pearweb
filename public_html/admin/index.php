@@ -47,10 +47,12 @@ echo hdelim();
 
 if (!empty($_REQUEST['cmd'])) {
     if ($_REQUEST['cmd'] == "Add note" && !empty($_REQUEST['note']) && !empty($_REQUEST['key']) && !empty($_REQUEST['id'])) {
+        include_once 'pear-database-note.php';
         note::add($_REQUEST['key'], $_REQUEST['id'], $_REQUEST['note']);
         unset($_REQUEST['cmd']);
 
     } elseif ($_REQUEST['cmd'] == "Delete note" && !empty($_REQUEST['id'])) {
+        include_once 'pear-database-note.php';
 		/**
          * Delete note
          */
@@ -64,15 +66,17 @@ if (!empty($_REQUEST['cmd'])) {
         $karmalevel = (empty($_REQUEST['karma'])) ? 'pear.pepr' : $_REQUEST['karma'];
         // another hack to remove the temporary "purpose" field
         // from the user's "userinfo"
+        include_once 'pear-database-user.php';
         if (user::activate($_REQUEST['uid'], $karmalevel)) {
             $uid = strip_tags(htmlspecialchars($_REQUEST['uid']));
             print "<p>Opened account $uid...</p>\n";
         }
-		
+
     } elseif ($_REQUEST['cmd'] == "Reject Request" && !empty($_REQUEST['uid'])) {
 		/**
          * Reject account request
          */
+        include_once 'pear-database-user.php';
         if (is_array($_REQUEST['uid'])) {
             foreach ($_REQUEST['uid'] as $uid) {
                 user::rejectRequest($uid, $_REQUEST['reason']);
@@ -87,13 +91,14 @@ if (!empty($_REQUEST['cmd'])) {
 		/**
          * Delete account request
          */
+        include_once 'pear-database-user.php';
         if (is_array($_REQUEST['uid'])) {
             foreach ($_REQUEST['uid'] as $uid) {
                 user::remove($uid);
                 echo 'Account request deleted: ' . $uid . '<br />';
             }
-				
-			
+
+
         } elseif (user::remove($_REQUEST['uid'])) {
             print "<p>Deleted account request for \"$uid\"...</p>";
         }
@@ -144,6 +149,7 @@ do {
     // {{{ "approve account request" form
 
     if (!empty($acreq)) {
+        include_once 'pear-database-user.php';
         $requser =& new PEAR_User($dbh, $acreq);
         if (empty($requser->name)) {
             break;
@@ -201,7 +207,7 @@ do {
 	    print "$i </tr>\n";
 	    print "$i</table>\n";
 	    print "$i</form>\n";
-	
+
 	    $bb->end();
 ?>
 
@@ -275,7 +281,7 @@ foreach ($reasons as $reason) {
         	function highlightAccountRow(spanObj)
 			{
 				var highlightColor = '#cfffb7';
-				
+
 				if (typeof(arguments[1]) == 'undefined') {
 					action = (spanObj.parentNode.parentNode.childNodes[0].style.backgroundColor == highlightColor);
 				} else {
@@ -294,22 +300,22 @@ foreach ($reasons as $reason) {
 					}
 				}
 			}
-			
+
 			allSelected = false;
-			
+
 			function toggleSelectAll(linkElement)
 			{
 				tableBodyElement = linkElement.parentNode.parentNode.parentNode.parentNode;
-				
+
 				for (var i=0; i<tableBodyElement.childNodes.length; i++) {
 					if (tableBodyElement.childNodes[i].childNodes[0].childNodes[0].tagName == 'INPUT') {
 						highlightAccountRow(tableBodyElement.childNodes[i].childNodes[1].childNodes[0], !allSelected);
 					}
 				}
-				
+
 				allSelected = !allSelected;
 			}
-			
+
 			function setCmdInput(mode)
 			{
 				switch (mode) {
@@ -330,7 +336,7 @@ foreach ($reasons as $reason) {
 						}
 						break;
 				}
-				
+
 				return false;
 			}
         //-->

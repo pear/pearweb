@@ -158,6 +158,8 @@ class PEAR_Bug_Accountrequest
         if ($password !== $password2) {
             $errors[] = 'Passwords do not match';
         }
+
+        include_once 'pear-database-user.php';
         if (user::exists($handle)) {
             $errors[] = 'User name "' . $handle .
                 '" already exists, please choose another user name';
@@ -191,7 +193,7 @@ class PEAR_Bug_Accountrequest
 
     function confirmRequest($handle, $password, $name)
     {
-        if ($handle == $this->dbh->getOne('SELECT handle FROM users WHERE 
+        if ($handle == $this->dbh->getOne('SELECT handle FROM users WHERE
               handle=?', array($handle))) {
             $id = $this->dbh->nextId("karma");
 
@@ -214,6 +216,7 @@ class PEAR_Bug_Accountrequest
             'homepage'   => '',
         );
 
+        include_once 'pear-database-user.php';
         $useradd = user::add($data, true);
 
         if (is_array($useradd)) {
@@ -234,11 +237,14 @@ class PEAR_Bug_Accountrequest
         // implicitly without human intervention
         // copied from the user class and Damblan_Karma
 
+        include_once 'pear-database-user.php';
         $user =& new PEAR_User($this->dbh, $this->handle);
         if (@$user->registered) {
             return false;
         }
         @$arr = unserialize($user->userinfo);
+
+        include_once 'pear-database-note.php';
         note::removeAll("uid", $this->handle);
         $user->set('registered', 1);
         $user->set('password', $password);
@@ -267,7 +273,7 @@ class PEAR_Bug_Accountrequest
             }
             $patches = $this->dbh->getAll('SELECT bugdb.package_name,bugdb_patchtracker.*
                 FROM bugdb_patchtracker, bugdb
-                WHERE bugdb_patchtracker.developer=? 
+                WHERE bugdb_patchtracker.developer=?
                     AND bugdb.id=bugdb_patchtracker.bugdb_id', array($this->handle),
                     DB_FETCHMODE_ASSOC);
             foreach ($patches as $patch) {
@@ -318,6 +324,7 @@ class PEAR_Bug_Accountrequest
                 return array(PEAR_DOC_EMAIL, PEAR_DOC_EMAIL);
         }
 
+        include_once 'pear-database-package.php';
         $maintainers = package::info($package_name, 'authors');
 
         $to = array();
@@ -331,7 +338,7 @@ class PEAR_Bug_Accountrequest
         /* subscription */
         if ($bug_id) {
             $bug_id = (int)$bug_id;
-    
+
             $assigned = $dbh->getOne('SELECT assign FROM bugdb WHERE id=' . $bug_id);
             if ($assigned) {
                 $assigned = $dbh->getOne('SELECT email FROM users WHERE handle="' . $assigned . '"');
@@ -487,9 +494,9 @@ class PEAR_Bug_Accountrequest
         $patchName = urlencode($patch['patch']);
         $mailData = array(
             'id'         => $patch['bugdb_id'],
-            'url'        => 'http://' . PEAR_CHANNELNAME . 
+            'url'        => 'http://' . PEAR_CHANNELNAME .
                             "/bugs/patch-display.php?bug=$patch[bugdb_id]&patch=$patchName&revision=$patch[revision]&display=1",
-    
+
             'date'       => date('Y-m-d H:i:s'),
             'name'       => $patch['patch'],
             'package'    => $patch['package_name'],
@@ -498,7 +505,7 @@ class PEAR_Bug_Accountrequest
             'packageUrl' => 'http://' . PEAR_CHANNELNAME .
                             '/bugs/bug.php?id=' . $patch['bugdb_id'],
         );
-    
+
         $additionalHeaders['To'] = Damblan_Bugs::getMaintainers($patch['package_name']);
         $mailer = Damblan_Mailer::create('Patch_Added', $mailData);
         $res = true;
@@ -521,9 +528,9 @@ class PEAR_Bug_Accountrequest
         $max_message_length = 10 * 1024;
         $max_comments = 5;
         $output = ""; $count = 0;
-    
+
         $res =& $this->dbh->query("SELECT ts, email, comment, handle FROM bugdb_comments WHERE bug=$bug_id ORDER BY ts DESC");
-    
+
         # skip the most recent unless the caller wanted all comments
         if (!$all) {
             $row =& $res->fetchRow(DB_FETCHMODE_ORDERED);
@@ -531,7 +538,7 @@ class PEAR_Bug_Accountrequest
                 return '';
             }
         }
-    
+
         while (($row =& $res->fetchRow(DB_FETCHMODE_ORDERED)) &&
                 strlen($output) < $max_message_length && $count++ < $max_comments) {
             $email = $row[3] ?
@@ -539,7 +546,7 @@ class PEAR_Bug_Accountrequest
                 $this->spam_protect($row[1], 'text');
             $output .= "[$row[0]] $email\n\n$row[2]\n\n$divider\n\n";
         }
-    
+
         if (strlen($output) < $max_message_length && $count < $max_comments) {
             $res =& $this->dbh->query("SELECT ts1,email,ldesc,handle FROM bugdb WHERE id=$bug_id");
             if (!$res) {
@@ -556,7 +563,7 @@ class PEAR_Bug_Accountrequest
         } else {
             return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "The remainder of the comments for this report are too long. To view\nthe rest of the comments, please view the bug report online at\n    http://pear.php.net/bugs/bug.php?id=$bug_id\n");
         }
-    
+
         return '';
     }
 

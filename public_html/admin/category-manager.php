@@ -31,7 +31,7 @@ if (session_id() == '') {
  */
 
 $template_dir = dirname(dirname(__FILE__)) . '/../templates/';
-	
+
 /**
  * Function to recurse thru the tree adding nodes to treemenu
  */
@@ -40,20 +40,20 @@ function parseTree(&$structure, $parent = null)
     global $dbh;
 
     $parent = is_null($parent) ? 'IS NULL' : '= ' . $parent;
-		
+
     // Get categories
     $categories = $dbh->getAll(sprintf('SELECT id, parent, name, description, npackages '
-                                       . 'FROM categories WHERE parent %s ORDER BY name, id', 
+                                       . 'FROM categories WHERE parent %s ORDER BY name, id',
                                        $parent
-                                       ), 
-                               null, 
+                                       ),
+                               null,
                                DB_FETCHMODE_ASSOC
                                );
 
     if (count($categories)) {
         foreach ($categories as $cat) {
             $newNode = &$structure->addItem(new HTML_TreeNode(array('text' => htmlspecialchars($cat['name']),
-                                                                    'icon' => 'folder.gif'), 
+                                                                    'icon' => 'folder.gif'),
                                                               array('onclick' => 'category_click(event, this, ' . $cat['id'] . ')')
                                                               )
                                             );
@@ -66,7 +66,8 @@ function parseTree(&$structure, $parent = null)
  * Form submitted?
  */
 if (!empty($_POST)) {
-    include_once '../../include/pear-category.php';
+    include_once 'pear-category.php';
+    include_once 'pear-database-category.php';
 
     switch (@$_POST['action']) {
     case 'add':
@@ -105,13 +106,13 @@ if (!empty($_POST)) {
         localRedirect('/admin/category-manager.php');
     }
 }
-	
+
 /**
  * Create the menu, set the db to assoc mode
  */
 require_once('HTML/TreeMenu.php');
 $treeMenu = new HTML_TreeMenu();
-	
+
 /**
  * Get the categories
  */

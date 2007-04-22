@@ -113,7 +113,7 @@ if ($proposal->status == 'finished') {
 }
 
 ?>
-    
+
    </ul>
   </td>
  </tr>
@@ -209,6 +209,7 @@ if ($changelog = @ppComment::getAll($proposal->id,
                                     'package_proposal_changelog'))
 {
     echo "<ul>\n";
+    include_once 'pear-database-user.php';
     foreach ($changelog as $comment) {
         if (!isset($userinfos[$comment->user_handle])) {
             $userinfo[$comment->user_handle] = user::info($comment->user_handle);
@@ -227,7 +228,7 @@ if ($changelog = @ppComment::getAll($proposal->id,
             case 'bbcode':
             default:
                 require_once 'HTML/BBCodeParser.php';
-                $bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));    
+                $bbparser = new HTML_BBCodeParser(array('filters' => 'Basic,Images,Links,Lists,Extended'));
                 echo nl2br($bbparser->qparse($comment->comment));
                 break;
         }

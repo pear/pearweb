@@ -248,6 +248,7 @@ switch ($proposal->status) {
 
             echo '  <td class="ulcell" valign="top">' . "\n<ul>\n";
 
+            include_once 'pear-database-user.php';
             foreach ($proposal->votes as $vote) {
                 if (!isset($users[$vote->user_handle])) {
                     $users[$vote->user_handle] =& user::info($vote->user_handle);

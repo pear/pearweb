@@ -85,13 +85,13 @@ switch ($command) {
             }
 
             if ($k == 'latitude') {
-                $user_data_post['latitude'] = 
+                $user_data_post['latitude'] =
                     isset($_POST['latitude']) ?
                     strip_tags($_POST['latitude']) : '';
             }
 
             if ($k == 'longitude') {
-                $user_data_post['longitude'] = 
+                $user_data_post['longitude'] =
                     isset($_POST['longitude']) ?
                     strip_tags($_POST['longitude']) : '';
             }
@@ -114,6 +114,7 @@ switch ($command) {
             }
         }
 
+        include_once 'pear-database-user.php';
         $user = user::update($user_data_post);
 
         $old_acl = $dbh->getCol('SELECT path FROM cvs_acl '.
@@ -149,6 +150,7 @@ switch ($command) {
         break;
 
     case 'change_password':
+        include_once 'pear-database-user.php';
         $user = &new PEAR_User($dbh, $handle);
 
         if (empty($_POST['password_old']) || empty($_POST['password']) ||

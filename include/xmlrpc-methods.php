@@ -20,8 +20,21 @@
 
 require_once "signatures.php";
 
-parse_signatures_from_file("../include/pear-database.php",
-                           $xmlrpc_method_index, "index");
+// Parse all the classes with proto signature in them
+parse_signatures_from_file('../include/xmlrpc-testlogin.php',
+                           $xmlrpc_method_index, 'index');
+parse_signatures_from_file('../include/pear-database-category.php',
+                           $xmlrpc_method_index, 'index');
+parse_signatures_from_file('../include/pear-database-package.php',
+                           $xmlrpc_method_index, 'index');
+parse_signatures_from_file('../include/pear-database-maintainer.php',
+                           $xmlrpc_method_index, 'index');
+parse_signatures_from_file('../include/pear-database-release.php',
+                           $xmlrpc_method_index, 'index');
+parse_signatures_from_file('../include/pear-database-note.php',
+                           $xmlrpc_method_index, 'index');
+parse_signatures_from_file('../include/pear-database-user.php',
+                           $xmlrpc_method_index, 'index');
 
 // {{{ pear_register_xmlrpc_methods()
 

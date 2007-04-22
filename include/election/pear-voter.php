@@ -176,7 +176,7 @@ class PEAR_Voter
                 c.choice = e.choice
             ORDER BY e.votetotal DESC
         ', array($id), DB_FETCHMODE_ASSOC);
-        
+
         // calculate winners
         $order = array();
         foreach ($info['results'] as $result) {
@@ -373,6 +373,7 @@ class PEAR_Voter
 
     function email($election, $votes, $salt)
     {
+        include_once 'pear-database-user.php';
         $info = user::info($this->user);
         $email = '"' . $info['name'] . '" <' . $info['email'] . '>';
         $headers = "From: bounce-no-user@php.net\n";

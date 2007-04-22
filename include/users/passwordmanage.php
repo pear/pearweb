@@ -63,6 +63,7 @@ class Users_PasswordManage
         if (PEAR::isError($e)) {
             $errors[] = 'Could not change password: ' . $e->getMessage();
         } else {
+            include_once 'pear-database-user.php';
             $info = user::info($user);
             $this->_mailer = Damblan_mailer::create(array(
         'To'       => array($info['name'] . ' <' . $info['email'] . '>'),
@@ -82,7 +83,7 @@ password change, no further action is necessary.  Your password
 will NOT change until you confirm the change, and it cannot be changed
 without the password reset code.  Password change requests are automatically
 purged after 24 hours.
- 
+
 PEAR Quality Assurance.'), array('username' => $user, 'salt' => $salt));
             $this->_mailer->send();
         }

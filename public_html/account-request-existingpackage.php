@@ -77,6 +77,7 @@ do {
         }
 
         //  The add method performs further validation then creates the acct
+        include_once 'pear-database-user.php';
         $ok = user::add($stripped);
 
         if (!empty($stripped['jumpto'])) {

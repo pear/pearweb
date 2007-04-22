@@ -18,10 +18,10 @@ if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
     define('DEVBOX', false);
 }
 
-require_once "PEAR.php";
+require_once 'PEAR.php';
 
-include_once "pear-database.php";
-include_once "pear-rest.php";
+include_once 'pear-database.php';
+include_once 'pear-rest.php';
 if (!isset($pear_rest)) {
     if (isset($_SERVER['argv']) && $_SERVER['argv'][1] == 'pear') {
         $pear_rest = new pear_rest('/var/lib/pearweb/rest');
@@ -48,6 +48,8 @@ System::rm(array('-r', $pear_rest->_restdir));
 System::mkdir(array('-p', $pear_rest->_restdir));
 chmod($pear_rest->_restdir, 0777);
 echo "Generating Category REST...\n";
+
+include_once 'pear-database-category.php';
 foreach (category::listAll() as $category) {
     echo "  $category[name]...";
     $pear_rest->saveCategoryREST($category['name']);
@@ -71,6 +73,8 @@ require_once 'Archive/Tar.php';
 require_once 'PEAR/PackageFile.php';
 $config = &PEAR_Config::singleton();
 $pkg = new PEAR_PackageFile($config);
+
+include_once 'pear-database-package.php';
 foreach (package::listAllNames() as $package) {
     echo "  $package\n";
     $pear_rest->savePackageREST($package);
@@ -111,4 +115,3 @@ foreach (category::listAll() as $category) {
     $pear_rest->savePackagesCategoryREST($category['name']);
     echo "done\n";
 }
-?>

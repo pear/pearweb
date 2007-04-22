@@ -18,6 +18,7 @@
    $Id$
 */
 
+include_once 'pear-database-release.php';
 $recent = release::getRecent(5);
 if (@sizeof($recent) > 0) {
     $RSIDEBAR_DATA = "<strong>Recent&nbsp;Releases:</strong>\n";
@@ -61,7 +62,7 @@ response_header();
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
 <h2>&raquo; Hot off the Press</h2>
-<p><strong>[March 18, 2007]</strong> Official results of PEAR's future direction are 
+<p><strong>[March 18, 2007]</strong> Official results of PEAR's future direction are
 <a href="http://pear.php.net/election/info.php?election=6&results=1">here</a>.  The official
 new Constitution for PEAR is available for
 viewing <a href="http://pear.php.net/manual/en/constitution.php">here</a>.  Elections
@@ -117,6 +118,7 @@ if ($auth_user) {
 	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
     echo '</div>';
 
+    include_once 'pear-database-user.php';
     if (user::isAdmin($auth_user->handle)) {
         echo '<h2>&raquo; Administrators</h2>';
         echo '<div class="indent">';

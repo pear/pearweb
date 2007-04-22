@@ -36,9 +36,9 @@ class patches {
     var $reject_reasons = array("Bogus", "Applied", "Outdated",
                                 "Already fixed", "Won't fix");
 
-    var $required = array("email" => "Please provide a email address", 
-                          "title" => "Please provide a title for your patch", 
-                          "description" => "Please provide a description of your patch", 
+    var $required = array("email" => "Please provide a email address",
+                          "title" => "Please provide a title for your patch",
+                          "description" => "Please provide a description of your patch",
                           "package" => "No package has been specified",
                           "release" => "No release has been specified");
 
@@ -86,7 +86,7 @@ class patches {
         $query = "INSERT INTO patches VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())";
         $result = $this->dbh->query($query, array($id, $package, $release,
                                                   $email, $handle,
-                                                  $filename, $title, 
+                                                  $filename, $title,
                                                   $description
                                                   )
                                     );
@@ -110,7 +110,9 @@ class patches {
      * @param string Description of the patch
      * @return boolean
      */
-    function announce($id, $filename, $package, $release, $email, $handle, $title, $description) {
+    function announce($id, $filename, $package, $release, $email, $handle, $title, $description)
+    {
+        include_once 'pear-database-package.php';
         $name = package::info($package, "name");
 
         $receivers = array("martin@localhost");

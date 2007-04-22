@@ -18,7 +18,7 @@
    $Id$
 */
 
-require_once "pepr/pepr.php";
+require_once 'pepr/pepr.php';
 
 function rss_bailout() {
     header('HTTP/1.0 404 Not Found');
@@ -116,14 +116,14 @@ if (!empty($url_redirect)) {
 
 switch ($type) {
     case 'latest':
-        include_once 'pear-database.php';
+        include_once 'pear-database-release.php';
         $items = release::getRecent(10);
         $channel_title = 'PEAR: Latest releases';
         $channel_description = 'The latest releases in PEAR.';
         break;
 
     case 'popular':
-        include_once 'pear-database.php';
+        include_once 'pear-database-release.php';
         $items = release::getPopular(10, true);
         foreach ($items as $i => $item) {
             $items[$i]['releasenotes'] = 'Downloads per day: ' . number_format($item['releasenotes'], 2);
@@ -134,6 +134,7 @@ switch ($type) {
 
     case 'user':
         $user = $argument;
+        include_once 'pear-database-user.php';
         if (!user::exists($user)) {
             rss_bailout();
         }
@@ -146,6 +147,7 @@ switch ($type) {
 
     case 'pkg':
         $package = $argument;
+        include_once 'pear-database-package.php';
         if (package::isValid($package) == false) {
             rss_bailout();
             return PEAR::raiseError("The requested URL " . $_SERVER['REQUEST_URI'] . " was not found on this server.");
@@ -159,6 +161,7 @@ switch ($type) {
 
     case 'cat':
         $category = $argument;
+        include_once 'pear-database-category.php';
         if (category::isValid($category) == false) {
             rss_bailout();
         }

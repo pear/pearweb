@@ -46,6 +46,7 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
         if ($action == 'approved') {
             $pear_rest->savePackageREST($row['name']);
             $pear_rest->saveAllPackagesREST();
+            include_once 'pear-database-package.php';
             $pear_rest->savePackagesCategoryREST(package::info($row['name'], 'category'));
         }
         // {{{ Logging mechanism
@@ -80,7 +81,7 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
             . "updating the database or the package has already been "
             . $action . " by someone else.<br /><br />";
     }
-}    
+}
 
 $query = "SELECT * FROM packages WHERE approved = 0 AND package_type = 'pear'";
 $rows = $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
@@ -92,7 +93,7 @@ if (count($rows) == 0) {
     $bb = new BorderBox("Unapproved packages", "90%", "", 2, true);
 
     foreach ($rows as $row) {
-        $bb->plainRow($row['name'], 
+        $bb->plainRow($row['name'],
                       make_link("$self?approve=" . $row['id'], "Approve") .
                       delim() .
                       make_link("$self?reject=" . $row['id'], "Reject")

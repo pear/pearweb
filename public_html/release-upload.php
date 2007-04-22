@@ -99,11 +99,15 @@ do {
                 $errors[] = 'No package.xml found in this release';
                 break;
             }
+
+            include_once 'pear-database-package.php';
             $pacid = package::info($info->getPackage(), 'id');
             if (PEAR::isError($pacid)) {
                 $errors[] = $pacid->getMessage();
                 break;
             }
+
+            include_once 'pear-database-user.php';
             if (!auth_check('pear.admin') &&
                 !auth_check('pear.qa') &&
                 !user::maintains($auth_user->handle, $pacid, 'lead')) {
@@ -131,12 +135,16 @@ do {
                                                         'active' => !isset($user['active']) || $user['active'] == 'yes',
                                                       );
             }
+
+            include_once 'pear-database-maintainer.php';
             $e = maintainer::updateAll($pacid, $users);
             if (PEAR::isError($e)) {
                 $errors[] = $e->getMessage();
                 break;
             }
             $pear_rest->savePackageMaintainerREST($info->getPackage());
+
+            include_once 'pear-database-release.php';
             $file = release::upload($info->getPackage(), $info->getVersion(),
                                     $info->getState(), $info->getNotes(),
                                     $distfile, md5_file($distfile), $info, $packagexml,
@@ -151,6 +159,7 @@ do {
         @unlink($distfile);
 
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'report_warning');
+        include_once 'pear-database-release.php';
         if (is_a($info, 'PEAR_PackageFile_v1') || is_a($info, 'PEAR_PackageFile_v2')) {
             release::promote_v2($info, $file);
         } else {
@@ -258,7 +267,8 @@ if ($display_verification) {
         }
         $errors[] = $info->getMessage();
     } else {
-        $id = package::info($info->getPackage(), 'id');
+        include_once 'pear-database-package.php';
+        $id   = package::info($info->getPackage(), 'id');
         $name = package::info($info->getPackage(), 'name');
         if ($info->getPackage() != $name) {
             // case does not match
@@ -373,6 +383,7 @@ function checkUser($user, $pacid = null)
         return true;
     }
     // Try to see if the user is an admin
+    include_once 'pear-database-user.php';
     $res = user::isAdmin($user);
     return ($res === true);
 }
