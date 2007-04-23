@@ -4,7 +4,7 @@ class user
 {
     // {{{ *proto bool   user::remove(string) API 1.0
 
-    function remove($uid)
+    static function remove($uid)
     {
         global $dbh;
 
@@ -19,7 +19,7 @@ class user
     // }}}
     // {{{ *proto bool   user::rejectRequest(string, string) API 1.0
 
-    function rejectRequest($uid, $reason)
+    static function rejectRequest($uid, $reason)
     {
         global $dbh, $auth_user;
         list($email) = $dbh->getRow('SELECT email FROM users WHERE handle = ?',
@@ -37,7 +37,7 @@ class user
     // }}}
     // {{{ *proto bool   user::activate(string) API 1.0
 
-    function activate($uid, $karmalevel = 'pear.dev')
+    static function activate($uid, $karmalevel = 'pear.dev')
     {
         require_once "Damblan/Karma.php";
 
@@ -80,7 +80,7 @@ class user
     // }}}
     // {{{ +proto bool   user::isAdmin(string) API 1.0
 
-    function isAdmin($handle)
+    static function isAdmin($handle)
     {
         require_once "Damblan/Karma.php";
 
@@ -93,7 +93,7 @@ class user
     // }}}
     // {{{ +proto bool   user::isQA(string) API post 1.0
 
-    function isQA($handle)
+    static function isQA($handle)
     {
         require_once 'Damblan/Karma.php';
 
@@ -106,7 +106,7 @@ class user
     // }}}
     // {{{  proto bool   user::listAdmins() API 1.0
 
-    function listAdmins()
+    static function listAdmins()
     {
         require_once "Damblan/Karma.php";
 
@@ -119,7 +119,7 @@ class user
     // }}}
     // {{{ +proto bool   user::exists(string) API 1.0
 
-    function exists($handle)
+    static function exists($handle)
     {
         global $dbh;
         $sql = "SELECT handle FROM users WHERE handle=?";
@@ -130,7 +130,7 @@ class user
     // }}}
     // {{{ +proto string user::maintains(string|int, [string]) API 1.0
 
-    function maintains($user, $pkgid, $role = 'any')
+    static function maintains($user, $pkgid, $role = 'any')
     {
         global $dbh;
         include_once 'pear-database-package.php';
@@ -150,7 +150,7 @@ class user
     // }}}
     // {{{
 
-    function getPackages($user)
+    static function getPackages($user)
     {
         global $dbh;
         $query = 'SELECT p.id, p.name, m.role, m.active'
@@ -164,7 +164,7 @@ class user
     // }}}
     // {{{  proto string user::info(string, [string]) API 1.0
 
-    function info($user, $field = null)
+    static function info($user, $field = null)
     {
         global $dbh;
         if ($field === null) {
@@ -184,7 +184,7 @@ class user
     // }}}
     // {{{ listAll()
 
-    function listAll($registered_only = true)
+    static function listAll($registered_only = true)
     {
         global $dbh;
         $query = "SELECT * FROM users";
@@ -217,7 +217,7 @@ class user
      *
      * @access public
      */
-    function add(&$data, $md5ed = false)
+    static function add(&$data, $md5ed = false)
     {
         global $dbh;
 
@@ -380,7 +380,7 @@ class user
      * @param  array User information
      * @return object Instance of PEAR_User
      */
-    function update($data) {
+    static function update($data) {
         global $dbh;
 
         $fields = array('name',
@@ -417,7 +417,7 @@ class user
      * @param  int    Number of releases (default is 10)
      * @return array
      */
-    function getRecentReleases($handle, $n = 10)
+    static function getRecentReleases($handle, $n = 10)
     {
         global $dbh;
         $recent = array();
@@ -456,7 +456,7 @@ class user
      * @access public
      * @return array
      */
-    function getWhoIsWho() {
+    static function getWhoIsWho() {
         global $dbh;
 
         // IP whitelist

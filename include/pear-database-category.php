@@ -51,7 +51,7 @@ class category
      * @param array
      * @return mixed ID of the category or PEAR error object
      */
-    function add($data)
+    static function add($data)
     {
         global $dbh;
         $name = $data['name'];
@@ -85,7 +85,7 @@ class category
      * @param  string  $desc Category Description
      * @return mixed         True on success, pear_error otherwise
      */
-    function update($id, $name, $desc = '')
+    static function update($id, $name, $desc = '')
     {
         return $GLOBALS['dbh']->query(sprintf('UPDATE categories SET name = %s, description = %s WHERE id = %d',
                                               $GLOBALS['dbh']->quote($name),
@@ -98,7 +98,7 @@ class category
      *
      * @param integer $id Cateogry ID
      */
-    function delete($id)
+    static function delete($id)
     {
 
         // if ($GLOBALS['dbh']->query('SELECT COUNT(*) FROM categories WHERE parent = ' . (int)$id) > 0) {
@@ -142,7 +142,7 @@ class category
      *
      * @return array
      */
-    function listAll()
+    static function listAll()
     {
         global $dbh;
         return $dbh->getAll("SELECT * FROM categories ORDER BY name",
@@ -158,7 +158,7 @@ class category
      * @param string $category
      * @return array
      */
-    function listPackages($category)
+    static function listPackages($category)
     {
         global $dbh;
         $query = 'SELECT
@@ -182,7 +182,7 @@ class category
      * @param  string Name of the category
      * @return array
      */
-    function getRecent($n, $category)
+    static function getRecent($n, $category)
     {
         global $dbh;
         $recent = array();
@@ -217,7 +217,7 @@ class category
      * @param  string Name of the category
      * @return  boolean
      */
-    function isValid($category)
+    static function isValid($category)
     {
         global $dbh;
         $query = "SELECT id FROM categories WHERE name = ?";

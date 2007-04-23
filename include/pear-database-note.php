@@ -12,7 +12,7 @@ class note
 {
     // {{{ +proto bool   note::add(string, int, string, string) API 1.0
 
-    function add($key, $value, $note, $author = "")
+    static function add($key, $value, $note, $author = "")
     {
         global $dbh, $auth_user;
         if (empty($author)) {
@@ -36,7 +36,7 @@ class note
     // }}}
     // {{{ +proto bool   note::remove(int) API 1.0
 
-    function remove($id)
+    static function remove($id)
     {
         global $dbh;
         $id = (int)$id;
@@ -50,7 +50,7 @@ class note
     // }}}
     // {{{ +proto bool   note::removeAll(string, int) API 1.0
 
-    function removeAll($key, $value)
+    static function removeAll($key, $value)
     {
         global $dbh;
         $res = $dbh->query("DELETE FROM notes WHERE $key = ". $dbh->quote($value));
@@ -63,7 +63,7 @@ class note
     // }}}
     // {{{
 
-    function getAll($user)
+    static function getAll($user)
     {
         global $dbh;
         return $dbh->getAll('SELECT id, nby, ntime, note FROM notes'

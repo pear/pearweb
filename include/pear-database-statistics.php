@@ -31,7 +31,7 @@ class statistics
      * @param  integer ID of the package
      * @return array
      */
-    function package($id)
+    static function package($id)
     {
         global $dbh;
         $query = "SELECT SUM(dl_number) FROM package_stats WHERE pid = " . (int)$id;
@@ -41,7 +41,7 @@ class statistics
     // }}}
     // {{{ release()
 
-    function release($id, $rid = "")
+    static function release($id, $rid = "")
     {
         global $dbh;
 

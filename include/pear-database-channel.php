@@ -27,7 +27,7 @@ class channel
      *       - connect and retrieve the channel.xml
      *         to verify that this is possible
      */
-    function add($name, $server)
+    static function add($name, $server)
     {
         global $dbh;
         $query = 'INSERT INTO channels (name) VALUES (?)';
@@ -46,7 +46,7 @@ class channel
      * List all registered channels
      * @return array Format: array(array(channel server), array(channel server),... )
      */
-    function listAll()
+    static function listAll()
     {
         global $dbh;
         $query = 'SELECT * FROM channels';

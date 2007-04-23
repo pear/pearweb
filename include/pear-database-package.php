@@ -39,7 +39,7 @@ class package
      * @param array
      * @return mixed ID of new package or PEAR error object
      */
-    function add($data)
+    static function add($data)
     {
         global $dbh, $auth_user;
         // name, category
@@ -117,7 +117,7 @@ class package
      * @param string|false installed version of this package
      * @return bool|array
      */
-    function getDownloadURL($packageinfo, $prefstate = 'stable',
+    static function getDownloadURL($packageinfo, $prefstate = 'stable',
                             $installed = false)
     {
         if (!isset($packageinfo['package'])) {
@@ -191,7 +191,7 @@ class package
      * @param string     release version
      * @return string|PEAR_Error|null package.xml contents from this release
      */
-    function getPackageFile($package, $version)
+    static function getPackageFile($package, $version)
     {
         global $dbh;
         $what = is_numeric($package) ? 'id' : 'name';
@@ -239,7 +239,7 @@ class package
      * @param string installed version of this dependency
      * @return bool|array
      */
-    function getDepDownloadURL($xsdversion, $dependency, $deppackage,
+    static function getDepDownloadURL($xsdversion, $dependency, $deppackage,
                                $prefstate = 'stable', $installed = false)
     {
         $info = package::info($dependency['name'], 'releases', true);
@@ -483,7 +483,7 @@ class package
     /**
      *
      */
-    function search($fragment, $summary = false, $released_only = true, $stable_only = true,
+    static function search($fragment, $summary = false, $released_only = true, $stable_only = true,
                     $include_pecl = false)
     {
         $all = package::listAll($released_only, $stable_only, $include_pecl);
@@ -517,7 +517,7 @@ class package
      * @static
      * @return array
      */
-    function listAllNames()
+    static function listAllNames()
     {
         global $dbh;
 
@@ -536,7 +536,7 @@ class package
      * @param boolean List also PECL packages
      * @return array
      */
-    function listAll($released_only = true, $stable_only = true, $include_pecl = null)
+    static function listAll($released_only = true, $stable_only = true, $include_pecl = null)
     {
         global $dbh, $HTTP_RAW_POST_DATA;
 
@@ -658,7 +658,7 @@ class package
      * @return array
      * @static
      */
-    function listAllwithReleases()
+    static function listAllwithReleases()
     {
         global $dbh;
 
@@ -695,7 +695,7 @@ class package
      * @param  string Only list release with specific state (Optional)
      * @return array
      */
-    function listLatestReleases($state = '')
+    static function listLatestReleases($state = '')
     {
         global $dbh;
         $query =
@@ -745,7 +745,7 @@ class package
      * @param array Array containing the currently installed packages
      * @return array
      */
-    function listUpgrades($currently_installed)
+    static function listUpgrades($currently_installed)
     {
         global $dbh;
         if (sizeof($currently_installed) == 0) {
@@ -783,7 +783,7 @@ class package
      * @param array $data Assoc in the form 'field' => 'value'.
      * @return mixed True or PEAR_Error
      */
-    function updateInfo($pkgid, $data)
+    static function updateInfo($pkgid, $data)
     {
         global $dbh, $auth_user;
         $package_id = package::info($pkgid, 'id');
@@ -827,7 +827,7 @@ class package
      * @param  string Name of the package
      * @return array  List of package that depend on $package
      */
-    function getDependants($package) {
+    static function getDependants($package) {
         global $dbh;
         $query = 'SELECT p.name AS p_name, ' .
             ' MAX(r.version) AS max_dep, ' .
@@ -851,7 +851,7 @@ class package
      * @param  string Name of the package
      * @return array
      */
-    function getRecent($n, $package)
+    static function getRecent($n, $package)
     {
         global $dbh;
         $recent = array();
@@ -886,7 +886,7 @@ class package
      * @param  string Name of the package
      * @return  boolean
      */
-    function isValid($package)
+    static function isValid($package)
     {
         global $dbh;
         $query = "SELECT id FROM packages WHERE package_type = 'pear' AND approved = 1 AND name = ?";
@@ -904,7 +904,7 @@ class package
      * @param  int ID of the package
      * @return array
      */
-    function getNotes($package)
+    static function getNotes($package)
     {
         global $dbh;
 
@@ -921,7 +921,7 @@ class package
      * @param  int ID of the package
      * @return void
      */
-    function allowTrackbacks($name, $allow)
+    static function allowTrackbacks($name, $allow)
     {
         global $dbh;
 

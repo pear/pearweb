@@ -22,7 +22,7 @@ class maintainer
      * @param  integer Is the developer actively working on the project?
      * @return mixed True or PEAR error object
      */
-    function add($package, $user, $role, $active = 1)
+    static function add($package, $user, $role, $active = 1)
     {
         global $dbh, $pear_rest;
 
@@ -60,7 +60,7 @@ class maintainer
      *                 of getting all maintainer if active is set to false.
      * @return array
      */
-    function get($package, $lead = false, $active = false)
+    static function get($package, $lead = false, $active = false)
     {
         global $dbh;
         if (is_string($package)) {
@@ -92,7 +92,7 @@ class maintainer
      * @param  string Handle of the user
      * @return array
      */
-    function getByUser($user)
+    static function getByUser($user)
     {
         global $dbh;
         $query = 'SELECT p.name, m.role FROM packages p, maintains m WHERE p.package_type = ? AND p.approved = 1 AND m.package = p.id AND m.handle = ?';
@@ -109,7 +109,7 @@ class maintainer
      * @param string Name of the role
      * @return boolean
      */
-    function isValidRole($role)
+    static function isValidRole($role)
     {
         require_once "PEAR/Common.php";
 
@@ -131,7 +131,7 @@ class maintainer
      * @param  string Handle of the user
      * @return True or PEAR error object
      */
-    function remove($package, $user)
+    static function remove($package, $user)
     {
         global $dbh, $auth_user;
         include_once 'pear-database-user.php';
@@ -159,7 +159,7 @@ class maintainer
      * @param bool Whether to print the logging information to the screen
      * @return mixed PEAR_Error or true
      */
-    function updateAll($pkgid, $users, $print = false)
+    static function updateAll($pkgid, $users, $print = false)
     {
         require_once "Damblan/Log.php";
 
@@ -249,7 +249,7 @@ class maintainer
      * @param  string Role
      * @param  string Is the developer actively working on the package?
      */
-    function update($package, $user, $role, $active) {
+    static function update($package, $user, $role, $active) {
         global $dbh;
 
         $query = "UPDATE maintains SET role = ?, active = ? " .
@@ -266,7 +266,7 @@ class maintainer
      * @param  int  ID of the package
      * @return boolean
      */
-    function mayUpdate($package) {
+    static function mayUpdate($package) {
         global $auth_user;
 
         $admin = $auth_user->isAdmin();

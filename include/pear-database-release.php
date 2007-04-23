@@ -40,7 +40,7 @@ class release
      * @param  integer Number of releases to return
      * @return array
      */
-    function getRecent($n = 5)
+    static function getRecent($n = 5)
     {
         global $dbh;
         $sth = $dbh->limitQuery("SELECT packages.id AS id, ".
@@ -69,7 +69,7 @@ class release
 
     // }}}
     // {{{  proto array  release::getPopular(int) API 1.0
-    function getPopular($n = 5, $rss = false)
+    static function getPopular($n = 5, $rss = false)
     {
         global $dbh;
         if ($rss) {
@@ -124,7 +124,7 @@ class release
      * @param integer Timestamp of end date
      * @return array
      */
-    function getDateRange($start,$end)
+    static function getDateRange($start,$end)
     {
         global $dbh;
 
@@ -172,7 +172,7 @@ class release
      * @param string Filename of the release tarball
      * @param string MD5 checksum of the tarball
      */
-    function upload($package, $version, $state, $relnotes, $tarball, $md5sum,
+    static function upload($package, $version, $state, $relnotes, $tarball, $md5sum,
                     $pkg_info = false, $packagexml = false, $compatible = false)
     {
         global $auth_user;
@@ -204,7 +204,7 @@ class release
      * @param string MD5 checksum of the tarball
      * @return mixed
      */
-    function validateUpload($package, $version, $state, $relnotes, $tarball, $md5sum)
+    static function validateUpload($package, $version, $state, $relnotes, $tarball, $md5sum)
     {
         global $dbh, $auth_user;
 
@@ -283,7 +283,7 @@ class release
      * @static
      * @return string  the file name of the upload or PEAR_Error object if problems
      */
-    function confirmUpload($package, $version, $state, $relnotes, $md5sum, $package_id, $file,
+    static function confirmUpload($package, $version, $state, $relnotes, $md5sum, $package_id, $file,
                            $pkg_info = false, $packagexml = false, $compatible = false)
     {
         require_once "PEAR/Common.php";
@@ -494,7 +494,7 @@ class release
      * @param string
      * @return boolean
      */
-    function dismissUpload($upload_ref)
+    static function dismissUpload($upload_ref)
     {
         return (bool)@unlink($upload_ref);
     }
@@ -514,7 +514,7 @@ class release
      * @return mixed
      * @static
      */
-    function HTTPdownload($package, $version = null, $file = null, $uncompress = false)
+    static function HTTPdownload($package, $version = null, $file = null, $uncompress = false)
     {
         global $dbh;
 
@@ -628,7 +628,7 @@ class release
      * @param string State
      * @return boolean
      */
-    function isValidState($state)
+    static function isValidState($state)
     {
         static $states = array('devel', 'snapshot', 'alpha', 'beta', 'stable');
         return in_array($state, $states);
@@ -644,7 +644,7 @@ class release
      * @param boolean include the state in the array returned
      * @return boolean
      */
-    function betterStates($state, $include = false)
+    static function betterStates($state, $include = false)
     {
         static $states = array('snapshot', 'devel', 'alpha', 'beta', 'stable');
         $i = array_search($state, $states);
@@ -667,7 +667,7 @@ class release
      * @param integer ID of the release
      * @param string Filename
      */
-    function logDownload($package, $release_id, $file = null)
+    static function logDownload($package, $release_id, $file = null)
     {
         global $dbh;
 
@@ -760,7 +760,7 @@ class release
      * @param string Filename of the new uploaded release
      * @return void
      */
-    function promote($pkginfo, $upload)
+    static function promote($pkginfo, $upload)
     {
         if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
             return;
@@ -821,7 +821,7 @@ END;
      * @param string Filename of the new uploaded release
      * @return void
      */
-    function promote_v2($pkginfo, $upload)
+    static function promote_v2($pkginfo, $upload)
     {
         if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
             return;
@@ -882,7 +882,7 @@ Authors
      * @param integer ID of the release
      * @return boolean
      */
-    function remove($package, $release)
+    static function remove($package, $release)
     {
         global $dbh, $auth_user;
         include_once 'pear-database-user.php';
@@ -945,7 +945,7 @@ Authors
      * @param string Version string of the package
      * @return mixed PEAR_Error or Array
      */
-    function getFAQ($package, $version)
+    static function getFAQ($package, $version)
     {
         global $dbh;
 
