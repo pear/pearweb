@@ -13,7 +13,7 @@
    | obtain it through the world-wide-web, please send a note to          |
    | license@php.net so we can mail you a copy immediately.               |
    +----------------------------------------------------------------------+
-   | Authors: Stig Sæther Bakken <ssb@fast.no>                            |
+   | Authors: Stig Sï¿½ther Bakken <ssb@fast.no>                            |
    |                                                                      |
    +----------------------------------------------------------------------+
  */
@@ -88,6 +88,12 @@ function pear_xmlrpc_dispatcher($method_name, $params, $appdata)
     $function = $xmlrpc_method_index["index"][$method_name][$type_key];
     if (strstr($function, "::")) {
         $function = explode("::", $function);
+        if (!class_exists($function[0])) {
+            if ($fp = @fopen('pear-database-' . $function[0] . '.php', 'r', true)) {
+                fclose($fp);
+                require_once 'pear-database-' . $function[0] . '.php';
+            }
+        }
     }
     $ret = call_user_func_array($function, $params);
     if (PEAR::isError($ret)) {
