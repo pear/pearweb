@@ -60,7 +60,7 @@
  ?>
  <tr>
   <th class="form-label_left">Status</th>
-  <td class="form-input">In Progress until : <?php echo date('l dS \of F Y \a\t m:iA', ($voteEnd)); ?></td>
+  <td class="form-input">In Progress until : <?php echo date(DateTime::RSS, $voteEnd); ?></td>
  </tr>
  <?php } ?>
 </table>
