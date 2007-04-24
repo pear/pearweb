@@ -110,7 +110,7 @@ if (!isset($_GET['election'])) {
     require dirname(dirname(dirname(__FILE__))) . '/templates/election-vote.tpl.php';
     exit;
 }
-if (!$voter->electionExists($_GET['election'])) {
+if (!$voter->electionExists($_GET['election']) && is_int($_GET['election'])) {
     // display summary
     $currentelections = $voter->listCurrentElections();
     $completedelections = $voter->listCompletedElections();
