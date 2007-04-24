@@ -460,13 +460,14 @@ function show_package_version_options($package, $current)
         if ($current == $v[0]) {
             echo ' selected="selected"';
         }
-        echo ' value = "' . $v[0] . '">' . $v[0] . ' (' . $v[1] . ")</option>\n";
+		
+        echo ' value = "' . htmlspecialchars($v[0]) . '">' . htmlspecialchars($v[0]) . ' (' . htmlspecialchars($v[1]) . ")</option>\n";
         if ($current == $v[0]) {
             $use++;
         }
     }
     if (!$use && $current) {
-        echo '<option selected="selected">' . $current . "</option>\n";
+        echo '<option selected="selected">' . htmlspecialchars($current) . "</option>\n";
     } else {
         echo '<option>CVS</option>' . "\n";
     }
