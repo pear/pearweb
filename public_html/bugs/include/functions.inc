@@ -1145,11 +1145,11 @@ function format_search_string($search)
  *
  * @return void
  */
-function show_bugs_menu($pkgname, $status = null)
+function show_bugs_menu($pkgname, $status = null, $fulllink = false)
 {
     global $dbh, $pseudo_pkgs;
 
-    if (empty($pkgname)) {
+    if (empty($pkgname) && !$fulllink) {
         return;
     }
 
@@ -1170,7 +1170,7 @@ function show_bugs_menu($pkgname, $status = null)
     echo "\n\n<!-- BEGIN BUG NAV -->\n\n";
     echo '<table width="100%" border="0"><tr><td>' . "\n ";
 
-    if (count($pkgname) == 1) {
+    if (count($pkgname) == 1 && !$fulllink) {
         if ($home) {
             echo make_link('/package/' . $pkgname[0], 'Package home');
             echo delim();
@@ -1180,7 +1180,7 @@ function show_bugs_menu($pkgname, $status = null)
         echo delim();
     }
 
-    if (count($pkgname) == 1) {
+    if (count($pkgname) == 1 && !$fulllink) {
         echo make_link('/bugs/search.php?package_name[]=' . $pkgname[0], 'New search');
         echo delim();
         echo make_link('/bugs/roadmap.php?package=' . $pkgname[0], 'Development Road Map');
@@ -1195,17 +1195,22 @@ function show_bugs_menu($pkgname, $status = null)
     $style['All']      = ($status == 'All')     ?' class="status_active"':'';
 
     echo '<td style="text-align: right;">' . "\n Status: ";
-    echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
+    if (!$fulllink) {
+        $fulllink = '/bugs/search.php?cmd=display&amp;' . $pkgs; 
+    }
+    echo make_link($fulllink .
                    '&amp;status=Open', 'Open', '', $style['Open']);
     echo delim();
-    echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
+    echo make_link($fulllink .
                    '&amp;status=Feedback', 'Feedback', '', $style['Feedback']);
     echo delim();
-    echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
+    echo make_link($fulllink .
                    '&amp;status=All', 'All', '', $style['All']);
-    echo delim();
-    echo make_link('/bugs/search.php?cmd=display&amp;' . $pkgs .
-                   '&amp;status=CRSLR', 'CRSLR', '', $style['CRSLR'], 'Closed reports since last release');
+    if (count($pkgname) == 1) {
+        echo delim();
+        echo make_link($fulllink .
+                       '&amp;status=CRSLR', 'CRSLR', '', $style['CRSLR'], 'Closed reports since last release');
+    }
     echo "\n</td></tr></table>\n";
     echo '<hr />';
     echo "\n\n<!-- END BUG NAV -->\n\n";

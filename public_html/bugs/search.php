@@ -405,7 +405,6 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '?cmd=display' .
                     $package_name_string  .
                     $package_nname_string .
-                    '&amp;status='      . urlencode(rinse($status)) .
                     '&amp;search_for='  . urlencode(rinse($search_for)) .
                     '&amp;php_os='      . urlencode(rinse($php_os)) .
                     '&amp;boolean='     . BOOLEAN_SEARCH .
@@ -423,8 +422,13 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                     '&amp;maintain='    . urlencode($maintain);
 
             display_bug_error($warnings, 'warnings', 'WARNING:');
-            show_bugs_menu($_GET['package_name'], $status);
+            if (isset($_GET['showmenu'])) {
+                show_bugs_menu($_GET['package_name'], $status, $link . '&amp;showmenu=1');
+            } else {
+                show_bugs_menu($_GET['package_name'], $status);
+            }
 
+            $link .= '&amp;status='      . urlencode(rinse($status));
             ?>
 
 <table border="0" cellspacing="2" width="100%">
