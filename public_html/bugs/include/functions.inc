@@ -530,13 +530,13 @@ function show_version_options($current, $default = '')
         if ($current == $v) {
             echo ' selected="selected"';
         }
-        echo '>' . $v . "</option>\n";
+        echo '>' . htmlspecialchars$v) . "</option>\n";
         if ($current == $v) {
             $use++;
         }
     }
     if (!$use && $current) {
-        echo '<option selected="selected">' . $current . "</option>\n";
+        echo '<option selected="selected">' . htmlspecialchars($current) . "</option>\n";
     }
     echo '<option value="earlier">Earlier? Upgrade first!</option>' . "\n";
 }
