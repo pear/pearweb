@@ -2,7 +2,21 @@
 
 <script src="/javascript/jquery.js"></script>
 <script src="/javascript/thickbox.js"></script>
+<script language="javascript">
 
+function checkAll()
+{
+    $("input[@type='checkbox']").each(function() {
+        if (this.checked) {
+            this.checked = false;
+            $('input[@id=submitButton]').attr({'value': 'Select All'}); 
+            return true;
+        }
+        $('input[@id=submitButton]').attr({'value': 'Deselect All'});
+        this.checked = true;
+    });
+}
+</script>
 <style type="text/css">
 @import "/css/thickbox.css";
 </style>
@@ -67,15 +81,17 @@ if (isset($url) && !empty($url)) {
   </tr>
  <?php endforeach; ?>
   <tr>
-   <th class="form-label_left"><?php echo $caption ?></th>
+   <th class="form-label_left">
+    <?php echo $caption ?></th>
    <td class="form-input" colspan="4">
+    <input id="submitButton" type="button" onclick="checkAll()" value="Select All" />&nbsp;
     <input type="submit" name="<?php echo $name ?>" value="<?php echo $button ?>" />
    </td>
   </tr>
   <tr>
    <th class="form-label_left">Delete Notes</th>
    <td class="form-input" colspan="4">
-    <div align="right"><input type="submit" name="delete" value="Delete" /></div>
+    <div align="left"><input type="submit" name="delete" value="Delete" /></div>
    </td>
   </tr>   
  </table>
