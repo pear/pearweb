@@ -19,6 +19,13 @@
   <th class="form-label_left">Voter turnout</th>
   <td class="form-input"><?php echo number_format($info['turnout'] * 100, 2) ?>%</td>
  </tr>
+ <?php
+
+     $voteEnd     = strtotime($info['voteend']);
+     $currentDate = strtotime(date('Y-m-d'));
+
+     if ($voteEnd < $currentDate) {
+ ?>
  <tr>
   <th class="form-label_left">Results (<?php echo count($info['winners']) ?> winners)</th>
   <td class="form-input">
@@ -45,6 +52,17 @@
    </table>
   </td>
  </tr>
+ <?php 
+     }
+
+     if ($voteEnd > $currentDate) { 
+         $timeLeft = $info['voteend'];
+ ?>
+ <tr>
+  <th class="form-label_left">Status</th>
+  <td class="form-input">In Progress until : <?php echo date('l dS \of F Y \a\t m:iA', time($timeLeft)); ?></td>
+ </tr>
+ <?php } ?>
 </table>
 <a href="/election/"><< Back to elections list</a>
 <?php response_footer();
