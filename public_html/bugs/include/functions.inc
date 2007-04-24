@@ -531,7 +531,7 @@ function show_version_options($current, $default = '')
         if ($current == $v) {
             echo ' selected="selected"';
         }
-        echo '>' . htmlspecialchars$v) . "</option>\n";
+        echo '>' . htmlspecialchars($v) . "</option>\n";
         if ($current == $v) {
             $use++;
         }
