@@ -91,7 +91,7 @@ if (isset($url) && !empty($url)) {
   <tr>
    <th class="form-label_left">Delete Notes</th>
    <td class="form-input" colspan="4">
-    <div align="left"><input type="submit" name="delete" value="Delete" /></div>
+    <div align="right"><input type="submit" name="delete" value="Delete" /></div>
    </td>
   </tr>   
  </table>
