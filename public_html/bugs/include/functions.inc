@@ -1206,10 +1206,17 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
     echo delim();
     echo make_link($fulllink .
                    '&amp;status=All', 'All', '', $style['All']);
+    if (!class_exists('package')) {
+        require_once 'pear-database-package.php';
+    }
     if (count($pkgname) == 1) {
-        echo delim();
-        echo make_link($fulllink .
-                       '&amp;status=CRSLR', 'CRSLR', '', $style['CRSLR'], 'Closed reports since last release');
+        $releases = package::info($pkgname[0], 'releases');
+        if (count($releases)) {
+            echo delim();
+            echo make_link($fulllink .
+                           '&amp;status=CRSLR', 'Fixed Since Version ' . 
+                           key($releases), $style['CRSLR'], 'Closed bugs since last release');
+        }
     }
     echo "\n</td></tr></table>\n";
     echo '<hr />';
