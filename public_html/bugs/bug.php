@@ -78,13 +78,13 @@ if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
 }
 
 // captcha is not necessary if the user is logged in
-if ($auth_user && $auth_user->registered) {
+if (isset($auth_user) && $auth_user && $auth_user->registered) {
     if (isset($_SESSION['answer'])) {
         unset($_SESSION['answer']);
     }
 }
 
-if ($auth_user && $auth_user->registered && isset($_GET['delete_comment'])) {
+if (isset($auth_user) && $auth_user && $auth_user->registered && isset($_GET['delete_comment'])) {
     $delete_comment = (int)$_GET['delete_comment'];
 } else {
     $delete_comment = false;
@@ -133,7 +133,7 @@ $bug =& $dbh->getRow($query, array($id), DB_FETCHMODE_ASSOC);
 
 
 if ($edit == 1) {
-    if ($auth_user) {
+    if (isset($auth_user) && $auth_user) {
         if (auth_check('pear.bug') && !auth_check('pear.dev') &&
               $bug['bughandle'] != $auth_user->handle) {
             $edit = 3; // can't edit a bug you didn't create
@@ -163,7 +163,7 @@ if (!empty($_POST['pw'])) {
         $user = htmlspecialchars(rinse($_POST['user']));
     }
     $pw = rinse($_POST['pw']);
-} elseif ($auth_user && $auth_user->handle && $edit == 1) {
+} elseif (isset($auth_user) && $auth_user && $auth_user->handle && $edit == 1) {
     $user = rinse($auth_user->handle);
     $pw   = rinse($auth_user->password);
 } elseif (isset($_COOKIE['MAGIC_COOKIE'])) {
@@ -264,7 +264,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
     }
 
     // try to verify the user
-    if ($auth_user) {
+    if (isset($auth_user) && $auth_user) {
         $_POST['in']['handle'] = $auth_user->handle;
     }
 
@@ -275,7 +275,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
 
     if (!$errors) {
         do {
-            if (!$auth_user) {
+            if (!isset($auth_user) || !$auth_user) {
                 // user doesn't exist yet
                 require 'bugs/pear-bug-accountrequest.php';
                 $buggie = new PEAR_Bug_Accountrequest;
@@ -703,7 +703,7 @@ if ($bug['modified']) {
 <?php
 
 control(0, 'View');
-if (!($auth_user && $auth_user->registered) && $edit != 2) {
+if (!(isset($auth_user) && $auth_user && $auth_user->registered) && $edit != 2) {
     control(3, 'Add Comment');
 }
 control(1, 'Edit');
@@ -715,7 +715,7 @@ control(1, 'Edit');
 if (isset($_POST['preview']) && !empty($ncomment)) {
     $preview = '<div class="comment">';
     $preview .= "<strong>[" . format_date(time()) . "] ";
-    if ($auth_user) {
+    if (isset($auth_user) && $auth_user) {
         $preview .= '<a href="/user/' . $auth_user->handle . '">' .
             $auth_user->handle . '</a>';
     } else {
@@ -1033,7 +1033,7 @@ if ($edit == 1 || $edit == 2) {
     <?php
 } // if ($edit == 1 || $edit == 2)
 
-if ($auth_user && $auth_user->registered) {
+if (isset($auth_user) && $auth_user && $auth_user->registered) {
 
 ?>
 <div class="explain">
@@ -1061,7 +1061,7 @@ if ($edit == 3) {
 $action = htmlspecialchars($_SERVER['PHP_SELF']);
 ?>
     <form name="comment" id="comment" action="<?php echo $action ?>" method="post">
-<?php if ($auth_user): ?>
+<?php if (isset($auth_user) && $auth_user): ?>
     <div class="explain">
      <h1><a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
     </div>
@@ -1093,7 +1093,7 @@ $action = htmlspecialchars($_SERVER['PHP_SELF']);
 
 
     <table>
-     <?php if (!$auth_user): ?>
+     <?php if (!isset($auth_user) || !$auth_user): ?>
      <tr>
       <th class="details">Y<span class="accesskey">o</span>ur email address:<br />
       <strong>MUST BE VALID</strong></th>
