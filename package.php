@@ -22,14 +22,21 @@ $a->setReleaseVersion('1.14.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Request #10798 Split up the pear-database file [helgi]
- * Request #10668 Assign roadmap version at bug entry time [helgi]
- * Request #10764 Strike-through obsolete patches [helgi]
- * Request #10766 Highlight own name on bug stats page [helgi]
- * Bug #10725 bug date/time values inconsistent with bug view [helgi]
- * Request #10801   Links to packages homepage in the search view [helgi]
- * Bug #10802  Opening up the detailed roadmap doesn\'t jump down to the proper anchor [helgi]
- * Request #10724 Show closed bugs since last release [helgi]
+ * Fix Bug #10725: bug date/time values inconsistent [dufuz]
+ * Fix Bug #10773: email is not validated for bug comments [cellog]
+ * Fix Bug #10802: Opening up the detailed roadmap doesn\'t jump down to the proper anchor [dufuz]
+ * Fix Bug #10831: Election Interface Bug [davidc]
+ * Fix Bug #10832: Election election id is not checked [davidc]
+ * Implement Feature #6829: Full involved bugs information in personal menu [cellog]
+ * Implement Feature #10668: Assign roadmap version at bug entry time [dufuz]
+ * Implement Feature #10724: show closed bugs since last release [dufuz]
+ * Implement Feature #10764: strike-through obsolete patches [dufuz]
+ * Implement Feature #10766: highlight own name on bug stats page [dufuz]
+ * Implement Feature #10798: Split up the pear-database file [dufuz]
+ * Implement Feature #10801: Links to packages homepage in the search view [dufuz]
+ * Implement Feature #10818: add Igor\'s slides [davidc]
+ * Implement Feature #10824: Missing link to elections [davidc]
+ * Implement Feature #10826: Missing "select all" notes [davidc]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
