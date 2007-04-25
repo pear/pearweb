@@ -31,20 +31,15 @@ if (count($obsoletes)) {
 }
 ?>
 Patch Revisions:
-<?php
-echo '<ul>';
-foreach ($revisions as $i => $rev) {
-    echo '<li><a href="patch-display.php?bug=', urlencode($bug), '&patch=',
-         urlencode($patch), '&revision=', urlencode($rev[0]), '">',
-         format_date($rev[0]), '</a>', 
-         ' <a href="/bugs/patch-display.php?patch=',
-             urlencode($patch),
-             '&bug=', $bug, '&diff=1&old=', $rev[0], '&revision=',
-             $revision, '">[diff to current]</a></li>';
-}
-echo '</ul></li>';
-?>
+<?php foreach ($revisions as $i => $revision): ?>
+<a href="patch-display.php?bug=<?php echo urlencode($bug) ?>&patch=<?php
+    echo urlencode($patch) ?>&revision=<?php echo urlencode($revision[0]) ?>"><?php
+    echo format_date($revision[0]) ?></a><?php if ($i < count($revisions) - 1) echo ' | '; ?>
+<?php endforeach; //foreach ($revisions as $i => $revision) ?>
 <h3>Developer: <a href="/user/<?php echo $handle ?>"><?php echo $handle ?></a></h3>
 <pre>
-<?php echo htmlentities($patchcontents, ENT_QUOTES, 'UTF-8'); ?>
+<?php if ($d->isEmpty()) echo 'Diffs are identical!'; else {
+    echo $diff->render($d);
+}
+?>
 </pre>

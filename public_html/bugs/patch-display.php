@@ -69,8 +69,29 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
     $patches = $patchinfo->listPatches($buginfo['id']);
     $canpatch = auth_check('pear.bug') || auth_check('pear.dev');
     include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/listpatches.php';
+    $revisions = $patchinfo->listRevisions($buginfo['id'], $_GET['patch']);
     $revision = $_GET['revision'];
     $patch = $_GET['patch'];
+    if (isset($_GET['diff']) && $_GET['diff'] && isset($_GET['old']) && is_numeric($_GET['old'])) {
+        $old = $patchinfo->getPatchFullpath($_GET['bug'], $_GET['patch'],
+                                            $_GET['old']);
+        $new = $path;
+        if (!realpath($old) || !realpath($new)) {
+            var_dump($old, realpath($old));
+            var_dump($new, realpath($new));
+            response_header('Error :: Cannot retrieve patch');
+            display_bug_error('Internal error: Invalid patch revision specified for diff');
+            response_footer();
+            exit;
+        }
+        require_once 'Text/Diff.php';
+        require_once 'bugs/Diff/pearweb.php';
+        $d = new Text_Diff($orig = file($old), $now = file($new));
+        $diff = new Text_Diff_Renderer_pearweb($d);
+        include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/patchdiff.php';
+        response_footer();
+        exit;
+    }
     include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/patchdisplay.php';
     response_footer();
     exit;

@@ -119,6 +119,9 @@
    </dir> <!-- /doc -->
    <dir name="include">
     <dir name="bugs">
+     <dir name="Diff">
+      <file name="pearweb.php" role="web" />
+     </dir> <!-- /include/bugs/Diff -->
      <file name="patchtracker.php" role="web" />
      <file name="pear-bug-accountrequest.php" role="web" />
      <file name="pear-bugs.php" role="web" />
@@ -601,6 +604,7 @@
      <file name="addpatch.php" role="web" />
      <file name="listpatches.php" role="web" />
      <file name="patchadded.php" role="web" />
+     <file name="patchdiff.php" role="web" />
      <file name="patchdisplay.php" role="web" />
      <file name="patchform.php" role="web" />
      <file name="registernewaccount.php" role="web" />
