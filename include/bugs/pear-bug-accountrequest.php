@@ -229,8 +229,7 @@ class PEAR_Bug_Accountrequest
         $this->dbh->query('UPDATE bugdb_comments set reporter_name=? WHERE handle=?', array($name, $temphandle));
         $this->dbh->query('UPDATE bugdb set reporter_name=? WHERE handle=?', array($name, $temphandle));
         $this->dbh->query('UPDATE users set handle=? WHERE handle=?', array($handle, $temphandle));
-        $this->dbh->query('UPDATE bugdb set handle=? WHERE handle=?', array($handle, $temphandle));
-        $this->dbh->query('UPDATE bugdb set registered=1 WHERE handle=?', array($handle));
+        $this->dbh->query('UPDATE bugdb set registered=1, handle=? WHERE handle=?', array($handle, $temphandle));
         $this->dbh->query('UPDATE bugdb_comments set handle=? WHERE handle=?', array($handle, $temphandle));
         $this->dbh->query('UPDATE bugdb_patchtracker set developer=? WHERE developer=?', array($handle, $temphandle));
         $this->handle = $handle;
