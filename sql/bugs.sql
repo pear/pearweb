@@ -19,6 +19,7 @@ CREATE TABLE bugdb (
   ts2 datetime default NULL,
   assign varchar(20) default NULL,
   passwd varchar(20) default NULL,
+  registered tinyint(1) NOT NULL default 0,
   PRIMARY KEY  (id),
   KEY php_version (php_version(1)),
   KEY package_version (package_version(1)),

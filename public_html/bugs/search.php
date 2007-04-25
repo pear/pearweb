@@ -100,9 +100,9 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
     if (empty($_GET['package_name']) || !is_array($_GET['package_name'])) {
         $_GET['package_name'] = array();
-        $where_clause = ' WHERE 1=1';
+        $where_clause = ' WHERE bugdb.registered=1';
     } else {
-        $where_clause = ' WHERE bugdb.package_name';
+        $where_clause = ' WHERE bugdb.registered=1 AND bugdb.package_name';
         if (count($_GET['package_name']) > 1) {
             $where_clause .= " IN ('"
                            . join("', '", escapeSQL($_GET['package_name']))

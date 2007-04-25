@@ -200,6 +200,7 @@ if (isset($_POST['in'])) {
         do {
             if ($ok_to_submit_report) {
                 if (!$auth_user) {
+                    $registereduser = 0;
                     // user doesn't exist yet
                     require 'bugs/pear-bug-accountrequest.php';
                     $buggie = new PEAR_Bug_Accountrequest;
@@ -239,6 +240,7 @@ if (isset($_POST['in'])) {
                         }
                     }
                 } else {
+                    $registereduser = 1;
                     $_POST['in']['reporter_name'] = $auth_user->name;
                     $_POST['in']['handle'] = $auth_user->handle;
                 }
@@ -270,6 +272,7 @@ if (isset($_POST['in'])) {
                 }
 
                 $query = 'INSERT INTO bugdb (
+                          registered,
                           package_name,
                           bug_type,
                           email,
@@ -282,7 +285,7 @@ if (isset($_POST['in'])) {
                           status, ts1,
                           passwd,
                           reporter_name
-                         ) VALUES (' .
+                         ) VALUES (' . $registereduser . ',' . 
                          " '" . escapeSQL($_POST['in']['package_name']) . "'," .
                          " '" . escapeSQL($_POST['in']['bug_type']) . "'," .
                          " '" . escapeSQL($_POST['in']['email']) . "'," .

@@ -227,6 +227,13 @@
     <default></default>
    </field>
 
+   <field>
+    <name>registered</name>
+    <type>boolean</type>
+    <length>1</length>
+    <default>0</default>
+   </field>
+
    <index>
     <name>php_version</name>
     <field>
