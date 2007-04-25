@@ -240,8 +240,10 @@ function field($n) {
  */
 function txfield($n)
 {
-    return oneof(rinse($_POST['in'][$n]),
-                 $GLOBALS['bug'][$n]);
+    return oneof((isset($_POST['in']) && isset($_POST['in'][$n])) ?
+                    rinse($_POST['in'][$n]) : false,
+                 (isset($GLOBALS['bug']) && isset($GLOBALS['bug'][$n])) ?
+                    $GLOBALS['bug'][$n] : false);
 }
 
 /**
@@ -1194,7 +1196,7 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
     $style['Open']     = ($status == 'Open')    ?' class="status_active"':'';
     $style['Feedback'] = ($status == 'Feedback')?' class="status_active"':'';
     $style['All']      = ($status == 'All')     ?' class="status_active"':'';
-
+    $style['CRSLR']    = ($status == 'CRSLR')   ?' class="status_active"':'';
     echo '<td style="text-align: right;">' . "\n Status: ";
     if (!$fulllink) {
         $fulllink = '/bugs/search.php?cmd=display&amp;' . $pkgs; 
@@ -1216,7 +1218,7 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
             echo delim();
             echo make_link($fulllink .
                            '&amp;status=CRSLR', 'Fixed Since Version ' . 
-                           key($releases), $style['CRSLR'], 'Closed bugs since last release');
+                           key($releases), '', $style['CRSLR'], 'Closed bugs since last release');
         }
     }
     echo "\n</td></tr></table>\n";

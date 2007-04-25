@@ -339,7 +339,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
 } elseif (isset($_POST['ncomment']) && isset($_POST['preview']) && $edit == 3) {
     $ncomment = trim($_POST['ncomment']);
 
-} elseif ($_POST['in'] && !isset($_POST['preview']) && $edit == 2) {
+} elseif (isset($_POST['in']) && !isset($_POST['preview']) && $edit == 2) {
     // Edits submitted by original reporter for old bugs
 
     if (!$bug['passwd'] || $bug['passwd'] != $pw) {
@@ -403,10 +403,10 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
             $dbh->query($query);
         }
     }
-} elseif ($_POST['in'] && isset($_POST['preview']) && $edit == 2) {
+} elseif (isset($_POST['in']) && isset($_POST['preview']) && $edit == 2) {
     $ncomment = trim($_POST['ncomment']);
     $from = rinse($_POST['in']['commentemail']);
-} elseif ($_POST['in']  && !isset($_POST['preview']) && $edit == 1) {
+} elseif (isset($_POST['in'])  && !isset($_POST['preview']) && $edit == 1) {
     // Edits submitted by developer
 
     if (!verify_password($user, $pw)) {
@@ -524,17 +524,17 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
             $dbh->query($query, array($id, $from, $ncomment, $comment_name, $auth_user->handle));
         }
     }
-} elseif ($_POST['in'] && isset($_POST['preview']) && $edit == 1) {
+} elseif (isset($_POST['in']) && isset($_POST['preview']) && $edit == 1) {
     $ncomment = trim($_POST['ncomment']);
     $from = $auth_user->email;
-} elseif ($_POST['in']) {
+} elseif (isset($_POST['in'])) {
     $errors[] = 'Invalid edit mode.';
     $ncomment = '';
 } else {
     $ncomment = '';
 }
 
-if ($_POST['in'] && (!isset($_POST['preview']) && $ncomment ||
+if (isset($_POST['in']) && (!isset($_POST['preview']) && $ncomment ||
       $previous != $current)) {
     if (!$errors) {
         if (!isset($buggie)) {
@@ -553,6 +553,9 @@ switch ($bug['bug_type']) {
 response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']));
 
 // DISPLAY BUG
+if (!isset($_GET['thanks'])) {
+    $_GET['thanks'] = 0;
+}
 if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
     display_bug_success('The bug was updated successfully.');
 
