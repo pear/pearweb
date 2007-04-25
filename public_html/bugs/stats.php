@@ -267,7 +267,7 @@ echo ' </tr>' . "\n";
 $stat_row = 1;
 foreach ($pkg[$sort_by] as $name => $value) {
     // Check if the logged in user maintains this package
-    if (in_array($name, $packages)) {
+    if (isset($packages) && in_array($name, $packages)) {
         $class = ' bug_bg_selected';
     } else {
         $class = '';
