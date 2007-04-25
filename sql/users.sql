@@ -14,6 +14,7 @@ CREATE TABLE users (
   pgpkeyid varchar(20) default NULL,
   pgpkey text,
   wishlist varchar(255) NOT NULL default '',
+  active tinyint(1) NOT NULL default 1,
   PRIMARY KEY  (handle),
   KEY handle (handle,registered),
   KEY pgpkeyid (pgpkeyid),

@@ -70,12 +70,17 @@ if (isset($_POST['command']) && strlen($_POST['command'] < 32)) {
 
 switch ($command) {
     case 'update':
-        $fields_list = array("name", "email", "homepage", "showemail", "userinfo", "pgpkeyid", "wishlist", "latitude", "longitude");
+        $fields_list = array("name", "email", "homepage", "showemail", "userinfo", "pgpkeyid", "wishlist", "latitude", "longitude", "active");
 
         $user_data_post = array('handle' => $handle);
         foreach ($fields_list as $k) {
             if ($k == 'showemail') {
                 $user_data_post['showemail'] =  isset($_POST['showemail']) ? 1 : 0;
+                continue;
+            }
+
+            if ($k == 'active') {
+                $user_data_post['active'] =  isset($_POST['active']) ? 1 : 0;
                 continue;
             }
 
@@ -203,6 +208,8 @@ if ($row === null) {
 $form = new HTML_Form('account-edit.php', 'post');
 $form->setDefaultFromInput(false);
 
+$form->addCheckbox('active', 'Active User?',
+        htmlspecialchars($row['active']));
 $form->addText('name', '<span class="accesskey">N</span>ame:',
         htmlspecialchars($row['name']), 40, null, 'accesskey="n"');
 $form->addText('email', 'Email:',

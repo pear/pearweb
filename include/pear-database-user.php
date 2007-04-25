@@ -54,6 +54,7 @@ class user
         include_once 'pear-database-note.php';
         note::removeAll("uid", $uid);
         $user->set('registered', 1);
+        $user->set('active', 1);
         /* $user->set('ppp_only', 0); */
         if (is_array($arr)) {
             $user->set('userinfo', $arr[1]);
@@ -392,9 +393,11 @@ class user
                         'wishlist',
                         'latitude',
                         'longitude',
+                        'active',
                   );
 
         $user =& new PEAR_User($dbh, $data['handle']);
+        $active = $user->active;
         foreach ($data as $key => $value) {
             if (!in_array($key, $fields)) {
                 continue;
@@ -403,6 +406,10 @@ class user
         }
         $user->store();
 
+        if (!$user->active && $active) {
+            // this user is completely inactive, so mark all maintains as not active.
+            $dbh->query('UPDATE maintains SET active=0 WHERE handle=?', array($user->handle));
+        }
         return $user;
     }
 

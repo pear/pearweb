@@ -125,6 +125,12 @@ if ($row['userinfo']) {
     <li>Username: <?php echo $row['handle']; ?></li>
 <?php
 
+if ($row['active']) {
+    echo '<li>Active: <strong>Yes</strong></li>';
+} else {
+    echo '<li>Active: <strong>NO</strong></li>';
+}
+
 if (isset($auth_user)) {
     echo "<li>Email: &nbsp;";
     echo make_mailto_link($row['email']);
