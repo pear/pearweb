@@ -77,8 +77,6 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
                                             $_GET['old']);
         $new = $path;
         if (!realpath($old) || !realpath($new)) {
-            var_dump($old, realpath($old));
-            var_dump($new, realpath($new));
             response_header('Error :: Cannot retrieve patch');
             display_bug_error('Internal error: Invalid patch revision specified for diff');
             response_footer();
