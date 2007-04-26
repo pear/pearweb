@@ -23,7 +23,7 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
  * Fixed Bug #10841 warnings raised on public_html/bugs/stats.php [dufuz]
-
+ * Request #10849 Remove DB_Storage [dufuz]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
