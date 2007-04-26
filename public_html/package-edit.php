@@ -138,7 +138,7 @@ if (isset($_POST['submit'])) {
                 break;
             }
 
-            include_once 'pear-datbase-release.php';
+            include_once 'pear-database-release.php';
             if (release::remove($_GET['id'], $_GET['release'])) {
                 echo "<b>Release successfully deleted.</b><br /><br />\n";
             } else {
