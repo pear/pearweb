@@ -309,7 +309,7 @@ class Bugs_Patchtracker
     function getObsoletingPatches($bugid, $patch, $revision)
     {
         return $this->_dbh->getAll('SELECT bugdb_id, patch, revision
-            FROM bugdb_obsoletes_patches 
+            FROM bugdb_obsoletes_patches
                 WHERE bugdb_id=? AND
                       obsolete_patch=? AND
                       obsolete_revision=?', array($bugid, $patch, $revision),
@@ -319,7 +319,7 @@ class Bugs_Patchtracker
     function getObsoletePatches($bugid, $patch, $revision)
     {
         return $this->_dbh->getAll('SELECT bugdb_id, obsolete_patch, obsolete_revision
-            FROM bugdb_obsoletes_patches 
+            FROM bugdb_obsoletes_patches
                 WHERE bugdb_id=? AND
                       patch=? AND
                       revision=?', array($bugid, $patch, $revision),
@@ -338,7 +338,7 @@ class Bugs_Patchtracker
     function obsoletePatch($bugid, $name, $revision, $obsoletename, $obsoleterevision)
     {
         $this->_dbh->query('INSERT INTO bugdb_obsoletes_patches
-            VALUES(?,?,?,?,?)', array($bugid, $name, $revision, $obsoletename, 
+            VALUES(?,?,?,?,?)', array($bugid, $name, $revision, $obsoletename,
                                       $obsoleterevision));
     }
 

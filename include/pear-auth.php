@@ -110,7 +110,9 @@ function auth_verify($user, $passwd)
 
     if (empty($auth_user)) {
         include_once 'pear-database-user.php';
-        $auth_user = new PEAR_User($dbh, $user);
+        $data = user::info($user, null, true, false);
+        $auth_user = new PEAR_Auth();
+        $auth_user->data($data);
     }
     $error = '';
     $ok = false;
@@ -174,11 +176,7 @@ function auth_check($atom)
     }
     // Check for backwards compatibility
     if (is_bool($atom)) {
-        if ($atom == true) {
-            $atom = "pear.admin";
-        } else {
-            $atom = "pear.dev";
-        }
+        $atom = $atom == true ? 'pear.admin' : 'pear.dev';
     }
 
     if (!isset($karma)) {
@@ -283,7 +281,9 @@ function init_auth_user()
         return true;
     }
     require_once 'pear-database.php';
-    $auth_user = new PEAR_User($dbh, $_COOKIE['PEAR_USER']);
+    $data = user::info($_COOKIE['PEAR_USER'], null, true, false);
+    $auth_user = new PEAR_Auth();
+    $auth_user->data($data);
     switch (strlen(@$auth_user->password)) {
         // handle old-style DES-encrypted passwords
         case 13: {
@@ -305,4 +305,45 @@ function init_auth_user()
     return false;
 }
 
-?>
+class PEAR_Auth
+{
+    function data($data)
+    {
+        foreach ($data as $k => $d) {
+            $this->{$k} = $d;
+        }
+    }
+
+    function is($handle)
+    {
+        global $auth_user;
+
+        if (isset($auth_user) && $auth_user) {
+            $ret = strtolower($auth_user->handle);
+        } else {
+            $ret = strtolower($this->handle);
+        }
+        return (strtolower($handle) == $ret);
+    }
+
+    function isAdmin()
+    {
+        return (user::isAdmin($this->handle));
+    }
+
+    function isQA()
+    {
+        return user::isQA($this->handle);
+    }
+
+    /**
+     * Generate link for user
+     *
+     * @access public
+     * @return string
+     */
+    function makeLink()
+    {
+        return make_link("/user/" . $this->handle . "/", $this->name);
+    }
+}

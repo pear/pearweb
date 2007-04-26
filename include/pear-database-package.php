@@ -931,19 +931,6 @@ class package
         $res = $dbh->query($query);
     }
     // }}}
-}
-
-// {{{ class PEAR_Package
-require_once 'DB/storage.php';
-class PEAR_Package extends DB_storage
-{
-    function PEAR_Package(&$dbh, $package, $keycol = "name")
-    {
-        $this->DB_storage("packages", $keycol, $dbh);
-        $this->pushErrorHandling(PEAR_ERROR_RETURN);
-        $this->setup($package);
-        $this->popErrorHandling();
-    }
 
     /**
      * Generate link for package
@@ -953,13 +940,12 @@ class PEAR_Package extends DB_storage
      * @access public
      * @return string
      */
-    function makeLink()
+    function makeLink($name)
     {
-        return make_link("/package/" . $this->name . "/", $this->name);
+        return make_link("/package/" . $name . "/", $name);
     }
 }
 
-// }}}
 // {{{ version_compare_firstelem()
 
 function version_compare_firstelem($a, $b)

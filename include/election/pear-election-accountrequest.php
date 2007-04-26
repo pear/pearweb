@@ -99,20 +99,24 @@ class PEAR_Election_Accountrequest
         // copied from the user class and Damblan_Karma
 
         include_once 'pear-database-user.php';
-        $user =& new PEAR_User($this->dbh, $this->handle);
-        if (@$user->registered) {
+        $user = user::info($this->handle);
+        if (!isset($user['registered'])) {
             return false;
         }
-        @$arr = unserialize($user->userinfo);
+
+        @$arr = unserialize($user['userinfo']);
         include_once 'pear-database-note.php';
         note::removeAll("uid", $this->handle);
-        $user->set('registered', 1);
+
+        $data = array();
+        $data['registered'] = 1;
         if (is_array($arr)) {
-            $user->set('userinfo', $arr[1]);
+            $data['userinfo'] = $arr[1];
         }
-        $user->set('created', gmdate('Y-m-d H:i'));
-        $user->set('createdby', 'pearweb');
-        $user->store();
+        $data['created']   = gmdate('Y-m-d H:i');
+        $data['createdby'] = 'pearweb';
+
+        user::update($data);
 
         $id = $this->dbh->nextId("karma");
 
@@ -127,7 +131,7 @@ class PEAR_Election_Accountrequest
                 . "You can now participate in the elections  by going to\n"
                 . "    http://" . PEAR_CHANNELNAME . "/election/";
             $xhdr = "From: pear-webmaster@lists.php.net";
-            mail($user->email, "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+            mail($user['email'], "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
             $this->deleteRequest();
             return true;
         }

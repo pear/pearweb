@@ -218,8 +218,7 @@ class PEAR_Bug_Accountrequest
 
         include_once 'pear-database-user.php';
         $useradd = user::add($data, true);
-
-        if (is_array($useradd)) {
+        if ($useradd === true) {
             return $useradd;
         }
 
@@ -238,23 +237,27 @@ class PEAR_Bug_Accountrequest
         // copied from the user class and Damblan_Karma
 
         include_once 'pear-database-user.php';
-        $user =& new PEAR_User($this->dbh, $this->handle);
-        if (@$user->registered) {
+        $user = user::info($handle);
+        if (!isset($user['registered'])) {
             return false;
         }
-        @$arr = unserialize($user->userinfo);
+        @$arr = unserialize($user['userinfo']);
 
         include_once 'pear-database-note.php';
-        note::removeAll("uid", $this->handle);
-        $user->set('registered', 1);
-        $user->set('password', $password);
-        $user->set('name', $name);
+        note::removeAll("uid", $handle);
+
+        $data = array();
+        $data['registered'] = 1;
+        $data['password']   = $password;
+        $data['name']       = $name;
         if (is_array($arr)) {
-            $user->set('userinfo', $arr[1]);
+            $data['userinfo'] = $arr[1];
         }
-        $user->set('created', gmdate('Y-m-d H:i'));
-        $user->set('createdby', 'pearweb');
-        $user->store();
+        $data['create']   = gmdate('Y-m-d H:i');
+        $data['createBy'] = 'pearweb';
+        $data['handle']   = $handle;
+
+        user::update($data);
 
         $id = $this->dbh->nextId("karma");
 
@@ -295,7 +298,7 @@ class PEAR_Bug_Accountrequest
                 . "add new comments to existing bugs";
             $xhdr = "From: pear-webmaster@lists.php.net";
             if (!DEVBOX) {
-                mail($user->email, "Your PEAR Bug Tracker Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+                mail($user['email'], "Your PEAR Bug Tracker Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
             }
             $this->deleteRequest();
             return true;
@@ -351,9 +354,9 @@ class PEAR_Bug_Accountrequest
             $bcc = array_diff($bcc, $to);
             $bcc = array_unique($bcc);
             return array(implode(', ', $to), $bugEmail, implode(', ', $bcc));
-        } else {
-            return array(implode(', ', $to), $bugEmail);
         }
+
+        return array(implode(', ', $to), $bugEmail);
     }
 
     function sendBugCommentEmail($bug)

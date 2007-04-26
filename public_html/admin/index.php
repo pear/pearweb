@@ -150,26 +150,27 @@ do {
 
     if (!empty($acreq)) {
         include_once 'pear-database-user.php';
-        $requser =& new PEAR_User($dbh, $acreq);
-        if (empty($requser->name)) {
+        $requser = user::info($acreq, null, false);
+        if (empty($requser['name'])) {
             break;
         }
-        list($purpose, $moreinfo) = @unserialize($requser->userinfo);
+        list($purpose, $moreinfo) = @unserialize($requser['userinfo']);
 
-        $bb = new BorderBox("Account request from $requser->name &lt;$requser->email&gt;", "100%", "", 2, true);
-        $bb->horizHeadRow("Requested username:", $requser->handle);
-        $bb->horizHeadRow("Realname:", $requser->name);
-        $bb->horizHeadRow("Email address:", "<a href=\"mailto:" . $requser->email . "\">" . $requser->email . "</a>");
-        $bb->horizHeadRow("MD5-encrypted password:", $requser->password);
+        $bb = new BorderBox('Account request from ' . $requser['name'] . ' &lt;' . $requser['email'] . '&gt;', "100%", '', 2, true);
+        $bb->horizHeadRow("Requested username:", $requser['handle']);
+        $bb->horizHeadRow("Realname:", $requser['name']);
+        $bb->horizHeadRow("Email address:", '<a href="mailto:' . $requser['email'] . '">' . $requser['email'] . "</a>");
+        // Any point in keeping this ?
+//         $bb->horizHeadRow("MD5-encrypted password:", $requser['password']);
         $bb->horizHeadRow("Purpose of account:", $purpose);
         $bb->horizHeadRow("More information:", $moreinfo);
         $bb->end();
 
 	    print "<br />\n";
-	    $bb = new BorderBox("Notes for user $requser->handle");
+	    $bb = new BorderBox('Notes for user ' . $requser['handle']);
 	    $notes = $dbh->getAssoc("SELECT id,nby,UNIX_TIMESTAMP(ntime) AS ntime,note FROM notes ".
 	                "WHERE uid = ? ORDER BY ntime", true,
-	                array($requser->handle));
+	                array($requser['handle']));
 	    $i = "      ";
 	    if (is_array($notes) && sizeof($notes) > 0) {
 	        print "$i<table cellpadding=\"2\" cellspacing=\"0\" border=\"0\">\n";
@@ -201,7 +202,7 @@ do {
 	    print "$i    <textarea rows=\"3\" cols=\"55\" name=\"note\"></textarea><br />\n";
 	    print "$i   <input type=\"submit\" value=\"Add note\" name=\"cmd\" />\n";
 	    print "$i   <input type=\"hidden\" name=\"key\" value=\"uid\" />\n";
-	    print "$i   <input type=\"hidden\" name=\"id\" value=\"$requser->handle\" />\n";
+	    print $i . '   <input type="hidden" name="id" value="' . $requser['handle'] . "\" />\n";
 	    print "$i   <input type=\"hidden\" name=\"acreq\" value=\"$acreq\" />\n";
 	    print "$i  </td>\n";
 	    print "$i </tr>\n";
@@ -213,7 +214,7 @@ do {
 
 <form action="<?php echo $self; ?>" method="POST" name="account_form">
 <input type="hidden" name="cmd" value="" />
-<input type="hidden" name="uid" value="<?php echo $requser->handle ?>" />
+<input type="hidden" name="uid" value="<?php echo $requser['handle'] ?>" />
 <table cellpadding="3" cellspacing="0" border="0" width="90%">
  <tr>
  <td align="left" colspan="3">
@@ -237,7 +238,7 @@ do {
  <tr>
   <td colspan="3">
    If dismissing an account request, enter the reason here
-   (will be emailed to <?php echo $requser->email ?>):<br />
+   (will be emailed to <?php echo $requser['email'] ?>):<br />
    <textarea rows="3" cols="60" name="reason"></textarea><br />
 
 <?php

@@ -2,8 +2,6 @@
 
 class user
 {
-    // {{{ *proto bool   user::remove(string) API 1.0
-
     static function remove($uid)
     {
         global $dbh;
@@ -16,7 +14,6 @@ class user
         return ($dbh->affectedRows() > 0);
     }
 
-    // }}}
     // {{{ *proto bool   user::rejectRequest(string, string) API 1.0
 
     static function rejectRequest($uid, $reason)
@@ -39,32 +36,37 @@ class user
 
     static function activate($uid, $karmalevel = 'pear.dev')
     {
-        require_once "Damblan/Karma.php";
+        require_once 'Damblan/Karma.php';
 
         global $dbh, $auth_user;
 
-        $user =& new PEAR_User($dbh, $uid);
         $karma = new Damblan_Karma($dbh);
 
-        if (@$user->registered) {
+        $user = user::info($uid);
+        if (!isset($user['registered'])) {
             return false;
         }
-        @$arr = unserialize($user->userinfo);
+        @$arr = unserialize($user['userinfo']);
 
         include_once 'pear-database-note.php';
-        note::removeAll("uid", $uid);
-        $user->set('registered', 1);
-        $user->set('active', 1);
-        /* $user->set('ppp_only', 0); */
+        note::removeAll('uid', $uid);
+
+        $data = array();
+        $data['registered'] = 1;
+        $data['active'] = 1;
+        /* $data['ppp_only'] = 0; */
         if (is_array($arr)) {
-            $user->set('userinfo', $arr[1]);
+            $data['userinfo'] = $arr[1];
         }
-        $user->set('created', gmdate('Y-m-d H:i'));
-        $user->set('createdby', $auth_user->handle);
-        $user->store();
-        $karma->grant($user->handle, $karmalevel);
-        if ($karma->has($user->handle, 'pear.dev')) {
-            $GLOBALS['pear_rest']->saveMaintainerREST($user->handle);
+        $data['created']   = gmdate('Y-m-d H:i');
+        $data['createdby'] = $auth_user->handle;
+        $data['handle']    = $user['handle'];
+
+        user::update($data);
+
+        $karma->grant($user['handle'], $karmalevel);
+        if ($karma->has($user['handle'], 'pear.dev')) {
+            $GLOBALS['pear_rest']->saveMaintainerREST($user['handle']);
             $GLOBALS['pear_rest']->saveAllMaintainersREST();
         }
 
@@ -74,7 +76,7 @@ class user
              "To log in, go to http://" . PEAR_CHANNELNAME . "/ and click on \"login\" in\n".
              "the top-right menu.\n";
         $xhdr = "From: " . $auth_user->handle . "@php.net";
-        mail($user->email, "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+        mail($user['email'], "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
         return true;
     }
 
@@ -163,20 +165,28 @@ class user
     }
 
     // }}}
-    // {{{  proto string user::info(string, [string]) API 1.0
+    // {{{  proto string user::info(string, [string], [boolean]) API 1.0
 
-    static function info($user, $field = null)
+    static function info($user, $field = null, $registered = true, $hidePassword = true)
     {
         global $dbh;
+
+        $handle = strpos($user, '@') ? 'email' : 'handle';
+
         if ($field === null) {
-            $row = $dbh->getRow('SELECT * FROM users WHERE registered = 1 AND handle = ?',
-                                array($user), DB_FETCHMODE_ASSOC);
-            unset($row['password']);
+            $registered = $registered === true ? '1' : '0';
+            $row = $dbh->getRow('SELECT * FROM users WHERE registered = ? AND ' . $handle . ' = ?',
+                                array($registered, $user), DB_FETCHMODE_ASSOC);
+            if ($hidePassword) {
+                unset($row['password']);
+            }
             return $row;
         }
-        if ($field == 'password' || preg_match('/[^a-z]/', $user)) {
+
+        if (($field == 'password' && $hidePassword) || preg_match('/[^a-z]/', $user)) {
             return null;
         }
+
         return $dbh->getRow('SELECT ! FROM users WHERE handle = ?',
                             array($field, $user), DB_FETCHMODE_ASSOC);
 
@@ -285,9 +295,9 @@ class user
         }
 
         $handle = strtolower($data['handle']);
-        $obj =& new PEAR_User($dbh, $handle);
+        $info = user::info($handle);
 
-        if (isset($obj->created)) {
+        if (isset($info['created'])) {
             $data['jumpto'] = "handle";
             $errors[] = 'Sorry, that username is already taken';
         }
@@ -297,47 +307,36 @@ class user
             return $errors;
         }
 
-        $err = $obj->insert($handle);
-
-        if (DB::isError($err)) {
-            if ($err->getCode() == DB_ERROR_CONSTRAINT) {
-                $data['display_form'] = true;
-                $data['jumpto'] = 'handle';
-                $errors[] = 'Sorry, that username is already taken';
-            } else {
-                $data['display_form'] = false;
-                $errors[] = $err;
-            }
-            return $errors;
-        }
-
         $data['display_form'] = false;
-        if ($md5ed) {
-            $md5pw = $data['password'];
-        } else {
-            $md5pw = md5($data['password']);
-        }
+        $md5pw = $md5ed ? $data['password'] : md5($data['password']);
         $showemail = @(bool)$data['showemail'];
         // hack to temporarily embed the "purpose" in
         // the user's "userinfo" column
         $userinfo = serialize(array($data['purpose'], $data['moreinfo']));
-        $set_vars = array('name' => $name,
-                          'email' => $data['email'],
-                          'homepage' => $data['homepage'],
-                          'showemail' => $showemail,
-                          'password' => $md5pw,
-                          'registered' => 0,
-                          'userinfo' => $userinfo);
+        $set_vars = array(
+            'handle'     => $handle,
+            'name'       => $name,
+            'email'      => $data['email'],
+            'homepage'   => $data['homepage'],
+            'showemail'  => $showemail,
+            'password'   => $md5pw,
+            'registered' => 0,
+            'userinfo'   => $userinfo
+        );
 
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'report_warning');
-        foreach ($set_vars as $var => $value) {
-            $err = $obj->set($var, $value);
-            if (PEAR::isError($err)) {
-                user::remove($data['handle']);
-                return 'set error';
-            }
+
+        $sql = '
+            INSERT INTO user
+                (handle, name, email, homepage, showemail, password, registered, userinfo)
+            VALUES
+                (?, ?, ?, ?, ?, ?, ?, ?)';
+
+        $err = $dbh->query($sql, $set_vars);
+        if (DB::isError($err)) {
+            return $err;
         }
-        $obj->store();
+
         PEAR::popErrorHandling();
 
         $msg = "Requested from:   {$_SERVER['REMOTE_ADDR']}\n".
@@ -379,38 +378,57 @@ class user
      *
      * @access public
      * @param  array User information
-     * @return object Instance of PEAR_User
+     * @return object|boolean DB error object on failure, true on success
      */
-    static function update($data) {
+    static function update($data)
+    {
         global $dbh;
 
-        $fields = array('name',
-                        'email',
-                        'homepage',
-                        'showemail',
-                        'userinfo',
-                        'pgpkeyid',
-                        'wishlist',
-                        'latitude',
-                        'longitude',
-                        'active',
-                  );
+        $fields = array(
+            'name',
+            'email',
+            'homepage',
+            'showemail',
+            'userinfo',
+            'pgpkeyid',
+            'wishlist',
+            'latitude',
+            'longitude',
+            'active',
+            'password',
+        );
 
-        $user =& new PEAR_User($dbh, $data['handle']);
-        $active = $user->active;
+        $info = user::info($data['handle']);
+        // In case a active value isn't passed in
+        $active = isset($info['active']) ? $info['active'] : true;
+
+        $change_k = $change_v = array();
         foreach ($data as $key => $value) {
             if (!in_array($key, $fields)) {
                 continue;
             }
-            $user->set($key, $value);
+            $change_k[] = $key;
+            $change_v[] = $value;
         }
-        $user->store();
 
-        if (!$user->active && $active) {
-            // this user is completely inactive, so mark all maintains as not active.
-            $dbh->query('UPDATE maintains SET active=0 WHERE handle=?', array($user->handle));
+        $sql = 'UPDATE users SET ' . "\n";
+        foreach ($change_k as $k) {
+            $sql .= $k . ' = ?,' . "\n";
         }
-        return $user;
+        $sql = substr($sql, 0, -2);
+        $sql.= ' WHERE handle = ?';
+
+        $change_v[] = $data['handle'];
+        $err = $dbh->query($sql, $change_v);
+        if (DB::isError($err)) {
+            return $err;
+        }
+
+        if (isset($data['active']) && $data['active'] === 0 && $active) {
+            // this user is completely inactive, so mark all maintains as not active.
+            $dbh->query('UPDATE maintains SET active=0 WHERE handle=?', array($info['handle']));
+        }
+        return true;
     }
 
     // }}}
@@ -548,54 +566,4 @@ class user
     }
 
     // }}}
-}
-
-require_once 'DB/storage.php';
-class PEAR_User extends DB_storage
-{
-    function PEAR_User(&$dbh, $user)
-    {
-        $this->DB_storage("users", "handle", $dbh);
-        if (strpos($user, '@')) {
-            $this->DB_storage('users', 'email', $dbh);
-        } else {
-            $this->DB_storage('users', 'handle', $dbh);
-        }
-        $this->pushErrorHandling(PEAR_ERROR_RETURN);
-        $this->setup($user);
-        $this->popErrorHandling();
-    }
-
-    function is($handle)
-    {
-        global $auth_user;
-
-        if (isset($auth_user) && $auth_user) {
-            $ret = strtolower($auth_user->handle);
-        } else {
-            $ret = strtolower($this->handle);
-        }
-        return (strtolower($handle) == $ret);
-    }
-
-    function isAdmin()
-    {
-        return (user::isAdmin($this->handle));
-    }
-
-    function isQA()
-    {
-        return user::isQA($this->handle);
-    }
-
-    /**
-     * Generate link for user
-     *
-     * @access public
-     * @return string
-     */
-    function makeLink()
-    {
-        return make_link("/user/" . $this->handle . "/", $this->name);
-    }
 }

@@ -469,8 +469,7 @@ if (empty($action)) {
         echo '<ul>';
 
         foreach ($dependants as $dep) {
-            $obj =& new PEAR_Package($dbh, $dep['p_name']);
-            echo '<li>' . $obj->makeLink();
+            echo '<li>' . package::makeLink($dep['p_name']);
             if ($dep['max_dep'] != $dep['max_pkg']) {
                 echo ' (versions &lt;= ' . $dep['max_dep'] . ')';
             }
@@ -541,9 +540,9 @@ if (empty($action)) {
 
                     // Print link if it's a PEAR package and it's in the db
                     if ($dependency['type'] == 'pkg') {
-                        $dep_pkg =& new PEAR_Package($dbh, $dependency['name']);
-                        if (!empty($dep_pkg->name) && $dep_pkg->package_type = 'pear' && $dep_pkg->approved = 1) {
-                            $dependency['name'] = $dep_pkg->makeLink();
+                        $dep_pkg = package::info($dependency['name']);
+                        if (!empty($dep_pkg['name']) && $dep_pkg['package_type'] = 'pear') {
+                            $dependency['name'] = package::makeLink($dependency['name']);
                         }
                     }
 

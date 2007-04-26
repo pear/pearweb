@@ -120,7 +120,11 @@ switch ($command) {
         }
 
         include_once 'pear-database-user.php';
-        $user = user::update($user_data_post);
+        $result = user::update($user_data_post);
+        if (DB::isError($result)) {
+            PEAR::raiseError('Could not update the user profile, please notifiy pear-webmaster@lists.php.net');
+            break;
+        }
 
         $old_acl = $dbh->getCol('SELECT path FROM cvs_acl '.
                                 'WHERE username = ' . "'$handle'" . ' AND access = 1', 0);
@@ -156,16 +160,15 @@ switch ($command) {
 
     case 'change_password':
         include_once 'pear-database-user.php';
-        $user = &new PEAR_User($dbh, $handle);
-
+        $user = user::info($handle, 'password', true, false);
         if (empty($_POST['password_old']) || empty($_POST['password']) ||
-            empty($_POST['password2'])) {
-
+            empty($_POST['password2'])
+        ) {
             PEAR::raiseError('Please fill out all password fields.');
             break;
         }
 
-        if ($user->get('password') != md5($_POST['password_old'])) {
+        if ($user['password'] != md5($_POST['password_old'])) {
             PEAR::raiseError('You provided a wrong old password.');
             break;
         }
@@ -175,13 +178,13 @@ switch ($command) {
             break;
         }
 
-        $user->set('password', md5($_POST['password']));
-        if ($user->store()) {
-            if (!empty($_POST['PEAR_PERSIST'])) {
-                $expire = 2147483647;
-            } else {
-                $expire = 0;
-            }
+        $data = array(
+            'password' => md5($_POST['password']),
+            'handle'   => $handle,
+        );
+        $result = user::update($data);
+        if ($result) {
+            $expire = !empty($_POST['PEAR_PERSIST']) ? 2147483647 : 0;
             setcookie('PEAR_PW', md5($_POST['password']), $expire, '/');
 
             report_success('Your password was successfully updated.');
