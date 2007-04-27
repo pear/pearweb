@@ -22,6 +22,13 @@ if (isset($_GET['status']) && $_GET['status'] == 'approved') {
     $button  = 'Make Pending';
     $caption = 'Pending';
     $name    = 'pending';
+} elseif (isset($_GET['status']) && $_GET['status'] == 'deleted') {
+    $status  = 'no';
+    $action  = 'updateApproved';
+    $title   = 'Deleted notes.';
+    $button  = 'Numb Button..';
+    $caption = 'Deleted';
+    $name    = 'deleted';
 }
 
 if (isset($_GET['url']) && !empty($_GET['url'])) {
