@@ -53,12 +53,9 @@ if (isset($url) && !empty($url)) {
   <tr>
   <th class="form-label_left">
    <input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" />
-   <br />
-   <form action="/notes/admin/trans.php" method="post">
-    <input type="hidden" name="noteId" value="<?php echo $pendingComment['note_id']; ?>" />
-    <input type="hidden" name="action" value="makeDocBug" />
-    <input class="makeDocBug" type="submit" value="Transform into a Doc Bug" />
-   </form>
+   <br /> 
+    <input class="makeDocBug" type="button" 
+           value="Transform into a Doc Bug" onclick="document.location.href='/notes/admin/trans.php?action=makeDocBug&noteId=<?php echo $pendingComment['note_id']; ?>'"/>
    </th>
    <td class="form-input">
    <a href="/manual/en/<?php echo $pendingComment['page_url'] ?>"><?php
