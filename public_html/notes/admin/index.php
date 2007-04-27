@@ -24,9 +24,9 @@ if (isset($_GET['status']) && $_GET['status'] == 'approved') {
     $name    = 'pending';
 } elseif (isset($_GET['status']) && $_GET['status'] == 'deleted') {
     $status  = 'no';
-    $action  = 'updateApproved';
+    $action  = 'approveMass';
     $title   = 'Deleted notes.';
-    $button  = 'Numb Button..';
+    $button  = 'Un-Delete comments';
     $caption = 'Deleted';
     $name    = 'deleted';
 }
