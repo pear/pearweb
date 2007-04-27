@@ -11,12 +11,10 @@ if (isset($_REQUEST['action'])) {
     $action = strtolower($_REQUEST['action']);
 }
 
-
 switch ($action) {
-    case 'makedocbug':
-        
-        if (isset($_POST['noteId'])) {
-            $noteId = (int)$_POST['noteId'];
+    case 'makedocbug':        
+        if (isset($_GET['noteId'])) {
+            $noteId = (int)$_GET['noteId'];
             
             $note = $manualNotes->getSingleCommentById($noteId);
 
@@ -120,6 +118,7 @@ switch ($action) {
         require dirname(dirname(dirname(dirname(__FILE__)))) . '/templates/notes/note-manage-admin.tpl.php';
         break;
     case 'approvemass':
+
         if (isset($_POST['noteIds']) && is_array($_POST['noteIds'])) {
             if (isset($_POST['approve'])) {
                 $notes = $manualNotes->updateCommentList($_POST['noteIds'], 'yes');
