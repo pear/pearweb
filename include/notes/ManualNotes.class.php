@@ -348,7 +348,7 @@ class Manual_Notes
          * Let's just format the note ids so they are simple to
          * read within an IN()
          */
-        $notes = "'" . implode(', ', (int)$note_ids) . "'";
+        $notes = "'" . implode(', ', $note_ids) . "'";
 
         $sql = "
             UPDATE {$this->notesTableName}
