@@ -1217,7 +1217,7 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
         if (count($releases)) {
             echo delim();
             echo make_link($fulllink .
-                           '&amp;status=CRSLR', 'Fixed Since Version ' . 
+                           '&amp;status=CRSLR', 'Closed Since Version ' . 
                            key($releases), '', $style['CRSLR'], 'Closed bugs since last release');
         }
     }
