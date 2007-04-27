@@ -28,7 +28,7 @@ function checkAll()
 <?php endif; // }}} ?>
 <?php if (isset($message) && strlen(trim($message)) > 0): // {{{ message?>
 <div class="message"><?php echo $message; ?></div>
-<?php endif; ?>
+<?php endif; // }}} ?>
 
 <?php
 if (isset($url) && !empty($url)) {
@@ -53,6 +53,11 @@ if (isset($url) && !empty($url)) {
   <tr>
   <th class="form-label_left">
    <input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" />
+   <br />
+   <form action="/notes/admin/trans.php" method="post">
+    <input type="hidden" name="noteId" value="<?php echo $pendingComment['note_id']; ?>" />
+    <input class="makeDocBug" type="submit" name="makeDocBug" value="Transform into a Doc Bug" />
+   </form>
    </th>
    <td class="form-input">
    <a href="/manual/en/<?php echo $pendingComment['page_url'] ?>"><?php
