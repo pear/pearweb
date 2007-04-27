@@ -56,7 +56,8 @@ if (isset($url) && !empty($url)) {
    <br />
    <form action="/notes/admin/trans.php" method="post">
     <input type="hidden" name="noteId" value="<?php echo $pendingComment['note_id']; ?>" />
-    <input class="makeDocBug" type="submit" name="makeDocBug" value="Transform into a Doc Bug" />
+    <input type="hidden" name="action" value="makeDocBug" />
+    <input class="makeDocBug" type="submit" value="Transform into a Doc Bug" />
    </form>
    </th>
    <td class="form-input">
