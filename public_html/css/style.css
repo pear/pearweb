@@ -214,6 +214,10 @@ td.form-input_center input {
     font-size: 90%;
 }
 
+input.makeDocBug {
+    background-color: #8CDD81;
+    border: 3px ridge green;
+}
 p.cell_note {
     margin-top: 0.3em;
     margin-bottom: 0.2em;
