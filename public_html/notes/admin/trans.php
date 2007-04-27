@@ -11,7 +11,81 @@ if (isset($_REQUEST['action'])) {
     $action = strtolower($_REQUEST['action']);
 }
 
+
 switch ($action) {
+    case 'makedocbug':
+        
+        if (isset($_POST['noteId'])) {
+            $noteId = (int)$_POST['noteId'];
+            
+            $note = $manualNotes->getSingleCommentById($noteId);
+
+            $registered      = 1;
+            $package_name    = 'Documentation';
+            $bug_type        = 'Documentation Problem';
+            $email           = $auth_user->email;
+            $handle          = $auth_user->handle;
+            $sdesc           = 'User note that is a documentation problem';
+            $ldesc           = str_replace('<br />', '', $note['note_text']);
+            $package_version = null;
+            $php_version     = 'Irrelevant';
+            $php_os          = 'Irrelevant';
+            $status          = 'Open';
+            $passwd          = null;
+            $reporter_name   = $auth_user->name;
+
+            $sql = "
+                INSERT INTO bugdb (
+                    registered,
+                    package_name,
+                    bug_type,
+                    email,
+                    handle,
+                    sdesc,
+                    ldesc,
+                    package_version,
+                    php_version,
+                    php_os,
+                    status,
+                    ts1,
+                    passwd,
+                    reporter_name
+                ) VALUES (
+                    '$registered', '$package_name', '$bug_type', '$email', '$handle',
+                    '$sdesc', '$ldesc', null, '$php_version', '$php_os',
+                    '$status', NOW(), null, '$reporter_name'
+                )
+            ";
+
+            /**
+             * Hrmph...
+             */
+            if ($dbh->phptype == 'mysql') {
+                $id = mysql_insert_id();
+            } else {
+                $id = mysqli_insert_id($dbh->connection);
+            }
+            
+            $emailInfos = array(
+                'id'              => $id,
+                'php_os'          => $php_os,
+                'package_version' => $package_version,
+                'php_version'     => $php_version,
+                'package_name'    => $package_name,
+                'bug_type'        => $bug_type,
+                'ldesc'           => $ldesc,
+                'sdesc'           => $sdesc,
+            );
+            
+            $dbh->query($sql);
+
+            $manualNotes->deleteSingleComment($noteId);
+            
+            require dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'include/bugs/pear-bug-accountrequest.php';
+            $pba = new PEAR_Bug_AccountRequest;
+            $pba->sendBugEmail($emailInfos);
+        }
+        break;
     case 'updateapproved':
         
         if (isset($_POST['noteIds']) && is_array($_POST['noteIds'])) {
