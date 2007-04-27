@@ -165,7 +165,7 @@ echo $extraHeaders;
         print '<a class="menuWhite" href="/user/' . $auth_user->handle . '">Info</a> | ';
         print '<a class="menuWhite" href="/account-edit.php?handle=' . $auth_user->handle . '">Profile</a> | ';
         print '<a class="menuWhite" href="/bugs/search.php?handle=' . $auth_user->handle . '&amp;cmd=display&amp;status=OpenFeedback&amp;showmenu=1">Bugs</a> | ';
-        print '<a class="menuWhite" href="/bugs/search.php?handle=' . $auth_user->handle . '&amp;cmd=display&amp;status=All&amp;author_email=' . $auth_user->handle .
+        print '<a class="menuWhite" href="/bugs/search.php?handle=' . $auth_user->handle . '&amp;cmd=display&amp;status=All&amp;bug_type=All&amp;author_email=' . $auth_user->handle .
         '&amp;direction=DESC&amp;order_by=ts1&amp;showmenu=1">My Bugs</a>';
         print ")</small><br />\n";
 
