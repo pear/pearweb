@@ -464,6 +464,7 @@ while ($allroadmaps->fetch()) {
         $bugs->bug_type = 'Bug';
         $bugs->selectAs();
         $bugs->joinAdd($roadmaps);
+        $bugs->whereAdd('bugdb.bug_type = "Bug"');
         $rows = $bugs->find(false);
 
         if ($mysql4) {
