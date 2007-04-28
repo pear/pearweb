@@ -19,12 +19,12 @@
 </p>
 <?php
 if (count($errors)) {
-echo '<div class="errors">';
+    echo '<div class="errors">';
     foreach ($errors as $error) {
         echo htmlspecialchars($error) . "<br />\n";
     }
+    echo '</div>';
 }
-echo '</div>';
 ?>
 <form name="resetpassword" method="POST" action="forgot-password.php">
 <table>
