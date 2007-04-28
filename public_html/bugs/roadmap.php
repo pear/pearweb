@@ -259,7 +259,7 @@ if (isset($_GET['addbugs'])) {
     $bugdb->package_name = $_GET['package'];
     $bugdb->orderBy('id');
     $features = clone($bugdb);
-    $bugdb->whereAdd('bug_type IN ("Bug", "Documentation Bug")');
+    $bugdb->whereAdd('bug_type IN ("Bug", "Documentation Problem")');
     $releases = Bug_DataObject::pearDB('releases');
     include_once 'pear-database-package.php';
     $releases->package = package::info($_GET['package'], 'id');
@@ -507,7 +507,7 @@ while ($allroadmaps->fetch()) {
         $savant->summary[$allroadmaps->roadmap_version] = true;
         $bugquery = 'SELECT COUNT(bugdb.id) FROM bugdb_roadmap_link r, bugdb
             WHERE r.roadmap_id = ? AND bugdb.id = r.id AND bugdb.bug_type IN
-                ("Bug", "Documentation Bug")';
+                ("Bug", "Documentation Problem")';
         $featurequery = 'SELECT COUNT(bugdb.id) FROM bugdb_roadmap_link r, bugdb
             WHERE r.roadmap_id = ? AND bugdb.id = r.id AND bugdb.bug_type =
                 "Feature/Change Request"';
@@ -518,7 +518,7 @@ while ($allroadmaps->fetch()) {
                 WHERE
                     bugdb.id = r.id AND
                     r.roadmap_id = ? AND
-                    bugdb.bug_type IN ("Bug", "Documentation Bug") AND
+                    bugdb.bug_type IN ("Bug", "Documentation Problem") AND
                     bugdb.status = "Closed"', array($allroadmaps->id));
         }
         if ($savant->totalfeatures[$allroadmaps->roadmap_version] = $dbh->getOne($featurequery,
