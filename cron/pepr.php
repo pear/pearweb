@@ -30,6 +30,7 @@ set_include_path(dirname(dirname(__FILE__)) . '/include' . PATH_SEPARATOR . get_
  */
 require_once 'pear-config.php';
 
+require_once 'PEAR.php';
 /**
  * Obtain some needed functions.
  *
