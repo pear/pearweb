@@ -25,17 +25,12 @@
 
 
 ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR
-        . '/usr/local/www/pearweb/include');
+        . '/usr/local/web/pear.php.net/include');
 
 /**
  * Get common settings.
  */
 require_once 'pear-config.php';
-
-/**
- * Obtain the system's common functions and classes.
- */
-require_once 'pear-database.php';
 
 /**
  * Obtain some needed functions.
