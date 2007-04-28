@@ -24,6 +24,7 @@
  */
 
 
+set_include_path(dirname(dirname(__FILE__)) . '/include' . PATH_SEPARATOR . get_include_path());
 /**
  * Get common settings.
  */
