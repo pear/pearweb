@@ -28,15 +28,7 @@ set_include_path(dirname(dirname(__FILE__)) . '/include' . PATH_SEPARATOR . get_
 /**
  * Get common settings.
  */
-require_once 'pear-config.php';
-
-require_once 'PEAR.php';
-/**
- * Obtain some needed functions.
- *
- * In particular, user_link(), which is needed by sendActionEmail().
- */
-require_once 'pear-format-html.php';
+require_once 'pear-prepend.php';
 
 /**
  * Get the database class.
