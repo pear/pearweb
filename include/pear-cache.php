@@ -47,10 +47,10 @@ $cache_files = array(
                                         ),
                     '/pepr/pepr-bbcode-help.php' => '',
                     '/packages.php' => array(
-                                        'key'   =>  (isset($_GET['catpid']) && $_GET['catpid'] ? $_GET['catpid'] . '__' : '') . 
+                                        'key'   =>  (isset($_GET['catpid']) && $_GET['catpid'] ? $_GET['catpid'] . '__' : '') .
                                                     (isset($_GET['showempty']) && $_GET['showempty'] ? $_GET['showempty'] . '__' : '') .
                                                     (isset($_GET['moreinfo']) && $_GET['moreinfo'] ? $_GET['moreinfo'] . '__' : '') .
-                                                    (isset($_GET['pageID']) && $_GET['pageID'] ? $_GET['pageID'] : '') 
+                                                    (isset($_GET['pageID']) && $_GET['pageID'] ? $_GET['pageID'] : '')
                                         ,
                                         'ttl'   =>60*60),
                     '/qa/packages_status.php' => array('ttl' => 60*60*24),
@@ -122,8 +122,7 @@ if ($no_cache == 0) {
         }
     }
 }
-include_once "DB.php";
-include_once "DB/storage.php";
+include_once 'DB.php';
 
 if (empty($dbh)) {
     $options = array(

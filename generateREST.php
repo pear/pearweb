@@ -31,8 +31,7 @@ if (!isset($pear_rest)) {
     }
 }
 
-include_once "DB.php";
-include_once "DB/storage.php";
+include_once 'DB.php';
 
 if (empty($dbh)) {
     $options = array(

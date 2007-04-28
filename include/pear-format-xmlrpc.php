@@ -28,8 +28,7 @@ if (isset($_SERVER['PHP_AUTH_PW']) && !isset($_COOKIE['PEAR_PW'])) {
 PEAR::setErrorHandling(PEAR_ERROR_RETURN);
 
 
-include_once "DB.php";
-include_once "DB/storage.php";
+include_once 'DB.php';
 
 if (empty($dbh)) {
     $options = array(
@@ -87,7 +86,7 @@ function xu_query_http_post($request,
                             $host,
                             $uri,
                             $port,
-                            $debug, 
+                            $debug,
                             $timeout,
                             $user,
                             $pass,
@@ -96,25 +95,25 @@ function xu_query_http_post($request,
     $response_buf = "";
     if ($host && $uri && $port) {
         $content_len = strlen($request);
-        
+
         $fsockopen = $secure ? "fsockopen_ssl" : "fsockopen";
 
         $query_fd = $fsockopen($host, $port, $errno, $errstr, 10);
         if ($query_fd) {
-            
+
             $auth = "";
             if ($user) {
                 $auth = "Authorization: Basic " .
                     base64_encode($user . ":" . $pass) . "\r\n";
             }
-            
-            $http_request = 
+
+            $http_request =
                 "POST $uri HTTP/1.0\r\n" .
                 "User-Agent: xmlrpc-epi-php/0.2 (PHP)\r\n" .
                 "Host: $host:$port\r\n" .
                 $auth .
                 "Content-Type: text/xml\r\n" .
-                "Content-Length: $content_len\r\n" . 
+                "Content-Length: $content_len\r\n" .
                 "\r\n" .
                 $request;
 
@@ -131,7 +130,7 @@ function xu_query_http_post($request,
                     $response_buf .= $line;
                 }
             }
-            
+
             fclose($query_fd);
         }
     }
@@ -148,7 +147,7 @@ function xu_rpc_http($method_name,
                      $host,
                      $uri = "/",
                      $port = 80,
-                     $debug = false, 
+                     $debug = false,
                      $timeout = 0,
                      $user = false,
                      $pass = false,
@@ -159,7 +158,7 @@ function xu_rpc_http($method_name,
         $request_xml = xmlrpc_encode_request($method_name, $args, array(version => "xmlrpc"));
         $response_buf = xu_query_http_post($request_xml, $host, $uri, $port, $debug,
                                            $timeout, $user, $pass, $secure);
-        
+
         $retval = xu_find_and_decode_xml($response_buf, $debug);
     }
     return $retval;
