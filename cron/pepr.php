@@ -24,9 +24,6 @@
  */
 
 
-ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR
-        . '/usr/local/web/pear.php.net/include');
-
 /**
  * Get common settings.
  */
