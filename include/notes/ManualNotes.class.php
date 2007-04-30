@@ -410,7 +410,7 @@ class Manual_Notes
         $id = $comment['page_url'];
         $comment    = $comment['note_text'];
         $linkUrl    = '<a href="#' . $noteId . '">' . $time . '</a>';
-        $linkName   = '<a name="#' . $noteId . '"></a>';
+        $linkName   = '<a name="' . $noteId . '"></a>';
         include dirname(dirname(dirname(__FILE__))) . '/templates/notes/note.tpl.php';
     }
 
