@@ -53,10 +53,11 @@ $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing li
   the $mailto and developers of the package.
  </li>
  <li>
-  <a href="/account-request-vote.php">Want to vote in a general PEAR election.</a>
+  <a href="/account-request-vote.php">Want to vote in a general PEAR election or
+  report bugs/comment on bugs.</a>
  </li>
  <li>
-  <a href="/bugs/report.php">Want to report a bug, or comment on an existing bug.</a>
+  <a href="/bugs/">Want to report a bug, or comment on an existing bug.</a>
   (You can create an account automatically by choosing a username/password on the bug
   report or edit page)
  </li>

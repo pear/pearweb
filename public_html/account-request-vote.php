@@ -43,7 +43,7 @@ do {
     if (isset($stripped['submit'])) {
 
         if (empty($stripped['handle'])
-            || !ereg('^[0-9a-z_]{2,20}$', $stripped['handle']))
+            || !preg_match('/^[0-9a-z_]{2,20}\\z/', $stripped['handle']))
         {
             $errors[] = 'Username is invalid.';
             $display_form = true;
@@ -121,6 +121,9 @@ $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing li
  If you wish to propose a new (and <strong>complete</strong>) package for inclusion
  in PEAR, please use the <a href="/account-request-newpackage.php">New Package Account
  Request Form</a>.
+</p>
+<p>
+ Note that this account can also be used to report a bug or comment on an existing bug.
 </p>
 
 <p>
