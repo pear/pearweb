@@ -6,7 +6,7 @@
 <div class="note">
 <?php } ?>
  <div class="note_handle">Note by: <?php echo $userHandle ?></div>
- <div class="note_time"><?php echo $linkUrl ?></div>
+ <div class="note_time"><?php echo $linkName, $linkUrl ?></div>
  <div class="note_text">
   <?php echo $comment ?>
  </div>
