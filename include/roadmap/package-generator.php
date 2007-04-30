@@ -166,11 +166,27 @@ class Roadmap_Package_Generator
         if ($pf->getPackagexmlVersion() != '1.0') {
             $pf2 = new PEAR_PackageFile_v2_rw;
             $pf2->fromArray($pf->getArray());
-            return $pf2;
+        } else {
+            require_once 'PEAR/PackageFile/Generator/v1.php';
+            $gen = new PEAR_PackageFile_Generator_v1($pf);
+            $pf2 = $gen->toV2('PEAR_PackageFile_v2_rw');
         }
-        require_once 'PEAR/PackageFile/Generator/v1.php';
-        $gen = new PEAR_PackageFile_Generator_v1($pf);
-        $pf2 = $gen->toV2('PEAR_PackageFile_v2_rw');
+        require_once 'pear-database-package.php';
+        $info = package::info($pf2->getPackage());
+        $pf2->setPackage($this->_package);
+        $pf2->setChannel('pear.php.net');
+        $pf2->setSummary($info['summary']);
+        $pf2->setDescription($info['description']);
+        $m = $pf2->getMaintainers();
+        foreach ($m as $maintainer) {
+            $pf2->deleteMaintainer($maintainer['handle']);
+        }
+        $maintainers = package::info($this->_package, 'authors');
+        foreach ($maintainers as $maintainer) {
+            $pf2->addMaintainer($maintainer['role'], $maintainer['handle'],
+                $maintainer['name'], $maintainer['email'],
+                $maintainer['active'] ? 'yes' : 'no');
+        }
         return $pf2;
     }
 
