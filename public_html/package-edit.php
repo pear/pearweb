@@ -116,7 +116,7 @@ if (isset($_POST['submit'])) {
         if (PEAR::isError($sth)) {
             report_error('Unable to save data!');
         } else {
-            if (is_array($_POST['tags'])) {
+            if (isset($_POST['tags']) && is_array($_POST['tags'])) {
                 $manager = new Tags_Manager;
                 $manager->clearTags($_POST['name']);
                 foreach ($_POST['tags'] as $tag) {
