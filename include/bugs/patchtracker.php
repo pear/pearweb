@@ -172,7 +172,10 @@ class Bugs_Patchtracker
             }
             list($id, $fname) = $res;
             $file->setName($fname);
-            $file->setValidExtensions(array('txt', 'patch', 'diff'), 'accept');
+            if ($file->getProp('type') != 'text/plain') {
+                return PEAR::raiseError('Error: uploaded patch file must have text/plain' .
+                    ' MIME type (save as patch.txt)');
+            }
             $tmpfile = $file->moveTo($this->patchDir($bugid, $name));
             if (PEAR::isError($tmpfile)) {
                 $this->_dbh->query('DELETE FROM bugdb_patchtracker
