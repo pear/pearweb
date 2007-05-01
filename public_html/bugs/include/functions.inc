@@ -464,16 +464,8 @@ function show_package_version_options($package, $current)
         }
 		
         echo ' value = "' . htmlspecialchars($v[0]) . '">' . htmlspecialchars($v[0]) . ' (' . htmlspecialchars($v[1]) . ")</option>\n";
-        if ($current == $v[0]) {
-            $use++;
-        }
     }
-    if (!$use && $current) {
-        echo '<option selected="selected">' . htmlspecialchars($current) . "</option>\n";
-    } else {
-        echo '<option>CVS</option>' . "\n";
-    }
-    echo '<option value="earlier">Earlier? Upgrade first!</option>' . "\n";
+    echo "<option value=\"earlier\"", ($current == "earlier" ? " selected" : ""),  ">Earlier? Upgrade first!</option>\n";
     echo "</select>\n";
 }
 /**
