@@ -68,7 +68,7 @@ if (auth_verify(@$_POST['PEAR_USER'], $password)) {
      */
     if (isset($_POST['PEAR_OLDURL'])
         && basename($_POST['PEAR_OLDURL']) != 'login.php'
-        && !ereg('%3A%2F%2F', $_POST['PEAR_OLDURL']))
+        && !preg_match('|://|', $_POST['PEAR_OLDURL']))
     {
         localRedirect($_POST['PEAR_OLDURL'], false);
     } else {
