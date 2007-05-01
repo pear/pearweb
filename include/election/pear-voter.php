@@ -111,6 +111,7 @@ class PEAR_Voter
                     e.id = r.election_id AND
                     c.election_id = e.id AND
                     e.voteend < NOW()' . $extra . '
+                GROUP BY e.id
                 ORDER BY e.voteend DESC
             ', array(), DB_FETCHMODE_ASSOC);
             foreach ($all as $i => $election) {
