@@ -309,6 +309,9 @@ class PEAR_Auth
 {
     function data($data)
     {
+        if (!is_array($data)) {
+            return;
+        }
         foreach ($data as $k => $d) {
             $this->{$k} = $d;
         }
