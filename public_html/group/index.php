@@ -26,13 +26,12 @@ response_header("The PEAR Group");
 of the following individuals (in no particular order):</p>
 
 <ul>
-  <li>Pierre-Alain Joye</li>
-  <li>Martin Jansen</li>
-  <li>Jesus M. Castagnetto</li>
-  <li>Alan Knowles</li>
-  <li>Tomas V.V.Cox</li>
-  <li>Jon Parise</li>
-  <li>Stig S. Bakken</li>
+  <li><a href="/user/mj" title="Martin Jansen">Martin Jansen</a></li>
+  <li><a href="/user/davidc" title="David Coallier">David Coallier</a> </li>
+  <li><a href="/user/arnaud" title="Arnaud Limbourg">Arnaud Limbourg</a></li>
+  <li><a href="/user/jeichorn" title="Joshua Eichorn">Joshua Eichorn</a></li>
+  <li><a href="/user/cweiske" title="Christian Weiske">Christian Weiske</a></li>
+  <li><a href="/user/dufuz" title="Helgi &thorn;ormar">Helgi &thorn;ormar</a></li>
 </ul>
 
 <p>The Group was 
