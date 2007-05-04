@@ -550,7 +550,10 @@ switch ($bug['bug_type']) {
     case 'Feature/Change Request' : $bug_type = 'Request'; break;
     case 'Documentation Problem' : $bug_type = 'Doc Bug'; break;
 }
-response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']));
+response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']), false,
+    ' <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://' .
+    htmlspecialchars($_SERVER['HTTP_HOST']) . '/rss/bug_' . $id . '.rss" />
+');
 
 // DISPLAY BUG
 if (!isset($_GET['thanks'])) {
@@ -1228,6 +1231,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
     global $edit, $id, $trusted_developers, $user, $dbh;
 
     echo '<div class="comment">';
+    echo '<a name="' . urlencode($ts) . '">&nbsp;</a>';
     echo "<strong>[",format_date($ts),"] ";
     if (!$registered) {
         echo 'User who submitted this comment has not confirmed identity</strong>';

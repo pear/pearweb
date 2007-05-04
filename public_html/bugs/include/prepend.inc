@@ -21,9 +21,9 @@
 /**
  * Obtain the functions and variables used throughout the bug system
  */
-require_once './include/functions.inc';
+require_once dirname(__FILE__) . '/functions.inc';
 
 /**
  * Obtain the $RESOLVE_REASONS array
  */
-require './include/resolve.inc';
+require dirname(__FILE__) . '/resolve.inc';

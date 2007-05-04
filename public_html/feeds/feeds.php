@@ -132,6 +132,11 @@ switch ($type) {
         $channel_description = 'The most popular releases in PEAR.';
         break;
 
+    case 'bug' :
+        $_REQUEST = array('id' => $argument, 'format' => 'rss');
+        include dirname(dirname(__FILE__)) . '/bugs/rss/bug.php';
+        exit;
+
     case 'user':
         $user = $argument;
         include_once 'pear-database-user.php';
