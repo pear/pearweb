@@ -49,7 +49,7 @@ function setupNavigation($data)
     $tstamp = gmdate('D, d M Y',getlastmod());
 }
 
-function makeBorderTOC($this)
+function makeBorderTOC($this, $id = '')
 {
     global $NEXT, $PREV, $UP, $HOME, $TOC, $DOCUMENT_ROOT;
     global $SIDEBAR_DATA, $LANG,$CHARSET;
@@ -86,19 +86,49 @@ function makeBorderTOC($this)
 
     $SIDEBAR_DATA .= ' <ul class="man-side_pages">' . "\n";
 
+    $package_name = getPackageNameForId($id);
+    $indent = false;
+
     for ($i = 0; $i < count($TOC); $i++) {
         list($url, $title) = $TOC[$i];
         if (!$url || !$title) {
             continue;
         }
-        $title_fmt = @htmlspecialchars($title, ENT_QUOTES, $CHARSET);
+
+        $title_fmt = trim(@htmlspecialchars($title, ENT_QUOTES, $CHARSET));
+        if (!is_null($package_name)) {
+            $title_fmt = preg_replace('/^\s*' . $package_name . '[_\w]*::/', '', $title_fmt);
+        }
         if (strlen($title_fmt) > 25) {
             $title_fmt = str_replace('::', '::<br />', $title_fmt);
         }
 
-        $SIDEBAR_DATA .= '  <li class="man-side_page">'
-                . (($title == $this) ? "<strong>$title_fmt</strong>" : make_link($url, $title_fmt))
-                . "</li>\n";
+        // if we're in indentation mode for methods, we have to stop the
+        // indentation when we find 'Class Summary'
+        if ($indent && substr($title_fmt, 0, 13) == 'Class Summary') {
+            $SIDEBAR_DATA .= "</li>\n";
+            $SIDEBAR_DATA .= '</ul>';
+            $indent = false;
+        }
+
+        $class = ($indent) ? 'man-side_page_nested' : 'man-side_page';
+        $SIDEBAR_DATA .= '  <li class="' . $class . '">'
+                . (($title == $this) ? "<strong>$title_fmt</strong>"
+                                     : make_link($url, $title_fmt));
+
+        // after 'Class Summary' (or 'constructor', if 'Class Summary' doesn't
+        // exist, we want to indent the methods
+        if (    substr($title_fmt, 0, 13) == 'Class Summary'
+            || (substr($title_fmt, 0, 11) == 'constructor' && !$indent)
+           ) {
+            $indent = true;
+            $SIDEBAR_DATA .= '<ul class="man-side_pages">';
+        }
+    }
+    
+    if ($indent) {
+        $SIDEBAR_DATA .= "  </li>\n";
+        $SIDEBAR_DATA .= '</ul>';
     }
 
     $SIDEBAR_DATA .= " </ul>\n\n";
@@ -109,11 +139,24 @@ function makeBorderTOC($this)
 
     $SIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n"
                    . '  <li class="man-side_download">'
-                   . make_link('/manual/', 'Download Documentation') . "</li>\n"
-                   . ' </ul>' . "\n\n";
+                   . make_link('/manual/', 'Download Documentation') . "</li>\n";
+
+    // if we have a package name, add links to the package and the API docs
+    if (!is_null($package_name)) {
+        $SIDEBAR_DATA .= '  <li class="man-side_download">'
+                       . make_link('/package/' . $package_name,
+                                   'Package Info') . "</li>\n";
+        $SIDEBAR_DATA .= '  <li class="man-side_download">'
+                       . make_link('/package/' . $package_name . '/docs/latest/',
+                                   'API Documentation') . "</li>\n";
+    }
+
+    $SIDEBAR_DATA .= ' </ul>' . "\n\n";
+
+    $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
 
     $SIDEBAR_DATA .= "</td></tr></table></form>\n\n";
-    $SIDEBAR_DATA .= "<!-- END MANUAL'S SIDEBAR TOC -->\n\n-";
+    $SIDEBAR_DATA .= "<!-- END MANUAL'S SIDEBAR TOC -->\n\n";
 }
 
 function navigationBar($title, $id, $loc)
@@ -242,7 +285,8 @@ function navigationBar($title, $id, $loc)
         echo '    <tr><td colspan="2" class="man-nav_bug" align="left">';
         echo "\n";
         echo '    Do you think that something on this page is wrong?';
-        echo '    Please <a href="/bugs/report.php?package=Documentation">file a bug report</a> ';
+        $package_name = getPackageNameForId($id);
+        echo '    Please <a href="' . getBugReportLink($package_name) . '">file a bug report</a> ';
         echo '    or <a href="/notes/add-note-form.php?redirect=' . htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8') . '&uri=' . htmlspecialchars($id) . '">add a note</a>. ';
         echo "\n";
         echo '   </td></tr>';
@@ -262,6 +306,30 @@ function navigationBar($title, $id, $loc)
     echo "\n";
     echo "</table>\n";
 
+}
+
+function getPackageNameForId($id)
+{
+    global $dbh;
+    static $package_name = null;  // static variable to avoid multiple queries
+    if (is_null($package_name)) {
+        $res = preg_match('/^package\.[\w-]+\.([\w-]+).*\.php$/', $id, $matches);
+        if ($res === 1) {
+            $package = str_replace('-', '_', $matches[1]);
+            $query = 'SELECT name FROM packages WHERE LCASE(name) = LCASE(?)';
+            $package_name = $dbh->getOne($query, $package);
+        }
+    }
+    return $package_name;
+}
+
+function getBugReportLink($package_name)
+{
+    $bug_report_link = '/bugs/report.php?package=Documentation';
+    if (!is_null($package_name)) {
+        $bug_report_link = '/bugs/report.php?package=' . $package_name;
+    }
+    return $bug_report_link;
 }
 
 function getComments($uri)
@@ -298,40 +366,8 @@ function manualHeader($title, $id = '')
 {
     global $HTDIG, $LANGUAGES, $LANG, $CHARSET, $SIDEBAR_DATA, $dbh;
 
-    makeBorderTOC($title);
-
-    /**
-     * Show link to the package info file?
-     */
-    if (strstr(basename($_SERVER['PHP_SELF']), 'packages.')
-        && substr_count($_SERVER['PHP_SELF'], '.') > 2) {
-
-        $package = substr(basename($_SERVER['PHP_SELF']), 0, (strlen(basename($_SERVER['PHP_SELF'])) - 4));
-        $package = preg_replace("/(.*)\./", '', $package);
-
-        $query = 'SELECT id FROM packages WHERE LCASE(name) = LCASE('.$dbh->quoteSmart($package).')';
-        $sth = $dbh->query($query);
-        $row = $sth->fetchRow();
-
-        if (is_array($row)) {
-            ob_start();
-
-            echo "<div align=\"center\"><br /><br />\n";
-
-            $bb = new Borderbox('Download');
-
-            echo "<div align=\"left\">\n";
-            print_link('/package/' . $row[0], make_image('box-0.gif') . ' Package info');
-            echo "</div>\n";
-            $bb->end();
-
-            echo "</div>\n";
-
-            $SIDEBAR_DATA .= ob_get_contents();
-            ob_end_clean();
-        }
-    }
-
+    makeBorderTOC($title, $id);
+    
     echo '<?xml version="1.0" encoding="' . $CHARSET . '" ?>';
     response_header('Manual :: ' . $title);
     # create links to plain html and other languages
