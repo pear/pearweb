@@ -1,10 +1,129 @@
 <?php
+require_once 'PEAR/ErrorStack.php';
 @include_once 'Text/Diff.php';
 @include_once 'Text/Diff/Renderer.php';
 @include_once 'Text/Diff/Renderer/unified.php';
 class PEAR_PHPTest
 {
     private $_diffonly;
+
+    function __construct($noStackCatch = false)
+    {
+        PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array($this, 'pearerrorCallback'));
+        if (!$noStackCatch) {
+            PEAR_ErrorStack::setDefaultCallback(array($this, 'pearerrorstackCallback'));
+        }
+        set_exception_handler(array($this, 'exceptionCallback'));
+    }
+
+    function exceptionCallback($e)
+    {
+        echo $e;
+    }
+
+    function pearerrorCallback($err)
+    {
+        @PEAR_ErrorStack::staticPush('PEAR_Error', -1, 'error', array('obj' => $err),
+            $err->getMessage());
+    }
+
+    function pearerrorstackCallback($err)
+    {
+        $this->_errors[] = $err;
+    }
+
+    function assertNoErrors($message, $trace = null)
+    {
+        if (count($this->_errors) == 0) {
+            return true;
+        }
+        if ($trace === null) {
+            $trace = debug_backtrace();
+        }
+        $this->_failTest($trace, $message);
+        foreach ($this->_errors as $err) {
+            if ($err['package'] == 'PEAR_Error') {
+                echo "Unexpected PEAR_Error:\n";
+                echo 'message "' . $err['message'] . "\"\n";
+            } else {
+                if (strpos($err['package'], 'xception')) {
+                    echo "Unexpected Exception:\n";
+                    echo 'class ' . $err['package'] . "\n";
+                } else {
+                    echo "Unexpected PEAR_ErrorStack error:\n";
+                    echo 'package "' . $err['package'] . "\"\n";
+                }
+                echo 'message "' . $err['message'] . "\"\n";
+            }
+        }
+        $this->_errors = array();
+        return false;
+    }
+
+    function assertErrors($errors, $message, $trace = null)
+    {
+        if (!count($this->_errors)) {
+            if ($trace === null) {
+                $trace = debug_backtrace();
+            }
+            $this->_failTest($trace, $message);
+            echo "No errors caught, but errors were expected\n";
+            return false;
+        }
+        if (!isset($errors[0])) {
+            $errors = array($errors);
+        }
+        $failed = false;
+        foreach ($errors as $err) {
+            $found = false;
+            foreach ($this->_errors as $i => $caughterror) {
+                if ($caughterror['package'] == $err['package']) {
+                    if ($caughterror['message'] == $err['message']) {
+                        $found = true;
+                        break;
+                    }
+                }
+            }
+            if ($found) {
+                unset($this->_errors[$i]);
+                continue;
+            }
+            if (!$failed) {
+                if ($trace === null) {
+                    $trace = debug_backtrace();
+                }
+                $failed = true;
+                $this->_failTest($trace, $message);
+            }
+            echo "Unthrown error:\n";
+            if ($err['package'] == 'PEAR_Error') {
+                echo "PEAR_Error:\n";
+            } else {
+                echo "error package: \"$err[package]\"\n";
+            }
+            echo "message: \"$err[message]\"\n";
+        }
+        if (count($this->_errors)) {
+            if (!$failed) {
+                if ($trace === null) {
+                    $trace = debug_backtrace();
+                }
+                $failed = true;
+                $this->_failTest($trace, $message);
+            }
+            foreach ($this->_errors as $err) {
+                echo "Unexpected error:\n";
+                if ($err['package'] == 'PEAR_Error') {
+                    echo "PEAR_Error:\n";
+                } else {
+                    echo "error package: \"$err[package]\"\n";
+                }
+                echo "message: \"$err[message]\"\n";
+            }
+        }
+        $this->_errors = array();
+        return !$failed;
+    }
 
     function assertTrue($test, $message)
     {
