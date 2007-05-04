@@ -43,6 +43,9 @@ li.man-side_page {
     font-size: 80%;
 }
 
+li.man-side_page_nested {
+    font-size: 100%;
+}
 
 /* === Navigation Box (previous, next, languages) === */
 
