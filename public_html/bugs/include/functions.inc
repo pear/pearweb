@@ -221,7 +221,7 @@ function oneof()
  * @see clean(), rinse(), escapeSQL(), oneof(), txfield()
  */
 function field($n) {
-    return oneof(clean($_POST['in'][$n]),
+    return oneof(isset($_POST['in']) ? clean($_POST['in'][$n]) : null,
                  htmlspecialchars($GLOBALS['bug'][$n]));
 }
 
@@ -803,7 +803,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
     }
 
     /* send mail if status was changed or there is a comment */
-    if ($in[status] != $bug[status] || $ncomment != "" || ($current != $previous)) {
+    if ($in['status'] != $bug['status'] || $ncomment != "" || ($current != $previous)) {
 
         if (isset($in['bug_type']) && $in['bug_type'] != $bug['bug_type']) {
             $subj = $types[$bug['bug_type']] . '->' . $types[$in['bug_type']];
@@ -814,7 +814,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
         $old_status = $bug['status'];
         $new_status = $bug['status'];
 
-        if ($in[status] != $bug[status] && $edit != 3) {    /* status changed */
+        if ($in['status'] != $bug['status'] && $edit != 3) {    /* status changed */
             $new_status = $in['status'];
             $subj .= " #{$bug['id']} [{$tla[$old_status]}->{$tla[$new_status]}]: ";
         } elseif ($edit == 3) {             /* comment */

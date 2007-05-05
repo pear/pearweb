@@ -332,7 +332,11 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
             $dbh->query($query, array($id, $_POST['in']['commentemail'], $_POST['in']['handle'],
                 $ncomment, $_POST['in']['name']));
         } while (false);
-        $from = $auth_user->email;
+        if (isset($auth_user) && $auth_user) {
+            $from = $auth_user->email;
+        } else {
+            $from = '';
+        }
     } else {
         $from = '';
     }
@@ -420,13 +424,16 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
         $ncomment = trim($_POST['ncomment']);
     }
 
-    if ((($_POST['in']['status'] == 'Bogus' && $bug['status'] != 'Bogus') ||
-          $RESOLVE_REASONS[$_POST['in']['resolve']]['status'] == 'Bogus') &&
+    if (isset($_POST['in']) && is_array($_POST['in']) &&
+          (($_POST['in']['status'] == 'Bogus' && $bug['status'] != 'Bogus') ||
+          (isset($RESOLVE_REASONS[$_POST['in']['resolve']]) &&
+           $RESOLVE_REASONS[$_POST['in']['resolve']]['status'] == 'Bogus')) &&
         strlen($ncomment) == 0)
     {
         $errors[] = "You must provide a comment when marking a bug 'Bogus'";
-    } elseif ($_POST['in']['resolve']) {
-        if (!$trytoforce &&
+    } elseif (isset($_POST['in']) && is_array($_POST['in']) &&
+          !empty($_POST['in']['resolve'])) {
+        if (!$trytoforce && isset($RESOLVE_REASONS[$_POST['in']['resolve']]) &&
             $RESOLVE_REASONS[$_POST['in']['resolve']]['status'] == $bug['status'])
         {
             $errors[] = 'The bug is already marked "'.$bug['status'].'". (Submit again to ignore this.)';
@@ -435,7 +442,9 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
                 $_POST['in']['status'] = $RESOLVE_REASONS[$_POST['in']['resolve']]['status'];
             }
             require './include/resolve.inc';
-            $reason = $RESOLVE_REASONS[$_POST['in']['resolve']]['message'];
+            $reason = isset($RESOLVE_REASONS[$_POST['in']['resolve']]) ?
+                $RESOLVE_REASONS[$_POST['in']['resolve']]['message'] :
+                '';
             // do a replacement on @cvs@ to the likely location of CVS for this package
             if ($_POST['in']['resolve'] == 'trycvs') {
                 switch ($bug['package_name']) {
@@ -743,7 +752,7 @@ if ($edit == 1 || $edit == 2) {
     <?php
 
     if ($edit == 2) {
-        if (!$_POST['in'] && $pw && $bug['passwd'] &&
+        if (!isset($_POST['in']) && $pw && $bug['passwd'] &&
             $pw == $bug['passwd']) {
 
             ?>
@@ -762,7 +771,7 @@ if ($edit == 1 || $edit == 2) {
 
             <?php
 
-            if (!$_POST['in']) {
+            if (!isset($_POST['in'])) {
                 ?>
 
                 Welcome back! If you're the original bug submitter, here's
@@ -794,7 +803,7 @@ if ($edit == 1 || $edit == 2) {
                </th>
                <td>
                 <input type="checkbox" id="save" name="save"
-                 <?php if ($_POST['save']) echo ' checked="checked"'?> />
+                 <?php if (isset($_POST['save'])) echo ' checked="checked"'?> />
                </td>
               </tr>
              </table>
@@ -805,7 +814,7 @@ if ($edit == 1 || $edit == 2) {
         }
     } else {
         if ($user && $pw && verify_password($user, $pw)) {
-            if (!$_POST['in']) {
+            if (!isset($_POST['in']) || !is_array($_POST['in'])) {
                 ?>
 
                 <div class="explain">
@@ -821,7 +830,7 @@ if ($edit == 1 || $edit == 2) {
             <div class="explain">
 
             <?php
-                if (!$_POST['in']) {
+                if (!isset($_POST['in']) || !is_array($_POST['in'])) {
                     ?>
 
                     Welcome! If you don't have a CVS account, you can't do
@@ -874,11 +883,12 @@ if ($edit == 1 || $edit == 2) {
          </th>
          <td colspan="3">
           <select name="in[resolve]" id="in">
-           <?php show_reason_types($_POST['in']['resolve'], 1) ?>
+           <?php show_reason_types(isset($_POST['in']) && isset($_POST['in']['resolve']) ?
+                    $_POST['in']['resolve'] : -1, 1) ?>
           </select>
 
           <?php
-          if ($_POST['in']['resolve']) {
+          if (isset($_POST['in']) && !empty($_POST['in']['resolve'])) {
               ?>
 
               <input type="hidden" name="trytoforce" value="1" />
@@ -898,7 +908,8 @@ if ($edit == 1 || $edit == 2) {
       <th class="details">Status:</th>
       <td <?php echo (($edit != 1) ? 'colspan="3"' : '' ) ?>>
        <select name="in[status]">
-        <?php show_state_options($_POST['in']['status'], $edit, $bug['status']) ?>
+        <?php show_state_options(isset($_POST['in']) && isset($_POST['in']['status']) ?
+            $_POST['in']['status'] : '', $edit, $bug['status']) ?>
        </select>
 
     <?php
@@ -924,7 +935,8 @@ if ($edit == 1 || $edit == 2) {
       <th class="details">Package:</th>
       <td colspan="3">
        <select name="in[package_name]">
-        <?php show_types($_POST['in']['package_name'], 0, $bug['package_name']) ?>
+        <?php show_types(isset($_POST['in']) && isset($_POST['in']['package_name']) ?
+            $_POST['in']['package_name'] : '', 0, $bug['package_name']) ?>
        </select>
       </td>
      </tr>
@@ -953,7 +965,8 @@ if ($edit == 1 || $edit == 2) {
       <th class="details">New email:</th>
       <td colspan="3">
        <input type="text" size="40" maxlength="40" name="in[email]"
-        value="<?php echo ($_POST['in']['email'] ? $_POST['in']['email'] : '') ?>" />
+        value="<?php echo (isset($_POST['in']) && isset($_POST['in']['email']) ?
+            $_POST['in']['email'] : '') ?>" />
       </td>
      </tr>
      <tr>
@@ -1072,7 +1085,7 @@ $action = htmlspecialchars($_SERVER['PHP_SELF']);
 <?php endif; //if ($auth_user) ?>
 
     <?php
-    if (!$_POST['in']) {
+    if (!isset($_POST['in'])) {
         ?>
 
         <div class="explain">
@@ -1102,7 +1115,8 @@ $action = htmlspecialchars($_SERVER['PHP_SELF']);
       <strong>MUST BE VALID</strong></th>
       <td class="form-input">
        <input type="text" size="40" maxlength="40" name="in[commentemail]"
-        value="<?php echo clean($_POST['in']['commentemail']) ?>"
+        value="<?php echo clean(isset($_POST['in']) && isset($_POST['in']['commentemail']) ?
+            $_POST['in']['commentemail'] : '') ?>"
         accesskey="o" />
        <input type="hidden" name="id" value="<?php echo $id ?>" />
        <input type="hidden" name="edit" value="<?php echo $edit?>" />
