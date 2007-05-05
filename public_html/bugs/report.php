@@ -35,7 +35,6 @@ require_once './include/cvs-auth.inc';
  */
 require_once 'Text/CAPTCHA/Numeral.php';
 
-error_reporting(E_ALL ^ E_NOTICE);
 $errors              = array();
 $ok_to_submit_report = false;
 
