@@ -26,7 +26,7 @@ echo '<h2>&raquo; <a name="yr2007" id="yr2007">Year 2007</a></h2>' . "\n";
 echo "<ul>\n";
 echo ' <li>' . make_link('newpresident-2007.php', 'PEAR has a new President!') . ' (April) ' . "\n";
 echo ' <li>' . make_link('newgroup-2007.php', 'A new PEAR Group has been elected') . ' (April) ' . "\n";
-echo ' <li>' . make_link('package.xml1.0.php', 'Innovating the future: Package.xml 1.0 and PEAR 1.3.6 are officially deprecated') . " (January)</li>\n";
+echo ' <li>' . make_link('package.xml.1.0.php', 'Innovating the future: Package.xml 1.0 and PEAR 1.3.6 are officially deprecated') . " (January)</li>\n";
 echo "</ul>\n";
 echo '<h2>&raquo; <a name="yr2005" id="yr2005">Year 2005</a></h2>' . "\n";
 echo "<ul>\n";
