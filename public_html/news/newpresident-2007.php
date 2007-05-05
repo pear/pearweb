@@ -18,7 +18,7 @@
    $Id$
 */
 
-response_header("Own website for PECL");
+response_header("PEAR has a new President");
 ?>
 
 <h1>PEAR has a new President!</h1>
