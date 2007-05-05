@@ -21,34 +21,12 @@
 response_header("Own website for PECL");
 ?>
 
-<h1>New PEAR Group has been elected</h1>
+<h1>PEAR has a new President!</h1>
 
 <div style="margin-left:2em;margin-right:2em">
 <p>
-PEAR now has a new PEAR Group, the new members have been elected by 
-the PEAR developers and they have chosen:
- <ul>
-  <li>
-    Martin Jansen
-  </li>
-  <li>
-    David Coallier
-  </li>
-  <li>
-    Arnaud Limbourg
-  </li>
-  <li>
-    Joshua Eichorn
-  </li>    
-  <li>
-    Christian Weiske
-  </li>
-  <li>
-    Helgi &THORN;ormar
-  </li>
- </ul>
-  <br />
-You can see more informations about the PEAR Group by clicking <a href="/group/" title="PEAR Group">here</a>
+The PEAR community has elected <a href="/user/cellog" title="PEAR President">Gregory Beaver</a>
+has their president. 
 </p>
 </div>
 
