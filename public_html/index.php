@@ -62,12 +62,20 @@ response_header();
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
 <h2>&raquo; Hot off the Press</h2>
-<p><strong>[March 18, 2007]</strong> Official results of PEAR's future direction are
-<a href="http://pear.php.net/election/info.php?election=6&results=1">here</a>.  The official
-new Constitution for PEAR is available for
-viewing <a href="http://pear.php.net/manual/en/constitution.php">here</a>.  Elections
-for the PEAR Group and President will be announced soon, and are open to all developers
-with <var>pear.dev</var> karma, stay tuned for details.</p>
+<p><strong>[May 4, 2007]</strong> The <a href="/news/newgroup-2007.php">new PEAR Group</a> and
+<a href="/news/newpresident-2007.php">new PEAR president</a> have been
+elected!  The PEAR President is <a href="/user/cellog">Gregory Beaver</a> (election
+results <a href="/election/info.php?election=8&results=1">here</a>), and the
+PEAR Group (election results <a href="/election/info.php?election=7&results=1">here</a>)
+is <a href="/user/mj">Martin Jansen</a>, <a href="/user/davidc">David Coallier</a>,
+<a href="/user/arnaud">Arnaud Limbourg</a>, <a href="/user/jeichorn">Joshua Eichorn</a>,
+<a href="/user/cweiske">Christian Weiske</a>, <a href="/user/dufuz">Helgi &THORN;ormar</a>,
+and by temporary appointment, <a href="/user/lsmith">Lukas Smith</a>.  Due to a tie
+between Paul Jones and Justin Patrin, <a href="/election/info.php?election=9&vote=1">a run-off
+election</a> for the 7th slot on the PEAR Group will commence from May 11 until May 25. 
+Only developers with <var>pear.dev</var> karma are eligible to vote.
+Responsibilities of the PEAR President
+and PEAR Group are documented in <a href="/manual/en/constitution.php">The Constitution</a>.</p>
 <p><strong>[February 1, 2007]</strong> As of January 1, 2008, PEAR will be dropping
 support for PEAR versions 1.3.6 and earlier.  If you are using PEAR 1.3.6 or earlier,
 we <strong>strongly</strong> encourage you to upgrade using these simple steps:

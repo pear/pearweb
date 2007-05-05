@@ -69,10 +69,10 @@
   <email>dufuz@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-04-24</date>
- <time>19:05:52</time>
+ <date>2007-05-04</date>
+ <time>20:15:55</time>
  <version>
-  <release>1.14.0</release>
+  <release>1.14.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -81,21 +81,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10725: bug date/time values inconsistent [dufuz]
- * Fix Bug #10773: email is not validated for bug comments [cellog]
- * Fix Bug #10802: Opening up the detailed roadmap doesn&apos;t jump down to the proper anchor [dufuz]
- * Fix Bug #10831: Election Interface Bug [davidc]
- * Fix Bug #10832: Election election id is not checked [davidc]
- * Implement Feature #6829: Full involved bugs information in personal menu [cellog]
- * Implement Feature #10668: Assign roadmap version at bug entry time [dufuz]
- * Implement Feature #10724: show closed bugs since last release [dufuz]
- * Implement Feature #10764: strike-through obsolete patches [dufuz]
- * Implement Feature #10766: highlight own name on bug stats page [dufuz]
- * Implement Feature #10798: Split up the pear-database file [dufuz]
- * Implement Feature #10801: Links to packages homepage in the search view [dufuz]
- * Implement Feature #10818: add Igor&apos;s slides [davidc]
- * Implement Feature #10824: Missing link to elections [davidc]
- * Implement Feature #10826: Missing &quot;select all&quot; notes [davidc]
+ * Fixed Bug #10841 warnings raised on public_html/bugs/stats.php [dufuz]
+ * Request #10849 Remove DB_Storage [dufuz]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -274,6 +261,10 @@
       <file name="resolve.inc" role="web" />
       <file name="trusted-devs.inc" role="web" />
      </dir> <!-- /public_html/bugs/include -->
+     <dir name="rss">
+      <file name="bug.php" role="web" />
+      <file name="search.php" role="web" />
+     </dir> <!-- /public_html/bugs/rss -->
      <file name="bug-pwd-finder.php" role="web" />
      <file name="bug.php" role="web" />
      <file name="index.php" role="web" />
@@ -464,6 +455,8 @@
      <file name="index.php" role="web" />
      <file name="meeting-2003-summary.php" role="web" />
      <file name="meeting-2003.php" role="web" />
+     <file name="newgroup-2007.php" role="web" />
+     <file name="newpresident-2007.php" role="web" />
      <file name="nm-guide.php" role="web" />
      <file name="package.xml.1.0.php" role="web" />
      <file name="pecl-split.php" role="web" />
@@ -866,6 +859,10 @@
     <name>Net_URL</name>
     <channel>pear.php.net</channel>
     <min>1.0.14</min>
+   </package>
+   <package>
+    <name>Text_Diff</name>
+    <channel>pear.php.net</channel>
    </package>
    <package>
     <name>HTTP_Upload</name>
@@ -1966,22 +1963,36 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-04-24</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10725: bug date/time values inconsistent [dufuz]
+* Fix Bug #10773: email is not validated for bug comments [cellog]
+* Fix Bug #10802: Opening up the detailed roadmap doesn&apos;t jump down to the proper anchor [dufuz]
+* Fix Bug #10831: Election Interface Bug [davidc]
+* Fix Bug #10832: Election election id is not checked [davidc]
+* Implement Feature #6829: Full involved bugs information in personal menu [cellog]
+* Implement Feature #10668: Assign roadmap version at bug entry time [dufuz]
+* Implement Feature #10724: show closed bugs since last release [dufuz]
+* Implement Feature #10764: strike-through obsolete patches [dufuz]
+* Implement Feature #10766: highlight own name on bug stats page [dufuz]
+* Implement Feature #10798: Split up the pear-database file [dufuz]
+* Implement Feature #10801: Links to packages homepage in the search view [dufuz]
+* Implement Feature #10818: add Igor&apos;s slides [davidc]
+* Implement Feature #10824: Missing link to elections [davidc]
+* Implement Feature #10826: Missing &quot;select all&quot; notes [davidc]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.14.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-05-04</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix Bug #10725: bug date/time values inconsistent [dufuz]
- * Fix Bug #10773: email is not validated for bug comments [cellog]
- * Fix Bug #10802: Opening up the detailed roadmap doesn&apos;t jump down to the proper anchor [dufuz]
- * Fix Bug #10831: Election Interface Bug [davidc]
- * Fix Bug #10832: Election election id is not checked [davidc]
- * Implement Feature #6829: Full involved bugs information in personal menu [cellog]
- * Implement Feature #10668: Assign roadmap version at bug entry time [dufuz]
- * Implement Feature #10724: show closed bugs since last release [dufuz]
- * Implement Feature #10764: strike-through obsolete patches [dufuz]
- * Implement Feature #10766: highlight own name on bug stats page [dufuz]
- * Implement Feature #10798: Split up the pear-database file [dufuz]
- * Implement Feature #10801: Links to packages homepage in the search view [dufuz]
- * Implement Feature #10818: add Igor&apos;s slides [davidc]
- * Implement Feature #10824: Missing link to elections [davidc]
- * Implement Feature #10826: Missing &quot;select all&quot; notes [davidc]
+ * Fixed Bug #10841 warnings raised on public_html/bugs/stats.php [dufuz]
+ * Request #10849 Remove DB_Storage [dufuz]
    </notes>
   </release>
  </changelog>
