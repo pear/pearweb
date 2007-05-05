@@ -23,7 +23,7 @@ auth_require();
 
 $pid = isset($_GET['pid']) ? (int)$_GET['pid'] : false;
 
-if ($pid < 1) {
+if ($pid && $pid < 1) {
    report_error('Invalid package');
 }
 
