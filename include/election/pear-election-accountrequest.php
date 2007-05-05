@@ -101,7 +101,7 @@ class PEAR_Election_Accountrequest
         include_once 'pear-database-user.php';
         $user = user::info($this->handle);
         if (!isset($user['registered'])) {
-            return false;
+            return PEAR::raiseError('Error - user request was deleted, please try again');
         }
 
         @$arr = unserialize($user['userinfo']);
