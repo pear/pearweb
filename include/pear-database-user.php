@@ -220,7 +220,9 @@ class user
      * error happens a warning message is printed AND the incomplete
      * user information is removed.
      *
-     * @param array $data  Information about the user
+     * @param array   $data  Information about the user
+     * @param boolean $md5ed true if the password has been hashed already
+     * @param boolean $automatic true if this is an automatic account request
      *
      * @return mixed  true if there are no problems, false if sending the
      *                email failed, 'set error' if DB_storage::set() failed
@@ -228,7 +230,7 @@ class user
      *
      * @access public
      */
-    static function add(&$data, $md5ed = false)
+    static function add(&$data, $md5ed = false, $automatic = false)
     {
         global $dbh;
 
@@ -356,7 +358,7 @@ class user
         // $xhdr .= "\nBCC: pear-group@php.net";
         $subject = "PEAR Account Request: {$handle}";
 
-        if (DEVBOX == false) {
+        if (!DEVBOX && !$automatic) {
             if (PEAR_CHANNELNAME == 'pear.php.net') {
                 $ok = @mail('pear-group@php.net', $subject, $msg, $xhdr,
                             '-f bounce-no-user@php.net');
