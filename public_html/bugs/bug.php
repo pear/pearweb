@@ -551,8 +551,8 @@ switch ($bug['bug_type']) {
     case 'Documentation Problem' : $bug_type = 'Doc Bug'; break;
 }
 response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']), false,
-    ' <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://' .
-    htmlspecialchars($_SERVER['HTTP_HOST']) . '/rss/bug_' . $id . '.rss" />
+    ' <link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://' .
+    htmlspecialchars($_SERVER['HTTP_HOST']) . '/feeds/bug_' . $id . '.rss" />
 ');
 
 // DISPLAY BUG

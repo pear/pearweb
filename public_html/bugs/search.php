@@ -42,7 +42,9 @@ if (!empty($_GET['search_for']) &&
     exit;
 }
 
-response_header('Bugs :: Search');
+response_header('Bugs :: Search', false, ' <link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://' .
+    htmlspecialchars($_SERVER['HTTP_HOST']) . '/bugs/rss/search.php?' . http_build_query($_REQUEST) . '" />
+');
 
 $errors = array();
 $warnings = array();

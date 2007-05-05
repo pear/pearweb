@@ -354,19 +354,25 @@ if (stristr($query, ';')) {
 
 header('Content-type: text/xml');
 
-echo '<?xml version="1.0" encoding="UTF-8"?>
-<rdf:RDF
-    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-    xmlns="http://purl.org/rss/1.0/"
-    xmlns:dc="http://purl.org/dc/elements/1.1/"
->
-  <channel rdf:about="http://bugs.php.net/">
-    <title>PHP Bugs Search Results</title>
-    <link>http://bugs.php.net/rss/search.php</link>
-    <description>$descr</description>
-    <items>
+echo '<?xml version="1.0"?>
+<?xml-stylesheet 
+href="http://www.w3.org/2000/08/w3c-synd/style.css" type="text/css"
+?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:admin="http://webns.net/mvcb/" xmlns:content="http://purl.org/rss/1.0/modules/content/">';
+echo "\n    <channel rdf:about=\"http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/search.php\">\n";
+echo "    <title>PEAR Bug Search Results</title>\n";
+echo '    <link>http://' . htmlspecialchars(urlencode($_SERVER['HTTP_HOST']) . '/bugs/search.php?' .
+ http_build_query($_GET)) . "</link>\n";
+echo "    <description>Search Results</description>\n";
+echo "    <dc:language>en-us</dc:language>\n";
+echo "    <dc:creator>pear-webmaster@lists.php.net</dc:creator>\n";
+echo "    <dc:publisher>pear-webmaster@lists.php.net</dc:publisher>\n";
+echo "    <admin:generatorAgent rdf:resource=\"http://" . $_SERVER['HTTP_HOST'] . "/bugs\"/>\n";
+echo "    <sy:updatePeriod>hourly</sy:updatePeriod>\n";
+echo "    <sy:updateFrequency>1</sy:updateFrequency>\n";
+echo "    <sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>\n";
+echo '    <items>
      <rdf:Seq>
-
 ';
 
 if ($total_rows > 0) {
@@ -374,17 +380,15 @@ if ($total_rows > 0) {
 	$items = array();
 	while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
 	    $i++;
-		echo "      <rdf:li rdf:resource=\"http://bugs.php.net/{$row['id']}\" />\n";
-	    $items[$i] = "    <item>\n";
-	    $items[$i] .= '      <title>' . utf8_encode(htmlspecialchars('[' . $row['status'] . '] ' . $row['sdesc'])) . "</title>\n";
-	    $items[$i] .= "      <link>http://bugs.php.net/{$row['id']}</link>\n";
-	    $items[$i] .= '      <description>' . utf8_encode(htmlspecialchars($row['ldesc'])) . "</description>\n";
+		echo "      <rdf:li rdf:resource=\"http://" . $_SERVER['HTTP_HOST'] . "/bug/{$row['id']}\" />\n";
+	    $items[$i] = "    <item rdf:about=\"http://" . $_SERVER['HTTP_HOST'] . "/bug/{$row['id']}\">\n";
+	    $items[$i] .= '      <title>' . utf8_encode(htmlspecialchars($row['bug_type'] . ' ' . $row['id'] . ' [' . $row['status'] . '] ' . $row['sdesc'])) . "</title>\n";
+	    $items[$i] .= "      <link>http://" . $_SERVER['HTTP_HOST'] . "/bugs/{$row['id']}</link>\n";
+	    $items[$i] .= '      <description><![CDATA[' . utf8_encode(htmlspecialchars($row['ldesc'])) . "]]></description>\n";
 	    if (!$row['unchanged']) {
-    	    $items[$i] .= '      <dc:date>' . date('Y-m-d',strtotime($row['ts1'])) . "</dc:date>\n";
-    	    $items[$i] .= '      <dc:time>' . date('H:i:s',strtotime($row['ts1'])) . "</dc:time>\n";
+    	    $items[$i] .= '      <dc:date>' . date('Y-m-d\TH:i:s-05:00', strtotime($row['ts1'])) . "</dc:date>\n";
 	    } else {
-    	    $items[$i] .= '      <dc:date>' . date('Y-m-d',strtotime($row['ts2'])) . "</dc:date>\n";
-    	    $items[$i] .= '      <dc:time>' . date('H:i:s',strtotime($row['ts2'])) . "</dc:time>\n";
+    	    $items[$i] .= '      <dc:date>' . date('Y-m-d\TH:i:s-05:00', strtotime($row['ts2'])) . "</dc:date>\n";
 	    }
 	    $items[$i] .= '      <dc:creator>' . utf8_encode(htmlspecialchars(spam_protect($row['email']))) . "</dc:creator>\n";
 	    $items[$i] .= '      <dc:subject>' .
@@ -402,10 +406,10 @@ echo '
     </items>
   </channel>
 
-  <image rdf:about="http://pear.php.net/gifs/pearsmall.gif">
+  <image rdf:about="http://' . $_SERVER['HTTP_HOST'] . '/gifs/pearsmall.gif">
     <title>PEAR Bugs</title>
-    <url>http://pear.php.net/gifs/pearsmall.gif</url>
-    <link>http://pear.php.net/bugs</link>
+    <url>http://' . $_SERVER['HTTP_HOST'] . '/gifs/pearsmall.gif</url>
+    <link>http://' . $_SERVER['HTTP_HOST'] . '/bugs</link>
   </image>
 
 ', $items;

@@ -31,8 +31,8 @@ if (!$res || !$bug) {
 
 outputHeader($bug, $format);
 
-$query  = "SELECT handle,email,comment,UNIX_TIMESTAMP(ts) as added"
-		. " FROM bugdb_comments WHERE bug=? ORDER BY ts DESC";
+$query  = "SELECT c.email,comment,ts,UNIX_TIMESTAMP(ts) as added, IF(c.handle <> \"\",u.registered,1) as registered, u.handle,c.handle as bughandle"
+		. " FROM bugdb_comments c LEFT JOIN users u ON u.handle = c.handle WHERE bug=? ORDER BY ts DESC";
 $res = $dbh->getAll($query, array($id), DB_FETCHMODE_ASSOC);
 if ($res) {
     outputbug($bug, $res, $format);
@@ -55,43 +55,66 @@ function outputHeader($bug,$format) {
                 FROM bugdb_comments c
                 LEFT JOIN users u ON u.handle = c.handle
                 WHERE c.bug = ?
-                ORDER BY c.ts';
+                ORDER BY c.ts DESC';
             $res = $GLOBALS['dbh']->getAll($query, array($bug['id']));
-			echo '<?xml version="1.0" encoding="UTF-8"?>
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/">';
-			echo "\n    <channel rdf:about=\"http://pear.php.net/bugs/{$bug['id']}\">\n";
-			echo '    <link>http://pear.php.net/bugs/' . intval($bug['id']) . "</link>\n";
+			echo '<?xml version="1.0"?>
+<?xml-stylesheet 
+ href="http://www.w3.org/2000/08/w3c-synd/style.css" type="text/css"
+?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:admin="http://webns.net/mvcb/" xmlns:content="http://purl.org/rss/1.0/modules/content/">';
+			echo "\n    <channel rdf:about=\"http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/{$bug['id']}/bug\">\n";
+			echo "    <title>PEAR Bug #" . intval($bug['id']) . "</title>\n";
+			echo '    <link>http://' . urlencode($_SERVER['HTTP_HOST']) . '/bugs/' . intval($bug['id']) . "</link>\n";
+			echo "    <description>" . utf8_encode(htmlspecialchars("[{$bug['status']}] {$bug['sdesc']}")) . "</description>\n";
+			echo "    <dc:language>en-us</dc:language>\n";
             echo "    <dc:creator>pear-webmaster@lists.php.net</dc:creator>\n";
             echo "    <dc:publisher>pear-webmaster@lists.php.net</dc:publisher>\n";
-			echo "    <dc:language>en-us</dc:language>\n";
+            echo "    <admin:generatorAgent rdf:resource=\"http://pear.php.net/bugs\"/>\n";
+            echo "    <sy:updatePeriod>hourly</sy:updatePeriod>\n";
+            echo "    <sy:updateFrequency>1</sy:updateFrequency>\n";
+            echo "    <sy:updateBase>2000-01-01T12:00+00:00</sy:updateBase>\n";
 			echo "    <items>\n";
 			echo "     <rdf:Seq>\n";
+			echo "      <rdf:li rdf:resource=\"http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/" .
+			     intval($bug['id']) . "\"/>\n";
 			foreach ($res as $comment) {
+			    if (!$comment[1]) continue;
 			    $comment = urlencode($comment[0]);
-    			echo "      <rdf:li rdf:resource=\"http://pear.php.net/bugs/" .
-    			     intval($bug['id']) . "#$comment\"/>\n";
+    			echo "      <rdf:li rdf:resource=\"http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/" .
+    			     intval($bug['id']) . "/$comment#$comment\"/>\n";
 			}
 			echo "     </rdf:Seq>\n";
 			echo "    </items>\n";
-			echo '    <title>' . utf8_encode(htmlspecialchars("[{$bug['status']}] {$bug['sdesc']}")) . "</title>\n";
-			echo '    <description>';
-			echo utf8_encode(htmlspecialchars("{$bug['package_name']} "));
-			echo utf8_encode(htmlspecialchars("{$bug['bug_type']}\nReported by "));
-			if ($bug['handle']) {
-    			echo utf8_encode(htmlspecialchars("{$bug['handle']}\n"));
-			} else {
-			    echo utf8_encode(htmlspecialchars(substr($bug['email'], 0, strpos($bug['email'], '@')))) . "@...\n";
-			}
-			echo date('Y-m-d\TH:i:s-05:00', strtotime($bug['ts1'])) . "\n";
-			echo utf8_encode(htmlspecialchars("PHP: {$bug['php_version']} OS: {$bug['php_os']} Package Version: {$bug['package_version']}\n\n"));
-			echo utf8_encode(htmlspecialchars($bug['ldesc']));
-			echo "    </description>\n";
 			echo "  </channel>\n";
+			$desc = "{$bug['package_name']} {$bug['bug_type']}\nReported by ";
+			if ($bug['handle']) {
+    			$desc .= "{$bug['handle']}\n";
+			} else {
+			    $desc .= substr($bug['email'], 0, strpos($bug['email'], '@')) . "@...\n";
+			}
+			$desc .= date('Y-m-d\TH:i:s-05:00', strtotime($bug['ts1'])) . "\n";
+			$desc .= "PHP: {$bug['php_version']} OS: {$bug['php_os']} Package Version: {$bug['package_version']}\n\n";
+			$desc .= $bug['ldesc'];
+			$desc = '<pre>' . htmlspecialchars($desc) . '</pre>';
+			echo "    <item rdf:about=\"http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/" .
+			     $bug['id'] . "\">\n";
+			echo '      <title>';
+			if ($bug['handle']) {
+			    echo utf8_encode(htmlspecialchars($bug['handle'])) . "</title>\n";
+			} else {
+			    echo utf8_encode(htmlspecialchars(substr($bug['email'], 0, strpos($bug['email'], '@')))) . "@... [$bug[ts1]]</title>\n";
+			}
+			echo "      <link>http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/{$bug['id']}</link>\n";
+			echo '      <description><![CDATA[' . $desc . "]]></description>\n";
+			echo '      <content:encoded><![CDATA[' . $desc . "]]></content:encoded>\n";
+			echo '      <dc:date>' . date('Y-m-d\TH:i:s-05:00', strtotime($bug['ts1'])) . "</dc:date>\n";
+			echo "    </item>\n";
 	}
 }
 
 function outputbug($bug, $res, $format) {
 	foreach ($res as $row) {
+	    if (!$row['registered']) continue;
 		switch ($format) {
 			case 'xml':
 				echo "  <comment>\n";
@@ -101,17 +124,19 @@ function outputbug($bug, $res, $format) {
 				break;
 			case 'rss':
 			default:
-			    $ts = urlencode($bug['ts2']);
-				echo "    <item rdf:about=\"http://pear.php.net/bugs/" .
-				     $bug['id'] . "#$ts\">\n";
+			    $ts = urlencode($row['ts']);
+				echo "    <item rdf:about=\"http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/" .
+				     $bug['id'] . "/$ts#$ts\">\n";
 				echo '      <title>';
 				if ($row['handle']) {
 				    echo utf8_encode(htmlspecialchars($row['handle'])) . "</title>\n";
 				} else {
-				    echo utf8_encode(htmlspecialchars(substr($row['email'], 0, strpos($row['email'], '@')))) . "@... [$bug[ts2]]</title>\n";
+				    echo utf8_encode(htmlspecialchars(substr($row['email'], 0, strpos($row['email'], '@')))) . "@... [$row[ts]]</title>\n";
 				}
-				echo "      <link>http://pear.php.net/bugs/{$bug['id']}#$ts</link>\n";
-				echo '      <description>' . utf8_encode(htmlspecialchars($row['comment'])) . "</description>\n";
+				echo "      <link>http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/{$bug['id']}#$row[added]</link>\n";
+    			$row['comment'] = '<pre>' . htmlspecialchars($row['comment']) . '</pre>';
+				echo '      <description><![CDATA[' . $row['comment'] . "]]></description>\n";
+				echo '      <content:encoded><![CDATA[' . $row['comment'] . "]]></content:encoded>\n";
 				echo '      <dc:date>' . date('Y-m-d\TH:i:s-05:00', $row['added']) . "</dc:date>\n";
 				echo "    </item>\n";
 		}
