@@ -237,7 +237,7 @@ class PEAR_Bug_Accountrequest
         // copied from the user class and Damblan_Karma
 
         include_once 'pear-database-user.php';
-        $user = user::info($handle);
+        $user = user::info($handle, null, 0);
         if (!isset($user['registered'])) {
             return false;
         }

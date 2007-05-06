@@ -42,7 +42,7 @@ class user
 
         $karma = new Damblan_Karma($dbh);
 
-        $user = user::info($uid);
+        $user = user::info($uid, null, 0);
         if (!isset($user['registered'])) {
             return false;
         }
@@ -302,7 +302,7 @@ class user
         }
 
         $handle = strtolower($data['handle']);
-        $info = user::info($handle);
+        $info = user::info($handle, null, 'any');
 
         if (isset($info['created'])) {
             $data['jumpto'] = "handle";
