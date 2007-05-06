@@ -377,29 +377,29 @@ echo '    <items>
 ';
 
 if ($total_rows > 0) {
-	$i = 0;
-	$items = array();
-	while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-	    $i++;
-		echo "      <rdf:li rdf:resource=\"http://" . $_SERVER['HTTP_HOST'] . "/bug/{$row['id']}\" />\n";
-	    $items[$i] = "    <item rdf:about=\"http://" . $_SERVER['HTTP_HOST'] . "/bug/{$row['id']}\">\n";
-	    $items[$i] .= '      <title>' . utf8_encode(htmlspecialchars($row['bug_type'] . ' ' . $row['id'] . ' [' . $row['status'] . '] ' . $row['sdesc'])) . "</title>\n";
-	    $items[$i] .= "      <link>http://" . $_SERVER['HTTP_HOST'] . "/bugs/{$row['id']}</link>\n";
-	    $items[$i] .= '      <description><![CDATA[' . utf8_encode(htmlspecialchars($row['ldesc'])) . "]]></description>\n";
-	    if (!$row['unchanged']) {
-    	    $items[$i] .= '      <dc:date>' . rssdate($row['ts1a']) . "</dc:date>\n";
-	    } else {
-    	    $items[$i] .= '      <dc:date>' . rssdate($row['ts2a']) . "</dc:date>\n";
-	    }
-	    $items[$i] .= '      <dc:creator>' . utf8_encode(htmlspecialchars(spam_protect($row['email']))) . "</dc:creator>\n";
-	    $items[$i] .= '      <dc:subject>' .
-	       utf8_encode(htmlspecialchars($row['package_name'])) . ' ' .
-	       utf8_encode(htmlspecialchars($row['bug_type'])) . "</dc:subject>\n";
-	    $items[$i] .= "    </item>\n";
-	}
-	$items = implode('', $items);
+    $i = 0;
+    $items = array();
+    while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+        $i++;
+        echo "      <rdf:li rdf:resource=\"http://" . $_SERVER['HTTP_HOST'] . "/bug/{$row['id']}\" />\n";
+        $items[$i] = "    <item rdf:about=\"http://" . $_SERVER['HTTP_HOST'] . "/bug/{$row['id']}\">\n";
+        $items[$i] .= '      <title>' . utf8_encode(htmlspecialchars($row['bug_type'] . ' ' . $row['id'] . ' [' . $row['status'] . '] ' . $row['sdesc'])) . "</title>\n";
+        $items[$i] .= "      <link>http://" . $_SERVER['HTTP_HOST'] . "/bugs/{$row['id']}</link>\n";
+        $items[$i] .= '      <description><![CDATA[' . utf8_encode(htmlspecialchars($row['ldesc'])) . "]]></description>\n";
+        if (!$row['unchanged']) {
+            $items[$i] .= '      <dc:date>' . rssdate($row['ts1a']) . "</dc:date>\n";
+        } else {
+            $items[$i] .= '      <dc:date>' . rssdate($row['ts2a']) . "</dc:date>\n";
+        }
+        $items[$i] .= '      <dc:creator>' . utf8_encode(htmlspecialchars(spam_protect($row['email']))) . "</dc:creator>\n";
+        $items[$i] .= '      <dc:subject>' .
+           utf8_encode(htmlspecialchars($row['package_name'])) . ' ' .
+           utf8_encode(htmlspecialchars($row['bug_type'])) . "</dc:subject>\n";
+        $items[$i] .= "    </item>\n";
+    }
+    $items = implode('', $items);
 } else {
-	$warnings[] = "No bugs matched your criteria";
+    $warnings[] = "No bugs matched your criteria";
 }
 
 echo '
@@ -418,12 +418,12 @@ echo '
 </rdf:RDF>
 <?php
 if (count($warnings) > 0) {
-	echo "<!--\n\n";
-	echo "The following warnings occured during your request:\n\n";
-	foreach($warnings as $warning) {
-		echo utf8_encode(htmlspecialchars('* ' . $warning)) . "\n";
-	}
-	echo "-->\n";
+    echo "<!--\n\n";
+    echo "The following warnings occured during your request:\n\n";
+    foreach($warnings as $warning) {
+        echo utf8_encode(htmlspecialchars('* ' . $warning)) . "\n";
+    }
+    echo "-->\n";
 }
 
 function rssdate($date)
