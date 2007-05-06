@@ -294,7 +294,7 @@ if (isset($_POST['in'])) {
                          " '" . escapeSQL($_POST['in']['php_os']) . "'," .
                          " 'Open', NOW(), " .
                          " ''," .
-                         " '" . escapeSQL($reporter_name) . "')";
+                         " '" . escapeSQL($auth_user->name) . "')";
 
 
                 $dbh->query($query);
