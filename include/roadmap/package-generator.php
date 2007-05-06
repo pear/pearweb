@@ -35,9 +35,40 @@ class Roadmap_Package_Generator
         ', array($this->_package));
         if ($packagexml) {
             $pf = $this->getPackageXmlV2($packagexml);
-            $changelog = $pf->generateChangeLogEntry();
-            $pf->setChangelogEntry($pf->getVersion(), $changelog);
+            $oldchangelog = $pf->getChangelog();
             $pf->setReleaseVersion($version);
+            $changelog = $pf->generateChangeLogEntry();
+            if (is_array($oldchangelog)) {
+                $oldchangelog = $oldchangelog['release'];
+                $last = null;
+                $insertatend = true;
+                if (!isset($oldchangelog[0])) {
+                    $oldchangelog = array($oldchangelog);
+                }
+                foreach ($oldchangelog as $entry) {
+                    if (!isset($last)) {
+                        $last = $entry;
+                        continue;
+                    }
+                    if (version_compare($entry['version']['release'], $last['version']['release'],
+                                        '<')) {
+                        $insertatend = false;
+                    }
+                    break;
+                }
+                if ($insertatend) {
+                    $pf->setChangelogEntry($version, $changelog);
+                } else {
+                    $pf->clearChangeLog();
+                    $pf->setChangelogEntry($version, $changelog);
+                    foreach ($oldchangelog as $entry) {
+                        $pf->setChangelogEntry($entry['version']['release'], $entry);
+                    }
+                }
+            } else {
+                // no pre-existing changelog
+                $pf->setChangelogEntry($version, $changelog);
+            }
             if ($version[0] == '0') {
                 if ($pf->getState() == 'stable') {
                     $pf->setReleaseStability('beta');
