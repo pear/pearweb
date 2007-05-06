@@ -329,7 +329,7 @@ class user
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'report_warning');
 
         $sql = '
-            INSERT INTO user
+            INSERT INTO users
                 (handle, name, email, homepage, showemail, password, registered, userinfo)
             VALUES
                 (?, ?, ?, ?, ?, ?, ?, ?)';
