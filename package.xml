@@ -55,13 +55,13 @@
   <name>Daniel Convissor</name>
   <user>danielc</user>
   <email>danielc@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </developer>
  <developer>
   <name>Tobias Schlitt</name>
   <user>toby</user>
   <email>toby@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </developer>
  <developer>
   <name>Helgi Thormar</name>
