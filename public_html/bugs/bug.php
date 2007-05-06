@@ -426,7 +426,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
 
     if (isset($_POST['in']) && is_array($_POST['in']) &&
           (($_POST['in']['status'] == 'Bogus' && $bug['status'] != 'Bogus') ||
-          (isset($RESOLVE_REASONS[$_POST['in']['resolve']]) &&
+          (isset($_POST['in']['resolve']) && isset($RESOLVE_REASONS[$_POST['in']['resolve']]) &&
            $RESOLVE_REASONS[$_POST['in']['resolve']]['status'] == 'Bogus')) &&
         strlen($ncomment) == 0)
     {
@@ -480,6 +480,10 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
             $query .= " email='{$_POST['in']['email']}',";
         }
 
+        if (!auth_check('pear.dev')) {
+            // don't reset assigned status
+            $_POST['in']['assign'] = $bug['assign'];
+        }
         if (!empty($_POST['in']['assign']) && $_POST['in']['status'] == 'Open') {
             $status = 'Assigned';
         } elseif (empty($_POST['in']['assign']) && $_POST['in']['status'] == 'Assigned') {
@@ -512,20 +516,25 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
             FROM bugdb_roadmap_link l, bugdb_roadmap b
             WHERE
                 l.id=? AND b.id=l.roadmap_id', array($id));
-        $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
-        $link->id = $id;
-        $link->delete();
-        if (isset($_POST['in']['fixed_versions'])) {
-            foreach ($_POST['in']['fixed_versions'] as $rid) {
-                $link->id = $id;
-                $link->roadmap_id = $rid;
-                $link->insert();
+        if (auth_check('pear.dev')) {
+            // don't change roadmap assignments for non-devs editing a bug
+            $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
+            $link->id = $id;
+            $link->delete();
+            if (isset($_POST['in']['fixed_versions'])) {
+                foreach ($_POST['in']['fixed_versions'] as $rid) {
+                    $link->id = $id;
+                    $link->roadmap_id = $rid;
+                    $link->insert();
+                }
             }
+            $current = $dbh->getAll('SELECT roadmap_version
+                FROM bugdb_roadmap_link l, bugdb_roadmap b
+                WHERE
+                    l.id=? AND b.id=l.roadmap_id', array($id));
+        } else {
+            $current = $previous;
         }
-        $current = $dbh->getAll('SELECT roadmap_version
-            FROM bugdb_roadmap_link l, bugdb_roadmap b
-            WHERE
-                l.id=? AND b.id=l.roadmap_id', array($id));
 
         if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
