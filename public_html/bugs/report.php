@@ -550,6 +550,11 @@ if (auth_check('pear.dev')) {
     $db = Bug_DataObject::bugDB('bugdb_roadmap');
     $db->package = clean($_REQUEST['package']);
     $db->orderBy('releasedate ASC');
+    $myroadmaps = array();
+    if (isset($_POST['in']) && isset($_POST['in']['roadmap']) &&
+          is_array($_POST['in']['roadmap'])) {
+        $myroadmaps = array_flip($_POST['in']['roadmap']);
+    }
     if ($db->find(false)) {
         while ($db->fetch()) {
             $released = $dbh->getOne('SELECT releases.id
@@ -565,7 +570,7 @@ if (auth_check('pear.dev')) {
 
             if (!$released || ($released && isset($_GET['showold']))) {
                 $content .= '<input type="checkbox" name="in[roadmap][]" value="' . $db->id . '"';
-                if (isset($_POST['in']['roadmap'][$db->id])) {
+                if (isset($myroadmaps[$db->id])) {
                     $content .= ' checked="checked" ';
                 }
                 $content .= '/>';
