@@ -740,9 +740,9 @@ if (isset($_POST['preview']) && !empty($ncomment)) {
         $preview .= '<a href="/user/' . $auth_user->handle . '">' .
             $auth_user->handle . '</a>';
     } else {
-        $preview .= spam_protect(htmlspecialchars($from))."</strong>\n";
+        $preview .= spam_protect(htmlspecialchars($from));
     }
-    $preview .= '<pre class="note">';
+    $preview .= "</strong>\n<pre class=\"note\">";
     $comment = make_ticket_links(addlinks($ncomment));
     $preview .= wordwrap($comment, 72);
     $preview .= "</pre>\n";
@@ -1264,6 +1264,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
             "MANUAL CONFIRMATION IS NOT POSSIBLE.  Write a message to <a href=\"mailto:pear-dev@lists.php.net\">pear-dev@lists.php.net</a>\n",
             "to request the confirmation link.  All bugs/comments/patches associated with this
 \nemail address will be deleted within 48 hours if the account request is not confirmed!";
+        echo "</pre>\n</div>";
         return;
     }
     if ($handle) {
