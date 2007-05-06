@@ -237,8 +237,7 @@ class pear_rest
                 strtolower($package['name'])));
             @chmod($pdir . DIRECTORY_SEPARATOR . strtolower($package['name']), 0777);
         }
-        $catinfo = $dbh->getOne('SELECT c.name FROM packages, categories c WHERE
-            c.id = ?', array($package['categoryid']), DB_FETCHMODE_ASSOC);
+        $catinfo = $package['category'];
         if (isset($package['parent']) && $package['parent']) {
             $parent = '
  <pa xlink:href="' . $extra . 'p/' . $package['parent'] . '">' .
@@ -249,8 +248,8 @@ class pear_rest
         if ($package['new_package']) {
             $dpackage = $package['new_package'];
             $deprecated = '
-<dc>' . $package['new_channel'] . '</dc>
-<dp> ' .
+ <dc>' . $package['new_channel'] . '</dc>
+ <dp> ' .
             $dpackage . '</dp>';
         } else {
             $deprecated = '';
