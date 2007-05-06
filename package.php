@@ -18,28 +18,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.15.0');
+$a->setReleaseVersion('1.16.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #9589: Link input field on requestform too short [cellog]
- * Fix Bug #10709: Can not reset my password [cellog]
- * Fix Bug #10731: &quot;Doc Bug&quot; doesn&apos;t appear on Roadmap [davidc]
- * Fix Bug #10841: warnings raised on public_html/bugs/stats.php [dufuz]
- * Fix Bug #10855: &quot;Fixed Since Version...&quot; a misnomer [davidc]
- * Fix Bug #10863: &quot;Doc #&quot; not hyperlink in Changelog View [davidc]
- * Fix Bug #10868: User note link pointing to nowhere [cellog]
- * Fix Bug #10872: &quot;New search&quot; link in bug tracker does not work [dufuz]
- * Fix Bug #10874: roadmap generated package.xml contains info from previous package.xml [cellog]
- * Fix Bug #10876: The handle part in My Bugs url collieds with author_email [dufuz]
- * Fix Bug #10880: Registration Link Broken [cellog]
- * Fix Bug #10907: SECURITY: login.php redirects to any URL [cellog]
- * Fix Bug #10908: improper fix of XSS in bug tracker [cellog]
- * Implement Feature #10512: side-by-side diff of patch revisions [cellog]
- * Implement Feature #10561: Open bug stats include bugs with unconfirmed identities [cellog]
- * Implement Feature #10562: Mark complete user as inactive [cellog]
- * Implement Feature #10829: Enhance Patch Upload process [cellog]
- * Implement Feature #10849: Remove DB_Storage [dufuz] 
+ * Fix Bug #10958: List of old patches does not use UTC dates [mj]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

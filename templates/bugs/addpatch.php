@@ -62,7 +62,7 @@ if (!$loggedin) {?>
        foreach ($patch2 as $patch) {
            echo '<option value="', htmlspecialchars($patchname . '#' . $patch[0]),
                 '">', htmlspecialchars($patchname), ', Revision ',
-                date('Y-m-d H:i:s', $patch[0]), ' (', $patch[1], ')</option>';
+                format_date($patch[0]), ' (', $patch[1], ')</option>';
        }
    }
    ?>

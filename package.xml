@@ -72,7 +72,7 @@
  <date>2007-05-04</date>
  <time>21:56:03</time>
  <version>
-  <release>1.15.0</release>
+  <release>1.16.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -81,24 +81,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #9589: Link input field on requestform too short [cellog]
- * Fix Bug #10709: Can not reset my password [cellog]
- * Fix Bug #10731: &amp;quot;Doc Bug&amp;quot; doesn&amp;apos;t appear on Roadmap [davidc]
- * Fix Bug #10841: warnings raised on public_html/bugs/stats.php [dufuz]
- * Fix Bug #10855: &amp;quot;Fixed Since Version...&amp;quot; a misnomer [davidc]
- * Fix Bug #10863: &amp;quot;Doc #&amp;quot; not hyperlink in Changelog View [davidc]
- * Fix Bug #10868: User note link pointing to nowhere [cellog]
- * Fix Bug #10872: &amp;quot;New search&amp;quot; link in bug tracker does not work [dufuz]
- * Fix Bug #10874: roadmap generated package.xml contains info from previous package.xml [cellog]
- * Fix Bug #10876: The handle part in My Bugs url collieds with author_email [dufuz]
- * Fix Bug #10880: Registration Link Broken [cellog]
- * Fix Bug #10907: SECURITY: login.php redirects to any URL [cellog]
- * Fix Bug #10908: improper fix of XSS in bug tracker [cellog]
- * Implement Feature #10512: side-by-side diff of patch revisions [cellog]
- * Implement Feature #10561: Open bug stats include bugs with unconfirmed identities [cellog]
- * Implement Feature #10562: Mark complete user as inactive [cellog]
- * Implement Feature #10829: Enhance Patch Upload process [cellog]
- * Implement Feature #10849: Remove DB_Storage [dufuz] 
+ * Fix Bug #10958: List of old patches does not use UTC dates [mj]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
