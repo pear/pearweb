@@ -45,6 +45,7 @@ class Text_Diff_Renderer_pearweb extends Text_Diff_Renderer {
 
     function _context($lines)
     {
+        array_walk($lines, create_function('&$a,$b', '$a=htmlspecialchars($a);'));
         return "\n" . parent::_context($lines);
     }
     
