@@ -174,9 +174,14 @@ class user
         $handle = strpos($user, '@') ? 'email' : 'handle';
 
         if ($field === null) {
-            $registered = $registered === true ? '1' : '0';
-            $row = $dbh->getRow('SELECT * FROM users WHERE registered = ? AND ' . $handle . ' = ?',
-                                array($registered, $user), DB_FETCHMODE_ASSOC);
+            if ($registered === 'any') {
+                $row = $dbh->getRow('SELECT * FROM users WHERE ' . $handle . ' = ?',
+                                    array($user), DB_FETCHMODE_ASSOC);
+            } else {
+                $registered = $registered === true ? '1' : '0';
+                $row = $dbh->getRow('SELECT * FROM users WHERE registered = ? AND ' . $handle . ' = ?',
+                                    array($registered, $user), DB_FETCHMODE_ASSOC);
+            }
             if ($hidePassword) {
                 unset($row['password']);
             }
@@ -400,7 +405,7 @@ class user
             'password',
         );
 
-        $info = user::info($data['handle']);
+        $info = user::info($data['handle'], null, 'any');
         // In case a active value isn't passed in
         $active = isset($info['active']) ? $info['active'] : true;
 

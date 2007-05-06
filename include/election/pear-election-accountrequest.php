@@ -99,7 +99,7 @@ class PEAR_Election_Accountrequest
         // copied from the user class and Damblan_Karma
 
         include_once 'pear-database-user.php';
-        $user = user::info($this->handle);
+        $user = user::info($this->handle, null, 0);
         if (!isset($user['registered'])) {
             return PEAR::raiseError('Error - user request was deleted, please try again');
         }
