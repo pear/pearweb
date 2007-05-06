@@ -50,7 +50,7 @@ if (isset($_POST['save']) && isset($_POST['pw'])) {
 }
 
 // captcha is not necessary if the user is logged in
-if ($auth_user && $auth_user->registered) {
+if (isset($auth_user) && $auth_user->registered) {
     if (!auth_check('pear.dev') && auth_check('pear.voter') && !auth_check('pear.bug')) {
         // auto-grant bug tracker karma if it isn't present
         require_once 'Damblan/Karma.php';
@@ -66,7 +66,7 @@ if ($auth_user && $auth_user->registered) {
 }
 
 if (isset($_POST['in'])) {
-    $errors = incoming_details_are_valid($_POST['in'], 1, ($auth_user && $auth_user->registered));
+    $errors = incoming_details_are_valid($_POST['in'], 1, (isset($auth_user) && $auth_user->registered));
 
     /**
      * Check if session answer is set, then compare
@@ -80,7 +80,7 @@ if (isset($_POST['in'])) {
     }
 
     // try to verify the user
-    if ($auth_user) {
+    if (isset($auth_user)) {
         $_POST['in']['handle'] = $auth_user->handle;
     }
 
@@ -198,7 +198,7 @@ if (isset($_POST['in'])) {
 
         do {
             if ($ok_to_submit_report) {
-                if (!$auth_user) {
+                if (!isset($auth_user)) {
                     $registereduser = 0;
                     // user doesn't exist yet
                     require 'bugs/pear-bug-accountrequest.php';
@@ -474,27 +474,27 @@ $action = $self . '?package=' . clean($_REQUEST['package']);
 <table class="form-holder" cellspacing="1">
  <tr>
   <th class="form-label_left">
-<?php if ($auth_user): ?>
+<?php if (isset($auth_user)): ?>
    Your handle:
   </th>
   <td class="form-input">
    <input type="hidden" name="in[did_luser_search]"
-    value="<?php echo $_POST['in']['did_luser_search'] ? 1 : 0; ?>" />
+    value="<?php echo isset($_POST['in']['did_luser_search']) ? 1 : 0; ?>" />
    <?php echo $auth_user->handle; ?>
   </td>
 <?php
-else: // if ($auth_user)
+else: // if (isset($auth_user))
 ?>
    Y<span class="accesskey">o</span>ur email address:<br />
    <strong>MUST BE VALID</strong>
   </th>
   <td class="form-input">
    <input type="hidden" name="in[did_luser_search]"
-    value="<?php echo $_POST['in']['did_luser_search'] ? 1 : 0; ?>" />
+    value="<?php isset($_POST['in']['did_luser_search']) ? 1 : 0; ?>" />
    <input type="text" size="20" maxlength="40" name="in[email]"
     value="<?php echo clean($_POST['in']['email']); ?>" accesskey="o" />
   </td>
-<?php endif; // if ($auth_user) ?>
+<?php endif; // if (isset($auth_user)) ?>
  </tr>
  <tr>
   <th class="form-label_left">
@@ -628,13 +628,13 @@ if (auth_check('pear.dev')) {
     value="<?php echo clean($_POST['in']['php_os']); ?>" />
   </td>
  </tr>
- <?php if (!$auth_user): ?>
+ <?php if (!isset($auth_user)): ?>
  <tr>
   <th>Solve the problem : <?php print $numeralCaptcha->getOperation(); ?> = ?</th>
   <td class="form-input"><input type="text" name="captcha" /></td>
  </tr>
  <?php $_SESSION['answer'] = $numeralCaptcha->getAnswer(); ?>
- <?php endif; // if (!$auth_user): ?>
+ <?php endif; // if (!isset($auth_user)): ?>
  <tr>
   <th class="form-label_left">
    Summary:

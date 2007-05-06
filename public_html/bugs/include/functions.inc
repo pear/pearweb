@@ -448,14 +448,12 @@ function show_package_version_options($package, $current)
         } else {
             $versions = array($newest);
         }
+    } else {
+        $versions = array(1 => 1);
     }
     echo '<select name="in[package_version]">' . "\n";
     echo '<option value="">--Please Select--</option>' . "\n";
     $use = 0;
-
-    if (count($versions) == 0) {
-        $versions = array(1 => 1);
-    }
 
     while (list(,$v) = each($versions)) {
         echo '<option';
