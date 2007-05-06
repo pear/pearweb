@@ -465,6 +465,9 @@ function show_package_version_options($package, $current)
 		
         echo ' value = "' . htmlspecialchars($v[0]) . '">' . htmlspecialchars($v[0]) . ' (' . htmlspecialchars($v[1]) . ")</option>\n";
     }
+    echo '<option value="CVS"';
+    if ($current == 'CVS') echo ' selected';
+    echo ">CVS</option>\n";
     echo "<option value=\"earlier\"", ($current == "earlier" ? " selected" : ""),  ">Earlier? Upgrade first!</option>\n";
     echo "</select>\n";
 }
