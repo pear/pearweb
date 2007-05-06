@@ -6,6 +6,7 @@ require_once 'PEAR/ErrorStack.php';
 class PEAR_PHPTest
 {
     private $_diffonly;
+    private $_errors = array();
 
     function __construct($noStackCatch = false)
     {

@@ -18,5 +18,5 @@ require dirname(dirname(__FILE__)) . '/phpt_test.php5.inc';
 $phpunit = new PEAR_PHPTest;
 
 require_once 'pear-rest.php';
-$rest = new PEAR_REST(dirname(__FILE__) . '/rest');
+$rest = new PEAR_REST($rdir = dirname(__FILE__) . '/rest');
 ?>
