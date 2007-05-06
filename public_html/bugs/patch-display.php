@@ -84,6 +84,7 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
         }
         require_once 'Text/Diff.php';
         require_once 'bugs/Diff/pearweb.php';
+        assert_options(ASSERT_WARNING, 0);
         $d = new Text_Diff($orig = file($old), $now = file($new));
         $diff = new Text_Diff_Renderer_pearweb($d);
         include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/patchdiff.php';
