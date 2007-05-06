@@ -132,7 +132,8 @@ class mockDB_core
                 }
             }
         }
-        $this->_queryMap[$this->_normalize($query)] = array('res' => 'ok', 'rows' => $rows);
+        $this->_queryMap[$this->_normalize($query)] = array('res' => 'ok', 'rows' => $rows,
+            'cols' => count($rowcols));
     }
 
     function query($query)
@@ -174,6 +175,14 @@ class mockDB_core
             return false;
         }
         return count($this->_queryMap[$this->_normalize($query)]['rows']);
+    }
+
+    function numCols($query)
+    {
+        if (!isset($this->_queryMap[$this->_normalize($query)])) {
+            return false;
+        }
+        return $this->_queryMap[$this->_normalize($query)]['cols'];
     }
 
     function rowExists($query, $rownum)

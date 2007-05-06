@@ -373,9 +373,7 @@ class DB_mock extends DB_common
      */
     function numCols($result)
     {
-        $row = $this->_mock->getRow($result, 0);
-        if (!$row) return $row;
-        return count($row);
+        return $this->_mock->numCols($result);
     }
 
     // }}}
