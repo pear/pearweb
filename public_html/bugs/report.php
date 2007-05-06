@@ -295,7 +295,7 @@ if (isset($_POST['in'])) {
                          " '" . escapeSQL($_POST['in']['php_version']) . "'," .
                          " '" . escapeSQL($_POST['in']['php_os']) . "'," .
                          " 'Open', NOW(), " .
-                         " '" . escapeSQL($_POST['in']['passwd']) . "'," .
+                         " ''," .
                          " '" . escapeSQL($reporter_name) . "')";
 
 
@@ -413,6 +413,22 @@ if (!package_exists($_REQUEST['package'])) {
     display_bug_error($errors);
 } else {
     if (!isset($_POST['in'])) {
+        $_POST['in'] = array(
+                 'package_name' => '',
+                 'bug_type' => '',
+                 'email' => '',
+                 'handle' => '',
+                 'sdesc' => '',
+                 'ldesc' => '',
+                 'repcode' => '',
+                 'expres' => '',
+                 'actres' => '',
+                 'package_version' => '',
+                 'php_version' => '',
+                 'php_os' => '',
+                 'passwd' => '',
+            
+        );
         response_header('Report - New');
         show_bugs_menu(clean($_REQUEST['package']));
 
@@ -522,6 +538,7 @@ else: // if ($auth_user)
             echo ' your bug is about a '.$siteBig.' package or other aspect of the';
             echo ' website, please hit the back button and actually read that';
             echo ' page so you can properly categorize your bug.</strong></p>';
+            echo '<input type="hidden" name="in[package_version]" value="" />';
         }
     } else {
         echo '<select name="in[package_name]">' . "\n";
