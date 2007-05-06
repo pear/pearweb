@@ -56,7 +56,8 @@ if ($mysql4) {
     $query = 'SELECT';
 }
 
-$query .= ' bugdb.*, TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged'
+$query .= ' bugdb.*, UNIX_TIMESTAMP(ts1) as ts1a, UNIX_TIMESTAMP(ts2) as ts2a,
+            TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged'
         . ' FROM bugdb';
 
 if (!empty($site) || !empty($_GET['maintain']) || !empty($_GET['handle'])) {
@@ -386,9 +387,9 @@ if ($total_rows > 0) {
 	    $items[$i] .= "      <link>http://" . $_SERVER['HTTP_HOST'] . "/bugs/{$row['id']}</link>\n";
 	    $items[$i] .= '      <description><![CDATA[' . utf8_encode(htmlspecialchars($row['ldesc'])) . "]]></description>\n";
 	    if (!$row['unchanged']) {
-    	    $items[$i] .= '      <dc:date>' . date('Y-m-d\TH:i:s-05:00', strtotime($row['ts1'])) . "</dc:date>\n";
+    	    $items[$i] .= '      <dc:date>' . rssdate($row['ts1a']) . "</dc:date>\n";
 	    } else {
-    	    $items[$i] .= '      <dc:date>' . date('Y-m-d\TH:i:s-05:00', strtotime($row['ts2'])) . "</dc:date>\n";
+    	    $items[$i] .= '      <dc:date>' . rssdate($row['ts2a']) . "</dc:date>\n";
 	    }
 	    $items[$i] .= '      <dc:creator>' . utf8_encode(htmlspecialchars(spam_protect($row['email']))) . "</dc:creator>\n";
 	    $items[$i] .= '      <dc:subject>' .
@@ -423,4 +424,9 @@ if (count($warnings) > 0) {
 		echo utf8_encode(htmlspecialchars('* ' . $warning)) . "\n";
 	}
 	echo "-->\n";
+}
+
+function rssdate($date)
+{
+    return date('r', $date - date('Z', $date));
 }

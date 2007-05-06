@@ -14,7 +14,10 @@ $id = isset($_REQUEST['id']) ? (int)$_REQUEST['id'] : 0;
 $format = isset($_REQUEST['format']) ? $_REQUEST['format'] : 'rss';
 
 $query  = "SELECT id,package_name,bug_type,email,sdesc,ldesc,php_version,
-                  php_os,status,ts1,ts2,assign,package_version,handle FROM bugdb WHERE id=?
+                  php_os,status,ts1,ts2,assign,package_version,handle,
+                  UNIX_TIMESTAMP(ts1) as ts1a, UNIX_TIMESTAMP(ts2) as ts2a
+                  FROM bugdb
+                  WHERE id=?
                   AND registered=1";
 
 $res = $dbh->getAll($query, array($id), DB_FETCHMODE_ASSOC);
@@ -92,7 +95,7 @@ function outputHeader($bug,$format) {
 			} else {
 			    $desc .= substr($bug['email'], 0, strpos($bug['email'], '@')) . "@...\n";
 			}
-			$desc .= date('Y-m-d\TH:i:s-05:00', strtotime($bug['ts1'])) . "\n";
+			$desc .= rssdate($bug['ts1a']) . "\n";
 			$desc .= "PHP: {$bug['php_version']} OS: {$bug['php_os']} Package Version: {$bug['package_version']}\n\n";
 			$desc .= $bug['ldesc'];
 			$desc = '<pre>' . htmlspecialchars($desc) . '</pre>';
@@ -107,7 +110,7 @@ function outputHeader($bug,$format) {
 			echo "      <link>http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/{$bug['id']}</link>\n";
 			echo '      <description><![CDATA[' . $desc . "]]></description>\n";
 			echo '      <content:encoded><![CDATA[' . $desc . "]]></content:encoded>\n";
-			echo '      <dc:date>' . date('Y-m-d\TH:i:s-05:00', strtotime($bug['ts1'])) . "</dc:date>\n";
+			echo '      <dc:date>' . rssdate($bug['ts1a']) . "</dc:date>\n";
 			echo "    </item>\n";
 	}
 }
@@ -125,24 +128,29 @@ function outputbug($bug, $res, $format) {
 			case 'rss':
 			default:
 			    $ts = urlencode($row['ts']);
+			    $displayts = date('Y-m-d H:i', $row['added'] - date('Z', $row['added']));
 				echo "    <item rdf:about=\"http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/" .
 				     $bug['id'] . "/$ts#$ts\">\n";
 				echo '      <title>';
 				if ($row['handle']) {
-				    echo utf8_encode(htmlspecialchars($row['handle'])) . "</title>\n";
+				    echo utf8_encode(htmlspecialchars($row['handle'])) . " [$displayts]]</title>\n";
 				} else {
-				    echo utf8_encode(htmlspecialchars(substr($row['email'], 0, strpos($row['email'], '@')))) . "@... [$row[ts]]</title>\n";
+				    echo utf8_encode(htmlspecialchars(substr($row['email'], 0, strpos($row['email'], '@')))) . "@... [$displayts]]</title>\n";
 				}
 				echo "      <link>http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/{$bug['id']}#$row[added]</link>\n";
     			$row['comment'] = '<pre>' . htmlspecialchars($row['comment']) . '</pre>';
 				echo '      <description><![CDATA[' . $row['comment'] . "]]></description>\n";
 				echo '      <content:encoded><![CDATA[' . $row['comment'] . "]]></content:encoded>\n";
-				echo '      <dc:date>' . date('Y-m-d\TH:i:s-05:00', $row['added']) . "</dc:date>\n";
+				echo '      <dc:date>' . rssdate($row['added']) . "</dc:date>\n";
 				echo "    </item>\n";
 		}
 	}
 }
 
+function rssdate($date)
+{
+    return date('Y-m-d\TH:i:s-00:00', $date - date('Z', $date));
+}
 
 function outputFooter($format) {
 	switch ($format) {
