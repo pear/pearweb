@@ -21,7 +21,7 @@ response_header("Channels :: Add");
 
 require_once "HTML/QuickForm.php";
 require_once "HTTP/Request.php";
-require_once "Net/URL.php";
+require_once "Net/URL2.php";
 require_once "Damblan/Log.php";
 require_once "Damblan/Log/Mail.php";
 
@@ -76,7 +76,7 @@ $form->applyFilter("project[link]", "htmlspecialchars");
 if ($form->validate()) {
     $req =& new HTTP_Request;
 
-    $url =& new Net_URL($form->exportValue("project[link]"));
+    $url =& new Net_URL2($form->exportValue("project[link]"));
     $req->setURL($url->protocol . "://" . $url->host . ":" . $url->port . "/channel.xml");
     $req->sendRequest();
     if ($req->getResponseCode() != 200) {
