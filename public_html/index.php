@@ -62,6 +62,11 @@ response_header();
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
 <h2>&raquo; Hot off the Press</h2>
+<p><strong>[May 8, 2007]</strong> A serious security vulnerability has been discovered in
+the <a href="http://pear.php.net/PEAR">PEAR Installer</a> that affects all released versions.
+PEAR version 1.5.4 has been released to address this security issue.  Further details are
+available <a href="/news/vulnerability2.php">here</a>.
+</p>
 <p><strong>[May 4, 2007]</strong> The <a href="/news/newgroup-2007.php">new PEAR Group</a> and
 <a href="/news/newpresident-2007.php">new PEAR president</a> have been
 elected!  The PEAR President is <a href="/user/cellog">Gregory Beaver</a> (election
