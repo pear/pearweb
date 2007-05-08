@@ -218,7 +218,7 @@ class PEAR_Bug_Accountrequest
 
         include_once 'pear-database-user.php';
         $useradd = user::add($data, true, true);
-        if ($useradd === true) {
+        if ($useradd !== true) {
             return $useradd;
         }
 
