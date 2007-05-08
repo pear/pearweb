@@ -18,7 +18,7 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             'tests/',
         ),
     ));
-$a->setReleaseVersion('1.15.1');
+$a->setReleaseVersion('1.15.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
@@ -41,6 +41,7 @@ $a->setNotes('
  * Fix Bug #10960: registration fails for voter [cellog]
  * Implement Feature #8808: RSS feed for bug system [cellog]
  * Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]
+ * Added developer implemented feature using Net_URL and now is correctly using Net_URL2 [davidc]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
