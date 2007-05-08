@@ -881,9 +881,9 @@
     <channel>pear.php.net</channel>
    </package>
    <package>
-    <name>Net_URL</name>
+    <name>Net_URL2</name>
     <channel>pear.php.net</channel>
-    <min>1.0.14</min>
+    <min>0.1.0</min>
    </package>
    <package>
     <name>Text_Diff</name>
