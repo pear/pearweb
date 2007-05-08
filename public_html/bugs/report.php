@@ -90,7 +90,7 @@ if (isset($_POST['in'])) {
          * When user submits a report, do a search and display
          * the results before allowing them to continue.
          */
-        if (!$_POST['in']['did_luser_search']) {
+        if (!isset($_POST['in']['did_luser_search']) || !$_POST['in']['did_luser_search']) {
 
             $_POST['in']['did_luser_search'] = 1;
 
@@ -490,7 +490,7 @@ else: // if (isset($auth_user))
   </th>
   <td class="form-input">
    <input type="hidden" name="in[did_luser_search]"
-    value="<?php isset($_POST['in']['did_luser_search']) ? 1 : 0; ?>" />
+    value="<?php echo isset($_POST['in']['did_luser_search']) ? 1 : 0; ?>" />
    <input type="text" size="20" maxlength="40" name="in[email]"
     value="<?php echo clean($_POST['in']['email']); ?>" accesskey="o" />
   </td>
