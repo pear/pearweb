@@ -116,7 +116,7 @@ class PEAR_Election_Accountrequest
         $data['created']   = gmdate('Y-m-d H:i');
         $data['createdby'] = 'pearweb';
 
-        user::update($data);
+        user::update($data, true);
 
         $id = $this->dbh->nextId("karma");
 

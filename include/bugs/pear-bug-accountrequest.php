@@ -257,7 +257,7 @@ class PEAR_Bug_Accountrequest
         $data['createBy'] = 'pearweb';
         $data['handle']   = $handle;
 
-        user::update($data);
+        user::update($data, true);
 
         $id = $this->dbh->nextId("karma");
 

@@ -387,7 +387,7 @@ class user
      * @param  array User information
      * @return object|boolean DB error object on failure, true on success
      */
-    static function update($data)
+    static function update($data, $admin = false)
     {
         global $dbh;
 
@@ -405,6 +405,7 @@ class user
             'password',
         );
 
+        if ($admin) $fields[] = 'registered';
         $info = user::info($data['handle'], null, 'any');
         // In case a active value isn't passed in
         $active = isset($info['active']) ? $info['active'] : true;
