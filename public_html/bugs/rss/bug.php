@@ -105,7 +105,7 @@ function outputHeader($bug,$format) {
             if ($bug['handle']) {
                 echo utf8_encode(htmlspecialchars($bug['handle'])) . "</title>\n";
             } else {
-                echo utf8_encode(htmlspecialchars(substr($bug['email'], 0, strpos($bug['email'], '@')))) . "@... [$bug[ts1]]</title>\n";
+                echo utf8_encode(htmlspecialchars(substr($bug['email'], 0, strpos($bug['email'], '@')))) . "@... [{$bug['ts1']}]</title>\n";
             }
             echo "      <link>http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/{$bug['id']}</link>\n";
             echo '      <description><![CDATA[' . $desc . "]]></description>\n";
@@ -133,9 +133,9 @@ function outputbug($bug, $res, $format) {
                      $bug['id'] . "/$ts#$ts\">\n";
                 echo '      <title>';
                 if ($row['handle']) {
-                    echo utf8_encode(htmlspecialchars($row['handle'])) . " [$displayts]]</title>\n";
+                    echo utf8_encode(htmlspecialchars($row['handle'])) . " [$displayts]</title>\n";
                 } else {
-                    echo utf8_encode(htmlspecialchars(substr($row['email'], 0, strpos($row['email'], '@')))) . "@... [$displayts]]</title>\n";
+                    echo utf8_encode(htmlspecialchars(substr($row['email'], 0, strpos($row['email'], '@')))) . "@... [$displayts]</title>\n";
                 }
                 echo "      <link>http://" . urlencode($_SERVER['HTTP_HOST']) . "/bugs/{$bug['id']}#$row[added]</link>\n";
                 $row['comment'] = '<pre>' . htmlspecialchars($row['comment']) . '</pre>';
