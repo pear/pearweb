@@ -62,7 +62,7 @@ class user
         $data['createdby'] = $auth_user->handle;
         $data['handle']    = $user['handle'];
 
-        user::update($data);
+        user::update($data, true);
 
         $karma->grant($user['handle'], $karmalevel);
         if ($karma->has($user['handle'], 'pear.dev')) {
