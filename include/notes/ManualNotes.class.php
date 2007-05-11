@@ -397,9 +397,10 @@ class Manual_Notes
             $pretime = strptime($comment['note_time'], '%Y%m%d%H%M%S');
             $mytime = mktime($pretime['tm_hour'], $pretime['tm_min'], $pretime['tm_sec'],
                    $pretime['tm_mon'] + 1, $pretime['tm_mday'], $pretime['tm_year'] + 1900);
-            $time = date('d-M-Y H:i', $mytime);
+            $time = date('Y-m-d H:i', $mytime - date('Z', $mytime)) . ' UTC';
         } else {
-            $time = date('d-M-Y H:i', strtotime($comment['note_time']));
+            $date = strtotime($comment['note_time']);
+            $time = date('Y-m-d H:i', $date - date('Z', $date)) . ' UTC';
         }
         $noteId     =  (int)$comment['note_id'];
         $userHandle = $comment['user_handle'] ? 

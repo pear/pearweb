@@ -1,7 +1,6 @@
 <?php if ($pending) { ?>
 
-<div class="pending_note">Pending note <a href="/notes/admin/?url=<?php echo $id ?>">Approve/Delete</a> &nbsp; 
-(<a href="/manual/en/<?php echo $id ?>">view origin</a>)
+<div class="pending_note">Pending note <a href="/notes/admin/?url=<?php echo $id ?>">Approve/Delete</a>
 <?php } else { ?>
 <div class="note">
 <?php } ?>
