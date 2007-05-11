@@ -298,7 +298,7 @@ echo "<h1>Most Active Bug-fixing Developers</h1>";
 echo "<p>The following is some informational statistics on bug fixing and reporting.
 Developers are considered to have fixed a bug if the bug is marked <strong>Closed</strong> and is assigned to the developer.</p>";
 echo '<table>';
-echo '<tr><th>All Time</th><th>Past Month</th><th>Bug Reporting</th></tr>';
+echo '<tr><th>All Time</th><th>Last 30 Days</th><th>Bug Reporting</th></tr>';
 echo '<tr><td valign="top">';
 require_once 'bugs/pear-bugs.php';
 $bugs = new PEAR_Bugs;
