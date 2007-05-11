@@ -92,12 +92,14 @@ if (isset($url) && !empty($url)) {
     <input type="submit" name="<?php echo $name ?>" value="<?php echo $button ?>" />
    </td>
   </tr>
+  <?php if ($name != 'undelete'): ?>
   <tr>
    <th class="form-label_left">Delete Notes</th>
    <td class="form-input" colspan="4">
     <div align="right"><input type="submit" name="delete" value="Delete" /></div>
    </td>
   </tr>   
+  <?php endif; ?>
  </table>
 </form>
 <?php response_footer(); ?>
