@@ -131,12 +131,12 @@ switch ($action) {
     case 'approvemass':
 
         if (isset($_POST['noteIds']) && is_array($_POST['noteIds'])) {
-            if (isset($_POST['approve'])) {
+            if (isset($_POST['approve']) || isset($_POST['undelete'])) {
                 $notes = $manualNotes->updateCommentList($_POST['noteIds'], 'yes');
             } elseif (isset($_POST['delete'])) {
                 $notes = $manualNotes->updateCommentList($_POST['noteIds'], 'no');
             } else {
-                $notes = PEAR::raiseError('Neither delete nor approve was selected');
+                $notes = PEAR::raiseError('Neither delete nor un-delete nor approve was selected');
             }
 
             if (PEAR::isError($notes)) {

@@ -28,7 +28,7 @@ if (isset($_GET['status']) && $_GET['status'] == 'approved') {
     $title   = 'Deleted notes';
     $button  = 'Un-Delete comments';
     $caption = 'Deleted';
-    $name    = 'delete';
+    $name    = 'undelete';
 }
 
 if (isset($_GET['url']) && !empty($_GET['url'])) {
