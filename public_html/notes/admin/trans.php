@@ -17,14 +17,16 @@ switch ($action) {
             $noteId = (int)$_GET['noteId'];
             
             $note = $manualNotes->getSingleCommentById($noteId);
-
+            
             $registered      = 1;
-            $package_name    = 'Documentation';
+            $package         = getPackageNameForId($note['page_url']);
+            $package_name    = is_null($package) ? 'Documentation' : $package;
             $bug_type        = 'Documentation Problem';
             $email           = $auth_user->email;
             $handle          = $auth_user->handle;
             $sdesc           = 'User note that is a documentation problem';
-            $ldesc           = str_replace('<br />', '', $note['note_text']);
+            $ldesc           = 'Manual page: ' . $note['page_url'] . "\n\n" .
+                               str_replace('<br />', '', $note['note_text']);
             $package_version = null;
             $php_version     = 'Irrelevant';
             $php_os          = 'Irrelevant';
@@ -55,14 +57,17 @@ switch ($action) {
                 )
             ";
 
-            /**
-             * Hrmph...
-             */
+            $dbh->query($sql);
+            // TODO: add error handling
+
             if ($dbh->phptype == 'mysql') {
                 $id = mysql_insert_id();
             } else {
                 $id = mysqli_insert_id($dbh->connection);
             }
+
+            $manualNotes->deleteSingleComment($noteId);
+            // TODO: add error handling
             
             $emailInfos = array(
                 'id'              => $id,
@@ -74,14 +79,13 @@ switch ($action) {
                 'ldesc'           => $ldesc,
                 'sdesc'           => $sdesc,
             );
-            
-            $dbh->query($sql);
 
-            $manualNotes->deleteSingleComment($noteId);
-            
             require dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'include/bugs/pear-bug-accountrequest.php';
             $pba = new PEAR_Bug_AccountRequest;
             $pba->sendBugEmail($emailInfos);
+
+            include dirname(__FILE__) . '/index.php';
+            exit;
         }
         break;
     case 'updateapproved':
@@ -99,9 +103,16 @@ switch ($action) {
                 $error = 'Error while making the note pending, contact webmaster';
             } else {
                 $message = 'Comment(s) successfully ';
-                $message .= isset($_POST['pending']) ? 'pending' : 'deleted';
+                $message .= isset($_POST['pending']) ? 'made pending' : 'deleted';
             }
             $_GET = $_POST;
+            
+            include dirname(__FILE__) . '/index.php';
+            exit;
+        } else {
+            $error = 'Neither pending nor delete was selected';
+            $_GET = $_POST;
+            $_GET['status'] = 'approved';
             
             include dirname(__FILE__) . '/index.php';
             exit;
@@ -138,6 +149,15 @@ switch ($action) {
             
             include dirname(__FILE__) . '/index.php';
             exit;
+        } else {
+            $error = 'Neither delete nor approve was selected';
+            $_GET = $_POST;
+            if (isset($_POST['delete'])) {
+                $_GET['status'] = 'deleted';
+            }
+            
+            include dirname(__FILE__) . '/index.php';
+            exit;
         }
 
         if (isset($_POST['url']) && !empty($_POST['url'])) {
@@ -157,4 +177,16 @@ switch ($action) {
        report_error('Missing action');
        response_footer();
        exit;
+}
+
+function getPackageNameForId($id)
+{
+    global $dbh;
+    $res = preg_match('/^package\.[\w-]+\.([\w-]+).*\.php$/', $id, $matches);
+    if ($res === 0) {
+        return null;
+    }
+    $package = str_replace('-', '_', $matches[1]);
+    $query = 'SELECT name FROM packages WHERE LCASE(name) = LCASE(?)';
+    return $dbh->getOne($query, $package);
 }

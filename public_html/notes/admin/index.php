@@ -25,7 +25,7 @@ if (isset($_GET['status']) && $_GET['status'] == 'approved') {
 } elseif (isset($_GET['status']) && $_GET['status'] == 'deleted') {
     $status  = 'no';
     $action  = 'approveMass';
-    $title   = 'Deleted notes.';
+    $title   = 'Deleted notes';
     $button  = 'Un-Delete comments';
     $caption = 'Deleted';
     $name    = 'delete';
@@ -38,5 +38,7 @@ if (isset($_GET['url']) && !empty($_GET['url'])) {
 }
 
 $url = isset($_GET['url']) ? strip_tags($_GET['url']) : '';
-$error = '';
+if (!isset($error)) {
+    $error = '';
+}
 require dirname(dirname(dirname(dirname(__FILE__)))) . '/templates/notes/note-manage-admin.tpl.php';

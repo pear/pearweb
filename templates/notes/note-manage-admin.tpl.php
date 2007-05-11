@@ -22,6 +22,7 @@ function checkAll()
 </style>
 
 <h1>Notes Management Area</h1>
+<h3><?php echo $title; ?></h3>
 <?php include dirname(dirname(dirname(__FILE__))) . '/templates/notes/note-manage-links.tpl.php'; ?>
 <?php if (strlen(trim($error)) > 0): // {{{ error ?>
 <div class="errors"><?php echo $error; ?></div>
@@ -55,7 +56,7 @@ if (isset($url) && !empty($url)) {
    <input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" />
    <br /> 
     <input class="makeDocBug" type="button" 
-           value="Transform into a Doc Bug" onclick="document.location.href='/notes/admin/trans.php?action=makeDocBug&noteId=<?php echo $pendingComment['note_id']; ?>'"/>
+           value="Transform into a Doc Bug" onclick="document.location.href='/notes/admin/trans.php?action=makeDocBug&noteId=<?php echo $pendingComment['note_id']; ?>&url=<?php echo $pendingComment['page_url']; ?>'"/>
    </th>
    <td class="form-input">
    <a href="/manual/en/<?php echo $pendingComment['page_url'] ?>"><?php
