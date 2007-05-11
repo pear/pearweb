@@ -147,18 +147,24 @@ switch ($action) {
                 $message .= isset($_POST['approve']) ? 'approved' : 'deleted';
             }
             $_GET = $_POST;
-            if (isset($_POST['undelete'])) {
+            if (isset($_POST['approve'])) {
+                $_GET['status'] = 'approved';
+            } elseif (isset($_POST['delete'])) {
+                $_GET['status'] = 'deleted';
+            } elseif (isset($_POST['undelete'])) {
                 $_GET['status'] = 'deleted';
             }
             
             include dirname(__FILE__) . '/index.php';
             exit;
         } else {
-            $error = 'Neither delete nor approve was selected';
+            $error = 'Neither delete nor un-delete nor approve was selected';
             $_GET = $_POST;
             if (isset($_POST['approve'])) {
                 $_GET['status'] = 'approved';
             } elseif (isset($_POST['delete'])) {
+                $_GET['status'] = 'deleted';
+            } elseif (isset($_POST['undelete'])) {
                 $_GET['status'] = 'deleted';
             }
             
