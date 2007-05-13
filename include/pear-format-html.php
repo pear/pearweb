@@ -301,7 +301,7 @@ print_link('/about/credits.php', 'CREDITS', false, 'class="menuBlack"');
   <td class="foot-copy">
    <small>
     <?php print_link('/copyright.php',
-                     'Copyright &copy; 2001-2007 The PHP Group'); ?><br />
+                     'Copyright &copy; 2001-' . date('Y') . ' The PHP Group'); ?><br />
     All rights reserved.
    </small>
   </td>
