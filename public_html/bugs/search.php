@@ -62,7 +62,11 @@ $order_options = array(
     'assign'       => 'assignment',
 );
 
-define('BOOLEAN_SEARCH', @intval($_GET['boolean']));
+if (isset($_GET['boolean']) && is_int($_GET['boolean'])) {
+	define('BOOLEAN_SEARCH', (int)$_GET['boolean']);
+} else {
+	define('BOOLEAN_SEARCH', 1);
+}
 
 if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
