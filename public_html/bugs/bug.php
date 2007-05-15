@@ -743,8 +743,8 @@ if (isset($_POST['preview']) && !empty($ncomment)) {
         $preview .= spam_protect(htmlspecialchars($from));
     }
     $preview .= "</strong>\n<pre class=\"note\">";
-    $comment = make_ticket_links(addlinks($ncomment));
-    $preview .= wordwrap($comment, 72);
+    $comment = wordwrap($ncomment, 72);
+    $preview .= make_ticket_links(addlinks($comment));
     $preview .= "</pre>\n";
     $preview .= '</div>';
 } else {
@@ -1277,8 +1277,9 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
     }
     echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"".htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
     echo '<pre class="note">';
+    $comment = wordwrap($comment, 72);
     $comment = make_ticket_links(addlinks($comment));
-    echo wordwrap($comment, 72);
+    echo $comment;
     echo "</pre>\n";
     echo '</div>';
 }
