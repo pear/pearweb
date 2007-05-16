@@ -70,6 +70,7 @@ class package
         if (DB::isError($err = $dbh->query($sql))) {
             return $err;
         }
+        include_once 'pear-database-maintainer.php';
         if (isset($lead) && DB::isError($err = maintainer::add($id, $lead, 'lead'))) {
             return $err;
         }
