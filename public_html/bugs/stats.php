@@ -307,8 +307,8 @@ $lastmonth = $bugs->lastMonthStats();
 $reporters = $bugs->reporterStats();
 echo '<table>'; ?>
  <tr>
-  <th class="bug_head">Closed Bugs</th>
-  <th class="bug_head">Developer</th>
+  <th class="bug_header">Closed Bugs</th>
+  <th class="bug_header">Developer</th>
  </tr>
 <?php
 $handle = isset($auth_user->handle) ? $auth_user->handle : '';
@@ -326,8 +326,8 @@ echo "</table>\n";
 echo '</td><td valign="top">';
 echo '<table>'; ?>
  <tr>
-  <th class="bug_head">Closed Bugs</th>
-  <th class="bug_head">Developer</th>
+  <th class="bug_header">Closed Bugs</th>
+  <th class="bug_header">Developer</th>
  </tr>
 <?php
 foreach ($lastmonth as $stat) {
@@ -342,8 +342,8 @@ echo "</table>\n";
 echo '</td><td valign="top">';
 echo '<table>'; ?>
  <tr>
-  <th class="bug_head">Bugs + Comments + Patches</th>
-  <th class="bug_head">Developer</th>
+  <th class="bug_header">Bugs + Comments + Patches</th>
+  <th class="bug_header">Developer</th>
  </tr>
 <?php
 foreach ($reporters as $dev => $stat) {
