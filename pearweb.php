@@ -236,6 +236,7 @@ class pearweb_postinstall
         }
         // here we go...
         $middle = array();
+        $middle[] = $eol;
         $middle[] = '# inserted by pearweb #### (do not remove) start' . $eol;
         $middle[] = '<VirtualHost ' . $answers['namehost'] . '>' . $eol;
         $middle[] = ' ServerName ' . $answers['pear'] . $eol;
