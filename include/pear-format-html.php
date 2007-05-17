@@ -1052,11 +1052,19 @@ function print_package_navigation($pacid, $name, $action)
 		                                'title' => 'View wiki area')*/
                        );
 
-    if (isset($auth_user) && is_object($auth_user)) {
+    if (isset($auth_user) && is_object($auth_user) &&
+        (user::maintains($auth_user->handle, $pacid, 'lead') ||
+         user::isAdmin($auth_user->handle) ||
+         user::isQA($auth_user->handle))
+       ) {
         $nav_items['Edit']             = array('url'   => '/package-edit.php?id='.$pacid,
                                                'title' => 'Edit this package');
         $nav_items['Edit Maintainers'] = array('url'   => '/admin/package-maintainers.php?pid='.$pacid,
                                                'title' => 'Edit the maintainers of this package');
+    }
+    if (isset($auth_user) && is_object($auth_user) &&
+        ($auth_user->isAdmin() || $auth_user->isQA())
+       ) {
         $nav_items['Delete']           = array('url'   => '/package-delete.php?id='.$pacid,
                                                'title' => 'Delete this package');
     }
