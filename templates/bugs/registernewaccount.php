@@ -23,7 +23,7 @@ function doMD5(frm) {
   <th class="form-label_left">
 Choose a Use<span class="accesskey">r</span>name:</th>
   <td class="form-input">
-<input size="20" name="PEAR_USER" accesskey="r" value="<?php echo htmlspecialchars($user) ?>" /></td>
+<input size="20" name="PEAR_USER" accesskey="r" value="<?php echo htmlspecialchars($user) ?>" /> (only letters [lowercase], digits, and underscore)</td>
  </tr>
  <tr>
   <th class="form-label_left">Choose a Password:</th>
