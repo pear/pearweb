@@ -286,7 +286,7 @@ if ($display_verification) {
             $errors[] = 'Version 1.0.0 must be stable';
         }
         if (strpos($version, 'RC') && $info->getState() != 'beta') {
-            $errors[] = 'Release Candidate versions cannot be stable';
+            $errors[] = 'Release Candidate versions must have stability beta';
         }
         if (substr($version, 0, 4) == '0.0.') {
             $errors[] = 'Version 0.0.X is invalid, use 0.X.0';
