@@ -1,5 +1,5 @@
 --TEST--
-PEAR_REST->savePackageREST() [database failure]
+PEAR_REST->saveAllCategoriesREST() [database failure]
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
