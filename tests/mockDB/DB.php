@@ -308,6 +308,9 @@ class DB_mock extends DB_common
             }
         } else {
             $rownum = $this->_mock->nextRowNum($result);
+            if ($rownum === null) {
+                return null;
+            }
         }
         $arr = $this->_mock->getRow($result, $rownum);
         if ($fetchmode & DB_FETCHMODE_ASSOC) {
