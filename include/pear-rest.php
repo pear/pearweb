@@ -28,7 +28,7 @@ class pear_rest
     http://pear.php.net/dtd/rest.allcategories.xsd">
 <ch>' . PEAR_CHANNELNAME . '</ch>
 ';
-        foreach (category::listAll() as $category)
+        foreach ($categories as $category)
         {
             $info .= ' <c xlink:href="' . $extra . 'c/' .
                 urlencode(urlencode($category['name'])) .
