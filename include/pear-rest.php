@@ -10,7 +10,6 @@ class pear_rest
     function saveAllCategoriesREST()
     {
         require_once 'System.php';
-        global $dbh;
         $extra = '/rest/';
         $cdir = $this->_restdir . DIRECTORY_SEPARATOR . 'c';
         if (!is_dir($cdir)) {
@@ -20,6 +19,9 @@ class pear_rest
 
         include_once 'pear-database-category.php';
         $categories = category::listAll();
+        if (PEAR::isError($categories)) {
+            return $categories;
+        }
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <a xmlns="http://pear.php.net/dtd/rest.allcategories"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
