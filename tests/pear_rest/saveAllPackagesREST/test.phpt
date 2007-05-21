@@ -1,5 +1,5 @@
 --TEST--
-PEAR_REST->savePackageREST()
+PEAR_REST->saveAllPackagesREST()
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
