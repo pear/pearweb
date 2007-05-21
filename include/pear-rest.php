@@ -55,7 +55,19 @@ class pear_rest
         }
         $category = $dbh->getAll('SELECT * FROM categories WHERE name = ?', array($category),
             DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($category)) {
+            return $category;
+        }
         $category = $category[0];
+        $query = "SELECT p.name AS name " .
+            "FROM packages p, categories c " .
+            "WHERE p.package_type = 'pear' " .
+            "AND p.category = c.id AND c.name = ? AND p.approved = 1";
+
+        $sth = $dbh->getAll($query, array($category['name']), DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($sth)) {
+            return $sth;
+        }
         if (!is_dir($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']))) {
             System::mkdir(array('-p', $cdir . DIRECTORY_SEPARATOR . urlencode($category['name'])));
             @chmod($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']), 0777);
@@ -86,12 +98,6 @@ class pear_rest
     xsi:schemaLocation="http://pear.php.net/dtd/rest.categorypackages
     http://pear.php.net/dtd/rest.categorypackages.xsd">
 ';
-        $query = "SELECT p.name AS name " .
-            "FROM packages p, categories c " .
-            "WHERE p.package_type = 'pear' " .
-            "AND p.category = c.id AND c.name = ? AND p.approved = 1";
-
-        $sth = $dbh->getAll($query, array($category['name']), DB_FETCHMODE_ASSOC);
         foreach ($sth as $package) {
             $list .= ' <p xlink:href="' . $extra . 'p/' . strtolower($package['name']) . '">' .
                 $package['name'] . '</p>
