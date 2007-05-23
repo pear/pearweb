@@ -321,6 +321,9 @@ class pear_rest
         $pid = package::info($package, 'id');
         $releases = $dbh->getAll('SELECT * FROM releases WHERE package = ? ORDER BY releasedate DESC',
             array($pid), DB_FETCHMODE_ASSOC);
+        if (PEAR::isError($releases)) {
+            return $releases;
+        }
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
         if (!is_dir($rdir)) {
             System::mkdir(array('-p', $rdir));
@@ -335,6 +338,9 @@ class pear_rest
         foreach ($releases as $release) {
             $packagexml = $dbh->getOne('SELECT packagexml FROM files WHERE package = ? AND
                 release = ?', array($pid, $release['id']));
+            if (PEAR::isError($packagexml)) {
+                return $packagexml;
+            }
             $extra = '';
             if (strpos($packagexml, ' version="2.0"')) {
                 // little quick hack to determine package.xml version
