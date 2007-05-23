@@ -527,7 +527,7 @@ class pear_rest
         file_put_contents($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
             DIRECTORY_SEPARATOR . 'v2.' . $pkgobj->getVersion() . '.xml', $info2);
         @chmod($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
-            DIRECTORY_SEPARATOR . $pkgobj->getVersion() . '.xml', 0666);
+            DIRECTORY_SEPARATOR . 'v2.' . $pkgobj->getVersion() . '.xml', 0666);
         file_put_contents($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
             DIRECTORY_SEPARATOR . 'package.' .
             $pkgobj->getVersion() . '.xml', $packagexml);
