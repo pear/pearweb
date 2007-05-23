@@ -212,6 +212,20 @@ class user
     }
 
     // }}}
+    // {{{ listAllHandles()
+
+    static function listAllHandles($registered_only = true)
+    {
+        global $dbh;
+        $query = "SELECT handle FROM users";
+        if ($registered_only === true) {
+            $query .= " WHERE registered = 1";
+        }
+        $query .= " ORDER BY handle";
+        return $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
+    }
+
+    // }}}
     // {{{ add()
 
     /**

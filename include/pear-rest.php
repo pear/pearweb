@@ -655,7 +655,7 @@ class pear_rest
     function saveAllMaintainersREST()
     {
         include_once 'pear-database-user.php';
-        $maintainers = user::listAll();
+        $maintainers = user::listAllHandles();
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <m xmlns="http://pear.php.net/dtd/rest.allmaintainers"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -675,6 +675,7 @@ class pear_rest
         $info .= '</m>';
         $mdir = $this->_restdir . DIRECTORY_SEPARATOR . 'm';
         if (!is_dir($mdir)) {
+            require_once 'System.php';
             System::mkdir(array('-p', $mdir));
             @chmod($mdir, 0777);
         }
