@@ -1,0 +1,2118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.5.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+ <name>pearweb</name>
+ <channel>pear.php.net</channel>
+ <summary>The source code for the PEAR website</summary>
+ <description>The pearweb package contains:
+ - cron jobs for the website in cron/
+ - off-public web files in include
+ - public web files
+ - the PEAR bug tracker public_html/bugs
+ - the PEPr proposal system public_html/pepr
+ - sql defining the database and an MDB2_Schema files
+ - a few regression tests
+ - templates
+
+ See the pearweb_phars package for install-pear-nozlib.phar/go-pear.phar
+ See the pearweb_channelxml package for channel.xml</description>
+ <lead>
+  <name>Martin Jansen</name>
+  <user>mj</user>
+  <email>mj@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>David Coallier</name>
+  <user>davidc</user>
+  <email>davidc@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Pierre-Alain Joye</name>
+  <user>pajoye</user>
+  <email>pajoye@pearfr.org</email>
+  <active>no</active>
+ </lead>
+ <developer>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>stig@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Tomas V.V.Cox</name>
+  <user>cox</user>
+  <email>cox@idecnet.com</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Daniel Convissor</name>
+  <user>danielc</user>
+  <email>danielc@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Tobias Schlitt</name>
+  <user>toby</user>
+  <email>toby@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Helgi Thormar</name>
+  <user>dufuz</user>
+  <email>dufuz@php.net</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Mark Wiesemann</name>
+  <user>wiesemann</user>
+  <email>wiesemann@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2007-05-08</date>
+ <time>01:16:07</time>
+ <version>
+  <release>1.15.2</release>
+  <api>0.1.1</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+ Add Security announcement
+ http://pear.php.net/advisory-20070507.txt
+ * Fix Bug #10856: proposal stays in voting phase [mj]
+ * Fix Bug #10885: Milestones not saved when submitting a bug [cellog]
+ * Fix Bug #10898: Broken link from /news [bjori]
+ * Fix Bug #10902: Unable to view elections (not logged in) [cellog]
+ * Fix Bug #10927: Typo in pearweb_mdb2schema.xml [wiesemann]
+ * Fix Bug #10928: Notices generated in bug tracker [cellog]
+ * Fix Bug #10929: Non-Dev Comments Cause Bug to Unassign Dev/Roadmap [cellog]
+ * Fix Bug #10932: Admin package maintainers error [davidc]
+ * Fix Bug #10933: Patch diff view shows warnings [cellog]
+ * Fix Bug #10948: Unclosed tags in bug tracker [wiesemann]
+ * Fix Bug #10950: Fix for #10908 removed &quot;CVS&quot; package version selection for new bugs [cellog]
+ * Fix Bug #10957: dufuz broke voter account registration [cellog]
+ * Fix Bug #10958: &quot;Old patches&quot; list does not UTC [mj]
+ * Fix Bug #10959: context is not htmlspecialchar()ed in patch diff [cellog]
+ * Fix Bug #10960: registration fails for voter [cellog]
+ * Implement Feature #8808: RSS feed for bug system [cellog]
+ * Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]
+ * Added developer implemented feature using Net_URL and now is correctly using Net_URL2 [davidc]
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <dir name="cron">
+    <file name="apidoc-queue.php" role="web" />
+    <file name="bug-summary.php" role="web" />
+    <file name="cache-garbage-collector.php" role="web" />
+    <file name="election_results.php" role="web" />
+    <file name="find-documentation.php" role="web" />
+    <file name="load-chm.sh" role="web" />
+    <file name="pepr.php" role="web" />
+    <file name="trackback-cleanup.php" role="web" />
+    <file name="update-website.php" role="web" />
+   </dir> <!-- /cron -->
+   <dir name="doc">
+    <file name="apache-setup.txt" role="web" />
+    <file name="karma.txt" role="web" />
+    <file name="logging.txt" role="web" />
+    <file name="pear_package_manager.txt" role="web" />
+    <file name="xmlrpc-api.txt" role="web" />
+   </dir> <!-- /doc -->
+   <dir name="include">
+    <dir name="bugs">
+     <dir name="Diff">
+      <file name="pearweb.php" role="web" />
+     </dir> <!-- /include/bugs/Diff -->
+     <file name="patchtracker.php" role="web" />
+     <file name="pear-bug-accountrequest.php" role="web" />
+     <file name="pear-bugs.php" role="web" />
+     <file name="pear.ini" role="web" />
+     <file name="pear.links.ini" role="web" />
+    </dir> <!-- /include/bugs -->
+    <dir name="Damblan">
+     <dir name="Log">
+      <file name="Mail.php" role="web" />
+      <file name="Print.php" role="web" />
+     </dir> <!-- /include/Damblan/Log -->
+     <dir name="Mail">
+      <file name="Patch_Added.tpl.php" role="web" />
+      <file name="pearweb_account_request.tpl.php" role="web" />
+      <file name="pearweb_account_request_bug.tpl.php" role="web" />
+      <file name="pearweb_account_request_existing.tpl.php" role="web" />
+      <file name="pearweb_account_request_new.tpl.php" role="web" />
+      <file name="pearweb_account_request_vote.tpl.php" role="web" />
+      <file name="Trackback_Approve.tpl.php" role="web" />
+      <file name="Trackback_Delete.tpl.php" role="web" />
+      <file name="Trackback_New.tpl.php" role="web" />
+     </dir> <!-- /include/Damblan/Mail -->
+     <dir name="Search">
+      <file name="Lists.php" role="web" />
+      <file name="Packages.php" role="web" />
+      <file name="PEPr.php" role="web" />
+      <file name="Site.php" role="web" />
+      <file name="Users.php" role="web" />
+     </dir> <!-- /include/Damblan/Search -->
+     <file name="Bugs.php" role="web" />
+     <file name="Karma.php" role="web" />
+     <file name="Log.php" role="web" />
+     <file name="Mailer.php" role="web" />
+     <file name="Search.php" role="web" />
+     <file name="Site.php" role="web" />
+     <file name="Trackback.php" role="web" />
+     <file name="URL.php" role="web" />
+    </dir> <!-- /include/Damblan -->
+    <dir name="DataObject">
+     <file name="Bugdb.php" role="web" />
+     <file name="Bugdb_comments.php" role="web" />
+     <file name="Bugdb_roadmap.php" role="web" />
+     <file name="Bugdb_roadmap_link.php" role="web" />
+     <file name="Categories.php" role="web" />
+     <file name="Maintains.php" role="web" />
+     <file name="Packages.php" role="web" />
+     <file name="Releases.php" role="web" />
+     <file name="Users.php" role="web" />
+    </dir> <!-- /include/DataObject -->
+    <dir name="election">
+     <file name="pear-election-accountrequest.php" role="web" />
+     <file name="pear-election.php" role="web" />
+     <file name="pear-voter.php" role="web" />
+    </dir> <!-- /include/election -->
+    <dir name="fonts">
+     <file name="coolveti.ttf" role="web" />
+    </dir> <!-- /include/fonts -->
+    <dir name="HTML">
+     <file name="Menu.php" role="web" />
+    </dir> <!-- /include/HTML -->
+    <dir name="jpgraph">
+     <file name="jpgraph.php" role="web" />
+     <file name="jpgraph_bar.php" role="web" />
+     <file name="jpgraph_canvas.php" role="web" />
+     <file name="jpgraph_error.php" role="web" />
+     <file name="jpgraph_gantt.php" role="web" />
+     <file name="jpgraph_line.php" role="web" />
+     <file name="jpgraph_log.php" role="web" />
+     <file name="jpgraph_pie.php" role="web" />
+     <file name="jpgraph_pie3d.php" role="web" />
+     <file name="jpgraph_scatter.php" role="web" />
+     <file name="jpgraph_spider.php" role="web" />
+    </dir> <!-- /include/jpgraph -->
+    <dir name="notes">
+     <file name="ManualNotes.class.php" role="web" />
+    </dir> <!-- /include/notes -->
+    <dir name="package">
+     <file name="releasehelper.php" role="web" />
+    </dir> <!-- /include/package -->
+    <dir name="pepr">
+     <file name="HTML_BBCodeParser_Filter_Extended.php" role="web" />
+     <file name="pepr-emails.php" role="web" />
+     <file name="pepr.php" role="web" />
+    </dir> <!-- /include/pepr -->
+    <dir name="roadmap">
+     <file name="info.php" role="web" />
+     <file name="package-generator.php" role="web" />
+    </dir> <!-- /include/roadmap -->
+    <dir name="tags">
+     <file name="Cloud.php" role="web" />
+     <file name="Manager.php" role="web" />
+    </dir> <!-- /include/tags -->
+    <dir name="users">
+     <file name="passwordmanage.php" role="web" />
+    </dir> <!-- /include/users -->
+    <file name="browser.php" role="web" />
+    <file name="pear-append.php" role="web" />
+    <file name="pear-auth.php" role="web" />
+    <file name="pear-cache.php" role="web" />
+    <file name="pear-category.php" role="web" />
+    <file name="pear-config.php" role="web" />
+    <file name="pear-database-category.php" role="web" />
+    <file name="pear-database-channel.php" role="web" />
+    <file name="pear-database-maintainer.php" role="web" />
+    <file name="pear-database-note.php" role="web" />
+    <file name="pear-database-package.php" role="web" />
+    <file name="pear-database-release.php" role="web" />
+    <file name="pear-database-statistics.php" role="web" />
+    <file name="pear-database-user.php" role="web" />
+    <file name="pear-format-html-form.php" role="web" />
+    <file name="pear-format-html.php" role="web" />
+    <file name="pear-format-xmlrpc.php" role="web" />
+    <file name="pear-manual.php" role="web" />
+    <file name="pear-patches.php" role="web" />
+    <file name="pear-prepend.php" role="web" />
+    <file name="pear-rest.php" role="web" />
+    <file name="signatures.php" role="web" />
+    <file name="site.php" role="web" />
+    <file name="xmlrpc-cache.php" role="web" />
+    <file name="xmlrpc-methods.php" role="web" />
+    <file name="xmlrpc-testlogin.php" role="web" />
+   </dir> <!-- /include -->
+   <dir name="public_html">
+    <dir name="about">
+     <file name="credits.php" role="web" />
+     <file name="damblan.php" role="web" />
+     <file name="forgot-password.php" role="web" />
+     <file name="index.php" role="web" />
+     <file name="privacy.php" role="web" />
+    </dir> <!-- /public_html/about -->
+    <dir name="account">
+     <file name="password-confirm-change.php" role="web" />
+    </dir> <!-- /public_html/account -->
+    <dir name="admin">
+     <file name="apidoc-log.php" role="web" />
+     <file name="category-manager.php" role="web" />
+     <file name="chm-upload.php" role="web" />
+     <file name="index.php" role="web" />
+     <file name="karma.php" role="web" />
+     <file name="package-approval.php" role="web" />
+     <file name="package-maintainers.php" role="web" />
+     <file name="tags.php" role="web" />
+    </dir> <!-- /public_html/admin -->
+    <dir name="bugs">
+     <dir name="include">
+      <file name="cvs-auth.inc" role="web" />
+      <file name="functions.inc" role="web" />
+      <file name="layout.inc" role="web" />
+      <file name="prepend.inc" role="web" />
+      <file name="resolve.inc" role="web" />
+      <file name="trusted-devs.inc" role="web" />
+     </dir> <!-- /public_html/bugs/include -->
+     <dir name="rss">
+      <file name="bug.php" role="web" />
+      <file name="search.php" role="web" />
+     </dir> <!-- /public_html/bugs/rss -->
+     <file name="bug-pwd-finder.php" role="web" />
+     <file name="bug.php" role="web" />
+     <file name="index.php" role="web" />
+     <file name="lstat.php" role="web" />
+     <file name="patch-add.php" role="web" />
+     <file name="patch-display.php" role="web" />
+     <file name="quick-fix-desc.php" role="web" />
+     <file name="report.php" role="web" />
+     <file name="resend-request-email.php" role="web" />
+     <file name="roadmap.php" role="web" />
+     <file name="search.php" role="web" />
+     <file name="stats.php" role="web" />
+    </dir> <!-- /public_html/bugs -->
+    <dir name="channels">
+     <file name="add.php" role="web" />
+     <file name="index.php" role="web" />
+    </dir> <!-- /public_html/channels -->
+    <dir name="css">
+     <file name="bugs-controls.css" role="web" />
+     <file name="bugs.css" role="web" />
+     <file name="manual.css" role="web" />
+     <file name="packages_status.css" role="web" />
+     <file name="style.css" role="web" />
+     <file name="tabs.css" role="web" />
+     <file name="thickbox.css" role="web" />
+    </dir> <!-- /public_html/css -->
+    <dir name="doc">
+     <file name="index.php" role="web" />
+    </dir> <!-- /public_html/doc -->
+    <dir name="downloads">
+     <file name="pear-folder.ico" role="web" />
+     <file name="pear-folder.svg" role="web" />
+     <file name="pear-logos.svg" role="web" />
+     <file name="pear-poster.pdf" role="web" />
+    </dir> <!-- /public_html/downloads -->
+    <dir name="dtd">
+     <file name="channel-1.0.xsd" role="web" />
+     <file name="index.php" role="web" />
+     <file name="package-1.0" role="web" />
+     <file name="package-1.0.xsd" role="web" />
+     <file name="package-2.0.xsd" role="web" />
+     <file name="package-2.1.xsd" role="web" />
+     <file name="package1_0to2_0.xsl" role="web" />
+     <file name="rest.allcategories.xsd" role="web" />
+     <file name="rest.allmaintainers.xsd" role="web" />
+     <file name="rest.allpackages.xsd" role="web" />
+     <file name="rest.allreleases.xsd" role="web" />
+     <file name="rest.category.xsd" role="web" />
+     <file name="rest.categorypackageinfo.xsd" role="web" />
+     <file name="rest.categorypackages.xsd" role="web" />
+     <file name="rest.maintainer.xsd" role="web" />
+     <file name="rest.package.xsd" role="web" />
+     <file name="rest.packagemaintainers.xsd" role="web" />
+     <file name="rest.packagemaintainers2.xsd" role="web" />
+     <file name="rest.release.xsd" role="web" />
+     <file name="rest.release2.xsd" role="web" />
+     <file name="tasks-1.0.xsd" role="web" />
+    </dir> <!-- /public_html/dtd -->
+    <dir name="election">
+     <file name="edit.php" role="web" />
+     <file name="index.php" role="web" />
+     <file name="info.php" role="web" />
+     <file name="new.php" role="web" />
+    </dir> <!-- /public_html/election -->
+    <dir name="error">
+     <file name="404-manual.php" role="web" />
+     <file name="404.php" role="web" />
+    </dir> <!-- /public_html/error -->
+    <dir name="feeds">
+     <file name="feeds.php" role="web" />
+     <file name="index.php" role="web" />
+    </dir> <!-- /public_html/feeds -->
+    <dir name="gifs">
+     <dir name="books">
+      <file name="1904811191.png" role="web" />
+      <file name="foundations-of-pear.gif" role="web" />
+     </dir> <!-- /public_html/gifs/books -->
+     <dir name="TreeMenu">
+      <file name="branch.gif" role="web" />
+      <file name="branchbottom.gif" role="web" />
+      <file name="branchtop.gif" role="web" />
+      <file name="folder.gif" role="web" />
+      <file name="line.gif" role="web" />
+      <file name="linebottom.gif" role="web" />
+      <file name="minus.gif" role="web" />
+      <file name="minusbottom.gif" role="web" />
+      <file name="minustop.gif" role="web" />
+      <file name="plus.gif" role="web" />
+      <file name="plusbottom.gif" role="web" />
+      <file name="plustop.gif" role="web" />
+     </dir> <!-- /public_html/gifs/TreeMenu -->
+     <file name="arrow_top.gif" role="web" />
+     <file name="beta_bg.gif" role="web" />
+     <file name="black.gif" role="web" />
+     <file name="blank.gif" role="web" />
+     <file name="box-0.gif" role="web" />
+     <file name="box-1.gif" role="web" />
+     <file name="calendar.gif" role="web" />
+     <file name="caret-l.gif" role="web" />
+     <file name="caret-r.gif" role="web" />
+     <file name="caret-t.gif" role="web" />
+     <file name="caret-u.gif" role="web" />
+     <file name="checkerboard.gif" role="web" />
+     <file name="close.gif" role="web" />
+     <file name="delete.gif" role="web" />
+     <file name="dynCalendar.gif" role="web" />
+     <file name="edit.gif" role="web" />
+     <file name="favicon.ico" role="web" />
+     <file name="feed.png" role="web" />
+     <file name="loadingAnimation.gif" role="web" />
+     <file name="moreinfo-no.gif" role="web" />
+     <file name="moreinfo-yes.gif" role="web" />
+     <file name="moreinfo.gif" role="web" />
+     <file name="next.gif" role="web" />
+     <file name="pear-blogbutton1.png" role="web" />
+     <file name="pear-blogbutton2.png" role="web" />
+     <file name="pear-eps.png" role="web" />
+     <file name="pear-icon.gif" role="web" />
+     <file name="pear-icon.png" role="web" />
+     <file name="pear-poster.png" role="web" />
+     <file name="pear-power.gif" role="web" />
+     <file name="pear-power.png" role="web" />
+     <file name="pear.gif" role="web" />
+     <file name="pearpoint.gif" role="web" />
+     <file name="pearsmall.gif" role="web" />
+     <file name="pear_item.gif" role="web" />
+     <file name="pecl-icon.gif" role="web" />
+     <file name="pecl-icon.png" role="web" />
+     <file name="pecl-power.gif" role="web" />
+     <file name="pecl-power.png" role="web" />
+     <file name="pecl.gif" role="web" />
+     <file name="peclsmall.gif" role="web" />
+     <file name="pecl_item.gif" role="web" />
+     <file name="php-logo.gif" role="web" />
+     <file name="phpmag02cover.gif" role="web" />
+     <file name="phpmagazine.gif" role="web" />
+     <file name="prev.gif" role="web" />
+     <file name="small_submit_black.gif" role="web" />
+     <file name="small_submit_white.gif" role="web" />
+     <file name="spacer.gif" role="web" />
+     <file name="tri-back.gif" role="web" />
+     <file name="tri.gif" role="web" />
+    </dir> <!-- /public_html/gifs -->
+    <dir name="group">
+     <dir name="docs">
+      <file name="20030820-vm.php" role="web" />
+      <file name="20030904-pph.php" role="web" />
+      <file name="20031114-bbr.php" role="web" />
+      <file name="20031114-pcl.php" role="web" />
+      <file name="20031114-pds.php" role="web" />
+      <file name="20040226-vn.php" role="web" />
+      <file name="20040322-vm.php" role="web" />
+      <file name="20040402-la.php" role="web" />
+      <file name="20051104-sa.php" role="web" />
+      <file name="index.php" role="web" />
+     </dir> <!-- /public_html/group/docs -->
+     <file name="index.php" role="web" />
+    </dir> <!-- /public_html/group -->
+    <dir name="javascript">
+     <dir name="calendar">
+      <file name="browserSniffer.js" role="web" />
+      <file name="dynCalendar.css" role="web" />
+      <file name="dynCalendar.js" role="web" />
+     </dir> <!-- /public_html/javascript/calendar -->
+     <dir name="TreeMenu">
+      <file name="TreeMenu.js" role="web" />
+     </dir> <!-- /public_html/javascript/TreeMenu -->
+     <file name="jquery.js" role="web" />
+     <file name="md5.js" role="web" />
+     <file name="package-maintainers.js" role="web" />
+     <file name="peardev_map.js" role="web" />
+     <file name="pear_editor.js" role="web" />
+     <file name="popmap.js" role="web" />
+     <file name="showmap.js" role="web" />
+     <file name="sorttable.js" role="web" />
+     <file name="thickbox.js" role="web" />
+    </dir> <!-- /public_html/javascript -->
+    <dir name="manual">
+     <file name="index.php" role="web" />
+    </dir> <!-- /public_html/manual -->
+    <dir name="map">
+     <file name="index.php" role="web" />
+     <file name="locationREST.php" role="web" />
+    </dir> <!-- /public_html/map -->
+    <dir name="news">
+     <file name="activestate-award-ssb.php" role="web" />
+     <file name="group-announce.php" role="web" />
+     <file name="index.php" role="web" />
+     <file name="meeting-2003-summary.php" role="web" />
+     <file name="meeting-2003.php" role="web" />
+     <file name="newgroup-2007.php" role="web" />
+     <file name="newpresident-2007.php" role="web" />
+     <file name="nm-guide.php" role="web" />
+     <file name="package.xml.1.0.php" role="web" />
+     <file name="pecl-split.php" role="web" />
+     <file name="pepr.php" role="web" />
+     <file name="release-1.0.php" role="web" />
+     <file name="vulnerability.php" role="web" />
+     <file name="vulnerability2.php" role="web" />
+     <file name="weekly-summaries.php" role="web" />
+    </dir> <!-- /public_html/news -->
+    <dir name="notes">
+     <dir name="admin">
+      <file name="index.php" role="web" />
+      <file name="trans.php" role="web" />
+      <file name="view-note.php" role="web" />
+     </dir> <!-- /public_html/notes/admin -->
+     <file name="add-note-form.php" role="web" />
+     <file name="add-note.php" role="web" />
+    </dir> <!-- /public_html/notes -->
+    <dir name="pepr">
+     <file name="index.php" role="web" />
+     <file name="pepr-bbcode-help.php" role="web" />
+     <file name="pepr-comments-show.php" role="web" />
+     <file name="pepr-proposal-delete.php" role="web" />
+     <file name="pepr-proposal-edit.php" role="web" />
+     <file name="pepr-proposal-show.php" role="web" />
+     <file name="pepr-qa-stats.php" role="web" />
+     <file name="pepr-vote-show.php" role="web" />
+     <file name="pepr-votes-show.php" role="web" />
+    </dir> <!-- /public_html/pepr -->
+    <dir name="pngs">
+     <file name="dev.png" role="web" />
+     <file name="pearpoint.png" role="web" />
+     <file name="users.png" role="web" />
+    </dir> <!-- /public_html/pngs -->
+    <dir name="qa">
+     <file name="index.php" role="web" />
+     <file name="packages_orphan.php" role="web" />
+     <file name="packages_status.php" role="web" />
+     <file name="packages_status_detail.php" role="web" />
+    </dir> <!-- /public_html/qa -->
+    <dir name="sidebar">
+     <file name="pear.src" role="web" />
+    </dir> <!-- /public_html/sidebar -->
+    <dir name="support">
+     <file name="books.php" role="web" />
+     <file name="effectivepearuse.php" role="web" />
+     <file name="forums.php" role="web" />
+     <file name="icons.php" role="web" />
+     <file name="index.php" role="web" />
+     <file name="lists.php" role="web" />
+     <file name="pear.eps.gz" role="web" />
+     <file name="slides.php" role="web" />
+     <file name="tabs_list.php" role="web" />
+     <file name="tutorials.php" role="web" />
+    </dir> <!-- /public_html/support -->
+    <dir name="tags">
+     <file name="admin.php" role="web" />
+     <file name="packages.php" role="web" />
+    </dir> <!-- /public_html/tags -->
+    <dir name="trackback">
+     <file name="trackback-admin.php" role="web" />
+     <file name="trackback-overview.php" role="web" />
+     <file name="trackback.php" role="web" />
+    </dir> <!-- /public_html/trackback -->
+    <file name="account-edit.php" role="web" />
+    <file name="account-info.php" role="web" />
+    <file name="account-mail.php" role="web" />
+    <file name="account-request-confirm.php" role="web" />
+    <file name="account-request-existingpackage.php" role="web" />
+    <file name="account-request-newpackage.php" role="web" />
+    <file name="account-request-vote.php" role="web" />
+    <file name="account-request.php" role="web" />
+    <file name="accounts.php" role="web" />
+    <file name="advisory-20051104.txt" role="web" />
+    <file name="advisory-20060108.txt" role="web" />
+    <file name="advisory-20070507.txt" role="web" />
+    <file name="captcha-help.php" role="web" />
+    <file name="captcha-image.php" role="web" />
+    <file name="copyright.php" role="web" />
+    <file name="credits.php" role="web" />
+    <file name="faq.php" role="web" />
+    <file name="favicon.ico" role="web" />
+    <file name="get" role="web" />
+    <file name="go-pear" role="web" />
+    <file name="index.php" role="web" />
+    <file name="login.php" role="web" />
+    <file name="mirrors.php" role="web" />
+    <file name="new-gopear.php" role="web" />
+    <file name="package-changelog.php" role="web" />
+    <file name="package-delete.php" role="web" />
+    <file name="package-edit.php" role="web" />
+    <file name="package-info.php" role="web" />
+    <file name="package-new.php" role="web" />
+    <file name="package-stats-graph.php" role="web" />
+    <file name="package-stats.php" role="web" />
+    <file name="packages.php" role="web" />
+    <file name="release-upload.php" role="web" />
+    <file name="robots.txt" role="web" />
+    <file name="search.php" role="web" />
+    <file name="wishlist.php" role="web" />
+    <file name="xmlrpc.php" role="web" />
+   </dir> <!-- /public_html -->
+   <dir name="rfc">
+    <file name="003-dependencies.txt" role="web" />
+    <file name="stats.txt" role="web" />
+   </dir> <!-- /rfc -->
+   <dir name="sql">
+    <file name="aggregated_package_stats.sql" role="web" />
+    <file name="apidoc_queue.sql" role="web" />
+    <file name="bugs.sql" role="web" />
+    <file name="categories.sql" role="web" />
+    <file name="channels.sql" role="web" />
+    <file name="create2drop" role="web" />
+    <file name="createdb.sql" role="web" />
+    <file name="cvs_acl.sql" role="web" />
+    <file name="cvs_groups.sql" role="web" />
+    <file name="cvs_group_membership.sql" role="web" />
+    <file name="deps.sql" role="web" />
+    <file name="design.txt" role="web" />
+    <file name="dropdb.sql" role="web" />
+    <file name="election.sql" role="web" />
+    <file name="files.sql" role="web" />
+    <file name="karma.sql" role="web" />
+    <file name="maintains.sql" role="web" />
+    <file name="Makefile" role="web" />
+    <file name="manual_notes.sql" role="web" />
+    <file name="notes.sql" role="web" />
+    <file name="packages.sql" role="web" />
+    <file name="package_stats.sql" role="web" />
+    <file name="pearweb_mdb2schema.xml" role="web" />
+    <file name="pepr.sql" role="web" />
+    <file name="process_mysqldump_for5.sh" role="web" />
+    <file name="README" role="web" />
+    <file name="releases.sql" role="web" />
+    <file name="tags.sql" role="web" />
+    <file name="users.sql" role="web" />
+   </dir> <!-- /sql -->
+   <dir name="templates">
+    <dir name="bugs">
+     <file name="addpatch.php" role="web" />
+     <file name="listpatches.php" role="web" />
+     <file name="patchadded.php" role="web" />
+     <file name="patchdiff.php" role="web" />
+     <file name="patchdisplay.php" role="web" />
+     <file name="patchform.php" role="web" />
+     <file name="registernewaccount.php" role="web" />
+     <file name="roadmap.php" role="web" />
+     <file name="roadmapadd.php" role="web" />
+     <file name="roadmapform.php" role="web" />
+     <file name="roadmap_packagexml.php" role="web" />
+     <file name="searchresults.php" role="web" />
+    </dir> <!-- /templates/bugs -->
+    <dir name="notes">
+     <file name="add-note-form.tpl.php" role="web" />
+     <file name="add-note.tpl.php" role="web" />
+     <file name="note-manage-admin.tpl.php" role="web" />
+     <file name="note-manage-links.tpl.php" role="web" />
+     <file name="note.tpl.php" role="web" />
+     <file name="view-full-note.tpl.php" role="web" />
+    </dir> <!-- /templates/notes -->
+    <dir name="tags">
+     <file name="admin.tpl.php" role="web" />
+     <file name="cloud.tpl.php" role="web" />
+     <file name="package.tpl.php" role="web" />
+    </dir> <!-- /templates/tags -->
+    <dir name="users">
+     <file name="lostpassword.php" role="web" />
+     <file name="passwordform.php" role="web" />
+     <file name="passwordreset.php" role="web" />
+     <file name="passwordresetconfirmed.php" role="web" />
+    </dir> <!-- /templates/users -->
+    <file name="category-manager.html" role="web" />
+    <file name="election-confirm.tpl.php" role="web" />
+    <file name="election-confirmed.tpl.php" role="web" />
+    <file name="election-dovote.tpl.php" role="web" />
+    <file name="election-listforedit.tpl.php" role="web" />
+    <file name="election-new-step1.tpl.php" role="web" />
+    <file name="election-new-step2.tpl.php" role="web" />
+    <file name="election-new-step3.tpl.php" role="web" />
+    <file name="election-pending.tpl.php" role="web" />
+    <file name="election-register.tpl.php" role="web" />
+    <file name="election-results.tpl.php" role="web" />
+    <file name="election-showresults.tpl.php" role="web" />
+    <file name="election-vote.tpl.php" role="web" />
+    <file name="packages.html" role="web" />
+   </dir> <!-- /templates -->
+   <dir name="weeklynews">
+    <dir name="locale">
+     <dir name="de">
+      <dir name="LC_MESSAGES">
+       <file name="weeklynews.mo" role="web" />
+       <file name="weeklynews.po" role="web" />
+      </dir> <!-- /weeklynews/locale/de/LC_MESSAGES -->
+     </dir> <!-- /weeklynews/locale/de -->
+     <dir name="en">
+      <dir name="LC_MESSAGES">
+       <file name="weeklynews.mo" role="web" />
+       <file name="weeklynews.po" role="web" />
+      </dir> <!-- /weeklynews/locale/en/LC_MESSAGES -->
+     </dir> <!-- /weeklynews/locale/en -->
+     <dir name="es">
+      <dir name="LC_MESSAGES">
+       <file name="weeklynews.mo" role="web" />
+       <file name="weeklynews.po" role="web" />
+      </dir> <!-- /weeklynews/locale/es/LC_MESSAGES -->
+     </dir> <!-- /weeklynews/locale/es -->
+     <dir name="fr">
+      <dir name="LC_MESSAGES">
+       <file name="weeklynews.mo" role="web" />
+       <file name="weeklynews.po" role="web" />
+      </dir> <!-- /weeklynews/locale/fr/LC_MESSAGES -->
+     </dir> <!-- /weeklynews/locale/fr -->
+     <dir name="pl">
+      <dir name="LC_MESSAGES">
+       <file name="weeklynews.mo" role="web" />
+       <file name="weeklynews.po" role="web" />
+      </dir> <!-- /weeklynews/locale/pl/LC_MESSAGES -->
+     </dir> <!-- /weeklynews/locale/pl -->
+     <dir name="pt_BR">
+      <dir name="LC_MESSAGES">
+       <file name="weeklynews.mo" role="web" />
+       <file name="weeklynews.po" role="web" />
+      </dir> <!-- /weeklynews/locale/pt_BR/LC_MESSAGES -->
+     </dir> <!-- /weeklynews/locale/pt_BR -->
+    </dir> <!-- /weeklynews/locale -->
+    <file name="weeklynews-2002.tar.gz" role="web" />
+    <file name="weeklynews-2003.tar.gz" role="web" />
+   </dir> <!-- /weeklynews -->
+   <file name="generateREST.php" role="web" />
+   <file name="pearweb.php" role="php">
+    <tasks:postinstallscript>
+     <tasks:paramgroup>
+      <tasks:id>askdb</tasks:id>
+      <tasks:param>
+       <tasks:name>yesno</tasks:name>
+       <tasks:prompt>Update pearweb database?</tasks:prompt>
+       <tasks:type>yesno</tasks:type>
+       <tasks:default>y</tasks:default>
+      </tasks:param>
+     </tasks:paramgroup>
+     <tasks:paramgroup>
+      <tasks:id>init</tasks:id>
+      <tasks:param>
+       <tasks:name>driver</tasks:name>
+       <tasks:prompt>Database driver</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>mysqli</tasks:default>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>user</tasks:name>
+       <tasks:prompt>Database User name</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>pear</tasks:default>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>password</tasks:name>
+       <tasks:prompt>Database password</tasks:prompt>
+       <tasks:type>password</tasks:type>
+       <tasks:default>pear</tasks:default>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>host</tasks:name>
+       <tasks:prompt>Database host</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>localhost</tasks:default>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>database</tasks:name>
+       <tasks:prompt>Database name</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>pear</tasks:default>
+      </tasks:param>
+     </tasks:paramgroup>
+     <tasks:paramgroup>
+      <tasks:id>askhttpd</tasks:id>
+      <tasks:param>
+       <tasks:name>yesno</tasks:name>
+       <tasks:prompt>Update httpd.conf to add pearweb? (y/n)</tasks:prompt>
+       <tasks:type>yesno</tasks:type>
+       <tasks:default>y</tasks:default>
+      </tasks:param>
+     </tasks:paramgroup>
+     <tasks:paramgroup>
+      <tasks:id>httpdconf</tasks:id>
+      <tasks:param>
+       <tasks:name>path</tasks:name>
+       <tasks:prompt>Full path to httpd.conf</tasks:prompt>
+       <tasks:type>string</tasks:type>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>addnamev</tasks:name>
+       <tasks:prompt>Add NameVirtualHost directive? (yes/no)</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>yes</tasks:default>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>namehost</tasks:name>
+       <tasks:prompt>Virtual Host IP address</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>*</tasks:default>
+      </tasks:param>
+      <tasks:param>
+       <tasks:name>pear</tasks:name>
+       <tasks:prompt>PEAR subdomain name</tasks:prompt>
+       <tasks:type>string</tasks:type>
+       <tasks:default>localhost</tasks:default>
+      </tasks:param>
+     </tasks:paramgroup>
+    </tasks:postinstallscript>
+    <tasks:replace from="@web-dir@" to="web_dir" type="pear-config" />
+    <tasks:replace from="@php-dir@" to="php_dir" type="pear-config" />
+    <tasks:replace from="@version@" to="version" type="package-info" />
+   </file>
+   <file name="processReleases.php" role="web" />
+   <file name="README" role="web" />
+   <file name="testxmlrpc.pl" role="web" />
+   <file name="TODO" role="web" />
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.11</min>
+   </pearinstaller>
+   <package>
+    <name>PEAR</name>
+    <channel>pear.php.net</channel>
+    <min>1.5.0</min>
+   </package>
+   <package>
+    <name>Archive_Tar</name>
+    <channel>pear.php.net</channel>
+    <min>1.3.2</min>
+   </package>
+   <package>
+    <name>HTTP_Request</name>
+    <channel>pear.php.net</channel>
+    <min>1.2.2</min>
+   </package>
+   <package>
+    <name>HTTP</name>
+    <channel>pear.php.net</channel>
+    <min>1.4.0</min>
+   </package>
+   <package>
+    <name>Text_CAPTCHA_Numeral</name>
+    <channel>pear.php.net</channel>
+    <min>1.1.0</min>
+   </package>
+   <package>
+    <name>DB</name>
+    <channel>pear.php.net</channel>
+    <min>1.6.5</min>
+   </package>
+   <package>
+    <name>DB_DataObject</name>
+    <channel>pear.php.net</channel>
+    <min>1.8.5</min>
+   </package>
+   <package>
+    <name>Savant2</name>
+    <channel>savant.pearified.com</channel>
+    <min>2.4.2</min>
+   </package>
+   <package>
+    <name>Cache</name>
+    <channel>pear.php.net</channel>
+    <min>1.2</min>
+   </package>
+   <package>
+    <name>HTML_BBCodeParser</name>
+    <channel>pear.php.net</channel>
+    <min>1.1</min>
+   </package>
+   <package>
+    <name>HTML_Form</name>
+    <channel>pear.php.net</channel>
+    <min>1.3.0</min>
+   </package>
+   <package>
+    <name>HTML_TagCloud</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
+    <name>HTML_Table</name>
+    <channel>pear.php.net</channel>
+    <min>1.5</min>
+   </package>
+   <package>
+    <name>Pager</name>
+    <channel>pear.php.net</channel>
+    <min>2.2.0</min>
+   </package>
+   <package>
+    <name>PEAR_PackageUpdate</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
+    <name>Net_URL</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.14</min>
+   </package>
+   <package>
+    <name>Text_Diff</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
+    <name>HTTP_Upload</name>
+    <channel>pear.php.net</channel>
+    <min>0.8.1</min>
+   </package>
+   <package>
+    <name>MDB2_Schema</name>
+    <channel>pear.php.net</channel>
+    <min>0.6.0</min>
+   </package>
+   <package>
+    <name>DB_Pager</name>
+    <channel>pear.php.net</channel>
+    <min>0.7</min>
+   </package>
+   <package>
+    <name>Log</name>
+    <channel>pear.php.net</channel>
+    <min>1.8.4</min>
+   </package>
+   <package>
+    <name>Mail</name>
+    <channel>pear.php.net</channel>
+    <min>1.1.13</min>
+   </package>
+   <package>
+    <name>Services_Trackback</name>
+    <channel>pear.php.net</channel>
+    <min>0.4.0</min>
+   </package>
+   <package>
+    <name>Text_Wiki</name>
+    <channel>pear.php.net</channel>
+    <min>1.1.0</min>
+   </package>
+   <package>
+    <name>HTML_QuickForm</name>
+    <channel>pear.php.net</channel>
+    <min>3.2.3</min>
+   </package>
+   <package>
+    <name>HTML_TreeMenu</name>
+    <channel>pear.php.net</channel>
+    <min>1.2.0</min>
+   </package>
+   <package>
+    <name>Role_Web</name>
+    <channel>pearified.com</channel>
+   </package>
+   <extension>
+    <name>pcre</name>
+   </extension>
+  </required>
+  <optional>
+   <extension>
+    <name>mysql</name>
+   </extension>
+   <extension>
+    <name>mysqli</name>
+   </extension>
+  </optional>
+  <group hint="Use this for PHP 4 (mysql ext)" name="php4">
+   <package>
+    <name>MDB2_Driver_mysql</name>
+    <channel>pear.php.net</channel>
+   </package>
+  </group>
+  <group hint="Use this for PHP 5 (mysqli ext)" name="php5">
+   <package>
+    <name>MDB2_Driver_mysqli</name>
+    <channel>pear.php.net</channel>
+   </package>
+  </group>
+ </dependencies>
+ <usesrole>
+  <role>web</role>
+  <package>Role_Web</package>
+  <channel>pearified.com</channel>
+ </usesrole>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.1</release>
+    <api>0.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2004-02-20</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Initial attempt to package the core elements of the PEAR website</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.2.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-01</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>use web role, add post-install script</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.3.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-01</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>use web role, add post-install script</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add HTML_TreeMenu dep
+* add dep group for PHP4-based install and mysql
+* add dep group for PHP5-based install and mysqli</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.4.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-14</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add gettext extension dep for VFS package (simplifies installation)</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.5.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-18</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* new statistics
+* remove unused database table &quot;downloads&quot;
+* add popular packages to homepage</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.6.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-19</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add license dropdown to PEPr</notes>
+  </release>
+  <release>
+   <version>
+    <release>0.7.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>devel</release>
+    <api>devel</api>
+   </stability>
+   <date>2006-10-21</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #9113: Package stats problems
+  - order releases in category page
+  - remove stats for removed releases
+* implement Request #9112 Changes for &quot;Popular Packages&quot;</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0RC1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-10-29</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Prepare for deployment through PEAR channel</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-12-13</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix REST generation for deprecated packages/channels
+* fix REST generation of packagesinfo.xml for categories
+* fix winner calculation in election interface
+* fix Bug #5340: User details are overescaped
+* fix Bug #8842: package.xml package name need not match case and must
+* fix Bug #9209: Missing package description in proposal editor
+* fix Bug #9368: election interface needs labels for radio buttons/checkboxes
+* fix Bug #9369: email vote hash and vote choice
+* fix Bug #9370: add easy &quot;back&quot; navigation button for voting interface
+* fix Bug #9371: election interface: each page should check whether voting
+                 has already occurred
+* fix Bug #9372: election interface should separate Abstain button visually on page
+* fix Bug #9403: more informative election vote email
+* fix Bug #9404: clarify &quot;retrieve vote&quot;
+* fix Bug #9405: add back button to info.php
+* fix Bug #9476: schema validation error on postinstall script
+* fix Bug #9483: registering for voter account &quot;enter intended purpose&quot;
+* fix Bug #9526: if date is next year, election interface won&apos;t
+                 properly save new election
+* implement Request #7828: PEAR Bug Summary Report
+* implement Request #9118: Added new feature to pepr
+* implement Request #9527: Implement automatic voter registration (arnaud, cellog)
+* completely rework account requests, both to simplify/clarify and to allow
+  for the possibility of having general election accounts with no developer
+  privileges
+* add missing PEPr tables to the MDB2 schema .xml file
+* add list of PEAR books in the support section
+* add bug summary statistics to package homepages, clearly showing
+  packages with little or no attention to bugs</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-12-13</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* hide emails of developers in maps who request it</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-12-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add statistics for developers&apos; bug activity
+* auto-assign to developer when a developer marks a bug closed
+* adjusted the bugtracker&apos;s database schema to handle developer usernames of up to 20 characters length
+* fix Bug #7246: missing &quot;Need reproduce script&quot; quick fix
+* fix Bug #8082: Developer&apos;s bugs list doesn&apos;t include Feedback status
+* fix Bug #8682: Assigning a bug to a new package doesn&apos;t reset the package version field.
+* fix Bug #8795: Bug ID is given two times in mails
+* fix Bug #9134: Bugtracker suggests PECL bugs
+* fix Bug #9205: URL needs to be escaped in &quot;quick fix&quot; text</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-12-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add statistics for developers&apos; bug activity
+* auto-assign to developer when a developer marks a bug closed
+* adjusted the bugtracker&apos;s database schema to handle developer usernames of up to 20 characters length
+* fix Bug #7246: missing &quot;Need reproduce script&quot; quick fix
+* fix Bug #8082: Developer&apos;s bugs list doesn&apos;t include Feedback status
+* fix Bug #8682: Assigning a bug to a new package doesn&apos;t reset the package version field.
+* fix Bug #8795: Bug ID is given two times in mails
+* fix Bug #9134: Bugtracker suggests PECL bugs
+* fix Bug #9205: URL needs to be escaped in &quot;quick fix&quot; text</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-12-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix line spacing in jpgraph_bar.php so statistics graphs will display</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-12-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix line spacing in jpgraph_bar.php so statistics graphs will display</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.4</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2006-12-27</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix line spacing in jpgraph_bar.php so statistics graphs will display
+* fix Bug #9702: captcha problem</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.5</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.6</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-06</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
+(32-bit only had problem)</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.7</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Hide PECL packages in the developer profiles.
+* fix #9796: xmlrpc function package.info raised DB error syntax
+* update go-pear for PEAR 1.5.0 release</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.8</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix go-pear to work with PEAR 1.5.0</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.0RC1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-01-31</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add helpful hints on next package versions to package homepages
+* add vivid warning for packages using package.xml 1.0
+* officially deprecate package.xml 1.0 on the homepage
+* dis-allow uploading of package.xml 1.0-based packages in release-upload.php</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.0RC2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-01</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes># fix next version for 1.0.0RC3 and company
+* add helpful hints on next package versions to package homepages
+* add vivid warning for packages using package.xml 1.0
+* officially deprecate package.xml 1.0 on the homepage
+* dis-allow uploading of package.xml 1.0-based packages in release-upload.php</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-01</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes># fix next version for 1.0.0RC3 and company
+* add helpful hints on next package versions to package homepages
+* add vivid warning for packages using package.xml 1.0
+* officially deprecate package.xml 1.0 on the homepage
+* dis-allow uploading of package.xml 1.0-based packages in release-upload.php
+* up PEAR and Archive_Tar dependencies</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-01</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix unneeded require, fatal error</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #9974: BBCode dependency
+* fix Bug #10014: package2.xml is never used</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #10009: Two errors on developer map
+* do not generate API docs for the pearweb package</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.4</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-06</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #10038: PHP License = PHP License 3.01, or latest license</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.2.5</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-09</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add PHP 5.2.1 to the list of versions
+* fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
+* fix Bug #10040: Download page shows &lt;conflicts/&gt; deps as &quot;dependencies&quot;
+* fix Bug #9603: deprecated packages should use channel/package</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.3.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-10</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* remove the phars, release as package pearweb_phars</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-12</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix email headers for auto-generated mails
+* fix Bug #9165: Category dropdown in New Package should indent subcategories
+* fix implementation of Request #7828 (now Bug #7828): PEAR Bug Summary Report
+* implement Request #9543: Change the bug summary, add total</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-12</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* don&apos;t generate docs for pearweb_phars package
+* remove unneeded headers from Damblan_Mailer templates</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.4.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-17</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* another attempt to stop spamming pear-sys</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.0RC1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-17</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* implement initial roadmap support for packages</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-19</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* implement initial roadmap support for packages
+* fix potential fatal error in package editing while updating REST
+* fix pearweb.php run-scripts
+* fix mdb2 schema xml
+* fix Bug #1467: Two E-mails are sent when the proposer comments on his own PEPr
+* fix Bug #10115: if you don&apos;t maintain a bug, and are assigned, no update emails</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-19</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* roadmap description not being set on creation
+* wrong parameter order for in_array() caused fatal error on assigning bugs to a roadmap</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.5.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-20</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #10133: foreach() error when closing PEAR bug</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.6.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-21</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #10133: foreach() error when closing PEAR bug
+* enhance roadmap functionality - make it much easier to add/remove bugs from a roadmap</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.6.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-21</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add needed authorization for roadmap modification ease form</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.6.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-21</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add list of closed bugs since last release</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.6.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-22</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* hide old elections
+* fix election creation interface date validation
+* fix display of election detail</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.6.4</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-22</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* hide old elections
+* fix election creation interface date validation
+* fix display of election detail</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.7.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-22</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* add note about PEAR structure election on front page</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.7.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* hide bug/feature detail by default in roadmap
+* re-order PHP versions so that 5.x is first, remove old CVS tags, add HEAD</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.8.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-02-24</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* hide bug/feature detail by default in roadmap [cellog]
+* re-order PHP versions so that 5.x is first, remove old CVS tags, add HEAD [cellog]
+* implement REST1.2 (maintainer role information in p/maintainers2.xml)
+* Fixed bug #9127 extending make_ticket_links() matched words [mj]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-04</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix release upload: don&apos;t let custom non-pear built packages with no package.xml
+  in root dir slip through the cracks
+* fix .xsd for REST1.2
+* fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
+* fix Bug #10212: if multiple roadmaps exist, assigning bugs to one
+  may overwrite the other
+* implement Request #9973: Add a &quot;developing with PEAR effectively&quot;
+  document to the site
+* implement Request #10150: Allow &quot;future&quot; roadmap versions
+* implement Request #10176: patch tracker for bugs
+* implement Request #10179: implement package.xml generation with auto-changelog
+  from roadmap
+* implement Request #10180: require account to open/edit bugs,
+  use auto-email verification like pear.voter
+* implement Request #10197: add PHP version and API version to release REST</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* fix Bug #10267: Wrong link to user profile [quipo]
+* fix Bug #10271: passwords are double-MD5()ed [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10263: old roadmaps not hidden upon release [cellog]
+* Fix Bug #10268: Incorrect vote retrieval link [cellog]
+* Fix Bug #10270: roadmap versions should be sorted by release date [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix patch tracker developer naming</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.4</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Implement *much* better popular packages algorithm: only
+  count downloads per day for the current month.  This gives
+  newer packages a fighting chance to be popular :)</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.5</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-07</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10293: &quot;Comment by:&quot; is emtpy in bug emails [cellog]
+* Fix Bug #10294: problems with &quot;voting-only&quot;-account [cellog]
+* Fix Bug #10301: no easy way to edit old bugs submitted [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.9.6</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-07</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10293: &quot;Comment by:&quot; is emtpy in bug emails [cellog]
+* Fix Bug #10294: problems with &quot;voting-only&quot;-account [cellog]
+* Fix Bug #10301: no easy way to edit old bugs submitted [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.10.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-07</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Implement Request #10302: password reset form for pear.dev accounts</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.10.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-12</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10307: Feature #1234 texts don&apos;t become links [davidc]
+* Fix Bug #10309: Badly formed XML schema [davidc]
+* Fix Bug #10318: Don&apos;t send remainders for Spam bugs [mj]
+* Fix Bug #10319: Wrong ID in links for Documentation bugs [mj]
+* Fix Bug #10321: Separate patches from comments in the bug report page [mj]
+* Fix Bug #10323: HTML special characters not escaped in patch output [mj]
+* Fix Bug #10324: Unescaped values on invalid bugs [davidc]
+* Fix Bug #10328: no verification sent for new users who comment on bugs [cellog]
+* Fix Bug #10331: no log-in needed until after the bug is reported/comment is added [cellog]
+* Fix Bug #10334: edit=2 should shunt to edit=1 for newer bugs [cellog]
+* Implement Feature #9214: Patch to add &quot;Users&quot; category on main page [davidc]
+* Implement Feature #10035: No trackback notifications for in active developers [davidc]
+* Implement Feature #10320: Allow numbers in patch name [mj]
+* Implement Feature #10322: Explain allowed chars in patch name [mj]
+* Implement Feature #10329: add &quot;resend account confirmation&quot; link for unconfirmed account bugs [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.10.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-12</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10332: in bug.php, roadmaps randomly ordered [cellog]
+* Fix Bug #10344: don&apos;t send out bug emails until accounts are confirmed [cellog]
+* Fix Bug #10345: if logged in, email address is asked for [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.10.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-13</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10360: trackbacks for non-existent packages allowed [cellog]
+* Fix Bug #10361: emails still bounce to pear-sys@php.net [timj]
+* Implement Feature #10322: Explain allowed chars in patch name [mj]
+* Implement Feature #10351: Don&apos;t show edit/delete links in roadmap view [mj]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.10.4</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-22</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
+* Fix Bug #10445: election edit does not allow changing choices [cellog]
+* Fix Bug #10446: election choices not shown if the election has not yet happened [cellog]
+* Fix Bug #10455: multiple bug account requests with the same email [cellog]
+* Implement Feature #10078: add user notes to manual [davidc]
+* Implement Feature #10330: allow users to log in using their email address as well as handle [cellog]
+* Implement Feature #10355: notification emails when patches are attached/modified [davidc]
+* Implement Feature #10356: notification emails when roadmap has bugs assigned/removed [cellog]
+* Implement Feature #10357: Allow dots in patch name [quipo]
+* Implement Feature #10362: fade roadmap versions already released in bug edit [cellog]
+Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.11.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
+* Fix Bug #10445: election edit does not allow changing choices [cellog]
+* Fix Bug #10446: election choices not shown if the election has not yet happened [cellog]
+* Fix Bug #10455: multiple bug account requests with the same email [cellog]
+* Implement Feature #10078: add user notes to manual [davidc]
+* Implement Feature #10330: allow users to log in using their email address as well as handle [cellog]
+* Implement Feature #10355: notification emails when patches are attached/modified [davidc]
+* Implement Feature #10356: notification emails when roadmap has bugs assigned/removed [cellog]
+* Implement Feature #10357: Allow dots in patch name [quipo]
+* Implement Feature #10362: fade roadmap versions already released in bug edit [cellog]
+Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.11.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-24</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10468: user notes approval page needs links back to comments [davidc]
+* Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
+* Implement Feature #10463: Moving a comment to pending [davidc]
+* Implement Feature #10464: display assigned roadmap versions in non-edit [davidc]
+* Implement Feature #10477: onload focus [davidc]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.11.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-25</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10482: PHP4 obsolete package [davidc]
+* Fix Bug #10486: Opera centers text in the new notes section of the manual [davidc]
+* Implement Feature #10480: split channel.xml into its own package [cellog]
+* Implement Feature #10481: Adding link to manage notes in the developer menu [davidc]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.11.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-03-27</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
+* Fix Bug #10484: Bug edit form has gotten &amp;quot;ugly&amp;quot; [cellog]
+* Fix Bug #10487: Package description is almost empty [cellog]
+* Fix Bug #10498: extra symbols are appended to patches [cellog]
+* Fix Bug #10523: Bug tracker emails need validation to prevent ,another@example.com [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.12.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-04-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10479: Approving a bug accont to a developer account doesn&apos;t show the right
+  notes [cellog]
+* Fix Bug #10485: Difference between &quot;Notes&quot; and &quot;User comments&quot; [davidc]
+* Fix Bug #10504: MySQL 5 and DEFAULT value for INT columns [davidc]
+* Fix Bug #10514: Pending manual notes are shown on every page [cellog]
+* Fix Bug #10528: Wrongly formatted packageinfo.xml [cellog]
+* Fix Bug #10540: obfuscated emails [davidc]
+* Fix Bug #10576: Wrong time format for patches [davidc]
+* Fix Bug #10577: roadmap.php warning (server is no display_error=off ??? [cellog]
+* Fix Bug #10587: release version validation does not catch bad versions [cellog]
+* Fix Bug #10622: use \z instead of $ in regexes [cellog]
+* Implement Feature #10370: attaching patch with initial bug-report [cellog]
+* Implement Feature #10462: add tags to packages in order to define subgroups [cellog]
+* Implement Feature #10492: Patch obsoletes previous one [cellog]
+* Implement Feature #10519: Jump to notes page from notes manager [cellog]
+* Implement Feature #10526: anonymous patch registration like bug tracker registration [cellog]
+* Implement Feature #10582: shunt Bug System/Website/PEPr bugs to pearweb package [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.12.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-04-09</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10644: Add patch when creating bug fails [cellog]
+* Fix Bug #10658: Error when removing all bugs from a roadmap [davidc]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.13.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-04-21</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10563: search bugs for current package [cellog]
+* Fix Bug #10683: &quot;This package been superseded&quot; problem [cweiske]
+* Fix Bug #10694: RC releases not accepted when uploading new release [cipri]
+* Fix Bug #10706: popular.rss feed broken [cellog]
+* Fix Bug #10710: errors/glitches confirming account [cellog]
+* Fix Bug #10756: Can&apos;t upload patch [cellog]
+* Implement Feature #10359: Developer bugfix stats for last month [cellog]
+* Implement Feature #10368: Bug reporting stats [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.14.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-04-24</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10725: bug date/time values inconsistent [dufuz]
+* Fix Bug #10773: email is not validated for bug comments [cellog]
+* Fix Bug #10802: Opening up the detailed roadmap doesn&apos;t jump down to the proper anchor [dufuz]
+* Fix Bug #10831: Election Interface Bug [davidc]
+* Fix Bug #10832: Election election id is not checked [davidc]
+* Implement Feature #6829: Full involved bugs information in personal menu [cellog]
+* Implement Feature #10668: Assign roadmap version at bug entry time [dufuz]
+* Implement Feature #10724: show closed bugs since last release [dufuz]
+* Implement Feature #10764: strike-through obsolete patches [dufuz]
+* Implement Feature #10766: highlight own name on bug stats page [dufuz]
+* Implement Feature #10798: Split up the pear-database file [dufuz]
+* Implement Feature #10801: Links to packages homepage in the search view [dufuz]
+* Implement Feature #10818: add Igor&apos;s slides [davidc]
+* Implement Feature #10824: Missing link to elections [davidc]
+* Implement Feature #10826: Missing &quot;select all&quot; notes [davidc]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.14.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-05-04</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fixed Bug #10841 warnings raised on public_html/bugs/stats.php [dufuz]
+* Request #10849 Remove DB_Storage [dufuz]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.15.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-05-04</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #9589: Link input field on requestform too short [cellog]
+* Fix Bug #10709: Can not reset my password [cellog]
+* Fix Bug #10731: &amp;quot;Doc Bug&amp;quot; doesn&amp;apos;t appear on Roadmap [davidc]
+* Fix Bug #10841: warnings raised on public_html/bugs/stats.php [dufuz]
+* Fix Bug #10855: &amp;quot;Fixed Since Version...&amp;quot; a misnomer [davidc]
+* Fix Bug #10863: &amp;quot;Doc #&amp;quot; not hyperlink in Changelog View [davidc]
+* Fix Bug #10868: User note link pointing to nowhere [cellog]
+* Fix Bug #10872: &amp;quot;New search&amp;quot; link in bug tracker does not work [dufuz]
+* Fix Bug #10874: roadmap generated package.xml contains info from previous package.xml [cellog]
+* Fix Bug #10876: The handle part in My Bugs url collieds with author_email [dufuz]
+* Fix Bug #10880: Registration Link Broken [cellog]
+* Fix Bug #10907: SECURITY: login.php redirects to any URL [cellog]
+* Fix Bug #10908: improper fix of XSS in bug tracker [cellog]
+* Implement Feature #10512: side-by-side diff of patch revisions [cellog]
+* Implement Feature #10561: Open bug stats include bugs with unconfirmed identities [cellog]
+* Implement Feature #10562: Mark complete user as inactive [cellog]
+* Implement Feature #10829: Enhance Patch Upload process [cellog]
+* Implement Feature #10849: Remove DB_Storage [dufuz]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.15.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-05-07</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Add Security announcement
+http://pear.php.net/advisory-20070507.txt
+* Fix Bug #10856: proposal stays in voting phase [mj]
+* Fix Bug #10885: Milestones not saved when submitting a bug [cellog]
+* Fix Bug #10898: Broken link from /news [bjori]
+* Fix Bug #10902: Unable to view elections (not logged in) [cellog]
+* Fix Bug #10927: Typo in pearweb_mdb2schema.xml [wiesemann]
+* Fix Bug #10928: Notices generated in bug tracker [cellog]
+* Fix Bug #10929: Non-Dev Comments Cause Bug to Unassign Dev/Roadmap [cellog]
+* Fix Bug #10932: Admin package maintainers error [davidc]
+* Fix Bug #10933: Patch diff view shows warnings [cellog]
+* Fix Bug #10948: Unclosed tags in bug tracker [wiesemann]
+* Fix Bug #10950: Fix for #10908 removed &quot;CVS&quot; package version selection for new bugs [cellog]
+* Fix Bug #10957: dufuz broke voter account registration [cellog]
+* Fix Bug #10958: &quot;Old patches&quot; list does not UTC [mj]
+* Fix Bug #10959: context is not htmlspecialchar()ed in patch diff [cellog]
+* Fix Bug #10960: registration fails for voter [cellog]
+* Implement Feature #8808: RSS feed for bug system [cellog]
+* Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.15.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-05-08</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+ Add Security announcement
+ http://pear.php.net/advisory-20070507.txt
+ * Fix Bug #10856: proposal stays in voting phase [mj]
+ * Fix Bug #10885: Milestones not saved when submitting a bug [cellog]
+ * Fix Bug #10898: Broken link from /news [bjori]
+ * Fix Bug #10902: Unable to view elections (not logged in) [cellog]
+ * Fix Bug #10927: Typo in pearweb_mdb2schema.xml [wiesemann]
+ * Fix Bug #10928: Notices generated in bug tracker [cellog]
+ * Fix Bug #10929: Non-Dev Comments Cause Bug to Unassign Dev/Roadmap [cellog]
+ * Fix Bug #10932: Admin package maintainers error [davidc]
+ * Fix Bug #10933: Patch diff view shows warnings [cellog]
+ * Fix Bug #10948: Unclosed tags in bug tracker [wiesemann]
+ * Fix Bug #10950: Fix for #10908 removed &quot;CVS&quot; package version selection for new bugs [cellog]
+ * Fix Bug #10957: dufuz broke voter account registration [cellog]
+ * Fix Bug #10958: &quot;Old patches&quot; list does not UTC [mj]
+ * Fix Bug #10959: context is not htmlspecialchar()ed in patch diff [cellog]
+ * Fix Bug #10960: registration fails for voter [cellog]
+ * Implement Feature #8808: RSS feed for bug system [cellog]
+ * Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]
+ * Added developer implemented feature using Net_URL and now is correctly using Net_URL2 [davidc]
+   </notes>
+  </release>
+ </changelog>
+</package>
