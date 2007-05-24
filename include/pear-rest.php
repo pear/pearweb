@@ -435,6 +435,8 @@ class pear_rest
             @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
                 DIRECTORY_SEPARATOR . $version . '.xml');
             @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+                DIRECTORY_SEPARATOR . 'v2.' . $version . '.xml');
+            @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
                 DIRECTORY_SEPARATOR . 'package.' . $version . '.xml');
             @unlink($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
                 DIRECTORY_SEPARATOR . 'deps.' . $version . '.txt');
