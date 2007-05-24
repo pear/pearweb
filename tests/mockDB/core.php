@@ -54,7 +54,16 @@ class mockDB_core
                 throw new Exception('query ' . $query . ' $modquery ' . $q .
                     ' $newrows must be an array');
             }
-            $rowcols = array_keys($this->_queryMap[$q]['rows'][0]);
+            if (isset($newrows['cols'])) {
+                $rowcols = $newrows['cols'];
+                unset($newrows['cols']);
+            } elseif (isset($this->_queryMap[$q]['rows'][0])) {
+                $rowcols = array_keys($this->_queryMap[$q]['rows'][0]);
+            } else {
+                throw new Exception('query ' . $query . ' $modquery ' . $q .
+                    ' $newrows must contain "cols" index containing an array of' .
+                    ' column names like "cols" => array("id", "parent")');
+            }
             foreach ($newrows as $i => $data) {
                 if (!is_int($i)) {
                     throw new Exception('query ' . $query . ' $modquery ' . $q . ' rows must be int-indexed, we have ' .
