@@ -86,13 +86,8 @@ function response_header($title = 'The PHP Extension and Application Repository'
         $SIDEBAR_DATA .= draw_navigation('docu_menu', 'Documentation:');
         $SIDEBAR_DATA .= draw_navigation('downloads_menu', 'Downloads:');
         $SIDEBAR_DATA .= draw_navigation('proposal_menu', 'Package Proposals:');
-        if (!isset($GLOBALS['_NODB'])) {
-            // if reporting an error, no database access will be performed
-            include_once 'pear-auth.php';
-            init_auth_user();
-        } else {
-            $auth_user = null;
-        }
+        include_once 'pear-auth.php';
+        init_auth_user();
         if (!empty($auth_user)) {
             if (!empty($auth_user->registered)) {
                 if (auth_check('pear.dev')) {
