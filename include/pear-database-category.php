@@ -74,6 +74,7 @@ class category
         }
         $GLOBALS['pear_rest']->saveCategoryREST($name);
         $GLOBALS['pear_rest']->saveAllCategoriesREST();
+        $GLOBALS['pear_rest']->savePackagesCategoryREST($name);
         return $id;
     }
 
@@ -87,10 +88,12 @@ class category
      */
     static function update($id, $name, $desc = '')
     {
-        return $GLOBALS['dbh']->query(sprintf('UPDATE categories SET name = %s, description = %s WHERE id = %d',
-                                              $GLOBALS['dbh']->quote($name),
-                                              $GLOBALS['dbh']->quote($desc),
-                                              $id));
+        $GLOBALS['pear_rest']->deleteCategoryREST($GLOBALS['dbh']->getOne('SELECT name FROM categories WHERE id = ?', array($id)));
+        $ret = $GLOBALS['dbh']->query('UPDATE categories SET name = ?, description = ? WHERE id = ?', array($name, $desc, $id));
+        $GLOBALS['pear_rest']->saveCategoryREST($name);
+        $GLOBALS['pear_rest']->saveAllCategoriesREST();
+        $GLOBALS['pear_rest']->savePackagesCategoryREST($name);
+        return $ret;
     }
 
     /**
@@ -131,6 +134,7 @@ class category
         $GLOBALS['dbh']->query(sprintf('UPDATE categories SET parent = %s WHERE parent = %d', ($parentID ? $parentID : 'NULL'), $id));
 
         $GLOBALS['pear_rest']->deleteCategoryREST($name);
+        $GLOBALS['pear_rest']->saveAllCategoriesREST();
         return true;
     }
 
