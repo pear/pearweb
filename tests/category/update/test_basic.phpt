@@ -55,7 +55,7 @@ $mock->addDataQuery("SELECT id, nby, ntime, note FROM notes WHERE pid = 1",
 $mock->addDataQuery("SELECT type, relation, version, name, `release` as `release`, optional
                      FROM deps
                      WHERE package = 1 ORDER BY optional ASC", array(),
-                     array('type', 'relation', 'versino', 'name', 'release', 'optional'));
+                     array('type', 'relation', 'version', 'name', 'release', 'optional'));
 $pear_rest->savePackageREST('Blah1');
 $mock->addDataQuery("SELECT p.id AS packageid, p.name AS name, p.package_type AS type, c.id AS categoryid, c.name AS category, p.stablerelease AS stable, p.license AS license, p.summary AS summary, p.homepage AS homepage, p.description AS description, p.cvs_link AS cvs_link, p.doc_link as doc_link, p.unmaintained AS unmaintained,p.newpk_id AS newpk_id,
               p.newpackagename as new_package,
