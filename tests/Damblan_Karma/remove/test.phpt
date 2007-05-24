@@ -1,5 +1,6 @@
 --TEST--
 Damblan_Karma->remove()
+--FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
 //$d = DB::connect('mysqli://pear:pear@localhost/pear');
