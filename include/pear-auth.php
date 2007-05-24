@@ -347,6 +347,7 @@ class PEAR_Auth
      */
     function makeLink()
     {
-        return make_link("/user/" . $this->handle . "/", $this->name);
+        return '<a href="<"/user/"' . $this->handle . '/">' . htmlspecialchars($this->name)
+            . '</a>';
     }
 }
