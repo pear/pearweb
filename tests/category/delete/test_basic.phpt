@@ -81,7 +81,7 @@ $phpunit->assertEquals(array (
 $phpunit->assertFileNotExists($restdir . '/c/test/info.xml', 'info.xml');
 $phpunit->assertFileNotExists($restdir . '/c/test/packages.xml', 'packages.xml');
 $phpunit->assertFileNotExists($restdir . '/c/test/packagesinfo.xml', 'packagesinfo.xml');
-$phpunit->assertFileNotExists($restdir . '/c/categories.xml', 'categories.xml');
+$phpunit->assertFileExists($restdir . '/c/categories.xml', 'categories.xml');
 ?>
 ===DONE===
 --CLEAN--
