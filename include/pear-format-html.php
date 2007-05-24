@@ -29,11 +29,15 @@ function extra_styles($new = null) {
     return $extra_styles;
 }
 
-// needed for error reporting handling in startup
-$GLOBALS['_NODB'] = true;
-require_once 'pear-cache.php';
-// $dbh is initialized in pear-cache
-$GLOBALS['_NODB'] = false;
+include_once 'DB.php';
+
+if (empty($dbh)) {
+    $options = array(
+        'persistent' => false,
+        'portability' => DB_PORTABILITY_ALL,
+    );
+    $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
+}
 
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 
