@@ -38,6 +38,14 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name",
           'cat_right' => 2)),
     array('id', 'parent', 'name', 'summary', 'description', 'npackages', 'pkg_left',
           'pkg_right', 'cat_left', 'cat_right'));
+$mock->addDataQuery("SELECT
+                p.id, p.name
+            FROM
+                packages p, categories c
+            WHERE
+                p.category = c.id AND
+                c.name = 'test'", array(
+                ), array('id', 'name'));    
 $id = category::add(array('name' => 'test', 'desc' => 'hi there'));
 $phpunit->assertFileExists($restdir . '/c/test/info.xml', 'info.xml');
 $phpunit->assertFileExists($restdir . '/c/test/packages.xml', 'packages.xml');
@@ -68,6 +76,7 @@ $phpunit->assertEquals(array (
   5 => 'UPDATE categories SET cat_left = cat_left - 1, cat_right = cat_right - 1 WHERE cat_left > 1 AND cat_right < 2',
   6 => 'UPDATE categories SET cat_left = cat_left - 2, cat_right = cat_right - 2 WHERE cat_right > 2',
   7 => 'UPDATE categories SET parent = NULL WHERE parent = 1',
+  8 => 'SELECT * FROM categories ORDER BY name',
 ), $mock->queries, 'queries');
 $phpunit->assertFileNotExists($restdir . '/c/test/info.xml', 'info.xml');
 $phpunit->assertFileNotExists($restdir . '/c/test/packages.xml', 'packages.xml');
