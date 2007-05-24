@@ -295,8 +295,8 @@ class pear_rest
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
         // remove all package/release info for this package
-        System::rm(array('-r', $pdir . DIRECTORY_SEPARATOR . $package));
-        System::rm(array('-r', $rdir . DIRECTORY_SEPARATOR . $package));
+        System::rm(array('-r', $pdir . DIRECTORY_SEPARATOR . strtolower($package)));
+        System::rm(array('-r', $rdir . DIRECTORY_SEPARATOR . strtolower($package)));
     }
 
     function _getAllReleasesRESTProlog($package)
