@@ -30,7 +30,9 @@
  */
 class Damblan_Karma
 {
-    var $_dbh;
+    private $_dbh;
+    private $_logger;
+    private $_observer;
 
     /**
      * Constructor
@@ -38,9 +40,11 @@ class Damblan_Karma
      * @access public
      * @param  object Instance of PEAR::DB
      */
-    function Damblan_Karma(&$dbh)
+    function Damblan_Karma($dbh, $logger = null, $observer = null)
     {
         $this->_dbh = $dbh;
+        $this->_logger = $logger;
+        $this->_observer = $observer;
     }
 
     /**
@@ -119,7 +123,9 @@ class Damblan_Karma
     {
         global $auth_user;
 
-        $this->_requireKarma();
+        if (!$this->_requireKarma()) {
+            return false;
+        }
 
         // Abort if the karma level has already been granted to the user
         if ($this->has($user, $level)) {
@@ -129,6 +135,9 @@ class Damblan_Karma
         }
 
         $id = $this->_dbh->nextId("karma");
+        if (DB::isError($id)) {
+            return false;
+        }
 
         $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
         $sth = $this->_dbh->query($query, array($id, $user, $level, $auth_user->handle));
@@ -153,7 +162,9 @@ class Damblan_Karma
     {
         global $auth_user;
 
-        $this->_requireKarma();
+        if (!$this->_requireKarma()) {
+            return false;
+        }
 
         $query = "DELETE FROM karma WHERE user = ? AND level = ?";
         $sth = $this->_dbh->query($query, array($user, $level));
@@ -241,20 +252,20 @@ class Damblan_Karma
 
         static $logger, $observer;
 
-        if (!isset($logger)) {
-            $logger = new Damblan_Log;
+        if (!$this->_logger) {
+            $this->_logger = new Damblan_Log;
         }
-        if (!DEVBOX && !isset($observer)) {
-            $observer = new Damblan_Log_Mail;
-            $observer->setRecipients("pear-group@php.net");
-            $observer->setHeader("From", "\"PEAR Karma Manager\" <pear-sys@php.net>");
-            $observer->setHeader("Reply-To", "<pear-group@php.net>");
-            $observer->setHeader("Subject", "[PEAR Group] Karma update");
-            $logger->attach($observer);
+        if (!DEVBOX && !$this->_observer) {
+            $this->_observer = new Damblan_Log_Mail;
+            $this->_observer->setRecipients("pear-group@php.net");
+            $this->_observer->setHeader("From", "\"PEAR Karma Manager\" <pear-sys@php.net>");
+            $this->_observer->setHeader("Reply-To", "<pear-group@php.net>");
+            $this->_observer->setHeader("Subject", "[PEAR Group] Karma update");
+            $this->_logger->attach($this->_observer);
         }
 
         $text = $admin_user . ' has updated karma for ' . $user . ': ' . $action;
-        $logger->log($text);
+        $this->_logger->log($text);
     }
 }
 ?>
