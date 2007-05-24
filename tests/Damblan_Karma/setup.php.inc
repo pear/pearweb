@@ -8,6 +8,25 @@ $_ENV['PEAR_DATABASE_DSN'] = 'mock://pear:pear@localhost/pear';
 $_SERVER['SERVER_NAME'] = 'localhost';
 require_once 'pear-prepend.php';
 require_once 'Damblan/Karma.php';
+require_once 'Log.php';
+require_once 'Log/observer.php';
+
+class Damblan_TestLog extends Log
+{
+    function log($message, $priority = null)
+    {
+        $this->_announce(array('priority' => $priority, 'message' => $message));
+    }
+}
+
+class MockObserver extends Log_Observer
+{
+    public $events = array();
+    function notify($event)
+    {
+        $this->events[] = $event;
+    }
+}
 
 $options = array(
     'persistent' => false,
@@ -16,7 +35,13 @@ $options = array(
 $dbh = DB::connect(PEAR_DATABASE_DSN, $options);
 $mock = new mockDB_core;
 $dbh->setMock($mock);
-$karma = new Damblan_Karma($dbh);
+$t = new Damblan_TestLog('', '', array(), PEAR_LOG_DEBUG);
+$o = new MockObserver;
+$t->attach($o);
+// fake auth_user
+$auth_user = new stdClass;
+$auth_user->handle = 'cellog';
+$karma = new Damblan_Karma($dbh, $t, $o);
 require dirname(dirname(__FILE__)) . '/phpt_test.php5.inc';
 $phpunit = new PEAR_PHPTest;
 
