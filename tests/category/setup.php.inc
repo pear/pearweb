@@ -4,6 +4,7 @@ set_include_path(dirname(dirname(dirname(__FILE__))) . '/include' . PATH_SEPARAT
     get_include_path());
 require_once 'DB.php';
 $_ENV['PEAR_DATABASE_DSN'] = 'mock://pear:pear@localhost/pear';
+$_SERVER['SERVER_NAME'] = 'localhost';
 require_once 'pear-prepend.php';
 $pear_rest = new pear_rest($restdir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rest');
 

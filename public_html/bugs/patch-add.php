@@ -102,7 +102,7 @@ if (isset($_POST['addpatch'])) {
             $bug = $buginfo['id'];
             PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
             $e = $patchinfo->attach($bug, 'patch', $_POST['name'],
-                '#' . substr($salt, 0, 20), $_POST['obsoleted']);
+                '#' . substr($salt, 0, 19), $_POST['obsoleted']);
             PEAR::popErrorHandling();
             if (PEAR::isError($e)) {
                 $buggie->deleteRequest();

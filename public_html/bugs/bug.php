@@ -318,7 +318,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
                     }
                 }
                 $_POST['in']['handle'] =
-                $_POST['in']['name'] = substr('#' . $salt, 0, 20);
+                $_POST['in']['name'] = substr('#' . $salt, 0, 19);
             } else {
                 $_POST['in']['commentemail'] = $auth_user->email;
                 $_POST['in']['handle'] = $auth_user->handle;

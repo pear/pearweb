@@ -42,6 +42,16 @@ if (!empty($_GET['search_for']) &&
     exit;
 }
 
+$newrequest = $_REQUEST;
+if (isset($newrequest['PEAR_USER'])) {
+    unset($newrequest['PEAR_USER']);
+}
+if (isset($newrequest['PEAR_PW'])) {
+    unset($newrequest['PEAR_PW']);
+}
+if (isset($newrequest['PHPSESSID'])) {
+    unset($newrequest['PHPSESSID']);
+}
 response_header('Bugs :: Search', false, ' <link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://' .
     htmlspecialchars($_SERVER['HTTP_HOST']) . '/bugs/rss/search.php?' . http_build_query($_REQUEST) . '" />
 ');

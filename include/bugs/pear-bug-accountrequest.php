@@ -64,9 +64,11 @@ class PEAR_Bug_Accountrequest
         $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
         $additionalHeaders['To'] = $email;
         PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
-        $e = $mailer->send($additionalHeaders);
+        if (!DEVBOX) {
+            $e = $mailer->send($additionalHeaders);
+        }
         PEAR::popErrorHandling();
-        if (PEAR::isError($e)) {
+        if (!DEVBOX && PEAR::isError($e)) {
             throw new Exception('Cannot send confirmation email: ' . $e->getMessage());
         }
         return true;
@@ -107,7 +109,7 @@ class PEAR_Bug_Accountrequest
     function addRequest($email)
     {
         $salt = $this->_makeSalt($email);
-        $handle = '#' . substr($salt, 0, 20);
+        $handle = '#' . substr($salt, 0, 19);
         $created_on = gmdate('Y-m-d H:i:s');
 
         $test = $this->dbh->getOne('SELECT email from users where email=?', array($email));
