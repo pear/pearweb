@@ -245,7 +245,8 @@ class PEAR_Voter
     function pendingElection($id)
     {
         $info = $this->electionInfo($id);
-        if (strtotime($info['votestart']) - time() > 0) {
+        if (strtotime($info['votestart']) - time() > 0 &&
+              time() - strtotime($info['voteend']) > 0) {
             // election is not active
             return true;
         }
