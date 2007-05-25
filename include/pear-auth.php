@@ -239,34 +239,6 @@ function auth_logout()
     }
 }
 
-$cvspasswd_file = "/repository/CVSROOT/passwd";
-
-function cvs_find_password($user)
-{
-    global $cvspasswd_file;
-    $fp = fopen($cvspasswd_file,"r");
-    while ($line = fgets($fp, 120)) {
-        list($luser, $passwd, $groups) = explode(":", $line);
-        if ($user == $luser) {
-            fclose($fp);
-            return $passwd;
-        }
-    }
-    fclose($fp);
-    return false;
-}
-
-function cvs_verify_password($user, $pass)
-{
-    $psw = cvs_find_password($user);
-    if (strlen($psw) > 0) {
-        if (crypt($pass,substr($psw,0,2)) == $psw) {
-            return true;
-        }
-    }
-    return false;
-}
-
 /*
 * setup the $auth_user object
 */
