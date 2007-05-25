@@ -102,7 +102,7 @@ if (isset($_POST['addpatch'])) {
             $bug = $buginfo['id'];
             PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
             $e = $patchinfo->attach($bug, 'patch', $_POST['name'],
-                '#' . substr($salt, 0, 19), $_POST['obsoleted']);
+                $buggie->handle, $_POST['obsoleted']);
             PEAR::popErrorHandling();
             if (PEAR::isError($e)) {
                 $buggie->deleteRequest();
@@ -124,15 +124,13 @@ if (isset($_POST['addpatch'])) {
                         '/templates/bugs/addpatch.php';
                 exit;
             }
-            if (!DEVBOX) {
-                try {
-                    $buggie->sendEmail();
-                } catch (Exception $e) {
-                    response_header('Error sending confirmation email');
-                    report_error(array('Patch was successfully attached, but account confirmation email not sent, please report to pear-core@lists.php.net', $e));
-                    response_footer();
-                    exit;
-                }
+            try {
+                $buggie->sendEmail();
+            } catch (Exception $e) {
+                response_header('Error sending confirmation email');
+                report_error(array('Patch was successfully attached, but account confirmation email not sent, please report to pear-core@lists.php.net', $e));
+                response_footer();
+                exit;
             }
             localRedirect('/bugs/patch-display.php?bug=' . $bug . '&patch=' .
                 urlencode($_POST['name']) . '&revision=' . $e);

@@ -12,23 +12,23 @@ class PEAR_Bug_Accountrequest
     {
         $this->dbh = &$GLOBALS['dbh'];
         if ($handle) {
-            $this->user = $handle;
+            $this->handle = $handle;
         } else {
-            $this->user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : false;
+            $this->handle = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : false;
         }
         $this->cleanOldRequests();
     }
 
     function pending()
     {
-        if (!$this->user) {
+        if (!$this->handle) {
             return false;
         }
         $request = $this->dbh->getOne('
             SELECT handle
             FROM bug_account_request
             WHERE handle=?
-        ', array($this->user));
+        ', array($this->handle));
 
         if ($request) {
             return true;
@@ -38,14 +38,14 @@ class PEAR_Bug_Accountrequest
 
     function sendEmail()
     {
-        if (!$this->user) {
+        if (!$this->handle) {
             throw new Exception('Internal fault: user was not set when sending email, please report to pear-core@lists.php.net');
         }
         $salt = $this->dbh->getOne('
             SELECT salt
             FROM bug_account_request
             WHERE handle=?
-        ', array($this->user));
+        ', array($this->handle));
         if (!$salt) {
             throw new Exception('No such handle found, cannot send confirmation email');
         }
@@ -95,7 +95,6 @@ class PEAR_Bug_Accountrequest
             foreach ($request as $field => $value) {
                 $this->$field = $value;
             }
-            $this->user = $this->handle;
             return true;
         }
         return false;
@@ -135,7 +134,8 @@ class PEAR_Bug_Accountrequest
             return $res;
         }
 
-        $this->user = $handle;
+        $this->handle = $this->dbh->getOne('SELECT handle FROM bug_account_request WHERE
+            salt=?', array($salt));
         return $salt;
     }
 

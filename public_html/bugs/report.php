@@ -223,7 +223,7 @@ if (isset($_POST['in'])) {
                     }
 
                     $_POST['in']['handle'] =
-                    $_POST['in']['reporter_name'] = substr('#' . $salt, 0, 19);
+                    $_POST['in']['reporter_name'] = $buggie->handle;
                     try {
                         $buggie->sendEmail();
                     } catch (Exception $e) {
