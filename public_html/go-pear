@@ -491,7 +491,7 @@ If you have a CLI (or CGI) php.exe available, we strongly recommand to use it.
         }
 
         if (!empty($tmp) ) {
-            $$var = $tmp;
+            $$var = parse_dirname($tmp);
         }
     } elseif ($tmp == 'all') {
         foreach ($config_vars as $n => $var) {
@@ -511,6 +511,7 @@ foreach ($config_vars as $n => $var) {
         $var2 = $config_vars[$m];
         $$var = str_replace('$'.$var2, $$var2, $$var);
     }
+    $$var = parse_dirname($$var);
 }
 
 
@@ -969,6 +970,44 @@ if (WINDOWS && !WEBINSTALLER) {
     win32CreateRegEnv();
 }
 // Set of functions following
+/**
+ * Parse the given dirname
+ * eg. expands '~' etc
+ *
+ * @param string $dir directory, from input
+ * @return string parsed directory
+ */
+function parse_dirname($dir)
+{
+    if (!isset($_ENV['HOME'])) {
+        if (strpos($dir, '~') === 0) {
+            if (WEBINSTALLER) {
+                die('<p><em>Can\'t use the \'~\' symbol for homedir substitution, write the directory out in full.</em></p>');
+            } else {
+                die('Can\'t use the \'~\' symbol for homedir substitution, write the directory out in full.');
+            }
+        }
+        return $dir;
+    }
+
+    $home_root = $_ENV['HOME'];
+    // first strip last slash, if available
+    if (substr($home_root, -1) == DIRECTORY_SEPARATOR) {
+        $home_root = substr($home_root, 0, -1);
+    }
+    if (strpos($dir, '~/') === 0) {
+        // eg ~/ = /home/tias/
+        $dir = substr_replace($dir, $home_root, 0, 1);
+    } elseif (strpos($dir, '~') === 0) {
+        // eg ~tias/ = /home/tias/
+        // then delete user-dir
+        $home_root = dirname($home_root) . DIRECTORY_SEPARATOR;
+        $dir = substr_replace($dir, $home_root, 0, 1);
+    }
+
+    return $dir;
+}
+
 
 // {{{ download_url()
 
