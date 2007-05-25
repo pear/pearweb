@@ -357,6 +357,10 @@ class PEAR_Auth
      */
     function makeLink()
     {
+        if (!isset($this->handle) || !isset($this->name)) {
+            throw new Exception('Programmer error: please report to pear-dev@lists.php.net.' .
+                ' $auth_user not initialized with data()');
+        }
         return '<a href="<"/user/"' . $this->handle . '/">' . htmlspecialchars($this->name)
             . '</a>';
     }
