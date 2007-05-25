@@ -4,60 +4,87 @@ user::info()
 <?php
 // setup
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-$mock->addDataQuery("SELECT * FROM users WHERE handle = 'dufuz' AND registered = 0",
-    array(array(
-        'handle'    => 'dufuz',
-        'firstname' => 'Helgi',
-        'lastname'  => 'Thormar',
-        'email'     => 'dufuz@php.net',
-        'purpose'   => 'do nifty tests',
-        'moreinfo'  => 'hippie',
-        'homepage'  => 'http://www.helgi.ws/',
-        'password'  => '5d8052a59cae407c50bf4056bc8c9014',
-    )),
-    array('handle', 'firstname', 'lastname', 'email', 'purpose', 'moreinfo', 'homepage', 'password')
-);
+$mock->addDataQuery("SELECT * FROM users WHERE registered = '0' AND handle = 'dufuz'", array (
+  0 => 
+  array (
+    'handle' => 'dufuz',
+    'password' => 'as if!',
+    'name' => 'Helgi Thormar',
+    'email' => 'dufuz@php.net',
+    'homepage' => 'http://www.helgi.ws',
+    'created' => '2002-11-22 16:16:00',
+    'createdby' => 'richard',
+    'lastlogin' => NULL,
+    'showemail' => '0',
+    'registered' => '0',
+    'admin' => '0',
+    'userinfo' => '',
+    'pgpkeyid' => '1F81E560',
+    'pgpkey' => NULL,
+    'wishlist' => NULL,
+    'longitude' => '-96.6831931472',
+    'latitude' => '40.7818087725',
+    'active' => '1',
+  ),
+), array('handle', 'password', 'name', 'email', 'homepage', 'created',
+    'createdby', 'lastlogin', 'showemail', 'registered', 'admin', 'userinfo',
+    'pgpkeyid', 'pgpkey', 'wishlist', 'longitude', 'latitude', 'active'));
 
-$mock->addDataQuery("SELECT * FROM users WHERE handle = 'dufuz' AND registered = '0'",
-    array(array(
-        'handle'    => 'dufuz',
-        'firstname' => 'Helgi',
-        'lastname'  => 'Thormar',
-        'email'     => 'dufuz@php.net',
-        'purpose'   => 'do nifty tests',
-        'moreinfo'  => 'hippie',
-        'homepage'  => 'http://www.helgi.ws/',
-        'password'  => '5d8052a59cae407c50bf4056bc8c9014',
-    )),
-    array('handle', 'firstname', 'lastname', 'email', 'purpose', 'moreinfo', 'homepage', 'password')
-);
-
-$mock->addDataQuery("SELECT email FROM users WHERE handle = 'dufuz' AND registered = '0'",
+$mock->addDataQuery("SELECT email FROM users WHERE handle = 'dufuz'",
     array(array('email' => 'dufuz@php.net')),
     array('email')
 );
 
-$mock->addDataQuery("SELECT * FROM users WHERE handle = 'dufuz' AND registered = '1'",
+$mock->addDataQuery("SELECT * FROM users WHERE registered = '1' AND handle = 'dufuz'",
     array(),
-    array()
+    array('handle', 'password', 'name', 'email', 'homepage', 'created',
+    'createdby', 'lastlogin', 'showemail', 'registered', 'admin', 'userinfo',
+    'pgpkeyid', 'pgpkey', 'wishlist', 'longitude', 'latitude', 'active')
 );
 
 // test
-$data = array(
-    'handle'    => 'dufuz',
-    'firstname' => 'Helgi',
-    'lastname'  => 'Thormar',
-    'email'     => 'dufuz@php.net',
-    'purpose'   => 'do nifty tests',
-    'moreinfo'  => 'hippie',
-    'homepage'  => 'http://www.helgi.ws/',
-);
 $user = user::info('dufuz', null, false);
-$phpunit->assertEquals($data, $user, 'test 1');
+$phpunit->assertEquals(array (
+    'handle' => 'dufuz',
+    'name' => 'Helgi Thormar',
+    'email' => 'dufuz@php.net',
+    'homepage' => 'http://www.helgi.ws',
+    'created' => '2002-11-22 16:16:00',
+    'createdby' => 'richard',
+    'lastlogin' => '',
+    'showemail' => '0',
+    'registered' => '0',
+    'admin' => '0',
+    'userinfo' => '',
+    'pgpkeyid' => '1F81E560',
+    'pgpkey' => '',
+    'wishlist' => '',
+    'longitude' => '-96.6831931472',
+    'latitude' => '40.7818087725',
+    'active' => '1',
+  ), $user, 'test 1');
 
 $user = user::info('dufuz', null, false, false);
-$data['password'] = '5d8052a59cae407c50bf4056bc8c9014';
-$phpunit->assertEquals($data, $user, 'test 2');
+$phpunit->assertEquals(array (
+    'handle' => 'dufuz',
+    'password' => 'as if!',
+    'name' => 'Helgi Thormar',
+    'email' => 'dufuz@php.net',
+    'homepage' => 'http://www.helgi.ws',
+    'created' => '2002-11-22 16:16:00',
+    'createdby' => 'richard',
+    'lastlogin' => '',
+    'showemail' => '0',
+    'registered' => '0',
+    'admin' => '0',
+    'userinfo' => '',
+    'pgpkeyid' => '1F81E560',
+    'pgpkey' => '',
+    'wishlist' => '',
+    'longitude' => '-96.6831931472',
+    'latitude' => '40.7818087725',
+    'active' => '1',
+  ), $user, 'test 2');
 
 $user = user::info('dufuz', 'password', false);
 $phpunit->assertEquals(null, $user, 'password fetching');
