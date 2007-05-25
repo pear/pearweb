@@ -361,7 +361,7 @@ class PEAR_Auth
             throw new Exception('Programmer error: please report to pear-dev@lists.php.net.' .
                 ' $auth_user not initialized with data()');
         }
-        return '<a href="<"/user/"' . $this->handle . '/">' . htmlspecialchars($this->name)
+        return '<a href="/user/' . $this->handle . '/">' . htmlspecialchars($this->name)
             . '</a>';
     }
 }
