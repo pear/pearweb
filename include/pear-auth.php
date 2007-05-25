@@ -323,8 +323,10 @@ class PEAR_Auth
 
         if (isset($auth_user) && $auth_user) {
             $ret = strtolower($auth_user->handle);
-        } else {
+        } elseif (isset($this->handle)) {
             $ret = strtolower($this->handle);
+        } else {
+            return false;
         }
         return (strtolower($handle) == $ret);
     }
