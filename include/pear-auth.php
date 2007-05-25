@@ -333,11 +333,13 @@ class PEAR_Auth
 
     function isAdmin()
     {
+        require_once 'pear-database-user.php';
         return (user::isAdmin($this->handle));
     }
 
     function isQA()
     {
+        require_once 'pear-database-user.php';
         return user::isQA($this->handle);
     }
 
