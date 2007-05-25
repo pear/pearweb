@@ -303,19 +303,17 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
                     break;
                 }
 
-                if (!DEVBOX) {
-                    try {
-                        $buggie->sendEmail();
-                    } catch (Exception $e) {
-                        $errors[] = 'Critical internal error: could not send' .
-                            ' email to your address ' . $_POST['in']['email'] .
-                            ', please write a mail message to the <i>pear-dev</i>' .
-                            'mailing list and report this problem with details.' .
-                            '  We apologize for the problem, your report will help' .
-                            ' us to fix it for future users: ' . $e->getMessage();
-                        response_header('Add Comment - Problems');
-                        break;
-                    }
+                try {
+                    $buggie->sendEmail();
+                } catch (Exception $e) {
+                    $errors[] = 'Critical internal error: could not send' .
+                        ' email to your address ' . $_POST['in']['email'] .
+                        ', please write a mail message to the <i>pear-dev</i>' .
+                        'mailing list and report this problem with details.' .
+                        '  We apologize for the problem, your report will help' .
+                        ' us to fix it for future users: ' . $e->getMessage();
+                    response_header('Add Comment - Problems');
+                    break;
                 }
                 $_POST['in']['handle'] =
                 $_POST['in']['name'] = substr('#' . $salt, 0, 19);
