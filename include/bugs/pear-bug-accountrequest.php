@@ -47,7 +47,8 @@ class PEAR_Bug_Accountrequest
             WHERE handle=?
         ', array($this->handle));
         if (!$salt) {
-            throw new Exception('No such handle found, cannot send confirmation email');
+            throw new Exception('No such handle ' . 
+            $this->handle . ' found, cannot send confirmation email');
         }
         $email = $this->dbh->getOne('
             SELECT email
