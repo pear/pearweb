@@ -4,7 +4,7 @@ user::info()
 <?php
 // setup
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-$mock->addDataQuery("SELECT * FROM users WHERE registered = '0' AND handle = 'dufuz'", array (
+$mock->addDataQuery("SELECT * FROM users WHERE handle = 'dufuz' AND registered = '0'", array (
   0 => 
   array (
     'handle' => 'dufuz',
@@ -30,12 +30,12 @@ $mock->addDataQuery("SELECT * FROM users WHERE registered = '0' AND handle = 'du
     'createdby', 'lastlogin', 'showemail', 'registered', 'admin', 'userinfo',
     'pgpkeyid', 'pgpkey', 'wishlist', 'longitude', 'latitude', 'active'));
 
-$mock->addDataQuery("SELECT email FROM users WHERE handle = 'dufuz'",
+$mock->addDataQuery("SELECT email FROM users WHERE handle = 'dufuz' AND registered = '0'",
     array(array('email' => 'dufuz@php.net')),
     array('email')
 );
 
-$mock->addDataQuery("SELECT * FROM users WHERE registered = '1' AND handle = 'dufuz'",
+$mock->addDataQuery("SELECT * FROM users WHERE handle = 'dufuz' AND registered = '1'",
     array(),
     array('handle', 'password', 'name', 'email', 'homepage', 'created',
     'createdby', 'lastlogin', 'showemail', 'registered', 'admin', 'userinfo',
@@ -87,13 +87,13 @@ $phpunit->assertEquals(array (
   ), $user, 'test 2');
 
 $user = user::info('dufuz', 'password', false);
-$phpunit->assertEquals(null, $user, 'password fetching');
+$phpunit->assertNull($user, 'password fetching');
 
 $user = user::info('dufuz', 'email', false);
 $phpunit->assertEquals(array('email' => 'dufuz@php.net'), $user, 'field fetching');
 
 $info = user::info('dufuz', null, true);
-$phpunit->assertEquals(null, $info, 'test 3');
+$phpunit->assertNull($info, 'test 3');
 
 ?>
 ===DONE===

@@ -59,7 +59,7 @@ $phpunit->assertEquals(true, $id, 'id');
 
 // Test for validation issues
 $data = array(
-    'firstname' => '�',
+    'firstname' => '12',
     'lastname'  => 'h',
     'handle'    => '1337',
     'password'  => '1',

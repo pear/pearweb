@@ -59,17 +59,12 @@ active = 1 WHERE handle = 'dufuz'",
     'pgpkeyid', 'pgpkey', 'wishlist', 'longitude', 'latitude', 'active')
           )), 1);
 
-$mock->addDataQuery("SELECT homepage FROM users WHERE handle = 'dufuz'",
+$mock->addDataQuery("SELECT homepage FROM users WHERE handle = 'dufuz' AND registered = '0'",
     array(array('homepage' => 'http://pear.php.net/')),
     array('homepage')
 );
 
-$mock->addInsertQuery("UPDATE users SET 
-homepage = 'http://pear.php.net/',
-active = 1,
-registered = 1 WHERE handle = 'dufuz'", array(), 1);
-
-$mock->addDataQuery("SELECT * FROM users WHERE registered = '1' AND handle = 'dufuz'",
+$mock->addDataQuery("SELECT * FROM users WHERE handle = 'dufuz' AND registered = '1'",
         array(array (
     'handle' => 'dufuz',
     'password' => 'as if!',
@@ -95,6 +90,11 @@ $mock->addDataQuery("SELECT * FROM users WHERE registered = '1' AND handle = 'du
     'pgpkeyid', 'pgpkey', 'wishlist', 'longitude', 'latitude', 'active')
 );
 
+$mock->addInsertQuery("UPDATE users SET 
+homepage = 'http://pear.php.net/',
+active = 1,
+registered = 1 WHERE handle = 'dufuz'", array(), 1);
+
 // ============= test =============
 $data = array(
     'handle'   => 'dufuz',
@@ -102,14 +102,14 @@ $data = array(
     'active'   => true,
 );
 $res = user::update($data);
-$phpunit->assertEquals(true, $res, 'test 1');
+$phpunit->assertTrue($res, 'test 1');
 
 $info = user::info('dufuz', 'homepage', false);
 $phpunit->assertEquals(array('homepage' => 'http://pear.php.net/'), $info, 'test 2');
 
 $data['registered'] = true;
 $res = user::update($data, true);
-$phpunit->assertEquals(true, $res, 'test 3');
+$phpunit->assertTrue($res, 'test 3');
 
 $info = user::info('dufuz');
 $phpunit->assertEquals('1', $info['registered'], 'test 4');
@@ -119,13 +119,13 @@ $phpunit->assertEquals(array (
   1 => 'UPDATE users SET 
 homepage = \'http://pear.php.net/\',
 active = 1 WHERE handle = \'dufuz\'',
-  2 => 'SELECT homepage FROM users WHERE handle = \'dufuz\'',
+  2 => 'SELECT homepage FROM users WHERE handle = \'dufuz\' AND registered = \'0\'',
   3 => 'SELECT * FROM users WHERE handle = \'dufuz\'',
   4 => 'UPDATE users SET 
 homepage = \'http://pear.php.net/\',
 active = 1,
 registered = 1 WHERE handle = \'dufuz\'',
-  5 => 'SELECT * FROM users WHERE registered = \'1\' AND handle = \'dufuz\'',
+  5 => 'SELECT * FROM users WHERE handle = \'dufuz\' AND registered = \'1\'',
 ), $mock->queries, 'queries');
 ?>
 ===DONE===
