@@ -174,14 +174,15 @@ class user
         $handle = strpos($user, '@') ? 'email' : 'handle';
 
         if ($field === null) {
-            if ($registered === 'any') {
-                $row = $dbh->getRow('SELECT * FROM users WHERE ' . $handle . ' = ?',
-                                    array($user), DB_FETCHMODE_ASSOC);
-            } else {
-                $registered = $registered === true ? '1' : '0';
-                $row = $dbh->getRow('SELECT * FROM users WHERE registered = ? AND ' . $handle . ' = ?',
-                                    array($registered, $user), DB_FETCHMODE_ASSOC);
+            $sql  = 'SELECT * FROM users WHERE ' . $handle . ' = ?';
+            $data = array($user);
+            if ($registered !== 'any') {
+                $sql.= ' AND registered = ?';
+                $data[] = $registered === true ? '1' : '0';
             }
+
+            $row = $dbh->getRow($sql, $data, DB_FETCHMODE_ASSOC);
+
             if ($hidePassword) {
                 unset($row['password']);
             }
@@ -192,9 +193,14 @@ class user
             return null;
         }
 
-        return $dbh->getRow('SELECT ! FROM users WHERE handle = ?',
-                            array($field, $user), DB_FETCHMODE_ASSOC);
+        $sql = 'SELECT ! FROM users WHERE handle = ?';
+        $data = array($field, $user);
+        if ($registered !== 'any') {
+            $sql.= ' AND registered = ?';
+            $data[] = $registered === true ? '1' : '0';
+        }
 
+        return $dbh->getRow($sql, $data, DB_FETCHMODE_ASSOC);
     }
 
     // }}}
@@ -233,11 +239,6 @@ class user
      *
      * During most of this method's operation, PEAR's error handling
      * is set to PEAR_ERROR_RETURN.
-     *
-     * But, during the DB_storage::set() phase error handling is set to
-     * PEAR_ERROR_CALLBACK the report_warning() function.  So, if an
-     * error happens a warning message is printed AND the incomplete
-     * user information is removed.
      *
      * @param array   $data  Information about the user
      * @param boolean $md5ed true if the password has been hashed already
@@ -405,6 +406,10 @@ class user
     {
         global $dbh;
 
+        if (!isset($data['handle'])) {
+            return false;
+        }
+
         $fields = array(
             'name',
             'email',
@@ -419,7 +424,9 @@ class user
             'password',
         );
 
-        if ($admin) $fields[] = 'registered';
+        if ($admin) {
+            $fields[] = 'registered';
+        }
         $info = user::info($data['handle'], null, 'any');
         // In case a active value isn't passed in
         $active = isset($info['active']) ? $info['active'] : true;
