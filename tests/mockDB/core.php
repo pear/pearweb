@@ -156,6 +156,7 @@ class mockDB_core
                         $this->_queryMap[$query]['code']);
                 case 'ok' :
                     reset($this->_queryMap[$query]['rows']);
+                    $this->affectedRows = 0;
                     return $this->_queryMap[$query]['rows'];
                 case 'change' :
                     foreach ($this->_queryMap[$query]['modqueries'] as $q => $new) {

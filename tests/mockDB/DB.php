@@ -457,11 +457,7 @@ class DB_mock extends DB_common
      */
     function affectedRows()
     {
-        if ($this->_last_query_manip) {
-            return $this->_mock->affectedRows;
-        } else {
-            return 0;
-        }
+        return $this->_mock->affectedRows;
      }
 
     // }}}
