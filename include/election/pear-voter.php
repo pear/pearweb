@@ -272,16 +272,10 @@ class PEAR_Voter
             if ($this->damblan->has($this->user, 'pear.dev')) {
                 return true;
             }
-            if ($this->damblan->has($this->user, 'pear.admin')) {
-                return true;
-            }
             return false;
         } elseif ($info['eligiblevoters'] == 2) {
             // general PHP public + PEAR developers
             if ($this->damblan->has($this->user, 'pear.dev')) {
-                return true;
-            }
-            if ($this->damblan->has($this->user, 'pear.admin')) {
                 return true;
             }
             if ($this->damblan->has($this->user, 'pear.voter')) {
