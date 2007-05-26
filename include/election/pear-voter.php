@@ -263,7 +263,7 @@ class PEAR_Voter
             // election is not active
             return false;
         }
-        if (strtotime($info['voteend']) - time() < 0) {
+        if (strtotime($info['voteend'] . '+1 day') - time() < 0) {
             // election is finished
             return false;
         }
