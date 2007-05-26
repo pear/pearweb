@@ -46,5 +46,5 @@ CREATE TABLE package_proposals (
   user_handle varchar(255) NOT NULL default '',
   markup enum('bbcode','wiki') NOT NULL default 'bbcode',
   PRIMARY KEY  (id),
-  UNIQUE KEY cat_name (pkg_category,pkg_name)
+  INDEX cat_name (pkg_category,pkg_name)
 );

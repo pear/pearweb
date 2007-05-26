@@ -46,7 +46,7 @@ function display_pepr_nav(&$proposal)
     /* There is no point to have a pepr navigation bar for
        a new proposal
      */
-    if ($proposal == null) {
+    if ($proposal == null || isset($_GET['old'])) {
         $id = 0;
         return;
     } else {
@@ -76,6 +76,14 @@ function display_pepr_nav(&$proposal)
         $items['Delete'] = array(
             'url'   => 'pepr-proposal-delete.php?id=' . $id,
             'title' => 'Delete this proposal'
+        );
+    }
+    if ($proposal != null && isset($auth_user) && $auth_user &&
+          !strpos($_SERVER['REQUEST_URI'], 'edit') &&
+          $proposal->mayRepropose($auth_user->handle)) {
+        $items['Re-propose (Start Over)'] = array(
+            'url'   => 'pepr-proposal-edit.php?old=' . $id,
+            'title' => 'Re-propose this proposal (start over)',
         );
     }
 
@@ -207,6 +215,28 @@ Proposer:                '.user_link($this->user_handle).'<br />
         return $description;
     }
 
+    function fromOld($id)
+    {
+        global $dbh;
+        if ($id === null) {
+            return null;
+        }
+        if (!is_numeric($id)) {
+            return new proposal(array());
+        }
+        $id  = (int)$id;
+        $sql = "SELECT pkg_name, pkg_category, pkg_license, pkg_describtion, pkg_deps
+                 FROM package_proposals WHERE id = ".$id;
+        $res =& $dbh->getRow($sql, null, DB_FETCHMODE_ASSOC);
+        if (DB::isError($res)) {
+            return new proposal(array());
+        }
+        if (!$res) {
+            return new proposal(array());
+        }
+        return new proposal($res);
+    }
+
     /**
      * Look up proposal information based on the proposal ID number
      *
@@ -219,7 +249,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
      *
      * @access public
      */
-    function &get(&$dbh, $id)
+    function get(&$dbh, $id)
     {
         if (!is_numeric($id)) {
             $res = false;
@@ -332,9 +362,57 @@ Proposer:                '.user_link($this->user_handle).'<br />
         return true;
     }
 
+    function mayRePropose($handle, $checkid = false)
+    {
+        global $dbh;
+        if (!$this->id) {
+            $this->id = 0;
+        }
+        if ($handle != $this->user_handle) {
+            return false;
+        }
+        if ($checkid) {
+            $test = $dbh->getOne('SELECT id FROM package_proposals WHERE pkg_category = ?
+                AND pkg_name = ? AND user_handle = ? AND id <> ?', array($this->pkg_category,
+                $this->pkg_name, $this->user_handle, $this->id));
+            $next = $dbh->getAll('SELECT id, status FROM package_proposals WHERE pkg_category = ?
+                    AND pkg_name = ? AND user_handle = ? AND id <> ?', array($this->pkg_category,
+                    $this->pkg_name, $this->user_handle, $this->id));
+        } else {
+            $test = $dbh->getOne('SELECT id FROM package_proposals WHERE pkg_category = ?
+                AND pkg_name = ? AND user_handle = ?', array($this->pkg_category,
+                $this->pkg_name, $this->user_handle));
+            $next = $dbh->getAll('SELECT id, status FROM package_proposals WHERE pkg_category = ?
+                    AND pkg_name = ? AND user_handle = ?', array($this->pkg_category,
+                    $this->pkg_name, $this->user_handle));
+        }
+        if ($test) {
+            foreach ($next as $p) {
+                if ($p[1] != 'finished') {
+                    return false;
+                }
+                $votes = ppVote::getSum($dbh, $p[0]);
+                if ($votes['all'] > 5) {
+                    // proposal was accepted, can't repropose
+                    return false;
+                }
+            }
+            return true;
+        }
+        return true;
+    }
+
     function store($dbh)
     {
         if (isset($this->id)) {
+            $inf = $dbh->getAll('SELECT pkg_name, pkg_category FROM package_proposals
+                WHERE id = ?', array($this->id));
+            if ($inf[0] != $this->pkg_name || $inf[1] != $this->pkg_category) {
+                if (!$this->mayRePropose($this->user_handle, true)) {
+                    return PEAR::raiseError('A proposal with that Category -'
+                            . ' Name combination already exists.');
+                }
+            }
             $sql = "UPDATE package_proposals SET
                     pkg_category = ".$dbh->quoteSmart($this->pkg_category).",
                     pkg_name = ".$dbh->quoteSmart($this->pkg_name).",
@@ -354,7 +432,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
             $dbh->popErrorHandling();
             if (DB::isError($res)) {
                 if ($res->getCode() == DB_ERROR_CONSTRAINT) {
-                    return PEAR::raiseError('A proposal with that Catetory -'
+                    return PEAR::raiseError('A proposal with that Category -'
                             . ' Name combination already exists.',
                             $res->getCode(), null, null, $res->getUserInfo());
                 } else {
@@ -364,6 +442,17 @@ Proposer:                '.user_link($this->user_handle).'<br />
                 }
             }
         } else {
+            if ($dbh->getOne('SELECT id FROM package_proposals WHERE pkg_category = ?
+                    AND pkg_name = ? AND user_handle <> ?', array($this->pkg_category,
+                    $this->pkg_name, $this->user_handle))) {
+                return PEAR::raiseError('A proposal with that Category -'
+                        . ' Name combination already exists.');
+            }
+            if (!$this->mayRePropose($this->user_handle)) {
+                // proposal was accepted, can't repropose
+                return PEAR::raiseError('A non-rejected proposal with that Category -'
+                        . ' Name combination already exists.');
+            }
             $sql = "INSERT INTO package_proposals (pkg_category, pkg_name, pkg_license, pkg_describtion,
                         pkg_deps, draft_date, status, user_handle, markup) VALUES (
                         ".$dbh->quoteSmart($this->pkg_category).",
@@ -766,8 +855,12 @@ Proposer:                '.user_link($this->user_handle).'<br />
             $headers .= "In-Reply-To: <proposal-" . $this->id . "@pear.php.net>\n";
         }
 
-        $res = mail($email['to'], $email['subject'], $email['text'],
-                    $headers, '-f bounce-no-user@php.net');
+        if (!DEVBOX) {
+            $res = mail($email['to'], $email['subject'], $email['text'],
+                        $headers, '-f bounce-no-user@php.net');
+        } else {
+            $res = true;
+        }
         if (!$res) {
             return PEAR::raiseError('Could not send notification email.');
         }

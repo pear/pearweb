@@ -35,7 +35,7 @@ $karma =& new Damblan_Karma($dbh);
 
 ob_start();
 
-if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
+if ($proposal = proposal::get($dbh, @$_GET['id'])) {
     response_header('PEPr :: Editor :: '
                     . htmlspecialchars($proposal->pkg_name));
     echo '<h1>Proposal Editor for &quot;' . htmlspecialchars($proposal->pkg_name);
@@ -64,6 +64,7 @@ if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
     $proposal->getLinks($dbh);
     $id = $proposal->id;
 } else {
+    $proposal = proposal::fromOld(isset($_GET['old']) ? $_GET['old'] : null);
     response_header('PEPr :: Editor :: New Proposal');
     echo '<h1>New Package Proposal</h1>' . "\n";
 ?>
@@ -75,7 +76,6 @@ if ($proposal =& proposal::get($dbh, @$_GET['id'])) {
  Standards</a>.
 </p>
 <?php    $id = 0;
-    $proposal = null;
 }
 
 ?>
@@ -163,7 +163,7 @@ $form->addGroup($helpLinks, 'markup_help', '', ' ');
 $form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '80'));
 $form->addElement('static', '', '', 'List seperated by linefeeds.');
 
-if (null != $proposal && (false === strpos($proposal->pkg_category, 'RFC'))) {
+if (null != $proposal && !isset($_GET['old']) && (false === strpos($proposal->pkg_category, 'RFC'))) {
     $form->addElement('static', '', '', '<small>' . (('draft' == $proposal->status)? 'The first two links are required for a change of status.<br />': '') . 'The first link must be of type &lt;PEAR package file&gt;.</small>');
 }
 
@@ -228,14 +228,16 @@ if ($proposal != null) {
             break;
     }
 
-    $timeline = $proposal->checkTimeLine();
-    if (($timeline === true) || ($karma->has($auth_user->handle, 'pear.pepr.admin') && ($proposal->user_handle != $auth_user->handle))) {
-        $form->addElement('checkbox', 'next_stage', $next_stage_text);
-    } else {
-        $form->addElement('static', 'next_stage', '',
-                          'You can set &quot;' . @$next_stage_text
-                          . '&quot; after '
-                          . make_utc_date($timeline) . '.');
+    if (!isset($_GET['old']) ) {
+        $timeline = $proposal->checkTimeLine();
+        if (($timeline === true) || ($karma->has($auth_user->handle, 'pear.pepr.admin') && ($proposal->user_handle != $auth_user->handle))) {
+            $form->addElement('checkbox', 'next_stage', $next_stage_text);
+        } else {
+            $form->addElement('static', 'next_stage', '',
+                              'You can set &quot;' . @$next_stage_text
+                              . '&quot; after '
+                              . make_utc_date($timeline) . '.');
+        }
     }
 }
 

@@ -2817,7 +2817,6 @@
 
    <index>
     <name>cat_name</name>
-    <unique>true</unique>
     <field>
      <name>pkg_category</name>
      <sorting>ascending</sorting>
