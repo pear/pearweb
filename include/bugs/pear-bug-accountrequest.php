@@ -514,7 +514,6 @@ class PEAR_Bug_Accountrequest
 
         $additionalHeaders['To'] = Damblan_Bugs::getMaintainers($patch['package_name']);
         $mailer = Damblan_Mailer::create('Patch_Added', $mailData);
-        print_r($mailer);
         $res = true;
         if (!DEVBOX) {
             $res = $mailer->send($additionalHeaders);
