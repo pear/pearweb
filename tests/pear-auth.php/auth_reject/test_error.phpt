@@ -1,17 +1,17 @@
 --TEST--
-auth_reject() [live server]
+auth_reject() [error message]
 --FILE--
 <?php
 // setup
-$_SERVER['SERVER_NAME'] = 'pear.php.net';
-$_SERVER['HTTP_HOST'] = 'pear.php.net';
+$_SERVER['SERVER_NAME'] = 'localhost';
+$_SERVER['HTTP_HOST'] = 'localhost';
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
 $_GET['redirect'] = null;
 $_POST['PEAR_OLDURL'] = null;
 $_SERVER['REQUEST_URI'] = null;
 $_SERVER['QUERY_STRING'] = '';
 $self = '';
-auth_reject();
+auth_reject(null, 'Hi there');
 ?>
 ===DONE===
 --EXPECTF--
@@ -22,7 +22,7 @@ auth_reject();
  <title>PEAR :: Login</title>
  <link rel="shortcut icon" href="/gifs/favicon.ico" />
  <link rel="stylesheet" href="/css/style.css" />
- <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://pear.php.net/feeds/latest.rss" />
+ <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://localhost/feeds/latest.rss" />
 </head>
 
 <body>
@@ -130,7 +130,7 @@ function doMD5(frm) {
     frm.isMD5.value = 1;
 }
 </script>
-<form onsubmit="javascript:doMD5(document.forms['login'])" name="login" action="https://pear.php.net/login.php" method="post">
+<form onsubmit="javascript:doMD5(document.forms['login'])" name="login" action="/login.php" method="post">
 <input type="hidden" name="isMD5" value="0" />
 <table class="form-holder" cellspacing="1">
  <tr>
@@ -181,7 +181,7 @@ function doMD5(frm) {
    <small>
     Last updated: %s %s %d %d:%d:%d %d UTC<br />
     Bandwidth and hardware provided by:
-    <a href="http://www.pair.com/">pair Networks</a>
+    <i>This is an unofficial mirror!</i>
    </small>
   </td>
  </tr>
