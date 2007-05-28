@@ -12,15 +12,9 @@ $_SERVER['REQUEST_URI'] = null;
 $_SERVER['QUERY_STRING'] = '';
 $self = '';
 auth_reject();
-__halt_compiler();
 ?>
 ===DONE===
 --EXPECTF--
---TEST--
-auth_reject() [redirect set like redirect[]=bad+hacker]
---FILE--
-<br />
-<b>Warning</b>:  Cannot modify header information - headers already sent by (output started at /home/cellog/workspace/pearweb/tests/site/pear-auth.php/auth_reject/test_redirect_bad.phpt:4) in <b>/home/cellog/workspace/pearweb/include/pear-format-html.php</b> on line <b>111</b><br />
 <?xml version="1.0" encoding="ISO-8859-15" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
