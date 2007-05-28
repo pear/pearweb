@@ -77,7 +77,7 @@ function auth_reject($realm = null, $message = null)
         print " </tr>\n";
         print "</table>\n";
         print '<input type="hidden" name="PEAR_OLDURL" value="';
-        if (isset($_GET['redirect'])) {
+        if (isset($_GET['redirect']) && is_string($_GET['redirect'])) {
             print htmlspecialchars(urldecode($_GET['redirect']));
         } elseif (isset($_POST['PEAR_OLDURL'])) {
             print htmlspecialchars($_POST['PEAR_OLDURL']);
