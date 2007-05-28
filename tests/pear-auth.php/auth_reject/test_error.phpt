@@ -11,7 +11,7 @@ $_POST['PEAR_OLDURL'] = null;
 $_SERVER['REQUEST_URI'] = null;
 $_SERVER['QUERY_STRING'] = '';
 $self = '';
-auth_reject(null, 'Hi there');
+auth_reject(null, 'Hi there <script>');
 ?>
 ===DONE===
 --EXPECTF--
@@ -121,7 +121,7 @@ auth_reject(null, 'Hi there');
 
   <td class="content">
 
-    <div class="errors">ERROR:<ul><li>Hi there</li>
+    <div class="errors">ERROR:<ul><li>Hi there &lt;script&gt;</li>
 </ul></div>
 <script type="text/javascript" src="/javascript/md5.js"></script>
 <script type="text/javascript">
