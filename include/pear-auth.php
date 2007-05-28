@@ -80,7 +80,8 @@ function auth_reject($realm = null, $message = null)
         if (isset($_GET['redirect']) && is_string($_GET['redirect']) &&
               !strpos($_GET['redirect'], '://')) {
             print htmlspecialchars(urldecode($_GET['redirect']));
-        } elseif (isset($_POST['PEAR_OLDURL']) && !strpos($_POST['PEAR_OLDURL'], '://')) {
+        } elseif (isset($_POST['PEAR_OLDURL']) && is_string($_POST['PEAR_OLDURL']) &&
+              !strpos($_POST['PEAR_OLDURL'], '://')) {
             print htmlspecialchars($_POST['PEAR_OLDURL']);
         } elseif (isset($_SERVER['REQUEST_URI'])) {
             print htmlspecialchars($_SERVER['REQUEST_URI']);
