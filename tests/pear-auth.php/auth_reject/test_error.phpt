@@ -121,7 +121,7 @@ auth_reject(null, 'Hi there');
 
   <td class="content">
 
-    <div class="errors">ERROR:<ul><li>Please enter your username and password:</li>
+    <div class="errors">ERROR:<ul><li>Hi there</li>
 </ul></div>
 <script type="text/javascript" src="/javascript/md5.js"></script>
 <script type="text/javascript">
