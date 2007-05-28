@@ -5,11 +5,11 @@ auth_verify()
 // setup
 $_ENV['PEAR_TMPDIR'] = dirname(__FILE__) . '/testmebaby';
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-$mock->addDataQuery("SELECT * FROM users WHERE registered = '1' AND handle = 'cellog'", array (
+$mock->addDataQuery("SELECT * FROM users WHERE handle = 'cellog' AND registered = '1'", array (
   0 => 
   array (
     'handle' => 'cellog',
-    'password' => 'as if!',
+    'password' => md5('as if!'),
     'name' => 'Greg Beaver',
     'email' => 'greg@chiaraquartet.net',
     'homepage' => 'http://greg.chiaraquartet.net',
@@ -31,8 +31,14 @@ $mock->addDataQuery("SELECT * FROM users WHERE registered = '1' AND handle = 'ce
     'createdby', 'lastlogin', 'showemail', 'registered', 'admin', 'userinfo',
     'pgpkeyid', 'pgpkey', 'wishlist', 'longitude', 'latitude', 'active'));
 
+$mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pear.user','pear.pepr','pear.dev','pear.admin','pear.group','pear.voter','pear.bug')", array(
+    array(
+        'id' => 1, 'user' => 'cellog', 'level' => 'pear.admin', 'granted_by' => 'cellog',
+        'granted_at' => '2007-05-28 17:16:00'
+    )
+), array('id', 'user', 'level', 'granted_by', 'granted_at'));
 $phpunit->assertFalse(array_key_exists('auth_user', $GLOBALS), 'setup');
-$phpunit->assertTrue(auth_verify('cellog', 'bar'), 'test');
+$phpunit->assertTrue(auth_verify('cellog', 'as if!'), 'test');
 $phpunit->assertTrue(array_key_exists('auth_user', $GLOBALS), 'auth_user set');
 ?>
 ===DONE===
