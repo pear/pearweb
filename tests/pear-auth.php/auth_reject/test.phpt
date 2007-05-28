@@ -3,8 +3,9 @@ auth_reject() [basic]
 --FILE--
 <?php
 // setup
-require dirname(dirname(__FILE__)) . '/setup.php.inc';
+$_SERVER['SERVER_NAME'] = 'localhost';
 $_SERVER['HTTP_HOST'] = 'localhost';
+require dirname(dirname(__FILE__)) . '/setup.php.inc';
 $_GET['redirect'] = null;
 $_POST['PEAR_OLDURL'] = null;
 $_SERVER['REQUEST_URI'] = null;

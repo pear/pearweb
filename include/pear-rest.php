@@ -310,6 +310,17 @@ class pear_rest
 ' <c>' . PEAR_CHANNELNAME . '</c>' . "\n";
     }
 
+    function _getAllReleases2RESTProlog($package)
+    {
+        return '<?xml version="1.0" encoding="UTF-8" ?>' . "\n" .
+'<a xmlns="http://pear.php.net/dtd/rest.allreleases2"' . "\n" .
+'    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink" ' .
+'    xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases2' . "\n" .
+'    http://pear.php.net/dtd/rest.allreleases2.xsd">' . "\n" .
+' <p>' . $package . '</p>' . "\n" .
+' <c>' . PEAR_CHANNELNAME . '</c>' . "\n";
+    }
+
     function saveAllReleasesREST($package)
     {
         require_once 'System.php';
@@ -324,6 +335,11 @@ class pear_rest
         if (PEAR::isError($releases)) {
             return $releases;
         }
+        $deps = $dbh->getAssoc('SELECT release, version FROM deps WHERE package = ? AND type="php" and relation="ge"', false,
+            array($pid));
+        if (PEAR::isError($deps)) {
+            return $releases;
+        }
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
         if (!is_dir($rdir)) {
             System::mkdir(array('-p', $rdir));
@@ -335,6 +351,7 @@ class pear_rest
             return;
         }
         $info = $this->_getAllReleasesRESTProlog($package);
+        $info2 = $this->_getAllReleases2RESTProlog($package);
         foreach ($releases as $release) {
             $packagexml = $dbh->getOne('SELECT packagexml FROM files WHERE package = ? AND
                 release = ?', array($pid, $release['id']));
@@ -385,8 +402,13 @@ class pear_rest
             $info .= ' <r><v>' . $release['version'] . '</v><s>' . $release['state'] . '</s>'
                  . $extra . '</r>
 ';
+            $phpdep = isset($deps[$release['id']]) ? $deps[$release['id']] : '4.0.0';
+            $info2 .= ' <r><v>' . $release['version'] . '</v><s>' . $release['state'] . '</s>'
+                 . '<m>' . $phpdep . '</m>' . $extra . '</r>
+';
         }
         $info .= '</a>';
+        $info2 .= '</a>';
         if (!is_dir($rdir . DIRECTORY_SEPARATOR . strtolower($package))) {
             System::mkdir(array('-p', $rdir . DIRECTORY_SEPARATOR . strtolower($package)));
             @chmod($rdir . DIRECTORY_SEPARATOR . strtolower($package), 0777);
@@ -395,6 +417,11 @@ class pear_rest
             DIRECTORY_SEPARATOR . 'allreleases.xml', $info);
         @chmod($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
             DIRECTORY_SEPARATOR . 'allreleases.xml', 0666);
+
+        file_put_contents($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+            DIRECTORY_SEPARATOR . 'allreleases2.xml', $info2);
+        @chmod($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
+            DIRECTORY_SEPARATOR . 'allreleases2.xml', 0666);
 
         file_put_contents($rdir . DIRECTORY_SEPARATOR . strtolower($package) .
             DIRECTORY_SEPARATOR . 'latest.txt', $latest);

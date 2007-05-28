@@ -1,8 +1,244 @@
 <?php
 //$d = DB::connect('mysqli://pear:pear@localhost/pear');
-//var_export($d->getAll("SELECT packagexml FROM files WHERE package = '14' AND
-//                release = '38'", array(), DB_FETCHMODE_ASSOC));
+//var_export($d->getAll("SELECT release, version FROM deps WHERE package = '14' AND type=\"php\" and relation=\"ge\"", array(), DB_FETCHMODE_ASSOC));
 
+$mock->addDataQuery("SELECT release, version FROM deps WHERE package = '14' AND type=\"php\" and relation=\"ge\"",array (
+  0 => 
+  array (
+    'release' => '1092',
+    'version' => '4.1',
+  ),
+  1 => 
+  array (
+    'release' => '1142',
+    'version' => '4.1',
+  ),
+  2 => 
+  array (
+    'release' => '1274',
+    'version' => '4.2',
+  ),
+  3 => 
+  array (
+    'release' => '1455',
+    'version' => '4.2',
+  ),
+  4 => 
+  array (
+    'release' => '1764',
+    'version' => '4.2',
+  ),
+  5 => 
+  array (
+    'release' => '1772',
+    'version' => '4.2',
+  ),
+  6 => 
+  array (
+    'release' => '1803',
+    'version' => '4.2',
+  ),
+  7 => 
+  array (
+    'release' => '1916',
+    'version' => '4.2',
+  ),
+  8 => 
+  array (
+    'release' => '2043',
+    'version' => '4.2',
+  ),
+  9 => 
+  array (
+    'release' => '2073',
+    'version' => '4.2',
+  ),
+  10 => 
+  array (
+    'release' => '2075',
+    'version' => '4.2',
+  ),
+  11 => 
+  array (
+    'release' => '2099',
+    'version' => '4.2',
+  ),
+  12 => 
+  array (
+    'release' => '2101',
+    'version' => '4.2',
+  ),
+  13 => 
+  array (
+    'release' => '2151',
+    'version' => '4.2',
+  ),
+  14 => 
+  array (
+    'release' => '2153',
+    'version' => '4.2',
+  ),
+  15 => 
+  array (
+    'release' => '2156',
+    'version' => '4.2',
+  ),
+  16 => 
+  array (
+    'release' => '2165',
+    'version' => '4.2',
+  ),
+  17 => 
+  array (
+    'release' => '2176',
+    'version' => '4.2',
+  ),
+  18 => 
+  array (
+    'release' => '2204',
+    'version' => '4.2',
+  ),
+  19 => 
+  array (
+    'release' => '2234',
+    'version' => '4.2',
+  ),
+  20 => 
+  array (
+    'release' => '2328',
+    'version' => '4.2',
+  ),
+  21 => 
+  array (
+    'release' => '2518',
+    'version' => '4.2',
+  ),
+  22 => 
+  array (
+    'release' => '2539',
+    'version' => '4.2',
+  ),
+  23 => 
+  array (
+    'release' => '2583',
+    'version' => '4.2',
+  ),
+  24 => 
+  array (
+    'release' => '2594',
+    'version' => '4.2',
+  ),
+  25 => 
+  array (
+    'release' => '2596',
+    'version' => '4.2',
+  ),
+  26 => 
+  array (
+    'release' => '2597',
+    'version' => '4.2',
+  ),
+  27 => 
+  array (
+    'release' => '2601',
+    'version' => '4.2',
+  ),
+  28 => 
+  array (
+    'release' => '2622',
+    'version' => '4.2',
+  ),
+  29 => 
+  array (
+    'release' => '2661',
+    'version' => '4.2',
+  ),
+  30 => 
+  array (
+    'release' => '2752',
+    'version' => '4.2',
+  ),
+  31 => 
+  array (
+    'release' => '2777',
+    'version' => '4.2',
+  ),
+  32 => 
+  array (
+    'release' => '2825',
+    'version' => '4.2',
+  ),
+  33 => 
+  array (
+    'release' => '2940',
+    'version' => '4.2',
+  ),
+  34 => 
+  array (
+    'release' => '3070',
+    'version' => '4.2',
+  ),
+  35 => 
+  array (
+    'release' => '3095',
+    'version' => '4.2',
+  ),
+  36 => 
+  array (
+    'release' => '3147',
+    'version' => '4.2',
+  ),
+  37 => 
+  array (
+    'release' => '3408',
+    'version' => '4.2',
+  ),
+  38 => 
+  array (
+    'release' => '3417',
+    'version' => '4.2',
+  ),
+  39 => 
+  array (
+    'release' => '3418',
+    'version' => '4.2',
+  ),
+  40 => 
+  array (
+    'release' => '3467',
+    'version' => '4.2',
+  ),
+  41 => 
+  array (
+    'release' => '3568',
+    'version' => '4.3.0',
+  ),
+  42 => 
+  array (
+    'release' => '3714',
+    'version' => '4.3.0',
+  ),
+  43 => 
+  array (
+    'release' => '3752',
+    'version' => '4.3.0',
+  ),
+  44 => 
+  array (
+    'release' => '3830',
+    'version' => '4.3.0',
+  ),
+  45 => 
+  array (
+    'release' => '3862',
+    'version' => '4.3.0',
+  ),
+  46 => 
+  array (
+    'release' => '3979',
+    'version' => '4.3.0',
+  ),
+), array('release', 'version'));
 $mock->addDataQuery("SELECT id FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND  p.name = 'PEAR'", array(array('id' => '14')), array('id'));
 $mock->addDataQuery("SELECT * FROM releases WHERE package = '14' ORDER BY releasedate DESC", array (
   0 => 
