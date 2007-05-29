@@ -1,0 +1,5 @@
+#!/bin/sh
+# replace /home/pear/pear.php.net/ with path to mirror public_html directory
+rsync  -rutz --delete --delete-after --exclude apidoc pear.php.net::packages /home/pear/pear.php.net/get/
+rsync  -rutz --delete --delete-after pear.php.net::rest /home/pear/pear.php.net/rest/
+php pear.php.net/mirrorupdate.php

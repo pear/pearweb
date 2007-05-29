@@ -1,0 +1,24 @@
+$Id$
+
+Mirroring pear.php.net
+======================
+
+In order to mirror the REST files and download tgz files,
+the scripts in this directory must be placed on the mirror
+server.  Here are the configuration steps
+
+1) The Mirror's IP must be registered at pear.php.net as
+   a valid mirror
+2) The Mirror must be registered as a DNS alias in the form
+   xx.pear.php.net (us.pear.php.net, de.pear.php.net, etc.)
+3) The existing scripts assume that user "pear" is created
+   and that mirror scripts go in /home/pear/pear.php.net/.
+   Change this path in the pear.php.net.mirror script if this
+   is incorrect.
+4) Update the mirror alias in mirrorupdate.php
+5) set up a cron job every 4 hours to run pear.php.net.mirror
+6) set up download_stats.php to be only allowed access from IP
+   216.92.131.66 (pear.php.net), and change the path to the log
+   file at the top
+
+That's it!
