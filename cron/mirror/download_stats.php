@@ -43,7 +43,7 @@ foreach (new SplFileObject($logfile) as $line) {
     }
 }
 header('Content-Type: text/xml');
-echo '<?xml version="1.0"?>', "\n";
+echo '<?xml version="1.0"?>', "\n<d>";
 foreach ($downloaded as $package => $versions) {
     echo '<p>' . htmlspecialchars($package) . '</p><r>';
     foreach ($versions as $version => $count) {
@@ -51,4 +51,4 @@ foreach ($downloaded as $package => $versions) {
     }
     echo '</r>';
 }
-echo '<l>', $last_dl, '</l>';
+echo '<l>', $last_dl, '</l></d>';
