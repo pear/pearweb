@@ -16,7 +16,7 @@ function scrape_log_line($line, &$last_download)
         return false;
     }
     $last_download = $dl_time;
-    return array('package' => $fileinfo[1], 'version' => $fileinfo[2]);
+    return array('package' => $fileinfo[1], 'version' => $fileinfo[2], 'downloaded' => $dl_time);
 }
 
 if (!isset($_GET['last_dl'])) {
@@ -29,6 +29,7 @@ if ($_GET['last_dl'] == '0') {
 }
 
 $downloaded = array();
+$aggregated = array();
 
 foreach (new SplFileObject($logfile) as $line) {
     if ($info = scrape_log_line($line, $last_dl)) {
@@ -40,6 +41,19 @@ foreach (new SplFileObject($logfile) as $line) {
         } else {
             $downloaded[$info['package']][$info['version']]++;
         }
+        // aggregated stats
+        $time = date('Ym', $info['downloaded']);
+        if (!isset($aggregated[$info['package']])) {
+            $aggregated[$info['package']] = array();
+        }
+        if (!isset($aggregated[$info['package']][$info['version']])) {
+            $aggregated[$info['package']][$info['version']] = array();
+        }
+        if (!isset($aggregated[$info['package']][$info['version']][$time])) {
+            $aggregated[$info['package']][$info['version']][$time] = 1;
+        } else {
+            $aggregated[$info['package']][$info['version']][$time]++;
+        }
     }
 }
 header('Content-Type: text/xml');
@@ -49,6 +63,14 @@ foreach ($downloaded as $package => $versions) {
     foreach ($versions as $version => $count) {
         echo '<v><n>', htmlspecialchars($version), '</n><c>', $count, '</c></v>';
     }
-    echo '</r>';
+    echo '</r><a>';
+    foreach ($aggregated[$package] as $version => $time) {
+        echo '<v><n>', htmlspecialchars($version), '</n>';
+        foreach ($time as $when => $count) {
+            echo '<t>', $when, '</t><c>', $count, '</c>';
+        }
+        echo '</v>';
+    }
+    echo '</a>';
 }
 echo '<l>', $last_dl, '</l></d>';
