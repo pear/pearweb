@@ -6,8 +6,8 @@
  * the aggregated_package_stats and package_stats tables
  */
 set_time_limit(0);
-require_once dirname(dirname(__FILE__)) . '/include/pear-config.php';
-require_once dirname(dirname(__FILE__)) . '/include/pear-format-html.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/include/pear-config.php';
+require_once dirname(dirname(dirname(__FILE__))) . '/include/pear-format-html.php';
 
 // Get the database class.
 require_once 'DB.php';
