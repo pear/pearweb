@@ -54,7 +54,7 @@ foreach ($mirrors as $mirror) {
                 $dbh->query($sql, array($id));
             }
             $sql = '';
-        } elseif ($tag = 'a') {
+        } elseif ($tag == 'a') {
             if (!$package) {
                 continue;
             }
@@ -71,6 +71,9 @@ foreach ($mirrors as $mirror) {
                     $count . ' WHERE release_id=? AND yearmonth=?';
                 $dbh->query($sql, array($id, $year . '-' . $mon . '-01'));
             }
+        } elseif ($tag == 'l') {
+            $dbh->query('UPDATE pear_mirrors set last_sync=? WHERE mirrorserver=?',
+                array((string)$value, $mirror['mirrorserver']));
         }
     }
 }
