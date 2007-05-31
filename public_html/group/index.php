@@ -32,7 +32,7 @@ of the following individuals (in no particular order):</p>
   <li><a href="/user/jeichorn" title="Joshua Eichorn">Joshua Eichorn</a></li>
   <li><a href="/user/cweiske" title="Christian Weiske">Christian Weiske</a></li>
   <li><a href="/user/dufuz" title="Helgi &thorn;ormar">Helgi &thorn;ormar</a></li>
-  <li><a href="/user/lsmith" title="Lukas Smith">Lukas Smith</a>*</li>
+  <li><a href="/user/pmjones" title="Paul M. Jones">Paul M. Jonesh</a>*</li>
 </ul>
 
 <p>The current PEAR Group membership lasts from May 1, 2007 until May 1, 2008, and
@@ -45,9 +45,6 @@ on 12th August 2003 by Stig S. Bakken, and was made into an elected body by the 
 adopted on 18th March 2007. If you would like to get in
 contact with the members, you can write to 
 <?php echo make_mailto_link("pear-group@php.net"); ?>.
-
-<p>* Lukas Smith is a special appointee to the PEAR Group by the PEAR President, and
-will serve from May 5, 2007 until May 25, 2007.</p>
 
 <h2>&raquo; Administrative Documents</h2>
 
