@@ -137,20 +137,22 @@ function makeBorderTOC($this, $id = '')
         $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
     }
 
-    $SIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n"
-                   . '  <li class="man-side_download">'
-                   . make_link('/manual/', 'Download Documentation') . "</li>\n";
-
     // if we have a package name, add links to the package and the API docs
     if (!is_null($package_name)) {
+        $SIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n";
         $SIDEBAR_DATA .= '  <li class="man-side_download">'
                        . make_link('/package/' . $package_name,
                                    'Package Info') . "</li>\n";
         $SIDEBAR_DATA .= '  <li class="man-side_download">'
                        . make_link('/package/' . $package_name . '/docs/latest/',
                                    'API Documentation') . "</li>\n";
+        $SIDEBAR_DATA .= ' </ul>' . "\n";
+        $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
     }
 
+    $SIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n"
+                   . '  <li class="man-side_download">'
+                   . make_link('/manual/', 'Download Documentation') . "</li>\n";
     $SIDEBAR_DATA .= ' </ul>' . "\n\n";
 
     $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
