@@ -369,6 +369,7 @@ function draw_navigation($type, $menu_title='')
                 '/news/'               => 'News',
                 '/qa/'                 => 'Quality Assurance',
                 '/group/'              => 'The PEAR Group',
+                '/mirrors.php'         => 'Mirrors',
             );
             break;
         case 'docu_menu':

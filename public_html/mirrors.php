@@ -22,6 +22,7 @@ if (isset($country)) {
   header("Location: http://$country.pear.php.net/");
 }
 response_header("Mirrors Page");
+require_once 'site.php';
 ?>
 
 <h1>Mirror Sites</h1>
@@ -35,23 +36,37 @@ the provider's homepage:
 <p>
 <table border="0" cellpadding="2" cellspacing="1" width="100%">
  <tr bgcolor="#cccccc">
-  <th>Country</th>
   <th>Mirror Address</th>
   <th>Provider</th>
+  <th>Country</th>
+  <th>Type</th>
   <th>Default Language</th>
  </tr>
 <?php
-  $mprevious = 'aa';
-  foreach ($MIRRORS as $murl => $mdata) {
-    if ($mdata[4] != 1) { continue; }
-    echo '<tr bgcolor="#e0e0e0"><td>';
-    if ($mprevious != $mdata[0]) { echo $COUNTRIES[$mdata[0]]; }
-    else { echo "&nbsp;"; }
-    echo '</td><td>' . make_link($murl, $murl) .
-         '</td><td>' . make_link($mdata[3], $mdata[1]) . 
-         '</td><td>' . $LANGUAGES[$mdata[6]] . '</td></tr>';
-    $mprevious = $mdata[0];
-  }
+    $mprevious = 'aa';
+    foreach ($MIRRORS as $murl => $mdata) {
+        echo '<tr bgcolor="#e0e0e0"><td>', make_link($murl, $murl),
+             '</td><td>', make_link($mdata[3], $mdata[1]);
+        echo '<td>';
+        if ($mprevious != $mdata[0]) {
+            echo $COUNTRIES[$mdata[0]];
+        } else {
+            echo "&nbsp;";
+        }
+        switch ($mdata[4]) {
+            case 1 :
+                echo '</td><td>Full';
+                break;
+            case 0 :
+                echo '</td><td>REST/download';
+                break;
+            case 2 :
+                echo '</td><td>Pending';
+                break;
+        }
+        echo '</td><td>' . $LANGUAGES[$mdata[6]] . '</td></tr>';
+        $mprevious = $mdata[0];
+    }
 ?>
 </table>
 </p>
