@@ -70,7 +70,7 @@
  </developer>
  <date>2007-06-01</date>
  <version>
-  <release>1.0.0</release>
+  <release>1.16.1</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -79,7 +79,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-   initial split off of pearweb package
+   Update news to include Paul Jone's election and addition of mirrors
+   Use version number of pearweb to allow non-conflicting release tags
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -167,10 +168,41 @@
     <release>beta</release>
     <api>stable</api>
    </stability>
-   <date>2007-05-08</date>
+   <date>2007-06-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
    initial split off of pearweb package
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-06-01</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+   initial split off of pearweb package
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.16.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-06-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+   Update news to include Paul Jone's election and addition of mirrors
+   Use version number of pearweb to allow non-conflicting release tags
    </notes>
   </release>
  </changelog>

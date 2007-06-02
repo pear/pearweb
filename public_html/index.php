@@ -62,25 +62,24 @@ response_header();
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
 <h2>&raquo; Hot off the Press</h2>
+<p><strong>[June 1, 2007]</strong> Welcome to the 7th and final member of the PEAR
+Group, <strong><a href="/user/pmjones">Paul M. Jones</a></strong>!  The newly elected
+<a href="/news/newgroup-2007.php">PEAR Group</a> and
+<a href="/news/newpresident-2007.php">PEAR president</a> have already begun work.
+The PEAR President is <a href="/user/cellog">Gregory Beaver</a>, and the
+PEAR Group
+is <a href="/user/mj">Martin Jansen</a>, <a href="/user/davidc">David Coallier</a>,
+<a href="/user/arnaud">Arnaud Limbourg</a>, <a href="/user/jeichorn">Joshua Eichorn</a>,
+<a href="/user/cweiske">Christian Weiske</a>, <a href="/user/dufuz">Helgi &THORN;ormar</a>,
+and <a href="/user/pmjones">Paul M. Jones</a>.  Official results of the run-off election are
+<a href="/election/info.php?election=9&result=1">here</a>.
+<a href="/manual/en/constitution.php">The Constitution</a> documents the governing
+structure of PEAR.</p>
 <p><strong>[May 8, 2007]</strong> A serious security vulnerability has been discovered in
 the <a href="http://pear.php.net/PEAR">PEAR Installer</a> that affects all released versions.
 PEAR version 1.5.4 has been released to address this security issue.  Further details are
 available <a href="/news/vulnerability2.php">here</a>.
 </p>
-<p><strong>[May 4, 2007]</strong> The <a href="/news/newgroup-2007.php">new PEAR Group</a> and
-<a href="/news/newpresident-2007.php">new PEAR president</a> have been
-elected!  The PEAR President is <a href="/user/cellog">Gregory Beaver</a> (election
-results <a href="/election/info.php?election=8&results=1">here</a>), and the
-PEAR Group (election results <a href="/election/info.php?election=7&results=1">here</a>)
-is <a href="/user/mj">Martin Jansen</a>, <a href="/user/davidc">David Coallier</a>,
-<a href="/user/arnaud">Arnaud Limbourg</a>, <a href="/user/jeichorn">Joshua Eichorn</a>,
-<a href="/user/cweiske">Christian Weiske</a>, <a href="/user/dufuz">Helgi &THORN;ormar</a>,
-and by temporary appointment, <a href="/user/lsmith">Lukas Smith</a>.  Due to a tie
-between Paul Jones and Justin Patrin, <a href="/election/info.php?election=9&vote=1">a run-off
-election</a> for the 7th slot on the PEAR Group will commence from May 11 until May 25. 
-Only developers with <var>pear.dev</var> karma are eligible to vote.
-Responsibilities of the PEAR President
-and PEAR Group are documented in <a href="/manual/en/constitution.php">The Constitution</a>.</p>
 <p><strong>[February 1, 2007]</strong> As of January 1, 2008, PEAR will be dropping
 support for PEAR versions 1.3.6 and earlier.  If you are using PEAR 1.3.6 or earlier,
 we <strong>strongly</strong> encourage you to upgrade using these simple steps:
