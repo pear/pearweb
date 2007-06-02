@@ -32,7 +32,7 @@ of the following individuals (in no particular order):</p>
   <li><a href="/user/jeichorn" title="Joshua Eichorn">Joshua Eichorn</a></li>
   <li><a href="/user/cweiske" title="Christian Weiske">Christian Weiske</a></li>
   <li><a href="/user/dufuz" title="Helgi &thorn;ormar">Helgi &thorn;ormar</a></li>
-  <li><a href="/user/pmjones" title="Paul M. Jones">Paul M. Jones</a>*</li>
+  <li><a href="/user/pmjones" title="Paul M. Jones">Paul M. Jones</a></li>
 </ul>
 
 <p>The current PEAR Group membership lasts from May 1, 2007 until May 1, 2008, and
@@ -52,7 +52,7 @@ contact with the members, you can write to
   <li>04th November 2005: <?php echo make_link("docs/20051104-sa.php", "Security Vulnerability Announcement"); ?></li>
   <li>02nd April 2004:  <?php echo make_link("docs/20040402-la.php", "License Announcement"); ?></li>
   <li>19th March 2004:  <?php echo make_link("docs/20040322-vm.php", "Handling Votings and Membership (II)"); ?></li>
-  <li>26th Februray 2004:  <?php echo make_link("docs/20040226-vn.php", "Version Naming"); ?></li>
+  <li>26th February 2004:  <?php echo make_link("docs/20040226-vn.php", "Version Naming"); ?></li>
   <li>14th November 2003:  <?php echo make_link("docs/20031114-pds.php", "Package Directory Structure"); ?></li>
   <li>14th November 2003:  <?php echo make_link("docs/20031114-pcl.php", "Forming of the PEAR core list"); ?></li>
   <li>14th November 2003:  <?php echo make_link("docs/20031114-bbr.php", "New guidelines for BC breaking releases"); ?></li>
