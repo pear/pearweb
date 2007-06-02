@@ -480,6 +480,7 @@ function show_package_version_options($package, $current)
 function show_version_options($current, $default = '')
 {
     $versions = array(
+        '5.2.2',
         '5.2.1',
         '5.2.0',
         'HEAD CVS-' . date('Y-m-d'),
