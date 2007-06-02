@@ -32,7 +32,7 @@ of the following individuals (in no particular order):</p>
   <li><a href="/user/jeichorn" title="Joshua Eichorn">Joshua Eichorn</a></li>
   <li><a href="/user/cweiske" title="Christian Weiske">Christian Weiske</a></li>
   <li><a href="/user/dufuz" title="Helgi &thorn;ormar">Helgi &thorn;ormar</a></li>
-  <li><a href="/user/pmjones" title="Paul M. Jones">Paul M. Jonesh</a>*</li>
+  <li><a href="/user/pmjones" title="Paul M. Jones">Paul M. Jones</a>*</li>
 </ul>
 
 <p>The current PEAR Group membership lasts from May 1, 2007 until May 1, 2008, and
