@@ -82,7 +82,7 @@
    initial split off of pearweb package
  </notes>
  <contents>
-  <dir baseinstalldir="public_html" name="/">
+  <dir baseinstalldir="/" name="/">
    <dir name="public_html">
     <dir name="about">
      <file name="credits.php" role="web" />
