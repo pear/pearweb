@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.5.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+ <name>pearweb_index</name>
+ <channel>pear.php.net</channel>
+ <summary>The source code for the PEAR website, informational front pages</summary>
+ <description>The pearweb_index package contains these files from public_html:
+ index.php, mirrors.php, credits.php, copyright.php,
+ about/credits.php, about/index.php, about/privacy.php
+ group/index.php and group/docs/*, news/*, and support/*
+ </description>
+ <lead>
+  <name>Martin Jansen</name>
+  <user>mj</user>
+  <email>mj@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>David Coallier</name>
+  <user>davidc</user>
+  <email>davidc@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Pierre-Alain Joye</name>
+  <user>pajoye</user>
+  <email>pajoye@pearfr.org</email>
+  <active>no</active>
+ </lead>
+ <developer>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>stig@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Tomas V.V.Cox</name>
+  <user>cox</user>
+  <email>cox@idecnet.com</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Daniel Convissor</name>
+  <user>danielc</user>
+  <email>danielc@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Tobias Schlitt</name>
+  <user>toby</user>
+  <email>toby@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Helgi Thormar</name>
+  <user>dufuz</user>
+  <email>dufuz@php.net</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Mark Wiesemann</name>
+  <user>wiesemann</user>
+  <email>wiesemann@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2007-06-01</date>
+ <version>
+  <release>1.0.0</release>
+  <api>1.0.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+   initial split off of pearweb package
+ </notes>
+ <contents>
+  <dir baseinstalldir="public_html" name="/">
+   <dir name="public_html">
+    <dir name="about">
+     <file name="credits.php" role="web" />
+     <file name="index.php" role="web" />
+     <file name="privacy.php" role="web" />
+    </dir> <!-- /public_html/about -->
+    <dir name="group">
+     <dir name="docs">
+      <file name="20030820-vm.php" role="web" />
+      <file name="20030904-pph.php" role="web" />
+      <file name="20031114-bbr.php" role="web" />
+      <file name="20031114-pcl.php" role="web" />
+      <file name="20031114-pds.php" role="web" />
+      <file name="20040226-vn.php" role="web" />
+      <file name="20040322-vm.php" role="web" />
+      <file name="20040402-la.php" role="web" />
+      <file name="20051104-sa.php" role="web" />
+      <file name="index.php" role="web" />
+     </dir> <!-- /public_html/group/docs -->
+     <file name="index.php" role="web" />
+    </dir> <!-- /public_html/group -->
+    <dir name="news">
+     <file name="activestate-award-ssb.php" role="web" />
+     <file name="group-announce.php" role="web" />
+     <file name="index.php" role="web" />
+     <file name="meeting-2003-summary.php" role="web" />
+     <file name="meeting-2003.php" role="web" />
+     <file name="newgroup-2007.php" role="web" />
+     <file name="newpresident-2007.php" role="web" />
+     <file name="nm-guide.php" role="web" />
+     <file name="package.xml.1.0.php" role="web" />
+     <file name="pecl-split.php" role="web" />
+     <file name="pepr.php" role="web" />
+     <file name="release-1.0.php" role="web" />
+     <file name="vulnerability.php" role="web" />
+     <file name="vulnerability2.php" role="web" />
+     <file name="weekly-summaries.php" role="web" />
+    </dir> <!-- /public_html/news -->
+    <dir name="support">
+     <file name="books.php" role="web" />
+     <file name="effectivepearuse.php" role="web" />
+     <file name="forums.php" role="web" />
+     <file name="icons.php" role="web" />
+     <file name="index.php" role="web" />
+     <file name="lists.php" role="web" />
+     <file name="pear.eps.gz" role="web" />
+     <file name="slides.php" role="web" />
+     <file name="tabs_list.php" role="web" />
+     <file name="tutorials.php" role="web" />
+    </dir> <!-- /public_html/support -->
+    <file name="copyright.php" role="web" />
+    <file name="credits.php" role="web" />
+    <file name="faq.php" role="web" />
+    <file name="index.php" role="web" />
+    <file name="mirrors.php" role="web" />
+   </dir> <!-- /public_html -->
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.3.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.11</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <usesrole>
+  <role>web</role>
+  <package>Role_Web</package>
+  <channel>pearified.com</channel>
+ </usesrole>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0RC1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-05-08</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+   initial split off of pearweb package
+   </notes>
+  </release>
+ </changelog>
+</package>
