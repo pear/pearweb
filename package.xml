@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.6.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -14,7 +14,9 @@
  - templates
 
  See the pearweb_phars package for install-pear-nozlib.phar/go-pear.phar
- See the pearweb_channelxml package for channel.xml</description>
+ See the pearweb_channelxml package for channel.xml
+ See the pearweb_index package for regularly changed content files
+ like index.php</description>
  <lead>
   <name>Martin Jansen</name>
   <user>mj</user>
@@ -75,10 +77,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-05-08</date>
- <time>01:16:07</time>
+ <date>2007-06-01</date>
+ <time>21:24:11</time>
  <version>
-  <release>1.15.2</release>
+  <release>1.16.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -87,30 +89,38 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- Add Security announcement
- http://pear.php.net/advisory-20070507.txt
- * Fix Bug #10856: proposal stays in voting phase [mj]
- * Fix Bug #10885: Milestones not saved when submitting a bug [cellog]
- * Fix Bug #10898: Broken link from /news [bjori]
- * Fix Bug #10902: Unable to view elections (not logged in) [cellog]
- * Fix Bug #10927: Typo in pearweb_mdb2schema.xml [wiesemann]
- * Fix Bug #10928: Notices generated in bug tracker [cellog]
- * Fix Bug #10929: Non-Dev Comments Cause Bug to Unassign Dev/Roadmap [cellog]
- * Fix Bug #10932: Admin package maintainers error [davidc]
- * Fix Bug #10933: Patch diff view shows warnings [cellog]
- * Fix Bug #10948: Unclosed tags in bug tracker [wiesemann]
- * Fix Bug #10950: Fix for #10908 removed &quot;CVS&quot; package version selection for new bugs [cellog]
- * Fix Bug #10957: dufuz broke voter account registration [cellog]
- * Fix Bug #10958: &quot;Old patches&quot; list does not UTC [mj]
- * Fix Bug #10959: context is not htmlspecialchar()ed in patch diff [cellog]
- * Fix Bug #10960: registration fails for voter [cellog]
- * Implement Feature #8808: RSS feed for bug system [cellog]
- * Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]
- * Added developer implemented feature using Net_URL and now is correctly using Net_URL2 [davidc]
+ * Fix Bug #10660: go-pear won&apos;t install with PHP 4.4.4 [cellog]
+ * Fix Bug #10877: Post install script results in a syntax error in httpd.conf [wiesemann]
+ * Fix Bug #10906: Bug tracker escapes too much [cellog]
+ * Fix Bug #10985: Showing panes where user has no rights [wiesemann]
+ * Fix Bug #10991: Bug RSS feed contains duplicated square brackets [wiesemann]
+ * Fix Bug #11007: Can&apos;t repropose rejected package [cellog]
+ * Fix Bug #11016: Fixes for manual user notes [wiesemann]
+ * Fix Bug #11018: Misleading column name in bugs stats [wiesemann]
+ * Fix Bug #11024: Wrong copyright [davidc]
+ * Fix Bug #11043: Too short lines in bug tracker [wiesemann]
+ * Fix Bug #11062: Fatal error on package creation [wiesemann]
+ * Fix Bug #11072: Account request form doesn&apos;t make clear that it requires usernames in
+   lowercase [wiesemann]
+ * Fix Bug #11078: Release upload form: RC error message is wrong if state is alpha [wiesemann]
+ * Fix Bug #11126: patch tracker email never sent when patch attached with initial bug
+   report [cellog]
+ * Fix Bug #11134: patch error when CVS diff: creates empty patch [cellog]
+ * Fix Bug #11146: account opening causes critical error [cellog]
+ * Implement Feature #9555: Add list with mirrors [cellog]
+ * Implement Feature #10539: Ability to transform doc notes into Documentation bugs [davidc]
+ Split off index-updated files into pearweb_index package
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="cron">
+    <dir name="mirror">
+     <file name="download_stats.php" role="web" />
+     <file name="mirrorupdate.php" role="web" />
+     <file name="pear-grabstats.php" role="web" />
+     <file name="pear.php.net.mirror" role="web" />
+     <file name="README" role="web" />
+    </dir> <!-- /cron/mirror -->
     <file name="apidoc-queue.php" role="web" />
     <file name="bug-summary.php" role="web" />
     <file name="cache-garbage-collector.php" role="web" />
@@ -257,11 +267,8 @@
    </dir> <!-- /include -->
    <dir name="public_html">
     <dir name="about">
-     <file name="credits.php" role="web" />
      <file name="damblan.php" role="web" />
      <file name="forgot-password.php" role="web" />
-     <file name="index.php" role="web" />
-     <file name="privacy.php" role="web" />
     </dir> <!-- /public_html/about -->
     <dir name="account">
      <file name="password-confirm-change.php" role="web" />
@@ -336,6 +343,7 @@
      <file name="rest.allmaintainers.xsd" role="web" />
      <file name="rest.allpackages.xsd" role="web" />
      <file name="rest.allreleases.xsd" role="web" />
+     <file name="rest.allreleases2.xsd" role="web" />
      <file name="rest.category.xsd" role="web" />
      <file name="rest.categorypackageinfo.xsd" role="web" />
      <file name="rest.categorypackages.xsd" role="web" />
@@ -432,21 +440,6 @@
      <file name="tri-back.gif" role="web" />
      <file name="tri.gif" role="web" />
     </dir> <!-- /public_html/gifs -->
-    <dir name="group">
-     <dir name="docs">
-      <file name="20030820-vm.php" role="web" />
-      <file name="20030904-pph.php" role="web" />
-      <file name="20031114-bbr.php" role="web" />
-      <file name="20031114-pcl.php" role="web" />
-      <file name="20031114-pds.php" role="web" />
-      <file name="20040226-vn.php" role="web" />
-      <file name="20040322-vm.php" role="web" />
-      <file name="20040402-la.php" role="web" />
-      <file name="20051104-sa.php" role="web" />
-      <file name="index.php" role="web" />
-     </dir> <!-- /public_html/group/docs -->
-     <file name="index.php" role="web" />
-    </dir> <!-- /public_html/group -->
     <dir name="javascript">
      <dir name="calendar">
       <file name="browserSniffer.js" role="web" />
@@ -473,23 +466,6 @@
      <file name="index.php" role="web" />
      <file name="locationREST.php" role="web" />
     </dir> <!-- /public_html/map -->
-    <dir name="news">
-     <file name="activestate-award-ssb.php" role="web" />
-     <file name="group-announce.php" role="web" />
-     <file name="index.php" role="web" />
-     <file name="meeting-2003-summary.php" role="web" />
-     <file name="meeting-2003.php" role="web" />
-     <file name="newgroup-2007.php" role="web" />
-     <file name="newpresident-2007.php" role="web" />
-     <file name="nm-guide.php" role="web" />
-     <file name="package.xml.1.0.php" role="web" />
-     <file name="pecl-split.php" role="web" />
-     <file name="pepr.php" role="web" />
-     <file name="release-1.0.php" role="web" />
-     <file name="vulnerability.php" role="web" />
-     <file name="vulnerability2.php" role="web" />
-     <file name="weekly-summaries.php" role="web" />
-    </dir> <!-- /public_html/news -->
     <dir name="notes">
      <dir name="admin">
       <file name="index.php" role="web" />
@@ -524,18 +500,6 @@
     <dir name="sidebar">
      <file name="pear.src" role="web" />
     </dir> <!-- /public_html/sidebar -->
-    <dir name="support">
-     <file name="books.php" role="web" />
-     <file name="effectivepearuse.php" role="web" />
-     <file name="forums.php" role="web" />
-     <file name="icons.php" role="web" />
-     <file name="index.php" role="web" />
-     <file name="lists.php" role="web" />
-     <file name="pear.eps.gz" role="web" />
-     <file name="slides.php" role="web" />
-     <file name="tabs_list.php" role="web" />
-     <file name="tutorials.php" role="web" />
-    </dir> <!-- /public_html/support -->
     <dir name="tags">
      <file name="admin.php" role="web" />
      <file name="packages.php" role="web" />
@@ -559,15 +523,10 @@
     <file name="advisory-20070507.txt" role="web" />
     <file name="captcha-help.php" role="web" />
     <file name="captcha-image.php" role="web" />
-    <file name="copyright.php" role="web" />
-    <file name="credits.php" role="web" />
-    <file name="faq.php" role="web" />
     <file name="favicon.ico" role="web" />
     <file name="get" role="web" />
     <file name="go-pear" role="web" />
-    <file name="index.php" role="web" />
     <file name="login.php" role="web" />
-    <file name="mirrors.php" role="web" />
     <file name="new-gopear.php" role="web" />
     <file name="package-changelog.php" role="web" />
     <file name="package-delete.php" role="web" />
@@ -607,6 +566,7 @@
     <file name="maintains.sql" role="web" />
     <file name="Makefile" role="web" />
     <file name="manual_notes.sql" role="web" />
+    <file name="mirrors.sql" role="web" />
     <file name="notes.sql" role="web" />
     <file name="packages.sql" role="web" />
     <file name="package_stats.sql" role="web" />
@@ -2091,27 +2051,60 @@ http://pear.php.net/advisory-20070507.txt
    </stability>
    <date>2007-05-08</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Add Security announcement
+http://pear.php.net/advisory-20070507.txt
+* Fix Bug #10856: proposal stays in voting phase [mj]
+* Fix Bug #10885: Milestones not saved when submitting a bug [cellog]
+* Fix Bug #10898: Broken link from /news [bjori]
+* Fix Bug #10902: Unable to view elections (not logged in) [cellog]
+* Fix Bug #10927: Typo in pearweb_mdb2schema.xml [wiesemann]
+* Fix Bug #10928: Notices generated in bug tracker [cellog]
+* Fix Bug #10929: Non-Dev Comments Cause Bug to Unassign Dev/Roadmap [cellog]
+* Fix Bug #10932: Admin package maintainers error [davidc]
+* Fix Bug #10933: Patch diff view shows warnings [cellog]
+* Fix Bug #10948: Unclosed tags in bug tracker [wiesemann]
+* Fix Bug #10950: Fix for #10908 removed &quot;CVS&quot; package version selection for new bugs [cellog]
+* Fix Bug #10957: dufuz broke voter account registration [cellog]
+* Fix Bug #10958: &quot;Old patches&quot; list does not UTC [mj]
+* Fix Bug #10959: context is not htmlspecialchar()ed in patch diff [cellog]
+* Fix Bug #10960: registration fails for voter [cellog]
+* Implement Feature #8808: RSS feed for bug system [cellog]
+* Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]
+* Added developer implemented feature using Net_URL and now is correctly using Net_URL2 [davidc]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.16.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-06-01</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- Add Security announcement
- http://pear.php.net/advisory-20070507.txt
- * Fix Bug #10856: proposal stays in voting phase [mj]
- * Fix Bug #10885: Milestones not saved when submitting a bug [cellog]
- * Fix Bug #10898: Broken link from /news [bjori]
- * Fix Bug #10902: Unable to view elections (not logged in) [cellog]
- * Fix Bug #10927: Typo in pearweb_mdb2schema.xml [wiesemann]
- * Fix Bug #10928: Notices generated in bug tracker [cellog]
- * Fix Bug #10929: Non-Dev Comments Cause Bug to Unassign Dev/Roadmap [cellog]
- * Fix Bug #10932: Admin package maintainers error [davidc]
- * Fix Bug #10933: Patch diff view shows warnings [cellog]
- * Fix Bug #10948: Unclosed tags in bug tracker [wiesemann]
- * Fix Bug #10950: Fix for #10908 removed &quot;CVS&quot; package version selection for new bugs [cellog]
- * Fix Bug #10957: dufuz broke voter account registration [cellog]
- * Fix Bug #10958: &quot;Old patches&quot; list does not UTC [mj]
- * Fix Bug #10959: context is not htmlspecialchar()ed in patch diff [cellog]
- * Fix Bug #10960: registration fails for voter [cellog]
- * Implement Feature #8808: RSS feed for bug system [cellog]
- * Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]
- * Added developer implemented feature using Net_URL and now is correctly using Net_URL2 [davidc]
+ * Fix Bug #10660: go-pear won&apos;t install with PHP 4.4.4 [cellog]
+ * Fix Bug #10877: Post install script results in a syntax error in httpd.conf [wiesemann]
+ * Fix Bug #10906: Bug tracker escapes too much [cellog]
+ * Fix Bug #10985: Showing panes where user has no rights [wiesemann]
+ * Fix Bug #10991: Bug RSS feed contains duplicated square brackets [wiesemann]
+ * Fix Bug #11007: Can&apos;t repropose rejected package [cellog]
+ * Fix Bug #11016: Fixes for manual user notes [wiesemann]
+ * Fix Bug #11018: Misleading column name in bugs stats [wiesemann]
+ * Fix Bug #11024: Wrong copyright [davidc]
+ * Fix Bug #11043: Too short lines in bug tracker [wiesemann]
+ * Fix Bug #11062: Fatal error on package creation [wiesemann]
+ * Fix Bug #11072: Account request form doesn&apos;t make clear that it requires usernames in
+   lowercase [wiesemann]
+ * Fix Bug #11078: Release upload form: RC error message is wrong if state is alpha [wiesemann]
+ * Fix Bug #11126: patch tracker email never sent when patch attached with initial bug
+   report [cellog]
+ * Fix Bug #11134: patch error when CVS diff: creates empty patch [cellog]
+ * Fix Bug #11146: account opening causes critical error [cellog]
+ * Implement Feature #9555: Add list with mirrors [cellog]
+ * Implement Feature #10539: Ability to transform doc notes into Documentation bugs [davidc]
+ Split off index-updated files into pearweb_index package
    </notes>
   </release>
  </changelog>
