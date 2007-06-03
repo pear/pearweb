@@ -29,7 +29,7 @@ of the following individuals (in no particular order):</p>
   <li><a href="/user/mj" title="Martin Jansen">Martin Jansen</a></li>
   <li><a href="/user/davidc" title="David Coallier">David Coallier</a> </li>
   <li><a href="/user/arnaud" title="Arnaud Limbourg">Arnaud Limbourg</a></li>
-  <li><a href="/user/jeichorn" title="Joshua Eichorn">Joshua Eichorn</a></li>
+  <li><a href="/user/jeichorn" title="Joshua Eichorn">Joshua Eichorn</a> [Vice President]</li>
   <li><a href="/user/cweiske" title="Christian Weiske">Christian Weiske</a></li>
   <li><a href="/user/dufuz" title="Helgi &thorn;ormar">Helgi &thorn;ormar</a></li>
   <li><a href="/user/pmjones" title="Paul M. Jones">Paul M. Jones</a></li>
