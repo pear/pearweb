@@ -131,6 +131,10 @@ if ($row['active']) {
     echo '<li>Active: <strong>NO</strong></li>';
 }
 
+if ($row['lastlogin'] && !is_null($row['lastlogin'])) {
+    echo '<li>Last login: <i>' . date('Y-m-d', $row['lastlogin']) . '</i></li>';
+}
+
 if (isset($auth_user)) {
     echo "<li>Email: &nbsp;";
     echo make_mailto_link($row['email']);
