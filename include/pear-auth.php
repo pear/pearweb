@@ -116,14 +116,17 @@ function auth_verify($user, $passwd)
         $auth_user = new PEAR_Auth();
         $auth_user->data($data);
     }
+    if (!isset($auth_user->password)) {
+        $auth_user->password = '';
+    }
     $error = '';
     $ok = false;
-    switch (strlen(@$auth_user->password)) {
+    switch (strlen($auth_user->password)) {
         // handle old-style DES-encrypted passwords
         case 13: {
             $seed = substr($auth_user->password, 0, 2);
             $crypted = crypt($passwd, $seed);
-            if ($crypted == @$auth_user->password) {
+            if ($crypted == $auth_user->password) {
                 $ok = true;
             } else {
                 $error = "pear-auth: user `$user': invalid password (des)";
@@ -139,7 +142,7 @@ function auth_verify($user, $passwd)
                 $crypted = md5($passwd);
             }
 
-            if ($crypted == @$auth_user->password) {
+            if ($crypted == $auth_user->password) {
                 $ok = true;
             } else {
                 $error = "pear-auth: user `$user': invalid password (md5)";
