@@ -3,8 +3,10 @@ auth_verify() [old-style password]
 --FILE--
 <?php
 // setup
-$_ENV['PEAR_TMPDIR'] = dirname(__FILE__) . '/testmebaby';
+$_ENV['PEAR_TMPDIR'] = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testmebaby';
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
+mkdir(PEAR_TMPDIR, 0777, true);
+touch (PEAR_TMPDIR . DIRECTORY_SEPARATOR . 'pear-errors.log');
 $mock->addDataQuery("SELECT * FROM users WHERE handle = 'cellog' AND registered = '1'", array (
   0 => 
   array (
@@ -39,8 +41,14 @@ $mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pe
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
 $phpunit->assertFalse(array_key_exists('auth_user', $GLOBALS), 'setup');
 $phpunit->assertTrue(auth_verify('cellog', 'as if!'), 'test');
+$phpunit->assertEquals("", file_get_contents(PEAR_TMPDIR . DIRECTORY_SEPARATOR . 'pear-errors.log'), 'log');
 $phpunit->assertTrue(array_key_exists('auth_user', $GLOBALS), 'auth_user set');
 ?>
 ===DONE===
+--CLEAN--
+<?php
+unlink(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testmebaby' . DIRECTORY_SEPARATOR . 'pear-errors.log');
+rmdir(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'testmebaby');
+?>
 --EXPECT--
 ===DONE===
