@@ -68,9 +68,9 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-06-02</date>
+ <date>2007-06-04</date>
  <version>
-  <release>1.16.2</release>
+  <release>1.16.3</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -79,7 +79,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-    Correct spelling of Paul Jones's last name on the PEAR group page (sigh...)
+    Note that Josh Eichorn is the VP for 07-08
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -217,6 +217,21 @@
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
     Correct spelling of Paul Jones's last name on the PEAR group page (sigh...)
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.16.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-06-04</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+    Note that Josh Eichorn is the VP for 07-08
    </notes>
   </release>
  </changelog>
