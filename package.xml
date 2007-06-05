@@ -292,10 +292,6 @@
       <file name="resolve.inc" role="web" />
       <file name="trusted-devs.inc" role="web" />
      </dir> <!-- /public_html/bugs/include -->
-     <dir name="rss">
-      <file name="bug.php" role="web" />
-      <file name="search.php" role="web" />
-     </dir> <!-- /public_html/bugs/rss -->
      <file name="bug-pwd-finder.php" role="web" />
      <file name="bug.php" role="web" />
      <file name="index.php" role="web" />
@@ -816,7 +812,7 @@
    <package>
     <name>HTML_BBCodeParser</name>
     <channel>pear.php.net</channel>
-    <min>1.1</min>
+    <min>1.2.1</min>
    </package>
    <package>
     <name>HTML_Form</name>
@@ -2049,7 +2045,7 @@ http://pear.php.net/advisory-20070507.txt
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-05-08</date>
+   <date>2007-05-16</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>Add Security announcement
 http://pear.php.net/advisory-20070507.txt
