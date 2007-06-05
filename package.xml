@@ -2045,7 +2045,7 @@ http://pear.php.net/advisory-20070507.txt
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-05-16</date>
+   <date>2007-05-08</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>Add Security announcement
 http://pear.php.net/advisory-20070507.txt
