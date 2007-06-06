@@ -72,7 +72,7 @@ $a->addPackageDepWithChannel('required', 'DB', 'pear.php.net', '1.6.5');
 $a->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '1.8.5');
 $a->addPackageDepWithChannel('required', 'Savant2', 'savant.pearified.com', '2.4.2');
 $a->addPackageDepWithChannel('required', 'Cache', 'pear.php.net', '1.2');
-$a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1.1');
+$a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1.2.1');
 $a->addPackageDepWithChannel('required', 'HTML_Form', 'pear.php.net', '1.3.0');
 $a->addPackageDepWithChannel('required', 'HTML_TagCloud', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTML_Table', 'pear.php.net', '1.5');
