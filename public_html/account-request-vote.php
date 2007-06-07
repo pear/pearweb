@@ -69,6 +69,12 @@ do {
         $salt = $request->addRequest($stripped['handle'], $stripped['email'],
             $stripped['firstname'], $stripped['lastname'], $stripped);
 
+        if (PEAR::isError($salt)) {
+            $errors[] = 'Database error (e.g. email address already registered).';
+            $display_form = true;
+            break;
+        }
+
         if (!empty($stripped['jumpto'])) {
             $jumpto = $stripped['jumpto'];
         }
@@ -81,7 +87,7 @@ do {
             $errors = $salt;
             break;
         } elseif (strlen($salt) == 32) {
-            report_success('Your account request confirmation has been submitted, '
+            report_success('Your account request confirmation has been submitted. '
                   . ' You must follow the link provided in the email '
                   . ' in order to activate your account.'
                   . ' Until this is done you cannot vote in any election.');

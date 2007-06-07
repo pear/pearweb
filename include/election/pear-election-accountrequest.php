@@ -58,7 +58,7 @@ class PEAR_Election_Accountrequest
         include_once 'pear-database-user.php';
         $useradd = user::add($data, false, true);
 
-        if (is_array($useradd)) {
+        if (is_array($useradd) || DB::isError($useradd)) {
             return $useradd;
         }
 
