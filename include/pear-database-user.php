@@ -346,6 +346,7 @@ class user
             'userinfo'   => $userinfo
         );
 
+        $dbh->expectError(DB_ERROR_CONSTRAINT);
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'report_warning');
 
         $sql = '
@@ -355,6 +356,7 @@ class user
                 (?, ?, ?, ?, ?, ?, ?, ?)';
 
         $err = $dbh->query($sql, $set_vars);
+        $dbh->popExpect();
         if (DB::isError($err)) {
             return $err;
         }
