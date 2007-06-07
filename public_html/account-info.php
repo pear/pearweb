@@ -203,7 +203,7 @@ echo '</ul></li>';
  </tr>
 
 <?php
-$packages = user::getPackages($handle);
+$packages = user::getPackages($handle, true);
 
 include_once 'pear-database-note.php';
 $notes = note::getAll($handle);

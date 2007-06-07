@@ -153,12 +153,13 @@ class user
     // }}}
     // {{{
 
-    static function getPackages($user)
+    static function getPackages($user, $onlyApprovedPackages = false)
     {
         global $dbh;
         $query = 'SELECT p.id, p.name, m.role, m.active'
             . ' FROM packages p, maintains m'
             . ' WHERE m.handle = ? AND p.id = m.package AND p.package_type = "pear"'
+            . (($onlyApprovedPackages) ? ' AND approved = 1' : '')
             . ' ORDER BY p.name';
 
         return $dbh->getAll($query, array($user));
