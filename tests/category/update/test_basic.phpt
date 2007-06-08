@@ -118,8 +118,8 @@ category::add(array('name' => 'test'));
 // ============= test =============
 $mock->queries = array(); // start over
 $id = category::update(1, 'rename', 'new desc');
-$phpunit->assertEquals(1, $id, 'id');
-$phpunit->assertEquals(array (
+$phpt->assertEquals(1, $id, 'id');
+$phpt->assertEquals(array (
   0 => 'SELECT name FROM categories WHERE id = 1',
   1 => 'UPDATE categories SET name = \'rename\', description = \'new desc\' WHERE id = 1',
   2 => 'SELECT * FROM categories WHERE name = \'rename\'',
@@ -133,13 +133,13 @@ $phpunit->assertEquals(array (
                 p.category = c.id AND
                 c.name = \'rename\'',
 ), $mock->queries, 'queries');
-$phpunit->assertFileNotExists($restdir . '/c/test/info.xml', 'info.xml');
-$phpunit->assertFileExists($restdir . '/c/rename/info.xml', 'r info.xml');
-$phpunit->assertFileNotExists($restdir . '/c/test/packages.xml', 'packages.xml');
-$phpunit->assertFileExists($restdir . '/c/rename/packages.xml', 'r packages.xml');
-$phpunit->assertFileNotExists($restdir . '/c/test/packagesinfo.xml', 'packagesinfo.xml');
-$phpunit->assertFileExists($restdir . '/c/rename/packagesinfo.xml', 'r packagesinfo.xml');
-$phpunit->assertFileExists($restdir . '/c/categories.xml', 'categories.xml');
+$phpt->assertFileNotExists($restdir . '/c/test/info.xml', 'info.xml');
+$phpt->assertFileExists($restdir . '/c/rename/info.xml', 'r info.xml');
+$phpt->assertFileNotExists($restdir . '/c/test/packages.xml', 'packages.xml');
+$phpt->assertFileExists($restdir . '/c/rename/packages.xml', 'r packages.xml');
+$phpt->assertFileNotExists($restdir . '/c/test/packagesinfo.xml', 'packagesinfo.xml');
+$phpt->assertFileExists($restdir . '/c/rename/packagesinfo.xml', 'r packagesinfo.xml');
+$phpt->assertFileExists($restdir . '/c/categories.xml', 'categories.xml');
 ?>
 ===DONE===
 --CLEAN--

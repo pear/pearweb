@@ -102,19 +102,19 @@ $data = array(
     'active'   => true,
 );
 $res = user::update($data);
-$phpunit->assertTrue($res, 'test 1');
+$phpt->assertTrue($res, 'test 1');
 
 $info = user::info('dufuz', 'homepage', false);
-$phpunit->assertEquals(array('homepage' => 'http://pear.php.net/'), $info, 'test 2');
+$phpt->assertEquals(array('homepage' => 'http://pear.php.net/'), $info, 'test 2');
 
 $data['registered'] = true;
 $res = user::update($data, true);
-$phpunit->assertTrue($res, 'test 3');
+$phpt->assertTrue($res, 'test 3');
 
 $info = user::info('dufuz');
-$phpunit->assertEquals('1', $info['registered'], 'test 4');
+$phpt->assertEquals('1', $info['registered'], 'test 4');
 
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
   0 => 'SELECT * FROM users WHERE handle = \'dufuz\'',
   1 => 'UPDATE users SET 
 homepage = \'http://pear.php.net/\',

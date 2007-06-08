@@ -170,7 +170,7 @@
  <xs:element name="file">
   <xs:complexType>
    <xs:choice>
-    <xs:any namespace="http://pear.php.net/dtd/tasks-1.0" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:any namespace="http://pear.php.net/dtd/tasks-1.0" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
    </xs:choice>
    <xs:attribute name="name" type="xs:string" use="required"/>
    <xs:attribute name="role" type="xs:string" use="required"/>

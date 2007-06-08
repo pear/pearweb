@@ -9,17 +9,17 @@ $mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pe
     array('id' => 1, 'user' => 'cellog', 'level' => 'pear.admin', 'granted_by' => 'cellog',
     'granted_at' => '2007-05-24 00:00:00')
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
-$phpunit->assertTrue($karma->has('cellog', 'global.karma.manager'), 'pear.admin');
+$phpt->assertTrue($karma->has('cellog', 'global.karma.manager'), 'pear.admin');
 
 $mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pear.admin','pear.group')", array(
     array('id' => 1, 'user' => 'cellog', 'level' => 'pear.group', 'granted_by' => 'cellog',
     'granted_at' => '2007-05-24 00:00:00')
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
-$phpunit->assertTrue($karma->has('cellog', 'global.karma.manager'), 'pear.group');
+$phpt->assertTrue($karma->has('cellog', 'global.karma.manager'), 'pear.group');
 
 $mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pear.admin','pear.group')", array(
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
-$phpunit->assertFalse($karma->has('cellog', 'global.karma.manager'), 'none');
+$phpt->assertFalse($karma->has('cellog', 'global.karma.manager'), 'none');
 ?>
 ===DONE===
 --EXPECT--

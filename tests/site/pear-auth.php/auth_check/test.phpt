@@ -12,11 +12,11 @@ $mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pe
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
 $auth_user = new PEAR_Auth;
 $auth_user->handle = 'cellog';
-$phpunit->assertTrue(auth_check('pear.user'), 'test');
+$phpt->assertTrue(auth_check('pear.user'), 'test');
 
 $mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pear.user','pear.pepr','pear.dev','pear.admin','pear.group','pear.voter','pear.bug')", array(
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
-$phpunit->assertFalse(auth_check('pear.user'), 'test 2');
+$phpt->assertFalse(auth_check('pear.user'), 'test 2');
 ?>
 ===DONE===
 --EXPECT--

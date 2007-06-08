@@ -56,6 +56,7 @@ if (@sizeof($popular) > 0) {
     $RSIDEBAR_DATA .= "</table>\n";
 }
 
+$self = strip_tags(htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'iso-8859-1'));
 response_header();
 ?>
 
@@ -130,8 +131,7 @@ if ($auth_user) {
 	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
     echo '</div>';
 
-    include_once 'pear-database-user.php';
-    if (user::isAdmin($auth_user->handle)) {
+    if (auth_check('pear.admin')) {
         echo '<h2>&raquo; Administrators</h2>';
         echo '<div class="indent">';
         echo menu_link("Overview", "/admin/");

@@ -18,10 +18,10 @@ $mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pe
         'granted_at' => '2007-05-28 17:16:00'
     )
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
-$phpunit->assertFalse(array_key_exists('auth_user', $GLOBALS), 'setup');
-$phpunit->assertFalse(auth_verify('cellog', 'as if!'), 'test');
-$phpunit->assertEquals("pear-auth: user `cellog' not registered\n", file_get_contents(PEAR_TMPDIR . DIRECTORY_SEPARATOR . 'pear-errors.log'), 'log');
-$phpunit->assertTrue(array_key_exists('auth_user', $GLOBALS), 'auth_user set');
+$phpt->assertFalse(array_key_exists('auth_user', $GLOBALS), 'setup');
+$phpt->assertFalse(auth_verify('cellog', 'as if!'), 'test');
+$phpt->assertEquals("pear-auth: user `cellog' not registered\n", file_get_contents(PEAR_TMPDIR . DIRECTORY_SEPARATOR . 'pear-errors.log'), 'log');
+$phpt->assertTrue(array_key_exists('auth_user', $GLOBALS), 'auth_user set');
 ?>
 ===DONE===
 --CLEAN--

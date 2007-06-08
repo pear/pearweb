@@ -1,10 +1,23 @@
 <?php
+require dirname(dirname(dirname(__FILE__))) . '/mockDB/DB.php';
+set_include_path(dirname(dirname(dirname(dirname(__FILE__)))) . '/include' . PATH_SEPARATOR .
+    get_include_path());
+
+require_once 'pear-prepend.php';
+
+require_once 'DB.php';
+$_ENV['PEAR_DATABASE_DSN'] = 'mock://pear:pear@localhost/pear';
+// so we do local
+$mock = new mockDB_core;
+$options = array(
+    'persistent' => false,
+    'portability' => DB_PORTABILITY_ALL,
+    'mock' => $mock,
+);
+$dbh = DB::connect($_ENV['PEAR_DATABASE_DSN'], $options);
+
+
 require dirname(dirname(dirname(__FILE__))) . '/phpt_test.php5.inc';
-require dirname(dirname(dirname(__FILE__))) . '/firefox_settings.php.inc';
-require 'Testing/Selenium.php';
-$phpunit = new PEAR_PHPTest;
-$selenium = new Testing_Selenium("*firefox", "http://pear.chiara/index.php", 'localhost', 4444, 30000, 'native');
-$path = getenv('PATH');
-putenv('PATH=' . $path . PATH_SEPARATOR . $firefoxpath);
-$selenium->start();
-putenv('PATH=' . $path);
+$phpt = new PEAR_PHPTest;
+
+?>

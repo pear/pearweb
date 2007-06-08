@@ -55,7 +55,7 @@ $data = array(
     'homepage'  => 'http://www.helgi.ws/',
 );
 $id = user::add($data, false, false);
-$phpunit->assertEquals(true, $id, 'id');
+$phpt->assertEquals(true, $id, 'id');
 
 // Test for validation issues
 $data = array(
@@ -78,7 +78,7 @@ $expect = array (
   7 => 'Passwords did not match',
   8 => 'Empty passwords not allowed',
 );
-$phpunit->assertEquals($expect, $return, 'validation');
+$phpt->assertEquals($expect, $return, 'validation');
 
 $data = array(
     'firstname' => 'Thormar',
@@ -94,9 +94,9 @@ $expect = array(
   2 => 'Sorry, that username is already taken',
 );
 
-$phpunit->assertEquals($return, $expect, 'validation2');
+$phpt->assertEquals($return, $expect, 'validation2');
 
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
   0 => 'SELECT * FROM users WHERE handle = \'dufuz\'',
   1 => '
             INSERT INTO users

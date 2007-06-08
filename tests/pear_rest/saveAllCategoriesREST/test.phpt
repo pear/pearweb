@@ -594,12 +594,12 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
 
 // ===== test ======
 $rest->saveAllCategoriesREST();
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileExists($rdir . '/c/categories.xml', 'info');
+$phpt->assertNoErrors('after');
+$phpt->assertFileExists($rdir . '/c/categories.xml', 'info');
 if (!OS_WINDOWS) {
-    $phpunit->assertEquals(0666, fileperms($rdir . '/c/categories.xml') & 0777, 'permissions');
+    $phpt->assertEquals(0666, fileperms($rdir . '/c/categories.xml') & 0777, 'permissions');
 }
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <a xmlns="http://pear.php.net/dtd/rest.allcategories"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"

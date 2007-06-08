@@ -14,7 +14,7 @@ $mock->addDataQuery("SELECT * FROM karma WHERE user = 'foo' AND level IN ('pear.
 $mock->addFailingQuery("INSERT INTO karma VALUES (1, 'foo', 'pear.dev', 'cellog', NOW())",
     "oops");
 $karma->grant('foo', 'pear.dev');
-$phpunit->assertErrors(array(
+$phpt->assertErrors(array(
     array('package' => 'PEAR_Error', 'message' => 'DB Error: unknown error')
 ), 'errors');
 ?>

@@ -160,7 +160,7 @@ array (
     'granted_at' => '2007-01-07 19:47:08',
   ),
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
   0 => 
   array (
     'id' => '863',

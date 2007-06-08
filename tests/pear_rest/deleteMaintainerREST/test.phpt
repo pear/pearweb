@@ -8,8 +8,8 @@ System::mkdir(array('-p', $rdir . '/m/fronk'));
 touch($rdir . '/m/fronk/info.xml');
 // test
 $rest->deleteMaintainerREST('fronk');
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileNotExists($rdir . '/m/fronk', 'fronk');
+$phpt->assertNoErrors('after');
+$phpt->assertFileNotExists($rdir . '/m/fronk', 'fronk');
 ?>
 ===DONE===
 --CLEAN--

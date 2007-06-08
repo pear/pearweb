@@ -31,16 +31,16 @@ $mock->addDataQuery("SELECT p.name AS name FROM packages p, categories c WHERE p
 
 // ======= test =========
 $rest->saveCategoryREST('Testing/Stuff');
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileExists($rdir . '/c/Testing%2FStuff/info.xml', 'info');
+$phpt->assertNoErrors('after');
+$phpt->assertFileExists($rdir . '/c/Testing%2FStuff/info.xml', 'info');
 if (!OS_WINDOWS) {
-    $phpunit->assertEquals(0666, fileperms($rdir . '/c/Testing%2FStuff/info.xml') & 0777, 'permissions');
+    $phpt->assertEquals(0666, fileperms($rdir . '/c/Testing%2FStuff/info.xml') & 0777, 'permissions');
 }
-$phpunit->assertFileExists($rdir . '/c/Testing%2FStuff/packages.xml', 'packages');
+$phpt->assertFileExists($rdir . '/c/Testing%2FStuff/packages.xml', 'packages');
 if (!OS_WINDOWS) {
-    $phpunit->assertEquals(0666, fileperms($rdir . '/c/Testing%2FStuff/packages.xml') & 0777, 'packages permissions');
+    $phpt->assertEquals(0666, fileperms($rdir . '/c/Testing%2FStuff/packages.xml') & 0777, 'packages permissions');
 }
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <c xmlns="http://pear.php.net/dtd/rest.category"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -51,7 +51,7 @@ $phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
  <a>Testing/Stuff</a>
  <d>Packages for creating test suites</d>
 </c>', file_get_contents($rdir . '/c/Testing%2FStuff/info.xml'), 'contents');
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <l xmlns="http://pear.php.net/dtd/rest.categorypackages"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"

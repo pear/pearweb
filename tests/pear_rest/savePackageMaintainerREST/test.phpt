@@ -13,14 +13,14 @@ $mock->addDataQuery("SELECT * FROM maintains WHERE package = 123", array(
 ), array('handle', 'package', 'role', 'active'));
 // ===== test ======
 $rest->savePackageMaintainerREST('PEAR');
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileExists($rdir . '/p/pear/maintainers.xml', 'info');
-$phpunit->assertFileExists($rdir . '/p/pear/maintainers2.xml', 'info');
+$phpt->assertNoErrors('after');
+$phpt->assertFileExists($rdir . '/p/pear/maintainers.xml', 'info');
+$phpt->assertFileExists($rdir . '/p/pear/maintainers2.xml', 'info');
 if (!OS_WINDOWS) {
-    $phpunit->assertEquals(0666, fileperms($rdir . '/p/pear/maintainers.xml') & 0777, 'permissions');
-    $phpunit->assertEquals(0666, fileperms($rdir . '/p/pear/maintainers2.xml') & 0777, 'permissions');
+    $phpt->assertEquals(0666, fileperms($rdir . '/p/pear/maintainers.xml') & 0777, 'permissions');
+    $phpt->assertEquals(0666, fileperms($rdir . '/p/pear/maintainers2.xml') & 0777, 'permissions');
 }
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <m xmlns="http://pear.php.net/dtd/rest.packagemaintainers"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -30,7 +30,7 @@ $phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
  <c>pear.php.net</c>
  <m><h>cellog</h><a>1</a></m> <m><h>boober</h><a>0</a></m> <m><h>fluber</h><a>1</a></m></m>',
 file_get_contents($rdir . '/p/pear/maintainers.xml'), 'contents');
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <m xmlns="http://pear.php.net/dtd/rest.packagemaintainers2"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"

@@ -71,7 +71,7 @@ array (
     'sum' => '1',
   ),
 ), array('level', 'sum'));
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
   0 => 
   array (
     'level' => 'pear.admin',

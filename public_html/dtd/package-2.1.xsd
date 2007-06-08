@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Gregory Beaver (The Chiara String Quartet) -->
-<!-- edited with XMLSPY v2004 rel. 4 U (http://www.xmlspy.com) by Greg Beaver (The Chiara String Quartet) -->
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" targetNamespace="http://pear.php.net/dtd/package-2.0" elementFormDefault="qualified" attributeFormDefault="unqualified" xml:lang="EN">
  <xs:element name="package">
   <xs:complexType>
@@ -172,7 +170,7 @@
  <xs:element name="file">
   <xs:complexType>
    <xs:choice>
-    <xs:any namespace="http://pear.php.net/dtd/tasks-1.0" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:any namespace="http://pear.php.net/dtd/tasks-1.0" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
    </xs:choice>
    <xs:attribute name="name" type="xs:string" use="required"/>
    <xs:attribute name="role" type="xs:string" use="required"/>

@@ -44,9 +44,9 @@ $mock->addDataQuery("SELECT p.id AS id, p.name AS name, p.summary AS summary, r.
 
 // test
 $packages = category::getRecent(1, 'test');
-$phpunit->assertEquals(array(), $packages, 'test 1');
+$phpt->assertEquals(array(), $packages, 'test 1');
 $packages = category::getRecent(1, 'test2');
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
   0 => 
   array (
     'id' => 2,
@@ -60,7 +60,7 @@ $phpunit->assertEquals(array (
   ),
 ), $packages, 'test 2');
 $packages = category::getRecent(2, 'test2');
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
   0 => 
   array (
     'id' => 2,

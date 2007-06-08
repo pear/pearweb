@@ -32,12 +32,12 @@ $mock->addDataQuery("SELECT * FROM users WHERE handle = 'cellog'", array (
     'pgpkeyid', 'pgpkey', 'wishlist', 'longitude', 'latitude', 'active'));
 // ===== test ======
 $rest->saveMaintainerREST('cellog');
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileExists($rdir . '/m/cellog/info.xml', 'info');
+$phpt->assertNoErrors('after');
+$phpt->assertFileExists($rdir . '/m/cellog/info.xml', 'info');
 if (!OS_WINDOWS) {
-    $phpunit->assertEquals(0666, fileperms($rdir . '/m/cellog/info.xml') & 0777, 'permissions');
+    $phpt->assertEquals(0666, fileperms($rdir . '/m/cellog/info.xml') & 0777, 'permissions');
 }
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <m xmlns="http://pear.php.net/dtd/rest.maintainer"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"

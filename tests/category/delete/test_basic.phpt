@@ -47,10 +47,10 @@ $mock->addDataQuery("SELECT
                 c.name = 'test'", array(
                 ), array('id', 'name'));    
 $id = category::add(array('name' => 'test', 'desc' => 'hi there'));
-$phpunit->assertFileExists($restdir . '/c/test/info.xml', 'info.xml');
-$phpunit->assertFileExists($restdir . '/c/test/packages.xml', 'packages.xml');
-$phpunit->assertFileExists($restdir . '/c/test/packagesinfo.xml', 'packagesinfo.xml');
-$phpunit->assertFileExists($restdir . '/c/categories.xml', 'categories.xml');
+$phpt->assertFileExists($restdir . '/c/test/info.xml', 'info.xml');
+$phpt->assertFileExists($restdir . '/c/test/packages.xml', 'packages.xml');
+$phpt->assertFileExists($restdir . '/c/test/packagesinfo.xml', 'packagesinfo.xml');
+$phpt->assertFileExists($restdir . '/c/categories.xml', 'categories.xml');
 $mock->queries = array();
 
 $mock->addDataQuery("SELECT name FROM categories WHERE id = 1", array(array('name' => 'test')), array('name'));
@@ -67,7 +67,7 @@ $mock->addUpdateQuery("UPDATE categories SET parent = NULL WHERE parent = 1", ar
 
 // test
 category::delete(1);
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
   0 => 'SELECT name FROM categories WHERE id = 1',
   1 => 'SELECT parent FROM categories WHERE id = 1',
   2 => 'SELECT cat_left FROM categories WHERE id = 1',
@@ -78,10 +78,10 @@ $phpunit->assertEquals(array (
   7 => 'UPDATE categories SET parent = NULL WHERE parent = 1',
   8 => 'SELECT * FROM categories ORDER BY name',
 ), $mock->queries, 'queries');
-$phpunit->assertFileNotExists($restdir . '/c/test/info.xml', 'info.xml');
-$phpunit->assertFileNotExists($restdir . '/c/test/packages.xml', 'packages.xml');
-$phpunit->assertFileNotExists($restdir . '/c/test/packagesinfo.xml', 'packagesinfo.xml');
-$phpunit->assertFileExists($restdir . '/c/categories.xml', 'categories.xml');
+$phpt->assertFileNotExists($restdir . '/c/test/info.xml', 'info.xml');
+$phpt->assertFileNotExists($restdir . '/c/test/packages.xml', 'packages.xml');
+$phpt->assertFileNotExists($restdir . '/c/test/packagesinfo.xml', 'packagesinfo.xml');
+$phpt->assertFileExists($restdir . '/c/categories.xml', 'categories.xml');
 ?>
 ===DONE===
 --CLEAN--

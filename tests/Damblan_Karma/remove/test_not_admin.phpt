@@ -9,7 +9,7 @@ $mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pe
     
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
 $karma->remove('foo', 'pear.dev');
-$phpunit->assertErrors(array(
+$phpt->assertErrors(array(
     array('package' => 'PEAR_Error', 'message' => 'Insufficient privileges')
 ), 'errors');
 ?>

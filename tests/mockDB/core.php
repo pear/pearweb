@@ -21,7 +21,7 @@ class mockDB_core
 
     private function _normalize($query)
     {
-        return str_replace(array("\r\n", "\r", "\n"), array(' ', ' ', ' '), $query);
+        return trim(str_replace(array("\r\n", "\r", "\n"), array(' ', ' ', ' '), $query));
     }
 
     function addFailingQuery($query, $message, $code = 123)

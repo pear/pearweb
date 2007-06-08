@@ -14,9 +14,9 @@ $mock->addDataQuery("SELECT * FROM karma WHERE user = 'foo' AND level IN ('pear.
 $mock->addDeleteQuery("DELETE FROM karma WHERE user = 'foo' AND level = 'pear.dev'", array(),
     1);
 $r = $karma->remove('foo', 'pear.dev');
-$phpunit->assertTrue($r, 'return');
-$phpunit->assertNoErrors('errors');
-$phpunit->assertEquals(array (
+$phpt->assertTrue($r, 'return');
+$phpt->assertNoErrors('errors');
+$phpt->assertEquals(array (
   0 => 
   array (
     'priority' => NULL,

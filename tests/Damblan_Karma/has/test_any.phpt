@@ -9,11 +9,11 @@ $mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pe
     array('id' => 1, 'user' => 'cellog', 'level' => 'pear.fronk', 'granted_by' => 'cellog',
     'granted_at' => '2007-05-24 00:00:00')
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
-$phpunit->assertTrue($karma->has('cellog', 'pear.fronk'), 'pear.fronk');
+$phpt->assertTrue($karma->has('cellog', 'pear.fronk'), 'pear.fronk');
 
 $mock->addDataQuery("SELECT * FROM karma WHERE user = 'cellog' AND level IN ('pear.fronk')", array(
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
-$phpunit->assertFalse($karma->has('cellog', 'pear.fronk'), 'none');
+$phpt->assertFalse($karma->has('cellog', 'pear.fronk'), 'none');
 ?>
 ===DONE===
 --EXPECT--

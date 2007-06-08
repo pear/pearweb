@@ -7,9 +7,9 @@ $mock->addFailingQuery("SELECT id, name FROM packages WHERE package_type = 'pear
 
 // ===== test ======
 $rest->saveAllPackagesREST();
-$phpunit->assertErrors(array(
+$phpt->assertErrors(array(
     array('package' => 'PEAR_Error', 'message' => 'DB Error: unknown error')), 'after');
-$phpunit->assertFileNotExists($rdir . '/c/categories.xml', 'info');
+$phpt->assertFileNotExists($rdir . '/c/categories.xml', 'info');
 ?>
 ===DONE===
 --CLEAN--

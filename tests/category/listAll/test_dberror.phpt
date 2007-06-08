@@ -8,7 +8,7 @@ $mock->addFailingQuery("SELECT * FROM categories ORDER BY name", 'failed and stu
 
 // test
 $all = category::listAll();
-$phpunit->assertErrors(array(
+$phpt->assertErrors(array(
     array('package' => 'PEAR_Error', 'message' => 'DB Error: unknown error')
 ), 'error');
 ?>

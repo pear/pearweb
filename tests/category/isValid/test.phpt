@@ -11,8 +11,8 @@ $mock->addDataQuery("SELECT id FROM categories WHERE name = 'blah2'",
 
 
 // test
-$phpunit->assertNotTrue(category::isValid('blah'), '1');
-$phpunit->assertNotFalse(category::isValid('blah2'), '1');
+$phpt->assertNotTrue(category::isValid('blah'), '1');
+$phpt->assertNotFalse(category::isValid('blah2'), '1');
 ?>
 ===DONE===
 --CLEAN--

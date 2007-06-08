@@ -45,12 +45,12 @@ $mock->addDataQuery("SELECT type, relation, version, name, `release` as `release
 
 // ======TEST=========== //
 $rest->savePackageREST('Test');
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileExists($rdir . '/p/test/info.xml', 'info');
+$phpt->assertNoErrors('after');
+$phpt->assertFileExists($rdir . '/p/test/info.xml', 'info');
 if (!OS_WINDOWS) {
-    $phpunit->assertEquals(0666, fileperms($rdir . '/p/test/info.xml') & 0777, 'permissions');
+    $phpt->assertEquals(0666, fileperms($rdir . '/p/test/info.xml') & 0777, 'permissions');
 }
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <p xmlns="http://pear.php.net/dtd/rest.package"    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"    xsi:schemaLocation="http://pear.php.net/dtd/rest.package    http://pear.php.net/dtd/rest.package.xsd">
  <n>Test</n>

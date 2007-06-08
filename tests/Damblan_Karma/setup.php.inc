@@ -43,6 +43,6 @@ $auth_user = new stdClass;
 $auth_user->handle = 'cellog';
 $karma = new Damblan_Karma($dbh, $t, $o);
 require dirname(dirname(__FILE__)) . '/phpt_test.php5.inc';
-$phpunit = new PEAR_PHPTest;
+$phpt = new PEAR_PHPTest;
 
 ?>

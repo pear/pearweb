@@ -353,8 +353,7 @@ if ($extraContent) {
 }
 ?>
 </html>
-
-    <?php
+<?php
 }
 
 

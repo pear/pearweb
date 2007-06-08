@@ -11,8 +11,8 @@ array(
     array('id' => 2, 'user' => 'cellog', 'level' => 'pear.admin', 'granted_by' => 'cellog', 'granted_at' => '2007-05-23 00:00:00'),
     array('id' => 3, 'user' => 'cellog', 'level' => 'pear.election', 'granted_by' => 'cellog', 'granted_at' => '2007-05-23 00:00:00'),
     ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
-$phpunit->assertEquals(array(), $karma->get('nobody'), 'nobody');
-$phpunit->assertEquals(array(
+$phpt->assertEquals(array(), $karma->get('nobody'), 'nobody');
+$phpt->assertEquals(array(
     array('id' => 1, 'user' => 'cellog', 'level' => 'pear.dev', 'granted_by' => 'cellog', 'granted_at' => '2007-05-23 00:00:00'),
     array('id' => 2, 'user' => 'cellog', 'level' => 'pear.admin', 'granted_by' => 'cellog', 'granted_at' => '2007-05-23 00:00:00'),
     array('id' => 3, 'user' => 'cellog', 'level' => 'pear.election', 'granted_by' => 'cellog', 'granted_at' => '2007-05-23 00:00:00'),

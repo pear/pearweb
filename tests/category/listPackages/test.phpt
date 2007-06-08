@@ -24,9 +24,9 @@ $mock->addDataQuery("SELECT
 
 // test
 $packages = category::listPackages('test');
-$phpunit->assertEquals(array(), $packages, 'test 1');
+$phpt->assertEquals(array(), $packages, 'test 1');
 $packages = category::listPackages('test2');
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
   0 => 
   array (
     'id' => 1,

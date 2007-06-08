@@ -24,12 +24,12 @@ $mock->addDataQuery("SELECT id, name FROM packages WHERE package_type = 'pear' A
 
 // ======TEST=========== //
 $rest->saveAllPackagesREST();
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileExists($rdir . '/p/packages.xml', 'info');
+$phpt->assertNoErrors('after');
+$phpt->assertFileExists($rdir . '/p/packages.xml', 'info');
 if (!OS_WINDOWS) {
-    $phpunit->assertEquals(0666, fileperms($rdir . '/p/packages.xml') & 0777, 'permissions');
+    $phpt->assertEquals(0666, fileperms($rdir . '/p/packages.xml') & 0777, 'permissions');
 }
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <a xmlns="http://pear.php.net/dtd/rest.allpackages"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"

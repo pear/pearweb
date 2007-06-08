@@ -73,7 +73,7 @@ $mock->addDeleteQuery("DELETE FROM users WHERE handle = 'dufuz'",
     array("SELECT * FROM users WHERE handle = 'dufuz'" => array(array(), 'cols' => array())), 1);
 
 // ============= test =============
-$phpunit->assertFileExists($rdir . '/m/dufuz/info.xml', 'test 1');
+$phpt->assertFileExists($rdir . '/m/dufuz/info.xml', 'test 1');
 $data = array(
     'handle'    => 'dufuz',
     'firstname' => 'Helgi',
@@ -86,12 +86,12 @@ $data = array(
     'homepage'  => 'http://www.helgi.ws/',
 );
 $id = user::add($data, false, false);
-$phpunit->assertTrue($id, 'id');
+$phpt->assertTrue($id, 'id');
 $res = user::remove('dufuz');
-$phpunit->assertTrue($res, 'test 2');
-$phpunit->assertFileNotExists($rdir . '/m/dufuz/info.xml', 'test 3');
+$phpt->assertTrue($res, 'test 2');
+$phpt->assertFileNotExists($rdir . '/m/dufuz/info.xml', 'test 3');
 
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
     0 => 'SELECT * FROM users WHERE handle = \'dufuz\'',
     1 => '
             INSERT INTO users

@@ -16,18 +16,18 @@ $mock->addDataQuery("SELECT releasedate FROM releases WHERE id = 123", array(
 // ======TEST=========== //
 // we'll use a dummy file for the .tgz
 $rest->saveReleaseREST($packagexml, file_get_contents($packagexml), $pf, 'cellog', 123);
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileExists($rdir . '/r/pearweb/1.15.2.xml', '1.15.2.xml');
-$phpunit->assertFileExists($rdir . '/r/pearweb/package.1.15.2.xml', 'package.1.15.2.xml');
-$phpunit->assertFileExists($rdir . '/r/pearweb/deps.1.15.2.txt', 'deps.1.15.2.txt');
-$phpunit->assertFileExists($rdir . '/r/pearweb/v2.1.15.2.xml', 'v2.1.15.2.xml');
+$phpt->assertNoErrors('after');
+$phpt->assertFileExists($rdir . '/r/pearweb/1.15.2.xml', '1.15.2.xml');
+$phpt->assertFileExists($rdir . '/r/pearweb/package.1.15.2.xml', 'package.1.15.2.xml');
+$phpt->assertFileExists($rdir . '/r/pearweb/deps.1.15.2.txt', 'deps.1.15.2.txt');
+$phpt->assertFileExists($rdir . '/r/pearweb/v2.1.15.2.xml', 'v2.1.15.2.xml');
 if (!OS_WINDOWS) {
-    $phpunit->assertEquals(0666, fileperms($rdir . '/r/pearweb/1.15.2.xml') & 0777, 'permissions 1.15.2.xml');
-    $phpunit->assertEquals(0666, fileperms($rdir . '/r/pearweb/package.1.15.2.xml') & 0777, 'permissions 1.15.2.xml');
-    $phpunit->assertEquals(0666, fileperms($rdir . '/r/pearweb/deps.1.15.2.txt') & 0777, 'permissions 1.15.2.xml');
-    $phpunit->assertEquals(0666, fileperms($rdir . '/r/pearweb/v2.1.15.2.xml') & 0777, 'permissions v2.1.15.2.xml');
+    $phpt->assertEquals(0666, fileperms($rdir . '/r/pearweb/1.15.2.xml') & 0777, 'permissions 1.15.2.xml');
+    $phpt->assertEquals(0666, fileperms($rdir . '/r/pearweb/package.1.15.2.xml') & 0777, 'permissions 1.15.2.xml');
+    $phpt->assertEquals(0666, fileperms($rdir . '/r/pearweb/deps.1.15.2.txt') & 0777, 'permissions 1.15.2.xml');
+    $phpt->assertEquals(0666, fileperms($rdir . '/r/pearweb/v2.1.15.2.xml') & 0777, 'permissions v2.1.15.2.xml');
 }
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <r xmlns="http://pear.php.net/dtd/rest.release"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -77,7 +77,7 @@ http://pear.php.net/advisory-20070507.txt
  <g>http://pear.php.net/get/pearweb-1.15.2</g>
  <x xlink:href="package.1.15.2.xml"/>
 </r>', file_get_contents($rdir . '/r/pearweb/1.15.2.xml'), 'contents');
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <r xmlns="http://pear.php.net/dtd/rest.release2"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"

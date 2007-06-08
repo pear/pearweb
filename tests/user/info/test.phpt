@@ -44,7 +44,7 @@ $mock->addDataQuery("SELECT * FROM users WHERE handle = 'dufuz' AND registered =
 
 // test
 $user = user::info('dufuz', null, false);
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
     'handle' => 'dufuz',
     'name' => 'Helgi Thormar',
     'email' => 'dufuz@php.net',
@@ -65,7 +65,7 @@ $phpunit->assertEquals(array (
   ), $user, 'test 1');
 
 $user = user::info('dufuz', null, false, false);
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
     'handle' => 'dufuz',
     'password' => 'as if!',
     'name' => 'Helgi Thormar',
@@ -87,13 +87,13 @@ $phpunit->assertEquals(array (
   ), $user, 'test 2');
 
 $user = user::info('dufuz', 'password', false);
-$phpunit->assertNull($user, 'password fetching');
+$phpt->assertNull($user, 'password fetching');
 
 $user = user::info('dufuz', 'email', false);
-$phpunit->assertEquals(array('email' => 'dufuz@php.net'), $user, 'field fetching');
+$phpt->assertEquals(array('email' => 'dufuz@php.net'), $user, 'field fetching');
 
 $info = user::info('dufuz', null, true);
-$phpunit->assertNull($info, 'test 3');
+$phpt->assertNull($info, 'test 3');
 
 ?>
 ===DONE===

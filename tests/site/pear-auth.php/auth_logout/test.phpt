@@ -1,12 +1,13 @@
 --TEST--
-PEAR_Auth->data()
+auth_logout()
 --FILE--
 <?php
 // setup
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
 require 'pear-database-user.php';
 
-$mock->addDataQuery("SELECT * FROM users WHERE registered = '1' AND handle = 'cellog'", array (
+$mock->addDataQuery("SELECT * FROM users WHERE handle = 'cellog' AND registered = '1'",
+array (
   0 => 
   array (
     'handle' => 'cellog',
@@ -33,8 +34,9 @@ $mock->addDataQuery("SELECT * FROM users WHERE registered = '1' AND handle = 'ce
     'pgpkeyid', 'pgpkey', 'wishlist', 'longitude', 'latitude', 'active'));
 
 $data = user::info('cellog', null, true, false);
+$auth_user = new PEAR_Auth;
 $auth_user->data($data);
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
   'handle' => 'cellog',
   'password' => 'as if!',
   'name' => 'Greg Beaver',

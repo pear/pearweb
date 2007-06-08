@@ -12,6 +12,7 @@ $_SERVER['REQUEST_URI'] = null;
 $_SERVER['QUERY_STRING'] = '';
 $self = '';
 auth_reject();
+__halt_compiler();
 ?>
 ===DONE===
 --EXPECTF--
@@ -80,6 +81,7 @@ auth_reject();
  <li class="side_page"><a href="/news/">News</a></li>
  <li class="side_page"><a href="/qa/">Quality Assurance</a></li>
  <li class="side_page"><a href="/group/">The PEAR Group</a></li>
+ <li class="side_page"><a href="/mirrors.php">Mirrors</a></li>
 </ul>
 
 

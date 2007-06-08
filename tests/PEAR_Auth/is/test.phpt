@@ -8,15 +8,15 @@ $auth_user = null;
 
 $x = new PEAR_Auth;
 
-$phpunit->assertFalse($x->is('cellog'), 'no $auth_user');
+$phpt->assertFalse($x->is('cellog'), 'no $auth_user');
 
 $x->handle = 'cellog';
-$phpunit->assertTrue($x->is('cellog'), 'no $auth_user, handle is set');
+$phpt->assertTrue($x->is('cellog'), 'no $auth_user, handle is set');
 
 $auth_user = clone $x;
 
 $x->handle = 'blah';
-$phpunit->assertTrue($x->is('cellog'), '$auth_user');
+$phpt->assertTrue($x->is('cellog'), '$auth_user');
 ?>
 ===DONE===
 --EXPECT--

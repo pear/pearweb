@@ -5,13 +5,13 @@ PEAR_REST->savePackagesCategoryREST()
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
 require dirname(__FILE__) . '/setup_test.php.inc';
 $pear_rest->savePackagesCategoryREST('Halb');
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileExists($rdir . '/c/Halb/packagesinfo.xml', 'pc');
+$phpt->assertNoErrors('after');
+$phpt->assertFileExists($rdir . '/c/Halb/packagesinfo.xml', 'pc');
 if (!OS_WINDOWS) {
-    $phpunit->assertEquals(0666, fileperms($rdir . '/c/Halb/packagesinfo.xml') & 0777,
+    $phpt->assertEquals(0666, fileperms($rdir . '/c/Halb/packagesinfo.xml') & 0777,
         'permissions');
 }
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <f xmlns="http://pear.php.net/dtd/rest.categorypackageinfo"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"

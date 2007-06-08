@@ -14,7 +14,7 @@ $mock->addDataQuery("SELECT * FROM karma WHERE user = 'foo' AND level IN ('pear.
     'granted_at' => '2007-05-24 00:00:00')
 ), array('id', 'user', 'level', 'granted_by', 'granted_at'));
 $karma->grant('foo', 'pear.dev');
-$phpunit->assertErrors(array(
+$phpt->assertErrors(array(
     array('package' => 'PEAR_Error', 'message' => 'The karma level pear.dev has already been granted to the user foo.')
 ), 'errors');
 ?>

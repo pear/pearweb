@@ -114,6 +114,18 @@ blah blah blah</notes>
 ')
                 ), array('packagexml'));
 $pear_rest->savePackageREST('Blah1');
+$mock->addDataQuery('SELECT release, version FROM deps WHERE package = 1 AND type="php" and relation="ge"', array(
+    array(
+        'release' => 1,
+        'version' => '5.2.2',
+    )
+), array('release', 'version'));
+$mock->addDataQuery('SELECT release, version FROM deps WHERE package = 2 AND type="php" and relation="ge"', array(
+    array(
+        'release' => 1,
+        'version' => '5.2.2',
+    )
+), array('release', 'version'));
 $pear_rest->saveAllReleasesREST('Blah1');
 file_put_contents($rdir . '/r/blah1/deps.1.0.0.txt', serialize(array(
     array('type' => 'php', 'rel' => 'ge', 'version' => '5.2.2', 'optional' => 'no'),

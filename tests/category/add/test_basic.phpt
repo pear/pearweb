@@ -49,8 +49,8 @@ $mock->addDataQuery("SELECT
 
 // test
 $id = category::add(array('name' => 'test', 'desc' => 'hi there'));
-$phpunit->assertEquals(1, $id, 'id');
-$phpunit->assertEquals(array (
+$phpt->assertEquals(1, $id, 'id');
+$phpt->assertEquals(array (
   0 => 'INSERT INTO categories (id, name, description, parent)VALUES (1, \'test\', \'hi there\', NULL)',
   1 => 'select max(cat_right) + 1 from categories
                               where parent is null',
@@ -68,10 +68,10 @@ $phpunit->assertEquals(array (
                 p.category = c.id AND
                 c.name = \'test\'',
 ), $mock->queries, 'queries');
-$phpunit->assertFileExists($restdir . '/c/test/info.xml', 'info.xml');
-$phpunit->assertFileExists($restdir . '/c/test/packages.xml', 'packages.xml');
-$phpunit->assertFileExists($restdir . '/c/test/packagesinfo.xml', 'packagesinfo.xml');
-$phpunit->assertFileExists($restdir . '/c/categories.xml', 'categories.xml');
+$phpt->assertFileExists($restdir . '/c/test/info.xml', 'info.xml');
+$phpt->assertFileExists($restdir . '/c/test/packages.xml', 'packages.xml');
+$phpt->assertFileExists($restdir . '/c/test/packagesinfo.xml', 'packagesinfo.xml');
+$phpt->assertFileExists($restdir . '/c/categories.xml', 'categories.xml');
 ?>
 ===DONE===
 --CLEAN--

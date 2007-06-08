@@ -6,26 +6,26 @@ require dirname(dirname(__FILE__)) . '/setup.php.inc';
 require dirname(__FILE__) . '/test.phpt.setup.inc';
 // ======TEST=========== //
 $rest->saveAllReleasesREST('PEAR');
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileExists($rdir . '/r/pear/latest.txt', 'latest.txt');
-$phpunit->assertFileExists($rdir . '/r/pear/stable.txt', 'stable.txt');
-$phpunit->assertFileExists($rdir . '/r/pear/beta.txt', 'beta.txt');
-$phpunit->assertFileExists($rdir . '/r/pear/alpha.txt', 'alpha.txt');
-$phpunit->assertFileExists($rdir . '/r/pear/allreleases.xml', 'allreleases.xml');
-$phpunit->assertFileExists($rdir . '/r/pear/allreleases2.xml', 'allreleases2.xml');
+$phpt->assertNoErrors('after');
+$phpt->assertFileExists($rdir . '/r/pear/latest.txt', 'latest.txt');
+$phpt->assertFileExists($rdir . '/r/pear/stable.txt', 'stable.txt');
+$phpt->assertFileExists($rdir . '/r/pear/beta.txt', 'beta.txt');
+$phpt->assertFileExists($rdir . '/r/pear/alpha.txt', 'alpha.txt');
+$phpt->assertFileExists($rdir . '/r/pear/allreleases.xml', 'allreleases.xml');
+$phpt->assertFileExists($rdir . '/r/pear/allreleases2.xml', 'allreleases2.xml');
 if (!OS_WINDOWS) {
-    $phpunit->assertEquals(0666, fileperms($rdir . '/r/pear/latest.txt') & 0777, 'permissions latest');
-    $phpunit->assertEquals(0666, fileperms($rdir . '/r/pear/stable.txt') & 0777, 'permissions stable');
-    $phpunit->assertEquals(0666, fileperms($rdir . '/r/pear/beta.txt') & 0777, 'permissions beta');
-    $phpunit->assertEquals(0666, fileperms($rdir . '/r/pear/alpha.txt') & 0777, 'permissions alpha');
-    $phpunit->assertEquals(0666, fileperms($rdir . '/r/pear/allreleases.xml') & 0777, 'permissions allreleases');
-    $phpunit->assertEquals(0666, fileperms($rdir . '/r/pear/allreleases2.xml') & 0777, 'permissions allreleases2');
+    $phpt->assertEquals(0666, fileperms($rdir . '/r/pear/latest.txt') & 0777, 'permissions latest');
+    $phpt->assertEquals(0666, fileperms($rdir . '/r/pear/stable.txt') & 0777, 'permissions stable');
+    $phpt->assertEquals(0666, fileperms($rdir . '/r/pear/beta.txt') & 0777, 'permissions beta');
+    $phpt->assertEquals(0666, fileperms($rdir . '/r/pear/alpha.txt') & 0777, 'permissions alpha');
+    $phpt->assertEquals(0666, fileperms($rdir . '/r/pear/allreleases.xml') & 0777, 'permissions allreleases');
+    $phpt->assertEquals(0666, fileperms($rdir . '/r/pear/allreleases2.xml') & 0777, 'permissions allreleases2');
 }
-$phpunit->assertEquals('1.5.1', file_get_contents($rdir . '/r/pear/latest.txt'), 'latest contents');
-$phpunit->assertEquals('1.5.1', file_get_contents($rdir . '/r/pear/stable.txt'), 'stable contents');
-$phpunit->assertEquals('1.5.0RC3', file_get_contents($rdir . '/r/pear/beta.txt'), 'beta contents');
-$phpunit->assertEquals('1.5.0a1', file_get_contents($rdir . '/r/pear/alpha.txt'), 'alpha contents');
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('1.5.1', file_get_contents($rdir . '/r/pear/latest.txt'), 'latest contents');
+$phpt->assertEquals('1.5.1', file_get_contents($rdir . '/r/pear/stable.txt'), 'stable contents');
+$phpt->assertEquals('1.5.0RC3', file_get_contents($rdir . '/r/pear/beta.txt'), 'beta contents');
+$phpt->assertEquals('1.5.0a1', file_get_contents($rdir . '/r/pear/alpha.txt'), 'alpha contents');
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <a xmlns="http://pear.php.net/dtd/rest.allreleases"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink"     xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases
     http://pear.php.net/dtd/rest.allreleases.xsd">
@@ -96,7 +96,7 @@ $phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
  <r><v>0.10</v><s>beta</s></r>
  <r><v>0.9</v><s>stable</s></r>
 </a>', file_get_contents($rdir . '/r/pear/allreleases.xml'), 'contents');
-$phpunit->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
+$phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <a xmlns="http://pear.php.net/dtd/rest.allreleases2"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xlink="http://www.w3.org/1999/xlink"     xsi:schemaLocation="http://pear.php.net/dtd/rest.allreleases2
     http://pear.php.net/dtd/rest.allreleases2.xsd">

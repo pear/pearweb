@@ -7,9 +7,9 @@ $mock->addFailingQuery("SELECT * FROM categories WHERE name = 'Testing/Stuff'", 
 
 // ===== test ======
 $rest->saveCategoryREST('Testing/Stuff');
-$phpunit->assertErrors(array(
+$phpt->assertErrors(array(
     array('package' => 'PEAR_Error', 'message' => 'DB Error: unknown error')), 'after');
-$phpunit->assertFileNotExists($rdir . '/c/categories.xml', 'info');
+$phpt->assertFileNotExists($rdir . '/c/categories.xml', 'info');
 ?>
 ===DONE===
 --CLEAN--

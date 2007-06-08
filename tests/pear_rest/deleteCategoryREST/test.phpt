@@ -8,8 +8,8 @@ System::mkdir(array('-p', $rdir . '/c/Plonk+It'));
 touch($rdir . '/c/Plonk+It/here');
 // test
 $rest->deleteCategoryREST('Plonk It');
-$phpunit->assertNoErrors('after');
-$phpunit->assertFileNotExists($rdir . '/c/Plonk+It', 'Plonk It');
+$phpt->assertNoErrors('after');
+$phpt->assertFileNotExists($rdir . '/c/Plonk+It', 'Plonk It');
 ?>
 ===DONE===
 --CLEAN--

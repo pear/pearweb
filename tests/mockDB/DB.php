@@ -49,6 +49,27 @@ class DB_mock extends DB_common
     // {{{ properties
 
     /**
+     * Run-time configuration options
+     *
+     * The 'optimize' option has been deprecated.  Use the 'portability'
+     * option instead.
+     *
+     * @var array
+     * @see DB_common::setOption()
+     */
+    var $options = array(
+        'result_buffering' => 500,
+        'persistent' => false,
+        'ssl' => false,
+        'debug' => 0,
+        'seqname_format' => '%s_seq',
+        'autofree' => false,
+        'portability' => DB_PORTABILITY_NONE,
+        'optimize' => 'performance',  // Deprecated.  Use 'portability'.
+        'mock' => false,
+    );
+
+    /**
      * The DB driver type (mysql, oci8, odbc, etc.)
      * @var string
      */
@@ -177,6 +198,15 @@ class DB_mock extends DB_common
         $this->DB_common();
     }
     // }}}
+
+    function setOption($opt, $value)
+    {
+        if ($opt == 'mock') {
+            $this->setMock($value);
+        } else {
+            parent::setOption($opt, $value);
+        }
+    }
 
     function setMock(mockDB_core $mock)
     {

@@ -20,7 +20,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name",
 
 // test
 $all = category::listAll();
-$phpunit->assertEquals(array (
+$phpt->assertEquals(array (
   0 => 
   array (
     'id' => 1,

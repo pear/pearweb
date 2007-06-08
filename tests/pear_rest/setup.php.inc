@@ -17,7 +17,7 @@ $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 $mock = new mockDB_core;
 $dbh->setMock($mock);
 require dirname(dirname(__FILE__)) . '/phpt_test.php5.inc';
-$phpunit = new PEAR_PHPTest;
+$phpt = new PEAR_PHPTest;
 
 require_once 'pear-rest.php';
 $rest = new PEAR_REST($rdir = dirname(__FILE__) . '/rest');
