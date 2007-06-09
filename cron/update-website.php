@@ -54,4 +54,19 @@ if ($pearweb_index) {
             }
         }
     }
-}?>
+}
+$pearweb_channel = &PEAR_PackageUpdate::factory('Cli', 'pearweb_channelxml', 'pear.php.net');
+if ($pearweb_channel) {
+    $pearweb_channel->setMinimumState(PEAR_PACKAGEUPDATE_STATE_STABLE);
+    if ($pearweb_channel->checkUpdate()) {
+        if (!$pearweb_channel->update()) {
+            if ($pearweb_channel->hasErrors()) {
+                $errors = PEAR_ErrorStack::staticGetErrors();
+                echo "errors\n";
+                foreach ($errors['PEAR_PackageUpdate_Cli'] as $err) {
+                    echo $err['message'] . "\n";
+                }
+            }
+        }
+    }
+}
