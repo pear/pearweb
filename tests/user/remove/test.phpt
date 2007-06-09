@@ -90,6 +90,7 @@ $phpt->assertTrue($id, 'id');
 $res = user::remove('dufuz');
 $phpt->assertTrue($res, 'test 2');
 $phpt->assertFileNotExists($rdir . '/m/dufuz/info.xml', 'test 3');
+$phpunit->assertFileExists($rdir . '/m/allmaintainers.xml', 'test 4');
 
 $phpt->assertEquals(array (
     0 => 'SELECT * FROM users WHERE handle = \'dufuz\'',
