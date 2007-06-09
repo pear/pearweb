@@ -23,7 +23,9 @@
  * To figure out cookies are REALLY off, check to see if the person came
  * from within the PEAR website or just submitted the login form.
  */
-session_start();
+// when using cgi, a warning is always sent saying the cookie headers couldn't be sent
+// there is no way around this.
+@session_start();
 
 /*
  * If they're already logged in, say so.
@@ -35,17 +37,22 @@ if (isset($auth_user) && $auth_user) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST" && (empty($_POST['PEAR_USER']) || empty($_POST['PEAR_PW']))) {
-    auth_reject(PEAR_AUTH_REALM, 'You must provide a username and a password.');
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    if (empty($_POST['PEAR_USER']) || empty($_POST['PEAR_PW'])) {
+        auth_reject(PEAR_AUTH_REALM, 'You must provide a username and a password.');
+    }
+} else {
+    auth_reject(PEAR_AUTH_REALM, '');
 }
+
 
 if (!empty($_POST['isMD5'])) {
-    $password = @$_POST['PEAR_PW'];
+    $password = $_POST['PEAR_PW'];
 } else {
-    $password = md5(@$_POST['PEAR_PW']);
+    $password = md5($_POST['PEAR_PW']);
 }
 
-if (auth_verify(@$_POST['PEAR_USER'], $password)) {
+if (auth_verify($_POST['PEAR_USER'], $password)) {
     if (!empty($_POST['PEAR_PERSIST'])) {
         $expire = 2147483647;
     } else {
@@ -72,7 +79,7 @@ if (auth_verify(@$_POST['PEAR_USER'], $password)) {
     {
         localRedirect($_POST['PEAR_OLDURL'], false);
     } else {
-        localRedirect("/index.php", false);
+        localRedirect("http://pear.php.net/index.php", false);
     }
     exit;
 
