@@ -40,4 +40,18 @@ if ($pearweb_phars) {
         }
     }
 }
-?>
+$pearweb_index = &PEAR_PackageUpdate::factory('Cli', 'pearweb_index', 'pear.php.net');
+if ($pearweb_index) {
+    $pearweb_index->setMinimumState(PEAR_PACKAGEUPDATE_STATE_STABLE);
+    if ($pearweb_index->checkUpdate()) {
+        if (!$pearweb_index->update()) {
+            if ($pearweb_index->hasErrors()) {
+                $errors = PEAR_ErrorStack::staticGetErrors();
+                echo "errors\n";
+                foreach ($errors['PEAR_PackageUpdate_Cli'] as $err) {
+                    echo $err['message'] . "\n";
+                }
+            }
+        }
+    }
+}?>
