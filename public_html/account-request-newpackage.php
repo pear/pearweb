@@ -182,7 +182,7 @@ MSG;
             @$hsc['purpose'], 40, 5);
     $form->addText('sourcecode',
             'Link to browseable online source code:',
-            @$hsc['sourcecode'], 40, 5);
+            @$hsc['sourcecode'], 40);
     $form->addText('homepage', 'Homepage:'
             . '<p class="cell_note">(optional)</p>',
             @$hsc['homepage'], 20, null);
