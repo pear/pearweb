@@ -1,5 +1,7 @@
 --TEST--
-login.php
+login.php [no username]
+--POST--
+PEAR_PW=hi
 --FILE--
 <?php
 // setup
@@ -7,7 +9,6 @@ $_SERVER['SERVER_NAME'] = 'localhost';
 $_SERVER['HTTP_HOST'] = 'localhost';
 $_SERVER['PHP_SELF'] = 'hithere';
 $_SERVER['REQUEST_URI'] = null;
-$_SERVER['REQUEST_METHOD'] = 'GET';
 $_SERVER['QUERY_STRING'] = '';
 require dirname(__FILE__) . '/setup.php.inc';
 include dirname(dirname(dirname(dirname(__FILE__)))) . '/public_html/login.php';
@@ -45,7 +46,9 @@ __halt_compiler();
 
   <td class="content">
 
-    <script type="text/javascript" src="/javascript/md5.js"></script>
+    <div class="errors">ERROR:<ul><li>You must provide a username and a password.</li>
+</ul></div>
+<script type="text/javascript" src="/javascript/md5.js"></script>
 <script type="text/javascript">
 function doMD5(frm) {
     frm.PEAR_PW.value = hex_md5(frm.PEAR_PW.value);
