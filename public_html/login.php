@@ -69,6 +69,8 @@ if (auth_verify($_POST['PEAR_USER'], $password)) {
         $query = "UPDATE users SET password = ? WHERE handle = ?";
         $dbh->query($query, array($password, $_POST['PEAR_USER']));
     }
+    // mark user as active if they were inactive
+    $dbh->query('UPDATE users SET active=1 WHERE handle=?', array($_POST['PEAR_USER']));
 
     /*
      * Determine URL
