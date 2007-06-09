@@ -41,7 +41,7 @@ $a->setNotes('
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
 $a->clearDeps();
-$a->setPhpDep('4.3.0');
+$a->setPhpDep('5.2.0');
 $a->setPearInstallerDep('1.4.11');
 $a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.5.0');
 $a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.2');
@@ -60,7 +60,7 @@ $a->addPackageDepWithChannel('required', 'HTML_Table', 'pear.php.net', '1.5');
 $a->addPackageDepWithChannel('required', 'Pager', 'pear.php.net', '2.2.0');
 $a->addPackageDepWithChannel('required', 'PEAR_PackageUpdate', 'pear.php.net');
 //$a->addPackageDepWithChannel('required', 'PEAR_PackageFileManager', 'pear.php.net', '1.6.0');
-$a->addPackageDepWithChannel('required', 'Net_URL', 'pear.php.net', '1.0.14');
+$a->addPackageDepWithChannel('required', 'Net_URL2', 'pear.php.net', '0.1.0');
 $a->addPackageDepWithChannel('required', 'Text_Diff', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTTP_Upload', 'pear.php.net', '0.8.1');
 $a->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.6.0');
