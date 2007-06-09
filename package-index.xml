@@ -68,9 +68,9 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-06-04</date>
+ <date>2007-06-09</date>
  <version>
-  <release>1.16.3</release>
+  <release>1.16.4</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -79,7 +79,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-    Note that Josh Eichorn is the VP for 07-08
+    Bug #11257 Wrong link tot Election results on mainpage news
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -232,6 +232,21 @@
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
     Note that Josh Eichorn is the VP for 07-08
+   </notes>
+  </release>
+  <release>
+   <date>2007-06-09</date>
+   <version>
+    <release>1.16.4</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+    Bug #11257 Wrong link tot Election results on mainpage news
    </notes>
   </release>
  </changelog>

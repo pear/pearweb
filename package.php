@@ -31,31 +31,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             
         ),
     ));
-$a->setReleaseVersion('1.16.0');
+$a->setReleaseVersion('1.16.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #10660: go-pear won\'t install with PHP 4.4.4 [cellog]
- * Fix Bug #10877: Post install script results in a syntax error in httpd.conf [wiesemann]
- * Fix Bug #10906: Bug tracker escapes too much [cellog]
- * Fix Bug #10985: Showing panes where user has no rights [wiesemann]
- * Fix Bug #10991: Bug RSS feed contains duplicated square brackets [wiesemann]
- * Fix Bug #11007: Can\'t repropose rejected package [cellog]
- * Fix Bug #11016: Fixes for manual user notes [wiesemann]
- * Fix Bug #11018: Misleading column name in bugs stats [wiesemann]
- * Fix Bug #11024: Wrong copyright [davidc]
- * Fix Bug #11043: Too short lines in bug tracker [wiesemann]
- * Fix Bug #11062: Fatal error on package creation [wiesemann]
- * Fix Bug #11072: Account request form doesn\'t make clear that it requires usernames in
-   lowercase [wiesemann]
- * Fix Bug #11078: Release upload form: RC error message is wrong if state is alpha [wiesemann]
- * Fix Bug #11126: patch tracker email never sent when patch attached with initial bug
-   report [cellog]
- * Fix Bug #11134: patch error when CVS diff: creates empty patch [cellog]
- * Fix Bug #11146: account opening causes critical error [cellog]
- * Implement Feature #9555: Add list with mirrors [cellog]
- * Implement Feature #10539: Ability to transform doc notes into Documentation bugs [davidc]
- Split off index-updated files into pearweb_index package
+ * Fix Bug #11192 Bug comments create wrong links to other bugs
+   Now a bug link has to have # to be valid and thus parsed
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
