@@ -23,14 +23,14 @@ $recent = release::getRecent(5);
 if (@sizeof($recent) > 0) {
     $RSIDEBAR_DATA = "<strong>Recent&nbsp;Releases:</strong>\n";
     $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
-    $today = date('D, jS M y');
+    $today = date("D, jS M y");
     foreach ($recent as $release) {
-        $releasedate = make_utc_date(strtotime($release['releasedate']), 'D, jS M y');
+        $releasedate = make_utc_date(strtotime($release['releasedate']), "D, jS M y");
         if ($releasedate == $today) {
-            $releasedate = 'today';
+            $releasedate = "today";
         }
-        $RSIDEBAR_DATA .= '<tr><td valign="top" class="compact">';
-        $RSIDEBAR_DATA .= '<a href="/package/' . $release['name'] . '/">';
+        $RSIDEBAR_DATA .= "<tr><td valign=\"top\" class=\"compact\">";
+        $RSIDEBAR_DATA .= "<a href=\"/package/" . $release['name'] . "/\">";
         $RSIDEBAR_DATA .= wordwrap($release['name'],25,"\n",1) . ' ' .
                           $release['version'] . '</a><br /> <small>(' .
                           $releasedate . ')</small></td></tr>';
@@ -61,27 +61,6 @@ response_header();
 ?>
 
 <h1>PEAR - PHP Extension and Application Repository</h1>
-
-<?php
-if (!$auth_user) {
-?>
-<p>If you have been told by other PEAR developers to sign up for a
-PEAR website account, you can use <a href="/account-request.php">
-this interface</a>.</p>
-
-<?php
-}
-?>
-<div class="indent">
-<p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
-is a framework and distribution system for reusable PHP
-components. You can find help using PEAR packages in the
-<a href="/manual/en/">online manual</a> and the
-<a href="/manual/en/faq.php">FAQ</a>.</p>
-</div>
-<?php
-echo hdelim();
-?>
 
 <h2>&raquo; Hot off the Press</h2>
 <p><strong>[June 1, 2007]</strong> Welcome to the 7th and final member of the PEAR
@@ -114,5 +93,61 @@ pear upgrade PEAR
 </code>
 The full story on what has changed, and what will change is <a href="/news/package.xml.1.0.php">here</a>.</p>
 
+<h2>&raquo; Users</h2>
+<div class="indent">
+<p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
+is a framework and distribution system for reusable PHP
+components. You can find help using PEAR packages in the
+<a href="/manual/en/">online manual</a> and the
+<a href="/manual/en/faq.php">FAQ</a>.</p>
 <?php
+echo menu_link('Download Packages', '/packages.php');
+echo menu_link('Support', '/support');
+echo menu_link('Installation Help', '/manual/en/installation.cli.php');
+echo menu_link('About PEAR', '/manual/en/about-pear.php');
+echo menu_link('News', '/news/');
+echo menu_link('List Packages', '/packages.php');
+echo menu_link('Search', '/search.php');
+
+?>
+</div>
+
+<?php
+echo hdelim();
+if ($auth_user) {
+    if (auth_check('pear.dev')) {
+        echo '<h2>&raquo; Developers</h2>';
+        echo '<div class="indent">';
+
+        echo menu_link("Upload Release", "release-upload.php");
+        echo menu_link("New Package", "package-new.php");
+
+        echo '</div>';
+    }
+
+    echo '<h2>&raquo; Package Proposals (PEPr)</h2>';
+	echo '<div class="indent">';
+	echo menu_link("Browse Proposals", "pepr/");
+	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
+    echo '</div>';
+
+    if (auth_check('pear.admin')) {
+        echo '<h2>&raquo; Administrators</h2>';
+        echo '<div class="indent">';
+        echo menu_link("Overview", "/admin/");
+        echo '</div>';
+    }
+
+} else {
+?>
+
+<p>If you have been told by other PEAR developers to sign up for a
+PEAR website account, you can use <a href="/account-request.php">
+this interface</a>.</p>
+
+<?php
+}
+
 response_footer();
+
+?>
