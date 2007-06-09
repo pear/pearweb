@@ -38,6 +38,7 @@ $a->setNotes('
  * Fix Bug #11192 Bug comments create wrong links to other bugs
    Now a bug link has to have # to be valid and thus parsed [dufuz]
  * Fix Bug #11200  Add html anchors for letters in proposal list [dufuz]
+ * Fix Bug #11194  source code input on account creation [dufuz]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
