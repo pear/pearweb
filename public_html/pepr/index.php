@@ -68,28 +68,30 @@ $last_status = false;
 $finishedCounter = 0;
 
 foreach ($proposals as $proposal) {
-    if ($proposal->getStatus() != $last_status) {
+    $status      = $proposal->getStatus();
+    $status_true = $proposal->getStatus(true);
+    if ($status != $last_status) {
         if ($last_status !== false) {
             echo "</ul>\n";
             echo "<p>";
             echo "</p>\n\n";
         }
-        echo "<div style=\"float: right\"><a href='/feeds/pepr_".$proposal->getStatus().".rss'><img src=\"/gifs/feed.png\" width=\"16\" height=\"16\" alt=\"Aggregate this\" border=\"0\" /></a></div>";
-        echo '<h2 name="' . $proposal->getStatus() . '" id="';
-        echo $proposal->getStatus() . '">';
-        echo '&raquo; ' . htmlspecialchars($proposal->getStatus(true));
+        echo "<div style=\"float: right\"><a href='/feeds/pepr_".$status.".rss'><img src=\"/gifs/feed.png\" width=\"16\" height=\"16\" alt=\"Aggregate this\" border=\"0\" /></a></div>";
+        echo '<h2 name="' . $status . '" id="';
+        echo $status . '">';
+        echo '&raquo; ' . htmlspecialchars($status_true);
         echo "</h2>\n";
         echo "<ul>\n";
-        $last_status = $proposal->getStatus();
+        $last_status = $status;
     }
     $prpCat = $proposal->pkg_category;
     if ($selectStatus != '' && (!isset($lastChar) || $lastChar != $prpCat{0})) {
         $lastChar = $prpCat{0};
         echo "</ul>\n";
-        echo "<h3>$lastChar</h3>\n";
+        echo "<h3><a id=\"$lastchar\">$lastChar</a></h3>\n";
         echo "<ul>\n";
     }
-    if ($proposal->getStatus() == 'finished' && $selectStatus != 'finished') {
+    if ($status == 'finished' && $selectStatus != 'finished') {
         if (++$finishedCounter == 10) {
             break;
         }
@@ -101,7 +103,7 @@ foreach ($proposals as $proposal) {
     }
 
     $already_voted = false;
-    if (isset($auth_user) && $proposal->getStatus(true) == "Called for Votes") {
+    if (isset($auth_user) && $status_true == "Called for Votes") {
         $proposal->getVotes($dbh);
 
         if (in_array($auth_user->handle, array_keys($proposal->votes))) {
@@ -119,7 +121,7 @@ foreach ($proposals as $proposal) {
     echo ' by ';
     print_link('/user/' . htmlspecialchars($proposal->user_handle),
                htmlspecialchars($users[$proposal->user_handle]['name']));
-    switch ($proposal->getStatus()) {
+    switch ($status) {
         case 'proposal':
             echo ' &nbsp;(<a href="pepr-comments-show.php?id=' . $proposal->id;
             echo '">Comments</a>)';
@@ -135,7 +137,7 @@ foreach ($proposals as $proposal) {
     echo "</li>\n";
 }
 
-if ($selectStatus == '' && isset($proposal) && $proposal->getStatus() == 'finished') {
+if ($selectStatus == '' && isset($proposal) && $status == 'finished') {
     print_link('/pepr/?filter=finished', 'All finished proposals');
 }
 
