@@ -190,7 +190,7 @@ MSG;
             . '<p class="cell_note">(Check all that apply)</p>',
             $purposechecks);
     $form->addTextarea('purpose',
-            'Short summary of package that you have finished and are ready to propose:',
+            'Short summary of how you are going to help the package in question:',
             @$hsc['purpose'], 40, 5);
     $form->addText('homepage', 'Homepage:'
             . '<p class="cell_note">(optional)</p>',
