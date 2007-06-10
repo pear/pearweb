@@ -453,10 +453,9 @@ while ($allroadmaps->fetch()) {
             $features = 'No features';
         }
 
-        $bugs->bug_type = 'Bug';
         $bugs->selectAs();
         $bugs->joinAdd($roadmaps);
-        $bugs->whereAdd('bugdb.bug_type = "Bug"');
+        $bugs->whereAdd('bugdb.bug_type IN("Bug", "Documentation Problem")');
         $rows = $bugs->find(false);
         $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
 
