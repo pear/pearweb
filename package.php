@@ -39,6 +39,7 @@ $a->setNotes('
    Now a bug link has to have # to be valid and thus parsed [dufuz]
  * Fix Bug #11200  Add html anchors for letters in proposal list [dufuz]
  * Fix Bug #11194  source code input on account creation [dufuz]
+ * Fix Bug #11201  RFCs miss text [dufuz / justinpatrin]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
@@ -72,7 +73,7 @@ $a->addPackageDepWithChannel('required', 'Log', 'pear.php.net', '1.8.4');
 $a->addPackageDepWithChannel('required', 'Mail', 'pear.php.net', '1.1.13');
 $a->addPackageDepWithChannel('required', 'Services_Trackback', 'pear.php.net', '0.4.0');
 // required for PEPr
-$a->addPackageDepWithChannel('required', 'Text_Wiki', 'pear.php.net', '1.1.0');
+$a->addPackageDepWithChannel('required', 'Text_Wiki', 'pear.php.net', '1.2.0');
 $a->addPackageDepWithChannel('required', 'HTML_QuickForm', 'pear.php.net', '3.2.3');
 $a->addPackageDepWithChannel('required', 'HTML_TreeMenu', 'pear.php.net', '1.2.0');
 $a->addDependencyGroup('php4', 'Use this for PHP 4 (mysql ext)');
