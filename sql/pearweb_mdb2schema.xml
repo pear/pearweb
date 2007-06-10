@@ -2437,6 +2437,14 @@
     <default>1</default>
    </field>
 
+  <field>
+   <name>from_site</name>
+   <type>text</type>
+   <lenght>4</length>
+   <notnull>true</notnull>
+   <default></default>
+  </field>
+
    <index>
     <name>handle</name>
     <field>
