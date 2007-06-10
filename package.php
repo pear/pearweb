@@ -40,6 +40,7 @@ $a->setNotes('
  * Fix Bug #11200  Add html anchors for letters in proposal list [dufuz]
  * Fix Bug #11194  source code input on account creation [dufuz]
  * Fix Bug #11201  RFCs miss text [dufuz / justinpatrin]
+ * Fix Bug #11259  cannot show bug detail on [html_progress2] roadmap [dufuz]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
