@@ -11,9 +11,9 @@ $mock->addDataQuery("SELECT * FROM users WHERE handle = 'dufuz'", array(), array
 
 $mock->addInsertQuery("
             INSERT INTO users
-                (handle, name, email, homepage, showemail, password, registered, userinfo)
+                (handle, name, email, homepage, showemail, password, registered, userinfo, from_site)
             VALUES
-                ('dufuz', 'Helgi Thormar', 'dufuz@php.net', 'http://www.helgi.ws/', 0, '5d8052a59cae407c50bf4056bc8c9014', 0, 'a:2:{i:0;s:14:\"do nifty tests\";i:1;s:6:\"hippie\";}')",
+                ('dufuz', 'Helgi Thormar', 'dufuz@php.net', 'http://www.helgi.ws/', 0, '5d8052a59cae407c50bf4056bc8c9014', 0, 'a:2:{i:0;s:14:\"do nifty tests\";i:1;s:6:\"hippie\";}', 'pear')",
                 array("SELECT * FROM users WHERE handle = 'dufuz'" => array(array (
     'handle' => 'dufuz',
     'password' => '5d8052a59cae407c50bf4056bc8c9014',
@@ -100,9 +100,9 @@ $phpt->assertEquals(array (
   0 => 'SELECT * FROM users WHERE handle = \'dufuz\'',
   1 => '
             INSERT INTO users
-                (handle, name, email, homepage, showemail, password, registered, userinfo)
+                (handle, name, email, homepage, showemail, password, registered, userinfo, from_site)
             VALUES
-                (\'dufuz\', \'Helgi Thormar\', \'dufuz@php.net\', \'http://www.helgi.ws/\', 0, \'5d8052a59cae407c50bf4056bc8c9014\', 0, \'a:2:{i:0;s:14:"do nifty tests";i:1;s:6:"hippie";}\')',
+                (\'dufuz\', \'Helgi Thormar\', \'dufuz@php.net\', \'http://www.helgi.ws/\', 0, \'5d8052a59cae407c50bf4056bc8c9014\', 0, \'a:2:{i:0;s:14:"do nifty tests";i:1;s:6:"hippie";}\', \'pear\')',
   2 => 'SELECT * FROM users WHERE handle = \'1337\'',
   3 => 'SELECT * FROM users WHERE handle = \'dufuz\'',
 
