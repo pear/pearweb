@@ -44,7 +44,6 @@ menu_link("CHM upload", "chm-upload.php");
 echo hdelim();
 
 // {{{ adding and deleting notes
-
 if (!empty($_REQUEST['cmd'])) {
     if ($_REQUEST['cmd'] == "Add note" && !empty($_REQUEST['note']) && !empty($_REQUEST['key']) && !empty($_REQUEST['id'])) {
         include_once 'pear-database-note.php';
@@ -102,6 +101,21 @@ if (!empty($_REQUEST['cmd'])) {
         } elseif (user::remove($_REQUEST['uid'])) {
             print "<p>Deleted account request for \"$uid\"...</p>";
         }
+    } elseif ($_REQUEST['cmd'] == 'Move'  && !empty($_REQUEST['acreq'])
+        && isset($_REQUEST['from_site']) && in_array($_REQUEST['from_site'], array('pear', 'pecl'))) {
+        include_once 'pear-database-user.php';
+        $data = array(
+            'handle'    => $_REQUEST['acreq'],
+            'from_site' => $_REQUEST['from_site'],
+        );
+        
+        $res = user::update($data);
+        if (DB::isError($res)) {
+            echo 'DB error: ' .  $res->getMessage();
+        } else {
+            $to = strtoupper($_REQUEST['from_site']);
+            echo 'User has been moved to ' . $to;
+        }
     }
 }
 
@@ -151,7 +165,7 @@ do {
     if (!empty($acreq)) {
         include_once 'pear-database-user.php';
         $requser = user::info($acreq, null, false);
-        if (empty($requser['name'])) {
+        if (empty($requser['name']) || $requser['from_site'] == 'pecl') {
             break;
         }
         list($purpose, $moreinfo) = @unserialize($requser['userinfo']);
@@ -166,12 +180,23 @@ do {
         $bb->horizHeadRow("More information:", $moreinfo);
         $bb->end();
 
+	    $i = "      ";
 	    print "<br />\n";
+	    print "$i<form action=\"$self\" method=\"POST\">\n";
+	    print $i . '   <input type="hidden" name="id" value="' . $requser['handle'] . "\" />\n";
+	    print "$i   <input type=\"hidden\" name=\"acreq\" value=\"$acreq\" />\n";
+        print $i . ' <select name="from_site"> ' . "\n";
+        print $i . '  <option value="pear">PEAR</option>' . "\n";
+        print $i . '  <option value="pecl">PECL</option>' . "\n";
+        print $i . ' </select> ' . "\n";
+        print "$i   <input type=\"submit\" value=\"Move\" name=\"cmd\" />\n";
+	    print "$i</form>\n";
+        print "<br />\n";
 	    $bb = new BorderBox('Notes for user ' . $requser['handle']);
 	    $notes = $dbh->getAssoc("SELECT id,nby,UNIX_TIMESTAMP(ntime) AS ntime,note FROM notes ".
 	                "WHERE uid = ? ORDER BY ntime", true,
 	                array($requser['handle']));
-	    $i = "      ";
+
 	    if (is_array($notes) && sizeof($notes) > 0) {
 	        print "$i<table cellpadding=\"2\" cellspacing=\"0\" border=\"0\">\n";
 	        foreach ($notes as $nid => $data) {
@@ -348,7 +373,7 @@ foreach ($reasons as $reason) {
         $bb = new BorderBox("Account Requests", "100%", "", 6, true);
         $requests = $dbh->getAssoc("SELECT u.handle,u.name,n.note,u.userinfo FROM users u ".
                                    "LEFT JOIN notes n ON n.uid = u.handle ".
-                                   "WHERE u.registered = 0");
+                                   "WHERE u.registered = 0 AND from_site != 'pecl'");
         if (is_array($requests) && sizeof($requests) > 0) {
             $bb->headRow("<font face=\"Marlett\"><a href=\"#\" onclick=\"toggleSelectAll(this)\">6</a></font>", "Name", "Handle", "Account Purpose", "Status", "&nbsp;");
 

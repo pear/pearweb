@@ -50,7 +50,8 @@ class PEAR_Election_Accountrequest
             'firstname'  => $firstName,
             'lastname'   => $lastName,
             'email'      => $email,
-            'purpose'    => 'vote in general election'
+            'purpose'    => 'vote in general election',
+            'fromt_site' => 'pear',
         );
 
         $data = array_merge($additionnalData, $data);
@@ -66,8 +67,8 @@ class PEAR_Election_Accountrequest
         $created_on = gmdate('Y-m-d H:i:s');
 
         $query = '
-        insert into election_account_request (created_on, handle, email, salt)
-        values (?, ?, ?, ?)';
+        insert into election_account_request (created_on, handle, email, salt, from_site)
+        values (?, ?, ?, ?, ?)';
 
         $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt));
 
@@ -118,11 +119,11 @@ class PEAR_Election_Accountrequest
 
         user::update($data, true);
 
-        $id = $this->dbh->nextId("karma");
-
         $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
+
+        $id = $this->dbh->nextId('karma');
         $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', 'pearweb'));
-        $id = $this->dbh->nextId("karma");
+        $id = $this->dbh->nextId('karma');
         $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', 'pearweb'));
 
         if (!DB::isError($sth)) {

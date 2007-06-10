@@ -126,10 +126,10 @@ class PEAR_Bug_Accountrequest
             return $salt;
         }
         $query = '
-        insert into bug_account_request (created_on, handle, email, salt)
-        values (?, ?, ?, ?)';
+        insert into bug_account_request (created_on, handle, email, salt, from_site)
+        values (?, ?, ?, ?, ?)';
 
-        $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt));
+        $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt, 'pear'));
 
         if (DB::isError($res)) {
             return $res;
