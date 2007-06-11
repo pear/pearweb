@@ -252,7 +252,7 @@ class pearweb_postinstall
         $middle[] = ' php_value auto_append_file pear-append.php' . $eol;
         $middle[] = ' php_flag magic_quotes_gpc off' . $eol;
         $middle[] = ' php_flag magic_quotes_runtime off' . $eol;
-        $middle[] = ' php_flag register_globals On' . $eol;
+        $middle[] = ' php_flag register_globals Off' . $eol;
         $middle[] = $eol;
         $middle[] = ' ErrorDocument 404 /error/404.php' . $eol;
         $middle[] = $eol;
