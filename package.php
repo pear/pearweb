@@ -43,6 +43,7 @@ $a->setNotes('
  * Fix Bug #11201  RFCs miss text [dufuz / justinpatrin]
  * Fix Bug #11259  cannot show bug detail on [html_progress2] roadmap [dufuz]
  * Fix Bug #11267  Pecl account requests are shown in pearweb admin ui and via versa [dufuz]
+ * Fix Bug #11268  success/warning/error messages don\'t stay consistent enough [dufuz]
  * Fix Bug #11269  Roadmap only calcs bugs marked as Closed as finished [dufuz]
 ');
 $a->resetUsesrole();
