@@ -104,7 +104,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
         }
     }
 
-    if ($GLOBALS['in_manual'] == false) {
+    if (isset($GLOBALS['in_manual']) && $GLOBALS['in_manual'] == false) {
         /* The manual-related code takes care of sending the right
          * headers.
          */
