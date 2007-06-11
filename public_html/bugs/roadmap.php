@@ -505,7 +505,7 @@ while ($allroadmaps->fetch()) {
                     bugdb.id = r.id AND
                     r.roadmap_id = ? AND
                     bugdb.bug_type IN ("Bug", "Documentation Problem") AND
-                    bugdb.status IN("Closed", "Bogus", "Wont fix", "No Feedback")', array($allroadmaps->id));
+                    bugdb.status = "Closed"', array($allroadmaps->id));
         }
         if ($savant->totalfeatures[$allroadmaps->roadmap_version] = $dbh->getOne($featurequery,
               array($allroadmaps->id))) {
@@ -515,7 +515,7 @@ while ($allroadmaps->fetch()) {
                     bugdb.id = r.id AND
                     r.roadmap_id = ? AND
                     bugdb.bug_type = "Feature/Change Request" AND
-                    bugdb.status IN("Closed", "Bogus", "Wont fix", "No Feedback")', array($allroadmaps->id));
+                    bugdb.status = "Closed"', array($allroadmaps->id));
         }
     }
     $savant->roadmap[] = $allroadmaps->toArray();
