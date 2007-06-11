@@ -278,7 +278,7 @@ td.vote-inactive {
 div.errors,
 div.warnings,
 div.explain,
-div.success
+div.success,
 div.tags {
     margin: 4px;
     padding: 6px;
@@ -299,6 +299,12 @@ div.warnings {
     color: #ff8c00;
 }
 
+div.success {
+    border: 1px dashed #006600;
+    background-color: #CCFF99;
+    color: #006600;
+}
+
 div.tags {
     border: 1px dashed #ff8c00;
     background: #ffa;
@@ -310,12 +316,6 @@ div.tags {
 div.explain {
     border: 1px dashed #000066;
     color: #000066;
-}
-
-div.success {
-    border: 1px dashed #006600;
-    background-color: #CCFF99;
-    color: #006600;
 }
 
 div.errors ul,
