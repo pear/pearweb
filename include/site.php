@@ -36,7 +36,7 @@
 $MIRRORS = array(
   'http://pear.php.net/'        => array('us', 'pair Networks', 0, 'http://www.pair.com/', 1, 0, 'en' ),
   'http://us.pear.php.net/'        => array('us', 'Bluga', 0, 'http://www.bluga.net/', 0, 0, 'en' ),
-  'http://de.pear.php.net/'        => array('us', 'Christian Weiske', 0, 'http://www.cweiske.de/', 0, 0, 'de' ),
+  'http://de.pear.php.net/'        => array('de', 'Christian Weiske', 0, 'http://www.cweiske.de/', 0, 0, 'de' ),
 //  'http://pear.php.easydns.ca/' => array('ca', 'easyDNS Technologies', 0, 'http://www.easydns.com/', 1, 0, 'en' )
 );
 
