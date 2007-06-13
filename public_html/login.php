@@ -81,7 +81,7 @@ if (auth_verify($_POST['PEAR_USER'], $password)) {
     {
         localRedirect($_POST['PEAR_OLDURL'], false);
     } else {
-        localRedirect("http://" . $_SERVER['HTTP_HOST'] . "/index.php", false);
+        localRedirect("/index.php", false);
     }
     exit;
 
