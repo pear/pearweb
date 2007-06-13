@@ -1,7 +1,7 @@
 --TEST--
-login.php [no md5]
+login.php [PEAR_OLDURL hack attempt]
 --POST--
-PEAR_USER=cellog&PEAR_PW=hi
+PEAR_USER=cellog&PEAR_PW=49f68a5c8493ec2c0bf489821c21fc3b&isMD5=1&PEAR_OLDURL=http%3A%2F%2Fwww.nastyhacker.example.com%2Fmoohaha.php
 --FILE--
 <?php
 // setup
@@ -10,7 +10,7 @@ $_SERVER['HTTP_HOST'] = 'localhost';
 $_SERVER['PHP_SELF'] = 'hithere';
 $_SERVER['REQUEST_URI'] = null;
 $_SERVER['QUERY_STRING'] = '';
-$moresetup = dirname(__FILE__) . '/test_nomd5.extra.php.inc';
+$moresetup = dirname(__FILE__) . '/test_md5.extra.php.inc';
 require dirname(__FILE__) . '/setup.php.inc';
 $mock->addUpdateQuery("UPDATE users SET active=1 WHERE handle='cellog'", array(), array());
 include dirname(dirname(dirname(dirname(__FILE__)))) . '/public_html/login.php';
