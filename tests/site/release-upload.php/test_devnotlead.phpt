@@ -1,5 +1,5 @@
 --TEST--
-release-upload.php [pear.dev, not lead/developer]
+release-upload.php [pear.dev, not lead]
 --COOKIE--
 PEAR_USER=cellog;PEAR_PW=hi
 --FILE--
