@@ -367,25 +367,22 @@ if ($display_verification) {
 response_footer();
 
 
-function checkUser($user, $pacid = null)
+function checkUser($user)
 {
     global $dbh;
-    $add = ($pacid) ? 'AND p.id = ' . $dbh->quoteSmart($pacid) : '';
     // It's a lead or user of the package
     $query = "SELECT m.handle
               FROM packages p, maintains m
               WHERE
                  m.handle = ? AND
-                 p.id = m.package $add AND
-                 (m.role IN ('lead', 'developer'))";
+                 p.id = m.package AND
+                 m.role = 'lead'";
     $res = $dbh->getOne($query, array($user));
     if ($res !== null) {
         return true;
     }
     // Try to see if the user is an admin
-    include_once 'pear-database-user.php';
-    $res = user::isAdmin($user);
-    return ($res === true);
+    return auth_check('pear.qa');
 }
 
 ?>
