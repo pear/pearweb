@@ -7,7 +7,6 @@ $_SERVER['SERVER_NAME'] = 'localhost';
 $_SERVER['HTTP_HOST'] = 'localhost';
 $_SERVER['PHP_SELF'] = '/account-request-confirm.php';
 $_SERVER['REQUEST_URI'] = null;
-$_SERVER['REQUEST_METHOD'] = 'POST';
 $_SERVER['QUERY_STRING'] = '';
 require dirname(__FILE__) . '/setup.php.inc';
 include dirname(dirname(dirname(dirname(__FILE__)))) . '/public_html/account-request-confirm.php';
