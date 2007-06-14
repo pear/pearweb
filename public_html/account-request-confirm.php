@@ -59,13 +59,19 @@ echo '<p>Please choose a username for opening future bugs/adding comments to exi
     }
 } else {
 echo '<h1>Confirm Account</h1>';
-    if (!empty($stripped['salt']) && strlen($salt = htmlspecialchars($stripped['salt'])) == 32) {
-        $request = new PEAR_Election_Accountrequest();
-        $request->confirmRequest($salt);
-        report_success('Your account has been activated, you can now vote in
-    PEAR elections that are for the general PHP public as well as open bugs in the bug tracker');
-    } else {
+    if (empty($stripped['salt']) || strlen($salt = htmlspecialchars($stripped['salt'])) != 32) {
         report_error('Unknown salt');
+    } else {
+        $request = new PEAR_Election_Accountrequest();
+        $result = $request->confirmRequest($salt);
+        if (PEAR::isError($result)) {
+            report_error($result->getMessage());
+        } elseif ($result) {
+            report_success('Your account has been activated, you can now vote in
+        PEAR elections that are for the general PHP public as well as open bugs in the bug tracker');
+        } else {
+            report_error('There was a problem activating your account, please contact pear-webmaster@lists.php.net');
+        }
     }
 }
 response_footer();

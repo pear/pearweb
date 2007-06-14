@@ -67,11 +67,10 @@ class PEAR_Election_Accountrequest
         $created_on = gmdate('Y-m-d H:i:s');
 
         $query = '
-        insert into election_account_request (created_on, handle, email, salt, from_site)
-        values (?, ?, ?, ?, ?)';
+        INSERT INTO election_account_request (created_on, handle, email, salt, from_site)
+        VALUES (?, ?, ?, ?, ?)';
 
         $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt));
-
         if (DB::isError($res)) {
             return $res;
         }
@@ -84,8 +83,7 @@ class PEAR_Election_Accountrequest
 
     function deleteRequest()
     {
-        $query = 'delete from election_account_request where salt=?';
-
+        $query = 'DELETE FROM election_account_request WHERE salt = ?';
         return $this->dbh->query($query, array($this->salt));
     }
 
@@ -119,7 +117,7 @@ class PEAR_Election_Accountrequest
 
         user::update($data, true);
 
-        $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
+        $query = 'INSERT INTO karma VALUES (?, ?, ?, ?, NOW())';
 
         $id = $this->dbh->nextId('karma');
         $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', 'pearweb'));
@@ -132,7 +130,9 @@ class PEAR_Election_Accountrequest
                 . "You can now participate in the elections  by going to\n"
                 . "    http://" . PEAR_CHANNELNAME . "/election/";
             $xhdr = "From: pear-webmaster@lists.php.net";
-            mail($user['email'], "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+            if (!DEVBOX){
+                mail($user['email'], "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+            }
             $this->deleteRequest();
             return true;
         }
@@ -145,10 +145,8 @@ class PEAR_Election_Accountrequest
 
     function cleanOldRequests()
     {
-        $old = gmdate('Y-m-d H:i:s', time() - 900);
-        $findquery = '
-            select handle from election_account_request
-            where created_on < ?';
+        $old = gmdate('Y-m-d H:i', strtotime('-15 minutes'));
+        $findquery = 'SELECT handle FROM election_account_request WHERE created_on < ?';
         $all = $this->dbh->getAll($findquery, array($old));
         // purge reserved usernames as well as their account requests
         if (is_array($all)) {
@@ -164,9 +162,7 @@ class PEAR_Election_Accountrequest
                 ', array($data[0]));
             }
         }
-        $query = '
-            delete from election_account_request
-            where created_on < ?';
+        $query = 'DELETE FROM election_account_request WHERE created_on < ?';
         // purge out-of-date account requests
         return $this->dbh->query($query, array($old));
     }
