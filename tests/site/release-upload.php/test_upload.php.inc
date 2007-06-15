@@ -50,3 +50,19 @@ $mock->addDataQuery("SELECT m.handle
                  ),
                  array('handle'
                  ));
+
+$mock->addDataQuery("SELECT id FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND  p.name = 'Archive_Tar'", array(
+    array('id' => 1),
+), array('id'));
+$mock->addDataQuery("SELECT name FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND  p.name = 'Archive_Tar'", array(
+    array('name' => 'Archive_Tar'),
+), array('name'));
+$mock->addDataQuery("SELECT p.id FROM packages p WHERE ((p.package_type = 'pear' AND p.approved = 1) OR p.package_type = 'pecl') AND  p.name = 'Archive_Tar'", array(
+    array('id' => 1),
+), array('id'));
+$mock->addDataQuery("SELECT version, id, doneby, license, summary, description, releasedate, releasenotes, state FROM releases WHERE package = 1 ORDER BY releasedate DESC", array(
+    array('version' => '1.3.1', 'id' => 1, 'doneby' => 'cellog', 'license' => 'PHP',
+    'summary' => 'foo', 'description' => 'foo', 'releasedate' => '2007-06-14 21:26:00',
+    'releasenotes' => 'bar', 'state' => 'stable'),
+), array('version', 'id', 'doneby', 'license', 'summary', 'description', 'releasedate',
+'releasenotes', 'state'));
