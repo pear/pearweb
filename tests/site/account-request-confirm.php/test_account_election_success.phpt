@@ -37,7 +37,7 @@ $mock->addDataQuery("SELECT * FROM users WHERE handle = 'helgi' AND registered =
  array(array(
     'handle' => 'helgi',
     'password' => md5('hi'),
-    'name' => 'Helgi Þormar Þorbjörnsson',
+    'name' => 'Helgi ?ormar ?orbj?rnsson',
     'email' => 'helgith@gmail.com',
     'homepage' => 'http://www.helgi.ws',
     'created' => '2002-11-22 16:16:00',
@@ -97,15 +97,14 @@ __halt_compiler();
 %s
  <title>PEAR :: Account confirmation</title>
 %s
+<!-- START MAIN CONTENT -->
 
   <td class="content">
 
     <h1>Confirm Account</h1><div class="success">Your account has been activated, you can now vote in
-    PEAR elections that are for the general PHP public as well as open bugs in the bug tracker</li>
-</ul></div>
+        PEAR elections that are for the general PHP public as well as open bugs in the bug tracker</div>
 
   </td>
 
 <!-- END MAIN CONTENT -->
-
 %s
