@@ -28,10 +28,12 @@ $phpt->assertEquals(array (
   3 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.dev\',\'pear.admin\',\'pear.group\')',
   4 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.dev\',\'pear.admin\',\'pear.group\')',
   5 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.admin\',\'pear.group\')',
-  6 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  7 => 'SELECT name FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  8 => 'SELECT p.id FROM packages p WHERE ((p.package_type = \'pear\' AND p.approved = 1) OR p.package_type = \'pecl\') AND  p.name = \'Archive_Tar\'',
-  9 => 'SELECT version, id, doneby, license, summary, description, releasedate, releasenotes, state FROM releases WHERE package = 1 ORDER BY releasedate DESC',
+  6 => 'SELECT m.handle
+              FROM packages p, maintains m
+              WHERE
+                 m.handle = \'cellog\' AND
+                 p.id = m.package AND
+                 m.role = \'lead\'',
 ), $mock->queries, 'queries');
 __halt_compiler();
 ?>
