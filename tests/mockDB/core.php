@@ -224,13 +224,13 @@ class mockDB_core
                     if ($actual['res'] == 'fail') {
                         return $this->query($actual['query']);
                     }
-                    if (is_callable($actual['replace'])) {
+                    if (is_callable($actual['info']['replace'])) {
                         $ret =
-                            call_user_func($actual['replace'],
+                            call_user_func($actual['info']['replace'],
                                 $this->_queryMap[$actual['query']]['rows'], $matches, $query);
                         $this->_queryMap[$actual['query']]['rows'] = $ret;
-                        return $this->query($actual['query']);
                     }
+                    return $this->query($actual['query']);
                 }
             }
             throw new MockDB_Core_QueryException($query);
