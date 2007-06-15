@@ -65,16 +65,16 @@ do {
         $display_verification = true;
 
     } elseif (isset($_POST['verify'])) {
+        $distfile = PEAR_UPLOAD_TMPDIR . '/' . basename($_POST['distfile']);
+        if (!is_file($distfile)) {
+            $errors[] = 'No verified file found.';
+            break;
+        }
+
         set_time_limit(60);
         include_once 'PEAR/Config.php';
         include_once 'PEAR/PackageFile.php';
         // Verify Button
-
-        $distfile = PEAR_UPLOAD_TMPDIR . '/' . basename($_POST['distfile']);
-        if (!@is_file($distfile)) {
-            $errors[] = 'No verified file found.';
-            break;
-        }
 
         $config = &PEAR_Config::singleton();
         $pkg = &new PEAR_PackageFile($config);
