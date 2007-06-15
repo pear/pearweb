@@ -54,14 +54,14 @@ __halt_compiler();
 %s
  <title>PEAR :: Account confirmation</title>
 %s
+<!-- START MAIN CONTENT -->
 
   <td class="content">
 
-    <h1>Confirm Account</h1><div class="success">Error - user request was deleted, please try again</li>
+    <h1>Confirm Account</h1><div class="errors">ERROR:<ul><li>Error - user request was deleted, please try again</li>
 </ul></div>
 
   </td>
 
 <!-- END MAIN CONTENT -->
-
 %s
