@@ -75,7 +75,6 @@ do {
         include_once 'PEAR/Config.php';
         include_once 'PEAR/PackageFile.php';
         // Verify Button
-
         $config = &PEAR_Config::singleton();
         $pkg = &new PEAR_PackageFile($config);
         $info = &$pkg->fromTgzFile($distfile, PEAR_VALIDATE_NORMAL);
@@ -84,8 +83,8 @@ do {
                 foreach ($info->getUserInfo() as $err) {
                     $errors[] = $err['message'];
                 }
-                $errors[] = $info->getMessage();
             }
+            $errors[] = $info->getMessage();
             break;
         } else {
             $tar = &new Archive_Tar($distfile);
