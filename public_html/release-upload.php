@@ -171,7 +171,7 @@ do {
         $display_form         = true;
         $display_verification = false;
 
-    } elseif (isset($cancel)) {
+    } elseif (isset($_POST['cancel'])) {
         // Cancel Button
 
         $distfile = PEAR_UPLOAD_TMPDIR . '/' . basename($distfile);
