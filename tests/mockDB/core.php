@@ -18,29 +18,67 @@ class mockDB_core
     public $affectedRows = 0;
     public $queries = array();
     private $_queryMap = array();
+    /**
+     * Mapping of preg for queries to the stored query
+     *
+     * @var array
+     */
+    private $_dynamicQuery = array();
 
     private function _normalize($query)
     {
         return trim(str_replace(array("\r\n", "\r", "\n"), array(' ', ' ', ' '), $query));
     }
 
-    function addFailingQuery($query, $message, $code = 123)
+    function addFailingQuery($query, $message, $code = 123, $timefield = false)
     {
         $this->_queryMap[$this->_normalize($query)] =
             array('res' => 'fail', 'msg' => $message, 'code' => $code);
+        if ($timefield) {
+            if (!is_string($timefield)) {
+                throw new Exception('Dynamic preg-matching query $timefield must be ' .
+                    'the query for failing queries, use array for others');
+            }
+            $this->_dynamicQuery[$timefield] =
+                array('res' => 'fail');
+        }
     }
 
-    function addDeleteQuery($query, $modqueries, $modrows)
+    function _validateTimefield($timefield, $query)
     {
-        return $this->addInsertQuery($query, $modqueries, $modrows);
+        if (!is_array($timefield)) {
+            throw new Exception('timefield for query ' . $query . ' must be an array' .
+            ' with indices "query" and "replace"');
+        }
+        if (!isset($timefield['query'])) {
+            throw new Exception('timefield for query ' . $query . ' must be an array' .
+            ' with indices "query" and "replace"');
+        }
+        if (!isset($timefield['replace'])) {
+            throw new Exception('timefield for query ' . $query . ' must be an array' .
+            ' with indices "query" and "replace"');
+        }
+        if (!is_callable($timefield['replace']) && $timefield['replace'] !== '') {
+            throw new Exception('timefield for query ' . $query . ' replace must be
+            either "" or a callback for modifying the query values');
+        }
+        if (false === @preg_match($timefield['query'], '')) {
+            throw new Exception('Invalid preg pattern passed for query ' . $query .
+                ', timefield ' . $timefield['query']);
+        }
     }
 
-    function addUpdateQuery($query, $modqueries, $modrows)
+    function addDeleteQuery($query, $modqueries, $modrows, $timefield = false)
     {
-        return $this->addInsertQuery($query, $modqueries, $modrows);
+        return $this->addInsertQuery($query, $modqueries, $modrows, $timefield);
     }
 
-    function addInsertQuery($query, $modqueries, $modrows)
+    function addUpdateQuery($query, $modqueries, $modrows, $timefield = false)
+    {
+        return $this->addInsertQuery($query, $modqueries, $modrows, $timefield);
+    }
+
+    function addInsertQuery($query, $modqueries, $modrows, $timefield = false)
     {
         if (!is_array($modqueries)) {
             throw new Exception('query ' . $query . ' $modqueries must be an array');
@@ -95,9 +133,15 @@ class mockDB_core
         }
         $this->_queryMap[$this->_normalize($query)] =
             array('res' => 'change', 'modqueries' => $modqueries, 'affectedrows' => $modrows);
+        if ($timefield) {
+            $this->_validateTimefield($timefield, $query);
+            $this->_dynamicQuery[$timefield['query']] =
+                array('res' => 'change', 'query' => $this->_normalize($query),
+                      'info' => $timefield);
+        }
     }
 
-    function addDataQuery($query, $rows, $rowcols)
+    function addDataQuery($query, $rows, $rowcols, $timefield = false)
     {
         if (!is_array($rows)) {
             throw new Exception('query ' . $query . ' $rows must be an array');
@@ -143,6 +187,12 @@ class mockDB_core
         }
         $this->_queryMap[$this->_normalize($query)] = array('res' => 'ok', 'rows' => $rows,
             'cols' => count($rowcols));
+        if ($timefield) {
+            $this->_validateTimefield($timefield, $query);
+            $this->_dynamicQuery[$timefield['query']] =
+                array('res' => 'ok', 'query' => $this->_normalize($query),
+                      'info' => $timefield);
+        }
     }
 
     function query($query)
@@ -168,6 +218,21 @@ class mockDB_core
                     $this->affectedRows = $this->_queryMap[$query]['affectedrows'];
             }
         } else {
+            // see if this is a dynamic query that depends on current time
+            foreach ($this->_dynamicQuery as $map => $actual) {
+                if (preg_match($map, $query, $matches)) {
+                    if ($actual['res'] == 'fail') {
+                        return $this->query($actual['query']);
+                    }
+                    if (is_callable($actual['replace'])) {
+                        $ret =
+                            call_user_func($actual['replace'],
+                                $this->_queryMap[$actual['query']]['rows'], $matches, $query);
+                        $this->_queryMap[$actual['query']]['rows'] = $ret;
+                        return $this->query($actual['query']);
+                    }
+                }
+            }
             throw new MockDB_Core_QueryException($query);
         }
     }
