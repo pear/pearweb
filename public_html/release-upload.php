@@ -174,7 +174,7 @@ do {
     } elseif (isset($_POST['cancel'])) {
         // Cancel Button
 
-        $distfile = PEAR_UPLOAD_TMPDIR . '/' . basename($distfile);
+        $distfile = PEAR_UPLOAD_TMPDIR . '/' . basename($_POST['distfile']);
         if (@is_file($distfile)) {
             @unlink($distfile);
         }
