@@ -37,7 +37,7 @@ $mock->addDataQuery("SELECT * FROM users WHERE handle = 'helgi' AND registered =
  array(array(
     'handle' => 'helgi',
     'password' => md5('hi'),
-    'name' => 'Helgi ?ormar ?orbj?rnsson',
+    'name' => 'Helgi Þormar Þorbjörnsson',
     'email' => 'helgith@gmail.com',
     'homepage' => 'http://www.helgi.ws',
     'created' => '2002-11-22 16:16:00',
