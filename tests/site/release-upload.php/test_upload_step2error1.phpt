@@ -1,13 +1,12 @@
 --TEST--
-release-upload.php [upload, file not found
+release-upload.php [upload, file not found]
 --COOKIE--
 PEAR_USER=cellog;PEAR_PW=hi
 --POST--
-upload=1&verify=1&distfile=Archive_Tar-1.3.2-bad.tgz
+verify=1&distfile=Archive_Tar-1.3.2-bad.tgz
 --FILE--
 <?php
 // setup
-
 $_SERVER['SERVER_NAME'] = 'localhost';
 $_SERVER['HTTP_HOST'] = 'localhost';
 $_SERVER['PHP_SELF'] = 'hithere';
@@ -18,6 +17,7 @@ $_COOKIE['PEAR_USER'] = 'cellog';
 $_COOKIE['PEAR_PW'] = 'hi';
 $moresetup = dirname(__FILE__) . '/test_upload.php.inc';
 require dirname(__FILE__) . '/setup.php.inc';
+@unlink(PEAR_UPLOAD_TMPDIR . '/' . basename($_POST['distfile']));
 include dirname(dirname(dirname(dirname(__FILE__)))) . '/public_html/release-upload.php';
 $phpt->assertEquals(array (
   0 => 'SELECT * FROM users WHERE handle = \'cellog\' AND registered = \'1\'',
@@ -45,7 +45,7 @@ __halt_compiler();
   <td class="content">
 
     <h1>Upload New Release</h1>
-<div class="errors">ERROR:<ul><li>No file has been uploaded.</li>
+<div class="errors">ERROR:<ul><li>No verified file found.</li>
 </ul></div>
 <p>
 Upload a new package distribution file built using &quot;<code>pear
