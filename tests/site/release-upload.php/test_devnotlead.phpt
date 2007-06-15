@@ -108,3 +108,4 @@ Uploading new releases is restricted to each package's lead developer(s).
 <!-- START FOOTER -->
 
 %s
+</html>

@@ -31,7 +31,6 @@ $phpt->assertEquals(array (
                  m.handle = \'cellog\' AND
                  p.id = m.package AND
                  m.role = \'lead\'',
-  7 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.qa\',\'pear.admin\',\'pear.group\')',
 ), $mock->queries, 'queries');
 __halt_compiler();
 ?>
@@ -91,3 +90,4 @@ Uploading new releases is restricted to each package's lead developer(s).
 <!-- START FOOTER -->
 
 %s
+</html>

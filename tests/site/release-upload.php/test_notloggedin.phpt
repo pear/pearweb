@@ -93,3 +93,4 @@ function doMD5(frm) {
 <!-- START FOOTER -->
 
 %s
+</html>

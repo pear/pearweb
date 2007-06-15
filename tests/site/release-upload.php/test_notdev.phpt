@@ -63,3 +63,4 @@ __halt_compiler();
 <!-- START FOOTER -->
 
 %s
+</html>
