@@ -41,17 +41,20 @@ __halt_compiler();
 ?>
 ===DONE===
 --EXPECTF--
-%s
+<?xml version="1.0" encoding="ISO-8859-15" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
  <title>PEAR :: Account confirmation</title>
 %s
+<!-- START MAIN CONTENT -->
 
   <td class="content">
 
-    <h1>Confirm Account</h1><div class="errors">cannot find request</li>
+    <h1>Confirm Account</h1><div class="errors">ERROR:<ul><li>cannot find request</li>
 </ul></div>
 
   </td>
 
 <!-- END MAIN CONTENT -->
-
 %s
