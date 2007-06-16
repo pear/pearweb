@@ -482,7 +482,7 @@ function show_version_options($current, $default = '')
     $use = 0;
 
     echo '<option value="">--Please Select--</option>' . "\n";
-    include './php_versions.php';
+    include dirname(__FILE__) . '/php_versions.php';
     while (list(,$v) = each($versions)) {
         echo '<option';
         if ($current == $v) {
