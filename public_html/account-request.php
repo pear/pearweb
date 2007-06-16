@@ -18,22 +18,6 @@
    $Id$
 */
 
-define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
-define('HTML_FORM_TD_ATTR', 'class="form-input"');
-require_once 'HTML/Form.php';
-require_once 'Damblan/Mailer.php';
-
-$display_form = true;
-$width        = 60;
-$errors       = array();
-$jumpto       = 'handle';
-
-$stripped = array_map('strip_tags', $_POST);
-
-// CAPTCHA needs it and we cannot start it in the
-// CAPTCHA function, too much mess around here.
-session_start();
-
 response_header('Request Account');
 
 print '<h1>Request Account</h1>';
@@ -88,5 +72,3 @@ $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing li
 </ul>
 MSG;
 response_footer();
-
-?>
