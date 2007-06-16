@@ -39,7 +39,7 @@ $phpt->assertEquals(array (
 __halt_compiler();
 ?>
 ===DONE===
---CLEANUP--
+--CLEAN--
 <?php
 require dirname(__FILE__) . '/setup.php.inc';
 unlink(PEAR_UPLOAD_TMPDIR . '/Archive_Tar-1.3.2.tgz');
