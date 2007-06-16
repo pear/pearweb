@@ -345,7 +345,6 @@ class user
             'password'   => $md5pw,
             'registered' => 0,
             'userinfo'   => $userinfo,
-            'from_site'  => 'pear',
         );
 
         $dbh->expectError(DB_ERROR_CONSTRAINT);
@@ -355,7 +354,7 @@ class user
             INSERT INTO users
                 (handle, name, email, homepage, showemail, password, registered, userinfo, from_site)
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, ?)';
+                (?, ?, ?, ?, ?, ?, ?, ?, "pear")';
 
         $err = $dbh->query($sql, $set_vars);
         $dbh->popExpect();
