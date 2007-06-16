@@ -288,6 +288,7 @@
       <file name="cvs-auth.inc" role="web" />
       <file name="functions.inc" role="web" />
       <file name="layout.inc" role="web" />
+      <file name="php_versions.php" role="web" />
       <file name="prepend.inc" role="web" />
       <file name="resolve.inc" role="web" />
       <file name="trusted-devs.inc" role="web" />
