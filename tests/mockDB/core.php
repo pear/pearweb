@@ -17,6 +17,9 @@ class mockDB_core
     public static $failToConnect = false;
     public $affectedRows = 0;
     public $queries = array();
+    public $failqueries = array();
+    public $modqueries = array();
+    public $dataqueries = array();
     private $_queryMap = array();
     /**
      * Mapping of preg for queries to the stored query
@@ -202,13 +205,16 @@ class mockDB_core
             $query = $this->_normalize($query);
             switch ($this->_queryMap[$query]['res']) {
                 case 'fail' :
+                    $this->failqueries[] = $query;
                     throw new Exception($this->_queryMap[$query]['msg'],
                         $this->_queryMap[$query]['code']);
                 case 'ok' :
+                    $this->dataqueries[] = $query;
                     reset($this->_queryMap[$query]['rows']);
                     $this->affectedRows = 0;
                     return $this->_queryMap[$query]['rows'];
                 case 'change' :
+                    $this->modqueries[] = $query;
                     foreach ($this->_queryMap[$query]['modqueries'] as $q => $new) {
                         if (!is_array($new) && !$new) {
                             unset($this->_queryMap[$q]);
@@ -275,6 +281,7 @@ class mockDB_core
 
     function escape($str)
     {
+        if (!is_string($str)) debug_print_backtrace();
         return str_replace('\'', '\\\'', $str);
     }
 }
