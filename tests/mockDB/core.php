@@ -293,7 +293,6 @@ class mockDB_core
 
     function escape($str)
     {
-        if (!is_string($str)) debug_print_backtrace();
         return str_replace('\'', '\\\'', $str);
     }
 }
