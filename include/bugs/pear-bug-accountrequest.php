@@ -127,7 +127,7 @@ class PEAR_Bug_Accountrequest
         }
         $query = '
         insert into bug_account_request (created_on, handle, email, salt)
-        values (?, ?, ?, ?, ?)';
+        values (?, ?, ?, ?)';
 
         $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt));
 
