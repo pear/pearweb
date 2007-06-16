@@ -19,6 +19,7 @@ class mockDB_core
     public $queries = array();
     public $failqueries = array();
     public $modqueries = array();
+    public $alterqueries = array();
     public $dataqueries = array();
     private $_queryMap = array();
     /**
@@ -81,7 +82,12 @@ class mockDB_core
         return $this->addInsertQuery($query, $modqueries, $modrows, $timefield);
     }
 
-    function addInsertQuery($query, $modqueries, $modrows, $timefield = false)
+    function addAlterQuery($query, $modqueries, $modrows, $timefield = false)
+    {
+        return $this->addInsertQuery($query, $modqueries, $modrows, $timefield, true);
+    }
+
+    function addInsertQuery($query, $modqueries, $modrows, $timefield = false, $alter = false)
     {
         if (!is_array($modqueries)) {
             throw new Exception('query ' . $query . ' $modqueries must be an array');
@@ -134,8 +140,9 @@ class mockDB_core
                 }
             }
         }
+        $res = $alter ? 'alter' : 'change';
         $this->_queryMap[$this->_normalize($query)] =
-            array('res' => 'change', 'modqueries' => $modqueries, 'affectedrows' => $modrows);
+            array('res' => $res, 'modqueries' => $modqueries, 'affectedrows' => $modrows);
         if ($timefield) {
             $this->_validateTimefield($timefield, $query);
             $this->_dynamicQuery[$timefield['query']] =
@@ -214,7 +221,12 @@ class mockDB_core
                     $this->affectedRows = 0;
                     return $this->_queryMap[$query]['rows'];
                 case 'change' :
-                    $this->modqueries[] = $query;
+                case 'alter' :
+                    if ($this->_queryMap[$query]['res'] == 'change') {
+                        $this->modqueries[] = $query;
+                    } else {
+                        $this->alterqueries[] = $query;
+                    }
                     foreach ($this->_queryMap[$query]['modqueries'] as $q => $new) {
                         if (!is_array($new) && !$new) {
                             unset($this->_queryMap[$q]);
