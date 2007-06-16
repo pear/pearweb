@@ -38,13 +38,14 @@ $a->setNotes('
  * Fix Bug #11180  	User note\'s timestamp is updated on approval [dufuz]
  * Fix Bug #11192 Bug comments create wrong links to other bugs
  * Fix Bug #11194  source code input on account creation [dufuz]
-   Now a bug link has to have # to be valid and thus parsed [dufuz]
+    Now a bug link has to have # to be valid and thus parsed [dufuz]
  * Fix Bug #11200  Add html anchors for letters in proposal list [dufuz]
  * Fix Bug #11201  RFCs miss text [dufuz / justinpatrin]
  * Fix Bug #11259  cannot show bug detail on [html_progress2] roadmap [dufuz]
  * Fix Bug #11267  Pecl account requests are shown in pearweb admin ui and via versa [dufuz]
  * Fix Bug #11268  success/warning/error messages don\'t stay consistent enough [dufuz]
  * Fix Bug #11269  Roadmap only calcs bugs marked as Closed as finished [dufuz]
+ * Request #11273 account-request.php needs unit tests [dufuz]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
