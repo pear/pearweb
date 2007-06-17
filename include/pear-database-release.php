@@ -179,7 +179,7 @@ class release
 
         include_once 'pear-database-user.php';
         $role = user::maintains($auth_user->handle, $package);
-        if ($role != 'lead' && $role != 'developer' && !$auth_user->isAdmin() && !$auth_user->isQA()) {
+        if ($role != 'lead' && !$auth_user->isAdmin() && !$auth_user->isQA()) {
             return PEAR::raiseError('release::upload: insufficient privileges');
         }
         $ref = release::validateUpload($package, $version, $state, $relnotes, $tarball, $md5sum);
