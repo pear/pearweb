@@ -117,16 +117,6 @@ do {
             if (is_array($license)) {
                 $license = $license['_content'];
             }
-            $e = package::updateInfo($pacid,
-                    array(
-                        'summary'     => $info->getSummary(),
-                        'description' => $info->getDescription(),
-                        'license'     => $license,
-                    ));
-            if (PEAR::isError($e)) {
-                $errors[] = $e->getMessage();
-                break;
-            }
             $users = array();
             foreach ($info->getMaintainers() as $user) {
                 $users[strtolower($user['handle'])] = array(
@@ -136,7 +126,17 @@ do {
             }
 
             include_once 'pear-database-maintainer.php';
-            $e = maintainer::updateAll($pacid, $users);
+            $e = maintainer::updateAll($pacid, $users, false, true);
+            if (PEAR::isError($e)) {
+                $errors[] = $e->getMessage();
+                break;
+            }
+            $e = package::updateInfo($pacid,
+                    array(
+                        'summary'     => $info->getSummary(),
+                        'description' => $info->getDescription(),
+                        'license'     => $license,
+                    ));
             if (PEAR::isError($e)) {
                 $errors[] = $e->getMessage();
                 break;

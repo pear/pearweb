@@ -159,7 +159,7 @@ class maintainer
      * @param bool Whether to print the logging information to the screen
      * @return mixed PEAR_Error or true
      */
-    static function updateAll($pkgid, $users, $print = false)
+    static function updateAll($pkgid, $users, $print = false, $releasing = false)
     {
         require_once "Damblan/Log.php";
 
@@ -198,6 +198,11 @@ class maintainer
                                     "be able to complete the update process. Set your name ".
                                     "in package.xml or let the new lead developer upload ".
                                     "the new release");
+        }
+        if ($releasing && user::maintains($auth_user->handle, (int)$pkgid, 'lead') &&
+              $users[$auth_user->handle]['role'] != 'lead') {
+            return PEAR::raiseError('You cannot demote your role from lead to ' .
+                $users[$auth_user->handle]['role']);
         }
         foreach ($users as $user => $u) {
             $role = $u['role'];
