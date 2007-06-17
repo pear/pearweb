@@ -209,23 +209,24 @@ class mockDB_core
     {
         if (isset($this->_queryMap[$this->_normalize($query)])) {
             $this->queries[] = $query;
+            $old = $query;
             $query = $this->_normalize($query);
             switch ($this->_queryMap[$query]['res']) {
                 case 'fail' :
-                    $this->failqueries[] = $query;
+                    $this->failqueries[] = $old;
                     throw new Exception($this->_queryMap[$query]['msg'],
                         $this->_queryMap[$query]['code']);
                 case 'ok' :
-                    $this->dataqueries[] = $query;
+                    $this->dataqueries[] = $old;
                     reset($this->_queryMap[$query]['rows']);
                     $this->affectedRows = 0;
                     return $this->_queryMap[$query]['rows'];
                 case 'change' :
                 case 'alter' :
                     if ($this->_queryMap[$query]['res'] == 'change') {
-                        $this->modqueries[] = $query;
+                        $this->modqueries[] = $old;
                     } else {
-                        $this->alterqueries[] = $query;
+                        $this->alterqueries[] = $old;
                     }
                     foreach ($this->_queryMap[$query]['modqueries'] as $q => $new) {
                         if (!is_array($new) && !$new) {
