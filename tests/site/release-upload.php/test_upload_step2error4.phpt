@@ -27,14 +27,14 @@ $phpt->assertEquals(array (
   2 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.user\',\'pear.pepr\',\'pear.dev\',\'pear.admin\',\'pear.group\',\'pear.voter\',\'pear.bug\')',
   3 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.dev\',\'pear.admin\',\'pear.group\')',
   4 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  5 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.dev\',\'pear.admin\',\'pear.group\')',
-  6 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.admin\',\'pear.group\')',
-  7 => 'SELECT m.handle
+  5 => 'SELECT m.handle
               FROM packages p, maintains m
               WHERE
                  m.handle = \'cellog\' AND
                  p.id = m.package AND
                  m.role = \'lead\'',
+  6 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.dev\',\'pear.admin\',\'pear.group\')',
+  7 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.admin\',\'pear.group\')',
 ), $mock->queries, 'queries');
 $phpt->assertEquals(array ()
 , $mock->modqueries, 'modification queries');
