@@ -17,6 +17,7 @@
  * @version   $Id$
  */
 
+define ('PEARWEB_TEMPLATEDIR', dirname(dirname(__FILE__)) . '/templates/');
 if (isset($_ENV['PEAR_CHANNELNAME'])) {
     /**
      * @ignore

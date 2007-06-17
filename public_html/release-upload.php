@@ -25,6 +25,7 @@ define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
 define('HTML_FORM_TD_ATTR', 'class="form-input"');
 
 require_once 'HTML/Form.php';
+require_once 'Release/Manager.php';
 
 $display_form         = true;
 $display_verification = false;
@@ -63,7 +64,6 @@ do {
 
         $display_form = false;
         $display_verification = true;
-
     } elseif (isset($_POST['verify'])) {
         $distfile = PEAR_UPLOAD_TMPDIR . '/' . basename($_POST['distfile']);
         if (!is_file($distfile)) {
@@ -187,58 +187,10 @@ PEAR::popErrorHandling();
 
 
 if ($display_form) {
-    $title = 'Upload New Release';
-    response_header($title);
-
-    // Remove that code when release-upload also create new packages
     if (!checkUser($auth_user->handle)) {
         $errors[] = 'You are not registered as lead developer for any packages.';
     }
-
-    echo '<h1>' . $title . "</h1>\n";
-
-    if ($success) {
-        if (is_array($info)) {
-            report_success('Version ' . $info['version'] . ' of '
-                           . $info['package'] . ' has been successfully released, '
-                           . 'and its promotion cycle has started.');
-            print '<p>';
-            print make_link('/package/' . $info['package'], 'Visit package home');
-        } else {
-            report_success('Version ' . $info->getVersion() . ' of '
-                           . $info->getPackage() . ' has been successfully released, '
-                           . 'and its promotion cycle has started.');
-        }
-        print '</p>';
-        print '</div>';
-    } else {
-        report_error($errors);
-    }
-
-    print <<<MSG
-<p>
-Upload a new package distribution file built using &quot;<code>pear
-package</code>&quot; here.  The information from your package.xml file will
-be displayed on the next screen for verification. The maximum file size
-is 16 MB.
-</p>
-
-<p>
-Uploading new releases is restricted to each package's lead developer(s).
-</p>
-MSG;
-
-    $form =& new HTML_Form('release-upload.php', 'post', '', '',
-            'multipart/form-data');
-    $form->setDefaultFromInput(false);
-
-    $form->addFile('distfile',
-            '<label for="f" accesskey="i">D<span class="accesskey">i</span>'
-            . 'stribution File</label>',
-            HTML_FORM_MAX_FILE_SIZE, 40, '', 'id="f"');
-    $form->addSubmit('upload', 'Upload!');
-    $form->display('class="form-holder" cellspacing="1"',
-            'Upload', 'class="form-caption"');
+    require PEARWEB_TEMPLATEDIR . '/release/upload-form.php';
 }
 
 
