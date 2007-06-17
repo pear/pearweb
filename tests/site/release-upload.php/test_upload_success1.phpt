@@ -23,66 +23,15 @@ require dirname(__FILE__) . '/setup.php.inc';
 copy(dirname(__FILE__) . '/test_upload_step1/Archive_Tar-1.3.2.tgz',
     PEAR_UPLOAD_TMPDIR . '/Archive_Tar-1.3.2.tgz');
 include dirname(dirname(dirname(dirname(__FILE__)))) . '/public_html/release-upload.php';
+
 $phpt->assertEquals(array (
-  0 => 'SELECT * FROM users WHERE handle = \'cellog\' AND registered = \'1\'',
-  1 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.user\',\'pear.pepr\',\'pear.dev\',\'pear.admin\',\'pear.group\',\'pear.voter\',\'pear.bug\')',
-  2 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.user\',\'pear.pepr\',\'pear.dev\',\'pear.admin\',\'pear.group\',\'pear.voter\',\'pear.bug\')',
-  3 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.dev\',\'pear.admin\',\'pear.group\')',
-  4 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  5 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.admin\',\'pear.group\')',
-  6 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.qa\',\'pear.admin\',\'pear.group\')',
-  7 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.id = 1',
-  8 => 'SELECT role FROM maintains WHERE handle = \'cellog\' AND package = 1 AND role = \'lead\'',
-  9 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.id = 1',
-  10 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.admin\',\'pear.group\')',
-  11 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.qa\',\'pear.admin\',\'pear.group\')',
-  12 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.id = 1',
-  13 => 'SELECT role FROM maintains WHERE handle = \'cellog\' AND package = 1',
-  14 => 'SELECT name FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.id = 1',
-  15 => 'SELECT id, name FROM packages WHERE package_type = \'pear\' AND approved = 1 ORDER BY name',
-  16 => 'SELECT p.id AS packageid, p.name AS name, p.package_type AS type, c.id AS categoryid, c.name AS category, p.stablerelease AS stable, p.license AS license, p.summary AS summary, p.homepage AS homepage, p.description AS description, p.cvs_link AS cvs_link, p.doc_link as doc_link, p.unmaintained AS unmaintained,p.newpk_id AS newpk_id,
-              p.newpackagename as new_package,
-              p.newchannel as new_channel,
-              p.blocktrackbacks FROM packages p, categories c WHERE p.package_type = \'pear\' AND p.approved = 1 AND  c.id = p.category AND p.name = \'Archive_Tar\'',
-  17 => 'SELECT version, id, doneby, license, summary, description, releasedate, releasenotes, state FROM releases WHERE package = 1 ORDER BY releasedate DESC',
-  18 => 'SELECT id, nby, ntime, note FROM notes WHERE pid = 1',
-  19 => 'SELECT type, relation, version, name, `release` as `release`, optional
-                     FROM deps
-                     WHERE package = 1 ORDER BY optional ASC',
-  20 => 'SELECT c.name FROM categories c, packages p WHERE c.id = p.category AND p.package_type = \'pear\' AND p.approved = 1 AND  p.id = 1',
-  21 => 'SELECT
-                p.id, p.name
-            FROM
-                packages p, categories c
-            WHERE
-                p.category = c.id AND
-                c.name = \'Hungry Hungry Hippo\'',
-  22 => 'UPDATE packages SET license = \'PHP License\', summary = \'Tar file management class\', description = \'This class provides handling of tar files in PHP.
+  0 => 'UPDATE packages SET license = \'PHP License\', summary = \'Tar file management class\', description = \'This class provides handling of tar files in PHP.
 It supports creating, listing, extracting and adding to tar files.
 Gzip support is available if PHP has the zlib extension built-in or
 loaded. Bz2 compression is also supported with the bz2 extension loaded.\' WHERE id=1',
-  23 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.admin\',\'pear.group\')',
-  24 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.qa\',\'pear.admin\',\'pear.group\')',
-  25 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.admin\',\'pear.group\')',
-  26 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.qa\',\'pear.admin\',\'pear.group\')',
-  27 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.id = 1',
-  28 => 'SELECT role FROM maintains WHERE handle = \'cellog\' AND package = 1 AND role = \'lead\'',
-  29 => 'SELECT name FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.id = 1',
-  30 => 'SELECT handle, role, active FROM maintains WHERE package = 1 ORDER BY active DESC',
-  31 => 'SELECT handle FROM users WHERE handle=\'ssb\'',
-  32 => 'INSERT INTO maintains (handle, package, role, active) VALUES (\'ssb\', 1, \'helper\', 0)',
-  33 => 'SELECT name FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.id = 1',
-  34 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  35 => 'SELECT * FROM maintains WHERE package = 1',
-  36 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  37 => 'SELECT * FROM maintains WHERE package = 1',
-  38 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  39 => 'SELECT role FROM maintains WHERE handle = \'cellog\' AND package = 1',
-  40 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  41 => 'SELECT role FROM maintains WHERE handle = \'cellog\' AND package = 1',
-  42 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  43 => 'SELECT version FROM releases WHERE package = 1 AND version = \'1.3.2\'',
-  44 => 'INSERT INTO releases (id,package,version,state,doneby,releasedate,releasenotes) VALUES(1,1,\'1.3.2\',\'stable\',\'cellog\',NOW(),\'Correct Bug #4016
+  1 => 'INSERT INTO maintains (handle, package, role, active) VALUES (\'ssb\', 1, \'helper\', 0)',
+  2 => 'DELETE FROM maintains WHERE package = 1 AND handle = \'deleteduser\'',
+  3 => 'INSERT INTO releases (id,package,version,state,doneby,releasedate,releasenotes) VALUES(1,1,\'1.3.2\',\'stable\',\'cellog\',NOW(),\'Correct Bug #4016
 Remove duplicate remove error display with \\\'@\\\'
 Correct Bug #3909 : Check existence of OS_WINDOWS constant
 Correct Bug #5452 fix for "lone zero block" when untarring packages
@@ -91,8 +40,7 @@ Correct Bug #6486 Can not extract symlinks
 Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal	
 Correct Bug #8114 Files added on-the-fly not storing date
 Correct Bug #9352 Bug on _dirCheck function over nfs path\')',
-  45 => 'INSERT INTO files (id,package,release,md5sum,basename,fullpath,packagexml) VALUES(1,1,1,\'17d49e837b64df4e8f9124f829b22cd1\',\'Archive_Tar-1.3.2.tgz\',\'' . dirname(__FILE__) .
-  DIRECTORY_SEPARATOR . 'tarballs' . DIRECTORY_SEPARATOR . 'Archive_Tar-1.3.2.tgz\',\'<?xml version="1.0" encoding="UTF-8"?>
+  4 => 'INSERT INTO files (id,package,release,md5sum,basename,fullpath,packagexml) VALUES(1,1,1,\'17d49e837b64df4e8f9124f829b22cd1\',\'Archive_Tar-1.3.2.tgz\',\'/home/cellog/workspace/pearweb/tests/site/release-upload.php/tarballs/Archive_Tar-1.3.2.tgz\',\'<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.5.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
  <name>Archive_Tar</name>
  <channel>pear.php.net</channel>
@@ -298,33 +246,10 @@ Correct Bug #9352 Bug on _dirCheck function over nfs path</notes>
  </changelog>
 </package>
 \')',
-  46 => 'INSERT INTO deps (package, `release`, type, relation, version, name, optional) VALUES (1,1,\'php\',\'ge\',\'4.0.0\',\'PHP\',0)',
-  47 => 'SELECT name FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  48 => 'INSERT INTO apidoc_queue (filename, queued) VALUES (\'/home/cellog/workspace/pearweb/tests/site/release-upload.php/tarballs/Archive_Tar-1.3.2.tgz\', NOW())',
-  49 => 'SELECT id FROM packages p WHERE p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  50 => 'SELECT * FROM releases WHERE package = 1 ORDER BY releasedate DESC',
-  51 => 'SELECT release, version FROM deps WHERE package = 1 AND type="php" and relation="ge"',
-  52 => 'SELECT packagexml FROM files WHERE package = 1 AND
-                release = \'1\'',
-  53 => 'SELECT releasedate FROM releases WHERE id = 1',
-  54 => 'SELECT c.name FROM categories c, packages p WHERE c.id = p.category AND p.package_type = \'pear\' AND p.approved = 1 AND  p.name = \'Archive_Tar\'',
-  55 => 'SELECT
-                p.id, p.name
-            FROM
-                packages p, categories c
-            WHERE
-                p.category = c.id AND
-                c.name = \'Hungry Hungry Hippo\'',
-  56 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.dev\',\'pear.admin\',\'pear.group\')',
-  57 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.admin\',\'pear.group\')',
-  58 => 'SELECT m.handle
-              FROM packages p, maintains m
-              WHERE
-                 m.handle = \'cellog\' AND
-                 p.id = m.package AND
-                 m.role = \'lead\'',
-), $mock->queries, 'queries');
-
+  5 => 'INSERT INTO deps (package, `release`, type, relation, version, name, optional) VALUES (1,1,\'php\',\'ge\',\'4.0.0\',\'PHP\',0)',
+  6 => 'INSERT INTO apidoc_queue (filename, queued) VALUES (\'/home/cellog/workspace/pearweb/tests/site/release-upload.php/tarballs/Archive_Tar-1.3.2.tgz\', NOW())',
+)
+, $mock->modqueries, 'modification queries');
 $phpt->assertFileExists(dirname(__FILE__) . '/tarballs/Archive_Tar-1.3.2.tgz', 'tgz');
 $phpt->assertEquals(17150, filesize(dirname(__FILE__) . '/tarballs/Archive_Tar-1.3.2.tgz'), 'tgz size');
 $phpt->assertFileExists(dirname(__FILE__) . '/tarballs/Archive_Tar-1.3.2.tar', 'tar');
