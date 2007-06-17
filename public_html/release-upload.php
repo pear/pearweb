@@ -25,7 +25,6 @@ define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
 define('HTML_FORM_TD_ATTR', 'class="form-input"');
 
 require_once 'HTML/Form.php';
-require_once 'Release/Manager.php';
 
 $display_form         = true;
 $display_verification = false;
