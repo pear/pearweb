@@ -34,7 +34,7 @@ Uploading new releases is restricted to each package's lead developer(s).
  <tr>
   <th class="form-label_left"><label for="f" accesskey="i">D<span class="accesskey">i</span>stribution File</label></th>
   <td class="form-input">
-   <input type="hidden" name="MAX_FILE_SIZE" value="16777216" />
+   <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo HTML_FORM_MAX_FILE_SIZE ?>" />
    <input type="file" name="distfile" size="40" id="f"/>
   </td>
  </tr>

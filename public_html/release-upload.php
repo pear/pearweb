@@ -21,10 +21,6 @@
 auth_require('pear.dev');
 
 define('HTML_FORM_MAX_FILE_SIZE', 16 * 1024 * 1024); // 16 MB
-define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
-define('HTML_FORM_TD_ATTR', 'class="form-input"');
-
-require_once 'HTML/Form.php';
 
 $display_form         = true;
 $display_verification = false;
@@ -197,8 +193,6 @@ if ($display_verification) {
     include_once 'PEAR/Config.php';
     include_once 'PEAR/PackageFile.php';
 
-    response_header('Upload New Release :: Verify');
-
     // XXX this will leave files in PEAR_UPLOAD_TMPDIR if users don't
     // complete the next screen.  Janitor cron job recommended!
     $config = &PEAR_Config::singleton();
@@ -291,27 +285,7 @@ if ($display_verification) {
     report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
                  . 'You may want to correct your package.xml file:');
 
-    $form =& new HTML_Form('release-upload.php', 'post');
-    $form->setDefaultFromInput(false);
-
-    $form->addPlaintext('Package:', htmlspecialchars($info->getPackage()));
-    $form->addPlaintext('Version:', htmlspecialchars($info->getVersion()));
-    $form->addPlaintext('Summary:', htmlspecialchars($info->getSummary()));
-    $form->addPlaintext('Description:', nl2br(htmlspecialchars($info->getDescription())));
-    $form->addPlaintext('Release State:', htmlspecialchars($info->getState()));
-    $form->addPlaintext('Release Date:', htmlspecialchars($info->getDate()));
-    $form->addPlaintext('Release Notes:', nl2br(htmlspecialchars($info->getNotes())));
-    $form->addPlaintext('Package Type:', htmlspecialchars($type));
-    // Don't show the next step button when errors found
-    if (!count($errors)) {
-        $form->addSubmit('verify', 'Verify Release');
-    }
-
-    $form->addSubmit('cancel', 'Cancel');
-    $form->addHidden('distfile', htmlspecialchars($tmpfile));
-    $form->display('class="form-holder" cellspacing="1"',
-            'Please verify that the following release information is correct:',
-            'class="form-caption"');
+    require PEARWEB_TEMPLATEDIR . '/release/verification-form.php';
 }
 
 response_footer();
