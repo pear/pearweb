@@ -285,11 +285,14 @@ $mock->addDataQuery("SELECT handle, role, active FROM maintains WHERE package = 
     array(
         array('handle' => 'cellog', 'role' => 'lead', 'active' => 1),
         array('handle' => 'vblavet', 'role' => 'lead', 'active' => 0),
+        array('handle' => 'deleteduser', 'role' => 'helper', 'active' => 0),
     ),
     array('handle', 'role', 'active')
 );
 $mock->addDataQuery("SELECT handle FROM users WHERE handle='ssb'", array(array('handle' => 'ssb')), array('handle'));
 $mock->addInsertQuery("INSERT INTO maintains (handle, package, role, active) VALUES ('ssb', 1, 'helper', 0)", array(), 1);
+$mock->addDeleteQuery("DELETE FROM maintains WHERE package = 1 AND handle = 'deleteduser'",
+    array(), 1);
 // more REST setup
 $mock->addDataQuery("SELECT * FROM maintains WHERE package = 1",
     array(
