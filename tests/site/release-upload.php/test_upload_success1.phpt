@@ -25,12 +25,12 @@ copy(dirname(__FILE__) . '/test_upload_step1/Archive_Tar-1.3.2.tgz',
 include dirname(dirname(dirname(dirname(__FILE__)))) . '/public_html/release-upload.php';
 
 $phpt->assertEquals(array (
-  0 => 'UPDATE packages SET license = \'PHP License\', summary = \'Tar file management class\', description = \'This class provides handling of tar files in PHP.
+  0 => 'INSERT INTO maintains (handle, package, role, active) VALUES (\'ssb\', 1, \'helper\', 0)',
+  1 => 'DELETE FROM maintains WHERE package = 1 AND handle = \'deleteduser\'',
+  2 => 'UPDATE packages SET license = \'PHP License\', summary = \'Tar file management class\', description = \'This class provides handling of tar files in PHP.
 It supports creating, listing, extracting and adding to tar files.
 Gzip support is available if PHP has the zlib extension built-in or
 loaded. Bz2 compression is also supported with the bz2 extension loaded.\' WHERE id=1',
-  1 => 'INSERT INTO maintains (handle, package, role, active) VALUES (\'ssb\', 1, \'helper\', 0)',
-  2 => 'DELETE FROM maintains WHERE package = 1 AND handle = \'deleteduser\'',
   3 => 'INSERT INTO releases (id,package,version,state,doneby,releasedate,releasenotes) VALUES(1,1,\'1.3.2\',\'stable\',\'cellog\',NOW(),\'Correct Bug #4016
 Remove duplicate remove error display with \\\'@\\\'
 Correct Bug #3909 : Check existence of OS_WINDOWS constant
