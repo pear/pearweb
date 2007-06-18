@@ -35,6 +35,12 @@ $phpt->assertEquals(array (
 __halt_compiler();
 ?>
 ===DONE===
+--CLEAN--
+<?php
+include dirname(__FILE__) . '/teardown.php.inc';
+unlinkdir(dirname(__FILE__) . '/rest');
+rmdir(dirname(__FILE__) . '/rest');
+?>
 --EXPECTF--
 %s
  <title>PEAR :: Upload New Release :: Verify</title>
