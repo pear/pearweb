@@ -280,11 +280,6 @@ if ($display_verification) {
         break;
         default :
     }
-    report_error($errors, 'errors','ERRORS:<br />'
-                 . 'You must correct your package.xml file:');
-    report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
-                 . 'You may want to correct your package.xml file:');
-
     require PEARWEB_TEMPLATEDIR . '/release/verification-form.php';
 }
 

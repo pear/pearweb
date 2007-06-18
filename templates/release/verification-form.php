@@ -1,4 +1,10 @@
-<?php response_header('Upload New Release :: Verify'); ?>
+<?php response_header('Upload New Release :: Verify');
+report_error($errors, 'errors', 'ERRORS:<br />'
+             . 'You must correct your package.xml file:');
+report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
+             . 'You may want to correct your package.xml file:');
+
+?>
 <form action="release-upload.php" method="post" >
 <table class="form-holder" cellspacing="1">
  <caption class="form-caption">
