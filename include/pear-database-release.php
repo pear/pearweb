@@ -721,13 +721,12 @@ class release
 
         if ($dbh->affectedRows() == 0) {
             include_once 'pear-database-package.php';
-            $pkg_info = package::info($package, null);
 
-            $query = 'SELECT version FROM releases'
-                   . ' WHERE package = ? AND id = ?';
-            $version = $dbh->getOne($query, array($package, $release_id));
+            $query = 'SELECT version, name, category FROM releases, packages'
+                   . ' WHERE package = ? AND id = ? AND packages.id=releases.package';
+            $pkginfo = $dbh->getAll($query, array($package, $release_id), DB_FETCHMODE_ASSOC);
 
-            if (!$version) {
+            if (PEAR::isError($pkginfo) || !$pkginfo) {
                 return PEAR::raiseError('release:: the package you requested'
                                         . ' has no release by that number');
             }
@@ -736,11 +735,11 @@ class release
                    . ' (dl_number, package, `release`, pid, rid, cid, last_dl)'
                    . ' VALUES (1, ?, ?, ?, ?, ?, ?)';
 
-            $dbh->query($query, array($pkg_info['name'],
-                                      $version,
+            $dbh->query($query, array($pkginfo[0]['name'],
+                                      $pkginfo[0]['version'],
                                       $package,
                                       $release_id,
-                                      $pkg_info['categoryid'],
+                                      $pkg_info[0]['category'],
                                       date('Y-m-d H:i:s')
                                       )
                         );
