@@ -1,5 +1,5 @@
 --TEST--
-release-upload.php [upload success, version not X.Y.Z 1]
+release-upload.php [upload success, 1.0.0 not stable]
 --COOKIE--
 PEAR_USER=cellog;PEAR_PW=hi
 --POST--
