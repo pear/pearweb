@@ -250,7 +250,7 @@ if ($display_verification) {
             if ($version{0} < 1) {
                 $errors[] = "Versions < 1.0.0 may not be 'stable'";
             }
-            if (!$stupid && !preg_match('/^\d+\z/', $verinfo[2])) {
+            if (!$stupid && !strpos($version, 'RC') && !preg_match('/^\d+\z/', $verinfo[2])) {
                 $errors[] = "Stable versions must not have a postfix (use 'beta' for RC postfix)";
             }
         }
