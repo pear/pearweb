@@ -234,6 +234,9 @@ if ($display_verification) {
             if (strpos($version, 'RC') && $info->getState() != 'beta') {
                 $errors[] = 'Release Candidate versions must have stability beta';
             }
+            if (substr($verinfo[2], 1, 2) == 'rc') {
+                $errors[] = 'Release Candidate versions MUST use upper-case RC versioning, not rc';
+            }
             if (substr($version, 0, 4) == '0.0.') {
                 $errors[] = 'Version 0.0.X is invalid, use 0.X.0';
             }
@@ -250,9 +253,6 @@ if ($display_verification) {
             if (!$stupid && !preg_match('/^\d+\z/', $verinfo[2])) {
                 $errors[] = "Stable versions must not have a postfix (use 'beta' for RC postfix)";
             }
-        }
-        if (substr($verinfo[2], 1, 2) == 'rc') {
-            $errors[] = 'Release Candidate versions MUST use upper-case RC versioning, not rc';
         }
         $filelist = $info->getFilelist();
         if (isset($filelist['package.xml'])) {
