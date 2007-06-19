@@ -37,6 +37,7 @@ session_start();
 define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
 define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
+require_once 'Text/CAPTCHA/Numeral.php';
 
 // {{{ printForm
 
@@ -52,13 +53,16 @@ function printForm($data = array())
         }
     }
 
+    $numeralCaptcha = new Text_CAPTCHA_Numeral();
     $form = new HTML_Form('/account-mail.php?handle=' . htmlspecialchars($_GET['handle']),
                           'post', 'contact');
     $form->setDefaultFromInput(false);
 
     $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
             htmlspecialchars($data['name']), 40, null, 'accesskey="o"');
-    $form->addPlaintext('CAPTCHA:', generate_captcha());
+    $form->addPlaintext('Solve the problem:', $numeralCaptcha->getOperation() . ' = 
+        <input type="text" size="4" maxlength="4" name="captcha" />');
+    $_SESSION['answer'] = $numeralCaptcha->getAnswer();
     $form->addText('email', 'Email Address:',
             htmlspecialchars($data['email']), 40, null);
     $form->addCheckBox('copy_me', 'Send me a copy of this mail:',
@@ -97,8 +101,15 @@ echo '<h1>Contact ' . $row['name'] . '</h1>';
 
 if (isset($_POST['submit'])) {
 
-    if (!validate_captcha()) {
-        $errors[] = 'Incorrect CAPTCHA';
+    /**
+     * Check if session answer is set, then compare
+     * it with the post captcha value. If it's not
+     * the same, then it's an incorrect password.
+     */
+    if (isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
+        if ($stripped['captcha'] != $_SESSION['answer']) {
+            $errors[] = 'Incorrect CAPTCHA';
+        }
     }
 
     if ($_POST['name'] == '') {

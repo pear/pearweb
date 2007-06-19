@@ -23,6 +23,10 @@ define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 require_once 'Damblan/Mailer.php';
 require_once 'election/pear-election-accountrequest.php';
+require_once 'Text/CAPTCHA/Numeral.php';
+
+$numeralCaptcha = new Text_CAPTCHA_Numeral();
+session_start();
 
 $display_form = true;
 $width        = 60;
@@ -31,13 +35,9 @@ $jumpto       = 'handle';
 
 $stripped = @array_map('strip_tags', $_POST);
 
-// CAPTCHA needs it and we cannot start it in the
-// CAPTCHA function, too much mess around here.
-session_start();
-
 response_header('Request Account');
 
-print '<h1>Request Account</h1>';
+echo '<h1>Request Account</h1>';
 
 do {
     if (isset($stripped['submit'])) {
@@ -56,9 +56,16 @@ do {
             $display_form = true;
         }
 
-        if (!validate_captcha()) {
-            $errors[] = 'Incorrect CAPTCHA';
-            $display_form = true;
+        /**
+         * Check if session answer is set, then compare
+         * it with the post captcha value. If it's not
+         * the same, then it's an incorrect password.
+         */
+        if (isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
+            if ($stripped['captcha'] != $_SESSION['answer']) {
+                $errors[] = 'Incorrect CAPTCHA';
+                $display_form = true;
+            }
         }
 
         if ($errors) {
@@ -116,7 +123,7 @@ do {
 
 if ($display_form) {
 $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing list');
-    print <<<MSG
+    echo <<<MSG
 <h1>PLEASE READ THIS BEFORE SUBMITTING!</h1>
 <p>
  You have chosen to request an account in order to vote in a general PEAR election.
@@ -138,7 +145,7 @@ Please use the &quot;latin counterparts&quot; of non-latin characters (for insta
 
 MSG;
 
-    print '<a name="requestform" id="requestform"></a>';
+    echo '<a name="requestform" id="requestform"></a>';
 
     report_error($errors);
 
@@ -154,7 +161,10 @@ MSG;
     $form->addText('lastname', 'Last Name:',
             @$hsc['lastname'], 20, null);
     $form->addPassword('password', 'Password:', '', 10);
-    $form->addPlaintext('CAPTCHA:', generate_captcha());
+    $form->addPlaintext('Solve the problem:', $numeralCaptcha->getOperation() . ' = 
+        <input type="text" size="4" maxlength="4" name="captcha" />');
+    $_SESSION['answer'] = $numeralCaptcha->getAnswer();
+
     $form->addText('email', 'Email Address:',
             @$hsc['email'], 20, null);
     $form->addCheckbox('showemail', 'Show email address?',
@@ -175,9 +185,9 @@ MSG;
                    'Request Account', 'class="form-caption"');
 
     if ($jumpto) {
-        print "<script language=\"JavaScript\" type=\"text/javascript\">\n<!--\n";
-        print "if (!document.forms[1].$jumpto.disabled) document.forms[1].$jumpto.focus();\n";
-        print "\n// -->\n</script>\n";
+        echo "<script language=\"JavaScript\" type=\"text/javascript\">\n<!--\n";
+        echo "if (!document.forms[1].$jumpto.disabled) document.forms[1].$jumpto.focus();\n";
+        echo "\n// -->\n</script>\n";
     }
 }
 

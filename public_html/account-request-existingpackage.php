@@ -22,6 +22,10 @@ define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
 define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 require_once 'Damblan/Mailer.php';
+require_once 'Text/CAPTCHA/Numeral.php';
+
+$numeralCaptcha = new Text_CAPTCHA_Numeral();
+session_start();
 
 $display_form = true;
 $width        = 60;
@@ -29,10 +33,6 @@ $errors       = array();
 $jumpto       = 'handle';
 
 $stripped = @array_map('strip_tags', $_POST);
-
-// CAPTCHA needs it and we cannot start it in the
-// CAPTCHA function, too much mess around here.
-session_start();
 
 response_header('Request Account');
 
@@ -60,9 +60,16 @@ do {
             $display_form = true;
         }
 
-        if (!validate_captcha()) {
-            $errors[] = 'Incorrect CAPTCHA';
-            $display_form = true;
+        /**
+         * Check if session answer is set, then compare
+         * it with the post captcha value. If it's not
+         * the same, then it's an incorrect password.
+         */
+        if (isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
+            if ($stripped['captcha'] != $_SESSION['answer']) {
+                $errors[] = 'Incorrect CAPTCHA';
+                $display_form = true;
+            }
         }
 
         if (!$dbh->getOne('SELECT count(*) FROM packages WHERE packages.name=?',
@@ -179,7 +186,9 @@ MSG;
     $form->addText('lastname', 'Last Name:',
             @$hsc['lastname'], 20, null);
     $form->addPassword('password', 'Password:', '', 10);
-    $form->addPlaintext('CAPTCHA:', generate_captcha());
+    $form->addPlaintext('Solve the problem:', $numeralCaptcha->getOperation() . ' = 
+        <input type="text" size="4" maxlength="4" name="captcha" />');
+    $_SESSION['answer'] = $numeralCaptcha->getAnswer();
     $form->addText('email', 'Email Address:',
             @$hsc['email'], 20, null);
     $form->addCheckbox('showemail', 'Show email address?',
