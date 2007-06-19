@@ -225,15 +225,18 @@ if ($display_verification) {
         $verinfo = explode('.', $version);
         if (count($verinfo) != 3) {
             $errors[] = "Versions must have 3 decimals as in x.y.z";
-        }
-        if ($version == '1.0.0' && $info->getState() != 'stable') {
-            $errors[] = 'Version 1.0.0 must be stable';
-        }
-        if (strpos($version, 'RC') && $info->getState() != 'beta') {
-            $errors[] = 'Release Candidate versions must have stability beta';
-        }
-        if (substr($version, 0, 4) == '0.0.') {
-            $errors[] = 'Version 0.0.X is invalid, use 0.X.0';
+            $stupid = true;
+        } else {
+            $stupid = false;
+            if ($version == '1.0.0' && $info->getState() != 'stable') {
+                $errors[] = 'Version 1.0.0 must be stable';
+            }
+            if (strpos($version, 'RC') && $info->getState() != 'beta') {
+                $errors[] = 'Release Candidate versions must have stability beta';
+            }
+            if (substr($version, 0, 4) == '0.0.') {
+                $errors[] = 'Version 0.0.X is invalid, use 0.X.0';
+            }
         }
         if ($info->getState() == 'stable') {
             $releases = package::info($info->getPackage(), 'releases', true);
@@ -244,7 +247,7 @@ if ($display_verification) {
             if ($version{0} < 1) {
                 $errors[] = "Versions < 1.0.0 may not be 'stable'";
             }
-            if (!preg_match('/^\d+\z/', $verinfo[2])) {
+            if (!$stupid && !preg_match('/^\d+\z/', $verinfo[2])) {
                 $errors[] = "Stable versions must not have a postfix (use 'beta' for RC postfix)";
             }
         }
