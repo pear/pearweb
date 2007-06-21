@@ -138,6 +138,7 @@
     <file name="faq.php" role="web" />
     <file name="index.php" role="web" />
     <file name="mirrors.php" role="web" />
+    <file name="rest-login.php" role="web" />
    </dir> <!-- /public_html -->
   </dir> <!-- / -->
  </contents>
