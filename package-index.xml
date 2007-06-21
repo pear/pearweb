@@ -70,7 +70,7 @@
  </developer>
  <date>2007-06-20</date>
  <version>
-  <release>1.16.5</release>
+  <release>1.16.6</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -79,8 +79,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-    Add note about passing of Bertrand Gugger to homepage
-    Add REST-based remote login validation
+    Fix remote login code to use DB
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -265,6 +264,21 @@
    <notes>
     Add note about passing of Bertrand Gugger to homepage
     Add REST-based remote login validation
+   </notes>
+  </release>
+  <release>
+   <date>2007-06-20</date>
+   <version>
+    <release>1.16.6</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+    Fix remote login code to use DB
    </notes>
   </release>
  </changelog>
