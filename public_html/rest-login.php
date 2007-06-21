@@ -38,8 +38,6 @@ if (!isset($_SERVER['PATH_INFO']) || empty($_SERVER['PATH_INFO']) || $_SERVER['P
     die('1 Invalid Remote Login');
 }
 
-$db = new mysqli('localhost', 'pear', 'pear', 'pear');
-
 $info = explode('/', $_SERVER['PATH_INFO']);
 switch ($info[1]) {
     case 'getsalt' :
@@ -55,19 +53,10 @@ switch ($info[1]) {
         if (!isset($_POST['username']) || !isset($_POST['password'])) {
             die('2 Invalid Remote Login');
         }
-        $s = $db->prepare('SELECT password from users WHERE handle = ?');
-        if (!$s) {
+        $password = $dbh->getOne('SELECT password from users WHERE handle=?',
+            array($_POST['username']));
+        if (!$password) {
             die('3 Database Error');
-        }
-        $s->bind_param('s', $_POST['username']);
-        if (!$s->execute()) {
-            die('4 Database Error');
-        }
-        if (!$s->bind_result($pass)) {
-            die('5 Database Error');
-        }
-        if (!$s->fetch()) {
-            die('6 Database Error');
         }
         if (md5($salt . $pass) != $_POST['password']) {
             die('7 Invalid Username or Password');
