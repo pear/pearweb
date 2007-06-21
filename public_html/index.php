@@ -63,6 +63,9 @@ response_header();
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
 <h2>&raquo; Hot off the Press</h2>
+<p><strong>[June 20, 2007]</strong> PEAR is greatly saddened by the loss of
+developer Bertrand Gugger to a heart attack on June 16.  More information is
+available on the official PEAR blog at <a href="http://blog.pear.php.net/2007/06/17/the-pear-project-mourns-the-loss-of-bertrand-gugger/">This entry</a>.</p>
 <p><strong>[June 1, 2007]</strong> Welcome to the 7th and final member of the PEAR
 Group, <strong><a href="/user/pmjones">Paul M. Jones</a></strong>!  The newly elected
 <a href="/news/newgroup-2007.php">PEAR Group</a> and
