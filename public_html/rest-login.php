@@ -53,9 +53,9 @@ switch ($info[1]) {
         if (!isset($_POST['username']) || !isset($_POST['password'])) {
             die('2 Invalid Remote Login');
         }
-        $password = $dbh->getOne('SELECT password from users WHERE handle=?',
+        $pass = $dbh->getOne('SELECT password from users WHERE handle=?',
             array($_POST['username']));
-        if (!$password) {
+        if (!$pass) {
             die('3 Database Error');
         }
         if (md5($salt . $pass) != $_POST['password']) {
