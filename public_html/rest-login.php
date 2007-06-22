@@ -15,7 +15,7 @@
  * $user = 'username';
  * $password = 'password';
  * 
- * $salt = file_get_contents('http://pear.php.net/rest-login.php/getsalt');
+ * $salt = file_get_contents('https://pear.php.net/rest-login.php/getsalt');
  * $cookies = array_values(preg_grep('/Set-Cookie:/', $http_response_header));
  * preg_match('/PHPSESSID=(.+); /', $cookies[0], $session);
  * $pass = md5($salt . md5($password));
@@ -25,7 +25,7 @@
  *     'content' => http_build_query(array('username' => $user, 'password' => $pass))
  * ));
  * $context = stream_context_create($opts);
- * var_dump(file_get_contents('http://pear.php.net/rest-login.php/validate', false, $context));
+ * var_dump(file_get_contents('https://pear.php.net/rest-login.php/validate', false, $context));
  * ?>
  * </code>
  * @author Gregory Beaver <cellog@php.net>
@@ -53,6 +53,11 @@ switch ($info[1]) {
         if (!isset($_POST['username']) || !isset($_POST['password'])) {
             die('2 Invalid Remote Login');
         }
+        $user = $dbh->getOne('SELECT handle from users WHERE handle=?',
+            array($_POST['username']));
+        if (!$user) {
+            die('7 Invalid Username or Password');
+        }
         $pass = $dbh->getOne('SELECT password from users WHERE handle=?',
             array($_POST['username']));
         if (!$pass) {
@@ -60,6 +65,24 @@ switch ($info[1]) {
         }
         if (md5($salt . $pass) != $_POST['password']) {
             die('7 Invalid Username or Password');
+        }
+        if (!$dbh->getOne('SELECT registered from users WHERE handle=? and registered=1',
+              array($_POST['username']))) {
+            die('7 Insufficient priveleges');
+        }
+        if (isset($_POST['karma'])) {
+            if (strpos($_POST['karma'], ',')) {
+                $karma = explode(',', $_POST['karma']);
+            } else {
+                $karma = array($_POST['karma']);
+            }
+            foreach ($karma as $level) {
+                if ($level == $dbh->getOne('SELECT level from karma WHERE user=? and level=?',
+                      array($_POST['username'], $level))) {
+                    die('8 Login OK');
+                }
+            }
+            die('7 Insufficient priveleges');
         }
         die('8 Login OK');
         break;
