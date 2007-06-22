@@ -68,9 +68,9 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-06-20</date>
+ <date>2007-06-21</date>
  <version>
-  <release>1.16.6</release>
+  <release>1.16.7</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -79,7 +79,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-    Fix remote login code to use DB
+    Add option for specifying required user karma, require registered users
+    for remote login
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -279,6 +280,22 @@
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
     Fix remote login code to use DB
+   </notes>
+  </release>
+  <release>
+   <date>2007-06-21</date>
+   <version>
+    <release>1.16.7</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+    Add option for specifying required user karma, require registered users
+    for remote login
    </notes>
   </release>
  </changelog>
