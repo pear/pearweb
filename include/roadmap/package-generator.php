@@ -36,6 +36,7 @@ class Roadmap_Package_Generator
         if ($packagexml) {
             $pf = $this->getPackageXmlV2($packagexml);
             $oldchangelog = $pf->getChangelog();
+            $oldversion = $pf->getVersion();
             $pf->setReleaseVersion($version);
             $changelog = $pf->generateChangeLogEntry();
             if (is_array($oldchangelog)) {
@@ -57,17 +58,17 @@ class Roadmap_Package_Generator
                     break;
                 }
                 if ($insertatend) {
-                    $pf->setChangelogEntry($version, $changelog);
+                    $pf->setChangelogEntry($oldversion, $changelog);
                 } else {
                     $pf->clearChangeLog();
-                    $pf->setChangelogEntry($version, $changelog);
+                    $pf->setChangelogEntry($oldversion, $changelog);
                     foreach ($oldchangelog as $entry) {
                         $pf->setChangelogEntry($entry['version']['release'], $entry);
                     }
                 }
             } else {
                 // no pre-existing changelog
-                $pf->setChangelogEntry($version, $changelog);
+                $pf->setChangelogEntry($oldversion, $changelog);
             }
             if ($version[0] == '0') {
                 if ($pf->getState() == 'stable') {
