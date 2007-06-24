@@ -67,10 +67,12 @@ do {
             $display_form = true;
         }
 
-        if ($dbh->getOne('SELECT count(*) FROM packages WHERE packages.name=?',
-              array($_POST['newpackage']))) {
+        $p = isset($stripped['newpackage']) ? $stripped['newpackage'] : '';
+        $package = $dbh->getOne('SELECT count(id) FROM packages WHERE packages.name = ?',
+              array($p));
+        if ($package) {
             $errors[] = 'Package "' .
-                htmlspecialchars($_POST['newpackage']) . '" already ' .
+                htmlspecialchars($p) . '" already ' .
                 'exists, please choose a unique package name';
         }
 
@@ -78,7 +80,7 @@ do {
             break;
         }
 
-        //  The add method performs further validation then creates the acct
+        //  The add method performs further validation then creates the account
         include_once 'pear-database-user.php';
         $ok = user::add($stripped);
 

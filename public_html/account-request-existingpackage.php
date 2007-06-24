@@ -67,10 +67,12 @@ do {
             $display_form = true;
         }
 
-        if (!$dbh->getOne('SELECT count(*) FROM packages WHERE packages.name=?',
-              array($_POST['existingpackage']))) {
+        $p = isset($stripped['existingpackage']) ? $stripped['existingpackage'] : '';
+        $package = $dbh->getOne('SELECT count(id) FROM packages WHERE packages.name = ?',
+              array($p));
+        if (!$package) {
             $errors[] = 'Package "' .
-                htmlspecialchars($_POST['existingpackage']) . '" does not ' .
+                htmlspecialchars($p) . '" does not ' .
                 'exist, please choose a pre-existing package name';
         }
 
@@ -78,7 +80,7 @@ do {
             break;
         }
 
-        //  The add method performs further validation then creates the acct
+        //  The add method performs further validation then creates the account
         include_once 'pear-database-user.php';
         $ok = user::add($stripped);
 
@@ -163,8 +165,7 @@ MSG;
         'Download PEAR Packages.',
     );
     $purposechecks = '';
-    foreach ($invalid_purposes as $i => $purposeKey)
-    {
+    foreach ($invalid_purposes as $i => $purposeKey) {
         $purposechecks .= HTML_Form::returnCheckBox("purposecheck[$i]", @$_POST['purposecheck'][$i] ? 'on' : 'off');
         $purposechecks .= "$purposeKey <br />";
     }
