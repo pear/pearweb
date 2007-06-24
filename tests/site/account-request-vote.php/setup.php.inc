@@ -4,6 +4,7 @@ set_include_path(dirname(dirname(dirname(dirname(__FILE__)))) . '/include' . PAT
     get_include_path());
 require_once 'DB.php';
 $_ENV['PEAR_DATABASE_DSN'] = 'mock://pear:pear@localhost/pear';
+$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 // so we do local
 $mock = new mockDB_core;
 $options = array(
