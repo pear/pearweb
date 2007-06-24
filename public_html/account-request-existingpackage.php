@@ -60,16 +60,11 @@ do {
             $display_form = true;
         }
 
-        /**
-         * Check if session answer is set, then compare
-         * it with the post captcha value. If it's not
-         * the same, then it's an incorrect password.
-         */
-        if (isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
-            if ($stripped['captcha'] != $_SESSION['answer']) {
-                $errors[] = 'Incorrect CAPTCHA';
-                $display_form = true;
-            }
+        if (!isset($stripped['captcha']) || !isset($_SESSION['answer'])
+            || $stripped['captcha'] != $_SESSION['answer']
+        ) {
+            $errors[] = 'Incorrect CAPTCHA';
+            $display_form = true;
         }
 
         if (!$dbh->getOne('SELECT count(*) FROM packages WHERE packages.name=?',
@@ -186,8 +181,8 @@ MSG;
     $form->addText('lastname', 'Last Name:',
             @$hsc['lastname'], 20, null);
     $form->addPassword('password', 'Password:', '', 10);
-    $form->addPlaintext('Solve the problem:', $numeralCaptcha->getOperation() . ' = 
-        <input type="text" size="4" maxlength="4" name="captcha" />');
+    $text  = $numeralCaptcha->getOperation() . ' = <input type="text" size="4" maxlength="4" name="captcha" />';
+    $form->addPlaintext('Solve the problem:', $text);
     $_SESSION['answer'] = $numeralCaptcha->getAnswer();
     $form->addText('email', 'Email Address:',
             @$hsc['email'], 20, null);
