@@ -68,7 +68,7 @@ class PEAR_Election_Accountrequest
 
         $query = '
         INSERT INTO election_account_request (created_on, handle, email, salt, from_site)
-        VALUES (?, ?, ?, ?, ?)';
+        VALUES (?, ?, ?, ?, \'pear\')';
 
         $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt));
         if (DB::isError($res)) {
