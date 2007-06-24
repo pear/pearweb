@@ -28,24 +28,38 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             '*public_html/faq.php',
             '*public_html/index.php',
             '*public_html/mirrors.php',
-            
+
         ),
     ));
 $a->setReleaseVersion('1.16.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix Bug #11180  	User note\'s timestamp is updated on approval [dufuz]
- * Fix Bug #11192 Bug comments create wrong links to other bugs
- * Fix Bug #11194  source code input on account creation [dufuz]
-    Now a bug link has to have # to be valid and thus parsed [dufuz]
- * Fix Bug #11200  Add html anchors for letters in proposal list [dufuz]
- * Fix Bug #11201  RFCs miss text [dufuz / justinpatrin]
- * Fix Bug #11259  cannot show bug detail on [html_progress2] roadmap [dufuz]
- * Fix Bug #11267  Pecl account requests are shown in pearweb admin ui and via versa [dufuz]
- * Fix Bug #11268  success/warning/error messages don\'t stay consistent enough [dufuz]
- * Fix Bug #11269  Roadmap only calcs bugs marked as Closed as finished [dufuz]
+ * Fix Bug #11180 User note\'s timestamp is updated on approval [dufuz]
+ * Fix Bug #11192 Bug comments create wrong links to other bugs+
+                Now a bug link has to have # to be valid and thus parsed [dufuz]
+ * Fix Bug #11194 source code input on account creation [dufuz]
+ * Fix Bug #11199  	"New search" does not select current package [cellog]
+ * Fix Bug #11200 Add html anchors for letters in proposal list [dufuz]
+ * Fix Bug #11201 RFCs miss text [dufuz / justinpatrin]
+ * Fix Bug #11223 User info page lists unapproved packages[wiesemann]
+ * Fix Bug #11240 can\'t submit patch (wrong mimetype reported)[wiesemann]
+ * Fix Bug #11242 Constraint violation when requesting an account for voting [wiesemann]
+ * Fix Bug #11259 cannot show bug detail on [html_progress2] roadmap [dufuz]
+ * Fix Bug #11267 Pecl account requests are shown in pearweb admin ui and via versa [dufuz]
+ * Fix Bug #11268 success/warning/error messages don\'t stay consistent enough [dufuz]
+ * Fix Bug #11269 Roadmap only calcs bugs marked as Closed as finished [dufuz]
+ * Fix Bug #11327 allreleases2.xml is not updated on release [cellog]
+ * Fix Bug #11349 Net_URL2 isn\'t listed as a dependency [dufuz]
+ * Fix Bug #11397 Roadmap: new entry on generated package.xml\'s changelog has wrong(new) version [dufuz]
+ * Request #11249 unit tests for index.php and login.php [cellog]
+ * Request #11272 release-upload.php needs unit tests [cellog]
  * Request #11273 account-request.php needs unit tests [dufuz]
+ * Request #11274 account-request-vote.php needs unit tests [dufuz]
+ * Request #11275 account-request-confirm.php needs unit tests [dufuz]
+ * Request #11276 public_html/get needs unit tests [cellog]
+ * Request #11339 account-request-newpackage.php needs unit tests [dufuz]
+ * Request #11340 account-request-existingpackage.php needs unit tests [dufuz]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
