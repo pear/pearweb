@@ -67,11 +67,12 @@ class PEAR_Election_Accountrequest
         $created_on = gmdate('Y-m-d H:i:s');
 
         $query = '
-        INSERT INTO election_account_request (created_on, handle, email, salt, from_site)
-        VALUES (?, ?, ?, ?, \'pear\')';
+        INSERT INTO election_account_request (created_on, handle, email, salt)
+        VALUES (?, ?, ?, ?)';
 
         $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt));
         if (DB::isError($res)) {
+            user::remove($handle);
             return $res;
         }
 
