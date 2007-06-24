@@ -104,11 +104,6 @@ do {
                 $additionalHeaders['To'] = $stripped['email'];
                 $mailer->send($additionalHeaders);
             }
-        } elseif ($salt === false) {
-            $msg = 'Your account cannot be added to the queue.'
-                 . ' Please drop a mail to the '
-                 . ' <i>pear-dev</i> mailing list.';
-            report_error($msg, 'warnings', 'WARNING:');
         }
 
         $display_form = false;
