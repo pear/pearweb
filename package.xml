@@ -77,10 +77,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-06-01</date>
- <time>21:24:11</time>
+ <date>2007-06-24</date>
+ <time>22:00:33</time>
  <version>
-  <release>1.16.0</release>
+  <release>1.16.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -89,27 +89,31 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #10660: go-pear won&apos;t install with PHP 4.4.4 [cellog]
- * Fix Bug #10877: Post install script results in a syntax error in httpd.conf [wiesemann]
- * Fix Bug #10906: Bug tracker escapes too much [cellog]
- * Fix Bug #10985: Showing panes where user has no rights [wiesemann]
- * Fix Bug #10991: Bug RSS feed contains duplicated square brackets [wiesemann]
- * Fix Bug #11007: Can&apos;t repropose rejected package [cellog]
- * Fix Bug #11016: Fixes for manual user notes [wiesemann]
- * Fix Bug #11018: Misleading column name in bugs stats [wiesemann]
- * Fix Bug #11024: Wrong copyright [davidc]
- * Fix Bug #11043: Too short lines in bug tracker [wiesemann]
- * Fix Bug #11062: Fatal error on package creation [wiesemann]
- * Fix Bug #11072: Account request form doesn&apos;t make clear that it requires usernames in
-   lowercase [wiesemann]
- * Fix Bug #11078: Release upload form: RC error message is wrong if state is alpha [wiesemann]
- * Fix Bug #11126: patch tracker email never sent when patch attached with initial bug
-   report [cellog]
- * Fix Bug #11134: patch error when CVS diff: creates empty patch [cellog]
- * Fix Bug #11146: account opening causes critical error [cellog]
- * Implement Feature #9555: Add list with mirrors [cellog]
- * Implement Feature #10539: Ability to transform doc notes into Documentation bugs [davidc]
- Split off index-updated files into pearweb_index package
+ * Fix Bug #11180 User note&apos;s timestamp is updated on approval [dufuz]
+ * Fix Bug #11192 Bug comments create wrong links to other bugs+
+                Now a bug link has to have # to be valid and thus parsed [dufuz]
+ * Fix Bug #11194 source code input on account creation [dufuz]
+ * Fix Bug #11199  	&quot;New search&quot; does not select current package [cellog]
+ * Fix Bug #11200 Add html anchors for letters in proposal list [dufuz]
+ * Fix Bug #11201 RFCs miss text [dufuz / justinpatrin]
+ * Fix Bug #11223 User info page lists unapproved packages[wiesemann]
+ * Fix Bug #11240 can&apos;t submit patch (wrong mimetype reported)[wiesemann]
+ * Fix Bug #11242 Constraint violation when requesting an account for voting [wiesemann]
+ * Fix Bug #11259 cannot show bug detail on [html_progress2] roadmap [dufuz]
+ * Fix Bug #11267 Pecl account requests are shown in pearweb admin ui and via versa [dufuz]
+ * Fix Bug #11268 success/warning/error messages don&apos;t stay consistent enough [dufuz]
+ * Fix Bug #11269 Roadmap only calcs bugs marked as Closed as finished [dufuz]
+ * Fix Bug #11327 allreleases2.xml is not updated on release [cellog]
+ * Fix Bug #11349 Net_URL2 isn&apos;t listed as a dependency [dufuz]
+ * Fix Bug #11397 Roadmap: new entry on generated package.xml&apos;s changelog has wrong(new) version [dufuz]
+ * Request #11249 unit tests for index.php and login.php [cellog]
+ * Request #11272 release-upload.php needs unit tests [cellog]
+ * Request #11273 account-request.php needs unit tests [dufuz]
+ * Request #11274 account-request-vote.php needs unit tests [dufuz]
+ * Request #11275 account-request-confirm.php needs unit tests [dufuz]
+ * Request #11276 public_html/get needs unit tests [cellog]
+ * Request #11339 account-request-newpackage.php needs unit tests [dufuz]
+ * Request #11340 account-request-existingpackage.php needs unit tests [dufuz]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -123,7 +127,6 @@
     </dir> <!-- /cron/mirror -->
     <file name="apidoc-queue.php" role="web" />
     <file name="bug-summary.php" role="web" />
-    <file name="cache-garbage-collector.php" role="web" />
     <file name="election_results.php" role="web" />
     <file name="find-documentation.php" role="web" />
     <file name="load-chm.sh" role="web" />
@@ -241,7 +244,6 @@
     <file name="browser.php" role="web" />
     <file name="pear-append.php" role="web" />
     <file name="pear-auth.php" role="web" />
-    <file name="pear-cache.php" role="web" />
     <file name="pear-category.php" role="web" />
     <file name="pear-config.php" role="web" />
     <file name="pear-database-category.php" role="web" />
@@ -293,6 +295,10 @@
       <file name="resolve.inc" role="web" />
       <file name="trusted-devs.inc" role="web" />
      </dir> <!-- /public_html/bugs/include -->
+     <dir name="rss">
+      <file name="bug.php" role="web" />
+      <file name="search.php" role="web" />
+     </dir> <!-- /public_html/bugs/rss -->
      <file name="bug-pwd-finder.php" role="web" />
      <file name="bug.php" role="web" />
      <file name="index.php" role="web" />
@@ -518,8 +524,6 @@
     <file name="advisory-20051104.txt" role="web" />
     <file name="advisory-20060108.txt" role="web" />
     <file name="advisory-20070507.txt" role="web" />
-    <file name="captcha-help.php" role="web" />
-    <file name="captcha-image.php" role="web" />
     <file name="favicon.ico" role="web" />
     <file name="get" role="web" />
     <file name="go-pear" role="web" />
@@ -534,6 +538,7 @@
     <file name="package-stats.php" role="web" />
     <file name="packages.php" role="web" />
     <file name="release-upload.php" role="web" />
+    <file name="rest-login.php" role="web" />
     <file name="robots.txt" role="web" />
     <file name="search.php" role="web" />
     <file name="wishlist.php" role="web" />
@@ -598,6 +603,10 @@
      <file name="note.tpl.php" role="web" />
      <file name="view-full-note.tpl.php" role="web" />
     </dir> <!-- /templates/notes -->
+    <dir name="release">
+     <file name="upload-form.php" role="web" />
+     <file name="verification-form.php" role="web" />
+    </dir> <!-- /templates/release -->
     <dir name="tags">
      <file name="admin.tpl.php" role="web" />
      <file name="cloud.tpl.php" role="web" />
@@ -667,6 +676,7 @@
     <file name="weeklynews-2003.tar.gz" role="web" />
    </dir> <!-- /weeklynews -->
    <file name="generateREST.php" role="web" />
+   <file name="package-index.xml" role="web" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
@@ -760,7 +770,7 @@
  <dependencies>
   <required>
    <php>
-    <min>4.3.0</min>
+    <min>5.2.0</min>
    </php>
    <pearinstaller>
     <min>1.4.11</min>
@@ -839,9 +849,9 @@
     <channel>pear.php.net</channel>
    </package>
    <package>
-    <name>Net_URL</name>
+    <name>Net_URL2</name>
     <channel>pear.php.net</channel>
-    <min>1.0.14</min>
+    <min>0.1.0</min>
    </package>
    <package>
     <name>Text_Diff</name>
@@ -880,7 +890,7 @@
    <package>
     <name>Text_Wiki</name>
     <channel>pear.php.net</channel>
-    <min>1.1.0</min>
+    <min>1.2.0</min>
    </package>
    <package>
     <name>HTML_QuickForm</name>
@@ -901,6 +911,11 @@
    </extension>
   </required>
   <optional>
+   <package>
+    <name>pearweb_index</name>
+    <channel>pear.php.net</channel>
+    <min>1.16.4</min>
+   </package>
    <extension>
     <name>mysql</name>
    </extension>
@@ -2080,28 +2095,65 @@ http://pear.php.net/advisory-20070507.txt
    </stability>
    <date>2007-06-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #10660: go-pear won&apos;t install with PHP 4.4.4 [cellog]
+* Fix Bug #10877: Post install script results in a syntax error in httpd.conf [wiesemann]
+* Fix Bug #10906: Bug tracker escapes too much [cellog]
+* Fix Bug #10985: Showing panes where user has no rights [wiesemann]
+* Fix Bug #10991: Bug RSS feed contains duplicated square brackets [wiesemann]
+* Fix Bug #11007: Can&apos;t repropose rejected package [cellog]
+* Fix Bug #11016: Fixes for manual user notes [wiesemann]
+* Fix Bug #11018: Misleading column name in bugs stats [wiesemann]
+* Fix Bug #11024: Wrong copyright [davidc]
+* Fix Bug #11043: Too short lines in bug tracker [wiesemann]
+* Fix Bug #11062: Fatal error on package creation [wiesemann]
+* Fix Bug #11072: Account request form doesn&apos;t make clear that it requires usernames in
+  lowercase [wiesemann]
+* Fix Bug #11078: Release upload form: RC error message is wrong if state is alpha [wiesemann]
+* Fix Bug #11126: patch tracker email never sent when patch attached with initial bug
+  report [cellog]
+* Fix Bug #11134: patch error when CVS diff: creates empty patch [cellog]
+* Fix Bug #11146: account opening causes critical error [cellog]
+* Implement Feature #9555: Add list with mirrors [cellog]
+* Implement Feature #10539: Ability to transform doc notes into Documentation bugs [davidc]
+Split off index-updated files into pearweb_index package</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.16.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-06-24</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix Bug #10660: go-pear won&apos;t install with PHP 4.4.4 [cellog]
- * Fix Bug #10877: Post install script results in a syntax error in httpd.conf [wiesemann]
- * Fix Bug #10906: Bug tracker escapes too much [cellog]
- * Fix Bug #10985: Showing panes where user has no rights [wiesemann]
- * Fix Bug #10991: Bug RSS feed contains duplicated square brackets [wiesemann]
- * Fix Bug #11007: Can&apos;t repropose rejected package [cellog]
- * Fix Bug #11016: Fixes for manual user notes [wiesemann]
- * Fix Bug #11018: Misleading column name in bugs stats [wiesemann]
- * Fix Bug #11024: Wrong copyright [davidc]
- * Fix Bug #11043: Too short lines in bug tracker [wiesemann]
- * Fix Bug #11062: Fatal error on package creation [wiesemann]
- * Fix Bug #11072: Account request form doesn&apos;t make clear that it requires usernames in
-   lowercase [wiesemann]
- * Fix Bug #11078: Release upload form: RC error message is wrong if state is alpha [wiesemann]
- * Fix Bug #11126: patch tracker email never sent when patch attached with initial bug
-   report [cellog]
- * Fix Bug #11134: patch error when CVS diff: creates empty patch [cellog]
- * Fix Bug #11146: account opening causes critical error [cellog]
- * Implement Feature #9555: Add list with mirrors [cellog]
- * Implement Feature #10539: Ability to transform doc notes into Documentation bugs [davidc]
- Split off index-updated files into pearweb_index package
+ * Fix Bug #11180 User note&apos;s timestamp is updated on approval [dufuz]
+ * Fix Bug #11192 Bug comments create wrong links to other bugs+
+                Now a bug link has to have # to be valid and thus parsed [dufuz]
+ * Fix Bug #11194 source code input on account creation [dufuz]
+ * Fix Bug #11199  	&quot;New search&quot; does not select current package [cellog]
+ * Fix Bug #11200 Add html anchors for letters in proposal list [dufuz]
+ * Fix Bug #11201 RFCs miss text [dufuz / justinpatrin]
+ * Fix Bug #11223 User info page lists unapproved packages[wiesemann]
+ * Fix Bug #11240 can&apos;t submit patch (wrong mimetype reported)[wiesemann]
+ * Fix Bug #11242 Constraint violation when requesting an account for voting [wiesemann]
+ * Fix Bug #11259 cannot show bug detail on [html_progress2] roadmap [dufuz]
+ * Fix Bug #11267 Pecl account requests are shown in pearweb admin ui and via versa [dufuz]
+ * Fix Bug #11268 success/warning/error messages don&apos;t stay consistent enough [dufuz]
+ * Fix Bug #11269 Roadmap only calcs bugs marked as Closed as finished [dufuz]
+ * Fix Bug #11327 allreleases2.xml is not updated on release [cellog]
+ * Fix Bug #11349 Net_URL2 isn&apos;t listed as a dependency [dufuz]
+ * Fix Bug #11397 Roadmap: new entry on generated package.xml&apos;s changelog has wrong(new) version [dufuz]
+ * Request #11249 unit tests for index.php and login.php [cellog]
+ * Request #11272 release-upload.php needs unit tests [cellog]
+ * Request #11273 account-request.php needs unit tests [dufuz]
+ * Request #11274 account-request-vote.php needs unit tests [dufuz]
+ * Request #11275 account-request-confirm.php needs unit tests [dufuz]
+ * Request #11276 public_html/get needs unit tests [cellog]
+ * Request #11339 account-request-newpackage.php needs unit tests [dufuz]
+ * Request #11340 account-request-existingpackage.php needs unit tests [dufuz]
    </notes>
   </release>
  </changelog>
