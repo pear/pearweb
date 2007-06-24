@@ -109,13 +109,13 @@ Please use the &quot;latin counterparts&quot; of non-latin characters (for insta
  <tr>
   <th class="form-label_left">First Name:</th>
   <td class="form-input">
-   <input type="text" name="firstname" size="20" value="" />
+   <input type="text" name="firstname" size="20" value="Helgi" />
   </td>
  </tr>
  <tr>
   <th class="form-label_left">Last Name:</th>
   <td class="form-input">
-   <input type="text" name="lastname" size="20" value="" />
+   <input type="text" name="lastname" size="20" value="Thormar" />
   </td>
  </tr>
  <tr>
@@ -134,7 +134,7 @@ Please use the &quot;latin counterparts&quot; of non-latin characters (for insta
  <tr>
   <th class="form-label_left">Email Address:</th>
   <td class="form-input">
-   <input type="text" name="email" size="20" value="" />
+   <input type="text" name="email" size="20" value="dufuz@php.net" />
   </td>
  </tr>
  <tr>
