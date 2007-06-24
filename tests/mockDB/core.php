@@ -256,40 +256,58 @@ class mockDB_core
         }
     }
 
+    private function _getActualQuery($query)
+    {
+        if (isset($this->_queryMap[$this->_normalize($query)])) {
+            return $this->_normalize($query);
+        } else {
+            foreach ($this->_dynamicQuery as $map => $actual) {
+                if (preg_match($map, $query, $matches)) {
+                    return $this->_normalize($actual['query']);
+                }
+            }
+        }
+        return $this->_normalize($query);
+    }
+
     function nextRowNum($query)
     {
-        $a = key($this->_queryMap[$this->_normalize($query)]['rows']);
-        next($this->_queryMap[$this->_normalize($query)]['rows']);
+        $query = $this->_getActualQuery($query);
+        $a = key($this->_queryMap[$query]['rows']);
+        next($this->_queryMap[$query]['rows']);
         return $a;
     }
 
     function numRows($query)
     {
+        $query = $this->_getActualQuery($query);
         if (!$this->rowExists($query, 0)) {
             return false;
         }
-        return count($this->_queryMap[$this->_normalize($query)]['rows']);
+        return count($this->_queryMap[$query]['rows']);
     }
 
     function numCols($query)
     {
-        if (!isset($this->_queryMap[$this->_normalize($query)])) {
+        $query = $this->_getActualQuery($query);
+        if (!isset($this->_queryMap[$query])) {
             return false;
         }
-        return $this->_queryMap[$this->_normalize($query)]['cols'];
+        return $this->_queryMap[$query]['cols'];
     }
 
     function rowExists($query, $rownum)
     {
-        return array_key_exists($rownum, $this->_queryMap[$this->_normalize($query)]['rows']);
+        return array_key_exists($rownum, $this->_queryMap[$this->_getActualQuery($query)]['rows']);
     }
 
     function getRow($query, $rownum)
     {
+        $query = $this->_getActualQuery($query);
         if (!$this->rowExists($query, $rownum)) {
             return false;
         }
-        return $this->_queryMap[$this->_normalize($query)]['rows'][$rownum];
+        return $this->_queryMap[$query]['rows'][$rownum];
     }
 
     function escape($str)
