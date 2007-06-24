@@ -35,12 +35,12 @@ $mock->addInsertQuery('INSERT INTO users
                 (\'helgi\', \'Helgi Thormar\', \'dufuz@php.net\', \'\', 0, \'49f68a5c8493ec2c0bf489821c21fc3b\', 0, \'a:2:{i:0;s:24:"vote in general election";i:1;s:0:"";}\', "pear")',
                 array(), array());
 
-$mock->addInsertQuery("INSERT INTO election_account_request (created_on, handle, email, salt, from_site)
-        VALUES ('2007-06-24 01:39:44', 'helgi', 'dufuz@php.net', '8d85e00f05f383d47d1e24418595a7a2', 'pear')",
+$mock->addInsertQuery("INSERT INTO election_account_request (created_on, handle, email, salt)
+        VALUES ('2007-06-24 01:39:44', 'helgi', 'dufuz@php.net', '8d85e00f05f383d47d1e24418595a7a2')",
         array(), array(),
         array(
-         'query' => "/INSERT INTO election_account_request \(created_on, handle, email, salt, from_site\)
-        VALUES \('(.+)', 'helgi', 'dufuz@php.net', '(.+)', 'pear'\)/",
+         'query' => "/INSERT INTO election_account_request \(created_on, handle, email, salt\)
+        VALUES \('(.+)', 'helgi', 'dufuz@php.net', '(.+)'\)/",
          'replace' => ''));
 
 require dirname(dirname(dirname(__FILE__))) . '/mock/Session.php';
@@ -63,8 +63,8 @@ $phpt->assertEquals(array (
             VALUES
                 (\'helgi\', \'Helgi Thormar\', \'dufuz@php.net\', \'\', 0, \'49f68a5c8493ec2c0bf489821c21fc3b\', 0, \'a:2:{i:0;s:24:"vote in general election";i:1;s:0:"";}\', "pear")',
  4 => "
-        INSERT INTO election_account_request (created_on, handle, email, salt, from_site)
-        VALUES ('2007-06-24 01:46:19', 'helgi', 'dufuz@php.net', 'adc0fc761600867e22533e02bdf6f401', 'pear')",
+        INSERT INTO election_account_request (created_on, handle, email, salt)
+        VALUES ('2007-06-24 01:46:19', 'helgi', 'dufuz@php.net', 'adc0fc761600867e22533e02bdf6f401')",
 ), $mock->queries, 'queries');
 __halt_compiler();
 ?>
