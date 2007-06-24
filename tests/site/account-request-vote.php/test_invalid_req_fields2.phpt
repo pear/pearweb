@@ -13,12 +13,12 @@ $_SERVER['REQUEST_METHOD'] = 'POST';
 $_SERVER['QUERY_STRING'] = 'account-request-vote.php#requestform';
 require dirname(__FILE__) . '/setup.php.inc';
 
-$mock->addDataQuery("SELECT handle FROM election_account_request WHERE created_on < '2007-06-22 20:52'", array(), array(),
+$mock->addDataQuery("SELECT handle FROM election_account_request WHERE created_on < '2007-06-22 20:52'", array(), array('handle'),
     array(
         'query' => "/SELECT handle FROM election_account_request WHERE created_on < '(.+)'/",
         'replace' => ''));
 
-$mock->addDeleteQuery("DELETE FROM election_account_request WHERE created_on < '2007-06-22 21:56'", array(), array(),
+$mock->addDeleteQuery("DELETE FROM election_account_request WHERE created_on < '2007-06-22 21:56'", array(), 1,
     array(
         'query' => "/DELETE FROM election_account_request WHERE created_on < '(.+)'/",
         'replace' => ''));
@@ -74,10 +74,12 @@ __halt_compiler();
 Please use the &quot;latin counterparts&quot; of non-latin characters (for instance th instead of &thorn;).
 </p>
 <a name="requestform" id="requestform"></a><div class="errors">ERROR:<ul><li>Please enter First Name</li>
+<li>Please enter Last Name</li>
 <li>Please enter Email address</li>
 <li>Your firstname must begin with an uppercase letter</li>
 <li>Your lastname must begin with an uppercase letter</li>
 <li>Your firstname must not consist of only uppercase letters.</li>
+<li>Your lastname must not consist of only uppercase letters.</li>
 <li>Empty passwords not allowed</li>
 </ul></div>
 <form action="account-request-vote.php#requestform" method="post" >
