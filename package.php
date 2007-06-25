@@ -35,6 +35,7 @@ $a->setReleaseVersion('1.17.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
+ * Fix Bug #11094 users table should include longitude, latitude on creation [dufuz]
  * Request #11109 Restyle the warning message css [dufuz]
 ');
 $a->resetUsesrole();
