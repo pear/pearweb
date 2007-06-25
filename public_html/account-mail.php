@@ -27,10 +27,10 @@
  */
 if (!isset($_GET['handle']) || !ereg('^[0-9a-z_]{2,20}$', $_GET['handle'])) {
     localRedirect('/accounts.php');
-} else {
-    $handle = $_GET['handle'];
-    $errors = array();
 }
+
+$handle = $_GET['handle'];
+$errors = array();
 
 session_start();
 
@@ -53,16 +53,20 @@ function printForm($data = array())
         }
     }
 
-    $numeralCaptcha = new Text_CAPTCHA_Numeral();
     $form = new HTML_Form('/account-mail.php?handle=' . htmlspecialchars($_GET['handle']),
                           'post', 'contact');
     $form->setDefaultFromInput(false);
 
     $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
             htmlspecialchars($data['name']), 40, null, 'accesskey="o"');
-    $text  = $numeralCaptcha->getOperation() . ' = <input type="text" size="4" maxlength="4" name="captcha" />';
-    $form->addPlaintext('Solve the problem:', $text);
-    $_SESSION['answer'] = $numeralCaptcha->getAnswer();
+
+    if (!auth_check('pear.dev')) {
+        $numeralCaptcha = new Text_CAPTCHA_Numeral();
+        $text  = $numeralCaptcha->getOperation() . ' = <input type="text" size="4" maxlength="4" name="captcha" />';
+        $form->addPlaintext('Solve the problem:', $text);
+        $_SESSION['answer'] = $numeralCaptcha->getAnswer();
+    }
+
     $form->addText('email', 'Email Address:',
             htmlspecialchars($data['email']), 40, null);
     $form->addCheckBox('copy_me', 'Send me a copy of this mail:',
@@ -100,8 +104,8 @@ if ($row === null) {
 echo '<h1>Contact ' . $row['name'] . '</h1>';
 
 if (isset($_POST['submit'])) {
-    if (!isset($stripped['captcha']) || !isset($_SESSION['answer'])
-        || $stripped['captcha'] != $_SESSION['answer']
+    if (!auth_check('pear.dev') && (!isset($stripped['captcha']) || !isset($_SESSION['answer'])
+        || $stripped['captcha'] != $_SESSION['answer'])
     ) {
         $errors[] = 'Incorrect CAPTCHA';
     }
