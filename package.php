@@ -28,7 +28,9 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             '*public_html/faq.php',
             '*public_html/index.php',
             '*public_html/mirrors.php',
-
+            // next are files in pearweb_gopear package
+            '*public_html/go-pear',
+            '*public_html/new-gopear.php',
         ),
     ));
 $a->setReleaseVersion('1.17.0');
