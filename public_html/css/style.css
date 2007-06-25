@@ -280,33 +280,34 @@ div.warnings,
 div.explain,
 div.success,
 div.tags {
-    margin: 4px;
-    padding: 6px;
     clear: both;
     font-size: 1.1em;
     font-weight: bold;
+    padding: 1.0em !important;
+    border: 1px solid !important;
+    margin: 1.0em !important;
 }
 
 div.errors {
-    border: 1px dashed #660000;
+    border-color: #660000;
     background: #fee;
     color: #660000;
 }
 
 div.warnings {
-    border: 1px dashed #ff8c00;
+    border-color: #ff8c00;
     background: #ffa;
     color: #ff8c00;
 }
 
 div.success {
-    border: 1px dashed #006600;
+    border-color: #006600;
     background-color: #CCFF99;
     color: #006600;
 }
 
 div.tags {
-    border: 1px dashed #ff8c00;
+    border-color: #ff8c00;
     background: #ffa;
     color: #ff8c00;
     width: 500px;
@@ -314,7 +315,7 @@ div.tags {
 }
 
 div.explain {
-    border: 1px dashed #000066;
+    border-color: #000066;
     color: #000066;
 }
 
