@@ -40,6 +40,7 @@ $a->setNotes('
  * Fix Bug #11094 users table should include longitude, latitude on creation [dufuz]
  * Request #11109 Restyle the warning message css [dufuz]
  * Request #11362 Get rid of captcha for pear.dev when sending mail to user via webform [dufuz]
+ * Request #11436 split go-pear in its own package [dufuz]
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
