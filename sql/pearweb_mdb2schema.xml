@@ -2431,10 +2431,22 @@
 
    <field>
     <name>active</name>
-    <type>integer</type>
-    <length>4</length>
+    <type>text</type>
+    <length>25</length>
     <notnull>true</notnull>
     <default>1</default>
+   </field>
+
+   <field>
+    <name>longitude</name>
+    <type>integer</type>
+    <length>25</length>
+   </field>
+
+   <field>
+    <name>latitude</name>
+    <type>text</type>
+    <length>25</length>
    </field>
 
   <field>
