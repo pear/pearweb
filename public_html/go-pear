@@ -115,7 +115,7 @@ ini_set('magic_quotes_runtime', false);
 error_reporting( E_ALL & ~E_NOTICE);
 
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
-define('GO_PEAR_VER', '0.6.0');
+define('GO_PEAR_VER', '@package_version@');
 
 if (!function_exists('file_get_contents')) {
     function file_get_contents($filename)
