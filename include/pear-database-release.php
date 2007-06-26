@@ -739,7 +739,7 @@ class release
                                       $pkginfo[0]['version'],
                                       $package,
                                       $release_id,
-                                      $pkg_info[0]['category'],
+                                      $pkginfo[0]['category'],
                                       date('Y-m-d H:i:s')
                                       )
                         );
