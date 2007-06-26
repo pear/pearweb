@@ -44,8 +44,8 @@ if (DB::isError($dbh)) {
     exit(1);
 }
 
-$update = $dbh->prepare("UPDATE packages SET doc_link = ? 
-		WHERE name = ? AND (doc_link IS NULL OR doc_link NOT LIKE 'http://%' OR doc_link LIKE 'http://pear.php.net/%')");
+$update = $dbh->prepare("UPDATE packages SET doc_link = ?
+        WHERE name = ? AND (doc_link IS NULL OR doc_link NOT LIKE 'http://%' OR doc_link LIKE 'http://pear.php.net/%')");
 
 // {{{ readFolder()
 
@@ -72,7 +72,7 @@ function readFolder($folder) {
             $level--;
         } else {
             if ($level == 2 && preg_match("/\.xml$/", $file['name'])) {
-                
+
                 $path = $basepath . $folder . "/" . $file['name'];
                 $content = file_get_contents($path);
 

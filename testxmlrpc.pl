@@ -8,13 +8,13 @@ use XMLRPC::Lite;
 $result = XMLRPC::Lite
   -> proxy('http://pear.localdomain/xmlrpc.php')
   -> call('package.new',
-	  {'name' => 'Test_Package',
-	   'category' => 'File System',
-	   'license' => 'Test License',
-	   'summary' => 'Test Summary',
-	   'description' => 'Test Description',
-	   'lead' => 'ssb',
-	  })
+        {'name' => 'Test_Package',
+        'category' => 'File System',
+        'license' => 'Test License',
+        'summary' => 'Test Summary',
+        'description' => 'Test Description',
+        'lead' => 'ssb',
+        })
   -> result;
 
 print "package.new result=$result\n";

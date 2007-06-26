@@ -454,7 +454,7 @@ class HTML_Menu {
     */
     function getEntry(&$node, $level, $item_type) {
         $html = '';
-		$indent = '';
+        $indent = '';
         if ('tree' == $this->menu_type) {
             // tree menu
             $html .= '<tr>';

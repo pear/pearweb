@@ -78,11 +78,11 @@ function pear_xmlrpc_dispatcher($method_name, $params, $appdata)
         report_error("no signature found for $method_name($type_key)");
         return false;
     }
-	$auth = $xmlrpc_method_index["auth"][$method_name];
-	if ($auth != "all") {
-		auth_require($auth == "admin");
+    $auth = $xmlrpc_method_index["auth"][$method_name];
+    if ($auth != "all") {
+        auth_require($auth == "admin");
         $user = $GLOBALS['auth_user']->handle;
-	} else {
+    } else {
         $user = '(nobody)';
     }
     $function = $xmlrpc_method_index["index"][$method_name][$type_key];

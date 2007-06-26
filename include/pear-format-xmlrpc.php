@@ -76,7 +76,7 @@ function report_error($error) {
     header("Content-length: " . strlen($response));
     header("Content-type: text/xml");
     print $response;
-	exit;
+    exit;
 }
 
 // {{{ xu_query_http_post()
