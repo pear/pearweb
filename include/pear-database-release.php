@@ -723,7 +723,7 @@ class release
             include_once 'pear-database-package.php';
 
             $query = 'SELECT version, name, category FROM releases, packages'
-                   . ' WHERE package = ? AND id = ? AND packages.id=releases.package';
+                   . ' WHERE package = ? AND releases.id = ? AND packages.id=releases.package';
             $pkginfo = $dbh->getAll($query, array($package, $release_id), DB_FETCHMODE_ASSOC);
 
             if (PEAR::isError($pkginfo) || !$pkginfo) {
