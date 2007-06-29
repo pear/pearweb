@@ -1,4 +1,4 @@
-<?php //; echo; echo "YOU NEED TO RUN THIS SCRIPT WITH PHP NOW!"; echo; echo "Try this: lynx -source http://pear.php.net/go-pear | php -q"; echo; exit # -*- PHP -*-
+<?php //; echo; echo "YOU NEED TO RUN THIS SCRIPT WITH PHP!"; echo; echo "Point your webbrowser to it or run: php -q go-pear.php"; echo; exit # -*- PHP -*-
 # +----------------------------------------------------------------------+
 # | PHP Version 5                                                        |
 # +----------------------------------------------------------------------+
@@ -21,33 +21,29 @@
 # $Id$
 #
 # Automatically download all the files needed to run the "pear" command
-# (the PEAR package installer).  Requires PHP 4.1.0 or newer.
+# (the PEAR package installer).  Requires PHP 4.3.0 or newer.
 #
 # Installation: Linux
 #
 # This script can either be directly launched or passed via lynx like this.
 #
-#  $ lynx -source http://pear.php.net/go-pear | php
+#  $ lynx -source http://pear.php.net/go-pear | php -q
 #
 # The above assumes your php binary is named php and that it's
-# executable through your PATH:
+# executable through your PATH.
 #
 # Installation: Windows
 #
 # On Windows, go-pear uses stdin for user input, so you must download
 # go-pear first and then run it:
 #
-# Note: In PHP 4.2.0-4.2.3, the PHP CLI binary is named php-cli.exe while since
-# PHP 4.3.0, it's simply named php.exe in the cli/ folder of your PHP directory.
-# The CGI is also named php.exe but it sits directly in your PHP directory.
-#
-#  > cli/php -r "readfile('http://pear.php.net/go-pear');" > go-pear
-#  > cli/php go-pear
-#
+# Note: Since PHP 4.3.0, the PHP CLI binary is named php.exe in the cli/ folder
+# of your PHP directory. The CGI is also named php.exe but it sits directly in
+# your PHP directory, use the CLI binary instead.
 # In PHP 5.0.0+, the PHP CLI binary is php.exe
 #
 #  > php -r "readfile('http://pear.php.net/go-pear');" > go-pear
-#  > php go-pear
+#  > php -q go-pear
 #
 # Installation: Notes
 #
@@ -81,20 +77,9 @@
 # 4.: After running go-pear you get a link to the Web Frontend of the PEAR installer.
 # I suggest bookmarking this link.
 #
-# 5.: Protect the Web Frontend directory and the go-pear script with a password.
-# Use .htaccess on Apache webservers for example.
 #
-#
-function dump($var) {
-    if (defined('WEBINSTALLER') && WEBINSTALLER == 'cgi') {
-        echo '<pre>';
-        print_r($var);
-        echo '</pre>';
-    } else {
-        print_r($var);
-        echo "\n";
-    }
-}
+
+
 
 $sapi_name = php_sapi_name();
 
@@ -102,8 +87,6 @@ $safe_mode = (bool)ini_get('safe_mode');
 if (!$safe_mode) {
     set_time_limit(0);
 }
-
-
 
 @ob_end_clean();
 ob_implicit_flush(true);
@@ -117,18 +100,6 @@ error_reporting( E_ALL & ~E_NOTICE);
 define('WINDOWS', (substr(PHP_OS, 0, 3) == 'WIN'));
 define('GO_PEAR_VER', '@package_version@');
 
-if (!function_exists('file_get_contents')) {
-    function file_get_contents($filename)
-    {
-        $fp = fopen($filename, 'rb');
-        $ret = '';
-        while (!feof($fp)) {
-            $ret .= fread($fp, 8092);;
-        }
-        return $ret;
-    }
-}
-
 define('WIN32GUI', !WEBINSTALLER && WINDOWS && $sapi_name=='cli' && which('cscript'));
 
 /*
@@ -138,9 +109,10 @@ if ( WEBINSTALLER && WINDOWS ) {
     $php_sapi_name = win32DetectPHPSAPI();
     if($php_sapi_name=='cgi'){
     $msg = nl2br("
-Sorry! The PEAR installer actually does not work on Windows platform using CGI and Apache.
-Please install the module SAPI (see http://www.php.net/manual/en/install.apache.php for the
-instructions) or use the CLI (cli\php.exe) in the console.
+Sorry! The PEAR installer actually does not work on Windows platform
+using CGI and Apache. Please install the module SAPI (see
+http://www.php.net/manual/en/install.apache.php for the instructions) or
+use the CLI (cli\php.exe) in the console.
 ");
         displayHTML('error', $msg);
     }
@@ -160,17 +132,13 @@ if (WEBINSTALLER && isset($_GET['action']) && $_GET['action'] == 'img' && isset(
 }
 
 // Check if PHP version is sufficient
-if (function_exists("version_compare") && version_compare(phpversion(), "4.2.0",'<')) {
+if (function_exists("version_compare") && version_compare(phpversion(), "4.3.0",'<')) {
     die("Sorry!  Your PHP version is too old.  PEAR and this script requires at
-least PHP 4.2.0 for stable operation.
+least PHP 4.3.0 for stable operation.
 
 It may be that you have a newer version of PHP installed in your web
 server, but an older version installed as the 'php' command.  In this
 case, you need to rebuilt PHP from source.
-
-If your source is 4.2.x, you need to run 'configure' with the
---enable-cli option, rebuild and copy sapi/cli/php somewhere.
-
 If your source is 4.3.x or newer, just make sure you don't run
 'configure' with --disable-cli, rebuilt and copy sapi/cli/php.
 
@@ -231,22 +199,6 @@ detect_install_dirs();
 
 if (WEBINSTALLER) {
     @session_start();
-
-    /*
-        See bug #23069
-    */
-    if ( WINDOWS ) {
-        $php_sapi_name = win32DetectPHPSAPI();
-        if($php_sapi_name=='cgi'){
-            $msg = "
-    Sorry! The PEAR installer actually does not work on Windows platform using CGI and Apache.
-    Please install the module SAPI (see http://www.php.net/manual/en/install.apache.php for the
-    instructions) or use the CLI (cli\php.exe) in the console.
-    ";
-            displayHTML('error', $msg);
-            exit();
-        }
-    }
 
     if (!isset($_SESSION['go-pear']) || isset($_GET['restart'])) {
         $_SESSION['go-pear'] = array(
