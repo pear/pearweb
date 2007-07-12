@@ -147,20 +147,29 @@ Please upgrade PHP to a newer version, and try again.  See you then.
 ");
 }
 
+$gopear_bundle_dir = dirname(__FILE__).'/go-pear-bundle';
+
+$bootstrap_files = array(
+    'PEAR.php'             => 'http://cvs.php.net/viewcvs.cgi/pear-core/PEAR.php?view=co&pathrev=PEAR_1_4',
+    'Archive/Tar.php'      => 'http://cvs.php.net/viewcvs.cgi/pear/Archive_Tar/Archive/Tar.php?view=co&pathrev=RELEASE_1_3_2',
+    'Console/Getopt.php'   => 'http://cvs.php.net/viewcvs.cgi/pear-core/Console/Getopt.php?view=co&pathrev=PEAR_1_4',
+    );
+
+$bootstrap_pkgs = array(
+    'PEAR',
+    'Structures_Graph'
+);
+
 $installer_packages = array(
     'PEAR-stable',
     'Archive_Tar-stable',
     'Console_Getopt-stable',
     'Structures_Graph-stable',
-    );
-
-if (WEBINSTALLER) {
-    $installer_packages[] = 'HTML_Template_IT-stable';
-    $installer_packages[] = 'Net_UserAgent_Detect-stable';
-    $installer_packages[] = 'PEAR_Frontend_Web-beta';
-}
+);
 
 $pfc_packages = array(
+    'PEAR_Frontend_Web-alpha' => 'Webbased PEAR Installer',
+    'PEAR_Frontend_Gtk2' => 'Graphical PEAR installer based on PHP-Gtk2',
     'MDB2' => 'database abstraction layer.',
 );
 
@@ -243,11 +252,9 @@ if (WEBINSTALLER) {
         $config_errors = array();
         foreach($_POST['config'] as $key => $value) {
             $_POST['config'][$key] = strip_magic_quotes($value);
-            if($key!='cache_ttl'){
+            if ($key != 'cache_ttl' && $key != 'php_bin') {
                 if ( empty($_POST['config'][$key]) ) {
-                    if (WEBINSTALLER && $key!='php_bin' ) {
-                        $config_errors[$key] = 'Please fill this path, you can use $prefix, $php_dir or a full path.';
-                    }
+                    $config_errors[$key] = 'Please fill this path, you can use $prefix, $php_dir or a full path.';
                 }
             }
         }
@@ -477,6 +484,7 @@ foreach ($config_vars as $n => $var) {
         $var2 = $config_vars[$m];
         $$var = str_replace('$'.$var2, $$var2, $$var);
     }
+    $$var = parse_dirname($$var);
 }
 
     // temp dir stuff (separate for windows bugs)
@@ -515,7 +523,9 @@ full write access to this directory and the install directory.
             }
         }
     }
-    chdir($ptmp); // strange variable
+    if (@is_dir($ptmp)) {
+        chdir($ptmp);
+    }
 
     // check every dir, existence and permissions
     foreach ($config_vars as $var) {
@@ -539,7 +549,7 @@ Run this script as $root or pick another location.\n");
                 }
             }
         }
-        if (@is_dir($dir) && !is_writable($dir)) {
+        if (WEBINSTALLER && @is_dir($dir) && !is_writable($dir)) {
             $config_errors[$var] = 'ERROR! This directory exists, but we have no write permission in it.';
             if (!WINDOWS) {
                 $config_errors[$var] .= '<p>You can grant this permission by logging on to the server and issuing the following command:<br />
@@ -568,7 +578,7 @@ Run this script as $root or pick another location.\n");
 <tt>chmod 0777 '.$dir.'</tt></p>';
                 }
             }
-        } elseif (file_exists($file) && !is_writable($file)) {
+        } elseif (WEBINSTALLER && file_exists($file) && !is_writable($file)) {
             $config_errors[$var] = 'ERROR! This file exists, but we have no write permission on it.';
             if (!WINDOWS) {
                 $config_errors[$var] .= '<p>You can grant this permission by logging on to the server and issuing the following command:<br />
@@ -655,18 +665,13 @@ if ($install_pfc) {
     }
 }
 
-displayHTMLProgress($progress = 5);
-
-if (file_exists(dirname(__FILE__).'/go-pear-bundle') || is_dir(dirname(__FILE__).'/go-pear-bundle')) {
-    $dh = @opendir(dirname(__FILE__).'/go-pear-bundle');
-} else {
-    $dh = false;
-}
-
+// gopear_bundle usage
 $local_dir = array();
-if ($dh) {
+if (file_exists($gopear_bundle_dir) || is_dir($gopear_bundle_dir)) {
+    $dh = @opendir($gopear_bundle_dir);
+
     while($file = @readdir($dh)) {
-        if ($file == '.' || $file == '..' || !is_file(dirname(__FILE__).'/go-pear-bundle/'.$file)) {
+        if ($file == '.' || $file == '..' || !is_file($gopear_bundle_dir.'/'.$file)) {
             continue;
         }
         $_pos = strpos($file, '-');
@@ -676,125 +681,103 @@ if ($dh) {
           $local_dir[substr($file, 0, $_pos)] = $file;
         }
     }
+    closedir($dh);
+    unset($dh, $file, $_pos);
 }
 
-foreach ($to_install as $pkg) {
-    $pkg_basename = substr($pkg, 0, strpos($pkg, '-'));
-    if (isset($local_dir[$pkg_basename])) {
-        echo str_pad("Using local package: $pkg", max(38,21+strlen($pkg)+4), '.');
-        copy(dirname(__FILE__) . '/go-pear-bundle/' . $local_dir[$pkg_basename], $local_dir[$pkg_basename]);
-        $tarball[$pkg_basename] = $local_dir[$pkg_basename];
-        echo "ok\n";
-        displayHTMLProgress($progress += round(65 / count($to_install)));
-        continue;
+print "\n".'Bootstrapping Installer...................'."\n";
+displayHTMLProgress($progress = 5);
+
+// Bootstrap needed ?
+$nobootstrap = false;
+if (is_dir($php_dir)) {
+    $nobootstrap = true;
+    foreach ($bootstrap_files as $file => $url) {
+        $nobootstrap &= is_file($php_dir.'/'.$file);
     }
+}
 
-    $msg = str_pad("Downloading package: $pkg", max(38,21+strlen($pkg)+4), '.');
-    print $msg;
-    $url = sprintf($urltemplate, $pkg);
-
-    $pkg = str_replace('-stable', '', $pkg);
-
-    $tarball[$pkg] = download_url($url, null, $http_proxy);
+if ($nobootstrap) {
+    print('Using previously install ... ');
+    if (function_exists('set_include_path')) {
+        set_include_path($php_dir);
+    } else {
+        ini_set('include_path', $php_dir);
+    }
+    include_once 'PEAR.php';
     print "ok\n";
-    displayHTMLProgress($progress += round(65 / count($to_install)));
-}
-
-print 'Bootstrapping: PEAR...................';
-if (in_array('PEAR.php', $local_dir)) {
-    copy(dirname(__FILE__).'/go-pear-bundle/PEAR.php', 'PEAR.php');
-    echo "(local) ";
 } else {
-    $url = 'http://cvs.php.net/viewcvs.cgi/pear-core/PEAR.php?view=co&pathrev=PEAR_1_4';
-    echo "(remote) ";
-    download_url($url, 'PEAR.php', $http_proxy);
-}
+    foreach($bootstrap_files as $name => $url) {
+        $file = basename($name);
+        $dir = dirname($name);
 
-include_once 'PEAR.php';
-print "ok\n";
+        print 'Bootstrapping '.$name.'............';
+        displayHTMLProgress($progress += round(14 / count($bootstrap_files)));
+        if ($dir != '' && $dir != '.') {
+            mkdir($dir, 0700);
+        }
 
-print 'Bootstrapping: Archive_Tar............';
-$r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['Archive_Tar'], 12), 0, -4));
-
-/* force to a known revision */
-$url = "http://cvs.php.net/viewcvs.cgi/pear/Archive_Tar/Archive/Tar.php?view=co&pathrev=RELEASE_1_3_2";
-mkdir('Archive', 0700);
-
-if (in_array('Tar.php', $local_dir)) {
-    copy(dirname(__FILE__).'/go-pear-bundle/Tar.php', 'Archive/Tar.php');
-    echo "(local) ";
-} else {
-    download_url($url, 'Archive/Tar.php', $http_proxy);
-    echo "(remote) ";
-}
-print "ok\n";
-
-print 'Bootstrapping: Console_Getopt.........';
-$r = 'RELEASE_' . ereg_replace('[^A-Za-z0-9]', '_', substr(substr($tarball['Console_Getopt'], 15), 0, -4));
-$url = "http://cvs.php.net/viewcvs.cgi/pear-core/Console/Getopt.php?view=co&pathrev=PEAR_1_4";
-mkdir('Console', 0700);
-if (in_array('Getopt.php', $local_dir)) {
-    copy(dirname(__FILE__).'/go-pear-bundle/Getopt.php', 'Console/Getopt.php');
-    echo "(local) ";
-} else {
-    download_url($url, 'Console/Getopt.php', $http_proxy);
-    echo "(remote) ";
-}
-print "ok\n";
-// No duplicate Console_Getopt
-
-/*
-// Following code block seems useless, pfc packages are in to_install, which are handled similarely a bit higher (even when using $install_pfc)
-if ($install_pfc) {
-    foreach ($pfc_packages as $pkg) {
-        foreach($local_dir as $file) {
-            if (substr($file, 0, strlen($pkg)) == $pkg) {
-                echo str_pad("Using local package: $pkg", max(38,21+strlen($pkg)+4), '.');
-                copy(dirname(__FILE__).'/go-pear-bundle/'.$file, $file);
-                $tarball[$pkg] = $file;
-                echo "ok\n";
-                displayHTMLProgress($progress += round(65 / count($to_install)));
-                continue 2;
-            };
-        };
-
-        $msg = str_pad("Downloading package: $pkg", max(38,21+strlen($pkg)+4), '.');
-        print $msg;
-        $url = sprintf($urltemplate, $pkg);
-        $tarball[$pkg] = download_url($url, null, $http_proxy);
+        if (in_array($file, $local_dir)) {
+            copy($gopear_bundle_dir.'/'.$file, $name);
+            echo '(local) ';
+        } else {
+            download_url($url, $name, $http_proxy);
+            echo '(remote) ';
+        }
+        include_once $name;
         print "ok\n";
-        displayHTMLProgress($progress += round(65 / count($to_install)));
     }
 }
-*/
-
-displayHTMLProgress($progress = 70);
+unset($nobootstrap, $file, $url, $name, $dir);
 
 PEAR::setErrorHandling(PEAR_ERROR_DIE, "\n%s\n");
-print 'Extracting installer..................';
+print "\n".'Extracting installer..................'."\n";
+displayHTMLProgress($progress = 20);
 
-$dot = strrpos($tarball['Structures_Graph'], '.');
-$pkg = substr($tarball['Structures_Graph'], 0, $dot);
-$ext = substr($tarball['Structures_Graph'], $dot + 1);
-
-include_once 'Archive/Tar.php';
-
-$tar = &new Archive_Tar($tarball['Structures_Graph'], $have_gzip);
-if (!$tar->extractModify($ptmp, $pkg)) {
-    bail("failed!\n");
+// Extract needed ?
+$noextract = false;
+if (is_dir($php_dir)) {
+    $noextract = @include_once 'PEAR/Registry.php';
+    
+    if ($noextract) {
+        $registry = new PEAR_Registry($php_dir);
+        foreach ($bootstrap_pkgs as $pkg) {
+            $noextract &= $registry->packageExists($pkg);
+        }
+    }
 }
 
-$dot = strrpos($tarball['PEAR'], '.');
-$pkg = substr($tarball['PEAR'], 0, $dot);
-$ext = substr($tarball['PEAR'], $dot + 1);
+if ($noextract) {
+    print('Using previously installed installer ... ');
+    print "ok\n";
+} else {
+    foreach ($bootstrap_pkgs as $pkg) {
+        $tarball = null;
+        if (isset($local_dir[$pkg])) {
+            echo str_pad("Using local package: $pkg", max(38,21+strlen($pkg)+4), '.');
+            copy($gopear_bundle_dir.'/'.$local_dir[$pkg], $local_dir[$pkg]);
+            $tarball = $local_dir[$pkg];
+        } else {
+            print str_pad("Downloading package: $pkg", max(38,21+strlen($pkg)+4), '.');
+            $url = sprintf($urltemplate, $pkg);
+            $pkg = str_replace('-stable', '', $pkg);
+            $tarball = download_url($url, null, $http_proxy);
+        }
+        displayHTMLProgress($progress += round(19 / count($bootstrap_pkgs)));
 
-$tar = &new Archive_Tar($tarball['PEAR'], $have_gzip);
-if (!$tar->extractModify($ptmp, $pkg)) {
-    bail("failed!\n");
+        $fullpkg = substr($tarball, 0, strrpos($tarball, '.'));
+        $tar = &new Archive_Tar($tarball, $have_gzip);
+        if (!$tar->extractModify($ptmp, $fullpkg)) {
+            bail("Extraction for $fullpkg failed!\n");
+        }
+        print "ok\n";
+    }
 }
-print "ok\n";
+unset($noextract, $registry, $pkg, $tarball, $url, $fullpkg, $tar);
 
-$tarball['PEAR'] = 'package.xml'; // :-)
+
+print "\n".'Installing selected packages..................'."\n";
+displayHTMLProgress($progress = 40);
 
 // Default for sig_bin
 putenv('PHP_PEAR_SIG_BIN=""');
@@ -803,7 +786,6 @@ putenv('PHP_PEAR_SIG_KEYDIR=""');
 putenv('PHP_PEAR_DOWNLOAD_DIR=' . $temp_dir . '/download');
 putenv('PHP_PEAR_TEMP_DIR=' . $temp_dir);
 
-include_once "PEAR.php";
 include_once "PEAR/Config.php";
 include_once "PEAR/Command.php";
 include_once "PEAR/Registry.php";
@@ -817,7 +799,9 @@ if (WEBINSTALLER || isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] == 'local'
 
 $config->set('preferred_state', 'stable');
 foreach ($config_vars as $var) {
-    $config->set($var, $$var);
+    if (isset($$var) && $$var != '') {
+        $config->set($var, $$var);
+    }
 }
 $config->set('download_dir', $temp_dir . '/download');
 $config->set('temp_dir', $temp_dir);
@@ -825,25 +809,59 @@ $config->store();
 
 $registry = new PEAR_Registry($php_dir);
 PEAR_Command::setFrontendType('CLI');
-$install = &PEAR_Command::factory('install', $config);
 
-$install_options = array(
-    'nodeps' => true,
-    'force' => true,
-);
-
-foreach ($tarball as $pkg => $src) {
-    $options = $install_options;
-    if ($registry->packageExists($pkg)) {
-        $options['upgrade'] = true;
+//$ch_cmd = &PEAR_Command::factory('update-channels', $config);
+//$ch_cmd->run('update-channels', $options, array());
+// XXX Need hack: update-channels bug (#10275): 
+PEAR::setErrorHandling(PEAR_ERROR_RETURN); //fail silently
+$channels = $registry->getChannels();
+$ch_cmd = &PEAR_Command::factory('channel-update', $config);
+foreach ($channels as $channel) {
+    if ($channel->getName() != '__uri') {
+        $ch_cmd->run('channel-update', $options, array($channel->getName()));
     }
-
-    $install->run('install', $options, array($src));
-
-    displayHTMLProgress($progress += round(29 / count($tarball)));
 }
+unset($channels, $ch_cmd, $channel);
+PEAR::setErrorHandling(PEAR_ERROR_DIE, "\n%s\n");
+displayHTMLProgress($progress = 45);
 
+$install = &PEAR_Command::factory('install', $config);
+foreach ($to_install as $pkg) {
+    $pkg_basename = substr($pkg, 0, strpos($pkg, '-'));
+
+    if (in_array($pkg, $installer_packages)) {
+        $options = array('nodeps' => true);
+    } else {
+        $options = array('onlyreqdeps' => true);
+    }
+    if ($registry->packageExists($pkg) || $registry->packageExists($pkg_basename)) {
+        print(str_pad("Package: $pkg", max(38,21+strlen($pkg)+4), '.').' already installed ... ok'."\n");
+        displayHTMLProgress($progress += round(50 / count($to_install)));
+        continue;
+    }
+    
+    $pkg_basename = substr($pkg, 0, strpos($pkg, '-'));
+    if (isset($local_dir[$pkg_basename])) {
+        print(str_pad("Installing local package: $pkg", max(38,21+strlen($pkg)+4), '.')."...\n");
+        displayHTMLProgress($progress += round(25 / count($to_install)));
+        $install->run('install', $options, array($gopear_bundle_dir.'/'.$local_dir[$pkg_basename]));
+    } else { // no local copy
+        print(str_pad("Downloading and installing package: $pkg", max(38,21+strlen($pkg)+4), '.')."...\n");
+        displayHTMLProgress($progress += round(25 / count($to_install)));
+        $install->run('install', $options, array($pkg));
+    }
+    displayHTMLProgress($progress += round(25 / count($to_install)));
+}
+unset($pkg, $pkg_basename, $options);
+
+/* TODO: Memory exhaustion in webinstaller : / (8Mb)
+print "\n".'Making sure every package is at the latest version........';
+$install->run('upgrade-all', array('soft' => true), array());
+print "ok\n";
+*/
+unset($config, $registry, $install);
 displayHTMLProgress($progress = 99);
+
 
 // Base installation finished
 
@@ -953,7 +971,7 @@ Thanks for using go-pear!
 }
 
 if (WEBINSTALLER) {
-    print "Writing WebFrontend file ... ";
+    print "\n".'Writing WebFrontend file ... ';
     @unlink($webfrontend_file); //Delete old one
     copy ( $doc_dir.DIRECTORY_SEPARATOR.
             'PEAR_Frontend_Web'.DIRECTORY_SEPARATOR.
@@ -961,6 +979,8 @@ if (WEBINSTALLER) {
             'index.php.txt',
             $webfrontend_file
         );
+    print "ok\n";
+    
     if ($_GET['step'] == 'install-progress') {
         displayHTMLProgress($progress = 100);
         ob_end_clean();
@@ -1107,9 +1127,7 @@ function download_url($url, $destfile = null, $proxy = null)
         }
     }
 
-    if ($content_length) {
-        displayHTMLSetDownload($destfile);
-    };
+    displayHTMLSetDownload($destfile);
     $wp = fopen($destfile, "wb");
     if (!$wp) {
         bail("could not open $destfile for writing\n");
@@ -1124,8 +1142,11 @@ function download_url($url, $destfile = null, $proxy = null)
             displayHTMLDownloadProgress($progress * 10);
         };
     }
+    displayHTMLDownloadProgress(100);
     fclose($fp);
     fclose($wp);
+    
+    displayHTMLSetDownload('');
     return $destfile;
 }
 
@@ -1440,12 +1461,14 @@ function detect_install_dirs($_prefix = null) {
         }
     } else {
         if ($_prefix === null) {
-            $prefix    = dirname(PHP_BINDIR);
+            #$prefix    = dirname(PHP_BINDIR);
+            $prefix    = dirname(__FILE__);
         } else {
             $prefix = $_prefix;
         }
         $bin_dir   = '$prefix/bin';
-        $php_dir   = '$prefix/share/pear';
+        #$php_dir   = '$prefix/share/pear';
+        $php_dir   = '$prefix/PEAR';
         $doc_dir   = '$php_dir/docs';
         $data_dir  = '$php_dir/data';
         $test_dir  = '$php_dir/tests';
@@ -1832,15 +1855,19 @@ function displayHTML($page = 'Welcome', $data = array())
         The following PEAR packages will be installed. You can select some optional<br />
         packages to be installed by go-pear too:<br />
         </p>
-	    <table border="0" width="80%">
+	    <table border="0">
         <tr>
         <th>&nbsp;</th><th>Package</th><th width="65%">Description</th>
         </tr><tr>
-        <td>(required)</td><td>PEAR core</td><td>The PEAR core packages.</td>
-        </tr><tr>
-        <td>(required)</td><td>Web Installer</td><td>The PEAR Web Installer and its dependencies.</td>
+        <td>(required)</td><td>PEAR core</td><td>PEAR Base System</td>
         </tr>
+
         <?php
+        // automatically install frontend
+        $frontend = 'PEAR_Frontend_Web-alpha';
+        print('<tr><td>(required)<input type="hidden" name="'.$frontend.'" value="on" /></td><td>'.$frontend.'</td><td>'.$GLOBALS['pfc_packages'][$frontend].'</td></tr>');
+        unset($GLOBALS['pfc_packages'][$frontend]);
+
         foreach ($GLOBALS['pfc_packages'] as $var => $descr) {
             $checked = '';
             if (in_array($var, $GLOBALS['install_optional_packages'])) { $checked = ' checked'; }
@@ -1850,7 +1877,6 @@ function displayHTML($page = 'Welcome', $data = array())
             $var,
             $descr);
         }
-        //<input type="checkbox" name="install_pfc" <?php if($GLOBALS['install_pfc']) ?\>> Install those too<br/>
         ?>
         </table>
         <hr />
@@ -1982,8 +2008,9 @@ function displayHTML($page = 'Welcome', $data = array())
         displayHTMLInstallationSummary($data);
     } elseif ($page == 'preinstall') {
 ?>
-            <span class="title">Installation in progress ...</span><br/>
-            <br/>
+            <p>
+            <span class="title">Installation in progress ...</span></br >
+            <i>(If the page stops loading before the end of the installation, then just reload it)</i></p>
             <script language="javascript">
             <!--
 
@@ -2039,6 +2066,14 @@ function displayHTML($page = 'Welcome', $data = array())
 
                     prog = document.getElementById('download_file');
                     prog.innerHTML = 'Downloading '+value+' ...';
+                };
+
+                function unsetdownloadfile()
+                {
+                    setdownloadprogress(0);
+
+                    prog = document.getElementById('download_file');
+                    prog.innerHTML = '';
                 };
 
                 function setdownloadprogress(value)
@@ -2157,25 +2192,24 @@ function displayHTMLFooter()
 function displayHTMLInstallationSummary($data = '')
 {
     $next     = NULL;
-    $prefix   = dirname($GLOBALS['webfrontend_file']);
-    $suffix   = basename($GLOBALS['webfrontend_file']);
+    $file     = $GLOBALS['webfrontend_file'];
     $doc_root = strip_magic_quotes($_SERVER['DOCUMENT_ROOT']);
     $file_dir = dirname(__FILE__);
     if ( WINDOWS ) {
-        $prefix   = str_replace('/', '\\', strtolower($prefix));
+        $file   = str_replace('/', '\\', strtolower($file));
         $doc_root = str_replace('/', '\\', strtolower($doc_root));
         $file_dir = str_replace('/', '\\', strtolower($file_dir));
     }
 
-    if ($doc_root && substr($prefix, 0, strlen($doc_root)) == $doc_root) {
-        $next = substr($prefix, strlen($doc_root)).'/'.$suffix;
-        // need leading / (prefix - docroot = path from docroot)
+    if ($doc_root && substr($file, 0, strlen($doc_root)) == $doc_root) {
+        $next = substr($file, strlen($doc_root));
+        // need leading / (file - docroot = path from docroot)
         if (substr($next, 0, 1) != '/') {
             $next = '/'.$next;
         }
-    } else if ($file_dir && substr($prefix, 0, strlen($file_dir)) == $file_dir) {
-        $next = substr($prefix, strlen($file_dir)).'/'.$suffix;
-        // strip leading / (prefix - file_dir = path from go-pear file)
+    } else if ($file_dir && substr($file, 0, strlen($file_dir)) == $file_dir) {
+        $next = substr($file, strlen($file_dir));
+        // strip leading / (file - file_dir = path from go-pear file)
         if (substr($next, 0, 1) == '/') {
             $next = substr($next, 1, strlen($next));
         }
@@ -2338,7 +2372,11 @@ function displayHTMLSetDownload($file)
     $msg = ob_get_contents();
     ob_end_clean();
 
-    echo '<script type="text/javascript"> parent.setdownloadfile("'.$file.'");  </script>';
+    if ($file != null && $file != '') {
+        echo '<script type="text/javascript"> parent.setdownloadfile("'.$file.'");  </script>';
+    } else {
+        echo '<script type="text/javascript"> parent.unsetdownloadfile();  </script>';
+    }
 
     ob_start();
     echo $msg;
