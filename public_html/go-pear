@@ -157,7 +157,7 @@ $installer_packages = array(
 if (WEBINSTALLER) {
     $installer_packages[] = 'HTML_Template_IT-stable';
     $installer_packages[] = 'Net_UserAgent_Detect-stable';
-    $installer_packages[] = 'PEAR_Frontend_Web-alpha';
+    $installer_packages[] = 'PEAR_Frontend_Web-beta';
 }
 
 $pfc_packages = array(
@@ -875,7 +875,7 @@ if (WEBINSTALLER) {
     copy ( $doc_dir.DIRECTORY_SEPARATOR.
             'PEAR_Frontend_Web'.DIRECTORY_SEPARATOR.
             'docs'.DIRECTORY_SEPARATOR.
-            'example.php',
+            'index.php.txt',
             $webfrontend_file
         );
     if ($_GET['step'] == 'install-progress') {
@@ -985,6 +985,7 @@ function download_url($url, $destfile = null, $proxy = null)
     }
     if (!$fp) {
         bail("download of $url failed: $errstr ($errno)\n");
+        // If valid URL but error, no CURL extentions installed
     }
     if (empty($proxy)) {
         $path = $tmp['path'];
@@ -1195,7 +1196,7 @@ function temp_dir($default=false)
         }
 
         /* try it really, is_writable is buggy with openbasedir */
-        $fh = fopen(realpath($default) . "/test","wb");
+        $fh = @fopen(realpath($default) . "/test","wb");
         if ($fh) {
             $ptmp = $default;
             return true;
@@ -1460,7 +1461,7 @@ function displayHTMLHeader()
         color: #006600;
     }
     .red {
-        color: #006600;
+        color: #ff0000;
     }
 
     span.headline {
@@ -1989,7 +1990,7 @@ function displayHTMLFooter()
 function displayHTMLInstallationSummary($data = '')
 {
     $next     = NULL;
-    $file   = $GLOBALS['webfrontend_file'];
+    $file     = $GLOBALS['webfrontend_file'];
     $doc_root = strip_magic_quotes($_SERVER['DOCUMENT_ROOT']);
     $file_dir = dirname(__FILE__);
     if ( WINDOWS ) {
@@ -2000,8 +2001,16 @@ function displayHTMLInstallationSummary($data = '')
 
     if ($doc_root && substr($file, 0, strlen($doc_root)) == $doc_root) {
         $next = substr($file, strlen($doc_root));
-    } elseif ($file_dir && substr($file, 0, strlen($file_dir)) == $file_dir) {
+        // need leading / (file - docroot = path from docroot)
+        if (substr($next, 0, 1) != '/') {
+            $next = '/'.$next;
+        }
+    } else if ($file_dir && substr($file, 0, strlen($file_dir)) == $file_dir) {
         $next = substr($file, strlen($file_dir));
+        // strip leading / (file - file_dir = path from go-pear file)
+        if (substr($next, 0, 1) == '/') {
+            $next = substr($next, 1, strlen($next));
+        }
     }
 
     if ($data) {
