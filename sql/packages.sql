@@ -15,6 +15,7 @@ CREATE TABLE packages (
   package_type enum('pear','pecl') NOT NULL default 'pear',
   doc_link varchar(255) default NULL,
   cvs_link varchar(255) default NULL,
+  bug_link varchar(255) default NULL,
   approved tinyint(4) NOT NULL default '0',
   wiki_area tinyint(1) NOT NULL default '0',
   blocktrackbacks tinyint(1) NOT NULL default '0',
