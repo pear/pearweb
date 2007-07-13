@@ -4,7 +4,7 @@
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website, informational front pages</summary>
  <description>The pearweb_index package contains these files from public_html:
- index.php, mirrors.php, credits.php, copyright.php,
+ index.php, mirrors.php, credits.php, copyright.php, gophp5.php
  about/credits.php, about/index.php, about/privacy.php
  group/index.php and group/docs/*, news/*, and support/*
  </description>
@@ -29,7 +29,7 @@
  <lead>
   <name>Pierre-Alain Joye</name>
   <user>pajoye</user>
-  <email>pajoye@pearfr.org</email>
+  <email>pajoye@php.net</email>
   <active>no</active>
  </lead>
  <developer>
@@ -70,7 +70,7 @@
  </developer>
  <date>2007-06-21</date>
  <version>
-  <release>1.16.7</release>
+  <release>1.16.8</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -79,8 +79,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-    Add option for specifying required user karma, require registered users
-    for remote login
+ - Added page gophp5.php in order to join the gophp5.org movement
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -140,6 +139,7 @@
     <file name="index.php" role="web" />
     <file name="mirrors.php" role="web" />
     <file name="rest-login.php" role="web" />
+    <file name="gophp5.php" role="web" />
    </dir> <!-- /public_html -->
   </dir> <!-- / -->
  </contents>
@@ -296,6 +296,21 @@
    <notes>
     Add option for specifying required user karma, require registered users
     for remote login
+   </notes>
+  </release>
+  <release>
+   <date>2007-07-12</date>
+   <version>
+    <release>1.16.8</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+   - Created a new page at /gophp5.php in order to be able to be accepted in the gophp5.org movement
    </notes>
   </release>
  </changelog>
