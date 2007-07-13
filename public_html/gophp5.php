@@ -5,7 +5,7 @@ response_header('GOPHP5!', false, false);
 
 <h2>Joining the GoPHP5.org's movement</h2>
 <p>
-After being the leader and most use PHP applications and libraries
+After being the leader and most used PHP applications and libraries
 for many years with over 30 Million downloads, the 
 <a href="http://pear.php.net">PEAR Project</a> is happy to announce
 that the next version of PEAR, named PEAR2, is going to aim at being
