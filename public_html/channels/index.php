@@ -42,6 +42,7 @@ provided on the individual pages.</p>
 <ul>
   <li><a href="http://pear.crtx.org/">Cerebral Cortex</a></li>
   <li><a href="http://pear.crisscott.com/">Crisscott</a></li>
+  <li><a href="http://pear.domain51.com/">Domain51</a></li>
   <li><a href="http://components.ez.no/">eZ components</a></li>
   <li><a href="http://gnope.org/pearfront/">Gnope PHP-GTK2 applications</a></li>
   <li><a href="http://pear.horde.org/">Horde</a></li>
@@ -51,7 +52,7 @@ provided on the individual pages.</p>
   <li><a href="http://pear.phpkitchen.com/">Seagull</a></li>
   <li><a href="http://pear.si.kz">si.kz</a></li>
   <li><a href="http://pear.symfony-project.com/">Symfony</a></li>
-  <li><a href="http://solarphp.com/home/index.php?area=Main&page=DownloadInstall#toc1">Solar</a></li>
+  <li><a href="http://solarphp.com/home/index.php?area=Main&amp;page=DownloadInstall#toc1">Solar</a></li>
 </ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
