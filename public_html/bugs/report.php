@@ -113,7 +113,8 @@ if (isset($_POST['in'])) {
 
             $where_clause .= $sql_search;
 
-            $where_clause .= ' AND p.package_type="pear"';
+			/** Bug #11423 Make sure that a bug report is registered */
+            $where_clause .= ' AND p.package_type="pear" and bugdb.registered = 1 ';
 
             $query = "SELECT bugdb.* from bugdb, packages p $where_clause LIMIT 5";
 
