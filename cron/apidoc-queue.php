@@ -57,7 +57,7 @@ foreach ($rows as $filename) {
 
     $tar->extract($tmpdir);
 
-    $command = sprintf("/usr/local/bin/phpdoc -d %s -dn '%s' -ti '%s' -p on -s on -t %s -o %s --ignore */data/*; rm -rf %s",
+    $command = sprintf("/usr/local/bin/phpdoc -d %s -dn '%s' -ti '%s' -p on -s on -t %s -o %s --ignore */data/*,*/tests/*; rm -rf %s",
                        $tmpdir,
                        $name,
                        $name . " " . $info['version'],
