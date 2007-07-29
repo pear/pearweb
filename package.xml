@@ -77,10 +77,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-06-24</date>
- <time>22:00:33</time>
+ <date>2007-07-29</date>
+ <time>13:05:32</time>
  <version>
-  <release>1.16.1</release>
+  <release>1.16.2</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -89,31 +89,26 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix Bug #11180 User note&apos;s timestamp is updated on approval [dufuz]
- * Fix Bug #11192 Bug comments create wrong links to other bugs+
-                Now a bug link has to have # to be valid and thus parsed [dufuz]
- * Fix Bug #11194 source code input on account creation [dufuz]
- * Fix Bug #11199  	&quot;New search&quot; does not select current package [cellog]
- * Fix Bug #11200 Add html anchors for letters in proposal list [dufuz]
- * Fix Bug #11201 RFCs miss text [dufuz / justinpatrin]
- * Fix Bug #11223 User info page lists unapproved packages[wiesemann]
- * Fix Bug #11240 can&apos;t submit patch (wrong mimetype reported)[wiesemann]
- * Fix Bug #11242 Constraint violation when requesting an account for voting [wiesemann]
- * Fix Bug #11259 cannot show bug detail on [html_progress2] roadmap [dufuz]
- * Fix Bug #11267 Pecl account requests are shown in pearweb admin ui and via versa [dufuz]
- * Fix Bug #11268 success/warning/error messages don&apos;t stay consistent enough [dufuz]
- * Fix Bug #11269 Roadmap only calcs bugs marked as Closed as finished [dufuz]
- * Fix Bug #11327 allreleases2.xml is not updated on release [cellog]
- * Fix Bug #11349 Net_URL2 isn&apos;t listed as a dependency [dufuz]
- * Fix Bug #11397 Roadmap: new entry on generated package.xml&apos;s changelog has wrong(new) version [dufuz]
- * Request #11249 unit tests for index.php and login.php [cellog]
- * Request #11272 release-upload.php needs unit tests [cellog]
- * Request #11273 account-request.php needs unit tests [dufuz]
- * Request #11274 account-request-vote.php needs unit tests [dufuz]
- * Request #11275 account-request-confirm.php needs unit tests [dufuz]
- * Request #11276 public_html/get needs unit tests [cellog]
- * Request #11339 account-request-newpackage.php needs unit tests [dufuz]
- * Request #11340 account-request-existingpackage.php needs unit tests [dufuz]
+ * Request #11109 Restyle the warning message css [dufuz]
+ * Request #11362 Get rid of captcha for pear.dev when sending mail to user via webform [dufuz]
+ * Request #11436 split go-pear in its own package [dufuz]
+ * Request #10539 Transform note into documentation bugs [davidc]
+ * Request #11086 Tabs and Whitespace mixing in assorted file [dufuz]
+ * Request #11094 Users table to include long/lat on creation [dufuz]
+ * Request #11109 Restyle warning message css [dufuz]
+ * Request #11270 Replace all image captcha with math ones [dufuz]
+ * Request #11362 Get rid of captcha for pear.dev when sending mail to users via the web form. [dufuz]
+ * Request #11436 Split go-pear into its own package [dufuz]
+ * Fix Bug #11418 Undefined index REDIRECT_URL fixes [davidc]
+ * Fix Bug #11423 Comments from unconfirmed identities are shown when submitting a similar bug [davidc]
+ * Fix Bug #11441 Package releases not available
+ * Fix Bug #11498 User note to bug converter [davidc]
+ * Fix Bug #11534 API docs missing for some packages [mj]
+ * Fix Bug #11570 Browse the source tree link broken [davidc]
+ * Fix Bug #11669 Open bugs reporting error [Duplicate]
+ * Fix Bug #11672 Email  failure notice [Duplicate]
+ * Fix Bug #11680 Wrong Bug Count [davidc]
+ * Fix Bug #11094 users table should include longitude, latitude on creation [dufuz]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -526,9 +521,8 @@
     <file name="advisory-20070507.txt" role="web" />
     <file name="favicon.ico" role="web" />
     <file name="get" role="web" />
-    <file name="go-pear" role="web" />
+    <file name="gophp5.php" role="web" />
     <file name="login.php" role="web" />
-    <file name="new-gopear.php" role="web" />
     <file name="package-changelog.php" role="web" />
     <file name="package-delete.php" role="web" />
     <file name="package-edit.php" role="web" />
@@ -915,6 +909,11 @@
     <name>pearweb_index</name>
     <channel>pear.php.net</channel>
     <min>1.16.4</min>
+   </package>
+   <package>
+    <name>pearweb_gopear</name>
+    <channel>pear.php.net</channel>
+    <min>0.6.0</min>
    </package>
    <extension>
     <name>mysql</name>
@@ -2128,32 +2127,64 @@ Split off index-updated files into pearweb_index package</notes>
    </stability>
    <date>2007-06-24</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix Bug #11180 User note&apos;s timestamp is updated on approval [dufuz]
+* Fix Bug #11192 Bug comments create wrong links to other bugs+
+               Now a bug link has to have # to be valid and thus parsed [dufuz]
+* Fix Bug #11194 source code input on account creation [dufuz]
+* Fix Bug #11199  	&quot;New search&quot; does not select current package [cellog]
+* Fix Bug #11200 Add html anchors for letters in proposal list [dufuz]
+* Fix Bug #11201 RFCs miss text [dufuz / justinpatrin]
+* Fix Bug #11223 User info page lists unapproved packages[wiesemann]
+* Fix Bug #11240 can&apos;t submit patch (wrong mimetype reported)[wiesemann]
+* Fix Bug #11242 Constraint violation when requesting an account for voting [wiesemann]
+* Fix Bug #11259 cannot show bug detail on [html_progress2] roadmap [dufuz]
+* Fix Bug #11267 Pecl account requests are shown in pearweb admin ui and via versa [dufuz]
+* Fix Bug #11268 success/warning/error messages don&apos;t stay consistent enough [dufuz]
+* Fix Bug #11269 Roadmap only calcs bugs marked as Closed as finished [dufuz]
+* Fix Bug #11327 allreleases2.xml is not updated on release [cellog]
+* Fix Bug #11349 Net_URL2 isn&apos;t listed as a dependency [dufuz]
+* Fix Bug #11397 Roadmap: new entry on generated package.xml&apos;s changelog has wrong(new) version [dufuz]
+* Request #11249 unit tests for index.php and login.php [cellog]
+* Request #11272 release-upload.php needs unit tests [cellog]
+* Request #11273 account-request.php needs unit tests [dufuz]
+* Request #11274 account-request-vote.php needs unit tests [dufuz]
+* Request #11275 account-request-confirm.php needs unit tests [dufuz]
+* Request #11276 public_html/get needs unit tests [cellog]
+* Request #11339 account-request-newpackage.php needs unit tests [dufuz]
+* Request #11340 account-request-existingpackage.php needs unit tests [dufuz]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.16.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-07-29</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix Bug #11180 User note&apos;s timestamp is updated on approval [dufuz]
- * Fix Bug #11192 Bug comments create wrong links to other bugs+
-                Now a bug link has to have # to be valid and thus parsed [dufuz]
- * Fix Bug #11194 source code input on account creation [dufuz]
- * Fix Bug #11199  	&quot;New search&quot; does not select current package [cellog]
- * Fix Bug #11200 Add html anchors for letters in proposal list [dufuz]
- * Fix Bug #11201 RFCs miss text [dufuz / justinpatrin]
- * Fix Bug #11223 User info page lists unapproved packages[wiesemann]
- * Fix Bug #11240 can&apos;t submit patch (wrong mimetype reported)[wiesemann]
- * Fix Bug #11242 Constraint violation when requesting an account for voting [wiesemann]
- * Fix Bug #11259 cannot show bug detail on [html_progress2] roadmap [dufuz]
- * Fix Bug #11267 Pecl account requests are shown in pearweb admin ui and via versa [dufuz]
- * Fix Bug #11268 success/warning/error messages don&apos;t stay consistent enough [dufuz]
- * Fix Bug #11269 Roadmap only calcs bugs marked as Closed as finished [dufuz]
- * Fix Bug #11327 allreleases2.xml is not updated on release [cellog]
- * Fix Bug #11349 Net_URL2 isn&apos;t listed as a dependency [dufuz]
- * Fix Bug #11397 Roadmap: new entry on generated package.xml&apos;s changelog has wrong(new) version [dufuz]
- * Request #11249 unit tests for index.php and login.php [cellog]
- * Request #11272 release-upload.php needs unit tests [cellog]
- * Request #11273 account-request.php needs unit tests [dufuz]
- * Request #11274 account-request-vote.php needs unit tests [dufuz]
- * Request #11275 account-request-confirm.php needs unit tests [dufuz]
- * Request #11276 public_html/get needs unit tests [cellog]
- * Request #11339 account-request-newpackage.php needs unit tests [dufuz]
- * Request #11340 account-request-existingpackage.php needs unit tests [dufuz]
+ * Request #11109 Restyle the warning message css [dufuz]
+ * Request #11362 Get rid of captcha for pear.dev when sending mail to user via webform [dufuz]
+ * Request #11436 split go-pear in its own package [dufuz]
+ * Request #10539 Transform note into documentation bugs [davidc]
+ * Request #11086 Tabs and Whitespace mixing in assorted file [dufuz]
+ * Request #11094 Users table to include long/lat on creation [dufuz]
+ * Request #11109 Restyle warning message css [dufuz]
+ * Request #11270 Replace all image captcha with math ones [dufuz]
+ * Request #11362 Get rid of captcha for pear.dev when sending mail to users via the web form. [dufuz]
+ * Request #11436 Split go-pear into its own package [dufuz]
+ * Fix Bug #11418 Undefined index REDIRECT_URL fixes [davidc]
+ * Fix Bug #11423 Comments from unconfirmed identities are shown when submitting a similar bug [davidc]
+ * Fix Bug #11441 Package releases not available
+ * Fix Bug #11498 User note to bug converter [davidc]
+ * Fix Bug #11534 API docs missing for some packages [mj]
+ * Fix Bug #11570 Browse the source tree link broken [davidc]
+ * Fix Bug #11669 Open bugs reporting error [Duplicate]
+ * Fix Bug #11672 Email  failure notice [Duplicate]
+ * Fix Bug #11680 Wrong Bug Count [davidc]
+ * Fix Bug #11094 users table should include longitude, latitude on creation [dufuz]
    </notes>
   </release>
  </changelog>
