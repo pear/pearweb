@@ -39,6 +39,8 @@ define('HTML_FORM_TD_ATTR', 'class="form-input"');
 require_once 'HTML/Form.php';
 require_once 'Text/CAPTCHA/Numeral.php';
 
+$stripped = @array_map('strip_tags', $_POST);
+
 // {{{ printForm
 
 function printForm($data = array())
