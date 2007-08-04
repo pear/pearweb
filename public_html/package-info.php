@@ -308,19 +308,21 @@ if (empty($action)) {
     } else {
         print 'No releases have been made yet.';
     }
-    print '<br /><a href="/bugs/roadmap.php?package=' . urlencode($name) .
-        '">Development Road Map</a>';
-    $nextrelease = Roadmap_Info::nextRelease($name);
-    if ($nextrelease) {
-        $x = ceil((((strtotime($nextrelease[1]) - time()) / 60) / 60) / 24);
-        echo ' (next release: <strong><a href="/bugs/roadmap.php?package=' .
-            urlencode($name) .'&roadmapdetail=' . $nextrelease[0]
-             . '#a' . $nextrelease[0] . '">' . $nextrelease[0] .
-            '</a></strong> in ';
-        echo $x . ' day';
-        if ($x != 1) echo 's';
-        if ($x < 0) echo '!!';
-        echo ', ' . Roadmap_Info::percentDone($name) . '% complete)';
+    if (Roadmap_Info::roadmapExists($name)) {
+        print '<br /><a href="/bugs/roadmap.php?package=' . urlencode($name) .
+            '">Development Roadmap</a>';
+        $nextrelease = Roadmap_Info::nextRelease($name);
+        if ($nextrelease) {
+            $x = ceil((((strtotime($nextrelease[1]) - time()) / 60) / 60) / 24);
+            echo ' (next release: <strong><a href="/bugs/roadmap.php?package=' .
+                urlencode($name) .'&roadmapdetail=' . $nextrelease[0]
+                . '#a' . $nextrelease[0] . '">' . $nextrelease[0] .
+                '</a></strong> in ';
+            echo $x . ' day';
+            if ($x != 1) echo 's';
+            if ($x < 0) echo '!!';
+            echo ', ' . Roadmap_Info::percentDone($name) . '% complete)';
+        }
     }
     print '</td>';
     print '<td width="50%" class="textcell">';

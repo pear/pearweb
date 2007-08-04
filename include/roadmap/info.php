@@ -1,6 +1,16 @@
 <?php
 class Roadmap_Info
 {
+    function roadmapExists($package)
+    {
+        $ret = $GLOBALS['dbh']->getOne('
+            SELECT id
+            FROM bugdb_roadmap WHERE
+            package=?
+        ',array($package));
+        return (boolean)$ret;
+    }
+
     function nextRelease($package)
     {
         $ret = $GLOBALS['dbh']->getAll('
