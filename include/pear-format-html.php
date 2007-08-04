@@ -398,6 +398,7 @@ function draw_navigation($type, $menu_title='')
             break;
         case 'developer_menu_public':
             $data= array(
+                '/map/'                => 'Find a Developer',
                 '/accounts.php'        => 'List Accounts'
             );
             break;
