@@ -69,7 +69,12 @@ if (isset($_POST) && isset($_POST['role'])) {
 
    // Role, active, and marked for removal
    $roles   = $_POST['role'];
-   $active  = $_POST['active'];
+
+   if (isset($_POST['active'])) {
+      $active  = $_POST['active'];
+   } else {
+      $active = array();
+   }
 
    if (isset($_POST['delete'])) {
       $delete  = $_POST['delete'];
