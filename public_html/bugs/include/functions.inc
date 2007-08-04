@@ -1143,7 +1143,7 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
     if (count($pkgname) == 1 && !$fulllink) {
         echo make_link('/bugs/search.php?package_name[]=' . $pkgname[0], 'New search');
         echo delim();
-        echo make_link('/bugs/roadmap.php?package=' . $pkgname[0], 'Development Road Map');
+        echo make_link('/bugs/roadmap.php?package=' . $pkgname[0], 'Development Roadmap');
     } else {
         echo make_link('/bugs/search.php', 'New search');
     }
