@@ -109,6 +109,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         } else {
             $query .= $dbh->quoteSmart($_GET['handle']);
         }
+        $query .= ' AND maintains.active = 1';
     }
 
     if (empty($_GET['package_name']) || !is_array($_GET['package_name'])) {
