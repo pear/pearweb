@@ -6,7 +6,7 @@
 class PEAR_Bugs
 {
     var $_dbh;
-    function PEAR_Bugs()
+    function __construct()
     {
         $this->_dbh = $GLOBALS['dbh'];
     }
