@@ -2452,7 +2452,7 @@
   <field>
    <name>from_site</name>
    <type>text</type>
-   <lenght>4</length>
+   <length>4</length>
    <notnull>true</notnull>
    <default></default>
   </field>
