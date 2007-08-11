@@ -631,7 +631,9 @@ if ($bug['modified']) {
    <th class="details">From:</th>
    <td>
    <?php
-    if ($bug['bughandle']) {
+    if (!$bug['registered']) {
+        echo 'Unconfirmed reporter';
+    } elseif ($bug['bughandle']) {
         echo '<a href="/user/' . $bug['bughandle'] . '">' . $bug['bughandle'] . '</a>';
     } elseif ($bug['handle'] && $bug['showemail'] != '0') {
         echo '<a href="/user/' . $bug['handle'] . '">' . $bug['handle'] . '</a>';
@@ -1214,7 +1216,7 @@ if (!$edit && canvote()) {
 
 // Display original report
 if ($bug['ldesc']) {
-    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['bughandle'], $bug['reporter_name'], 1);
+    output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['bughandle'], $bug['reporter_name'], $bug['registered']);
 }
 
 // Display patches
@@ -1257,21 +1259,24 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
     echo "<strong>[",format_date($ts),"] ";
     if (!$registered) {
         echo 'User who submitted this comment has not confirmed identity</strong>';
-        echo '<pre class="note">If you submitted this note, check your email.';
-        echo 'If you do not have a message, <a href="resend-request-email.php?' .
+        if (!auth_check('pear.dev')) {
+            echo '<pre class="note">If you submitted this note, check your email.';
+            echo 'If you do not have a message, <a href="resend-request-email.php?' .
             'handle=' . urlencode($handle) . "\">click here to re-send</a>\n",
             "MANUAL CONFIRMATION IS NOT POSSIBLE.  Write a message to <a href=\"mailto:pear-dev@lists.php.net\">pear-dev@lists.php.net</a>\n",
             "to request the confirmation link.  All bugs/comments/patches associated with this
 \nemail address will be deleted within 48 hours if the account request is not confirmed!";
-        echo "</pre>\n</div>";
-        return;
-    }
-    if ($handle) {
-        echo '<a href="/user/' . $handle . '">' . $handle . "</a></strong>\n";
+            echo "</pre>\n</div>";
+            return;
+        }
     } else {
-        echo spam_protect(htmlspecialchars($email))."</strong>\n";
+        if ($handle) {
+            echo '<a href="/user/' . $handle . '">' . $handle . "</a></strong>\n";
+        } else {
+            echo spam_protect(htmlspecialchars($email))."</strong>\n";
+        }
     }
-    if ($comment_name) {
+    if ($comment_name && $registered) {
         echo '(' . htmlspecialchars($comment_name) . ')';
     }
     echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"".htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
