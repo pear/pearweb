@@ -436,9 +436,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
         {
             $errors[] = 'The bug is already marked "'.$bug['status'].'". (Submit again to ignore this.)';
         } elseif (!$errors)  {
-            if ($_POST['in']['status'] == $bug['status']) {
-                $_POST['in']['status'] = $RESOLVE_REASONS[$_POST['in']['resolve']]['status'];
-            }
+            $_POST['in']['status'] = $RESOLVE_REASONS[$_POST['in']['resolve']]['status'];
             require './include/resolve.inc';
             $reason = isset($RESOLVE_REASONS[$_POST['in']['resolve']]) ?
                 $RESOLVE_REASONS[$_POST['in']['resolve']]['message'] :
