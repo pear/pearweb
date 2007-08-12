@@ -314,9 +314,10 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 } elseif (!empty($_GET['cid'])) {
 
     $category_name     = $dbh->getOne(sprintf("SELECT name FROM categories WHERE id = %d", $_GET['cid']));
-    $total_packages    = $dbh->getOne(sprintf("SELECT COUNT(DISTINCT pid) FROM package_stats WHERE cid = %d", $_GET['cid']));
-    $total_maintainers = $dbh->getOne(sprintf("SELECT COUNT(DISTINCT m.handle) FROM maintains m, packages p WHERE m.package = p.id AND p.category = %d", $_GET['cid']));
-    $total_releases    = $dbh->getOne(sprintf("SELECT COUNT(*) FROM package_stats WHERE cid = %d", $_GET['cid']));
+    $total_packages    = $dbh->getOne(sprintf("SELECT COUNT(DISTINCT pid) FROM package_stats ps LEFT JOIN packages p ON p.id = ps.pid WHERE package_type='pear' AND cid = %d", $_GET['cid']));
+    $total_packages    = $dbh->getOne(sprintf("SELECT COUNT(DISTINCT pid) FROM package_stats ps, packages p WHERE package_type='pear' AND p.id = ps.pid AND cid = %d", $_GET['cid']));
+    $total_maintainers = $dbh->getOne(sprintf("SELECT COUNT(DISTINCT m.handle) FROM maintains m, packages p WHERE package_type='pear' AND m.package = p.id AND p.category = %d", $_GET['cid']));
+    $total_releases    = $dbh->getOne(sprintf("SELECT COUNT(*) FROM package_stats ps, packages p WHERE package_type='pear' AND p.id = ps.pid AND cid = %d", $_GET['cid']));
     $total_categories  = $dbh->getOne(sprintf("SELECT COUNT(*) FROM categories WHERE parent = %d", $_GET['cid']));
 
     // Query to get package list from package_stats_table
@@ -333,7 +334,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 } else {
 
     $total_packages    = number_format($dbh->getOne('SELECT COUNT(id) FROM packages WHERE package_type="pear" and approved=1'), 0, '.', ',');
-    $total_maintainers = number_format($dbh->getOne('SELECT COUNT(DISTINCT handle) FROM maintains'), 0, '.', ',');
+    $total_maintainers = number_format($dbh->getOne('SELECT COUNT(DISTINCT handle) FROM maintains m, packages p WHERE package_type="pear" AND m.package = p.id'), 0, '.', ',');
     $total_releases    = number_format($dbh->getOne('SELECT COUNT(*) FROM releases r, packages p
                         WHERE r.package = p.id AND p.package_type="pear"'), 0, '.', ',');
     $total_categories  = number_format($dbh->getOne('SELECT COUNT(*) FROM categories'), 0, '.', ',');
