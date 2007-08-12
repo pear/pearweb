@@ -403,6 +403,14 @@ if (isset($_POST['in'])) {
 
 }  // end of if input
 
+if (!is_string($_REQUEST['package'])) {
+    response_header('Report');
+    $errors[] = 'The package name in the URL is not proper, please fix it and try again.';
+    $errors[] = 'It should look like this: report.php?package=PackageName';
+    display_bug_error($errors);
+    response_footer();
+    exit;
+}
 
 if (!package_exists($_REQUEST['package'])) {
     $errors[] = 'Package "' . clean($_REQUEST['package']) . '" does not exist.';
