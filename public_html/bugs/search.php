@@ -72,8 +72,13 @@ $order_options = array(
     'assign'       => 'assignment',
 );
 
-$boolean = isset($_GET['boolean']) ? (int)$_GET['boolean'] : 1;
-define ('BOOLEAN_SEARCH', $boolean);
+$status   = !empty($_GET['status']) ? $_GET['status'] : 'Open';
+$handle   = !empty($_GET['handle']) ? $_GET['handle'] : '';
+$maintain = !empty($_GET['maintain']) ? $_GET['maintain'] : '';
+$bug_type = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? $_GET['bug_type'] : '';
+$boolean_search = isset($_GET['boolean']) ? (int)$_GET['boolean'] : 0;
+$package_name   = (isset($_GET['package_name'])  && is_array($_GET['package_name']))  ? $_GET['package_name']  : array();
+$package_nname  = (isset($_GET['package_nname']) && is_array($_GET['package_nname'])) ? $_GET['package_nname'] : array();
 
 if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
@@ -88,63 +93,43 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
     }
 
-    if ($mysql4) {
-        $query = 'SELECT SQL_CALC_FOUND_ROWS';
-    } else {
-        $query = 'SELECT';
-    }
-
+    $query = $mysql4 ? 'SELECT SQL_CALC_FOUND_ROWS' : 'SELECT';
     $query .= ' bugdb.*, TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged'
             . ' FROM bugdb';
 
-    if (!empty($site) || !empty($_GET['maintain']) || !empty($_GET['handle'])) {
+    if (!empty($site) || $maintain != '' || $handle != '') {
         $query .= ' LEFT JOIN packages ON packages.name = bugdb.package_name';
     }
 
-    if (!empty($_GET['maintain']) || !empty($_GET['handle'])) {
+    if ($maintain != '' || $handle != '') {
         $query .= ' LEFT JOIN maintains ON packages.id = maintains.package';
         $query .= ' AND maintains.handle = ';
-        if (!empty($_GET['maintain'])) {
-            $query .= $dbh->quoteSmart($_GET['maintain']);
-        } else {
-            $query .= $dbh->quoteSmart($_GET['handle']);
-        }
+        $query .= $maintain != '' ? $dbh->quoteSmart($maintain) : $dbh->quoteSmart($handle);
         $query .= ' AND maintains.active = 1';
     }
 
-    if (empty($_GET['package_name']) || !is_array($_GET['package_name'])) {
-        $_GET['package_name'] = array();
-        $where_clause = '';
-        if (!auth_check('pear.dev')) {
-            $where_clause = ' WHERE bugdb.registered = 1';
-        }
-    } else {
-        $where_clause = ' WHERE ';
-        if (!auth_check('pear.dev')) {
-            $where_clause .= 'bugdb.registered = 1 AND ';
-        }
-        $where_clause .= 'bugdb.package_name';
-        if (count($_GET['package_name']) > 1) {
+    $where_clause = ' WHERE bugdb.registered IN(';
+    $where_clause.= !auth_check('pear.dev') ? '1)' : '1,0)';
+
+    if (!empty($package_name)) {
+        $where_clause .= ' AND bugdb.package_name';
+        if (count($package_name) > 1) {
             $where_clause .= " IN ('"
-                           . join("', '", escapeSQL($_GET['package_name']))
+                           . join("', '", escapeSQL($package_name))
                            . "')";
         } else {
-            $where_clause .= ' = '
-                               . $dbh->quoteSmart($_GET['package_name'][0]);
+            $where_clause .= ' = ' . $dbh->quoteSmart($package_name[0]);
         }
     }
 
-    if (empty($_GET['package_nname']) || !is_array($_GET['package_nname'])) {
-        $_GET['package_nname'] = array();
-    } else {
+    if (!empty($package_nname)) {
         $where_clause .= ' AND bugdb.package_name';
-        if (count($_GET['package_nname']) > 1) {
+        if (count($package_nname) > 1) {
             $where_clause .= " NOT IN ('"
-                           . join("', '", escapeSQL($_GET['package_nname']))
+                           . join("', '", escapeSQL($package_nname))
                            . "')";
         } else {
-            $where_clause .= ' <> '
-                           . $dbh->quoteSmart($_GET['package_nname'][0]);
+            $where_clause .= ' <> ' . $dbh->quoteSmart($package_nname[0]);
         }
     }
 
@@ -152,11 +137,6 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
      * Ensure status is valid and tweak search clause
      * to treat assigned, analyzed, critical and verified bugs as open
      */
-    if (empty($_GET['status'])) {
-        $status = 'Open';
-    } else {
-        $status = $_GET['status'];
-    }
     switch ($status) {
         case 'All':
             break;
@@ -194,14 +174,14 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             break;
         // Closed Reports Since Last Release
         case 'CRSLR':
-            if (!isset($_GET['package_name']) || count($_GET['package_name']) > 1) {
+            if (empty($package_name) || count($package_name) > 1) {
                 // Act as ALL
                 break;
             }
 
             // Fetch the last release date
             include_once 'pear-database-package.php';
-            $releaseDate = package::getRecent(1, rinse($_GET['package_name'][0]));
+            $releaseDate = package::getRecent(1, rinse($package_name[0]));
             if (PEAR::isError($releaseDate)) {
                 break;
             }
@@ -233,10 +213,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         }
     }
 
-    if (empty($_GET['bug_type']) || $_GET['bug_type'] == 'All') {
-        $bug_type = '';
-    } else {
-        $bug_type = $_GET['bug_type'];
+    if ($bug_type != '') {
         if ($bug_type == 'Bugs') {
             $where_clause .= ' AND (bugdb.bug_type = "Bug" OR bugdb.bug_type="Documentation Problem")';
         } else {
@@ -320,7 +297,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     $where_clause .= ' AND (packages.package_type = '
                    . $dbh->quoteSmart($site);
 
-    if ($pseudo = array_intersect($pseudo_pkgs, $_GET['package_name'])) {
+    if ($pseudo = array_intersect($pseudo_pkgs, $package_name)) {
         $where_clause .= " OR bugdb.package_name";
         if (count($pseudo) > 1) {
             $where_clause .= " IN ('"
@@ -337,11 +314,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
     $query .= $where_clause;
 
-    if ($_GET['direction'] != 'DESC') {
-        $direction = 'ASC';
-    } else {
-        $direction = 'DESC';
-    }
+     $direction = $_GET['direction'] != 'DESC' ? 'ASC' : 'DESC';
 
     if (empty($_GET['order_by']) ||
         !array_key_exists($_GET['order_by'], $order_options))
@@ -404,15 +377,15 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         }
 
         $package_name_string = '';
-        if (count($_GET['package_name']) > 0) {
-            foreach ($_GET['package_name'] as $type_str) {
+        if (count($package_name) > 0) {
+            foreach ($package_name as $type_str) {
                 $package_name_string.= '&amp;package_name[]=' . urlencode($type_str);
             }
         }
 
         $package_nname_string = '';
-        if (count($_GET['package_nname']) > 0) {
-            foreach ($_GET['package_nname'] as $type_str) {
+        if (count($package_nname) > 0) {
+            foreach ($package_nname as $type_str) {
                 $package_nname_string.= '&amp;package_nname[]=' . urlencode($type_str);
             }
         }
@@ -423,7 +396,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 $package_nname_string .
                 '&amp;search_for='  . urlencode(rinse($search_for)) .
                 '&amp;php_os='      . urlencode(rinse($php_os)) .
-                '&amp;boolean='     . BOOLEAN_SEARCH .
+                '&amp;boolean='     . $boolean_search .
                 '&amp;author_email='. urlencode(rinse($author_email)) .
                 '&amp;bug_type='    . $bug_type .
                 '&amp;bug_age='     . $bug_age .
@@ -439,18 +412,18 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
         if (!$rows) {
             if (isset($_GET['showmenu'])) {
-                show_bugs_menu($_GET['package_name'], $status, $link . '&amp;showmenu=1');
+                show_bugs_menu($package_name, $status, $link . '&amp;showmenu=1');
             } else {
-                show_bugs_menu($_GET['package_name'], $status);
+                show_bugs_menu($package_name, $status);
             }
             $errors[] = 'No bugs were found.';
             display_bug_error($errors, 'warnings', '');
         } else {
             display_bug_error($warnings, 'warnings', 'WARNING:');
             if (isset($_GET['showmenu'])) {
-                show_bugs_menu($_GET['package_name'], $status, $link . '&amp;showmenu=1');
+                show_bugs_menu($package_name, $status, $link . '&amp;showmenu=1');
             } else {
-                show_bugs_menu($_GET['package_name'], $status);
+                show_bugs_menu($package_name, $status);
             }
 
             $link .= '&amp;status='      . urlencode(rinse($status));
@@ -519,7 +492,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
   <th>Find bugs</th>
   <td style="white-space: nowrap">with all or any of the w<span class="accesskey">o</span>rds</td>
   <td style="white-space: nowrap"><input type="text" name="search_for" value="<?php echo clean($search_for);?>" size="20" maxlength="255" accesskey="o" />
-      <br /><small><?php show_boolean_options(BOOLEAN_SEARCH) ?>
+      <br /><small><?php show_boolean_options($boolean_search) ?>
       (<?php print_link('http://bugs.php.net/search-howto.php', '?', true);?>)</small>
   </td>
   <td rowspan="3">
@@ -559,12 +532,12 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
 <tr valign="top">
   <th><label for="category" accesskey="c">Pa<span class="accesskey">c</span>kage</label></th>
   <td style="white-space: nowrap">Return bugs for these <b>packages</b></td>
-  <td><select id="category" name="package_name[]" multiple="multiple" size="6"><?php show_types($_GET['package_name'],2);?></select></td>
+  <td><select id="category" name="package_name[]" multiple="multiple" size="6"><?php show_types($package_name, 2);?></select></td>
 </tr>
 <tr valign="top">
   <th>&nbsp;</th>
   <td style="white-space: nowrap">Return bugs <b>NOT</b> for these <b>packages</b></td>
-  <td><select name="package_nname[]" multiple="multiple" size="6"><?php show_types($package_nname,2);?></select></td>
+  <td><select name="package_nname[]" multiple="multiple" size="6"><?php show_types($package_nname, 2);?></select></td>
 </tr>
 <tr valign="top">
   <th>OS</th>
