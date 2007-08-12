@@ -1,6 +1,7 @@
 <?php response_header('Add a User Note'); ?>
 <h1>Add a Note to <?php echo htmlspecialchars($noteUrl) ?></h1>
-<?php 
+<?php
+require 'pear-manual.php';
 // {{{ isset($error)
 if (isset($errors)) {
 ?>
@@ -25,9 +26,9 @@ if (isset($errors)) {
  Please, please ONLY add actual information.  Questions, feature requests
  ("You guys should document this!@#"), or bug reports should not be posted as a note.
  We have a great bug tracker for bugs/feature requests at
- <a href="http://pear.php.net/bugs/report.php?package[]=Documentation">This Location</a>.
- Questions can be answered through our <a href="http://pear.php.net/support">Support
- Channels</a>.
+ <a href="<?php echo getBugReportLink(getPackageNameForId($noteUrl)); ?>">this location</a>.
+ Questions can be answered through our <a href="http://pear.php.net/support">support
+ channels</a>.
 </p>
 <form action="/notes/add-note.php" method="post">
 <input type="hidden" name="noteUrl" value="<?php echo htmlspecialchars($noteUrl) ?>" />
