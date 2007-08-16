@@ -61,8 +61,7 @@ class PEAR_Bugs
               b.bug_type \!= "Feature/Change Request"
              GROUP BY b.status;', false, array($handle));
         $total = 0;
-        foreach ($allbugs as $buginfo)
-        {
+        foreach ($allbugs as $buginfo) {
             $total += $buginfo;
         }
         $assigned = $this->_dbh->getOne('SELECT COUNT(b.status)
@@ -95,6 +94,18 @@ class PEAR_Bugs
               b.bug_type \!= "Feature/Change Request" AND
               b.status IN ("Assigned", "Analyzed", "Feedback", "Open", "Critical", "Verified") AND
               (b.assign = ? OR b.assign IS NULL OR b.assign="")', array($handle, $handle));
+        // Fetch open bug reports that are assigned to the user but not in his package
+        $open_c_assigned = $this->_dbh->getOne('SELECT COUNT(*)
+            FROM bugdb b, maintains m, packages p
+            WHERE
+              b.assign = ? AND
+              b.bug_type \!= "Feature/Change Request" AND
+              b.status IN ("Assigned", "Analyzed", "Feedback", "Open", "Critical", "Verified") AND
+              b.package_name = p.name AND
+              p.id = m.package AND
+              m.handle = ?
+              GROUP BY b.id', array($handle, $handle));
+        $opencount = $opencount + $open_c_assigned;
         $bugrank = $this->_dbh->getAll('SELECT COUNT(*) as c, u.handle
                  FROM bugdb b, users u
                  WHERE
