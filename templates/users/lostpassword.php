@@ -29,9 +29,9 @@ if (count($errors)) {
 <form name="resetpassword" method="POST" action="forgot-password.php">
 <table>
   <tr>
-   <th class="form-label_left">Username</th>
+   <th class="form-label_left">Username or Email</th>
    <td class="form-input">
-    <input type="text" size="20" maxlength="20" value="<?php echo htmlspecialchars($handle); ?>" name="handle" />
+    <input type="text" size="20" maxlength="100" value="<?php echo htmlspecialchars($handle); ?>" name="handle" />
    </td>
   </tr>
   <tr>
