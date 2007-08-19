@@ -307,24 +307,48 @@ foreach ($reasons as $reason) {
         	function highlightAccountRow(spanObj)
 			{
 				var highlightColor = '#cfffb7';
+				var mycolor = spanObj.parentNode.parentNode.childNodes[3].style.backgroundColor;
 
 				if (typeof(arguments[1]) == 'undefined') {
-					action = (spanObj.parentNode.parentNode.childNodes[0].style.backgroundColor == highlightColor);
+				    if (mycolor.charAt(0) != '#') {
+				        mycolor = mycolor.replace(/ /g,'');
+				        mycolor = mycolor.toLowerCase();
+				        var bits = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/.exec(mycolor);
+				        r = parseInt(bits[1]);
+				        g = parseInt(bits[2]);
+				        b = parseInt(bits[3]);
+				        r = r.toString(16);
+				        g = g.toString(16);
+				        b = b.toString(16);
+                        if (r.length == 1) r = '0' + r;
+                        if (g.length == 1) g = '0' + g;
+                        if (b.length == 1) b = '0' + b;
+				        mycolor = '#'+r+g+b;
+				    }
+					if (mycolor != highlightColor) {
+    				    spanObj.parentNode.parentNode.childNodes[1].childNodes[0].checked = true;
+					    action = true;
+					} else {
+    				    spanObj.parentNode.parentNode.childNodes[1].childNodes[0].checked = false;
+					    action = false;
+					}
 				} else {
-					action = !arguments[1];
+					action = !spanObj.parentNode.parentNode.childNodes[1].childNodes[0].checked;
 				}
 
 				if (document.getElementById) {
 					for (var i=0; i<spanObj.parentNode.parentNode.childNodes.length; i++) {
+					    if (!spanObj.parentNode.parentNode.childNodes[i].style) {
+					        continue;
+					    }
 						if (action) {
-							spanObj.parentNode.parentNode.childNodes[i].style.backgroundColor = '#ffffff';
-							spanObj.parentNode.parentNode.childNodes[0].childNodes[0].checked = false;
-						} else {
 							spanObj.parentNode.parentNode.childNodes[i].style.backgroundColor = highlightColor;
-							spanObj.parentNode.parentNode.childNodes[0].childNodes[0].checked = true;
+						} else {
+							spanObj.parentNode.parentNode.childNodes[i].style.backgroundColor = '#ffffff';
 						}
 					}
 				}
+				return true;
 			}
 
 			allSelected = false;
@@ -392,12 +416,12 @@ foreach ($reasons as $reason) {
                 if ($rejected) {
                     continue;
                 }
-                $bb->plainRow('<input type="checkbox" value="' . $handle . '" name="uid[]" onmousedown="highlightAccountRow(this)" onclick="return false"/>',
-							  sprintf('<span style="cursor: hand" onmousedown="highlightAccountRow(this)">%s</span>', $name),
-                              sprintf('<span style="cursor: hand" onmousedown="highlightAccountRow(this)">%s</span>', $handle),
-							  sprintf('<span style="cursor: hand" onmousedown="highlightAccountRow(this)">%s</span>', $account_purpose),
-                              sprintf('<span style="cursor: hand" onmousedown="highlightAccountRow(this)">%s</span>', ($rejected ? "rejected" : "<font color=\"#c00000\"><strong>Outstanding</strong></font>")),
-                              sprintf('<span style="cursor: hand" onmousedown="highlightAccountRow(this)">%s</span>', "<a onmousedown=\"event.cancelBubble = true\" href=\"$self?acreq=$handle\">" . make_image("edit.gif") . "</a>")
+                $bb->plainRow('<input type="checkbox" value="' . $handle . '" name="uid[]" onclick="return highlightAccountRow(this)"/>',
+							  sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', $name),
+                              sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', $handle),
+							  sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', $account_purpose),
+                              sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', ($rejected ? "rejected" : "<font color=\"#c00000\"><strong>Outstanding</strong></font>")),
+                              sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', "<a onclick=\"event.cancelBubble = true\" href=\"$self?acreq=$handle\">" . make_image("edit.gif") . "</a>")
                               );
             }
 
