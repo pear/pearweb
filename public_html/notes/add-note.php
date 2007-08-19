@@ -106,6 +106,7 @@ if (empty($errors)) {
 } else {
     $email = $post['user'];
     $note = $post['note'];
+    $noteUrl = $post['noteUrl'];
     require dirname(dirname(dirname(__FILE__))) . '/templates/notes/add-note-form.tpl.php';
 }
 
