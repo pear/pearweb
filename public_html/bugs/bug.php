@@ -69,6 +69,7 @@ if (isset($_GET['unsubscribe'])) {
     }
 
     unsubscribe($id, $hash);
+    $_GET['thanks'] = 9;
 }
 
 if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
@@ -179,7 +180,11 @@ if (!empty($_POST['pw'])) {
 
 // Subscription
 if (isset($_POST['subscribe_to_bug'])) {
-    $email = $_POST['subscribe_email'];
+    if (isset($auth_user) && $auth_user && $auth_user->registered) {
+        $email = $auth_user->email;
+    } else {
+        $email = $_POST['subscribe_email'];
+    }
     if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $email)) {
         $errors[] = "You must provide a valid email address.";
     } else {
@@ -187,21 +192,25 @@ if (isset($_POST['subscribe_to_bug'])) {
                     ", email='" . escapeSQL($email) . "'";
         $dbh->query($query);
 
-        localRedirect('bug.php?id='.$id);
+        localRedirect('bug.php?id='.$id . '&thanks=7');
         exit();
     }
 }
 
 // Unsubscribe
 if (isset($_POST['unsubscribe_to_bug'])) {
-    $email = $_POST['subscribe_email'];
+    if (isset($auth_user) && $auth_user && $auth_user->registered) {
+        $email = $auth_user->email;
+    } else {
+        $email = $_POST['subscribe_email'];
+    }
 
     if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $email)) {
         $errors[] = "You must provide a valid email address.";
     } else {
         /* Generate the hash */
         unsubscribe_hash($id, $email, $bug);
-        localRedirect('bug.php?id='.$id);
+        localRedirect('bug.php?id='.$id . '&thanks=8');
         exit();
     }
 }
@@ -592,6 +601,12 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
 } elseif ($_GET['thanks'] == 6) {
     display_bug_success('Thanks for voting! Your vote should be reflected'
                         . ' in the statistics below.');
+} elseif ($_GET['thanks'] == 7) {
+    display_bug_success('Your subscribe request has been processed');
+} elseif ($_GET['thanks'] == 8) {
+    display_bug_success('Your unsubscribe request has been processed, please check your email');
+} elseif ($_GET['thanks'] == 9) {
+    display_bug_success('You have successfully unsubscribed');
 }
 
 display_bug_error($errors);
@@ -1058,7 +1073,23 @@ if ($edit == 1 || $edit == 2) {
 } // if ($edit == 1 || $edit == 2)
 
 if (isset($auth_user) && $auth_user && $auth_user->registered) {
+?>
+<div class="explain">
 
+    <form name="subscribetobug" action="/bugs/bug.php?id=<?php echo $id; ?>" method="post">
+    <table>
+      <tr>
+       <th class="details" colspan="2">Subscribe to this entry?</th>
+      </tr>
+      <tr>
+       <td class="details"><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>
+       <td class="details"><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>
+      </tr>
+    </table>
+    </form>
+</div>
+<?php
+} else {
 ?>
 <div class="explain">
 

@@ -1193,7 +1193,7 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
     global $dbh, $siteBig, $site;
 
     $now = time();
-    $hash = crypt($email . $id, $now);
+    $hash = crypt($email . $bug_id, $now);
     $bug_id = (int)$bug_id;
 
     $query = 'UPDATE bugdb_subscribe
