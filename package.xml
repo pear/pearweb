@@ -36,6 +36,12 @@
   <active>yes</active>
  </lead>
  <lead>
+  <name>Helgi Thormar</name>
+  <user>dufuz</user>
+  <email>dufuz@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
   <name>Pierre-Alain Joye</name>
   <user>pajoye</user>
   <email>pajoye@pearfr.org</email>
@@ -64,12 +70,6 @@
   <user>toby</user>
   <email>toby@php.net</email>
   <active>no</active>
- </developer>
- <developer>
-  <name>Helgi Thormar</name>
-  <user>dufuz</user>
-  <email>dufuz@php.net</email>
-  <active>yes</active>
  </developer>
  <developer>
   <name>Mark Wiesemann</name>
