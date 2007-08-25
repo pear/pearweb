@@ -32,7 +32,12 @@ function rss_create($items, $channel_title, $channel_description, $dest_file = f
 
         $rss_top = <<<EOT
 <?xml version="1.0" encoding="iso-8859-1"?>
-<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/">
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns="http://purl.org/rss/1.0/"
+    xmlns:content="http://purl.org/rss/1.0/modules/content/"
+    xmlns:dc="http://purl.org/dc/elements/1.1/"
+>
     <channel rdf:about="http://pear.php.net/">
     <link>http://pear.php.net/</link>
     <dc:creator>pear-webmaster@lists.php.net</dc:creator>
@@ -66,12 +71,12 @@ EOT;
 
             $items_xml .= '<rdf:li rdf:resource="' . $url . '"/>' . "\n";
             $item_entries .= "<item rdf:about=" . '"' .$url . '"' . ">
-<title>$title</title>
-    <link>$url</link>
-    <description>" .  htmlspecialchars($item['releasenotes']) ."
-</description>
-<dc:date>$date</dc:date>
-</item>";
+ <title>$title</title>
+ <link>$url</link>
+ <content:encoded>" .  htmlspecialchars(nl2br($item['releasenotes'])) ."
+ </content:encoded>
+ <dc:date>$date</dc:date>
+</item>\n";
             $item_entries .= "";
         }
 
@@ -82,6 +87,7 @@ EOT;
 <title>$channel_title</title>
 <description>$channel_description</description>
 </channel>
+
 $item_entries
 </rdf:RDF>";
 
