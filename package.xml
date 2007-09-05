@@ -122,6 +122,7 @@
     </dir> <!-- /cron/mirror -->
     <file name="apidoc-queue.php" role="web" />
     <file name="bug-summary.php" role="web" />
+    <file name="bug-update-php-version.php" role="web" />
     <file name="election_results.php" role="web" />
     <file name="find-documentation.php" role="web" />
     <file name="load-chm.sh" role="web" />
