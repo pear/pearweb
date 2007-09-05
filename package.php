@@ -33,30 +33,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             '*public_html/new-gopear.php',
         ),
     ));
-$a->setReleaseVersion('1.16.2');
+$a->setReleaseVersion('1.16.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Request #11109 Restyle the warning message css [dufuz]
- * Request #11362 Get rid of captcha for pear.dev when sending mail to user via webform [dufuz]
- * Request #11436 split go-pear in its own package [dufuz]
- * Request #10539 Transform note into documentation bugs [davidc]
- * Request #11086 Tabs and Whitespace mixing in assorted file [dufuz]
- * Request #11094 Users table to include long/lat on creation [dufuz]
- * Request #11109 Restyle warning message css [dufuz]
- * Request #11270 Replace all image captcha with math ones [dufuz]
- * Request #11362 Get rid of captcha for pear.dev when sending mail to users via the web form. [dufuz]
- * Request #11436 Split go-pear into its own package [dufuz]
- * Fix Bug #11418 Undefined index REDIRECT_URL fixes [davidc]
- * Fix Bug #11423 Comments from unconfirmed identities are shown when submitting a similar bug [davidc]
- * Fix Bug #11441 Package releases not available
- * Fix Bug #11498 User note to bug converter [davidc]
- * Fix Bug #11534 API docs missing for some packages [mj]
- * Fix Bug #11570 Browse the source tree link broken [davidc]
- * Fix Bug #11669 Open bugs reporting error [Duplicate]
- * Fix Bug #11672 Email  failure notice [Duplicate]
- * Fix Bug #11680 Wrong Bug Count [davidc]
- * Fix Bug #11094 users table should include longitude, latitude on creation [dufuz]
+ * Feature request #11985: Changed header type to rdf+xml for the map rest interface.
 ');
 $a->resetUsesrole();
 $a->addUsesRole('web', 'Role_Web', 'pearified.com');
