@@ -33,7 +33,7 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
             '*public_html/new-gopear.php',
         ),
     ));
-$a->setReleaseVersion('1.16.3');
+$a->setReleaseVersion('1.17.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
