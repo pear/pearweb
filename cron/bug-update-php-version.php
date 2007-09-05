@@ -45,8 +45,18 @@ foreach ($versions as $v) {
     }
 }
 
-$merge  = !in_array($n5['version'], $versions) ? array_merge(array($n5['version']), $php)  : $php;
-$merge4 = !in_array($n4['version'], $versions) ? array_merge(array($n4['version']), $php4) : $php4;
+if (!in_array($n5['version'], $versions) && strpos($n5['version'], 'RC') === false) {
+    $merge = array_merge(array($n5['version']), $php);
+} else {
+    $merge = $php;
+}
+
+if (!in_array($n4['version'], $versions) && strpos($n4['version'], 'RC') === false) {
+    $merge4 = array_merge(array($n4['version']), $php4);
+} else {
+    $merge4 = $php4;
+}
+
 $final  = array_merge($merge, $merge4);
 $data   = var_export($final, true);
 
