@@ -47,6 +47,6 @@ foreach ($query as $parts => $key) {
 }
 $xml .= "</rdf:RDF>\n";
 
-header ("Content-Type: application/xml");
+header ("Content-Type: application/rdf+xml");
 print $xml;
 ?>
