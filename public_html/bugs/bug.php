@@ -1275,7 +1275,13 @@ if ($res) {
         output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['bughandle'] ? $row['bughandle'] : $row['handle'], $row['comment_name'], $row['registered']);
     }
 }
-
+?>
+<div id="explain-messages">
+ <div class="explain"></div>&nbsp;Explanation<br />
+ <div class="success"></div>&nbsp;Success<br />
+ <div class="errors"></div>&nbsp;Failure<br />
+</div>
+<?php
 response_footer();
 
 
