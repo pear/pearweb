@@ -85,13 +85,19 @@ if (isset($_POST['in'])) {
     }
 
     if (!$errors) {
+        /*
+         * Skip did_luser_search check if the user is logged in
+         * and is a pear developer
+         */
+        if (isset($auth_user) && auth_check('pear.dev')) {
+            $_POST['in']['did_luser_search'] = 1;
+        }
 
         /*
          * When user submits a report, do a search and display
          * the results before allowing them to continue.
          */
-        if (!isset($_POST['in']['did_luser_search']) || !$_POST['in']['did_luser_search']) {
-
+        if (!isset($_POST['in']['did_luser_search']) || $_POST['in']['did_luser_search'] == '0') {
             $_POST['in']['did_luser_search'] = 1;
 
             // search for a match using keywords from the subject
@@ -113,7 +119,7 @@ if (isset($_POST['in'])) {
 
             $where_clause .= $sql_search;
 
-			/** Bug #11423 Make sure that a bug report is registered */
+            /** Bug #11423 Make sure that a bug report is registered */
             $where_clause .= ' AND p.package_type="pear" and bugdb.registered = 1 ';
 
             $query = "SELECT bugdb.* from bugdb, packages p $where_clause LIMIT 5";
