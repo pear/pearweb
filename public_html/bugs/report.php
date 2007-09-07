@@ -90,7 +90,13 @@ if (isset($_POST['in'])) {
          * and is a pear developer
          */
         if (isset($auth_user) && auth_check('pear.dev')) {
-            $_POST['in']['did_luser_search'] = 1;
+            require_once 'pear-database-maintainer.php';
+            $m = maintainer::get(rinse($_POST['in']['package_name'), false, true);
+
+            if (isset($m[$auth_user->handle]) &&
+                in_array($m[$auth_user->handle]['role'], array('lead', 'developer'))) {
+                $_POST['in']['did_luser_search'] = 1;
+            }
         }
 
         /*
