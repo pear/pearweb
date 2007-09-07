@@ -119,6 +119,9 @@ if (isset($_GET['new']) && isset($_POST['go'])) {
                 '',
             );
         $savant->isnew = true;
+        $savant->import = isset($_POST['importbugs']) ? true : false;
+        $releases = package::info(clean($_GET['package']), 'releases');
+        $savant->lastRelease = count($releases) ? key($releases) : '';
         $savant->errors = array('Roadmap version cannot be empty');
         $savant->display('roadmapform.php');
         exit;
@@ -131,7 +134,36 @@ if (isset($_GET['new']) && isset($_POST['go'])) {
     $bugdb->releasedate = date('Y-m-d H:i:s', strtotime($_POST['releasedate']));
     $bugdb->package = $_GET['package'];
     $bugdb->description = $_POST['description'];
-    $id = $bugdb->insert();
+    $rid = $bugdb->insert();
+
+    if (isset($_POST['importbugs'])) {
+        // Fetch the last release date
+        include_once 'pear-database-package.php';
+        $releaseDate = package::getRecent(1, rinse($_GET['package']));
+        if (PEAR::isError($releaseDate)) {
+            break;
+        }
+        $query = '
+            SELECT SQL_CALC_FOUND_ROWS bugdb.id
+            FROM bugdb
+            LEFT JOIN packages ON packages.name = bugdb.package_name
+            WHERE bugdb.registered IN(1,0)
+            AND bugdb.package_name = ' . $dbh->quoteSmart(rinse($_GET['package'])) . '
+            AND bugdb.status IN' .
+            " ('Closed', 'Duplicate', 'Bogus', 'Wont Fix', 'Suspended')
+            AND (UNIX_TIMESTAMP('" . $releaseDate[0]['releasedate'] . "') < UNIX_TIMESTAMP(bugdb.ts2))" .
+            'AND (bugdb.bug_type = "Bug" OR bugdb.bug_type="Documentation Problem")';
+
+        $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
+        $res =& $dbh->query($query);
+        while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+            $link->id = $row['id'];
+            $link->delete();
+            $link->id = $row['id'];
+            $link->roadmap_id = $rid;
+            $link->insert();
+        }
+    }
 
     unset($_GET['new']);
 }
@@ -567,6 +599,9 @@ if (isset($_GET['new'])) {
             '',
         );
     $savant->isnew = true;
+    $savant->import = isset($_POST['importbugs']) ? true : false;
+    $releases = package::info(clean($_GET['package']), 'releases');
+    $savant->lastRelease = count($releases) ? key($releases) : '';
     $savant->display('roadmapform.php');
     exit;
 }
