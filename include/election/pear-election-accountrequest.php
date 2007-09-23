@@ -116,7 +116,9 @@ class PEAR_Election_Accountrequest
         $data['created']   = gmdate('Y-m-d H:i');
         $data['createdby'] = 'pearweb';
 
-        user::update($data, true);
+        if (PEAR::isError($e = user::update($data, true))) {
+            return $e;
+        }
 
         $query = 'INSERT INTO karma VALUES (?, ?, ?, ?, NOW())';
 
