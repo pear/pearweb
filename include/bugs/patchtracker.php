@@ -175,7 +175,8 @@ class Bugs_Patchtracker
             $allowed_mime_types = array('application/x-txt',
                                         'text/plain',
                                         'text/x-diff',
-                                        'text/x-patch'
+                                        'text/x-patch',
+                                        'text/x-c++',
                                        );
             if (!in_array($file->getProp('type'), $allowed_mime_types)) {
                 $this->_dbh->query('DELETE FROM bugdb_patchtracker
@@ -208,7 +209,7 @@ class Bugs_Patchtracker
         } elseif ($file->isError()) {
             return PEAR::raiseError($file->errorMsg());
         }
-        return PEAR::raiseError('Unable to attach patch');
+        return PEAR::raiseError('Unable to attach patch (try renaming the file with .txt extension)');
     }
 
     /**
