@@ -320,7 +320,7 @@ class user
         $handle = strtolower($data['handle']);
         $info = user::info($handle, null, 'any');
 
-        if (isset($info['created'])) {
+        if (!is_array($info) || isset($info['created'])) {
             $data['jumpto'] = "handle";
             $errors[] = 'Sorry, that username is already taken';
         }
