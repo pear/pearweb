@@ -65,11 +65,11 @@ class PEAR_Bug_Accountrequest
         $mailer = Damblan_Mailer::create('pearweb_account_request_bug', $mailData);
         $additionalHeaders['To'] = $email;
         PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
-        if (DEVBOX) {
+        if (!DEVBOX) {
             $e = $mailer->send($additionalHeaders);
         }
         PEAR::popErrorHandling();
-        if (DEVBOX && PEAR::isError($e)) {
+        if (!DEVBOX && PEAR::isError($e)) {
             throw new Exception('Cannot send confirmation email: ' . $e->getMessage());
         }
         return true;
@@ -642,7 +642,7 @@ class PEAR_Bug_Accountrequest
         );
         $type = @$types[$buginfo['bug_type']];
 
-        if (DEVBOX !== false) {
+        if (DEVBOX == false) {
             // mail to package developers
             @mail($mailto, "[PEAR-BUG] $buginfo[bug_type] #$buginfo[id] [NEW]: $sdesc",
                   $ascii_report . "1\n-- \n", $extra_headers,
