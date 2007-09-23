@@ -91,7 +91,7 @@ if (isset($_POST['in'])) {
          */
         if (isset($auth_user) && auth_check('pear.dev')) {
             require_once 'pear-database-maintainer.php';
-            $m = maintainer::get(rinse($_POST['in']['package_name'), false, true);
+            $m = maintainer::get(rinse($_POST['in']['package_name']), false, true);
 
             if (isset($m[$auth_user->handle]) &&
                 in_array($m[$auth_user->handle]['role'], array('lead', 'developer'))) {
@@ -293,7 +293,7 @@ if (isset($_POST['in'])) {
                           status, ts1,
                           passwd,
                           reporter_name
-                         ) VALUES (' . $registereduser . ',' . 
+                         ) VALUES (' . $registereduser . ',' .
                          " '" . escapeSQL($_POST['in']['package_name']) . "'," .
                          " '" . escapeSQL($_POST['in']['bug_type']) . "'," .
                          " '" . escapeSQL($_POST['in']['email']) . "'," .
@@ -444,7 +444,7 @@ if (!package_exists($_REQUEST['package'])) {
                  'php_version' => '',
                  'php_os' => '',
                  'passwd' => '',
-            
+
         );
         response_header('Report - New');
         show_bugs_menu(clean($_REQUEST['package']));
