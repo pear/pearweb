@@ -47,6 +47,10 @@ journals. Some of them are aggregated through
 <p>PHP Magazine publishes a roundup of the events on the PEAR and PECL 
 mailing lists in <a href="http://php-mag.net/itr/psecom,id,207,nodeid,207.html">PHPBarnstormer</a>.</p>
 
+<p>A channel for all PEAR-related blogs can be found at
+ <a href="http://planet.pear.php.net/">Planet PEAR</a>.
+</p>
+
 <p>If you have questions concerning this website, you can contact
 <a href="mailto:<?php echo PEAR_WEBMASTER_EMAIL; ?>"><?php echo PEAR_WEBMASTER_EMAIL; ?></a>.
 </p>
