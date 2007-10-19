@@ -76,7 +76,7 @@
  </developer>
  <date>2007-10-19</date>
  <version>
-  <release>1.16.9</release>
+  <release>1.16.10</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -322,7 +322,7 @@
   <release>
    <date>2007-10-19</date>
    <version>
-    <release>1.16.9</release>
+    <release>1.16.10</release>
     <api>1.0.0</api>
    </version>
    <stability>
