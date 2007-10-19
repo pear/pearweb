@@ -63,14 +63,20 @@
   <active>yes</active>
  </developer>
  <developer>
+  <name>Christian Weiske</name>
+  <user>cweiske</user>
+  <email>cweiske@php.net</email>
+  <active>yes</active>
+ </developer>
+ <developer>
   <name>Mark Wiesemann</name>
   <user>wiesemann</user>
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-06-21</date>
+ <date>2007-10-19</date>
  <version>
-  <release>1.16.8</release>
+  <release>1.16.9</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -79,7 +85,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- - Added page gophp5.php in order to join the gophp5.org movement
+ - Announce Planet PEAR
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -311,6 +317,21 @@
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
    - Created a new page at /gophp5.php in order to be able to be accepted in the gophp5.org movement
+   </notes>
+  </release>
+  <release>
+   <date>2007-10-19</date>
+   <version>
+    <release>1.16.9</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+   - announce planet pear
    </notes>
   </release>
  </changelog>
