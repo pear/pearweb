@@ -29,8 +29,9 @@ team works can be found in the
 <a href="/pepr/pepr-proposal-show.php?id=60">appendant RFC</a>.
 </p>
 
-<p>The first step was to elect the six &quot;Core&quot; members of
-the <acronym title="Quality Assurance">QA</acronym> Team:</p>
+<p>The current membery of the
+ <acronym title="Quality Assurance">QA</acronym> Team are:
+</p>
 
 <ul>
 
@@ -42,6 +43,7 @@ the <acronym title="Quality Assurance">QA</acronym> Team:</p>
   echo '<li>' . user_link('toby', true) . "</li>\n";
   echo '<li>' . user_link('schst', true) . "</li>\n";
   echo '<li>' . user_link('davey', true) . "</li>\n";
+  echo '<li>' . user_link('kguest', true) . "</li>\n";
 
 ?>
 
@@ -56,10 +58,13 @@ initiative, you can contact the team using the mailing list
 <?php
 if ($auth_user) {
     if (auth_check('pear.dev')) {
-        $str = '<h2>Related Tools: </h2>';
-        $str .= '<ul>';
-        $str .= '<li><a href="/qa/packages_orphan.php">List of orphan packages</a></li>';
-        $str .= '</ul>';
+        $str = <<<EOD
+<h2>Related Tools: </h2>
+<ul>
+ <li><a href="/qa/packages_orphan.php">List of orphan packages</a></li>
+ <li><a href="http://pear.cweiske.de/">PEAR's QA test suite</a></li>
+</ul>
+EOD;
         echo $str;
     }
 }
