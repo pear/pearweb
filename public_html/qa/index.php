@@ -44,6 +44,7 @@ team works can be found in the
   echo '<li>' . user_link('schst', true) . "</li>\n";
   echo '<li>' . user_link('davey', true) . "</li>\n";
   echo '<li>' . user_link('kguest', true) . "</li>\n";
+  echo '<li>' . user_link('dufuz', true) . "</li>\n";
 
 ?>
 
