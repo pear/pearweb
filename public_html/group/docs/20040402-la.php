@@ -29,7 +29,7 @@ response_header("The PEAR Group: License Announcement");
 <p>Revised: 08 January 2006 (MIT License added)</p>
 
 <p>The PEAR Group would like to announce the following refinement of the
-<a href="/manual/en/faq.licenses.php">current license faq entry</a>.</p>
+<a href="/manual/en/faq.devs.php#faq.licenses">current license faq entry</a>.</p>
 
 <p>Vote result: 5 (+1), 0 (-1), 3 (+0)</p>
 
