@@ -10,27 +10,27 @@ if ($loggedin) {
     /**
      * These are the keys that have to be set
      * in order to get no errors. If someone is
-     * missing one of them, then something is 
+     * missing one of them, then something is
      * totally wrong.
      */
     $keys = array(
             'noteUrl'  => 'Note Address',
             'redirect' => 'Original Manual Page',
-            'note'     => 'User note', 
+            'note'     => 'User note',
     );
     $post['user'] = $auth_user->name;
 } else {
     /**
      * These are the keys that have to be set
      * in order to get no errors. If someone is
-     * missing one of them, then something is 
+     * missing one of them, then something is
      * totally wrong.
      */
     $keys = array(
             'noteUrl'  => 'Note Address',
             'redirect' => 'Original Manual Page',
-            'user'     => 'Username/Email', 
-            'note'     => 'User note', 
+            'user'     => 'Username/Email',
+            'note'     => 'User note',
             'answer'   => 'Captcha Answer'
     );
 }
@@ -39,23 +39,29 @@ if ($loggedin) {
 $errors = array();
 
 /**
- * Check if the spam check is passed. 
- * @todo Use real cpatchas as this is 
+ * Check if the spam check is passed.
+ * @todo Use real cpatchas as this is
  * going to be highly used.
  *
  * If the captcha is wrong, then regenerate it.
  */
-if (!$loggedin && isset($_SESSION['answer']) && strlen(trim($_SESSION['answer'])) > 0) {
-    if ($post['answer'] != $_SESSION['answer']) {
+if (!$loggedin) {
+    if (!isset($_SESSION['answer']) || strlen(trim($_SESSION['answer'])) == 0) {
+        $errors[] = 'Please activate cookies';
+
+    } else if ($post['answer'] != $_SESSION['answer']) {
 
         $errors[] = 'Incorrect Captcha';
-        
+
         require_once 'Text/CAPTCHA/Numeral.php';
 
         $captcha            = new Text_CAPTCHA_Numeral();
         $spamCheck          = $captcha->getOperation();
         $_SESSION['answer'] = $captcha->getAnswer();
     }
+    /**
+     * @todo Check akismet here aswell ?
+     */
 }
 
 /**
@@ -69,14 +75,10 @@ foreach ($keys as $key => $message) {
 }
 
 if (empty($errors)) {
-    
+
     require_once 'notes/ManualNotes.class.php';
 
     $manualNote = new Manual_Notes;
-    /**
-     * @todo Check the captcha here.
-     * @todo Check akismet here aswell ?
-     */
 
     $added = $manualNote->addComment($post['noteUrl'], $post['user'], $post['note']);
 
@@ -85,7 +87,7 @@ if (empty($errors)) {
             /**
              * If someone tries to access this page
              * without a noteUrl then it's his problem
-             * to get the comment template without 
+             * to get the comment template without
              * a noteUrl.. this is recursivly not
              * going to be working however this check
              * should not have to be done because
