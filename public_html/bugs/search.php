@@ -410,6 +410,10 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 '&amp;assign='      . urlencode($assign) .
                 '&amp;maintain='    . urlencode($maintain);
 
+        if (isset($_GET['showmenu'])) {
+           $link .= '&amp;showmenu=1';
+        }
+
         if (!$rows) {
             if (isset($_GET['showmenu'])) {
                 show_bugs_menu($package_name, $status, $link . '&amp;showmenu=1');
