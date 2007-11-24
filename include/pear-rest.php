@@ -30,8 +30,7 @@ class pear_rest
     http://pear.php.net/dtd/rest.allcategories.xsd">
 <ch>' . PEAR_CHANNELNAME . '</ch>
 ';
-        foreach ($categories as $category)
-        {
+        foreach ($categories as $category){
             $info .= ' <c xlink:href="' . $extra . 'c/' .
                 urlencode(urlencode($category['name'])) .
                 '/info.xml">' .
@@ -68,9 +67,11 @@ class pear_rest
         if (PEAR::isError($sth)) {
             return $sth;
         }
-        if (!is_dir($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']))) {
-            System::mkdir(array('-p', $cdir . DIRECTORY_SEPARATOR . urlencode($category['name'])));
-            @chmod($cdir . DIRECTORY_SEPARATOR . urlencode($category['name']), 0777);
+        
+        $cndir = $cdir . DIRECTORY_SEPARATOR . urlencode($category['name']);
+        if (!is_dir($cndir)) {
+            System::mkdir(array('-p', $cndir));
+            @chmod($cndir, 0777);
         }
         $category['description'] = htmlspecialchars($category['description']);
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
