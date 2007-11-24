@@ -23,29 +23,19 @@ session_start();
  * the include path, make sure to change it too.
  */
 
-/**
- * Obtain common includes
- */
+ // Obtain common includes
 require_once './include/prepend.inc';
 
-/**
- * Get user's CVS password
- */
+// Get user's CVS password
 require_once './include/cvs-auth.inc';
 
-/**
- * Obtain a list of the trusted developers
- */
+// Obtain a list of the trusted developers
 require_once './include/trusted-devs.inc';
 
-/**
- * Numeral Captcha Class
- */
+// Numeral Captcha Class
 require_once 'Text/CAPTCHA/Numeral.php';
 
-/**
- * Instantiate the numeral captcha object.
- */
+// Instantiate the numeral captcha object.
 $numeralCaptcha = new Text_CAPTCHA_Numeral();
 
 Bug_DataObject::init();
@@ -56,7 +46,6 @@ if (empty($_REQUEST['id']) || !(int)$_REQUEST['id']) {
 } else {
     $id = (int)$_REQUEST['id'];
 }
-
 
 if (isset($_GET['unsubscribe'])) {
     $unsubcribe = (int)$_GET['unsubscribe'];
@@ -131,7 +120,6 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
 }
 
 $bug =& $dbh->getRow($query, array($id), DB_FETCHMODE_ASSOC);
-
 
 if ($edit == 1) {
     if (isset($auth_user) && $auth_user) {
@@ -349,7 +337,6 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
     }
 } elseif (isset($_POST['ncomment']) && isset($_POST['preview']) && $edit == 3) {
     $ncomment = trim($_POST['ncomment']);
-
 } elseif (isset($_POST['in']) && !isset($_POST['preview']) && $edit == 2) {
     // Edits submitted by original reporter for old bugs
 
@@ -610,25 +597,20 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
 }
 
 display_bug_error($errors);
-
 show_bugs_menu(txfield('package_name'));
-
 ?>
 
 <div id="bugheader">
 <table id="details">
   <tr id="title">
-
-   <?php
+<?php
        echo '<th class="details" id="number">' . $bug_type . '&nbsp;#' . $id . '</th>';
-   ?>
-
+?>
    <td id="summary" colspan="3"><?php echo clean($bug['sdesc']) ?></td>
   </tr>
   <tr id="submission">
    <th class="details">Submitted:</th>
 <?php
-
 if ($bug['modified']) {
     echo '   <td style="white-space: nowrap;">' . format_date($bug['submitted']) . "</td>\n";
     echo '   <th class="details">Modified:</th>' . "\n";
@@ -636,14 +618,13 @@ if ($bug['modified']) {
 } else {
     echo '   <td colspan="3">' . format_date($bug['submitted']) . '</td>';
 }
-
 ?>
 
   </tr>
   <tr id="submitter">
    <th class="details">From:</th>
    <td>
-   <?php
+<?php
     if (!$bug['registered']) {
         echo 'Unconfirmed reporter';
     } elseif ($bug['bughandle']) {
@@ -653,7 +634,7 @@ if ($bug['modified']) {
     } else {
         echo spam_protect(htmlspecialchars($bug['email']));
     }
-    ?></td>
+?></td>
    <th class="details">Assigned:</th>
    <td><?php echo htmlspecialchars($bug['assign']) ?></td>
   </tr>
@@ -691,18 +672,18 @@ if ($bug['modified']) {
                     releases.version=b.roadmap_version',
                     array($db->id));
                 if (isset($links[$db->id])) {
-					$assignedRoadmap[] = '<a href="/bugs/roadmap.php?package=' .
-				        $db->package . ($released ? '&showold=1' : '') .
-				        '&roadmapdetail=' . $db->roadmap_version .
-						'#a' . $db->roadmap_version . '">' . $db->roadmap_version .
-						'</a>';
+                    $assignedRoadmap[] = '<a href="/bugs/roadmap.php?package=' .
+                    $db->package . ($released ? '&showold=1' : '') .
+                        '&roadmapdetail=' . $db->roadmap_version .
+                        '#a' . $db->roadmap_version . '">' . $db->roadmap_version .
+                        '</a>';
                 }
             }
         }
         if (!count($assignedRoadmap)) {
             $assignedRoadmap[] = '(Not assigned)';
         }
-        ?>
+?>
   <tr id="roadmap">
    <th class="details">Roadmaps: </th>
 
@@ -766,19 +747,17 @@ if (isset($_POST['preview']) && !empty($ncomment)) {
 }
 
 if ($edit == 1 || $edit == 2) {
-    ?>
+?>
 
     <form id="update" action=
      "<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $id . '&amp;edit=' . $edit ?>"
      method="post">
 
-    <?php
-
+<?php
     if ($edit == 2) {
         if (!isset($_POST['in']) && $pw && $bug['passwd'] &&
             $pw == $bug['passwd']) {
-
-            ?>
+?>
 
             <div class="explain">
              Welcome back! Since you opted to store your bug's password in a
@@ -786,16 +765,15 @@ if ($edit == 1 || $edit == 2) {
              bug or edit the other fields.
             </div>
 
-            <?php
+<?php
         } else {
-            ?>
+?>
 
             <div class="explain">
 
-            <?php
-
+<?php
             if (!isset($_POST['in'])) {
-                ?>
+?>
 
                 Welcome back! If you're the original bug submitter, here's
                 where you can edit the bug or add additional notes. If this
@@ -806,10 +784,9 @@ if ($edit == 1 || $edit == 2) {
                 href="bug-pwd-finder.php">you can retrieve your password
                 here</a>.
 
-                <?php
+<?php
             }
-
-            ?>
+?>
 
              <table>
               <tr>
@@ -833,28 +810,28 @@ if ($edit == 1 || $edit == 2) {
 
             </div>
 
-            <?php
+<?php
         }
     } else {
         if ($user && $pw && verify_password($user, $pw)) {
             if (!isset($_POST['in']) || !is_array($_POST['in'])) {
-                ?>
+?>
 
                 <div class="explain">
                  Welcome back, <?php echo $user?>! (Not <?php echo $user?>?
                  <a href="?logout=1&amp;id=<?php echo $id ?>&amp;edit=1">Log out.</a>)
                 </div>
 
-                <?php
+<?php
             }
         } else {
-            ?>
+?>
 
             <div class="explain">
 
-            <?php
+<?php
                 if (!isset($_POST['in']) || !is_array($_POST['in'])) {
-                    ?>
+?>
 
                     Welcome! If you don't have a CVS account, you can't do
                     anything here. You can <a href=
@@ -864,10 +841,10 @@ if ($edit == 1 || $edit == 2) {
                     "<?php echo htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=2" ?>"
                     >edit this bug over here</a>.
 
-                    <?php
+<?php
                 }
 
-                ?>
+?>
 <!--
 <table>
 <tr>
@@ -886,19 +863,18 @@ if ($edit == 1 || $edit == 2) {
 -->
             </div>
 
-            <?php
+<?php
         }
     }
     echo $preview;
-    ?>
+?>
 
     <table>
 
-    <?php
-
+<?php
     if ($edit == 1 && auth_check('pear.dev')):
         // Developer Edit Form
-        ?>
+?>
 
         <tr>
          <th class="details">
@@ -906,26 +882,23 @@ if ($edit == 1 || $edit == 2) {
          </th>
          <td colspan="3">
           <select name="in[resolve]" id="in">
-           <?php show_reason_types(isset($_POST['in']) && isset($_POST['in']['resolve']) ?
+    <?php show_reason_types(isset($_POST['in']) && isset($_POST['in']['resolve']) ?
                     $_POST['in']['resolve'] : -1, 1) ?>
           </select>
 
-          <?php
+<?php
           if (isset($_POST['in']) && !empty($_POST['in']['resolve'])) {
-              ?>
-
+?>
               <input type="hidden" name="trytoforce" value="1" />
-
-              <?php
+<?php
           }
-          ?>
-
+?>
           <small>(<a href="/bugs/quick-fix-desc.php">description</a>)</small>
          </td>
         </tr>
-    <?php
+<?php
     endif; // if ($edit == 1 && auth_check('pear.dev'))
-    ?>
+?>
 
      <tr>
       <th class="details">Status:</th>
@@ -935,9 +908,9 @@ if ($edit == 1 || $edit == 2) {
             $_POST['in']['status'] : '', $edit, $bug['status']) ?>
        </select>
 
-    <?php
+<?php
     if ($edit == 1 && auth_check('pear.dev')) {
-        ?>
+?>
 
         </td>
         <th class="details">Assign to:</th>
@@ -945,9 +918,9 @@ if ($edit == 1 || $edit == 2) {
          <input type="text" size="10" maxlength="16" name="in[assign]"
           value="<?php echo field('assign') ?>" />
 
-        <?php
+<?php
     }
-    ?>
+?>
 
        <input type="hidden" name="id" value="<?php echo $id ?>" />
        <input type="hidden" name="edit" value="<?php echo $edit ?>" />
