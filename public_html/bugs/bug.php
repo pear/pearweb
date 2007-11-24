@@ -121,6 +121,13 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
 
 $bug =& $dbh->getRow($query, array($id), DB_FETCHMODE_ASSOC);
 
+if (!$bug) {
+    response_header('No Such Bug');
+    display_bug_error('No such bug #' . $id);
+    response_footer();
+    exit;
+}
+
 if ($edit == 1) {
     if (isset($auth_user) && $auth_user) {
         if (auth_check('pear.bug') && !auth_check('pear.dev') &&
@@ -201,13 +208,6 @@ if (isset($_POST['unsubscribe_to_bug'])) {
         localRedirect('bug.php?id='.$id . '&thanks=8');
         exit();
     }
-}
-
-if (!$bug) {
-    response_header('No Such Bug');
-    display_bug_error('No such bug #' . $id);
-    response_footer();
-    exit;
 }
 
 // Redirect to PECL if it's a PECL bug
