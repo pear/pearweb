@@ -74,12 +74,6 @@ if (isset($auth_user) && $auth_user && $auth_user->registered) {
     }
 }
 
-if (isset($auth_user) && $auth_user && $auth_user->registered && isset($_GET['delete_comment'])) {
-    $delete_comment = (int)$_GET['delete_comment'];
-} else {
-    $delete_comment = false;
-}
-
 $trytoforce = isset($_POST['trytoforce']) ? (int)$_POST['trytoforce'] : false;
 
 // fetch info about the bug into $bug
@@ -231,16 +225,17 @@ if (!$bug['registered'] && !auth_check('pear.dev')) {
     exit;
 }
 $previous = $current = array();
-// Delete comment
-if ($edit == 1 && isset($_GET['delete_comment'])) {
-    $addon = '';
 
-    if (in_array($user, $trusted_developers) && verify_password($user, $pw)) {
-        delete_comment($id, $_GET['delete_comment']);
+// Delete comment
+if ($edit == 1 && isset($auth_user) && $auth_user
+    && $auth_user->registered && isset($_GET['delete_comment'])) {
+    $addon = '';
+    if (auth_check('pear.dev')) {
+        delete_comment($id, (int)$_GET['delete_comment']);
         $addon = '&thanks=1';
     }
     localRedirect('bug.php' . "?id=$id&edit=1$addon");
-    exit();
+    exit;
 }
 
 // handle any updates, displaying errors if there were any
