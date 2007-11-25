@@ -87,11 +87,11 @@ __halt_compiler();
 <table class="middle" cellspacing="0" cellpadding="0">
  <tr>
 
-    
+
 <!-- START LEFT SIDEBAR -->
   <td class="sidebar_left">
    <span id="sidebar">
-   
+
 <strong>Main:</strong>
 <ul class="side_pages">
  <li class="side_page"><a href="/index.php">Home</a></li>
@@ -128,6 +128,7 @@ __halt_compiler();
 
 <strong>Developers:</strong>
 <ul class="side_pages">
+ <li class="side_page"><a href="/map/">Find a Developer</a></li>
  <li class="side_page"><a href="/accounts.php">List Accounts</a></li>
 </ul>
 
@@ -135,12 +136,12 @@ __halt_compiler();
   </td>
 <!-- END LEFT SIDEBAR -->
 
-        
+
 <!-- START MAIN CONTENT -->
 
   <td class="content">
 
-    
+
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
 <h2>&raquo; Hot off the Press</h2>
@@ -177,7 +178,7 @@ this interface</a>.</p>
 
 <!-- END MAIN CONTENT -->
 
-    
+
 <!-- START RIGHT SIDEBAR -->
   <td class="sidebar_right">
    <strong>Recent&nbsp;Releases:</strong>
@@ -193,7 +194,7 @@ this interface</a>.</p>
   </td>
 <!-- END RIGHT SIDEBAR -->
 
-        
+
  </tr>
 </table>
 
