@@ -190,7 +190,7 @@ function auth_check($atom)
     return $karma->has($auth_user->handle, $atom);
 }
 
-function auth_require($admin = false)
+function auth_require()
 {
     global $auth_user;
     $res = true;
@@ -244,9 +244,9 @@ function auth_logout()
     }
 }
 
-/*
-* setup the $auth_user object
-*/
+/**
+ * setup the $auth_user object
+ */
 function init_auth_user()
 {
     global $auth_user, $dbh;
