@@ -70,11 +70,11 @@ __halt_compiler();
 <table class="middle" cellspacing="0" cellpadding="0">
  <tr>
 
-    
+
 <!-- START LEFT SIDEBAR -->
   <td class="sidebar_left">
    <span id="sidebar">
-   
+
 <strong>Main:</strong>
 <ul class="side_pages">
  <li class="side_page"><a href="/index.php">Home</a></li>
@@ -111,6 +111,7 @@ __halt_compiler();
 
 <strong>Developers:</strong>
 <ul class="side_pages">
+ <li class="side_page"><a href="/map/">Find a Developer</a></li>
  <li class="side_page"><a href="/accounts.php">List Accounts</a></li>
 </ul>
 
@@ -118,7 +119,7 @@ __halt_compiler();
   </td>
 <!-- END LEFT SIDEBAR -->
 
-        
+
 <!-- START MAIN CONTENT -->
 
   <td class="content">
@@ -159,7 +160,7 @@ function doMD5(frm) {
 
 <!-- END MAIN CONTENT -->
 
-    
+
  </tr>
 </table>
 
