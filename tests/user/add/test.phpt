@@ -13,7 +13,7 @@ $mock->addInsertQuery("
             INSERT INTO users
                 (handle, name, email, homepage, showemail, password, registered, userinfo, from_site)
             VALUES
-                ('dufuz', 'Helgi Thormar', 'dufuz@php.net', 'http://www.helgi.ws/', 0, '5d8052a59cae407c50bf4056bc8c9014', 0, 'a:2:{i:0;s:14:\"do nifty tests\";i:1;s:6:\"hippie\";}', 'pear')",
+                ('dufuz', 'Helgi Thormar', 'dufuz@php.net', 'http://www.helgi.ws/', 0, '5d8052a59cae407c50bf4056bc8c9014', 0, 'a:2:{i:0;s:14:\"do nifty tests\";i:1;s:6:\"hippie\";}', \"pear\")",
                 array("SELECT * FROM users WHERE handle = 'dufuz'" => array(array (
     'handle' => 'dufuz',
     'password' => '5d8052a59cae407c50bf4056bc8c9014',
@@ -39,7 +39,7 @@ $mock->addInsertQuery("
     'pgpkeyid', 'pgpkey', 'wishlist', 'longitude', 'latitude', 'active')
           )), 1);
 
-$mock->addDataQuery("SELECT * FROM users WHERE handle = '1337'", array(), array()); 
+$mock->addDataQuery("SELECT * FROM users WHERE handle = '1337'", array(), array());
 
 
 /****** test ******/
@@ -102,7 +102,7 @@ $phpt->assertEquals(array (
             INSERT INTO users
                 (handle, name, email, homepage, showemail, password, registered, userinfo, from_site)
             VALUES
-                (\'dufuz\', \'Helgi Thormar\', \'dufuz@php.net\', \'http://www.helgi.ws/\', 0, \'5d8052a59cae407c50bf4056bc8c9014\', 0, \'a:2:{i:0;s:14:"do nifty tests";i:1;s:6:"hippie";}\', \'pear\')',
+                (\'dufuz\', \'Helgi Thormar\', \'dufuz@php.net\', \'http://www.helgi.ws/\', 0, \'5d8052a59cae407c50bf4056bc8c9014\', 0, \'a:2:{i:0;s:14:"do nifty tests";i:1;s:6:"hippie";}\', "pear")',
   2 => 'SELECT * FROM users WHERE handle = \'1337\'',
   3 => 'SELECT * FROM users WHERE handle = \'dufuz\'',
 
