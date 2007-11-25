@@ -99,11 +99,11 @@ __halt_compiler();
 <table class="middle" cellspacing="0" cellpadding="0">
  <tr>
 
-    
+
 <!-- START LEFT SIDEBAR -->
   <td class="sidebar_left">
    <span id="sidebar">
-   
+
 <strong>Main:</strong>
 <ul class="side_pages">
  <li class="side_page"><a href="/index.php">Home</a></li>
@@ -141,12 +141,12 @@ __halt_compiler();
   </td>
 <!-- END LEFT SIDEBAR -->
 
-        
+
 <!-- START MAIN CONTENT -->
 
   <td class="content">
 
-    
+
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
 <h2>&raquo; Hot off the Press</h2>
@@ -183,7 +183,7 @@ components. You can find help using PEAR packages in the
 
 <!-- END MAIN CONTENT -->
 
-    
+
 <!-- START RIGHT SIDEBAR -->
   <td class="sidebar_right">
    <strong>Recent&nbsp;Releases:</strong>
@@ -199,7 +199,7 @@ components. You can find help using PEAR packages in the
   </td>
 <!-- END RIGHT SIDEBAR -->
 
-        
+
  </tr>
 </table>
 
