@@ -12,7 +12,7 @@ $_SERVER['REQUEST_URI'] = null;
 $_SERVER['QUERY_STRING'] = '';
 $moresetup = dirname(__FILE__) . '/test_nomd5.extra.php.inc';
 require dirname(__FILE__) . '/setup.php.inc';
-$mock->addUpdateQuery("UPDATE users SET active=1 WHERE handle='cellog'", array(), array());
+$mock->addUpdateQuery("UPDATE users SET active = 1 WHERE handle = 'cellog'", array(), array());
 include dirname(dirname(dirname(dirname(__FILE__)))) . '/public_html/login.php';
 $phpt->assertEquals(array (
 ), $mock->queries, 'queries');
