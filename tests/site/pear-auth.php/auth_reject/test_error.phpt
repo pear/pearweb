@@ -42,7 +42,7 @@ auth_reject(null, 'Hi there <script>');
 
 <!-- END MAIN CONTENT -->
 
-    
+
  </tr>
 </table>
 
@@ -64,7 +64,6 @@ auth_reject(null, 'Hi there <script>');
   </td>
   <td class="foot-source">
    <small>
-    Last updated: %s %s %d %d:%d:%d %d UTC<br />
     Bandwidth and hardware provided by:
     <i>This is an unofficial mirror!</i>
    </small>
