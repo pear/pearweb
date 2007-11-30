@@ -218,35 +218,33 @@ echo $extraHeaders;
 <table class="middle" cellspacing="0" cellpadding="0">
  <tr>
 
-    <?php
-
+<?php
     if (isset($SIDEBAR_DATA)) {
-        ?>
+?>
 
 <!-- START LEFT SIDEBAR -->
   <td class="sidebar_left">
    <span id="sidebar">
-   <?php echo $SIDEBAR_DATA ?>
+<?php echo $SIDEBAR_DATA ?>
    </span>
   </td>
 <!-- END LEFT SIDEBAR -->
 
-        <?php
+<?php
     }
-
-    ?>
+?>
 
 <!-- START MAIN CONTENT -->
 
   <td class="content">
 
-    <?php
+<?php
 }
 
 
 function response_footer($style = false, $extraContent = false)
 {
-    global $LAST_UPDATED, $MIRRORS, $MYSITE, $COUNTRIES,$SCRIPT_NAME, $RSIDEBAR_DATA;
+    global $MIRRORS, $MYSITE, $COUNTRIES, $SCRIPT_NAME, $RSIDEBAR_DATA;
 
     static $called;
     if ($called) {
@@ -306,7 +304,6 @@ print_link('/about/credits.php', 'CREDITS', false, 'class="menuBlack"');
   </td>
   <td class="foot-source">
    <small>
-    Last updated: <?php echo $LAST_UPDATED; ?><br />
     Bandwidth and hardware provided by:
     <?php
      if ($_SERVER['SERVER_NAME'] == 'pear.php.net') {
