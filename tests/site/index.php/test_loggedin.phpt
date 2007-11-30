@@ -33,7 +33,7 @@ $phpt->assertEquals(array (
                     a.package_id = packages.id AND
                     packages.newpk_id IS NULL AND
                     packages.unmaintained = 0 AND
-                    a.yearmonth = "2007-06-01 00:00:00"
+                    a.yearmonth = "2007-11-01 00:00:00"
                 ORDER BY d DESC LIMIT 0, 5',
   4 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.dev\',\'pear.admin\',\'pear.group\')',
   5 => 'SELECT * FROM karma WHERE user = \'cellog\' AND level IN (\'pear.admin\',\'pear.group\')',
@@ -221,7 +221,6 @@ components. You can find help using PEAR packages in the
   </td>
   <td class="foot-source">
    <small>
-    Last updated: %s %s %d %d:%d:%d %d UTC<br />
     Bandwidth and hardware provided by:
     <i>This is an unofficial mirror!</i>
    </small>
