@@ -180,7 +180,14 @@
            <tr>
             <td class="eInfo_label"><strong>Status:</strong></td>
             <td><?php echo $p['eInfo']['status']; ?></td>
+            <td class="eInfo_label"><strong>Maintained:</strong></td>
+            <td><?php echo $p['eInfo']['maintained']; ?></td>
            </tr>
+           <?php if (isset($p['eInfo']['deprecated'])): ?>
+           <tr>
+            <td colspan="5"><?php echo $p['eInfo']['deprecated']; ?></td>
+           </tr>
+           <?php endif ?>
           </table>
          </td>
         </tr>
@@ -224,6 +231,6 @@
 <p class="tip">
 <b>Note:</b> A number of other PHP projects do provide packages of
 their software, which are installable via the PEAR infrastructure.
-A list of them can be found in the <a href="/channels/">channels 
+A list of them can be found in the <a href="/channels/">channels
 section</a>.</p>
 <?php response_footer(); ?>

@@ -253,24 +253,38 @@ if (!empty($catpid)) {
     $packages = array_slice($packages, $first - 1, 15);
 
     foreach ($packages as $key => $pkg) {
-        $extendedInfo['numReleases'] = $dbh->getOne('SELECT COUNT(*) FROM releases WHERE package = ' . $pkg['id']);
+        $extendedInfo = array();
+        $extendedInfo['numReleases'] = $dbh->getOne('SELECT COUNT(package) FROM releases WHERE package = ' . $pkg['id']);
         $extendedInfo['status']      = $dbh->getOne('SELECT state FROM releases WHERE package = ' . $pkg['id'] . ' ORDER BY id DESC LIMIT 1');
-        $extendedInfo['license']     = $dbh->getOne('SELECT license FROM packages WHERE id = ' . $pkg['id'] . ' ORDER BY id DESC LIMIT 1');
-
+        $p = $dbh->getRow('SELECT license, unmaintained, newpk_id FROM packages WHERE id = ' . $pkg['id'] . ' ORDER BY id DESC LIMIT 1');
+        $extendedInfo['license'] = $p['license'];
 
         // Make status coloured
         switch ($extendedInfo['status']) {
-        case 'stable':
-            $extendedInfo['status'] = '<span style="color: #006600">Stable</span>';
-            break;
+            case 'stable':
+                $extendedInfo['status'] = '<span style="color: #006600">Stable</span>';
+                break;
 
-        case 'beta':
-            $extendedInfo['status'] = '<span style="color: #ffc705">Beta</span>';
-            break;
+            case 'beta':
+                $extendedInfo['status'] = '<span style="color: #ffc705">Beta</span>';
+                break;
 
-        case 'alpha':
-            $extendedInfo['status'] = '<span style="color: #ff0000">Alpha</span>';
-            break;
+            case 'alpha':
+                $extendedInfo['status'] = '<span style="color: #ff0000">Alpha</span>';
+                break;
+        }
+
+        if ($p['unmaintained'] == 0) {
+            $m = '<span style="color: #006600">Yes</span>';
+        } else {
+            $m = '<span style="color: #ff0000">No</span>';
+        }
+        $extendedInfo['maintained'] = $m;
+
+        if (!empty($p['newpk_id'])) {
+            $d = $dbh->getOne('SELECT name FROM packages WHERE id = ' . $p['newpk_id'] . ' ORDER BY id DESC LIMIT 1');
+            $msg = 'This package has been deprecated in favor of <a href="/package/'.  $d .'">' . $d . '</a>';
+            $extendedInfo['deprecated'] = $msg;
         }
 
         $packages[$key]['eInfo'] = $extendedInfo;
