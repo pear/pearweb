@@ -77,15 +77,15 @@ function getQueryString($catpid, $catname, $showempty = false, $moreinfo=false)
  * Check input variables
  * Expected url vars: catpid (category parent id), catname, showempty
  */
-$moreinfo = isset($_GET['moreinfo']) ? (int)$_GET['moreinfo'] : false;
-$catpid  = isset($_GET['catpid'])  ? (int)$_GET['catpid']   : null;
+$moreinfo  = isset($_GET['moreinfo'])  ? (int)$_GET['moreinfo']   : false;
+$catpid    = isset($_GET['catpid'])    ? (int)$_GET['catpid']     : null;
 $showempty = isset($_GET['showempty']) ? (bool)$_GET['showempty'] : false;
 
 if (empty($catpid)) {
-    $category_where = "IS NULL";
-    $catname = "Top Level";
+    $category_where = 'IS NULL';
+    $catname = 'Top Level';
 } else {
-    $category_where = "= " . $catpid;
+    $category_where = '= ' . $catpid;
     if (isset($_GET['catname']) && eregi('^[0-9a-z_ ]{1,80}$', $_GET['catname'])) {
         $catname = $_GET['catname'];
     } else {
@@ -142,6 +142,7 @@ $subpkgs = $dbh->getAssoc("SELECT p.category, p.id AS id, p.name AS name, p.summ
                           " WHERE c.parent $category_where ".
                           '   AND p.approved = 1' .
                           "   AND p.package_type = 'pear' ".
+                          "   AND (p.newpk_id IS NULL OR p.newpk_id = 0)".
                           "   AND p.category = c.id ORDER BY p.name",
                           false, null, DB_FETCHMODE_ASSOC, true);
 
@@ -151,7 +152,7 @@ while ($sth->fetchInto($row)) {
     extract($row);
     $ncategories = ($cat_right - $cat_left - 1) / 2;
 
-    if (!$showempty AND $npackages < 1) {
+    if (!$showempty && $npackages < 1) {
         continue;  // Show categories with packages
     }
 
@@ -289,10 +290,6 @@ if ($moreinfo) {
     $hideMoreInfoLink = '#';
 }
 
-/*
- * Template
- */
+// Template
 error_reporting(E_ALL & ~E_NOTICE);
-include($template_dir . 'packages.html');
-
-?>
+include $template_dir . 'packages.html';
