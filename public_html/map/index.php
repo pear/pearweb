@@ -18,7 +18,6 @@
  * @version   $Id$
  */
 $map = '<script type="text/javascript" language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
-
 response_header('PEAR Maps', false, $map);
 ?>
 
@@ -43,7 +42,7 @@ $maps = array(
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-southamerica.200.jpg',
         ),
 
-    'europe' => 
+    'europe' =>
         array('name'  => 'Europe',
               'link'  => 'http://pear.cweiske.de/devmaps/peardev-europe.jpg',
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-europe.200.jpg',
@@ -87,32 +86,36 @@ $maps = array(
  <script language="javascript" type="text/javascript">
 
  points = new Array();
- 
+
  <?php
     $sql = "
-    SELECT latitude, longitude, name, handle
-     FROM users
-      WHERE latitude <> ''
-      AND longitude  <> ''
+        SELECT u.latitude, u.longitude, u.name, u.handle
+        FROM users u
+        LEFT JOIN karma k ON u.handle = k.user
+        WHERE
+          u.latitude <> ''
+         AND
+          u.longitude <> ''
+         AND
+          k.level = 'pear.dev'
     ";
 
     $infos = $dbh->getAll($sql);
     foreach ($infos as $info) {
         echo "points.push(['" . addslashes($info[0]) . "', '" . addslashes($info[1]) . "', '" . addslashes($info[2]) . "', '" . addslashes($info[3]) . "']);\n";
-
     }
  ?>
- 
+exit;
 </script>
 <script language="javascript" type="text/javascript" src="../javascript/peardev_map.js"></script>
 
-<div style="width: 100%; height: 500px; border: 1px solid black;" 
+<div style="width: 100%; height: 500px; border: 1px solid black;"
      id="peardev_map">
 </div>
 <?php
 if ($auth_user && empty($auth_user->latitude)) {
-    echo "<p><strong>Tip:</strong> You can add your coordinates in your " 
-    . make_link("/account-edit.php?handle=" . $auth_user->handle, "profile") 
+    echo "<p><strong>Tip:</strong> You can add your coordinates in your "
+    . make_link("/account-edit.php?handle=" . $auth_user->handle, "profile")
     . ".</p>";
 }
 ?>
