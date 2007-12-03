@@ -61,6 +61,6 @@ $final  = array_merge($merge, $merge4);
 $data   = var_export($final, true);
 
 $output = '<?php
-' . $data;
+' . $data . ';';
 
 file_put_contents($file, $output);
