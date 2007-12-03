@@ -121,35 +121,20 @@ function auth_verify($user, $passwd)
     }
     $error = '';
     $ok = false;
-    switch (strlen($auth_user->password)) {
-        // handle old-style DES-encrypted passwords
-        case 13: {
-            $seed = substr($auth_user->password, 0, 2);
-            $crypted = crypt($passwd, $seed);
-            if ($crypted == $auth_user->password) {
-                $ok = true;
-            } else {
-                $error = "pear-auth: user `$user': invalid password (des)";
-            }
-            break;
-        }
-        // handle new-style MD5-encrypted passwords
-        case 32: {
-            // Check if the passwd is already md5()ed
-            if (preg_match('/^[a-z0-9]{32}\z/', $passwd)) {
-                $crypted = $passwd;
-            } else {
-                $crypted = md5($passwd);
-            }
 
-            if ($crypted == $auth_user->password) {
-                $ok = true;
-            } else {
-                $error = "pear-auth: user `$user': invalid password (md5)";
-            }
-            break;
-        }
+    // Check if the passwd is already md5()ed
+    if (preg_match('/^[a-z0-9]{32}\z/', $passwd)) {
+         $crypted = $passwd;
+    } else {
+        $crypted = md5($passwd);
     }
+
+    if ($crypted == $auth_user->password) {
+        $ok = true;
+    } else {
+        $error = "pear-auth: user `$user': invalid password (md5)";
+    }
+
     if (empty($auth_user->registered)) {
         if ($user) {
             $error = "pear-auth: user `$user' not registered";
@@ -195,7 +180,7 @@ function auth_require()
     global $auth_user;
     $res = true;
 
-    $user = @$_COOKIE['PEAR_USER'];
+    $user   = @$_COOKIE['PEAR_USER'];
     $passwd = @$_COOKIE['PEAR_PW'];
     if (!auth_verify($user, $passwd)) {
         auth_reject(); // exits
@@ -261,23 +246,11 @@ function init_auth_user()
     $data = user::info($_COOKIE['PEAR_USER'], null, true, false);
     $auth_user = new PEAR_Auth();
     $auth_user->data($data);
-    switch (strlen(@$auth_user->password)) {
-        // handle old-style DES-encrypted passwords
-        case 13: {
-            $seed = substr($auth_user->password, 0, 2);
-            if (crypt($_COOKIE['PEAR_PW'], $seed) == @$auth_user->password) {
-                return true;
-            }
-            break;
-        }
-        // handle new-style MD5-encrypted passwords
-        case 32: {
-            if (md5($_COOKIE['PEAR_PW']) == @$auth_user->password) {
-                return true;
-            }
-            break;
-        }
+
+    if (md5($_COOKIE['PEAR_PW']) == @$auth_user->password) {
+        return true;
     }
+
     $auth_user = null;
     return false;
 }
