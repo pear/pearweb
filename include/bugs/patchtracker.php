@@ -5,6 +5,7 @@ class Bugs_Patchtracker
     var $_upload;
     var $_patchdir;
     var $_dbh;
+
     function __construct()
     {
         if (!file_exists(PEAR_PATCHTRACKER_TMPDIR)) {
@@ -196,9 +197,9 @@ class Bugs_Patchtracker
                 $this->detach($bugid, $name, $id);
                 return PEAR::raiseError('zero-length patches not allowed');
             }
-            if ($file->getProp('size') > 10240) {
+            if ($file->getProp('size') > 20480) {
                 $this->detach($bugid, $name, $id);
-                return PEAR::raiseError('Patch files cannot be larger than 10k');
+                return PEAR::raiseError('Patch files cannot be larger than 20k');
             }
             foreach ($newobsoletes as $obsolete) {
                 $this->obsoletePatch($bugid, $name, $id, $obsolete[0], $obsolete[1]);
