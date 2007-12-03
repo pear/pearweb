@@ -20,27 +20,19 @@ session_start();
  * @version   $Id$
  */
 
-/**
- * Obtain common includes
- */
+// Obtain common includes
 require_once './include/prepend.inc';
 
-/**
- * Get user's CVS password
- */
+// Get user's CVS password
 require_once './include/cvs-auth.inc';
 
-/**
- * Numeral Captcha Class
- */
+// Numeral Captcha Class
 require_once 'Text/CAPTCHA/Numeral.php';
 
 $errors              = array();
 $ok_to_submit_report = false;
 
-/**
- * Instantiate the numeral captcha object.
- */
+// Instantiate the numeral captcha object.
 $numeralCaptcha = new Text_CAPTCHA_Numeral();
 
 if (isset($_POST['save']) && isset($_POST['pw'])) {
@@ -332,16 +324,8 @@ if (isset($_POST['in'])) {
                 }
 
                 $redirectToPatchAdd = false;
-                if (!empty($_POST['in']['patchname']) && $_POST['in']['patchname']) {
-                    require_once 'bugs/patchtracker.php';
-                    $tracker = new Bugs_Patchtracker;
-                    PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-                    $patchrevision = $tracker->attach($cid, 'patchfile',
-                        $_POST['in']['patchname'], $_POST['in']['handle'], array());
-                    PEAR::staticPopErrorHandling();
-                    if (PEAR::isError($patchrevision)) {
-                        $redirectToPatchAdd = true;
-                    }
+                if (!empty($_POST['in']['addpatch'])) {
+                    $redirectToPatchAdd = true;
                 }
 
                 if (!isset($buggie)) {
@@ -395,10 +379,9 @@ if (isset($_POST['in'])) {
                     }
                 }
                 if ($redirectToPatchAdd) {
-                    localRedirect('patch-add.php?bug=' . $cid . '&patch=' .
-                        $_POST['in']['patchname'] . '&email=' .
+                    localRedirect('patch-add.php?bug=' . $cid . '&email=' .
                         $_POST['in']['email']);
-                } elseif (!isset($buggie) && !empty($_POST['in']['patchname'])) {
+                } elseif (!isset($buggie) && !empty($_POST['in']['addpatch'])) {
                     require_once 'bugs/pear-bug-accountrequest.php';
                     $r = new PEAR_Bug_Accountrequest();
                     $info = $r->sendPatchEmail($cid, $patchrevision,
@@ -476,13 +459,11 @@ if (!package_exists($_REQUEST['package'])) {
  who will assess the situation.</strong>
 </p>
 
-        <?php
-
+<?php
     }
 
     display_bug_error($errors);
-
-    ?>
+?>
 
 <?php
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
@@ -700,6 +681,14 @@ if (auth_check('pear.dev')) {
   </td>
  </tr>
  <tr>
+  <th class="form-label_left"></th>
+  <td class="form-input">
+   <input type="checkbox" name="in[addpatch]"
+    <?php echo isset($_POST['in']['addpatch']) ? 'checked="checked"' : ''; ?> />
+ I have files to attach to this report
+  </td>
+ </tr>
+ <tr>
   <th class="form-label_left">
    Test script:
    <p class="cell_note">
@@ -714,10 +703,6 @@ if (auth_check('pear.dev')) {
     wrap="no"><?php echo clean($_POST['in']['repcode']); ?></textarea>
   </td>
  </tr>
- <?php
- $patchname = isset($_POST['in']['patchname']) ? $_POST['in']['patchname'] : '';
- $patchfile = isset($_FILES['patchfile']['name']) ? $_FILES['patchfile']['name'] : '';
- include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/patchform.php'; ?>
  <tr>
   <th class="form-label_left">
    Expected result:
@@ -746,19 +731,14 @@ if (auth_check('pear.dev')) {
   </td>
  </tr>
  <tr>
-  <th class="form-label_left">
-   Submit:
-  </th>
+  <th class="form-label_left"></th>
   <td class="form-input">
    <input type="submit" value="Send bug report" />
   </td>
  </tr>
 </table>
 </form>
-
-    <?php
+<?php
 }
 
 response_footer();
-
-?>
