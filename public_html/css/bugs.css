@@ -240,3 +240,7 @@ td.search-next {
 .Wfx {
     background-color: #aaaaaa;
 }
+
+div#explain-messages {
+    margin-top: 30px;
+}

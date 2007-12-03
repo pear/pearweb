@@ -1244,9 +1244,10 @@ if ($res) {
     }
 }
 ?>
+
 <div id="explain-messages">
- <div class="explain"></div>&nbsp;Explanation<br />
- <div class="success"></div>&nbsp;Success<br />
+ <div class="explain"></div>&nbsp;Explanation<br /><br />
+ <div class="success"></div>&nbsp;Success<br /><br />
  <div class="errors"></div>&nbsp;Failure<br />
 </div>
 <?php
