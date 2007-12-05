@@ -61,12 +61,12 @@ class pearweb_postinstall
 
     /**
      * Create or upgrade the database needed for pearweb
-     * 
+     *
      * This helper function scans for previous database versions,
      * and upgrades the database based on differences between the
      * previous version's schema and the one distributed with this
      * version.
-     * 
+     *
      * If the database has never been created, then it is created.
      *
      * @param array $answers
@@ -177,7 +177,7 @@ class pearweb_postinstall
     /**
      * This helper function parses httpd.conf and adds needed information
      * for pearweb to run.
-     * 
+     *
      * In essence, this takes the contents of docs/apache_setup.txt and
      * adds them to httpd.conf with paths replaced that are needed to
      * make the thing work.
@@ -249,7 +249,6 @@ class pearweb_postinstall
             str_replace('\\', '/', '@web-dir@')
             . '/include' . PATH_SEPARATOR . str_replace('\\', '/', '@php-dir@') . $eol;
         $middle[] = ' php_value auto_prepend_file pear-prepend.php' . $eol;
-        $middle[] = ' php_value auto_append_file pear-append.php' . $eol;
         $middle[] = ' php_flag magic_quotes_gpc off' . $eol;
         $middle[] = ' php_flag magic_quotes_runtime off' . $eol;
         $middle[] = ' php_flag register_globals Off' . $eol;
