@@ -47,7 +47,7 @@ class PEAR_Bug_Accountrequest
             WHERE handle=?
         ', array($this->handle));
         if (!$salt) {
-            throw new Exception('No such handle ' . 
+            throw new Exception('No such handle ' .
             $this->handle . ' found, cannot send confirmation email');
         }
         $email = $this->dbh->getOne('
@@ -256,7 +256,7 @@ class PEAR_Bug_Accountrequest
         if (is_array($arr)) {
             $data['userinfo'] = $arr[1];
         }
-        $data['create']   = gmdate('Y-m-d H:i');
+        $data['create']   = gmdate('Y-m-d');
         $data['createBy'] = 'pearweb';
         $data['handle']   = $handle;
 
@@ -662,7 +662,7 @@ class PEAR_Bug_Accountrequest
 
     function cleanOldRequests()
     {
-        $old = gmdate('Y-m-d H:i:s', time() - 604800);
+        $old = gmdate('Y-m-d', strtotime('-1 Day'));
         $findquery = '
             select handle from bug_account_request
             where created_on < ?';

@@ -8,7 +8,7 @@ class PEAR_Election_Accountrequest
     var $salt;
     var $email;
 
-    function PEAR_Election_Accountrequest()
+    function __construct()
     {
         $this->dbh = &$GLOBALS['dbh'];
         $this->user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : false;
@@ -148,9 +148,9 @@ class PEAR_Election_Accountrequest
 
     function cleanOldRequests()
     {
-        $old = gmdate('Y-m-d H:i', strtotime('-15 minutes'));
+        $old = gmdate('Y-m-d', strtotime('-1 Day'));
         $findquery = 'SELECT handle FROM election_account_request WHERE created_on < ?';
-        $all = $this->dbh->getAll($findquery, array($old));
+        $all = $this->dbh->getAll($findquery, array($old));var_dump($all);exit;
         // purge reserved usernames as well as their account requests
         if (is_array($all)) {
             foreach ($all as $data) {
