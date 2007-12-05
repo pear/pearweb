@@ -10,8 +10,6 @@
  */
 class maintainer
 {
-    // {{{ +proto int    maintainer::add(int|string, string, string) API 1.0
-
     /**
      * Add new maintainer
      *
@@ -47,9 +45,6 @@ class maintainer
         return true;
     }
 
-    // }}}
-    // {{{  proto struct maintainer::get(int|string, [bool]) API 1.0
-
     /**
      * Get maintainer(s) for package
      *
@@ -82,9 +77,6 @@ class maintainer
         return $dbh->getAssoc($query, true, array($package), DB_FETCHMODE_ASSOC);
     }
 
-    // }}}
-    // {{{  proto struct maintainer::getByUser(string) API 1.0
-
     /**
      * Get the roles of a specific user
      *
@@ -98,9 +90,6 @@ class maintainer
         $query = 'SELECT p.name, m.role FROM packages p, maintains m WHERE p.package_type = ? AND p.approved = 1 AND m.package = p.id AND m.handle = ?';
         return $dbh->getAssoc($query, array('pear'), array($user));
     }
-
-    // }}}
-    // {{{  proto bool   maintainer::isValidRole(string) API 1.0
 
     /**
      * Check if role is valid
@@ -119,9 +108,6 @@ class maintainer
         }
         return in_array($role, $roles);
     }
-
-    // }}}
-    // {{{ +proto bool   maintainer::remove(int|string, string) API 1.0
 
     /**
      * Remove user from package
@@ -145,9 +131,6 @@ class maintainer
         $sql = "DELETE FROM maintains WHERE package = ? AND handle = ?";
         return $dbh->query($sql, array($package, $user));
     }
-
-    // }}}
-    // {{{ +proto bool   maintainer::updateAll(int, array [,bool]) API 1.0
 
     /**
      * Update user and roles of a package
@@ -242,9 +225,6 @@ class maintainer
         return true;
     }
 
-    // }}}
-    // {{{ update
-
     /**
      * Update maintainer entry
      *
@@ -261,8 +241,6 @@ class maintainer
             "WHERE package = ? AND handle = ?";
         return $dbh->query($query, array($role, $active, $package, $user));
     }
-    // }}}
-    // {{{ NOEXPORT  maintainer::mayUpdate(int)
 
     /**
      * Checks if the current user is allowed to update the maintainer data
@@ -284,6 +262,4 @@ class maintainer
 
         return true;
     }
-
-    // }}}
 }

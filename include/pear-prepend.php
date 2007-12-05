@@ -27,14 +27,10 @@ if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
     define('DEVBOX', false);
 }
 
-require_once "PEAR.php";
+require_once 'PEAR.php';
 
 if (empty($format)) {
-    if (basename(htmlspecialchars($_SERVER['PHP_SELF'])) == "xmlrpc.php") {
-        $format = 'xmlrpc';
-    } else {
-        $format = 'html';
-    }
+    $format = 'html';
 }
 
 include_once "pear-format-$format.php";
@@ -60,9 +56,6 @@ if (!isset($pear_rest)) {
             DIRECTORY_SEPARATOR . 'rest');
     }
 }
-
-$tmp = filectime($_SERVER['SCRIPT_FILENAME']);
-$LAST_UPDATED = date('D M d H:i:s Y', $tmp - date('Z', $tmp)) . ' UTC';
 
 if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
     auth_logout();

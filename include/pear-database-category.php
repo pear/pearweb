@@ -22,8 +22,7 @@
 */
 
 // These classes correspond to tables and methods define operations on
-// each.  They are packaged into classes for easier xmlrpc
-// integration.
+// each.
 
 /**
  * Class to handle categories
@@ -37,8 +36,6 @@
  */
 class category
 {
-    // {{{ *proto int    category::add(struct) API 1.0
-
     /**
      * Add new category
      *
@@ -138,9 +135,6 @@ class category
         return true;
     }
 
-    // }}}
-    // {{{  proto array  category::listAll() API 1.0
-
     /**
      * List all categories
      *
@@ -152,9 +146,6 @@ class category
         return $dbh->getAll("SELECT * FROM categories ORDER BY name",
                             null, DB_FETCHMODE_ASSOC);
     }
-
-    // }}}
-    // {{{  proto array  category::listPackages(string) API 1.0
 
     /**
      * Return a list of packages in this category
@@ -175,9 +166,6 @@ class category
         $recent = $dbh->getAll($query, array($category), DB_FETCHMODE_ASSOC);
         return $recent;
     }
-
-    // }}}
-    // {{{  proto array  category::getRecent(int, string) API 1.0
 
     /**
      * Get list of recent releases for the given category
@@ -211,9 +199,6 @@ class category
         return $recent;
     }
 
-    // }}}
-    // {{{ *proto bool   category::isValid(string) API 1.0
-
     /**
      * Determines if the given category is valid
      *
@@ -228,11 +213,7 @@ class category
         $sth = $dbh->query($query, array($category));
         return ($sth->numRows() > 0);
     }
-
-    // }}}
 }
-
-// {{{ renumber_visitations()
 
 /**
  *
@@ -293,5 +274,3 @@ function renumber_visitations($id, $parent = null)
     }
     return true;
 }
-
-// }}}

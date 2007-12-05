@@ -14,8 +14,6 @@ class user
         return ($dbh->affectedRows() > 0);
     }
 
-    // {{{ *proto bool   user::rejectRequest(string, string) API 1.0
-
     static function rejectRequest($uid, $reason)
     {
         global $dbh, $auth_user;
@@ -30,9 +28,6 @@ class user
         mail($email, "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
         return true;
     }
-
-    // }}}
-    // {{{ *proto bool   user::activate(string) API 1.0
 
     static function activate($uid, $karmalevel = 'pear.dev')
     {
@@ -80,9 +75,6 @@ class user
         return true;
     }
 
-    // }}}
-    // {{{ +proto bool   user::isAdmin(string) API 1.0
-
     static function isAdmin($handle)
     {
         require_once "Damblan/Karma.php";
@@ -92,9 +84,6 @@ class user
 
         return $karma->has($handle, "pear.admin");
     }
-
-    // }}}
-    // {{{ +proto bool   user::isQA(string) API post 1.0
 
     static function isQA($handle)
     {
@@ -106,9 +95,6 @@ class user
         return $karma->has($handle, 'pear.qa');
     }
 
-    // }}}
-    // {{{  proto bool   user::listAdmins() API 1.0
-
     static function listAdmins()
     {
         require_once "Damblan/Karma.php";
@@ -119,9 +105,6 @@ class user
         return $karma->getUser("pear.admin");
     }
 
-    // }}}
-    // {{{ +proto bool   user::exists(string) API 1.0
-
     static function exists($handle)
     {
         global $dbh;
@@ -129,9 +112,6 @@ class user
         $res = $dbh->query($sql, array($handle));
         return ($res->numRows() > 0);
     }
-
-    // }}}
-    // {{{ +proto string user::maintains(string|int, [string]) API 1.0
 
     static function maintains($user, $pkgid, $role = 'any')
     {
@@ -150,9 +130,6 @@ class user
                             'AND role = ?', array($user, $package_id, $role));
     }
 
-    // }}}
-    // {{{
-
     static function getPackages($user, $onlyApprovedPackages = false)
     {
         global $dbh;
@@ -164,9 +141,6 @@ class user
 
         return $dbh->getAll($query, array($user));
     }
-
-    // }}}
-    // {{{  proto string user::info(string, [string], [boolean]) API 1.0
 
     static function info($user, $field = null, $registered = true, $hidePassword = true)
     {
@@ -204,9 +178,6 @@ class user
         return $dbh->getRow($sql, $data, DB_FETCHMODE_ASSOC);
     }
 
-    // }}}
-    // {{{ listAll()
-
     static function listAll($registered_only = true)
     {
         global $dbh;
@@ -218,9 +189,6 @@ class user
         return $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
     }
 
-    // }}}
-    // {{{ listAllHandles()
-
     static function listAllHandles($registered_only = true)
     {
         global $dbh;
@@ -231,9 +199,6 @@ class user
         $query .= " ORDER BY handle";
         return $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
     }
-
-    // }}}
-    // {{{ add()
 
     /**
      * Add a new user account
@@ -395,9 +360,6 @@ class user
         return $ok;
     }
 
-    // }}}
-    // {{{ update
-
     /**
      * Update user information
      *
@@ -464,9 +426,6 @@ class user
         return true;
     }
 
-    // }}}
-    // {{{ getRecentReleases(string, [int])
-
     /**
      * Get recent releases for the given user
      *
@@ -499,9 +458,6 @@ class user
         }
         return $recent;
     }
-
-    // }}}
-    // {{{ * proto array   user::getWhoIsWho() API 1.0
 
     /**
      * Get list of current developers and the packages they maintain.
@@ -597,6 +553,4 @@ class user
 
         return $users;
     }
-
-    // }}}
 }

@@ -29,11 +29,7 @@ function auth_reject($realm = null, $message = null)
     }
 
     response_header('Login');
-    if ($format == 'xmlrpc') {
-        Header("HTTP/1.0 401 Unauthorized");
-        Header("WWW-authenticate: basic realm=\"$realm\"");
-        report_error($message);
-    } elseif ($format == 'html') {
+    if ($format == 'html') {
         $GLOBALS['ONLOAD'] = "document.login.PEAR_USER.focus();";
         if ($message) {
             report_error($message);
@@ -124,7 +120,7 @@ function auth_verify($user, $passwd)
 
     // Check if the passwd is already md5()ed
     if (preg_match('/^[a-z0-9]{32}\z/', $passwd)) {
-         $crypted = $passwd;
+        $crypted = $passwd;
     } else {
         $crypted = md5($passwd);
     }

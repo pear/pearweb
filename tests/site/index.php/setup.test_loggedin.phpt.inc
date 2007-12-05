@@ -14,7 +14,7 @@ $options = array(
 $dbh = DB::connect($_ENV['PEAR_DATABASE_DSN'], $options);
 
 $mock->addDataQuery("SELECT * FROM users WHERE handle = 'cellog' AND registered = '1'", array (
-  0 => 
+  0 =>
   array (
     'handle' => 'cellog',
     'password' => md5('hi'),
@@ -71,7 +71,7 @@ $phpt = new PEAR_PHPTest;
 
 $mock->addDataQuery("SELECT packages.id AS id, packages.name AS name, packages.summary AS summary, releases.version AS version, releases.releasedate AS releasedate, releases.releasenotes AS releasenotes, releases.doneby AS doneby, releases.state AS state FROM packages, releases WHERE packages.id = releases.package AND packages.approved = 1 AND packages.package_type = 'pear' ORDER BY releases.releasedate DESC LIMIT 0, 5",
 array (
-  0 => 
+  0 =>
   array (
     'id' => '14',
     'name' => 'PEAR',
@@ -86,7 +86,7 @@ array (
     'doneby' => 'cellog',
     'state' => 'stable',
   ),
-  1 => 
+  1 =>
   array (
     'id' => '14',
     'name' => 'PEAR',
@@ -98,7 +98,7 @@ array (
     'doneby' => 'cellog',
     'state' => 'beta',
   ),
-  2 => 
+  2 =>
   array (
     'id' => '14',
     'name' => 'PEAR',
@@ -124,7 +124,7 @@ array (
     'doneby' => 'cellog',
     'state' => 'beta',
   ),
-  3 => 
+  3 =>
   array (
     'id' => '582',
     'name' => 'Math_Derivative',
@@ -136,7 +136,7 @@ Included predefined functions like sqrt(), atan(), acos(), asin().',
     'doneby' => 'colder',
     'state' => 'beta',
   ),
-  4 => 
+  4 =>
   array (
     'id' => '261',
     'name' => 'Games_Chess',
@@ -167,35 +167,35 @@ $mock->addDataQuery('
                     packages.unmaintained = 0 AND
                     a.yearmonth = "' . date('Y-m-01') . ' 00:00:00"
                 ORDER BY d DESC LIMIT 0, 5',array (
-  0 => 
+  0 =>
   array (
     'name' => 'XML_RPC',
     'version' => '1.4.4',
     'downloads' => '72342',
     'd' => '120.37',
   ),
-  1 => 
+  1 =>
   array (
     'name' => 'XML_RPC',
     'version' => '1.4.5',
     'downloads' => '46438',
     'd' => '91.05',
   ),
-  2 => 
+  2 =>
   array (
     'name' => 'Mail',
     'version' => '1.1.9',
     'downloads' => '35739',
     'd' => '56.46',
   ),
-  3 => 
+  3 =>
   array (
     'name' => 'XML_Parser',
     'version' => '1.2.7',
     'downloads' => '32885',
     'd' => '52.87',
   ),
-  4 => 
+  4 =>
   array (
     'name' => 'Net_Socket',
     'version' => '1.0.6',

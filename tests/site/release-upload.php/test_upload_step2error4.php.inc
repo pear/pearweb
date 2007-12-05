@@ -5,7 +5,7 @@ mkdir($restdir . '/c');
 require_once 'pear-rest.php';
 $pear_rest = new pear_rest($restdir);
 $mock->addDataQuery("SELECT * FROM users WHERE handle = 'cellog' AND registered = '1'", array (
-  0 => 
+  0 =>
   array (
     'handle' => 'cellog',
     'password' => md5('hi'),

@@ -3,7 +3,7 @@ class Users_PasswordManage
 {
     var $_dbh;
     var $_mailer;
-    function Users_PasswordManage()
+    function __construct()
     {
         $this->_dbh = &$GLOBALS['dbh'];
     }
@@ -25,19 +25,21 @@ class Users_PasswordManage
         if (PEAR::isError($e)) {
             return array($e->getMessage());
         }
+
         if (!$e) {
             return array('Could not retrieve password based on username/salt combination');
         }
+
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
-        $e = $this->_dbh->query('UPDATE users set password=? WHERE handle=?', array($e, $user));
+        $e = $this->_dbh->query('UPDATE users set password = ? WHERE handle = ?', array($e, $user));
         if (!PEAR::isError($e)) {
-            $this->_dbh->query('DELETE FROM lostpassword WHERE
-                handle=?', array($user));
+            $this->_dbh->query('DELETE FROM lostpassword WHERE handle = ?', array($user));
         }
         PEAR::staticPopErrorHandling();
         if (PEAR::isError($e)) {
             return array($e->getMessage());
         }
+
         return array();
     }
 

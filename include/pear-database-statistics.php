@@ -23,8 +23,6 @@
 
 class statistics
 {
-    // {{{ package()
-
     /**
      * Get general package statistics
      *
@@ -37,9 +35,6 @@ class statistics
         $query = "SELECT SUM(dl_number) FROM package_stats WHERE pid = " . (int)$id;
         return $dbh->getOne($query);
     }
-
-    // }}}
-    // {{{ release()
 
     static function release($id, $rid = "")
     {
@@ -56,6 +51,4 @@ class statistics
 
         return $dbh->getAll($query, DB_FETCHMODE_ASSOC);
     }
-
-    // }}}
 }

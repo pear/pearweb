@@ -31,8 +31,6 @@
  */
 class package
 {
-    // {{{ *proto int    package::add(struct) API 1.0
-
     /**
      * Add new package
      *
@@ -96,9 +94,6 @@ class package
         // }}}
         return $id;
     }
-
-    // }}}
-    // {{{ proto array package::getDownloadURL(struct, [string], [string]) API 1.1
 
     /**
      * Get a download URL, or an array containing the latest version and its
@@ -184,9 +179,6 @@ class package
         }
     }
 
-    // }}}
-    // {{{ proto string package::getPackageFile(string|int, string) API 1.0
-
     /**
      * @param string|int package name or id
      * @param string     release version
@@ -223,9 +215,6 @@ class package
             }
         }
     }
-
-    // }}}
-    // {{{ proto array package::getDepDownloadURL(string, struct, struct, [string], [string]) API 1.1
 
     /**
      * Get a download URL for a dependency, or an array containing the
@@ -353,9 +342,6 @@ class package
         }
     }
 
-    // }}}
-
-    // {{{  proto struct package::info(string|int, [string], [bool]) API 1.0
     /*
      * Implemented $field values:
      * releases, notes, category, description, authors, categoryid,
@@ -478,9 +464,6 @@ class package
         return $info;
     }
 
-    // }}}
-    // {{{  proto struct package::search(string, [bool|string], [bool], [bool], [bool]) API 1.0
-
     /**
      *
      */
@@ -505,9 +488,6 @@ class package
         return $ret;
     }
 
-    // }}}
-    // {{{ NOEXPORT  struct package::listAllNames()
-
     /**
      * Lists the IDs and names of all approved PEAR packages
      *
@@ -524,9 +504,6 @@ class package
 
         return $dbh->getAssoc("SELECT id, name FROM packages WHERE package_type = 'pear' AND approved = 1 ORDER BY name");
     }
-
-    // }}}
-    // {{{  proto struct package::listAll([bool], [bool], [bool]) API 1.0
 
     /**
      * List all packages
@@ -649,9 +626,6 @@ class package
         return $packageinfo;
     }
 
-    // }}}
-    // {{{  proto struct package::listAllwithReleases() API 1.0
-
     /**
      * Get list of packages and their releases
      *
@@ -685,9 +659,6 @@ class package
 
         return $packages;
     }
-
-    // }}}
-    // {{{  proto struct package::listLatestReleases([string]) API 1.0
 
     /**
      * List latest releases
@@ -736,9 +707,6 @@ class package
         return $res;
     }
 
-    // }}}
-    // {{{  proto struct package::listUpgrades(struct) API 1.0
-
     /**
      * List available upgrades
      *
@@ -773,9 +741,6 @@ class package
         $query .= implode(" OR ", $conditions) . ")";
         return $dbh->getAssoc($query, false, null, DB_FETCHMODE_ASSOC);
     }
-
-    // }}}
-    // {{{ +proto bool   package::updateInfo(string|int, struct) API 1.0
 
     /**
      * Updates fields of an existant package
@@ -819,16 +784,14 @@ class package
         return $dbh->query($sql, $prep);
     }
 
-    // }}}
-    // {{{ getDependants()
-
     /**
      * Get packages that depend on the given package
      *
      * @param  string Name of the package
      * @return array  List of package that depend on $package
      */
-    static function getDependants($package) {
+    static function getDependants($package)
+    {
         global $dbh;
         $query = 'SELECT p.name AS p_name, ' .
             ' MAX(r.version) AS max_dep, ' .
@@ -841,9 +804,6 @@ class package
             "GROUP BY d.package";
         return $dbh->getAll($query, array($package), DB_FETCHMODE_ASSOC);
     }
-
-    // }}}
-    // {{{  proto array  package::getRecent(int, string) API 1.0
 
     /**
      * Get list of recent releases for the given package
@@ -877,9 +837,6 @@ class package
         return $recent;
     }
 
-    // }}}
-    // {{{ *proto bool   package::isValid(string) API 1.0
-
     /**
      * Determines if the given package is valid
      *
@@ -894,9 +851,6 @@ class package
         $sth = $dbh->query($query, array($package));
         return ($sth->numRows() > 0);
     }
-
-    // }}}
-    // {{{ getNotes()
 
     /**
      * Get all notes for given package
@@ -913,8 +867,6 @@ class package
         return $dbh->getAll($query, array($package), DB_FETCHMODE_ASSOC);
     }
 
-    // }}}
-    // {{{ allowTrackbacks()
     /**
      * Enable or disable trackbacks for a package
      *
@@ -931,7 +883,6 @@ class package
                 WHERE name=' . $dbh->quoteSmart($name);
         $res = $dbh->query($query);
     }
-    // }}}
 
     /**
      * Generate link for package
@@ -947,13 +898,9 @@ class package
     }
 }
 
-// {{{ version_compare_firstelem()
-
 function version_compare_firstelem($a, $b)
 {
     reset($a);
     $elem = key($a);
     return version_compare($a[$elem], $b[$elem]);
 }
-
-// }}}

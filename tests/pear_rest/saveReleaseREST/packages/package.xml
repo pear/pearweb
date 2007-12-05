@@ -126,7 +126,6 @@
     <file name="karma.txt" role="web" />
     <file name="logging.txt" role="web" />
     <file name="pear_package_manager.txt" role="web" />
-    <file name="xmlrpc-api.txt" role="web" />
    </dir> <!-- /doc -->
    <dir name="include">
     <dir name="bugs">
@@ -244,16 +243,11 @@
     <file name="pear-database-user.php" role="web" />
     <file name="pear-format-html-form.php" role="web" />
     <file name="pear-format-html.php" role="web" />
-    <file name="pear-format-xmlrpc.php" role="web" />
     <file name="pear-manual.php" role="web" />
     <file name="pear-patches.php" role="web" />
     <file name="pear-prepend.php" role="web" />
     <file name="pear-rest.php" role="web" />
-    <file name="signatures.php" role="web" />
     <file name="site.php" role="web" />
-    <file name="xmlrpc-cache.php" role="web" />
-    <file name="xmlrpc-methods.php" role="web" />
-    <file name="xmlrpc-testlogin.php" role="web" />
    </dir> <!-- /include -->
    <dir name="public_html">
     <dir name="about">
@@ -581,7 +575,6 @@
     <file name="robots.txt" role="web" />
     <file name="search.php" role="web" />
     <file name="wishlist.php" role="web" />
-    <file name="xmlrpc.php" role="web" />
    </dir> <!-- /public_html -->
    <dir name="rfc">
     <file name="003-dependencies.txt" role="web" />
@@ -796,7 +789,6 @@
    </file>
    <file name="processReleases.php" role="web" />
    <file name="README" role="web" />
-   <file name="testxmlrpc.pl" role="web" />
    <file name="TODO" role="web" />
   </dir> <!-- / -->
  </contents>

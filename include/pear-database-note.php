@@ -10,8 +10,6 @@
  */
 class note
 {
-    // {{{ +proto bool   note::add(string, int, string, string) API 1.0
-
     static function add($key, $value, $note, $author = "")
     {
         global $dbh, $auth_user;
@@ -33,9 +31,6 @@ class note
         return true;
     }
 
-    // }}}
-    // {{{ +proto bool   note::remove(int) API 1.0
-
     static function remove($id)
     {
         global $dbh;
@@ -47,9 +42,6 @@ class note
         return true;
     }
 
-    // }}}
-    // {{{ +proto bool   note::removeAll(string, int) API 1.0
-
     static function removeAll($key, $value)
     {
         global $dbh;
@@ -60,9 +52,6 @@ class note
         return true;
     }
 
-    // }}}
-    // {{{
-
     static function getAll($user)
     {
         global $dbh;
@@ -70,6 +59,4 @@ class note
                             . ' WHERE uid = ? ORDER BY ntime',
                             array($user));
     }
-
-    // }}}
 }

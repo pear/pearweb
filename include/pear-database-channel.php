@@ -35,13 +35,8 @@ class channel
         if (DB::isError($err)) {
             return $err;
         }
-        // clear cache
-        include_once 'xmlrpc-cache.php';
-        $cache = new XMLRPC_Cache;
-        $cache->remove('channel.listAll', array());
     }
 
-    // {{{ proto array channel::listAll() API 1.0
     /**
      * List all registered channels
      * @return array Format: array(array(channel server), array(channel server),... )
@@ -52,5 +47,4 @@ class channel
         $query = 'SELECT * FROM channels';
         return $dbh->getAll($query, null, DB_FETCHMODE_ORDERED);
     }
-    // }}}
 }

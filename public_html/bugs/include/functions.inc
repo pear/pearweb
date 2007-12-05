@@ -460,7 +460,7 @@ function show_package_version_options($package, $current)
         if ($current == $v[0]) {
             echo ' selected="selected"';
         }
-		
+
         echo ' value = "' . htmlspecialchars($v[0]) . '">' . htmlspecialchars($v[0]) . ' (' . htmlspecialchars($v[1]) . ")</option>\n";
     }
     echo '<option value="CVS"';
@@ -496,7 +496,7 @@ function show_version_options($current, $default = '')
     if (!$use && $current) {
         echo '<option selected="selected">' . htmlspecialchars($current) . "</option>\n";
     }
-    
+
     echo '<option>Irrelevant</option>' . "\n";
     echo '<option value="earlier">Earlier? Upgrade first!</option>' . "\n";
 }
@@ -1057,14 +1057,11 @@ function format_search_string($search)
 {
     // Function will be updated to make results more relevant.
     // Quick hack for indicating ignored words.
-
-    global $mysql4;
-
-    $min_word_len=3;
+    $min_word_len = 3;
 
     $words = preg_split("/\s+/", $search);
     $ignored = $used = array();
-    foreach($words AS $match) {
+    foreach ($words AS $match) {
         if (strlen($match) < $min_word_len) {
             array_push($ignored, $match);
         } else {
@@ -1072,6 +1069,7 @@ function format_search_string($search)
         }
     }
 
+    $mysql4 = false;
     if ($mysql4 && BOOLEAN_SEARCH) {
         // require all used words (all)
         if (BOOLEAN_SEARCH === 1) {
@@ -1152,7 +1150,7 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
     $style['CRSLR']    = ($status == 'CRSLR')   ?' class="status_active"':'';
     echo '<td style="text-align: right;">' . "\n Status: ";
     if (!$fulllink) {
-        $fulllink = '/bugs/search.php?cmd=display&amp;' . $pkgs; 
+        $fulllink = '/bugs/search.php?cmd=display&amp;' . $pkgs;
     }
     echo make_link($fulllink .
                    '&amp;status=Open', 'Open', '', $style['Open']);
@@ -1170,7 +1168,7 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
         if (count($releases)) {
             echo delim();
             echo make_link($fulllink .
-                           '&amp;status=CRSLR', 'Closed Since Version ' . 
+                           '&amp;status=CRSLR', 'Closed Since Version ' .
                            key($releases), '', $style['CRSLR'], 'Closed bugs since last release');
         }
     }

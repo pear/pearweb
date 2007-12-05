@@ -31,8 +31,6 @@
  */
 class release
 {
-    // {{{  proto array  release::getRecent([int]) API 1.0
-
     /**
      * Get recent releases
      *
@@ -64,11 +62,6 @@ class release
         return $recent;
     }
 
-    // }}}
-    // {{{  proto array  release::getDateRange(int,int) API 1.0
-
-    // }}}
-    // {{{  proto array  release::getPopular(int) API 1.0
     static function getPopular($n = 5, $rss = false)
     {
         global $dbh;
@@ -158,9 +151,6 @@ class release
         return $recent;
     }
 
-    // }}}
-    // {{{ +proto string release::upload(string, string, string, string, binary, string) API 1.0
-
     /**
      * Upload new release
      *
@@ -189,9 +179,6 @@ class release
 
         return release::confirmUpload($package, $version, $state, $relnotes, $md5sum, $ref['package_id'], $ref['file'], $pkg_info, $packagexml, $compatible);
     }
-
-    // }}}
-    // {{{ +proto string release::validateUpload(string, string, string, string, binary, string) API 1.0
 
     /**
      * Determine if uploaded file is a valid release
@@ -266,9 +253,6 @@ class release
                      "file" => $file
                      );
     }
-
-    // }}}
-    // {{{ +proto bool   release::confirmUpload(string, string, string, string, string, int, binary) API 1.0
 
     /**
      * Confirm release upload
@@ -456,37 +440,8 @@ class release
             $release_id);
         $GLOBALS['pear_rest']->savePackagesCategoryREST(package::info($package, 'category'));
 
-        // gotta clear all the permutations
-        include_once 'xmlrpc-cache.php';
-        $cache = new XMLRPC_Cache;
-        $cache->remove('package.listAll', array(false));
-        $cache->remove('package.listAll', array(true));
-
-        $cache->remove('package.listAll', array(false, true));
-        $cache->remove('package.listAll', array(false, false));
-
-        $cache->remove('package.listAll', array(true, true));
-        $cache->remove('package.listAll', array(true, false));
-
-        $cache->remove('package.listAll', array(false, true, true));
-        $cache->remove('package.listAll', array(false, true, false));
-        $cache->remove('package.listAll', array(false, false, true));
-        $cache->remove('package.listAll', array(false, false, false));
-
-        $cache->remove('package.listAll', array(true, true, true));
-        $cache->remove('package.listAll', array(true, true, false));
-        $cache->remove('package.listAll', array(true, false, true));
-        $cache->remove('package.listAll', array(true, false, false));
-
-        // make sure pecl is also removed
-        $cache->remove('package.info', array($package, null));
-        $cache->remove('package.info', array($package, array(null, null, true)));
-
         return $file;
     }
-
-    // }}}
-    // {{{ +proto bool   release::dismissUpload(string) API 1.0
 
     /**
      * Dismiss release upload
@@ -499,13 +454,8 @@ class release
         return (bool)@unlink($upload_ref);
     }
 
-    // }}}
-    // {{{ NOEXPORT      release::HTTPdownload(string, [string], [string], [bool])
-
     /**
      * Download release via HTTP
-     *
-     * Not for xmlrpc export!
      *
      * @param string Name of the package
      * @param string Version string
@@ -618,9 +568,6 @@ class release
         print 'File not found';
     }
 
-    // }}}
-    // {{{  proto bool   release::isValidState(string) API 1.0
-
     /**
      * Determine if release state is valid
      *
@@ -633,9 +580,6 @@ class release
         static $states = array('devel', 'snapshot', 'alpha', 'beta', 'stable');
         return in_array($state, $states);
     }
-
-    // }}}
-    // {{{  proto array  release::betterStates(string) API 1.0
 
     /**
      * Convert a state into an array of less stable states
@@ -656,9 +600,6 @@ class release
         }
         return array_slice($states, $i + 1);
     }
-
-    // }}}
-    // {{{ NOEXPORT      release::logDownload(integer, string, string)
 
     /**
      * Log release download
@@ -748,10 +689,6 @@ class release
         // }}}
     }
 
-    // }}}
-
-    // {{{ +proto string release::promote(array, string) API 1.0
-
     /**
      * Promote new release
      *
@@ -810,9 +747,6 @@ END;
         mail($to, $subject, $txtanounce, "From: $from", "-f bounce-no-user@php.net");
     }
 
-    // }}}
-    // {{{ +proto string release::promote_v2(array, string) API 1.0
-
     /**
      * Promote new release
      *
@@ -870,9 +804,6 @@ Authors
         $subject = "[ANNOUNCEMENT] $release Released.";
         mail($to, $subject, $txtanounce, "From: $from", "-f bounce-no-user@php.net");
     }
-
-    // }}}
-    // {{{ NOEXPORT      release::remove(int, int)
 
     /**
      * Remove release
@@ -934,9 +865,6 @@ Authors
         return true;
     }
 
-    // }}}
-    // {{{ getFAQ()
-
     /**
      * Get FAQ items for given package version
      *
@@ -953,6 +881,4 @@ Authors
 
         return $dbh->getAll($query, array($package, $version), DB_FETCHMODE_ASSOC);
     }
-    // }}}
 }
-
