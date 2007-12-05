@@ -3,14 +3,12 @@ session_start();
 $canpatch = true;
 require_once 'bugs/patchtracker.php';
 require_once 'include/functions.inc';
-/**
- * Numeral Captcha Class
- */
+
+// Numeral Captcha Class
 require_once 'Text/CAPTCHA/Numeral.php';
-/**
- * Instantiate the numeral captcha object.
- */
+// Instantiate the numeral captcha object.
 $numeralCaptcha = new Text_CAPTCHA_Numeral();
+
 $patchinfo = new Bugs_Patchtracker;
 // captcha is not necessary if the user is logged in
 if (isset($auth_user) && $auth_user->registered) {
@@ -19,6 +17,7 @@ if (isset($auth_user) && $auth_user->registered) {
         unset($_SESSION['answer']);
     }
 }
+
 $loggedin = isset($auth_user) && $auth_user->registered;
 if (isset($_POST['addpatch'])) {
     if (!isset($_POST['obsoleted'])) {
@@ -36,11 +35,9 @@ if (isset($_POST['addpatch'])) {
         response_footer();
         exit;
     }
-    if (isset($_POST['email'])) {
-        $email = $_POST['email'];
-    } else {
-        $email = '';
-    }
+
+    $email = isset($_POST['email']) ? $_POST['email'] : '';
+
     if (!isset($_POST['name']) || empty($_POST['name']) || !is_string($_POST['name'])) {
         $package = $buginfo['package_name'];
         $bug = $buginfo['id'];
@@ -51,10 +48,10 @@ if (isset($_POST['addpatch'])) {
         $patches = $patchinfo->listPatches($bug);
         $errors[] = 'No patch name entered';
         $captcha = $numeralCaptcha->getOperation();
-        include dirname(dirname(dirname(__FILE__))) . 
-                '/templates/bugs/addpatch.php';
+        include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/addpatch.php';
         exit;
     }
+
     if (!$loggedin) {
         try {
             $errors = array();
@@ -115,12 +112,12 @@ if (isset($_POST['addpatch'])) {
                 $patches = $patchinfo->listPatches($bug);
                 $errors[] = $e->getMessage();
                 $errors[] =
-                    'Could not attach patch "' . 
-                    htmlspecialchars($_POST['name']) . 
+                    'Could not attach patch "' .
+                    htmlspecialchars($_POST['name']) .
                     '" to Bug #' . $bug;
                 $captcha = $numeralCaptcha->getOperation();
                 $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-                include dirname(dirname(dirname(__FILE__))) . 
+                include dirname(dirname(dirname(__FILE__))) .
                         '/templates/bugs/addpatch.php';
                 exit;
             }
@@ -145,7 +142,7 @@ if (isset($_POST['addpatch'])) {
             $patches = $patchinfo->listPatches($bug);
             $captcha = $numeralCaptcha->getOperation();
             $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-            include dirname(dirname(dirname(__FILE__))) . 
+            include dirname(dirname(dirname(__FILE__))) .
                     '/templates/bugs/addpatch.php';
             exit;
         }
@@ -164,13 +161,13 @@ if (isset($_POST['addpatch'])) {
         $name = $_POST['name'];
         $patches = $patchinfo->listPatches($bug);
         $errors = array($e->getMessage(),
-            'Could not attach patch "' . 
-            htmlspecialchars($_POST['name']) . 
+            'Could not attach patch "' .
+            htmlspecialchars($_POST['name']) .
             '" to Bug #' . $bug);
         $captcha = $numeralCaptcha->getOperation();
         $_SESSION['answer'] = $numeralCaptcha->getAnswer();
 
-        include dirname(dirname(dirname(__FILE__))) . 
+        include dirname(dirname(dirname(__FILE__))) .
                 '/templates/bugs/addpatch.php';
         exit;
     }
@@ -189,7 +186,7 @@ if (isset($_POST['addpatch'])) {
 
         $mailData = array(
             'id'         => $bug,
-            'url'        => 'http://' . PEAR_CHANNELNAME . 
+            'url'        => 'http://' . PEAR_CHANNELNAME .
                         "/bugs/patch-display.php?bug=$bug&patch=$patchName&revision=$rev&display=1",
             'package'    => $buginfo['package_name'],
             'summary'    => $dbh->getOne('SELECT sdesc from bugdb
@@ -244,4 +241,3 @@ $patches = $patchinfo->listPatches($bug);
 $captcha = $numeralCaptcha->getOperation();
 $_SESSION['answer'] = $numeralCaptcha->getAnswer();
 include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/addpatch.php';
-?>
