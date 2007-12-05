@@ -61,14 +61,6 @@ if (auth_verify($_POST['PEAR_USER'], $password)) {
     setcookie('PEAR_USER', $_POST['PEAR_USER'], $expire, '/');
     setcookie('PEAR_PW', $password, $expire, '/');
 
-    /*
-     * Update users password if it is held in the db
-     * crypt()ed.
-     */
-    if (strlen(@$auth_user->password) == 13) { // $auth_user comes from auth_verify() function
-        $query = "UPDATE users SET password = ? WHERE handle = ?";
-        $dbh->query($query, array($password, $_POST['PEAR_USER']));
-    }
     // mark user as active if they were inactive
     $dbh->query('UPDATE users SET active=1 WHERE handle=?', array($_POST['PEAR_USER']));
 
