@@ -109,6 +109,7 @@ class PEAR_Election_Accountrequest
         note::removeAll("uid", $this->handle);
 
         $data = array();
+        $data['handle']     = $user['handle'];
         $data['registered'] = 1;
         if (is_array($arr)) {
             $data['userinfo'] = $arr[1];
@@ -116,7 +117,8 @@ class PEAR_Election_Accountrequest
         $data['created']   = gmdate('Y-m-d H:i');
         $data['createdby'] = 'pearweb';
 
-        if (PEAR::isError($e = user::update($data, true))) {
+        $e = user::update($data, true);
+        if (PEAR::isError($e) || !$e) {
             return $e;
         }
 
