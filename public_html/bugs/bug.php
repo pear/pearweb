@@ -1,4 +1,4 @@
-<?php /* vim: set noet ts=4 sw=4: : */
+<?php
 session_start();
 /**
  * User interface for viewing and editing bug details
@@ -125,7 +125,8 @@ if (!$bug) {
 if ($edit == 1) {
     if (isset($auth_user) && $auth_user) {
         if (auth_check('pear.bug') && !auth_check('pear.dev') &&
-              $bug['bughandle'] != $auth_user->handle) {
+            $bug['bughandle'] != $auth_user->handle
+        ) {
             $edit = 3; // can't edit a bug you didn't create
         }
     } else {
@@ -144,6 +145,10 @@ if ($edit == 2) {
 
 if ($edit == 1) {
     auth_require('pear.bug', 'pear.dev');
+}
+
+if ($edit == 3 && auth_check('pear.dev')) {
+    $edit = 1;
 }
 
 if (!empty($_POST['pw'])) {
@@ -714,10 +719,16 @@ if ($bug['modified']) {
 <?php
 
 control(0, 'View');
-if (!(isset($auth_user) && $auth_user && $auth_user->registered) && $edit != 2) {
+if (
+    (!(isset($auth_user) && $auth_user && $auth_user->registered) || !auth_check('pear.dev')) && $edit != 2
+) {
     control(3, 'Add Comment');
 }
-control(1, 'Edit');
+
+if (auth_check('pear.dev')) {
+    control(1, 'Edit');
+}
+
 ?>
 
 </div>
