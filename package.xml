@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.6.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.7.0RC1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -77,8 +77,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-10-29</date>
- <time>16:41:50</time>
+ <date>2007-12-06</date>
+ <time>23:55:12</time>
  <version>
   <release>1.17.0</release>
   <api>0.1.1</api>
@@ -211,9 +211,6 @@
     <dir name="fonts">
      <file name="coolveti.ttf" role="web" />
     </dir> <!-- /include/fonts -->
-    <dir name="HTML">
-     <file name="Menu.php" role="web" />
-    </dir> <!-- /include/HTML -->
     <dir name="jpgraph">
      <file name="jpgraph.php" role="web" />
      <file name="jpgraph_bar.php" role="web" />
@@ -250,7 +247,6 @@
      <file name="passwordmanage.php" role="web" />
     </dir> <!-- /include/users -->
     <file name="browser.php" role="web" />
-    <file name="pear-append.php" role="web" />
     <file name="pear-auth.php" role="web" />
     <file name="pear-category.php" role="web" />
     <file name="pear-config.php" role="web" />
@@ -838,6 +834,11 @@
     <name>HTML_Table</name>
     <channel>pear.php.net</channel>
     <min>1.5</min>
+   </package>
+   <package>
+    <name>HTML_Menu</name>
+    <channel>pear.php.net</channel>
+    <min>2.1.4</min>
    </package>
    <package>
     <name>Pager</name>
@@ -2200,7 +2201,7 @@ Split off index-updated files into pearweb_index package</notes>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-10-29</date>
+   <date>2007-12-06</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * Fix Bug #9476: schema validation error on postinstall script [dufuz]
