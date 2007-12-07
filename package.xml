@@ -77,8 +77,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-12-06</date>
- <time>23:55:12</time>
+ <date>2007-12-07</date>
+ <time>00:03:54</time>
  <version>
   <release>1.17.0</release>
   <api>0.1.1</api>
@@ -127,553 +127,554 @@
   <dir baseinstalldir="/" name="/">
    <dir name="cron">
     <dir name="mirror">
-     <file name="download_stats.php" role="web" />
-     <file name="mirrorupdate.php" role="web" />
-     <file name="pear-grabstats.php" role="web" />
-     <file name="pear.php.net.mirror" role="web" />
-     <file name="README" role="web" />
+     <file name="download_stats.php" role="www" />
+     <file name="mirrorupdate.php" role="www" />
+     <file name="pear-grabstats.php" role="www" />
+     <file name="pear.php.net.mirror" role="www" />
+     <file name="README" role="www" />
     </dir> <!-- /cron/mirror -->
-    <file name="apidoc-queue.php" role="web" />
-    <file name="bug-summary.php" role="web" />
-    <file name="bug-update-php-version.php" role="web" />
-    <file name="election_results.php" role="web" />
-    <file name="find-documentation.php" role="web" />
-    <file name="load-chm.sh" role="web" />
-    <file name="pepr.php" role="web" />
-    <file name="trackback-cleanup.php" role="web" />
-    <file name="update-website.php" role="web" />
+    <file name="apidoc-queue.php" role="www" />
+    <file name="bug-summary.php" role="www" />
+    <file name="bug-update-php-version.php" role="www" />
+    <file name="election_results.php" role="www" />
+    <file name="find-documentation.php" role="www" />
+    <file name="load-chm.sh" role="www" />
+    <file name="pepr.php" role="www" />
+    <file name="trackback-cleanup.php" role="www" />
+    <file name="update-website.php" role="www" />
    </dir> <!-- /cron -->
    <dir name="doc">
-    <file name="apache-setup.txt" role="web" />
-    <file name="karma.txt" role="web" />
-    <file name="logging.txt" role="web" />
-    <file name="pear_package_manager.txt" role="web" />
+    <file name="apache-setup.txt" role="www" />
+    <file name="karma.txt" role="www" />
+    <file name="logging.txt" role="www" />
+    <file name="pear_package_manager.txt" role="www" />
+    <file name="xmlrpc-api.txt" role="www" />
    </dir> <!-- /doc -->
    <dir name="include">
     <dir name="bugs">
      <dir name="Diff">
-      <file name="pearweb.php" role="web" />
+      <file name="pearweb.php" role="www" />
      </dir> <!-- /include/bugs/Diff -->
-     <file name="patchtracker.php" role="web" />
-     <file name="pear-bug-accountrequest.php" role="web" />
-     <file name="pear-bugs.php" role="web" />
-     <file name="pear.ini" role="web" />
-     <file name="pear.links.ini" role="web" />
+     <file name="patchtracker.php" role="www" />
+     <file name="pear-bug-accountrequest.php" role="www" />
+     <file name="pear-bugs.php" role="www" />
+     <file name="pear.ini" role="www" />
+     <file name="pear.links.ini" role="www" />
     </dir> <!-- /include/bugs -->
     <dir name="Damblan">
      <dir name="Log">
-      <file name="Mail.php" role="web" />
-      <file name="Print.php" role="web" />
+      <file name="Mail.php" role="www" />
+      <file name="Print.php" role="www" />
      </dir> <!-- /include/Damblan/Log -->
      <dir name="Mail">
-      <file name="Patch_Added.tpl.php" role="web" />
-      <file name="pearweb_account_request.tpl.php" role="web" />
-      <file name="pearweb_account_request_bug.tpl.php" role="web" />
-      <file name="pearweb_account_request_existing.tpl.php" role="web" />
-      <file name="pearweb_account_request_new.tpl.php" role="web" />
-      <file name="pearweb_account_request_vote.tpl.php" role="web" />
-      <file name="Trackback_Approve.tpl.php" role="web" />
-      <file name="Trackback_Delete.tpl.php" role="web" />
-      <file name="Trackback_New.tpl.php" role="web" />
+      <file name="Patch_Added.tpl.php" role="www" />
+      <file name="pearweb_account_request.tpl.php" role="www" />
+      <file name="pearweb_account_request_bug.tpl.php" role="www" />
+      <file name="pearweb_account_request_existing.tpl.php" role="www" />
+      <file name="pearweb_account_request_new.tpl.php" role="www" />
+      <file name="pearweb_account_request_vote.tpl.php" role="www" />
+      <file name="Trackback_Approve.tpl.php" role="www" />
+      <file name="Trackback_Delete.tpl.php" role="www" />
+      <file name="Trackback_New.tpl.php" role="www" />
      </dir> <!-- /include/Damblan/Mail -->
      <dir name="Search">
-      <file name="Lists.php" role="web" />
-      <file name="Packages.php" role="web" />
-      <file name="PEPr.php" role="web" />
-      <file name="Site.php" role="web" />
-      <file name="Users.php" role="web" />
+      <file name="Lists.php" role="www" />
+      <file name="Packages.php" role="www" />
+      <file name="PEPr.php" role="www" />
+      <file name="Site.php" role="www" />
+      <file name="Users.php" role="www" />
      </dir> <!-- /include/Damblan/Search -->
-     <file name="Bugs.php" role="web" />
-     <file name="Karma.php" role="web" />
-     <file name="Log.php" role="web" />
-     <file name="Mailer.php" role="web" />
-     <file name="Search.php" role="web" />
-     <file name="Site.php" role="web" />
-     <file name="Trackback.php" role="web" />
-     <file name="URL.php" role="web" />
+     <file name="Bugs.php" role="www" />
+     <file name="Karma.php" role="www" />
+     <file name="Log.php" role="www" />
+     <file name="Mailer.php" role="www" />
+     <file name="Search.php" role="www" />
+     <file name="Site.php" role="www" />
+     <file name="Trackback.php" role="www" />
+     <file name="URL.php" role="www" />
     </dir> <!-- /include/Damblan -->
     <dir name="DataObject">
-     <file name="Bugdb.php" role="web" />
-     <file name="Bugdb_comments.php" role="web" />
-     <file name="Bugdb_roadmap.php" role="web" />
-     <file name="Bugdb_roadmap_link.php" role="web" />
-     <file name="Categories.php" role="web" />
-     <file name="Maintains.php" role="web" />
-     <file name="Packages.php" role="web" />
-     <file name="Releases.php" role="web" />
-     <file name="Users.php" role="web" />
+     <file name="Bugdb.php" role="www" />
+     <file name="Bugdb_comments.php" role="www" />
+     <file name="Bugdb_roadmap.php" role="www" />
+     <file name="Bugdb_roadmap_link.php" role="www" />
+     <file name="Categories.php" role="www" />
+     <file name="Maintains.php" role="www" />
+     <file name="Packages.php" role="www" />
+     <file name="Releases.php" role="www" />
+     <file name="Users.php" role="www" />
     </dir> <!-- /include/DataObject -->
     <dir name="election">
-     <file name="pear-election-accountrequest.php" role="web" />
-     <file name="pear-election.php" role="web" />
-     <file name="pear-voter.php" role="web" />
+     <file name="pear-election-accountrequest.php" role="www" />
+     <file name="pear-election.php" role="www" />
+     <file name="pear-voter.php" role="www" />
     </dir> <!-- /include/election -->
     <dir name="fonts">
-     <file name="coolveti.ttf" role="web" />
+     <file name="coolveti.ttf" role="www" />
     </dir> <!-- /include/fonts -->
     <dir name="jpgraph">
-     <file name="jpgraph.php" role="web" />
-     <file name="jpgraph_bar.php" role="web" />
-     <file name="jpgraph_canvas.php" role="web" />
-     <file name="jpgraph_error.php" role="web" />
-     <file name="jpgraph_gantt.php" role="web" />
-     <file name="jpgraph_line.php" role="web" />
-     <file name="jpgraph_log.php" role="web" />
-     <file name="jpgraph_pie.php" role="web" />
-     <file name="jpgraph_pie3d.php" role="web" />
-     <file name="jpgraph_scatter.php" role="web" />
-     <file name="jpgraph_spider.php" role="web" />
+     <file name="jpgraph.php" role="www" />
+     <file name="jpgraph_bar.php" role="www" />
+     <file name="jpgraph_canvas.php" role="www" />
+     <file name="jpgraph_error.php" role="www" />
+     <file name="jpgraph_gantt.php" role="www" />
+     <file name="jpgraph_line.php" role="www" />
+     <file name="jpgraph_log.php" role="www" />
+     <file name="jpgraph_pie.php" role="www" />
+     <file name="jpgraph_pie3d.php" role="www" />
+     <file name="jpgraph_scatter.php" role="www" />
+     <file name="jpgraph_spider.php" role="www" />
     </dir> <!-- /include/jpgraph -->
     <dir name="notes">
-     <file name="ManualNotes.class.php" role="web" />
+     <file name="ManualNotes.class.php" role="www" />
     </dir> <!-- /include/notes -->
     <dir name="package">
-     <file name="releasehelper.php" role="web" />
+     <file name="releasehelper.php" role="www" />
     </dir> <!-- /include/package -->
     <dir name="pepr">
-     <file name="HTML_BBCodeParser_Filter_Extended.php" role="web" />
-     <file name="pepr-emails.php" role="web" />
-     <file name="pepr.php" role="web" />
+     <file name="HTML_BBCodeParser_Filter_Extended.php" role="www" />
+     <file name="pepr-emails.php" role="www" />
+     <file name="pepr.php" role="www" />
     </dir> <!-- /include/pepr -->
     <dir name="roadmap">
-     <file name="info.php" role="web" />
-     <file name="package-generator.php" role="web" />
+     <file name="info.php" role="www" />
+     <file name="package-generator.php" role="www" />
     </dir> <!-- /include/roadmap -->
     <dir name="tags">
-     <file name="Cloud.php" role="web" />
-     <file name="Manager.php" role="web" />
+     <file name="Cloud.php" role="www" />
+     <file name="Manager.php" role="www" />
     </dir> <!-- /include/tags -->
     <dir name="users">
-     <file name="passwordmanage.php" role="web" />
+     <file name="passwordmanage.php" role="www" />
     </dir> <!-- /include/users -->
-    <file name="browser.php" role="web" />
-    <file name="pear-auth.php" role="web" />
-    <file name="pear-category.php" role="web" />
-    <file name="pear-config.php" role="web" />
-    <file name="pear-database-category.php" role="web" />
-    <file name="pear-database-channel.php" role="web" />
-    <file name="pear-database-maintainer.php" role="web" />
-    <file name="pear-database-note.php" role="web" />
-    <file name="pear-database-package.php" role="web" />
-    <file name="pear-database-release.php" role="web" />
-    <file name="pear-database-statistics.php" role="web" />
-    <file name="pear-database-user.php" role="web" />
-    <file name="pear-format-html-form.php" role="web" />
-    <file name="pear-format-html.php" role="web" />
-    <file name="pear-manual.php" role="web" />
-    <file name="pear-patches.php" role="web" />
-    <file name="pear-prepend.php" role="web" />
-    <file name="pear-rest.php" role="web" />
-    <file name="site.php" role="web" />
+    <file name="browser.php" role="www" />
+    <file name="pear-auth.php" role="www" />
+    <file name="pear-category.php" role="www" />
+    <file name="pear-config.php" role="www" />
+    <file name="pear-database-category.php" role="www" />
+    <file name="pear-database-channel.php" role="www" />
+    <file name="pear-database-maintainer.php" role="www" />
+    <file name="pear-database-note.php" role="www" />
+    <file name="pear-database-package.php" role="www" />
+    <file name="pear-database-release.php" role="www" />
+    <file name="pear-database-statistics.php" role="www" />
+    <file name="pear-database-user.php" role="www" />
+    <file name="pear-format-html-form.php" role="www" />
+    <file name="pear-format-html.php" role="www" />
+    <file name="pear-manual.php" role="www" />
+    <file name="pear-patches.php" role="www" />
+    <file name="pear-prepend.php" role="www" />
+    <file name="pear-rest.php" role="www" />
+    <file name="site.php" role="www" />
    </dir> <!-- /include -->
    <dir name="public_html">
     <dir name="about">
-     <file name="damblan.php" role="web" />
-     <file name="forgot-password.php" role="web" />
+     <file name="damblan.php" role="www" />
+     <file name="forgot-password.php" role="www" />
     </dir> <!-- /public_html/about -->
     <dir name="account">
-     <file name="password-confirm-change.php" role="web" />
+     <file name="password-confirm-change.php" role="www" />
     </dir> <!-- /public_html/account -->
     <dir name="admin">
-     <file name="apidoc-log.php" role="web" />
-     <file name="category-manager.php" role="web" />
-     <file name="chm-upload.php" role="web" />
-     <file name="index.php" role="web" />
-     <file name="karma.php" role="web" />
-     <file name="package-approval.php" role="web" />
-     <file name="package-maintainers.php" role="web" />
-     <file name="tags.php" role="web" />
+     <file name="apidoc-log.php" role="www" />
+     <file name="category-manager.php" role="www" />
+     <file name="chm-upload.php" role="www" />
+     <file name="index.php" role="www" />
+     <file name="karma.php" role="www" />
+     <file name="package-approval.php" role="www" />
+     <file name="package-maintainers.php" role="www" />
+     <file name="tags.php" role="www" />
     </dir> <!-- /public_html/admin -->
     <dir name="bugs">
      <dir name="include">
-      <file name="cvs-auth.inc" role="web" />
-      <file name="functions.inc" role="web" />
-      <file name="layout.inc" role="web" />
-      <file name="php_versions.php" role="web" />
-      <file name="prepend.inc" role="web" />
-      <file name="resolve.inc" role="web" />
-      <file name="trusted-devs.inc" role="web" />
+      <file name="cvs-auth.inc" role="www" />
+      <file name="functions.inc" role="www" />
+      <file name="layout.inc" role="www" />
+      <file name="php_versions.php" role="www" />
+      <file name="prepend.inc" role="www" />
+      <file name="resolve.inc" role="www" />
+      <file name="trusted-devs.inc" role="www" />
      </dir> <!-- /public_html/bugs/include -->
      <dir name="rss">
-      <file name="bug.php" role="web" />
-      <file name="search.php" role="web" />
+      <file name="bug.php" role="www" />
+      <file name="search.php" role="www" />
      </dir> <!-- /public_html/bugs/rss -->
-     <file name="bug-pwd-finder.php" role="web" />
-     <file name="bug.php" role="web" />
-     <file name="index.php" role="web" />
-     <file name="lstat.php" role="web" />
-     <file name="patch-add.php" role="web" />
-     <file name="patch-display.php" role="web" />
-     <file name="quick-fix-desc.php" role="web" />
-     <file name="report.php" role="web" />
-     <file name="resend-request-email.php" role="web" />
-     <file name="roadmap.php" role="web" />
-     <file name="search.php" role="web" />
-     <file name="stats.php" role="web" />
+     <file name="bug-pwd-finder.php" role="www" />
+     <file name="bug.php" role="www" />
+     <file name="index.php" role="www" />
+     <file name="lstat.php" role="www" />
+     <file name="patch-add.php" role="www" />
+     <file name="patch-display.php" role="www" />
+     <file name="quick-fix-desc.php" role="www" />
+     <file name="report.php" role="www" />
+     <file name="resend-request-email.php" role="www" />
+     <file name="roadmap.php" role="www" />
+     <file name="search.php" role="www" />
+     <file name="stats.php" role="www" />
     </dir> <!-- /public_html/bugs -->
     <dir name="channels">
-     <file name="add.php" role="web" />
-     <file name="index.php" role="web" />
+     <file name="add.php" role="www" />
+     <file name="index.php" role="www" />
     </dir> <!-- /public_html/channels -->
     <dir name="css">
-     <file name="bugs-controls.css" role="web" />
-     <file name="bugs.css" role="web" />
-     <file name="manual.css" role="web" />
-     <file name="packages_status.css" role="web" />
-     <file name="style.css" role="web" />
-     <file name="tabs.css" role="web" />
-     <file name="thickbox.css" role="web" />
+     <file name="bugs-controls.css" role="www" />
+     <file name="bugs.css" role="www" />
+     <file name="manual.css" role="www" />
+     <file name="packages_status.css" role="www" />
+     <file name="style.css" role="www" />
+     <file name="tabs.css" role="www" />
+     <file name="thickbox.css" role="www" />
     </dir> <!-- /public_html/css -->
     <dir name="doc">
-     <file name="index.php" role="web" />
+     <file name="index.php" role="www" />
     </dir> <!-- /public_html/doc -->
     <dir name="downloads">
-     <file name="pear-folder.ico" role="web" />
-     <file name="pear-folder.svg" role="web" />
-     <file name="pear-logos.svg" role="web" />
-     <file name="pear-poster.pdf" role="web" />
+     <file name="pear-folder.ico" role="www" />
+     <file name="pear-folder.svg" role="www" />
+     <file name="pear-logos.svg" role="www" />
+     <file name="pear-poster.pdf" role="www" />
     </dir> <!-- /public_html/downloads -->
     <dir name="dtd">
-     <file name="channel-1.0.xsd" role="web" />
-     <file name="index.php" role="web" />
-     <file name="package-1.0" role="web" />
-     <file name="package-1.0.xsd" role="web" />
-     <file name="package-2.0.xsd" role="web" />
-     <file name="package-2.1.xsd" role="web" />
-     <file name="package1_0to2_0.xsl" role="web" />
-     <file name="rest.allcategories.xsd" role="web" />
-     <file name="rest.allmaintainers.xsd" role="web" />
-     <file name="rest.allpackages.xsd" role="web" />
-     <file name="rest.allreleases.xsd" role="web" />
-     <file name="rest.allreleases2.xsd" role="web" />
-     <file name="rest.category.xsd" role="web" />
-     <file name="rest.categorypackageinfo.xsd" role="web" />
-     <file name="rest.categorypackages.xsd" role="web" />
-     <file name="rest.maintainer.xsd" role="web" />
-     <file name="rest.package.xsd" role="web" />
-     <file name="rest.packagemaintainers.xsd" role="web" />
-     <file name="rest.packagemaintainers2.xsd" role="web" />
-     <file name="rest.release.xsd" role="web" />
-     <file name="rest.release2.xsd" role="web" />
-     <file name="tasks-1.0.xsd" role="web" />
+     <file name="channel-1.0.xsd" role="www" />
+     <file name="index.php" role="www" />
+     <file name="package-1.0" role="www" />
+     <file name="package-1.0.xsd" role="www" />
+     <file name="package-2.0.xsd" role="www" />
+     <file name="package-2.1.xsd" role="www" />
+     <file name="package1_0to2_0.xsl" role="www" />
+     <file name="rest.allcategories.xsd" role="www" />
+     <file name="rest.allmaintainers.xsd" role="www" />
+     <file name="rest.allpackages.xsd" role="www" />
+     <file name="rest.allreleases.xsd" role="www" />
+     <file name="rest.allreleases2.xsd" role="www" />
+     <file name="rest.category.xsd" role="www" />
+     <file name="rest.categorypackageinfo.xsd" role="www" />
+     <file name="rest.categorypackages.xsd" role="www" />
+     <file name="rest.maintainer.xsd" role="www" />
+     <file name="rest.package.xsd" role="www" />
+     <file name="rest.packagemaintainers.xsd" role="www" />
+     <file name="rest.packagemaintainers2.xsd" role="www" />
+     <file name="rest.release.xsd" role="www" />
+     <file name="rest.release2.xsd" role="www" />
+     <file name="tasks-1.0.xsd" role="www" />
     </dir> <!-- /public_html/dtd -->
     <dir name="election">
-     <file name="edit.php" role="web" />
-     <file name="index.php" role="web" />
-     <file name="info.php" role="web" />
-     <file name="new.php" role="web" />
+     <file name="edit.php" role="www" />
+     <file name="index.php" role="www" />
+     <file name="info.php" role="www" />
+     <file name="new.php" role="www" />
     </dir> <!-- /public_html/election -->
     <dir name="error">
-     <file name="404-manual.php" role="web" />
-     <file name="404.php" role="web" />
+     <file name="404-manual.php" role="www" />
+     <file name="404.php" role="www" />
     </dir> <!-- /public_html/error -->
     <dir name="feeds">
-     <file name="feeds.php" role="web" />
-     <file name="index.php" role="web" />
+     <file name="feeds.php" role="www" />
+     <file name="index.php" role="www" />
     </dir> <!-- /public_html/feeds -->
     <dir name="gifs">
      <dir name="books">
-      <file name="1904811191.png" role="web" />
-      <file name="foundations-of-pear.gif" role="web" />
+      <file name="1904811191.png" role="www" />
+      <file name="foundations-of-pear.gif" role="www" />
      </dir> <!-- /public_html/gifs/books -->
      <dir name="TreeMenu">
-      <file name="branch.gif" role="web" />
-      <file name="branchbottom.gif" role="web" />
-      <file name="branchtop.gif" role="web" />
-      <file name="folder.gif" role="web" />
-      <file name="line.gif" role="web" />
-      <file name="linebottom.gif" role="web" />
-      <file name="minus.gif" role="web" />
-      <file name="minusbottom.gif" role="web" />
-      <file name="minustop.gif" role="web" />
-      <file name="plus.gif" role="web" />
-      <file name="plusbottom.gif" role="web" />
-      <file name="plustop.gif" role="web" />
+      <file name="branch.gif" role="www" />
+      <file name="branchbottom.gif" role="www" />
+      <file name="branchtop.gif" role="www" />
+      <file name="folder.gif" role="www" />
+      <file name="line.gif" role="www" />
+      <file name="linebottom.gif" role="www" />
+      <file name="minus.gif" role="www" />
+      <file name="minusbottom.gif" role="www" />
+      <file name="minustop.gif" role="www" />
+      <file name="plus.gif" role="www" />
+      <file name="plusbottom.gif" role="www" />
+      <file name="plustop.gif" role="www" />
      </dir> <!-- /public_html/gifs/TreeMenu -->
-     <file name="arrow_top.gif" role="web" />
-     <file name="beta_bg.gif" role="web" />
-     <file name="black.gif" role="web" />
-     <file name="blank.gif" role="web" />
-     <file name="box-0.gif" role="web" />
-     <file name="box-1.gif" role="web" />
-     <file name="calendar.gif" role="web" />
-     <file name="caret-l.gif" role="web" />
-     <file name="caret-r.gif" role="web" />
-     <file name="caret-t.gif" role="web" />
-     <file name="caret-u.gif" role="web" />
-     <file name="checkerboard.gif" role="web" />
-     <file name="close.gif" role="web" />
-     <file name="delete.gif" role="web" />
-     <file name="dynCalendar.gif" role="web" />
-     <file name="edit.gif" role="web" />
-     <file name="favicon.ico" role="web" />
-     <file name="feed.png" role="web" />
-     <file name="loadingAnimation.gif" role="web" />
-     <file name="moreinfo-no.gif" role="web" />
-     <file name="moreinfo-yes.gif" role="web" />
-     <file name="moreinfo.gif" role="web" />
-     <file name="next.gif" role="web" />
-     <file name="pear-blogbutton1.png" role="web" />
-     <file name="pear-blogbutton2.png" role="web" />
-     <file name="pear-eps.png" role="web" />
-     <file name="pear-icon.gif" role="web" />
-     <file name="pear-icon.png" role="web" />
-     <file name="pear-poster.png" role="web" />
-     <file name="pear-power.gif" role="web" />
-     <file name="pear-power.png" role="web" />
-     <file name="pear.gif" role="web" />
-     <file name="pearpoint.gif" role="web" />
-     <file name="pearsmall.gif" role="web" />
-     <file name="pear_item.gif" role="web" />
-     <file name="pecl-icon.gif" role="web" />
-     <file name="pecl-icon.png" role="web" />
-     <file name="pecl-power.gif" role="web" />
-     <file name="pecl-power.png" role="web" />
-     <file name="pecl.gif" role="web" />
-     <file name="peclsmall.gif" role="web" />
-     <file name="pecl_item.gif" role="web" />
-     <file name="php-logo.gif" role="web" />
-     <file name="phpmag02cover.gif" role="web" />
-     <file name="phpmagazine.gif" role="web" />
-     <file name="prev.gif" role="web" />
-     <file name="small_submit_black.gif" role="web" />
-     <file name="small_submit_white.gif" role="web" />
-     <file name="spacer.gif" role="web" />
-     <file name="tri-back.gif" role="web" />
-     <file name="tri.gif" role="web" />
+     <file name="arrow_top.gif" role="www" />
+     <file name="beta_bg.gif" role="www" />
+     <file name="black.gif" role="www" />
+     <file name="blank.gif" role="www" />
+     <file name="box-0.gif" role="www" />
+     <file name="box-1.gif" role="www" />
+     <file name="calendar.gif" role="www" />
+     <file name="caret-l.gif" role="www" />
+     <file name="caret-r.gif" role="www" />
+     <file name="caret-t.gif" role="www" />
+     <file name="caret-u.gif" role="www" />
+     <file name="checkerboard.gif" role="www" />
+     <file name="close.gif" role="www" />
+     <file name="delete.gif" role="www" />
+     <file name="dynCalendar.gif" role="www" />
+     <file name="edit.gif" role="www" />
+     <file name="favicon.ico" role="www" />
+     <file name="feed.png" role="www" />
+     <file name="loadingAnimation.gif" role="www" />
+     <file name="moreinfo-no.gif" role="www" />
+     <file name="moreinfo-yes.gif" role="www" />
+     <file name="moreinfo.gif" role="www" />
+     <file name="next.gif" role="www" />
+     <file name="pear-blogbutton1.png" role="www" />
+     <file name="pear-blogbutton2.png" role="www" />
+     <file name="pear-eps.png" role="www" />
+     <file name="pear-icon.gif" role="www" />
+     <file name="pear-icon.png" role="www" />
+     <file name="pear-poster.png" role="www" />
+     <file name="pear-power.gif" role="www" />
+     <file name="pear-power.png" role="www" />
+     <file name="pear.gif" role="www" />
+     <file name="pearpoint.gif" role="www" />
+     <file name="pearsmall.gif" role="www" />
+     <file name="pear_item.gif" role="www" />
+     <file name="pecl-icon.gif" role="www" />
+     <file name="pecl-icon.png" role="www" />
+     <file name="pecl-power.gif" role="www" />
+     <file name="pecl-power.png" role="www" />
+     <file name="pecl.gif" role="www" />
+     <file name="peclsmall.gif" role="www" />
+     <file name="pecl_item.gif" role="www" />
+     <file name="php-logo.gif" role="www" />
+     <file name="phpmag02cover.gif" role="www" />
+     <file name="phpmagazine.gif" role="www" />
+     <file name="prev.gif" role="www" />
+     <file name="small_submit_black.gif" role="www" />
+     <file name="small_submit_white.gif" role="www" />
+     <file name="spacer.gif" role="www" />
+     <file name="tri-back.gif" role="www" />
+     <file name="tri.gif" role="www" />
     </dir> <!-- /public_html/gifs -->
     <dir name="javascript">
      <dir name="calendar">
-      <file name="browserSniffer.js" role="web" />
-      <file name="dynCalendar.css" role="web" />
-      <file name="dynCalendar.js" role="web" />
+      <file name="browserSniffer.js" role="www" />
+      <file name="dynCalendar.css" role="www" />
+      <file name="dynCalendar.js" role="www" />
      </dir> <!-- /public_html/javascript/calendar -->
      <dir name="TreeMenu">
-      <file name="TreeMenu.js" role="web" />
+      <file name="TreeMenu.js" role="www" />
      </dir> <!-- /public_html/javascript/TreeMenu -->
-     <file name="jquery.js" role="web" />
-     <file name="md5.js" role="web" />
-     <file name="package-maintainers.js" role="web" />
-     <file name="peardev_map.js" role="web" />
-     <file name="pear_editor.js" role="web" />
-     <file name="popmap.js" role="web" />
-     <file name="showmap.js" role="web" />
-     <file name="sorttable.js" role="web" />
-     <file name="thickbox.js" role="web" />
+     <file name="jquery.js" role="www" />
+     <file name="md5.js" role="www" />
+     <file name="package-maintainers.js" role="www" />
+     <file name="peardev_map.js" role="www" />
+     <file name="pear_editor.js" role="www" />
+     <file name="popmap.js" role="www" />
+     <file name="showmap.js" role="www" />
+     <file name="sorttable.js" role="www" />
+     <file name="thickbox.js" role="www" />
     </dir> <!-- /public_html/javascript -->
     <dir name="manual">
-     <file name="index.php" role="web" />
+     <file name="index.php" role="www" />
     </dir> <!-- /public_html/manual -->
     <dir name="map">
-     <file name="index.php" role="web" />
-     <file name="locationREST.php" role="web" />
+     <file name="index.php" role="www" />
+     <file name="locationREST.php" role="www" />
     </dir> <!-- /public_html/map -->
     <dir name="notes">
      <dir name="admin">
-      <file name="index.php" role="web" />
-      <file name="trans.php" role="web" />
-      <file name="view-note.php" role="web" />
+      <file name="index.php" role="www" />
+      <file name="trans.php" role="www" />
+      <file name="view-note.php" role="www" />
      </dir> <!-- /public_html/notes/admin -->
-     <file name="add-note-form.php" role="web" />
-     <file name="add-note.php" role="web" />
+     <file name="add-note-form.php" role="www" />
+     <file name="add-note.php" role="www" />
     </dir> <!-- /public_html/notes -->
     <dir name="pepr">
-     <file name="index.php" role="web" />
-     <file name="pepr-bbcode-help.php" role="web" />
-     <file name="pepr-comments-show.php" role="web" />
-     <file name="pepr-proposal-delete.php" role="web" />
-     <file name="pepr-proposal-edit.php" role="web" />
-     <file name="pepr-proposal-show.php" role="web" />
-     <file name="pepr-qa-stats.php" role="web" />
-     <file name="pepr-vote-show.php" role="web" />
-     <file name="pepr-votes-show.php" role="web" />
+     <file name="index.php" role="www" />
+     <file name="pepr-bbcode-help.php" role="www" />
+     <file name="pepr-comments-show.php" role="www" />
+     <file name="pepr-proposal-delete.php" role="www" />
+     <file name="pepr-proposal-edit.php" role="www" />
+     <file name="pepr-proposal-show.php" role="www" />
+     <file name="pepr-qa-stats.php" role="www" />
+     <file name="pepr-vote-show.php" role="www" />
+     <file name="pepr-votes-show.php" role="www" />
     </dir> <!-- /public_html/pepr -->
     <dir name="pngs">
-     <file name="dev.png" role="web" />
-     <file name="pearpoint.png" role="web" />
-     <file name="users.png" role="web" />
+     <file name="dev.png" role="www" />
+     <file name="pearpoint.png" role="www" />
+     <file name="users.png" role="www" />
     </dir> <!-- /public_html/pngs -->
     <dir name="qa">
-     <file name="index.php" role="web" />
-     <file name="packages_orphan.php" role="web" />
-     <file name="packages_status.php" role="web" />
-     <file name="packages_status_detail.php" role="web" />
+     <file name="index.php" role="www" />
+     <file name="packages_orphan.php" role="www" />
+     <file name="packages_status.php" role="www" />
+     <file name="packages_status_detail.php" role="www" />
     </dir> <!-- /public_html/qa -->
     <dir name="sidebar">
-     <file name="pear.src" role="web" />
+     <file name="pear.src" role="www" />
     </dir> <!-- /public_html/sidebar -->
     <dir name="tags">
-     <file name="admin.php" role="web" />
-     <file name="packages.php" role="web" />
+     <file name="admin.php" role="www" />
+     <file name="packages.php" role="www" />
     </dir> <!-- /public_html/tags -->
     <dir name="trackback">
-     <file name="trackback-admin.php" role="web" />
-     <file name="trackback-overview.php" role="web" />
-     <file name="trackback.php" role="web" />
+     <file name="trackback-admin.php" role="www" />
+     <file name="trackback-overview.php" role="www" />
+     <file name="trackback.php" role="www" />
     </dir> <!-- /public_html/trackback -->
-    <file name="account-edit.php" role="web" />
-    <file name="account-info.php" role="web" />
-    <file name="account-mail.php" role="web" />
-    <file name="account-request-confirm.php" role="web" />
-    <file name="account-request-existingpackage.php" role="web" />
-    <file name="account-request-newpackage.php" role="web" />
-    <file name="account-request-vote.php" role="web" />
-    <file name="account-request.php" role="web" />
-    <file name="accounts.php" role="web" />
-    <file name="advisory-20051104.txt" role="web" />
-    <file name="advisory-20060108.txt" role="web" />
-    <file name="advisory-20070507.txt" role="web" />
-    <file name="favicon.ico" role="web" />
-    <file name="get" role="web" />
-    <file name="gophp5.php" role="web" />
-    <file name="login.php" role="web" />
-    <file name="package-changelog.php" role="web" />
-    <file name="package-delete.php" role="web" />
-    <file name="package-edit.php" role="web" />
-    <file name="package-info.php" role="web" />
-    <file name="package-new.php" role="web" />
-    <file name="package-stats-graph.php" role="web" />
-    <file name="package-stats.php" role="web" />
-    <file name="packages.php" role="web" />
-    <file name="release-upload.php" role="web" />
-    <file name="rest-login.php" role="web" />
-    <file name="robots.txt" role="web" />
-    <file name="search.php" role="web" />
-    <file name="wishlist.php" role="web" />
+    <file name="account-edit.php" role="www" />
+    <file name="account-info.php" role="www" />
+    <file name="account-mail.php" role="www" />
+    <file name="account-request-confirm.php" role="www" />
+    <file name="account-request-existingpackage.php" role="www" />
+    <file name="account-request-newpackage.php" role="www" />
+    <file name="account-request-vote.php" role="www" />
+    <file name="account-request.php" role="www" />
+    <file name="accounts.php" role="www" />
+    <file name="advisory-20051104.txt" role="www" />
+    <file name="advisory-20060108.txt" role="www" />
+    <file name="advisory-20070507.txt" role="www" />
+    <file name="favicon.ico" role="www" />
+    <file name="get" role="www" />
+    <file name="gophp5.php" role="www" />
+    <file name="login.php" role="www" />
+    <file name="package-changelog.php" role="www" />
+    <file name="package-delete.php" role="www" />
+    <file name="package-edit.php" role="www" />
+    <file name="package-info.php" role="www" />
+    <file name="package-new.php" role="www" />
+    <file name="package-stats-graph.php" role="www" />
+    <file name="package-stats.php" role="www" />
+    <file name="packages.php" role="www" />
+    <file name="release-upload.php" role="www" />
+    <file name="rest-login.php" role="www" />
+    <file name="robots.txt" role="www" />
+    <file name="search.php" role="www" />
+    <file name="wishlist.php" role="www" />
    </dir> <!-- /public_html -->
    <dir name="rfc">
-    <file name="003-dependencies.txt" role="web" />
-    <file name="stats.txt" role="web" />
+    <file name="003-dependencies.txt" role="www" />
+    <file name="stats.txt" role="www" />
    </dir> <!-- /rfc -->
    <dir name="sql">
-    <file name="aggregated_package_stats.sql" role="web" />
-    <file name="apidoc_queue.sql" role="web" />
-    <file name="bugs.sql" role="web" />
-    <file name="categories.sql" role="web" />
-    <file name="channels.sql" role="web" />
-    <file name="create2drop" role="web" />
-    <file name="createdb.sql" role="web" />
-    <file name="cvs_acl.sql" role="web" />
-    <file name="cvs_groups.sql" role="web" />
-    <file name="cvs_group_membership.sql" role="web" />
-    <file name="deps.sql" role="web" />
-    <file name="design.txt" role="web" />
-    <file name="dropdb.sql" role="web" />
-    <file name="election.sql" role="web" />
-    <file name="files.sql" role="web" />
-    <file name="karma.sql" role="web" />
-    <file name="maintains.sql" role="web" />
-    <file name="Makefile" role="web" />
-    <file name="manual_notes.sql" role="web" />
-    <file name="mirrors.sql" role="web" />
-    <file name="notes.sql" role="web" />
-    <file name="packages.sql" role="web" />
-    <file name="package_stats.sql" role="web" />
-    <file name="pearweb_mdb2schema.xml" role="web" />
-    <file name="pepr.sql" role="web" />
-    <file name="process_mysqldump_for5.sh" role="web" />
-    <file name="README" role="web" />
-    <file name="releases.sql" role="web" />
-    <file name="tags.sql" role="web" />
-    <file name="users.sql" role="web" />
+    <file name="aggregated_package_stats.sql" role="www" />
+    <file name="apidoc_queue.sql" role="www" />
+    <file name="bugs.sql" role="www" />
+    <file name="categories.sql" role="www" />
+    <file name="channels.sql" role="www" />
+    <file name="create2drop" role="www" />
+    <file name="createdb.sql" role="www" />
+    <file name="cvs_acl.sql" role="www" />
+    <file name="cvs_groups.sql" role="www" />
+    <file name="cvs_group_membership.sql" role="www" />
+    <file name="deps.sql" role="www" />
+    <file name="design.txt" role="www" />
+    <file name="dropdb.sql" role="www" />
+    <file name="election.sql" role="www" />
+    <file name="files.sql" role="www" />
+    <file name="karma.sql" role="www" />
+    <file name="maintains.sql" role="www" />
+    <file name="Makefile" role="www" />
+    <file name="manual_notes.sql" role="www" />
+    <file name="mirrors.sql" role="www" />
+    <file name="notes.sql" role="www" />
+    <file name="packages.sql" role="www" />
+    <file name="package_stats.sql" role="www" />
+    <file name="pearweb_mdb2schema.xml" role="www" />
+    <file name="pepr.sql" role="www" />
+    <file name="process_mysqldump_for5.sh" role="www" />
+    <file name="README" role="www" />
+    <file name="releases.sql" role="www" />
+    <file name="tags.sql" role="www" />
+    <file name="users.sql" role="www" />
    </dir> <!-- /sql -->
    <dir name="templates">
     <dir name="bugs">
-     <file name="addpatch.php" role="web" />
-     <file name="listpatches.php" role="web" />
-     <file name="patchadded.php" role="web" />
-     <file name="patchdiff.php" role="web" />
-     <file name="patchdisplay.php" role="web" />
-     <file name="patchform.php" role="web" />
-     <file name="registernewaccount.php" role="web" />
-     <file name="roadmap.php" role="web" />
-     <file name="roadmapadd.php" role="web" />
-     <file name="roadmapform.php" role="web" />
-     <file name="roadmap_packagexml.php" role="web" />
-     <file name="searchresults.php" role="web" />
+     <file name="addpatch.php" role="www" />
+     <file name="listpatches.php" role="www" />
+     <file name="patchadded.php" role="www" />
+     <file name="patchdiff.php" role="www" />
+     <file name="patchdisplay.php" role="www" />
+     <file name="patchform.php" role="www" />
+     <file name="registernewaccount.php" role="www" />
+     <file name="roadmap.php" role="www" />
+     <file name="roadmapadd.php" role="www" />
+     <file name="roadmapform.php" role="www" />
+     <file name="roadmap_packagexml.php" role="www" />
+     <file name="searchresults.php" role="www" />
     </dir> <!-- /templates/bugs -->
     <dir name="notes">
-     <file name="add-note-form.tpl.php" role="web" />
-     <file name="add-note.tpl.php" role="web" />
-     <file name="note-manage-admin.tpl.php" role="web" />
-     <file name="note-manage-links.tpl.php" role="web" />
-     <file name="note.tpl.php" role="web" />
-     <file name="view-full-note.tpl.php" role="web" />
+     <file name="add-note-form.tpl.php" role="www" />
+     <file name="add-note.tpl.php" role="www" />
+     <file name="note-manage-admin.tpl.php" role="www" />
+     <file name="note-manage-links.tpl.php" role="www" />
+     <file name="note.tpl.php" role="www" />
+     <file name="view-full-note.tpl.php" role="www" />
     </dir> <!-- /templates/notes -->
     <dir name="release">
-     <file name="upload-form.php" role="web" />
-     <file name="verification-form.php" role="web" />
+     <file name="upload-form.php" role="www" />
+     <file name="verification-form.php" role="www" />
     </dir> <!-- /templates/release -->
     <dir name="tags">
-     <file name="admin.tpl.php" role="web" />
-     <file name="cloud.tpl.php" role="web" />
-     <file name="package.tpl.php" role="web" />
+     <file name="admin.tpl.php" role="www" />
+     <file name="cloud.tpl.php" role="www" />
+     <file name="package.tpl.php" role="www" />
     </dir> <!-- /templates/tags -->
     <dir name="users">
-     <file name="lostpassword.php" role="web" />
-     <file name="passwordform.php" role="web" />
-     <file name="passwordreset.php" role="web" />
-     <file name="passwordresetconfirmed.php" role="web" />
+     <file name="lostpassword.php" role="www" />
+     <file name="passwordform.php" role="www" />
+     <file name="passwordreset.php" role="www" />
+     <file name="passwordresetconfirmed.php" role="www" />
     </dir> <!-- /templates/users -->
-    <file name="category-manager.html" role="web" />
-    <file name="election-confirm.tpl.php" role="web" />
-    <file name="election-confirmed.tpl.php" role="web" />
-    <file name="election-dovote.tpl.php" role="web" />
-    <file name="election-listforedit.tpl.php" role="web" />
-    <file name="election-new-step1.tpl.php" role="web" />
-    <file name="election-new-step2.tpl.php" role="web" />
-    <file name="election-new-step3.tpl.php" role="web" />
-    <file name="election-pending.tpl.php" role="web" />
-    <file name="election-register.tpl.php" role="web" />
-    <file name="election-results.tpl.php" role="web" />
-    <file name="election-showresults.tpl.php" role="web" />
-    <file name="election-vote.tpl.php" role="web" />
-    <file name="packages.html" role="web" />
+    <file name="category-manager.html" role="www" />
+    <file name="election-confirm.tpl.php" role="www" />
+    <file name="election-confirmed.tpl.php" role="www" />
+    <file name="election-dovote.tpl.php" role="www" />
+    <file name="election-listforedit.tpl.php" role="www" />
+    <file name="election-new-step1.tpl.php" role="www" />
+    <file name="election-new-step2.tpl.php" role="www" />
+    <file name="election-new-step3.tpl.php" role="www" />
+    <file name="election-pending.tpl.php" role="www" />
+    <file name="election-register.tpl.php" role="www" />
+    <file name="election-results.tpl.php" role="www" />
+    <file name="election-showresults.tpl.php" role="www" />
+    <file name="election-vote.tpl.php" role="www" />
+    <file name="packages.html" role="www" />
    </dir> <!-- /templates -->
    <dir name="weeklynews">
     <dir name="locale">
      <dir name="de">
       <dir name="LC_MESSAGES">
-       <file name="weeklynews.mo" role="web" />
-       <file name="weeklynews.po" role="web" />
+       <file name="weeklynews.mo" role="www" />
+       <file name="weeklynews.po" role="www" />
       </dir> <!-- /weeklynews/locale/de/LC_MESSAGES -->
      </dir> <!-- /weeklynews/locale/de -->
      <dir name="en">
       <dir name="LC_MESSAGES">
-       <file name="weeklynews.mo" role="web" />
-       <file name="weeklynews.po" role="web" />
+       <file name="weeklynews.mo" role="www" />
+       <file name="weeklynews.po" role="www" />
       </dir> <!-- /weeklynews/locale/en/LC_MESSAGES -->
      </dir> <!-- /weeklynews/locale/en -->
      <dir name="es">
       <dir name="LC_MESSAGES">
-       <file name="weeklynews.mo" role="web" />
-       <file name="weeklynews.po" role="web" />
+       <file name="weeklynews.mo" role="www" />
+       <file name="weeklynews.po" role="www" />
       </dir> <!-- /weeklynews/locale/es/LC_MESSAGES -->
      </dir> <!-- /weeklynews/locale/es -->
      <dir name="fr">
       <dir name="LC_MESSAGES">
-       <file name="weeklynews.mo" role="web" />
-       <file name="weeklynews.po" role="web" />
+       <file name="weeklynews.mo" role="www" />
+       <file name="weeklynews.po" role="www" />
       </dir> <!-- /weeklynews/locale/fr/LC_MESSAGES -->
      </dir> <!-- /weeklynews/locale/fr -->
      <dir name="pl">
       <dir name="LC_MESSAGES">
-       <file name="weeklynews.mo" role="web" />
-       <file name="weeklynews.po" role="web" />
+       <file name="weeklynews.mo" role="www" />
+       <file name="weeklynews.po" role="www" />
       </dir> <!-- /weeklynews/locale/pl/LC_MESSAGES -->
      </dir> <!-- /weeklynews/locale/pl -->
      <dir name="pt_BR">
       <dir name="LC_MESSAGES">
-       <file name="weeklynews.mo" role="web" />
-       <file name="weeklynews.po" role="web" />
+       <file name="weeklynews.mo" role="www" />
+       <file name="weeklynews.po" role="www" />
       </dir> <!-- /weeklynews/locale/pt_BR/LC_MESSAGES -->
      </dir> <!-- /weeklynews/locale/pt_BR -->
     </dir> <!-- /weeklynews/locale -->
-    <file name="weeklynews-2002.tar.gz" role="web" />
-    <file name="weeklynews-2003.tar.gz" role="web" />
+    <file name="weeklynews-2002.tar.gz" role="www" />
+    <file name="weeklynews-2003.tar.gz" role="www" />
    </dir> <!-- /weeklynews -->
-   <file name="generateREST.php" role="web" />
-   <file name="package-index.xml" role="web" />
+   <file name="generateREST.php" role="www" />
+   <file name="package-index.xml" role="www" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
@@ -758,9 +759,9 @@
     <tasks:replace from="@php-dir@" to="php_dir" type="pear-config" />
     <tasks:replace from="@version@" to="version" type="package-info" />
    </file>
-   <file name="processReleases.php" role="web" />
-   <file name="README" role="web" />
-   <file name="TODO" role="web" />
+   <file name="processReleases.php" role="www" />
+   <file name="README" role="www" />
+   <file name="TODO" role="www" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -769,12 +770,12 @@
     <min>5.2.0</min>
    </php>
    <pearinstaller>
-    <min>1.4.11</min>
+    <min>1.7.0RC1</min>
    </pearinstaller>
    <package>
     <name>PEAR</name>
     <channel>pear.php.net</channel>
-    <min>1.5.0</min>
+    <min>1.7.0RC1</min>
    </package>
    <package>
     <name>Archive_Tar</name>
@@ -942,11 +943,6 @@
    </package>
   </group>
  </dependencies>
- <usesrole>
-  <role>web</role>
-  <package>Role_Web</package>
-  <channel>pearified.com</channel>
- </usesrole>
  <phprelease />
  <changelog>
   <release>
@@ -2201,7 +2197,7 @@ Split off index-updated files into pearweb_index package</notes>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-12-06</date>
+   <date>2007-12-07</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * Fix Bug #9476: schema validation error on postinstall script [dufuz]

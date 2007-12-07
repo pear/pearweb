@@ -5,7 +5,7 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
     array(
         'baseinstalldir' => '/',
         'filelistgenerator' => 'cvs',
-        'roles' => array('*' => 'web'),
+        'roles' => array('*' => 'www'),
         'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
         'ignore' => array(
@@ -72,11 +72,10 @@ $a->setNotes('
  * Implement Feature #12013: package name is shown in bug list even you select only one package [dufuz]
 ');
 $a->resetUsesrole();
-$a->addUsesRole('web', 'Role_Web', 'pearified.com');
 $a->clearDeps();
 $a->setPhpDep('5.2.0');
-$a->setPearInstallerDep('1.4.11');
-$a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.5.0');
+$a->setPearInstallerDep('1.7.0RC1');
+$a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.0RC1');
 $a->addPackageDepWithChannel('optional', 'pearweb_index', 'pear.php.net', '1.16.4');
 $a->addPackageDepWithChannel('optional', 'pearweb_gopear', 'pear.php.net', '0.6.0');
 $a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.2');
