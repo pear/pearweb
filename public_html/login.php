@@ -27,9 +27,8 @@
 // there is no way around this.
 @session_start();
 
-/*
- * If they're already logged in, say so.
- */
+
+// If they're already logged in, say so.
 if (isset($auth_user) && $auth_user) {
     response_header('Login');
     echo '<div class="warnings">You are already logged in.</div>';
@@ -37,7 +36,7 @@ if (isset($auth_user) && $auth_user) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (empty($_POST['PEAR_USER']) || empty($_POST['PEAR_PW'])) {
         auth_reject(PEAR_AUTH_REALM, 'You must provide a username and a password.');
     }
@@ -45,24 +44,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     auth_reject(PEAR_AUTH_REALM, '');
 }
 
-
-if (!empty($_POST['isMD5'])) {
-    $password = $_POST['PEAR_PW'];
-} else {
-    $password = md5($_POST['PEAR_PW']);
-}
+$password = !empty($_POST['isMD5']) ? $_POST['PEAR_PW'] : md5($_POST['PEAR_PW']);
 
 if (auth_verify($_POST['PEAR_USER'], $password)) {
-    if (!empty($_POST['PEAR_PERSIST'])) {
-        $expire = 2147483647;
-    } else {
-        $expire = 0;
-    }
+    $expire = !empty($_POST['PEAR_PERSIST']) ? 2147483647 : 0;
     setcookie('PEAR_USER', $_POST['PEAR_USER'], $expire, '/');
     setcookie('PEAR_PW', $password, $expire, '/');
 
     // mark user as active if they were inactive
-    $dbh->query('UPDATE users SET active=1 WHERE handle=?', array($_POST['PEAR_USER']));
+    $dbh->query('UPDATE users SET active = 1 WHERE handle = ?', array($_POST['PEAR_USER']));
 
     /*
      * Determine URL
@@ -73,17 +63,15 @@ if (auth_verify($_POST['PEAR_USER'], $password)) {
     {
         localRedirect($_POST['PEAR_OLDURL'], false);
     } else {
-        localRedirect("/index.php", false);
+        localRedirect('/index.php', false);
     }
     exit;
 
 }
 
-$msg = "";
+$msg = '';
 if (isset($_POST['PEAR_USER']) || isset($_POST['PEAR_PW'])) {
-    $msg = "Invalid username or password.";
+    $msg = 'Invalid username or password.';
 }
 
 auth_reject(PEAR_AUTH_REALM, $msg);
-
-?>
