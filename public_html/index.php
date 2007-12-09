@@ -83,7 +83,7 @@ is <a href="/user/mj">Martin Jansen</a>, <a href="/user/davidc">David Coallier</
 <a href="/user/arnaud">Arnaud Limbourg</a>, <a href="/user/jeichorn">Joshua Eichorn</a>,
 <a href="/user/cweiske">Christian Weiske</a>, <a href="/user/dufuz">Helgi &THORN;ormar</a>,
 and <a href="/user/pmjones">Paul M. Jones</a>.  Official results of the run-off election are
-<a href="/election/info.php?election=9&results=1">here</a>.
+<a href="/election/info.php?election=9&amp;results=1">here</a>.
 <a href="/manual/en/constitution.php">The Constitution</a> documents the governing
 structure of PEAR.</p>
 <p><strong>[May 8, 2007]</strong> A serious security vulnerability has been discovered in
