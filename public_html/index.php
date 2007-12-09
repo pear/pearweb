@@ -141,23 +141,13 @@ echo menu_link('Search', '/search.php');
 </div>
 
 <?php
-echo hdelim();
-if ($auth_user) {
-    echo '<h2>&raquo; Package Proposals (PEPr)</h2>';
-    echo '<div class="indent">';
-    echo menu_link("Browse Proposals", "pepr/");
-    echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
-    echo '</div>';
-} else {
+if (!$auth_user) {
+    echo hdelim();
 ?>
-
 <p>If you have been told by other PEAR developers to sign up for a
 PEAR website account, you can use <a href="/account-request.php">
 this interface</a>.</p>
-
 <?php
 }
 
 response_footer();
-
-?>
