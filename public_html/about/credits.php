@@ -26,21 +26,21 @@ response_header('Credits');
 <h2>&raquo; PEAR Website Team</h2>
 
 <ul>
-  <li><?php echo user_link('danielc'); ?></li>
   <li><?php echo user_link('cellog'); ?></li>
   <li><?php echo user_link('dufuz'); ?></li>
   <li><?php echo user_link('mj'); ?></li>
-  <li><?php echo user_link('toby'); ?></li>
 </ul>
 
 <h3>&raquo; Emeritus</h3>
 
 <ul>
+  <li><?php echo user_link('danielc'); ?></li>
   <li><?php echo user_link('cox'); ?></li>
   <li><?php echo user_link('pajoye'); ?></li>
   <li><?php echo user_link('ssb'); ?></li>
   <li><?php echo user_link('richard'); ?></li>
   <li><?php echo user_link('cmv'); ?></li>
+  <li><?php echo user_link('toby'); ?></li>
 </ul>
 
 <small>(In alphabetic order)</small>
@@ -61,4 +61,3 @@ the manual. The team can be reached via the mailing list
 
 <?php
 response_footer();
-?>
