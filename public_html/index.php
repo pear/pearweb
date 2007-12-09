@@ -63,45 +63,62 @@ response_header();
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
 <h2>&raquo; Hot off the Press</h2>
-<p>
- <strong>[October 19, 2007]</strong>
- Following the tradition of internet culture, PEAR now channels blogs
- about PEAR. See it at
- <a href="http://planet.pear.php.net/">Planet PEAR</a>.
-</p>
+<div id="news">
+ <p>
+  <strong>[October 19, 2007]</strong><br />
+  Following the tradition of internet culture, PEAR now channels blogs
+  about PEAR. See it at
+  <a href="http://planet.pear.php.net/">Planet PEAR</a>.
+ </p>
 
-<p><strong>[June 20, 2007]</strong> PEAR is greatly saddened by the loss of
-developer Bertrand Gugger to a heart attack on June 16.  More information is
-available on the official PEAR blog at <a href="http://blog.pear.php.net/2007/06/17/the-pear-project-mourns-the-loss-of-bertrand-gugger/">This entry</a>.</p>
-<p><strong>[June 1, 2007]</strong> Welcome to the 7th and final member of the PEAR
-Group, <strong><a href="/user/pmjones">Paul M. Jones</a></strong>!  The newly elected
-<a href="/news/newgroup-2007.php">PEAR Group</a> and
-<a href="/news/newpresident-2007.php">PEAR president</a> have already begun work.
-The PEAR President is <a href="/user/cellog">Gregory Beaver</a>, and the
-PEAR Group
-is <a href="/user/mj">Martin Jansen</a>, <a href="/user/davidc">David Coallier</a>,
-<a href="/user/arnaud">Arnaud Limbourg</a>, <a href="/user/jeichorn">Joshua Eichorn</a>,
-<a href="/user/cweiske">Christian Weiske</a>, <a href="/user/dufuz">Helgi &THORN;ormar</a>,
-and <a href="/user/pmjones">Paul M. Jones</a>.  Official results of the run-off election are
-<a href="/election/info.php?election=9&amp;results=1">here</a>.
-<a href="/manual/en/constitution.php">The Constitution</a> documents the governing
-structure of PEAR.</p>
-<p><strong>[May 8, 2007]</strong> A serious security vulnerability has been discovered in
-the <a href="http://pear.php.net/PEAR">PEAR Installer</a> that affects all released versions.
-PEAR version 1.5.4 has been released to address this security issue.  Further details are
-available <a href="/news/vulnerability2.php">here</a>.
-</p>
-<p><strong>[February 1, 2007]</strong> As of January 1, 2008, PEAR will be dropping
-support for PEAR versions 1.3.6 and earlier.  If you are using PEAR 1.3.6 or earlier,
-we <strong>strongly</strong> encourage you to upgrade using these simple steps:
-<code>
-<pre>
-pear upgrade --force PEAR-1.3.6 Archive_Tar-1.3.1 Console_Getopt-1.2
-pear upgrade --force PEAR-1.4.11
-pear upgrade PEAR
-</pre>
-</code>
-The full story on what has changed, and what will change is <a href="/news/package.xml.1.0.php">here</a>.</p>
+ <p>
+  <strong>[June 20, 2007]</strong><br />
+  PEAR is greatly saddened by the loss of
+  developer Bertrand Gugger to a heart attack on June 16.  More information is
+  available on the official PEAR blog at
+  <a href="http://blog.pear.php.net/2007/06/17/the-pear-project-mourns-the-loss-of-bertrand-gugger/">This entry</a>.
+ </p>
+
+ <p>
+  <strong>[June 1, 2007]</strong><br />
+  Welcome to the 7th and final member of the PEAR
+  Group, <strong><a href="/user/pmjones">Paul M. Jones</a></strong>!  The newly elected
+  <a href="/news/newgroup-2007.php">PEAR Group</a> and
+  <a href="/news/newpresident-2007.php">PEAR president</a> have already begun work.
+  The PEAR President is <a href="/user/cellog">Gregory Beaver</a>, and the
+  PEAR Group
+  is <a href="/user/mj">Martin Jansen</a>, <a href="/user/davidc">David Coallier</a>,
+  <a href="/user/arnaud">Arnaud Limbourg</a>, <a href="/user/jeichorn">Joshua Eichorn</a>,
+  <a href="/user/cweiske">Christian Weiske</a>, <a href="/user/dufuz">Helgi &THORN;ormar</a>,
+  and <a href="/user/pmjones">Paul M. Jones</a>.  Official results of the run-off election are
+  <a href="/election/info.php?election=9&amp;results=1">here</a>.
+  <a href="/manual/en/constitution.php">The Constitution</a> documents the governing
+  structure of PEAR.
+ </p>
+
+ <p>
+  <strong>[May 8, 2007]</strong><br />
+  A serious security vulnerability has been discovered in
+  the <a href="http://pear.php.net/PEAR">PEAR Installer</a> that affects all released versions.
+  PEAR version 1.5.4 has been released to address this security issue.  Further details are
+  available <a href="/news/vulnerability2.php">here</a>.
+ </p>
+
+ <p>
+  <strong>[February 1, 2007]</strong><br />
+  As of January 1, 2008, PEAR will be dropping
+  support for PEAR versions 1.3.6 and earlier.  If you are using PEAR 1.3.6 or earlier,
+  we <em>strongly</em> encourage you to upgrade using these simple steps:
+  <code>
+   <pre>
+    pear upgrade --force PEAR-1.3.6 Archive_Tar-1.3.1 Console_Getopt-1.2
+    pear upgrade --force PEAR-1.4.11
+    pear upgrade PEAR
+   </pre>
+  </code>
+  The full story on what has changed, and what will change is <a href="/news/package.xml.1.0.php">here</a>.
+ </p>
+</div>
 
 <h2>&raquo; Users</h2>
 <div class="indent">
