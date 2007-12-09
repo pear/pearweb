@@ -40,6 +40,7 @@ if (@sizeof($recent) > 0) {
     $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
 }
+
 $popular = release::getPopular(5);
 if (@sizeof($popular) > 0) {
     $RSIDEBAR_DATA .= "<strong>Popular&nbsp;Packages*:</strong>\n";
@@ -142,29 +143,11 @@ echo menu_link('Search', '/search.php');
 <?php
 echo hdelim();
 if ($auth_user) {
-    if (auth_check('pear.dev')) {
-        echo '<h2>&raquo; Developers</h2>';
-        echo '<div class="indent">';
-
-        echo menu_link("Upload Release", "release-upload.php");
-        echo menu_link("New Package", "package-new.php");
-
-        echo '</div>';
-    }
-
     echo '<h2>&raquo; Package Proposals (PEPr)</h2>';
-	echo '<div class="indent">';
-	echo menu_link("Browse Proposals", "pepr/");
-	echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
+    echo '<div class="indent">';
+    echo menu_link("Browse Proposals", "pepr/");
+    echo menu_link("New Package Proposal", "pepr/pepr-proposal-edit.php");
     echo '</div>';
-
-    if (auth_check('pear.admin')) {
-        echo '<h2>&raquo; Administrators</h2>';
-        echo '<div class="indent">';
-        echo menu_link("Overview", "/admin/");
-        echo '</div>';
-    }
-
 } else {
 ?>
 
