@@ -52,17 +52,12 @@ response_header('Bugs');
 
   <dt style="margin-top: 1em;">Website Bugs</dt>
   <dd>
-   If the bug you found does not relate to a package, one of the following
-   categories should be appropriate:
-   <?php print make_bug_link('Web Site', 'report', '<strong>Web&nbsp;Site</strong>');?>,
-   <?php print make_bug_link('PEPr', 'report', '<strong>PEPr</strong>');?>,
-   <?php print make_bug_link('Documentation', 'report', '<strong>Documentation</strong>'); ?> or
-   <?php print make_bug_link('Bug System', 'report', '<strong>Bug&nbsp;System</strong>'); ?>.
-   Do be aware that this &quot;Bug System&quot; link is
-   <strong>only</strong> for reporting issues with the
-   <strong>user interface</strong> for reporting, searching and
-   editing the bugs, so is <strong>not</strong> for reporting bugs
-   about packages or other parts of the website.
+   If the bug you found does not relate to a package and has something to do with the website
+   then you can report it here:
+   <?php print make_bug_link('pearweb', 'report', '<strong>Website</strong>'); ?>
+    <br /><br />
+   If you think you found a problem with the manual then please use this link:
+   <?php print make_bug_link('Documentation', 'report', '<strong>Documentation</strong>'); ?>.
   </dd>
 </dl>
 
