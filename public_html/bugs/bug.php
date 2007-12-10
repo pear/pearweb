@@ -637,8 +637,10 @@ if ($bug['modified']) {
 ?></td>
    <th class="details">Assigned:</th>
    <td><?php
-   $assigned_user = htmlspecialchars($bug['assign']);
-   echo '<a href="/user/' . $assigned_user . '">' . $assigned_user . '</a>';
+    if (!empty($bug['assign'])) {
+        $assigned_user = htmlspecialchars($bug['assign']);
+        echo '<a href="/user/' . $assigned_user . '">' . $assigned_user . '</a>';
+    }
    ?></td>
   </tr>
   <tr id="categorization">
