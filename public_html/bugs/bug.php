@@ -642,7 +642,11 @@ if ($bug['modified']) {
    <th class="details">Status:</th>
    <td><?php echo htmlspecialchars($bug['status']) ?></td>
    <th class="details">Package:</th>
-   <td><?php echo htmlspecialchars($bug['package_name']); if ($bug['package_version']): ?> (version <?php echo htmlspecialchars($bug['package_version']);?>)<?php endif; ?></td>
+   <td><?php
+   $name = htmlspecialchars($bug['package_name']);
+   echo '<a href="/package/' . $name . '">' . $name . '</a>';
+   if ($bug['package_version']): ?> (version <?php echo htmlspecialchars($bug['package_version']);?>)<?php endif;
+   ?></td>
   </tr>
   <tr id="situation">
    <th class="details">PHP Version:</th>
