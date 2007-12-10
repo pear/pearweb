@@ -1256,11 +1256,12 @@ if ($res) {
 }
 ?>
 
-<div id="explain-messages">
- <div class="explain"></div>&nbsp;Explanation<br /><br />
- <div class="success"></div>&nbsp;Success<br /><br />
- <div class="errors"></div>&nbsp;Failure<br />
-</div>
+<ul id="explain-messages">
+  <li><span class="explain">&nbsp;&nbsp;&nbsp;</span>&nbsp;Explanation</li>
+  <li><span class="success">&nbsp;&nbsp;&nbsp;</span>&nbsp;Success</li>
+  <li><span class="errors">&nbsp;&nbsp;&nbsp;</span>&nbsp;Failure</li>
+</ul>
+
 <?php
 response_footer();
 
