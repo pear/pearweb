@@ -64,7 +64,7 @@ response_header();
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
 <h2>&raquo; Users</h2>
-<div class="indent">
+
 <p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
 is a framework and distribution system for reusable PHP
 components. You can find help using PEAR packages in the
@@ -75,12 +75,8 @@ echo menu_link('Download Packages', '/packages.php');
 echo menu_link('Installation Help', '/manual/en/installation.cli.php');
 echo menu_link('About PEAR', '/manual/en/about-pear.php');
 echo menu_link('List Packages', '/packages.php');
-?>
-</div>
 
-<?php
 if (!$auth_user) {
-    echo hdelim();
 ?>
 <p>If you have been told by other PEAR developers to sign up for a
 PEAR website account, you can use <a href="/account-request.php">
@@ -88,6 +84,7 @@ this interface</a>.</p>
 <?php
 }
 ?>
+</div>
 
 <h2>&raquo; Hot off the Press</h2>
 <div id="news">
