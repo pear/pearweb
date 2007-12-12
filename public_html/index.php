@@ -63,6 +63,32 @@ response_header();
 
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
+<h2>&raquo; Users</h2>
+<div class="indent">
+<p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
+is a framework and distribution system for reusable PHP
+components. You can find help using PEAR packages in the
+<a href="/manual/en/">online manual</a> and the
+<a href="/manual/en/faq.php">FAQ</a>.</p>
+<?php
+echo menu_link('Download Packages', '/packages.php');
+echo menu_link('Installation Help', '/manual/en/installation.cli.php');
+echo menu_link('About PEAR', '/manual/en/about-pear.php');
+echo menu_link('List Packages', '/packages.php');
+?>
+</div>
+
+<?php
+if (!$auth_user) {
+    echo hdelim();
+?>
+<p>If you have been told by other PEAR developers to sign up for a
+PEAR website account, you can use <a href="/account-request.php">
+this interface</a>.</p>
+<?php
+}
+?>
+
 <h2>&raquo; Hot off the Press</h2>
 <div id="news">
  <p>
@@ -120,34 +146,5 @@ response_header();
   The full story on what has changed, and what will change is <a href="/news/package.xml.1.0.php">here</a>.
  </p>
 </div>
-
-<h2>&raquo; Users</h2>
-<div class="indent">
-<p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
-is a framework and distribution system for reusable PHP
-components. You can find help using PEAR packages in the
-<a href="/manual/en/">online manual</a> and the
-<a href="/manual/en/faq.php">FAQ</a>.</p>
 <?php
-echo menu_link('Download Packages', '/packages.php');
-echo menu_link('Support', '/support');
-echo menu_link('Installation Help', '/manual/en/installation.cli.php');
-echo menu_link('About PEAR', '/manual/en/about-pear.php');
-echo menu_link('News', '/news/');
-echo menu_link('List Packages', '/packages.php');
-echo menu_link('Search', '/search.php');
-
-?>
-</div>
-
-<?php
-if (!$auth_user) {
-    echo hdelim();
-?>
-<p>If you have been told by other PEAR developers to sign up for a
-PEAR website account, you can use <a href="/account-request.php">
-this interface</a>.</p>
-<?php
-}
-
 response_footer();
