@@ -29,7 +29,7 @@ if (@sizeof($recent) > 0) {
         if ($releasedate == $today) {
             $releasedate = "today";
         }
-        $RSIDEBAR_DATA .= "<tr><td valign=\"top\" class=\"compact\">";
+        $RSIDEBAR_DATA .= "<tr><td>";
         $RSIDEBAR_DATA .= "<a href=\"/package/" . $release['name'] . "/\">";
         $RSIDEBAR_DATA .= wordwrap($release['name'],25,"\n",1) . ' ' .
                           $release['version'] . '</a><br /> <small>(' .
@@ -46,7 +46,7 @@ if (@sizeof($popular) > 0) {
     $RSIDEBAR_DATA .= "<strong>Popular&nbsp;Packages*:</strong>\n";
     $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
     foreach ($popular as $package) {
-        $RSIDEBAR_DATA .= "<tr><td valign=\"top\" class=\"compact\">";
+        $RSIDEBAR_DATA .= "<tr><td>";
         $RSIDEBAR_DATA .= "<a href=\"/package/" . $package['name'] . "/\">";
         $RSIDEBAR_DATA .= wordwrap($package['name'],25,"\n",1) . ' ' . $package['version'] . '</a><br /> <small>(' .
                           number_format($package['d'],2) . ')</small></td></tr>';
@@ -70,12 +70,8 @@ is a framework and distribution system for reusable PHP
 components. You can find help using PEAR packages in the
 <a href="/manual/en/">online manual</a> and the
 <a href="/manual/en/faq.php">FAQ</a>.</p>
-<?php
-echo menu_link('Download Packages', '/packages.php');
-echo menu_link('Installation Help', '/manual/en/installation.cli.php');
-echo menu_link('About PEAR', '/manual/en/about-pear.php');
-echo menu_link('List Packages', '/packages.php');
 
+<?php
 if (!$auth_user) {
 ?>
 <p>If you have been told by other PEAR developers to sign up for a
@@ -84,7 +80,6 @@ this interface</a>.</p>
 <?php
 }
 ?>
-</div>
 
 <h2>&raquo; Hot off the Press</h2>
 <div id="news">
