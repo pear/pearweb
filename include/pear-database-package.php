@@ -801,7 +801,8 @@ class package
             '  LEFT JOIN releases AS rm ON (rm.package = d.package) ' .
             "WHERE d.package = p.id AND d.type = 'pkg' " .
             "      AND d.name = ? " .
-            "GROUP BY d.package";
+            'GROUP BY d.package ' .
+            'ORDER BY p.name';
         return $dbh->getAll($query, array($package), DB_FETCHMODE_ASSOC);
     }
 
