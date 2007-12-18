@@ -229,7 +229,7 @@ foreach ($packages as $row) {
     echo '<li>';
     print_link('/package/' . htmlspecialchars($row['name']),
                htmlspecialchars($row['name']));
-    echo ' &nbsp;(' . htmlspecialchars($row['role']) . ($row['active'] == 0 ? ", inactive " : "") . ')';
+    echo ' &nbsp;(' . htmlspecialchars($row['role']) . ($row['active'] == 0 ? ", inactive" : "") . ')';
     echo ' &nbsp;<small><a href="/bugs/search.php?package_name%5B%5D=';
     echo htmlspecialchars($row['name']) . '&amp;cmd=display">Bugs</a></small>';
     echo "</li>\n";
