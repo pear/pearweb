@@ -34,7 +34,16 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
-  <p><cite><a href="http://www.interveritas.net/ifeghali/slides/MDB2_Schema-FISL8.pdf">MDB2_Schema</a></cite>
+  <p><cite><a href="http://www.novadevel.com/m/ifeghali/slides/PHPConfBrasil07-PEAR_pears_and_dogs.pdf">PEAR, pears and dogs</a></cite>
+  <ul>
+    <li>Date: 2007-12-01</li>
+    <li>Presenter: <?php echo user_link('ifeghali', true); ?></li>
+    <li>Venue: PHP Conference Brasil 2007, Sao Paulo, Brazil</li>
+    <li>Language: Portuguese</li>
+  </ul>
+ </li>
+ <li>
+  <p><cite><a href="http://www.novadevel.com/m/ifeghali/slides/FISL8-MDB2_Schema.pdf">MDB2_Schema</a></cite>
   <ul>
     <li>Date: 2007-04-13</li>
     <li>Presenter: <?php echo user_link("ifeghali", true); ?></li>
@@ -43,7 +52,7 @@ that have been held about PEAR.</p>
   </ul>
  </li>
  <li>
-  <p><cite><a href="http://www.prophp.com.br/downloads/phpconf2006/igorfeghali_mdb2schema.zip">MDB2_Schema</a></cite>
+  <p><cite><a href="http://www.novadevel.com/m/ifeghali/slides/PHPConfBrasil06-MDB2_Schema.pdf">MDB2_Schema</a></cite>
   <ul>
     <li>Date: 2006-12-02</li>
     <li>Presenter: <?php echo user_link("ifeghali", true); ?></li>
