@@ -74,6 +74,8 @@ foreach ($keys as $key => $message) {
     }
 }
 
+$redirect = $post['redirect'];
+
 if (empty($errors)) {
 
     require_once 'notes/ManualNotes.class.php';
