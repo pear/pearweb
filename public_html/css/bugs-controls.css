@@ -6,6 +6,8 @@
 div#controls {
     clear: both;
     width: 100%;
+    margin-top: 10px;
+    border-top: 2px solid #666666;
 }
 
 div#controls span {
