@@ -5,7 +5,7 @@
 @import url(/css/bugs-controls.css);
 
 td.content {
-    font-size: 90%;
+    font-size: 93%;
 }
 
 td.content table {
@@ -27,11 +27,11 @@ pre.note {
 }
 
 input.small, select.small {
-    font-size: 75%;
+    font-size: 85%;
 }
 
 textarea.small {
-    font-size: 75%;
+    font-size: 85%;
 }
 
 form#comment,
@@ -42,7 +42,7 @@ div.comment {
 }
 
 table.lusersearch td {
-    font-size: 75%;
+    font-size: 85%;
 }
 
 table.lusersearch tr {
@@ -73,7 +73,6 @@ table#details td {
 }
 
 div#bugheader {
-    border-bottom: 2px solid #666666;
     width: 100%;
 }
 
@@ -142,7 +141,7 @@ form#asearch table#primary {
 .bug_head {
     background-color: #339900;
     color: #FFFFFF;
-    font-size: 80%;
+    font-size: 85%;
     font-weight: bold;
     text-align: right;
     padding: 0em .2em .2em .2em;
@@ -150,7 +149,7 @@ form#asearch table#primary {
 .bug_header {
     background-color: #339900;
     color: #FFFFFF;
-    font-size: 80%;
+    font-size: 85%;
     font-weight: bold;
     text-align: center;
     padding: 0em .2em .2em .2em;
@@ -241,6 +240,34 @@ td.search-next {
     background-color: #aaaaaa;
 }
 
-div#explain-messages {
+#explain-messages {
     margin-top: 30px;
+}
+
+#explain-messages li {
+    display: inline;
+    font-size: 85%;
+    list-style-type: none;
+}
+
+span.errors {
+    border-color: #660000;
+    background: #fee;
+}
+
+span.success {
+    border-color: #006600;
+    background-color: #CCFF99;
+}
+
+span.explain {
+    border-color: #000066;
+}
+
+#explain-messages span.errors, #explain-messages span.success, #explain-messages span.explain {
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 10px;
+    width: 10px;
+    border: 1px solid;
 }
