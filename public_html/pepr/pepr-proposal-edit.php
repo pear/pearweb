@@ -25,11 +25,8 @@
 
 auth_require('pear.pepr');
 
-/**
- * Obtain the common functions and classes.
- */
+// Obtain the common functions and classes.
 include_once 'pepr/pepr.php';
-
 
 $karma =& new Damblan_Karma($dbh);
 
@@ -107,28 +104,24 @@ foreach ($categories as $categorie) {
 }
 
 $form->addElement('select', 'pkg_category', '<label for="pkg_category" accesskey="o">Categ<span class="accesskey">o</span>ry:</label>', $mapCategories, 'id="pkg_category"');
-$categoryNewElements[] =& HTML_QuickForm::createElement('checkbox', 'pkg_category_new_do', '');
-$categoryNewElements[] =& HTML_QuickForm::createElement('text', 'pkg_category_new_text', '');
-$categoryNew = $form->addGroup($categoryNewElements, 'pkg_category_new', 'New category:', '<br />');
-/**
- * Dropdown possible licenses, less confusing for users
- */
-$possibleLicenses = array(
-                        'PHP License 3.01' => 'PHP License 3.01',
-                        'Apache License' => 'Apache License',
-                        'LGPL' => 'LGPL',
-                        'BSD Style' => 'BSD Style',
-                        'MIT License' => 'MIT License',
-                    );
 
-
+$field_desc = 'New category:<br /><p style="font-size: 75%; padding: 4px; margin: 0;">
+    Only fill this out if you don\'t find a category that fits your package</p>';
+$form->addElement('text', 'pkg_category_new', $field_desc);
 $form->addElement('text', 'pkg_name', 'Package name:');
+
+// Dropdown possible licenses, less confusing for users
+$possibleLicenses = array(
+    'PHP License 3.01' => 'PHP License 3.01',
+    'Apache License'   => 'Apache License',
+    'LGPL'             => 'LGPL',
+    'BSD Style'        => 'BSD Style',
+    'MIT License'      => 'MIT License',
+);
+
 $form->addElement('select', 'pkg_license', 'License:', $possibleLicenses);
 
-/**
- * Easy codes. makes it easier for people to put
- * bb codes
- */
+// Easy codes. makes it easier for people to put bb codes
 $bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Bold',
                                               array('onclick' =>
                               "insertTags('pkg_description', '[b]', '[/b]','bold')"));
@@ -195,8 +188,7 @@ if ($proposal != null) {
     if (isset($mapCategories[$proposal->pkg_category])) {
         $defaults['pkg_category'] = $proposal->pkg_category;
     } else {
-        $defaults['pkg_category_new']['pkg_category_new_text'] = $proposal->pkg_category;
-        $defaults['pkg_category_new']['pkg_category_new_do'] = true;
+        $defaults['pkg_category_new'] = $proposal->pkg_category;
     }
     if ((count($proposal->links) > 0)) {
         $i = 0;
@@ -294,8 +286,8 @@ if (isset($_POST['submit'])) {
     if ($form->validate()) {
         $values = $form->exportValues();
 
-        if (isset($values['pkg_category_new']['pkg_category_new_do'])) {
-            $values['pkg_category'] = $values['pkg_category_new']['pkg_category_new_text'];
+        if (!empty($values['pkg_category_new'])) {
+            $values['pkg_category'] = $values['pkg_category_new'];
         }
 
         $actionComment = !empty($values['action_comment']) ? true : false;
