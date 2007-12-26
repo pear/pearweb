@@ -126,75 +126,77 @@ if ($row['userinfo']) {
 <?php
 
 if ($row['active']) {
-    echo '<li>Active: <strong>Yes</strong></li>';
+    echo '    <li>Active: <strong>Yes</strong></li>' . "\n";
 } else {
-    echo '<li>Active: <strong>NO</strong></li>';
+    echo '    <li>Active: <strong>NO</strong></li>' . "\n";
 }
 
 if ($row['lastlogin'] && !is_null($row['lastlogin'])) {
-    echo '<li>Last login: <i>' . date('Y-m-d', $row['lastlogin']) . '</i></li>';
+    echo '    <li>Last login: <i>' . date('Y-m-d', $row['lastlogin']) . '</i></li>' . "\n";
 }
 
 if (isset($auth_user)) {
-    echo "<li>Email: &nbsp;";
+    echo "    <li>Email: &nbsp;";
     echo make_mailto_link($row['email']);
     echo "</li>\n";
 } else if ($row['showemail']) {
     $row['email'] = str_replace(array('@', '.'),
                                 array(' at ', ' dot '),
                                 $row['email']);
-    echo '<li>Email: &nbsp;';
+    echo '    <li>Email: &nbsp;';
     print_link('/account-mail.php?handle=' . $handle,
                htmlspecialchars($row['email']));
     echo "</li>\n";
 } else {
-    echo '<li>Email: &nbsp;';
+    echo '    <li>Email: &nbsp;';
     print_link('/account-mail.php?handle=' . $handle, 'via web form');
     echo "</li>\n";
 }
 
 if ($row['homepage']) {
-    echo '<li>Homepage: &nbsp;';
+    echo '    <li>Homepage: &nbsp;';
     print_link(htmlspecialchars($row['homepage']));
     echo "</li>\n";
 }
 
 if ($row['wishlist']) {
-    echo '<li>Wishlist: &nbsp;';
+    echo '    <li>Wishlist: &nbsp;';
     print_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/user/' . $handle . '/wishlist');
     echo "</li>\n";
 }
 
 if ($row['pgpkeyid']) {
-    echo '<li>PGP Key: &nbsp;';
+    echo '    <li>PGP Key: &nbsp;';
     print_link('http://pgp.mit.edu:11371/pks/lookup?search=0x'
                . htmlspecialchars($row['pgpkeyid']) . '&amp;op=get',
                htmlspecialchars($row['pgpkeyid']));
     echo "</li>\n";
 }
 
-echo '<li>RSS Feed: &nbsp;';
+echo '    <li>RSS Feed: &nbsp;';
 print_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/feeds/user_' . $handle . '.rss');
-echo '</li>';
+echo '</li>' . "\n";
 
-echo '<li>Bug Statistics: <br /><ul>';
+echo '    <li>Bug Statistics: <br />' . "\n";
+echo '     <ul>' . "\n";
 
 require 'bugs/pear-bugs.php';
 $bugs = new PEAR_Bugs;
 $info = $bugs->developerBugStats($handle);
-echo '<li>Rank: <strong><a href="/bugs/stats.php#devs">#' . $info['rank'] . ' of ' . count($info['rankings']) . '</a></strong> developers who have fixed bugs <strong>(' .
-    $info['alltime'] . ' fixed bugs)</strong></li>';
-echo '<li>Average age of open bugs: <strong>' . $info['openage'] . ' days</strong></li>';
-echo '<li>Number of open bugs: <strong>' . $info['opencount'] . '</strong></li>';
-echo '<li>Assigned bugs relative to all maintained packages\' bugs: <strong>' .
-    round($info['assigned'] * 100) . '%</strong></li>';
-echo '<li>Number of submitted patches: <strong>' .
-    $info['patches'] . '</strong></li>';
-echo '<li>Number of bugs opened using account: <strong>' .
-    $info['opened'] . '</strong></li>';
-echo '<li>Number of bug comments using account: <strong>' .
-    $info['commented'] . '</strong></li>';
-echo '</ul></li>';
+echo '      <li>Rank: <strong><a href="/bugs/stats.php#devs">#' . $info['rank'] . ' of ' . count($info['rankings']) . '</a></strong> developers who have fixed bugs <strong>(' .
+    $info['alltime'] . ' fixed bugs)</strong></li>' . "\n";
+echo '      <li>Average age of open bugs: <strong>' . $info['openage'] . ' days</strong></li>' . "\n";
+echo '      <li>Number of open bugs: <strong>' . $info['opencount'] . '</strong></li>' . "\n";
+echo '      <li>Assigned bugs relative to all maintained packages\' bugs: <strong>' .
+    round($info['assigned'] * 100) . '%</strong></li>' . "\n";
+echo '      <li>Number of submitted patches: <strong>' .
+    $info['patches'] . '</strong></li>' . "\n";
+echo '      <li>Number of bugs opened using account: <strong>' .
+    $info['opened'] . '</strong></li>' . "\n";
+echo '      <li>Number of bug comments using account: <strong>' .
+    $info['commented'] . '</strong></li>' . "\n";
+echo '     </ul>' . "\n";
+echo '    </li>' . "\n";
 
 ?>
 
