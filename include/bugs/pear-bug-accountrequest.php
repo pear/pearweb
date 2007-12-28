@@ -8,7 +8,7 @@ class PEAR_Bug_Accountrequest
     var $salt;
     var $email;
 
-    function PEAR_Bug_Accountrequest($handle = false)
+    function __construct($handle = false)
     {
         $this->dbh = &$GLOBALS['dbh'];
         if ($handle) {
