@@ -159,15 +159,15 @@ echo $extraHeaders;
                        'Login', false, 'class="menuBlack"');
         }
     } else {
-        print '<small class="menuWhite">';
-        print 'Logged in as ' . strtoupper($auth_user->handle) . ' (';
-        print '<a class="menuWhite" href="/user/' . $auth_user->handle . '">Info</a> | ';
-        print '<a class="menuWhite" href="/account-edit.php?handle=' . $auth_user->handle . '">Profile</a> | ';
-        print '<a class="menuWhite" href="/bugs/search.php?handle=' . $auth_user->handle . '&amp;cmd=display&amp;status=OpenFeedback&amp;showmenu=1">Bugs</a> | ';
-        print '<a class="menuWhite" href="/bugs/search.php?cmd=display' .
+        echo '<small class="menuWhite">';
+        echo 'Logged in as ' . strtoupper($auth_user->handle) . ' (';
+        echo '<a class="menuWhite" href="/user/' . $auth_user->handle . '">Info</a> | ';
+        echo '<a class="menuWhite" href="/account-edit.php?handle=' . $auth_user->handle . '">Profile</a> | ';
+        echo '<a class="menuWhite" href="/bugs/search.php?handle=' . $auth_user->handle . '&amp;cmd=display&amp;status=OpenFeedback&amp;showmenu=1">Bugs</a> | ';
+        echo '<a class="menuWhite" href="/bugs/search.php?cmd=display' .
             '&amp;status=All&amp;bug_type=All&amp;author_email=' . $auth_user->handle .
             '&amp;direction=DESC&amp;order_by=ts1&amp;showmenu=1">My Bugs</a>';
-        print ")</small><br />\n";
+        echo ")</small><br />\n";
 
         if (empty($_SERVER['QUERY_STRING'])) {
             print_link('?logout=1', 'Logout', false, 'class="menuBlack"');
@@ -311,7 +311,7 @@ print_link('/about/credits.php', 'CREDITS', false, 'class="menuBlack"');
      } elseif ($_SERVER['SERVER_NAME'] == PEAR_CHANNELNAME) {
          print PEAR_CHANNELNAME;
      } else {
-         print '<i>This is an unofficial mirror!</i>';
+         echo '<i>This is an unofficial mirror!</i>';
      }
     ?>
 
@@ -570,21 +570,21 @@ class BorderBox {
             $title = implode('</th><th>', $title);
         }
         $i = $this->indent;
-        print "<!-- border box starts -->\n";
-        print "$i<table cellpadding=\"0\" cellspacing=\"1\" style=\"width: $this->width; border: 0px;\">\n";
-        print "$i <tr>\n";
-        print "$i  <td style=\"background-color: #000000;\">\n";
-        print "$i   <table cellpadding=\"2\" cellspacing=\"1\" style=\"width: 100%; border: 0px;\">\n";
-        print "$i    <tr style=\"background-color: #CCCCCC;\">\n";
-        print "$i     <th";
+        echo "<!-- border box starts -->\n";
+        echo "$i<table cellpadding=\"0\" cellspacing=\"1\" style=\"width: $this->width; border: 0px;\">\n";
+        echo "$i <tr>\n";
+        echo "$i  <td style=\"background-color: #000000;\">\n";
+        echo "$i   <table cellpadding=\"2\" cellspacing=\"1\" style=\"width: 100%; border: 0px;\">\n";
+        echo "$i    <tr style=\"background-color: #CCCCCC;\">\n";
+        echo "$i     <th";
         if ($this->cols > 1) {
-            print " colspan=\"$this->cols\"";
+            echo " colspan=\"$this->cols\"";
         }
-        print ">$title</th>\n";
-        print "$i    </tr>\n";
+        echo ">$title</th>\n";
+        echo "$i    </tr>\n";
         if (!$this->open) {
-            print "$i    <tr style=\"background-color: #FFFFFF;\">\n";
-            print "$i     <td>\n";
+            echo "$i    <tr style=\"background-color: #FFFFFF;\">\n";
+            echo "$i     <td>\n";
         }
     }
 
@@ -592,79 +592,79 @@ class BorderBox {
     {
         $i = $this->indent;
         if (!$this->open) {
-            print "$i     </td>\n";
-            print "$i    </tr>\n";
+            echo "$i     </td>\n";
+            echo "$i    </tr>\n";
         }
-        print "$i   </table>\n";
-        print "$i  </td>\n";
-        print "$i </tr>\n";
-        print "$i</table>\n";
-        print "<!-- border box ends -->\n";
+        echo "$i   </table>\n";
+        echo "$i  </td>\n";
+        echo "$i </tr>\n";
+        echo "$i</table>\n";
+        echo "<!-- border box ends -->\n";
     }
 
     function horizHeadRow($heading /* ... */)
     {
         $i = $this->indent;
-        print "$i    <tr>\n";
-        print "$i     <th style=\"vertical-align: top; background-color: #CCCCCC;\">$heading</th>\n";
+        echo "$i    <tr>\n";
+        echo "$i     <th style=\"vertical-align: top; background-color: #CCCCCC;\">$heading</th>\n";
         for ($j = 0; $j < $this->cols-1; $j++) {
-            print "$i     <td style=\"vertical-align: top; background-color: #E8E8E8\">";
+            echo "$i     <td style=\"vertical-align: top; background-color: #E8E8E8\">";
             $data = @func_get_arg($j + 1);
             if (!isset($data)) {
-                print "&nbsp;";
+                echo "&nbsp;";
             } else {
                 print $data;
             }
-            print "</td>\n";
+            echo "</td>\n";
         }
-        print "$i    </tr>\n";
+        echo "$i    </tr>\n";
 
     }
 
     function headRow()
     {
         $i = $this->indent;
-        print "$i    <tr>\n";
+        echo "$i    <tr>\n";
         for ($j = 0; $j < $this->cols; $j++) {
-            print "$i     <th style=\"vertical-align: top; background-color: #FFFFFF;\">";
+            echo "$i     <th style=\"vertical-align: top; background-color: #FFFFFF;\">";
             $data = @func_get_arg($j);
             if (empty($data)) {
-                print '&nbsp;';
+                echo '&nbsp;';
             } else {
                 print $data;
             }
-            print "</th>\n";
+            echo "</th>\n";
         }
-        print "$i    </tr>\n";
+        echo "$i    </tr>\n";
     }
 
     function plainRow(/* ... */)
     {
         $i = $this->indent;
-        print "$i    <tr>\n";
+        echo "$i    <tr>\n";
         for ($j = 0; $j < $this->cols; $j++) {
-            print "$i     <td style=\"vertical-align: top; background-color: #FFFFFF;\">";
+            echo "$i     <td style=\"vertical-align: top; background-color: #FFFFFF;\">";
             $data = @func_get_arg($j);
             if (empty($data)) {
-                print '&nbsp;';
+                echo '&nbsp;';
             } else {
                 print $data;
             }
-            print "</td>\n";
+            echo "</td>\n";
         }
-        print "$i    </tr>\n";
+        echo "$i    </tr>\n";
     }
 
     function fullRow($text)
     {
         $i = $this->indent;
-        print "$i    <tr>\n";
-        print "$i     <td style=\"background-color: #E8E8E8;\"";
+        echo "$i    <tr>\n";
+        echo "$i     <td style=\"background-color: #E8E8E8;\"";
         if ($this->cols > 1) {
-            print " colspan=\"$this->cols\"";
+            echo " colspan=\"$this->cols\"";
         }
-        print ">$text</td>\n";
-        print "$i    </tr>\n";
+        echo ">$text</td>\n";
+        echo "$i    </tr>\n";
 
     }
 }
@@ -792,20 +792,20 @@ function display_user_notes($user, $width = '50%')
     $notes = $dbh->getAssoc("SELECT id,nby,ntime,note FROM notes
                 WHERE uid = ? ORDER BY ntime", true, array($user));
     if (!empty($notes)) {
-        print '<table cellpadding="2" cellspacing="0" style="border: 0px;">' . "\n";
+        echo '<table cellpadding="2" cellspacing="0" style="border: 0px;">' . "\n";
         foreach ($notes as $nid => $data) {
-        print " <tr>\n";
-        print "  <td>\n";
-        print "   <strong>{$data['nby']} {$data['ntime']}:</strong>";
-        print "<br />\n";
-        print "   ".htmlspecialchars($data['note'])."\n";
-        print "  </td>\n";
-        print " </tr>\n";
-        print " <tr><td>&nbsp;</td></tr>\n";
+        echo " <tr>\n";
+        echo "  <td>\n";
+        echo "   <strong>{$data['nby']} {$data['ntime']}:</strong>";
+        echo "<br />\n";
+        echo "   ".htmlspecialchars($data['note'])."\n";
+        echo "  </td>\n";
+        echo " </tr>\n";
+        echo " <tr><td>&nbsp;</td></tr>\n";
         }
-        print "</table>\n";
+        echo "</table>\n";
     } else {
-        print 'No notes.';
+        echo 'No notes.';
     }
     $bb->end();
     return sizeof($notes);
@@ -1066,7 +1066,7 @@ function print_package_navigation($pacid, $name, $action)
                                                'title' => 'Delete this package');
     }
 
-    print '<div id="nav">';
+    echo '<div id="nav">';
 
     foreach ($nav_items as $title => $item) {
         if (!empty($item['url']) && $item['url']{0} == '/') {
@@ -1074,7 +1074,7 @@ function print_package_navigation($pacid, $name, $action)
         } else {
             $url = '/package/' . htmlspecialchars($name) . '/' . $item['url'];
         }
-        print '<a href="' . $url . '"'
+        echo '<a href="' . $url . '"'
             . ' title="' . $item['title'] . '" '
             . ($action == $item['url'] ? ' class="active" ' : '')
             . '>'
@@ -1082,7 +1082,7 @@ function print_package_navigation($pacid, $name, $action)
             . '</a> ';
     }
 
-    print '</div>';
+    echo '</div>';
 }
 
 /**
