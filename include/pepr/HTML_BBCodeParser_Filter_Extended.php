@@ -24,11 +24,7 @@
 * @author   Stijn de Reede  <sjr@gmx.co.uk>
 */
 
-
-require_once('HTML/BBCodeParser.php');
-
-
-
+require_once 'HTML/BBCodeParser.php';
 
 class HTML_BBCodeParser_Filter_Extended extends HTML_BBCodeParser
 {
@@ -80,5 +76,3 @@ class HTML_BBCodeParser_Filter_Extended extends HTML_BBCodeParser
         $this->_preparsed = preg_replace($pattern, $replace, $this->_text);
     }
 }
-
-?>
