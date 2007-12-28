@@ -112,9 +112,11 @@ function auth_verify($user, $passwd)
         $auth_user = new PEAR_Auth();
         $auth_user->data($data);
     }
+
     if (!isset($auth_user->password)) {
         $auth_user->password = '';
     }
+
     $error = '';
     $ok = false;
 
