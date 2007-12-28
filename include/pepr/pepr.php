@@ -180,7 +180,7 @@ class proposal {
         return true;
     }
 
-    function toRSSArray ( $full = false )
+    function toRSSArray ($full = false)
     {
         return array(
             'title'         => 'PEPr Proposal ['.$this->id.']: '.$this->pkg_category.'::'.$this->pkg_name,
@@ -193,7 +193,8 @@ Proposer:                '.user_link($this->user_handle).'<br />
          );
     }
 
-    function getParsedDescription ( ) {
+    function getParsedDescription ()
+    {
         if (empty($this->pkg_description)) {
             return '';
         }
@@ -221,9 +222,11 @@ Proposer:                '.user_link($this->user_handle).'<br />
         if ($id === null) {
             return null;
         }
+
         if (!is_numeric($id)) {
             return new proposal(array());
         }
+
         $id  = (int)$id;
         $sql = "SELECT pkg_name, pkg_category, pkg_license, pkg_describtion, pkg_deps
                  FROM package_proposals WHERE id = ".$id;
@@ -231,9 +234,11 @@ Proposer:                '.user_link($this->user_handle).'<br />
         if (DB::isError($res)) {
             return new proposal(array());
         }
+
         if (!$res) {
             return new proposal(array());
         }
+
         return new proposal($res);
     }
 
@@ -314,7 +319,8 @@ Proposer:                '.user_link($this->user_handle).'<br />
         return $result;
     }
 
-    function &search($searchString) {
+    function &search($searchString)
+    {
         global $dbh;
         $replacers = array(
             '/%/', '/_/', '/ /', '/\*/', '/\?/');
@@ -341,8 +347,6 @@ Proposer:                '.user_link($this->user_handle).'<br />
         }
         return $result;
     }
-
-
 
     function getLinks(&$dbh)
     {
