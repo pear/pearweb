@@ -50,7 +50,7 @@ li.man-side_page_nested {
 /* === Navigation Box (previous, next, languages) === */
 
 /* top row */
- 
+
 td.man-nav_prev,
 td.man-nav_next {
     font-size: 75%;
@@ -98,24 +98,24 @@ table.EXAMPLE p {
 .note {
     border-style: dashed;
     border-width: 1px;
-	background-color: #e0e0e0;
-	color: inherit;
+    background-color: #e0e0e0;
+    color: inherit;
     text-align: left;
 }
 
 .pending_note {
     border-style: dashed;
     border-width: 1px;
-	background-color: #909090;
-	color: inherit;
+    background-color: #909090;
+    color: inherit;
     text-align: left;
 }
 
 .note_text {
-	background-color: #f0f0f0;
-	color: inherit;
-	padding: 2px;
-	margin-top: 4px;
+    background-color: #f0f0f0;
+    color: inherit;
+    padding: 2px;
+    margin-top: 4px;
     text-align: left;
 }
 
