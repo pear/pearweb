@@ -509,13 +509,9 @@ div.success ul {
 
 /* ========= Other ========= */
 
-a:link {
+a:link, a:visited {
     color: #006600;
     text-decoration: none;
-}
-
-a:visited {
-    color: #030;
 }
 
 a:hover {
