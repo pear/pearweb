@@ -112,6 +112,11 @@ function makeBorderTOC($this, $id = '')
             $indent = false;
         }
 
+        // No need to spell out the constructor, lets just keep it short
+        if (substr($title_fmt, 0, 11) == 'constructor') {
+            $title_fmt = 'Constructor';
+        }
+
         // So that package/function names don't bleed over the sidebar
         $cut = $indent ? 22 : 25;
         $title_fmt = wordwrap($title_fmt, $cut, "\n", true);
@@ -123,7 +128,7 @@ function makeBorderTOC($this, $id = '')
         // after 'Class Summary' (or 'constructor', if 'Class Summary' doesn't
         // exist, we want to indent the methods
         if (    substr($title_fmt, 0, 13) == 'Class Summary'
-            || (substr($title_fmt, 0, 11) == 'constructor' && !$indent)
+            || ($title_fmt == 'Constructor' && !$indent)
            ) {
             $indent = true;
             $RSIDEBAR_DATA .= '<ul class="man-side_pages">';
