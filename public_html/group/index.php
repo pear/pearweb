@@ -40,7 +40,7 @@ is made up of PEAR developers duly elected by the developers of PEAR to serve.
 </p>
 
 <p>The Group was
-<?php echo make_link("http://marc.theaimsgroup.com/?l=pear-dev&m=106073080219083&w=2", "first announced"); ?>
+<?php echo make_link("http://marc.theaimsgroup.com/?l=pear-dev&m=106073080219083&w=2", "first announced"); ?> 
 on 12th August 2003 by Stig S. Bakken, and was made into an elected body by the constitution
 adopted on 18th March 2007. If you would like to get in
 contact with the members, you can write to
