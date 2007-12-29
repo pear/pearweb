@@ -18,11 +18,8 @@
  * @version   $Id$
  */
 
-/**
- * Obtain common includes
- */
+// Obtain common includes
 require_once './include/prepend.inc';
-
 
 error_reporting(E_ALL ^ E_NOTICE);
 
@@ -435,7 +432,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             $package_count = count($package_name);
 ?>
 
-<table border="0" cellspacing="2" width="100%">
+<table style="width: 100%; border-collapse: separate; border-spacing: 2px;">
 <?php show_prev_next($begin, $rows, $total_rows, $link, $limit);?>
 <?php if ($package_count === 1) { ?>
  <tr>
@@ -546,7 +543,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
 </tr>
 </table>
 
-<table style="font-size: 100%;">
+<table id="secondary">
 <tr valign="top">
   <th><label for="category" accesskey="c">Pa<span class="accesskey">c</span>kage</label></th>
   <td style="white-space: nowrap">Return bugs for these <b>packages</b></td>
