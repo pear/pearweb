@@ -22,8 +22,6 @@ response_header("Support - Books");
 
 echo "<h1>Support</h1>";
 
-include 'tabs_list.php';
-
 $books = array(
                array("title" => "The PEAR Installer Manifesto",
                      "authors" => array("Gregory Beaver"),
@@ -56,7 +54,7 @@ $books = array(
                      "image" => "foundations-of-pear.gif"
                      )
                );
-               
+
 ?>
 
 <h2>&raquo; <a name="books" id="books">Books</a></h2>

@@ -23,10 +23,6 @@ response_header("Support");
 
 <h1>Support</h1>
 
-<?php
-include './tabs_list.php';
-?>
-
 <h2>&raquo; Overview</h2>
 
 <p>Besides the <a href="/manual/">manual</a> the PEAR website provides
@@ -36,15 +32,15 @@ navigation tabs above.</p>
 <p>If you are new to PEAR, collected knowledge that does not fit into
 the FAQ is available at this document: <a href="effectivepearuse.php">Developing Effectively with PEAR Packages</a></p>
 
-<p>Additionaly one can ask for help on the <i>#pear</i> 
-<acronym title="Internet Relay Chat">IRC</acronym> channel at the 
+<p>Additionaly one can ask for help on the <i>#pear</i>
+<acronym title="Internet Relay Chat">IRC</acronym> channel at the
 <a href="http://www.efnet.org"> Eris Free Net</a>.</p>
 
 <p>Some project members also write about PEAR in their weblogs or
-journals. Some of them are aggregated through 
+journals. Some of them are aggregated through
 <a href="http://planet-php.net/">Planet PHP</a>.</p>
 
-<p>PHP Magazine publishes a roundup of the events on the PEAR and PECL 
+<p>PHP Magazine publishes a roundup of the events on the PEAR and PECL
 mailing lists in <a href="http://php-mag.net/itr/psecom,id,207,nodeid,207.html">PHPBarnstormer</a>.</p>
 
 <p>A channel for all PEAR-related blogs can be found at

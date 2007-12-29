@@ -22,8 +22,6 @@ response_header("Support - Mailing Lists");
 
 echo "<h1>Support</h1>";
 
-include 'tabs_list.php';
-
 /*
  * array of lists (
  *     list,

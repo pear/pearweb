@@ -23,10 +23,6 @@ response_header("Support - Tutorials");
 
 <h1>Support</h1>
 
-<?php
-include 'tabs_list.php';
-?>
-
 <h2>&raquo; Tutorials</h2>
 
 <p>The following is a list of pointers to external tutorials about
@@ -81,7 +77,7 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
  <li>
   <cite>
    <a href="http://www.devshed.com/c/a/PHP/Configuration-Manipulation-With-PHP-Config/">
-    Configuration Manipulation With PHP Config 
+    Configuration Manipulation With PHP Config
    </a>
   </cite>
  </li>
@@ -102,7 +98,7 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
   </cite>
   discusses using <a href="/package/Structures_DataGrid">Structures_Datagrid</a>
   and <a href="/package/DB_DataObject">DB_DataObject</a>.  This tutorial is
-  also <a href="http://www.samalyse.com/code/pear/dgdo/index.fr.php">available in 
+  also <a href="http://www.samalyse.com/code/pear/dgdo/index.fr.php">available in
   French</a>.
  </li>
 </ul>
@@ -164,7 +160,7 @@ IT[X]: <a href="http://www.ulf-wendel.de/projekte/itx/index.php">http://www.ulf-
     Ein Colt f&uuml;r alle F&auml;lle
    </a>
   </cite>
-  is an article from PHP Magazin about the 
+  is an article from PHP Magazin about the
   <a href="/package/Config/">Config</a> package.
  </li>
 </ul>
@@ -173,8 +169,8 @@ IT[X]: <a href="http://www.ulf-wendel.de/projekte/itx/index.php">http://www.ulf-
 
 <?php echo hdelim(); ?>
 
-<p>Do you know of other tutorials that should be added here? 
-Please let the <a href="mailto:pear-webmaster@lists.php.net">webmaster 
+<p>Do you know of other tutorials that should be added here?
+Please let the <a href="mailto:pear-webmaster@lists.php.net">webmaster
 team</a> know about them.</p>
 
 <?php

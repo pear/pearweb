@@ -23,10 +23,6 @@ response_header("Support - Tutorials");
 
 <h1>Support</h1>
 
-<?php
-include './tabs_list.php';
-?>
-
 <h2>&raquo; Forums</h2>
 
 <p>The following is a list of pointers to external forums about
@@ -47,8 +43,8 @@ PEAR packages.</p>
 
 <?php echo hdelim(); ?>
 
-<p>Do you know of other forums that should be added here? 
-Please let the <a href="mailto:pear-webmaster@lists.php.net">webmaster 
+<p>Do you know of other forums that should be added here?
+Please let the <a href="mailto:pear-webmaster@lists.php.net">webmaster
 team</a> know about them.</p>
 
 <?php

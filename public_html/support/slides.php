@@ -23,10 +23,6 @@ response_header("Support - Presentation Slides");
 
 <h1>Support</h1>
 
-<?php
-include 'tabs_list.php';
-?>
-
 <h2>&raquo; Presentation Slides</h2>
 
 <p>The following is a list of pointers to the slides of presentations
@@ -66,7 +62,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2005-11-08</li>
     <li>Presenter: <?php echo user_link("kore", true); ?></li>
-    <li>Venue: International PHP Conference, 
+    <li>Venue: International PHP Conference,
     Frankfurt, Germany</li>
     <li>Language: German</li>
   </ul>
@@ -77,7 +73,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2005-11-07</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
-    <li>Venue: International PHP Conference, 
+    <li>Venue: International PHP Conference,
     Frankfurt, Germany</li>
     <li>Language: English</li>
   </ul>
@@ -88,7 +84,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2005-10-20</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
-    <li>Venue: Zend/PHP Conference and Expo, 
+    <li>Venue: Zend/PHP Conference and Expo,
     San Francisco, California / USA</li>
     <li>Language: English</li>
   </ul>
@@ -99,7 +95,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2005-06-23</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
-    <li>Venue: Linuxtag 2005, 
+    <li>Venue: Linuxtag 2005,
     Karlsruhe, Germany</li>
     <li>Language: English</li>
   </ul>
@@ -111,7 +107,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2005-05-03</li>
     <li>Presenter: <?php echo user_link("schst", true); ?></li>
-    <li>Venue: Interantional PHP Conference 2005 Spring Edition, 
+    <li>Venue: Interantional PHP Conference 2005 Spring Edition,
     Amsterdam, Netherlands</li>
     <li>Language: English</li>
   </ul>
@@ -122,7 +118,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2005-05-04</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
-    <li>Venue: Interantional PHP Conference 2005 Spring Edition, 
+    <li>Venue: Interantional PHP Conference 2005 Spring Edition,
     Amsterdam, Netherlands</li>
     <li>Language: English</li>
   </ul>
@@ -133,7 +129,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2005-05-02</li>
     <li>Presenter: <?php echo user_link("schst", true); ?> and <?php echo user_link("toby", true); ?></li>
-    <li>Venue: Interantional PHP Conference 2005 Spring Edition, 
+    <li>Venue: Interantional PHP Conference 2005 Spring Edition,
     Amsterdam, Netherlands</li>
     <li>Language: English</li>
   </ul>
@@ -144,7 +140,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2005-03-31</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
-    <li>Venue: PHP Conference Quebec 2005, 
+    <li>Venue: PHP Conference Quebec 2005,
     Montreal, Canada</li>
     <li>Language: English</li>
   </ul>
@@ -155,7 +151,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2005-03-31</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
-    <li>Venue: PHP Conference Quebec 2005, 
+    <li>Venue: PHP Conference Quebec 2005,
     Montreal, Canada</li>
     <li>Language: English</li>
   </ul>
@@ -204,12 +200,12 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2004-11-07</li>
     <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
-    <li>Venue: PEAR Powerworkshop, International PHP Conference, 
+    <li>Venue: PEAR Powerworkshop, International PHP Conference,
     Frankfurt, Germany</li>
     <li>Language: English</li>
   </ul>
  </li>
- 
+
  <li>
   <p><cite>
    <a href="http://www.schlitt.info/index.php/content.publications_phpworld2004">PEAR von A-Z</a>
@@ -221,7 +217,7 @@ that have been held about PEAR.</p>
     <li>Language: German</li>
   </ul>
  </li>
- 
+
  <li>
   <p><cite>
    <a href="http://www.php-tools.net/site.php?file=/about/presentations.xml">
@@ -274,7 +270,7 @@ that have been held about PEAR.</p>
   <ul>
     <li>Date: 2004-05-03</li>
     <li>Presenters: <?php echo user_link("lsmith", true); ?> and <?php echo user_link("toby", true); ?></li>
-    <li>Venue: International PHP Conference Spring Edition, 
+    <li>Venue: International PHP Conference Spring Edition,
     Amsterdam, Netherlands</li>
     <li>Language: English</li>
   </ul>
@@ -385,8 +381,8 @@ that have been held about PEAR.</p>
 
 <?php echo hdelim(); ?>
 
-<p>Do you know of other presentation slides that should be added here? 
-Please let the <a href="mailto:pear-webmaster@lists.php.net">webmaster 
+<p>Do you know of other presentation slides that should be added here?
+Please let the <a href="mailto:pear-webmaster@lists.php.net">webmaster
 team</a> know about them.</p>
 
 <?php
