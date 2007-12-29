@@ -311,6 +311,7 @@
      <file name="roadmap.php" role="www" />
      <file name="search.php" role="www" />
      <file name="stats.php" role="www" />
+     <file name="stats_dev.php" role="www" />
     </dir> <!-- /public_html/bugs -->
     <dir name="channels">
      <file name="add.php" role="www" />
@@ -319,8 +320,11 @@
     <dir name="css">
      <file name="bugs-controls.css" role="www" />
      <file name="bugs.css" role="www" />
+     <file name="IE6styles.css" role="www" />
+     <file name="IE7styles.css" role="www" />
      <file name="manual.css" role="www" />
      <file name="packages_status.css" role="www" />
+     <file name="reset-fonts.css" role="www" />
      <file name="style.css" role="www" />
      <file name="tabs.css" role="www" />
      <file name="thickbox.css" role="www" />
