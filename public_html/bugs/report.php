@@ -358,7 +358,7 @@ if (isset($_POST['in'])) {
 
                 $type = @$types[$_POST['in']['bug_type']];
 
-                if (DEVBOX == false) {
+                if (DEVBOX === false) {
                     // mail to package developers
                     @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
                             $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
@@ -433,9 +433,7 @@ if (!package_exists($_REQUEST['package'])) {
  &quot;Bug List&quot; link. Also, read the instructions for
  <a target="top" href="http://bugs.php.net/how-to-report.php">how to report
  a bug that someone will want to help fix</a>.
-</p>
-
-<p>
+ <br />
  If you aren't sure that what you're about to report is a bug, you should
  ask for help using one of the means for support
  <a href="/support/">listed here</a>.
@@ -444,27 +442,42 @@ if (!package_exists($_REQUEST['package'])) {
 <p>
  <strong>Failure to follow these instructions may result in your bug
  simply being marked as &quot;bogus.&quot;</strong>
-</p>
-
-<p>
+ <br />
  <strong>If you feel this bug concerns a security issue, eg a buffer
  overflow, weak encryption, etc, then email
  <?php echo make_mailto_link('pear-group@php.net?subject=%5BSECURITY%5D+possible+new+bug%21', 'pear-group'); ?>
  who will assess the situation.</strong>
 </p>
 
+<p>
+ <strong>Note:</strong><br />
+ Please supply any information that may be helpful in fixing the bug:
+ <ul style="padding-left: 15px;">
+  <li>The version number of the <?php echo $siteBig; ?> package or files you are using.</li>
+  <li>A short script that reproduces the problem.</li>
+  <li>The list of modules you compiled PHP with (your configure line).</li>
+  <li>Any other information unique or specific to your setup.</li>
+  <li>
+     Any changes made in your php.ini compared to php.ini-dist
+     (<strong>not</strong> your whole php.ini!)
+  </li>
+  <li>
+     A <a href="http://bugs.php.net/bugs-generating-backtrace.php">gdb
+     backtrace</a>.
+  </li>
+ </ul>
+</p>
+
 <?php
     }
 
     display_bug_error($errors);
-?>
 
-<?php
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 $action = $self . '?package=' . clean($_REQUEST['package']);
 ?>
 <form method="post"
- action="<?php echo $action ?>" name="bugreport" id="bugreport" enctype="multipart/form-data">
+ action="<?php echo $action ?>" name="bugreport" id="bugreport">
 <table class="form-holder" cellspacing="1">
  <tr>
   <th class="form-label_left">
@@ -582,7 +595,7 @@ if (auth_check('pear.dev')) {
                 if (isset($myroadmaps[$db->id])) {
                     $content .= ' checked="checked" ';
                 }
-                $content .= '/>';
+                $content .= '/>&nbsp;';
                 $content .= $db->roadmap_version . '<br />';
             }
 
@@ -640,28 +653,6 @@ if (auth_check('pear.dev')) {
  </tr>
  <tr>
   <th class="form-label_left">
-   Note:
-  </th>
-  <td class="form-input">
-   Please supply any information that may be helpful in fixing the bug:
-   <ul>
-    <li>The version number of the <?php echo $siteBig; ?> package or files you are using.</li>
-    <li>A short script that reproduces the problem.</li>
-    <li>The list of modules you compiled PHP with (your configure line).</li>
-    <li>Any other information unique or specific to your setup.</li>
-    <li>
-     Any changes made in your php.ini compared to php.ini-dist
-     (<strong>not</strong> your whole php.ini!)
-    </li>
-    <li>
-     A <a href="http://bugs.php.net/bugs-generating-backtrace.php">gdb
-     backtrace</a>.
-    </li>
-   </ul>
-  </td>
- </tr>
- <tr>
-  <th class="form-label_left">
    Description:
    <p class="cell_note">
     Put code samples in the
@@ -670,7 +661,7 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="15" name="in[ldesc]"
+   <textarea cols="60" rows="8" name="in[ldesc]"
     wrap="physical"><?php echo clean($_POST['in']['ldesc']); ?></textarea>
   </td>
  </tr>
@@ -689,11 +680,11 @@ if (auth_check('pear.dev')) {
     A short test script you wrote that demonstrates the bug.
     Please <strong>do not</strong> post more than 20 lines of code.
     If the code is longer than 20 lines, provide a URL to the source
-    code that will reproduce the bug.
+    code or attach a patch that will reproduce the bug.
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="15" name="in[repcode]"
+   <textarea cols="60" rows="8" name="in[repcode]"
     wrap="no"><?php echo clean($_POST['in']['repcode']); ?></textarea>
   </td>
  </tr>
@@ -705,7 +696,7 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="15" name="in[expres]"
+   <textarea cols="60" rows="8" name="in[expres]"
     wrap="physical"><?php echo clean($_POST['in']['expres']); ?></textarea>
   </td>
  </tr>
@@ -720,7 +711,7 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="15" name="in[actres]"
+   <textarea cols="60" rows="8" name="in[actres]"
     wrap="physical"><?php echo clean($_POST['in']['actres']); ?></textarea>
   </td>
  </tr>
