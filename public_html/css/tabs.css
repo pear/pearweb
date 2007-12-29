@@ -1,5 +1,4 @@
 /* Tabbed sub-navigation */
-
 #nav {
     width: 100%;
     border-top: 1px solid #000;
@@ -11,18 +10,17 @@
 #nav ul {
     padding: 0;
     margin: 0;
-
-    list-style: none;
 }
 
 #nav li {
+    list-style-type: none;
     float: left;
 }
 
 #nav a {
     float: left;
     font-weight: bold;
-    font-size: 80%;
+    font-size: 85%;
     text-decoration: none;
     background: #eee;
     margin-right: 5px;
@@ -31,10 +29,6 @@
     border-right: 1px solid #ccc;
 }
 
-#nav a.active {
-    background: #ddd;
-}
-
-#nav a:hover {
+#nav a:hover, #nav a.active {
     background: #ddd;
 }

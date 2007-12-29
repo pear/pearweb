@@ -23,6 +23,7 @@ td.content table {
 }
 
 pre.note {
+    margin-top: 8px;
     margin-left: 20px;
 }
 
@@ -39,6 +40,10 @@ form#update,
 form#vote,
 div.comment {
     clear: both;
+}
+
+div.comment {
+    margin-top: 12px;
 }
 
 table.lusersearch td {
@@ -63,10 +68,15 @@ td#summary {
 th.details {
     vertical-align: top;
     text-align: right;
+    font-weight: bold;
+    padding-left: 6px;
+    padding-right: 6px;
 }
 th.results {
     background-color: #aaaaaa;
     text-align: left;
+    font-weight: bold;
+    padding: 1px;
 }
 table#details td {
     vertical-align: top;
@@ -79,13 +89,32 @@ div#bugheader {
 div#bugheader table#details th {
     text-align: right;
     color: #666666;
+    font-weight: bold;
+    padding-left: 6px;
+    padding-right: 6px;
 }
 div#bugheader table#details th#number {
     color: #000066;
-    font-size: larger;
+    font-size: 116%;
 }
 div#bugheader table#details td#summary {
     font-weight: bold;
+}
+
+#bugform th {
+    vertical-align: top;
+    text-align: right;
+    font-weight: bold;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+#bugform td {
+    padding: 2px;
+}
+
+#bugform input[type="checkbox"] {
+    margin-left: 5px;
 }
 
 .diffheader {
@@ -119,12 +148,23 @@ form#asearch th {
     font-weight: bold;
 }
 
-form#asearch table#primary {
-    font-size: 100%;  /* make IE look normal */
+table#primary {
     background: #eee;
+    padding: 8px;
+}
+
+table#primary input[type="radio"] {
+    margin-right: 3px;
+}
+
+table#secondary {
+    margin-top: 8px;
     padding: 4px;
 }
 
+table#primary td, table#secondary td {
+    padding: 2px;
+}
 
 /* Used in stats.php */
 
@@ -270,4 +310,21 @@ span.explain {
     height: 10px;
     width: 10px;
     border: 1px solid;
+}
+
+#package-stats {
+    width: 100%;
+    margin-top: 1em;
+    border-collapse: separate;
+    border-spacing: 2px
+}
+
+#dev-stats th {
+    font-weight: bold;
+    text-align: center;
+}
+
+.dev-stats-sub {
+    border-collapse: separate;
+    border-spacing: 2px
 }
