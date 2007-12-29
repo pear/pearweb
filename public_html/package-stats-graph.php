@@ -31,9 +31,7 @@
 include 'jpgraph/jpgraph.php';
 include 'jpgraph/jpgraph_bar.php';
 
-/*
- * Cache time in secs
- */
+// Cache time in secs
 $cache_time = 300;
 
 /*
@@ -105,9 +103,7 @@ foreach ($releases as $release) {
 $x_axis = array_values($x_axis);
 $bplots = array_values($bplots);
 
-/*
- * Get package name
- */
+// Get package name
 $package_name = $dbh->getOne('SELECT name FROM packages WHERE id = ' . $_GET['pid']);
 $package_rel  = !empty($_GET['rid']) ? $dbh->getOne('SELECT version FROM releases WHERE id = ' . $_GET['rid']) : '';
 
@@ -155,4 +151,3 @@ if (count($bplots) > 1) {
 
 // Finally send the graph to the browser
 $graph->Stroke();
-?>

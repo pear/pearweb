@@ -147,9 +147,8 @@ if ($total > 0) {
 
 $_SERVER['QUERY_STRING'] ? $query_string = '?' . $_SERVER['QUERY_STRING'] : '';
 
-/*
- * Fetch list of all categories
- */
+
+// Fetch list of all categories
 include_once 'pear-database-category.php';
 $res = category::listAll();
 
