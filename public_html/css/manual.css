@@ -40,7 +40,7 @@ ul.man-side_pages {
 
 li.man-side_page {
     text-indent: -0.4em;
-    font-size: 80%;
+    font-size: 85%;
 }
 
 li.man-side_page_nested {
@@ -94,6 +94,12 @@ pre.php {
 
 table.EXAMPLE {
     margin-top: 1em;
+    width: 90%;
+    border: 0;
+}
+
+table.EXAMPLE table {
+    width: 100%;
 }
 
 table.EXAMPLE p {
