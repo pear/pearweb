@@ -106,4 +106,3 @@ foreach ($doc_languages as $domain => $name) {
 $bb->end();
 
 response_footer();
-?>
