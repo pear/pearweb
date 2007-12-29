@@ -188,7 +188,9 @@ echo $extraHeaders;
 <!-- END HEADER -->
 <!-- START MIDDLE -->
 <?php
+    $style = '';
     if (isset($SIDEBAR_DATA)) {
+        $style = ' style="margin-left: 210px;"';
 ?>
 
 <!-- START LEFT SIDEBAR -->
@@ -203,6 +205,7 @@ echo $extraHeaders;
     }
 
     if (isset($RSIDEBAR_DATA)) {
+        $style = ' style="margin-right: 210px;"'
 ?>
 
 <!-- START RIGHT SIDEBAR -->
@@ -217,7 +220,7 @@ echo $extraHeaders;
 
 <!-- START MAIN CONTENT -->
 
-  <div id="body">
+  <div id="body"<?php echo $style;?>>
 
 <?php
 }
