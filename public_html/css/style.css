@@ -236,6 +236,7 @@ li.side_page {
 /* ========= Footer ========= */
 div#footer {
     margin-top: 2em;
+    clear: both;
 }
 
 div#foot-bar {
