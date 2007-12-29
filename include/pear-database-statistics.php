@@ -32,11 +32,11 @@ class statistics
     static function package($id)
     {
         global $dbh;
-        $query = "SELECT SUM(dl_number) FROM package_stats WHERE pid = " . (int)$id;
+        $query = 'SELECT SUM(dl_number) FROM package_stats WHERE pid = ' . (int)$id;
         return $dbh->getOne($query);
     }
 
-    static function release($id, $rid = "")
+    static function release($id, $rid = '')
     {
         global $dbh;
 
@@ -47,7 +47,7 @@ class statistics
         if (!empty($rid)) {
             $query .= " AND rid = " . (int)$rid;
         }
-        $query .= " GROUP BY rid ORDER BY rid DESC";
+        $query .= ' GROUP BY rid ORDER BY rid DESC';
 
         return $dbh->getAll($query, DB_FETCHMODE_ASSOC);
     }

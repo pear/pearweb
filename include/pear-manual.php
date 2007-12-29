@@ -20,13 +20,13 @@
 
 require_once 'site.php';
 
-$doc_languages = array('en' => 'English', 
+$doc_languages = array('en' => 'English',
                        'fr' => 'French',
-                       'de' => 'German', 
+                       'de' => 'German',
                        'ja' => 'Japanese',
                        'nl' => 'Dutch',
                        'hu' => 'Hungarian',
-                       // 'it' => 'Italian', 
+                       // 'it' => 'Italian',
                        'pl' => 'Polish',
                        'ru' => 'Russian',
                        // 'es' => 'Spanish',
@@ -125,7 +125,7 @@ function makeBorderTOC($this, $id = '')
             $SIDEBAR_DATA .= '<ul class="man-side_pages">';
         }
     }
-    
+
     if ($indent) {
         $SIDEBAR_DATA .= "  </li>\n";
         $SIDEBAR_DATA .= '</ul>';
@@ -345,11 +345,11 @@ function getComments($uri)
     if (empty($comments)) {
         $output .= 'There are no user contributed notes for this page.';
     }
-    
+
     foreach ($comments as $comment) {
         $manualNotes->display($comment);
     }
-   
+
     return $output;
 }
 
@@ -369,7 +369,7 @@ function manualHeader($title, $id = '')
     global $HTDIG, $LANGUAGES, $LANG, $CHARSET, $SIDEBAR_DATA, $dbh;
 
     makeBorderTOC($title, $id);
-    
+
     echo '<?xml version="1.0" encoding="' . $CHARSET . '" ?>';
     response_header('Manual :: ' . $title);
     # create links to plain html and other languages
@@ -387,4 +387,3 @@ function manualFooter($title, $id = '')
 
     response_footer();
 }
-?>
