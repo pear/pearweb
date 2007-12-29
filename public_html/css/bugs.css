@@ -151,6 +151,7 @@ form#asearch th {
 table#primary {
     background: #eee;
     padding: 8px;
+    width: 100%;
 }
 
 table#primary input[type="radio"] {
