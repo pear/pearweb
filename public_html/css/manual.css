@@ -94,11 +94,15 @@ pre.php {
 
 table.EXAMPLE {
     margin-top: 1em;
-    width: 90%;
+    width: 95%;
     border: 0;
 }
 
-table.EXAMPLE table {
+table.EXAMPLE-CODE {
+    width: 95%;
+}
+
+table.EXAMPLE table.EXAMPLE-CODE {
     width: 100%;
 }
 
