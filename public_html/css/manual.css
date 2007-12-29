@@ -49,6 +49,12 @@ li.man-side_page_nested {
 
 /* === Navigation Box (previous, next, languages) === */
 
+table.man-nav{
+    border: 0;
+    width: 100%;
+    background-color: #e0e0e0;
+}
+
 /* top row */
 
 td.man-nav_prev,
