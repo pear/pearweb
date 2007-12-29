@@ -67,7 +67,7 @@ $_style = '';
  */
 function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '')
 {
-    global $_style, $_header_done, $SIDEBAR_DATA, $self, $auth_user, $RSIDEBAR_DATA;
+    global $_style, $_header_done, $self, $auth_user, $RSIDEBAR_DATA;
 
     $extra_styles = extra_styles();
 
@@ -77,10 +77,10 @@ function response_header($title = 'The PHP Extension and Application Repository'
 
     $_header_done = true;
     $_style       = $style;
-    $rts          = rtrim($SIDEBAR_DATA);
+    $rts          = rtrim($RSIDEBAR_DATA);
 
     if (substr($rts, -1) == '-') {
-        $SIDEBAR_DATA = substr($rts, 0, -1);
+        $RSIDEBAR_DATA = substr($rts, 0, -1);
     } else {
         $menu = draw_navigation();
     }
@@ -189,23 +189,9 @@ echo $extraHeaders;
 <!-- START MIDDLE -->
 <?php
     $style = '';
-    if (isset($SIDEBAR_DATA)) {
-        $style = ' style="margin-left: 210px;"';
-?>
-
-<!-- START LEFT SIDEBAR -->
-  <div class="sidebar_left">
-   <span id="sidebar">
-<?php echo $SIDEBAR_DATA ?>
-   </span>
-  </div>
-<!-- END LEFT SIDEBAR -->
-
-<?php
-    }
 
     if (isset($RSIDEBAR_DATA)) {
-        $style = ' style="margin-right: 210px;"'
+        $style = ' style="margin-right: 230px;"'
 ?>
 
 <!-- START RIGHT SIDEBAR -->
