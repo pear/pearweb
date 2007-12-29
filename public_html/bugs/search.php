@@ -502,7 +502,7 @@ display_bug_error($warnings, 'warnings', 'WARNING:');
 
 ?>
 <form id="asearch" method="get" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
-<table id="primary" width="100%">
+<table id="primary">
 <tr valign="top">
   <th>Find bugs</th>
   <td style="white-space: nowrap">with all or any of the w<span class="accesskey">o</span>rds</td>
