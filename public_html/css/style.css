@@ -347,6 +347,7 @@ input {
 button, input[type="button"], input[type="submit"]  {
     font-family: "Lucida Grande", Myriad, "Andale Sans", "Luxi Sans", "Bitstream Vera Sans", Tahoma, "Toga Sans", Helvetica, Arial, sans-serif;
     font-weight: bold;
+    background:#fafafa;
     color: #888a85;
     border: 1px solid #babdb6;
     border-top: 1px solid #d3d7cf;
