@@ -21,7 +21,8 @@
 PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, 'error_handler');
 set_exception_handler('error_handler');
 
-function extra_styles($new = null) {
+function extra_styles($new = null)
+{
     static $extra_styles = array();
     if (!is_null($new)) {
         $extra_styles[] = $new;
@@ -66,7 +67,7 @@ $_style = '';
  */
 function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '')
 {
-    global $_style, $_header_done, $SIDEBAR_DATA, $self, $auth_user;
+    global $_style, $_header_done, $SIDEBAR_DATA, $self, $auth_user, $RSIDEBAR_DATA;
 
     $extra_styles = extra_styles();
 
@@ -74,34 +75,14 @@ function response_header($title = 'The PHP Extension and Application Repository'
         return;
     }
 
-    $_header_done    = true;
-    $_style          = $style;
-    $rts             = rtrim($SIDEBAR_DATA);
+    $_header_done = true;
+    $_style       = $style;
+    $rts          = rtrim($SIDEBAR_DATA);
 
     if (substr($rts, -1) == '-') {
         $SIDEBAR_DATA = substr($rts, 0, -1);
     } else {
-
-        $SIDEBAR_DATA .= draw_navigation('main_menu', 'Main:');
-        $SIDEBAR_DATA .= draw_navigation('docu_menu', 'Documentation:');
-        $SIDEBAR_DATA .= draw_navigation('downloads_menu', 'Downloads:');
-        $SIDEBAR_DATA .= draw_navigation('proposal_menu', 'Package Proposals:');
-        include_once 'pear-auth.php';
-        init_auth_user();
-        if (!empty($auth_user)) {
-            if (!empty($auth_user->registered)) {
-                if (auth_check('pear.dev')) {
-                    global $developer_menu;
-                    $SIDEBAR_DATA .= draw_navigation('developer_menu', 'Developers:');
-                }
-            }
-            if ($auth_user->isAdmin()) {
-                global $admin_menu;
-                $SIDEBAR_DATA .= draw_navigation('admin_menu', 'Administrators:');
-            }
-        } else {
-            $SIDEBAR_DATA .= draw_navigation('developer_menu_public', 'Developers:');
-        }
+        $menu = draw_navigation();
     }
 
     if (isset($GLOBALS['in_manual']) && $GLOBALS['in_manual'] == false) {
@@ -113,17 +94,19 @@ function response_header($title = 'The PHP Extension and Application Repository'
     }
 ?>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <?php
 echo $extraHeaders;
 ?>
  <title>PEAR :: <?php echo $title; ?></title>
  <link rel="shortcut icon" href="/gifs/favicon.ico" />
- <link rel="stylesheet" href="/css/style.css" />
+ <link rel="stylesheet" type="text/css" href="/css/reset-fonts.css" />
+ <link rel="stylesheet" type="text/css" href="/css/style.css" />
+ <!--[if IE 7]><link rel="stylesheet" type="text/css" href="/css/IE7styles.css" /><![endif]-->
+ <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/IE6styles.css" /><![endif]-->
 <?php
-
     foreach ($extra_styles as $style_file) {
         echo ' <link rel="stylesheet" href="' . $style_file . "\" />\n";
     }
@@ -136,65 +119,48 @@ echo $extraHeaders;
 <a id="TOP"></a>
 </div>
 
+<div id="doc3">
 <!-- START HEADER -->
-
-<table id="head-menu" class="head" cellspacing="0" cellpadding="0">
- <tr>
-  <td class="head-logo">
-   <?php print_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
-  </td>
-  <td class="head-menu">
-   <?php
-
+ <div id="user">
+  <ul>
+<?php
     if (!$auth_user) {
-        print_link('/account-request.php', 'Register', false,
-                   'class="menuBlack"');
-        echo delim();
+        echo '   <li>' . make_link('/account-request.php', 'Register') . '</li>' . "\n";
+
+        echo '   <li class="last">';
         if ($_SERVER['QUERY_STRING'] && $_SERVER['QUERY_STRING'] != 'logout=1') {
-            print_link('/login.php?redirect=' . urlencode(
+            echo make_link('/login.php?redirect=' . urlencode(
                        "{$self}?{$_SERVER['QUERY_STRING']}"),
-                       'Login', false, 'class="menuBlack"');
+                       'Login');
         } else {
-            print_link('/login.php?redirect=' . $self,
-                       'Login', false, 'class="menuBlack"');
+            echo make_link('/login.php?redirect=' . $self, 'Login');
         }
+        echo '</li>' . "\n";
     } else {
-        echo '<small class="menuWhite">';
-        echo 'Logged in as ' . strtoupper($auth_user->handle) . ' (';
-        echo '<a class="menuWhite" href="/user/' . $auth_user->handle . '">Info</a> | ';
-        echo '<a class="menuWhite" href="/account-edit.php?handle=' . $auth_user->handle . '">Profile</a> | ';
-        echo '<a class="menuWhite" href="/bugs/search.php?handle=' . $auth_user->handle . '&amp;cmd=display&amp;status=OpenFeedback&amp;showmenu=1">Bugs</a> | ';
-        echo '<a class="menuWhite" href="/bugs/search.php?cmd=display' .
+        echo '   <li>logged in as <a href="/user/' . $auth_user->handle . '">' . $auth_user->handle . '</a></li>' . "\n";
+        echo '   <li><a href="/account-edit.php?handle=' . $auth_user->handle . '">Profile</a></li>' . "\n";
+        echo '   <li><a href="/bugs/search.php?handle=' . $auth_user->handle . '&amp;cmd=display&amp;status=OpenFeedback&amp;showmenu=1">Bugs</a></li>' . "\n";
+        echo '   <li><a href="/bugs/search.php?cmd=display' .
             '&amp;status=All&amp;bug_type=All&amp;author_email=' . $auth_user->handle .
-            '&amp;direction=DESC&amp;order_by=ts1&amp;showmenu=1">My Bugs</a>';
-        echo ")</small><br />\n";
+            '&amp;direction=DESC&amp;order_by=ts1&amp;showmenu=1">My Bugs</a></li> '  . "\n" . '   <li class="last signout">';
 
         if (empty($_SERVER['QUERY_STRING'])) {
-            print_link('?logout=1', 'Logout', false, 'class="menuBlack"');
+            echo make_link('?logout=1', 'Sign Out');
         } else {
-            print_link('?logout=1&amp;'
+            echo make_link('?logout=1&amp;'
                             . htmlspecialchars($_SERVER['QUERY_STRING']),
-                       'Logout', false, 'class="menuBlack"');
+                       'Sign Out');
         }
+        echo "</li>\n";
     }
+?>
+  </ul>
+ </div>
 
-    echo delim();
-    print_link('/manual/', 'Documentation', false, 'class="menuBlack"');
-    echo delim();
-    print_link('/packages.php', 'Packages', false, 'class="menuBlack"');
-    echo delim();
-    print_link('/support/','Support',false, 'class="menuBlack"');
-    echo delim();
-    print_link('/bugs/','Bugs',false, 'class="menuBlack"');
-    ?>
-
-  </td>
- </tr>
-
- <tr>
-  <td class="head-search" colspan="2">
-   <form method="get" action="/search.php">
-    <p class="head-search"><span class="accesskey">S</span>earch for
+<div id="search">
+  <form method="get" action="/search.php">
+   <p style="margin: 0px;">
+    <span class="accesskey">S</span>earch for
     <input class="small" type="text" name="q" value="" size="20" accesskey="s" />
     in the
     <select name="in" class="small">
@@ -206,29 +172,44 @@ echo $extraHeaders;
         <option value="pear-cvs">CVS commits mailing list</option>
     </select>
     <input type="image" src="/gifs/small_submit_white.gif" alt="search" style="vertical-align: middle;" />
-    </p>
-   </form>
-  </td>
- </tr>
-</table>
+   </p>
+  </form>
+ </div>
 
+  <div id="header">
+   <?php echo make_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
+  </div>
+
+<div id="menubar">
+<?php echo $menu['main']; ?>
+</div>
+
+<?php echo $menu['sub']; ?>
 <!-- END HEADER -->
 <!-- START MIDDLE -->
-
-<table class="middle" cellspacing="0" cellpadding="0">
- <tr>
-
 <?php
     if (isset($SIDEBAR_DATA)) {
 ?>
 
 <!-- START LEFT SIDEBAR -->
-  <td class="sidebar_left">
+  <div class="sidebar_left">
    <span id="sidebar">
 <?php echo $SIDEBAR_DATA ?>
    </span>
-  </td>
+  </div>
 <!-- END LEFT SIDEBAR -->
+
+<?php
+    }
+
+    if (isset($RSIDEBAR_DATA)) {
+?>
+
+<!-- START RIGHT SIDEBAR -->
+  <div class="sidebar_right">
+   <?php echo $RSIDEBAR_DATA; ?>
+  </div>
+<!-- END RIGHT SIDEBAR -->
 
 <?php
     }
@@ -236,7 +217,7 @@ echo $extraHeaders;
 
 <!-- START MAIN CONTENT -->
 
-  <td class="content">
+  <div id="body">
 
 <?php
 }
@@ -244,81 +225,48 @@ echo $extraHeaders;
 
 function response_footer($style = false, $extraContent = false)
 {
-    global $MIRRORS, $MYSITE, $COUNTRIES, $SCRIPT_NAME, $RSIDEBAR_DATA;
-
     static $called;
     if ($called) {
         return;
     }
+
     $called = true;
     if (!$style) {
         $style = $GLOBALS['_style'];
     }
+?>
 
-    ?>
-
-  </td>
+  </div>
 
 <!-- END MAIN CONTENT -->
-
-    <?php
-
-    if (isset($RSIDEBAR_DATA)) {
-        ?>
-
-<!-- START RIGHT SIDEBAR -->
-  <td class="sidebar_right">
-   <?php echo $RSIDEBAR_DATA; ?>
-  </td>
-<!-- END RIGHT SIDEBAR -->
-
-        <?php
-    }
-
-    ?>
-
- </tr>
-</table>
-
 <!-- END MIDDLE -->
+
 <!-- START FOOTER -->
-
-<table class="foot" cellspacing="0" cellpadding="0">
- <tr>
-  <td class="foot-bar" colspan="2">
-<?php
-print_link('/about/privacy.php', 'PRIVACY POLICY', false, 'class="menuBlack"');
+<div id="footer">
+  <div id="foot-bar"><?php
+echo make_link('/about/privacy.php', 'PRIVACY POLICY');
 echo delim();
-print_link('/about/credits.php', 'CREDITS', false, 'class="menuBlack"');
-?>
-  </td>
- </tr>
-
- <tr>
-  <td class="foot-copy">
-   <small>
-    <?php print_link('/copyright.php',
-                     'Copyright &copy; 2001-' . date('Y') . ' The PHP Group'); ?><br />
+echo make_link('/about/credits.php', 'CREDITS');
+?></div>
+  <div id="foot-copy">
+    <?php echo make_link('/copyright.php',
+                     'Copyright &copy; 2001-' . date('Y') . ' The PHP Group'); ?>
     All rights reserved.
-   </small>
-  </td>
-  <td class="foot-source">
-   <small>
+  </div>
+  <div id="foot-source">
     Bandwidth and hardware provided by:
     <?php
      if ($_SERVER['SERVER_NAME'] == 'pear.php.net') {
-         print_link('http://www.pair.com/', 'pair Networks');
+        echo make_link('http://www.pair.com/', 'pair Networks');
      } elseif ($_SERVER['SERVER_NAME'] == PEAR_CHANNELNAME) {
-         print PEAR_CHANNELNAME;
+        echo PEAR_CHANNELNAME;
      } else {
          echo '<i>This is an unofficial mirror!</i>';
      }
+     echo "\n";
     ?>
-
-   </small>
-  </td>
- </tr>
-</table>
+  </div>
+</div>
 <!-- Onload focus to pear -->
 <?php if (isset($GLOBALS['ONLOAD'])): ?>
 <script language="javascript">
@@ -340,9 +288,8 @@ function addEvent(obj, eventType, functionCall){
 addEvent(window, 'load', makeFocus);
 </script>
 <?php endif; ?>
-
 <!-- END FOOTER -->
-
+ </div>
 </body>
 <?php
 if ($extraContent) {
@@ -353,80 +300,156 @@ if ($extraContent) {
 <?php
 }
 
-
-function draw_navigation($type, $menu_title='')
+function draw_navigation()
 {
-    global $self;
+    global $auth_user;
 
-    switch ($type) {
-        case 'main_menu':
-            $data = array(
-                '/index.php'           => 'Home',
-                '/news/'               => 'News',
-                '/qa/'                 => 'Quality Assurance',
-                '/group/'              => 'The PEAR Group',
-                '/mirrors.php'         => 'Mirrors',
-            );
-            break;
-        case 'docu_menu':
-            $data = array(
-                '/manual/en/about-pear.php' => 'About PEAR',
-                '/manual/index.php'    => 'Manual',
-                '/manual/en/faq.php'   => 'FAQ',
-                '/support/'            => 'Support',
-            );
-            break;
-        case 'downloads_menu':
-            $data = array(
-                '/packages.php'        => 'List Packages',
-                '/search.php'          => 'Search Packages',
-                '/package-stats.php'   => 'Statistics'
-            );
-            break;
-        case 'developer_menu':
-            $data= array(
-                '/map/'                => 'Find a Developer',
-                '/accounts.php'        => 'List Accounts',
-                '/release-upload.php'  => 'Upload Release',
-                '/package-new.php'     => 'New Package',
-                '/notes/admin'         => 'Manage User Notes',
-                '/election/'           => 'View Elections',
-            );
-            break;
-        case 'developer_menu_public':
-            $data= array(
-                '/map/'                => 'Find a Developer',
-                '/accounts.php'        => 'List Accounts'
-            );
-            break;
-        case 'proposal_menu':
-            $data = array(
-                        '/pepr/'       => 'Browse Proposals',
-                        '/pepr/pepr-proposal-edit.php'  => 'New Proposal'
-                    );
-            break;
-        case 'admin_menu':
-            $data = array(
-                '/admin/'                     => 'Overview'
-            );
-            break;
-        default:
-            return '';
+    // SELF doesn't cut it here, using REQUEST URI instead
+    $self = strip_tags(htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'iso-8859-1'));
+    if ($self === '/') {
+        $self = '/index.php';
     }
 
+    include_once 'pear-auth.php';
+    init_auth_user();
+
+    $data = array(
+        '/index.php'        => 'Main',
+        '/support/'         => 'Support',
+        '/manual/'          => 'Documentation',
+        '/packages.php'     => 'Packages',
+        '/pepr/'            => 'Package Proposals',
+        '/accounts.php'     => 'Developers',
+        '/bugs/'            => 'Bugs',
+    );
+
+    if (!empty($auth_user) && $auth_user->isAdmin()) {
+        $data['/admin/'] = 'Administrators';
+    }
+
+    $sub = $rel = array();
+    $sub['/index.php'] = array(
+        '/index.php'           => 'Home',
+        '/news/'               => 'News',
+        '/qa/'                 => 'Quality Assurance',
+        '/group/'              => 'The PEAR Group',
+        '/mirrors.php'         => 'Mirrors',
+    );
+
+    $sub['/support/'] = array(
+        '/support/'              => 'Overview',
+        '/support/lists.php'     =>  'Mailing Lists',
+        '/support/books.php'     => 'Books',
+        '/support/tutorials.php' => 'Tutorials',
+        '/support/slides.php'    => 'Presentation Slides',
+        '/support/icons.php'     => 'Icons',
+        '/support/forums.php'    => 'Forums',
+    );
+
+    $sub['/manual/'] = array(
+        '/manual/en/about-pear.php' => 'About PEAR',
+        '/manual/'                  => 'Manual',
+        '/manual/en/faq.php'        => 'FAQ',
+    );
+
+    $sub['/packages.php'] = array(
+        '/packages.php'        => 'List Packages',
+        '/search.php'          => 'Search Packages',
+        '/package-stats.php'   => 'Statistics'
+    );
+
+    if (!empty($auth_user) && !empty($auth_user->registered) && auth_check('pear.dev')) {
+        $sub['/accounts.php'] = array(
+            '/map/'                => 'Find a Developer',
+            '/accounts.php'        => 'List Accounts',
+            '/release-upload.php'  => 'Upload Release',
+            '/package-new.php'     => 'New Package',
+            '/notes/admin'         => 'Manage User Notes',
+            '/election/'           => 'View Elections',
+        );
+    } else {
+        $sub['/accounts.php'] = array(
+            '/map/'                => 'Find a Developer',
+            '/accounts.php'        => 'List Accounts'
+        );
+    }
+
+    $sub['/pepr/'] = array(
+        '/pepr/'                        => 'Browse Proposals',
+        '/pepr/pepr-proposal-edit.php'  => 'New Proposal'
+    );
+
+    $sub['/bugs/'] = array(
+        '/bugs/search.php'    => 'Search for bugs',
+        '/bugs/stats.php'     => 'Package Bug Statistics',
+        '/bugs/stats_dev.php' => 'Developers Bug Statistics',
+    );
+
+    $sub['/admin/'] = array(
+        '/admin/' => 'Overview',
+        '/admin/package-approval.php'    => 'Package approvals',
+        '/admin/category-manager.php'    => 'Manage categories',
+        '/tags/admin.php'                => 'Manage tags',
+        '/admin/karma.php'               => 'Karma',
+        '/admin/chm-upload.php'          => 'CHM upload',
+    );
+
+    // Relationship linker
+    foreach (array_keys($sub) as $path) {
+        $keys = array_keys($sub[$path]);
+        $temp = array_fill_keys($keys, $path);
+        $rel += $temp;
+    }
+
+    // Can't find a match, lets cut pieces of the url
+    if (!isset($rel[$self]) OR $rel[$self] === null) {
+        $pos  = strpos($self, '/', 1);
+        $self = substr($self, 0, $pos + 1);
+    }
+
+    /* Check if it's a top level item.
+     * There are cases were we don't want to put fake second level
+     * menu item, like Bugs -> Index, the top level link serves as Index
+     */
+    if (isset($data[$self])) {
+        $rel += array($self => $self);
+    }
+
+    // Still no luck, lets fallback on index.php
+    if ($rel[$self] === null) {
+        $self = '/index.php';
+    }
+
+    $menu = array();
+    $menu['main'] = make_menu($data, 'menu', $rel[$self]);
+    $menu['sub']  = make_menu($sub[$rel[$self]], 'submenu', $self);
+
+    return $menu;
+}
+
+function make_menu($data, $id, $self)
+{
     $html = "\n";
-    if (!empty($menu_title)) {
-        $html .= "<strong>$menu_title</strong>\n";
-    }
-
-    $html .= '<ul class="side_pages">' . "\n";
+    $html .= '<ul id="' . $id . '">' . "\n";
+    $first = true;
     foreach ($data as $url => $tit) {
-        $html .= ' <li class="side_page">';
-        if ($url == $self) {
-            $html .= '<strong>' . $tit . '</strong>';
-        } else {
-            $html .= '<a href="' . $url . '">' . $tit . '</a>';
+        $class = array();
+        if ($first) {
+            $first = false;
+            $class[] = 'first';
         }
+        if ($url == $self) {
+            $class[] = 'current';
+        }
+
+        if (!empty($class)) {
+            $class = ' class="' . implode(' ', $class) . '"';
+        } else {
+            $class = '';
+        }
+
+        $html .= ' <li' . $class . '>';
+        $html .= '<a href="' . $url . '">' . $tit . '</a>';
         $html .= "</li>\n";
     }
     $html .= "</ul>\n\n";
@@ -435,11 +458,11 @@ function draw_navigation($type, $menu_title='')
 }
 
 function menu_link($text, $url) {
-    echo "<p>\n";
-    print_link($url, make_image('pear_item.gif', $text) );
+    echo "<span>\n";
+    echo make_link($url, make_image('pear_item.gif', $text) );
     echo '&nbsp;';
-    print_link($url, '<strong>' . $text . '</strong>' );
-    echo "</p>\n";
+    echo make_link($url, '<strong>' . $text . '</strong>' );
+    echo "</span>\n";
 }
 
 /**
