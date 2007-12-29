@@ -25,23 +25,7 @@ if (!empty($_GET['phpinfo'])) {
     exit();
 }
 
-$SIDEBAR_DATA='
-This is the PEAR administration page.<br />
-<noscript><p>
-<!-- be annoying! -->
-<b><blink>You must enable Javascript to use this page!</blink></b>
-</p></noscript>
-';
-
-response_header("PEAR Administration");
-
-menu_link("Package maintainers", "package-maintainers.php");
-menu_link("Package approvals", "package-approval.php");
-menu_link("Manage categories", "category-manager.php");
-menu_link("Manage tags", "/tags/admin.php");
-menu_link("Karma", "karma.php");
-menu_link("CHM upload", "chm-upload.php");
-echo hdelim();
+response_header('PEAR Administration');
 
 // {{{ adding and deleting notes
 if (!empty($_REQUEST['cmd'])) {
@@ -52,9 +36,8 @@ if (!empty($_REQUEST['cmd'])) {
 
     } elseif ($_REQUEST['cmd'] == "Delete note" && !empty($_REQUEST['id'])) {
         include_once 'pear-database-note.php';
-		/**
-         * Delete note
-         */
+
+        // Delete note
         note::remove($_REQUEST['id']);
 
     } elseif ($_REQUEST['cmd'] == "Open Account" && !empty($_REQUEST['uid'])) {
@@ -108,7 +91,7 @@ if (!empty($_REQUEST['cmd'])) {
             'handle'    => $_REQUEST['acreq'],
             'from_site' => $_REQUEST['from_site'],
         );
-        
+
         $res = user::update($data);
         if (DB::isError($res)) {
             echo 'DB error: ' .  $res->getMessage();
