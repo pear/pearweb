@@ -278,9 +278,9 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     <select name="releases">
      <option value="">Select...</option>
      <option value="0">All</option>
-     <?foreach($releases as $r):?>
+     <?php foreach($releases as $r):?>
       <option value="<?php echo $r['id']; ?>"><?php echo $r['version']; ?></option>
-     <?endforeach?>
+     <?php endforeach?>
     </select>
     Colour:
     <select name="colours">
