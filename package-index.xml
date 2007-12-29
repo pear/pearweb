@@ -32,6 +32,12 @@
   <email>pajoye@php.net</email>
   <active>no</active>
  </lead>
+ <lead>
+  <name>Helgi Thormar</name>
+  <user>dufuz</user>
+  <email>dufuz@php.net</email>
+  <active>yes</active>
+ </lead>
  <developer>
   <name>Stig Bakken</name>
   <user>ssb</user>
@@ -55,12 +61,6 @@
   <user>toby</user>
   <email>toby@php.net</email>
   <active>no</active>
- </developer>
- <developer>
-  <name>Helgi Thormar</name>
-  <user>dufuz</user>
-  <email>dufuz@php.net</email>
-  <active>yes</active>
  </developer>
  <developer>
   <name>Christian Weiske</name>
@@ -136,7 +136,6 @@
      <file name="lists.php" role="web" />
      <file name="pear.eps.gz" role="web" />
      <file name="slides.php" role="web" />
-     <file name="tabs_list.php" role="web" />
      <file name="tutorials.php" role="web" />
     </dir> <!-- /public_html/support -->
     <file name="copyright.php" role="web" />
