@@ -113,7 +113,8 @@ function makeBorderTOC($this, $id = '')
         }
 
         // So that package/function names don't bleed over the sidebar
-        $title_fmt = wordwrap($title_fmt, 25, "\n", true);
+        $cut = $indent ? 22 : 25;
+        $title_fmt = wordwrap($title_fmt, $cut, "\n", true);
         $class = ($indent) ? 'man-side_page_nested' : 'man-side_page';
         $RSIDEBAR_DATA .= '  <li class="' . $class . '">'
                 . (($title == $this) ? "<strong>$title_fmt</strong>"
@@ -166,7 +167,7 @@ function navigationBar($title, $id, $loc)
 {
     global $NEXT, $PREV, $tstamp,$CHARSET;
 
-    echo '<table class="man-nav" border="0" width="620" bgcolor="#e0e0e0" cellpadding="0" cellspacing="4">';
+    echo '<table class="man-nav" cellpadding="0" cellspacing="4">';
     echo "\n";
 
     echo ' <tr class="man-nav_prev-next" valign="top">';
