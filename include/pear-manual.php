@@ -35,7 +35,7 @@ $doc_languages = array('en' => 'English',
 $NEXT = $PREV = $UP = $HOME = array(false, false);
 $TOC = array();
 
-$SIDEBAR_DATA = '';
+$RSIDEBAR_DATA = '';
 
 function setupNavigation($data)
 {
@@ -52,39 +52,39 @@ function setupNavigation($data)
 function makeBorderTOC($this, $id = '')
 {
     global $NEXT, $PREV, $UP, $HOME, $TOC, $DOCUMENT_ROOT;
-    global $SIDEBAR_DATA, $LANG,$CHARSET;
+    global $RSIDEBAR_DATA, $LANG,$CHARSET;
 
-    $SIDEBAR_DATA  = "\n\n<!-- START MANUAL'S SIDEBAR TOC -->\n\n";
-    $SIDEBAR_DATA .= '<form method="get" action="/manual-lookup.php">' . "\n";
-    $SIDEBAR_DATA .= '<table border="0" cellpadding="4" cellspacing="0">' . "\n";
+    $RSIDEBAR_DATA  = "\n\n<!-- START MANUAL'S SIDEBAR TOC -->\n\n";
+    $RSIDEBAR_DATA .= '<form method="get" action="/manual-lookup.php">' . "\n";
+    $RSIDEBAR_DATA .= '<table border="0" cellpadding="4" cellspacing="0">' . "\n";
 
     /** The manual lookup will be implemented at a later point.
-    $SIDEBAR_DATA .= '<tr valign="top"><td><small>' .
+    $RSIDEBAR_DATA .= '<tr valign="top"><td><small>' .
         '<input type="hidden" name="lang" value="' . $LANG . '">' .
         'lookup: <input type="text" class="small" name="function" size="10"> ' .
         make_submit('small_submit_white.gif', 'lookup', 'bottom') .
         '<br /></small></td></tr>';
 
-    $SIDEBAR_DATA .= '<tr bgcolor="#cccccc"><td></td></tr>';
+    $RSIDEBAR_DATA .= '<tr bgcolor="#cccccc"><td></td></tr>';
     */
 
-    $SIDEBAR_DATA .= '<tr valign="top"><td>' . "\n";
+    $RSIDEBAR_DATA .= '<tr valign="top"><td>' . "\n";
 
-    $SIDEBAR_DATA .= ' <ul class="man-side_top">' . "\n"
+    $RSIDEBAR_DATA .= ' <ul class="man-side_top">' . "\n"
                    . '  <li class="man-side_top">'
                    . make_link('./', $HOME[1]) . "</li>\n"
                    . ' </ul>' . "\n\n";
 
-    $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
+    $RSIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
 
     if (($HOME[1] != $UP[1]) && $UP[1]) {
-        $SIDEBAR_DATA .= ' <ul class="man-side_up">' . "\n"
+        $RSIDEBAR_DATA .= ' <ul class="man-side_up">' . "\n"
                        . '  <li class="man-side_up">'
                        . make_link($UP[0], $UP[1]) . "</li>\n"
                        . ' </ul>' . "\n\n";
     }
 
-    $SIDEBAR_DATA .= ' <ul class="man-side_pages">' . "\n";
+    $RSIDEBAR_DATA .= ' <ul class="man-side_pages">' . "\n";
 
     $package_name = getPackageNameForId($id);
     $indent = false;
@@ -106,13 +106,13 @@ function makeBorderTOC($this, $id = '')
         // if we're in indentation mode for methods, we have to stop the
         // indentation when we find 'Class Summary'
         if ($indent && substr($title_fmt, 0, 13) == 'Class Summary') {
-            $SIDEBAR_DATA .= "</li>\n";
-            $SIDEBAR_DATA .= '</ul>';
+            $RSIDEBAR_DATA .= "</li>\n";
+            $RSIDEBAR_DATA .= '</ul>';
             $indent = false;
         }
 
         $class = ($indent) ? 'man-side_page_nested' : 'man-side_page';
-        $SIDEBAR_DATA .= '  <li class="' . $class . '">'
+        $RSIDEBAR_DATA .= '  <li class="' . $class . '">'
                 . (($title == $this) ? "<strong>$title_fmt</strong>"
                                      : make_link($url, $title_fmt));
 
@@ -122,43 +122,43 @@ function makeBorderTOC($this, $id = '')
             || (substr($title_fmt, 0, 11) == 'constructor' && !$indent)
            ) {
             $indent = true;
-            $SIDEBAR_DATA .= '<ul class="man-side_pages">';
+            $RSIDEBAR_DATA .= '<ul class="man-side_pages">';
         }
     }
 
     if ($indent) {
-        $SIDEBAR_DATA .= "  </li>\n";
-        $SIDEBAR_DATA .= '</ul>';
+        $RSIDEBAR_DATA .= "  </li>\n";
+        $RSIDEBAR_DATA .= '</ul>';
     }
 
-    $SIDEBAR_DATA .= " </ul>\n\n";
+    $RSIDEBAR_DATA .= " </ul>\n\n";
 
     if (count($TOC) > 1) {
-        $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
+        $RSIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
     }
 
     // if we have a package name, add links to the package and the API docs
     if (!is_null($package_name)) {
-        $SIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n";
-        $SIDEBAR_DATA .= '  <li class="man-side_download">'
+        $RSIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n";
+        $RSIDEBAR_DATA .= '  <li class="man-side_download">'
                        . make_link('/package/' . $package_name,
                                    'Package Info') . "</li>\n";
-        $SIDEBAR_DATA .= '  <li class="man-side_download">'
+        $RSIDEBAR_DATA .= '  <li class="man-side_download">'
                        . make_link('/package/' . $package_name . '/docs/latest/',
                                    'API Documentation') . "</li>\n";
-        $SIDEBAR_DATA .= ' </ul>' . "\n";
-        $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
+        $RSIDEBAR_DATA .= ' </ul>' . "\n";
+        $RSIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
     }
 
-    $SIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n"
+    $RSIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n"
                    . '  <li class="man-side_download">'
                    . make_link('/manual/', 'Download Documentation') . "</li>\n";
-    $SIDEBAR_DATA .= ' </ul>' . "\n\n";
+    $RSIDEBAR_DATA .= ' </ul>' . "\n\n";
 
-    $SIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
+    $RSIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
 
-    $SIDEBAR_DATA .= "</td></tr></table></form>\n\n";
-    $SIDEBAR_DATA .= "<!-- END MANUAL'S SIDEBAR TOC -->\n\n";
+    $RSIDEBAR_DATA .= "</td></tr></table></form>\n\n";
+    $RSIDEBAR_DATA .= "<!-- END MANUAL'S SIDEBAR TOC -->\n\n";
 }
 
 function navigationBar($title, $id, $loc)
@@ -366,7 +366,7 @@ function sendManualHeaders($charset, $lang)
 
 function manualHeader($title, $id = '')
 {
-    global $HTDIG, $LANGUAGES, $LANG, $CHARSET, $SIDEBAR_DATA, $dbh;
+    global $HTDIG, $LANGUAGES, $LANG, $CHARSET, $RSIDEBAR_DATA, $dbh;
 
     makeBorderTOC($title, $id);
 
