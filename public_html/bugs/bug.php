@@ -566,6 +566,8 @@ response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']), false,
     htmlspecialchars($_SERVER['HTTP_HOST']) . '/feeds/bug_' . $id . '.rss" />
 ');
 
+show_bugs_menu(txfield('package_name'));
+
 // DISPLAY BUG
 if (!isset($_GET['thanks'])) {
     $_GET['thanks'] = 0;
@@ -597,19 +599,18 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
 }
 
 display_bug_error($errors);
-show_bugs_menu(txfield('package_name'));
 ?>
 
 <div id="bugheader">
 <table id="details">
   <tr id="title">
 <?php
-       echo '<th class="details" id="number">' . $bug_type . '&nbsp;#' . $id . '</th>';
+       echo '<th id="number">' . $bug_type . '&nbsp;#' . $id . '</th>';
 ?>
    <td id="summary" colspan="3"><?php echo clean($bug['sdesc']) ?></td>
   </tr>
   <tr id="submission">
-   <th class="details">Submitted:</th>
+   <th>Submitted:</th>
 <?php
 if ($bug['modified']) {
     echo '   <td style="white-space: nowrap;">' . format_date($bug['submitted']) . "</td>\n";
@@ -622,7 +623,7 @@ if ($bug['modified']) {
 
   </tr>
   <tr id="submitter">
-   <th class="details">From:</th>
+   <th>From:</th>
    <td>
 <?php
     if (!$bug['registered']) {
@@ -635,7 +636,7 @@ if ($bug['modified']) {
         echo spam_protect(htmlspecialchars($bug['email']));
     }
 ?></td>
-   <th class="details">Assigned:</th>
+   <th>Assigned:</th>
    <td><?php
     if (!empty($bug['assign'])) {
         $assigned_user = htmlspecialchars($bug['assign']);
@@ -644,9 +645,9 @@ if ($bug['modified']) {
    ?></td>
   </tr>
   <tr id="categorization">
-   <th class="details">Status:</th>
+   <th>Status:</th>
    <td><?php echo htmlspecialchars($bug['status']) ?></td>
-   <th class="details">Package:</th>
+   <th>Package:</th>
    <td><?php
    $name = htmlspecialchars($bug['package_name']);
    echo '<a href="/package/' . $name . '">' . $name . '</a>';
@@ -654,9 +655,9 @@ if ($bug['modified']) {
    ?></td>
   </tr>
   <tr id="situation">
-   <th class="details">PHP Version:</th>
+   <th>PHP Version:</th>
    <td><?php echo htmlspecialchars($bug['php_version']) ?></td>
-   <th class="details">OS:</th>
+   <th>OS:</th>
    <td><?php echo htmlspecialchars($bug['php_os']) ?></td>
   </tr>
 <?php
@@ -682,8 +683,8 @@ if ($bug['modified']) {
                     array($db->id));
                 if (isset($links[$db->id])) {
                     $assignedRoadmap[] = '<a href="/bugs/roadmap.php?package=' .
-                    $db->package . ($released ? '&showold=1' : '') .
-                        '&roadmapdetail=' . $db->roadmap_version .
+                    $db->package . ($released ? '&amp;showold=1' : '') .
+                        '&amp;roadmapdetail=' . $db->roadmap_version .
                         '#a' . $db->roadmap_version . '">' . $db->roadmap_version .
                         '</a>';
                 }
@@ -694,7 +695,7 @@ if ($bug['modified']) {
         }
 ?>
   <tr id="roadmap">
-   <th class="details">Roadmaps: </th>
+   <th>Roadmaps: </th>
 
    <td>
    <?php
@@ -707,15 +708,15 @@ if ($bug['modified']) {
 
 <?php if ($bug['votes']) {?>
   <tr id="votes">
-   <th class="details">Votes:</th><td><?php echo $bug['votes'] ?></td>
-   <th class="details">Avg. Score:</th><td><?php printf("%.1f &plusmn; %.1f", $bug['average'], $bug['deviation']) ?></td>
-   <th class="details">Reproduced:</th><td><?php printf("%d of %d (%.1f%%)",$bug['reproduced'],$bug['tried'],$bug['tried']?($bug['reproduced']/$bug['tried'])*100:0) ?></td>
+   <th>Votes:</th><td><?php echo $bug['votes'] ?></td>
+   <th>Avg. Score:</th><td><?php printf("%.1f &plusmn; %.1f", $bug['average'], $bug['deviation']) ?></td>
+   <th>Reproduced:</th><td><?php printf("%d of %d (%.1f%%)",$bug['reproduced'],$bug['tried'],$bug['tried']?($bug['reproduced']/$bug['tried'])*100:0) ?></td>
   </tr>
 <?php if ($bug['reproduced']) {?>
   <tr id="reproduced">
    <td colspan="2"></td>
-   <th class="details">Same Version:</th><td><?php printf("%d (%.1f%%)",$bug['samever'],($bug['samever']/$bug['reproduced'])*100) ?></td>
-   <th class="details">Same OS:</th><td><?php printf("%d (%.1f%%)",$bug['sameos'],($bug['sameos']/$bug['reproduced'])*100) ?></td>
+   <th>Same Version:</th><td><?php printf("%d (%.1f%%)",$bug['samever'],($bug['samever']/$bug['reproduced'])*100) ?></td>
+   <th>Same OS:</th><td><?php printf("%d (%.1f%%)",$bug['sameos'],($bug['sameos']/$bug['reproduced'])*100) ?></td>
   </tr>
 <?php } ?>
 <?php } ?>
@@ -884,7 +885,7 @@ if ($edit == 1 || $edit == 2) {
     echo $preview;
 ?>
 
-    <table>
+    <table id="bugform">
 
 <?php
     if ($edit == 1 && auth_check('pear.dev')):
@@ -892,7 +893,7 @@ if ($edit == 1 || $edit == 2) {
 ?>
 
         <tr>
-         <th class="details">
+         <th>
           <label for="in" accesskey="c">Qui<span class="accesskey">c</span>k Fix:</label>
          </th>
          <td colspan="3">
@@ -916,7 +917,7 @@ if ($edit == 1 || $edit == 2) {
 ?>
 
      <tr>
-      <th class="details">Status:</th>
+      <th>Status:</th>
       <td <?php echo (($edit != 1) ? 'colspan="3"' : '' ) ?>>
        <select name="in[status]">
         <?php show_state_options(isset($_POST['in']) && isset($_POST['in']['status']) ?
@@ -928,7 +929,7 @@ if ($edit == 1 || $edit == 2) {
 ?>
 
         </td>
-        <th class="details">Assign to:</th>
+        <th>Assign to:</th>
         <td>
          <input type="text" size="10" maxlength="16" name="in[assign]"
           value="<?php echo field('assign') ?>" />
@@ -943,7 +944,7 @@ if ($edit == 1 || $edit == 2) {
       </td>
      </tr>
      <tr>
-      <th class="details">Package:</th>
+      <th>Package:</th>
       <td colspan="3">
        <select name="in[package_name]">
         <?php show_types(isset($_POST['in']) && isset($_POST['in']['package_name']) ?
@@ -952,7 +953,7 @@ if ($edit == 1 || $edit == 2) {
       </td>
      </tr>
      <tr>
-      <th class="details">Bug Type:</th>
+      <th>Bug Type:</th>
        <td colspan="3">
         <select name="in[bug_type]">
             <?php show_type_options($bug['bug_type']); ?>
@@ -960,20 +961,20 @@ if ($edit == 1 || $edit == 2) {
       </td>
      </tr>
      <tr>
-      <th class="details">Summary:</th>
+      <th>Summary:</th>
       <td colspan="3">
        <input type="text" size="60" maxlength="80" name="in[sdesc]"
         value="<?php echo field('sdesc') ?>" />
       </td>
      </tr>
      <tr>
-      <th class="details">From:</th>
+      <th>From:</th>
       <td colspan="3">
        <?php echo spam_protect(field('email')) ?>
       </td>
      </tr>
      <tr>
-      <th class="details">New email:</th>
+      <th>New email:</th>
       <td colspan="3">
        <input type="text" size="40" maxlength="40" name="in[email]"
         value="<?php echo (isset($_POST['in']) && isset($_POST['in']['email']) ?
@@ -981,17 +982,17 @@ if ($edit == 1 || $edit == 2) {
       </td>
      </tr>
      <tr>
-      <th class="details">PHP Version:</th>
+      <th>PHP Version:</th>
       <td>
        <input type="text" size="20" maxlength="100" name="in[php_version]"
         value="<?php echo field('php_version') ?>" />
       </td>
-      <th class="details">Package Version:</th>
+      <th>Package Version:</th>
       <td>
        <input type="text" size="20" maxlength="100" name="in[package_version]"
         value="<?php echo field('package_version') ?>" />
       </td>
-      <th class="details">OS:</th>
+      <th>OS:</th>
       <td>
        <input type="text" size="20" maxlength="32" name="in[php_os]"
         value="<?php echo field('php_os') ?>" />
@@ -999,7 +1000,7 @@ if ($edit == 1 || $edit == 2) {
      </tr>
      <?php if (auth_check('pear.dev')): ?>
      <tr>
-      <th class="details">Assigned to <br />Roadmap Version(s):<br />
+      <th>Assigned to <br />Roadmap Version(s):<br />
       (<span class="headerbottom">Already released</span>)</th>
       <td colspan="5"><?php
         $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
@@ -1027,10 +1028,10 @@ if ($edit == 1 || $edit == 2) {
                 ?><input type="checkbox" name="in[fixed_versions][]" value="<?php
                 echo $db->id . '"';
                 if (isset($links[$db->id])) {
-                    echo ' checked="true"';
+                    echo ' checked="checked"';
                 }?>/> <?php echo $db->roadmap_version; '<br />';
                 if ($released) {
-                    echo '</span>';
+                    echo '&nbsp;</span>';
                 }
             }
         } else {
@@ -1040,7 +1041,6 @@ if ($edit == 1 || $edit == 2) {
       </td>
      </tr>
      <?php endif; //if (auth_check('pear.dev'))?>
-     <tr>
     </table>
     <div class="explain">
      <h1><a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
@@ -1049,59 +1049,51 @@ if ($edit == 1 || $edit == 2) {
     <label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<span class="accesskey">m</span>ment:</b></label>
     </p>
 
-    <textarea cols="60" rows="8" name="ncomment" id="ncomment"
+    <textarea cols="60" rows="10" name="ncomment" id="ncomment"
      wrap="physical"><?php echo clean($ncomment) ?></textarea>
 
-    <p style="margin-top: 0em">
-        <input type="submit" name="preview" value="Preview">&nbsp;<input type="submit" value="Submit" />
+    <p style="margin-top: 0em;">
+        <input type="submit" name="preview" value="Preview" />&nbsp;<input type="submit" value="Submit" />
     </p>
     </form>
 
-    <?php
+<?php
 } // if ($edit == 1 || $edit == 2)
-
-if (isset($auth_user) && $auth_user && $auth_user->registered) {
 ?>
 <div class="explain">
-
-    <form name="subscribetobug" action="/bugs/bug.php?id=<?php echo $id; ?>" method="post">
-    <table>
-      <tr>
-       <th class="details" colspan="2">Subscribe to this entry?</th>
-      </tr>
-      <tr>
-       <td class="details"><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>
-       <td class="details"><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>
-      </tr>
-    </table>
-    </form>
-</div>
+ <form name="subscribetobug" id="subscribetobug" action="/bugs/bug.php?id=<?php echo $id; ?>" method="post">
+  <table>
+   <tr>
+    <th class="details" colspan="2">Subscribe to this entry?</th>
+   </tr>
+<?php
+if (isset($auth_user) && $auth_user && $auth_user->registered) {
+?>
+   <tr>
+    <td class="details"><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>
+    <td class="details"><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>
+   </tr>
 <?php
 } else {
 ?>
-<div class="explain">
-
-    <form name="subscribetobug" action="/bugs/bug.php?id=<?php echo $id; ?>" method="post">
-    <table>
-      <tr>
-       <th class="details" colspan="2">Subscribe to this entry?</th>
-      </tr>
-      <tr>
-       <th class="details"><label for="subscribe_email">Your email:</label></th>
-       <td><input type="text" id="subscribe_email" name="subscribe_email" value="" /></td>
-      </tr>
-      <tr>
-       <td class="details"><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>
-       <td class="details"><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>
-      </tr>
-    </table>
-    </form>
-</div>
+   <tr>
+    <th class="details"><label for="subscribe_email">Your email:</label></th>
+    <td><input type="text" id="subscribe_email" name="subscribe_email" value="" /></td>
+   </tr>
+   <tr>
+    <td class="details"><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>
+    <td class="details"><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>
+   </tr>
 <?php
 }
+?>
+  </table>
+ </form>
+</div>
 
+<?php
 if ($edit == 3) {
-$action = htmlspecialchars($_SERVER['PHP_SELF']);
+    $action = htmlspecialchars($_SERVER['PHP_SELF']);
 ?>
     <form name="comment" id="comment" action="<?php echo $action ?>" method="post">
 <?php if (isset($auth_user) && $auth_user): ?>
@@ -1162,7 +1154,7 @@ $action = htmlspecialchars($_SERVER['PHP_SELF']);
      <input type="hidden" name="edit" value="<?php echo $edit ?>" />
      <textarea cols="60" rows="10" name="ncomment"
       wrap="physical"><?php echo clean($ncomment) ?></textarea>
-     <br /><input type="submit" name="preview" value="Preview">&nbsp;<input type="submit" value="Submit" />
+     <br /><input type="submit" name="preview" value="Preview" />&nbsp;<input type="submit" value="Submit" />
     </div>
 
     </form>
