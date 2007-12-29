@@ -89,7 +89,8 @@ function makeBorderTOC($this, $id = '')
     $package_name = getPackageNameForId($id);
     $indent = false;
 
-    for ($i = 0; $i < count($TOC); $i++) {
+    $toc_count = count($TOC);
+    for ($i = 0; $i < $toc_count; $i++) {
         list($url, $title) = $TOC[$i];
         if (!$url || !$title) {
             continue;
@@ -111,6 +112,8 @@ function makeBorderTOC($this, $id = '')
             $indent = false;
         }
 
+        // So that package/function names don't bleed over the sidebar
+        $title_fmt = wordwrap($title_fmt, 25, "\n", true);
         $class = ($indent) ? 'man-side_page_nested' : 'man-side_page';
         $RSIDEBAR_DATA .= '  <li class="' . $class . '">'
                 . (($title == $this) ? "<strong>$title_fmt</strong>"
