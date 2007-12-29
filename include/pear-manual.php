@@ -158,8 +158,6 @@ function makeBorderTOC($this, $id = '')
                    . make_link('/manual/', 'Download Documentation') . "</li>\n";
     $RSIDEBAR_DATA .= ' </ul>' . "\n\n";
 
-    $RSIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
-
     $RSIDEBAR_DATA .= "</td></tr></table></form>\n\n";
     $RSIDEBAR_DATA .= "<!-- END MANUAL'S SIDEBAR TOC -->\n\n";
 }
