@@ -111,6 +111,11 @@ echo $extraHeaders;
  <!--[if IE 7]><link rel="stylesheet" type="text/css" href="/css/IE7styles.css" /><![endif]-->
  <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/IE6styles.css" /><![endif]-->
  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo htmlspecialchars($_SERVER['HTTP_HOST']); ?>/feeds/latest.rss" />
+ <!-- compliance patch for microsoft browsers -->
+ <!--[if lt IE 7]>
+  <script src="/javascript/ie7-standard-p.js" type="text/javascript">IE7_BOX_MODEL = false;</script>
+  <script src="/javascript/ie7-css3-selectors.js" type="text/javascript"></script>
+ <![endif]-->
 </head>
 
 <body>
