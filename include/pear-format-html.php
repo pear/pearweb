@@ -408,6 +408,11 @@ function draw_navigation()
         $rel += array($self => $self);
     }
 
+    // avoid a notice if the array key isn't set
+    if (!array_key_exists($self, $rel)) {
+        $rel[$self] = null;
+    }
+
     // Still no luck, lets fallback on index.php
     if ($rel[$self] === null) {
         $self = '/index.php';
