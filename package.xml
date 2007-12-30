@@ -326,7 +326,6 @@
      <file name="packages_status.css" role="www" />
      <file name="reset-fonts.css" role="www" />
      <file name="style.css" role="www" />
-     <file name="tabs.css" role="www" />
      <file name="thickbox.css" role="www" />
     </dir> <!-- /public_html/css -->
     <dir name="doc">
@@ -456,6 +455,8 @@
      <dir name="TreeMenu">
       <file name="TreeMenu.js" role="www" />
      </dir> <!-- /public_html/javascript/TreeMenu -->
+     <file name="ie7-standard-p.js" role="www" />
+     <file name="ie7-css3-selectors.js" role="www" />
      <file name="jquery.js" role="www" />
      <file name="md5.js" role="www" />
      <file name="package-maintainers.js" role="www" />
