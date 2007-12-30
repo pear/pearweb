@@ -336,10 +336,11 @@ function sendManualHeaders($charset, $lang)
 
 function manualHeader($title, $id = '')
 {
-    global $HTDIG, $LANGUAGES, $LANG, $CHARSET, $RSIDEBAR_DATA, $dbh;
+    global $HTDIG, $CHARSET;
 
     makeBorderTOC($title, $id);
 
+    header('Content-Type: text/html; charset=' . $CHARSET);
     response_header('Manual :: ' . $title);
     # create links to plain html and other languages
     if (!$HTDIG) {
