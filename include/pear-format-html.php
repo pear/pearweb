@@ -104,13 +104,13 @@ echo $extraHeaders;
  <link rel="shortcut icon" href="/gifs/favicon.ico" />
  <link rel="stylesheet" type="text/css" href="/css/reset-fonts.css" />
  <link rel="stylesheet" type="text/css" href="/css/style.css" />
- <!--[if IE 7]><link rel="stylesheet" type="text/css" href="/css/IE7styles.css" /><![endif]-->
- <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/IE6styles.css" /><![endif]-->
 <?php
     foreach ($extra_styles as $style_file) {
         echo ' <link rel="stylesheet" href="' . $style_file . "\" />\n";
     }
 ?>
+ <!--[if IE 7]><link rel="stylesheet" type="text/css" href="/css/IE7styles.css" /><![endif]-->
+ <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/IE6styles.css" /><![endif]-->
  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo htmlspecialchars($_SERVER['HTTP_HOST']); ?>/feeds/latest.rss" />
 </head>
 
