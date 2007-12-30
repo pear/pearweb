@@ -29,6 +29,7 @@ response_header('Credits');
   <li><?php echo user_link('cellog'); ?></li>
   <li><?php echo user_link('dufuz'); ?></li>
   <li><?php echo user_link('mj'); ?></li>
+  <li><?php echo user_link('wiesemann'); ?></li>
 </ul>
 
 <h3>&raquo; Emeritus</h3>
