@@ -340,7 +340,6 @@ function manualHeader($title, $id = '')
 
     makeBorderTOC($title, $id);
 
-    echo '<?xml version="1.0" encoding="' . $CHARSET . '" ?>';
     response_header('Manual :: ' . $title);
     # create links to plain html and other languages
     if (!$HTDIG) {
