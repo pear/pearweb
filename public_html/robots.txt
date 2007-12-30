@@ -3,3 +3,6 @@ Disallow: /source.php
 Disallow: /get
 Disallow: /search.php
 Disallow: /distributions
+Disallow: /bugs/search.php
+Disallow: /package/*/docs/
+Allow: /package/*/docs/latest/
