@@ -148,33 +148,33 @@ form#asearch th {
     font-weight: bold;
 }
 
-table#primary {
+#primary {
     background: #eee;
     padding: 8px;
     width: 100%;
 }
 
-table#primary input[type="radio"] {
+#primary input[type="radio"] {
     margin-right: 3px;
 }
 
-table#secondary {
+#secondary {
     margin-top: 8px;
     padding: 4px;
 }
 
-table#primary td, table#secondary td {
+#primary td, table#secondary td {
     padding: 2px;
 }
 
 /* Used in stats.php */
 
-.bug_bg0 {
+td.bug_bg0 {
     background-color: #DDDDDD;
     font-size: 85%;
     text-align: center;
 }
-.bug_bg1 {
+td.bug_bg1 {
     background-color: #EEEEEE;
     font-size: 85%;
     text-align: center;
