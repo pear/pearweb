@@ -53,6 +53,7 @@ $a->setNotes('
  * Fix Bug #11638: Link to Bug Tracker on User Note Entry Screen fails [dufuz]
  * Fix Bug #11759: Manual: Note form loses page URL [cellog]
  * Fix Bug #11760: Bug tracker: summary is shown twice [wiesemann]
+ * Fix Bug #11180  User note\'s timestamp is updated on approval [cellog]
  * Fix Bug #11804: Forgotten Password Field for mailaddress too short [cellog]
  * Fix Bug #12004: Roadmap lacks error handling in case of duplicate roadmap versions [dufuz]
  * Fix Bug #12021: Inconsistent bug tracker behaviour [dufuz]
