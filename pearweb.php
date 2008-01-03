@@ -298,6 +298,13 @@ class pearweb_postinstall
         $middle[] = ' RewriteRule   /bugs/([0-9]+)/*$ /bugs/bug.php?id=$1 [R]
 ' . $eol;
         $middle[] = $eol;
+        $middle[] = ' #' . $eol;
+        $middle[] = ' # Rewriting rule for the manual' . $eol;
+        $middle[] = ' # throw pecl doc people to the php manual' . $eol;
+        $middle[] = ' #' . $eol;
+        $middle[] = $eol;
+        $middle[] = '  RewriteRule   /manual/[a-z]{2}/pecl.([a-zA-Z0-9_-]+)\.php$ http://www.php.net/$1 [R=301]' . $eol;
+        $middle[] = $eol;
         $middle[] = ' SetEnvIf User-Agent "MS Search 4\.0 Robot\)$" badrobot' . $eol;
         $middle[] = $eol;
         $middle[] = ' <Directory />' . $eol;
