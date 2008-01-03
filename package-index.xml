@@ -86,7 +86,7 @@
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
 - Request #12790 Account for all the CSS changes in the pearweb package [dufuz]
- S</notes>
+ </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="public_html">
