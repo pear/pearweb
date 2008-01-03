@@ -154,7 +154,7 @@
     <min>4.3.0</min>
    </php>
    <pearinstaller>
-    <min>1.7.0RC1</min>
+    <min>1.7.0RC2</min>
    </pearinstaller>
   </required>
  </dependencies>

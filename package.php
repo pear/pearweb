@@ -99,8 +99,8 @@ $a->setNotes('
 $a->resetUsesrole();
 $a->clearDeps();
 $a->setPhpDep('5.2.0');
-$a->setPearInstallerDep('1.7.0RC1');
-$a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.0RC1');
+$a->setPearInstallerDep('1.7.0RC2');
+$a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.0RC2');
 $a->addPackageDepWithChannel('optional', 'pearweb_index', 'pear.php.net', '1.16.4');
 $a->addPackageDepWithChannel('optional', 'pearweb_gopear', 'pear.php.net', '0.6.0');
 $a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.2');
