@@ -84,6 +84,21 @@ this interface</a>.</p>
 <h2>&raquo; Hot off the Press</h2>
 <div id="news">
  <p>
+  <strong>[January 3, 2008]</strong><br />
+  As promised, XML-RPC has been disabled at pear.php.net.  Information is now
+  served via REST files at pear.php.net/rest.  If you are using
+  a PEAR version earlier than 1.4.0, you will need to manually upgrade PEAR using
+  direct URLs.  To upgrade to the latest PEAR, you can either use go-pear
+  (<a href="http://pear.php.net/go-pear">http://pear.php.net/go-pear</a>) or
+  upgrade using direct URLs:
+  <pre>
+   pear upgrade --force http://pear.php.net/get/Archive_Tar http://pear.php.net/XML_Parser http://pear.php.net/get/Console_Getopt
+   pear upgrade --force http://pear.php.net/get/PEAR-1.4.3.tar
+   pear upgrade PEAR
+  </pre>
+ </p>
+
+ <p>
   <strong>[October 19, 2007]</strong><br />
   Following the tradition of internet culture, PEAR now channels blogs
   about PEAR. See it at
