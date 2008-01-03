@@ -395,6 +395,13 @@ function draw_navigation()
     }
 
     // Can't find a match, lets cut pieces of the url
+    // lets first try sub dir + a php file
+    if (!isset($rel[$self]) OR $rel[$self] === null) {
+        $pos  = strpos($self, '.php');
+        $self = substr($self, 0, $pos + 4);
+    }
+
+    // Can't find a match, lets cut pieces of the url
     if (!isset($rel[$self]) OR $rel[$self] === null) {
         $pos  = strpos($self, '/', 1);
         $self = substr($self, 0, $pos + 1);
