@@ -77,8 +77,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2007-12-07</date>
- <time>00:03:54</time>
+ <date>2008-01-03</date>
+ <time>18:05:58</time>
  <version>
   <release>1.17.0</release>
   <api>0.1.1</api>
@@ -107,12 +107,22 @@
  * Fix Bug #11760: Bug tracker: summary is shown twice [wiesemann]
  * Fix Bug #11804: Forgotten Password Field for mailaddress too short [cellog]
  * Fix Bug #12004: Roadmap lacks error handling in case of duplicate roadmap versions [dufuz]
+ * Fix Bug #12021: Inconsistent bug tracker behaviour [dufuz]
+ * Fix Bug #12237: Patch upload doesn&amp;apos;t work during ticket creation [dufuz]
+ * Fix Bug #12296: 17k patch won&amp;apos;t upload - described limit is 20k but actual is 10k. [dufuz]
+ * Fix Bug #12467: adding 5.2.5 to the PHP version select box [wiesemann]
+ * Fix Bug #12470: don&amp;apos;t list non-developers [dufuz]
+ * Fix Bug #12502: Bug tracker: &amp;quot;Add Comment&amp;quot; tab not always visible [dufuz]
+ * Fix Bug #12526: Last updated on bottom of each page [dufuz]
+ * Fix Bug #12718: Unnecessary space in package list on account info page [wiesemann]
+ * Fix Bug #12728: Undefined variable error in notes system [wiesemann]
  * Implement Feature #3085: Link to package page from finished proposals [dufuz]
  * Implement Feature #10800: Copy closed tickets since last release into a new roadmap [dufuz]
  * Implement Feature #10900: link developer maps from pearweb [cweiske]
  * Implement Feature #10943: Remove verification screen for developers [dufuz]
  * Implement Feature #11086: tabs &amp;amp; whitespace mixing in assorted files [dufuz]
  * Implement Feature #11109: Restyle the warning message css [dufuz]
+ * Implement Feature #11118: List of PEAR packages should not show deprecated packages [dufuz]
  * Implement Feature #11270: Replace all image CAPTCHA with math one [dufuz]
  * Implement Feature #11362: Get rid of captcha for pear.dev when sending mail to user via webform [dufuz]
  * Implement Feature #11436: split go-pear in its own package [dufuz]
@@ -122,6 +132,20 @@
    info page [dufuz]
  * Implement Feature #11985: Developer map rest link should be application/rdf+xml [davidc]
  * Implement Feature #12013: package name is shown in bug list even you select only one package [dufuz]
+ * Implement Feature #12472: choose a sensible font size [dufuz]
+ * Implement Feature #12591: Removing all code dealing with DES passwords [dufuz]
+ * Implement Feature #12623: Removal of the xmlrpc gateway [dufuz]
+ * Implement Feature #12631: Ditch the builtin HTML_Menu class for upstream one [dufuz]
+ * Implement Feature #12632: Use the new file roles added in PEAR 1.7.0 [dufuz]
+ * Implement Feature #12646: Package: field should link to the package home page [dufuz]
+ * Implement Feature #12691: New presentation slide [ifeghali]
+ * Implement Feature #12721: Show dependent packages in alphabetic order on package info page [wiesemann]
+ * Implement Feature #12724: Cron job for fetching PHP versions into the bug tracker version
+   dropdown list [dufuz]
+ * Implement Feature #12786: Redesign of the menu system [dufuz]
+ * Implement Feature #12787: YUI Reset CSS to unify the site more properly between A grade browsers [dufuz]
+ * Implement Feature #12788: Make the layout fluid via Divs where it make sense [dufuz]
+ * Implement Feature #12789: Move the developer bugs stats into it&amp;apos;s own file [dufuz]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -455,8 +479,8 @@
      <dir name="TreeMenu">
       <file name="TreeMenu.js" role="www" />
      </dir> <!-- /public_html/javascript/TreeMenu -->
-     <file name="ie7-standard-p.js" role="www" />
      <file name="ie7-css3-selectors.js" role="www" />
+     <file name="ie7-standard-p.js" role="www" />
      <file name="jquery.js" role="www" />
      <file name="md5.js" role="www" />
      <file name="package-maintainers.js" role="www" />
@@ -2202,7 +2226,7 @@ Split off index-updated files into pearweb_index package</notes>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2007-12-07</date>
+   <date>2008-01-03</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
  * Fix Bug #9476: schema validation error on postinstall script [dufuz]
@@ -2223,12 +2247,22 @@ Split off index-updated files into pearweb_index package</notes>
  * Fix Bug #11760: Bug tracker: summary is shown twice [wiesemann]
  * Fix Bug #11804: Forgotten Password Field for mailaddress too short [cellog]
  * Fix Bug #12004: Roadmap lacks error handling in case of duplicate roadmap versions [dufuz]
+ * Fix Bug #12021: Inconsistent bug tracker behaviour [dufuz]
+ * Fix Bug #12237: Patch upload doesn&amp;apos;t work during ticket creation [dufuz]
+ * Fix Bug #12296: 17k patch won&amp;apos;t upload - described limit is 20k but actual is 10k. [dufuz]
+ * Fix Bug #12467: adding 5.2.5 to the PHP version select box [wiesemann]
+ * Fix Bug #12470: don&amp;apos;t list non-developers [dufuz]
+ * Fix Bug #12502: Bug tracker: &amp;quot;Add Comment&amp;quot; tab not always visible [dufuz]
+ * Fix Bug #12526: Last updated on bottom of each page [dufuz]
+ * Fix Bug #12718: Unnecessary space in package list on account info page [wiesemann]
+ * Fix Bug #12728: Undefined variable error in notes system [wiesemann]
  * Implement Feature #3085: Link to package page from finished proposals [dufuz]
  * Implement Feature #10800: Copy closed tickets since last release into a new roadmap [dufuz]
  * Implement Feature #10900: link developer maps from pearweb [cweiske]
  * Implement Feature #10943: Remove verification screen for developers [dufuz]
  * Implement Feature #11086: tabs &amp;amp; whitespace mixing in assorted files [dufuz]
  * Implement Feature #11109: Restyle the warning message css [dufuz]
+ * Implement Feature #11118: List of PEAR packages should not show deprecated packages [dufuz]
  * Implement Feature #11270: Replace all image CAPTCHA with math one [dufuz]
  * Implement Feature #11362: Get rid of captcha for pear.dev when sending mail to user via webform [dufuz]
  * Implement Feature #11436: split go-pear in its own package [dufuz]
@@ -2238,6 +2272,20 @@ Split off index-updated files into pearweb_index package</notes>
    info page [dufuz]
  * Implement Feature #11985: Developer map rest link should be application/rdf+xml [davidc]
  * Implement Feature #12013: package name is shown in bug list even you select only one package [dufuz]
+ * Implement Feature #12472: choose a sensible font size [dufuz]
+ * Implement Feature #12591: Removing all code dealing with DES passwords [dufuz]
+ * Implement Feature #12623: Removal of the xmlrpc gateway [dufuz]
+ * Implement Feature #12631: Ditch the builtin HTML_Menu class for upstream one [dufuz]
+ * Implement Feature #12632: Use the new file roles added in PEAR 1.7.0 [dufuz]
+ * Implement Feature #12646: Package: field should link to the package home page [dufuz]
+ * Implement Feature #12691: New presentation slide [ifeghali]
+ * Implement Feature #12721: Show dependent packages in alphabetic order on package info page [wiesemann]
+ * Implement Feature #12724: Cron job for fetching PHP versions into the bug tracker version
+   dropdown list [dufuz]
+ * Implement Feature #12786: Redesign of the menu system [dufuz]
+ * Implement Feature #12787: YUI Reset CSS to unify the site more properly between A grade browsers [dufuz]
+ * Implement Feature #12788: Make the layout fluid via Divs where it make sense [dufuz]
+ * Implement Feature #12789: Move the developer bugs stats into it&amp;apos;s own file [dufuz]
    </notes>
   </release>
  </changelog>
