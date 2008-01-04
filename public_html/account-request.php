@@ -49,7 +49,7 @@ $mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing li
 
 <p>
  If the reason for your request does not fall under one of the
- reasons above, please contact the $mailto;
+ reasons above, please contact the $mailto.
 </p>
 
 <h3>
