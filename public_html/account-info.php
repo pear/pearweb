@@ -183,7 +183,7 @@ echo '     <ul>' . "\n";
 require 'bugs/pear-bugs.php';
 $bugs = new PEAR_Bugs;
 $info = $bugs->developerBugStats($handle);
-echo '      <li>Rank: <strong><a href="/bugs/stats.php#devs">#' . $info['rank'] . ' of ' . count($info['rankings']) . '</a></strong> developers who have fixed bugs <strong>(' .
+echo '      <li>Rank: <strong><a href="/bugs/stats_dev.php">#' . $info['rank'] . ' of ' . count($info['rankings']) . '</a></strong> developers who have fixed bugs <strong>(' .
     $info['alltime'] . ' fixed bugs)</strong></li>' . "\n";
 echo '      <li>Average age of open bugs: <strong>' . $info['openage'] . ' days</strong></li>' . "\n";
 echo '      <li>Number of open bugs: <strong>' . $info['opencount'] . '</strong></li>' . "\n";
