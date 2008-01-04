@@ -379,7 +379,7 @@ input {
     font-family: verdana;
 }
 
-button, input[type="button"], input[type="submit"]  {
+button, input[type="button"], input[type="submit"], input[type="reset"] {
     font-family: "Lucida Grande", Myriad, "Andale Sans", "Luxi Sans", "Bitstream Vera Sans", Tahoma, "Toga Sans", Helvetica, Arial, sans-serif;
     font-weight: bold;
     background:#fafafa;
@@ -400,12 +400,12 @@ button, input[type="button"], input[type="submit"]  {
     -moz-border-radius: 4px;
 }
 
-button:hover, input[type="button"]:hover, input[type="submit"]:hover  {
+button:hover, input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover {
     background: #fafafa;
     color: #333;
 }
 
-button:active, input[type="button"]:active, input[type="submit"]:active {
+button:active, input[type="button"]:active, input[type="submit"]:active, input[type="reset"]:active {
     background: #e4e6e1;
     color: #555;
 }
@@ -425,7 +425,7 @@ input[type="text"], input[type="password"], select {
 input[type="text"], input[type="password"], textarea, select {
     color: #333;
     background:#fff;
-    padding: 2px;
+    padding: 3px;
 }
 
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus  {
