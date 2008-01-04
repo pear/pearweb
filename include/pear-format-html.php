@@ -423,8 +423,10 @@ function draw_navigation()
     // Not really menu items but required so the correct
     // sub menu item gets selected
     $fake = array(
-        '/user/'    => '/accounts.php',
-        '/package/' => '/packages.php',
+        '/user/'              => '/accounts.php',
+        '/package/'           => '/packages.php',
+        '/package-edit.php'   => '/packages.php',
+        '/package-delete.php' => '/packages.php',
     );
 
     if (isset($fake[$self])) {
