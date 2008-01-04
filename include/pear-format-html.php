@@ -612,10 +612,10 @@ class BorderBox {
         }
         $i = $this->indent;
         echo "<!-- border box starts -->\n";
-        echo "$i<table cellpadding=\"0\" cellspacing=\"1\" style=\"width: $this->width; border: 0px;\">\n";
+        echo "$i<table cellpadding=\"0\" style=\"width: $this->width; border: 0px;\">\n";
         echo "$i <tr>\n";
-        echo "$i  <td style=\"background-color: #000000;\">\n";
-        echo "$i   <table cellpadding=\"2\" cellspacing=\"1\" style=\"width: 100%; border: 0px;\">\n";
+        echo "$i  <td>\n";
+        echo "$i   <table cellpadding=\"2\" style=\"width: 100%; border: 0px;\">\n";
         echo "$i    <tr style=\"background-color: #CCCCCC;\">\n";
         echo "$i     <th";
         if ($this->cols > 1) {
@@ -651,11 +651,7 @@ class BorderBox {
         for ($j = 0; $j < $this->cols-1; $j++) {
             echo "$i     <td style=\"vertical-align: top; background-color: #E8E8E8\">";
             $data = @func_get_arg($j + 1);
-            if (!isset($data)) {
-                echo "&nbsp;";
-            } else {
-                print $data;
-            }
+            echo !isset($data) ? "&nbsp;" : $data;
             echo "</td>\n";
         }
         echo "$i    </tr>\n";
