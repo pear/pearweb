@@ -181,7 +181,7 @@ echo $extraHeaders;
  </div>
 
   <div id="header">
-   <?php echo make_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false) ); ?><br />
+   <?php echo make_link('/', make_image('pearsmall.gif', 'PEAR') ); ?><br />
   </div>
 
 <div id="menubar">
@@ -357,7 +357,7 @@ function draw_navigation()
             '/accounts.php'        => 'List Accounts',
             '/release-upload.php'  => 'Upload Release',
             '/package-new.php'     => 'New Package',
-            '/notes/admin'         => 'Manage User Notes',
+            '/notes/admin/'        => 'Manage User Notes',
             '/election/'           => 'View Elections',
         );
     } else {
@@ -398,13 +398,13 @@ function draw_navigation()
     // lets first try sub dir + a php file
     if (!isset($rel[$self]) OR $rel[$self] === null) {
         $pos  = strpos($self, '.php');
-        $self = substr($self, 0, $pos + 4);
+        $self = $pos !== false ? substr($self, 0, $pos + 4) : $self;
     }
 
     // Can't find a match, lets cut pieces of the url
     if (!isset($rel[$self]) OR $rel[$self] === null) {
         $pos  = strpos($self, '/', 1);
-        $self = substr($self, 0, $pos + 1);
+        $self = $pos !== false ? substr($self, 0, $pos + 1) : $self;
     }
 
     /* Check if it's a top level item.
@@ -418,6 +418,17 @@ function draw_navigation()
     // avoid a notice if the array key isn't set
     if (!array_key_exists($self, $rel)) {
         $rel[$self] = null;
+    }
+
+    // Not really menu items but required so the correct
+    // sub menu item gets selected
+    $fake = array(
+        '/user/'    => '/accounts.php',
+        '/package/' => '/packages.php',
+    );
+
+    if (isset($fake[$self])) {
+        $self = $fake[$self];
     }
 
     // Still no luck, lets fallback on index.php
