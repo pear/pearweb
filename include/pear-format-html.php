@@ -181,7 +181,7 @@ echo $extraHeaders;
  </div>
 
   <div id="header">
-   <?php echo make_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false, 'margin: 5px;') ); ?><br />
+   <?php echo make_link('/', make_image('pearsmall.gif', 'PEAR', false, false, false, false) ); ?><br />
   </div>
 
 <div id="menubar">
