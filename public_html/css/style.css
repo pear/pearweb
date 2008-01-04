@@ -16,13 +16,17 @@ p {
     margin: 1em;
 }
 
-ul {
+ul, ol {
     margin: 1em;
     margin-left: 2em;
 }
 
-li {
+ul li {
     list-style-type: square;
+}
+
+ol li {
+    list-style-type: decimal;
 }
 
 #doc3 {margin:auto;}
