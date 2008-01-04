@@ -30,7 +30,7 @@ li {
 div#body {
     width: auto;
     vertical-align: top;
-    padding: 0.3em 0.5em 1em 0.5em;
+    padding: 0.3em 0.5em 1em 1em;
 }
 
 /* HEADER */
@@ -142,7 +142,7 @@ div#body {
 }
 
 #menu li.first {
-    margin-left: 20px;
+    margin-left: 1em;
 }
 
 #submenu {
@@ -177,7 +177,7 @@ div#body {
 }
 
 #submenu li.first {
-    margin-left: 10px;
+    margin-left: 2em;
     border-left: none;
 }
 
