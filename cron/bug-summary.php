@@ -52,7 +52,7 @@ $query = "
       AND
         (p.package_type = '$site'
              OR
-         b.package_name IN ('" . implode("', '", $pseudo_pkgs) . "'))
+         b.package_name IN ('Documentation'))
     ORDER BY b.package_name, b.id, b.status";
 $result =& $dbh->getAll($query);
 
@@ -62,8 +62,8 @@ if (count($result) > 0 && !PEAR::isError($result)) {
 
     // Make the Package -> Bug array
     foreach ($result as $row) {
-        $packageBugs[$row['package_name']][$row['id']] = array(  
-                'sdesc'        => rinse($row['sdesc']), 
+        $packageBugs[$row['package_name']][$row['id']] = array(
+                'sdesc'        => rinse($row['sdesc']),
                 'email'        => $row['email'],
                 'status'       => $row['status']
         );
@@ -84,22 +84,22 @@ if (count($result) > 0 && !PEAR::isError($result)) {
             $dev_text .= ' ' . $siteBig . ' Bug Database summary for ' . $package . ' - http://' . $site . '.php.net/bugs' . "\n\n";
             //$dev_text .= ' Here comes some fun fun text which QA still hasn't decided upon'."\n\n";
             $dev_text .= '  ID  Status     Summary'."\n";
-            
+
             foreach ($value as $id => $bug_info) {
                 $text = sprintf("%4d ", $id);
                 $text .= sprintf("%-8s ",$bug_info['status']);
                 $text .= ' '.$bug_info['sdesc'].'. ';
                 $body .= $text . "\n";
- 
-                // format mail so it looks nice, use 72 to make piners happy 
+
+                // format mail so it looks nice, use 72 to make piners happy
                 $wrapped_text = wordwrap($text, 72);
-    
+
                 $dev_text .= "\n" . $wrapped_text .
                             "\n\n" . '  Further comments can be seen at http://' . $site . '.php.net/bugs/' . $id.
                             "\n" . '  Edit this bug report at http://' . $site . '.php.net/bugs/bug.php?id=' . $id . '&edit=1' . "\n";
 
             }
-        
+
             $subject = '[' . $siteBig . '-BUG][Reminder] Reminder about open bugs in ' . $package;
 
             switch ($package) {
@@ -136,10 +136,10 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                         $text = sprintf("%4d ", $bug_info['id']);
                         $text .= sprintf("%-8s ",$bug_info['status']);
                         $text .= ' '.$bug_info['sdesc'].'. ';
-         
-                        // format mail so it looks nice, use 72 to make piners happy 
+
+                        // format mail so it looks nice, use 72 to make piners happy
                         $wrapped_text = wordwrap($text, 72);
-            
+
                         $dev_text .= "\n" . $wrapped_text .
                                     "\n\n" . '  Further comments can be seen at http://' . $site . '.php.net/bugs/' . $bug_info['id'] .
                                     "\n" . '  Edit this bug report at http://' . $site . '.php.net/bugs/bug.php?id=' . $bug_info['id'] . '&edit=1' . "\n";
@@ -171,7 +171,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                             AND
                               p.name = '$package'";
                 $result =& $dbh->getAll($query);
-            
+
                 if (count($result) > 0 && !PEAR::isError($result)) {
                     $mail_headers .= 'CC: ';
                     foreach ($result as $maintain) {
@@ -184,7 +184,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                     $mail_headers = substr($mail_headers, 0, -1);
                 }
             }
-            // Email Leads/Developers of X package with a summary of open 
+            // Email Leads/Developers of X package with a summary of open
             // bugs for the package
             mail($to, rinse($subject), $dev_text, $mail_headers, '-f bounce-no-user@php.net');
         }
