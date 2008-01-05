@@ -343,7 +343,6 @@
      <file name="index.php" role="www" />
     </dir> <!-- /public_html/channels -->
     <dir name="css">
-     <file name="bugs-controls.css" role="www" />
      <file name="bugs.css" role="www" />
      <file name="IE6styles.css" role="www" />
      <file name="IE7styles.css" role="www" />
