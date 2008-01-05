@@ -74,9 +74,9 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-01-03</date>
+ <date>2008-01-05</date>
  <version>
-  <release>1.16.12</release>
+  <release>1.16.13</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -85,7 +85,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Request #12790 Account for all the CSS changes in the pearweb package [dufuz]
+- Bug #12833 news item on pear.php.net typo in xml_parser url [dufuz]
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -356,6 +356,21 @@
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
    - Request #12790 Account for all the CSS changes in the pearweb package [dufuz]
+   </notes>
+  </release>
+  <release>
+   <date>2008-01-05</date>
+   <version>
+    <release>1.16.13</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+  - Bug #12833 news item on pear.php.net typo in xml_parser url [dufuz]
    </notes>
   </release>
  </changelog>
