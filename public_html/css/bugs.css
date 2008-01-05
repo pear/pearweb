@@ -1,9 +1,6 @@
 /* STYLES FOR THE BUG SYSTEM */
 
 /* $Id$ */
-
-@import url(/css/bugs-controls.css);
-
 td.content {
     font-size: 93%;
 }
@@ -54,12 +51,37 @@ table.lusersearch tr {
     vertical-align: top;
 }
 
-/*
- * these are redundant with things in controls.css, to try and make the
- * bug forms look a smidge better on netscape 4 (ugh).
- */
-span.control {
+div#controls {
+    clear: both;
+    width: 100%;
+    margin-top: 10px;
+    border-top: 2px solid #666666;
+}
+
+div#controls span {
+    display: block;
+    float: left;
+    border: 1px solid #000000;
+    border-top: 0px;
     font-weight: bold;
+    background: #ddddff;
+    padding: 4px 8px;
+    margin-left: 10px;
+}
+
+div#controls .active {
+    position: relative;
+    top: -2px;
+    background: #ffffff;
+    padding-top: 6px;
+}
+
+div#controls a {
+    text-decoration: none;
+}
+
+div#controls a:hover {
+    text-decoration: underline;
 }
 
 td#summary {
