@@ -105,7 +105,6 @@ $maps = array(
         echo "points.push(['" . addslashes($info[0]) . "', '" . addslashes($info[1]) . "', '" . addslashes($info[2]) . "', '" . addslashes($info[3]) . "']);\n";
     }
  ?>
-exit;
 </script>
 <script language="javascript" type="text/javascript" src="../javascript/peardev_map.js"></script>
 
