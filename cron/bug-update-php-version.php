@@ -33,7 +33,7 @@ if ($new4 === false) {
 $n5 = unserialize($new5);
 $n4 = unserialize($new4);
 
-$file = '@web_dir@/public_html/bugs/include/php_versions.php';
+$file = '@www_dir@/public_html/bugs/include/php_versions.php';
 include $file;
 
 $php4 = $php = array();
