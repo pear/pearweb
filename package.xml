@@ -880,10 +880,6 @@
     <channel>pear.php.net</channel>
     <min>1.2.0</min>
    </package>
-   <package>
-    <name>Role_Web</name>
-    <channel>pearified.com</channel>
-   </package>
    <extension>
     <name>pcre</name>
    </extension>

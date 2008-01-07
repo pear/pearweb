@@ -86,7 +86,6 @@ $a->addGroupPackageDepWithChannel('package', 'php5', 'MDB2_Driver_mysqli', 'pear
 $a->addExtensionDep('required', 'pcre');
 $a->addExtensionDep('optional', 'mysql');
 $a->addExtensionDep('optional', 'mysqli');
-$a->addPackageDepWithChannel('required', 'Role_Web', 'pearified.com');
 $script = &$a->initPostinstallScript('pearweb.php');
 $script->addParamGroup(
     'askdb',
