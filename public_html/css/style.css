@@ -37,8 +37,6 @@ div#body {
     padding: 0.3em 0.5em 1em 1em;
 }
 
-div#body > table { margin-left: 8px; }
-
 /* HEADER */
 #header {
     background-color: #449922;
