@@ -947,28 +947,21 @@ function make_image($file, $alt = '', $align = '', $extras = '', $dir = '',
     if (!$dir) {
         $dir = '/gifs';
     }
-    if ($size = @getimagesize($_SERVER['DOCUMENT_ROOT'].$dir.'/'.$file)) {
-        $image = sprintf('<img src="%s/%s" style="border: %d;%s%s" %s alt="%s" %s />',
-            $dir,
-            $file,
-            $border,
-            ($styles ? ' '.$styles            : ''),
-            ($align  ? ' float: '.$align.';'  : ''),
-            $size[3],
-            ($alt    ? $alt : ''),
-            ($extras ? ' '.$extras            : '')
-        );
-    } else {
-        $image = sprintf('<img src="%s/%s" style="border: %d;%s%s" alt="%s" %s />',
-            $dir,
-            $file,
-            $border,
-            ($styles ? ' '.$styles            : ''),
-            ($align  ? ' float: '.$align.';'  : ''),
-            ($alt    ? $alt : ''),
-            ($extras ? ' '.$extras            : '')
-        );
-    }
+
+    $size = @getimagesize($_SERVER['DOCUMENT_ROOT'].$dir.'/'.$file);
+    $s = $size !== false ? ' ' . $size[3] : '';
+
+    $image = sprintf('<img src="%s/%s" style="border: %d;%s%s"%s alt="%s" %s />',
+        $dir,
+        $file,
+        $border,
+        ($styles ? ' '.$styles            : ''),
+        ($align  ? ' float: '.$align.';'  : ''),
+        $s,
+        ($alt    ? $alt : ''),
+        ($extras ? ' '.$extras            : '')
+    );
+
     return $image;
 }
 
