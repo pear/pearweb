@@ -86,7 +86,6 @@ function auth_reject($realm = null, $message = null)
         }
         echo "\" />\n";
         echo "</form>\n";
-        echo hdelim();
         echo "<p><strong>Note:</strong> If you just want to browse the website, ";
         echo "you will not need to log in. For all tasks that require ";
         echo "authentication, you will be redirected to this form ";
