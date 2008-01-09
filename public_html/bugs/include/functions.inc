@@ -1127,16 +1127,16 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
     if (count($pkgname) == 1 && !$fulllink) {
         if ($home) {
             echo make_link('/package/' . $pkgname[0], 'Package home');
-            echo delim();
+            echo '&nbsp;|&nbsp;';
         }
         echo make_link('/bugs/report.php?package=' . $pkgname[0],
                        'Report new bug');
-        echo delim();
+        echo '&nbsp;|&nbsp;';
     }
 
     if (count($pkgname) == 1 && !$fulllink) {
         echo make_link('/bugs/search.php?package_name[]=' . $pkgname[0], 'New search');
-        echo delim();
+        echo '&nbsp;|&nbsp;';
         echo make_link('/bugs/roadmap.php?package=' . $pkgname[0], 'Development Roadmap');
     } else {
         echo make_link('/bugs/search.php', 'New search');
@@ -1154,10 +1154,10 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
     }
     echo make_link($fulllink .
                    '&amp;status=Open', 'Open', '', $style['Open']);
-    echo delim();
+    echo '&nbsp;|&nbsp;';
     echo make_link($fulllink .
                    '&amp;status=Feedback', 'Feedback', '', $style['Feedback']);
-    echo delim();
+    echo '&nbsp;|&nbsp;';
     echo make_link($fulllink .
                    '&amp;status=All', 'All', '', $style['All']);
     if (!class_exists('package')) {
@@ -1166,7 +1166,7 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
     if (count($pkgname) == 1) {
         $releases = package::info($pkgname[0], 'releases');
         if (count($releases)) {
-            echo delim();
+            echo '&nbsp;|&nbsp;';
             echo make_link($fulllink .
                            '&amp;status=CRSLR', 'Closed Since Version ' .
                            key($releases), '', $style['CRSLR'], 'Closed bugs since last release');
