@@ -770,7 +770,7 @@ function localRedirect($url, $keepProtocol = true)
  * @param string Name of the license
  * @return string Link to license URL
  */
-function get_license_link($license = "")
+function get_license_link($license = '')
 {
     switch ($license) {
 
@@ -936,30 +936,6 @@ function make_mailto_link($email, $linktext = '', $extras = '')
 
     return '<a ' . $extras . ' href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;'
            . $tmp . '">' . ($linktext != '' ? $linktext : $tmp) . '</a>';
-}
-
-/**
- * Prints an IMG tag for a sized spacer GIF
- */
-function spacer($width = 1, $height = 1, $align = '', $extras = '')
-{
-    printf('<img src="/gifs/spacer.gif" width="%d" height="%d" style="border: 0px;" alt="" %s%s />',
-        $width,
-        $height,
-        ($align ? 'align="'.$align.'" ' : ''),
-        ($extras ? $extras : '')
-    );
-}
-
-/**
- * Tags the output of make_image() and resize it manually
- */
-function resize_image($img, $width = 1, $height = 1)
-{
-    $str = preg_replace('/width=\"([0-9]+?)\"/i', '', $img );
-    $str = preg_replace('/height=\"([0-9]+?)\"/i', '', $str );
-    $str = substr($str,0,-1) . sprintf(' height="%s" width="%s" />', $height, $width );
-    return $str;
 }
 
 /**
