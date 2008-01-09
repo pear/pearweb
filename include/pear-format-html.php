@@ -973,14 +973,6 @@ function make_image($file, $alt = '', $align = '', $extras = '', $dir = '',
 }
 
 /**
- * Prints a horizontal delimiter
- */
-function hdelim()
-{
-    return '<hr />';
-}
-
-/**
  * Prints a tabbed navigation bar based on the parameter $items
  */
 function print_tabbed_navigation($items)
