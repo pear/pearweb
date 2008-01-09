@@ -238,7 +238,7 @@ function response_footer($style = false, $extraContent = false)
 <div id="footer">
   <div id="foot-bar"><?php
 echo make_link('/about/privacy.php', 'PRIVACY POLICY');
-echo delim();
+echo '&nbsp;|&nbsp;';
 echo make_link('/about/credits.php', 'CREDITS');
 ?></div>
   <div id="foot-copy">
@@ -970,17 +970,6 @@ function make_image($file, $alt = '', $align = '', $extras = '', $dir = '',
         );
     }
     return $image;
-}
-
-/**
- * Print a pipe delimiter
- */
-function delim($color = false, $delimiter = '&nbsp;|&nbsp;')
-{
-    if (!$color) {
-        return $delimiter;
-    }
-    return sprintf('<span style="color: %s;">%s</span>', $color, $delimiter);
 }
 
 /**
