@@ -610,7 +610,7 @@ if (empty($action)) {
         print 'release is available.</p>';
 
         print '<p><a href="/package/' . htmlspecialchars($name) . '/docs/latest/">Documentation for the latest release</a></p>';
-        print hdelim();
+        print '<hr />'
 
         print '<strong>Complete list:</strong>';
         print '<ul>';
