@@ -475,14 +475,6 @@ function make_menu($data, $id, $self)
     return $html;
 }
 
-function menu_link($text, $url) {
-    echo "<span>\n";
-    echo make_link($url, make_image('pear_item.gif', $text) );
-    echo '&nbsp;';
-    echo make_link($url, '<strong>' . $text . '</strong>' );
-    echo "</span>\n";
-}
-
 /**
  * Display errors or warnings as a <ul> inside a <div>
  *
