@@ -27,6 +27,14 @@ if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
     define('DEVBOX', false);
 }
 
+
+if (!DEVBOX) {
+    define('PEAR_REST_PATH', '/var/lib/pearweb/rest');
+} else {
+    define('PEAR_REST_PATH', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
+            DIRECTORY_SEPARATOR . 'rest');
+}
+
 require_once 'PEAR.php';
 
 if (empty($format)) {

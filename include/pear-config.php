@@ -241,13 +241,6 @@ if (isset($_ENV['PEAR_CVS'])) {
     define('PEAR_CVS', '/var/lib/pear/patches/cvs/');
 }
 
-if (!DEVBOX) {
-    define('PEAR_REST_PATH', '/var/lib/pearweb/rest');
-} else {
-    define('PEAR_REST_PATH', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
-            DIRECTORY_SEPARATOR . 'rest');
-}
-
 /**
  * A preg regular expression for validating user names
  */
