@@ -144,10 +144,10 @@ if (isset($_ENV['PEAR_DATABASE_DSN'])) {
          * To override default, set the value in $_ENV['PEAR_DATABASE_DSN']
          * before this file is included.
          */
-        define('PEAR_DATABASE_DSN', 'mysql://pear:pear@localhost/pear'); 
+        define('PEAR_DATABASE_DSN', 'mysql://pear:pear@localhost/pear');
     } elseif (function_exists('mysqli_connect')) {
         /** @ignore */
-        define('PEAR_DATABASE_DSN', 'mysqli://pear:pear@localhost/pear'); 
+        define('PEAR_DATABASE_DSN', 'mysqli://pear:pear@localhost/pear');
     }
 }
 
@@ -177,7 +177,7 @@ if (isset($_ENV['PEAR_TARBALL_DIR'])) {
      * To override default, set the value in $_ENV['PEAR_TARBALL_DIR']
      * before this file is included.
      */
-    define('PEAR_TARBALL_DIR', '/var/lib/pear'); 
+    define('PEAR_TARBALL_DIR', '/var/lib/pear');
 }
 
 if (isset($_ENV['PEAR_CHM_DIR'])) {
@@ -192,7 +192,7 @@ if (isset($_ENV['PEAR_CHM_DIR'])) {
      * To override default, set the value in $_ENV['PEAR_CHM_DIR']
      * before this file is included.
      */
-    define('PEAR_CHM_DIR', '/var/lib/pear/chm/'); 
+    define('PEAR_CHM_DIR', '/var/lib/pear/chm/');
 }
 
 if (isset($_ENV['PEAR_APIDOC_DIR'])) {
@@ -208,7 +208,7 @@ if (isset($_ENV['PEAR_APIDOC_DIR'])) {
      * To override default, set the value in $_ENV['PEAR_APIDOC_DIR']
      * before this file is included.
      */
-    define('PEAR_APIDOC_DIR', '/var/lib/pear/apidoc/'); 
+    define('PEAR_APIDOC_DIR', '/var/lib/pear/apidoc/');
 }
 
 if (isset($_ENV['PEAR_PATCHES'])) {
@@ -239,6 +239,13 @@ if (isset($_ENV['PEAR_CVS'])) {
      * before this file is included.
      */
     define('PEAR_CVS', '/var/lib/pear/patches/cvs/');
+}
+
+if (!DEVBOX) {
+    define('PEAR_REST_PATH', '/var/lib/pearweb/rest');
+} else {
+    define('PEAR_REST_PATH', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
+            DIRECTORY_SEPARATOR . 'rest');
 }
 
 /**
@@ -336,7 +343,7 @@ if (isset($_ENV['PEAR_WIKI_URL'])) {
      * before this file is included.
      */
     define('PEAR_WIKI_URL', 'http://wiki.pear.php.net');
-} 
+}
 
 if (isset($_ENV['PEAR_WIKI_DSN'])) {
     /**
@@ -351,8 +358,8 @@ if (isset($_ENV['PEAR_WIKI_DSN'])) {
      * before this file is included.
      */
     define('PEAR_WIKI_DSN', 'mysql://pear:pear@localhost/pearwiki');
-} 
-    
+}
+
 /**
  * PEPr: the string prepended to the subject lines of emails
  */
@@ -393,6 +400,6 @@ if (isset($_ENV['TRACKBACK_AKISMET_KEY_FILE'])) {
      * before this file is included.
      */
     define('TRACKBACK_AKISMET_KEY_FILE', '/usr/local/www/akismet.key');
-} 
+}
 
 ?>

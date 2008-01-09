@@ -38,13 +38,7 @@ include_once 'pear-auth.php';
 include_once 'pear-rest.php';
 
 if (!isset($pear_rest)) {
-    if (!DEVBOX) {
-        $rest_path = '/var/lib/pearweb/rest';
-    } else {
-        $rest_path = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
-            DIRECTORY_SEPARATOR . 'rest';
-    }
-    $pear_rest = new pear_rest($rest_path);
+    $pear_rest = new pear_rest(PEAR_REST_PATH);
 }
 
 if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
