@@ -113,7 +113,7 @@ if ($handle === null || empty($handle)) {
     $bb->end();
 }
 
-echo "<p>&nbsp;</p>" . hdelim();
+echo "<p>&nbsp;</p><hr />";
 
 $bb = new BorderBox("Karma Statistics", "90%", "", 2, true);
 
