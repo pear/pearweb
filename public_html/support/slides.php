@@ -18,7 +18,7 @@
    $Id$
 */
 
-response_header("Support - Presentation Slides");
+response_header('Support - Presentation Slides');
 ?>
 
 <h1>Support</h1>
@@ -379,7 +379,7 @@ that have been held about PEAR.</p>
 
 <p><a href="/support/">&laquo; Back to the Support overview</a></p>
 
-<?php echo hdelim(); ?>
+<hr />
 
 <p>Do you know of other presentation slides that should be added here?
 Please let the <a href="mailto:pear-webmaster@lists.php.net">webmaster
@@ -387,4 +387,3 @@ team</a> know about them.</p>
 
 <?php
 response_footer();
-?>

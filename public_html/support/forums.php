@@ -18,7 +18,7 @@
    $Id$
 */
 
-response_header("Support - Tutorials");
+response_header('Support - Tutorials');
 ?>
 
 <h1>Support</h1>
@@ -41,7 +41,7 @@ PEAR packages.</p>
 
 <p><a href="/support/">&laquo; Back to the Support overview</a></p>
 
-<?php echo hdelim(); ?>
+<hr />
 
 <p>Do you know of other forums that should be added here?
 Please let the <a href="mailto:pear-webmaster@lists.php.net">webmaster
