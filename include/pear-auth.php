@@ -40,62 +40,62 @@ function auth_reject($realm = null, $message = null)
         } else {
             $action = "/login.php";
         }
-        print "<script type=\"text/javascript\" src=\"/javascript/md5.js\"></script>\n";
-        print "<script type=\"text/javascript\">\n";
-        print "function doMD5(frm) {\n";
-        print "    frm.PEAR_PW.value = hex_md5(frm.PEAR_PW.value);\n";
-        print "    frm.isMD5.value = 1;\n";
-        print "}\n";
-        print "</script>\n";
-        print "<form onsubmit=\"javascript:doMD5(document.forms['login'])\" name=\"login\" action=\"" . $action . "\" method=\"post\">\n";
-        print "<input type=\"hidden\" name=\"isMD5\" value=\"0\" />\n";
-        print '<table class="form-holder" cellspacing="1">' . "\n";
-        print " <tr>\n";
-        print '  <th class="form-label_left">';
-        print 'Use<span class="accesskey">r</span>name or email address:</th>' . "\n";
-        print '  <td class="form-input">';
-        print '<input size="20" name="PEAR_USER" accesskey="r" type="text" /></td>' . "\n";
-        print " </tr>\n";
-        print " <tr>\n";
-        print '  <th class="form-label_left">Password:</th>' . "\n";
-        print '  <td class="form-input">';
-        print '<input size="20" name="PEAR_PW" type="password" /></td>' . "\n";
-        print " </tr>\n";
-        print " <tr>\n";
-        print '  <th class="form-label_left">&nbsp;</th>' . "\n";
-        print '  <td class="form-input" style="white-space: nowrap">';
-        print '<input type="checkbox" name="PEAR_PERSIST" value="on" id="pear_persist_chckbx" /> ';
-        print '<label for="pear_persist_chckbx">Remember username and password.</label></td>' . "\n";
-        print " </tr>\n";
-        print " <tr>\n";
-        print '  <th class="form-label_left">&nbsp;</td>' . "\n";
-        print '  <td class="form-input"><input type="submit" value="Log in!" /></td>' . "\n";
-        print " </tr>\n";
-        print "</table>\n";
-        print '<input type="hidden" name="PEAR_OLDURL" value="';
+        echo "<script type=\"text/javascript\" src=\"/javascript/md5.js\"></script>\n";
+        echo "<script type=\"text/javascript\">\n";
+        echo "function doMD5(frm) {\n";
+        echo "    frm.PEAR_PW.value = hex_md5(frm.PEAR_PW.value);\n";
+        echo "    frm.isMD5.value = 1;\n";
+        echo "}\n";
+        echo "</script>\n";
+        echo "<form onsubmit=\"javascript:doMD5(document.forms['login'])\" name=\"login\" action=\"" . $action . "\" method=\"post\">\n";
+        echo "<input type=\"hidden\" name=\"isMD5\" value=\"0\" />\n";
+        echo '<table class="form-holder" cellspacing="1">' . "\n";
+        echo " <tr>\n";
+        echo '  <th class="form-label_left">';
+        echo 'Use<span class="accesskey">r</span>name or email address:</th>' . "\n";
+        echo '  <td class="form-input">';
+        echo '<input size="20" name="PEAR_USER" accesskey="r" type="text" /></td>' . "\n";
+        echo " </tr>\n";
+        echo " <tr>\n";
+        echo '  <th class="form-label_left">Password:</th>' . "\n";
+        echo '  <td class="form-input">';
+        echo '<input size="20" name="PEAR_PW" type="password" /></td>' . "\n";
+        echo " </tr>\n";
+        echo " <tr>\n";
+        echo '  <th class="form-label_left">&nbsp;</th>' . "\n";
+        echo '  <td class="form-input" style="white-space: nowrap">';
+        echo '<input type="checkbox" name="PEAR_PERSIST" value="on" id="pear_persist_chckbx" /> ';
+        echo '<label for="pear_persist_chckbx">Remember username and password.</label></td>' . "\n";
+        echo " </tr>\n";
+        echo " <tr>\n";
+        echo '  <th class="form-label_left">&nbsp;</td>' . "\n";
+        echo '  <td class="form-input"><input type="submit" value="Log in!" /></td>' . "\n";
+        echo " </tr>\n";
+        echo "</table>\n";
+        echo '<input type="hidden" name="PEAR_OLDURL" value="';
         if (isset($_GET['redirect']) && is_string($_GET['redirect']) &&
               !strpos($_GET['redirect'], '://')) {
-            print htmlspecialchars(urldecode($_GET['redirect']));
+            echo htmlspecialchars(urldecode($_GET['redirect']));
         } elseif (isset($_POST['PEAR_OLDURL']) && is_string($_POST['PEAR_OLDURL']) &&
               !strpos($_POST['PEAR_OLDURL'], '://')) {
-            print htmlspecialchars($_POST['PEAR_OLDURL']);
+            echo htmlspecialchars($_POST['PEAR_OLDURL']);
         } elseif (isset($_SERVER['REQUEST_URI'])) {
-            print htmlspecialchars($_SERVER['REQUEST_URI']);
+            echo htmlspecialchars($_SERVER['REQUEST_URI']);
         } else {
-            print 'login.php';
+            echo 'login.php';
         }
-        print "\" />\n";
-        print "</form>\n";
-        print hdelim();
-        print "<p><strong>Note:</strong> If you just want to browse the website, ";
-        print "you will not need to log in. For all tasks that require ";
-        print "authentication, you will be redirected to this form ";
-        print "automatically. You can sign up for an account ";
-        print "<a href=\"/account-request.php\">over here</a>.</p>";
-        print "<p>If you forgot your password, instructions for resetting ";
-        print "it can be found on a <a href=\"https://" . PEAR_CHANNELNAME .
+        echo "\" />\n";
+        echo "</form>\n";
+        echo hdelim();
+        echo "<p><strong>Note:</strong> If you just want to browse the website, ";
+        echo "you will not need to log in. For all tasks that require ";
+        echo "authentication, you will be redirected to this form ";
+        echo "automatically. You can sign up for an account ";
+        echo "<a href=\"/account-request.php\">over here</a>.</p>";
+        echo "<p>If you forgot your password, instructions for resetting ";
+        echo "it can be found on a <a href=\"https://" . PEAR_CHANNELNAME .
               "/about/forgot-password.php\">";
-        print "dedicated page</a>.</p>";
+        echo "dedicated page</a>.</p>";
 
     }
     response_footer();
