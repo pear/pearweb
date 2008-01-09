@@ -240,7 +240,7 @@ function navigationBar($title, $id, $loc)
         if (count($links)) {
             echo '    <tr class="man-nav_languages">' . "\n";
             echo '     <td class="man-nav_languages" colspan="2" align="left">' . "\n";
-            echo join(delim(false, ' | '), $links);
+            echo join(' | ', $links);
             echo "\n";
             echo '     </td>' . "\n";
             echo '    </tr>' . "\n";
