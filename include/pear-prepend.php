@@ -34,27 +34,17 @@ if (empty($format)) {
 }
 
 include_once "pear-format-$format.php";
-include_once "pear-auth.php";
-include_once "pear-rest.php";
-
-function get($name)
-{
-    if (!empty($_GET[$name])) {
-        return $_GET[$name];
-    } else if (!empty($_POST[$name])) {
-        return $_POST[$name];
-    } else {
-        return "";
-    }
-}
+include_once 'pear-auth.php';
+include_once 'pear-rest.php';
 
 if (!isset($pear_rest)) {
     if (!DEVBOX) {
-        $pear_rest = new pear_rest('/var/lib/pearweb/rest');
+        $rest_path = '/var/lib/pearweb/rest';
     } else {
-        $pear_rest = new pear_rest(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
-            DIRECTORY_SEPARATOR . 'rest');
+        $rest_path = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
+            DIRECTORY_SEPARATOR . 'rest';
     }
+    $pear_rest = new pear_rest($rest_path);
 }
 
 if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
