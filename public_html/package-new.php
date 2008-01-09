@@ -31,11 +31,11 @@ $width = 60;
 $errors = array();
 $jumpto = 'name';
 
-/* May seem like overkill, but the prepended get() function checks both GET and POST */
 $valid_args = array('submit', 'name','category','license','summary','desc','homepage','cvs_link');
 foreach($valid_args as $arg) {
-    if(isset($_POST[$arg])) $_POST[$arg] = htmlspecialchars($_POST[$arg]);
-    if(isset($_GET[$arg])) $_GET[$arg] = htmlspecialchars($GET[$arg]);
+    if(isset($_POST[$arg])) {
+        $_POST[$arg] = htmlspecialchars($_POST[$arg]);
+    }
 }
 
 $submit = isset($_POST['submit']) ? true : false;
@@ -159,15 +159,15 @@ if ($display_form) {
 
     $bb = new BorderBox("Register package", "100%", "", 2, true);
 
-    $bb->horizHeadRow("Package Name", $form->returnText("name", get("name"), 20));
-    $bb->horizHeadRow("License", $form->returnText("license", get("license"), 20));
-    $cats = $form->returnSelect("category", $categories, get("category"), 1,
+    $bb->horizHeadRow("Package Name", $form->returnText("name", $_POST["name"], 20));
+    $bb->horizHeadRow("License", $form->returnText("license", $_POST["license"], 20));
+    $cats = $form->returnSelect("category", $categories, $_POST["category"], 1,
                                 "--Select Category--");
     $bb->horizHeadRow("Category", $cats);
-    $bb->horizHeadRow("Summary", $form->returnText("summary", get("summary"), $width));
-    $bb->horizHeadRow("Full description", $form->returnTextarea("desc", get("desc"), $width, 3));
-    $bb->horizHeadRow("Additional project homepage", $form->returnText("homepage", get("homepage"), 40));
-    $bb->horizHeadRow("CVS Web URL", $form->returnText("cvs_link", get("cvs_link"), 40) .
+    $bb->horizHeadRow("Summary", $form->returnText("summary", $_POST["summary"], $width));
+    $bb->horizHeadRow("Full description", $form->returnTextarea("desc", $_POST["desc"], $width, 3));
+    $bb->horizHeadRow("Additional project homepage", $form->returnText("homepage", $_POST["homepage"], 40));
+    $bb->horizHeadRow("CVS Web URL", $form->returnText("cvs_link", $_POST["cvs_link"], 40) .
                                      '<br /><small>For example: http://cvs.php.net/cvs.php/pear/XML_Parser</small>');
     $bb->fullRow($form->returnSubmit("Submit Request", "submit"));
     $bb->end();
