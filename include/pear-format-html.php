@@ -1005,15 +1005,6 @@ function make_image($file, $alt = '', $align = '', $extras = '', $dir = '',
 }
 
 /**
- * Prints an IMG tag for a given file
- */
-function print_image($file, $alt = '', $align = '', $extras = '', $dir = '',
-                     $border = 0)
-{
-    print make_image($file, $alt, $align, $extras, $dir);
-}
-
-/**
  * Print a pipe delimiter
  */
 function delim($color = false, $delimiter = '&nbsp;|&nbsp;')
