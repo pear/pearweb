@@ -39,7 +39,7 @@ $tabs = array("List" => array("url" => "/channels/index.php",
 
 <h2>Add Site</h2>
 
-<p>If you are running an open-source project that also provides 
+<p>If you are running an open-source project that also provides
 PEAR-compatible packages, you can submit it for inclusion in the
 <a href="/channels/">index</a>.  Please be aware that the PEAR webmaster
 staff may reject your submission if they do not consider it appropriate.</p>
@@ -52,7 +52,7 @@ if (isset($auth_user)) {
                              "email" => $auth_user->email));
 }
 
-$form->addElement("text", "name", "Your name:", 
+$form->addElement("text", "name", "Your name:",
                   array("size" => 30));
 $form->addElement("text", "email", "Your email address:",
                   array("size" => 30));
@@ -85,7 +85,7 @@ if ($form->validate()) {
         echo "have to make sure that <tt>/channel.xml</tt> at least ";
         echo "exists and is valid.  If you think that this mechanism does not work ";
         echo "properly, please drop a mail to the ";
-        echo "<a href=\"mailto:pear-webmaster@lists.php.net\">webmasters</a>.";
+        echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
         echo "</div>";
 
         $form->display();
@@ -96,7 +96,7 @@ if ($form->validate()) {
         echo "have to make sure that <tt>/channel.xml</tt> at least ";
         echo "exists and is valid.  If you think that this mechanism does not work ";
         echo "properly, please drop a mail to the ";
-        echo "<a href=\"mailto:pear-webmaster@lists.php.net\">webmasters</a>.";
+        echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
         echo "</div>";
 
         $form->display();
@@ -107,7 +107,7 @@ if ($form->validate()) {
         echo "have to make sure that <tt>/channel.xml</tt> at least ";
         echo "exists and is not huge.  If you think that this mechanism does not work ";
         echo "properly, please drop a mail to the ";
-        echo "<a href=\"mailto:pear-webmaster@lists.php.net\">webmasters</a>.";
+        echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
         echo "</div>";
 
         $form->display();
@@ -123,9 +123,9 @@ if ($form->validate()) {
                 echo "have to make sure that <tt>/channel.xml</tt> at least ";
                 echo "exists and is valid.  If you think that this mechanism does not work ";
                 echo "properly, please drop a mail to the ";
-                echo "<a href=\"mailto:pear-webmaster@lists.php.net\">webmasters</a>.";
+                echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
                 echo "</div>";
-        
+
                 $form->display();
                 break;
             }
@@ -136,9 +136,9 @@ if ($form->validate()) {
                 echo "have to make sure that <tt>/channel.xml</tt> at least ";
                 echo "exists and is valid.  If you think that this mechanism does not work ";
                 echo "properly, please drop a mail to the ";
-                echo "<a href=\"mailto:pear-webmaster@lists.php.net\">webmasters</a>.";
+                echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
                 echo "</div>";
-        
+
                 $form->display();
                 break;
             }
@@ -150,9 +150,9 @@ if ($form->validate()) {
                 echo "exists and is valid.  In addition, it must refer to ";
                 echo "your channel.  If you think that this mechanism does not work ";
                 echo "properly, please drop a mail to the ";
-                echo "<a href=\"mailto:pear-webmaster@lists.php.net\">webmasters</a>.";
+                echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
                 echo "</div>";
-        
+
                 $form->display();
                 break;
             }
@@ -162,17 +162,17 @@ if ($form->validate()) {
             $from = sprintf('"%s" <%s>',
                             $form->exportValue("name"),
                             $form->exportValue("email"));
-    
+
             $logger = new Damblan_Log;
-    
+
             $observer = new Damblan_Log_Mail;
-            $observer->setRecipients("pear-webmaster@lists.php.net");
+            $observer->setRecipients(PEAR_WEBMASTER_EMAIL);
             $observer->setHeader("From", $from);
             $observer->setHeader("Subject", "Channel link submission");
             $logger->attach($observer);
-    
+
             $logger->log($text);
-    
+
             echo "<div class=\"success\">Thanks for your submission.  It will ";
             echo "be reviewed as soon as possible.</div>\n";
         } while (false);
