@@ -426,8 +426,7 @@
      <dir name="TreeMenu">
       <file name="TreeMenu.js" role="www" />
      </dir> <!-- /public_html/javascript/TreeMenu -->
-     <file name="ie7-css3-selectors.js" role="www" />
-     <file name="ie7-standard-p.js" role="www" />
+     <file name="IE8.js" role="www" />
      <file name="jquery.js" role="www" />
      <file name="md5.js" role="www" />
      <file name="package-maintainers.js" role="www" />
