@@ -112,10 +112,9 @@ echo $extraHeaders;
  <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/IE6styles.css" /><![endif]-->
  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo htmlspecialchars($_SERVER['HTTP_HOST']); ?>/feeds/latest.rss" />
  <!-- compliance patch for microsoft browsers -->
- <!--[if lt IE 7]>
-  <script src="/javascript/ie7-standard-p.js" type="text/javascript">IE7_BOX_MODEL = false;</script>
-  <script src="/javascript/ie7-css3-selectors.js" type="text/javascript"></script>
- <![endif]-->
+<!--[if lt IE 8]>
+ <script src="/javascript/IE8.js" type="text/javascript"></script>
+<![endif]-->
 </head>
 
 <body>
@@ -181,7 +180,7 @@ echo $extraHeaders;
  </div>
 
   <div id="header">
-   <?php echo make_link('/', make_image('pearsmall.gif', 'PEAR') ); ?><br />
+   <?php echo make_link('/', make_image('pearsmall.gif', 'PEAR')); ?><br />
   </div>
 
 <div id="menubar">
@@ -583,7 +582,6 @@ function report_success($in)
     echo "</div>\n";
 }
 
-
 class BorderBox {
     function BorderBox($title, $width = '90%', $indent = '', $cols = 1,
                        $open = false)
@@ -840,8 +838,6 @@ function display_user_notes($user, $width = '50%')
     return sizeof($notes);
 }
 
-// {{{ user_link()
-
 /**
  * Create link to the account information page and to the user's wishlist
  *
@@ -855,7 +851,6 @@ function user_link($handle, $compact = false)
 
     $query = "SELECT name, wishlist FROM users WHERE handle = '" . $handle . "'";
     $row = $dbh->getRow($query, DB_FETCHMODE_ASSOC);
-
     if (!is_array($row)) {
         return false;
     }
@@ -866,8 +861,6 @@ function user_link($handle, $compact = false)
                    ($row['wishlist'] != "" && $compact == false ? '['.make_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/wishlist.php/' . $handle, 'Wishlist').']' : '')
                    );
 }
-
-// }}}
 
 /**
  * Returns a hyperlink to something
