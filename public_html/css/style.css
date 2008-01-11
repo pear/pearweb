@@ -144,7 +144,7 @@ div#body {
     color: #7ac20e;
 }
 
-#menu li.first, #menu li:first-child {
+#menu li:first-child {
     margin-left: 1em;
 }
 
@@ -179,7 +179,7 @@ div#body {
     border-left: 1px solid #999;
 }
 
-#submenu li.first, #submenu li:first-child {
+#submenu li:first-child {
     margin-left: 2em;
     border-left: none;
 }
@@ -427,7 +427,7 @@ input[type="text"], input[type="password"], select {
 input[type="text"], input[type="password"], textarea, select {
     color: #333;
     background:#fff;
-    padding: 3px;
+    padding: 2px;
 }
 
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus  {
