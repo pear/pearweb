@@ -99,10 +99,15 @@ div#body {
 }
 
 #search {
+    font-size: 85%;
     float: right;
     position: absolute;
     right: 12px;
     top: 32px;
+}
+
+#search input, #search select {
+    font-size: 93%;
 }
 
 #menubar {
@@ -425,9 +430,10 @@ input[type="text"], input[type="password"], select {
 }
 
 input[type="text"], input[type="password"], textarea, select {
+    font-size: 85%;
     color: #333;
     background:#fff;
-    padding: 2px;
+    padding: 3px;
 }
 
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus  {
@@ -444,14 +450,6 @@ textarea {
     border-radius: 5px;
     -moz-border-radius: 5px;
     -khtml-border-radius: 5px;
-}
-
-input.small, select.small {
-    font-size: 75%;
-}
-
-textarea.small {
-    font-size: 75%;
 }
 
 form {
