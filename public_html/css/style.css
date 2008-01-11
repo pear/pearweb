@@ -417,11 +417,6 @@ button:active, input[type="button"]:active, input[type="submit"]:active, input[t
     color: #555;
 }
 
-select {
-    background-color: #ffffff;
-    cursor: pointer;
-}
-
 input[type="text"], input[type="password"], select {
     border: 1px solid #ABADB3;
     border-radius: 2px;
@@ -434,6 +429,11 @@ input[type="text"], input[type="password"], textarea, select {
     color: #333;
     background:#fff;
     padding: 3px;
+}
+
+select {
+    font-size: 93%;
+    cursor: pointer;
 }
 
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus  {
