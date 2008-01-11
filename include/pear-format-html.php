@@ -448,21 +448,10 @@ function make_menu($data, $id, $self)
 {
     $html = "\n";
     $html .= '<ul id="' . $id . '">' . "\n";
-    $first = true;
     foreach ($data as $url => $tit) {
-        $class = array();
-        if ($first) {
-            $first = false;
-            $class[] = 'first';
-        }
+        $class = '';
         if ($url == $self) {
-            $class[] = 'current';
-        }
-
-        if (!empty($class)) {
-            $class = ' class="' . implode(' ', $class) . '"';
-        } else {
-            $class = '';
+            $class = ' class="current"';
         }
 
         $html .= ' <li' . $class . '>';
