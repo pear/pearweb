@@ -98,7 +98,7 @@ table.EXAMPLE {
     border: 0;
 }
 
-table.EXAMPLE-CODE {
+table.EXAMPLE-CODE, table.warning {
     width: 95%;
 }
 
@@ -111,7 +111,7 @@ table.EXAMPLE p {
     margin-bottom: 0em;
 }
 
-.note {
+td div.note {
     border-style: dashed;
     border-width: 1px;
     background-color: #e0e0e0;
@@ -119,7 +119,7 @@ table.EXAMPLE p {
     text-align: left;
 }
 
-.pending_note {
+td div.pending_note {
     border-style: dashed;
     border-width: 1px;
     background-color: #909090;
@@ -127,7 +127,7 @@ table.EXAMPLE p {
     text-align: left;
 }
 
-.note_text {
+td div.note_text {
     background-color: #f0f0f0;
     color: inherit;
     padding: 2px;
@@ -135,7 +135,7 @@ table.EXAMPLE p {
     text-align: left;
 }
 
-.note_handle {
+td div.note_handle {
     font-weight: bold;
     text-align: left;
 }
