@@ -5,10 +5,6 @@ td.content {
     font-size: 93%;
 }
 
-td.content table {
-    font-size: 100%;  /* make IE look normal */
-}
-
 .headertop {
     background: #5b69a6;
 }
@@ -22,14 +18,6 @@ td.content table {
 pre.note {
     margin-top: 8px;
     margin-left: 20px;
-}
-
-input.small, select.small {
-    font-size: 85%;
-}
-
-textarea.small {
-    font-size: 85%;
 }
 
 form#comment,
@@ -242,10 +230,6 @@ td.search-prev_next {
     background-color: #cccccc;
     text-align: center;
     padding-bottom: 0.4em;
-}
-
-td.search-prev_next table {
-    font-size: 100%;  /* make IE look normal */
 }
 
 td.search-prev {
