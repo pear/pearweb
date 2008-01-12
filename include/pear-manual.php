@@ -180,8 +180,8 @@ function navigationBar($title, $id, $loc)
         if (strlen($link) > 45) {
             $link = str_replace('::', '::<br />', $link);
         }
-        make_image('caret-l.gif', 'previous');
-        print_link($PREV[0], $link, false,
+        echo make_image('caret-l.gif', 'previous');
+        echo make_link($PREV[0], $link, false,
                    ($loc == 'top' ? 'accesskey="r"' : false)
         );
         echo ' (P<span class="accesskey">r</span>evious)';
@@ -195,10 +195,10 @@ function navigationBar($title, $id, $loc)
             $link = str_replace('::', '::<br />', $link);
         }
         echo '(Ne<span class="accesskey">x</span>t) ';
-        print_link($NEXT[0], $link, false,
+        echo make_link($NEXT[0], $link, false,
                    ($loc == 'top' ? 'accesskey="x"' : false)
         );
-        make_image('caret-r.gif', 'next');
+        echo make_image('caret-r.gif', 'next');
     }
     echo "\n";
     echo '  </td>' . "\n";
