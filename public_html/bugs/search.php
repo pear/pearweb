@@ -29,11 +29,7 @@ if (!empty($_GET['search_for']) &&
     if ($auth_user) {
         $x = '&edit=1';
     } else {
-        if (isset($_COOKIE['MAGIC_COOKIE'])) {
-            $x = '&edit=2';
-        } else {
-            $x = '';
-        }
+        $x = isset($_COOKIE['MAGIC_COOKIE']) ? '&edit=2' : '';
     }
     localRedirect('bug.php?id=' . htmlspecialchars($_GET['search_for']) . $x);
     exit;
