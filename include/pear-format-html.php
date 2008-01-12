@@ -160,13 +160,13 @@ echo $extraHeaders;
   </ul>
  </div>
 
-<div id="search">
+ <div id="search">
   <form method="get" action="/search.php">
    <p style="margin: 0px;">
     <span class="accesskey">S</span>earch for
-    <input class="small" type="text" name="q" value="" size="20" accesskey="s" />
+    <input type="text" name="q" value="" size="20" accesskey="s" />
     in the
-    <select name="in" class="small">
+    <select name="in">
         <option value="packages">Packages</option>
         <option value="site">This site (using Yahoo!)</option>
         <option value="users">Developers</option>
