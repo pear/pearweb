@@ -18,9 +18,8 @@
    $Id$
 */
 
-/**
- * Details about PEAR accounts
- */
+
+// Details about PEAR accounts
 require_once 'Damblan/URL.php';
 require_once 'HTTP.php';
 $site = new Damblan_URL();
@@ -30,9 +29,7 @@ $site->getElements($params);
 
 $handle = htmlspecialchars(strtolower($params['handle']));
 
-/*
- * Redirect to the accounts list if no handle was specified
- */
+// Redirect to the accounts list if no handle was specified
 if (empty($handle)) {
     localRedirect('/accounts.php');
 }
@@ -47,21 +44,21 @@ if ($row === null) {
 }
 
 switch ($params['action']) {
- case "wishlist" :
-     if (!empty($row['wishlist'])) {
-         HTTP::redirect($row['wishlist']);
-     } else {
-         PEAR::raiseError(htmlspecialchars($row['name']) . " has not registered a wishlist");
-     }
-     break;
+    case "wishlist" :
+        if (!empty($row['wishlist'])) {
+            HTTP::redirect($row['wishlist']);
+        } else {
+            PEAR::raiseError(htmlspecialchars($row['name']) . " has not registered a wishlist");
+        }
+        break;
 
- case "bugs" :
-     HTTP::redirect("/bugs/search.php?handle=" . $handle . "&cmd=display");
-     break;
+    case "bugs" :
+        HTTP::redirect("/bugs/search.php?handle=" . $handle . "&cmd=display");
+        break;
 
- case "rss" :
-     HTTP::redirect("/feeds/user_" . $handle . ".rss");
-     break;
+    case "rss" :
+        HTTP::redirect("/feeds/user_" . $handle . ".rss");
+        break;
 
 }
 
@@ -144,37 +141,37 @@ if (isset($auth_user)) {
                                 array(' at ', ' dot '),
                                 $row['email']);
     echo '    <li>Email: &nbsp;';
-    print_link('/account-mail.php?handle=' . $handle,
+    echo make_link('/account-mail.php?handle=' . $handle,
                htmlspecialchars($row['email']));
     echo "</li>\n";
 } else {
     echo '    <li>Email: &nbsp;';
-    print_link('/account-mail.php?handle=' . $handle, 'via web form');
+    echo make_link('/account-mail.php?handle=' . $handle, 'via web form');
     echo "</li>\n";
 }
 
 if ($row['homepage']) {
     echo '    <li>Homepage: &nbsp;';
-    print_link(htmlspecialchars($row['homepage']));
+    echo make_link(htmlspecialchars($row['homepage']));
     echo "</li>\n";
 }
 
 if ($row['wishlist']) {
     echo '    <li>Wishlist: &nbsp;';
-    print_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/user/' . $handle . '/wishlist');
+    echo make_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/user/' . $handle . '/wishlist');
     echo "</li>\n";
 }
 
 if ($row['pgpkeyid']) {
     echo '    <li>PGP Key: &nbsp;';
-    print_link('http://pgp.mit.edu:11371/pks/lookup?search=0x'
+    echo make_link('http://pgp.mit.edu:11371/pks/lookup?search=0x'
                . htmlspecialchars($row['pgpkeyid']) . '&amp;op=get',
                htmlspecialchars($row['pgpkeyid']));
     echo "</li>\n";
 }
 
 echo '    <li>RSS Feed: &nbsp;';
-print_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/feeds/user_' . $handle . '.rss');
+echo make_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/feeds/user_' . $handle . '.rss');
 echo '</li>' . "\n";
 
 echo '    <li>Bug Statistics: <br />' . "\n";
@@ -230,7 +227,7 @@ if (count($packages) == 0) {
 <?php
 foreach ($packages as $row) {
     echo '<li>';
-    print_link('/package/' . htmlspecialchars($row['name']),
+    echo make_link('/package/' . htmlspecialchars($row['name']),
                htmlspecialchars($row['name']));
     echo ' &nbsp;(' . htmlspecialchars($row['role']) . ($row['active'] == 0 ? ", inactive" : "") . ')';
     echo ' &nbsp;<small><a href="/bugs/search.php?package_name%5B%5D=';
@@ -269,7 +266,4 @@ foreach ($notes as $nid => $data) {
 </table>
 
 <?php
-
 response_footer();
-
-?>
