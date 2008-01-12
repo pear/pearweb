@@ -74,19 +74,7 @@ $package_name   = (isset($_GET['package_name'])  && is_array($_GET['package_name
 $package_nname  = (isset($_GET['package_nname']) && is_array($_GET['package_nname'])) ? $_GET['package_nname'] : array();
 
 if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
-
-/*
- * need to move this to DB eventually...
- */
-    $mysql4 = false;
-    if ($dbh->phptype == 'mysql') {
-        $mysql4 = version_compare(mysql_get_server_info(), '4.0.0', 'ge');
-    } else {
-        $mysql4 = version_compare(mysqli_get_server_version($dbh->connection), '4.0.0', 'ge');
-
-    }
-
-    $query = $mysql4 ? 'SELECT SQL_CALC_FOUND_ROWS' : 'SELECT';
+    $query = 'SELECT SQL_CALC_FOUND_ROWS';
     $query .= ' bugdb.*, TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged'
             . ' FROM bugdb';
 
@@ -361,13 +349,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     } else {
         $res  =& $dbh->query($query);
         $rows =  $res->numRows();
-
-        if ($mysql4) {
-            $total_rows =& $dbh->getOne('SELECT FOUND_ROWS()');
-        } else {
-            /* lame mysql 3 compatible attempt to allow browsing the search */
-            $total_rows = $rows < 10 ? $rows : $begin + $rows + 10;
-        }
+        $total_rows =& $dbh->getOne('SELECT FOUND_ROWS()');
 
         $package_name_string = '';
         if (count($package_name) > 0) {
