@@ -42,13 +42,13 @@ class Damblan_Mailer
      * @since
      */
     var $_defaultHeaders = array(
-        'To'        => PEAR_WEBMASTER_EMAIL,
-        'From'      => 'pear-sys@php.net',
-        'Reply-To'  => PEAR_WEBMASTER_EMAIL,
-        'Return-Path' => 'bounces-ignored@php.net',
-        'Errors-To' => 'bounces-ignored@php.net',
-        'Bounces-To' => 'bounces-ignored@php.net',
-        'X-Mailer'  => 'PEARWeb - http://pear.php.net',
+        'To'             => PEAR_WEBMASTER_EMAIL,
+        'From'           => 'pear-sys@php.net',
+        'Reply-To'       => PEAR_WEBMASTER_EMAIL,
+        'Return-Path'    => PEAR_BOUNCE_EMAIL°,
+        'Errors-To'      => PEAR_BOUNCE_EMAIL,
+        'Bounces-To'     => PEAR_BOUNCE_EMAIL,
+        'X-Mailer'       => 'PEARWeb - http://pear.php.net',
         'Auto-Submitted' => 'auto-generated',
     );
 
