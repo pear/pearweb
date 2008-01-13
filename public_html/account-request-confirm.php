@@ -72,7 +72,7 @@ if (isset($_GET['type']) && $_GET['type'] == 'bug') {
             report_success('Your account has been activated, you can now vote in
         PEAR elections that are for the general PHP public as well as open bugs in the bug tracker');
         } else {
-            report_error('There was a problem activating your account, please contact pear-webmaster@lists.php.net');
+            report_error('There was a problem activating your account, please contact ' . PEAR_WEBMASTER_EMAIL);
         }
     }
 }

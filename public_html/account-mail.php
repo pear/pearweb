@@ -165,7 +165,7 @@ if (isset($_POST['submit'])) {
     echo '<p style="font-weight: bold; font-size: 110%; color: red;">'
         . 'Do not send email to this developer if you are in need of support for'
         . ' any of his/her package(s), instead we recommend'
-        . ' emailing pear-general@lists.php.net where you are more likely to get answer.<br />'
+        . ' emailing ' . PEAR_GENERAL_EMAIL . ' where you are more likely to get answer.<br />'
         . ' You can subscribe to the pear-general mailinglist from the ' .
         make_link('/support/lists.php', 'Support - Mailinglist') . ' page.</p>';
 

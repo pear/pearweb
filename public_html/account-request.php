@@ -21,8 +21,8 @@
 response_header('Request Account');
 
 print '<h1>Request Account</h1>';
-$mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing list');
-    print <<<MSG
+$mailto = '<a href="mailto:' . PEAR_DEV_EMAIL . '">PEAR developers mailing list</a>';
+    echo <<<MSG
 <h1>PLEASE READ THIS CAREFULLY!</h1>
 <h3>
  You only need to request an account if you:

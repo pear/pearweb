@@ -124,8 +124,8 @@ do {
 
 
 if ($display_form) {
-$mailto = make_mailto_link('pear-dev@lists.php.net', 'PEAR developers mailing list');
-    print <<<MSG
+$mailto = '<a href="mailto:' . PEAR_DEV_EMAIL . '">PEAR developers mailing list</a>';
+    echo <<<MSG
 <h1>PLEASE READ THIS BEFORE SUBMITTING!</h1>
 <p>
  You have chosen to request an account for proposing a new (and <strong>complete</strong>)
