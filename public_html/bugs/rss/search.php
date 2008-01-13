@@ -39,23 +39,7 @@ $order_options = array(
 
 define('BOOLEAN_SEARCH', @intval($_GET['boolean']));
 
-/*
-* need to move this to DB eventually...
-*/
-$mysql4 = false;
-if ($dbh->phptype == 'mysql') {
-    $mysql4 = version_compare(mysql_get_server_info(), '4.0.0', 'ge');
-} else {
-    $mysql4 = version_compare(mysqli_get_server_version($dbh->connection), '4.0.0', 'ge');
-
-}
-
-if ($mysql4) {
-    $query = 'SELECT SQL_CALC_FOUND_ROWS';
-} else {
-    $query = 'SELECT';
-}
-
+$query = 'SELECT SQL_CALC_FOUND_ROWS';
 $query .= ' bugdb.*, UNIX_TIMESTAMP(ts1) as ts1a, UNIX_TIMESTAMP(ts2) as ts2a,
             TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged'
         . ' FROM bugdb';
