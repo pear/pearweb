@@ -130,7 +130,7 @@ if ($proposal->getStatus() == 'proposal') {
     } else {
         echo 'Please log in to enter your comment. If you are not a registered';
         echo ' PEAR developer, you can comment by sending an email to ';
-        echo make_mailto_link('pear-dev@lists.php.net') . '.';
+        echo '<a href="mailto:' . PEAR_DEV_EMAIL . '">' . PEAR_DEV_EMAIL . '</a>.';
     }
 } else {
     echo 'Comments are only accepted during the &quot;Proposal&quot; phase. ';
