@@ -793,7 +793,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
                   "Bcc: $Bcc\n" .
                   "X-PHP-Bug: $bug[id]\n".
                   "In-Reply-To: <bug-$bug[id]@$site.php.net>",
-                  "-fbounces-ignored@php.net");
+                  "-f " . PEAR_BOUNCE_EMAIL);
             # but we go ahead and let the default sender get used for the list
 
             @mail($mailto,
@@ -809,7 +809,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
                   "X-PHP-Status: "     . rinse($new_status) . "\n" .
                   "X-PHP-Old-Status: " . rinse($old_status) . "\n" .
                   "In-Reply-To: <bug-$bug[id]@$site.php.net>",
-                  "-f bounces-ignored@php.net");
+                  "-f " . PEAR_BOUNCE_EMAIL);
         }
     }
 
@@ -831,7 +831,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
                   "From: $from\n".
                   "X-PHP-Bug: $bug[id]\n".
                   "In-Reply-To: <bug-$bug[id]@$site.php.net>",
-                  "-f bounces-ignored@php.net");
+                  "-f " . PEAR_BOUNCE_EMAIL);
         }
     }
 }
@@ -1218,7 +1218,7 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
               "From: $siteBig Bug Database <$mailfrom>\n".
               "X-PHP-Bug: $bug[id]\n".
               "In-Reply-To: <bug-$bug[id]@$site.php.net>",
-              "-fbounces-ignored@php.net");
+              "-f " . PEAR_BOUNCE_EMAIL);
     }
 }
 
