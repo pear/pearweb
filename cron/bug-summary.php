@@ -106,10 +106,10 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                 case 'Web Site':
                 case 'Bug System':
                 case 'PEPr':
-                    $to = 'pear-webmaster@lists.php.net';
+                    $to = PEAR_WEBMASTER_EMAIL;
                     break;
                 case 'Documentation':
-                    $to = 'pear-doc@lists.php.net';
+                    $to = PEAR_DOC_EMAIL;
                     // retrieve Documentation Problem bugs for each package
                     $query = "
                         SELECT
@@ -190,6 +190,5 @@ if (count($result) > 0 && !PEAR::isError($result)) {
         }
     }
     // Email PEAR-QA the whole bug list
-    mail('pear-qa@lists.php.net', $siteBig . ' Bug Summary Report', $body, 'From: ' . $siteBig . $from . ' <' . $bugEmail .">\r\n", '-f bounce-no-user@php.net');
+    mail(PEAR_QA_EMAIL, $siteBig . ' Bug Summary Report', $body, 'From: ' . $siteBig . $from . ' <' . $bugEmail .">\r\n", '-f bounce-no-user@php.net');
 }
-?>
