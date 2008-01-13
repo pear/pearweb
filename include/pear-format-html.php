@@ -751,57 +751,6 @@ function localRedirect($url, $keepProtocol = true)
 }
 
 /**
- * Get URL to license text
- *
- * @todo  Add more licenses here
- * @param string Name of the license
- * @return string Link to license URL
- */
-function get_license_link($license = '')
-{
-    switch ($license) {
-
-        case 'PHP License 3.01' :
-        case 'PHP License' :
-        case 'PHP 3.01' :
-            $link = 'http://www.php.net/license/3_01.txt';
-            break;
-
-        case 'PHP 2.02' :
-            $link = 'http://www.php.net/license/2_02.txt';
-            break;
-
-        case 'GPL' :
-        case 'GNU General Public License' :
-            $link = 'http://www.gnu.org/licenses/gpl.html';
-            break;
-
-        case 'LGPL' :
-        case 'GNU Lesser General Public License' :
-            $link = 'http://www.gnu.org/licenses/lgpl.html';
-            break;
-
-        case 'BSD' :
-        case 'BSD License' :
-        case 'New BSD License' :
-        case 'New BSD' :
-            $link = 'http://www.opensource.org/licenses/bsd-license.php';
-            break;
-
-        case 'MIT' :
-        case 'MIT License' :
-            $link = 'http://www.opensource.org/licenses/mit-license.php';
-            break;
-
-        default :
-            $link = '';
-            break;
-    }
-
-    return ($link != '' ? '<a href="' . $link . '">' . $license . "</a>\n" : $license);
-}
-
-/**
  * Create link to the account information page and to the user's wishlist
  *
  * @param string User's handle
