@@ -122,7 +122,7 @@ switch ($command) {
         include_once 'pear-database-user.php';
         $result = user::update($user_data_post);
         if (DB::isError($result)) {
-            PEAR::raiseError('Could not update the user profile, please notifiy pear-webmaster@lists.php.net');
+            PEAR::raiseError('Could not update the user profile, please notifiy ' . PEAR_WEBMASTER_EMAIL);
             break;
         }
 
