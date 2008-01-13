@@ -86,9 +86,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
     }
 
     if (isset($GLOBALS['in_manual']) && $GLOBALS['in_manual'] == false) {
-        /* The manual-related code takes care of sending the right
-         * headers.
-         */
+        // The manual-related code takes care of sending the right headers.
         header('Content-Type: text/html; charset=ISO-8859-15');
     }
 ?>
@@ -96,9 +94,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<?php
-echo $extraHeaders;
-?>
+<?php echo $extraHeaders; ?>
  <title>PEAR :: <?php echo $title; ?></title>
  <link rel="shortcut icon" href="/gifs/favicon.ico" />
  <link rel="stylesheet" type="text/css" href="/css/reset-fonts.css" />
@@ -147,13 +143,9 @@ echo $extraHeaders;
             '&amp;status=All&amp;bug_type=All&amp;author_email=' . $auth_user->handle .
             '&amp;direction=DESC&amp;order_by=ts1&amp;showmenu=1">My Bugs</a></li> '  . "\n" . '   <li class="last signout">';
 
-        if (empty($_SERVER['QUERY_STRING'])) {
-            echo make_link('?logout=1', 'Sign Out');
-        } else {
-            echo make_link('?logout=1&amp;'
-                            . htmlspecialchars($_SERVER['QUERY_STRING']),
-                       'Sign Out');
-        }
+
+        $query_string = empty($_SERVER['QUERY_STRING']) ? '' : '&amp;' . htmlspecialchars($_SERVER['QUERY_STRING']);
+        echo make_link('?logout=1' . $query_string, 'Sign Out');
         echo "</li>\n";
     }
 ?>
@@ -285,7 +277,7 @@ addEvent(window, 'load', makeFocus);
 </body>
 <?php
 if ($extraContent) {
-    print $extraContent;
+    echo $extraContent;
 }
 ?>
 </html>
@@ -943,7 +935,7 @@ function print_package_navigation($pacid, $name, $action)
         }
         echo '<a href="' . $url . '"'
             . ' title="' . $item['title'] . '" '
-            . ($action == $item['url'] ? ' class="active" ' : '')
+            . ($action == $item['url'] ? ' class="current" ' : '')
             . '>'
             . $title
             . '</a> ';
