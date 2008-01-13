@@ -42,7 +42,7 @@ class Damblan_Log_Mail extends Log_observer
     {
         $this->Log_observer();
 
-        $this->_mailer =& Mail::factory('mail', '-f bounce-no-user@php.net');
+        $this->_mailer =& Mail::factory('mail', '-f ' . PEAR_BOUNCE_EMAIL);
 
         $this->_headers['From'] = "\"PEAR System Administrators\" <pear-sys@php.net>";
     }
@@ -62,8 +62,7 @@ class Damblan_Log_Mail extends Log_observer
         $ok = $this->_mailer->send($this->_recipients, $this->_headers, $event['message']);
 
         if ($ok === false) {
-            trigger_error("Email notification routine failed.",
-                          E_USER_WARNING);
+            trigger_error("Email notification routine failed.", E_USER_WARNING);
         }
     }
 
@@ -105,4 +104,3 @@ class Damblan_Log_Mail extends Log_observer
         $this->_headers[$name] = $value;
     }
 }
-?>
