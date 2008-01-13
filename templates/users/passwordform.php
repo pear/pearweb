@@ -4,7 +4,7 @@
 <p>
  You have received an email describing how to confirm your password change request.
  Please enter your username and password reset code below.  If you have not received
- an email after several hours, please mail <a href="mailto:pear-qa@lists.php.net">pear-qa@lists.php.net</a>
+ an email after several hours, please mail <a href="mailto:<?php echo PEAR_QA_EMAIL; ?>"><?php echo PEAR_QA_EMAIL; ?></a>
  for further assistance.
 </p>
 <?php
@@ -35,4 +35,3 @@ echo '</div>';
 </form>
 <?php
 response_footer();
-?>

@@ -18,7 +18,7 @@
    $Id$
 */
 
-response_header("Innovating the future: Package.xml 1.0 and PEAR 1.3.6 are officially deprecated");
+response_header('Innovating the future: Package.xml 1.0 and PEAR 1.3.6 are officially deprecated');
 ?>
 
 <h1>Innovating the future: Package.xml 1.0, and PEAR 1.3.6 are officially deprecated</h1>
@@ -33,7 +33,7 @@ response_header("Innovating the future: Package.xml 1.0 and PEAR 1.3.6 are offic
  assistance upgrading <a href="http://pear.php.net/PEAR">PEAR</a> to the latest version, or
  for other installation-related questions or concerns, please send an email message to
  the pear-general mailing list at
- <a href="mailto:pear-general@lists.php.net">pear-general@lists.php.net</a>.
+ <a href="mailto:<?php echo PEAR_GENERAL_EMAIL; ?>"><?php echo PEAR_GENERAL_EMAIL; ?></a>.
 </p>
 
 <p>
@@ -85,10 +85,10 @@ pear package package.xml package2.xml
 <p>
  To create a package.xml version 2.0 from an existing package.xml version 1.0, simply run
  the <code>pear convert</code> command in the same directory as your package.xml.  Please
- email the <a href="mailto:pear-dev@lists.php.net">pear-dev</a> mailing list for support
+ email the <a href="mailto:<?php echo PEAR_DEV_EMAIL; ?>">development</a> mailing list for support
  with this process.
 </p>
 
 </div>
-
-<?php response_footer(); ?>
+<?php
+response_footer();

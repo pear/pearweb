@@ -2,7 +2,7 @@
 <h1>Forgot your password?</h1>
 
 <p>
- Forgot your password for logging in to the website?  Don&#39;t 
+ Forgot your password for logging in to the website?  Don&#39;t
  worry &mdash; this happens to the best of us.
 </p>
 <p>
@@ -14,7 +14,7 @@
 </p>
 <p>
  If your email address is no longer valid,
- please mail <a href="mailto:pear-qa@lists.php.net">pear-qa@lists.php.net</a> and
+ please mail <a href="mailto:<?php echo PEAR_QA_EMAIL; ?>"><?php echo PEAR_QA_EMAIL; ?></a> and
  explain the situation, your password can only be reset manually.
 </p>
 <?php

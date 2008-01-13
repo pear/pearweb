@@ -19,7 +19,6 @@
 */
 
 response_header();
-
 ?>
 <h1>PEAR Meeting in Amsterdam</h1>
 
@@ -77,18 +76,16 @@ Freenode channels:
 When necessary newer members of the PEAR community may therefore
 be unable to directly communicate with the meeting. I would therefore
 suggest to newer members to write down their ideas as a well thought
-out RfC and post it to the
-<?php echo make_mailto_link('pear-dev@lists.php.net', 'mailinglist'); ?>
+out RfC and post it to the <a href="mailto:<?php echo PEAR_DEV_EMAIL; ?>">mailinglist</a>
  or send it to
 <?php echo make_mailto_link('lsmith@php.net', 'me'); ?> directly.
 That way we can more easily incorporate their ideas into the meeting.
 <br /><br />
 Please mail all comments to either
-<?php echo make_mailto_link('pear-dev@lists.php.net'); ?>
+<a href="mailto:<?php echo PEAR_DEV_EMAIL; ?>"><?php echo PEAR_DEV_EMAIL; ?></a>
  or <?php echo make_mailto_link('lsmith@php.net', 'Lukas Smith'); ?>.
 <br /><br />
 On behalf of the PEAR developers: Lukas Smith.
 </div>
 <?php
 response_footer();
-?>
