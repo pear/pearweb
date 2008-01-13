@@ -125,7 +125,7 @@ if (isset($_POST['addpatch'])) {
                 $buggie->sendEmail();
             } catch (Exception $e) {
                 response_header('Error sending confirmation email');
-                report_error(array('Patch was successfully attached, but account confirmation email not sent, please report to pear-core@lists.php.net', $e));
+                report_error(array('Patch was successfully attached, but account confirmation email not sent, please report to ' .  PEAR_DEV_EMAIL, $e));
                 response_footer();
                 exit;
             }

@@ -356,7 +356,7 @@ if (stristr($query, ';')) {
 header('Content-type: text/xml');
 
 echo '<?xml version="1.0"?>
-<?xml-stylesheet 
+<?xml-stylesheet
 href="http://www.w3.org/2000/08/w3c-synd/style.css" type="text/css"
 ?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:admin="http://webns.net/mvcb/" xmlns:content="http://purl.org/rss/1.0/modules/content/">';
@@ -366,8 +366,8 @@ echo '    <link>http://' . htmlspecialchars(urlencode($_SERVER['HTTP_HOST']) . '
  http_build_query($_GET)) . "</link>\n";
 echo "    <description>Search Results</description>\n";
 echo "    <dc:language>en-us</dc:language>\n";
-echo "    <dc:creator>pear-webmaster@lists.php.net</dc:creator>\n";
-echo "    <dc:publisher>pear-webmaster@lists.php.net</dc:publisher>\n";
+echo "    <dc:creator>" . PEAR_WEBMASTER_EMAIL . "</dc:creator>\n";
+echo "    <dc:publisher>" . PEAR_WEBMASTER_EMAIL . "</dc:publisher>\n";
 echo "    <admin:generatorAgent rdf:resource=\"http://" . $_SERVER['HTTP_HOST'] . "/bugs\"/>\n";
 echo "    <sy:updatePeriod>hourly</sy:updatePeriod>\n";
 echo "    <sy:updateFrequency>1</sy:updateFrequency>\n";

@@ -28,7 +28,7 @@ extra_styles('/css/bugs.css');
 // For distinguishing this site from PECL
 $site = 'pear';
 $siteBig = 'PEAR';
-$bugEmail = 'pear-qa@lists.php.net';
+$bugEmail = PEAR_QA_EMAIL;
 
 /* update include/bugs/pear-bug-accountrequest.php if these change! */
 // used in mail_bug_updates(), below, and class for search results
@@ -1001,7 +1001,7 @@ function get_package_mail($package_name, $bug_id=false)
 {
     global $site, $bugEmail, $dbh;
     // XXX Change to pear-bugs when it gets opened
-    //$to[] = "pear-dev@lists.php.net";
+    //$to[] = PEAR_DEV_EMAIL;
 
     switch ($package_name) {
         case 'Bug System':

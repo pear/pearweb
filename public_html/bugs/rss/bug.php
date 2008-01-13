@@ -47,7 +47,7 @@ function outputHeader($bug,$format) {
     header('Content-type: text/xml; charset=utf-8');
     switch ($format) {
         case 'xml':
-            echo "<pearbug>\n";  
+            echo "<pearbug>\n";
             foreach($bug as $key => $value)
                 echo "  <$key>" . htmlspecialchars($value) . "</$key>\n";
             break;
@@ -61,7 +61,7 @@ function outputHeader($bug,$format) {
                 ORDER BY c.ts DESC';
             $res = $GLOBALS['dbh']->getAll($query, array($bug['id']));
             echo '<?xml version="1.0"?>
-<?xml-stylesheet 
+<?xml-stylesheet
  href="http://www.w3.org/2000/08/w3c-synd/style.css" type="text/css"
 ?>
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://purl.org/rss/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:admin="http://webns.net/mvcb/" xmlns:content="http://purl.org/rss/1.0/modules/content/">';
@@ -70,8 +70,8 @@ function outputHeader($bug,$format) {
             echo '    <link>http://' . urlencode($_SERVER['HTTP_HOST']) . '/bugs/' . intval($bug['id']) . "</link>\n";
             echo "    <description>" . utf8_encode(htmlspecialchars("[{$bug['status']}] {$bug['sdesc']}")) . "</description>\n";
             echo "    <dc:language>en-us</dc:language>\n";
-            echo "    <dc:creator>pear-webmaster@lists.php.net</dc:creator>\n";
-            echo "    <dc:publisher>pear-webmaster@lists.php.net</dc:publisher>\n";
+            echo "    <dc:creator>" . PEAR_WEBMASTER_EMAIL . "</dc:creator>\n";
+            echo "    <dc:publisher>" . PEAR_WEBMASTER_EMAIL . "</dc:publisher>\n";
             echo "    <admin:generatorAgent rdf:resource=\"http://pear.php.net/bugs\"/>\n";
             echo "    <sy:updatePeriod>hourly</sy:updatePeriod>\n";
             echo "    <sy:updateFrequency>1</sy:updateFrequency>\n";

@@ -36,7 +36,7 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
             '<p><strong>If you do not have a confirmation message</strong>, <a href="resend-request-email.php?' .
             'handle=' . urlencode($patchinfo->getDeveloper($_GET['bug'], $_GET['patch'],
                 $_GET['revision'])) . '">click here to re-send</a> or write a message to' .
-            ' <a href="mailto:pear-dev@lists.php.net">pear-dev@lists.php.net</a> asking for manual approval of your account.</p>';
+            ' <a href="mailto:' . PEAR_DEV_LIST . '">' . PEAR_DEV_LIST . '</a> asking for manual approval of your account.</p>';
         response_footer();
         exit;
     }

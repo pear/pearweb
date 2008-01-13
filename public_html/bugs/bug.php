@@ -1280,7 +1280,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
             echo '<pre class="note">If you submitted this note, check your email.';
             echo 'If you do not have a message, <a href="resend-request-email.php?' .
             'handle=' . urlencode($handle) . "\">click here to re-send</a>\n",
-            "MANUAL CONFIRMATION IS NOT POSSIBLE.  Write a message to <a href=\"mailto:pear-dev@lists.php.net\">pear-dev@lists.php.net</a>\n",
+            'MANUAL CONFIRMATION IS NOT POSSIBLE.  Write a message to <a href="mailto:' . PEAR_DEV_LIST . '">' . PEAR_DEV_LIST . '</a>' . "\n",
             "to request the confirmation link.  All bugs/comments/patches associated with this
 \nemail address will be deleted within 48 hours if the account request is not confirmed!";
             echo "</pre>\n</div>";
