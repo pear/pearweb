@@ -57,7 +57,7 @@ response_header('Credits');
 <p>The authors of the documentation are listed on a
 <a href="/manual/en/authors.php">special page</a> in
 the manual. The team can be reached via the mailing list
-<?php echo make_mailto_link('pear-doc@lists.php.net'); ?>
+<?php echo make_mailto_link(PEAR_DOC_EMAIL); ?>
  (<a href="/support/lists.php">subscription information</a>).</p>
 
 <?php
