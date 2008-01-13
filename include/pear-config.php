@@ -142,7 +142,7 @@ define('PROPOSAL_STATUS_VOTE_TIMELINE', (60 * 60 * 24 * 7)); // 1 week
 define('PROPOSAL_EMAIL_PREFIX', '[PEPr]');
 
 // PEPr: the string put on the end of each email
-define('PROPOSAL_EMAIL_POSTFIX', "\n\n-- \nSent by PEPr, the automatic proposal system at http://" . PEAR_CHANNELNAME);
+define('PROPOSAL_EMAIL_POSTFIX', "");
 define('PROPOSAL_OVERVIEW_FINISHED', 10);
 
 // Number of trackbacks from 1 IP allowed within given timespan.
