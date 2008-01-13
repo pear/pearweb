@@ -98,7 +98,7 @@ if (empty($errors)) {
              */
             $noteUrl = strip_tags($post['noteUrl']);
         }
-        $errors[] = $added->getMessage() . ' please contact <a mailto="pear-webaster@lists.php.net">Webmaster</a> , Thanks';
+        $errors[] = $added->getMessage() . ' please contact <a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">Webmaster</a> , Thanks';
     }
     /**
      * We need no further answers
@@ -113,4 +113,3 @@ if (empty($errors)) {
     $noteUrl = $post['noteUrl'];
     require dirname(dirname(dirname(__FILE__))) . '/templates/notes/add-note-form.tpl.php';
 }
-
