@@ -339,7 +339,8 @@ function draw_navigation()
     $sub['/packages.php'] = array(
         '/packages.php'        => 'List Packages',
         '/search.php'          => 'Search Packages',
-        '/package-stats.php'   => 'Statistics'
+        '/package-stats.php'   => 'Statistics',
+        '/channels/'           => 'Channels',
     );
 
     if (!empty($auth_user) && !empty($auth_user->registered) && auth_check('pear.dev')) {
