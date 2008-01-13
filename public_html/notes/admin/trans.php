@@ -12,12 +12,12 @@ if (isset($_REQUEST['action'])) {
 }
 
 switch ($action) {
-    case 'makedocbug':        
+    case 'makedocbug':
         if (isset($_GET['noteId'])) {
             $noteId = (int)$_GET['noteId'];
-            
+
             $note = $manualNotes->getSingleCommentById($noteId);
-            
+
             $registered      = 1;
             $package         = getPackageNameForId($note['page_url']);
             $package_name    = is_null($package) ? 'Documentation' : $package;
@@ -26,7 +26,7 @@ switch ($action) {
             $handle          = $auth_user->handle;
             $sdesc           = 'User note that is a documentation problem';
             $ldesc           = 'Manual page: ' . $note['page_url'] . "\n\n" .
-                               str_replace('<br />', '', mysql_escape_string(html_entity_decode($note['note_text'])));
+                               str_replace('<br />', '', $dbh->quote(html_entity_decode($note['note_text'])));
             $package_version = null;
             $php_version     = 'Irrelevant';
             $php_os          = 'Irrelevant';
@@ -68,7 +68,7 @@ switch ($action) {
 
             $manualNotes->deleteSingleComment($noteId);
             // TODO: add error handling
-            
+
             $emailInfos = array(
                 'id'              => $id,
                 'php_os'          => $php_os,
@@ -89,7 +89,7 @@ switch ($action) {
         }
         break;
     case 'updateapproved':
-        
+
         if (isset($_POST['noteIds']) && is_array($_POST['noteIds'])) {
             if (isset($_POST['pending'])) {
                 $notes = $manualNotes->updateCommentList($_POST['noteIds'], 'pending');
@@ -107,14 +107,14 @@ switch ($action) {
             }
             $_GET = $_POST;
             $_GET['status'] = 'approved';
-            
+
             include dirname(__FILE__) . '/index.php';
             exit;
         } else {
             $error = 'Neither pending nor delete was selected';
             $_GET = $_POST;
             $_GET['status'] = 'approved';
-            
+
             include dirname(__FILE__) . '/index.php';
             exit;
         }
@@ -150,7 +150,7 @@ switch ($action) {
             if (isset($_POST['undelete'])) {
                 $_GET['status'] = 'deleted';
             }
-            
+
             include dirname(__FILE__) . '/index.php';
             exit;
         } else {
@@ -159,7 +159,7 @@ switch ($action) {
             if (isset($_POST['undelete'])) {
                 $_GET['status'] = 'deleted';
             }
-            
+
             include dirname(__FILE__) . '/index.php';
             exit;
         }
