@@ -715,7 +715,7 @@ function html_category_urhere($id, $link_lastest = false)
             $html .= '  :: <strong>' . $row['name'] . '</strong>';
         }
     }
-    print $html;
+    echo $html;
 }
 
 /**
@@ -799,32 +799,6 @@ function get_license_link($license = '')
     }
 
     return ($link != '' ? '<a href="' . $link . '">' . $license . "</a>\n" : $license);
-}
-
-function display_user_notes($user, $width = '50%')
-{
-    global $dbh;
-    $bb = new BorderBox("Notes for user $user", $width);
-    $notes = $dbh->getAssoc("SELECT id,nby,ntime,note FROM notes
-                WHERE uid = ? ORDER BY ntime", true, array($user));
-    if (!empty($notes)) {
-        echo '<table cellpadding="2" cellspacing="0" style="border: 0px;">' . "\n";
-        foreach ($notes as $nid => $data) {
-        echo " <tr>\n";
-        echo "  <td>\n";
-        echo "   <strong>{$data['nby']} {$data['ntime']}:</strong>";
-        echo "<br />\n";
-        echo "   ".htmlspecialchars($data['note'])."\n";
-        echo "  </td>\n";
-        echo " </tr>\n";
-        echo " <tr><td>&nbsp;</td></tr>\n";
-        }
-        echo "</table>\n";
-    } else {
-        echo 'No notes.';
-    }
-    $bb->end();
-    return sizeof($notes);
 }
 
 /**
