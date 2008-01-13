@@ -49,7 +49,7 @@ team works can be found in the
 <p>If you are interested in helping out, or if you have questions
 concerning the <acronym title="Quality Assurance">QA</acronym>
 initiative, you can contact the team using the mailing list
-<?php echo make_mailto_link('pear-qa@lists.php.net'); ?>
+<a href="<?php echo PEAR_QA_EMAIL; ?>"><?php echo PEAR_QA_EMAIL; ?></a>
  (<a href="/support/lists.php">subscription information</a>).</p>
 
 <?php
