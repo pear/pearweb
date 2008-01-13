@@ -17,12 +17,6 @@
  * @license   http://www.php.net/license/3_0.txt  PHP License
  * @version   $Id$
  */
-$map = '<script type="text/javascript" language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
-response_header('PEAR Maps', false, $map);
-?>
-
-<h1>PEAR Developer Locations</h1>
-<?php
 $maps = array(
     'world' =>
         array('name'  => 'World Map',
@@ -66,45 +60,57 @@ $maps = array(
               'thumb' => 'http://pear.cweiske.de/devmaps/peardev-australia.200.jpg',
         ),
 );
+
+$data = array();
+$sql = "
+    SELECT u.latitude, u.longitude, u.name, u.handle
+    FROM users u
+    LEFT JOIN karma k ON u.handle = k.user
+    WHERE
+      u.latitude <> ''
+     AND
+      u.longitude <> ''
+     AND
+      k.level = 'pear.dev'";
+
+if (isset($_GET['handle']) && !empty($_GET['handle'])) {
+    $sql .= '
+      AND
+       u.handle = ?';
+    $handle = htmlspecialchars($_GET['handle']);
+    $data[] = $handle;
+}
+
+$infos = $dbh->getAll($sql, $data);
+if (!empty($infos)) {
+    $map = '<script type="text/javascript" language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
+    response_header('PEAR Maps', false, $map);
 ?>
+<h1>PEAR Developer Locations</h1>
+
 <p>
  The map below contains the locations of the PEAR developers who have added
  their location to their user profile.
 </p>
  <noscript>
-  <?php
-    print '<h1>Maps Links</h1>';
+<?php
+    echo '<h1>Maps Links</h1>';
     foreach ($maps as $map) {
         echo '<a href="' . $map['link'] . '">'
             .'<img src="' . $map['thumb'] . '" alt="' . $map['name'] . '" width="200px"/>'
             .'</a>' . "\r\n";
     }
-    print '<hr noshade="noshade"/>';
-  ?>
+    echo '<hr noshade="noshade"/>';
+?>
   </noscript>
-
- <script language="javascript" type="text/javascript">
+    <script language="javascript" type="text/javascript">
 
  points = new Array();
-
- <?php
-    $sql = "
-        SELECT u.latitude, u.longitude, u.name, u.handle
-        FROM users u
-        LEFT JOIN karma k ON u.handle = k.user
-        WHERE
-          u.latitude <> ''
-         AND
-          u.longitude <> ''
-         AND
-          k.level = 'pear.dev'
-    ";
-
-    $infos = $dbh->getAll($sql);
-    foreach ($infos as $info) {
-        echo "points.push(['" . addslashes($info[0]) . "', '" . addslashes($info[1]) . "', '" . addslashes($info[2]) . "', '" . addslashes($info[3]) . "']);\n";
-    }
- ?>
+?>
+foreach ($infos as $info) {
+    echo " points.push(['" . addslashes($info[0]) . "', '" . addslashes($info[1]) . "', '" . addslashes($info[2]) . "', '" . addslashes($info[3]) . "']);\n";
+}
+?>
 </script>
 <script language="javascript" type="text/javascript" src="../javascript/peardev_map.js"></script>
 
@@ -112,6 +118,12 @@ $maps = array(
      id="peardev_map">
 </div>
 <?php
+} elseif (isset($_GET['handle']) && !empty($_GET['handle']) && empty($infos)) {
+    response_header('PEAR Maps');
+    echo '<h1>PEAR Developer Locations</h1>';
+    echo '<p>User <strong>' . $handle . '</strong> does not latitude & longitude set.</p>';
+}
+
 if ($auth_user && empty($auth_user->latitude)) {
     echo "<p><strong>Tip:</strong> You can add your coordinates in your "
     . make_link("/account-edit.php?handle=" . $auth_user->handle, "profile")
@@ -119,8 +131,11 @@ if ($auth_user && empty($auth_user->latitude)) {
 }
 ?>
 <?php
-$showMap = '<script language="javascript" type="text/javascript">
+if (!empty($infos)) {
+    $showMap = '<script language="javascript" type="text/javascript">
 showfullmap();
 </script>';
-
-response_footer(false, $showMap);
+    response_footer(false, $showMap);
+} else {
+    response_footer();
+}

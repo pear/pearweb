@@ -174,6 +174,12 @@ echo '    <li>RSS Feed: &nbsp;';
 echo make_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/feeds/user_' . $handle . '.rss');
 echo '</li>' . "\n";
 
+if (!empty($row['latitude']) && !empty($row['longitude'])) {
+    echo '    <li>Map: &nbsp;';
+    echo make_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/map/?handle=' . $handle);
+    echo '</li>' . "\n";
+}
+
 echo '    <li>Bug Statistics: <br />' . "\n";
 echo '     <ul>' . "\n";
 
