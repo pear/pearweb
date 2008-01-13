@@ -866,14 +866,6 @@ function make_link($url, $linktext = '', $target = '', $extras = '', $title = ''
 }
 
 /**
- * Echos a hyperlink to something
- */
-function print_link($url, $linktext = '', $target = '', $extras = '')
-{
-    echo make_link($url, $linktext, $target, $extras);
-}
-
-/**
  * Creates a link to the bug system
  */
 function make_bug_link($package, $type = 'list', $linktext = '')
