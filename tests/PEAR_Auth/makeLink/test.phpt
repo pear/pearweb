@@ -8,8 +8,8 @@ try {
     $auth_user->makeLink();
     $phpt->assertFalse(true, 'Exception not thrown!');
 } catch (Exception $e) {
-    $phpt->assertEquals('Programmer error: please report to pear-dev@lists.php.net.' .
-                ' $auth_user not initialized with data()', $e->getMessage(), 'exception');
+    $phpt->assertEquals('Programmer error: please report to ' . PEAR_DEV_EMAIL  .
+                '. $auth_user not initialized with data()', $e->getMessage(), 'exception');
 }
 
 $auth_user->handle = 'cellog';
