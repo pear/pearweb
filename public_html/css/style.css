@@ -220,7 +220,7 @@ div#body {
     border-right: 1px solid #ccc;
 }
 
-#nav a:hover, #nav a.active {
+#nav a:hover, #nav a.current {
     background: #ddd;
 }
 
