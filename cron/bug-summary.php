@@ -186,7 +186,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
             }
             // Email Leads/Developers of X package with a summary of open
             // bugs for the package
-            mail($to, rinse($subject), $dev_text, $mail_headers, '-f bounce-no-user@php.net');
+            mail($to, rinse($subject), $dev_text, $mail_headers, '-f ' . PEAR_BOUNCE_EMAIL);
         }
     }
     // Email PEAR-QA the whole bug list
