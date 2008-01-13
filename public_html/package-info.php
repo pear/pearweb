@@ -202,12 +202,12 @@ if ($version) {
 
 html_category_urhere($pkg['categoryid'], true);
 
-print '<h1>Package Information: ' . $name; // . ' (download rank: ' . $rank . ')';
+echo '<h1>Package Information: ' . $name; // . ' (download rank: ' . $rank . ')';
 if ($version) {
-    print ' ' .  $version;
+    echo ' ' .  $version;
 }
 
-print "</h1>\n";
+echo "</h1>\n";
 
 print_package_navigation($pacid, $name, $action);
 
@@ -267,49 +267,49 @@ if (empty($action)) {
     }
     // }}}
 
-    print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
-    print '<tr>';
-    print '<th class="headrow" style="width: 50%">&raquo; Summary</th>';
-    print '<th class="headrow" style="width: 50%">&raquo; License</th>';
-    print '</tr>';
-    print '<tr>';
-    print '<td class="textcell">' . htmlspecialchars($summary) . '</td>';
-    print '<td class="textcell">' . get_license_link($license) . '</td>';
-    print '</tr>';
+    echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
+    echo '<tr>';
+    echo '<th class="headrow" style="width: 50%">&raquo; Summary</th>';
+    echo '<th class="headrow" style="width: 50%">&raquo; License</th>';
+    echo '</tr>';
+    echo '<tr>';
+    echo '<td class="textcell">' . htmlspecialchars($summary) . '</td>';
+    echo '<td class="textcell">' . get_license_link($license) . '</td>';
+    echo '</tr>';
 
-    print '<tr>';
-    print '<th width="50%" class="headrow">&raquo; Current Release</th>';
-    print '<th width="50%" class="headrow">&raquo; Bug Summary</th>';
-    print '</tr>';
-    print '<tr>';
-    print '<td width="50%" class="textcell">';
+    echo '<tr>';
+    echo '<th width="50%" class="headrow">&raquo; Current Release</th>';
+    echo '<th width="50%" class="headrow">&raquo; Bug Summary</th>';
+    echo '</tr>';
+    echo '<tr>';
+    echo '<td width="50%" class="textcell">';
     if (isset($versions[0])) {
-        print '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
-        print ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
-        print ' was released on ' . make_utc_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
-        print ' (<a href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
+        echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
+        echo ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
+        echo ' was released on ' . make_utc_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
+        echo ' (<a href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
 
         if ($pkg['releases'][$versions[0]]['state'] != 'stable') {
             foreach ($pkg['releases'] as $rel_ver => $rel_arr) {
                 if ($rel_arr['state'] == 'stable') {
-                    print "<br />\n";
-                    print '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-';
+                    echo "<br />\n";
+                    echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-';
                     print $rel_ver . '.tgz">' . $rel_ver . '</a>';
-                    print ' (stable)';
-                    print ' was released on ';
+                    echo ' (stable)';
+                    echo ' was released on ';
                     print make_utc_date(strtotime($rel_arr['releasedate']),
                                         'Y-m-d');
-                    print ' (<a href="/package/' . htmlspecialchars($name);
-                    print '/download/' . $rel_ver . '">Changelog</a>)';
+                    echo ' (<a href="/package/' . htmlspecialchars($name);
+                    echo '/download/' . $rel_ver . '">Changelog</a>)';
                     break;
                 }
             }
         }
     } else {
-        print 'No releases have been made yet.';
+        echo 'No releases have been made yet.';
     }
     if (Roadmap_Info::roadmapExists($name)) {
-        print '<br /><a href="/bugs/roadmap.php?package=' . urlencode($name) .
+        echo '<br /><a href="/bugs/roadmap.php?package=' . urlencode($name) .
             '">Development Roadmap</a>';
         $nextrelease = Roadmap_Info::nextRelease($name);
         if ($nextrelease) {
@@ -324,148 +324,148 @@ if (empty($action)) {
             echo ', ' . Roadmap_Info::percentDone($name) . '% complete)';
         }
     }
-    print '</td>';
-    print '<td width="50%" class="textcell">';
+    echo '</td>';
+    echo '<td width="50%" class="textcell">';
     $bugs = new PEAR_Bugs;
     $buginfo = $bugs->packageBugStats($pkg['name']);
     if (!$buginfo['count']) {
-        print 'No open bugs';
+        echo 'No open bugs';
     } else {
-        print '<ul>';
+        echo '<ul>';
         $bstats = $bugs->bugRank();
         foreach ($bstats as $i => $pi) {
             if ($pi['name'] == $pkg['name']) {
-                print '<li>Package Maintenance Rank: <strong>' . ++$i . '</strong> of ' .
+                echo '<li>Package Maintenance Rank: <strong>' . ++$i . '</strong> of ' .
                     count ($bstats) .
                     ' packages with open bugs</li>';
                 break;
             }
         }
-        print '<li>Number of <a href="/bugs/search.php?cmd=display&package_name[]=' .
+        echo '<li>Number of <a href="/bugs/search.php?cmd=display&package_name[]=' .
             $pkg['name'] . '&status=OpenFeedback&bug_type=Bugs">open bugs</a>: <strong>' .
             $buginfo['count'] . ' (' . $buginfo['total'] . ' total bugs)</strong></li>';
-        print '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>';
-        print '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>';
-        print '</ul>';
+        echo '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>';
+        echo '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>';
+        echo '</ul>';
     }
-    print '</td>';
-    print '</tr>';
-    print '<tr>';
+    echo '</td>';
+    echo '</tr>';
+    echo '<tr>';
     if (isset($auth_user)) {
-        print '<th class="headrow">&raquo; Description</th>';
-        print '<th class="headrow">&raquo; Package.xml suggestions (for developers)</th>';
+        echo '<th class="headrow">&raquo; Description</th>';
+        echo '<th class="headrow">&raquo; Package.xml suggestions (for developers)</th>';
     } else {
-        print '<th colspan="2" class="headrow">&raquo; Description</th>';
+        echo '<th colspan="2" class="headrow">&raquo; Description</th>';
     }
-    print '</tr>';
-    print '<tr>';
+    echo '</tr>';
+    echo '<tr>';
     if (isset($auth_user)) {
         require 'package/releasehelper.php';
         $helper = new package_releasehelper($pkg['name']);
-        print '<td class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
-        print '<td class="textcell">';
-        print '<ul>';
+        echo '<td class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
+        echo '<td class="textcell">';
+        echo '<ul>';
         if (!$helper->hasReleases()) {
-            print '   <li>First release should be version <strong><a href="/bugs/roadmap.php?package=' .
+            echo '   <li>First release should be version <strong><a href="/bugs/roadmap.php?package=' .
             urlencode($name) . '&showornew=0.1.0">0.1.0</a></strong>, stability <strong>alpha</strong>';
-            print '   </li>';
+            echo '   </li>';
         } else {
             $bugfix = $helper->getNextBugfixVersion();
             $newfeatures =  $helper->getNewFeatureVersion();
             if ($helper->nextCanBeStable()) {
-                print '   <li>';
-                print '    Next Bugfix release should be: <strong><a href="' .
+                echo '   <li>';
+                echo '    Next Bugfix release should be: <strong><a href="' .
                     '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
                     $bugfix[0]. '#a' . $bugfix[0] . '">' . $bugfix[0] . '</a></strong>, stability ' .
                       '<strong>' . $bugfix[1] . '</strong>';
-                print '   </li>';
-                print '   <li>';
+                echo '   </li>';
+                echo '   <li>';
                 if ($helper->lastWasReleaseCandidate()) {
-                    print '    Next Stable release should be: <strong>';
+                    echo '    Next Stable release should be: <strong>';
                 } else {
-                    print '    Next New Feature release should be: <strong>';
+                    echo '    Next New Feature release should be: <strong>';
                 }
-                print '<a href="' .
+                echo '<a href="' .
                     '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
                     $newfeatures[0]. '#a' . $newfeatures[0] . '">' . $newfeatures[0] .
                       '</a></strong>, stability <strong>' . $newfeatures[1] . '</strong>';
-                print '   </li>';
+                echo '   </li>';
             } else {
-                print '   <li>';
-                print '    Next Bugfix release should be: <strong><a href="' .
+                echo '   <li>';
+                echo '    Next Bugfix release should be: <strong><a href="' .
                     '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
                     $bugfix[0]. '#a' . $bugfix[0] . '">' . $bugfix[0] . '</a></strong>, stability ' .
                       '<strong>' . $bugfix[1] . '</strong>';
-                print '   </li>';
+                echo '   </li>';
                 $beta =  $helper->getNextBetaRelease();
                 if ($beta) {
-                    print '   <li>';
-                    print '    Next Stable API release should be: <strong><a href="' .
+                    echo '   <li>';
+                    echo '    Next Stable API release should be: <strong><a href="' .
                         '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
                         $beta[0] . '#a' . $beta[0] . '">' . $beta[0] .
                         '</a></strong>, stability <strong>' . $beta[1] . '</strong>';
-                    print '   </li>';
+                    echo '   </li>';
                 }
                 if ($helper->canAddFeatures()) {
-                    print '   <li>';
-                    print '    Next New Feature release should be: <strong><a href="' .
+                    echo '   <li>';
+                    echo '    Next New Feature release should be: <strong><a href="' .
                         '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
                         $newfeatures[0] . '#a' . $newfeatures[0] . '">' . $newfeatures[0] .
                         '</a></strong>, stability <strong>' . $newfeatures[1] . '</strong>';
-                    print '   </li>';
+                    echo '   </li>';
                 }
             }
         }
         if ($helper->hasOldPackagexml()) {
-            print ' <li>';
-            print '  <strong><blink>WARNING</blink>: the last release of this package used ';
-            print '  package.xml version 1.0</strong>, which is deprecated.';
-            print '  To use package.xml version 2.0, run &quot;pear convert&quot;';
-            print '  to create package2.xml. ';
-            print '  Both package.xml and package2.xml may be used together, or you may ';
-            print '  choose to replace package.xml with package2.xml for the next release.';
-            print ' </li>';
+            echo ' <li>';
+            echo '  <strong><blink>WARNING</blink>: the last release of this package used ';
+            echo '  package.xml version 1.0</strong>, which is deprecated.';
+            echo '  To use package.xml version 2.0, run &quot;pear convert&quot;';
+            echo '  to create package2.xml. ';
+            echo '  Both package.xml and package2.xml may be used together, or you may ';
+            echo '  choose to replace package.xml with package2.xml for the next release.';
+            echo ' </li>';
         }
-        print '</ul>';
-        print '</td>';
+        echo '</ul>';
+        echo '</td>';
     } else {
-        print '<td colspan="2" class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
+        echo '<td colspan="2" class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
     }
-    print '</tr>';
+    echo '</tr>';
 
-    print '<tr>';
-    print '<th class="headrow" style="width: 50%">&raquo; Maintainers</th>';
-    print '<th class="headrow" style="width: 50%">&raquo; More Information</th>';
-    print '</tr>';
-    print '<tr>';
-    print '<td class="ulcell">' . $accounts . '</td>';
-    print '<td class="ulcell">';
+    echo '<tr>';
+    echo '<th class="headrow" style="width: 50%">&raquo; Maintainers</th>';
+    echo '<th class="headrow" style="width: 50%">&raquo; More Information</th>';
+    echo '</tr>';
+    echo '<tr>';
+    echo '<td class="ulcell">' . $accounts . '</td>';
+    echo '<td class="ulcell">';
 
-    print '<ul>';
+    echo '<ul>';
 
     if (!empty($homepage)) {
-        print '<li>' . make_link(htmlspecialchars($homepage),
+        echo '<li>' . make_link(htmlspecialchars($homepage),
                                  'External Package Homepage') . '</li>';
     }
     if (!empty($cvs_link)) {
-        print '<li><a href="' . htmlspecialchars($cvs_link) . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
+        echo '<li><a href="' . htmlspecialchars($cvs_link) . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
     }
-    print '<li><a href="/feeds/pkg_' . strtolower(htmlspecialchars($name)) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>';
-    print '<li><a href="/package-stats.php?pid=' . $pkg['packageid'] . '&cid=' .
+    echo '<li><a href="/feeds/pkg_' . strtolower(htmlspecialchars($name)) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>';
+    echo '<li><a href="/package-stats.php?pid=' . $pkg['packageid'] . '&cid=' .
         $pkg['categoryid'] . '" title="View download statistics for this package">View Download Statistics</a></li>';
-    print '</ul>';
-    print '</td>';
-    print '</tr>';
+    echo '</ul>';
+    echo '</td>';
+    echo '</tr>';
 
     // {{{ Dependants
 
     include_once 'pear-database-package.php';
     $dependants = package::getDependants($name);
     if ($rel_count > 0 && count($dependants) > 0) {
-        print '<tr>';
-        print '<th colspan="2" class="headrow">&raquo; Packages that depend on ' . htmlspecialchars($name) . '</th>';
-        print '</tr>';
-        print '<tr>';
+        echo '<tr>';
+        echo '<th colspan="2" class="headrow">&raquo; Packages that depend on ' . htmlspecialchars($name) . '</th>';
+        echo '</tr>';
+        echo '<tr>';
 
         echo '<td colspan="2" class="ulcell">';
         echo '<ul>';
@@ -481,12 +481,12 @@ if (empty($action)) {
         echo '</ul>';
         echo '</td>';
 
-        print '</tr>';
+        echo '</tr>';
     }
 
     // }}}
 
-    print '</table>';
+    echo '</table>';
 
     // }}}
 
@@ -496,28 +496,28 @@ if (empty($action)) {
 
     $i = 0;
 
-    print '<a href="/package/' . htmlspecialchars($name) . '/download/All">Show All Changelogs</a>';
-    print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
-    print ' <tr>';
-    print '  <th class="headrow" style="width: 20%">&raquo; Version</th>';
-    print '  <th class="headrow">&raquo; Information</th>';
-    print "</tr>\n";
+    echo '<a href="/package/' . htmlspecialchars($name) . '/download/All">Show All Changelogs</a>';
+    echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
+    echo ' <tr>';
+    echo '  <th class="headrow" style="width: 20%">&raquo; Version</th>';
+    echo '  <th class="headrow">&raquo; Information</th>';
+    echo "</tr>\n";
 
     foreach ($pkg['releases'] as $release_version => $info) {
-        print " <tr>\n";
+        echo " <tr>\n";
 
         if ($show_all || ($i++ == 0 && empty($version)) || $release_version === $version) {
             // Detailed view
 
-            print '<td class="textcell">' . $release_version . '</td>';
-            print '<td>';
-            print '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
-            print '<b>Release date:</b> ' . make_utc_date(strtotime($info['releasedate'])) . '<br />';
-            print '<b>Release state:</b> ' . htmlspecialchars($info['state']) . '<br /><br />';
-            print '<b>Changelog:</b><br /><br />' . nl2br(make_ticket_links(htmlspecialchars($info['releasenotes']))) . '<br /><br />';
+            echo '<td class="textcell">' . $release_version . '</td>';
+            echo '<td>';
+            echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
+            echo '<b>Release date:</b> ' . make_utc_date(strtotime($info['releasedate'])) . '<br />';
+            echo '<b>Release state:</b> ' . htmlspecialchars($info['state']) . '<br /><br />';
+            echo '<b>Changelog:</b><br /><br />' . nl2br(make_ticket_links(htmlspecialchars($info['releasenotes']))) . '<br /><br />';
 
             if (!empty($info['deps']) && count($info['deps']) > 0) {
-                print '<b>Dependencies:</b>';
+                echo '<b>Dependencies:</b>';
 
                 $rel_trans = array('lt' => 'older than %s',
                                    'le' => 'version %s or older',
@@ -565,22 +565,22 @@ if (empty($action)) {
                     $dep_text .= '</li>';
                 }
 
-                print '<ul>' . $dep_text . '</ul>';
+                echo '<ul>' . $dep_text . '</ul>';
 
             }
 
-            print "</td>\n";
+            echo "</td>\n";
 
         } else {
             // Simple view
-            print '  <td><a href="/package/' . htmlspecialchars($name) . '/download/' . $release_version . '">' . $release_version . "</a></td>\n";
-            print '  <td>' . make_utc_date(strtotime($info['releasedate']), 'Y-m-d') . ' &nbsp; &nbsp; ' . htmlspecialchars($info['state']) . "</td>\n";
+            echo '  <td><a href="/package/' . htmlspecialchars($name) . '/download/' . $release_version . '">' . $release_version . "</a></td>\n";
+            echo '  <td>' . make_utc_date(strtotime($info['releasedate']), 'Y-m-d') . ' &nbsp; &nbsp; ' . htmlspecialchars($info['state']) . "</td>\n";
         }
 
-        print " </tr>\n";
+        echo " </tr>\n";
     }
 
-    print "</table>\n";
+    echo "</table>\n";
 
     // }}}
 
@@ -588,49 +588,49 @@ if (empty($action)) {
 
     // {{{ Documentation
 
-    print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
-    print '<tr>';
-    print '<th class="headrow" style="width: 50%">&raquo; End-user documentation</th>';
-    print '<th class="headrow" style="width: 50%">&raquo; API documentation</th>';
-    print '</tr>';
-    print '<tr>';
-    print '<td class="ulcell">';
+    echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
+    echo '<tr>';
+    echo '<th class="headrow" style="width: 50%">&raquo; End-user documentation</th>';
+    echo '<th class="headrow" style="width: 50%">&raquo; API documentation</th>';
+    echo '</tr>';
+    echo '<tr>';
+    echo '<td class="ulcell">';
 
     if (!empty($doc_link)) {
-        print '<ul><li><a href="' . htmlspecialchars($doc_link) . '">End-user Documentation</a></li></ul>';
+        echo '<ul><li><a href="' . htmlspecialchars($doc_link) . '">End-user Documentation</a></li></ul>';
     } else {
-        print '<p>No end-user documentation is available for this package.</p>';
+        echo '<p>No end-user documentation is available for this package.</p>';
     }
 
-    print '</td>';
-    print '<td class="textcell">';
+    echo '</td>';
+    echo '<td class="textcell">';
 
     if ($rel_count > 0) {
-        print '<p>Auto-generated API documentation for each ';
-        print 'release is available.</p>';
+        echo '<p>Auto-generated API documentation for each ';
+        echo 'release is available.</p>';
 
-        print '<p><a href="/package/' . htmlspecialchars($name) . '/docs/latest/">Documentation for the latest release</a></p>';
-        print '<hr />'
+        echo '<p><a href="/package/' . htmlspecialchars($name) . '/docs/latest/">Documentation for the latest release</a></p>';
+        echo '<hr />'
 
-        print '<strong>Complete list:</strong>';
-        print '<ul>';
+        echo '<strong>Complete list:</strong>';
+        echo '<ul>';
 
         foreach ($pkg['releases'] as $r_version => $release) {
-            print '<li><a href="/package/' . htmlspecialchars($name) . '/docs/' . $r_version . '/">' . $r_version . '</a></li>';
+            echo '<li><a href="/package/' . htmlspecialchars($name) . '/docs/' . $r_version . '/">' . $r_version . '</a></li>';
         }
 
-        print '</ul>';
-        print '<p>This documentation has been generated from the ';
-        print 'inline comments in the source code using ';
-        print '<a href="/package/phpDocumentor/">phpDocumentor</a>.</p>';
+        echo '</ul>';
+        echo '<p>This documentation has been generated from the ';
+        echo 'inline comments in the source code using ';
+        echo '<a href="/package/phpDocumentor/">phpDocumentor</a>.</p>';
     } else {
-        print '<p>Auto-generated API documentation will be available ';
-        print 'once that this package has rolled a release.</p>';
+        echo '<p>Auto-generated API documentation will be available ';
+        echo 'once that this package has rolled a release.</p>';
     }
 
-    print '</td>';
-    print '</tr>';
-    print '</table>';
+    echo '</td>';
+    echo '</tr>';
+    echo '</table>';
 
     // }}}
 } elseif ($action == 'trackbacks') {
@@ -647,95 +647,95 @@ if (empty($action)) {
     // Generate trackback list
     $trackbacks = Damblan_Trackback::listTrackbacks($dbh, $name, !$trackbackIsAdmin);
 
-    print '<p>This page provides a list of trackbacks, which have been received to this package. A trackback is usually generated,
+    echo '<p>This page provides a list of trackbacks, which have been received to this package. A trackback is usually generated,
 when a weblog entry is created, which is related to the package. If you want to learn more about trackbacks, please take a look at
 what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about trackbacks</a>.</p>
 <p>If you like to disable the trackbacks for this package, click here:
 <p><a href="/package/' . $pkg['name'] . '/trackbacks/?allowtrackbacks=2">Disable trackbacks</a></p>';
 
-    print '<p>The trackback URL for this package is: <a href="'.$trackback_uri.'">'.$trackback_uri.'</a>';
+    echo '<p>The trackback URL for this package is: <a href="'.$trackback_uri.'">'.$trackback_uri.'</a>';
 
     if ($trackbackIsAdmin) {
-        print '<div class="explain">You may manipulate the trackbacks of this package. In contrast to normal users, you see approved and pending trackbacks, while normal users only see the approved ones.</div>';
+        echo '<div class="explain">You may manipulate the trackbacks of this package. In contrast to normal users, you see approved and pending trackbacks, while normal users only see the approved ones.</div>';
     }
 
     if (count($trackbacks) == 0) {
-        print '<p>Sorry, there are no trackbacks for this package, yet.</p>';
+        echo '<p>Sorry, there are no trackbacks for this package, yet.</p>';
     }
 
-    print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
+    echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     foreach ($trackbacks as $trackback) {
-        print '<tr>';
-        print '<th class="others">';
-        print 'Weblog:';
-        print '</th>';
-        print '<td class="ulcell" style="width:100%">';
+        echo '<tr>';
+        echo '<th class="others">';
+        echo 'Weblog:';
+        echo '</th>';
+        echo '<td class="ulcell" style="width:100%">';
         print $trackback->get('blog_name');
-        print '</td>';
-        print '</tr>';
+        echo '</td>';
+        echo '</tr>';
 
         if ($trackbackIsAdmin) {
-            print '<tr>';
-            print '<th class="others">';
-            print 'Approved:';
-            print '</th>';
-            print '<td class="ulcell">';
+            echo '<tr>';
+            echo '<th class="others">';
+            echo 'Approved:';
+            echo '</th>';
+            echo '<td class="ulcell">';
             print ($trackback->get('approved')) ? '<b>yes</b>' : '<b>no</b>';
-            print '</td>';
-            print '</tr>';
+            echo '</td>';
+            echo '</tr>';
         }
-        print '<tr>';
-        print '<th class="others">';
-        print 'Title:';
-        print '</th>';
-        print '<td class="ulcell">';
-        print '<a href="'.$trackback->get('url').'">'.$trackback->get('title').'</a>';
-        print '</td>';
-        print '</tr>';
+        echo '<tr>';
+        echo '<th class="others">';
+        echo 'Title:';
+        echo '</th>';
+        echo '<td class="ulcell">';
+        echo '<a href="'.$trackback->get('url').'">'.$trackback->get('title').'</a>';
+        echo '</td>';
+        echo '</tr>';
 
-        print '<tr>';
-        print '<th class="others">';
-        print 'Date:';
-        print '</th>';
-        print '<td class="ulcell">';
+        echo '<tr>';
+        echo '<th class="others">';
+        echo 'Date:';
+        echo '</th>';
+        echo '<td class="ulcell">';
         print make_utc_date($trackback->get('timestamp'), 'Y-m-d');
-        print '</td>';
-        print '</tr>';
+        echo '</td>';
+        echo '</tr>';
 
-        print '<tr>';
-        print '<th class="others">';
-        print '</th>';
-        print '<td class="ulcell">';
+        echo '<tr>';
+        echo '<th class="others">';
+        echo '</th>';
+        echo '<td class="ulcell">';
         print  $trackback->get('excerpt');
-        print '</td>';
-        print '</tr>';
+        echo '</td>';
+        echo '</tr>';
 
         if ($trackbackIsAdmin) {
-            print '<tr>';
-            print '<th class="others">';
-            print 'IP:';
-            print '</th>';
-            print '<td class="ulcell">';
+            echo '<tr>';
+            echo '<th class="others">';
+            echo 'IP:';
+            echo '</th>';
+            echo '<td class="ulcell">';
             print $trackback->get('ip');
-            print '</td>';
-            print '</tr>';
+            echo '</td>';
+            echo '</tr>';
 
-            print '<tr>';
-            print '<th class="others">';
-            print '</th>';
-            print '<td class="ulcell">';
+            echo '<tr>';
+            echo '<th class="others">';
+            echo '</th>';
+            echo '<td class="ulcell">';
             if (!$trackback->get('approved')) {
-                print '[<a href="/trackback/trackback-admin.php?action=approve&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Approve</a>] ';
+                echo '[<a href="/trackback/trackback-admin.php?action=approve&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Approve</a>] ';
             }
-            print '[<a href="/trackback/trackback-admin.php?action=delete&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Delete</a>]';
-            print '</td>';
-            print '</tr>';
+            echo '[<a href="/trackback/trackback-admin.php?action=delete&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Delete</a>]';
+            echo '</td>';
+            echo '</tr>';
         }
 
-        print '<tr><td colspan="2" style="height: 20px;">&nbsp;</td></tr>';
+        echo '<tr><td colspan="2" style="height: 20px;">&nbsp;</td></tr>';
 
     }
-    print '</table>';
+    echo '</table>';
 }
 
 // }}}
