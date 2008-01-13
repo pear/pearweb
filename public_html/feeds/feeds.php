@@ -30,7 +30,7 @@ function rss_bailout() {
 function rss_create($items, $channel_title, $channel_description, $dest_file = false) {
     if (is_array($items) && count($items) > 0) {
 
-        $rss_top = <<<EOT
+        $rss_top = '
 <?xml version="1.0" encoding="iso-8859-1"?>
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -38,12 +38,11 @@ function rss_create($items, $channel_title, $channel_description, $dest_file = f
     xmlns:content="http://purl.org/rss/1.0/modules/content/"
     xmlns:dc="http://purl.org/dc/elements/1.1/"
 >
-    <channel rdf:about="http://pear.php.net/">
-    <link>http://pear.php.net/</link>
-    <dc:creator>pear-webmaster@lists.php.net</dc:creator>
-    <dc:publisher>pear-webmaster@lists.php.net</dc:publisher>
-    <dc:language>en-us</dc:language>
-EOT;
+    <channel rdf:about="http://' . PEAR_CHANNELNAME . '">
+    <link>http:// ' . PEAR_CHANNELNAME . '/</link>
+    <dc:creator>' . PEAR_WEBMASTER_EMAIL . '</dc:creator>
+    <dc:publisher>' . PEAR_WEBMASTER_EMAIL . '</dc:publisher>
+    <dc:language>en-us</dc:language>';
 
         $items_xml = "<items>
 <rdf:Seq>";
