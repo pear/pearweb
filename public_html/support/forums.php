@@ -44,7 +44,7 @@ PEAR packages.</p>
 <hr />
 
 <p>Do you know of other forums that should be added here?
-Please let the <a href="mailto:pear-webmaster@lists.php.net">webmaster
+Please let the <a href="mailto:<?php echo PEAR_WEBMASTER_EMAIL ?>">webmaster
 team</a> know about them.</p>
 
 <?php

@@ -223,7 +223,7 @@ if (!$bug['registered'] && !auth_check('pear.dev')) {
         'their email address.  ');
     echo '<p>If you submitted this bug, please check your email.</p>' .
         '<p><strong>If you do not have a confirmation message</strong>, <a href="resend-request-email.php?' .
-        'handle=' . urlencode($bug['bughandle']) . '">click here to re-send</a>.  MANUAL CONFIRMATION IS NOT POSSIBLE.  Write a message to <a href="mailto:pear-dev@lists.php.net">pear-dev@lists.php.net</a> to request the confirmation link.  All bugs/comments/patches associated with this
+        'handle=' . urlencode($bug['bughandle']) . '">click here to re-send</a>.  MANUAL CONFIRMATION IS NOT POSSIBLE.  Write a message to <a href="mailto:' . PEAR_DEV_EMAIL . '">' . PEAR_DEV_EMAIL . '</a> to request the confirmation link.  All bugs/comments/patches associated with this
         email address will be deleted
                 within 48 hours if the account request is not confirmed!</p>';
     response_footer();

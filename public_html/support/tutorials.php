@@ -170,7 +170,7 @@ IT[X]: <a href="http://www.ulf-wendel.de/projekte/itx/index.php">http://www.ulf-
 <hr />
 
 <p>Do you know of other tutorials that should be added here?
-Please let the <a href="mailto:pear-webmaster@lists.php.net">webmaster
+Please let the <a href="mailto:<?php echo PEAR_WEBMASTER_EMAIL ?>">webmaster
 team</a> know about them.</p>
 
 <?php

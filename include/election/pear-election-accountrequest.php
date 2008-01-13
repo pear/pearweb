@@ -134,9 +134,9 @@ class PEAR_Election_Accountrequest
             $msg = "Your PEAR voter account has been opened.\n"
                 . "You can now participate in the elections  by going to\n"
                 . "    http://" . PEAR_CHANNELNAME . "/election/";
-            $xhdr = "From: pear-webmaster@lists.php.net";
+            $xhdr = "From: " . PEAR_WEBMASTER_EMAIL;
             if (!DEVBOX){
-                mail($user['email'], "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+                mail($user['email'], "Your PEAR Account Request", $msg, $xhdr, "-f " . PEAR_BOUNCE_EMAIL);
             }
             $this->deleteRequest();
             return true;

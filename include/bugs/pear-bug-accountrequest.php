@@ -39,7 +39,7 @@ class PEAR_Bug_Accountrequest
     function sendEmail()
     {
         if (!$this->handle) {
-            throw new Exception('Internal fault: user was not set when sending email, please report to pear-core@lists.php.net');
+            throw new Exception('Internal fault: user was not set when sending email, please report to ' . PEAR_DEV_EMAIL);
         }
         $salt = $this->dbh->getOne('
             SELECT salt
@@ -299,9 +299,9 @@ class PEAR_Bug_Accountrequest
             $msg = "Your PEAR bug tracker account has been opened.\n"
                 . "Bugs you have opened will now be displayed, and you can\n"
                 . "add new comments to existing bugs";
-            $xhdr = "From: pear-webmaster@lists.php.net";
+            $xhdr = "From: " . PEAR_WEBMASTER_EMAIL;
             if (!DEVBOX) {
-                mail($user['email'], "Your PEAR Bug Tracker Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+                mail($user['email'], "Your PEAR Bug Tracker Account Request", $msg, $xhdr, "-f " . PEAR_BOUNCE_EMAIL);
             }
             $this->deleteRequest();
             return true;
