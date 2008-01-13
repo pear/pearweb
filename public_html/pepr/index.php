@@ -115,11 +115,11 @@ foreach ($proposals as $proposal) {
     if ($already_voted) {
         echo '(Already voted) ';
     }
-    print_link('pepr-proposal-show.php?id=' . $proposal->id,
+    echo make_link('pepr-proposal-show.php?id=' . $proposal->id,
                htmlspecialchars($proposal->pkg_category) . ' :: '
                . htmlspecialchars($proposal->pkg_name));
     echo ' by ';
-    print_link('/user/' . htmlspecialchars($proposal->user_handle),
+    echo make_link('/user/' . htmlspecialchars($proposal->user_handle),
                htmlspecialchars($users[$proposal->user_handle]['name']));
     switch ($status) {
         case 'proposal':
@@ -138,7 +138,7 @@ foreach ($proposals as $proposal) {
 }
 
 if ($selectStatus == '' && isset($proposal) && $status == 'finished') {
-    print_link('/pepr/?filter=finished', 'All finished proposals');
+    echo make_link('/pepr/?filter=finished', 'All finished proposals');
 }
 
 echo "</ul>\n";

@@ -24,18 +24,18 @@ response_header("Announcing PEPr");
 <h1>Announcing PEPr</h1>
 
 <div style="margin-left:2em;margin-right:2em">
-<p>As of today (25th January 2004) <?php print_link("/pepr/", "PEPr"); ?> 
-is the official tool to handle all proposals for new packages in 
+<p>As of today (25th January 2004) <?php echo make_link("/pepr/", "PEPr"); ?>
+is the official tool to handle all proposals for new packages in
 PEAR.</p>
 
-<p>PEPr is a web-based interface that helps us to manage the 
+<p>PEPr is a web-based interface that helps us to manage the
 lifecycle of a package proposal from its first draft until the
-final acceptance. It has been put together by 
-<?php print_link("/user/toby", "Tobias Schlitt"); ?>.</p>
+final acceptance. It has been put together by
+<?php echo make_link("/user/toby", "Tobias Schlitt"); ?>.</p>
 
-<p>Details can be found in the 
-<?php print_link("http://news.php.net/article.php?group=php.pear.dev&article=25264", "announcement mail"); ?>
-. The <?php print_link("/manual/en/guide-developers.php", "Developers Guide"); ?> 
+<p>Details can be found in the
+<?php echo make_link("http://news.php.net/article.php?group=php.pear.dev&article=25264", "announcement mail"); ?>
+. The <?php echo make_link("/manual/en/guide-developers.php", "Developers Guide"); ?>
 will soon contain information about PEPr as well.</p>
 </div>
 

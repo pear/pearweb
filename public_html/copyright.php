@@ -19,7 +19,7 @@
 */
 
 response_header("Copyright and License");
-  
+
 ?>
 
 <h1>Copyright and Licence</h1>
@@ -28,20 +28,20 @@ response_header("Copyright and License");
 
 <p>
 For information on the PHP License (i.e. using the PHP language),
-<?php print_link('http://www.php.net/license/', 'click here'); ?>.
+<?php echo make_link('http://www.php.net/license/', 'click here'); ?>.
 </p>
 
 <h2>&raquo; Website Copyright</h2>
 
 <p>
-The code, text, PHP logo, and graphical elements on this website 
-and the mirror websites (the "Site") are Copyright &copy; 2001-2006 
+The code, text, PHP logo, and graphical elements on this website
+and the mirror websites (the "Site") are Copyright &copy; 2001-2006
 The PHP Group.  All rights reserved.
 </p>
 
 <p>
 Except as otherwise indicated elsewhere on this Site, you are free
-view, download and print the documents and information available 
+view, download and print the documents and information available
 on this Site subject to the following conditions:
 </p>
 <ul>
@@ -62,8 +62,8 @@ You can contact the webmaster at
 </p>
 
 <p>
-For more information on the PHP Group and the PHP project, please see 
-<?php print_link('http://www.php.net/'); ?>.
+For more information on the PHP Group and the PHP project, please see
+<?php echo make_link('http://www.php.net/'); ?>.
 </p>
 
 <?php

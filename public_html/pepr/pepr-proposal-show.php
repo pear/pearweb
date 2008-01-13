@@ -156,7 +156,7 @@ if (!empty($proposal->pkg_deps)) {
 $proposal->getLinks($dbh);
 foreach ($proposal->links as $link) {
     echo '    <li>';
-    print_link(htmlspecialchars($link->url), $link->getType(true));
+    echo make_link(htmlspecialchars($link->url), $link->getType(true));
     echo "</li>\n";
 }
 

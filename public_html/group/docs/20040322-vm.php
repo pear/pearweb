@@ -27,10 +27,10 @@ response_header("The PEAR Group: Handling Votings and Membership (II)");
 <p>Published: 22nd March 2004</p>
 
 <p><b>Note:</b> This document supersedes the administrative document
-titled &quot;<?php print_link("20030820-vm.php", "Handling Votings and Membership"); ?>
-&quot; from 20th August 2003. No formal voting process has been 
-initiated to back up the acceptance of this document, because no member 
-of the PEAR Group has raised any objections concerning the differences 
+titled &quot;<?php echo make_link("20030820-vm.php", "Handling Votings and Membership"); ?>
+&quot; from 20th August 2003. No formal voting process has been
+initiated to back up the acceptance of this document, because no member
+of the PEAR Group has raised any objections concerning the differences
 between this document and its successor.</p>
 
 <ol>
@@ -56,7 +56,7 @@ between this document and its successor.</p>
   </pre>
   Any member can call a vote, but it must be seconded by one other
   member before the vote can begin.  The voting period will begin the
-  following midnight (UTC).  Each voting period lasts four days. 
+  following midnight (UTC).  Each voting period lasts four days.
   Votes that haven&#39;t been cast by the end of the voting period default
   to &quot;abstain&quot;.</p>
 

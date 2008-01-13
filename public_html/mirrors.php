@@ -73,8 +73,8 @@ the provider's homepage:
 
 <!--
 <p>
-If you are interested in hosting a mirror of this site, 
-<?php print_link("/README.mirror", "here's how"); ?>.
+If you are interested in hosting a mirror of this site,
+<?php echo make_link("/README.mirror", "here's how"); ?>.
 </p>
 //-->
 

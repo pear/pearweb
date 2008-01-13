@@ -104,7 +104,7 @@ if (count($rows) == 0) {
 }
 
 echo "<br /><br />";
-print_link("/admin/", "Back");
+echo make_link("/admin/", "Back");
 
 response_footer();
 

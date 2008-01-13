@@ -141,7 +141,7 @@ if (!empty($_GET['a']) && $_GET['a'] == "details" && !empty($_GET['level'])) {
 $bb->end();
 
 echo "<br /><br />";
-print_link("/admin/karma.php", "Back");
+echo make_link("/admin/karma.php", "Back");
 
 response_footer();
 ?>

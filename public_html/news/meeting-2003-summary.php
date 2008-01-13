@@ -37,7 +37,7 @@ in Amsterdam.
 For the record it should be noted that some people were attending this
 meeting in person while many others were participating via IRC and
 listening/watching video and audio streams. We would like to thank
-Jeroen Houben from <?php print_link("http://www.terena.nl/", "Terena"); ?> 
+Jeroen Houben from <?php echo make_link("http://www.terena.nl/", "Terena"); ?>
 for providing the facilities.
 </p>
 
@@ -71,7 +71,7 @@ this transparently to the user through the PEAR website.
 <ul>
   <li>
     PHP object-oriented APIs should follow the
-    <?php print_link("/manual/en/standards.php", "PEAR coding standards"); ?>.
+    <?php echo make_link("/manual/en/standards.php", "PEAR coding standards"); ?>.
   </li>
   <li>
     Breaking backwards compatibility is only allowed in a new major
@@ -121,7 +121,7 @@ The team is expected to :
 </ul>
 
 <p>
-<?php print_link('/package/PhpDocumentor', 'PHPDocumentor'); ?> 
+<?php echo make_link('/package/PhpDocumentor', 'PHPDocumentor'); ?>
 is now the official tool to generate API documentation.
 </p>
 
@@ -132,7 +132,7 @@ is now the official tool to generate API documentation.
 
 <p>
 Christian Stocker's proposal as found in the
-<?php print_link("http://marc.theaimsgroup.com/?l=pear-dev&m=104612175324131&w=2", "RfC"); ?> 
+<?php echo make_link("http://marc.theaimsgroup.com/?l=pear-dev&m=104612175324131&w=2", "RfC"); ?>
 will be used with the following changes:
 </p>
 
@@ -204,7 +204,7 @@ PEAR Group.
   <li>add votes and comments for packages</li>
   <li>
     Proposals and voting will also be handled though the website only,
-    including discussions of the package, this will not be done 
+    including discussions of the package, this will not be done
     through the mailing list. Nevertheless the list will be
     cc'ed. QA and/or the PEAR Group can apply a veto.
   </li>
@@ -288,7 +288,7 @@ We need either nested classes and/or namespaces with working import.
 Well working exceptions are part of the requirements.
 We have yet not found a good solution about having PHP 4 and PHP 5 code
 in PEAR. We first have to figure out how ZE2 will look like. There is
-still the idea of code morphing at packaging. (see the peardev archives), 
+still the idea of code morphing at packaging. (see the peardev archives),
 although in Stig's original proposal, he suggested morphing on the server.
 </p>
 

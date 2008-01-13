@@ -135,7 +135,7 @@ while (is_array($row = $sth->fetchRow(DB_FETCHMODE_ASSOC))) {
         print '  <td>' . make_mailto_link($email) . "</td>\n";
     } else {
         print '  <td>(';
-        print_link('/account-mail.php?handle=' . $handle, 'not shown');
+        echo make_link('/account-mail.php?handle=' . $handle, 'not shown');
         print ")</td>\n";
     }
     if (!empty($homepage)) {

@@ -27,14 +27,14 @@ response_header('Bugs');
 <p>
  If you need support or you don't really know if the problem you found
  is a bug, please use our
- <?php print_link('/support/', 'support channels'); ?>.
+ <?php echo make_link('/support/', 'support channels'); ?>.
 </p>
 
 <p>
  Before submitting a bug, please make sure nobody has already reported it by
- <?php print_link('search.php', 'searching the existing bugs'); ?>.
+ <?php echo make_link('search.php', 'searching the existing bugs'); ?>.
  Also, read the tips on how to
- <?php print_link('http://bugs.php.net/how-to-report.php',
+ <?php echo make_link('http://bugs.php.net/how-to-report.php',
                   'report a bug that someone will want to help fix', 'top'); ?>.
 </p>
 
@@ -45,8 +45,8 @@ response_header('Bugs');
   <dd>
    If you want to report a bug for a <strong>specific package</strong>,
    please go to the package home page using the
-   <?php print_link('/packages.php', 'Browse&nbsp;Packages');?> tool
-   or the <?php print_link('/search.php', 'Package&nbsp;Search'); ?>
+   <?php echo make_link('/packages.php', 'Browse&nbsp;Packages');?> tool
+   or the <?php echo make_link('/search.php', 'Package&nbsp;Search'); ?>
    system.
   </dd>
 
@@ -63,7 +63,7 @@ response_header('Bugs');
 
 <p>
 You may find the
-<?php print_link('stats.php', 'Bug Statistics'); ?> page interesting.
+<?php echo make_link('stats.php', 'Bug Statistics'); ?> page interesting.
 </p>
 
 <?php

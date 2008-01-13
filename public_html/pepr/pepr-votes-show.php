@@ -258,7 +258,7 @@ switch ($proposal->status) {
                 }
 
                 echo ' <li><strong>';
-                print_link('pepr-vote-show.php?id=' . $proposal->id
+                echo make_link('pepr-vote-show.php?id=' . $proposal->id
                            . '&amp;handle='
                            . htmlspecialchars($vote->user_handle),
                            $vote->value);
@@ -270,7 +270,7 @@ switch ($proposal->status) {
                     echo '*';
                 }
                 echo ' &nbsp;(';
-                print_link('/user/' . htmlspecialchars($vote->user_handle),
+                echo make_link('/user/' . htmlspecialchars($vote->user_handle),
                            htmlspecialchars($users[$vote->user_handle]['name']));
                 echo ')&nbsp; ' . make_utc_date($vote->timestamp);
                 echo "</li>\n";

@@ -38,7 +38,7 @@ The agenda is as follows:
 <ol>
 <li>Quality vs. Quantity</li>
 <li>Should documentation be a requirement for new packages?
-(<?php print_link("/~mj/004-documentation.txt", "RfC"); ?>)</li>
+(<?php echo make_link("/~mj/004-documentation.txt", "RfC"); ?>)</li>
 <li>The <acronym title="PEAR Foundation Classes">PFC</acronym>
 <a href="http://marc.theaimsgroup.com/?l=pear-dev&m=104617534710384&w=2">RfC</a></li>
 <li>PEAR on Windows</li>
@@ -51,7 +51,7 @@ The agenda is as follows:
 </ol>
 
 The following people will participate in person:<br />
-Sebastian Bergmann, Hartmut Holzgraefe, Jeroen Houben, 
+Sebastian Bergmann, Hartmut Holzgraefe, Jeroen Houben,
 Sterling Hughes, Wolfram Kriesing, Jan Lehnardt,
 Derick Rethans, George Schlossnagle, Lukas Smith, Markus Wolff.
 <br /><br />
@@ -75,8 +75,8 @@ Freenode channels:
 </ul>
 <br />
 When necessary newer members of the PEAR community may therefore
-be unable to directly communicate with the meeting. I would therefore 
-suggest to newer members to write down their ideas as a well thought 
+be unable to directly communicate with the meeting. I would therefore
+suggest to newer members to write down their ideas as a well thought
 out RfC and post it to the
 <?php echo make_mailto_link('pear-dev@lists.php.net', 'mailinglist'); ?>
  or send it to
@@ -92,4 +92,3 @@ On behalf of the PEAR developers: Lukas Smith.
 <?php
 response_footer();
 ?>
-

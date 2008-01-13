@@ -26,19 +26,19 @@ response_header("Own website for PECL");
 <div style="margin-left:2em;margin-right:2em">
 <p>PECL, formerly known as PHP Extension Code Library, has been renamed
 to PHP Extension Community Library. Additionally all PECL related
-services have been moved to their own website: 
-<?php print_link("http://pecl.php.net/"); ?>.</p>
+services have been moved to their own website:
+<?php echo make_link("http://pecl.php.net/"); ?>.</p>
 
 <p>This means that if you are looking for PECL packages, you won't
 find them here on pear.php.net anymore; you will have to search for them
-on the <?php print_link("http://pecl.php.net/", "PECL website"); ?> 
+on the <?php echo make_link("http://pecl.php.net/", "PECL website"); ?>
 instead. The PECL project also has an independent mailing list battery
 now. An overview of the PECL mailing lists can be found
-<?php print_link("http://pecl.php.net/support.php", "here"); ?>.
+<?php echo make_link("http://pecl.php.net/support.php", "here"); ?>.
 </p>
 
 <p>More information about PECL can be found in the
-<?php print_link("http://pear.php.net/manual/en/introduction.php#about-pecl", "PEAR Manual"); ?>.
+<?php echo make_link("http://pear.php.net/manual/en/introduction.php#about-pecl", "PEAR Manual"); ?>.
 </p>
 
 </div>
