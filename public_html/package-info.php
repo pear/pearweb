@@ -231,11 +231,7 @@ if (empty($action)) {
         'unmaintained' => array('superseded' => 'N', 'unmaintained' => 'Y'),
     );
 
-    if ($supersede) {
-        $superseded = 'Y';
-    } else {
-        $superseded = 'N';
-    }
+    $superseded = $supersede ? 'Y' : 'N';
 
     $apply_rule = null;
     foreach ($dec_table as $rule => $conditions) {
@@ -274,7 +270,7 @@ if (empty($action)) {
     echo '</tr>';
     echo '<tr>';
     echo '<td class="textcell">' . htmlspecialchars($summary) . '</td>';
-    echo '<td class="textcell">' . get_license_link($license) . '</td>';
+    echo '<td class="textcell">' . package::get_license_link($license) . '</td>';
     echo '</tr>';
 
     echo '<tr>';
@@ -610,7 +606,7 @@ if (empty($action)) {
         echo 'release is available.</p>';
 
         echo '<p><a href="/package/' . htmlspecialchars($name) . '/docs/latest/">Documentation for the latest release</a></p>';
-        echo '<hr />'
+        echo '<hr />';
 
         echo '<strong>Complete list:</strong>';
         echo '<ul>';
