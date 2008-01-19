@@ -69,96 +69,96 @@ echo '<p style="text-align: center;">' . $pager->links . '</p>';
 
 if ($trackbackIsAdmin) {
     if (!$unapprovedOnly) {
-        print '<p><a href="/trackback/trackback-overview.php?unapprovedOnly=1">View only not appoved trackbacks.</a></p>';
+        echo '<p><a href="/trackback/trackback-overview.php?unapprovedOnly=1">View only not appoved trackbacks.</a></p>';
     } else {
-        print '<p><a href="/trackback/trackback-overview.php">View all trackbacks.</a></p>';
+        echo '<p><a href="/trackback/trackback-overview.php">View all trackbacks.</a></p>';
     }
 }
 
 // Printing pager.
 
-print '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
+echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
 foreach ($trackbacks as $trackback) {
-    print '<tr>';
-    print '<th class="others">';
-    print 'Package:';
-    print '</th>';
-    print '<td class="ulcell" style="width:100%">';
-    print $trackback->get('id');
-    print '</td>';
-    print '</tr>';
+    echo '<tr>';
+    echo '<th class="others">';
+    echo 'Package:';
+    echo '</th>';
+    echo '<td class="ulcell" style="width:100%">';
+    echo $trackback->get('id');
+    echo '</td>';
+    echo '</tr>';
 
-    print '<tr>';
-    print '<th class="others">';
-    print 'Weblog:';
-    print '</th>';
-    print '<td class="ulcell" style="width:100%">';
-    print $trackback->get('blog_name');
-    print '</td>';
-    print '</tr>';
+    echo '<tr>';
+    echo '<th class="others">';
+    echo 'Weblog:';
+    echo '</th>';
+    echo '<td class="ulcell" style="width:100%">';
+    echo $trackback->get('blog_name');
+    echo '</td>';
+    echo '</tr>';
 
     if ($trackbackIsAdmin) {
-        print '<tr>';
-        print '<th class="others">';
-        print 'Approved:';
-        print '</th>';
-        print '<td class="ulcell">';
-        print ($trackback->get('approved')) ? '<b>yes</b>' : '<b>no</b>';
-        print '</td>';
-        print '</tr>';
+        echo '<tr>';
+        echo '<th class="others">';
+        echo 'Approved:';
+        echo '</th>';
+        echo '<td class="ulcell">';
+        echo ($trackback->get('approved')) ? '<b>yes</b>' : '<b>no</b>';
+        echo '</td>';
+        echo '</tr>';
     }
-    print '<tr>';
-    print '<th class="others">';
-    print 'Title:';
-    print '</th>';
-    print '<td class="ulcell">';
-    print '<a href="'.$trackback->get('url').'">'.$trackback->get('title').'</a>';
-    print '</td>';
-    print '</tr>';
+    echo '<tr>';
+    echo '<th class="others">';
+    echo 'Title:';
+    echo '</th>';
+    echo '<td class="ulcell">';
+    echo '<a href="'.$trackback->get('url').'">'.$trackback->get('title').'</a>';
+    echo '</td>';
+    echo '</tr>';
 
-    print '<tr>';
-    print '<th class="others">';
-    print 'Date:';
-    print '</th>';
-    print '<td class="ulcell">';
-    print make_utc_date($trackback->get('timestamp'), 'Y-m-d');
-    print '</td>';
-    print '</tr>';
+    echo '<tr>';
+    echo '<th class="others">';
+    echo 'Date:';
+    echo '</th>';
+    echo '<td class="ulcell">';
+    echo make_utc_date($trackback->get('timestamp'), 'Y-m-d');
+    echo '</td>';
+    echo '</tr>';
 
-    print '<tr>';
-    print '<th class="others">';
-    print '</th>';
-    print '<td class="ulcell">';
-    print  $trackback->get('excerpt');
-    print '</td>';
-    print '</tr>';
+    echo '<tr>';
+    echo '<th class="others">';
+    echo '</th>';
+    echo '<td class="ulcell">';
+    echo  $trackback->get('excerpt');
+    echo '</td>';
+    echo '</tr>';
 
     if ($trackbackIsAdmin) {
-        print '<tr>';
-        print '<th class="others">';
-        print 'IP:';
-        print '</th>';
-        print '<td class="ulcell">';
-        print $trackback->get('ip');
-        print '</td>';
-        print '</tr>';
+        echo '<tr>';
+        echo '<th class="others">';
+        echo 'IP:';
+        echo '</th>';
+        echo '<td class="ulcell">';
+        echo $trackback->get('ip');
+        echo '</td>';
+        echo '</tr>';
 
-        print '<tr>';
-        print '<th class="others">';
-        print '</th>';
-        print '<td class="ulcell">';
+        echo '<tr>';
+        echo '<th class="others">';
+        echo '</th>';
+        echo '<td class="ulcell">';
         if (!$trackback->get('approved')) {
-            print '[<a href="/trackback/trackback-admin.php?action=approve&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Approve</a>] ';
+            echo '[<a href="/trackback/trackback-admin.php?action=approve&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Approve</a>] ';
         }
-        print '[<a href="/trackback/trackback-admin.php?action=delete&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Delete</a>]';
-        print '</td>';
-        print '</tr>';
+        echo '[<a href="/trackback/trackback-admin.php?action=delete&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Delete</a>]';
+        echo '</td>';
+        echo '</tr>';
     }
 
-    print '<tr><td colspan="2" style="height: 20px;">&nbsp;</td></tr>';
+    echo '<tr><td colspan="2" style="height: 20px;">&nbsp;</td></tr>';
 
 }
-print '</table>';
+echo '</table>';
 
 echo '<p style="text-align: center;">' . $pager->links . '</p>';
 
