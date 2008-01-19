@@ -32,6 +32,9 @@ $mock->addDataQuery("SELECT p.name AS name FROM packages p, categories c WHERE p
 // ======= test =========
 $rest->saveCategoryREST('Testing/Stuff');
 $phpt->assertNoErrors('after');
+if (!OS_WINDOWS) {
+    $phpt->assertEquals(0777, fileperms($rdir . '/c/') & 0777, 'folder category permissions');
+}
 $phpt->assertFileExists($rdir . '/c/Testing%2FStuff/info.xml', 'info');
 if (!OS_WINDOWS) {
     $phpt->assertEquals(0666, fileperms($rdir . '/c/Testing%2FStuff/info.xml') & 0777, 'permissions');
@@ -40,6 +43,10 @@ $phpt->assertFileExists($rdir . '/c/Testing%2FStuff/packages.xml', 'packages');
 if (!OS_WINDOWS) {
     $phpt->assertEquals(0666, fileperms($rdir . '/c/Testing%2FStuff/packages.xml') & 0777, 'packages permissions');
 }
+if (!OS_WINDOWS) {
+    $phpt->assertEquals(0777, fileperms($rdir . '/c/Testing%2FStuff/') & 0777, 'folder package permissions');
+}
+
 $phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <c xmlns="http://pear.php.net/dtd/rest.category"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

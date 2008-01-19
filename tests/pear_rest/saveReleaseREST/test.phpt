@@ -22,6 +22,7 @@ $phpt->assertFileExists($rdir . '/r/pearweb/package.1.15.2.xml', 'package.1.15.2
 $phpt->assertFileExists($rdir . '/r/pearweb/deps.1.15.2.txt', 'deps.1.15.2.txt');
 $phpt->assertFileExists($rdir . '/r/pearweb/v2.1.15.2.xml', 'v2.1.15.2.xml');
 if (!OS_WINDOWS) {
+    $phpt->assertEquals(0777, fileperms($rdir . '/r/pearweb/') & 0777, 'folder permissions');
     $phpt->assertEquals(0666, fileperms($rdir . '/r/pearweb/1.15.2.xml') & 0777, 'permissions 1.15.2.xml');
     $phpt->assertEquals(0666, fileperms($rdir . '/r/pearweb/package.1.15.2.xml') & 0777, 'permissions 1.15.2.xml');
     $phpt->assertEquals(0666, fileperms($rdir . '/r/pearweb/deps.1.15.2.txt') & 0777, 'permissions 1.15.2.xml');

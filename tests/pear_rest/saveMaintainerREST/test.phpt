@@ -6,7 +6,7 @@ require dirname(dirname(__FILE__)) . '/setup.php.inc';
 //$d = DB::connect('mysqli://pear:pear@localhost/pear');
 //var_export($d->getAll("SELECT * FROM users WHERE handle = 'cellog'", array(), DB_FETCHMODE_ASSOC));
 $mock->addDataQuery("SELECT * FROM users WHERE handle = 'cellog'", array (
-  0 => 
+  0 =>
   array (
     'handle' => 'cellog',
     'password' => 'as if!',
@@ -33,6 +33,9 @@ $mock->addDataQuery("SELECT * FROM users WHERE handle = 'cellog'", array (
 // ===== test ======
 $rest->saveMaintainerREST('cellog');
 $phpt->assertNoErrors('after');
+if (!OS_WINDOWS) {
+    $phpt->assertEquals(0777, fileperms($rdir . '/m/') & 0777, 'folder permissions');
+}
 $phpt->assertFileExists($rdir . '/m/cellog/info.xml', 'info');
 if (!OS_WINDOWS) {
     $phpt->assertEquals(0666, fileperms($rdir . '/m/cellog/info.xml') & 0777, 'permissions');

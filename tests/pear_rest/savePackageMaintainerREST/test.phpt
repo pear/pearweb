@@ -17,6 +17,7 @@ $phpt->assertNoErrors('after');
 $phpt->assertFileExists($rdir . '/p/pear/maintainers.xml', 'info');
 $phpt->assertFileExists($rdir . '/p/pear/maintainers2.xml', 'info');
 if (!OS_WINDOWS) {
+    $phpt->assertEquals(0777, fileperms($rdir . '/p/pear/') & 0777, 'folder permissions');
     $phpt->assertEquals(0666, fileperms($rdir . '/p/pear/maintainers.xml') & 0777, 'permissions');
     $phpt->assertEquals(0666, fileperms($rdir . '/p/pear/maintainers2.xml') & 0777, 'permissions');
 }
@@ -38,7 +39,10 @@ $phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
     http://pear.php.net/dtd/rest.packagemaintainers2.xsd">
  <p>PEAR</p>
  <c>pear.php.net</c>
- <m><h>cellog</h><a>1</a><r>lead</r></m> <m><h>boober</h><a>0</a><r>developer</r></m> <m><h>fluber</h><a>1</a><r>contributor</r></m>',
+ <m><h>cellog</h><a>1</a><r>lead</r></m>
+ <m><h>boober</h><a>0</a><r>developer</r></m>
+ <m><h>fluber</h><a>1</a><r>contributor</r></m>
+</m>',
 file_get_contents($rdir . '/p/pear/maintainers2.xml'), 'contents');
 ?>
 ===DONE===

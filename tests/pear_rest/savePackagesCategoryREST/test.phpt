@@ -8,8 +8,8 @@ $pear_rest->savePackagesCategoryREST('Halb');
 $phpt->assertNoErrors('after');
 $phpt->assertFileExists($rdir . '/c/Halb/packagesinfo.xml', 'pc');
 if (!OS_WINDOWS) {
-    $phpt->assertEquals(0666, fileperms($rdir . '/c/Halb/packagesinfo.xml') & 0777,
-        'permissions');
+    $phpt->assertEquals(0666, fileperms($rdir . '/c/Halb/') & 0777, 'folder permissions');
+    $phpt->assertEquals(0666, fileperms($rdir . '/c/Halb/packagesinfo.xml') & 0777, 'permissions');
 }
 $phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>
 <f xmlns="http://pear.php.net/dtd/rest.categorypackageinfo"

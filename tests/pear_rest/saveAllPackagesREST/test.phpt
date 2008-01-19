@@ -27,6 +27,7 @@ $rest->saveAllPackagesREST();
 $phpt->assertNoErrors('after');
 $phpt->assertFileExists($rdir . '/p/packages.xml', 'info');
 if (!OS_WINDOWS) {
+    $phpt->assertEquals(0777, fileperms($rdir . '/p/') & 0777, 'folder permissions');
     $phpt->assertEquals(0666, fileperms($rdir . '/p/packages.xml') & 0777, 'permissions');
 }
 $phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>

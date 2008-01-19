@@ -4,7 +4,7 @@ PEAR_REST->saveAllCategoriesREST()
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
 $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
-  0 => 
+  0 =>
   array (
     'id' => '47',
     'parent' => '46',
@@ -17,7 +17,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '152',
     'cat_right' => '153',
   ),
-  1 => 
+  1 =>
   array (
     'id' => '1',
     'parent' => NULL,
@@ -30,7 +30,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '175',
     'cat_right' => '176',
   ),
-  2 => 
+  2 =>
   array (
     'id' => '2',
     'parent' => NULL,
@@ -43,7 +43,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '3',
     'cat_right' => '4',
   ),
-  3 => 
+  3 =>
   array (
     'id' => '3',
     'parent' => NULL,
@@ -56,7 +56,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '5',
     'cat_right' => '6',
   ),
-  4 => 
+  4 =>
   array (
     'id' => '4',
     'parent' => NULL,
@@ -69,7 +69,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '7',
     'cat_right' => '8',
   ),
-  5 => 
+  5 =>
   array (
     'id' => '5',
     'parent' => NULL,
@@ -82,7 +82,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '9',
     'cat_right' => '10',
   ),
-  6 => 
+  6 =>
   array (
     'id' => '7',
     'parent' => NULL,
@@ -95,7 +95,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '13',
     'cat_right' => '14',
   ),
-  7 => 
+  7 =>
   array (
     'id' => '8',
     'parent' => NULL,
@@ -108,7 +108,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '15',
     'cat_right' => '16',
   ),
-  8 => 
+  8 =>
   array (
     'id' => '6',
     'parent' => NULL,
@@ -121,7 +121,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '11',
     'cat_right' => '12',
   ),
-  9 => 
+  9 =>
   array (
     'id' => '44',
     'parent' => NULL,
@@ -134,7 +134,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '141',
     'cat_right' => '142',
   ),
-  10 => 
+  10 =>
   array (
     'id' => '33',
     'parent' => NULL,
@@ -147,7 +147,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '63',
     'cat_right' => '64',
   ),
-  11 => 
+  11 =>
   array (
     'id' => '9',
     'parent' => NULL,
@@ -160,7 +160,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '17',
     'cat_right' => '18',
   ),
-  12 => 
+  12 =>
   array (
     'id' => '34',
     'parent' => NULL,
@@ -173,7 +173,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '65',
     'cat_right' => '66',
   ),
-  13 => 
+  13 =>
   array (
     'id' => '53',
     'parent' => NULL,
@@ -186,7 +186,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '177',
     'cat_right' => '178',
   ),
-  14 => 
+  14 =>
   array (
     'id' => '45',
     'parent' => NULL,
@@ -199,7 +199,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '149',
     'cat_right' => '150',
   ),
-  15 => 
+  15 =>
   array (
     'id' => '10',
     'parent' => NULL,
@@ -212,7 +212,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '19',
     'cat_right' => '20',
   ),
-  16 => 
+  16 =>
   array (
     'id' => '11',
     'parent' => NULL,
@@ -225,7 +225,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '21',
     'cat_right' => '22',
   ),
-  17 => 
+  17 =>
   array (
     'id' => '12',
     'parent' => NULL,
@@ -238,7 +238,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '23',
     'cat_right' => '24',
   ),
-  18 => 
+  18 =>
   array (
     'id' => '28',
     'parent' => NULL,
@@ -251,7 +251,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '51',
     'cat_right' => '52',
   ),
-  19 => 
+  19 =>
   array (
     'id' => '13',
     'parent' => NULL,
@@ -264,7 +264,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '25',
     'cat_right' => '26',
   ),
-  20 => 
+  20 =>
   array (
     'id' => '14',
     'parent' => NULL,
@@ -277,7 +277,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '27',
     'cat_right' => '28',
   ),
-  21 => 
+  21 =>
   array (
     'id' => '15',
     'parent' => NULL,
@@ -290,7 +290,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '29',
     'cat_right' => '30',
   ),
-  22 => 
+  22 =>
   array (
     'id' => '46',
     'parent' => NULL,
@@ -303,7 +303,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '151',
     'cat_right' => '154',
   ),
-  23 => 
+  23 =>
   array (
     'id' => '16',
     'parent' => NULL,
@@ -316,7 +316,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '31',
     'cat_right' => '32',
   ),
-  24 => 
+  24 =>
   array (
     'id' => '17',
     'parent' => NULL,
@@ -329,7 +329,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '33',
     'cat_right' => '34',
   ),
-  25 => 
+  25 =>
   array (
     'id' => '18',
     'parent' => NULL,
@@ -342,7 +342,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '35',
     'cat_right' => '36',
   ),
-  26 => 
+  26 =>
   array (
     'id' => '19',
     'parent' => NULL,
@@ -355,7 +355,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '37',
     'cat_right' => '38',
   ),
-  27 => 
+  27 =>
   array (
     'id' => '55',
     'parent' => NULL,
@@ -368,7 +368,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '181',
     'cat_right' => '184',
   ),
-  28 => 
+  28 =>
   array (
     'id' => '25',
     'parent' => NULL,
@@ -381,7 +381,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '47',
     'cat_right' => '48',
   ),
-  29 => 
+  29 =>
   array (
     'id' => '31',
     'parent' => NULL,
@@ -394,7 +394,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '61',
     'cat_right' => '62',
   ),
-  30 => 
+  30 =>
   array (
     'id' => '56',
     'parent' => '55',
@@ -407,7 +407,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '182',
     'cat_right' => '183',
   ),
-  31 => 
+  31 =>
   array (
     'id' => '20',
     'parent' => NULL,
@@ -420,7 +420,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '39',
     'cat_right' => '40',
   ),
-  32 => 
+  32 =>
   array (
     'id' => '21',
     'parent' => NULL,
@@ -433,7 +433,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '41',
     'cat_right' => '42',
   ),
-  33 => 
+  33 =>
   array (
     'id' => '54',
     'parent' => NULL,
@@ -446,7 +446,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '179',
     'cat_right' => '180',
   ),
-  34 => 
+  34 =>
   array (
     'id' => '42',
     'parent' => NULL,
@@ -459,7 +459,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '111',
     'cat_right' => '112',
   ),
-  35 => 
+  35 =>
   array (
     'id' => '35',
     'parent' => NULL,
@@ -472,7 +472,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '67',
     'cat_right' => '68',
   ),
-  36 => 
+  36 =>
   array (
     'id' => '27',
     'parent' => NULL,
@@ -485,7 +485,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '49',
     'cat_right' => '50',
   ),
-  37 => 
+  37 =>
   array (
     'id' => '37',
     'parent' => NULL,
@@ -498,7 +498,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '99',
     'cat_right' => '100',
   ),
-  38 => 
+  38 =>
   array (
     'id' => '43',
     'parent' => '29',
@@ -511,7 +511,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '58',
     'cat_right' => '59',
   ),
-  39 => 
+  39 =>
   array (
     'id' => '36',
     'parent' => NULL,
@@ -524,7 +524,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '69',
     'cat_right' => '70',
   ),
-  40 => 
+  40 =>
   array (
     'id' => '29',
     'parent' => NULL,
@@ -537,7 +537,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '53',
     'cat_right' => '60',
   ),
-  41 => 
+  41 =>
   array (
     'id' => '50',
     'parent' => NULL,
@@ -550,7 +550,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '161',
     'cat_right' => '162',
   ),
-  42 => 
+  42 =>
   array (
     'id' => '40',
     'parent' => '29',
@@ -563,7 +563,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '56',
     'cat_right' => '57',
   ),
-  43 => 
+  43 =>
   array (
     'id' => '23',
     'parent' => NULL,
@@ -576,7 +576,7 @@ $mock->addDataQuery("SELECT * FROM categories ORDER BY name", array (
     'cat_left' => '45',
     'cat_right' => '46',
   ),
-  44 => 
+  44 =>
   array (
     'id' => '22',
     'parent' => NULL,
@@ -597,6 +597,7 @@ $rest->saveAllCategoriesREST();
 $phpt->assertNoErrors('after');
 $phpt->assertFileExists($rdir . '/c/categories.xml', 'info');
 if (!OS_WINDOWS) {
+    $phpt->assertEquals(0777, fileperms($rdir . '/c/') & 0777, 'folder permissions');
     $phpt->assertEquals(0666, fileperms($rdir . '/c/categories.xml') & 0777, 'permissions');
 }
 $phpt->assertEquals('<?xml version="1.0" encoding="UTF-8" ?>

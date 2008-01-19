@@ -14,6 +14,7 @@ $phpt->assertFileExists($rdir . '/r/pear/alpha.txt', 'alpha.txt');
 $phpt->assertFileExists($rdir . '/r/pear/allreleases.xml', 'allreleases.xml');
 $phpt->assertFileExists($rdir . '/r/pear/allreleases2.xml', 'allreleases2.xml');
 if (!OS_WINDOWS) {
+    $phpt->assertEquals(0777, fileperms($rdir . '/r/pear/') & 0777, 'folder permissions');
     $phpt->assertEquals(0666, fileperms($rdir . '/r/pear/latest.txt') & 0777, 'permissions latest');
     $phpt->assertEquals(0666, fileperms($rdir . '/r/pear/stable.txt') & 0777, 'permissions stable');
     $phpt->assertEquals(0666, fileperms($rdir . '/r/pear/beta.txt') & 0777, 'permissions beta');
