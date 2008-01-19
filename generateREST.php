@@ -9,7 +9,7 @@
  */
 set_include_path(dirname(__FILE__) . '/include' . PATH_SEPARATOR . get_include_path());
 ob_start();
-require_once "pear-config.php";
+require_once 'pear-config.php';
 if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
     error_reporting(E_ALL);
     define('DEVBOX', true);
@@ -24,9 +24,9 @@ include_once 'pear-database.php';
 include_once 'pear-rest.php';
 if (!isset($pear_rest)) {
     if (isset($_SERVER['argv']) && $_SERVER['argv'][1] == 'pear') {
-        $pear_rest = new pear_rest('/var/lib/pearweb/rest');
+        $pear_rest = new pearweb_Channel_REST_Generator('/var/lib/pearweb/rest');
     } else {
-        $pear_rest = new pear_rest(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'public_html' .
+        $pear_rest = new pearweb_Channel_REST_Generator(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'public_html' .
             DIRECTORY_SEPARATOR . 'rest');
     }
 }
