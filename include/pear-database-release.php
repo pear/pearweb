@@ -117,33 +117,40 @@ class release
      * @param integer Timestamp of end date
      * @return array
      */
-    static function getDateRange($start,$end)
+    static function getDateRange($start, $end, $site = 'pear')
     {
         global $dbh;
-
         $recent = array();
+        $site = strtolower($site);
+        if (!in_array($site, array('pear', 'pecl'))) {
+
+        }
         if (!is_numeric($start)) {
             return $recent;
         }
         if (!is_numeric($end)) {
             return $recent;
         }
-        $start_f = date('Y-m-d 00:00:00',$start);
-        $end_f = date('Y-m-d 00:00:00',$end);
+        $start_f = date('Y-m-d 00:00:00', $start);
+        $end_f   = date('Y-m-d 00:00:00', $end);
+
+        $sql =  "SELECT packages.id AS id, ".
+                "packages.name AS name, ".
+                "packages.summary AS summary, ".
+                "packages.description AS description, ".
+                "releases.version AS version, ".
+                "releases.releasedate AS releasedate, ".
+                "releases.releasenotes AS releasenotes, ".
+                "releases.doneby AS doneby, ".
+                "releases.state AS state ".
+                "FROM packages, releases ".
+                "WHERE packages.id = releases.package ".
+                "AND releases.releasedate > '{$start_f}' AND releases.releasedate < '{$end_f}'".
+                "AND packages.package_type = '{$site}'" .
+                "ORDER BY releases.releasedate DESC";
+
         // limited to 50 to stop overkill on the server!
-        $sth = $dbh->limitQuery("SELECT packages.id AS id, ".
-                                "packages.name AS name, ".
-                                "packages.summary AS summary, ".
-                                "packages.description AS description, ".
-                                "releases.version AS version, ".
-                                "releases.releasedate AS releasedate, ".
-                                "releases.releasenotes AS releasenotes, ".
-                                "releases.doneby AS doneby, ".
-                                "releases.state AS state ".
-                                "FROM packages, releases ".
-                                "WHERE packages.id = releases.package ".
-                                "AND releases.releasedate > '{$start_f}' AND releases.releasedate < '{$end_f}'".
-                                "ORDER BY releases.releasedate DESC",0,50);
+        $sth = $dbh->limitQuery($sql,0,50);
 
         while ($sth->fetchInto($row, DB_FETCHMODE_ASSOC)) {
             $recent[] = $row;
