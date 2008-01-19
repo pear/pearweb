@@ -58,7 +58,7 @@ $lastMax = (isset($_GET['max'])) ? (int)$_GET['max'] : null;
 $unapprovedOnly = (isset($_GET['unapprovedOnly'])) ? true : false;
 
 
-if ($auth_user) {
+if (isset($auth_user)) {
     // Determine administrative user
     $karma =& new Damblan_Karma($dbh);
     $trackbackIsAdmin = $karma->has($auth_user->handle, 'pear.dev');
@@ -104,7 +104,7 @@ foreach ($trackbacks as $trackback) {
     print $trackback->get('id');
     print '</td>';
     print '</tr>';
-    
+
     print '<tr>';
     print '<th class="others">';
     print 'Weblog:';
@@ -113,7 +113,7 @@ foreach ($trackbacks as $trackback) {
     print $trackback->get('blog_name');
     print '</td>';
     print '</tr>';
-    
+
     if ($trackbackIsAdmin) {
         print '<tr>';
         print '<th class="others">';
@@ -132,16 +132,16 @@ foreach ($trackbacks as $trackback) {
     print '<a href="'.$trackback->get('url').'">'.$trackback->get('title').'</a>';
     print '</td>';
     print '</tr>';
-    
+
     print '<tr>';
     print '<th class="others">';
     print 'Date:';
     print '</th>';
     print '<td class="ulcell">';
-    print make_utc_date($trackback->get('timestamp'), 'Y-m-d'); 
+    print make_utc_date($trackback->get('timestamp'), 'Y-m-d');
     print '</td>';
     print '</tr>';
-    
+
     print '<tr>';
     print '<th class="others">';
     print '</th>';
@@ -173,7 +173,7 @@ foreach ($trackbacks as $trackback) {
     }
 
     print '<tr><td colspan="2" style="height: 20px;">&nbsp;</td></tr>';
-    
+
 }
 print '</table>';
 
