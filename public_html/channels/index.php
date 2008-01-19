@@ -53,6 +53,7 @@ provided on the individual pages.</p>
   <li><a href="http://pear.si.kz">si.kz</a></li>
   <li><a href="http://pear.symfony-project.com/">Symfony</a></li>
   <li><a href="http://solarphp.com/home/index.php?area=Main&amp;page=DownloadInstall#toc1">Solar</a></li>
+  <li><a href="http://pear.funkatron.com/">Edward Finkler</a></li>
 </ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
