@@ -121,10 +121,6 @@ class release
     {
         global $dbh;
         $recent = array();
-        $site = strtolower($site);
-        if (!in_array($site, array('pear', 'pecl'))) {
-
-        }
         if (!is_numeric($start)) {
             return $recent;
         }
@@ -133,6 +129,11 @@ class release
         }
         $start_f = date('Y-m-d 00:00:00', $start);
         $end_f   = date('Y-m-d 00:00:00', $end);
+
+        $site = strtolower($site);
+        if (!in_array($site, array('pear', 'pecl'))) {
+            $site = 'pear';
+        }
 
         $sql =  "SELECT packages.id AS id, ".
                 "packages.name AS name, ".
