@@ -20,42 +20,13 @@
    $Id$
 */
 
-require_once 'DB/Pager.php';
-
+require_once 'Pager/Pager.php';
 require_once 'Damblan/Trackback.php';
 require_once 'Damblan/Karma.php';
 
-function printPager($pager, $max, $unapprovedOnly)
-{
-    $req = '&max='.$max.(($unapprovedOnly) ? '&unapprovedOnly=1' : '');
-    print '<p align="center">';
-    if ($pager['current'] != 1) {
-        print '<a href="/trackback/trackback-overview.php?offset='.$pager['pages'][$pager['firstpage']].$req.'">&lt;&lt;</a>&nbsp;&nbsp;&nbsp;';
-        print '<a href="/trackback/trackback-overview.php?offset='.$pager['prev'].$req.'">&lt;</a>&nbsp;&nbsp;&nbsp;';
-    } else {
-        print '&lt;&lt;&nbsp;&nbsp;&nbsp;';
-        print '&lt;&nbsp;&nbsp;&nbsp;';
-    }
-    foreach ($pager['pages'] as $page => $offset) {
-        if ($page != $pager['current']) {
-            print '&nbsp;[<a href="/trackback/trackback-overview.php?offset='.$offset.$req.'">'.$page.'</a>]&nbsp;';
-        } else {
-            print '&nbsp;['.$page.']&nbsp;';
-        }
-    }
-    if ($pager['current'] != $pager['numpages']) {
-        print '&nbsp;&nbsp;&nbsp;<a href="/trackback/trackback-overview.php?offset='.$pager['next'].$req.'">&gt;</a>';
-        print '&nbsp;&nbsp;&nbsp;<a href="/trackback/trackback-overview.php?offset='.$pager['pages'][$pager['lastpage']].$req.'">&gt;&gt;</a>';
-    } else {
-        print '&nbsp;&nbsp;&gt;&nbsp;';
-        print '&nbsp;&nbsp;&gt;&gt;';
-    }
-}
-
-$offset = (isset($_GET['offset'])) ? (int)$_GET['offset'] : 0;
-$number = (isset($_GET['number'])) ? (int)$_GET['number'] : 10;
-$lastMax = (isset($_GET['max'])) ? (int)$_GET['max'] : null;
-$unapprovedOnly = (isset($_GET['unapprovedOnly'])) ? true : false;
+$page           = isset($_GET['pageID']) ? (int)$_GET['pageID'] : 1;
+$number         = isset($_GET['number']) ? (int)$_GET['number'] : 10;
+$unapprovedOnly = isset($_GET['unapprovedOnly']) ? true : false;
 
 
 if (isset($auth_user)) {
@@ -68,21 +39,33 @@ if (isset($auth_user)) {
 
 // Prepare pager
 $max = Damblan_Trackback::getCount($dbh, !$trackbackIsAdmin, $unapprovedOnly);
-if ($max != $lastMax) {
-    $offset = 0;
-}
-$pager = DB_Pager::getData($offset, $number, $max);
-
 if ($max < 1) {
     PEAR::raiseError('Sorry, no trackbacks were found.');
 }
+
+$pager_options = array(
+    'mode'       => 'Sliding',
+    'perPage'    => $number,
+    'delta'      => 5,
+    'totalItems' => $max,
+    'curPageSpanPre'  => '[ <strong>',
+    'curPageSpanPost' => '</strong> ]',
+    'lastPagePre'     => '[ <strong>',
+    'lastPagePost'    => '</strong> ]',
+    'firstPagePre'    => '[ <strong>',
+    'firstPagePost'   => '</strong> ]',
+    'spacesBeforeSeparator' => 2,
+    'spacesAfterSeparator ' => 2,
+);
+$pager = Pager::factory($pager_options);
+list($offset, $to) = $pager->getOffsetByPageId();
 
 // Fetch trackbacks
 $trackbacks = Damblan_Trackback::recentTrackbacks($dbh, $offset, $number, !$trackbackIsAdmin, $unapprovedOnly);
 
 response_header('Trackback overview');
 
-printPager($pager, $max, $unapprovedOnly);
+echo '<p style="text-align: center;">' . $pager->links . '</p>';
 
 if ($trackbackIsAdmin) {
     if (!$unapprovedOnly) {
@@ -177,7 +160,6 @@ foreach ($trackbacks as $trackback) {
 }
 print '</table>';
 
-printPager($pager, $max, $unapprovedOnly);
+echo '<p style="text-align: center;">' . $pager->links . '</p>';
 
 response_footer();
-?>
