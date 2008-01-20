@@ -18,12 +18,11 @@
    $Id$
 */
 
+include_once 'HTML/QuickForm.php';
 require_once "Damblan/Karma.php";
 require_once "Damblan/Mailer.php";
-require_once "HTML/Form.php";
-require_once "pear-format-html-form.php";
 
-auth_require("global.karma.manager");
+auth_require('global.karma.manager');
 
 $karma = new Damblan_Karma($dbh);
 
@@ -41,11 +40,17 @@ if (!empty($_REQUEST['handle'])) {
 }
 
 if ($handle === null || empty($handle)) {
-    $form = new PEAR_Web_Form("karma.php", "post");
-    $form->setDefaultFromInput(false);
+    $form = new HTML_QuickForm('karma_edit', 'post', 'karma.php');
 
-    $form->addUserSelect("handle", "Handle: ");
-    $form->addSubmit();
+    include_once 'pear-database-user.php';
+    $list = user::listAll(true);
+
+    $users = array();
+    foreach ($list as $user) {
+        $users[$user['handle']] = $user['handle'] . ' (' . $user['name'] . ')';
+    }
+    $form->addElement('select', 'handle', 'Handle:&nbsp;', $users);
+    $form->addElement('submit', 'submit', 'Submit Changes');
     $form->display();
 } else {
 
@@ -103,12 +108,10 @@ if ($handle === null || empty($handle)) {
 
     $bb = new BorderBox("Grant karma to " . htmlspecialchars($handle));
 
-    $form = new HTML_Form("karma.php?action=grant", "post");
-    $form->setDefaultFromInput(false);
-
-    $form->addText("level", "Level: ");
-    $form->addHidden("handle", htmlspecialchars($handle));
-    $form->addSubmit();
+    $form = new HTML_QuickForm('karma_grant', 'post', 'karma.php?action=grant');
+    $form->addElement('text', 'level', 'Level:&nbsp;');
+    $form->addElement('hidden', 'handle', htmlspecialchars($handle));
+    $form->addElement('submit', 'submit', 'Submit Changes');
     $form->display();
     $bb->end();
 }
@@ -140,8 +143,7 @@ if (!empty($_GET['a']) && $_GET['a'] == "details" && !empty($_GET['level'])) {
 
 $bb->end();
 
-echo "<br /><br />";
-echo make_link("/admin/karma.php", "Back");
+echo '<br /><br />';
+echo make_link('/admin/karma.php', 'Back');
 
 response_footer();
-?>
