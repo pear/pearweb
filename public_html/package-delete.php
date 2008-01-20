@@ -33,19 +33,13 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
-
 include_once 'pear-database-package.php';
 if (!isset($_POST['confirm'])) {
     $pkg = package::info($_GET['id']);
     print_package_navigation($_GET['id'], $pkg['name'],
                              '/package-delete.php?id=' . $_GET['id']);
 
-    require_once 'HTML/Form.php';
-    $form = new HTML_Form('package-delete.php?id=' . htmlspecialchars($_GET['id']), 'POST');
-    $form->setDefaultFromInput(false);
-
-    $form->start();
-
+    echo '<form action="' . 'package-delete.php?id=' . htmlspecialchars($_GET['id']) . '" method="post">';
     echo '<table class="form-holder" style="margin-bottom: 2em;" cellspacing="1">';
     echo '<caption class="form-caption">Confirm</caption>';
 
@@ -58,14 +52,12 @@ if (!isset($_POST['confirm'])) {
     echo "</td></tr>\n";
 
     echo '<td class="form-input">';
-    $form->displaySubmit('yes', 'confirm');
+    echo '<input type="submit" value="yes" name="confirm" />';
     echo '&nbsp;';
-    $form->displaySubmit('no', 'confirm');
+    echo '<input type="submit" value="no" name="confirm" />';
     echo "</td></tr>\n";
-
     echo "</table>";
-
-    $form->end();
+    echo "</form>";
 
 } elseif ($_POST['confirm'] == 'yes') {
 
@@ -133,5 +125,3 @@ if (!isset($_POST['confirm'])) {
 }
 
 response_footer();
-
-?>
