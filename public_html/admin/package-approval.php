@@ -90,22 +90,23 @@ $self = htmlspecialchars($_SERVER['PHP_SELF']);
 if (count($rows) == 0) {
     echo "<b>Currently there are no unapproved packages.</b>\n";
 } else {
-    $bb = new BorderBox("Unapproved packages", "90%", "", 2, true);
-
+    require_once 'HTML/Table.php';
+    $table = new HTML_Table('style="width: 90%"');
+    $table->setCaption('Unapproved packages', 'style="background-color: #CCCCCC;"');
     foreach ($rows as $row) {
-        $bb->plainRow($row['name'],
-                      make_link("$self?approve=" . $row['id'], "Approve") .
-                      delim() .
-                      make_link("$self?reject=" . $row['id'], "Reject")
-                      );
+        $tmp = array(
+            $row['name'],
+            make_link("$self?approve=" . $row['id'], "Approve") .
+                delim() .
+            make_link("$self?reject=" . $row['id'], "Reject")
+        );
+        $table->addRow($tmp);
     }
 
-    $bb->end();
+    $table->toHTML();
 }
 
 echo "<br /><br />";
-echo make_link("/admin/", "Back");
+echo make_link('/admin/', 'Back');
 
 response_footer();
-
-?>
