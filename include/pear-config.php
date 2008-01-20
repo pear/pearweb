@@ -23,6 +23,7 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PEAR_QA_EMAIL',              $_ENV['PEAR_QA_EMAIL']);
     define('PEAR_DOC_EMAIL',             $_ENV['PEAR_DOC_EMAIL']);
     define('PEAR_ANNOUNCE_EMAIL',        $_ENV['PEAR_ANNOUNCE_EMAIL']);
+    define('PEAR_DEV_EMAIL',             $_ENV['PEAR_DEV_EMAIL']);
     define('PEAR_GENERAL_EMAIL',         $_ENV['PEAR_GENERAL_EMAIL']);
     define('PEAR_CORE_EMAIL',            $_ENV['PEAR_CORE_EMAIL']);
     define('PEAR_BOUNCE_EMAIL',          $_ENV['PEAR_BOUNCE_EMAIL']);
@@ -50,6 +51,8 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PEAR_DOC_EMAIL', 'pear-doc@lists.php.net');
     // The channel webmaster email
     define('PEAR_ANNOUNCE_EMAIL', 'pear-dev@lists.php.net');
+    // The channel webmaster email
+    define('PEAR_DEV_EMAIL', 'pear-dev@lists.php.net');
     // The channel webmaster email
     define('PEAR_GENERAL_EMAIL', 'pear-general@lists.php.net');
     // The channel webmaster email
