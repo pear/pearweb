@@ -18,9 +18,7 @@
    $Id$
 */
 
-define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
-define('HTML_FORM_TD_ATTR', 'class="form-input"');
-require_once 'HTML/Form.php';
+require_once 'HTML/QuickForm.php';
 require_once 'Damblan/Mailer.php';
 require_once 'Text/CAPTCHA/Numeral.php';
 
@@ -148,61 +146,89 @@ MSG;
 
     report_error($errors);
 
+    $form = new HTML_QuickForm('account-request-newpackage', 'post', 'account-request-newpackage.php#requestform');
+
+    $renderer =& $form->defaultRenderer();
+    $renderer->setElementTemplate('
+ <tr>
+  <th class="form-label_left">
+   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
+   {label}
+  </th>
+  <td class="form-input">
+   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
+   {element}
+  </td>
+ </tr>
+');
+
+    $renderer->setFormTemplate('
+<form{attributes}>
+ <div>
+  {hidden}
+  <table border="0" class="form-holder" cellspacing="1">
+   {content}
+  </table>
+ </div>
+</form>');
+
+    $hsc = array_map('htmlspecialchars', $stripped);
+    // Set defaults for the form elements
+    $form->setDefaults(array(
+        'handle'        => @$hsc['handle'],
+        'firstname'     => @$hsc['firstname'],
+        'lastname'      => @$hsc['lastname'],
+        'email'         => @$hsc['email'],
+        'showemail'     => @$hsc['showemail'],
+        'newpackage'    => @$hsc['newpackage'],
+        'purpose'       => @$hsc['purpose'],
+        'sourcecode'    => @$hsc['sourcecode'],
+        'homepage'      => @$hsc['homepage'],
+        'moreinfo'      => @$hsc['moreinfo'],
+        'comments_read' => @$hsc['comments_read'],
+    ));
+
+    $form->addElement('html', '<caption class="form-caption">Request Account</caption>');
+    $form->addElement('text', 'handle', 'Use<span class="accesskey">r</span>name:',
+            'size="12" maxlength="20" accesskey="r"');
+    $form->addElement('text', 'firstname', 'First Name:', array('size' => 30));
+    $form->addElement('text', 'lastname', 'Last Name:', array('size' => 30));
+    $form->addElement('password', 'password', 'Password:', array('size' => 10));
+    $form->addElement('password', 'password2', 'Repeat Password:', array('size' => 10));
+    $text  = $numeralCaptcha->getOperation() . ' = <input type="text" size="4" maxlength="4" name="captcha" />';
+    $form->addElement('static', null, 'Solve the problem:', $text);
+    $_SESSION['answer'] = $numeralCaptcha->getAnswer();
+    $form->addElement('text', 'email', 'Email Address:', array('size' => 20));
+    $form->addElement('checkbox', 'showemail', 'Show email address?');
+    $form->addElement('text', 'newpackage', 'Proposed Package Name:', array('size' => 20));
+
     $invalid_purposes = array(
         'Propose a new, incomplete package, or an incomplete idea for a package',
         'Browse ' . PEAR_CHANNELNAME . '.'
     );
-    $purposechecks = '';
-    foreach ($invalid_purposes as $i => $purposeKey)
-    {
-        $purposechecks .= HTML_Form::returnCheckBox("purposecheck[$i]", @$_POST['purposecheck'][$i] ? 'on' : 'off');
-        $purposechecks .= "$purposeKey <br />";
+
+    $checkbox = array();
+    foreach ($invalid_purposes as $i => $purposeKey) {
+        $el = &HTML_QuickForm::createElement('checkbox', $i, null, ' ' . $purposeKey);
+        $el->setValue(@$_POST['purposecheck'][$i]);
+        $checkbox[] = $el;
     }
+    $form->addGroup($checkbox, 'purposecheck', 'Purpose of your PEAR account:'
+            . '<p class="cell_note">(Check all that apply)</p>', '<br />');
 
-    $form = new HTML_Form('account-request-newpackage.php#requestform', 'post');
-    $form->setDefaultFromInput(false);
-
-    $hsc = array_map('htmlspecialchars', $stripped);
-
-    $form->addText('handle', 'Use<span class="accesskey">r</span>name:',
-            @$hsc['handle'], 12, 20, 'accesskey="r"');
-    $form->addText('firstname', 'First Name:',
-            @$hsc['firstname'], 20, null);
-    $form->addText('lastname', 'Last Name:',
-            @$hsc['lastname'], 20, null);
-    $form->addPassword('password', 'Password:', '', 10);
-    $text  = $numeralCaptcha->getOperation() . ' = <input type="text" size="4" maxlength="4" name="captcha" />';
-    $form->addPlaintext('Solve the problem:', $text);
-    $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-    $form->addText('email', 'Email Address:',
-            @$hsc['email'], 20, null);
-    $form->addCheckbox('showemail', 'Show email address?',
-            @$hsc['showemail']);
-    $form->addText('newpackage', 'Proposed Package Name:',
-            @$hsc['newpackage'], 20, null);
-    $form->addPlaintext('Purpose of your PEAR account:'
-            . '<p class="cell_note">(Check all that apply)</p>',
-            $purposechecks);
-    $form->addTextarea('purpose',
+    $form->addElement('textarea', 'purpose',
             'Short summary of package that you have finished and are ready to propose:',
-            @$hsc['purpose'], 40, 5);
-    $form->addText('sourcecode',
-            'Link to browseable online source code:',
-            @$hsc['sourcecode'], 40);
-    $form->addText('homepage', 'Homepage:'
-            . '<p class="cell_note">(optional)</p>',
-            @$hsc['homepage'], 20, null);
-    $form->addTextarea('moreinfo',
+            array('cols' => 40, 'rows' => 5));
+    $form->addElement('text', 'sourcecode', 'Link to browseable online source code:', array('size' => 40));
+    $form->addElement('text', 'homepage', 'Homepage:'
+            . '<p class="cell_note">(optional)</p>', array('size' => 40));
+    $form->addElement('textarea', 'moreinfo',
             'More relevant information about you:'
             . '<p class="cell_note">(optional)</p>',
-            @$hsc['moreinfo'], 40, 5);
-    $form->addCheckbox('comments_read',
-            'I have read EVERYTHING on this page:',
-            @$hsc['comments_read']);
-    $form->addSubmit('submit', 'Submit Query');
-
-    $form->display('class="form-holder" cellspacing="1"',
-                   'Request Account', 'class="form-caption"');
+            array('cols' => 40, 'rows' => 5));
+    $form->addElement('checkbox', 'comments_read', 'I have read EVERYTHING on this page:');
+    $form->addElement('submit', 'submit', 'Submit Request');
+    $form->display();
 
     if ($jumpto) {
         print "<script language=\"JavaScript\" type=\"text/javascript\">\n<!--\n";
@@ -212,5 +238,3 @@ MSG;
 }
 
 response_footer();
-
-?>
