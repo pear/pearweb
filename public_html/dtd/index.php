@@ -18,22 +18,23 @@
    $Id$
 */
 
-response_header("Document Type Definitions");
+response_header('Document Type Definitions');
 ?>
 
 <h1>Document Type Definitions</h1>
 
 <p>The following Document Type Definitions are used in PEAR:</p>
 
-<?php $bb = new BorderBox("Available DTDs"); ?>
-
-<table border="0" cellpadding="2" cellspacing="2">
+<table cellpadding="2" cellspacing="2" style="width: 90%; border: 0px;">
+ <tr>
+  <th colspan="2" style="background-color: #CCCCCC;">Available DTDs</th>
+ </tr>
  <tr>
   <td valign="top"><a href="/dtd/package-1.0">package-1.0</a></td>
   <td valign="top">This is the <acronym title="Document Type Definition">DTD</acronym>
   that defines the legal building blocks of the <tt>package.xml</tt>
   file that comes with each package. More information about
-  <tt>package.xml</tt> can be found 
+  <tt>package.xml</tt> can be found
   <a href="/manual/en/developers.packagedef.php">in the manual</a>.
   </td>
  </tr>
@@ -42,7 +43,7 @@ response_header("Document Type Definitions");
   <td valign="top">This is the <acronym title="XML Schema Definition">XSD</acronym>
   that defines the legal building blocks of the <tt>package.xml</tt>
   file that comes with each package. More information about
-  <tt>package.xml</tt> can be found 
+  <tt>package.xml</tt> can be found
   <a href="/manual/en/developers.packagedef.php">in the manual</a>.
   </td>
  </tr>
@@ -51,7 +52,7 @@ response_header("Document Type Definitions");
   <td valign="top">This is the <acronym title="XML Schema Definition">XSD</acronym>
   that defines the legal building blocks of version 2.0 of <tt>package.xml</tt>
   file that comes with each package. More information about
-  <tt>package.xml</tt> version 2.0 can be found 
+  <tt>package.xml</tt> version 2.0 can be found
   <a href="/manual/en/guide.developers.package2.php">in the manual</a>.<br /><br />This
   XSD should be considered <strong>ALPHA</strong> quality until the PEAR package reaches
   1.4.0b1.  This means the format could change at any time.
@@ -62,7 +63,7 @@ response_header("Document Type Definitions");
   <td valign="top">This is the <acronym title="XML Schema Definition">XSD</acronym>
   that defines the legal building blocks of <tt>channel.xml</tt>
   file that defines the communication protocols of a channel. More information about
-  <tt>channel.xml</tt> can be found 
+  <tt>channel.xml</tt> can be found
   <a href="/manual/en/guide.migrating.channels.xml.php">in the manual</a>.<br /><br />This
   XSD should be considered <strong>ALPHA</strong> quality until the PEAR package reaches
   1.4.0b1.  This means the format could change at any time.
@@ -71,6 +72,4 @@ response_header("Document Type Definitions");
 </table>
 
 <?php
-$bb->end();
 response_footer();
-?>
