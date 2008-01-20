@@ -18,12 +18,9 @@
    $Id$
 */
 
+include_once 'HTML/QuickForm.php';
+
 auth_require();
-
-define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
-define('HTML_FORM_TD_ATTR', 'class="form-input"');
-require_once 'HTML/Form.php';
-
 if (isset($_GET['handle'])) {
     $handle = $_GET['handle'];
 } elseif (isset($_POST['handle'])) {
@@ -38,7 +35,6 @@ if ($handle && !ereg('^[0-9a-z_]{2,20}$', $handle)) {
     response_footer();
     exit();
 }
-
 
 ob_start();
 
@@ -208,48 +204,72 @@ if ($row === null) {
 }
 
 
-$form = new HTML_Form('account-edit.php', 'post');
-$form->setDefaultFromInput(false);
+$form = new HTML_QuickForm('account-edit', 'post', 'account-edit.php', 'test');
 
-$form->addCheckbox('active', 'Active User?',
-        htmlspecialchars($row['active']));
-$form->addText('name', '<span class="accesskey">N</span>ame:',
-        htmlspecialchars($row['name']), 40, null, 'accesskey="n"');
-$form->addText('email', 'Email:',
-        htmlspecialchars($row['email']), 40, null);
-$form->addCheckbox('showemail', 'Show email address?',
-        htmlspecialchars($row['showemail']));
-$form->addText('homepage', 'Homepage:',
-        htmlspecialchars($row['homepage']), 40, null);
+$renderer =& $form->defaultRenderer();
+$renderer->setElementTemplate('
+ <tr>
+  <th class="form-label_left">
+   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
+   {label}
+  </th>
+  <td class="form-input">
+   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
+   {element}
+  </td>
+ </tr>
+');
 
-$form->addText('wishlist', 'Wishlist URI:',
-        htmlspecialchars($row['wishlist']), 40, null);
-$form->addText('pgpkeyid', 'PGP Key ID:'
-        . '<p class="cell_note">(Without leading 0x)</p>',
-        htmlspecialchars($row['pgpkeyid']), 40, 20);
-$form->addTextarea('userinfo',
-        'Additional User Information:'
-        . '<p class="cell_note">(limited to 255 chars)</p>',
-        htmlspecialchars($row['userinfo']), 40, 5, null);
-$form->addTextarea('cvs_acl',
-        'CVS Access:',
-        htmlspecialchars($cvs_acl), 40, 5, null);
-$form->addText('latitude', 'Latitude Point:',
-        htmlspecialchars($row['latitude']), 40, null, 'id="latitude"');
-$form->addText('longitude', 'Longitude Point:',
-        htmlspecialchars($row['longitude']), 40, null, 'id="longitude"');
-$form->addPlaintext('
+$renderer->setFormTemplate('
+<form{attributes}>
+ <div>
+  {hidden}
+  <table border="0" class="form-holder" cellspacing="1" style="margin-bottom: 2em;">
+   {content}
+  </table>
+ </div>
+</form>');
+
+
+// Set defaults for the form elements
+$form->setDefaults(array(
+    'active'    => htmlspecialchars($row['active']),
+    'name'      => htmlspecialchars($row['name']),
+    'email'     => htmlspecialchars($row['email']),
+    'showemail' => htmlspecialchars($row['showemail']),
+    'homepage'  => htmlspecialchars($row['homepage']),
+    'wishlist'  => htmlspecialchars($row['wishlist']),
+    'pgpkeyid'  => htmlspecialchars($row['pgpkeyid']),
+    'userinfo'  => htmlspecialchars($row['userinfo']),
+    'cvs_acl'   => htmlspecialchars($cvs_acl),
+    'latitude'  => htmlspecialchars($row['latitude']),
+    'longitude' => htmlspecialchars($row['longitude']),
+));
+
+$form->addElement('html', '<caption class="form-caption">Edit Your Information</caption>');
+$form->addElement('checkbox', 'active', 'Active User?');
+$form->addElement('text', 'name', '<span class="accesskey">N</span>ame:', 'size="40" accesskey="n"');
+$form->addElement('text', 'email', 'Email:', array('size' => 40));
+$form->addElement('checkbox', 'showemail', 'Show email address?');
+$form->addElement('text', 'homepage', 'Homepage:', array('size' => 40));
+$form->addElement('text', 'wishlist', 'Wishlist URI:', array('size' => 40));
+$form->addElement('text', 'pgpkeyid', 'PGP Key ID:'
+        . '<p class="cell_note">(Without leading 0x)</p>', array('size' => 40, 'maxlength' => 20));
+$form->addElement('textarea', 'userinfo', 'Additional User Information:'
+        . '<p class="cell_note">(limited to 255 chars)</p>', 'cols="40" rows="5"');
+$form->addElement('textarea', 'cvs_acl', 'CVS Access:', 'cols="40" rows="5"');
+$form->addElement('text', 'latitude', 'Latitude Point:', 'size="40" id="latitude"');
+$form->addElement('text', 'longitude', 'Longitude Point:', 'size="40" id="longitude"');
+$form->addElement('static', null, '
 <script language="javascript" src="javascript/showmap.js"></script>
 <script language="javascript" src="javascript/popmap.js"></script>
 ');
-$form->addPlaintext('<a href="#" onclick="pearweb.display_map(event); showmap();">Open map</a>');
+$form->addElement('static', null, '<a href="#" onclick="pearweb.display_map(event); showmap();">Open map</a>');
 
-$form->addSubmit('submit', 'Submit');
-$form->addHidden('handle', htmlspecialchars($handle));
-$form->addHidden('command', 'update');
-$form->display('class="form-holder" style="margin-bottom: 2em;"'
-               . ' cellspacing="1"',
-               'Edit Your Information', 'class="form-caption"');
+$form->addElement('submit', 'submit', 'Submit');
+$form->addElement('hidden', 'handle', htmlspecialchars($handle));
+$form->addElement('hidden', 'command', 'update');
+$form->display();
 
 print '
 <div style="position:absolute; visibility: hidden;" id="pearweb_map"></div>';
@@ -257,21 +277,43 @@ print '
 print '<a name="password"></a>' . "\n";
 print '<h2>&raquo; Manage your password</h2>' . "\n";
 
-$form = new HTML_Form('account-edit.php', 'post');
-$form->setDefaultFromInput(false);
 
-$form->addPlaintext('<span class="accesskey">O</span>ld Password:',
-        $form->returnPassword('password_old', '', 40, 0,
-                              'accesskey="o"'));
-$form->addPassword('password', 'Password',
-        '', 10, null);
-$form->addCheckbox('PEAR_PERSIST', 'Remember username and password?',
-        '');
-$form->addSubmit('submit', 'Submit');
-$form->addHidden('handle', htmlspecialchars($handle));
-$form->addHidden('command', 'change_password');
-$form->display('class="form-holder" cellspacing="1"',
-               'Change Password', 'class="form-caption"');
+$form = new HTML_QuickForm('account-edit-password', 'post', 'account-edit.php', 'test');
+
+$renderer =& $form->defaultRenderer();
+$renderer->setElementTemplate('
+ <tr>
+  <th class="form-label_left">
+   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
+   {label}
+  </th>
+  <td class="form-input">
+   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
+   {element}
+  </td>
+ </tr>
+');
+
+$renderer->setFormTemplate('
+<form{attributes}>
+ <div>
+  {hidden}
+  <table border="0" class="form-holder" cellspacing="1">
+   {content}
+  </table>
+ </div>
+</form>');
+
+$form->addElement('html', '<caption class="form-caption">Change Password</caption>');
+$form->addElement('password', 'password_old', '<span class="accesskey">O</span>ld Password:', 'accesskey="0"');
+$form->addElement('password', 'password',  'Current Password:');
+$form->addElement('password', 'password2', 'Repeat Password:');
+$form->addElement('checkbox', 'PEAR_PERSIST', 'Remember username and password?');
+
+$form->addElement('submit', 'submit', 'Submit');
+$form->addElement('hidden', 'handle', htmlspecialchars($handle));
+$form->addElement('hidden', 'command', 'change_password');
+$form->display();
+
 ob_end_flush();
 response_footer();
-?>
