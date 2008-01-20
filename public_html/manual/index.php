@@ -80,15 +80,17 @@ $formats = array(
     "pear_manual_{LANG}.txt.gz"      => array('Plain text file',     'txt.gz')
 );
 
-$bb = new BorderBox('Download Documentation', '70%', '', 2, true);
-$bb->HeadRow('Type', 'Format', 'Size');
+require_once 'HTML/Table.php';
+$table = new HTML_Table('style="width: 70%"');
+$table->setCaption('Download Documentation', 'style="background-color: #CCCCCC;"');
 
+$table->addRow(array('Type', 'Format'));
 foreach ($doc_languages as $domain => $name) {
     $language = '<strong>' . $name . '</strong>';
     if (array_key_exists($domain, $outdated_languages)) {
         $language .= ' (outdated)';
     }
-    $bb->fullRow($language);
+    $table->addRow(array($language), 'style="background-color: #E8E8E8;" colspan="2"');
 
     foreach ($formats as $filename => $information) {
         if ($domain == "ru" && $information[1] == "chm") {
@@ -97,12 +99,10 @@ foreach ($doc_languages as $domain => $name) {
 
         $filename = str_replace("{LANG}", $domain, $filename);
 
-        $link = make_link('/distributions/manual/' . $filename, $information[0]);
-        $bb->plainRow($link, $information[1]);
+        $information[0] = make_link('/distributions/manual/' . $filename, $information[0]);
+        $table->addRow($information);
     }
-
 }
-
-$bb->end();
+echo $table->toHTML();
 
 response_footer();
