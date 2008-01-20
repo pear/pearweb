@@ -83,9 +83,9 @@ do {
         }
         $display_form = false;
         response_header("Package Registered");
-        print "The package `" . $_POST['name'] . "' has been registered in PEAR.<br />\n";
-        print "You have been assigned as lead developer.<br />\n";
-        print "The " . make_link("/group/", "PEAR Group") . " has been notified and the package will be approved soon.<br />\n";
+        echo "The package `" . $_POST['name'] . "' has been registered in PEAR.<br />\n";
+        echo "You have been assigned as lead developer.<br />\n";
+        echo "The " . make_link("/group/", "PEAR Group") . " has been notified and the package will be approved soon.<br />\n";
     }
 } while (false);
 
@@ -93,7 +93,7 @@ if ($display_form) {
     $title = "New Package";
     response_header($title);
 
-    print "<h1>$title</h1>\n";
+    echo "<h1>$title</h1>\n";
 
     report_error($errors);
 
@@ -204,12 +204,12 @@ $renderer->setFormTemplate('
     $form->display();
 
     if ($jumpto) {
-        print "\n<script language=\"JavaScript\">\n<!--\n";
-        print "document.forms[1].$jumpto.focus();\n";
-        print "// -->\n</script>\n";
+        echo "\n<script language=\"JavaScript\">\n<!--\n";
+        echo "document.forms[1].$jumpto.focus();\n";
+        echo "// -->\n</script>\n";
     }
 
-    print "</form>\n";
+    echo "</form>\n";
 }
 
 response_footer();
