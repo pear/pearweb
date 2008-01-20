@@ -18,7 +18,7 @@
    $Id$
 */
 
-require_once 'HTML/Form.php';
+require_once 'HTML/QuickForm.php';
 
 if (!defined('PEAR_COMMON_PACKAGE_NAME_PREG')) {
     define('PEAR_COMMON_PACKAGE_NAME_PREG', '/^([A-Z][a-zA-Z0-9_]+|[a-z][a-z0-9_]+)\z/');
@@ -32,7 +32,7 @@ $errors = array();
 $jumpto = 'name';
 
 $valid_args = array('submit', 'name','category','license','summary','desc','homepage','cvs_link');
-foreach($valid_args as $arg) {
+foreach ($valid_args as $arg) {
     if(isset($_POST[$arg])) {
         $_POST[$arg] = htmlspecialchars($_POST[$arg]);
     }
@@ -131,6 +131,7 @@ if ($display_form) {
     }
 
     $categories = array();
+    $categories[''] = '-- Select Category --';
     function recur_categories($childcategories, $parentcategories, $me,
                               &$categories, $indent = '--')
     {
@@ -152,25 +153,55 @@ if ($display_form) {
                 '--');
         }
     }
-    $form =& new HTML_Form('package-new.php', 'post');
-    $form->setDefaultFromInput(false);
 
-    print '<form method="post" action="package-new.php">'."\n";
+$form = new HTML_QuickForm('package-new', 'post', 'package-new.php', 'test');
 
-    $bb = new BorderBox("Register package", "100%", "", 2, true);
+$renderer =& $form->defaultRenderer();
+$renderer->setElementTemplate('
+ <tr>
+  <th class="form-label_left">
+   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
+   {label}
+  </th>
+  <td class="form-input">
+   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
+   {element}
+  </td>
+ </tr>
+');
 
-    $bb->horizHeadRow("Package Name", $form->returnText("name", $_POST["name"], 20));
-    $bb->horizHeadRow("License", $form->returnText("license", $_POST["license"], 20));
-    $cats = $form->returnSelect("category", $categories, $_POST["category"], 1,
-                                "--Select Category--");
-    $bb->horizHeadRow("Category", $cats);
-    $bb->horizHeadRow("Summary", $form->returnText("summary", $_POST["summary"], $width));
-    $bb->horizHeadRow("Full description", $form->returnTextarea("desc", $_POST["desc"], $width, 3));
-    $bb->horizHeadRow("Additional project homepage", $form->returnText("homepage", $_POST["homepage"], 40));
-    $bb->horizHeadRow("CVS Web URL", $form->returnText("cvs_link", $_POST["cvs_link"], 40) .
-                                     '<br /><small>For example: http://cvs.php.net/cvs.php/pear/XML_Parser</small>');
-    $bb->fullRow($form->returnSubmit("Submit Request", "submit"));
-    $bb->end();
+$renderer->setFormTemplate('
+<form{attributes}>
+ <div>
+  {hidden}
+  <table border="0" class="form-holder" cellspacing="1">
+   {content}
+  </table>
+ </div>
+</form>');
+
+    // Set defaults for the form elements
+    $form->setDefaults(array(
+        'name'     => isset($_POST['name'])     ? $_POST['name']     : '',
+        'license'  => isset($_POST['license'])  ? $_POST['license']  : '',
+        'category' => isset($_POST['category']) ? $_POST['category'] : '',
+        'summary'  => isset($_POST['summary'])  ? $_POST['summary']  : '',
+        'desc'     => isset($_POST['desc'])     ? $_POST['desc']     : '',
+        'homepage' => isset($_POST['homepage']) ? $_POST['homepage'] : '',
+        'cvs_link' => isset($_POST['cvs_link']) ? $_POST['cvs_link'] : '',
+    ));
+
+    $form->addElement('html', '<caption class="form-caption">Register Package</caption>');
+    $form->addElement('text', 'name', 'Package Name', array('size' => 20));
+    $form->addElement('text', 'license', 'License', array('size' => 20));
+    $form->addElement('select', 'category', 'Category', $categories);
+    $form->addElement('textarea', 'summary', 'Summary', array('cols' => $width));
+    $form->addElement('textarea', 'desc', 'Full description', array('cols' => $width, 'rows' => 3));
+    $form->addElement('text', 'homepage', 'Additional project homepage', array('size' => 40));
+    $form->addElement('text', 'cvs_link', 'CVS Web URL', array('size' => 40));
+    $form->addElement('static', null, null, '<small>For example: http://cvs.php.net/cvs.php/pear/XML_Parser</small>');
+    $form->addElement('submit', 'submit', 'Submit Request');
+    $form->display();
 
     if ($jumpto) {
         print "\n<script language=\"JavaScript\">\n<!--\n";
@@ -182,5 +213,3 @@ if ($display_form) {
 }
 
 response_footer();
-
-?>
