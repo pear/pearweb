@@ -34,9 +34,7 @@ $errors = array();
 
 session_start();
 
-define('HTML_FORM_TH_ATTR', 'class="form-label_left"');
-define('HTML_FORM_TD_ATTR', 'class="form-input"');
-require_once 'HTML/Form.php';
+require_once 'HTML/QuickForm.php';
 require_once 'Text/CAPTCHA/Numeral.php';
 
 $stripped = @array_map('strip_tags', $_POST);
@@ -55,32 +53,57 @@ function printForm($data = array())
         }
     }
 
-    $form = new HTML_Form('/account-mail.php?handle=' . htmlspecialchars($_GET['handle']),
-                          'post', 'contact');
-    $form->setDefaultFromInput(false);
+    $form = new HTML_QuickForm('contect', 'post', '/account-mail.php?handle=' . htmlspecialchars($_GET['handle']));
 
-    $form->addText('name', 'Y<span class="accesskey">o</span>ur Name:',
-            htmlspecialchars($data['name']), 40, null, 'accesskey="o"');
+    $renderer =& $form->defaultRenderer();
+    $renderer->setElementTemplate('
+ <tr>
+  <th class="form-label_left">
+   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
+   {label}
+  </th>
+  <td class="form-input">
+   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
+   {element}
+  </td>
+ </tr>
+');
+
+    $renderer->setFormTemplate('
+<form{attributes}>
+ <div>
+  {hidden}
+  <table border="0" class="form-holder" cellspacing="1">
+   {content}
+  </table>
+ </div>
+</form>');
+
+    // Set defaults for the form elements
+    $form->setDefaults(array(
+        'name'    => htmlspecialchars($data['name']),
+        'email'   => htmlspecialchars($data['email']),
+        'copy_me' => htmlspecialchars($data['copy_me']),
+        'subject' => htmlspecialchars($data['subject']),
+        'text'    => htmlspecialchars($data['text']),
+    ));
+
+    $form->addElement('html', '<caption class="form-caption">Send Email</caption>');
+    $form->addElement('text', 'name', 'Y<span class="accesskey">o</span>ur Name:','size="40" accesskey="o"');
 
     if (!auth_check('pear.dev')) {
         $numeralCaptcha = new Text_CAPTCHA_Numeral();
         $text  = $numeralCaptcha->getOperation() . ' = <input type="text" size="4" maxlength="4" name="captcha" />';
-        $form->addPlaintext('Solve the problem:', $text);
+        $form->addElement('static', null, 'Solve the problem:', $text);
         $_SESSION['answer'] = $numeralCaptcha->getAnswer();
     }
 
-    $form->addText('email', 'Email Address:',
-            htmlspecialchars($data['email']), 40, null);
-    $form->addCheckBox('copy_me', 'Send me a copy of this mail:',
-            htmlspecialchars($data['copy_me']));
-    $form->addText('subject', 'Subject:',
-            htmlspecialchars($data['subject']), 40, null);
-    $form->addTextarea('text', 'Text:',
-            htmlspecialchars($data['text']), 35, 10, null);
-    $form->addSubmit('submit', 'Submit');
-    $form->display('class="form-holder"'
-                   . ' cellspacing="1"',
-                   'Send Email', 'class="form-caption"');
+    $form->addElement('text', 'email', 'Email Address:', array('size' => 40));
+    $form->addElement('checkbox', 'copy_me', 'Send me a copy of this mail:');
+    $form->addElement('text', 'subject', 'Subject:', array('size' => 40));
+    $form->addElement('textarea', 'text', 'Text:', array('cols' => 35, 'row' => 10));
+    $form->addElement('submit', 'submit', 'Send Email');
+    $form->display();
 
 
     echo "<script language=\"JavaScript\">\n";
@@ -180,5 +203,3 @@ if (isset($_POST['submit'])) {
 }
 
 response_footer();
-
-?>
