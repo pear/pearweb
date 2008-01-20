@@ -18,14 +18,14 @@
    $Id$
 */
 
-require_once "pear-manual.php";
-require_once "HTML/Form.php";
-require_once "Damblan/Log.php";
+require_once 'pear-manual.php';
+require_once 'HTML/QuickForm.php';
+require_once 'Damblan/Log.php';
 
-auth_require("doc.chm-upload");
-response_header("CHM documentation upload");
+auth_require('doc.chm-upload');
+response_header('CHM documentation upload');
 
-echo "<h1>CHM documentation upload</h1>";
+echo '<h1>CHM documentation upload</h1>';
 
 if (!empty($_POST['submit'])) {
     include_once 'HTTP/Upload.php';
@@ -51,16 +51,14 @@ if (!empty($_POST['submit'])) {
     }
 }
 
-$form = new HTML_Form("chm-upload.php", "POST");
-$form->setDefaultFromInput(false);
+$form = new HTML_QuickForm('chm_upload', 'post', 'chm-upload.php');
 
 foreach ($doc_languages as $shortcut => $name) {
-    $form->addFile("chm_" . $shortcut, $name . ":", 5242880);
+    $form->addElement('file', 'chm_' . $shortcut, $name . ':', 5242880);
 }
 
-$form->addPlainText("", "(Leave the field blank if there is no file for the language)");
-$form->addSubmit("submit", "Upload");
+$form->addElement('static', '', '', '(Leave the field blank if there is no file for the language)');
+$form->addElement('submit', 'submit', 'Upload');
 $form->display();
 
 response_footer();
-?>
