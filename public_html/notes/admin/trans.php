@@ -71,7 +71,7 @@ switch ($action) {
 
             $emailInfos = array(
                 'reporter_name'   => $reporter_name,
-                'email'           => $this->email,
+                'email'           => $auth_user->email,
                 'id'              => $id,
                 'php_os'          => $php_os,
                 'package_version' => $package_version,
