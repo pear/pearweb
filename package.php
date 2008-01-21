@@ -58,9 +58,7 @@ $a->addPackageDepWithChannel('required', 'Text_CAPTCHA_Numeral', 'pear.php.net',
 $a->addPackageDepWithChannel('required', 'DB', 'pear.php.net', '1.6.5');
 $a->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '1.8.5');
 $a->addPackageDepWithChannel('required', 'Savant2', 'savant.pearified.com', '2.4.2');
-$a->addPackageDepWithChannel('required', 'Cache', 'pear.php.net', '1.2');
 $a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1.2.1');
-$a->addPackageDepWithChannel('required', 'HTML_Form', 'pear.php.net', '1.3.0');
 $a->addPackageDepWithChannel('required', 'HTML_TagCloud', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTML_Table', 'pear.php.net', '1.5');
 $a->addPackageDepWithChannel('required', 'HTML_Menu', 'pear.php.net', '2.1.4');
@@ -71,7 +69,6 @@ $a->addPackageDepWithChannel('required', 'Net_URL2', 'pear.php.net', '0.1.0');
 $a->addPackageDepWithChannel('required', 'Text_Diff', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTTP_Upload', 'pear.php.net', '0.8.1');
 $a->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.6.0');
-$a->addPackageDepWithChannel('required', 'DB_Pager', 'pear.php.net', '0.7');
 $a->addPackageDepWithChannel('required', 'Log', 'pear.php.net', '1.8.4');
 $a->addPackageDepWithChannel('required', 'Mail', 'pear.php.net', '1.1.13');
 $a->addPackageDepWithChannel('required', 'Services_Trackback', 'pear.php.net', '0.4.0');
@@ -86,6 +83,7 @@ $a->addGroupPackageDepWithChannel('package', 'php5', 'MDB2_Driver_mysqli', 'pear
 $a->addExtensionDep('required', 'pcre');
 $a->addExtensionDep('optional', 'mysql');
 $a->addExtensionDep('optional', 'mysqli');
+$a->addPackageDepWithChannel('required', 'Graph', 'components.ez.no');
 $script = &$a->initPostinstallScript('pearweb.php');
 $script->addParamGroup(
     'askdb',
