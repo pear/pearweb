@@ -26,7 +26,7 @@ switch ($action) {
             $handle          = $auth_user->handle;
             $sdesc           = 'User note that is a documentation problem';
             $ldesc           = 'Manual page: ' . $note['page_url'] . "\n\n" .
-                               str_replace('<br />', '', $dbh->quote(html_entity_decode($note['note_text'])));
+                               str_replace('<br />', '', $dbh->escapeSimple(html_entity_decode($note['note_text'])));
             $package_version = null;
             $php_version     = 'Irrelevant';
             $php_os          = 'Irrelevant';
