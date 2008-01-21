@@ -28,23 +28,6 @@
  *  o Multiple releases per graph, ie side by side
  *    bar chart.
  */
-include 'jpgraph/jpgraph.php';
-include 'jpgraph/jpgraph_bar.php';
-
-// Cache time in secs
-$cache_time = 300;
-
-/*
- * This is the x axis labels. May change when
- * selectable dates is added.
- */
-$year   = date('Y') - 1;
-$month  = date('n') + 1;
-$x_axis = array();
-for ($i = 0; $i < 12; $i++) {
-    $time = mktime(0, 0, 0, $month + $i, 1, $year);
-    $x_axis[date('Ym', $time)] = date('M', $time);
-}
 
 /*
  * Determine the stats based on the supplied
@@ -53,20 +36,86 @@ for ($i = 0; $i < 12; $i++) {
  * drawn with each release having a different
  * color.
  */
-if (!empty($_GET['releases'])) {
-    $releases = explode(',', html_entity_decode($_GET['releases']));
-}
 
+$releases = !empty($_GET['releases']) ? explode(',', $_GET['releases']) : array(0);
 if (!isset($releases) || !is_array($releases)) {
     exit;
 }
 
+require_once 'ezc/Base/base.php';
+function __autoload($className)
+{
+    ezcBase::autoload($className);
+}
+
+class pearwebPalette extends ezcGraphPaletteTango
+{
+    protected $majorGridColor  = '#000000BB';
+    protected $chartBackground = '#FFFFFF';
+    protected $dataSetSymbol = array(
+        ezcGraph::BULLET,
+    );
+}
+
+
+// Cache time in secs
+$cache_time = 300;
+
+// Get package name
+$package_id   = (int)$_GET['pid'];
+$package_name = $dbh->getOne('SELECT name FROM packages WHERE id = ' . $package_id);
+$package_rel  = count($releases) === 1 ? $dbh->getOne('SELECT version FROM releases WHERE id = ' . (int)$releases[0]) : '';
+
+if (!isset($_GET['type']) OR empty($_GET['type'])) {
+    $class = 'ezcGraphLineChart';
+} else {
+    $type = strtolower(htmlspecialchars($_GET['type'], ENT_QUOTES));
+    if ($type === 'bar') {
+        $class = 'ezcGraphBarChart';
+    } elseif ($type === 'line') {
+        $class = 'ezcGraphLineChart';
+    }
+}
+
+$graph = new $class();
+// Set up the title for the graph
+$graph->title = 'Download statistics for ' . $package_name . ' ' . $package_rel;
+// $graph->palette = new ezcGraphPaletteBlack();
+$graph->palette = new pearwebPalette();
+if (isset($_GET['output']) && $_GET['output'] == 'image') {
+    // replace with cairo when it's out
+    $graph->driver = new ezcGraphGdDriver();
+    $graph->options->font = dirname(dirname(__FILE__)) . '/include/fonts/coolveti.ttf';
+}
+
+if ($class = 'ezcGraphLineChar') {
+    $graph->options->fillLines = 230;
+}
+
+$graph->legend->position = ezcGraph::RIGHT;
+$graph->legend->portraitSize = .1;
+$graph->legend->font->maxFontSize = 12;
+
+if (count($releases) === 1) {
+    $graph->legend = false;
+}
+
+
+// This is the x axis labels. May change when selectable dates is added.
+$year   = date('Y') - 1;
+$month  = date('n') + 1;
+$x_axis = array();
+for ($i = 0; $i < 12; $i++) {
+    $time = mktime(0, 0, 0, $month + $i, 1, $year);
+    $x_axis[date('Ym', $time)] = date('M Y', $time);
+}
+
+$r   = array();
 foreach ($releases as $release) {
-    $y_axis = array();
-    list($rid, $colour) = explode('_', $release);
-    $colour = '#' . $colour;
-    foreach (array_keys($x_axis) as $key) {
-        $y_axis[$key] = 0;
+    $r_name = $dbh->getOne('SELECT version FROM releases WHERE id = ' . (int)$release);
+    $r[$r_name] = array();
+    foreach ($x_axis as $key => $value) {
+        $r[$r_name][$value] = 0;
     }
 
     $sql = sprintf("SELECT YEAR(yearmonth) AS dyear, MONTH(yearmonth) AS dmonth, SUM(downloads) AS downloads
@@ -78,38 +127,29 @@ foreach ($releases as $release) {
                             %s
                         GROUP BY dyear, dmonth
                         ORDER BY dyear DESC, dmonth DESC",
-                   (int) $_GET['pid'],
-                   $release_clause = $rid > 0 ? 'AND a.release_id = ' . (int) $rid : '');
+                   $package_id,
+                   $release_clause = $release > 0 ? 'AND a.release_id = ' . (int) $release : '');
 
     if ($result = $dbh->query($sql)) {
         while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) {
             $key = sprintf('%04d%02d', $row['dyear'], $row['dmonth']);
-            if (isset($y_axis[$key])) {
-                $y_axis[$key] = $row['downloads'];
+            if (!isset($x_axis[$key])) {
+                continue;
+            }
+            $key = $x_axis[$key];
+            if (isset($r[$r_name][$key])) {
+                $r[$r_name][$key] = (int)$row['downloads'];
             }
         }
     }
-
-    // Create the bar plot
-    $bplots[$rid] = new BarPlot(array_values($y_axis));
-    $bplots[$rid]->SetWidth(0.6);
-    $bplots[$rid]->SetFillGradient('white', $colour, GRAD_HOR);
-    //$bplot->setFillColor("#339900");
-    $bplots[$rid]->SetColor('black');
-    $bplots[$rid]->value->setFormat('%d');
-    $bplots[$rid]->value->Show();
 }
 
-$x_axis = array_values($x_axis);
-$bplots = array_values($bplots);
+foreach ($r as $k => $v) {
+    $graph->data[$k] = new ezcGraphArrayDataSet($v);
+}
+$graph->xAxis->labelCount = 12;
 
-// Get package name
-$package_name = $dbh->getOne('SELECT name FROM packages WHERE id = ' . $_GET['pid']);
-$package_rel  = !empty($_GET['rid']) ? $dbh->getOne('SELECT version FROM releases WHERE id = ' . $_GET['rid']) : '';
-
-/*
- * Go through setting up the graph
- */
+// Go through setting up the graph
 if (!DEVBOX) {
     // Send some caching headers to prevent unnecessary requests
     header('Last-Modified: ' . date('c'));
@@ -119,35 +159,9 @@ if (!DEVBOX) {
     header('Pragma: cache');
 
     // Main graph object
-    $graph = new Graph(543, 200, md5($_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING']), $cache_time);
+    $graph->renderToOutput(743, 250, md5($_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING']));
+//    $graph = new Graph(543, 200, md5($_SERVER['SCRIPT_NAME'] . '?' . $_SERVER['QUERY_STRING']), $cache_time);
 } else {
     // Main graph object
-    $graph = new Graph(543, 200);
+    $graph->renderToOutput(743, 250);
 }
-$graph->img->SetMargin(40,20,30,30);
-$graph->SetScale('textlin');
-$graph->SetMarginColor('#cccccc');
-
-// Set up the title for the graph
-$graph->title->Set(sprintf("Download statistics for %s %s", $package_name, $package_rel));
-$graph->title->SetColor('black');
-
-// Show 0 label on Y-axis (default is not to show)
-$graph->yscale->ticks->SupressZeroLabel(false);
-
-// Setup X-axis labels
-$graph->xaxis->SetTickLabels($x_axis);
-
-// Add a spacing between the bars and the top of the graph
-$graph->yaxis->scale->setGrace(15);
-
-// Add the grouped or single bar chartplot
-if (count($bplots) > 1) {
-    $gbplot = new GroupBarPlot($bplots);
-    $graph->Add($gbplot);
-} else {
-    $graph->Add($bplots[0]);
-}
-
-// Finally send the graph to the browser
-$graph->Stroke();

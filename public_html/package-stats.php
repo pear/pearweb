@@ -125,9 +125,6 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 }
 
 echo "  </td>\n";
-
-echo "</tr>\n";
-echo "<tr>\n";
 echo '  <td><input type="submit" name="submit" value="Go" /></td>'."\n";
 echo "</tr>\n";
 echo "</table>\n";
@@ -184,20 +181,31 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
         }
         echo "</table>\n";
         $bb->end();
-
-        /*
-         * Print the graph
-         */
-        printf('<br /><img src="package-stats-graph.php?pid=%s&releases=%s_339900" name="stats_graph" width="543" height="200" alt="" />',
-               $_GET['pid'],
-               isset($_GET['rid']) ? (int)$_GET['rid'] : ''
-               );
-
-    /*
-     * Print the graph control stuff
-     */
-    $releases = $dbh->getAll('SELECT id, version FROM releases WHERE package = ' . $_GET['pid'], DB_FETCHMODE_ASSOC);
-    ?>
+        echo '<br />';
+        // Print the graph
+        $type   = isset($_GET['type']) && $_GET['type'] == 'bar' ? '&type=bar' : '';
+        $driver = isset($_GET['driver']) && $_GET['driver'] == 'image' ? '&driver=image' : '';
+        $url    = sprintf('package-stats-graph.php?pid=%s&releases=%s%s%s', (int)$_GET['pid'], isset($_GET['rid']) ? (int)$_GET['rid'] : '', $driver, $type);
+        if (isset($_GET['driver']) && $_GET['driver'] == 'gd') {
+            echo '<img src="' . $url . '" id="stats_graph" width="743" height="250" alt="" />';
+        } else {
+?>
+<div id="svg-container"> <!-- wrapper for the graph object -->
+    <!--[if IE]>
+     <embed src="<?php echo $url; ?>" type="image/svg+xml" id="stats_graph_svg" width="743" height="250" />
+    <![endif]-->
+    <![if !IE]-->
+     <object data="<?php echo $url; ?>" type="image/svg+xml" id="stats_graph_svg" width="743" height="250">
+      You need a browser capeable of SVG to display this image.
+     </object>
+    <![endif]-->
+</div>
+<?php
+        }
+// Print the graph control stuff
+$releases = $dbh->getAssoc('SELECT id, version FROM releases WHERE package = ' . (int)$_GET['pid']);
+natsort($releases);
+?>
 <br /><br />
 
 <script language="JavaScript" type="text/javascript">
@@ -205,7 +213,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     function clearGraphList()
     {
         graphForm = document.forms['graph_control'];
-        for (i=0; i<graphForm.graph_list.options.length; i++) {
+        for (i = 0; i < graphForm.graph_list.options.length; i++) {
             graphForm.graph_list.options[i] = null;
         }
     }
@@ -214,15 +222,14 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     {
         graphForm = document.forms['graph_control'];
         selectedRelease = graphForm.releases.options[graphForm.releases.selectedIndex];
-        selectedColour  = graphForm.colours.options[graphForm.colours.selectedIndex];
 
-        if (selectedRelease.value != "" && selectedColour.value != "") {
-            newText  = 'Release ' + selectedRelease.text + ' in ' + selectedColour.text;
-            newValue = selectedRelease.value + '_' + selectedColour.value;
+        if (selectedRelease.value != "") {
+            newText  = 'Release ' + selectedRelease.text;
+            newValue = selectedRelease.value;
             graphForm.graph_list.options[graphForm.graph_list.options.length] = new Option(newText, newValue);
 
         } else {
-            alert('Please select a release and a colour!');
+            alert('Please select a release');
         }
     }
 
@@ -242,17 +249,34 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
         releases_qs = '';
 
         if (graphForm.graph_list.options.length) {
-            for (i=0; i<graphForm.graph_list.options.length; i++) {
-                if (i == 0) {
-                    releases_qs += graphForm.graph_list.options[i].value;
-                } else {
-                    releases_qs += ',' + graphForm.graph_list.options[i].value;
+            for (i = 0; i < graphForm.graph_list.options.length; i++) {
+                if (i != 0) {
+                    releases_qs += ',';
                 }
+                releases_qs += graphForm.graph_list.options[i].value;
             }
             graphForm.update.value = 'Updating...';
-            document.images['stats_graph'].src = 'package-stats-graph.php?pid=<?php echo $_GET['pid']; ?>&releases=' + releases_qs;
-            graphForm.update.value = 'Update graph';
 
+            var url = 'package-stats-graph.php?pid=<?php echo (int)$_GET['pid']; ?>';
+            url += '<?php echo isset($_GET['type']) && $_GET['type'] == 'line' ? '&type=line' : ''; ?>';
+            url += '<?php echo isset($_GET['driver']) && $_GET['driver'] == 'image' ? '&driver=image' : ''?>';
+            url += '&releases=' + releases_qs;
+            var svg  = document.getElementById('stats_graph_svg');
+            if (svg != null) {
+                // there is an svg element, so we need to destroy and recreate it
+                var svgcont = document.getElementById('svg-container');
+                if (svg.data != null) {
+                    // Non IE
+                    svgcont.innerHTML = '<object data="'+url+'" type="image/svg+xml" id="stats_graph_svg" width="743" height="250">You need a browser capeable of SVG to display this image.</object>';
+                } else if (svg.src != null) {
+                    // IE
+                    svgcong.innerHTML = '<embed src="'+url+'" type="image/svg+xml" id="stats_graph_svg" width="743" height="250" />';
+                }
+            }
+            if (document.images['stats_graph'] != null) {
+                document.images['stats_graph'].src = url;
+            }
+            graphForm.update.value = 'Update graph';
         } else {
             alert('Please select one or more releases to show!');
         }
@@ -260,7 +284,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 //-->
 </script>
 
-<form name="graph_control" action="#">
+<form name="graph_control" action="#" method="get">
  <input type="hidden" name="pid" value="<?php echo @$_GET['pid']; ?>" />
  <input type="hidden" name="rid" value="<?php echo @$_GET['rid']; ?>" />
  <input type="hidden" name="cid" value="<?php echo @$_GET['cid']; ?>" />
@@ -278,18 +302,9 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     <select name="releases">
      <option value="">Select...</option>
      <option value="0">All</option>
-     <?php foreach($releases as $r):?>
-      <option value="<?php echo $r['id']; ?>"><?php echo $r['version']; ?></option>
+     <?php foreach($releases as $id => $version):?>
+      <option value="<?php echo $id; ?>"><?php echo $version; ?></option>
      <?php endforeach?>
-    </select>
-    Colour:
-    <select name="colours">
-     <option>Select...</option>
-     <option value="339900">Green</option>
-     <option value="dd0000">Red</option>
-     <option value="003399">Blue</option>
-     <option value="000000">Black</option>
-     <option value="999900">Yellow</option>
     </select>
    </td>
    <td align="right">
@@ -352,9 +367,18 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
  */
 if (@!$_GET['pid']) {
     echo '<br />';
-    $bb = new BorderBox(!empty($_GET['cid']) ? 'Category Statistics for: <i><a href="packages.php?catpid='.$_GET['cid'].'&amp;catname='.str_replace(' ', '+', $category_name).'">' . $category_name . '</a></i>' : 'Global Statistics');
+    if (empty($_GET['cid'])) {
+        $header = 'Global Statistics';
+    } else {
+        $header  = 'Category Statistics for: ';
+        $header .= '<i><a href="packages.php?catpid='.(int)$_GET['cid'];
+        $header .= '&amp;catname='.str_replace(' ', '+', $category_name).'">' . $category_name . '</a></i>';
+    }
 ?>
-<table border="0" width="100%">
+<table border="0" width="90%">
+ <tr>
+  <th colspan="4" style="background-color: #CCCCCC;"><?php echo $header?><th>
+ </tr>
  <tr>
   <td style="width: 25%;">Total&nbsp;Packages:</td>
   <td align="center" style="width: 25%; background-color: #CCCCCC;"><?php echo $total_packages; ?></td>
@@ -374,11 +398,7 @@ if (@!$_GET['pid']) {
    ?>
 </table>
 <?php
-    $bb->end();
-
     echo '<br />';
-
-    $bb = new BorderBox('Package Statistics');
 
     $sth  = $dbh->query($query); //$query defined above
     $rows = $sth->numRows();
@@ -387,10 +407,11 @@ if (@!$_GET['pid']) {
         PEAR::raiseError('unable to generate stats');
     }
 
-    if ($rows > 12) {
-        echo '<div id="jabba" style="height: 300px; overflow: auto">';
-    }
+    echo '<div style="height: 300px; width: 90%; overflow: auto">';
     echo " <table border=\"0\" width=\"100%\" cellpadding=\"2\" cellspacing=\"2\">\n";
+    echo ' <tr>
+  <th colspan="3" style="background-color: #CCCCCC;">Package Statistics<th>
+ </tr>';
     echo "  <tr align=\"left\" bgcolor=\"#cccccc\">\n";
     echo "   <th>Package Name</th>\n";
     echo '   <th><span class="accesskey"># of downloads</span></th>' . "\n";
@@ -417,11 +438,7 @@ if (@!$_GET['pid']) {
     }
     echo " </table>\n";
 
-    $bb->end();
-
-    if ($rows > 12) {
-        echo '</div>';
-    }
+    echo '</div>';
 }
 
 response_footer();
