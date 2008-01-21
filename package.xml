@@ -191,7 +191,6 @@
      <file name="releasehelper.php" role="www" />
     </dir> <!-- /include/package -->
     <dir name="pepr">
-     <file name="HTML_BBCodeParser_Filter_Extended.php" role="www" />
      <file name="pepr-emails.php" role="www" />
      <file name="pepr.php" role="www" />
     </dir> <!-- /include/pepr -->
