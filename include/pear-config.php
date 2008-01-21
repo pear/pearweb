@@ -129,7 +129,7 @@ if (isset($_ENV['PEAR_DATABASE_DSN'])) {
 }
 
 // A preg regular expression for validating user names
-define('PEAR_COMMON_USER_NAME_REGEX', '/^[a-z][a-z0-9]+\z/i');
+define('PEAR_COMMON_USER_NAME_REGEX', '/^[a-z][a-z0-9_]+\z/i');
 // How long the cache should last
 define('CACHE_LIFETIME', 3600);
 // Where the cached output is stored
