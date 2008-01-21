@@ -19,8 +19,9 @@
 */
 
 include_once 'HTML/QuickForm.php';
-require_once "Damblan/Karma.php";
-require_once "Damblan/Mailer.php";
+include_once 'HTML/Table.php';
+require_once 'Damblan/Karma.php';
+require_once 'Damblan/Mailer.php';
 
 auth_require('global.karma.manager');
 
@@ -85,63 +86,68 @@ if ($handle === null || empty($handle)) {
 
     $user_karma = $karma->get($handle);
     if (count($user_karma) == 0) {
-        echo "No karma yet";
+        echo 'No karma yet';
     } else {
-        $bb = new BorderBox("Karma levels for " . htmlspecialchars($handle), "90%", "", 4, true);
-        $bb->HeadRow("Level", "Added by", "Added at", "Remove");
+        $table = new HTML_Table('style="width: 90%"');
+        $table->setCaption('Karma levels for ' . htmlspecialchars($handle), 'style="background-color: #CCCCCC;"');
+        $table->addRow(array("Level", "Added by", "Added at", "Remove"), null, 'th');
         foreach ($user_karma as $item) {
             $remove = sprintf("karma.php?action=remove&amp;handle=%s&amp;level=%s",
                               htmlspecialchars($handle),
                               htmlspecialchars($item['level']));
 
-            $bb->plainRow(htmlspecialchars($item['level']),
+            $table->addRow(array(htmlspecialchars($item['level']),
                           htmlspecialchars($item['granted_by']),
                           htmlspecialchars($item['granted_at']),
                           make_link($remove, make_image("delete.gif"),
                                                          false,
-                                                         'onclick="javascript:return confirm(\'Do you really want to remove the karma level ' . htmlspecialchars($item['level' ]) . '?\');"'));
+                                                         'onclick="javascript:return confirm(\'Do you really want to remove the karma level ' . htmlspecialchars($item['level' ]) . '?\');"')
+            ));
         }
-        $bb->end();
+        echo $table->toHTML();
     }
 
     echo "<br /><br />";
 
-    $bb = new BorderBox("Grant karma to " . htmlspecialchars($handle));
+    $table = new HTML_Table('style="width: 100%"');
+    $table->setCaption("Grant karma to " . htmlspecialchars($handle), 'style="background-color: #CCCCCC;"');
 
     $form = new HTML_QuickForm('karma_grant', 'post', 'karma.php?action=grant');
     $form->addElement('text', 'level', 'Level:&nbsp;');
     $form->addElement('hidden', 'handle', htmlspecialchars($handle));
     $form->addElement('submit', 'submit', 'Submit Changes');
-    $form->display();
-    $bb->end();
+    $table->addRow(array($form->toHTML()));
+    echo $table->toHTML();
 }
 
 echo "<p>&nbsp;</p><hr />";
 
-$bb = new BorderBox("Karma Statistics", "90%", "", 2, true);
+$table = new HTML_Table('style="width: 90%"');
+$table->setCaption("Karma Statistics", 'style="background-color: #CCCCCC;"');
+
 
 if (!empty($_GET['a']) && $_GET['a'] == "details" && !empty($_GET['level'])) {
-    $bb->headRow("Handle", "Granted");
+    $table->addRow(array('Handle', 'Granted'), null, 'th');
     foreach ($karma->getUsers($_GET['level']) as $user) {
         $detail = sprintf("Granted by <a href=\"/user/%s\">%s</a> on %s",
                           htmlspecialchars($user['granted_by']),
                           htmlspecialchars($user['granted_by']),
                           htmlspecialchars($user['granted_at'])
                           );
-        $bb->plainRow(make_link("/user/" . htmlspecialchars($user['user']),
+        $table->addRow(array(make_link("/user/" . htmlspecialchars($user['user']),
                       htmlspecialchars($user['user'])),
-                      $detail);
+                      $detail));
     }
 } else {
-    $bb->headRow("Level", "# of users");
+    $table->addRow(array('Level', '# of users'));
     foreach ($karma->getLevels() as $level) {
-        $bb->plainRow(make_link("karma.php?a=details&amp;level=" . htmlspecialchars($level['level']),
+        $table->addRow(array(make_link("karma.php?a=details&amp;level=" . htmlspecialchars($level['level']),
                                 htmlspecialchars($level['level'])),
-                      htmlspecialchars($level['sum']));
+                      htmlspecialchars($level['sum'])));
     }
 }
 
-$bb->end();
+echo $table->toHTML();
 
 echo '<br /><br />';
 echo make_link('/admin/karma.php', 'Back');
