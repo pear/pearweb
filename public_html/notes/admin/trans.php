@@ -70,6 +70,8 @@ switch ($action) {
             // TODO: add error handling
 
             $emailInfos = array(
+                'reporter_name'   => $reporter_name,
+                'email'           => $this->email,
                 'id'              => $id,
                 'php_os'          => $php_os,
                 'package_version' => $package_version,
