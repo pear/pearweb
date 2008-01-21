@@ -18,6 +18,7 @@
    $Id$
 */
 
+require_once 'HTML/Table.php';
 response_header('Documentation');
 ?>
 
@@ -80,7 +81,6 @@ $formats = array(
     "pear_manual_{LANG}.txt.gz"      => array('Plain text file',     'txt.gz')
 );
 
-require_once 'HTML/Table.php';
 $table = new HTML_Table('style="width: 70%"');
 $table->setCaption('Download Documentation', 'style="background-color: #CCCCCC;"');
 
