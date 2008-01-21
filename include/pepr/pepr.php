@@ -600,9 +600,9 @@ Proposer:                '.user_link($this->user_handle).'<br />
               $this->pkg_category == 'RFC')))
         {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     function getStatus($humanReadable = false)
@@ -820,7 +820,7 @@ Proposer:                '.user_link($this->user_handle).'<br />
                               $this->pkg_name,
                               (isset($ownerinfo['name'])) ? $ownerinfo['name'] : "",
                               (isset($ownerinfo['email'])) ? "<{$ownerinfo['email']}>" : '',
-                              (isset($ownerinfo['handle'])) ? user_link($ownerinfo['handle']) : "",
+                              (isset($ownerinfo['handle'])) ? user_link($ownerinfo['handle'], true) : "",
                               (isset($actorinfo['name'])) ? $actorinfo['name'] : "",
                               (isset($actorinfo['email'])) ? $actorinfo['email'] : "",
                               (isset($actorinfo['handle'])) ? "http://pear.php.net/user/".$actorinfo['handle'] : "",
