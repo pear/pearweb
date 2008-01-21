@@ -60,12 +60,9 @@ while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
     $packages[$row['id']] = $row['name'];
 }
 
-$bb = new Borderbox('Select Package');
-
-// Don't use HTML_Form here since we need to use some custom javascript here
-
 echo ' <form action="package-stats.php" method="get">'."\n";
 echo ' <table>'."\n";
+echo '  <caption style="background-color: #CCCCCC;">Select Package</caption>'."\n";
 echo '  <tr>'."\n";
 echo '  <td>'."\n";
 echo '   <select name="cid" onchange="javascript:reloadMe();">'."\n";
@@ -130,8 +127,6 @@ echo "</tr>\n";
 echo "</table>\n";
 echo "</form>\n";
 
-$bb->end();
-
 if (isset($_GET['pid']) && (int)$_GET['pid']) {
     include_once 'pear-database-statistics.php';
     include_once 'pear-database-package.php';
@@ -139,21 +134,25 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 
     if (isset($info['releases']) && sizeof($info['releases'])>0) {
         echo '<h2>&raquo; Statistics for Package &quot;<a href="/package/' . $info['name'] . '">' . $info['name'] . "</a>&quot;</h2>\n";
-        $bb = new Borderbox("General Statistics");
-        echo "Number of releases: <strong>" . count($info['releases']) . "</strong><br />\n";
-        echo 'Total downloads: <strong>' . number_format(statistics::package($_GET['pid']), 0, '.', ',') . "</strong><br />\n";
-        $bb->end();
+        $td  = "Number of releases: <strong>" . count($info['releases']) . "</strong><br />\n";
+        $td .= 'Total downloads: <strong>' . number_format(statistics::package($_GET['pid']), 0, '.', ',') . "</strong><br />\n";
     } else {
-        $bb = new Borderbox('General Statistics');
-        echo 'No package or release found.';
-        $bb->end();
+        $td = 'No package or release found.';
     }
+?>
+    <table cellspacing="0" cellpadding="3" style="border: 0px; width: 90%;">
+    <caption style="background-color: #CCCCCC;">General Statistics</caption>
+    <tr>
+     <td style="text-align: left;"><?php echo $td; ?></td>
+    </tr>
+    </table>
 
+<?php
     if (count($info['releases']) > 0) {
         echo "<br />\n";
-        $bb = new Borderbox('Release Statistics');
 ?>
-    <table cellspacing="0" cellpadding="3" style="border: 0px; width: 100%;">
+    <table cellspacing="0" cellpadding="3" style="border: 0px; width: 90%;">
+    <caption style="background-color: #CCCCCC;">Release Statistics</caption>
     <tr>
         <th style="text-align: left;">Version</th>
         <th style="text-align: left;">Downloads</th>
@@ -180,7 +179,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
             echo " </tr>\n";
         }
         echo "</table>\n";
-        $bb->end();
+
         echo '<br />';
         // Print the graph
         $type   = isset($_GET['type']) && $_GET['type'] == 'bar' ? '&type=bar' : '';
