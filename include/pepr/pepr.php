@@ -187,7 +187,7 @@ class proposal {
             'link'          => 'http://pear.php.net/pepr/pepr-proposal-show.php?id='. $this->id,
             'desc'          => '
 Proposed package:        '.$this->pkg_category.'::'.$this->pkg_name.'<br />
-Proposer:                '.user_link($this->user_handle).'<br />
+Proposer:                '.user_link($this->user_handle, true).'<br />
 '.$this->getParsedDescription(),
             'date'          => $this->draft_date
          );
