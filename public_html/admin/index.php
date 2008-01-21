@@ -19,6 +19,7 @@
 */
 
 auth_require(true);
+require_once 'HTML/Table.php';
 
 if (!empty($_GET['phpinfo'])) {
     phpinfo();
@@ -55,9 +56,7 @@ if (!empty($_REQUEST['cmd'])) {
         }
 
     } elseif ($_REQUEST['cmd'] == "Reject Request" && !empty($_REQUEST['uid'])) {
-		/**
-         * Reject account request
-         */
+        // Reject account request
         include_once 'pear-database-user.php';
         if (is_array($_REQUEST['uid'])) {
             foreach ($_REQUEST['uid'] as $uid) {
@@ -70,9 +69,7 @@ if (!empty($_REQUEST['cmd'])) {
         }
 
     } elseif ($_REQUEST['cmd'] == "Delete Request" && !empty($_REQUEST['uid'])) {
-		/**
-         * Delete account request
-         */
+        // Delete account request
         include_once 'pear-database-user.php';
         if (is_array($_REQUEST['uid'])) {
             foreach ($_REQUEST['uid'] as $uid) {
@@ -157,8 +154,6 @@ do {
         $bb->horizHeadRow("Requested username:", $requser['handle']);
         $bb->horizHeadRow("Realname:", $requser['name']);
         $bb->horizHeadRow("Email address:", '<a href="mailto:' . $requser['email'] . '">' . $requser['email'] . "</a>");
-        // Any point in keeping this ?
-//         $bb->horizHeadRow("MD5-encrypted password:", $requser['password']);
         $bb->horizHeadRow("Purpose of account:", $purpose);
         $bb->horizHeadRow("More information:", $moreinfo);
         $bb->end();
@@ -377,12 +372,18 @@ foreach ($reasons as $reason) {
 		<form action="<?php echo $self; ?>" name="mass_reject_form" method="post">
 		<input type="hidden" value="" name="cmd"/>
 		<?php
-        $bb = new BorderBox("Account Requests", "100%", "", 6, true);
+
+        $table = new HTML_Table('style="width: 100%" cellspacing="2"');
+        $table->setCaption('Account Requests', 'style="background-color: #CCCCCC;"');
         $requests = $dbh->getAssoc("SELECT u.handle,u.name,n.note,u.userinfo FROM users u ".
                                    "LEFT JOIN notes n ON n.uid = u.handle ".
                                    "WHERE u.registered = 0 AND from_site != 'pecl'");
         if (is_array($requests) && sizeof($requests) > 0) {
-            $bb->headRow("<font face=\"Marlett\"><a href=\"#\" onclick=\"toggleSelectAll(this)\">6</a></font>", "Name", "Handle", "Account Purpose", "Status", "&nbsp;");
+            $head = array(
+                "<font face=\"Marlett\"><a href=\"#\" onclick=\"toggleSelectAll(this)\">6</a></font>",
+                "Name", "Handle", "Account Purpose", "Status", "&nbsp;"
+            );
+            $table->addRow($head, null, 'th');
 
             foreach ($requests as $handle => $data) {
                 list($name, $note, $userinfo) = $data;
@@ -399,19 +400,21 @@ foreach ($reasons as $reason) {
                 if ($rejected) {
                     continue;
                 }
-                $bb->plainRow('<input type="checkbox" value="' . $handle . '" name="uid[]" onclick="return highlightAccountRow(this)"/>',
-							  sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', $name),
+                $table->addRow(array(
+                            '<input type="checkbox" value="' . $handle . '" name="uid[]" onclick="return highlightAccountRow(this)"/>',
+                              sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', $name),
                               sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', $handle),
-							  sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', $account_purpose),
+                              sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', $account_purpose),
                               sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', ($rejected ? "rejected" : "<font color=\"#c00000\"><strong>Outstanding</strong></font>")),
                               sprintf('<span style="cursor: hand" onclick="return highlightAccountRow(this)">%s</span>', "<a onclick=\"event.cancelBubble = true\" href=\"$self?acreq=$handle\">" . make_image("edit.gif") . "</a>")
-                              );
+                ));
             }
 
         } else {
             print "No account requests.";
         }
-        $bb->end();
+        $table->setAllAttributes('style="vertical-align: top;"');
+        echo $table->toHTML();
 
 		?>
 		<br />
