@@ -624,6 +624,10 @@ class PEAR_Bug_Accountrequest
         $protected_email  = '"' . $this->spam_protect($email, 'text') . '"';
         $protected_email .= '<' . $mailfrom . '>';
 
+        if ((!isset($email) || !isset($mailfrom)) && (isset($buginfo['reporter_name']))) {
+            $protected_email = '"' . $buginfo['reporter_name'] . '" <' . $this->spam_protect($buginfo['email']) . '>';
+        }
+
         $extra_headers  = 'From: '           . $protected_email . "\n";
         $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
         $extra_headers .= 'X-PHP-Bug: '      . $buginfo['id'] . "\n";
@@ -695,4 +699,4 @@ class PEAR_Bug_Accountrequest
         return $this->dbh->query($query, array($old));
     }
 }
-?>
+
