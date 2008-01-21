@@ -52,7 +52,7 @@ switch ($action) {
                     reporter_name
                 ) VALUES (
                     '$registered', '$package_name', '$bug_type', '$email', '$handle',
-                    '$sdesc', $ldesc, null, '$php_version', '$php_os',
+                    '$sdesc', '$ldesc', null, '$php_version', '$php_os',
                     '$status', NOW(), null, '$reporter_name'
                 )
             ";
