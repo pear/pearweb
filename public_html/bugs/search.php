@@ -396,9 +396,9 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 show_bugs_menu($package_name, $status);
             }
             $errors[] = 'No bugs were found.';
-            display_bug_error($errors, 'warnings', '');
+            report_error($errors, 'warnings', '');
         } else {
-            display_bug_error($warnings, 'warnings', 'WARNING:');
+            report_error($warnings, 'warnings', 'WARNING:');
             if (isset($_GET['showmenu'])) {
                 show_bugs_menu($package_name, $status, $link . '&amp;showmenu=1');
             } else {
@@ -475,8 +475,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     }
 }
 
-display_bug_error($errors);
-display_bug_error($warnings, 'warnings', 'WARNING:');
+report_error($errors);
+report_error($warnings, 'warnings', 'WARNING:');
 
 ?>
 <form id="asearch" method="get" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">

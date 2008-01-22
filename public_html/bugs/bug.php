@@ -117,7 +117,7 @@ $bug =& $dbh->getRow($query, array($id), DB_FETCHMODE_ASSOC);
 
 if (!$bug) {
     response_header('No Such Bug');
-    display_bug_error('No such bug #' . $id);
+    report_error('No such bug #' . $id);
     response_footer();
     exit;
 }
@@ -219,7 +219,7 @@ if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
 // if the user is not registered, this might be spam, don't display
 if (!$bug['registered'] && !auth_check('pear.dev')) {
     response_header('User has not confirmed identity');
-    display_bug_error('The user who submitted this bug has not yet confirmed ' .
+    report_error('The user who submitted this bug has not yet confirmed ' .
         'their email address.  ');
     echo '<p>If you submitted this bug, please check your email.</p>' .
         '<p><strong>If you do not have a confirmation message</strong>, <a href="resend-request-email.php?' .
@@ -573,13 +573,13 @@ if (!isset($_GET['thanks'])) {
     $_GET['thanks'] = 0;
 }
 if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
-    display_bug_success('The bug was updated successfully.');
+    report_success('The bug was updated successfully.');
 
 } elseif ($_GET['thanks'] == 3) {
-    display_bug_success('Your comment was added to the bug successfully.');
+    report_success('Your comment was added to the bug successfully.');
 
 } elseif ($_GET['thanks'] == 4) {
-    display_bug_success('Thank you for your help! If the status of the bug'
+    report_success('Thank you for your help! If the status of the bug'
                         . ' report you submitted changes, you will be'
                         . ' notified. You may return here and check on the'
                         . ' status or update your report at any time. That URL'
@@ -588,17 +588,17 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
                         . $id . '</a>.');
 
 } elseif ($_GET['thanks'] == 6) {
-    display_bug_success('Thanks for voting! Your vote should be reflected'
+    report_success('Thanks for voting! Your vote should be reflected'
                         . ' in the statistics below.');
 } elseif ($_GET['thanks'] == 7) {
-    display_bug_success('Your subscribe request has been processed');
+    report_success('Your subscribe request has been processed');
 } elseif ($_GET['thanks'] == 8) {
-    display_bug_success('Your unsubscribe request has been processed, please check your email');
+    report_success('Your unsubscribe request has been processed, please check your email');
 } elseif ($_GET['thanks'] == 9) {
-    display_bug_success('You have successfully unsubscribed');
+    report_success('You have successfully unsubscribed');
 }
 
-display_bug_error($errors);
+report_error($errors);
 ?>
 
 <div id="bugheader">

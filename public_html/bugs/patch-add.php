@@ -25,13 +25,13 @@ if (isset($_POST['addpatch'])) {
     }
     if (!isset($_POST['bug'])) {
         response_header('Error :: no bug selected');
-        display_bug_error('No bug selected to add a patch to');
+        report_error('No bug selected to add a patch to');
         response_footer();
         exit;
     }
     if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_POST['bug']))) {
         response_header('Error :: invalid bug selected');
-        display_bug_error('Invalid bug "' . $id . '" selected');
+        report_error('Invalid bug "' . $id . '" selected');
         response_footer();
         exit;
     }
@@ -222,13 +222,13 @@ if (isset($_POST['addpatch'])) {
 }
 if (!isset($_GET['bug'])) {
     response_header('Error :: no bug selected');
-    display_bug_error('No bug selected to add a patch to');
+    report_error('No bug selected to add a patch to');
     response_footer();
     exit;
 }
 if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_GET['bug']))) {
     response_header('Error :: invalid bug selected');
-    display_bug_error('Invalid bug "' . $id . '" selected');
+    report_error('Invalid bug "' . $id . '" selected');
     response_footer();
     exit;
 }

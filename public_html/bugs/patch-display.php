@@ -2,7 +2,7 @@
 require 'include/functions.inc';
 if (!isset($_GET['bug'])) {
     response_header('Error :: no bug selected');
-    display_bug_error('No bug selected to add a patch to');
+    report_error('No bug selected to add a patch to');
     response_footer();
     exit;
 }
@@ -10,7 +10,7 @@ require 'bugs/patchtracker.php';
 $patchinfo = new Bugs_Patchtracker;
 if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_GET['bug']))) {
     response_header('Error :: invalid bug selected');
-    display_bug_error('Invalid bug "' . (int)$GET['bug'] . '" selected');
+    report_error('Invalid bug "' . (int)$GET['bug'] . '" selected');
     response_footer();
     exit;
 }
@@ -24,13 +24,13 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
     if (!file_exists($path = $patchinfo->getPatchFullpath($_GET['bug'], $_GET['patch'],
                                                         $_GET['revision']))) {
         response_header('Error :: no such patch/revision');
-        display_bug_error('Invalid patch/revision specified');
+        report_error('Invalid patch/revision specified');
         response_footer();
         exit;
     }
     if ($patchinfo->userNotRegistered($_GET['bug'], $_GET['patch'], $_GET['revision'])) {
         response_header('User has not confirmed identity');
-        display_bug_error('The user who submitted this patch has not yet confirmed ' .
+        report_error('The user who submitted this patch has not yet confirmed ' .
             'their email address.  ');
         echo '<p>If you submitted this patch, please check your email.</p>' .
             '<p><strong>If you do not have a confirmation message</strong>, <a href="resend-request-email.php?' .
@@ -53,7 +53,7 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
 
     if (PEAR::isError($patchcontents)) {
         response_header('Error :: Cannot retrieve patch');
-        display_bug_error('Internal error: Invalid patch/revision specified (is in database, but not in filesystem)');
+        report_error('Internal error: Invalid patch/revision specified (is in database, but not in filesystem)');
         response_footer();
         exit;
     }
@@ -78,7 +78,7 @@ if (isset($_GET['patch']) && isset($_GET['revision'])) {
         $new = $path;
         if (!realpath($old) || !realpath($new)) {
             response_header('Error :: Cannot retrieve patch');
-            display_bug_error('Internal error: Invalid patch revision specified for diff');
+            report_error('Internal error: Invalid patch revision specified for diff');
             response_footer();
             exit;
         }

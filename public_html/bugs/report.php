@@ -396,7 +396,7 @@ if (!is_string($_REQUEST['package'])) {
     response_header('Report');
     $errors[] = 'The package name in the URL is not proper, please fix it and try again.';
     $errors[] = 'It should look like this: report.php?package=PackageName';
-    display_bug_error($errors);
+    report_error($errors);
     response_footer();
     exit;
 }
@@ -404,7 +404,7 @@ if (!is_string($_REQUEST['package'])) {
 if (!package_exists($_REQUEST['package'])) {
     $errors[] = 'Package "' . clean($_REQUEST['package']) . '" does not exist.';
     response_header("Report - Invalid bug type");
-    display_bug_error($errors);
+    report_error($errors);
 } else {
     if (!isset($_POST['in'])) {
         $_POST['in'] = array(
@@ -471,7 +471,7 @@ if (!package_exists($_REQUEST['package'])) {
 <?php
     }
 
-    display_bug_error($errors);
+    report_error($errors);
 
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 $action = $self . '?package=' . clean($_REQUEST['package']);
