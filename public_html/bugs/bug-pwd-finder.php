@@ -74,7 +74,7 @@ echo '<h1>Bug Report Password Finder</h1>' . "\n";
 report_error($errors);
 
 if ($success) {
-    display_bug_success($success);
+    report_success($success);
 }
 
 ?>
