@@ -19,7 +19,7 @@
 */
 
 require_once 'pear-config.php';
-if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
+if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME OR !isset($_ENV['PEAR_BOX'])) {
     error_reporting(E_ALL);
     define('DEVBOX', true);
 } else {
