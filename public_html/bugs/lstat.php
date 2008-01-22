@@ -27,10 +27,4 @@ $res =& $dbh->getOne("SELECT count(bugdb.id) AS count FROM bugdb
          AND (bugdb.bug_type = 'Bug' OR bugdb.bug_type = 'Documentation Problem')
          AND packages.package_type = 'pear'");
 
-if (DB::isError($res)) {
-    echo 0;
-} else {
-    echo $res;
-}
-
-?>
+echo DB::isError($res) ? 0 : $res;
