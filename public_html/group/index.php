@@ -45,7 +45,7 @@ on 12th August 2003 by Stig S. Bakken, and was made into an elected body by the 
 adopted on 18th March 2007. If you would like to get in
 contact with the members, you can write to
 <?php echo make_mailto_link("pear-group@php.net"); ?>.
-
+</p>
 <h2>&raquo; Administrative Documents</h2>
 
 <ul>

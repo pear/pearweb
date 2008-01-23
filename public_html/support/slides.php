@@ -30,7 +30,11 @@ that have been held about PEAR.</p>
 
 <ul>
  <li>
-  <p><cite><a href="http://www.novadevel.com/m/ifeghali/slides/PHPConfBrasil07-PEAR_pears_and_dogs.pdf">PEAR, pears and dogs</a></cite>
+  <p>
+   <cite>
+    <a href="http://www.novadevel.com/m/ifeghali/slides/PHPConfBrasil07-PEAR_pears_and_dogs.pdf">PEAR, pears and dogs</a>
+   </cite>
+  </p>
   <ul>
     <li>Date: 2007-12-01</li>
     <li>Presenter: <?php echo user_link('ifeghali', true); ?></li>
@@ -39,7 +43,7 @@ that have been held about PEAR.</p>
   </ul>
  </li>
  <li>
-  <p><cite><a href="http://www.novadevel.com/m/ifeghali/slides/FISL8-MDB2_Schema.pdf">MDB2_Schema</a></cite>
+  <p><cite><a href="http://www.novadevel.com/m/ifeghali/slides/FISL8-MDB2_Schema.pdf">MDB2_Schema</a></cite></p>
   <ul>
     <li>Date: 2007-04-13</li>
     <li>Presenter: <?php echo user_link("ifeghali", true); ?></li>
@@ -48,7 +52,7 @@ that have been held about PEAR.</p>
   </ul>
  </li>
  <li>
-  <p><cite><a href="http://www.novadevel.com/m/ifeghali/slides/PHPConfBrasil06-MDB2_Schema.pdf">MDB2_Schema</a></cite>
+  <p><cite><a href="http://www.novadevel.com/m/ifeghali/slides/PHPConfBrasil06-MDB2_Schema.pdf">MDB2_Schema</a></cite></p>
   <ul>
     <li>Date: 2006-12-02</li>
     <li>Presenter: <?php echo user_link("ifeghali", true); ?></li>
@@ -58,7 +62,7 @@ that have been held about PEAR.</p>
  </li>
  <li>
   <p><cite><a href="http://kore-nordmann.de/slides.html">
-  3D rendering with PHP</a></cite>
+  3D rendering with PHP</a></cite></p>
   <ul>
     <li>Date: 2005-11-08</li>
     <li>Presenter: <?php echo user_link("kore", true); ?></li>
@@ -69,7 +73,7 @@ that have been held about PEAR.</p>
  </li>
  <li>
   <p><cite><a href="http://schlitt.info/misc/PEAR_distributing_PHP_Conf_2005_toby.tar.gz">
-  Distributing PHP applications with PEAR</a></cite>
+  Distributing PHP applications with PEAR</a></cite></p>
   <ul>
     <li>Date: 2005-11-07</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
@@ -80,7 +84,7 @@ that have been held about PEAR.</p>
  </li>
  <li>
   <p><cite><a href="http://www.schlitt.info/misc/ZendPHPConf_PEAR.pdf">
-  PEAR (General overview, news in 1.4)</a></cite>
+  PEAR (General overview, news in 1.4)</a></cite></p>
   <ul>
     <li>Date: 2005-10-20</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
@@ -91,7 +95,7 @@ that have been held about PEAR.</p>
  </li>
  <li>
   <p><cite><a href="http://www.schlitt.info/misc/News_from_PEAR_Linuxtag2005_toby.tar.gz">
-  News from PEAR (Slides + 10 pages elaboration + examples)</a></cite>
+  News from PEAR (Slides + 10 pages elaboration + examples)</a></cite></p>
   <ul>
     <li>Date: 2005-06-23</li>
     <li>Presenter: <?php echo user_link("toby", true); ?></li>
