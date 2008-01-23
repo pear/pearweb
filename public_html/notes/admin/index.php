@@ -22,7 +22,9 @@ if (isset($_GET['status']) && $_GET['status'] == 'approved') {
     $button  = 'Make Pending';
     $caption = 'Pending';
     $name    = 'pending';
-} elseif (isset($_GET['status']) && $_GET['status'] == 'deleted') {
+}
+/**
+elseif (isset($_GET['status']) && $_GET['status'] == 'deleted') {
     $status  = 'no';
     $action  = 'approveMass';
     $title   = 'Deleted notes';
@@ -30,7 +32,7 @@ if (isset($_GET['status']) && $_GET['status'] == 'approved') {
     $caption = 'Deleted';
     $name    = 'undelete';
 }
-
+*/
 if (isset($_GET['url']) && !empty($_GET['url'])) {
     $pendingComments = $manualNotes->getPageComments($_GET['url'], $status);
 } else {
