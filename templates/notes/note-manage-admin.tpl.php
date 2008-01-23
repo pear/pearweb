@@ -22,6 +22,7 @@ function checkAll()
 </style>
 
 <h1>Notes Management Area</h1>
+<?php if (count($pendingComments) > 0) : ?>
 <h3><?php echo $title; ?></h3>
 <?php include dirname(dirname(dirname(__FILE__))) . '/templates/notes/note-manage-links.tpl.php'; ?>
 <?php if (strlen(trim($error)) > 0): // {{{ error ?>
@@ -102,4 +103,7 @@ if (isset($url) && !empty($url)) {
   <?php endif; ?>
  </table>
 </form>
+<?php elseif (count($pendingComments) == 0) : ?>
+<h3>There are no user notes to manage, sorry... :(</h3>
+<?php endif; ?>
 <?php response_footer(); ?>
