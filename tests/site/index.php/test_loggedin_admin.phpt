@@ -212,12 +212,12 @@ components. You can find help using PEAR packages in the
    <strong>Recent&nbsp;Releases:</strong>
 <table class="sidebar-releases">
 <tr><td valign="top" class="compact"><a href="/package/PEAR/">PEAR 1.5.1</a><br /> <small>(Tue, 20th Mar 07)</small></td></tr><tr><td valign="top" class="compact"><a href="/package/PEAR/">PEAR 1.5.0RC2</a><br /> <small>(Fri, 2nd Feb 07)</small></td></tr><tr><td valign="top" class="compact"><a href="/package/PEAR/">PEAR 1.5.0RC1</a><br /> <small>(Fri, 2nd Feb 07)</small></td></tr><tr><td valign="top" class="compact"><a href="/package/Math_Derivative/">Math_Derivative 0.1.0</a><br /> <small>(Sat, 18th Nov 06)</small></td></tr><tr><td valign="top" class="compact"><a href="/package/Games_Chess/">Games_Chess 1.0.0RC1</a><br /> <small>(Sat, 18th Nov 06)</small></td></tr><tr><td>&nbsp;</td></tr>
-<tr><td align="right"><a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" border="0" /></a></td></tr>
+<tr><td align="right"><a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" style="border: none;" /></a></td></tr>
 </table>
 <strong>Popular&nbsp;Packages*:</strong>
 <table class="sidebar-releases">
 <tr><td valign="top" class="compact"><a href="/package/XML_RPC/">XML_RPC 1.4.4</a><br /> <small>(120.37)</small></td></tr><tr><td valign="top" class="compact"><a href="/package/XML_RPC/">XML_RPC 1.4.5</a><br /> <small>(91.05)</small></td></tr><tr><td valign="top" class="compact"><a href="/package/Mail/">Mail 1.1.9</a><br /> <small>(56.46)</small></td></tr><tr><td valign="top" class="compact"><a href="/package/XML_Parser/">XML_Parser 1.2.7</a><br /> <small>(52.87)</small></td></tr><tr><td valign="top" class="compact"><a href="/package/Net_Socket/">Net_Socket 1.0.6</a><br /> <small>(37.17)</small></td></tr><tr><td><small>* downloads per day</small></td></tr>
-<tr><td align="right"><a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" border="0" /></a></td></tr>
+<tr><td align="right"><a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" style="border: none;" /></a></td></tr>
 </table>
   </td>
 <!-- END RIGHT SIDEBAR -->
