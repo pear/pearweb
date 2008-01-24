@@ -91,7 +91,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
     }
 ?>
 
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
 <?php echo $extraHeaders; ?>
