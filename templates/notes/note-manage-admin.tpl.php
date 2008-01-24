@@ -1,4 +1,7 @@
-<?php response_header($title); ?>
+<?php
+extra_styles('/css/thickbox.css');
+response_header($title);
+?>
 
 <script src="/javascript/jquery.js"></script>
 <script src="/javascript/thickbox.js"></script>
@@ -9,7 +12,7 @@ function checkAll()
     $("input[@type='checkbox']").each(function() {
         if (this.checked) {
             this.checked = false;
-            $('input[@id=submitButton]').attr({'value': 'Select All'}); 
+            $('input[@id=submitButton]').attr({'value': 'Select All'});
             return true;
         }
         $('input[@id=submitButton]').attr({'value': 'Deselect All'});
@@ -17,9 +20,6 @@ function checkAll()
     });
 }
 </script>
-<style type="text/css">
-@import "/css/thickbox.css";
-</style>
 
 <h1>Notes Management Area</h1>
 <?php if (count($pendingComments) > 0) : ?>
@@ -34,8 +34,8 @@ function checkAll()
 
 <?php
 if (isset($url) && !empty($url)) {
-    echo '<a href="/manual/en/', 
-          urlencode(htmlspecialchars($url)), 
+    echo '<a href="/manual/en/',
+          urlencode(htmlspecialchars($url)),
          '">Return to manual</a>';
 }
 ?>
@@ -55,8 +55,8 @@ if (isset($url) && !empty($url)) {
   <tr>
   <th class="form-label_left">
    <input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" />
-   <br /> 
-    <input class="makeDocBug" type="button" 
+   <br />
+    <input class="makeDocBug" type="button"
            value="Transform into a Doc Bug" onclick="document.location.href='/notes/admin/trans.php?action=makeDocBug&noteId=<?php echo $pendingComment['note_id']; ?>&url=<?php echo $pendingComment['page_url']; ?>'"/>
    </th>
    <td class="form-input">
@@ -64,24 +64,24 @@ if (isset($url) && !empty($url)) {
     echo $pendingComment['page_url'] ?></a>
    </td>
    <td class="form-input">
-   <?php 
+   <?php
      if (strlen($pendingComment['unfiltered_note']) > 200) {
          echo substr(htmlspecialchars($pendingComment['unfiltered_note']), 0, 200) . '...';
      } else {
          echo $pendingComment['note_text'];
-     } 
+     }
    ?>
    </td>
    <td class="form-input">
    <?php echo htmlspecialchars($pendingComment['user_name']); ?>
    </td>
    <td class="form-input">
-    <a class="thickbox" href="view-note.php?height=300&width=450&ajax=yes&noteId=<?php echo $pendingComment['note_id'] ?>" 
-       title="See full note">View</a> 
-    | 
-    <a href="view-note.php?ajax=no&status=<?php echo $status ?>&noteId=<?php echo $pendingComment['note_id'] ?>" 
+    <a class="thickbox" href="view-note.php?height=300&width=450&ajax=yes&noteId=<?php echo $pendingComment['note_id'] ?>"
+       title="See full note">View</a>
+    |
+    <a href="view-note.php?ajax=no&status=<?php echo $status ?>&noteId=<?php echo $pendingComment['note_id'] ?>"
        title="No JS View">(no js)</a>
- 
+
   </tr>
   </tr>
  <?php endforeach; ?>
@@ -99,7 +99,7 @@ if (isset($url) && !empty($url)) {
    <td class="form-input" colspan="4">
     <div align="right"><input type="submit" name="delete" value="Delete" /></div>
    </td>
-  </tr>   
+  </tr>
   <?php endif; ?>
  </table>
 </form>
