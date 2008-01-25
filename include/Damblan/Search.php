@@ -30,6 +30,7 @@ class Damblan_Search
     var $_dbh;
     var $_pager = null;
     var $_total = 0;
+    protected $_perPage = 10;
     var $_results = null;
     var $_title = '';
 
@@ -119,5 +120,17 @@ class Damblan_Search
     function &getPager()
     {
         return $this->_pager;
+    }
+
+    function getPerPage()
+    {
+        return $this->_perPage;
+    }
+
+    function setPerPage($value)
+    {
+        if ((int)$value > 10) {
+            $this->_perPage = (int)$value;
+        }
     }
 }

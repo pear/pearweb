@@ -52,7 +52,7 @@ class Damblan_Search_Users extends Damblan_Search
 
         // Select all results
         $query = 'SELECT SQL_CALC_FOUND_ROWS handle, name FROM users WHERE ' . $this->_where . ' ORDER BY name';
-        $query .= ' LIMIT ' . (($pageID - 1) * ITEMS_PER_PAGE) . ', ' . ITEMS_PER_PAGE;
+        $query .= ' LIMIT ' . (($pageID - 1) * $this->_perPage) . ', ' . $this->_perPage;
         $this->_results = $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
 
         // Get number of overall results
@@ -61,7 +61,7 @@ class Damblan_Search_Users extends Damblan_Search
 
         $params = array(
                         'mode'       => 'Jumping',
-                        'perPage'    => ITEMS_PER_PAGE,
+                        'perPage'    => $this->_perPage,
                         'urlVar'     => 'p',
                         'itemData'   => range(1, $this->_total),
                         'extraVars'  => array('q' => $term)

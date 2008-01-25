@@ -18,15 +18,18 @@
    $Id$
 */
 
-require_once "Damblan/Search.php";
+require_once 'Damblan/Search.php';
 
-$term = (isset($_GET['q']) ? trim(htmlspecialchars(strip_tags(urldecode($_GET['q'])))) : "");
-$in = (isset($_GET['in']) ? htmlspecialchars(strip_tags($_GET['in'])) : "packages");
+$term = (isset($_GET['q']) ? trim(htmlspecialchars(strip_tags(urldecode($_GET['q'])))) : '');
+$in   = (isset($_GET['in']) ? htmlspecialchars(strip_tags($_GET['in'])) : 'packages');
+$perP = (isset($_GET['setPerPage'])) ? (int)$_GET['setPerPage'] : 10;
 
-$search =& Damblan_Search::factory($in, $dbh);
+$search = Damblan_Search::factory($in, $dbh);
+$search->setPerPage($perP);
 $search->search($term);
+$pager =& $search->getPager();
 
-response_header("Search: " . $term);
+response_header('Search: ' . $term);
 
 echo "<h1>Search</h1>\n";
 echo "<h2>" . $search->getTitle() . "</h2>\n";
@@ -40,17 +43,18 @@ foreach (array("packages" => "Packages", "site" => "This Site (using Yahoo!)", "
     echo "<option value=\"" . $key . "\" " . $selected . ">" . $value . "</option>\n";
 }
 echo "</select>\n";
-
+if (is_object($pager)) {
+    echo $pager->getPerPageSelectBox(10, 90, 10, false, array('optionText' => '%d packages', 'attributes' => 'id="perPage"', 'checkMaxLimit' => true));
+}
 echo "<input type=\"submit\" value=\"Search\" />\n";
 echo "<script language=\"JavaScript\" type=\"text/javascript\">document.forms.search.q.focus();</script>\n";
 echo "</form>\n";
 
-$pager =& $search->getPager();
 $total = $search->getTotal();
 
 if ($total > 0) {
-    $start = (($pager->getCurrentPageID() - 1) * ITEMS_PER_PAGE) + 1;
-    $end = ($start + 9 < $total ? $start + 9 : $total);
+    $start = (($pager->getCurrentPageID() - 1) * $search->getPerPage()) + 1;
+    $end = ($start + $search->getPerPage() - 1 < $total ? $start + $search->getPerPage() - 1 : $total);
 
     echo "<p>Results <strong>" . $start . " - " . $end . "</strong> of <strong>" . $search->getTotal() . "</strong>:</p>\n";
 
