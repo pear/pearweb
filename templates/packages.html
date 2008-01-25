@@ -17,7 +17,7 @@
 //-->
 </script>
 
-<table border="0" width="100%">
+<table width="100%">
     <tr>
         <th valign="top" align="left">
             Contents of :: <?php html_category_urhere($catpid, false)?>
@@ -58,20 +58,38 @@
         padding-top: 0px;
     }
 
-    th.pkgListHeader {
-        background-color: #cccccc;
-    }
-
-    td.tableHeader {
-        background-color: #cccccc;
+    table#packageList th {
         border-bottom: 1px solid black;
         font-weight: bold;
     }
 
-    td.tableFooter {
+    table#packageList td {
+        padding: 2px;
+    }
+
+    th.pkgListHeader {
+        background-color: #cccccc;
+    }
+
+    td.tableHeader, td.tableFooter {
         background-color: #cccccc;
         border-top: 1px solid black;
+        text-align: center;
+        font-size: 85%;
+        padding: 2px;
+    }
+
+    td.tableHeader {
+        border-bottom: 1px solid black;
+    }
+
+    td.tableHeader a, td.tableFooter a {
         font-weight: bold;
+    }
+
+    td.tableHeader span.current, td.tableFooter span.current {
+        font-weight: bold;
+        text-decoration: underline;
     }
 
     td.moreInfo {
@@ -96,20 +114,6 @@
         font-family: Verdana;
         padding-left: 5px;
     }
-
-    .nextArrow, .nextArrow a, .nextArrow a:hover {
-        text-align: right;
-        font-size: 85%;
-        width: 70px;
-        text-decoration: none;
-    }
-
-    .prevArrow, .prevArrow a, .prevArrow a:hover {
-        text-align: left;
-        font-size: 85%;
-        width: 70px;
-        text-decoration: none;
-    }
     // -->
     </style>
 
@@ -124,24 +128,22 @@
     <table style="border: solid 1px black; width: 100%" cellspacing="0" cellpadding="0">
      <tr>
       <td>
-       <table border="0" width="100%" cellspacing="0">
+       <table width="100%" cellspacing="0">
         <tr>
-         <td class="tableHeader prevArrow">&nbsp;<?php echo $prev; ?></td>
-         <td class="tableHeader" align="center">Packages (<?php echo $first; ?> - <?php echo $last; ?> of <?php echo $total; ?>)</td>
-         <td class="tableHeader nextArrow"><?php echo $next; ?>&nbsp;</td>
+         <td class="tableHeader" colspan="3">&nbsp;<?php echo $pager_links; ?></td>
         </tr>
        </table>
       </td>
      </tr>
      <tr>
       <td>
-       <table border="0" id="packageList">
+       <table id="packageList">
         <tr>
-         <th class="pkgListHeader">#</th>
-         <th class="pkgListHeader"><nobr>Package name</nobr></th>
-         <th class="pkgListHeader">Description</th>
+         <th>#</th>
+         <th><nobr>Package name</nobr></th>
+         <th>Description</th>
          <?php if($_browser->is_ie5up):?>
-          <th class="pkgListHeader">&nbsp;</th>
+          <th>&nbsp;</th>
          <?php endif?>
         </tr>
         <?php $nr = $first; foreach($packages as $p):?>
@@ -200,11 +202,9 @@
      </tr>
      <tr>
       <td>
-       <table border="0" width="100%" cellspacing="0">
+       <table width="100%" cellspacing="0">
         <tr>
-         <td class="tableFooter prevArrow">&nbsp;<?php echo $prev; ?></td>
-         <td class="tableFooter" align="center">Packages (<?php echo $first; ?> - <?php echo $last; ?> of <?php echo $total; ?>)</td>
-         <td class="tableFooter nextArrow"><?php echo $next; ?>&nbsp;</td>
+         <td class="tableFooter" colspan="3"><?php echo $pager_links; ?></td>
         </tr>
        </table>
       </td>
