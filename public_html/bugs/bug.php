@@ -43,9 +43,10 @@ Bug_DataObject::init();
 if (empty($_REQUEST['id']) || !(int)$_REQUEST['id']) {
     localRedirect('search.php');
     exit;
-} else {
-    $id = (int)$_REQUEST['id'];
 }
+
+$id   = (int)$_REQUEST['id'];
+$edit = (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) ?  0 : (int)$_REQUEST['edit'];
 
 if (isset($_GET['unsubscribe'])) {
     $unsubcribe = (int)$_GET['unsubscribe'];
@@ -61,17 +62,9 @@ if (isset($_GET['unsubscribe'])) {
     $_GET['thanks'] = 9;
 }
 
-if (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) {
-    $edit = 0;
-} else {
-    $edit = (int)$_REQUEST['edit'];
-}
-
 // captcha is not necessary if the user is logged in
-if (isset($auth_user) && $auth_user && $auth_user->registered) {
-    if (isset($_SESSION['answer'])) {
-        unset($_SESSION['answer']);
-    }
+if (isset($auth_user) && $auth_user && $auth_user->registered && isset($_SESSION['answer'])) {
+    unset($_SESSION['answer']);
 }
 
 $trytoforce = isset($_POST['trytoforce']) ? (int)$_POST['trytoforce'] : false;
@@ -172,40 +165,29 @@ if (!empty($_POST['pw'])) {
     $pw   = '';
 }
 
-// Subscription
-if (isset($_POST['subscribe_to_bug'])) {
+// Unsubscribe and Subscribe
+if (isset($_POST['unsubscribe_to_bug']) OR isset($_POST['subscribe_to_bug'])) {
     if (isset($auth_user) && $auth_user && $auth_user->registered) {
         $email = $auth_user->email;
     } else {
         $email = $_POST['subscribe_email'];
     }
+
     if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $email)) {
         $errors[] = "You must provide a valid email address.";
     } else {
-        $query = 'REPLACE INTO bugdb_subscribe SET bug_id=' . $id .
+        if (isset($_POST['subscribe_to_bug'])) {
+            $query = 'REPLACE INTO bugdb_subscribe SET bug_id=' . $id .
                     ", email='" . escapeSQL($email) . "'";
-        $dbh->query($query);
-
-        localRedirect('bug.php?id='.$id . '&thanks=7');
-        exit();
-    }
-}
-
-// Unsubscribe
-if (isset($_POST['unsubscribe_to_bug'])) {
-    if (isset($auth_user) && $auth_user && $auth_user->registered) {
-        $email = $auth_user->email;
-    } else {
-        $email = $_POST['subscribe_email'];
-    }
-
-    if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $email)) {
-        $errors[] = "You must provide a valid email address.";
-    } else {
-        /* Generate the hash */
-        unsubscribe_hash($id, $email, $bug);
-        localRedirect('bug.php?id='.$id . '&thanks=8');
-        exit();
+            $dbh->query($query);
+            $thanks = 7;
+        } elseif (isset($_POST['unsubscribe_to_bug'])) {
+            /* Generate the hash */
+            unsubscribe_hash($id, $email, $bug);
+            $thanks = 8;
+        }
+        localRedirect('bug.php?id='.$id . '&thanks=' . $thanks);
+        exit;
     }
 }
 
@@ -213,7 +195,7 @@ if (isset($_POST['unsubscribe_to_bug'])) {
 if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
     $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
     localRedirect('http://' . $redirect . '.php.net/bugs/bug.php?id='.$id);
-    exit();
+    exit;
 }
 
 // if the user is not registered, this might be spam, don't display
