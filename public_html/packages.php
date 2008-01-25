@@ -25,16 +25,13 @@
  */
 
 $template_dir = dirname(dirname(__FILE__)) . '/templates/';
-$script_name = htmlspecialchars($_SERVER['SCRIPT_NAME']);
+$script_name  = htmlspecialchars($_SERVER['SCRIPT_NAME']);
 
 require_once 'browser.php';
 require_once 'HTML/Table.php';
 require_once 'Pager/Pager.php';
-require_once 'Net/URL.php';
 
-/*
- * Browser detection
- */
+// Browser detection
 $_browser = &new browser();
 
 
@@ -244,9 +241,25 @@ if (!empty($catpid)) {
 
     // Paging
     $total = count($packages);
-    $pager =& Pager::factory(array('totalItems' => $total, 'perPage' => 15));
+
+    $pager_options = array(
+        'mode'       => 'Sliding',
+        'perPage'    => '15',
+        'delta'      => 5,
+        'totalItems' => $total,
+        'urlVar'     => 'page',
+        'lastPagePre'     => '[ <strong>',
+        'lastPagePost'    => '</strong> ]',
+        'firstPagePre'    => '[ <strong>',
+        'firstPagePost'   => '</strong> ]',
+        'spacesBeforeSeparator' => 2,
+        'spacesAfterSeparator ' => 1,
+        //'linkClass'  => '',
+        'curPageLinkClassName'  => 'current',
+    );
+    $pager = Pager::factory($pager_options);
     list($first, $last) = $pager->getOffsetByPageId();
-    list($prev, $pages, $next) = $pager->getLinks('<nobr><img src="gifs/prev.gif" width="10" height="10" border="0" alt="&lt;&lt;" />Back</nobr>', '<nobr>Next<img src="gifs/next.gif" width="10" height="10" border="0" alt="&gt;&gt;" /></nobr>');
+    $pager_links = $pager->links;
 
     $currentPage = $pager->getCurrentPageID();
     $numPages    = $pager->numPages();
