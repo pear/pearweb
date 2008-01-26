@@ -456,6 +456,7 @@
     </dir> <!-- /public_html/pngs -->
     <dir name="qa">
      <file name="index.php" role="www" />
+     <file name="packages_closed_reports_no_release.php" role="www" />
      <file name="packages_orphan.php" role="www" />
      <file name="packages_status.php" role="www" />
      <file name="packages_status_detail.php" role="www" />
