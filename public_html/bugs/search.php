@@ -49,8 +49,7 @@ response_header('Bugs :: Search', false, ' <link rel="alternate" type="applicati
     htmlspecialchars($_SERVER['HTTP_HOST']) . '/bugs/rss/search.php?' . http_build_query($_REQUEST) . '" />
 ');
 
-$errors = array();
-$warnings = array();
+$warnings = $errors = array();
 $order_options = array(
     ''             => 'relevance',
     'id'           => 'ID',
@@ -65,18 +64,17 @@ $order_options = array(
     'assign'       => 'assignment',
 );
 
-$status   = !empty($_GET['status']) ? $_GET['status'] : 'Open';
-$handle   = !empty($_GET['handle']) ? $_GET['handle'] : '';
-$maintain = !empty($_GET['maintain']) ? $_GET['maintain'] : '';
-$bug_type = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? $_GET['bug_type'] : '';
+$status         = !empty($_GET['status']) ? $_GET['status'] : 'Open';
+$handle         = !empty($_GET['handle']) ? $_GET['handle'] : '';
+$maintain       = !empty($_GET['maintain']) ? $_GET['maintain'] : '';
+$bug_type       = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? $_GET['bug_type'] : '';
 $boolean_search = isset($_GET['boolean']) ? (int)$_GET['boolean'] : 0;
 $package_name   = (isset($_GET['package_name'])  && is_array($_GET['package_name']))  ? $_GET['package_name']  : array();
 $package_nname  = (isset($_GET['package_nname']) && is_array($_GET['package_nname'])) ? $_GET['package_nname'] : array();
 
 if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
-    $query = 'SELECT SQL_CALC_FOUND_ROWS';
-    $query .= ' bugdb.*, TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged'
-            . ' FROM bugdb';
+    $query = 'SELECT SQL_CALC_FOUND_ROWS bugdb.*, ' .
+             ' TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged FROM bugdb';
 
     if (!empty($site) || $maintain != '' || $handle != '') {
         $query .= ' LEFT JOIN packages ON packages.name = bugdb.package_name';
