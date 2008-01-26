@@ -58,7 +58,7 @@ if ($auth_user) {
         $str = <<<EOD
 <h2>Related Tools: </h2>
 <ul>
- <li><a href="/qa/packages_closed_reports_no_release.php">List of packages that have closed reports bug no release within certain amount of time</a></li>
+ <li><a href="/qa/packages_closed_reports_no_release.php">List of packages that have closed reports but no release within certain amount of time</a></li>
  <li><a href="/qa/packages_orphan.php">List of orphan packages</a></li>
  <li><a href="http://pear.cweiske.de/">PEAR's QA test suite</a></li>
 </ul>
