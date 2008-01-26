@@ -102,20 +102,18 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
 }
 
 if (isset($_ENV['PEAR_TMPDIR'])) {
-    define('PEAR_TMPDIR',              $_ENV['PEAR_TMPDIR']);
-    define('PEAR_CVS_TMPDIR',          PEAR_TMPDIR . '/cvs');
-    define('PEAR_UPLOAD_TMPDIR',       PEAR_TMPDIR . '/uploads');
-    define('PEAR_PATCHTRACKER_TMPDIR', PEAR_TMPDIR . '/patch');
+    define('PEAR_TMPDIR', $_ENV['PEAR_TMPDIR']);
 } else {
     // Where pearweb's temporary files should be stored
     define('PEAR_TMPDIR', '/var/tmp/pear');
-    // Where pearweb's temporary CVS files should be stored
-    define('PEAR_CVS_TMPDIR', '/var/tmp/pear/cvs');
-    // Where pearweb's temporary uploads should be stored
-    define('PEAR_UPLOAD_TMPDIR', '/var/tmp/pear/uploads');
-    // Where pearweb's temporary uploads should be stored
-    define('PEAR_PATCHTRACKER_TMPDIR', '/var/tmp/pear/patch');
 }
+
+// Where pearweb's temporary CVS files should be stored
+define('PEAR_CVS_TMPDIR',          PEAR_TMPDIR . '/cvs');
+// Where pearweb's temporary uploads should be stored
+define('PEAR_UPLOAD_TMPDIR',       PEAR_TMPDIR . '/uploads');
+// Where pearweb's temporary uploads should be stored
+define('PEAR_PATCHTRACKER_TMPDIR', PEAR_TMPDIR . '/patch');
 
 if (isset($_ENV['PEAR_DATABASE_DSN'])) {
     define('PEAR_DATABASE_DSN', $_ENV['PEAR_DATABASE_DSN']);
