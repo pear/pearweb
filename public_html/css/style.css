@@ -688,3 +688,11 @@ hr.greyline {
 dl {
     margin-left: 40px;
 }
+
+.sortable th {
+    background-color: #ccc;
+    font-weight: bold;
+    cursor: pointer;
+    padding-right: 8px;
+    padding-left: 8px;
+}
