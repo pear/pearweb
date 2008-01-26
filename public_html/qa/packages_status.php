@@ -25,8 +25,7 @@
  */
 auth_require('pear.qa');
 
-response_header('Quality Assurance Initiative - Packages status',
-    false, $extra_header);
+response_header('Quality Assurance Initiative - Packages status');
 
 $states = array('snapshot', 'devel', 'alpha', 'beta', 'stable');
 
@@ -35,12 +34,11 @@ echo "View packages status for the following state\n";
 echo "<ul>\n";
 foreach ($states as $state) {
     $link = make_link(
-	'/qa/packages_status_detail.php?state=' . $state, 
+    '/qa/packages_status_detail.php?state=' . $state,
         'See packages status for state ' . $state, '',
-	'title="Details for state ' . $state . '"');
+    'title="Details for state ' . $state . '"');
     echo '<li>' . $link . '</li>';
 }
 echo "</ul>\n";
 
 response_footer();
-?>

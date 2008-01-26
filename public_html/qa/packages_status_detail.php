@@ -43,6 +43,7 @@ if (!in_array($state, $states)) {
     exit();
 }
 
+include_once 'pear-database-package.php';
 $pck = new package();
 
 $packages = $pck->listAll(false, false, false, $state);
@@ -56,7 +57,7 @@ if (PEAR::isError($packages)) {
 $total_packages_nbr = $studied_packages_nbr = 0;
 
 $tables = array();
-$time_scale = 15552000; // how much time elapsed since last release, in seconds 
+$time_scale = 15552000; // how much time elapsed since last release, in seconds
 
 $tables[$state]['old'] = new HTML_Table(
     array(
@@ -93,7 +94,7 @@ $tables[$state]['new']->setHeaderContents(0, 2, 'Date');
 $tables[$state]['new']->setHeaderContents(0, 3, '# bugs');
 
 foreach ($packages as $package => $pck_data) {
-    $total_packages_nbr++; 
+    $total_packages_nbr++;
 
     $latest_release = $pck->getRecent(1, $package);
 
@@ -116,12 +117,12 @@ foreach ($packages as $package => $pck_data) {
 
     $tables[$state][$status]->addRow(
         array(
-            make_link('/package/' . $package, 
+            make_link('/package/' . $package,
                 $package, '', 'title="' . $package . '"'),
             $latest_release[0]['version'],
             date('Y-m-d', $release_date),
             make_link("/bugs/search.php?cmd=display&package_name%5B%5D=" . urlencode($package),
-            bugcount($package), '', 'title="Bugs for package ' . $package . '"') 
+            bugcount($package), '', 'title="Bugs for package ' . $package . '"')
         )
     );
 
@@ -151,12 +152,12 @@ $out = '
     <div id="details">
         {{TABLES}}
     </div>
-    
+
     <div id="footer">
     Page last updated on: {{UPDATE_DATE}}
     </div>
 </div>
-'; 
+';
 
 $search = array(
     '{{TOTAL_PACKAGES_NUMBER}}',
@@ -187,7 +188,7 @@ response_footer();
 function bugcount($package)
 {
     global $dbh;
- 
+
     $query = '
         SELECT
             COUNT(*)
