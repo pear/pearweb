@@ -46,6 +46,10 @@ FROM
         SELECT package, MAX(releasedate) as releasedate FROM releases GROUP BY package
     ) as r ON packages.id = r.package
 WHERE
+    (packages.newchannel IS NULL OR packages.newchannel = '')
+  AND
+    (packages.newpackagename IS NULL OR packages.newpackagename = '')
+  AND
     UNIX_TIMESTAMP(r.releasedate) < UNIX_TIMESTAMP(bugdb.ts2)
   AND
     UNIX_TIMESTAMP(r.releasedate) < $min_release_date
