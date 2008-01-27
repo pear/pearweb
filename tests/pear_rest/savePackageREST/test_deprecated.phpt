@@ -4,10 +4,21 @@ PEAR_REST->savePackageREST() [package is deprecated for other package]
 <?php
 // setup
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-$mock->addDataQuery("SELECT p.id AS packageid, p.name AS name, p.package_type AS type, c.id AS categoryid, c.name AS category, p.stablerelease AS stable, p.license AS license, p.summary AS summary, p.homepage AS homepage, p.description AS description, p.cvs_link AS cvs_link, p.doc_link as doc_link, p.unmaintained AS unmaintained,p.newpk_id AS newpk_id,
-              p.newpackagename as new_package,
-              p.newchannel as new_channel,
-              p.blocktrackbacks FROM packages p, categories c WHERE p.package_type = 'pear' AND p.approved = 1 AND  c.id = p.category AND p.name = 'Test'",
+$mock->addDataQuery("SELECT
+            p.id AS packageid, p.name AS name,
+            p.package_type AS type,
+            c.id AS categoryid, c.name AS category,
+            p.stablerelease AS stable, p.license AS license,
+            p.summary AS summary, p.homepage AS homepage,
+            p.description AS description, p.cvs_link AS cvs_link,
+            p.doc_link as doc_link, p.bug_link as bug_link,
+            p.unmaintained AS unmaintained,
+            p.newpk_id AS newpk_id,
+            p.newpackagename as new_package,
+            p.newchannel as new_channel,
+            p.blocktrackbacks
+            FROM packages p, categories c
+            WHERE p.package_type = 'pear' AND p.approved = 1 AND  c.id = p.category AND p.name = 'Test'",
             array(array(
                 'packageid' => 1,
                 'name' => 'Test',
