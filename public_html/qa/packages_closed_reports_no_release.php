@@ -45,11 +45,18 @@ FROM
     LEFT JOIN (
         SELECT package, MAX(releasedate) as releasedate FROM releases GROUP BY package
     ) as r ON packages.id = r.package
-WHERE
+WHERE";
+
+// In case we want to show all packages, including the superseeded ones.
+if (!isset($_GET['showall'])) {
+    $sql .= "
     (packages.newchannel IS NULL OR packages.newchannel = '')
   AND
     (packages.newpackagename IS NULL OR packages.newpackagename = '')
-  AND
+  AND";
+}
+
+$sql .= "
     UNIX_TIMESTAMP(r.releasedate) < UNIX_TIMESTAMP(bugdb.ts2)
   AND
     UNIX_TIMESTAMP(r.releasedate) < $min_release_date
