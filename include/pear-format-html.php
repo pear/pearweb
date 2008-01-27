@@ -101,7 +101,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
  <link rel="stylesheet" type="text/css" href="/css/style.css" />
 <?php
     foreach ($extra_styles as $style_file) {
-        echo ' <link rel="stylesheet" href="' . $style_file . "\" />\n";
+        echo ' <link rel="stylesheet" type="text/css" href="' . $style_file . "\" />\n";
     }
 ?>
  <!--[if IE 7]><link rel="stylesheet" type="text/css" href="/css/IE7styles.css" /><![endif]-->
