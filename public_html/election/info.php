@@ -7,7 +7,7 @@ if (!isset($auth_user) || !$auth_user) {
             $query = '';
         }
 
-        require PEARWEB_TEMPLATEDIR . '/election-register.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/election/register.tpl.php';
 
         exit;
     }
@@ -26,7 +26,7 @@ if (isset($_POST['confirm'])) {
         $error = 'No such election id: ' . htmlspecialchars($_GET['election']);
         $retrieval = false;
         $old = false;
-        require PEARWEB_TEMPLATEDIR . '/election-vote.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/election/vote.tpl.php';
         exit;
     }
 
@@ -37,7 +37,7 @@ if (isset($_POST['confirm'])) {
         $error = 'You have already voted in this election';
         $retrieval = false;
         $old = false;
-        require PEARWEB_TEMPLATEDIR . '/election-vote.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/election/vote.tpl.php';
         exit;
     }
 
@@ -59,14 +59,14 @@ if (isset($_POST['confirm'])) {
             $error = 'You voted for ' . count($_POST['vote']) . ' choices, but must vote ' .
                 'for at least ' . $info['minimum_choices'] . ' choices, and at most ' .
                 $info['maximum_choices'] . ' choices';
-            require PEARWEB_TEMPLATEDIR . '/election-dovote.tpl.php';
+            require PEARWEB_TEMPLATEDIR . '/election/dovote.tpl.php';
             exit;
         }
         $info['abstain'] = false;
         $info['vote'] = $_POST['vote'];
     }
 
-    require PEARWEB_TEMPLATEDIR . '/election-confirm.tpl.php';
+    require PEARWEB_TEMPLATEDIR . '/election/confirm.tpl.php';
     exit;
 }
 
@@ -81,7 +81,7 @@ if (isset($_POST['finalvote'])) {
         $retrieval = false;
         $old = false;
 
-        require PEARWEB_TEMPLATEDIR . '/election-vote.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/election/vote.tpl.php';
 
         exit;
     }
@@ -94,7 +94,7 @@ if (isset($_POST['finalvote'])) {
         $retrieval = false;
         $old = false;
 
-        require PEARWEB_TEMPLATEDIR . '/election-vote.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/election/vote.tpl.php';
 
         exit;
     }
@@ -118,7 +118,7 @@ if (isset($_POST['finalvote'])) {
         $success = $voter->vote($_POST['election'], $_POST['vote']);
     }
 
-    require PEARWEB_TEMPLATEDIR . '/election-confirmed.tpl.php';
+    require PEARWEB_TEMPLATEDIR . '/election/confirmed.tpl.php';
 
     exit;
 }
@@ -131,7 +131,7 @@ if (!isset($_GET['election'])) {
     $retrieval = false;
     $old = false;
 
-    require PEARWEB_TEMPLATEDIR . '/election-vote.tpl.php';
+    require PEARWEB_TEMPLATEDIR . '/election/vote.tpl.php';
 
     exit;
 }
@@ -145,7 +145,7 @@ if (!$voter->electionExists($_GET['election']) && is_int($_GET['election'])) {
     $retrieval = false;
     $old = false;
 
-    require PEARWEB_TEMPLATEDIR . '/election-vote.tpl.php';
+    require PEARWEB_TEMPLATEDIR . '/election/vote.tpl.php';
 
     exit;
 }
@@ -161,26 +161,26 @@ if (isset($_GET['vote'])) {
         $retrieval = false;
         $old = false;
 
-        require PEARWEB_TEMPLATEDIR . '/election-vote.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/election/vote.tpl.php';
 
         exit;
     } elseif ($voter->pendingElection($_GET['election'])) {
         $info = $voter->electionInfo($_GET['election']);
 
-        require PEARWEB_TEMPLATEDIR . '/election-pending.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/election/pending.tpl.php';
     } elseif ($voter->canVote($_GET['election'])) {
-        require PEARWEB_TEMPLATEDIR . '/election-dovote.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/election/dovote.tpl.php';
     } else {
         $info = $voter->electionInfo($_GET['election']);
 
-        require PEARWEB_TEMPLATEDIR . '/election-showresults.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/election/showresults.tpl.php';
     }
 }
 
 if (isset($_GET['results'])) {
     $info = $voter->electionInfo($_GET['election']);
 
-    require PEARWEB_TEMPLATEDIR . '/election-showresults.tpl.php';
+    require PEARWEB_TEMPLATEDIR . '/election/showresults.tpl.php';
 }
 
 response_footer();

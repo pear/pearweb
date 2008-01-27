@@ -39,7 +39,7 @@ endforeach; // foreach ($currentelections as $election):
 ?>
 </table>
 <?php endif; // if (count($currentelections))
-require dirname(dirname(__FILE__)) . '/templates/election-results.tpl.php';
+require PEARWEB_TEMPLATEDIR . '/election/results.tpl.php';
 if (count($allelections)):
 if ($retrieval && isset($info)): ?>
 <h3>Your vote information:</h3>
