@@ -375,6 +375,7 @@ class package
              "p.summary AS summary, p.homepage AS homepage, ".
              "p.description AS description, p.cvs_link AS cvs_link, ".
              "p.doc_link as doc_link, ".
+             "p.bug_link as bug_link,".
              "p.unmaintained AS unmaintained,".
              "p.newpk_id AS newpk_id,
               p.newpackagename as new_package,
