@@ -288,7 +288,11 @@ td.search-next {
 }
 
 #explain-messages {
+    border-top: 1px solid black;
+    margin: 0px;
     margin-top: 30px;
+    padding-top: 6px;
+    padding-left: 10px;
 }
 
 #explain-messages li {
