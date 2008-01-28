@@ -161,7 +161,7 @@ $bootstrap_pkgs = array( // uses URL like http://pear.php.net/get/%s
 );
 
 $installer_packages = array(
-    'PEAR-stable',
+    'PEAR-beta',
     'Structures_Graph-stable',
     'Archive_Tar-stable',
     'Console_Getopt-stable',
