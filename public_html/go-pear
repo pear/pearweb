@@ -962,7 +962,6 @@ to see what packages are installed, or 'pear help' for help.
 For more information about PEAR, see:
 
   http://pear.php.net/faq.php
-  http://cvs.php.net/co.php/pearweb/doc/pear_package_manager.txt?p=1
   http://pear.php.net/manual/
 
 Thanks for using go-pear!
