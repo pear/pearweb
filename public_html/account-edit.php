@@ -157,6 +157,31 @@ switch ($command) {
     case 'change_password':
         include_once 'pear-database-user.php';
         $user = user::info($handle, 'password', true, false);
+        // If it's an admin we can change ones password without knowing {{{
+        // it's old password.
+        if ($auth_user->isAdmin()) {
+
+            if ($_POST['password'] != $_POST['password2']) {
+                PEAR::raiseError('The new passwords do not match.');
+                break;
+            }
+            
+            $data = array(
+                'password' => md5($_POST['password']),
+                'handle'   => $handle,
+            );
+            
+            $result = user::update($data);
+            if ($result) {
+                $expire = !empty($_POST['PEAR_PERSIST']) ? 2147483647 : 0;
+                setcookie('PEAR_PW', md5($_POST['password']), $expire, '/');
+
+                report_success('The password was successfully updated.');
+            }
+            break;
+        }
+        /* }}} */
+        
         if (empty($_POST['password_old']) || empty($_POST['password']) ||
             empty($_POST['password2'])
         ) {
