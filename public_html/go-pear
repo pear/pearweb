@@ -1,84 +1,39 @@
 <?php //; echo; echo "YOU NEED TO RUN THIS SCRIPT WITH PHP!"; echo; echo "Point your webbrowser to it or run: php -q go-pear.php"; echo; exit # -*- PHP -*-
-# +----------------------------------------------------------------------+
-# | PHP Version 5                                                        |
-# +----------------------------------------------------------------------+
-# | Copyright (c) 1997-2005 The PHP Group                                |
-# +----------------------------------------------------------------------+
-# | This source file is subject to version 2.02 of the PHP license,      |
-# | that is bundled with this package in the file LICENSE, and is        |
-# | available at through the world-wide-web at                           |
-# | http://www.php.net/license/2_02.txt.                                 |
-# | If you did not receive a copy of the PHP license and are unable to   |
-# | obtain it through the world-wide-web, please send a note to          |
-# | license@php.net so we can mail you a copy immediately.               |
-# +----------------------------------------------------------------------+
-# | Authors: Tomas V.V.Cox <cox@idecnet.com>                             |
-# |          Stig Bakken <ssb@php.net>                                   |
-# |          Christian Dickmann <dickmann@php.net>                       |
-# |          Pierre-Alain Joye <pierre@php.net>                          |
-# |          Greg Beaver <cellog@php.net>                                |
-# +----------------------------------------------------------------------+
-# $Id$
 #
-# Automatically download all the files needed to run the "pear" command
-# (the PEAR package installer).  Requires PHP 4.3.0 or newer.
+# The PEAR installation wizard, both webbased or command line.
 #
-# Installation: Linux
+# Webbased installation:
+# 1) Download this file and save it as go-pear.php
+# 2) Put go-pear.php on your webserver, where you would put your website
+# 3) Open http://yourdomain.example.org/go-pear.php in your browser
+# 4) Follow the instructions, done!
 #
-# This script can either be directly launched or passed via lynx like this.
+# Command-line installation (for advanced users):
+# 1) Download this file and save it as go-pear.php
+# 2) Open a terminal/command prompt and type: php -q go-pear.php
+# 3) Follow the instructions, done!
 #
-#  $ lynx -source http://pear.php.net/go-pear | php -q
-#
-# The above assumes your php binary is named php and that it's
-# executable through your PATH.
-#
-# Installation: Windows
-#
-# On Windows, go-pear uses stdin for user input, so you must download
-# go-pear first and then run it:
-#
-# Note: Since PHP 4.3.0, the PHP CLI binary is named php.exe in the cli/ folder
-# of your PHP directory. The CGI is also named php.exe but it sits directly in
-# your PHP directory, use the CLI binary instead.
-# In PHP 5.0.0+, the PHP CLI binary is php.exe
-#
-#  > php -r "readfile('http://pear.php.net/go-pear');" > go-pear
-#  > php -q go-pear
-#
-# Installation: Notes
-#
-# - If using the CGI version of PHP, append the -q option to suppress
-#   headers in the output.
-# - By default, go-pear will install a system-wide configuration file.  For
-#   a local install use:
-#   > php go-pear local
-#
-# - Once the go-pear script is initiated, you will see instructions on
-#   how to continue installing PEAR.  The first thing you should see is:
-#
-#   Welcome to go-pear!
-#
-# Installation: Web browser
-#
-# You can now use go-pear via a webbrowser, thanks to Christian Dickmann. It is
-# still beta codes, but feel free to test it:
-# 1.: Download the go-pear script by using the "Save target as ..." function
-# of your browser here.
-#
-# 2.: Place the go-pear file somewhere under the document root of your webserver.
-# The easiest way is to create a new directory for pear and to put the file in there.
-# Be sure your web server is setup to recognize PHP, and that you use an appropriate
-# extension.  For example, you might name this file gopear.php
-#
-# 3.: Access go-pear through your webserver and follow the instructions. Please
-# make sure that PHP has write access to the dir you want to install PEAR into.
-# For example: http://localhost/pear/gopear.php
-#
-# 4.: After running go-pear you get a link to the Web Frontend of the PEAR installer.
-# I suggest bookmarking this link.
-#
-#
+# Notes:
+# * Get the latest go-pear version from http://pear.php.net/go-pear
+# * This installer requires PHP 4.3.0 or newer.
+# * On windows, the PHP CLI binary is php.exe, don't forget the -q option if using the CGI binary.
+# * The default for the command-line installation is a system-wide configuration file,  For a local install use: php -q go-pear.php local
 
+/**
+ * go-pear is the online PEAR installer: just download it and run it
+ * (through a browser or command line), it will set up a minimal PEAR
+ * installation that will be ready for immediatel use.
+ *
+ * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
+ * @version    CVS: $Id$
+ * @link       http://pear.php.net/package/pearweb_gopear
+ * @author     Tomas V.V.Cox <cox@idecnet.com>
+ * @author     Stig Bakken <ssb@php.net>
+ * @author     Christian Dickmann <dickmann@php.net>
+ * @author     Pierre-Alain Joye <pierre@php.net>
+ * @author     Greg Beaver <cellog@php.net>
+ * @author     Tias Guns <tias@ulyssis.org>
+ */
 
 
 $sapi_name = php_sapi_name();
@@ -161,7 +116,7 @@ $bootstrap_pkgs = array( // uses URL like http://pear.php.net/get/%s
 );
 
 $installer_packages = array(
-    'PEAR-beta',
+    'PEAR',
     'Structures_Graph-stable',
     'Archive_Tar-stable',
     'Console_Getopt-stable',
