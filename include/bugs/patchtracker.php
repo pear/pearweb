@@ -198,9 +198,9 @@ class Bugs_Patchtracker
                 $this->detach($bugid, $name, $id);
                 return PEAR::raiseError('zero-length patches not allowed');
             }
-            if ($file->getProp('size') > 20480) {
+            if ($file->getProp('size') > 102400) {
                 $this->detach($bugid, $name, $id);
-                return PEAR::raiseError('Patch files cannot be larger than 20k');
+                return PEAR::raiseError('Patch files cannot be larger than 100k');
             }
             foreach ($newobsoletes as $obsolete) {
                 $this->obsoletePatch($bugid, $name, $id, $obsolete[0], $obsolete[1]);
