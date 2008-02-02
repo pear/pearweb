@@ -34,7 +34,7 @@ if (in_array($info['roadmap_version'], $this->releases)) {
 ?>
 <a name="a<?php echo $info['roadmap_version'] ?>"></a>
 <h2>Version <?php echo $info['roadmap_version'] ?></h2>
-<table>
+<table style="width: 100%;">
  <tr>
   <td colspan="2">
    <?php if ($GLOBALS['auth_user']) : ?>
@@ -48,11 +48,8 @@ if (in_array($info['roadmap_version'], $this->releases)) {
   </td>
  </tr>
  <tr>
-  <th class="form-label_left">
-   Scheduled Release Date
-  </th>
   <td class="form-input">
-   <strong<?php
+   <strong>Scheduled Release Date:</strong> <strong<?php
     if (!$future) {
         if ($x < 0) {
             echo ' class="lateRelease"';
@@ -70,18 +67,14 @@ if (in_array($info['roadmap_version'], $this->releases)) {
   </td>
  </tr>
  <tr>
-  <th class="form-label_left">
-   Release Goals
-  </th>
   <td class="form-input">
+   <strong>Release Goals:</strong><br />
    <pre><?php echo htmlspecialchars($info['description']); ?></pre>
   </td>
  </tr>
  <tr>
-  <th class="form-label_left">
-   Bugs
-  </th>
   <td class="form-input">
+   <br /><h3>Bugs</h3>
    <?php if ($this->summary[$info['roadmap_version']]):
             if (!$this->totalbugs[$info['roadmap_version']]): ?>
    No bugs
@@ -100,10 +93,8 @@ if (in_array($info['roadmap_version'], $this->releases)) {
   </td>
  </tr>
  <tr>
-  <th class="form-label_left">
-   Feature Requests
-  </th>
   <td class="form-input">
+    <br /><h3>Feature Requests</h3>
    <?php if ($this->summary[$info['roadmap_version']]):
             if (!$this->totalfeatures[$info['roadmap_version']]): ?>
    No features
