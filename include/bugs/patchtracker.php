@@ -173,12 +173,13 @@ class Bugs_Patchtracker
             }
             list($id, $fname) = $res;
             $file->setName($fname);
-            $allowed_mime_types = array('application/x-txt',
-                                        'text/plain',
-                                        'text/x-diff',
-                                        'text/x-patch',
-                                        'text/x-c++',
-                                       );
+            $allowed_mime_types = array(
+                'application/x-txt',
+                'text/plain',
+                'text/x-diff',
+                'text/x-patch',
+                'text/x-c++',
+            );
             if (!in_array($file->getProp('type'), $allowed_mime_types)) {
                 $this->_dbh->query('DELETE FROM bugdb_patchtracker
                     WHERE bugdb_id = ? and patch = ? and revision = ?',
@@ -372,4 +373,3 @@ class Bugs_Patchtracker
         return $info[0];
     }
 }
-?>
