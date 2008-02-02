@@ -48,7 +48,7 @@ if (isset($_POST['addpatch'])) {
         $patches = $patchinfo->listPatches($bug);
         $errors[] = 'No patch name entered';
         $captcha = $numeralCaptcha->getOperation();
-        include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/addpatch.php';
+        include PEARWEB_TEMPLATEDIR. '/bugs/addpatch.php';
         exit;
     }
 
@@ -142,8 +142,7 @@ if (isset($_POST['addpatch'])) {
             $patches = $patchinfo->listPatches($bug);
             $captcha = $numeralCaptcha->getOperation();
             $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-            include dirname(dirname(dirname(__FILE__))) .
-                    '/templates/bugs/addpatch.php';
+            include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
             exit;
         }
     }
@@ -167,8 +166,7 @@ if (isset($_POST['addpatch'])) {
         $captcha = $numeralCaptcha->getOperation();
         $_SESSION['answer'] = $numeralCaptcha->getAnswer();
 
-        include dirname(dirname(dirname(__FILE__))) .
-                '/templates/bugs/addpatch.php';
+        include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
         exit;
     }
     // {{{ Email after the patch is added.
@@ -217,7 +215,7 @@ if (isset($_POST['addpatch'])) {
     $name = $_POST['name'];
     $patches = $patchinfo->listPatches($bug);
     $errors = array();
-    include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/patchadded.php';
+    include PEARWEB_TEMPLATEDIR . '/bugs/patchadded.php';
     exit;
 }
 if (!isset($_GET['bug'])) {
@@ -240,4 +238,4 @@ $name = isset($_GET['patch']) ? $_GET['patch'] : '';
 $patches = $patchinfo->listPatches($bug);
 $captcha = $numeralCaptcha->getOperation();
 $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-include dirname(dirname(dirname(__FILE__))) . '/templates/bugs/addpatch.php';
+include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
