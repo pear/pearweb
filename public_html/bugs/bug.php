@@ -29,9 +29,6 @@ require_once './include/prepend.inc';
 // Get user's CVS password
 require_once './include/cvs-auth.inc';
 
-// Obtain a list of the trusted developers
-require_once './include/trusted-devs.inc';
-
 // Numeral Captcha Class
 require_once 'Text/CAPTCHA/Numeral.php';
 
@@ -177,8 +174,8 @@ if (isset($_POST['unsubscribe_to_bug']) OR isset($_POST['subscribe_to_bug'])) {
         $errors[] = "You must provide a valid email address.";
     } else {
         if (isset($_POST['subscribe_to_bug'])) {
-            $query = 'REPLACE INTO bugdb_subscribe SET bug_id=' . $id .
-                    ", email='" . escapeSQL($email) . "'";
+            $query = 'REPLACE INTO bugdb_subscribe SET bug_id = ' . $id .
+                    ", email = '" . escapeSQL($email) . "'";
             $dbh->query($query);
             $thanks = 7;
         } elseif (isset($_POST['unsubscribe_to_bug'])) {
@@ -231,8 +228,7 @@ $errors = array();
 if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
     // Submission of additional comment by others
 
-    /**
-     * Check if session answer is set, then compare
+    /* Check if session answer is set, then compare
      * it with the post captcha value. If it's not
      * the same, then it's an incorrect password.
      */
@@ -717,7 +713,7 @@ if (
     control(3, 'Add Comment');
 }
 
-if (auth_check('pear.dev')) {
+if (auth_check('pear.bug') OR auth_check('pear.dev')) {
     control(1, 'Edit');
 }
 
@@ -1251,7 +1247,7 @@ response_footer();
 
 function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = NULL, $comment_name = NULL, $registered)
 {
-    global $edit, $id, $trusted_developers, $user, $dbh;
+    global $edit, $id, $user, $dbh;
 
     echo '<div class="comment">';
     echo '<a name="' . urlencode($ts) . '">&nbsp;</a>';
@@ -1278,7 +1274,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
     if ($comment_name && $registered) {
         echo '(' . htmlspecialchars($comment_name) . ')';
     }
-    echo ($edit == 1 && $com_id !== 0 && in_array($user, $trusted_developers)) ? "<a href=\"".htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
+    echo ($edit == 1 && $com_id !== 0 && auth_check('pear.bug.admin')) ? "<a href=\"".htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
     echo '<pre class="note">';
     $comment = wordwrap($comment, 72);
     $comment = make_ticket_links(addlinks($comment));
@@ -1294,7 +1290,7 @@ function delete_comment($id, $com_id)
     $res =& $dbh->query($query);
 }
 
-function control($num, $desc, $dev = false)
+function control($num, $desc)
 {
     echo '<span id="control_' . $num . '" class="control';
     if ($GLOBALS['edit'] == $num) {
