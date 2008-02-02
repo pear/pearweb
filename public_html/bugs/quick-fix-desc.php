@@ -17,14 +17,14 @@
  * @license   http://www.php.net/license/3_0.txt  PHP License
  * @version   $Id$
  */
- 
+
 /**
  * Obtain common includes
  */
 require_once './include/prepend.inc';
 
-response_header('Quick Fix Descriptions'); 
-?> 
+response_header('Quick Fix Descriptions');
+?>
 <table border="2" cellpadding="6">
 <?php
 foreach ($RESOLVE_REASONS as $reason) {
@@ -39,4 +39,3 @@ foreach ($RESOLVE_REASONS as $reason) {
 </table>
 <?php
 response_footer();
-?>
