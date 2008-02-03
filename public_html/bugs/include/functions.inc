@@ -1,4 +1,4 @@
-<?php /* vim: set noet ts=4 sw=4 ft=php : */
+<?php
 
 /**
  * Contains functions and variables used throughout the bug system
@@ -238,12 +238,12 @@ function field($n) {
  *
  * @see clean(), rinse(), escapeSQL(), oneof(), field()
  */
-function txfield($n)
+function txfield($n, $bug = null, $in = null)
 {
-    return oneof((isset($_POST['in']) && isset($_POST['in'][$n])) ?
-                    rinse($_POST['in'][$n]) : false,
-                 (isset($GLOBALS['bug']) && isset($GLOBALS['bug'][$n])) ?
-                    $GLOBALS['bug'][$n] : false);
+    return oneof((isset($in) && isset($in[$n])) ?
+                    rinse($in[$n]) : false,
+                 (isset($bug) && isset($bug[$n])) ?
+                    $bug[$n] : false);
 }
 
 /**
@@ -254,9 +254,9 @@ function txfield($n)
  *
  * @return bool  true if the data is different, false if it's the same
  */
-function changed($n) {
-    return $_POST['in'][$n]
-        && (rinse(trim($_POST['in'][$n])) != trim($GLOBALS['bug'][$n]));
+function changed($bug, $in, $n) {
+    return $in[$n]
+        && (rinse(trim($in[$n])) != trim($bug[$n]));
 }
 
 /**
@@ -579,6 +579,86 @@ function show_boolean_options($current)
     }
 }
 
+function bug_diff($bug, $in, $previous, $current)
+{
+    $changed = array();
+
+    if (changed($bug, $in, 'email')) {
+        $changed['reported_by']['from'] = $bug['email'];
+        $changed['reported_by']['to']   = spam_protect(txfield('email', $bug, $in), 'text');
+    }
+
+    $fields = array(
+        'sdesc'            => 'Summary',
+        'status'           => 'Status',
+        'bug_type'         => 'Type',
+        'package_name'     => 'Package',
+        'php_os'           => 'Operating System',
+        'package_version'  => 'Package Version',
+        'php_version'      => 'PHP Version',
+        'assign'           => 'Assigned To'
+    );
+
+    foreach (array_keys($fields) as $name) {
+        if (changed($bug, $in, $name)) {
+            $changed[$name]['from'] = $bug[$name];
+            $changed[$name]['to']   = txfield($name, $bug, $in);
+        }
+    }
+
+    if ($current != $previous) {
+        if (count($previous)) {
+            array_walk($previous, create_function('&$a', '$a=$a[0];'));
+        }
+        $changed['roadmap']['from'] = implode($previous, ', ');
+        if (count($current)) {
+            array_walk($current, create_function('&$a', '$a=$a[0];'));
+        }
+        $changed['roadmap']['to'] = implode($current, ', ');
+    }
+
+    return $changed;
+}
+
+function bug_diff_render_html($diff)
+{
+    $fields = array(
+        'sdesc'            => 'Summary',
+        'status'           => 'Status',
+        'bug_type'         => 'Type',
+        'package_name'     => 'Package',
+        'php_os'           => 'Operating System',
+        'package_version'  => 'Package Version',
+        'php_version'      => 'PHP Version',
+        'assign'           => 'Assigned To',
+        'roadmap'          => 'Roadmap Versions',
+    );
+
+    // make diff output aligned
+    $actlength = $maxlength = 0;
+    foreach (array_keys($diff) as $v) {
+        $actlength = strlen($fields[$v]) + 2;
+        $maxlength = ($maxlength < $actlength) ? $actlength : $maxlength;
+    }
+
+    $changes = '<div id="changeset">' . "\n";
+    $spaces = str_repeat(' ', $maxlength + 1);
+    foreach ($diff as $name => $content) {
+        // align header content with headers (if a header contains
+        // more than one line, wrap it intelligently)
+        $field = str_pad($fields[$name] . ':', $maxlength);
+        $from  = wordwrap('-'.$field.$content['from'], 72 - $maxlength, "\n$spaces"); // wrap and indent
+        $from  = rtrim($from); // wordwrap may add spacer to last line
+        $to    = wordwrap('+'.$field.$content['to'], 72 - $maxlength, "\n$spaces"); // wrap and indent
+        $to    = rtrim($to); // wordwrap may add spacer to last line
+        $changes .= '<span class="removed">' . $from . '</span>' . "\n";
+        $changes .= '<span class="added">' .   $to . '</span>' . "\n";
+    }
+    $changes .= '</div>' . "\n";
+
+    return $changes;
+}
+
 /**
  * Send an email notice about bug aditions and edits
  *
@@ -591,11 +671,11 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
 {
     global $tla, $types, $site, $siteBig;
 
-    $text = array();
-    $headers = array();
+    $changed = bug_diff($bug, $in, $previous, $current);
+    $headers = $text = array();
 
     /* Default addresses */
-    list($mailto,$mailfrom, $Bcc) = get_package_mail(oneof($in['package_name'],$bug['package_name']), $id);
+    list($mailto, $mailfrom, $Bcc) = get_package_mail(oneof($in['package_name'], $bug['package_name']), $id);
 
     /* Get rid of slashes in bug status */
     $bug['status'] = rinse($bug['status']);
@@ -604,76 +684,63 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
 
     switch ($edit) {
         case 3:
-            $headers[] = array(" Comment by", $from);
+            $headers[] = array(' Comment by', $from);
             $from = "\"$from\" <$mailfrom>";
             break;
         case 2:
-            $from = spam_protect(txfield('email'), 'text');
-            $headers[] = array(" User updated by", $from);
+            $from = spam_protect(txfield('email', $bug, $in), 'text');
+            $headers[] = array(' User updated by', $from);
             $from = "\"$from\" <$mailfrom>";
             break;
         default:
-            $headers[] = array(" Updated by", $from);
-    }
-
-    $prefix = " ";
-    if (changed('email')) {
-        $headers[] = array("-Reported By", spam_protect($bug['email']), 'text');
-        $prefix = "+";
-    }
-    if ($f = spam_protect(txfield('email'), 'text')) {
-        $headers[] = array($prefix.'Reported By', $f);
+            $headers[] = array(' Updated by', $from);
     }
 
     $fields = array(
-        'sdesc'        => 'Summary',
-        'status'       => 'Status',
-        'bug_type'     => 'Type',
-        'package_name' => 'Package',
-        'php_os'       => 'Operating System',
+        'email'            => 'Reported By',
+        'sdesc'            => 'Summary',
+        'status'           => 'Status',
+        'bug_type'         => 'Type',
+        'package_name'     => 'Package',
+        'php_os'           => 'Operating System',
         'package_version'  => 'Package Version',
-        'php_version'  => 'PHP Version',
-        'assign'       => 'Assigned To'
+        'php_version'      => 'PHP Version',
+        'assign'           => 'Assigned To',
+        'roadmap'          => 'Roadmap Versions',
     );
 
     foreach ($fields as $name => $desc) {
-        $prefix = " ";
-        if (changed($name)) {
-            $headers[] = array("-$desc", $bug[$name]);
-            $prefix = "+";
+        $prefix = ' ';
+        if (isset($changed[$name])) {
+            $headers[] = array("-$desc", $changed[$name]['from']);
+            $prefix = '+';
         }
-        /* only fields that are set get added. */
-        if ($f = txfield($name)) {
-            $headers[] = array($prefix.$desc, $f);
-        }
-    }
-    if ($current != $previous) {
-        if (count($previous)) {
-            array_walk($previous, create_function('&$a', '$a=$a[0];'));
-            $headers[] = array('-Roadmap Versions', implode($previous, ', '));
-        }
-        if (count($current)) {
-            array_walk($current, create_function('&$a', '$a=$a[0];'));
-            $headers[] = array('+Roadmap Versions', implode($current, ', '));
+
+        // only fields that are set get added.
+        if ($f = txfield($name, $bug, $in) OR $name == 'roadmap') {
+            if ($name == 'email') {
+                $f = spam_protect($f, 'text');
+            }
+            $foo = isset($changed[$name]['to']) ? $changed[$name]['to'] : $f;
+            $headers[] = array($prefix.$desc, $foo);
         }
     }
 
-    # make header output aligned
-    $maxlength = 0;
-    $actlength = 0;
+    // make header output aligned
+    $actlength = $maxlength = 0;
     foreach ($headers as $v) {
-        $actlength = strlen($v[0]) + 1;
-        $maxlength = (($maxlength < $actlength) ? $actlength : $maxlength);
+        $actlength = strlen($v[0]) + 2;
+        $maxlength = ($maxlength < $actlength) ? $actlength : $maxlength;
     }
 
-    # align header content with headers (if a header contains
-    # more than one line, wrap it intelligently)
-    $header_text = "";
-    $spaces = str_repeat(" ", $maxlength + 1);
+    // align header content with headers (if a header contains
+    // more than one line, wrap it intelligently)
+    $header_text = '';
+    $spaces = str_repeat(' ', $maxlength + 1);
     foreach ($headers as $v) {
-        $hcontent = wordwrap($v[1], 72-$maxlength, "\n$spaces"); # wrap and indent
-        $hcontent = rtrim($hcontent); # wordwrap may add spacer to last line
-        $header_text .= str_pad($v[0] . ":", $maxlength) . " " . $hcontent . "\n";
+        $hcontent     = wordwrap($v[1], 72 - $maxlength, "\n$spaces"); # wrap and indent
+        $hcontent     = rtrim($hcontent); # wordwrap may add spacer to last line
+        $header_text .= str_pad($v[0] . ':', $maxlength) . $hcontent . "\n";
     }
 
     if ($ncomment) {
@@ -706,7 +773,6 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
 
     /* send mail if status was changed or there is a comment */
     if ($in['status'] != $bug['status'] || $ncomment != "" || ($current != $previous)) {
-
         if (isset($in['bug_type']) && $in['bug_type'] != $bug['bug_type']) {
             $subj = $types[$bug['bug_type']] . '->' . $types[$in['bug_type']];
         } else {
@@ -726,9 +792,9 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
         }
 
         # the user gets sent mail with an envelope sender that ignores bounces
-        if (DEVBOX == false) {
+        if (DEVBOX === false) {
             @mail($bug['email'],
-                  "[$siteBig-BUG] " . rinse($subj) . txfield('sdesc'),
+                  "[$siteBig-BUG] " . rinse($subj) . txfield('sdesc', $bug, $in),
                   $user_text,
                   "From: $siteBig Bug Database <$mailfrom>\n".
                   "Bcc: $Bcc\n" .
@@ -738,7 +804,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
             # but we go ahead and let the default sender get used for the list
 
             @mail($mailto,
-                  "[$siteBig-BUG] " . rinse($subj) . txfield('sdesc'),
+                  "[$siteBig-BUG] " . rinse($subj) . txfield('sdesc', $bug, $in),
                   $dev_text,
                   "From: $from\n".
                   "X-PHP-Bug: $bug[id]\n".
@@ -764,9 +830,9 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
             return;
         }
 
-        if (DEVBOX == false) {
+        if (DEVBOX === false) {
             @mail($email,
-                  rinse($subj) . txfield('sdesc'),
+                  rinse($subj) . txfield('sdesc', $bug, $in),
                   wordwrap($in['assign'] . ' you have just been assigned to this bug by ' . $from . "\n\n") .
                   $dev_text,
                   "From: $from\n".
@@ -786,7 +852,8 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
  *
  * @return string  the formatted date
  */
-function format_date($date) {
+function format_date($date)
+{
     return date('Y-m-d H:i', $date - date('Z', $date)) . ' UTC';
 }
 
@@ -804,7 +871,8 @@ function get_old_comments($bug_id, $all = 0)
     $divider = str_repeat("-", 72);
     $max_message_length = 10 * 1024;
     $max_comments = 5;
-    $output = ""; $count = 0;
+    $output = "";
+    $count = 0;
 
     $res =& $dbh->query("SELECT ts, email, comment, handle FROM bugdb_comments WHERE bug=$bug_id ORDER BY ts DESC");
 
@@ -852,7 +920,6 @@ function get_old_comments($bug_id, $all = 0)
  */
 function addlinks($text)
 {
-    $text = htmlspecialchars($text);
     $text = preg_replace("/((mailto|http|ftp|nntp|news):.+?)(&gt;|\\s|\\)|\\.\\s|$)/i","<a href=\"\\1\">\\1</a>\\3",$text);
     # what the heck is this for?
     $text = preg_replace("/[.,]?-=-\"/", '"', $text);
@@ -982,9 +1049,9 @@ function get_package_mail($package_name, $bug_id=false)
         $bcc = array_diff($bcc, $to);
         $bcc = array_unique($bcc);
         return array(implode(', ', $to), $bugEmail, implode(', ', $bcc));
-    } else {
-        return array(implode(', ', $to), $bugEmail);
     }
+
+    return array(implode(', ', $to), $bugEmail);
 }
 
 /**
@@ -1010,8 +1077,7 @@ function format_search_string($search)
         }
     }
 
-    $mysql4 = false;
-    if ($mysql4 && BOOLEAN_SEARCH) {
+    if (BOOLEAN_SEARCH) {
         // require all used words (all)
         if (BOOLEAN_SEARCH === 1) {
             $newsearch = '';
@@ -1152,17 +1218,17 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
                       "$siteBig bug #$bug_id ($bug[sdesc])\n\n" .
                       "To confirm the removal please use this link:\n" .
                       "http://$site.php.net/bugs/bug.php?id=$bug[id]&unsubscribe=1&t=$hash\n\n\n";
-
-        @mail($email,
+        if (!DEVBOX) {
+            @mail($email,
               "[$siteBig-BUG-unsubscribe] " . rinse($bug['sdesc']),
               $user_text,
               "From: $siteBig Bug Database <$mailfrom>\n".
               "X-PHP-Bug: $bug[id]\n".
               "In-Reply-To: <bug-$bug[id]@$site.php.net>",
               "-f " . PEAR_BOUNCE_EMAIL);
+        }
     }
 }
-
 
 /**
  * Remove a subscribtion

@@ -20,6 +20,14 @@ pre.note {
     margin-left: 20px;
 }
 
+.added {
+    color: #1aa100;
+}
+
+.removed {
+    color: #de0019;
+}
+
 form#comment,
 form#update,
 form#vote,

@@ -342,9 +342,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
         }
     }
 
-    if (!empty($_POST['in']['email']) &&
-        $bug['email'] != $_POST['in']['email'])
-    {
+    if (!empty($_POST['in']['email']) && $bug['email'] != $_POST['in']['email']) {
         $from = $_POST['in']['email'];
     } else {
         $from = $bug['email'];
@@ -381,7 +379,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
     }
 } elseif (isset($_POST['in']) && isset($_POST['preview']) && $edit == 2) {
     $ncomment = trim($_POST['ncomment']);
-    $from = rinse($_POST['in']['commentemail']);
+    $from     = rinse($_POST['in']['commentemail']);
 } elseif (isset($_POST['in'])  && !isset($_POST['preview']) && $edit == 1) {
     // Edits submitted by developer
 
@@ -390,17 +388,18 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
         $errors[] = 'Tip: log in via another browser window then resubmit the form in this window.';
     }
     $comment_name = $auth_user->name;
-    if (empty($_POST['ncomment'])) {
-        $ncomment = '';
-    } else {
-        $ncomment = trim($_POST['ncomment']);
+    $ncomment = !empty($_POST['ncomment']) ? trim($_POST['ncomment']) : '';
+    $changed  = bug_diff($bug, $_POST['in'], $previous, $current);
+
+    if (!empty($changed)) {
+        $ncomment = bug_diff_render_html($changed). $ncomment;
     }
 
     if (isset($_POST['in']) && is_array($_POST['in']) &&
           (($_POST['in']['status'] == 'Bogus' && $bug['status'] != 'Bogus') ||
           (isset($_POST['in']['resolve']) && isset($RESOLVE_REASONS[$_POST['in']['resolve']]) &&
            $RESOLVE_REASONS[$_POST['in']['resolve']]['status'] == 'Bogus')) &&
-        strlen($ncomment) == 0)
+        strlen($ncomment) === 0)
     {
         $errors[] = "You must provide a comment when marking a bug 'Bogus'";
     } elseif (isset($_POST['in']) && is_array($_POST['in']) &&
@@ -1245,7 +1244,7 @@ if ($res) {
 response_footer();
 
 
-function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = NULL, $comment_name = NULL, $registered)
+function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = null, $comment_name = null, $registered)
 {
     global $edit, $id, $user, $dbh;
 
@@ -1275,12 +1274,18 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = N
         echo '(' . htmlspecialchars($comment_name) . ')';
     }
     echo ($edit == 1 && $com_id !== 0 && auth_check('pear.bug.admin')) ? "<a href=\"".htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
-    echo '<pre class="note">';
-    $comment = wordwrap($comment, 72);
+    echo '<pre class="note">'. "\n";
+
+    // This has to be done so we don't wordwrap the changeset part again
+    $needle  = strrpos($comment, 'div>');
+    $fix     = substr($comment, $needle, strlen($comment));
+    $status  = substr($comment, 0, $needle);
+    $comment = wordwrap($fix, 72, "\n", true);
+    $comment = $status . $comment;
     $comment = make_ticket_links(addlinks($comment));
     echo $comment;
     echo "</pre>\n";
-    echo '</div>';
+    echo '</div>' . "\n";
 }
 
 function delete_comment($id, $com_id)
