@@ -389,11 +389,6 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
     }
     $comment_name = $auth_user->name;
     $ncomment = !empty($_POST['ncomment']) ? trim($_POST['ncomment']) : '';
-    $changed  = bug_diff($bug, $_POST['in'], $previous, $current);
-
-    if (!empty($changed)) {
-        $ncomment = bug_diff_render_html($changed). $ncomment;
-    }
 
     if (isset($_POST['in']) && is_array($_POST['in']) &&
           (($_POST['in']['status'] == 'Bogus' && $bug['status'] != 'Bogus') ||
@@ -504,6 +499,12 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
                     l.id=? AND b.id=l.roadmap_id', array($id));
         } else {
             $current = $previous;
+        }
+
+        $changed  = bug_diff($bug, $_POST['in'], $previous, $current);
+
+        if (!empty($changed)) {
+            $ncomment = bug_diff_render_html($changed). $ncomment;
         }
 
         if (!empty($ncomment)) {
