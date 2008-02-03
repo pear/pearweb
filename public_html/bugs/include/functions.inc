@@ -132,7 +132,7 @@ function spam_protect($txt, $format = 'html')
  */
 function clean($in)
 {
-    return htmlspecialchars(get_magic_quotes_gpc() ? stripslashes($in) : $in);
+    return htmlspecialchars(rinse($in), ENT_QUOTES, 'ISO-8859-15', false);
 }
 
 /**
@@ -651,8 +651,8 @@ function bug_diff_render_html($diff)
         $from  = rtrim($from); // wordwrap may add spacer to last line
         $to    = wordwrap('+'.$field.$content['to'], 72 - $maxlength, "\n$spaces"); // wrap and indent
         $to    = rtrim($to); // wordwrap may add spacer to last line
-        $changes .= '<span class="removed">' . $from . '</span>' . "\n";
-        $changes .= '<span class="added">' .   $to . '</span>' . "\n";
+        $changes .= '<span class="removed">' . clean($from) . '</span>' . "\n";
+        $changes .= '<span class="added">' .   clean($to) . '</span>' . "\n";
     }
     $changes .= '</div>' . "\n";
 
