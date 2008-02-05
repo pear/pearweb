@@ -354,18 +354,20 @@ if (isset($_POST['in'])) {
 
                 $type = @$types[$_POST['in']['bug_type']];
 
-                if (DEVBOX === false) {
+                if (!DEVBOX) {
                     // mail to package developers
                     @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
                             $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
                             '-f ' . PEAR_BOUNCE_EMAIL);
-                    // mail to reporter
-                    @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
+                    // mail to reporter, only if the reporter is also not the package maintainer
+                    if (strpos($mailto, $email) !== false) {
+                        @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
                             $ascii_report . "2\n",
                             "From: $siteBig Bug Database <$mailfrom>\n" .
                             "X-PHP-Bug: $cid\n" .
                             "Message-ID: <bug-$cid@$site.php.net>",
                             '-f ' . PEAR_BOUNCE_EMAIL);
+                    }
                 }
 
                 if (!empty($_POST['in']['addpatch'])) {
