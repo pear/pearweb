@@ -139,4 +139,4 @@ if (isset($_POST['step'])) {
     }
 }
 $elections = $election->listElections();
-require dirname(dirname(dirname(__FILE__))) . '/templates/election-listforedit.tpl.php';
+require PEARWEB_TEMPLATEDIR . '/election-listforedit.tpl.php';
