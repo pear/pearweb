@@ -30,8 +30,9 @@ if (isset($_POST['addtag'])) {
         }
     }
 }
-$tags = $manager->getTags();
+
+$tags    = $manager->getTags();
 $tagname = isset($_POST['tag']) ? strip_tags($_POST['tag']) : '';
-$desc = isset($_POST['desc']) ? $_POST['desc'] : '';
-$admin = auth_check('pear.admin');
-require dirname(dirname(dirname(__FILE__))) . '/templates/tags/admin.tpl.php';
+$desc    = isset($_POST['desc']) ? $_POST['desc'] : '';
+$admin   = auth_check('pear.admin');
+require PEARWEB_TEMPLATEDIR . '/tags/admin.tpl.php';
