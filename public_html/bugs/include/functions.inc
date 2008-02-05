@@ -1424,7 +1424,7 @@ class Bug_DataObject
     function getSavant()
     {
         return new Savant2(array(
-            'template_path' => dirname(dirname(dirname(dirname(__FILE__)))) . '/templates/' . Bug_DataObject::template(),
+            'template_path' => PEARWEB_TEMPLATEDIR . Bug_DataObject::template(),
         ));
     }
 }
