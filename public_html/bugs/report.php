@@ -261,8 +261,7 @@ if (isset($_POST['in'])) {
                 }
 
                 // shunt website bugs to the website package
-                if (in_array($_POST['in']['package_name'], array(
-                            'Web Site', 'PEPr', 'Bug System'), true)) {
+                if (in_array($_POST['in']['package_name'], array( 'Web Site', 'PEPr', 'Bug System'), true)) {
                     $_POST['in']['package_name'] = 'pearweb';
                 }
 
@@ -277,25 +276,28 @@ if (isset($_POST['in'])) {
                           package_version,
                           php_version,
                           php_os,
-                          status, ts1,
+                          reporter_name,
                           passwd,
-                          reporter_name
-                         ) VALUES (' . $registereduser . ',' .
-                         " '" . escapeSQL($_POST['in']['package_name']) . "'," .
-                         " '" . escapeSQL($_POST['in']['bug_type']) . "'," .
-                         " '" . escapeSQL($_POST['in']['email']) . "'," .
-                         " '" . escapeSQL($_POST['in']['handle']) . "'," .
-                         " '" . escapeSQL($_POST['in']['sdesc']) . "'," .
-                         " '" . escapeSQL($fdesc) . "'," .
-                         " '" . escapeSQL($_POST['in']['package_version']) . "'," .
-                         " '" . escapeSQL($_POST['in']['php_version']) . "'," .
-                         " '" . escapeSQL($_POST['in']['php_os']) . "'," .
-                         " 'Open', NOW(), " .
-                         " ''," .
-                         " '" . escapeSQL($_POST['in']['reporter_name']) . "')";
+                          status,
+                          ts1
+                         )
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "", "Open", NOW())';
 
+                $values = array (
+                    $registereduser,
+                    $_POST['in']['package_name'],
+                    $_POST['in']['bug_type'],
+                    $_POST['in']['email'],
+                    $_POST['in']['handle'],
+                    $_POST['in']['sdesc'],
+                    $fdesc,
+                    $_POST['in']['package_version'],
+                    $_POST['in']['php_version'],
+                    $_POST['in']['php_os'],
+                    $_POST['in']['reporter_name'],
+                );
 
-                $dbh->query($query);
+                $dbh->query($query, $values);
 
     /*
      * Need to move the insert ID determination to DB eventually...
