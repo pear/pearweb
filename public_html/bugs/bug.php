@@ -556,7 +556,7 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
     report_success('Thank you for your help! If the status of the bug'
                         . ' report you submitted changes, you will be'
                         . ' notified. You may return here and check on the'
-                        . ' status or update your report at any time. That URL'
+                        . ' status or update your report at any time. The URL'
                         . ' for your bug report is: <a href="/bugs/'. $id . '">'
                         . 'http://'.$site.'.php.net/bugs/' . $id . '</a>.');
 
