@@ -117,8 +117,7 @@ if (isset($_POST['addpatch'])) {
                     '" to Bug #' . $bug;
                 $captcha = $numeralCaptcha->getOperation();
                 $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-                include dirname(dirname(dirname(__FILE__))) .
-                        '/templates/bugs/addpatch.php';
+                include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
                 exit;
             }
             try {
@@ -187,8 +186,7 @@ if (isset($_POST['addpatch'])) {
             'url'        => 'http://' . PEAR_CHANNELNAME .
                         "/bugs/patch-display.php?bug=$bug&patch=$patchName&revision=$rev&display=1",
             'package'    => $buginfo['package_name'],
-            'summary'    => $dbh->getOne('SELECT sdesc from bugdb
-                WHERE id=?', array($bug)),
+            'summary'    => $dbh->getOne('SELECT sdesc from bugdb WHERE id = ?', array($bug)),
             'date'       => date('Y-m-d H:i:s'),
             'name'       => $_POST['name'],
             'packageUrl' => 'http://' . PEAR_CHANNELNAME .
