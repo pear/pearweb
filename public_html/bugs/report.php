@@ -128,7 +128,7 @@ if (isset($_POST['in'])) {
                 $ok_to_submit_report = 1;
             } else {
                 response_header('Report - Confirm');
-                ?>
+?>
 
 <p>
  Are you sure that you searched before you submitted your bug report? We
@@ -151,7 +151,7 @@ if (isset($_POST['in'])) {
   <th>Possible Solution</th>
  </tr>
 
-                <?php
+<?php
 
                 while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
 
@@ -197,188 +197,190 @@ if (isset($_POST['in'])) {
         }
 
         do {
-            if ($ok_to_submit_report) {
-                if (!isset($auth_user)) {
-                    $registereduser = 0;
-                    // user doesn't exist yet
-                    require 'bugs/pear-bug-accountrequest.php';
-                    $buggie = new PEAR_Bug_Accountrequest;
-                    $salt = $buggie->addRequest($_POST['in']['email']);
-                    if (is_array($salt)) {
-                        $errors = $salt;
-                        response_header('Report - Problems');
-                        break; // skip bug addition
-                    }
-                    if (PEAR::isError($salt)) {
-                        $errors[] = $salt;
-                        response_header('Report - Problems');
-                        break;
-                    }
-                    if ($salt === false) {
-                        $errors[] = 'Your account cannot be added to the queue.'
-                             . ' Please write a mail message to the '
-                             . ' <i>pear-dev</i> mailing list.';
-                        response_header('Report - Problems');
-                        break;
-                    }
-
-                    $_POST['in']['handle'] =
-                    $_POST['in']['reporter_name'] = $buggie->handle;
-                    try {
-                        $buggie->sendEmail();
-                    } catch (Exception $e) {
-                        $errors[] = 'Critical internal error: could not send' .
-                            ' email to your address ' . $_POST['in']['email'] .
-                            ', please write a mail message to the <i>pear-dev</i>' .
-                            'mailing list and report this problem with details.' .
-                            '  We apologize for the problem, your report will help' .
-                            ' us to fix it for future users: ' . $e->getMessage();
-                        response_header('Report - Problems');
-                        break;
-                    }
-                } else {
-                    $registereduser = 1;
-                    $_POST['in']['reporter_name'] = $auth_user->name;
-                    $_POST['in']['handle'] = $auth_user->handle;
-                }
-                // Put all text areas together.
-                $fdesc = "Description:\n------------\n" . $_POST['in']['ldesc'] . "\n\n";
-                if (!empty($_POST['in']['repcode'])) {
-                    $fdesc .= "Test script:\n---------------\n";
-                    $fdesc .= $_POST['in']['repcode'] . "\n\n";
-                }
-                if (!empty($_POST['in']['expres']) ||
-                    $_POST['in']['expres'] === '0')
-                {
-                    $fdesc .= "Expected result:\n----------------\n";
-                    $fdesc .= $_POST['in']['expres'] . "\n\n";
-                }
-                if (!empty($_POST['in']['actres']) ||
-                    $_POST['in']['actres'] === '0')
-                {
-                    $fdesc .= "Actual result:\n--------------\n";
-                    $fdesc .= $_POST['in']['actres'] . "\n";
-                }
-
-                // shunt website bugs to the website package
-                if (in_array($_POST['in']['package_name'], array( 'Web Site', 'PEPr', 'Bug System'), true)) {
-                    $_POST['in']['package_name'] = 'pearweb';
-                }
-
-                $query = 'INSERT INTO bugdb (
-                          registered,
-                          package_name,
-                          bug_type,
-                          email,
-                          handle,
-                          sdesc,
-                          ldesc,
-                          package_version,
-                          php_version,
-                          php_os,
-                          reporter_name,
-                          passwd,
-                          status,
-                          ts1
-                         )
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "", "Open", NOW())';
-
-                $values = array (
-                    $registereduser,
-                    $_POST['in']['package_name'],
-                    $_POST['in']['bug_type'],
-                    $_POST['in']['email'],
-                    $_POST['in']['handle'],
-                    $_POST['in']['sdesc'],
-                    $fdesc,
-                    $_POST['in']['package_version'],
-                    $_POST['in']['php_version'],
-                    $_POST['in']['php_os'],
-                    $_POST['in']['reporter_name'],
-                );
-
-                $dbh->query($query, $values);
-
-    /*
-     * Need to move the insert ID determination to DB eventually...
-     */
-                $cid = mysqli_insert_id($dbh->connection);
-
-                Bug_DataObject::init();
-                $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
-                $link->id = $cid;
-                $link->delete();
-                if (isset($_POST['in']['roadmap'])) {
-                    foreach ($_POST['in']['roadmap'] as $rid) {
-                        $link->id = $cid;
-                        $link->roadmap_id = $rid;
-                        $link->insert();
-                    }
-                }
-
-                $report  = '';
-                $report .= 'From:             ' . $_POST['in']['handle'] . "\n";
-                $report .= 'Operating system: ' . rinse($_POST['in']['php_os']) . "\n";
-                $report .= 'Package version:  ' . rinse($_POST['in']['package_version']) . "\n";
-                $report .= 'PHP version:      ' . rinse($_POST['in']['php_version']) . "\n";
-                $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
-                $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
-                $report .= 'Bug description:  ';
-
-                $fdesc = rinse($fdesc);
-                $sdesc = rinse($_POST['in']['sdesc']);
-
-                $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
-                $ascii_report .= "\n-- \nEdit bug report at ";
-                $ascii_report .= "http://$site.php.net/bugs/bug.php?id=$cid&edit=";
-
-                list($mailto, $mailfrom) = get_package_mail($_POST['in']['package_name']);
-
-                $email = rinse($_POST['in']['email']);
-                $protected_email  = '"' . spam_protect($email, 'text') . '"';
-                $protected_email .= '<' . $mailfrom . '>';
-
-                $extra_headers  = 'From: '           . $protected_email . "\n";
-                $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
-                $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
-                $extra_headers .= 'X-PHP-Type: '     . rinse($_POST['in']['bug_type']) . "\n";
-                $extra_headers .= 'X-PHP-PackageVersion: '  . rinse($_POST['in']['package_version']) . "\n";
-                $extra_headers .= 'X-PHP-Version: '  . rinse($_POST['in']['php_version']) . "\n";
-                $extra_headers .= 'X-PHP-Category: ' . rinse($_POST['in']['package_name']) . "\n";
-                $extra_headers .= 'X-PHP-OS: '       . rinse($_POST['in']['php_os']) . "\n";
-                $extra_headers .= 'X-PHP-Status: Open' . "\n";
-                $extra_headers .= 'Message-ID: <bug-' . $cid . '@'.$site.'.php.net>';
-
-                $type = @$types[$_POST['in']['bug_type']];
-
-                if (!DEVBOX) {
-                    // mail to package developers
-                    @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
-                            $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
-                            '-f ' . PEAR_BOUNCE_EMAIL);
-                    // mail to reporter, only if the reporter is also not the package maintainer
-                    if (strpos($mailto, $email) !== false) {
-                        @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
-                            $ascii_report . "2\n",
-                            "From: $siteBig Bug Database <$mailfrom>\n" .
-                            "X-PHP-Bug: $cid\n" .
-                            "Message-ID: <bug-$cid@$site.php.net>",
-                            '-f ' . PEAR_BOUNCE_EMAIL);
-                    }
-                }
-
-                if (!empty($_POST['in']['addpatch'])) {
-                    localRedirect('patch-add.php?bug=' . $cid . '&email=' .
-                        $_POST['in']['email']);
-                } elseif (!isset($buggie) && !empty($_POST['in']['addpatch'])) {
-                    require_once 'bugs/pear-bug-accountrequest.php';
-                    $r = new PEAR_Bug_Accountrequest();
-                    $info = $r->sendPatchEmail($cid, $patchrevision,
-                        $_POST['in']['package_name'], $auth_user->handle);
-                }
-                localRedirect('bug.php?id=' . $cid . '&thanks=4');
-                exit;
+            if (!$ok_to_submit_report) {
+                continue;
             }
+
+            if (!isset($auth_user)) {
+                $registereduser = 0;
+                // user doesn't exist yet
+                require 'bugs/pear-bug-accountrequest.php';
+                $buggie = new PEAR_Bug_Accountrequest;
+                $salt = $buggie->addRequest($_POST['in']['email']);
+                if (is_array($salt)) {
+                    $errors = $salt;
+                    response_header('Report - Problems');
+                    break; // skip bug addition
+                }
+                if (PEAR::isError($salt)) {
+                    $errors[] = $salt;
+                    response_header('Report - Problems');
+                    break;
+                }
+                if ($salt === false) {
+                    $errors[] = 'Your account cannot be added to the queue.'
+                         . ' Please write a mail message to the '
+                         . ' <i>pear-dev</i> mailing list.';
+                    response_header('Report - Problems');
+                    break;
+                }
+
+                $_POST['in']['handle'] =
+                $_POST['in']['reporter_name'] = $buggie->handle;
+                try {
+                    $buggie->sendEmail();
+                } catch (Exception $e) {
+                    $errors[] = 'Critical internal error: could not send' .
+                        ' email to your address ' . $_POST['in']['email'] .
+                        ', please write a mail message to the <i>pear-dev</i>' .
+                        'mailing list and report this problem with details.' .
+                        '  We apologize for the problem, your report will help' .
+                        ' us to fix it for future users: ' . $e->getMessage();
+                    response_header('Report - Problems');
+                    break;
+                }
+            } else {
+                $registereduser = 1;
+                $_POST['in']['reporter_name'] = $auth_user->name;
+                $_POST['in']['handle']        = $auth_user->handle;
+            }
+            // Put all text areas together.
+            $fdesc = "Description:\n------------\n" . $_POST['in']['ldesc'] . "\n\n";
+            if (!empty($_POST['in']['repcode'])) {
+                $fdesc .= "Test script:\n---------------\n";
+                $fdesc .= $_POST['in']['repcode'] . "\n\n";
+            }
+            if (!empty($_POST['in']['expres']) ||
+                $_POST['in']['expres'] === '0')
+            {
+                $fdesc .= "Expected result:\n----------------\n";
+                $fdesc .= $_POST['in']['expres'] . "\n\n";
+            }
+            if (!empty($_POST['in']['actres']) ||
+                $_POST['in']['actres'] === '0')
+            {
+                $fdesc .= "Actual result:\n--------------\n";
+                $fdesc .= $_POST['in']['actres'] . "\n";
+            }
+
+            // shunt website bugs to the website package
+            if (in_array($_POST['in']['package_name'], array( 'Web Site', 'PEPr', 'Bug System'), true)) {
+                $_POST['in']['package_name'] = 'pearweb';
+            }
+
+            $query = 'INSERT INTO bugdb (
+                      registered,
+                      package_name,
+                      bug_type,
+                      email,
+                      handle,
+                      sdesc,
+                      ldesc,
+                      package_version,
+                      php_version,
+                      php_os,
+                      reporter_name,
+                      passwd,
+                      status,
+                      ts1
+                     )
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "", "Open", NOW())';
+
+            $values = array (
+                $registereduser,
+                $_POST['in']['package_name'],
+                $_POST['in']['bug_type'],
+                $_POST['in']['email'],
+                $_POST['in']['handle'],
+                $_POST['in']['sdesc'],
+                $fdesc,
+                $_POST['in']['package_version'],
+                $_POST['in']['php_version'],
+                $_POST['in']['php_os'],
+                $_POST['in']['reporter_name'],
+            );
+
+            $dbh->query($query, $values);
+
+            /*
+            * Need to move the insert ID determination to DB eventually...
+            */
+            $cid = mysqli_insert_id($dbh->connection);
+
+            Bug_DataObject::init();
+            $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
+            $link->id = $cid;
+            $link->delete();
+            if (isset($_POST['in']['roadmap'])) {
+                foreach ($_POST['in']['roadmap'] as $rid) {
+                    $link->id = $cid;
+                    $link->roadmap_id = $rid;
+                    $link->insert();
+                }
+            }
+
+            $report  = '';
+            $report .= 'From:             ' . $_POST['in']['handle'] . "\n";
+            $report .= 'Operating system: ' . rinse($_POST['in']['php_os']) . "\n";
+            $report .= 'Package version:  ' . rinse($_POST['in']['package_version']) . "\n";
+            $report .= 'PHP version:      ' . rinse($_POST['in']['php_version']) . "\n";
+            $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
+            $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
+            $report .= 'Bug description:  ';
+
+            $fdesc = rinse($fdesc);
+            $sdesc = rinse($_POST['in']['sdesc']);
+
+            $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
+            $ascii_report .= "\n-- \nEdit bug report at ";
+            $ascii_report .= "http://$site.php.net/bugs/bug.php?id=$cid&edit=";
+
+            list($mailto, $mailfrom) = get_package_mail($_POST['in']['package_name']);
+
+            $email = rinse($_POST['in']['email']);
+            $protected_email  = '"' . spam_protect($email, 'text') . '"';
+            $protected_email .= '<' . $mailfrom . '>';
+
+            $extra_headers  = 'From: '           . $protected_email . "\n";
+            $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
+            $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
+            $extra_headers .= 'X-PHP-Type: '     . rinse($_POST['in']['bug_type']) . "\n";
+            $extra_headers .= 'X-PHP-PackageVersion: '  . rinse($_POST['in']['package_version']) . "\n";
+            $extra_headers .= 'X-PHP-Version: '  . rinse($_POST['in']['php_version']) . "\n";
+            $extra_headers .= 'X-PHP-Category: ' . rinse($_POST['in']['package_name']) . "\n";
+            $extra_headers .= 'X-PHP-OS: '       . rinse($_POST['in']['php_os']) . "\n";
+            $extra_headers .= 'X-PHP-Status: Open' . "\n";
+            $extra_headers .= 'Message-ID: <bug-' . $cid . '@'.$site.'.php.net>';
+
+            $type = @$types[$_POST['in']['bug_type']];
+
+            if (!DEVBOX) {
+                // mail to package developers
+                @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
+                        $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
+                        '-f ' . PEAR_BOUNCE_EMAIL);
+                // mail to reporter, only if the reporter is also not the package maintainer
+                if (strpos($mailto, $email) !== false) {
+                    @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
+                        $ascii_report . "2\n",
+                        "From: $siteBig Bug Database <$mailfrom>\n" .
+                        "X-PHP-Bug: $cid\n" .
+                        "Message-ID: <bug-$cid@$site.php.net>",
+                        '-f ' . PEAR_BOUNCE_EMAIL);
+                }
+            }
+
+            if (!empty($_POST['in']['addpatch'])) {
+                localRedirect('patch-add.php?bug=' . $cid . '&email=' .
+                    $_POST['in']['email']);
+            } elseif (!isset($buggie) && !empty($_POST['in']['addpatch'])) {
+                require_once 'bugs/pear-bug-accountrequest.php';
+                $r = new PEAR_Bug_Accountrequest();
+                $info = $r->sendPatchEmail($cid, $patchrevision,
+                    $_POST['in']['package_name'], $auth_user->handle);
+            }
+            localRedirect('bug.php?id=' . $cid . '&thanks=4');
+            exit;
         } while (false);
     } else {
         // had errors...
