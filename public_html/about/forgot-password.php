@@ -47,12 +47,11 @@ if (isset($_POST['resetpass'])) {
                                           $_POST['password2']);
         if (!count($errors)) {
             $user = $_POST['handle'];
-            require dirname(dirname(dirname(__FILE__))) . '/templates/users/passwordreset.php';
+            require PEARWEB_TEMPLATEDIR . '/users/passwordreset.php';
             exit;
         }
     }
 }
 response_header("PEAR :: Forgot your password?");
 $handle = isset($_POST['handle']) ? $_POST['handle'] : '';
-require dirname(dirname(dirname(__FILE__))) . '/templates/users/lostpassword.php';
-?>
+require PEARWEB_TEMPLATEDIR . '/users/lostpassword.php';
