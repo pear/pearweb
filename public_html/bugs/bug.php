@@ -142,11 +142,7 @@ if ($edit == 3 && auth_check('pear.dev')) {
 }
 
 if (!empty($_POST['pw'])) {
-    if (empty($_POST['user'])) {
-        $user = '';
-    } else {
-        $user = htmlspecialchars(rinse($_POST['user']));
-    }
+    $user = !empty($_POST['user']) ? htmlspecialchars(rinse($_POST['user'])) : '';
     $pw = rinse($_POST['pw']);
 } elseif (isset($auth_user) && $auth_user && $auth_user->handle && $edit == 1) {
     $user = rinse($auth_user->handle);
@@ -561,9 +557,8 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
                         . ' report you submitted changes, you will be'
                         . ' notified. You may return here and check on the'
                         . ' status or update your report at any time. That URL'
-                        . ' for your bug report is: <a href="/bugs/bug.php?id='
-                        . $id . '">http://'.$site.'.php.net/bugs/bug.php?id='
-                        . $id . '</a>.');
+                        . ' for your bug report is: <a href="/bugs/'. $id . '">'
+                        . 'http://'.$site.'.php.net/bugs/' . $id . '</a>.');
 
 } elseif ($_GET['thanks'] == 6) {
     report_success('Thanks for voting! Your vote should be reflected'
