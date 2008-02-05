@@ -20,7 +20,7 @@ if (isset($_POST['confirmdetails'])) {
             $email = $request->email;
             $name = $_POST['name'];
             $user = '';
-            include dirname(dirname(__FILE__)) . '/templates/bugs/registernewaccount.php';
+            include PEARWEB_TEMPLATEDIR . '/bugs/registernewaccount.php';
             response_footer();
             exit;
         }
@@ -33,7 +33,7 @@ if (isset($_POST['confirmdetails'])) {
             response_footer();
             exit;
         }
-        include dirname(dirname(__FILE__)) . '/templates/bugs/registernewaccount.php';
+        include PEARWEB_TEMPLATEDIR . '/bugs/registernewaccount.php';
         response_footer();
         exit;
     } else {
@@ -50,7 +50,7 @@ if (isset($_GET['type']) && $_GET['type'] == 'bug') {
             $email = $request->email;
             $user = $name = '';
             $errors = array();
-            include dirname(dirname(__FILE__)) . '/templates/bugs/registernewaccount.php';
+            include PEARWEB_TEMPLATEDIR . '/bugs/registernewaccount.php';
             response_footer();
             exit;
         } else {
