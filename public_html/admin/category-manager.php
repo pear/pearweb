@@ -30,8 +30,6 @@ if (session_id() == '') {
  *   deleting categories.
  */
 
-$template_dir = dirname(dirname(__FILE__)) . '/../templates/';
-
 /**
  * Function to recurse thru the tree adding nodes to treemenu
  */
@@ -130,5 +128,4 @@ if (!empty($_SESSION['category_manager']['error_msg'])) {
 $categories   = $dbh->getAll('SELECT id, name, description FROM categories ORDER BY id', null, DB_FETCHMODE_ASSOC);
 $treeMenuPres = new HTML_TreeMenu_DHTML($treeMenu, array('images' => '../gifs/TreeMenu', 'defaultClass' => 'treeMenuOff'));
 
-include($template_dir . 'category-manager.html');
-?>
+include PEARWEB_TEMPLATEDIR . 'category-manager.html';
