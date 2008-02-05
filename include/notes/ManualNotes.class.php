@@ -21,7 +21,7 @@
 /**
  * Manual Notes
  *
- * This class will be handling most of the 
+ * This class will be handling most of the
  * manual notes adding, deleting, approving, etc
  *
  * @package pearweb
@@ -56,7 +56,7 @@ class Manual_Notes
 
     // }}}
     // {{{ php5 Constructor
-    function __construct() 
+    function __construct()
     {
         global $dbh;
         $this->dbc = $dbh;
@@ -77,8 +77,7 @@ class Manual_Notes
      */
     function addComment($pageUrl, $userName, $note, $approved = 'pending')
     {
-        $user = isset($GLOBALS['auth_user'])
-        ? $GLOBALS['auth_user']->handle : '';
+        $user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : '';
         if ($user) {
             $sql = "
                 INSERT INTO {$this->notesTableName}
@@ -248,12 +247,12 @@ class Manual_Notes
     /**
      * Update Comment List
      *
-     * This function will update a current comment (status, note text, url, 
+     * This function will update a current comment (status, note text, url,
      * username, etc)
      *
      * @access public
      * @param  integer $noteId   The id of the note to update
-     * 
+     *
      * @param  string $status    The status of the note, default = 'pending'
      *
      * @return mixed  $res       An error if an error object occured with the query
@@ -289,7 +288,7 @@ class Manual_Notes
     /**
      * Update Comment
      *
-     * This function will update a current comment (status, note text, url, 
+     * This function will update a current comment (status, note text, url,
      * username, etc)
      *
      * @access public
@@ -329,7 +328,7 @@ class Manual_Notes
      * Delete Comments
      *
      * This function will delete a comment by it's note_id
-     * This function will mainly be used by administrators and 
+     * This function will mainly be used by administrators and
      * people with enough karma to manage comments.
      *
      * @access public
@@ -403,7 +402,7 @@ class Manual_Notes
             $time = date('Y-m-d H:i', $date - date('Z', $date)) . ' UTC';
         }
         $noteId     =  (int)$comment['note_id'];
-        $userHandle = $comment['user_handle'] ? 
+        $userHandle = $comment['user_handle'] ?
             '<a href="/user/' . $comment['user_handle'] . '">' . $comment['user_handle'] .
             '</a>' :
             $this->obfuscateAnonLink($comment['user_name']);
@@ -422,7 +421,7 @@ class Manual_Notes
      * This function will take a parameter and
      * make it obfuscated in a manner that no
      * script can find @ . , etc. This is the same
-     * method used for bugs and all mailto_links 
+     * method used for bugs and all mailto_links
      * on the site (site-wide)
      *
      * @access public
