@@ -775,7 +775,7 @@ if ($edit == 1 || $edit == 2) {
                 "<?php echo htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=3" ?>"
                 >add a comment by following this link</a>. If this is your
                 bug, but you forgot your password, <a
-                href="bug-pwd-finder.php">you can retrieve your password
+                href="bug-pwd-finder.php?id=<?php echo $id; ?>">you can retrieve your password
                 here</a>.
 
 <?php
@@ -1210,8 +1210,9 @@ if ($bug['ldesc']) {
 require_once 'bugs/patchtracker.php';
 $patches = new Bugs_Patchtracker;
 $p = $patches->listPatches($id);
-?><h2>Patches</h2>
-<a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Add a Patch</a><br /><?php
+?>
+<h2>Patches</h2>
+<?php
 foreach ($p as $name => $revisions) {
     $obsolete = $patches->getObsoletingPatches($bug['id'], $name, $revisions[0][0]);
     $style = !empty($obsolete) ? ' style="background-color: yellow; text-decoration: line-through;" ' : '';
@@ -1219,6 +1220,9 @@ foreach ($p as $name => $revisions) {
         echo urlencode($name) ?>&revision=latest" <?php echo $style; ?>><?php echo clean($name) ?></a> (last revision <?php echo format_date($revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php
         echo "\n";
 }
+?>
+<br /><a href="patch-add.php?bug_id=<?php echo $id; ?>">Add a Patch</a><br />
+<?php
 // Display comments
 $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name, IF(c.handle <> "",u.registered,1) as registered,
     u.showemail, u.handle,c.handle as bughandle
