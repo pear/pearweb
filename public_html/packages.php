@@ -24,7 +24,6 @@
  * o Make headers in package list clickable for ordering
  */
 
-$template_dir = dirname(dirname(__FILE__)) . '/templates/';
 $script_name  = htmlspecialchars($_SERVER['SCRIPT_NAME']);
 
 require_once 'browser.php';
@@ -318,5 +317,4 @@ if ($moreinfo) {
 }
 
 // Template
-error_reporting(E_ALL & ~E_NOTICE);
-include $template_dir . 'packages.html';
+include PEARWEB_TEMPLATEDIR . 'packages.html';

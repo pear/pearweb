@@ -24,7 +24,7 @@ function checkAll()
 <h1>Notes Management Area</h1>
 <?php if (count($pendingComments) > 0) : ?>
 <h3><?php echo $title; ?></h3>
-<?php include dirname(dirname(dirname(__FILE__))) . '/templates/notes/note-manage-links.tpl.php'; ?>
+<?php include PEARWEB_TEMPLATEDIR . '/notes/note-manage-links.tpl.php'; ?>
 <?php if (strlen(trim($error)) > 0): // {{{ error ?>
 <div class="errors"><?php echo $error; ?></div>
 <?php endif; // }}} ?>

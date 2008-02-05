@@ -1,11 +1,8 @@
 <?php
 auth_require('pear.dev');
 
-/**
- * Manual notes class
- */
+// Manual notes class
 require_once 'notes/ManualNotes.class.php';
-
 $manualNotes = new Manual_Notes;
 
 $status  = 'pending';
@@ -43,4 +40,5 @@ $url = isset($_GET['url']) ? strip_tags($_GET['url']) : '';
 if (!isset($error)) {
     $error = '';
 }
-require dirname(dirname(dirname(dirname(__FILE__)))) . '/templates/notes/note-manage-admin.tpl.php';
+
+require PEARWEB_TEMPLATEDIR . '/notes/note-manage-admin.tpl.php';

@@ -14,15 +14,14 @@ require_once 'Text/CAPTCHA/Numeral.php';
 $captcha = new Text_CAPTCHA_Numeral();
 
 /**
- * This parameter should be passed from the 
- * template manual with basically the 
+ * This parameter should be passed from the
+ * template manual with basically the
  * $_SERVER['REQUEST_URI'] in the uri get
  * parameter.
  */
 if (!isset($_GET['uri'])) {
     $error = NOTE_ADD_ERROR_NO_URI;
 }
-
 
 $loggedin = isset($auth_user) && $auth_user->registered;
 $email = 'user@example.com';
@@ -33,7 +32,6 @@ if (!$loggedin) {
     $spamCheck = $captcha->getOperation();
     $_SESSION['answer'] = $captcha->getAnswer();
 }
-/**
- * Template of the form to add a note
- */
-require dirname(dirname(dirname(__FILE__))) . '/templates/notes/add-note-form.tpl.php';
+
+// Template of the form to add a note
+require PEARWEB_TEMPLATEDIR . '/notes/add-note-form.tpl.php';

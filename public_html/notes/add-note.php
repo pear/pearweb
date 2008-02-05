@@ -106,10 +106,10 @@ if (empty($errors)) {
     if (isset($_SESSION['answer'])) {
         unset($_SESSION['answer']);
     }
-    require dirname(dirname(dirname(__FILE__))) . '/templates/notes/add-note.tpl.php';
+    require PEARWEB_TEMPLATEDIR . '/notes/add-note.tpl.php';
 } else {
     $email = $post['user'];
     $note = $post['note'];
     $noteUrl = $post['noteUrl'];
-    require dirname(dirname(dirname(__FILE__))) . '/templates/notes/add-note-form.tpl.php';
+    require PEARWEB_TEMPLATEDIR . '/notes/add-note-form.tpl.php';
 }

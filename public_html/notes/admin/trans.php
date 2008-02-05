@@ -1,5 +1,4 @@
 <?php
-
 auth_require('pear.dev');
 
 require_once 'notes/ManualNotes.class.php';
@@ -60,11 +59,7 @@ switch ($action) {
             $dbh->query($sql);
             // TODO: add error handling
 
-            if ($dbh->phptype == 'mysql') {
-                $id = mysql_insert_id();
-            } else {
-                $id = mysqli_insert_id($dbh->connection);
-            }
+            $id = mysqli_insert_id($dbh->connection);
 
             $manualNotes->deleteSingleComment($noteId);
             // TODO: add error handling
@@ -82,7 +77,7 @@ switch ($action) {
                 'sdesc'           => $sdesc,
             );
 
-            require dirname(dirname(dirname(dirname(__FILE__)))) . DIRECTORY_SEPARATOR . 'include/bugs/pear-bug-accountrequest.php';
+            require 'bugs/pear-bug-accountrequest.php';
             $pba = new PEAR_Bug_AccountRequest;
             $pba->sendBugEmail($emailInfos);
 
@@ -129,7 +124,7 @@ switch ($action) {
 
         $url = isset($_POST['url']) ? strip_tags($_POST['url']) : '';
         $error = '';
-        require dirname(dirname(dirname(dirname(__FILE__)))) . '/templates/notes/note-manage-admin.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/notes/note-manage-admin.tpl.php';
         break;
     case 'approvemass':
 
@@ -174,7 +169,7 @@ switch ($action) {
 
         $url = isset($_POST['url']) ? strip_tags($_POST['url']) : '';
         $error = '';
-        require dirname(dirname(dirname(dirname(__FILE__)))) . '/templates/notes/note-manage-admin.tpl.php';
+        require PEARWEB_TEMPLATEDIR . '/notes/note-manage-admin.tpl.php';
         break;
     case 'updatesingle':
         break;
