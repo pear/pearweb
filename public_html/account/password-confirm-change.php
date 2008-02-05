@@ -3,7 +3,7 @@ $errors = array();
 response_header('PEAR :: Confirm Password Change');
 if (!isset($_POST['confirm'])) {
     $handle = '';
-    require dirname(dirname(dirname(__FILE__))) . '/templates/users/passwordform.php';
+    require PEARWEB_TEMPLATEDIR . '/users/passwordform.php';
     exit;
 } else {
     $errors = array();
@@ -20,7 +20,7 @@ if (!isset($_POST['confirm'])) {
     }
     if (count($errors)) {
         $handle = $_POST['handle'];
-        require dirname(dirname(dirname(__FILE__))) . '/templates/users/passwordform.php';
+        require PEARWEB_TEMPLATEDIR . '/users/passwordform.php';
         exit;
     }
 }
@@ -29,9 +29,8 @@ $manager = new Users_PasswordManage;
 $errors = $manager->confirmReset($_POST['handle'], $_POST['resetcode']);
 if (count($errors)) {
     $handle = $_POST['handle'];
-    require dirname(dirname(dirname(__FILE__))) . '/templates/users/passwordform.php';
+    require PEARWEB_TEMPLATEDIR . '/users/passwordform.php';
     exit;
 }
 $user = $_POST['handle'];
-require dirname(dirname(dirname(__FILE__))) . '/templates/users/passwordresetconfirmed.php';
-?>
+require PEARWEB_TEMPLATEDIR . '/users/passwordresetconfirmed.php';
