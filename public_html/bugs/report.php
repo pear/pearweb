@@ -125,7 +125,7 @@ if (isset($_POST['in'])) {
             $res =& $dbh->query($query);
 
             if ($res->numRows() == 0) {
-                $ok_to_submit_report = 1;
+                $ok_to_submit_report = true;
             } else {
                 response_header('Report - Confirm');
 ?>
