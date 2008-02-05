@@ -127,12 +127,7 @@ if (isset($_POST['in'])) {
             if ($res->numRows() == 0) {
                 $ok_to_submit_report = 1;
             } else {
-                response_header("Report - Confirm");
-                if (count($_FILES)) {
-                    echo '<h1>WARNING: YOU MUST RE-UPLOAD YOUR PATCH, OR IT WILL BE IGNORED</h1>';
-
-                }
-
+                response_header('Report - Confirm');
                 ?>
 
 <p>
