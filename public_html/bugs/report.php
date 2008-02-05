@@ -305,11 +305,7 @@ if (isset($_POST['in'])) {
     /*
      * Need to move the insert ID determination to DB eventually...
      */
-                if ($dbh->phptype == 'mysql') {
-                    $cid = mysql_insert_id();
-                } else {
-                    $cid = mysqli_insert_id($dbh->connection);
-                }
+                $cid = mysqli_insert_id($dbh->connection);
 
                 Bug_DataObject::init();
                 $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
