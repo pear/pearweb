@@ -22,14 +22,14 @@
       ?>"><?php echo clean($patch); ?></a>
   </th>
   <td>
-   <?php foreach ($revisions as $revision): ?>
+   <?php foreach ($revisions as $rev): ?>
    revision <a href="patch-display.php?bug=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
-      ?>&revision=<?php echo $revision[0] ?>&display=1"><?php echo format_date($revision[0]) ?></a> by <a href="/user/<?php echo $revision[1] ?>"><?php echo $revision[1] ?></a><br />
-   <?php endforeach; //foreach ($revisions as $revision) ?>
+      ?>&revision=<?php echo $rev[0] ?>&display=1"><?php echo format_date($rev[0]) ?></a> by <a href="/user/<?php echo $rev[1] ?>"><?php echo $rev[1] ?></a><br />
+   <?php endforeach; //foreach ($revisions as $rev) ?>
   </td>
  </tr>
 <?php
-    endforeach; //foreach ($patches as $name => $revisions)
+    endforeach; //foreach ($patches as $name => $rev)
 endif; //if (!count($patches)) ?>
 </table>
 </div>
