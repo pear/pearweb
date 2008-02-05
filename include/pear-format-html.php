@@ -559,9 +559,7 @@ function error_handler($errobj, $title = 'Error')
  */
 function report_success($in)
 {
-    echo '<div class="success">';
-    echo htmlspecialchars($in);
-    echo "</div>\n";
+    echo '<div class="success">' .$in . "</div>\n";
 }
 
 /**
