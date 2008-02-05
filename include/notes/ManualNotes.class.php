@@ -411,7 +411,7 @@ class Manual_Notes
         $comment    = $comment['note_text'];
         $linkUrl    = '<a href="#' . $noteId . '">' . $time . '</a>';
         $linkName   = '<a name="' . $noteId . '"></a>';
-        include dirname(dirname(dirname(__FILE__))) . '/templates/notes/note.tpl.php';
+        include PEARWEB_TEMPLATEDIR . '/notes/note.tpl.php';
     }
 
     // {{{ public function obfuscateAnonLink
