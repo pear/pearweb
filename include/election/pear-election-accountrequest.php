@@ -26,7 +26,7 @@ class PEAR_Election_Accountrequest
         $request = $this->dbh->getRow('
             SELECT id, created_on, salt, handle
             FROM election_account_request
-            WHERE salt=?
+            WHERE salt = ?
         ', array($salt), DB_FETCHMODE_ASSOC);
 
         if (count($request) > 0) {
@@ -136,7 +136,7 @@ class PEAR_Election_Accountrequest
                 . "    http://" . PEAR_CHANNELNAME . "/election/";
             $xhdr = "From: " . PEAR_WEBMASTER_EMAIL;
             if (!DEVBOX){
-                mail($user['email'], "Your PEAR Account Request", $msg, $xhdr, "-f " . PEAR_BOUNCE_EMAIL);
+                mail($user['email'], "Your PEAR Ac count Request", $msg, $xhdr, "-f " . PEAR_BOUNCE_EMAIL);
             }
             $this->deleteRequest();
             return true;
@@ -157,13 +157,13 @@ class PEAR_Election_Accountrequest
         if (is_array($all)) {
             foreach ($all as $data) {
                 $this->dbh->query('
-                    DELETE FROM users WHERE handle=?
+                    DELETE FROM users WHERE handle = ?
                 ', array($data[0]));
                 $this->dbh->query('
-                    DELETE FROM bugdb WHERE handle=?
+                    DELETE FROM bugdb WHERE handle = ?
                 ', array($data[0]));
                 $this->dbh->query('
-                    DELETE FROM bugdb_comments WHERE handle=?
+                    DELETE FROM bugdb_comments WHERE handle = ?
                 ', array($data[0]));
             }
         }
@@ -172,4 +172,3 @@ class PEAR_Election_Accountrequest
         return $this->dbh->query($query, array($old));
     }
 }
-?>
