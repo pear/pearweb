@@ -2,21 +2,33 @@
 // this test has extensive setup because we need to create the
 // REST for each package in the category plus releases
 // as savePackagesCategoryREST groks data from files rather than the database
-$mock->addDataQuery("SELECT p.id AS packageid, p.name AS name, p.package_type AS type, c.id AS categoryid, c.name AS category, p.stablerelease AS stable, p.license AS license, p.summary AS summary, p.homepage AS homepage, p.description AS description, p.cvs_link AS cvs_link, p.doc_link as doc_link, p.unmaintained AS unmaintained,p.newpk_id AS newpk_id,
-              p.newpackagename as new_package,
-              p.newchannel as new_channel,
-              p.blocktrackbacks FROM packages p, categories c WHERE p.package_type = 'pear' AND p.approved = 1 AND  c.id = p.category AND p.name = 'Blah1'", array(
+$mock->addDataQuery("SELECT
+            p.id AS packageid, p.name AS name,
+            p.package_type AS type,
+            c.id AS categoryid, c.name AS category,
+            p.stablerelease AS stable, p.license AS license,
+            p.summary AS summary, p.homepage AS homepage,
+            p.description AS description, p.cvs_link AS cvs_link,
+            p.doc_link as doc_link, p.bug_link as bug_link,
+            p.unmaintained AS unmaintained,
+            p.newpk_id AS newpk_id,
+            p.newpackagename as new_package,
+            p.newchannel as new_channel,
+            p.blocktrackbacks
+            FROM packages p, categories c
+            WHERE p.package_type = 'pear' AND p.approved = 1 AND c.id = p.category AND p.name = 'Blah1'",
+            array(
                 array('packageid' => 1, 'name' => 'Blah1', 'type' => 'pear',
                 'categoryid' => 1, 'category' => 'rename',
                 'stable' => null, 'license' => 'BSD License',
                 'summary' => 'Blah1', 'homepage' => null, 'description' => 'Hi Blah1',
                 'cvs_link' => null,
-                'doc_link' => null, 'unmaintained' => 0, 'newpk_id' => null,
+                'doc_link' => null, 'bug_link' => null, 'unmaintained' => 0, 'newpk_id' => null,
                 'new_package' => null, 'new_channel' => null)
               ),
               array('packageid', 'name', 'type', 'categoryid', 'category',
                 'stable', 'license', 'summary', 'homepage', 'description', 'cvs_link',
-                'doc_link', 'unmaintained', 'newpk_id', 'new_package', 'new_channel'));
+                'doc_link', 'bug_link', 'unmaintained', 'newpk_id', 'new_package', 'new_channel'));
 $mock->addDataQuery("SELECT version, id, doneby, license, summary, description, releasedate, releasenotes, state FROM releases WHERE package = 1 ORDER BY releasedate DESC",
     array(
         array('version' => '1.0.0', 'id' => 1, 'doneby' => 'cellog',
@@ -37,7 +49,7 @@ $mock->addDataQuery("SELECT type, relation, version, name, `release` as `release
                 'name' => 'Blah3', 'release' => 1, 'optional' => 0),
                      ),
                      array('type', 'relation', 'version', 'name', 'release', 'optional'));
-$mock->addDataQuery("SELECT id FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND  p.name = 'Blah1'", array(array('id' => 1)), array('id'));
+$mock->addDataQuery("SELECT id FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND p.name = 'Blah1'", array(array('id' => 1)), array('id'));
 $mock->addDataQuery("SELECT * FROM releases WHERE package = 1 ORDER BY releasedate DESC",
     array(
   array (
@@ -149,18 +161,18 @@ $mock->addDataQuery("SELECT
             p.newchannel as new_channel,
             p.blocktrackbacks
             FROM packages p, categories c
-            WHERE p.package_type = 'pear' AND p.approved = 1 AND  c.id = p.category AND p.name = 'Blah2'", array(
+            WHERE p.package_type = 'pear' AND p.approved = 1 AND c.id = p.category AND p.name = 'Blah2'", array(
                 array('packageid' => 1, 'name' => 'Blah2', 'type' => 'pear',
                 'categoryid' => 1, 'category' => 'rename',
                 'stable' => null, 'license' => 'BSD License',
                 'summary' => 'Blah2', 'homepage' => null, 'description' => 'Hi Blah2',
                 'cvs_link' => null,
-                'doc_link' => null, 'unmaintained' => 0, 'newpk_id' => null,
+                'doc_link' => null, 'bug_link' => null, 'unmaintained' => 0, 'newpk_id' => null,
                 'new_package' => null, 'new_channel' => null)
               ),
               array('packageid', 'name', 'type', 'categoryid', 'category',
                 'stable', 'license', 'summary', 'homepage', 'description', 'cvs_link',
-                'doc_link', 'unmaintained', 'newpk_id', 'new_package', 'new_channel'));
+                'doc_link', 'bug_link', 'unmaintained', 'newpk_id', 'new_package', 'new_channel'));
 $mock->addDataQuery("SELECT version, id, doneby, license, summary, description, releasedate, releasenotes, state FROM releases WHERE package = 2 ORDER BY releasedate DESC",
     array(
     ), array('version', 'id', 'doneby', 'license', 'summary', 'description', 'releasedate',
@@ -171,7 +183,7 @@ $mock->addDataQuery("SELECT type, relation, version, name, `release` as `release
                      FROM deps
                      WHERE package = 2 ORDER BY optional ASC", array(),
                      array('type', 'relation', 'version', 'name', 'release', 'optional'));
-$mock->addDataQuery("SELECT id FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND  p.name = 'Blah2'", array(array('id' => 2)), array('id'));
+$mock->addDataQuery("SELECT id FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND p.name = 'Blah2'", array(array('id' => 2)), array('id'));
 $mock->addDataQuery("SELECT * FROM releases WHERE package = 2 ORDER BY releasedate DESC",
     array(
   array (
