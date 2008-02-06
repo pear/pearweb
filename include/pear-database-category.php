@@ -85,7 +85,8 @@ class category
      */
     static function update($id, $name, $desc = '')
     {
-        $GLOBALS['pear_rest']->deleteCategoryREST($GLOBALS['dbh']->getOne('SELECT name FROM categories WHERE id = ?', array($id)));
+        $data = $GLOBALS['dbh']->getOne('SELECT name FROM categories WHERE id = ?', array($id));
+        $GLOBALS['pear_rest']->deleteCategoryREST($data);
         $ret = $GLOBALS['dbh']->query('UPDATE categories SET name = ?, description = ? WHERE id = ?', array($name, $desc, $id));
         $GLOBALS['pear_rest']->saveCategoryREST($name);
         $GLOBALS['pear_rest']->saveAllCategoriesREST();
