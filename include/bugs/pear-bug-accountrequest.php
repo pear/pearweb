@@ -24,11 +24,9 @@ class PEAR_Bug_Accountrequest
         if (!$this->handle) {
             return false;
         }
-        $request = $this->dbh->getOne('
-            SELECT handle
-            FROM bug_account_request
-            WHERE handle=?
-        ', array($this->handle));
+
+        $sql = 'SELECT handle FROM bug_account_request WHERE handle = ?';
+        $request = $this->dbh->getOne($sql, array($this->handle));
 
         if ($request) {
             return true;
@@ -39,22 +37,19 @@ class PEAR_Bug_Accountrequest
     function sendEmail()
     {
         if (!$this->handle) {
-            throw new Exception('Internal fault: user was not set when sending email, please report to ' . PEAR_DEV_EMAIL);
+            throw new Exception('Internal fault: user was not set when sending email,
+                                please report to ' . PEAR_DEV_EMAIL);
         }
-        $salt = $this->dbh->getOne('
-            SELECT salt
-            FROM bug_account_request
-            WHERE handle=?
-        ', array($this->handle));
+
+        $sql  = 'SELECT salt FROM bug_account_request WHERE handle = ?';
+        $salt = $this->dbh->getOne($sql, array($this->handle));
         if (!$salt) {
             throw new Exception('No such handle ' .
             $this->handle . ' found, cannot send confirmation email');
         }
-        $email = $this->dbh->getOne('
-            SELECT email
-            FROM bug_account_request
-            WHERE salt=?
-        ', array($salt));
+
+        $sql   = 'SELECT email FROM bug_account_request WHERE salt = ?';
+        $email = $this->dbh->getOne($sql, array($salt));
         if (!$email) {
             throw new Exception('No such salt found, cannot send confirmation email');
         }
@@ -89,8 +84,7 @@ class PEAR_Bug_Accountrequest
         $request = $this->dbh->getRow('
             SELECT id, created_on, salt, handle, email
             FROM bug_account_request
-            WHERE salt=?
-        ', array($salt), DB_FETCHMODE_ASSOC);
+            WHERE salt = ?', array($salt), DB_FETCHMODE_ASSOC);
 
         if (count($request) > 0) {
             foreach ($request as $field => $value) {
@@ -112,38 +106,35 @@ class PEAR_Bug_Accountrequest
         $handle = '#' . substr($salt, 0, 19);
         $created_on = gmdate('Y-m-d H:i:s');
 
-        $test = $this->dbh->getOne('SELECT email from users where email=?', array($email));
+        $test = $this->dbh->getOne('SELECT email from users where email = ?', array($email));
         if ($test === $email) {
             return PEAR::raiseError('Email is already in use for an existing account');
         }
-        $test = $this->dbh->getOne('SELECT email from bug_account_request where email=?',
+        $test = $this->dbh->getOne('SELECT email from bug_account_request where email = ?',
             array($email));
         if ($test === $email) {
             // re-use existing request
-            $salt = $this->dbh->getOne('SELECT salt FROM bug_account_request WHERE email=?',
+            $salt = $this->dbh->getOne('SELECT salt FROM bug_account_request WHERE email = ?',
                 array($email));
             $this->find($salt);
             return $salt;
         }
-        $query = '
-        insert into bug_account_request (created_on, handle, email, salt)
-        values (?, ?, ?, ?)';
+        $query = 'INSERT INTO bug_account_request (created_on, handle, email, salt)
+        VALUES (?, ?, ?, ?)';
 
         $res = $this->dbh->query($query, array($created_on, $handle, $email, $salt));
-
         if (DB::isError($res)) {
             return $res;
         }
 
-        $this->handle = $this->dbh->getOne('SELECT handle FROM bug_account_request WHERE
-            salt=?', array($salt));
+        $sql = 'SELECT handle FROM bug_account_request WHERE salt = ?';
+        $this->handle = $this->dbh->getOne($sql, array($salt));
         return $salt;
     }
 
     function deleteRequest()
     {
-        $query = 'delete from bug_account_request where salt=?';
-
+        $query = 'DELETE FROM bug_account_request WHERE salt = ?';
         return $this->dbh->query($query, array($this->salt));
     }
 
@@ -196,8 +187,8 @@ class PEAR_Bug_Accountrequest
 
     function confirmRequest($handle, $password, $name)
     {
-        if ($handle == $this->dbh->getOne('SELECT handle FROM users WHERE
-              handle=?', array($handle))) {
+        $sql = 'SELECT handle FROM users WHERE handle = ?';
+        if ($handle == $this->dbh->getOne($sql, array($handle))) {
             $id = $this->dbh->nextId("karma");
 
             $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
@@ -225,8 +216,8 @@ class PEAR_Bug_Accountrequest
             return $useradd;
         }
 
-        $temphandle = $this->dbh->getOne('
-            SELECT handle from bug_account_request WHERE salt=?', array($this->salt));
+        $sql = 'SELECT handle from bug_account_request WHERE salt = ?';
+        $temphandle = $this->dbh->getOne($sql, array($this->salt));
         // update all relevant records to the new handle
         $this->dbh->query('UPDATE bugdb_comments set reporter_name=? WHERE handle=?', array($name, $temphandle));
         $this->dbh->query('UPDATE bugdb set reporter_name=? WHERE handle=?', array($name, $temphandle));
@@ -264,15 +255,15 @@ class PEAR_Bug_Accountrequest
 
         $id = $this->dbh->nextId("karma");
 
-        $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
+        $query = 'INSERT INTO karma VALUES (?, ?, ?, ?, NOW())';
         $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', 'pearweb'));
 
         $id = $this->dbh->nextId("karma");
         $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', 'pearweb'));
 
         if (!DB::isError($sth)) {
-            note::add("uid", $this->handle, "Account opened", 'pearweb');
-            $bugs = $this->dbh->getAll('SELECT * FROM bugdb WHERE handle=?',
+            note::add("uid", $this->handle, 'Account opened', 'pearweb');
+            $bugs = $this->dbh->getAll('SELECT * FROM bugdb WHERE handle = ?',
                 array($this->handle), DB_FETCHMODE_ASSOC);
             foreach ($bugs as $bug) {
                 $this->sendBugEmail($bug);
@@ -280,7 +271,7 @@ class PEAR_Bug_Accountrequest
             $patches = $this->dbh->getAll('SELECT bugdb.package_name,bugdb_patchtracker.*
                 FROM bugdb_patchtracker, bugdb
                 WHERE bugdb_patchtracker.developer=?
-                    AND bugdb.id=bugdb_patchtracker.bugdb_id', array($this->handle),
+                    AND bugdb.id = bugdb_patchtracker.bugdb_id', array($this->handle),
                     DB_FETCHMODE_ASSOC);
             foreach ($patches as $patch) {
                 $this->sendPatchEmail($patch);
@@ -291,7 +282,7 @@ class PEAR_Bug_Accountrequest
                     bugdb.ldesc,bugdb.php_version, bugdb.php_os,bugdb.status,
                     bugdb.assign,bugdb.package_version
                  FROM bugdb_comments,bugdb WHERE bugdb.id=bugdb_comments.bug AND
-                 bugdb_comments.handle=?',
+                 bugdb_comments.handle = ?',
                 array($this->handle), DB_FETCHMODE_ASSOC);
             foreach ($bugs as $bug) {
                 $this->sendBugCommentEmail($bug);
@@ -316,7 +307,7 @@ class PEAR_Bug_Accountrequest
      *
      * @return array  an array of email addresses
      */
-    function get_package_mail($package_name, $bug_id=false)
+    function get_package_mail($package_name, $bug_id = false)
     {
         global $site, $bugEmail, $dbh;
         switch ($package_name) {
@@ -345,9 +336,9 @@ class PEAR_Bug_Accountrequest
         if ($bug_id) {
             $bug_id = (int)$bug_id;
 
-            $assigned = $dbh->getOne('SELECT assign FROM bugdb WHERE id=' . $bug_id);
+            $assigned = $dbh->getOne('SELECT assign FROM bugdb WHERE id = ' . $bug_id);
             if ($assigned) {
-                $assigned = $dbh->getOne('SELECT email FROM users WHERE handle="' . $assigned . '"');
+                $assigned = $dbh->getOne('SELECT email FROM users WHERE handle = "' . $assigned . '"');
                 if ($assigned && !in_array($assigned, $to)) {
                     // assigned is not a maintainer
                     $to[] = $assigned;
@@ -386,8 +377,7 @@ class PEAR_Bug_Accountrequest
             'Documentation Problem'   => 'Doc',
         );
 
-        $text = array();
-        $headers = array();
+        $headers = $text = array();
 
         /* Default addresses */
         list($mailto,$mailfrom, $Bcc) =
@@ -404,14 +394,14 @@ class PEAR_Bug_Accountrequest
         }
 
         $fields = array(
-            'sdesc'        => 'Summary',
-            'status'       => 'Status',
-            'bug_type'     => 'Type',
-            'package_name' => 'Package',
-            'php_os'       => 'Operating System',
+            'sdesc'            => 'Summary',
+            'status'           => 'Status',
+            'bug_type'         => 'Type',
+            'package_name'     => 'Package',
+            'php_os'           => 'Operating System',
             'package_version'  => 'Package Version',
-            'php_version'  => 'PHP Version',
-            'assign'       => 'Assigned To'
+            'php_version'      => 'PHP Version',
+            'assign'           => 'Assigned To'
         );
 
         foreach ($fields as $name => $desc) {
@@ -423,8 +413,7 @@ class PEAR_Bug_Accountrequest
         }
 
         # make header output aligned
-        $maxlength = 0;
-        $actlength = 0;
+        $actlength = $maxlength = 0;
         foreach ($headers as $v) {
             $actlength = strlen($v[0]) + 1;
             $maxlength = (($maxlength < $actlength) ? $actlength : $maxlength);
@@ -474,7 +463,7 @@ class PEAR_Bug_Accountrequest
                   "Bcc: $Bcc\n" .
                   "X-PHP-Bug: $bug[id]\n".
                   "In-Reply-To: <bug-$bug[id]@pear.php.net>",
-                  "-fbounces-ignored@php.net");
+                  "-f ". PEAR_BOUNCE_EMAIL);
             # but we go ahead and let the default sender get used for the list
 
             @mail($mailto,
@@ -489,7 +478,7 @@ class PEAR_Bug_Accountrequest
                   "X-PHP-OS: "         . $bug['php_os']      . "\n" .
                   "X-PHP-Status: "     . $new_status . "\n" .
                   "In-Reply-To: <bug-$bug[id]@pear.php.net>",
-                  "-f bounce-no-user@php.net");
+                  "-f " . PEAR_BOUNCE_EMAIL);
         }
     }
 
@@ -535,7 +524,7 @@ class PEAR_Bug_Accountrequest
         $max_comments = 5;
         $output = ""; $count = 0;
 
-        $res =& $this->dbh->query("SELECT ts, email, comment, handle FROM bugdb_comments WHERE bug=$bug_id ORDER BY ts DESC");
+        $res =& $this->dbh->query("SELECT ts, email, comment, handle FROM bugdb_comments WHERE bug = $bug_id ORDER BY ts DESC");
 
         # skip the most recent unless the caller wanted all comments
         if (!$all) {
@@ -554,7 +543,7 @@ class PEAR_Bug_Accountrequest
         }
 
         if (strlen($output) < $max_message_length && $count < $max_comments) {
-            $res =& $this->dbh->query("SELECT ts1,email,ldesc,handle FROM bugdb WHERE id=$bug_id");
+            $res =& $this->dbh->query("SELECT ts1,email,ldesc,handle FROM bugdb WHERE id = $bug_id");
             if (!$res) {
                 return $output;
             }
@@ -646,18 +635,18 @@ class PEAR_Bug_Accountrequest
         );
         $type = @$types[$buginfo['bug_type']];
 
-        if (DEVBOX == false) {
+        if (!DEVBOX) {
             // mail to package developers
             @mail($mailto, "[PEAR-BUG] $buginfo[bug_type] #$buginfo[id] [NEW]: $sdesc",
                   $ascii_report . "1\n-- \n", $extra_headers,
-                  '-f bounce-no-user@php.net');
+                  '-f ' . PEAR_BOUNCE_EMAIL);
             // mail to reporter
             @mail($email, "[PEAR-BUG] $buginfo[bug_type] #$buginfo[id]: $sdesc",
                   $ascii_report . "2\n",
                   "From: pear.php.net Bug Database <$mailfrom>\n" .
                   "X-PHP-Bug: $buginfo[id]\n" .
                   "Message-ID: <bug-$buginfo[id]@pear.php.net>",
-                  '-f bounce-no-user@php.net');
+                  '-f ' . PEAR_BOUNCE_EMAIL);
         }
     }
     function listRequests()
@@ -667,36 +656,31 @@ class PEAR_Bug_Accountrequest
     function cleanOldRequests()
     {
         $old = gmdate('Y-m-d', strtotime('-1 Day'));
-        $findquery = '
-            select handle from bug_account_request
-            where created_on < ?';
-        $all = $this->dbh->getAll($findquery, array($old));
+        $query = 'SELECT handle FROM bug_account_request WHERE created_on < ?';
+        $all = $this->dbh->getAll($query, array($old));
         require_once 'bugs/patchtracker.php';
         $p = new Bugs_Patchtracker;
         // purge reserved usernames as well as their account requests
         if (is_array($all)) {
             foreach ($all as $data) {
                 $this->dbh->query('
-                    DELETE FROM users WHERE handle=?
+                    DELETE FROM users WHERE handle = ?
                 ', array($data[0]));
                 $this->dbh->query('
-                    DELETE FROM bugdb WHERE handle=?
+                    DELETE FROM bugdb WHERE handle = ?
                 ', array($data[0]));
                 $this->dbh->query('
-                    DELETE FROM bugdb_comments WHERE handle=?
+                    DELETE FROM bugdb_comments WHERE handle = ?
                 ', array($data[0]));
-                $patches = $this->dbh->getAll('SELECT * FROM bugdb_patchtracker
-                    WHERE developer=?', array($data[0]), DB_FETCHMODE_ASSOC);
+                $sql = 'SELECT * FROM bugdb_patchtracker WHERE developer = ?';
+                $patches = $this->dbh->getAll($sql, array($data[0]), DB_FETCHMODE_ASSOC);
                 foreach ($patches as $patch) {
                     $p->detach($patch['bugdb_id'], $patch['patch'], $patch['revision']);
                 }
             }
         }
-        $query = '
-            delete from bug_account_request
-            where created_on < ?';
+        $query = 'DELETE FROM bug_account_request WHERE created_on < ?';
         // purge out-of-date account requests
         return $this->dbh->query($query, array($old));
     }
 }
-
