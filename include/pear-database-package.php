@@ -279,16 +279,12 @@ class package
             $max = isset($dependency['max']) ? $dependency['max'] : false;
             $recommended = isset($dependency['recommended']) ?
                 $dependency['recommended'] : false;
-            if (isset($dependency['exclude'])) {
-                if (!isset($dependency['exclude'][0])) {
-                    $exclude = array($dependency['exclude']);
-                }
+            if (isset($dependency['exclude']) && !isset($dependency['exclude'][0])) {
+                $exclude = array($dependency['exclude']);
             }
         }
-        $found = false;
-        $release = false;
+        $release = $found = false;
         foreach ($info as $ver => $release) {
-
             if (in_array($ver, $exclude)) { // skip excluded versions
                 continue;
             }
@@ -363,9 +359,9 @@ class package
         $what = is_numeric($pkg) ? 'id' : 'name';
 
         if ($allow_pecl) {
-             $package_type = "((p.package_type = 'pear' AND p.approved = 1) OR p.package_type = 'pecl') AND ";
+             $package_type = "((p.package_type = 'pear' AND p.approved = 1) OR p.package_type = 'pecl') AND";
         } else {
-             $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
+             $package_type = "p.package_type = 'pear' AND p.approved = 1 AND";
         }
 
         $pkg_sql = "SELECT
