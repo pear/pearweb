@@ -31,16 +31,28 @@ $mock->addDataQuery("SELECT
 $mock->addDataQuery("SELECT name FROM categories WHERE id = 1", array(array('name' => 'test')),
     array('name'));
 // necessary setup for savePackagesCategoryREST()
-$mock->addDataQuery("SELECT p.id AS packageid, p.name AS name, p.package_type AS type, c.id AS categoryid, c.name AS category, p.stablerelease AS stable, p.license AS license, p.summary AS summary, p.homepage AS homepage, p.description AS description, p.cvs_link AS cvs_link, p.doc_link as doc_link, p.unmaintained AS unmaintained,p.newpk_id AS newpk_id,
-              p.newpackagename as new_package,
-              p.newchannel as new_channel,
-              p.blocktrackbacks FROM packages p, categories c WHERE p.package_type = 'pear' AND p.approved = 1 AND  c.id = p.category AND p.name = 'Blah1'", array(
+$mock->addDataQuery("SELECT
+             p.id AS packageid, p.name AS name,
+             p.package_type AS type,
+             c.id AS categoryid, c.name AS category,
+             p.stablerelease AS stable, p.license AS license,
+             p.summary AS summary, p.homepage AS homepage,
+             p.description AS description, p.cvs_link AS cvs_link,
+             p.doc_link as doc_link, p.bug_link as bug_link,
+             p.unmaintained AS unmaintained,
+             p.newpk_id AS newpk_id,
+             p.newpackagename as new_package,
+             p.newchannel as new_channel,
+             p.blocktrackbacks
+             FROM packages p, categories c
+             WHERE p.package_type = 'pear' AND p.approved = 1 AND c.id = p.category AND p.name = 'Blah1'",
+            array(
                 array('packageid' => 1, 'name' => 'Blah1', 'type' => 'pear',
                 'categoryid' => 1, 'category' => 'rename',
                 'stable' => null, 'license' => 'BSD License',
                 'summary' => 'Blah1', 'homepage' => null, 'description' => 'Hi Blah1',
                 'cvs_link' => null,
-                'doc_link' => null, 'unmaintained' => 0, 'newpk_id' => null,
+                'doc_link' => null, 'bug_link' => null, 'unmaintained' => 0, 'newpk_id' => null,
                 'new_package' => null, 'new_channel' => null)
               ),
               array('packageid', 'name', 'type', 'categoryid', 'category',
@@ -57,16 +69,28 @@ $mock->addDataQuery("SELECT type, relation, version, name, `release` as `release
                      WHERE package = 1 ORDER BY optional ASC", array(),
                      array('type', 'relation', 'version', 'name', 'release', 'optional'));
 $pear_rest->savePackageREST('Blah1');
-$mock->addDataQuery("SELECT p.id AS packageid, p.name AS name, p.package_type AS type, c.id AS categoryid, c.name AS category, p.stablerelease AS stable, p.license AS license, p.summary AS summary, p.homepage AS homepage, p.description AS description, p.cvs_link AS cvs_link, p.doc_link as doc_link, p.unmaintained AS unmaintained,p.newpk_id AS newpk_id,
-              p.newpackagename as new_package,
-              p.newchannel as new_channel,
-              p.blocktrackbacks FROM packages p, categories c WHERE p.package_type = 'pear' AND p.approved = 1 AND  c.id = p.category AND p.name = 'Blah2'", array(
+$mock->addDataQuery("SELECT
+             p.id AS packageid, p.name AS name,
+             p.package_type AS type,
+             c.id AS categoryid, c.name AS category,
+             p.stablerelease AS stable, p.license AS license,
+             p.summary AS summary, p.homepage AS homepage,
+             p.description AS description, p.cvs_link AS cvs_link,
+             p.doc_link as doc_link, p.bug_link as bug_link,
+             p.unmaintained AS unmaintained,
+              p.newpk_id AS newpk_id,
+             p.newpackagename as new_package,
+             p.newchannel as new_channel,
+             p.blocktrackbacks
+             FROM packages p, categories c
+             WHERE p.package_type = 'pear' AND p.approved = 1 AND c.id = p.category AND p.name = 'Blah1'",
+            array(
                 array('packageid' => 1, 'name' => 'Blah2', 'type' => 'pear',
                 'categoryid' => 1, 'category' => 'rename',
                 'stable' => null, 'license' => 'BSD License',
                 'summary' => 'Blah2', 'homepage' => null, 'description' => 'Hi Blah2',
                 'cvs_link' => null,
-                'doc_link' => null, 'unmaintained' => 0, 'newpk_id' => null,
+                'doc_link' => null, 'bug_link' => null, 'unmaintained' => 0, 'newpk_id' => null,
                 'new_package' => null, 'new_channel' => null)
               ),
               array('packageid', 'name', 'type', 'categoryid', 'category',
@@ -111,7 +135,7 @@ $mock->addDataQuery("SELECT
             WHERE
                 p.category = c.id AND
                 c.name = 'test'", array(
-                ), array('id', 'name'));    
+                ), array('id', 'name'));
 category::add(array('name' => 'test'));
 
 
@@ -119,6 +143,7 @@ category::add(array('name' => 'test'));
 $mock->queries = array(); // start over
 $id = category::update(1, 'rename', 'new desc');
 $phpt->assertEquals(1, $id, 'id');
+var_dump($mock->queries);exit;
 $phpt->assertEquals(array (
   0 => 'SELECT name FROM categories WHERE id = 1',
   1 => 'UPDATE categories SET name = \'rename\', description = \'new desc\' WHERE id = 1',
