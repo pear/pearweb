@@ -115,10 +115,14 @@ if (isset($_POST['submit'])) {
                 $manager = new Tags_Manager;
                 $manager->clearTags($_POST['name']);
                 foreach ($_POST['tags'] as $tag) {
-                    if (!$tag) continue;
+                    if (!$tag) {
+                        continue;
+                    }
                     $manager->createPackageTag($tag, $_POST['name']);
                 }
             }
+
+            $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
             $pear_rest->saveAllPackagesREST();
             $pear_rest->savePackageREST($_POST['name']);
             $pear_rest->savePackagesCategoryREST(package::info($_POST['name'], 'category'));
