@@ -22,7 +22,7 @@ class maintainer
      */
     static function add($package, $user, $role, $active = 1)
     {
-        global $dbh, $pear_rest;
+        global $dbh;
 
         include_once 'pear-database-user.php';
         if (!user::exists($user)) {
@@ -34,13 +34,14 @@ class maintainer
             $package = package::info($package, 'id');
         }
 
-        $err = $dbh->query("INSERT INTO maintains (handle, package, role, active) VALUES (?, ?, ?, ?)",
-                           array($user, $package, $role, (int)$active));
+        $sql = 'INSERT INTO maintains (handle, package, role, active) VALUES (?, ?, ?, ?)';
+        $err = $dbh->query($sql, array($user, $package, $role, (int)$active));
 
         if (DB::isError($err)) {
             return $err;
         }
         $packagename = package::info($package, 'name');
+        $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
         $pear_rest->savePackageMaintainerREST($packagename);
         return true;
     }
