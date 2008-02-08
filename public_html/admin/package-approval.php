@@ -44,6 +44,7 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
 
     if (!PEAR::isError($res) && $dbh->affectedRows() > 0) {
         if ($action == 'approved') {
+             include_once 'pear-rest.php';
             $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
             $pear_rest->savePackageREST($row['name']);
             $pear_rest->saveAllPackagesREST();
