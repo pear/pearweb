@@ -112,6 +112,8 @@ if (!isset($_POST['confirm'])) {
         echo "<b>" . $dbh->affectedRows() . "</b> rows affected.\n";
     }
 
+    include_once 'pear-rest.php';
+    $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
     $pear_rest->deletePackageREST($packagename);
     echo "</pre>\nPackage " . $_GET['id'] . " has been deleted.\n";
 
