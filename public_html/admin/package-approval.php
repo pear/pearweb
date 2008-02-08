@@ -44,6 +44,7 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
 
     if (!PEAR::isError($res) && $dbh->affectedRows() > 0) {
         if ($action == 'approved') {
+            $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
             $pear_rest->savePackageREST($row['name']);
             $pear_rest->saveAllPackagesREST();
             include_once 'pear-database-package.php';
@@ -97,7 +98,7 @@ if (count($rows) == 0) {
         $tmp = array(
             $row['name'],
             make_link("$self?approve=" . $row['id'], "Approve") .
-                delim() .
+                ' / ' .
             make_link("$self?reject=" . $row['id'], "Reject")
         );
         $table->addRow($tmp);
