@@ -3,10 +3,10 @@ $restdir = dirname(__FILE__) . '/rest';
 mkdir($restdir);
 mkdir($restdir . '/c');
 require_once 'pear-rest.php';
-$pear_rest = new pear_rest($restdir);
+$pear_rest = new pearweb_Channel_REST_Generator($restdir);
 
 $mock->addDataQuery("SELECT * FROM users WHERE handle = 'cellog' AND registered = '1'", array (
-  0 => 
+  0 =>
   array (
     'handle' => 'cellog',
     'password' => md5('hi'),
@@ -79,7 +79,7 @@ $mock->addDataQuery("SELECT p.id AS packageid, p.name AS name, p.package_type AS
         'type' => 'pear',
         'categoryid' => 1,
         'category' => 'Hungry Hungry Hippo',
-        'stable' => null, 
+        'stable' => null,
         'license' => 'PHP License',
         'summary' => 'hi',
         'homepage' => null,
@@ -97,7 +97,7 @@ $mock->addDataQuery("SELECT p.id AS packageid, p.name AS name, p.package_type AS
 
 $mock->addDataQuery("SELECT version, id, doneby, license, summary, description, releasedate, releasenotes, state FROM releases WHERE package = 1 ORDER BY releasedate DESC",
 array (
-  0 => 
+  0 =>
   array (
     'version' => '2.1.6',
     'id' => '2246',
@@ -111,7 +111,7 @@ array (
      - Added PHP_AUTH_DIGEST support.',
     'state' => 'stable',
   ),
-  1 => 
+  1 =>
   array (
     'version' => '2.1.6RC1',
     'id' => '2198',
@@ -125,7 +125,7 @@ array (
      - Added PHP_AUTH_DIGEST support.',
     'state' => 'beta',
   ),
-  2 => 
+  2 =>
   array (
     'version' => '2.1.4',
     'id' => '1966',
@@ -138,7 +138,7 @@ array (
 - The first stable release with HTTP Digest Authenthication support.',
     'state' => 'stable',
   ),
-  3 => 
+  3 =>
   array (
     'version' => '2.1.3rc1',
     'id' => '1641',
@@ -150,7 +150,7 @@ array (
     'releasenotes' => '- fixed incompatibility problem with Auth 1.2.x.',
     'state' => 'beta',
   ),
-  4 => 
+  4 =>
   array (
     'version' => '2.1.1',
     'id' => '1559',
@@ -162,7 +162,7 @@ array (
     'releasenotes' => '- Fixed a bug #1634 (URI parameter was handled incorrectry.)',
     'state' => 'beta',
   ),
-  5 => 
+  5 =>
   array (
     'version' => '2.1.0',
     'id' => '1436',
@@ -177,11 +177,11 @@ array (
   backward compatibility.
 - Added setOption and getOption to set/get option value.
 - Starting with this release, HTTP Digest Authentication (RFC2617) is
-  experimentally supported. The code for HTTP Digest Authentication is 
+  experimentally supported. The code for HTTP Digest Authentication is
   originally developed by Tom Pike.',
     'state' => 'beta',
   ),
-  6 => 
+  6 =>
   array (
     'version' => '2.1.0RC2',
     'id' => '1296',
@@ -196,11 +196,11 @@ array (
   backward compatibility.
 - Added setOption and getOption to set/get option value.
 - Starting with this release, HTTP Digest Authentication (RFC2617) is
-  experimentally supported. The code for HTTP Digest Authentication is 
+  experimentally supported. The code for HTTP Digest Authentication is
   originally developed by Tom Pike.',
     'state' => 'beta',
   ),
-  7 => 
+  7 =>
   array (
     'version' => '2.1RC1',
     'id' => '1287',
@@ -214,11 +214,11 @@ array (
   backward compatibility.
 - Added setOption and getOption to set/get option value.
 - Starting with this release, HTTP Digest Authentication (RFC2617) is
-  experimentally supported. The code for HTTP Digest Authentication is 
+  experimentally supported. The code for HTTP Digest Authentication is
   originally developed by Tom Pike.',
     'state' => 'beta',
   ),
-  8 => 
+  8 =>
   array (
     'version' => '2.0',
     'id' => '916',
@@ -242,7 +242,7 @@ Other changes:
 * Cleaned up internal variable usage. (Patch by: Brad Bulger)',
     'state' => 'stable',
   ),
-  9 => 
+  9 =>
   array (
     'version' => '1.0.1',
     'id' => '134',
@@ -254,7 +254,7 @@ Other changes:
     'releasenotes' => 'This release makes Auth_HTTP compatible to the new PEAR installation system.',
     'state' => 'stable',
   ),
-  10 => 
+  10 =>
   array (
     'version' => '1.0',
     'id' => '7',
@@ -311,7 +311,7 @@ Correct Bug #3909 : Check existence of OS_WINDOWS constant
 Correct Bug #5452 fix for \"lone zero block\" when untarring packages
 Change filemode (from pear-core/Archive/Tar.php v.1.21)
 Correct Bug #6486 Can not extract symlinks
-Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal	
+Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal
 Correct Bug #8114 Files added on-the-fly not storing date
 Correct Bug #9352 Bug on _dirCheck function over nfs path')", array(), 1);
 $mock->addInsertQuery("INSERT INTO files (id,package,release,md5sum,basename,fullpath,packagexml) VALUES(1,1,1,'17d49e837b64df4e8f9124f829b22cd1','Archive_Tar-1.3.2.tgz','/home/cellog/workspace/pearweb/tests/site/release-upload.php/tarballs/Archive_Tar-1.3.2.tgz','<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -358,7 +358,7 @@ Correct Bug #3909 : Check existence of OS_WINDOWS constant
 Correct Bug #5452 fix for &quot;lone zero block&quot; when untarring packages
 Change filemode (from pear-core/Archive/Tar.php v.1.21)
 Correct Bug #6486 Can not extract symlinks
-Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal	
+Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal
 Correct Bug #8114 Files added on-the-fly not storing date
 Correct Bug #9352 Bug on _dirCheck function over nfs path</notes>
  <contents>
@@ -530,7 +530,7 @@ $mock->addInsertQuery("INSERT INTO apidoc_queue (filename, queued) VALUES ('" . 
         array(), 1);
 $mock->addDataQuery("SELECT * FROM releases WHERE package = 1 ORDER BY releasedate DESC",
     array(
-  9 => 
+  9 =>
   array (
     'version' => '1.3.2',
     'id' => '1',
@@ -548,7 +548,7 @@ Correct Bug #3909 : Check existence of OS_WINDOWS constant
 Correct Bug #5452 fix for "lone zero block" when untarring packages
 Change filemode (from pear-core/Archive/Tar.php v.1.21)
 Correct Bug #6486 Can not extract symlinks
-Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal	
+Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal
 Correct Bug #8114 Files added on-the-fly not storing date
 Correct Bug #9352 Bug on _dirCheck function over nfs path',
     'state' => 'stable',
@@ -603,7 +603,7 @@ Correct Bug #3909 : Check existence of OS_WINDOWS constant
 Correct Bug #5452 fix for &quot;lone zero block&quot; when untarring packages
 Change filemode (from pear-core/Archive/Tar.php v.1.21)
 Correct Bug #6486 Can not extract symlinks
-Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal	
+Correct Bug #6933 Archive_Tar (Tar file management class) Directory traversal
 Correct Bug #8114 Files added on-the-fly not storing date
 Correct Bug #9352 Bug on _dirCheck function over nfs path</notes>
  <contents>
