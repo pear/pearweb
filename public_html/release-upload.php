@@ -136,6 +136,9 @@ do {
                 $errors[] = $e->getMessage();
                 break;
             }
+
+            include_once 'pear-rest.php';
+            $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
             $pear_rest->savePackageMaintainerREST($info->getPackage());
 
             include_once 'pear-database-release.php';
