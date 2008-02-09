@@ -26,12 +26,8 @@ if (!DEVBOX) {
             DIRECTORY_SEPARATOR . 'rest');
 }
 
-if (empty($format)) {
-    $format = 'html';
-}
-
 require_once 'PEAR.php';
-include_once "pear-format-$format.php";
+include_once 'pear-format-html.php';
 include_once 'pear-auth.php';
 
 if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
