@@ -118,12 +118,7 @@ define('PEAR_PATCHTRACKER_TMPDIR', PEAR_TMPDIR . '/patch');
 if (isset($_ENV['PEAR_DATABASE_DSN'])) {
     define('PEAR_DATABASE_DSN', $_ENV['PEAR_DATABASE_DSN']);
 } else {
-    if (function_exists('mysql_connect')) {
-        // The PEAR::DB DSN connection string
-        define('PEAR_DATABASE_DSN', 'mysql://pear:pear@localhost/pear');
-    } elseif (function_exists('mysqli_connect')) {
-        define('PEAR_DATABASE_DSN', 'mysqli://pear:pear@localhost/pear');
-    }
+    define('PEAR_DATABASE_DSN', 'mysqli://pear:pear@localhost/pear');
 }
 
 // A preg regular expression for validating user names
@@ -157,3 +152,11 @@ define('TRACKBACK_REPOST_COUNT', 3);
 define('TRACKBACK_REPOST_TIMESPAN', 3600);
 // Auto purging time for trackbacks (14 days).
 define('TRACKBACK_PURGE_TIME', 14 * 27 * 60 * 60);
+
+if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME OR !isset($_ENV['PEAR_BOX'])) {
+    error_reporting(E_ALL);
+    define('DEVBOX', true);
+} else {
+    error_reporting(E_ALL ^ E_NOTICE);
+    define('DEVBOX', false);
+}

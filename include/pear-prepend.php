@@ -18,13 +18,6 @@
    $Id$
 */
 require_once 'pear-config.php';
-if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME OR !isset($_ENV['PEAR_BOX'])) {
-    error_reporting(E_ALL);
-    define('DEVBOX', true);
-} else {
-    error_reporting(E_ALL ^ E_NOTICE);
-    define('DEVBOX', false);
-}
 
 if (!DEVBOX) {
     define('PEAR_REST_PATH', '/var/lib/pearweb/rest');
