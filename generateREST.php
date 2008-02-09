@@ -10,25 +10,16 @@
 set_include_path(dirname(__FILE__) . '/include' . PATH_SEPARATOR . get_include_path());
 ob_start();
 require_once 'pear-config.php';
-if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
-    error_reporting(E_ALL);
-    define('DEVBOX', true);
-} else {
-    error_reporting(E_ALL ^ E_NOTICE);
-    define('DEVBOX', false);
-}
-
 require_once 'PEAR.php';
-
-include_once 'pear-database.php';
 include_once 'pear-rest.php';
+
 if (!isset($pear_rest)) {
     if (isset($_SERVER['argv']) && $_SERVER['argv'][1] == 'pear') {
-        $pear_rest = new pearweb_Channel_REST_Generator('/var/lib/pearweb/rest');
+        $rest_path = '/var/lib/pearweb/rest';
     } else {
-        $pear_rest = new pearweb_Channel_REST_Generator(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'public_html' .
-            DIRECTORY_SEPARATOR . 'rest');
+        $rest_path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'rest';
     }
+    $pear_rest = new pearweb_Channel_REST_Generator($rest_path);
 }
 
 include_once 'DB.php';
@@ -43,9 +34,9 @@ if (empty($dbh)) {
 ob_end_clean();
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 require_once 'System.php';
-System::rm(array('-r', $pear_rest->_restdir));
-System::mkdir(array('-p', $pear_rest->_restdir));
-chmod($pear_rest->_restdir, 0777);
+System::rm(array('-r', $rest_path));
+System::mkdir(array('-p', $rest_path));
+chmod($rest_path, 0777);
 echo "Generating Category REST...\n";
 
 include_once 'pear-database-category.php';
@@ -86,8 +77,8 @@ foreach (package::listAllNames() as $package) {
         $pear_rest->saveAllReleasesREST($package);
         echo "done\n";
         foreach ($releases as $version => $blah) {
-            $fileinfo = $dbh->getOne('SELECT fullpath FROM files WHERE `release` = ?',
-                array($blah['id']));
+            $sql = 'SELECT fullpath FROM files WHERE `release` = ?';
+            $fileinfo = $dbh->getOne($sql, array($blah['id']));
             $tar = &new Archive_Tar($fileinfo);
             if ($pxml = $tar->extractInString('package2.xml')) {
             } elseif ($pxml = $tar->extractInString('package.xml'));
