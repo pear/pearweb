@@ -160,3 +160,10 @@ if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME OR !isset($_ENV['PEAR_BOX'])) {
     error_reporting(E_ALL ^ E_NOTICE);
     define('DEVBOX', false);
 }
+
+if (!DEVBOX) {
+    define('PEAR_REST_PATH', '/var/lib/pearweb/rest');
+} else {
+    define('PEAR_REST_PATH', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
+            DIRECTORY_SEPARATOR . 'rest');
+}

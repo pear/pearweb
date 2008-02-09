@@ -18,14 +18,6 @@
    $Id$
 */
 require_once 'pear-config.php';
-
-if (!DEVBOX) {
-    define('PEAR_REST_PATH', '/var/lib/pearweb/rest');
-} else {
-    define('PEAR_REST_PATH', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
-            DIRECTORY_SEPARATOR . 'rest');
-}
-
 require_once 'PEAR.php';
 include_once 'pear-format-html.php';
 include_once 'pear-auth.php';
