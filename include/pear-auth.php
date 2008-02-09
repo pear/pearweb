@@ -33,11 +33,7 @@ function auth_reject($realm = null, $message = null)
         report_error($message);
     }
 
-    if (!DEVBOX) {
-        $action = 'https://' . $_SERVER['SERVER_NAME'] . '/login.php';
-    } else {
-        $action = "/login.php";
-    }
+    $action = DEVBOX ? '/login.php' : 'https://' . $_SERVER['SERVER_NAME'] . '/login.php';
 
     if (isset($_GET['redirect']) && is_string($_GET['redirect']) &&
           !strpos($_GET['redirect'], '://')) {
