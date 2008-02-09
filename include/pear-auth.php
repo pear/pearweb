@@ -20,84 +20,81 @@
 
 function auth_reject($realm = null, $message = null)
 {
-    global $format;
     if ($realm === null) {
         $realm = PEAR_AUTH_REALM;
     }
     if ($message === null) {
-        $message = "Please enter your username and password:";
+        $message = 'Please enter your username and password:';
     }
 
     response_header('Login');
-    if ($format == 'html') {
-        $GLOBALS['ONLOAD'] = "document.login.PEAR_USER.focus();";
-        if ($message) {
-            report_error($message);
-        }
+    $GLOBALS['ONLOAD'] = 'document.login.PEAR_USER.focus();';
+    if ($message) {
+        report_error($message);
+    }
 
-        if (DEVBOX == false) {
-            $action = "https://" . $_SERVER['SERVER_NAME'] . "/login.php";
-        } else {
-            $action = "/login.php";
-        }
+    if (!DEVBOX) {
+        $action = 'https://' . $_SERVER['SERVER_NAME'] . '/login.php';
+    } else {
+        $action = "/login.php";
+    }
 
-        if (isset($_GET['redirect']) && is_string($_GET['redirect']) &&
-              !strpos($_GET['redirect'], '://')) {
-            $redirect = htmlspecialchars(urldecode($_GET['redirect']));
-        } elseif (isset($_POST['PEAR_OLDURL']) && is_string($_POST['PEAR_OLDURL']) &&
-              !strpos($_POST['PEAR_OLDURL'], '://')) {
-            $redirect = htmlspecialchars($_POST['PEAR_OLDURL']);
-        } elseif (isset($_SERVER['REQUEST_URI'])) {
-            $redirect = htmlspecialchars($_SERVER['REQUEST_URI']);
-        } else {
-            $redirect = 'login.php';
-        }
+    if (isset($_GET['redirect']) && is_string($_GET['redirect']) &&
+          !strpos($_GET['redirect'], '://')) {
+        $redirect = htmlspecialchars(urldecode($_GET['redirect']));
+    } elseif (isset($_POST['PEAR_OLDURL']) && is_string($_POST['PEAR_OLDURL']) &&
+          !strpos($_POST['PEAR_OLDURL'], '://')) {
+        $redirect = htmlspecialchars($_POST['PEAR_OLDURL']);
+    } elseif (isset($_SERVER['REQUEST_URI'])) {
+        $redirect = htmlspecialchars($_SERVER['REQUEST_URI']);
+    } else {
+        $redirect = 'login.php';
+    }
 $channelname = PEAR_CHANNELNAME;
 echo <<<HTML
-        <script type="text/javascript" src="/javascript/md5.js"></script>
-        <script type="text/javascript">
-        function doMD5(frm) {
-            frm.PEAR_PW.value = hex_md5(frm.PEAR_PW.value);
-            frm.isMD5.value = 1;
-        }
-        </script>
-        <form onsubmit="javascript:doMD5(document.forms['login'])" name="login" action="$action" method="post">
-        <input type="hidden" name="isMD5" value="0" />
-        <table class="form-holder" cellspacing="1">
-         <tr>
-          <th class="form-label_left">
-        Use<span class="accesskey">r</span>name or email address:</th>
-          <td class="form-input">
-        <input size="20" name="PEAR_USER" accesskey="r" type="text" /></td>
-         </tr>
-         <tr>
-          <th class="form-label_left">Password:</th>
-          <td class="form-input">
-        <input size="20" name="PEAR_PW" type="password" /></td>
-         </tr>
-         <tr>
-          <th class="form-label_left">&nbsp;</th>
-          <td class="form-input" style="white-space: nowrap">
-        <input type="checkbox" name="PEAR_PERSIST" value="on" id="pear_persist_chckbx" />
-        <label for="pear_persist_chckbx">Remember username and password.</label></td>
-         </tr>
-         <tr>
-          <th class="form-label_left">&nbsp;</td>
-          <td class="form-input"><input type="submit" value="Log in!" /></td>
-         </tr>
-        </table>
-        <input type="hidden" name="PEAR_OLDURL" value="$redirect" />
-        </form>
-        <p><strong>Note:</strong> If you just want to browse the website,
-        you will not need to log in. For all tasks that require
-        authentication, you will be redirected to this form
-        automatically. You can sign up for an account
-        <a href="/account-request.php">over here</a>.</p>
-        <p>If you forgot your password, instructions for resetting
-        it can be found on a <a href="https://$channelname/about/forgot-password.php">
-        dedicated page</a>.</p>
-HTML;
+    <script type="text/javascript" src="/javascript/md5.js"></script>
+    <script type="text/javascript">
+    function doMD5(frm) {
+        frm.PEAR_PW.value = hex_md5(frm.PEAR_PW.value);
+        frm.isMD5.value = 1;
     }
+    </script>
+    <form onsubmit="javascript:doMD5(document.forms['login'])" name="login" action="$action" method="post">
+    <input type="hidden" name="isMD5" value="0" />
+    <table class="form-holder" cellspacing="1">
+     <tr>
+      <th class="form-label_left">
+    Use<span class="accesskey">r</span>name or email address:</th>
+      <td class="form-input">
+    <input size="20" name="PEAR_USER" accesskey="r" type="text" /></td>
+     </tr>
+     <tr>
+      <th class="form-label_left">Password:</th>
+      <td class="form-input">
+    <input size="20" name="PEAR_PW" type="password" /></td>
+     </tr>
+     <tr>
+      <th class="form-label_left">&nbsp;</th>
+      <td class="form-input" style="white-space: nowrap">
+    <input type="checkbox" name="PEAR_PERSIST" value="on" id="pear_persist_chckbx" />
+    <label for="pear_persist_chckbx">Remember username and password.</label></td>
+     </tr>
+     <tr>
+      <th class="form-label_left">&nbsp;</td>
+      <td class="form-input"><input type="submit" value="Log in!" /></td>
+     </tr>
+    </table>
+    <input type="hidden" name="PEAR_OLDURL" value="$redirect" />
+    </form>
+    <p><strong>Note:</strong> If you just want to browse the website,
+    you will not need to log in. For all tasks that require
+    authentication, you will be redirected to this form
+    automatically. You can sign up for an account
+    <a href="/account-request.php">over here</a>.</p>
+    <p>If you forgot your password, instructions for resetting
+    it can be found on a <a href="https://$channelname/about/forgot-password.php">
+    dedicated page</a>.</p>
+HTML;
     response_footer();
     exit;
 }
