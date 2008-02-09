@@ -36,8 +36,7 @@ if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
 
 if (!empty($_COOKIE['PEAR_USER']) && !auth_verify($_COOKIE['PEAR_USER'], $_COOKIE['PEAR_PW'])) {
     auth_kill_cookies();
-    $msg = 'Invalid username or password';
-    auth_reject(null, $msg);
+    auth_reject(null, 'Invalid username or password');
 }
 
 /**
