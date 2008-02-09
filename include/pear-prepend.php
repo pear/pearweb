@@ -33,12 +33,11 @@ if (!DEVBOX) {
             DIRECTORY_SEPARATOR . 'rest');
 }
 
-require_once 'PEAR.php';
-
 if (empty($format)) {
     $format = 'html';
 }
 
+require_once 'PEAR.php';
 include_once "pear-format-$format.php";
 include_once 'pear-auth.php';
 
@@ -49,9 +48,6 @@ if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
 if (!empty($_COOKIE['PEAR_USER']) && !auth_verify($_COOKIE['PEAR_USER'], $_COOKIE['PEAR_PW'])) {
     auth_kill_cookies();
     $msg = 'Invalid username or password';
-    if ($format == 'html') {
-        $msg .= ' <a href="/?logout=1">[logout]</a>';
-    }
     auth_reject(null, $msg);
 }
 
