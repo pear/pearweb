@@ -179,8 +179,22 @@ class Bugs_Patchtracker
                 'text/x-diff',
                 'text/x-patch',
                 'text/x-c++',
+                'text/x-c'
             );
-            if (!in_array($file->getProp('type'), $allowed_mime_types)) {
+
+            // return mime type ala mimetype extension
+            $finfo = new finfo(FILEINFO_MIME, 'C:/php/magic');
+            if (!$finfo) {
+                return PEAR::raiseError('Error: Opening fileinfo database failed');
+            }
+
+            // get mime-type for a specific file
+            $mime = $finfo->file($file->getProp('tmp_name'));
+            // get rid of the charset part
+            $t    = explode(';', $mime);
+            $mime = $t[0];
+
+            if (!in_array($mime, $allowed_mime_types)) {
                 $this->_dbh->query('DELETE FROM bugdb_patchtracker
                     WHERE bugdb_id = ? and patch = ? and revision = ?',
                     array($bugid, $name, $id));
