@@ -46,7 +46,7 @@ function auth_reject($realm = null, $message = null)
     } else {
         $redirect = 'login.php';
     }
-$channelname = PEAR_CHANNELNAME;
+    $channelname = PEAR_CHANNELNAME;
 echo <<<HTML
     <script type="text/javascript" src="/javascript/md5.js"></script>
     <script type="text/javascript">
@@ -182,12 +182,12 @@ function auth_require()
         $arg = func_get_arg($i);
         $res = auth_check($arg);
 
-        if ($res == true) {
+        if ($res === true) {
             return true;
         }
     }
 
-    if ($res == false) {
+    if ($res === false) {
         response_header("Insufficient Privileges");
         report_error("Insufficient Privileges");
         response_footer();
@@ -215,14 +215,11 @@ function auth_kill_cookies()
 function auth_logout()
 {
     auth_kill_cookies();
-
-    if ($_SERVER['QUERY_STRING'] == 'logout=1') {
-        localRedirect($_SERVER['PHP_SELF']);
-    } else {
-        localRedirect($_SERVER['PHP_SELF'] . '?' .
-                   preg_replace('/logout=1/',
-                                '', $_SERVER['QUERY_STRING']));
+    $redirect = $_SERVER['PHP_SELF'];
+    if ($_SERVER['QUERY_STRING'] != 'logout=1') {
+        $redirect .= '?' . preg_replace('/logout=1/', '', $_SERVER['QUERY_STRING']);
     }
+    localRedirect($redirect);
 }
 
 /**
