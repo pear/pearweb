@@ -183,7 +183,7 @@ class Bugs_Patchtracker
             );
 
             // return mime type ala mimetype extension
-            $finfo = new finfo(FILEINFO_MIME, 'C:/php/magic');
+            $finfo = new finfo(FILEINFO_MIME);
             if (!$finfo) {
                 return PEAR::raiseError('Error: Opening fileinfo database failed');
             }
