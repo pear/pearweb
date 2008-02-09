@@ -204,10 +204,7 @@ function auth_require()
     return true;
 }
 
-/**
- * Perform logout for the current user
- */
-function auth_logout()
+function auth_kill_cookies()
 {
     if (isset($_COOKIE['PEAR_USER'])) {
         setcookie('PEAR_USER', '', 0, '/');
@@ -217,6 +214,14 @@ function auth_logout()
         setcookie('PEAR_PW', '', 0, '/');
         unset($_COOKIE['PEAR_PW']);
     }
+}
+
+/**
+ * Perform logout for the current user
+ */
+function auth_logout()
+{
+    auth_kill_cookies();
 
     if ($_SERVER['QUERY_STRING'] == 'logout=1') {
         localRedirect($_SERVER['PHP_SELF']);

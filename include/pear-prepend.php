@@ -17,7 +17,6 @@
    +----------------------------------------------------------------------+
    $Id$
 */
-
 require_once 'pear-config.php';
 if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME OR !isset($_ENV['PEAR_BOX'])) {
     error_reporting(E_ALL);
@@ -48,10 +47,7 @@ if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
 }
 
 if (!empty($_COOKIE['PEAR_USER']) && !auth_verify($_COOKIE['PEAR_USER'], $_COOKIE['PEAR_PW'])) {
-    setcookie('PEAR_USER', '', 0, '/');
-    unset($_COOKIE['PEAR_USER']);
-    setcookie('PEAR_PW', '', 0, '/');
-    unset($_COOKIE['PEAR_PW']);
+    auth_kill_cookies();
     $msg = 'Invalid username or password';
     if ($format == 'html') {
         $msg .= ' <a href="/?logout=1">[logout]</a>';
