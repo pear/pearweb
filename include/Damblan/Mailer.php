@@ -45,7 +45,7 @@ class Damblan_Mailer
         'To'             => PEAR_WEBMASTER_EMAIL,
         'From'           => 'pear-sys@php.net',
         'Reply-To'       => PEAR_WEBMASTER_EMAIL,
-        'Return-Path'    => PEAR_BOUNCE_EMAIL°,
+        'Return-Path'    => PEAR_BOUNCE_EMAIL,
         'Errors-To'      => PEAR_BOUNCE_EMAIL,
         'Bounces-To'     => PEAR_BOUNCE_EMAIL,
         'X-Mailer'       => 'PEARWeb - http://pear.php.net',
@@ -117,16 +117,19 @@ class Damblan_Mailer
         if (PEAR::isError($data)) {
             return $data;
         }
+
         // Merge additional header information to the generated data
         $data = $this->_mergeHeaders($data, $headers);
         if (PEAR::isError($data)) {
             return $data;
         }
+
         // Check sanity of the email headers
         $data = $this->_sanitize($data);
         if (PEAR::isError($data)) {
             return $data;
         }
+
         // Restructure data for use with PEAR::Mail (To-header and body are submitted directly)
         foreach ($data as $field => $content) {
             switch (strtolower($field)) {
@@ -145,15 +148,18 @@ class Damblan_Mailer
                 break;
             }
         }
+
         // Attempt to send mail:
         $mail = Mail::factory('mail', array('-f bounces-ignored@php.net'));
         if (PEAR::isError($mail)) {
             return PEAR::raiseError('Could not create Mail instance. '.$mail->getMessage());
         }
+
         $res = $mail->send($to, $data, $body);
         if (PEAR::isError($res)) {
             return PEAR::raiseError('Unable to send mail. '.$res->getMessage());
         }
+
         return true;
     }
 
@@ -173,6 +179,7 @@ class Damblan_Mailer
                 $data[$headerName] = $header;
             }
         }
+
         return $data;
     }
 
@@ -220,6 +227,7 @@ class Damblan_Mailer
                 }
             }
         }
+
         return $data;
     }
 
@@ -234,8 +242,7 @@ class Damblan_Mailer
     function _compile()
     {
         // Prepare preg_replace() arrays
-        $data['patterns'] = array();
-        $data['replacements'] = array();
+        $data['patterns'] = $data['replacements'] = array();
         foreach ($this->_data as $var => $rep) {
             $data['patterns'][] = "/%$var%/";
             $data['replacements'][] = $rep;
@@ -255,7 +262,7 @@ class Damblan_Mailer
             // Save the compiled data
             $res[$key] = $val;
         }
+
         return $res;
     }
 }
-?>
