@@ -58,13 +58,12 @@ class PEAR_Election_Accountrequest
 
         include_once 'pear-database-user.php';
         $useradd = user::add($data, false, true);
-
         if (is_array($useradd) || DB::isError($useradd)) {
             return $useradd;
         }
 
         $salt = $this->_makeSalt($handle);
-        $created_on = gmdate('Y-m-d H:i:s');
+        $created_on = gmdate('Y-m-d');
 
         $query = '
         INSERT INTO election_account_request (created_on, handle, email, salt)
@@ -104,10 +103,10 @@ class PEAR_Election_Accountrequest
             return PEAR::raiseError('Error - user request was deleted, please try again');
         }
 
-        @$arr = unserialize($user['userinfo']);
         include_once 'pear-database-note.php';
-        note::removeAll("uid", $this->handle);
+        note::removeAll('uid', $this->handle);
 
+        @$arr = unserialize($user['userinfo']);
         $data = array();
         $data['handle']     = $user['handle'];
         $data['registered'] = 1;
@@ -136,7 +135,7 @@ class PEAR_Election_Accountrequest
                 . "    http://" . PEAR_CHANNELNAME . "/election/";
             $xhdr = "From: " . PEAR_WEBMASTER_EMAIL;
             if (!DEVBOX){
-                mail($user['email'], "Your PEAR Ac count Request", $msg, $xhdr, "-f " . PEAR_BOUNCE_EMAIL);
+                mail($user['email'], "Your PEAR Account Request", $msg, $xhdr, "-f " . PEAR_BOUNCE_EMAIL);
             }
             $this->deleteRequest();
             return true;
