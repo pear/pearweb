@@ -24,9 +24,10 @@ set_exception_handler('error_handler');
 function extra_styles($new = null)
 {
     static $extra_styles = array();
-    if (!is_null($new)) {
+    if ($new !== null) {
         $extra_styles[] = $new;
     }
+
     return $extra_styles;
 }
 
@@ -55,7 +56,6 @@ if (substr($self, 0, 7) == '/manual') {
     extra_styles('/css/manual.css');
 }
 
-$GLOBALS['_style'] = '';
 $_style = '';
 
 /**
@@ -67,7 +67,7 @@ $_style = '';
  */
 function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '')
 {
-    global $_style, $_header_done, $self, $auth_user, $RSIDEBAR_DATA;
+    global $_style, $_header_done, $self, $auth_user, $RSIDEBAR_DATA, $in_manual;
 
     $extra_styles = extra_styles();
 
@@ -85,7 +85,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
         $menu = draw_navigation();
     }
 
-    if (isset($GLOBALS['in_manual']) && $GLOBALS['in_manual'] == false) {
+    if ($in_manual === false) {
         // The manual-related code takes care of sending the right headers.
         header('Content-Type: text/html; charset=ISO-8859-15');
     }
@@ -209,6 +209,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
 
 function response_footer($style = false, $extraContent = false)
 {
+    global $_style;
     static $called;
     if ($called) {
         return;
@@ -216,7 +217,7 @@ function response_footer($style = false, $extraContent = false)
 
     $called = true;
     if (!$style) {
-        $style = $GLOBALS['_style'];
+        $style = $_style;
     }
 ?>
 
