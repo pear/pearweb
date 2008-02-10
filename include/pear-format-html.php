@@ -46,7 +46,7 @@ $self = htmlspecialchars($_SERVER['PHP_SELF']);
 $in_manual = false;
 
 if (substr($self, 0, 7) == '/manual') {
-    if (substr($self, 7, 10) != "/index.php") {
+    if (substr($self, 7, 10) != '/index.php') {
         $in_manual = true;
     }
 
@@ -644,11 +644,15 @@ function user_link($handle, $compact = false)
         return false;
     }
 
-    return sprintf("<a href=\"/user/%s\">%s</a>&nbsp;%s\n",
-                   $handle,
-                   $row['name'],
-                   ($row['wishlist'] != "" && $compact == false ? '['.make_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/wishlist.php/' . $handle, 'Wishlist').']' : '')
-                   );
+    if ($row['wishlist'] != '' && $compact === false) {
+        $host = htmlspecialchars($_SERVER['HTTP_HOST']);
+        $link = make_link('http://' . $host . '/wishlist.php/' . $handle, 'Wishlist');
+        $wish = '[' . $link . ']';
+    } else {
+        $wish = '';
+    }
+
+    return sprintf('<a href="/user/%s">%s</a>&nbsp;%s\n', $handle, $row['name'], $wish);
 }
 
 /**
