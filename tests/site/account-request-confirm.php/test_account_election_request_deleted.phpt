@@ -13,7 +13,7 @@ $_SERVER['REQUEST_METHOD'] = 'GET';
 $_SERVER['QUERY_STRING'] = '';
 require dirname(__FILE__) . '/setup.php.inc';
 
-$time = gmdate('Y-m-d H:i', strtotime('-15 minutes'));
+$time = gmdate('Y-m-d', strtotime('-1 day'));
 
 $mock->addDeleteQuery("DELETE FROM election_account_request WHERE created_on < '" . $time . "'", array(), array());
 
@@ -24,7 +24,7 @@ $mock->addDataQuery("SELECT handle FROM election_account_request WHERE created_o
 
 $mock->addDataQuery("SELECT id, created_on, salt, handle
             FROM election_account_request
-            WHERE salt='12345678901234567890123456789012'",
+            WHERE salt = '12345678901234567890123456789012'",
             array(array(
                 'id'         => 1,
                 'created_on' => gmdate('Y-m-d H:i', strtotime('-10 minutes')),
@@ -33,7 +33,7 @@ $mock->addDataQuery("SELECT id, created_on, salt, handle
             )),
             array('id', 'created_on', 'salt', 'handle'));
 
-$mock->addDataQuery("SELECT * FROM users WHERE handle = 'helgi' AND registered = '0'", array(), array());
+$mock->addDataQuery("SELECT * FROM users WHERE handle = 'helgi'", array(), array());
 
 include dirname(dirname(dirname(dirname(__FILE__)))) . '/public_html/account-request-confirm.php';
 
@@ -43,9 +43,9 @@ $phpt->assertEquals(array (
     2 => "
             SELECT id, created_on, salt, handle
             FROM election_account_request
-            WHERE salt='12345678901234567890123456789012'
+            WHERE salt = '12345678901234567890123456789012'
         ",
-    3 => 'SELECT * FROM users WHERE handle = \'helgi\' AND registered = \'0\'',
+    3 => 'SELECT * FROM users WHERE handle = \'helgi\'',
 ), $mock->queries, 'queries');
 __halt_compiler();
 ?>
@@ -56,12 +56,12 @@ __halt_compiler();
 %s
 <!-- START MAIN CONTENT -->
 
-  <td class="content">
+  <div id="body">
 
-    <h1>Confirm Account</h1><div class="errors">ERROR:<ul><li>Error - user request was deleted, please try again</li>
+<h1>Confirm Account</h1><div class="errors">ERROR:<ul><li>Error - user request was deleted, please try again</li>
 </ul></div>
 
-  </td>
+  </div>
 
 <!-- END MAIN CONTENT -->
 %s
