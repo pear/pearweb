@@ -13,7 +13,7 @@ require dirname(__FILE__) . '/setup.php.inc';
 require dirname(__FILE__) . '/test_opt.setup4.php.inc';
 include dirname(dirname(dirname(dirname(__FILE__)))) . '/public_html/get';
 $phpt->assertEquals(array (
-  0 => 'SELECT id FROM packages p WHERE ((p.package_type = \'pear\' AND p.approved = 1) OR p.package_type = \'pecl\') AND  p.name = \'Archive_Tar\'',
+  0 => 'SELECT id FROM packages p WHERE ((p.package_type = \'pear\' AND p.approved = 1) OR p.package_type = \'pecl\') AND p.name = \'Archive_Tar\'',
   1 => 'SELECT id FROM releases WHERE package = 1 AND version = \'1.3.2\'',
   2 => 'SELECT fullpath, basename, id FROM files WHERE release = 1',
   3 => 'UPDATE aggregated_package_stats

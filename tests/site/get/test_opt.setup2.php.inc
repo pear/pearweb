@@ -1,5 +1,5 @@
 <?php
-$mock->addDataQuery("SELECT id FROM packages p WHERE ((p.package_type = 'pear' AND p.approved = 1) OR p.package_type = 'pecl') AND  p.name = 'Archive_Tar'",
+$mock->addDataQuery("SELECT id FROM packages p WHERE ((p.package_type = 'pear' AND p.approved = 1) OR p.package_type = 'pecl') AND p.name = 'Archive_Tar'",
 array(array('id' => 1)), array('id'));
 $mock->addDataQuery("SELECT fullpath, `release`, id FROM files WHERE UPPER(basename) = 'ARCHIVE_TAR-1.3.2.TGZ'",
 array(
