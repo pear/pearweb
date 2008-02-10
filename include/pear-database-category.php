@@ -58,8 +58,7 @@ class category
         $desc   = (empty($data['desc'])) ? 'none' : $data['desc'];
         $parent = (empty($data['parent'])) ? null : $data['parent'];
 
-        $sql = 'INSERT INTO categories (id, name, description, parent)'.
-             'VALUES (?, ?, ?, ?)';
+        $sql = 'INSERT INTO categories (id, name, description, parent) VALUES (?, ?, ?, ?)';
         $id  = $dbh->nextId('categories');
         $err = $dbh->query($sql, array($id, $name, $desc, $parent));
         if (DB::isError($err)) {
@@ -85,9 +84,12 @@ class category
      */
     static function update($id, $name, $desc = '')
     {
-        $data = $GLOBALS['dbh']->getOne('SELECT name FROM categories WHERE id = ?', array($id));
+        $sql  = 'SELECT name FROM categories WHERE id = ?';
+        $data = $GLOBALS['dbh']->getOne($sql, array($id));
         $GLOBALS['pear_rest']->deleteCategoryREST($data);
-        $ret = $GLOBALS['dbh']->query('UPDATE categories SET name = ?, description = ? WHERE id = ?', array($name, $desc, $id));
+
+        $sql = 'UPDATE categories SET name = ?, description = ? WHERE id = ?';
+        $ret = $GLOBALS['dbh']->query($sql, array($name, $desc, $id));
         $GLOBALS['pear_rest']->saveCategoryREST($name);
         $GLOBALS['pear_rest']->saveAllCategoriesREST();
         $GLOBALS['pear_rest']->savePackagesCategoryREST($name);
@@ -144,8 +146,8 @@ class category
     static function listAll()
     {
         global $dbh;
-        return $dbh->getAll("SELECT * FROM categories ORDER BY name",
-                            null, DB_FETCHMODE_ASSOC);
+        $sql = 'SELECT * FROM categories ORDER BY name';
+        return $dbh->getAll($sql, null, DB_FETCHMODE_ASSOC);
     }
 
     /**
@@ -245,31 +247,31 @@ function renumber_visitations($id, $parent = null)
 {
     global $dbh;
     if ($parent === null) {
-        $left = $dbh->getOne("select max(cat_right) + 1 from categories
-                              where parent is null");
+        $left = $dbh->getOne("SELECT max(cat_right) + 1 FROM categories
+                              WHERE parent IS NULL");
         $left = ($left !== null) ? $left : 1; // first node
     } else {
-        $left = $dbh->getOne("select cat_right from categories where id = $parent");
+        $left = $dbh->getOne("SELECT cat_right FROM categories WHERE id = $parent");
     }
     $right = $left + 1;
     // update my self
-    $err = $dbh->query("update categories
-                        set cat_left = $left, cat_right = $right
-                        where id = $id");
+    $err = $dbh->query("UPDATE categories
+                        SET cat_left = $left, cat_right = $right
+                        WHERE id = $id");
     if (PEAR::isError($err)) {
         return $err;
     }
     if ($parent === null) {
         return true;
     }
-    $err = $dbh->query("update categories set cat_left = cat_left+2
-                        where cat_left > $left");
+    $err = $dbh->query("UPDATE categories SET cat_left = cat_left+2
+                        WHERE cat_left > $left");
     if (PEAR::isError($err)) {
         return $err;
     }
     // (cat_right >= $left) == update the parent but not the node itself
-    $err = $dbh->query("update categories set cat_right = cat_right+2
-                        where cat_right >= $left and id <> $id");
+    $err = $dbh->query("UPDATE categories SET cat_right = cat_right+2
+                        WHERE cat_right >= $left and id <> $id");
     if (PEAR::isError($err)) {
         return $err;
     }
