@@ -19,5 +19,3 @@ require_once 'pear-prepend.php';
 
 require dirname(dirname(dirname(__FILE__))) . '/phpt_test.php5.inc';
 $phpt = new PEAR_PHPTest;
-
-?>

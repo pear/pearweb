@@ -21,9 +21,9 @@ __halt_compiler();
 %s
 <!-- START MAIN CONTENT -->
 
-  <td class="content">
+  <div id="body">
 
-    <h1>Request Account</h1><h1>PLEASE READ THIS CAREFULLY!</h1>
+<h1>Request Account</h1><h1>PLEASE READ THIS CAREFULLY!</h1>
 <h3>
  You only need to request an account if you:
 </h3>
@@ -34,7 +34,7 @@ __halt_compiler();
  </li>
  <li>
   <a href="/account-request-existingpackage.php">Will be helping develop an existing package.</a>  Seek approval first for this by mailing
-  the <a  href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x70;&#101;&#x61;&#114;&#x2d;&#100;&#x65;&#118;&#x40;&#108;&#x69;&#115;&#x74;&#115;&#x2e;&#112;&#x68;&#112;&#x2e;&#110;&#x65;&#116;">PEAR developers mailing list</a> and developers of the package.
+  the <a href="mailto:pear-dev@lists.php.net">PEAR developers mailing list</a> and developers of the package.
  </li>
  <li>
   <a href="/account-request-vote.php">Want to vote in a general PEAR election or
@@ -49,7 +49,7 @@ __halt_compiler();
 
 <p>
  If the reason for your request does not fall under one of the
- reasons above, please contact the <a  href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#x70;&#101;&#x61;&#114;&#x2d;&#100;&#x65;&#118;&#x40;&#108;&#x69;&#115;&#x74;&#115;&#x2e;&#112;&#x68;&#112;&#x2e;&#110;&#x65;&#116;">PEAR developers mailing list</a>;
+ reasons above, please contact the <a href="mailto:pear-dev@lists.php.net">PEAR developers mailing list</a>.
 </p>
 
 <h3>
@@ -70,7 +70,7 @@ __halt_compiler();
   Express an idea for a PEAR package.  Only completed code can be proposed.
  </li>
 </ul>
-  </td>
+  </div>
 
 <!-- END MAIN CONTENT -->
 %s
