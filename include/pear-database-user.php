@@ -151,7 +151,7 @@ class user
         if ($field === null) {
             $sql  = 'SELECT * FROM users WHERE ' . $handle . ' = ?';
             $data = array($user);
-            if ($registered !== 'any') {
+            if ($registered != 'any') {
                 $sql.= ' AND registered = ?';
                 $data[] = $registered === true ? '1' : '0';
             }
@@ -392,6 +392,8 @@ class user
 
         if ($admin) {
             $fields[] = 'registered';
+            $fields[] = 'created';
+            $fields[] = 'createdby';
         }
         $info = user::info($data['handle'], null, 'any');
         // In case a active value isn't passed in
@@ -421,7 +423,7 @@ class user
 
         if (isset($data['active']) && $data['active'] === 0 && $active) {
             // this user is completely inactive, so mark all maintains as not active.
-            $dbh->query('UPDATE maintains SET active=0 WHERE handle=?', array($info['handle']));
+            $dbh->query('UPDATE maintains SET active = 0 WHERE handle = ?', array($info['handle']));
         }
         return true;
     }
