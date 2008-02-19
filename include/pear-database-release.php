@@ -203,6 +203,7 @@ class release
     {
         global $dbh, $auth_user;
 
+        // (1) check if the uploader has permisson to do a new release
         include_once 'pear-database-user.php';
         $role = user::maintains($auth_user->handle, $package);
         if ($role != 'lead' && !$auth_user->isAdmin() && !$auth_user->isQA()) {
@@ -871,22 +872,5 @@ Authors
         }
 
         return true;
-    }
-
-    /**
-     * Get FAQ items for given package version
-     *
-     * @param string Name of the package
-     * @param string Version string of the package
-     * @return mixed PEAR_Error or Array
-     */
-    static function getFAQ($package, $version)
-    {
-        global $dbh;
-
-        $query = "SELECT f.* FROM packages_faq f, packages p, releases r "
-            . "WHERE p.name = ? AND p.id = r.package AND r.version = ? AND r.id = f.release";
-
-        return $dbh->getAll($query, array($package, $version), DB_FETCHMODE_ASSOC);
     }
 }
