@@ -217,29 +217,29 @@ class release
         }
 
         // (3) verify that version does not exist
-        $test = $dbh->getOne("SELECT version FROM releases ".
-                             "WHERE package = ? AND version = ?",
-                             array($package_id, $version));
+        $sql  = 'SELECT version FROM releases WHERE package = ? AND version = ?';
+        $test = $dbh->getOne($sql, array($package_id, $version));
         if (PEAR::isError($test)) {
             return $test;
         }
+
         if ($test) {
             return PEAR::raiseError("already exists: $package $version");
         }
 
         // (4) store tar ball to temp file
         $tempfile = sprintf("%s/%s%s-%s.tgz",
-                            PEAR_TARBALL_DIR, ".new.", $package, $version);
+                            PEAR_TARBALL_DIR, '.new.', $package, $version);
         $file = sprintf("%s/%s-%s.tgz", PEAR_TARBALL_DIR, $package, $version);
         if (!@copy($tarball, $tempfile)) {
             return PEAR::raiseError("writing $tempfile failed: $php_errormsg");
         }
 
         if (!isset($package_id)) {
-            return PEAR::raiseError("bad upload: package_id missing");
+            return PEAR::raiseError('bad upload: package_id missing');
         }
 
-        // later: do lots of integrity checks on the tarball
+        // TODO: do lots of integrity checks on the tarball
         if (!@rename($tempfile, $file)) {
             return PEAR::raiseError("renaming failed: $php_errormsg");
         }
@@ -252,15 +252,13 @@ class release
         }
 
         // (6) unpack tarball
-        $target = @fopen(PEAR_TARBALL_DIR . "/" . $package . "-" . $version . ".tar", "w+");
+        $target = @fopen(PEAR_TARBALL_DIR . '/' . $package . '-' . $version . '.tar', 'w+');
         if ($target) {
             fwrite($target, file_get_contents("compress.zlib://" . $file));
             fclose($target);
         }
 
-        return array("package_id" => $package_id,
-                     "file" => $file
-                     );
+        return array('package_id' => $package_id, 'file' => $file);
     }
 
     /**
@@ -279,7 +277,7 @@ class release
     static function confirmUpload($package, $version, $state, $relnotes, $md5sum, $package_id, $file,
                            $pkg_info = false, $packagexml = false, $compatible = false)
     {
-        require_once "PEAR/Common.php";
+        require_once 'PEAR/Common.php';
 
         global $dbh, $auth_user, $_PEAR_Common_dependency_types,
                $_PEAR_Common_dependency_relations;
@@ -303,7 +301,7 @@ class release
         $query = "INSERT INTO releases (id,package,version,state,doneby,".
              "releasedate,releasenotes) VALUES(?,?,?,?,?,NOW(),?)";
         $sth = $dbh->prepare($query);
-        $release_id = $dbh->nextId("releases");
+        $release_id = $dbh->nextId('releases');
         $dbh->execute($sth, array($release_id, $package_id, $version, $state,
                                   $auth_user->handle, $relnotes));
         // Update files table
@@ -334,15 +332,15 @@ class release
         if (!$pkg_info) {
             require_once 'PEAR/PackageFile.php';
             require_once 'PEAR/Config.php';
-            $config = &PEAR_Config::singleton();
-            $pf = &new PEAR_PackageFile($config);
+            $config   = &PEAR_Config::singleton();
+            $pf       = &new PEAR_PackageFile($config);
             $pkg_info = $pf->fromXmlString($packagexml, PEAR_VALIDATE_DOWNLOADING,
                 $compatible ? 'package2.xml' : 'package.xml');
         }
 
-        $deps = $pkg_info->getDeps(true); // get the package2.xml actual content
+        $deps      = $pkg_info->getDeps(true); // get the package2.xml actual content
         $storedeps = $pkg_info->getDeps(); // get the BC-compatible content
-        $pearused = false;
+        $pearused  = false;
         if (isset($deps['required']['package'])) {
             if (!isset($deps['required']['package'][0])) {
                 $deps['required']['package'] = array($deps['required']['package']);
@@ -419,10 +417,8 @@ class release
                 }
 
                 if (PEAR::isError($res)) {
-                    $dbh->query('DELETE FROM deps WHERE ' .
-                                "release = $release_id");
-                    $dbh->query('DELETE FROM releases WHERE ' .
-                                "id = $release_id");
+                    $dbh->query('DELETE FROM deps WHERE release = ' . $release_id);
+                    $dbh->query('DELETE FROM releases WHERE id = '  . $release_id);
                     @unlink($file);
                     return $res;
                 }
@@ -435,9 +431,7 @@ class release
             $query = "INSERT INTO apidoc_queue (filename, queued) "
                  . "VALUES ('" . $file. "', NOW())";
 
-            /*
-             * Don't abort the release if something goes wrong.
-             */
+            // Don't abort the release if something goes wrong.
             $dbh->pushErrorHandling(PEAR_ERROR_RETURN);
             $sth = $dbh->query($query);
             $dbh->popErrorHandling();
