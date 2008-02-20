@@ -24,8 +24,10 @@ class user
         note::add("uid", $uid, "Account rejected: $reason");
         $msg = "Your PEAR account request was rejected by " . $auth_user->handle . ":\n\n".
              "$reason\n";
-        $xhdr = "From: " . $auth_user->handle . "@php.net";
-        mail($email, "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+        $xhdr = 'From: ' . $auth_user->handle . '@php.net';
+        if (!DEVBOX) {
+            mail($email, "Your PEAR Account Request", $msg, $xhdr, '-f ' . PEAR_BOUNCE_EMAIL);
+        }
         return true;
     }
 
@@ -70,19 +72,20 @@ class user
         $msg = "Your PEAR account request has been opened.\n".
              "To log in, go to http://" . PEAR_CHANNELNAME . "/ and click on \"login\" in\n".
              "the top-right menu.\n";
-        $xhdr = "From: " . $auth_user->handle . "@php.net";
-        mail($user['email'], "Your PEAR Account Request", $msg, $xhdr, "-f bounce-no-user@php.net");
+        $xhdr = 'From: ' . $auth_user->handle . '@php.net';
+        if (!DEVBOX) {
+            mail($user['email'], "Your PEAR Account Request", $msg, $xhdr, '-f ' . PEAR_BOUNCE_EMAIL);
+        }
         return true;
     }
 
     static function isAdmin($handle)
     {
-        require_once "Damblan/Karma.php";
+        require_once 'Damblan/Karma.php';
 
         global $dbh;
         $karma = new Damblan_Karma($dbh);
-
-        return $karma->has($handle, "pear.admin");
+        return $karma->has($handle, 'pear.admin');
     }
 
     static function isQA($handle)
@@ -91,24 +94,22 @@ class user
 
         global $dbh;
         $karma = new Damblan_Karma($dbh);
-
         return $karma->has($handle, 'pear.qa');
     }
 
     static function listAdmins()
     {
-        require_once "Damblan/Karma.php";
+        require_once 'Damblan/Karma.php';
 
         global $dbh;
         $karma = new Damblan_Karma($dbh);
-
-        return $karma->getUser("pear.admin");
+        return $karma->getUser('pear.admin');
     }
 
     static function exists($handle)
     {
         global $dbh;
-        $sql = "SELECT handle FROM users WHERE handle=?";
+        $sql = 'SELECT handle FROM users WHERE handle = ?';
         $res = $dbh->query($sql, array($handle));
         return ($res->numRows() > 0);
     }
@@ -151,7 +152,7 @@ class user
         if ($field === null) {
             $sql  = 'SELECT * FROM users WHERE ' . $handle . ' = ?';
             $data = array($user);
-            if ($registered != 'any') {
+            if ($registered !== 'any') {
                 $sql.= ' AND registered = ?';
                 $data[] = $registered === true ? '1' : '0';
             }
@@ -181,22 +182,22 @@ class user
     static function listAll($registered_only = true)
     {
         global $dbh;
-        $query = "SELECT * FROM users";
+        $query = 'SELECT * FROM users';
         if ($registered_only === true) {
-            $query .= " WHERE registered = 1";
+            $query .= ' WHERE registered = 1';
         }
-        $query .= " ORDER BY handle";
+        $query .= ' ORDER BY handle';
         return $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
     }
 
     static function listAllHandles($registered_only = true)
     {
         global $dbh;
-        $query = "SELECT handle FROM users";
+        $query = 'SELECT handle FROM users';
         if ($registered_only === true) {
-            $query .= " WHERE registered = 1";
+            $query .= ' WHERE registered = 1';
         }
-        $query .= " ORDER BY handle";
+        $query .= ' ORDER BY handle';
         return $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
     }
 
@@ -283,7 +284,7 @@ class user
         }
 
         $handle = strtolower($data['handle']);
-        $info = user::info($handle, null, 'any');
+        $info   = user::info($handle, null, 'any');
 
         if (is_array($info) && isset($info['created'])) {
             $data['jumpto'] = "handle";
@@ -346,13 +347,10 @@ class user
         // $xhdr .= "\nBCC: pear-group@php.net";
         $subject = "PEAR Account Request: {$handle}";
 
-        if (!DEVBOX && !$automatic) {
-            if (PEAR_CHANNELNAME == 'pear.php.net') {
-                $ok = @mail('pear-group@php.net', $subject, $msg, $xhdr,
-                            '-f bounce-no-user@php.net');
-            }
-        } else {
-            $ok = true;
+        $ok = true;
+        if (!DEVBOX && !$automatic && PEAR_CHANNELNAME === 'pear.php.net') {
+            $ok = @mail('pear-group@php.net', $subject, $msg, $xhdr,
+                            '-f ' . PEAR_BOUNCE_EMAIL);
         }
 
         PEAR::popErrorHandling();
