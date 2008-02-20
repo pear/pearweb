@@ -142,33 +142,27 @@
          <th>#</th>
          <th><nobr>Package name</nobr></th>
          <th>Description</th>
-         <?php if($_browser->is_ie5up):?>
           <th>&nbsp;</th>
-         <?php endif?>
         </tr>
         <?php $nr = $first; foreach($packages as $p):?>
         <tr>
          <td valign="top" style="text-align: center;"><?php echo $nr++; ?></td>
          <td valign="top"><a href="/package/<?php echo $p['name']; ?>"><strong><?php echo $p['name']; ?></strong></a></td>
          <td valign="top"><?php echo htmlspecialchars($p['summary']); ?></td>
-         <?php if($_browser->is_ie5up):?>
           <td valign="top">
             <a href="#" onclick="toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>); return false" onmouseover="window.status = 'View more info about <?php echo $p['name']; ?>'; return true" onmouseout="window.status = ''" title="View more info about <?php echo $p['name']; ?>">
                 <img src="gifs/moreinfo.gif" alt="More Info" title="More Info" border="0" />
             </a>
           </td>
-         <?php endif?>
         </tr>
-        <tr <?php if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?php echo $defaultMoreInfoVis; ?>" <?php endif?> id="moreInfo_<?php echo $p['id']; ?>">
+        <tr <?php if($defaultMoreInfoVis == 'none'):?> style="display: <?php echo $defaultMoreInfoVis; ?>" <?php endif?> id="moreInfo_<?php echo $p['id']; ?>">
          <td>&nbsp;</td>
          <td colspan="3" class="moreInfo">
           <table border="0" class="moreInfoHeader" width="100%" cellspacing="0" cellpadding="0">
            <tr>
             <td><span class="moreInfoText">More information</span></td>
             <td align="right">
-             <?php if($_browser->is_ie5up):?>
               <a href="javascript: toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>)"><img class="closeButton" src="gifs/close.gif" border="0" alt="" /></a>
-             <?php endif?>
             </td>
            </tr>
           </table>
@@ -193,7 +187,7 @@
           </table>
          </td>
         </tr>
-        <tr <?php if($_browser->is_ie5up || $defaultMoreInfoVis == 'none'):?> style="display: <?php echo $defaultMoreInfoVis; ?>" <?php endif?> id="moreInfo_<?php echo $p['id']; ?>_spacer">
+        <tr <?php if($defaultMoreInfoVis == 'none'):?> style="display: <?php echo $defaultMoreInfoVis; ?>" <?php endif?> id="moreInfo_<?php echo $p['id']; ?>_spacer">
          <td colspan="5">&nbsp;</td>
         </tr>
             <?php endforeach?>

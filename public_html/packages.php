@@ -26,17 +26,10 @@
 
 $script_name  = htmlspecialchars($_SERVER['SCRIPT_NAME']);
 
-require_once 'browser.php';
 require_once 'HTML/Table.php';
 require_once 'Pager/Pager.php';
 
-// Browser detection
-$_browser = &new browser();
-
-
-/**
- * Returns an appropriate query string for a self referencing link
- */
+// Returns an appropriate query string for a self referencing link
 function getQueryString($catpid, $catname, $showempty = false, $moreinfo=false)
 {
     $querystring = array();
