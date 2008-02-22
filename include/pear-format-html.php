@@ -389,13 +389,13 @@ function draw_navigation()
 
     // Can't find a match, lets cut pieces of the url
     // lets first try sub dir + a php file
-    if (!isset($rel[$self]) OR $rel[$self] === null) {
+    if (!isset($rel[$self]) || $rel[$self] === null) {
         $pos  = strpos($self, '.php');
         $self = $pos !== false ? substr($self, 0, $pos + 4) : $self;
     }
 
     // Can't find a match, lets cut pieces of the url
-    if (!isset($rel[$self]) OR $rel[$self] === null) {
+    if ((!isset($rel[$self]) || $rel[$self] === null) && strlen($self) > 0) {
         $pos  = strpos($self, '/', 1);
         $self = $pos !== false ? substr($self, 0, $pos + 1) : $self;
     }
@@ -646,8 +646,7 @@ function user_link($handle, $compact = false)
     }
 
     if ($row['wishlist'] != '' && $compact === false) {
-        $host = htmlspecialchars($_SERVER['HTTP_HOST']);
-        $link = make_link('http://' . $host . '/wishlist.php/' . $handle, 'Wishlist');
+        $link = make_link('http://' . PEAR_CHANNELNAME . '/wishlist.php/' . $handle, 'Wishlist');
         $wish = '[' . $link . ']';
     } else {
         $wish = '';
