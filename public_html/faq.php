@@ -19,4 +19,3 @@
 */
 
 header("Location: /manual/en/faq.php");
-?>
