@@ -25,39 +25,4 @@ if (isset($_GET['package']) && empty($_GET['pacid'])) {
     $pacid = (isset($_GET['pacid'])) ? (int) $_GET['pacid'] : null;
 }
 
-include_once 'pear-database-package.php';
-$pkg = package::info($pacid);
-
-if (empty($pkg['name'])) {
-    response_header('Error');
-    PEAR::raiseError('Invalid package');
-    response_footer();
-    exit();
-}
-
-$name = $pkg['name'];
-response_header($name . ' Changelog');
-print '<p>' . make_link('/package/' . $name, 'Return') . '</p>';
-$bb = new Borderbox('Changelog for ' . $name, '90%', '', 2, true);
-
-if (count($pkg['releases']) == 0) {
-    $bb->fullRow('There are no releases for ' . $name . ' yet.');
-} else {
-    $bb->headRow('Release', 'What has changed?');
-
-    foreach ($pkg['releases'] as $version => $release) {
-        $link = make_link('/package/' . $pkg['name'] .
-                          '/download/' . urlencode($version), $version);
-
-        $notes = nl2br(make_ticket_links(htmlentities($release['releasenotes'])));
-        if (!empty($_GET['release']) && $version == $_GET['release']) {
-            $bb->horizHeadRow($link, $notes);
-        } else {
-            $bb->plainRow($link, $notes);
-        }
-    }
-}
-$bb->end();
-print '<p>' . make_link('/' . $name, 'Return') . '</p>';
-response_footer();
-?>
+header("Location: /package/$pacid/download");
