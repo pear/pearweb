@@ -39,8 +39,8 @@ class pearweb_postinstall
                     return false;
                 }
                 PEAR::popErrorHandling();
-                if (!in_array($answers['driver'], array('mysql', 'mysqli'), true)) {
-                    $this->_ui->outputData('pearweb only supports mysql or mysqli, ' .
+                if ($answers['driver'] !== 'mysqli') {
+                    $this->_ui->outputData('pearweb only supports mysqli, ' .
                         'not ' . $answers['driver']);
                     return false;
                 }
@@ -276,6 +276,8 @@ class pearweb_postinstall
             . $answers['pear'] . '/about/credits.php' . $eol;
         $middle[] = ' RedirectPermanent /pepr/pepr-overview.php     http://'
             . $answers['pear'] . '/pepr/' . $eol;
+        $middle[] = ' RedirectPermanent /faq.php                    http://'
+            . $answers['pear'] . '/manual/en/faq.php' . $eol;
         $middle[] = $eol;
         $middle[] = ' RewriteEngine On' . $eol;
         $middle[] = $eol;
@@ -303,7 +305,13 @@ class pearweb_postinstall
         $middle[] = ' # throw pecl doc people to the php manual' . $eol;
         $middle[] = ' #' . $eol;
         $middle[] = $eol;
-        $middle[] = '  RewriteRule   /manual/[a-z]{2}/pecl.([a-zA-Z0-9_-]+)\.php$ http://www.php.net/$1 [R=301]' . $eol;
+        $middle[] = ' RewriteRule   /manual/[a-z]{2}/pecl.([a-zA-Z0-9_-]+)\.php$ http://www.php.net/$1 [R=301]' . $eol;
+        $middle[] = $eol;
+        $middle[] = ' #' . $eol;
+        $middle[] = ' # xmlrpc.php was removed 1 Jan 2008 and won\'t come back' . $eol;
+        $middle[] = ' #' . $eol;
+        $middle[] = $eol;
+        $middle[] = ' RewriteRule   /xmlrpc.php  /  [R=410]' . $eol;
         $middle[] = $eol;
         $middle[] = ' SetEnvIf User-Agent "MS Search 4\.0 Robot\)$" badrobot' . $eol;
         $middle[] = $eol;
