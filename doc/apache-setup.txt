@@ -37,6 +37,8 @@ installed in /usr/share/pear):
  RedirectPermanent /support.php                http://pear.php.net/support/
  RedirectPermanent /credits.php                http://pear.php.net/about/credits.php
  RedirectPermanent /pepr/pepr-overview.php     http://pear.php.net/pepr/
+ RedirectPermanent /faq.php                    http://pear.php.net/manual/en.faq.php
+
 
  RewriteEngine On
 
@@ -59,6 +61,9 @@ installed in /usr/share/pear):
  # Rewriting rule for the Bug system
  #
  RewriteRule   /bugs/([0-9]+)/*$ /bugs/bug.php?id=$1 [R]
+
+ # xmlrpc.php was removed 1 Jan 2008 and won't come back
+ RewriteRule   /xmlrpc.php  /  [R=410]
 
  SetEnvIf User-Agent "MS Search 4\.0 Robot\)$" badrobot
 
