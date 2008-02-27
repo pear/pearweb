@@ -92,7 +92,7 @@ this interface</a>.</p>
   (<a href="http://pear.php.net/go-pear">http://pear.php.net/go-pear</a>) or
   upgrade using direct URLs:
   <pre>
-   pear upgrade --force http://pear.php.net/get/Archive_Tar http://pear.php.net/get/XML_Parser http://pear.php.net/get/Console_Getopt-1.2.1
+   pear upgrade --force http://pear.php.net/get/Archive_Tar http://pear.php.net/get/XML_Parser http://pear.php.net/get/Console_Getopt-1.2.2
    pear upgrade --force http://pear.php.net/get/PEAR-1.4.3.tar
    pear upgrade PEAR
   </pre>
