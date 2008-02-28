@@ -93,6 +93,7 @@ this interface</a>.</p>
   upgrade using direct URLs:
   <pre>
    pear upgrade --force http://pear.php.net/get/Archive_Tar http://pear.php.net/get/XML_Parser http://pear.php.net/get/Console_Getopt-1.2.2
+   pear upgrade --force http://pear.php.net/get/PEAR-1.3.3 (_IF_ your existing version is older than 1.3.3)
    pear upgrade --force http://pear.php.net/get/PEAR-1.4.3.tar
    pear upgrade PEAR
   </pre>
