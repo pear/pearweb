@@ -30,7 +30,7 @@ require_once 'HTML/Table.php';
 require_once 'Pager/Pager.php';
 
 // Returns an appropriate query string for a self referencing link
-function getQueryString($catpid, $catname, $showempty = false, $moreinfo=false)
+function getQueryString($catpid, $catname, $showempty = false, $moreinfo = false)
 {
     $querystring = array();
     $entries_cnt = 0;
@@ -57,9 +57,9 @@ function getQueryString($catpid, $catname, $showempty = false, $moreinfo=false)
 
     if ($entries_cnt) {
         return '?' . implode('&amp;', $querystring);
-    } else {
-        return '';
     }
+
+    return '';
 }
 
 /*
@@ -96,7 +96,7 @@ if (empty($catpid)) {
 $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
 
 if ($catpid) {
-    $catname = $dbh->getOne('SELECT name FROM categories WHERE id=' . $catpid);
+    $catname = $dbh->getOne('SELECT name FROM categories WHERE id = ' . $catpid);
     $category_title = "Package Browser :: " . htmlspecialchars($catname);
 } else {
     $category_title = 'Package Browser :: Top Level';
@@ -154,7 +154,7 @@ while ($sth->fetchInto($row)) {
         foreach ($subcats[$id] as $subcat) {
             $sub_links[] = '<b><a href="'. $script_name .'?catpid='.$subcat['id'].'&amp;catname='.
                             urlencode($subcat['name']).'" title="'.htmlspecialchars($subcat['summary']).'">'.$subcat['name'].'</a></b>';
-            if (sizeof($sub_links) >= $max_sub_links) {
+            if (count($sub_links) >= $max_sub_links) {
                 break;
             }
         }
@@ -164,7 +164,7 @@ while ($sth->fetchInto($row)) {
         foreach ($subpkgs[$id] as $subpkg) {
             $sub_links[] = '<a href="/package/' . $subpkg['name'] .'" title="'.
                             htmlspecialchars($subpkg['summary']).'">'.$subpkg['name'].'</a>';
-            if (sizeof($sub_links) >= $max_sub_links) {
+            if (count($sub_links) >= $max_sub_links) {
                 break;
             }
         }
@@ -229,7 +229,7 @@ if (!empty($catpid)) {
     }
 
     // Package list
-    $packages = $dbh->getAll("SELECT id, name, summary, license FROM packages WHERE package_type = 'pear' AND approved = 1 AND category=$catpid ORDER BY name");
+    $packages = $dbh->getAll("SELECT id, name, summary, license FROM packages WHERE package_type = 'pear' AND approved = 1 AND category = $catpid ORDER BY name");
 
     // Paging
     $total = count($packages);
@@ -297,9 +297,7 @@ if (!empty($catpid)) {
     $defaultMoreInfoVis = $moreinfo ? 'inline' : 'none';
 }
 
-/*
- * Build URLs for hide/show all links
- */
+// Build URLs for hide/show all links
 if ($moreinfo) {
     $showMoreInfoLink = '#';
     $hideMoreInfoLink = getQueryString($catpid, $catname, $showempty, 0);
