@@ -157,11 +157,7 @@ do {
 
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'report_warning');
         include_once 'pear-database-release.php';
-        if (is_a($info, 'PEAR_PackageFile_v1') || is_a($info, 'PEAR_PackageFile_v2')) {
-            release::promote_v2($info, $file);
-        } else {
-            release::promote($info, $file);
-        }
+        release::promote_v2($info, $file);
         PEAR::popErrorHandling();
 
         $success              = true;
@@ -199,8 +195,8 @@ if ($display_verification) {
     // XXX this will leave files in PEAR_UPLOAD_TMPDIR if users don't
     // complete the next screen.  Janitor cron job recommended!
     $config = &PEAR_Config::singleton();
-    $pkg = &new PEAR_PackageFile($config);
-    $info = &$pkg->fromTgzFile(PEAR_UPLOAD_TMPDIR . '/' . $tmpfile, PEAR_VALIDATE_NORMAL);
+    $pkg    = &new PEAR_PackageFile($config);
+    $info   = &$pkg->fromTgzFile(PEAR_UPLOAD_TMPDIR . '/' . $tmpfile, PEAR_VALIDATE_NORMAL);
     $errors = $warnings = array();
     if (PEAR::isError($info)) {
         if (is_array($info->getUserInfo())) {
@@ -214,6 +210,11 @@ if ($display_verification) {
         }
         $errors[] = $info->getMessage();
     } else {
+        if ($info->getPackageXmlVersion() == '1.0') {
+            $errors[] = 'Only packages using package.xml version 2.0 or newer may be' .
+                ' released - use the "pear convert" command to create a new package.xml';
+        }
+
         include_once 'pear-database-package.php';
         $id   = package::info($info->getPackage(), 'id');
         $name = package::info($info->getPackage(), 'name');
@@ -264,10 +265,6 @@ if ($display_verification) {
         if (isset($filelist['package2.xml'])) {
             $warnings[] = 'package2.xml should not be present in package.xml, installation may fail';
         }
-        if ($info->getPackageXmlVersion() == '1.0') {
-            $errors[] = 'Only packages using package.xml version 2.0 or newer may be' .
-                ' released - use the "pear convert" command to create a new package.xml';
-        }
     }
     if ($info->getChannel() != PEAR_CHANNELNAME) {
         $errors[] = 'Only channel ' . PEAR_CHANNELNAME .
@@ -309,5 +306,3 @@ function checkUser($user)
     // Try to see if the user is an admin
     return auth_check('pear.qa');
 }
-
-?>
