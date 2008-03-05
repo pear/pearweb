@@ -71,8 +71,8 @@ do {
         include_once 'PEAR/PackageFile.php';
         // Verify Button
         $config = &PEAR_Config::singleton();
-        $pkg = &new PEAR_PackageFile($config);
-        $info = &$pkg->fromTgzFile($distfile, PEAR_VALIDATE_NORMAL);
+        $pkg    = &new PEAR_PackageFile($config);
+        $info   = &$pkg->fromTgzFile($distfile, PEAR_VALIDATE_NORMAL);
         if (PEAR::isError($info)) {
             if (is_array($info->getUserInfo())) {
                 foreach ($info->getUserInfo() as $err) {
@@ -82,6 +82,12 @@ do {
             $errors[] = $info->getMessage();
             break;
         } else {
+            if ($info->getPackageXmlVersion() == '1.0') {
+                $errors[] = 'Only packages using package.xml version 2.0 or newer may be' .
+                ' released - use the "pear convert" command to create a new package.xml';
+                break;
+            }
+
             $tar = &new Archive_Tar($distfile);
             if ($packagexml = $tar->extractInString('package2.xml')) {
                 $compatible_pxml = true;
