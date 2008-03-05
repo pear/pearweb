@@ -4,13 +4,13 @@ category::add() [basic]
 <?php
 // setup
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-$mock->addInsertQuery("INSERT INTO categories (id, name, description, parent)VALUES (1, 'test', 'hi there', NULL)", array(), 1);
-$mock->addDataQuery("select max(cat_right) + 1 from categories
-                              where parent is null", array(
+$mock->addInsertQuery("INSERT INTO categories (id, name, description, parent) VALUES (1, 'test', 'hi there', NULL)", array(), 1);
+$mock->addDataQuery("SELECT max(cat_right) + 1 FROM categories
+                              WHERE parent IS NULL", array(
     array('max(cat_right) + 1' => '1')), array('max(cat_right) + 1'));
-$mock->addUpdateQuery("update categories
-                        set cat_left = 1, cat_right = 2
-                        where id = 1", array(), 1);
+$mock->addUpdateQuery("UPDATE categories
+                        SET cat_left = 1, cat_right = 2
+                        WHERE id = 1", array(), 1);
 $mock->addDataQuery("SELECT * FROM categories WHERE name = 'test'",
     array(array('id' => 1,
           'parent' => null,
@@ -45,18 +45,18 @@ $mock->addDataQuery("SELECT
             WHERE
                 p.category = c.id AND
                 c.name = 'test'", array(
-                ), array('id', 'name'));    
+                ), array('id', 'name'));
 
 // test
 $id = category::add(array('name' => 'test', 'desc' => 'hi there'));
 $phpt->assertEquals(1, $id, 'id');
 $phpt->assertEquals(array (
-  0 => 'INSERT INTO categories (id, name, description, parent)VALUES (1, \'test\', \'hi there\', NULL)',
-  1 => 'select max(cat_right) + 1 from categories
-                              where parent is null',
-  2 => 'update categories
-                        set cat_left = 1, cat_right = 2
-                        where id = 1',
+  0 => 'INSERT INTO categories (id, name, description, parent) VALUES (1, \'test\', \'hi there\', NULL)',
+  1 => 'SELECT max(cat_right) + 1 FROM categories
+                              WHERE parent IS NULL',
+  2 => 'UPDATE categories
+                        SET cat_left = 1, cat_right = 2
+                        WHERE id = 1',
   3 => 'SELECT * FROM categories WHERE name = \'test\'',
   4 => 'SELECT p.name AS name FROM packages p, categories c WHERE p.package_type = \'pear\' AND p.category = c.id AND c.name = \'test\' AND p.approved = 1',
   5 => 'SELECT * FROM categories ORDER BY name',
