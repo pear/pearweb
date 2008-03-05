@@ -57,8 +57,12 @@ class package
         if (empty($name)) {
             return PEAR::raiseError("package::add: invalid `name' field");
         }
-        $query = "INSERT INTO packages (id,name,package_type,category,license,summary,description,homepage,cvs_link) VALUES(?,?,?,?,?,?,?,?,?)";
-        $id = $dbh->nextId("packages");
+
+        $query = '
+            INSERT INTO packages (id, name, package_type, category, license, summary,
+                                  description, homepage, cvs_link)
+            VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
+        $id = $dbh->nextId('packages');
         $err = $dbh->query($query, array($id, $name, $type, $category, $license, $summary, $description, $homepage, $cvs_link));
         if (DB::isError($err)) {
             return $err;
@@ -131,6 +135,11 @@ class package
                 'is not a valid stability state');
         }
         $package = $packageinfo['package'];
+        $info = package::info($package, 'releases');
+        if (!count($info)) {
+            return false;
+        }
+
         $state = $version = null;
         if (isset($packageinfo['state'])) {
             $state = $packageinfo['state'];
@@ -138,12 +147,8 @@ class package
         if (isset($packageinfo['version'])) {
             $version = $packageinfo['version'];
         }
-        $info = package::info($package, 'releases');
-        if (!count($info)) {
-            return false;
-        }
-        $found = false;
-        $release = false;
+
+        $release = $found = false;
         foreach ($info as $ver => $release) {
             if ($installed && version_compare($ver, $installed, '<')) {
                 continue;
@@ -165,18 +170,19 @@ class package
                 }
             }
         }
+
         if ($found) {
             return
                 array('version' => $ver,
                       'info' => package::getPackageFile($packageinfo['package'], $ver),
                       'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
                                $package . '-' . $ver);
-        } else {
-            reset($info);
-            list($ver, $release) = each($info);
-            return array('version' => $ver,
-                         'info' => package::getPackageFile($packageinfo['package'], $ver));
         }
+
+        reset($info);
+        list($ver, $release) = each($info);
+        return array('version' => $ver,
+                     'info' => package::getPackageFile($packageinfo['package'], $ver));
     }
 
     /**
@@ -330,12 +336,12 @@ class package
                       'info' => package::getPackageFile($dependency['name'], $ver),
                       'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
                                $pinfo['package'] . '-' . $ver);
-        } else {
-            reset($info);
-            list($ver, $release) = each($info);
-            return array('version' => $ver,
-                         'info' => package::getPackageFile($dependency['name'], $ver));
         }
+
+        reset($info);
+        list($ver, $release) = each($info);
+        return array('version' => $ver,
+                     'info' => package::getPackageFile($dependency['name'], $ver));
     }
 
     /*
@@ -389,20 +395,13 @@ class package
                      FROM deps
                      WHERE package = ? ORDER BY optional ASC";
         $newpk_sql = "SELECT name FROM packages WHERE id=?";
-        if ($field == null) {
-            $info =
-                 $dbh->getRow($pkg_sql, array($pkg), DB_FETCHMODE_ASSOC);
-            $info['releases'] =
-                 $dbh->getAssoc($rel_sql, false, array($info['packageid']),
-                 DB_FETCHMODE_ASSOC);
+        if ($field === null) {
+            $info = $dbh->getRow($pkg_sql, array($pkg), DB_FETCHMODE_ASSOC);
+            $info['releases'] = $dbh->getAssoc($rel_sql, false, array($info['packageid']), DB_FETCHMODE_ASSOC);
             $rels = sizeof($info['releases']) ? array_keys($info['releases']) : array('');
             $info['stable'] = $rels[0];
-            $info['notes'] =
-                 $dbh->getAssoc($notes_sql, false, array(@$info['packageid']),
-                 DB_FETCHMODE_ASSOC);
-            $deps =
-                 $dbh->getAll($deps_sql, array(@$info['packageid']),
-                 DB_FETCHMODE_ASSOC);
+            $info['notes']  = $dbh->getAssoc($notes_sql, false, array(@$info['packageid']), DB_FETCHMODE_ASSOC);
+            $deps = $dbh->getAll($deps_sql, array(@$info['packageid']), DB_FETCHMODE_ASSOC);
             foreach($deps as $dep) {
                 $rel_version = null;
                 foreach($info['releases'] as $version => $rel) {
@@ -458,6 +457,7 @@ class package
                 $info = $dbh->getOne($sql, array($pkg));
             }
         }
+
         return $info;
     }
 
