@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.7.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+ <name>pearweb_gopear</name>
+ <channel>pear.php.net</channel>
+ <summary>go-pear script for pear.php.net</summary>
+ <description>go-pear is the online PEAR installer: just download it and run it (through a browser or command line), it will set up a minimal PEAR installation that will be ready for immediatel use.
+
+You can download go-pear from http://pear.php.net/go-pear
+(this is merely the pearweb package hosting it)</description>
+ <lead>
+  <name>Tias Guns</name>
+  <user>Tias</user>
+  <email>tias@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Pierre-Alain Joye</name>
+  <user>pajoye</user>
+  <email>pierre@php.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Christian Dickmann</name>
+  <user>dickmann</user>
+  <email>dickmann@php.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>sbb@php.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Tomas V.V.Cox</name>
+  <user>cox</user>
+  <email>cox@idecnet.com</email>
+  <active>no</active>
+ </lead>
+ <date>2008-01-28</date>
+ <time>20:42:13</time>
+ <version>
+  <release>1.1.1</release>
+  <api>1.1.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>using PEAR-stable again
+ simplified intro and installation instructions</notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" name="public_html/go-pear" role="www">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>4.2.0</min>
+   </php>
+   <pearinstaller>
+    <min>1.7.0</min>
+   </pearinstaller>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>0.6.0</release>
+    <api>0.6.0</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2007-06-25</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>First packaged release, must be beta (go-pear is already live at pearweb for years)</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-06-25</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Same as 0.6.0 but with stability stable now (pearweb restrictions)</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-06-29</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Request #11448    Update to match PEARs required PHP version
+   + clean up installation instructions a bit</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.2</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2007-07-12</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>Use pear_frontend_web beta now,
+   + patch that makes patch resolution better</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-01-28</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>New version: more user friendly and robust (especially the webbased part of it)
+   + installs pear-beta as suggested by cweiske in #12727</notes>
+  </release>
+ </changelog>
+</package>
