@@ -73,11 +73,13 @@ $sql = "SELECT p.id, p.name, p.summary
 $term = "%" . basename($pkg) . "%";
 $packages = $dbh->getAll($sql, array($term), DB_FETCHMODE_ASSOC);
 
-if (count($packages) > 3) {
-	$packages = array($packages[0], $packages[1], $packages[2]);
-	$show_search_link = true;
+if (count($packages) === 1) {
+    localRedirect($pinfo_url . $packages[0]['name'] . '/redirected');
+} elseif (count($packages) > 3) {
+    $packages = array($packages[0], $packages[1], $packages[2]);
+    $show_search_link = true;
 } else {
-	$show_search_link = false;
+    $show_search_link = false;
 }
 
 response_header('Error 404');
@@ -89,23 +91,23 @@ response_header('Error 404');
 found on this server.</p>
 
 <?php if (is_array($packages) && count($packages) > 0) { ?>
-	Searching the current list of packages for
-	<i><?php echo basename(strip_tags($_SERVER['REQUEST_URI'])); ?></i> included the
-	following results:
+    Searching the current list of packages for
+    <i><?php echo basename(strip_tags($_SERVER['REQUEST_URI'])); ?></i> included the
+    following results:
 
-	<ul>
-	<?php foreach($packages as $p) { ?>
-		<li>
-			<?php echo make_link(getURL($pinfo_url . $p['name']), $p['name']); ?><br />
-			<i><?php echo $p['summary']; ?></i><br /><br />
-		</li>
-	<?php } ?>
-	</ul>
+    <ul>
+    <?php foreach($packages as $p) { ?>
+        <li>
+            <?php echo make_link(getURL($pinfo_url . $p['name']), $p['name']); ?><br />
+            <i><?php echo $p['summary']; ?></i><br /><br />
+        </li>
+    <?php } ?>
+    </ul>
 
-	<?php if($show_search_link) { ?>
-		<p align="center">
-			<?php echo make_link(getURL('/search.php?q=' . basename(strip_tags($_SERVER['REQUEST_URI']))), 'View full search results...'); ?>
-		</p>
+    <?php if($show_search_link) { ?>
+        <p align="center">
+            <?php echo make_link(getURL('/search.php?q=' . basename(strip_tags($_SERVER['REQUEST_URI']))), 'View full search results...'); ?>
+        </p>
 <?php
     }
 }
@@ -115,4 +117,5 @@ found on this server.</p>
 configuration of the server, please contact
 <?php echo make_mailto_link(PEAR_WEBMASTER_EMAIL); ?>.
 
-<?php response_footer(); ?>
+<?php
+response_footer();
