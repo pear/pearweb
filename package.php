@@ -1,7 +1,9 @@
 <?php
 require_once 'PEAR/PackageFileManager2.php';
+$dir = dirname(__FILE__);
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
-$a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
+$a = PEAR_PackageFileManager2::importOptions(
+    $dir . '/package.xml',
     array(
         'baseinstalldir' => '/',
         'filelistgenerator' => 'cvs',
@@ -10,45 +12,25 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package.xml',
         'simpleoutput' => true,
         'ignore' => array(
             '*.phar',
-            'package.xml',
-            'package.php',
-            'package-channel.xml.php',
-            'package-channel.xml',
-            'channel.xml',
+            'package*.xml',
+            'package*.php',
+            'pearweb_*',
             'tests/',
-            // next are files in pearweb_index package
-            '*about/credits.php',
-            '*about/index.php',
-            '*about/privacy.php',
-            'group/',
-            'news/',
-            'support/',
-            '*public_html/copyright.php',
-            '*public_html/credits.php',
-            '*public_html/faq.php',
-            '*public_html/index.php',
-            '*public_html/mirrors.php',
-            // next are files in pearweb_gopear package
-            '*public_html/go-pear',
-            '*public_html/new-gopear.php',
         ),
     ));
-$a->setReleaseVersion('1.17.1');
+
+
+$a->setReleaseVersion('1.18.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
- * Fix couple of small CSS issues
- * Fix Bug #12803: Monthly bug summary shows PECL bugs [dufuz]
- * Fix Bug #12826: Navigation tab &apos;Main&apos; incorrectly becomes the &quot;current&quot; tab [dufuz]
- * Fix Bug #12830: Javascript error on Google map in IE [davidc]
- * Fix Bug #12831: Account info page: developer stats link points to old location [wiesemann]
+lala
 ');
 $a->resetUsesrole();
 $a->clearDeps();
-$a->setPhpDep('5.2.0');
-$a->setPearInstallerDep('1.7.0RC2');
-$a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.0RC2');
-$a->addPackageDepWithChannel('optional', 'pearweb_index', 'pear.php.net', '1.16.13');
+$a->setPhpDep('5.2.3');
+$a->setPearInstallerDep('1.7.1');
+$a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.1');
 $a->addPackageDepWithChannel('optional', 'pearweb_gopear', 'pear.php.net', '0.6.0');
 $a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.2');
 $a->addPackageDepWithChannel('required', 'HTTP_Request', 'pear.php.net', '1.2.2');
@@ -76,14 +58,28 @@ $a->addPackageDepWithChannel('required', 'Services_Trackback', 'pear.php.net', '
 $a->addPackageDepWithChannel('required', 'Text_Wiki', 'pear.php.net', '1.2.0');
 $a->addPackageDepWithChannel('required', 'HTML_QuickForm', 'pear.php.net', '3.2.3');
 $a->addPackageDepWithChannel('required', 'HTML_TreeMenu', 'pear.php.net', '1.2.0');
-$a->addDependencyGroup('php4', 'Use this for PHP 4 (mysql ext)');
-$a->addDependencyGroup('php5', 'Use this for PHP 5 (mysqli ext)');
-$a->addGroupPackageDepWithChannel('package', 'php4', 'MDB2_Driver_mysql', 'pear.php.net');
-$a->addGroupPackageDepWithChannel('package', 'php5', 'MDB2_Driver_mysqli', 'pear.php.net');
+$a->addPackageDepWithChannel('required', 'MDB2_Driver_mysqli', 'pear.php.net');
 $a->addExtensionDep('required', 'pcre');
-$a->addExtensionDep('optional', 'mysql');
-$a->addExtensionDep('optional', 'mysqli');
+$a->addExtensionDep('required', 'mysqli');
+$a->addExtensionDep('required', 'fileinfo');
 $a->addPackageDepWithChannel('required', 'Graph', 'components.ez.no');
+
+include_once 'PEAR/Config.php';
+include_once 'PEAR/PackageFile.php';
+$config = &PEAR_Config::singleton();
+$p      = &new PEAR_PackageFile($config);
+// Specify subpackages
+$b = $p->fromPackageFile($dir . '/package_election.xml', PEAR_VALIDATE_NORMAL);
+$a->specifySubpackage($b, false);
+$c = $p->fromPackageFile($dir . '/package_pepr.xml', PEAR_VALIDATE_NORMAL);
+$a->specifySubpackage($c, false);
+$d = $p->fromPackageFile($dir . '/package-index.xml', PEAR_VALIDATE_NORMAL);
+$a->specifySubpackage($d, false);
+$e = $p->fromPackageFile($dir . '/package-channel.xml', PEAR_VALIDATE_NORMAL);
+$a->specifySubpackage($e, false);
+//$b = $p->fromPackageFile($dir . '/package_gopear.xml', PEAR_VALIDATE_NORMAL);
+//$a->specifySubpackage($b, false);
+
 $script = &$a->initPostinstallScript('pearweb.php');
 $script->addParamGroup(
     'askdb',
@@ -122,4 +118,9 @@ $a->addReplacement('pearweb.php', 'pear-config', '@web-dir@', 'web_dir');
 $a->addReplacement('pearweb.php', 'pear-config', '@php-dir@', 'php_dir');
 $a->addReplacement('pearweb.php', 'package-info', '@version@', 'version');
 $a->generateContents();
-$a->writePackageFile();
+
+if (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make') {
+    $a->writePackageFile();
+} else {
+    $a->debugPackageFile();
+}
