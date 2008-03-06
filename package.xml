@@ -264,9 +264,6 @@ lala
      <file name="style.css" role="www" />
      <file name="thickbox.css" role="www" />
     </dir> <!-- /public_html/css -->
-    <dir name="doc">
-     <file name="index.php" role="www" />
-    </dir> <!-- /public_html/doc -->
     <dir name="downloads">
      <file name="pear-folder.ico" role="www" />
      <file name="pear-folder.svg" role="www" />

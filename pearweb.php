@@ -278,6 +278,8 @@ class pearweb_postinstall
             . $answers['pear'] . '/pepr/' . $eol;
         $middle[] = ' RedirectPermanent /faq.php                    http://'
             . $answers['pear'] . '/manual/en/faq.php' . $eol;
+        $middle[] = ' RedirectPermanent /doc/index.php              http://'
+            . $answers['pear'] . '/manual/en/' . $eol;
         $middle[] = $eol;
         $middle[] = ' RewriteEngine On' . $eol;
         $middle[] = $eol;
