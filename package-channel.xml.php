@@ -6,7 +6,7 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
         'baseinstalldir' => '/',
         'packagefile' => 'package-channel.xml',
         'filelistgenerator' => 'cvs',
-        'roles' => array('*' => 'web'),
+        'roles' => array('*' => 'www'),
         'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
         'include' => array(
@@ -20,11 +20,8 @@ $a->setNotes('
 jump to 1.12.0 so we can tag
 ');
 $a->resetUsesrole();
-$a->addUsesRole('web', 'Role_Web', 'pearified.com');
 $a->clearDeps();
 $a->setPhpDep('4.3.0');
 $a->setPearInstallerDep('1.4.11');
-$a->addPackageDepWithChannel('required', 'Role_Web', 'pearified.com');
 $a->generateContents();
 $a->writePackageFile();
-?>
