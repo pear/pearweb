@@ -327,7 +327,6 @@ lala
      <file name="blank.gif" role="www" />
      <file name="box-0.gif" role="www" />
      <file name="box-1.gif" role="www" />
-     <file name="calendar.gif" role="www" />
      <file name="caret-l.gif" role="www" />
      <file name="caret-r.gif" role="www" />
      <file name="caret-t.gif" role="www" />
@@ -335,7 +334,6 @@ lala
      <file name="checkerboard.gif" role="www" />
      <file name="close.gif" role="www" />
      <file name="delete.gif" role="www" />
-     <file name="dynCalendar.gif" role="www" />
      <file name="edit.gif" role="www" />
      <file name="favicon.ico" role="www" />
      <file name="feed.png" role="www" />
@@ -374,11 +372,6 @@ lala
      <file name="tri.gif" role="www" />
     </dir> <!-- /public_html/gifs -->
     <dir name="javascript">
-     <dir name="calendar">
-      <file name="browserSniffer.js" role="www" />
-      <file name="dynCalendar.css" role="www" />
-      <file name="dynCalendar.js" role="www" />
-     </dir> <!-- /public_html/javascript/calendar -->
      <dir name="TreeMenu">
       <file name="TreeMenu.js" role="www" />
      </dir> <!-- /public_html/javascript/TreeMenu -->
