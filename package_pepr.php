@@ -14,6 +14,7 @@ $a = PEAR_PackageFileManager2::importOptions(
             'cron/pepr.php',
             'public_html/pepr/',
             'include/pepr/',
+            'include/Damblan/Search/Pepr.php',
             'sql/pearweb_pepr.xml',
         ),
     ));

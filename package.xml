@@ -84,7 +84,7 @@
   <active>yes</active>
  </developer>
  <date>2008-03-06</date>
- <time>21:52:57</time>
+ <time>22:26:57</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -147,7 +147,6 @@ lala
      <dir name="Search">
       <file name="Lists.php" role="www" />
       <file name="Packages.php" role="www" />
-      <file name="PEPr.php" role="www" />
       <file name="Site.php" role="www" />
       <file name="Users.php" role="www" />
      </dir> <!-- /include/Damblan/Search -->
