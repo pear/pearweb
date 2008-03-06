@@ -19,10 +19,10 @@
 */
 
 // expected url vars: pacid package
-if (isset($_GET['package']) && empty($_GET['pacid'])) {
-    $pacid = $_GET['package'];
+if (isset($_GET['package']) && !empty($_GET['package'])) {
+    $p = htmlspecialchars($_GET['package']);
 } else {
-    $pacid = (isset($_GET['pacid'])) ? (int) $_GET['pacid'] : null;
+    $p = isset($_GET['pacid']) ? (int)$_GET['pacid'] : null;
 }
 
-header("Location: /package/$pacid/download");
+header("Location: /package/$p/download");
