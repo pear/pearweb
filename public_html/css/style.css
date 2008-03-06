@@ -696,3 +696,71 @@ dl {
     padding-right: 8px;
     padding-left: 8px;
 }
+
+.eInfo_label {
+    font-weight: bold;
+    font-size: 80%;
+}
+
+table#packageList {
+    width: 100%;
+    padding: 4px;
+    padding-top: 0px;
+}
+
+table#packageList th {
+    border-bottom: 1px solid black;
+    font-weight: bold;
+}
+
+table#packageList td {
+    padding: 2px;
+}
+
+th.pkgListHeader {
+    background-color: #cccccc;
+}
+
+td.tableHeader, td.tableFooter {
+    background-color: #cccccc;
+    border-top: 1px solid black;
+    text-align: center;
+    font-size: 85%;
+    padding: 2px;
+}
+
+td.tableHeader {
+    border-bottom: 1px solid black;
+}
+
+td.tableHeader a, td.tableFooter a {
+    font-weight: bold;
+}
+
+td.tableHeader span.current, td.tableFooter span.current {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+td.moreInfo {
+    background-color: #f0f0f0;
+    border: 1px dashed #c0c0c0;
+    position: relative;
+}
+
+.closeButton {
+    border: 2px white outset;
+    background-color: #c0c0c0;
+}
+
+.moreInfoHeader {
+    background-color: #dddddd;
+    border-bottom: 1px dashed #c0c0c0;
+}
+
+.moreInfoText {
+    font-size: 80%;
+    font-weight: bold;
+    font-family: Verdana;
+    padding-left: 5px;
+}
