@@ -12,9 +12,10 @@ $a = PEAR_PackageFileManager2::importOptions(
         'simpleoutput' => true,
         'ignore' => array(
             '*.phar',
-            'package*.xml',
-            'package*.php',
-            'pearweb_*',
+            'package-*.xml',
+            'package_*.xml',
+            'package_*.php',
+            'pearweb_*.php',
             'tests/',
         ),
     ));
@@ -31,7 +32,6 @@ $a->clearDeps();
 $a->setPhpDep('5.2.3');
 $a->setPearInstallerDep('1.7.1');
 $a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.1');
-$a->addPackageDepWithChannel('optional', 'pearweb_gopear', 'pear.php.net', '0.6.0');
 $a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.2');
 $a->addPackageDepWithChannel('required', 'HTTP_Request', 'pear.php.net', '1.2.2');
 $a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
@@ -77,8 +77,8 @@ $d = $p->fromPackageFile($dir . '/package-index.xml', PEAR_VALIDATE_NORMAL);
 $a->specifySubpackage($d, false);
 $e = $p->fromPackageFile($dir . '/package-channel.xml', PEAR_VALIDATE_NORMAL);
 $a->specifySubpackage($e, false);
-//$b = $p->fromPackageFile($dir . '/package_gopear.xml', PEAR_VALIDATE_NORMAL);
-//$a->specifySubpackage($b, false);
+$f = $p->fromPackageFile($dir . '/package-gopear.xml', PEAR_VALIDATE_NORMAL);
+$a->specifySubpackage($f, false);
 
 $script = &$a->initPostinstallScript('pearweb.php');
 $script->addParamGroup(

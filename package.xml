@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -36,16 +36,16 @@
   <active>yes</active>
  </lead>
  <lead>
+  <name>Pierre-Alain Joye</name>
+  <user>pajoye</user>
+  <email>pajoye@php.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
   <name>Helgi Thormar</name>
   <user>dufuz</user>
   <email>dufuz@php.net</email>
   <active>yes</active>
- </lead>
- <lead>
-  <name>Pierre-Alain Joye</name>
-  <user>pajoye</user>
-  <email>pajoye@pearfr.org</email>
-  <active>no</active>
  </lead>
  <developer>
   <name>Stig Bakken</name>
@@ -72,15 +72,21 @@
   <active>no</active>
  </developer>
  <developer>
+  <name>Christian Weiske</name>
+  <user>cweiske</user>
+  <email>cweiske@php.net</email>
+  <active>yes</active>
+ </developer>
+ <developer>
   <name>Mark Wiesemann</name>
   <user>wiesemann</user>
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-01-14</date>
- <time>19:27:55</time>
+ <date>2008-03-06</date>
+ <time>21:52:57</time>
  <version>
-  <release>1.17.1</release>
+  <release>1.18.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -89,11 +95,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
- * Fix couple of small CSS issues
- * Fix Bug #12803: Monthly bug summary shows PECL bugs [dufuz]
- * Fix Bug #12826: Navigation tab &amp;apos;Main&amp;apos; incorrectly becomes the &amp;quot;current&amp;quot; tab [dufuz]
- * Fix Bug #12830: Javascript error on Google map in IE [davidc]
- * Fix Bug #12831: Account info page: developer stats link points to old location [wiesemann]
+lala
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -108,10 +110,8 @@
     <file name="apidoc-queue.php" role="www" />
     <file name="bug-summary.php" role="www" />
     <file name="bug-update-php-version.php" role="www" />
-    <file name="election_results.php" role="www" />
     <file name="find-documentation.php" role="www" />
     <file name="load-chm.sh" role="www" />
-    <file name="pepr.php" role="www" />
     <file name="trackback-cleanup.php" role="www" />
     <file name="update-website.php" role="www" />
    </dir> <!-- /cron -->
@@ -140,11 +140,6 @@
      </dir> <!-- /include/Damblan/Log -->
      <dir name="Mail">
       <file name="Patch_Added.tpl.php" role="www" />
-      <file name="pearweb_account_request.tpl.php" role="www" />
-      <file name="pearweb_account_request_bug.tpl.php" role="www" />
-      <file name="pearweb_account_request_existing.tpl.php" role="www" />
-      <file name="pearweb_account_request_new.tpl.php" role="www" />
-      <file name="pearweb_account_request_vote.tpl.php" role="www" />
       <file name="Trackback_Approve.tpl.php" role="www" />
       <file name="Trackback_Delete.tpl.php" role="www" />
       <file name="Trackback_New.tpl.php" role="www" />
@@ -176,11 +171,6 @@
      <file name="Releases.php" role="www" />
      <file name="Users.php" role="www" />
     </dir> <!-- /include/DataObject -->
-    <dir name="election">
-     <file name="pear-election-accountrequest.php" role="www" />
-     <file name="pear-election.php" role="www" />
-     <file name="pear-voter.php" role="www" />
-    </dir> <!-- /include/election -->
     <dir name="fonts">
      <file name="coolveti.ttf" role="www" />
     </dir> <!-- /include/fonts -->
@@ -190,10 +180,6 @@
     <dir name="package">
      <file name="releasehelper.php" role="www" />
     </dir> <!-- /include/package -->
-    <dir name="pepr">
-     <file name="pepr-emails.php" role="www" />
-     <file name="pepr.php" role="www" />
-    </dir> <!-- /include/pepr -->
     <dir name="roadmap">
      <file name="info.php" role="www" />
      <file name="package-generator.php" role="www" />
@@ -205,9 +191,7 @@
     <dir name="users">
      <file name="passwordmanage.php" role="www" />
     </dir> <!-- /include/users -->
-    <file name="browser.php" role="www" />
     <file name="pear-auth.php" role="www" />
-    <file name="pear-category.php" role="www" />
     <file name="pear-config.php" role="www" />
     <file name="pear-database-category.php" role="www" />
     <file name="pear-database-channel.php" role="www" />
@@ -219,7 +203,6 @@
     <file name="pear-database-user.php" role="www" />
     <file name="pear-format-html.php" role="www" />
     <file name="pear-manual.php" role="www" />
-    <file name="pear-patches.php" role="www" />
     <file name="pear-prepend.php" role="www" />
     <file name="pear-rest.php" role="www" />
     <file name="site.php" role="www" />
@@ -246,11 +229,9 @@
      <dir name="include">
       <file name="cvs-auth.inc" role="www" />
       <file name="functions.inc" role="www" />
-      <file name="layout.inc" role="www" />
       <file name="php_versions.php" role="www" />
       <file name="prepend.inc" role="www" />
       <file name="resolve.inc" role="www" />
-      <file name="trusted-devs.inc" role="www" />
      </dir> <!-- /public_html/bugs/include -->
      <dir name="rss">
       <file name="bug.php" role="www" />
@@ -317,12 +298,6 @@
      <file name="rest.release2.xsd" role="www" />
      <file name="tasks-1.0.xsd" role="www" />
     </dir> <!-- /public_html/dtd -->
-    <dir name="election">
-     <file name="edit.php" role="www" />
-     <file name="index.php" role="www" />
-     <file name="info.php" role="www" />
-     <file name="new.php" role="www" />
-    </dir> <!-- /public_html/election -->
     <dir name="error">
      <file name="404-manual.php" role="www" />
      <file name="404.php" role="www" />
@@ -438,17 +413,6 @@
      <file name="add-note-form.php" role="www" />
      <file name="add-note.php" role="www" />
     </dir> <!-- /public_html/notes -->
-    <dir name="pepr">
-     <file name="index.php" role="www" />
-     <file name="pepr-bbcode-help.php" role="www" />
-     <file name="pepr-comments-show.php" role="www" />
-     <file name="pepr-proposal-delete.php" role="www" />
-     <file name="pepr-proposal-edit.php" role="www" />
-     <file name="pepr-proposal-show.php" role="www" />
-     <file name="pepr-qa-stats.php" role="www" />
-     <file name="pepr-vote-show.php" role="www" />
-     <file name="pepr-votes-show.php" role="www" />
-    </dir> <!-- /public_html/pepr -->
     <dir name="pngs">
      <file name="dev.png" role="www" />
      <file name="pearpoint.png" role="www" />
@@ -463,7 +427,7 @@
     </dir> <!-- /public_html/qa -->
     <dir name="rest">
      <file name="rest.php" role="www" />
-    </dir> <!-- /public_html/sidebar -->
+    </dir> <!-- /public_html/rest -->
     <dir name="sidebar">
      <file name="pear.src" role="www" />
     </dir> <!-- /public_html/sidebar -->
@@ -490,7 +454,6 @@
     <file name="advisory-20070507.txt" role="www" />
     <file name="favicon.ico" role="www" />
     <file name="get" role="www" />
-    <file name="gophp5.php" role="www" />
     <file name="login.php" role="www" />
     <file name="package-changelog.php" role="www" />
     <file name="package-delete.php" role="www" />
@@ -581,18 +544,6 @@
      <file name="passwordresetconfirmed.php" role="www" />
     </dir> <!-- /templates/users -->
     <file name="category-manager.html" role="www" />
-    <file name="election-confirm.tpl.php" role="www" />
-    <file name="election-confirmed.tpl.php" role="www" />
-    <file name="election-dovote.tpl.php" role="www" />
-    <file name="election-listforedit.tpl.php" role="www" />
-    <file name="election-new-step1.tpl.php" role="www" />
-    <file name="election-new-step2.tpl.php" role="www" />
-    <file name="election-new-step3.tpl.php" role="www" />
-    <file name="election-pending.tpl.php" role="www" />
-    <file name="election-register.tpl.php" role="www" />
-    <file name="election-results.tpl.php" role="www" />
-    <file name="election-showresults.tpl.php" role="www" />
-    <file name="election-vote.tpl.php" role="www" />
     <file name="packages.html" role="www" />
    </dir> <!-- /templates -->
    <dir name="weeklynews">
@@ -638,7 +589,8 @@
     <file name="weeklynews-2003.tar.gz" role="www" />
    </dir> <!-- /weeklynews -->
    <file name="generateREST.php" role="www" />
-   <file name="package-index.xml" role="www" />
+   <file name="package-channel.xml.php" role="www" />
+   <file name="package.php" role="www" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
@@ -731,15 +683,15 @@
  <dependencies>
   <required>
    <php>
-    <min>5.2.0</min>
+    <min>5.2.3</min>
    </php>
    <pearinstaller>
-    <min>1.7.0RC2</min>
+    <min>1.7.1</min>
    </pearinstaller>
    <package>
     <name>PEAR</name>
     <channel>pear.php.net</channel>
-    <min>1.7.0RC2</min>
+    <min>1.7.1</min>
    </package>
    <package>
     <name>Archive_Tar</name>
@@ -854,43 +806,50 @@
     <min>1.2.0</min>
    </package>
    <package>
+    <name>MDB2_Driver_mysqli</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
     <name>Graph</name>
     <channel>components.ez.no</channel>
    </package>
    <extension>
     <name>pcre</name>
    </extension>
-  </required>
-  <optional>
-   <package>
-    <name>pearweb_index</name>
-    <channel>pear.php.net</channel>
-    <min>1.16.13</min>
-   </package>
-   <package>
-    <name>pearweb_gopear</name>
-    <channel>pear.php.net</channel>
-    <min>0.6.0</min>
-   </package>
-   <extension>
-    <name>mysql</name>
-   </extension>
    <extension>
     <name>mysqli</name>
    </extension>
+   <extension>
+    <name>fileinfo</name>
+   </extension>
+  </required>
+  <optional>
+   <subpackage>
+    <name>pearweb_election</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.0</min>
+   </subpackage>
+   <subpackage>
+    <name>pearweb_pepr</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.0</min>
+   </subpackage>
+   <subpackage>
+    <name>pearweb_index</name>
+    <channel>pear.php.net</channel>
+    <min>1.16.14</min>
+   </subpackage>
+   <subpackage>
+    <name>pearweb_channelxml</name>
+    <channel>pear.php.net</channel>
+    <min>1.12.0</min>
+   </subpackage>
+   <subpackage>
+    <name>pearweb_gopear</name>
+    <channel>pear.php.net</channel>
+    <min>1.1.1</min>
+   </subpackage>
   </optional>
-  <group hint="Use this for PHP 4 (mysql ext)" name="php4">
-   <package>
-    <name>MDB2_Driver_mysql</name>
-    <channel>pear.php.net</channel>
-   </package>
-  </group>
-  <group hint="Use this for PHP 5 (mysqli ext)" name="php5">
-   <package>
-    <name>MDB2_Driver_mysqli</name>
-    <channel>pear.php.net</channel>
-   </package>
-  </group>
  </dependencies>
  <phprelease />
  <changelog>
@@ -2218,12 +2177,25 @@ Split off index-updated files into pearweb_index package</notes>
    </stability>
    <date>2008-01-14</date>
    <license uri="http://www.php.net/license">PHP License</license>
+   <notes>* Fix couple of small CSS issues
+* Fix Bug #12803: Monthly bug summary shows PECL bugs [dufuz]
+* Fix Bug #12826: Navigation tab &amp;apos;Main&amp;apos; incorrectly becomes the &amp;quot;current&amp;quot; tab [dufuz]
+* Fix Bug #12830: Javascript error on Google map in IE [davidc]
+* Fix Bug #12831: Account info page: developer stats link points to old location [wiesemann]</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.18.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-03-06</date>
+   <license uri="http://www.php.net/license">PHP License</license>
    <notes>
- * Fix couple of small CSS issues
- * Fix Bug #12803: Monthly bug summary shows PECL bugs [dufuz]
- * Fix Bug #12826: Navigation tab &amp;apos;Main&amp;apos; incorrectly becomes the &amp;quot;current&amp;quot; tab [dufuz]
- * Fix Bug #12830: Javascript error on Google map in IE [davidc]
- * Fix Bug #12831: Account info page: developer stats link points to old location [wiesemann]
+lala
    </notes>
   </release>
  </changelog>
