@@ -141,7 +141,6 @@
     <file name="copyright.php" role="www" />
     <file name="index.php" role="www" />
     <file name="mirrors.php" role="www" />
-    <file name="rest-login.php" role="www" />
     <file name="gophp5.php" role="www" />
    </dir> <!-- /public_html -->
   </dir> <!-- / -->
