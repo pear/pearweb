@@ -149,8 +149,9 @@ $homepage     = $pkg['homepage'];
 $pacid        = $pkg['packageid'];
 $cvs_link     = $pkg['cvs_link'];
 $doc_link     = $pkg['doc_link'];
+$bug_link     = $pkg['bug_link'];
 $unmaintained = ($pkg['unmaintained']) ? 'Y' : 'N';
-$supersede = (bool) $pkg['new_channel'];
+$supersede    = (bool) $pkg['new_channel'];
 
 // Maintainer information
 include_once 'pear-database-maintainer.php';
@@ -583,6 +584,12 @@ if (empty($action)) {
 } else if ($action == 'docs') {
 
     // {{{ Documentation
+
+    // Redirect users to the end user docs if auto gen docs are not present and
+    // end user docs are, happens only in pecl
+    if ($rel_count === 0 && !empty($doc_link)) {
+        localRedirect($doc_link);
+    }
 
     echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     echo '<tr>';
