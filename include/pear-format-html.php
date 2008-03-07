@@ -308,45 +308,20 @@ function draw_navigation()
     include_once 'pear-auth.php';
     init_auth_user();
 
-    $main_order = array();
-    $main_order[1] = '/index.php';
-    $main_order[2] = '/support/';
-    $main_order[3] = '/manual/';
-    $main_order[4] = '/packages.php';
-    $main_order[5] = '/pepr/';
-    $main_order[6] = '/accounts.php';
-    $main_order[7] = '/bugs/';
-    $main_order[8] = '/admin/';
+    $main_order = $main = $data = $sub = $rel = array();
 
-    $main = array();
-    $main['/index.php']    = 'Main';
-    $main['/support/']     = 'Support';
-    $main['/manual/']      = 'Documentation';
-    $main['/packages.php'] = 'Packages';
-    $main['/pepr/']        = 'Package Proposals';
-    $main['/bugs/']        = 'Bugs';
-    $main['/accounts.php'] = 'Developers';
-
-    if (!empty($auth_user) && $auth_user->isAdmin()) {
-        $main['/admin/'] = 'Administrators';
-    }
-
-    $data = array();
-    foreach ($main_order as $mo) {
-        if (isset($main[$mo])) {
-            $data[$mo] = $main[$mo];
-        }
-    }
-
-    $sub = $rel = array();
-    $sub['/index.php'] = array();
+    $main_order[1]      = '/index.php';
+    $main['/index.php'] = 'Main';
+    $sub['/index.php']  = array();
     $sub['/index.php']['/index.php']   = 'Home';
     $sub['/index.php']['/news/']       = 'News';
     $sub['/index.php']['/qa/']         = 'Quality Assurance';
     $sub['/index.php']['/group/']      = 'The PEAR Group';
     $sub['/index.php']['/mirrors.php'] = 'Mirrors';
 
-    $sub['/support/'] = array();
+    $main_order[2]     = '/support/';
+    $main['/support/'] = 'Support';
+    $sub['/support/']  = array();
     $sub['/support/']['/support/']              = 'Overview';
     $sub['/support/']['/support/lists.php']     = 'Mailing Lists';
     $sub['/support/']['/support/books.php']     = 'Books';
@@ -355,18 +330,24 @@ function draw_navigation()
     $sub['/support/']['/support/icons.php']     = 'Icons';
     $sub['/support/']['/support/forums.php']    = 'Forums';
 
-    $sub['/manual/'] = array();
+    $main_order[3]    = '/manual/';
+    $main['/manual/'] = 'Documentation';
+    $sub['/manual/']  = array();
     $sub['/manual/']['/manual/en/about-pear.php'] = 'About PEAR';
     $sub['/manual/']['/manual/']                  = 'Manual';
     $sub['/manual/']['/manual/en/faq.php']        = 'FAQ';
 
-    $sub['/packages.php'] = array();
+    $main_order[4]         = '/packages.php';
+    $main['/packages.php'] = 'Packages';
+    $sub['/packages.php']  = array();
     $sub['/packages.php']['/packages.php']      = 'List Packages';
     $sub['/packages.php']['/search.php']        = 'Search Packages';
     $sub['/packages.php']['/package-stats.php'] = 'Statistics';
     $sub['/packages.php']['/channels/']         = 'Channels';
 
-    $sub['/accounts.php'] = array();
+    $main_order[6]         = '/accounts.php';
+    $main['/accounts.php'] = 'Developers';
+    $sub['/accounts.php']  = array();
     $sub['/accounts.php']['/map/']         = 'Find a Developer';
     $sub['/accounts.php']['/accounts.php'] = 'List Accounts';
     if (!empty($auth_user) && !empty($auth_user->registered) && auth_check('pear.dev')) {
@@ -376,22 +357,38 @@ function draw_navigation()
         $sub['/accounts.php']['/election/']          = 'View Elections';
     }
 
-    $sub['/pepr/'] = array();
+    $main_order[5]  = '/pepr/';
+    $main['/pepr/'] = 'Package Proposals';
+    $sub['/pepr/']  = array();
     $sub['/pepr/']['/pepr/']                       = 'Browse Proposals';
     $sub['/pepr/']['/pepr/pepr-proposal-edit.php'] = 'New Proposal';
 
-    $sub['/bugs/'] = array();
+    $main_order[7]  = '/bugs/';
+    $main['/bugs/'] = 'Bugs';
+    $sub['/bugs/']  = array();
     $sub['/bugs/']['/bugs/search.php']    = 'Search for bugs';
     $sub['/bugs/']['/bugs/stats.php']     = 'Package Bug Statistics';
     $sub['/bugs/']['/bugs/stats_dev.php'] = 'Developers Bug Statistics';
 
-    $sub['/admin/'] = array();
-    $sub['/admin/']['/admin/']                     = 'Overview';
-    $sub['/admin/']['/admin/package-approval.php'] = 'Package approvals';
-    $sub['/admin/']['/admin/category-manager.php'] = 'Manage categories';
-    $sub['/admin/']['/tags/admin.php']             = 'Manage tags';
-    $sub['/admin/']['/admin/karma.php']            = 'Karma';
-    $sub['/admin/']['/admin/chm-upload.php']       = 'CHM upload';
+    if (!empty($auth_user) && $auth_user->isAdmin()) {
+        $main_order[8]   = '/admin/';
+        $main['/admin/'] = 'Administrators';
+        $sub['/admin/']  = array();
+        $sub['/admin/']['/admin/']                     = 'Overview';
+        $sub['/admin/']['/admin/package-approval.php'] = 'Package approvals';
+        $sub['/admin/']['/admin/category-manager.php'] = 'Manage categories';
+        $sub['/admin/']['/tags/admin.php']             = 'Manage tags';
+        $sub['/admin/']['/admin/karma.php']            = 'Karma';
+        $sub['/admin/']['/admin/chm-upload.php']       = 'CHM upload';
+    }
+
+    // Orders the main items in the proper order according to $main_order
+    ksort($main_order);
+    foreach ($main_order as $mo) {
+        if (isset($main[$mo])) {
+            $data[$mo] = $main[$mo];
+        }
+    }
 
     // Relationship linker
     foreach (array_keys($sub) as $path) {
