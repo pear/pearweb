@@ -41,6 +41,15 @@ if (empty($dbh)) {
     $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 }
 
+//include_once 'MDB2.php';
+//if (empty($dbc)) {
+//    $options = array(
+//        'persistent' => false,
+//        'portability' => MDB2_PORTABILITY_ALL,
+//    );
+//    $dbc = MDB2::singleton(PEAR_DATABASE_DSN, $options);
+//}
+
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 
 // Handling things related to the manual
@@ -106,7 +115,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
 ?>
  <!--[if IE 7]><link rel="stylesheet" type="text/css" href="/css/IE7styles.css" /><![endif]-->
  <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/IE6styles.css" /><![endif]-->
- <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo htmlspecialchars($_SERVER['HTTP_HOST']); ?>/feeds/latest.rss" />
+ <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo PEAR_CHANNELNAME; ?>/feeds/latest.rss" />
  <!-- compliance patch for microsoft browsers -->
 <!--[if lt IE 8]>
  <script src="/javascript/IE8.js" type="text/javascript"></script>
@@ -127,9 +136,10 @@ function response_header($title = 'The PHP Extension and Application Repository'
         echo '   <li>' . make_link('/account-request.php', 'Register') . '</li>' . "\n";
 
         echo '   <li class="last">';
-        if ($_SERVER['QUERY_STRING'] && $_SERVER['QUERY_STRING'] != 'logout=1') {
+        if (@$_SERVER['QUERY_STRING'] && @$_SERVER['QUERY_STRING'] != 'logout=1') {
+            $qs = @$_SERVER['QUERY_STRING'];
             echo make_link('/login.php?redirect=' . urlencode(
-                       "{$self}?{$_SERVER['QUERY_STRING']}"),
+                       "{$self}?{$qs}"),
                        'Login');
         } else {
             echo make_link('/login.php?redirect=' . $self, 'Login');
@@ -290,7 +300,7 @@ function draw_navigation()
     global $auth_user;
 
     // SELF doesn't cut it here, using REQUEST URI instead
-    $self = strip_tags(htmlspecialchars($_SERVER['REQUEST_URI'], ENT_QUOTES, 'iso-8859-1'));
+    $self = strip_tags(htmlspecialchars(@$_SERVER['REQUEST_URI'], ENT_QUOTES, 'iso-8859-1'));
     if ($self === '/') {
         $self = '/index.php';
     }
@@ -298,87 +308,73 @@ function draw_navigation()
     include_once 'pear-auth.php';
     init_auth_user();
 
-    $data = array(
-        '/index.php'        => 'Main',
-        '/support/'         => 'Support',
-        '/manual/'          => 'Documentation',
-        '/packages.php'     => 'Packages',
-        '/pepr/'            => 'Package Proposals',
-        '/accounts.php'     => 'Developers',
-        '/bugs/'            => 'Bugs',
-    );
+    $data = array();
+    $data['/index.php']    = 'Main';
+    $data['/support/']     = 'Support';
+    $data['/manual/']      = 'Documentation';
+    $data['/packages.php'] = 'Packages';
+    $data['/pepr/']        = 'Package Proposals';
+    $data['/accounts.php'] = 'Developers';
+    $data['/bugs/']        = 'Bugs';
 
     if (!empty($auth_user) && $auth_user->isAdmin()) {
         $data['/admin/'] = 'Administrators';
     }
 
     $sub = $rel = array();
-    $sub['/index.php'] = array(
-        '/index.php'           => 'Home',
-        '/news/'               => 'News',
-        '/qa/'                 => 'Quality Assurance',
-        '/group/'              => 'The PEAR Group',
-        '/mirrors.php'         => 'Mirrors',
-    );
+    $sub['/index.php'] = array();
+    $sub['/index.php']['/index.php']   = 'Home';
+    $sub['/index.php']['/news/']       = 'News';
+    $sub['/index.php']['/qa/']         = 'Quality Assurance';
+    $sub['/index.php']['/group/']      = 'The PEAR Group';
+    $sub['/index.php']['/mirrors.php'] = 'Mirrors';
 
-    $sub['/support/'] = array(
-        '/support/'              => 'Overview',
-        '/support/lists.php'     =>  'Mailing Lists',
-        '/support/books.php'     => 'Books',
-        '/support/tutorials.php' => 'Tutorials',
-        '/support/slides.php'    => 'Presentation Slides',
-        '/support/icons.php'     => 'Icons',
-        '/support/forums.php'    => 'Forums',
-    );
+    $sub['/support/'] = array();
+    $sub['/support/']['/support/']              = 'Overview';
+    $sub['/support/']['/support/lists.php']     = 'Mailing Lists';
+    $sub['/support/']['/support/books.php']     = 'Books';
+    $sub['/support/']['/support/tutorials.php'] = 'Tutorials';
+    $sub['/support/']['/support/slides.php']    = 'Presentation Slides';
+    $sub['/support/']['/support/icons.php']     = 'Icons';
+    $sub['/support/']['/support/forums.php']    = 'Forums';
 
-    $sub['/manual/'] = array(
-        '/manual/en/about-pear.php' => 'About PEAR',
-        '/manual/'                  => 'Manual',
-        '/manual/en/faq.php'        => 'FAQ',
-    );
+    $sub['/manual/'] = array();
+    $sub['/manual/']['/manual/en/about-pear.php'] = 'About PEAR';
+    $sub['/manual/']['/manual/']                  = 'Manual';
+    $sub['/manual/']['/manual/en/faq.php']        = 'FAQ';
 
-    $sub['/packages.php'] = array(
-        '/packages.php'        => 'List Packages',
-        '/search.php'          => 'Search Packages',
-        '/package-stats.php'   => 'Statistics',
-        '/channels/'           => 'Channels',
-    );
+    $sub['/packages.php'] = array();
+    $sub['/packages.php']['/packages.php']      = 'List Packages';
+    $sub['/packages.php']['/search.php']        = 'Search Packages';
+    $sub['/packages.php']['/package-stats.php'] = 'Statistics';
+    $sub['/packages.php']['/channels/']         = 'Channels';
 
+    $sub['/accounts.php'] = array();
+    $sub['/accounts.php']['/map/']         = 'Find a Developer';
+    $sub['/accounts.php']['/accounts.php'] = 'List Accounts';
     if (!empty($auth_user) && !empty($auth_user->registered) && auth_check('pear.dev')) {
-        $sub['/accounts.php'] = array(
-            '/map/'                => 'Find a Developer',
-            '/accounts.php'        => 'List Accounts',
-            '/release-upload.php'  => 'Upload Release',
-            '/package-new.php'     => 'New Package',
-            '/notes/admin/'        => 'Manage User Notes',
-            '/election/'           => 'View Elections',
-        );
-    } else {
-        $sub['/accounts.php'] = array(
-            '/map/'                => 'Find a Developer',
-            '/accounts.php'        => 'List Accounts'
-        );
+        $sub['/accounts.php']['/release-upload.php'] = 'Upload Release';
+        $sub['/accounts.php']['/package-new.php']    = 'New Package';
+        $sub['/accounts.php']['/notes/admin/']       = 'Manage User Notes';
+        $sub['/accounts.php']['/election/']          = 'View Elections';
     }
 
-    $sub['/pepr/'] = array(
-        '/pepr/'                        => 'Browse Proposals',
-        '/pepr/pepr-proposal-edit.php'  => 'New Proposal'
-    );
+    $sub['/pepr/'] = array();
+    $sub['/pepr/']['/pepr/']                       = 'Browse Proposals';
+    $sub['/pepr/']['/pepr/pepr-proposal-edit.php'] = 'New Proposal';
 
-    $sub['/bugs/'] = array(
-        '/bugs/search.php'    => 'Search for bugs',
-        '/bugs/stats.php'     => 'Package Bug Statistics',
-        '/bugs/stats_dev.php' => 'Developers Bug Statistics',
-    );
+    $sub['/bugs/'] = array();
+    $sub['/bugs/']['/bugs/search.php']    = 'Search for bugs';
+    $sub['/bugs/']['/bugs/stats.php']     = 'Package Bug Statistics';
+    $sub['/bugs/']['/bugs/stats_dev.php'] = 'Developers Bug Statistics';
 
-    $sub['/admin/'] = array(
-        '/admin/' => 'Overview',
-        '/admin/package-approval.php'    => 'Package approvals',
-        '/admin/category-manager.php'    => 'Manage categories',
-        '/tags/admin.php'                => 'Manage tags',
-        '/admin/karma.php'               => 'Karma',
-        '/admin/chm-upload.php'          => 'CHM upload',
-    );
+    $sub['/admin/'] = array();
+    $sub['/admin/']['/admin/']                     = 'Overview';
+    $sub['/admin/']['/admin/package-approval.php'] = 'Package approvals';
+    $sub['/admin/']['/admin/category-manager.php'] = 'Manage categories';
+    $sub['/admin/']['/tags/admin.php']             = 'Manage tags';
+    $sub['/admin/']['/admin/karma.php']            = 'Karma';
+    $sub['/admin/']['/admin/chm-upload.php']       = 'CHM upload';
 
     // Relationship linker
     foreach (array_keys($sub) as $path) {
@@ -621,7 +617,7 @@ function getURL($url)
 function localRedirect($url, $keepProtocol = true)
 {
     $url = getURL($url, $keepProtocol);
-    if  ($keepProtocol == false) {
+    if  ($keepProtocol === false) {
         $url = preg_replace("/^https/", "http", $url);
     }
     header('Location: ' . $url);
@@ -652,7 +648,7 @@ function user_link($handle, $compact = false)
         $wish = '';
     }
 
-    return sprintf('<a href="/user/%s">%s</a>&nbsp;%s\n', $handle, $row['name'], $wish);
+    return sprintf('<a href="/user/%s">%s</a>&nbsp;%s', $handle, $row['name'], $wish);
 }
 
 /**
@@ -781,17 +777,17 @@ function print_package_navigation($pacid, $name, $action)
 {
     global $auth_user;
 
-    $nav_items = array('Main'          => array('url'   => '',
-                                                'title' => ''),
-                       'Download'      => array('url'   => 'download',
-                                                'title' => 'Download releases of this package'),
-                       'Documentation' => array('url'   => 'docs',
-                                                'title' => 'Read the available documentation'),
-                       'Bugs'          => array('url'   => 'bugs',
-                                                'title' => 'View/Report Bugs'),
-
-                       'Trackbacks'    => array('url'   => 'trackbacks',
-                                                'title' => 'Show Related Sites'),
+    $nav_items = array(
+        'Main'          => array('url'   => '',
+                                 'title' => ''),
+        'Download'      => array('url'   => 'download',
+                                 'title' => 'Download releases of this package'),
+        'Documentation' => array('url'   => 'docs',
+                                 'title' => 'Read the available documentation'),
+        'Bugs'          => array('url'   => 'bugs',
+                                 'title' => 'View/Report Bugs'),
+        'Trackbacks'    => array('url'   => 'trackbacks',
+                                 'title' => 'Show Related Sites'),
 /*
         'Wiki'          => array('url'   => 'wiki',
                                 'title' => 'View wiki area')*/
@@ -815,7 +811,6 @@ function print_package_navigation($pacid, $name, $action)
     }
 
     echo '<div id="nav">';
-
     foreach ($nav_items as $title => $item) {
         if (!empty($item['url']) && $item['url']{0} == '/') {
             $url = $item['url'];
@@ -829,7 +824,6 @@ function print_package_navigation($pacid, $name, $action)
             . $title
             . '</a> ';
     }
-
     echo '</div>';
 }
 
