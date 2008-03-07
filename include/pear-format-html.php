@@ -308,17 +308,34 @@ function draw_navigation()
     include_once 'pear-auth.php';
     init_auth_user();
 
-    $data = array();
-    $data['/index.php']    = 'Main';
-    $data['/support/']     = 'Support';
-    $data['/manual/']      = 'Documentation';
-    $data['/packages.php'] = 'Packages';
-    $data['/pepr/']        = 'Package Proposals';
-    $data['/accounts.php'] = 'Developers';
-    $data['/bugs/']        = 'Bugs';
+    $main_order = array();
+    $main_order[1] = '/index.php';
+    $main_order[2] = '/support/';
+    $main_order[3] = '/manual/';
+    $main_order[4] = '/packages.php';
+    $main_order[5] = '/pepr/';
+    $main_order[6] = '/accounts.php';
+    $main_order[7] = '/bugs/';
+    $main_order[8] = '/admin/';
+
+    $main = array();
+    $main['/index.php']    = 'Main';
+    $main['/support/']     = 'Support';
+    $main['/manual/']      = 'Documentation';
+    $main['/packages.php'] = 'Packages';
+    $main['/pepr/']        = 'Package Proposals';
+    $main['/bugs/']        = 'Bugs';
+    $main['/accounts.php'] = 'Developers';
 
     if (!empty($auth_user) && $auth_user->isAdmin()) {
-        $data['/admin/'] = 'Administrators';
+        $main['/admin/'] = 'Administrators';
+    }
+
+    $data = array();
+    foreach ($main_order as $mo) {
+        if (isset($main[$mo])) {
+            $data[$mo] = $main[$mo];
+        }
     }
 
     $sub = $rel = array();
