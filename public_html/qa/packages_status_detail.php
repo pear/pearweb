@@ -78,9 +78,9 @@ $tables[$state]['old']->setHeaderContents(0, 3, '# bugs');
 
 $tables[$state]['new'] = new HTML_Table(
     array(
-	'id'          => 'new',
-	'cellspacing' => 0,
-	'class'       => 'sortable'
+    'id'          => 'new',
+    'cellspacing' => 0,
+    'class'       => 'sortable'
     )
 );
 $tables[$state]['new']->setCaption(
