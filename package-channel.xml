@@ -26,19 +26,19 @@
   <name>Daniel Convissor</name>
   <user>danielc</user>
   <email>danielc@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </developer>
  <developer>
   <name>Tobias Schlitt</name>
   <user>toby</user>
   <email>toby@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </developer>
  <developer>
-  <name>Helgi Bormar</name>
+  <name>Helgi Thormar</name>
   <user>dufuz</user>
   <email>dufuz@php.net</email>
-  <active>no</active>
+  <active>yes</active>
  </developer>
  <date>2008-03-08</date>
  <time>22:18:46</time>
