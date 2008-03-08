@@ -11,6 +11,7 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
         'simpleoutput' => true,
         'include' => array(
             dirname(__FILE__) . '/public_html/channel.xml',
+            'public_html/dtd/'
         ),
     ));
 $a->setReleaseVersion('1.13.0');

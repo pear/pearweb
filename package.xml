@@ -270,30 +270,6 @@ lala
      <file name="pear-logos.svg" role="www" />
      <file name="pear-poster.pdf" role="www" />
     </dir> <!-- /public_html/downloads -->
-    <dir name="dtd">
-     <file name="channel-1.0.xsd" role="www" />
-     <file name="index.php" role="www" />
-     <file name="package-1.0" role="www" />
-     <file name="package-1.0.xsd" role="www" />
-     <file name="package-2.0.xsd" role="www" />
-     <file name="package-2.1.xsd" role="www" />
-     <file name="package1_0to2_0.xsl" role="www" />
-     <file name="rest.allcategories.xsd" role="www" />
-     <file name="rest.allmaintainers.xsd" role="www" />
-     <file name="rest.allpackages.xsd" role="www" />
-     <file name="rest.allreleases.xsd" role="www" />
-     <file name="rest.allreleases2.xsd" role="www" />
-     <file name="rest.category.xsd" role="www" />
-     <file name="rest.categorypackageinfo.xsd" role="www" />
-     <file name="rest.categorypackages.xsd" role="www" />
-     <file name="rest.maintainer.xsd" role="www" />
-     <file name="rest.package.xsd" role="www" />
-     <file name="rest.packagemaintainers.xsd" role="www" />
-     <file name="rest.packagemaintainers2.xsd" role="www" />
-     <file name="rest.release.xsd" role="www" />
-     <file name="rest.release2.xsd" role="www" />
-     <file name="tasks-1.0.xsd" role="www" />
-    </dir> <!-- /public_html/dtd -->
     <dir name="error">
      <file name="404-manual.php" role="www" />
      <file name="404.php" role="www" />
