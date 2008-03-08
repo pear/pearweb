@@ -84,7 +84,7 @@
   <active>yes</active>
  </developer>
  <date>2008-03-06</date>
- <time>22:26:57</time>
+ <time>23:10:27</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -407,13 +407,6 @@ lala
      <file name="pearpoint.png" role="www" />
      <file name="users.png" role="www" />
     </dir> <!-- /public_html/pngs -->
-    <dir name="qa">
-     <file name="index.php" role="www" />
-     <file name="packages_closed_reports_no_release.php" role="www" />
-     <file name="packages_orphan.php" role="www" />
-     <file name="packages_status.php" role="www" />
-     <file name="packages_status_detail.php" role="www" />
-    </dir> <!-- /public_html/qa -->
     <dir name="rest">
      <file name="rest.php" role="www" />
     </dir> <!-- /public_html/rest -->
