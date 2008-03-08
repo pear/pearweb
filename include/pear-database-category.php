@@ -51,12 +51,12 @@ class category
     static function add($data)
     {
         global $dbh;
-        $name = $data['name'];
-        if (empty($name)) {
+        if (empty($data['name'])) {
             return PEAR::raiseError('no name given');
         }
-        $desc   = (empty($data['desc'])) ? 'none' : $data['desc'];
-        $parent = (empty($data['parent'])) ? null : $data['parent'];
+        $name   = $data['name'];
+        $desc   = empty($data['desc'])   ? 'none' : $data['desc'];
+        $parent = empty($data['parent']) ? null   : $data['parent'];
 
         $sql = 'INSERT INTO categories (id, name, description, parent) VALUES (?, ?, ?, ?)';
         $id  = $dbh->nextId('categories');
@@ -64,6 +64,7 @@ class category
         if (DB::isError($err)) {
             return $err;
         }
+
         $err = renumber_visitations($id, $parent);
         if (PEAR::isError($err)) {
             return $err;
