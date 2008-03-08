@@ -13,11 +13,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
             dirname(__FILE__) . '/public_html/channel.xml',
         ),
     ));
-$a->setReleaseVersion('1.12.0');
+$a->setReleaseVersion('1.13.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-jump to 1.12.0 so we can tag
+- Remove the xmlrpc tags
+- fix de mirror, make it use SSL to work
 ');
 $a->resetUsesrole();
 $a->clearDeps();
