@@ -127,6 +127,9 @@
      <file name="vulnerability2.php" role="www" />
      <file name="weekly-summaries.php" role="www" />
     </dir> <!-- /public_html/news -->
+    <dir name="qa">
+     <file name="index.php" role="www" />
+    </dir> <!-- /public_html/qa -->
     <dir name="support">
      <file name="books.php" role="www" />
      <file name="effectivepearuse.php" role="www" />
