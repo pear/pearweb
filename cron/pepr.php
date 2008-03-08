@@ -25,14 +25,11 @@
 
 
 set_include_path(dirname(dirname(__FILE__)) . '/include' . PATH_SEPARATOR . get_include_path());
-/**
- * Get common settings.
- */
+
+// Get common settings.
 require_once 'pear-prepend.php';
 
-/**
- * Get the database class.
- */
+// Get the database class.
 require_once 'DB.php';
 $options = array(
     'persistent' => false,
@@ -43,18 +40,13 @@ if (DB::isError($dbh)) {
     die ("Failed to connect: $dsn\n");
 }
 
-
-/**
- * Obtain PEPr's common functions and classes.
- */
+// Obtain PEPr's common functions and classes.
 require_once 'pepr/pepr.php';
 $proposals =& proposal::getAll($dbh, 'vote');
 
-
 // This checks if a proposal should automatically be finished
-
 foreach ($proposals AS $id => $proposal) {
-    if ($proposal->getStatus() == "vote") {
+    if ($proposal->getStatus() == 'vote') {
         $lastVoteDate = ($proposal->longened_date > 0) ? $proposal->longened_date : $proposal->vote_date;
         if (($lastVoteDate + PROPOSAL_STATUS_VOTE_TIMELINE) < time()) {
             if (ppVote::getCount($dbh, $proposal->id) > 4) {
@@ -75,4 +67,20 @@ foreach ($proposals AS $id => $proposal) {
     }
 }
 
-?>
+
+/**
+ * Converts a Unix timestamp to a date() formatted string in the UTC time zone
+ *
+ * @param int    $ts      a Unix timestamp from the local machine.  If none
+ *                         is provided the current time is used.
+ * @param string $format  a format string, as per http://php.net/date
+ *
+ * @return string  the time formatted time
+ */
+function make_utc_date($ts = null, $format = 'Y-m-d H:i \U\T\C')
+{
+    if (!$ts) {
+        $ts = time();
+    }
+    return gmdate($format, $ts);
+}

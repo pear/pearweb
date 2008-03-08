@@ -30,20 +30,3 @@ if (!empty($_COOKIE['PEAR_USER']) && !auth_verify($_COOKIE['PEAR_USER'], $_COOKI
     auth_kill_cookies();
     auth_reject(null, 'Invalid username or password');
 }
-
-/**
- * Converts a Unix timestamp to a date() formatted string in the UTC time zone
- *
- * @param int    $ts      a Unix timestamp from the local machine.  If none
- *                         is provided the current time is used.
- * @param string $format  a format string, as per http://php.net/date
- *
- * @return string  the time formatted time
- */
-function make_utc_date($ts = null, $format = 'Y-m-d H:i \U\T\C')
-{
-    if (!$ts) {
-        $ts = time();
-    }
-    return gmdate($format, $ts);
-}
