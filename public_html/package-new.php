@@ -33,7 +33,7 @@ $jumpto = 'name';
 
 $valid_args = array('submit', 'name','category','license','summary','desc','homepage','cvs_link');
 foreach ($valid_args as $arg) {
-    if(isset($_POST[$arg])) {
+    if (isset($_POST[$arg])) {
         $_POST[$arg] = htmlspecialchars($_POST[$arg]);
     }
 }
@@ -154,7 +154,7 @@ if ($display_form) {
         }
     }
 
-$form = new HTML_QuickForm('package-new', 'post', 'package-new.php', 'test');
+$form = new HTML_QuickForm('package-new', 'post', 'package-new.php');
 
 $renderer =& $form->defaultRenderer();
 $renderer->setElementTemplate('
