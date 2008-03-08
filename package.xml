@@ -83,8 +83,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-03-06</date>
- <time>23:10:27</time>
+ <date>2008-03-08</date>
+ <time>20:29:38</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -479,7 +479,9 @@ lala
     <file name="notes.sql" role="www" />
     <file name="packages.sql" role="www" />
     <file name="package_stats.sql" role="www" />
+    <file name="pearweb_election.xml" role="www" />
     <file name="pearweb_mdb2schema.xml" role="www" />
+    <file name="pearweb_pepr.xml" role="www" />
     <file name="pepr.sql" role="www" />
     <file name="process_mysqldump_for5.sh" role="www" />
     <file name="README" role="www" />
@@ -780,12 +782,17 @@ lala
    <subpackage>
     <name>pearweb_channelxml</name>
     <channel>pear.php.net</channel>
-    <min>1.12.0</min>
+    <min>1.13.0</min>
    </subpackage>
    <subpackage>
     <name>pearweb_gopear</name>
     <channel>pear.php.net</channel>
     <min>1.1.1</min>
+   </subpackage>
+   <subpackage>
+    <name>pearweb_qa</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.0</min>
    </subpackage>
   </optional>
  </dependencies>
@@ -2130,7 +2137,7 @@ Split off index-updated files into pearweb_index package</notes>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-03-06</date>
+   <date>2008-03-08</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 lala

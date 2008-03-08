@@ -82,6 +82,8 @@ $e = $p->fromPackageFile($dir . '/package-channel.xml', PEAR_VALIDATE_NORMAL);
 $a->specifySubpackage($e, false);
 $f = $p->fromPackageFile($dir . '/package-gopear.xml', PEAR_VALIDATE_NORMAL);
 $a->specifySubpackage($f, false);
+$g = $p->fromPackageFile($dir . '/package-qa.xml', PEAR_VALIDATE_NORMAL);
+$a->specifySubpackage($g, false);
 
 $script = &$a->initPostinstallScript('pearweb.php');
 $script->addParamGroup(
