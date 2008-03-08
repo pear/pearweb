@@ -53,9 +53,7 @@ response_header('Document Type Definitions');
   that defines the legal building blocks of version 2.0 of <tt>package.xml</tt>
   file that comes with each package. More information about
   <tt>package.xml</tt> version 2.0 can be found
-  <a href="/manual/en/guide.developers.package2.php">in the manual</a>.<br /><br />This
-  XSD should be considered <strong>ALPHA</strong> quality until the PEAR package reaches
-  1.4.0b1.  This means the format could change at any time.
+  <a href="/manual/en/guide.developers.package2.php">in the manual</a>.
   </td>
  </tr>
  <tr>
@@ -64,9 +62,7 @@ response_header('Document Type Definitions');
   that defines the legal building blocks of <tt>channel.xml</tt>
   file that defines the communication protocols of a channel. More information about
   <tt>channel.xml</tt> can be found
-  <a href="/manual/en/guide.migrating.channels.xml.php">in the manual</a>.<br /><br />This
-  XSD should be considered <strong>ALPHA</strong> quality until the PEAR package reaches
-  1.4.0b1.  This means the format could change at any time.
+  <a href="/manual/en/guide.migrating.channels.xml.php">in the manual</a>.
   </td>
  </tr>
 </table>
