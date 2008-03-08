@@ -7,7 +7,6 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
         'packagefile' => 'package-channel.xml',
         'filelistgenerator' => 'cvs',
         'roles' => array('*' => 'www'),
-        'exceptions' => array('pearweb.php' => 'php'),
         'simpleoutput' => true,
         'include' => array(
             dirname(__FILE__) . '/public_html/channel.xml',
@@ -20,6 +19,7 @@ $a->setAPIStability('stable');
 $a->setNotes('
 - Remove the xmlrpc tags
 - fix de mirror, make it use SSL to work
+- now handles the DTD for PEAR
 ');
 $a->resetUsesrole();
 $a->clearDeps();
