@@ -8,8 +8,8 @@ class pearweb_Channel_REST_Generator
     public function __construct($base)
     {
         $this->_restdir = $base;
-        $this->extra = '/rest/';
-        $this->channel = PEAR_CHANNELNAME;
+        $this->extra    = '/rest/';
+        $this->channel  = PEAR_CHANNELNAME;
     }
 
     public function saveAllCategoriesREST()
@@ -540,7 +540,7 @@ class pearweb_Channel_REST_Generator
         global $dbh;
         include_once 'pear-database-package.php';
         $pid = package::info($package, 'id');
-        $maintainers = $dbh->getAll('SELECT * FROM maintains WHERE package = ?', array($pid),
+        $maintainers = $dbh->getAll('SELECT handle, active, role FROM maintains WHERE package = ?', array($pid),
             DB_FETCHMODE_ASSOC);
 
         $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'p'
@@ -593,7 +593,7 @@ class pearweb_Channel_REST_Generator
     public function saveMaintainerREST($maintainer)
     {
         global $dbh;
-        $maintainer = $dbh->getRow('SELECT * FROM users WHERE handle = ?',
+        $maintainer = $dbh->getRow('SELECT handle, name, homepage FROM users WHERE handle = ?',
             array($maintainer), DB_FETCHMODE_ASSOC);
 
         $uri = '';
