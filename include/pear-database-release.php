@@ -498,7 +498,7 @@ class release
             $log_release = $row['release'];
             $log_file = $row['id'];
             $basename = $file;
-        } elseif ($version == null) {
+        } elseif ($version === null) {
             // Get the most recent version
             $row = $dbh->getRow("SELECT id FROM releases ".
                                 "WHERE package = $package_id ".
@@ -552,8 +552,7 @@ class release
 
             release::logDownload($package_id, $log_release, $log_file);
 
-            header('Last-modified: ' .
-                gmdate('D, d M Y H:i:s \G\M\T', filemtime($path)));
+            header('Last-modified: ' . gmdate('D, d M Y H:i:s \G\M\T', filemtime($path)));
             header('Content-type: application/octet-stream');
             if ($uncompress) {
                 $tarname = preg_replace('/\.tgz\z/', '.tar', $basename);
@@ -568,7 +567,7 @@ class release
             return true;
         }
         header('HTTP/1.0 404 Not Found');
-        print 'File not found';
+        echo 'File not found';
     }
 
     /**
@@ -616,16 +615,16 @@ class release
         global $dbh;
 
         $dbh->query('UPDATE aggregated_package_stats
-            SET downloads=downloads+1
+            SET downloads = downloads + 1
             WHERE
-                package_id=? AND
-                release_id=? AND
-                yearmonth="' . date('Y-m-01') . '"',
-            array($package, $release_id));
+                package_id = ? AND
+                release_id = ? AND
+                yearmonth = ?',
+            array($package, $release_id, date('Y-m-01')));
         if ($dbh->affectedRows() == 0) {
             $dbh->query('INSERT INTO aggregated_package_stats
                 (package_id, release_id, yearmonth, downloads)
-                VALUES(?,?,?,1)',
+                VALUES(?, ?, ?, 1)',
                 array($package, $release_id, date('Y-m-01')));
         }
 
@@ -633,8 +632,8 @@ class release
 //      30% efficiency gain at least over previous method
 //      $dbh->query('INSERT INTO aggregated_package_stats
 //          (package_id, release_id, yearmonth, downloads)
-//          VALUES(?,?,?,1)
-//          ON DUPLICATE KEY UPDATE downloads=downloads+1',
+//          VALUES(?, ?, ?, 1)
+//          ON DUPLICATE KEY UPDATE downloads = downloads + 1',
 //          array($package, $release_id, date('Y-m-01')));
 
         // {{{ Update package_stats table
@@ -705,49 +704,12 @@ class release
             return;
         }
 
-        include_once 'pear-database-package.php';
-        $pacid   = package::info($pkginfo['package'], 'packageid');
-        $authors = package::info($pkginfo['package'], 'authors');
-        $txt_authors = '';
-        foreach ($authors as $a) {
-            if (!$a['active']) {
-                continue;
-            }
-            $txt_authors .= $a['name'];
-            if ($a['showemail']) {
-                $txt_authors .= " <{$a['email']}>";
-            }
-            $txt_authors .= " ({$a['role']})\n";
-        }
-        $upload = basename($upload);
-        $release = "{$pkginfo['package']}-{$pkginfo['version']} ({$pkginfo['release_state']})";
-        $channel = PEAR_CHANNELNAME;
-        $txtanounce =<<<END
-The new PEAR package $release has been released at http://$channel/.
-
-Release notes
--------------
-{$pkginfo['release_notes']}
-
-Package Info
-------------
-{$pkginfo['description']}
-
-Related Links
--------------
-Package home: http://$channel/package/$pkginfo[package]
-   Changelog: http://$channel/package/$pkginfo[package]/download/$pkginfo[version]
-    Download: http://download.$channel/package/$upload
-
-Authors
--------
-$txt_authors
-END;
-
-        $to   = '"PEAR general list" <' . PEAR_GENERAL_EMAIL . '>';
-        $from = '"PEAR Announce" <' . PEAR_ANNOUNCE_EMAIL . '>';
-        $subject = "[ANNOUNCEMENT] $release Released.";
-        mail($to, $subject, $txtanounce, "From: $from", "-f bounce-no-user@php.net");
+        $package = $pkginfo['package'];
+        $notes   = $pkginfo['release_notes'];
+        $desc    = $pkginfo['description'];
+        $version = $pkginfo['version'];
+        $state   = $pkginfo['release_state'];
+        $this->_processPromote($package, $upload, $version, $notes, $desc, $state);
     }
 
     /**
@@ -763,9 +725,17 @@ END;
             return;
         }
 
+        $package = $pkginfo->getPackage();
+        $notes   = $pkginfo->getNotes();
+        $desc    = $pkginfo->getDescription();
+        $state   = $pkginfo->getState();
+        $this->_processPromote($package, $upload, $version, $notes, $desc, $state);
+    }
+
+    function _processPromote($package, $upload, $version, $notes, $desc, $state)
+    {
         include_once 'pear-database-package.php';
-        $pacid   = package::info($pkginfo->getPackage(), 'packageid');
-        $authors = package::info($pkginfo->getPackage(), 'authors');
+        $authors = package::info($package, 'authors');
         $txt_authors = '';
         foreach ($authors as $a) {
             if (!$a['active']) {
@@ -777,35 +747,38 @@ END;
             }
             $txt_authors .= " ({$a['role']})\n";
         }
-        $upload = basename($upload);
-        $release = $pkginfo->getPackage() . '-' . $pkginfo->getVersion() .
-             ' (' . $pkginfo->getState() . ')';
-        $txtanounce ='The new PEAR package ' . $release . ' has been released at http://' .
-        PEAR_CHANNELNAME . '/.
+
+        $upload  = basename($upload);
+        $release = "$package-$version ($state)";
+        $channel = PEAR_CHANNELNAME;
+        $txtanounce = <<<END
+The new PEAR package $release has been released at http://$channel/.
 
 Release notes
 -------------
-' . $pkginfo->getNotes() . '
+$notes
 
 Package Info
 ------------
-' . $pkginfo->getDescription() . '
+$desc
 
 Related Links
 -------------
-Package home: http://' . PEAR_CHANNELNAME . '/package/' . $pkginfo->getPackage() . '
-   Changelog: http://' . PEAR_CHANNELNAME . '/package/' . $pkginfo->getPackage() . '/download/' .
-        $pkginfo->getVersion() . '
-    Download: http://download.' . PEAR_CHANNELNAME . '/package/' . $upload . '
+Package home: http://$channel/package/$package
+   Changelog: http://$channel/package/$package/download/$version
+    Download: http://download.$channel/package/$upload
 
 Authors
 -------
-' . $txt_authors;
+$txt_authors
+END;
 
-        $to   = '"PEAR general list" <' . PEAR_GENERAL_EMAIL . '>';
-        $from = '"PEAR Announce" <' . PEAR_ANNOUNCE_EMAIL . '>';
+        $to      = '"PEAR general list" <' . PEAR_GENERAL_EMAIL . '>';
+        $from    = '"PEAR Announce" <' . PEAR_ANNOUNCE_EMAIL . '>';
         $subject = "[ANNOUNCEMENT] $release Released.";
-        mail($to, $subject, $txtanounce, "From: $from", "-f bounce-no-user@php.net");
+        if (!DEVBOX) {
+            mail($to, $subject, $txtanounce, "From: $from", '-f ' . PEAR_BOUNCE_EMAIL);
+        }
     }
 
     /**
