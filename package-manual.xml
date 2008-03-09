@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+ <name>pearweb_manual</name>
+ <channel>pear.php.net</channel>
+ <summary>The source code for the PEAR website manual bits</summary>
+ <description>The pearweb_manual package contains the apidoc queue scripts and
+ manual notes</description>
+ <lead>
+  <name>Martin Jansen</name>
+  <user>mj</user>
+  <email>mj@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Greg Beaver</name>
+  <user>cellog</user>
+  <email>cellog@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>David Coallier</name>
+  <user>davidc</user>
+  <email>davidc@php.net</email>
+  <active>yes</active>
+ </lead>
+ <lead>
+  <name>Pierre-Alain Joye</name>
+  <user>pajoye</user>
+  <email>pajoye@php.net</email>
+  <active>no</active>
+ </lead>
+ <lead>
+  <name>Helgi Thormar</name>
+  <user>dufuz</user>
+  <email>dufuz@php.net</email>
+  <active>yes</active>
+ </lead>
+ <developer>
+  <name>Stig Bakken</name>
+  <user>ssb</user>
+  <email>stig@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Tomas V.V.Cox</name>
+  <user>cox</user>
+  <email>cox@idecnet.com</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Daniel Convissor</name>
+  <user>danielc</user>
+  <email>danielc@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Tobias Schlitt</name>
+  <user>toby</user>
+  <email>toby@php.net</email>
+  <active>no</active>
+ </developer>
+ <developer>
+  <name>Christian Weiske</name>
+  <user>cweiske</user>
+  <email>cweiske@php.net</email>
+  <active>yes</active>
+ </developer>
+ <developer>
+  <name>Mark Wiesemann</name>
+  <user>wiesemann</user>
+  <email>wiesemann@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2008-03-09</date>
+ <time>21:41:07</time>
+ <version>
+  <release>1.0.0</release>
+  <api>0.1.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+- split the manual code from pearweb [dufuz]
+ </notes>
+ <contents>
+  <dir baseinstalldir="/" name="/">
+   <dir name="cron">
+    <file name="apidoc-queue.php" role="www" />
+    <file name="find-documentation.php" role="www" />
+    <file name="load-chm.sh" role="www" />
+   </dir> <!-- /cron -->
+   <dir name="include">
+    <dir name="notes">
+     <file name="ManualNotes.class.php" role="www" />
+    </dir> <!-- /include/notes -->
+    <file name="pear-manual.php" role="www" />
+   </dir> <!-- /include -->
+   <dir name="public_html">
+    <dir name="admin">
+     <file name="apidoc-log.php" role="www" />
+    </dir> <!-- /public_html/admin -->
+    <dir name="css">
+     <file name="manual.css" role="www" />
+    </dir> <!-- /public_html/css -->
+    <dir name="error">
+     <file name="404-manual.php" role="www" />
+    </dir> <!-- /public_html/error -->
+    <dir name="manual">
+     <file name="index.php" role="www" />
+    </dir> <!-- /public_html/manual -->
+    <dir name="notes">
+     <dir name="admin">
+      <file name="index.php" role="www" />
+      <file name="trans.php" role="www" />
+      <file name="view-note.php" role="www" />
+     </dir> <!-- /public_html/notes/admin -->
+     <file name="add-note-form.php" role="www" />
+     <file name="add-note.php" role="www" />
+    </dir> <!-- /public_html/notes -->
+   </dir> <!-- /public_html -->
+   <dir name="sql">
+    <file name="pearweb_manual.xml" role="www" />
+   </dir> <!-- /sql -->
+   <dir name="templates">
+    <dir name="notes">
+     <file name="add-note-form.tpl.php" role="www" />
+     <file name="add-note.tpl.php" role="www" />
+     <file name="note-manage-admin.tpl.php" role="www" />
+     <file name="note-manage-links.tpl.php" role="www" />
+     <file name="note.tpl.php" role="www" />
+     <file name="view-full-note.tpl.php" role="www" />
+    </dir> <!-- /templates/notes -->
+   </dir> <!-- /templates -->
+  </dir> <!-- / -->
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.3</min>
+   </php>
+   <pearinstaller>
+    <min>1.7.1</min>
+   </pearinstaller>
+   <package>
+    <name>PEAR</name>
+    <channel>pear.php.net</channel>
+    <min>1.7.1</min>
+   </package>
+   <package>
+    <name>pearweb</name>
+    <channel>pear.php.net</channel>
+    <min>1.18.0</min>
+   </package>
+   <extension>
+    <name>pcre</name>
+   </extension>
+   <extension>
+    <name>mysqli</name>
+   </extension>
+  </required>
+ </dependencies>
+ <phprelease />
+ <changelog>
+  <release>
+   <version>
+    <release>1.0.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-03-09</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- split the manual code from pearweb [dufuz]
+   </notes>
+  </release>
+ </changelog>
+</package>

@@ -83,8 +83,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-03-08</date>
- <time>20:29:38</time>
+ <date>2008-03-09</date>
+ <time>21:41:59</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -107,11 +107,8 @@ lala
      <file name="pear.php.net.mirror" role="www" />
      <file name="README" role="www" />
     </dir> <!-- /cron/mirror -->
-    <file name="apidoc-queue.php" role="www" />
     <file name="bug-summary.php" role="www" />
     <file name="bug-update-php-version.php" role="www" />
-    <file name="find-documentation.php" role="www" />
-    <file name="load-chm.sh" role="www" />
     <file name="trackback-cleanup.php" role="www" />
     <file name="update-website.php" role="www" />
    </dir> <!-- /cron -->
@@ -173,9 +170,6 @@ lala
     <dir name="fonts">
      <file name="coolveti.ttf" role="www" />
     </dir> <!-- /include/fonts -->
-    <dir name="notes">
-     <file name="ManualNotes.class.php" role="www" />
-    </dir> <!-- /include/notes -->
     <dir name="package">
      <file name="releasehelper.php" role="www" />
     </dir> <!-- /include/package -->
@@ -201,7 +195,6 @@ lala
     <file name="pear-database-statistics.php" role="www" />
     <file name="pear-database-user.php" role="www" />
     <file name="pear-format-html.php" role="www" />
-    <file name="pear-manual.php" role="www" />
     <file name="pear-prepend.php" role="www" />
     <file name="pear-rest.php" role="www" />
     <file name="site.php" role="www" />
@@ -215,9 +208,7 @@ lala
      <file name="password-confirm-change.php" role="www" />
     </dir> <!-- /public_html/account -->
     <dir name="admin">
-     <file name="apidoc-log.php" role="www" />
      <file name="category-manager.php" role="www" />
-     <file name="chm-upload.php" role="www" />
      <file name="index.php" role="www" />
      <file name="karma.php" role="www" />
      <file name="package-approval.php" role="www" />
@@ -258,7 +249,6 @@ lala
      <file name="bugs.css" role="www" />
      <file name="IE6styles.css" role="www" />
      <file name="IE7styles.css" role="www" />
-     <file name="manual.css" role="www" />
      <file name="packages_status.css" role="www" />
      <file name="reset-fonts.css" role="www" />
      <file name="style.css" role="www" />
@@ -271,7 +261,6 @@ lala
      <file name="pear-poster.pdf" role="www" />
     </dir> <!-- /public_html/downloads -->
     <dir name="error">
-     <file name="404-manual.php" role="www" />
      <file name="404.php" role="www" />
     </dir> <!-- /public_html/error -->
     <dir name="feeds">
@@ -362,22 +351,10 @@ lala
      <file name="sorttable.js" role="www" />
      <file name="thickbox.js" role="www" />
     </dir> <!-- /public_html/javascript -->
-    <dir name="manual">
-     <file name="index.php" role="www" />
-    </dir> <!-- /public_html/manual -->
     <dir name="map">
      <file name="index.php" role="www" />
      <file name="locationREST.php" role="www" />
     </dir> <!-- /public_html/map -->
-    <dir name="notes">
-     <dir name="admin">
-      <file name="index.php" role="www" />
-      <file name="trans.php" role="www" />
-      <file name="view-note.php" role="www" />
-     </dir> <!-- /public_html/notes/admin -->
-     <file name="add-note-form.php" role="www" />
-     <file name="add-note.php" role="www" />
-    </dir> <!-- /public_html/notes -->
     <dir name="pngs">
      <file name="dev.png" role="www" />
      <file name="pearpoint.png" role="www" />
@@ -480,14 +457,6 @@ lala
      <file name="roadmap_packagexml.php" role="www" />
      <file name="searchresults.php" role="www" />
     </dir> <!-- /templates/bugs -->
-    <dir name="notes">
-     <file name="add-note-form.tpl.php" role="www" />
-     <file name="add-note.tpl.php" role="www" />
-     <file name="note-manage-admin.tpl.php" role="www" />
-     <file name="note-manage-links.tpl.php" role="www" />
-     <file name="note.tpl.php" role="www" />
-     <file name="view-full-note.tpl.php" role="www" />
-    </dir> <!-- /templates/notes -->
     <dir name="release">
      <file name="upload-form.php" role="www" />
      <file name="verification-form.php" role="www" />
@@ -767,6 +736,11 @@ lala
    </subpackage>
    <subpackage>
     <name>pearweb_qa</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.0</min>
+   </subpackage>
+   <subpackage>
+    <name>pearweb_manual</name>
     <channel>pear.php.net</channel>
     <min>1.0.0</min>
    </subpackage>
@@ -2113,7 +2087,7 @@ Split off index-updated files into pearweb_index package</notes>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-03-08</date>
+   <date>2008-03-09</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 lala
