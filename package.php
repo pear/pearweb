@@ -13,8 +13,6 @@ $a = PEAR_PackageFileManager2::importOptions(
         'ignore' => array(
             '*.phar',
             'package-*.xml',
-            'package-channel.xml.php',
-            'package_*.xml',
             'package.php',
             'package_*.php',
             'pearweb_*.php',
