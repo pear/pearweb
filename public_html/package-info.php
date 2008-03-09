@@ -345,7 +345,7 @@ if (empty($action)) {
         echo '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>';
         echo '</ul>';
     }
-    echo make_link('/bugs/report.php?package=' . $name, 'Report a new bug to ' . $name);
+    echo '<br /><br />' . make_link('/bugs/report.php?package=' . $name, 'Report a new bug to ' . $name);
     echo '</td>';
     echo '</tr>';
     echo '<tr>';
