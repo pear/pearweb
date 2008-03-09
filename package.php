@@ -72,9 +72,9 @@ include_once 'PEAR/PackageFile.php';
 $config = &PEAR_Config::singleton();
 $p      = &new PEAR_PackageFile($config);
 // Specify subpackages
-$b = $p->fromPackageFile($dir . '/package_election.xml', PEAR_VALIDATE_NORMAL);
+$b = $p->fromPackageFile($dir . '/package-election.xml', PEAR_VALIDATE_NORMAL);
 $a->specifySubpackage($b, false);
-$c = $p->fromPackageFile($dir . '/package_pepr.xml', PEAR_VALIDATE_NORMAL);
+$c = $p->fromPackageFile($dir . '/package-pepr.xml', PEAR_VALIDATE_NORMAL);
 $a->specifySubpackage($c, false);
 $d = $p->fromPackageFile($dir . '/package-index.xml', PEAR_VALIDATE_NORMAL);
 $a->specifySubpackage($d, false);

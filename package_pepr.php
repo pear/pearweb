@@ -2,9 +2,9 @@
 require_once 'PEAR/PackageFileManager2.php';
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 $a = PEAR_PackageFileManager2::importOptions(
-    dirname(__FILE__) . '/package_pepr.xml',
+    dirname(__FILE__) . '/package-pepr.xml',
     array(
-        'packagefile' => 'package_pepr.xml',
+        'packagefile' => 'package-pepr.xml',
         'baseinstalldir' => '/',
         'filelistgenerator' => 'cvs',
         'roles' => array('*' => 'www'),
