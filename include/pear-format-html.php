@@ -379,7 +379,6 @@ function draw_navigation()
         $sub['/admin/']['/admin/category-manager.php'] = 'Manage categories';
         $sub['/admin/']['/tags/admin.php']             = 'Manage tags';
         $sub['/admin/']['/admin/karma.php']            = 'Karma';
-        $sub['/admin/']['/admin/chm-upload.php']       = 'CHM upload';
     }
 
     // Orders the main items in the proper order according to $main_order
@@ -649,8 +648,8 @@ function user_link($handle, $compact = false)
 {
     global $dbh;
 
-    $query = "SELECT name, wishlist FROM users WHERE handle = '" . $handle . "'";
-    $row = $dbh->getRow($query, DB_FETCHMODE_ASSOC);
+    $query = 'SELECT name, wishlist FROM users WHERE handle = ?';
+    $row = $dbh->getRow($query, DB_FETCHMODE_ASSOC, array($handle));
     if (!is_array($row)) {
         return false;
     }
