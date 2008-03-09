@@ -43,9 +43,9 @@ class statistics
         $query = 'SELECT s.release, s.dl_number, s.last_dl, r.releasedate '
             . 'FROM package_stats AS s '
             . 'LEFT JOIN releases AS r ON (s.rid = r.id) '
-            . "WHERE pid = " . (int)$id;
+            . 'WHERE pid = ' . (int)$id;
         if (!empty($rid)) {
-            $query .= " AND rid = " . (int)$rid;
+            $query .= ' AND rid = ' . (int)$rid;
         }
         $query .= ' GROUP BY rid ORDER BY rid DESC';
 

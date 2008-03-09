@@ -10,7 +10,7 @@
  */
 class note
 {
-    static function add($key, $value, $note, $author = "")
+    static function add($key, $value, $note, $author = '')
     {
         global $dbh, $auth_user;
         if (empty($author)) {
@@ -34,8 +34,7 @@ class note
     static function remove($id)
     {
         global $dbh;
-        $id = (int)$id;
-        $res = $dbh->query("DELETE FROM notes WHERE id = $id");
+        $res = $dbh->query('DELETE FROM notes WHERE id = ' . (int)$id);
         if (DB::isError($res)) {
             return $res;
         }
@@ -55,8 +54,7 @@ class note
     static function getAll($user)
     {
         global $dbh;
-        return $dbh->getAll('SELECT id, nby, ntime, note FROM notes'
-                            . ' WHERE uid = ? ORDER BY ntime',
-                            array($user));
+        $sql = 'SELECT id, nby, ntime, note FROM notes WHERE uid = ? ORDER BY ntime';
+        return $dbh->getAll($sql, array($user));
     }
 }
