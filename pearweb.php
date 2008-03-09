@@ -187,7 +187,7 @@ class pearweb_postinstall
      */
     function setupHttpdconf($answers)
     {
-        $eol = defined('PHP_EOL') ? PHP_EOL : (OS_WINDOWS ? "\r\n" : "\n");
+        $eol = PHP_EOL;
         if (!realpath($answers['path']) || !file_exists($answers['path'])) {
             $this->_ui->outputData('No such file: "' . $answers['path'] . '"');
             return false;
@@ -234,6 +234,7 @@ class pearweb_postinstall
             $one = $httpdconf;
             $two = array();
         }
+
         // here we go...
         $middle = array();
         $middle[] = $eol;
@@ -281,6 +282,12 @@ class pearweb_postinstall
         $middle[] = ' RedirectPermanent /doc/index.php              http://'
             . $answers['pear'] . '/manual/en/' . $eol;
         $middle[] = $eol;
+        $middle[] = ' #' . $eol;
+        $middle[] = ' # xmlrpc.php was removed 1 Jan 2008 and won\'t come back' . $eol;
+        $middle[] = ' #' . $eol;
+        $middle[] = $eol;
+        $middle[] = ' Redirect gone /xmlrpc.php' . $eol;
+        $middle[] = $eol;
         $middle[] = ' RewriteEngine On' . $eol;
         $middle[] = $eol;
         $middle[] = ' #' . $eol;
@@ -309,12 +316,6 @@ class pearweb_postinstall
         $middle[] = $eol;
         $middle[] = ' RewriteRule   /manual/[a-z]{2}/pecl.([a-zA-Z0-9_-]+)\.php$ http://www.php.net/$1 [R=301]' . $eol;
         $middle[] = $eol;
-        $middle[] = ' #' . $eol;
-        $middle[] = ' # xmlrpc.php was removed 1 Jan 2008 and won\'t come back' . $eol;
-        $middle[] = ' #' . $eol;
-        $middle[] = $eol;
-        $middle[] = ' RewriteRule   /xmlrpc.php  /  [R=410]' . $eol;
-        $middle[] = $eol;
         $middle[] = ' SetEnvIf User-Agent "MS Search 4\.0 Robot\)$" badrobot' . $eol;
         $middle[] = $eol;
         $middle[] = ' <Directory />' . $eol;
@@ -342,6 +343,7 @@ class pearweb_postinstall
         $middle[] = $eol;
         $middle[] = '</VirtualHost>' . $eol;
         $middle[] = '# inserted by pearweb #### (do not remove) end' . $eol;
+
         $one = array_merge($one, $middle);
         $httpdconf = array_merge($one, $two);
         $this->_ui->outputData('opening ' . $answers['path'] . ' for writing');

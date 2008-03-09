@@ -40,6 +40,9 @@ installed in /usr/share/pear):
  RedirectPermanent /faq.php                    http://pear.php.net/manual/en.faq.php
  RedirectPermanent /doc/index.php              http://pear.php.net/manual/en/
 
+ # xmlrpc.php was removed 1 Jan 2008 and won't come back
+ Redirect gone /xmlrpc.php
+
  RewriteEngine On
 
  #
@@ -67,9 +70,6 @@ installed in /usr/share/pear):
  # throw pecl doc people to the php manual
  #
  RewriteRule   /manual/[a-z]{2}/pecl.([a-zA-Z0-9_-]+)\.php$ http://www.php.net/$1 [R=301]
-
- # xmlrpc.php was removed 1 Jan 2008 and won't come back
- RewriteRule   /xmlrpc.php  /  [R=410]
 
  SetEnvIf User-Agent "MS Search 4\.0 Robot\)$" badrobot
 
