@@ -229,7 +229,13 @@ if (!empty($catpid)) {
     }
 
     // Package list
-    $packages = $dbh->getAll("SELECT id, name, summary, license FROM packages WHERE package_type = 'pear' AND approved = 1 AND category = $catpid ORDER BY name");
+    $sql = '
+        SELECT id, name, summary, license, unmaintained, newpk_id,
+        (SELECT COUNT(package) FROM releases WHERE package = p.id) as numreleases,
+        (SELECT state FROM releases WHERE package = p.id ORDER BY id DESC LIMIT 1) as status
+        FROM packages p
+        WHERE package_type = ? AND approved = 1 AND category = ? ORDER BY name';
+    $packages = $dbh->getAll($sql, array('pear', $catpid));
 
     // Paging
     $total = count($packages);
@@ -259,10 +265,7 @@ if (!empty($catpid)) {
 
     foreach ($packages as $key => $pkg) {
         $extendedInfo = array();
-        $extendedInfo['numReleases'] = $dbh->getOne('SELECT COUNT(package) FROM releases WHERE package = ' . $pkg['id']);
-        $extendedInfo['status']      = $dbh->getOne('SELECT state FROM releases WHERE package = ' . $pkg['id'] . ' ORDER BY id DESC LIMIT 1');
-        $p = $dbh->getRow('SELECT license, unmaintained, newpk_id FROM packages WHERE id = ' . $pkg['id'] . ' ORDER BY id DESC LIMIT 1');
-        $extendedInfo['license'] = $p['license'];
+        $extendedInfo['status'] = $pkg['status'];
 
         // Make status coloured
         switch ($extendedInfo['status']) {
@@ -279,32 +282,21 @@ if (!empty($catpid)) {
                 break;
         }
 
-        if ($p['unmaintained'] == 0) {
+        if ($pkg['unmaintained'] == 0) {
             $m = '<span style="color: #006600">Yes</span>';
         } else {
             $m = '<span style="color: #ff0000">No</span>';
         }
         $extendedInfo['maintained'] = $m;
 
-        if (!empty($p['newpk_id'])) {
-            $d = $dbh->getOne('SELECT name FROM packages WHERE id = ' . $p['newpk_id'] . ' ORDER BY id DESC LIMIT 1');
+        if (!empty($pkg['newpk_id'])) {
+            $d = $dbh->getOne('SELECT name FROM packages WHERE id = ' . $pkg['newpk_id'] . ' ORDER BY id DESC LIMIT 1');
             $msg = 'This package has been deprecated in favor of <a href="/package/'.  $d .'">' . $d . '</a>';
             $extendedInfo['deprecated'] = $msg;
         }
 
         $packages[$key]['eInfo'] = $extendedInfo;
     }
-    $defaultMoreInfoVis = $moreinfo ? 'inline' : 'none';
-}
-
-// Build URLs for hide/show all links
-if ($moreinfo) {
-    $showMoreInfoLink = '#';
-    $hideMoreInfoLink = getQueryString($catpid, $catname, $showempty, 0);
-
-} else {
-    $showMoreInfoLink = getQueryString($catpid, $catname, $showempty, 1);
-    $hideMoreInfoLink = '#';
 }
 
 // Template

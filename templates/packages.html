@@ -1,3 +1,4 @@
+<script src="/javascript/jquery.js"></script>
 <script language="JavaScript" type="text/javascript">
 <!--
     function toggleMoreInfo(packageName, packageID)
@@ -6,122 +7,44 @@
             location.href = '/package/' + packageName;
             return;
         }
-
-        var rowLayer = document.getElementById('moreInfo_' + packageID);
-        var rowSpacerLayer = document.getElementById('moreInfo_' + packageID + '_spacer');
-
-        newDisplay = rowLayer.style.display == 'none' ? 'inline' : 'none';
-        rowLayer.style.display       = newDisplay;
-        rowSpacerLayer.style.display = newDisplay;
+        $('#moreInfo_' + packageID).toggle();
     }
 //-->
 </script>
 
+
 <table width="100%">
-    <tr>
-        <th valign="top" align="left">
-            Contents of :: <?php html_category_urhere($catpid, false)?>
-            <?php
-            if ($currentPage) {
-                echo '(Page ' . $currentPage . ' of ' . $numPages . ')';
-            }
-            ?>
-        </th>
-        <td valign="top" align="right">
-            <?php echo $showempty_link; ?>
-        </td>
-    </tr>
+ <tr>
+  <th valign="top" align="left">
+   Contents of :: <?php html_category_urhere($catpid, false)?>
+<?php
+    if ($currentPage) {
+        echo '   (Page ' . $currentPage . ' of ' . $numPages . ')';
+    }
+?>
+  </th>
+  <td valign="top" align="right">
+   <?php echo $showempty_link; ?>
+  </td>
+ </tr>
 </table>
 
-<?php if($nrow):?>
+<?php if ($nrow):?>
     <?php echo $table->toHtml()?>
 <?php endif?>
 
-<?php if($catpid and $packages):?>
+<?php if ($catpid and $packages):?>
 
     <br />
 
-    <?php if($subCategories):?>
+    <?php if (isset($subCategories)):?>
         Sub-categories: <?php echo $subCategories; ?><br /><br />
     <?php endif?>
 
-    <style type="text/css">
-    <!--
-    .eInfo_label {
-        font-weight: bold;
-        font-size: 80%;
-    }
-
-    table#packageList {
-        width: 100%;
-        padding: 4px;
-        padding-top: 0px;
-    }
-
-    table#packageList th {
-        border-bottom: 1px solid black;
-        font-weight: bold;
-    }
-
-    table#packageList td {
-        padding: 2px;
-    }
-
-    th.pkgListHeader {
-        background-color: #cccccc;
-    }
-
-    td.tableHeader, td.tableFooter {
-        background-color: #cccccc;
-        border-top: 1px solid black;
-        text-align: center;
-        font-size: 85%;
-        padding: 2px;
-    }
-
-    td.tableHeader {
-        border-bottom: 1px solid black;
-    }
-
-    td.tableHeader a, td.tableFooter a {
-        font-weight: bold;
-    }
-
-    td.tableHeader span.current, td.tableFooter span.current {
-        font-weight: bold;
-        text-decoration: underline;
-    }
-
-    td.moreInfo {
-        background-color: #f0f0f0;
-        border: 1px dashed #c0c0c0;
-        position: relative;
-    }
-
-    .closeButton {
-        border: 2px white outset;
-        background-color: #c0c0c0;
-    }
-
-    .moreInfoHeader {
-        background-color: #dddddd;
-        border-bottom: 1px dashed #c0c0c0;
-    }
-
-    .moreInfoText {
-        font-size: 80%;
-        font-weight: bold;
-        font-family: Verdana;
-        padding-left: 5px;
-    }
-    // -->
-    </style>
-
-
-    <a href="<?php echo $hideMoreInfoLink; ?>" title="Hide all more info">
+    <a href="#" title="Hide all more info" onclick="$('.moreInfoTR').hide();">
      <img src="gifs/moreinfo-no.gif" width="17" height="17" border="0" vspace="3" alt="Hide all more info" />
     </a>
-    <a href="<?php echo $showMoreInfoLink; ?>" title="Show all more info">
+    <a href="#" title="Show all more info" onclick="$('.moreInfoTR').show();">
      <img src="gifs/moreinfo-yes.gif" width="17" height="17" border="0" vspace="3" alt="Show all more info" />
     </a>
 
@@ -150,12 +73,12 @@
          <td valign="top"><a href="/package/<?php echo $p['name']; ?>"><strong><?php echo $p['name']; ?></strong></a></td>
          <td valign="top"><?php echo htmlspecialchars($p['summary']); ?></td>
           <td valign="top">
-            <a href="#" onclick="toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>); return false" onmouseover="window.status = 'View more info about <?php echo $p['name']; ?>'; return true" onmouseout="window.status = ''" title="View more info about <?php echo $p['name']; ?>">
+            <a href="#" onclick="toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>); return false" title="View more info about <?php echo $p['name']; ?>">
                 <img src="gifs/moreinfo.gif" alt="More Info" title="More Info" border="0" />
             </a>
           </td>
         </tr>
-        <tr <?php if($defaultMoreInfoVis == 'none'):?> style="display: <?php echo $defaultMoreInfoVis; ?>" <?php endif?> id="moreInfo_<?php echo $p['id']; ?>">
+        <tr style="display: none;" id="moreInfo_<?php echo $p['id']; ?>" class="moreInfoTR">
          <td>&nbsp;</td>
          <td colspan="3" class="moreInfo">
           <table border="0" class="moreInfoHeader" width="100%" cellspacing="0" cellpadding="0">
@@ -169,9 +92,9 @@
           <table border="0">
            <tr>
             <td class="eInfo_label"><strong>Number of releases:</strong></td>
-            <td><?php echo $p['eInfo']['numReleases']; ?></td>
+            <td><?php echo $p['numreleases']; ?></td>
             <td class="eInfo_label"><strong>License type:</strong></td>
-            <td><?php echo $p['eInfo']['license']; ?></td>
+            <td><?php echo $p['license']; ?></td>
            </tr>
            <tr>
             <td class="eInfo_label"><strong>Status:</strong></td>
@@ -186,9 +109,6 @@
            <?php endif ?>
           </table>
          </td>
-        </tr>
-        <tr <?php if($defaultMoreInfoVis == 'none'):?> style="display: <?php echo $defaultMoreInfoVis; ?>" <?php endif?> id="moreInfo_<?php echo $p['id']; ?>_spacer">
-         <td colspan="5">&nbsp;</td>
         </tr>
             <?php endforeach?>
        </table>
@@ -206,9 +126,9 @@
     </table>
 
 <?php elseif($catpid):?>
-    <p align="center">
-        No packages found in this category
-    </p>
+ <p align="center">
+  No packages found in this category
+ </p>
 <?php endif?>
 
 <br />
@@ -223,8 +143,10 @@
 </p>
 
 <p class="tip">
-<b>Note:</b> A number of other PHP projects do provide packages of
-their software, which are installable via the PEAR infrastructure.
-A list of them can be found in the <a href="/channels/">channels
-section</a>.</p>
-<?php response_footer(); ?>
+ <b>Note:</b> A number of other PHP projects do provide packages of
+ their software, which are installable via the PEAR infrastructure.
+ A list of them can be found in the <a href="/channels/">channels
+ section</a>.
+</p>
+<?php
+response_footer();
