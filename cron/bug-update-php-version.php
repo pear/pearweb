@@ -33,7 +33,7 @@ if ($new4 === false) {
 $n5 = unserialize($new5);
 $n4 = unserialize($new4);
 
-$file = '@www_dir@/public_html/bugs/include/php_versions.php';
+$file = '../public_html/bugs/include/php_versions.php';
 include $file;
 
 $php4 = $php = array();
@@ -59,6 +59,9 @@ if (!in_array($n4['version'], $versions) && strpos($n4['version'], 'RC') === fal
 
 $final  = array_merge($merge, $merge4);
 $data   = var_export($final, true);
+
+// var_export parses date() and just uses its output, fixing that
+$data = str_replace(date('Y-m-d') . "',", '\' . date(\'Y-m-d\'),', $data);
 
 $output = '<?php
 $versions = ' . $data . ';';
