@@ -170,9 +170,8 @@ if (isset($_POST['unsubscribe_to_bug']) OR isset($_POST['subscribe_to_bug'])) {
         $errors[] = "You must provide a valid email address.";
     } else {
         if (isset($_POST['subscribe_to_bug'])) {
-            $query = 'REPLACE INTO bugdb_subscribe SET bug_id = ' . $id .
-                    ", email = '" . escapeSQL($email) . "'";
-            $dbh->query($query);
+            $query = 'REPLACE INTO bugdb_subscribe SET bug_id = ?, email = ?';
+            $dbh->query($query, array($id, $email));
             $thanks = 7;
         } elseif (isset($_POST['unsubscribe_to_bug'])) {
             /* Generate the hash */
@@ -365,12 +364,8 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
 
         if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
-                     ' (bug, email, ts, comment) VALUES (' .
-                     " $id," .
-                     " '" . escapeSQL($from) . "'," .
-                     ' NOW(),' .
-                     " '" . escapeSQL($ncomment) . "')";
-            $dbh->query($query);
+                     ' (bug, email, comment, ts) VALUES (?, ?, ?. NOW())';
+            $dbh->query($query, array($id, $from, $ncomment));
         }
     }
 } elseif (isset($_POST['in']) && isset($_POST['preview']) && $edit == 2) {
@@ -472,10 +467,10 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
                   " php_os='" . escapeSQL($_POST['in']['php_os']) . "'," .
                   " ts2=NOW() WHERE id=$id";
         $dbh->query($query);
+
         $previous = $dbh->getAll('SELECT roadmap_version
             FROM bugdb_roadmap_link l, bugdb_roadmap b
-            WHERE
-                l.id=? AND b.id=l.roadmap_id', array($id));
+            WHERE l.id = ? AND b.id = l.roadmap_id', array($id));
         if (auth_check('pear.dev')) {
             // don't change roadmap assignments for non-devs editing a bug
             $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
@@ -491,8 +486,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
             }
             $current = $dbh->getAll('SELECT roadmap_version
                 FROM bugdb_roadmap_link l, bugdb_roadmap b
-                WHERE
-                    l.id=? AND b.id=l.roadmap_id', array($id));
+                WHERE l.id = ? AND b.id = l.roadmap_id', array($id));
         } else {
             $current = $previous;
         }
@@ -505,7 +499,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
 
         if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
-                     ' (bug, email, ts, comment, reporter_name, handle) VALUES (?,?,NOW(),?,?,?)';
+                     ' (bug, email, ts, comment, reporter_name, handle) VALUES (?, ?, NOW(), ?, ?, ?)';
             $dbh->query($query, array($id, $from, $ncomment, $comment_name, $auth_user->handle));
         }
     }
@@ -708,7 +702,7 @@ if (
     control(3, 'Add Comment');
 }
 
-if (auth_check('pear.bug') OR auth_check('pear.dev')) {
+if (auth_check('pear.bug') || auth_check('pear.dev')) {
     control(1, 'Edit');
 }
 
@@ -1016,7 +1010,7 @@ if ($edit == 1 || $edit == 2) {
      <?php endif; //if (auth_check('pear.dev'))?>
     </table>
     <div class="explain">
-     <h1><a href="/bugs/patch-add.php?bug=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
+     <h1><a href="/bugs/patch-add.php?bug_id=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
     </div>
     <p style="margin-bottom: 0em">
     <label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<span class="accesskey">m</span>ment:</b></label>
