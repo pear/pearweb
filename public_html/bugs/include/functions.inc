@@ -461,11 +461,15 @@ function show_package_version_options($package, $current)
             echo ' selected="selected"';
         }
 
-        echo ' value = "' . htmlspecialchars($v[0]) . '">' . htmlspecialchars($v[0]) . ' (' . htmlspecialchars($v[1]) . ")</option>\n";
+        $p = htmlspecialchars($v[0]);
+        echo ' value = "' . $p . '">' . $p . ' (' . htmlspecialchars($v[1]) . ")</option>\n";
     }
     echo '<option value="CVS"';
-    if ($current == 'CVS') echo ' selected';
+    echo $current == 'CVS' ? ' selected' : '';
     echo ">CVS</option>\n";
+    echo '<option value="Unkown"';
+    echo $current == 'Unknown' ? ' selected' : '';
+    echo ">I have no idea</option>\n";
     echo "<option value=\"earlier\"", ($current == "earlier" ? " selected" : ""),  ">Earlier? Upgrade first!</option>\n";
     echo "</select>\n";
 }
@@ -487,11 +491,9 @@ function show_version_options($current, $default = '')
         echo '<option';
         if ($current == $v) {
             echo ' selected="selected"';
-        }
-        echo '>' . htmlspecialchars($v) . "</option>\n";
-        if ($current == $v) {
             $use++;
         }
+        echo '>' . htmlspecialchars($v) . "</option>\n";
     }
     if (!$use && $current) {
         echo '<option selected="selected">' . htmlspecialchars($current) . "</option>\n";
