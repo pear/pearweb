@@ -206,15 +206,27 @@ if (!$bug['registered'] && !auth_check('pear.dev')) {
 $previous = $current = array();
 
 // Delete comment
-if ($edit == 1 && isset($auth_user) && $auth_user
-    && $auth_user->registered && isset($_GET['delete_comment'])) {
+if ($edit === 1 && isset($auth_user) && $auth_user && $auth_user->registered) {
     $addon = '';
-    if (auth_check('pear.dev')) {
+    if (isset($_GET['hide_comment']) && auth_check('pear.dev')) {
+        hide_comment($id, (int)$_GET['hide_comment']);
+        $addon = '&thanks=1';
+    }
+
+    if (isset($_GET['show_comment']) && auth_check('pear.bug.admin')) {
+        show_comment($id, (int)$_GET['show_comment']);
+        $addon = '&thanks=1';
+    }
+
+    if (isset($_GET['delete_comment']) && auth_check('pear.bug.admin')) {
         delete_comment($id, (int)$_GET['delete_comment']);
         $addon = '&thanks=1';
     }
-    localRedirect('bug.php' . "?id=$id&edit=1$addon");
-    exit;
+
+    if ($addon !== '') {
+        localRedirect("bug.php?id=$id&edit=1$addon");
+        exit;
+    }
 }
 
 // handle any updates, displaying errors if there were any
@@ -1267,7 +1279,9 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
     if ($comment_name && $registered) {
         echo '(' . htmlspecialchars($comment_name) . ')';
     }
-    echo ($edit == 1 && $com_id !== 0 && auth_check('pear.bug.admin')) ? "<a href=\"".htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n" : '';
+    if ($edit === 1 && $com_id !== 0 && auth_check('pear.dev')) {
+        echo "&nbsp<a href=\"".htmlspecialchars($_SERVER['PHP_SELF'])."?id=$id&amp;edit=1&amp;delete_comment=$com_id\">[delete]</a>\n";
+    }
     echo '<pre class="note">'. "\n";
 
     // This has to be done so we don't wordwrap the changeset part again
@@ -1280,6 +1294,23 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
     echo $comment;
     echo "</pre>\n";
     echo '</div>' . "\n";
+}
+
+/**
+ * This function only hides the comment so pear.bug.admin people can review it
+ */
+function hide_comment($id, $com_id)
+{
+    global $dbh;
+    $query ='UPDATE bugdb_comments SET active = 0 WHERE bug='.(int)$id.' AND id='.(int)$com_id;
+    $res =& $dbh->query($query);
+}
+
+function show_comment($id, $com_id)
+{
+    global $dbh;
+    $query ='UPDATE bugdb_comments SET active = 1 WHERE bug='.(int)$id.' AND id='.(int)$com_id;
+    $res =& $dbh->query($query);
 }
 
 function delete_comment($id, $com_id)
