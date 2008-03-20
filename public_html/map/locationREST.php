@@ -20,7 +20,13 @@
 
 $sql = "SELECT name, latitude, longitude, homepage, handle
          FROM users WHERE latitude <> '' AND longitude <> ''";
-$query = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+$data = array();
+if (isset($_GET['handle']) && !empty($_GET['handle'])) {
+    $sql .= ' AND handle = ?';
+    $data[] = htmlspecialchars($_GET['handle']);
+}
+
+$query = $dbh->getAll($sql, $data, DB_FETCHMODE_ASSOC);
 /**
  * Why use any other dependencies, we are just
  * not on php5 yet, so we can't use DOM or
@@ -31,18 +37,25 @@ $xml .= '
 <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
          xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
          xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
-         xmlns:dc="http://purl.org/dc/elements/1.1/" 
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
          xmlns="http://xmlns.com/foaf/0.1/">
 ';
 
 
 foreach ($query as $parts => $key) {
-    $xml .= "\t<Person>\n";
+    $xml .= "\t<Person rdf:about=\"#{$key['handle']}\">\n";
     $xml .= "\t\t<name>{$key['name']}</name>\n";
     $xml .= "\t\t<homepage dc:title=\"{$key['handle']}\"\n";
     $xml .= "\t\t          rdf:resource=\"{$key['homepage']}\"/>\n";
     $xml .= "\t\t<based_near geo:lat=\"{$key['latitude']}\"\n";
     $xml .= "\t\t            geo:long=\"{$key['longitude']}\" />\n";
+    $xml .= "\t\t<holdsAccount>\n";
+    $xml .= "\t\t\t<OnlineAccount>\n";
+    $xml .= "\t\t\t\t<accountServiceHomepage rdf:resource=\"/\" />\n";
+    $xml .= "\t\t\t\t<accountProfilePage rdf:resource=\"/user/{$key['handle']}\" />\n";
+    $xml .= "\t\t\t\t<accountName>{$key['handle']}</accountName>\n";
+    $xml .= "\t\t\t</OnlineAccount>\n";
+    $xml .= "\t\t</holdsAccount>\n";
     $xml .= "\t</Person>\n";
 }
 $xml .= "</rdf:RDF>\n";
