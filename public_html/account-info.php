@@ -44,20 +44,20 @@ if ($row === null) {
 }
 
 switch ($params['action']) {
-    case "wishlist" :
+    case 'wishlist' :
         if (!empty($row['wishlist'])) {
             HTTP::redirect($row['wishlist']);
         } else {
-            PEAR::raiseError(htmlspecialchars($row['name']) . " has not registered a wishlist");
+            PEAR::raiseError(htmlspecialchars($row['name']) . ' has not registered a wishlist');
         }
         break;
 
-    case "bugs" :
-        HTTP::redirect("/bugs/search.php?handle=" . $handle . "&cmd=display");
+    case 'bugs' :
+        HTTP::redirect('/bugs/search.php?handle=' . $handle . '&cmd=display');
         break;
 
-    case "rss" :
-        HTTP::redirect("/feeds/user_" . $handle . ".rss");
+    case 'rss' :
+        HTTP::redirect('/feeds/user_' . $handle . '.rss');
         break;
 
 }
@@ -73,18 +73,19 @@ if (isset($auth_user) && is_object($auth_user)
     && ($auth_user->handle == $handle ||
         auth_check('pear.admin'))) {
 
-    $nav_items = array('Edit user' => array('url' => '/account-edit.php?handle=' . $handle,
-                                            'title' => 'Edit user standing data.'),
-                       'Change password' => array('url' => '/account-edit.php?handle=' . $handle . '#password',
-                                                  'title' => 'Change your password.')
-                       );
+    $nav_items = array(
+        'Edit user' => array('url' => '/account-edit.php?handle=' . $handle,
+                             'title' => 'Edit user standing data.'),
+        'Change password' => array('url' => '/account-edit.php?handle=' . $handle . '#password',
+                                   'title' => 'Change your password.')
+    );
 
     if (auth_check('pear.admin')) {
         $nav_items['Edit Karma'] = array('url' => '/admin/karma.php?handle=' . $handle,
                                          'title' => 'Edit karma for this user');
     }
 
-    print '<div id="nav">';
+    echo '<div id="nav">';
 
     foreach ($nav_items as $title => $item) {
         if (!empty($item['url']) && $item['url']{0} == '/') {
@@ -92,20 +93,20 @@ if (isset($auth_user) && is_object($auth_user)
         } else {
             $url = '/package/' . $name . '/' . $item['url'];
         }
-        print '<a href="' . $url . '"'
+        echo '<a href="' . $url . '"'
             . ' title="' . $item['title'] . '"> '
             . $title
             . '</a>';
     }
 
-    print '</div>';
+    echo '</div>';
 }
 ?>
 
-<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">
+<table border="0" cellspacing="0" cellpadding="2" style="width: 100%" class="vcard">
  <tr>
   <th class="headrow" colspan="2">&raquo;
-  <?php echo htmlspecialchars($row['name']); ?></th>
+  <span class="fn"><?php echo htmlspecialchars($row['name']); ?></span></th>
  </tr>
 
 <?php
@@ -122,7 +123,7 @@ if ($row['userinfo']) {
  <tr>
   <td colspan="2">
    <ul>
-    <li>Username: <?php echo $row['handle']; ?></li>
+    <li>Username: <span class="nickname"><?php echo $row['handle']; ?></span></li>
 <?php
 
 if ($row['active']) {
@@ -136,9 +137,9 @@ if ($row['lastlogin'] && !is_null($row['lastlogin'])) {
 }
 
 if (isset($auth_user)) {
-    echo "    <li>Email: &nbsp;";
+    echo '    <li>Email: &nbsp;<span class="email">';
     echo make_mailto_link($row['email']);
-    echo "</li>\n";
+    echo "</span></li>\n";
 } else if ($row['showemail']) {
     $row['email'] = str_replace(array('@', '.'),
                                 array(' at ', ' dot '),
@@ -154,14 +155,14 @@ if (isset($auth_user)) {
 }
 
 if ($row['homepage']) {
-    echo '    <li>Homepage: &nbsp;';
+    echo '    <li>Homepage: &nbsp;<span class="url">';
     echo make_link(htmlspecialchars($row['homepage']));
-    echo "</li>\n";
+    echo "</span></li>\n";
 }
 
 if ($row['wishlist']) {
     echo '    <li>Wishlist: &nbsp;';
-    echo make_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/user/' . $handle . '/wishlist');
+    echo make_link('http://' . PEAR_CHANNELNAME . '/user/' . $handle . '/wishlist');
     echo "</li>\n";
 }
 
@@ -174,12 +175,12 @@ if ($row['pgpkeyid']) {
 }
 
 echo '    <li>RSS Feed: &nbsp;';
-echo make_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/feeds/user_' . $handle . '.rss');
+echo make_link('http://' . PEAR_CHANNELNAME . '/feeds/user_' . $handle . '.rss');
 echo '</li>' . "\n";
 
 if (!empty($row['latitude']) && !empty($row['longitude'])) {
     echo '    <li>Map: &nbsp;';
-    echo make_link('http://' . htmlspecialchars($_SERVER['HTTP_HOST']) . '/map/?handle=' . $handle);
+    echo make_link('http://' . PEAR_CHANNELNAME . '/map/?handle=' . $handle);
     echo '</li>' . "\n";
 }
 
