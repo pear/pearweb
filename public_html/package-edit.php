@@ -212,8 +212,8 @@ $renderer->setGroupElementTemplate(
 $form->addElement('html', '<caption class="form-caption">Edit Package Information</caption>');
 $form->addElement('text', 'name', 'Pa<span class="accesskey">c</span>kage Name:', 'size="50" maxlength="80" accesskey="c"');
 $form->addElement('text', 'license', 'License:', 'size="50" maxlength="50"');
-$form->addElement('textarea', 'summary', 'Summary', 'cols="50" rows="5" maxlength="255"');
-$form->addElement('textarea', 'description', 'Description', 'cols="50" rows="8"');
+$form->addElement('textarea', 'summary', 'Summary', 'cols="75" rows="7" maxlength="255"');
+$form->addElement('textarea', 'description', 'Description', 'cols="75" rows="12"');
 
 $sth = $dbh->query('SELECT id, name FROM categories ORDER BY name');
 
