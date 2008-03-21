@@ -57,7 +57,7 @@ $books = array(
 
 ?>
 
-<h2>&raquo; <a name="books" id="books">Books</a></h2>
+<h2>&raquo; Books</h2>
 
 <p>The following is a list of books that have been written about PEAR.
 There are a lot more PHP books that describe some PEAR packages.
