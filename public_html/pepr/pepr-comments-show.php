@@ -25,7 +25,7 @@
  */
 require_once 'pepr/pepr.php';
 
-if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
+if (!$proposal =& proposal::get($dbh, (int)@$_GET['id'])) {
     response_header('PEPr :: Comments :: Invalid Request');
     echo "<h1>Comments for</h1>\n";
     report_error('The requested proposal does not exist.');
@@ -33,18 +33,16 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
     exit;
 }
 
+$id = $proposal->id;
 response_header('PEPr :: Comments :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Comments for &quot;' . htmlspecialchars($proposal->pkg_name) . "&quot;</h1>\n";
+display_pepr_nav($proposal);
 
-if ($auth_user &&
-    $proposal->getStatus() == 'proposal')
-{
+if ($auth_user && $proposal->getStatus() == 'proposal') {
     include_once 'HTML/QuickForm.php';
+    $form =& new HTML_QuickForm('comment', 'post', 'pepr-comments-show.php?id=' . $id);
 
-    $form =& new HTML_QuickForm('comment', 'post',
-                                'pepr-comments-show.php?id=' . $proposal->id);
-
-    $form->addElement('textarea', 'comment', null,
+    $c = $form->addElement('textarea', 'comment', null,
                       array('cols' => 70,
                             'rows' => 20,
                             'id'   => 'comment_field'));
@@ -60,26 +58,22 @@ if ($auth_user &&
     $form->addElement('submit', 'submit', 'Add New Comment');
 
     $form->applyFilter('comment', 'trim');
-    $form->addRule('comment', 'A comment is required', 'required', null,
-                   'client');
+    $form->addRule('comment', 'A comment is required', 'required', null, 'client');
 
     if (isset($_POST['submit'])) {
         if ($form->validate()) {
-            $values = $form->exportValues();
+            $comment = $form->exportValue('comment');
             $proposal->sendActionEmail('proposal_comment', 'user',
                                        $auth_user->handle,
-                                       $values['comment']);
-            $proposal->addComment($values['comment'],
-                                  'package_proposal_comments');
+                                       $comment);
+            $proposal->addComment($comment, 'package_proposal_comments');
             report_success('Your comment was successfully processed');
+            $c->setValue('');
         } else {
             report_error($form->getElementError('comment'));
         }
     }
 }
-
-display_pepr_nav($proposal);
-
 ?>
 
 <table border="0" cellspacing="0" cellpadding="2" style="width: 100%">
@@ -92,7 +86,11 @@ display_pepr_nav($proposal);
 
 <?php
 
-if ($proposal->getStatus() == 'proposal') {
+if ($proposal->getStatus() != 'proposal') {
+    echo 'Comments are only accepted during the &quot;Proposal&quot; phase. ';
+    echo 'This proposal is currently in the &quot;';
+    echo $proposal->getStatus(true) . '&quot; phase.';
+} else {
     if ($auth_user) {
         $formArray = $form->toArray();
 
@@ -132,12 +130,7 @@ if ($proposal->getStatus() == 'proposal') {
         echo ' PEAR developer, you can comment by sending an email to ';
         echo '<a href="mailto:' . PEAR_DEV_EMAIL . '">' . PEAR_DEV_EMAIL . '</a>.';
     }
-} else {
-    echo 'Comments are only accepted during the &quot;Proposal&quot; phase. ';
-    echo 'This proposal is currently in the &quot;';
-    echo $proposal->getStatus(true) . '&quot; phase.';
 }
-
 ?>
 
   </td>
@@ -150,7 +143,7 @@ if ($proposal->getStatus() == 'proposal') {
 
 <?php
 
-$comments = ppComment::getAll($proposal->id, 'package_proposal_comments');
+$comments = ppComment::getAll($id, 'package_proposal_comments');
 $userInfos = array();
 
 if (is_array($comments) && (count($comments) > 0)) {
@@ -171,7 +164,6 @@ if (is_array($comments) && (count($comments) > 0)) {
     echo '  <td class="textcell" valign="top">';
     echo 'There are no comments.';
 }
-
 ?>
 
   </td>
@@ -179,7 +171,4 @@ if (is_array($comments) && (count($comments) > 0)) {
 </table>
 
 <?php
-
 response_footer();
-
-?>
