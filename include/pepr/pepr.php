@@ -43,15 +43,12 @@ function display_pepr_nav(&$proposal)
 {
     global $auth_user;
 
-    /* There is no point to have a pepr navigation bar for
-       a new proposal
-     */
+    // There is no point to have a pepr navigation bar for a new proposal
     if ($proposal == null || isset($_GET['old'])) {
-        $id = 0;
         return;
-    } else {
-        $id = $proposal->id;
     }
+
+    $id = $proposal->id;
 
     $items = array(
         'Main'       => array('url'   => 'pepr-proposal-show.php?id=' . $id,
@@ -65,9 +62,8 @@ function display_pepr_nav(&$proposal)
                         ),
     );
 
-    if ($proposal != null &&
-        isset($auth_user) && $auth_user &&
-        $proposal->mayEdit($auth_user->handle))
+    if ($proposal != null && isset($auth_user) && $auth_user
+        && $proposal->mayEdit($auth_user->handle))
     {
         $items['Edit'] = array(
             'url'   => 'pepr-proposal-edit.php?id=' . $id,
@@ -90,7 +86,7 @@ function display_pepr_nav(&$proposal)
     print_tabbed_navigation($items);
 }
 
-function display_overview_nav ()
+function display_overview_nav()
 {
     global $proposalStatiMap;
     $items = array(
@@ -107,18 +103,15 @@ function display_overview_nav ()
     print_tabbed_navigation($items);
 }
 
-
-
 function shorten_string($string)
 {
     if (strlen($string) < 80) {
         return $string;
     }
     $string_new = substr($string, 0, 20);
-    $string_new .= "..." . substr($string, (strlen($string) - 60));
+    $string_new .= '...' . substr($string, (strlen($string) - 60));
     return $string_new;
 }
-
 
 global $proposalStatiMap;
 $proposalStatiMap = array(
@@ -129,39 +122,25 @@ $proposalStatiMap = array(
                           );
 
 
-class proposal {
-
+class proposal
+{
     var $id;
-
     var $pkg_category;
-
     var $pkg_name;
-
     var $pkg_license;
-
     var $pkg_description;
-
     var $pkg_deps;
-
     var $draft_date;
-
     var $proposal_date;
-
     var $vote_date;
-
     var $longened_date;
-
     var $status = 'draft';
-
     var $user_handle;
-
     var $links;
-
     var $votes;
-
     var $markup;
 
-    function proposal($dbhResArr)
+    function __construct($dbhResArr)
     {
         $this->fromArray($dbhResArr);
     }
@@ -193,7 +172,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
          );
     }
 
-    function getParsedDescription ()
+    function getParsedDescription()
     {
         if (empty($this->pkg_description)) {
             return '';
@@ -482,11 +461,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
                                             $res->getUserInfo());
                 }
             }
-            if (function_exists('mysql_insert_id')) {
-                $this->id = mysql_insert_id($dbh->connection);
-            } else {
-                $this->id = mysqli_insert_id($dbh->connection);
-            }
+            $this->id = mysqli_insert_id($dbh->connection);
         }
         ppLink::deleteAll($dbh, $this->id);
         foreach ($this->links as $link) {
@@ -661,26 +636,18 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         switch ($this->status) {
         case 'draft':
             return true;
-
         case 'proposal':
-            if (($this->proposal_date + PROPOSAL_STATUS_PROPOSAL_TIMELINE) <
-                time())
-            {
+            if (($this->proposal_date + PROPOSAL_STATUS_PROPOSAL_TIMELINE) < time()) {
                 return true;
             }
             return (int)($this->proposal_date + PROPOSAL_STATUS_PROPOSAL_TIMELINE);
-
         case 'vote':
             if (!empty($this->longened_date)) {
-                if (($this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE) >
-                    time())
-                {
+                if (($this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE) > time()) {
                     return (int)($this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE);
                 }
             } else {
-                if (($this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE) >
-                    time())
-                {
+                if (($this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE) > time()) {
                     return (int)($this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE);
                 }
             }
@@ -861,7 +828,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
 
         if (!DEVBOX) {
             $res = mail($email['to'], $email['subject'], $email['text'],
-                        $headers, '-f bounce-no-user@php.net');
+                        $headers, '-f ' . PEAR_BOUNCE_EMAIL);
         } else {
             $res = true;
         }
@@ -872,21 +839,15 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
     }
 }
 
-
-
-class ppComment {
-
+class ppComment
+{
     var $pkg_prop_id;
-
     var $user_handle;
-
     var $timestamp;
-
     var $comment;
-
     var $table;
 
-    function ppComment($dbhResArr, $table = 'package_proposal_changelog')
+    function __construct($dbhResArr, $table = 'package_proposal_changelog')
     {
         foreach ($dbhResArr as $name => $value) {
             $this->$name = $value;
@@ -953,23 +914,17 @@ $proposalReviewsMap = array(
                             'deep'      => 'Deep source review',
                             'test'      => 'Run examples');
 
-class ppVote {
-
+class ppVote
+{
     var $pkg_prop_id;
-
     var $user_handle;
-
     var $value;
-
     var $reviews;
-
     var $is_conditional;
-
     var $comment;
-
     var $timestamp;
 
-    function ppVote($dbhResArr)
+    function __construct($dbhResArr)
     {
         foreach ($dbhResArr as $name => $value) {
             $this->$name = $value;
@@ -1066,15 +1021,13 @@ $proposalTypeMap = array(
                          'pkg_example_source'   => "Package example source (.phps/.htm)",
                          'pkg_doc'              => "Package documentation");
 
-class ppLink {
-
+class ppLink
+{
     var $pkg_prop_id;
-
     var $type;
-
     var $url;
 
-    function ppLink($dbhResArr)
+    function __construct($dbhResArr)
     {
         foreach ($dbhResArr as $name => $value) {
             $this->$name = $value;
@@ -1083,8 +1036,8 @@ class ppLink {
 
     function &getAll(&$dbh, $proposalId)
     {
-        $sql = "SELECT * FROM package_proposal_links WHERE pkg_prop_id = ".$proposalId." ORDER BY type";
-        $res = $dbh->query($sql);
+        $sql = 'SELECT * FROM package_proposal_links WHERE pkg_prop_id = ? ORDER BY type';
+        $res = $dbh->query($sql, array($proposalId));
         if (DB::isError($res)) {
             return $res;
         }
@@ -1097,8 +1050,8 @@ class ppLink {
 
     function deleteAll($dbh, $proposalId)
     {
-        $sql = "DELETE FROM package_proposal_links WHERE pkg_prop_id = ".$proposalId;
-        $res = $dbh->query($sql);
+        $sql = 'DELETE FROM package_proposal_links WHERE pkg_prop_id = ?';
+        $res = $dbh->query($sql, array($proposalId));
         return $res;
     }
 
@@ -1115,6 +1068,7 @@ class ppLink {
         if ($humanReadable) {
             return $GLOBALS['proposalTypeMap'][$this->type];
         }
+
         return $this->type;
     }
 }
