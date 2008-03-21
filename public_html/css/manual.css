@@ -49,16 +49,19 @@ li.man-side_page_nested {
 
 /* === Navigation Box (previous, next, languages) === */
 
-table.man-nav{
-    border: 0;
+table.man-nav {
+    background-color: #F0F0F0;
+    border-bottom:1px solid #CCCCCC;
     width: 95%;
-    background-color: #e0e0e0;
+    min-width: 30em;
+    border-collapse: separate;
+    border-spacing: 0.5em;
+    margin-top: -0.3em
 }
 
 /* top row */
 
-td.man-nav_prev,
-td.man-nav_next {
+td.man-nav_prev, td.man-nav_next {
     font-size: 75%;
 }
 
@@ -92,6 +95,16 @@ pre.php {
     padding:            5px;
 }
 
+pre.xml {
+    margin: 0.5em;
+    max-height: 35em;
+    overflow-y: auto;
+    background-color: #EAEAEA;
+    color: black;
+    font-size: 100%;
+    padding: 0.5em;
+}
+
 table.EXAMPLE {
     margin-top: 1em;
     width: 95%;
@@ -111,10 +124,24 @@ table.EXAMPLE p {
     margin-bottom: 0em;
 }
 
+table.EXAMPLE-CODE, pre.synopsis {
+    background-color: white;
+}
+
+pre.synopsis {
+    margin: 0.5em;
+}
+
+table.EXAMPLE-CODE pre.screen {
+    background-color: #EAEAEA;
+    color: black;
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
 td div.note {
-    border-style: dashed;
-    border-width: 1px;
-    background-color: #e0e0e0;
+    background-color: #FFFFCC;
+    border: 0.5px solid brown;
     color: inherit;
     text-align: left;
 }
@@ -138,4 +165,25 @@ td div.note_text {
 td div.note_handle {
     font-weight: bold;
     text-align: left;
+}
+
+.chapter, .sect1, h2.sect2, h3.sect3 {
+    padding-top: 1.0em;
+}
+
+table.CALSTABLE td, table.CALSTABLE th {
+    padding: 0.3em;
+}
+
+table.CALSTABLE th  {
+    font-weight: bold;
+}
+table.CALSTABLE {
+    border-color: #F0F0F0;
+    margin: auto;
+}
+
+div.table a b {
+    display: block;
+    text-align: center;
 }
