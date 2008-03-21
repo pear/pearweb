@@ -38,7 +38,7 @@ class Damblan_Search_Packages extends Damblan_Search
     function search($term)
     {
         if (empty($term)) {
-            return;
+            $term = '%';
         }
 
         $this->_where = $this->getWhere($term);
