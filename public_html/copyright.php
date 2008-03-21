@@ -18,8 +18,7 @@
    $Id$
 */
 
-response_header("Copyright and License");
-
+response_header('Copyright and License');
 ?>
 
 <h1>Copyright and Licence</h1>
@@ -68,4 +67,3 @@ For more information on the PHP Group and the PHP project, please see
 
 <?php
 response_footer();
-?>
