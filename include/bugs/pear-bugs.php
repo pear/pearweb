@@ -11,25 +11,44 @@ class PEAR_Bugs
         $this->_dbh = $GLOBALS['dbh'];
     }
 
-    function packageBugStats($packageid)
+    function packageBugStats($package)
     {
-        $info = $this->_dbh->getAll('
+        $type = ' bug_type IN ("Bug","Documentation Problem") AND ';
+        $sql  = '
             SELECT
+                (SELECT COUNT(bugdb.id) FROM bugdb WHERE bugdb.package_name = ? AND ' . $type . ' bugdb.registered = 1) as total,
                 COUNT(bugdb.id) as count,
                 AVG(TO_DAYS(NOW()) - TO_DAYS(ts1)) as average,
                 MAX(TO_DAYS(NOW()) - TO_DAYS(ts1)) as oldest
             FROM bugdb, packages
             WHERE
-                name=? AND
+                name = ? AND
                 bugdb.package_name = packages.name AND
                 status IN ("Open","Feedback","Assigned","Analyzed","Verified","Critical") AND
-                bug_type IN ("Bug","Documentation Problem") AND
-                bugdb.registered = 1
-            ', array($packageid), DB_FETCHMODE_ASSOC);
-        $total = $this->_dbh->getOne('
-            SELECT COUNT(bugdb.id) FROM bugdb WHERE bugdb.package_name=? AND bugdb.registered = 1
-            ', array($packageid));
-        return array_merge($info[0], array('total' => $total));
+                ' . $type . '
+                bugdb.registered = 1';
+        $info = $this->_dbh->getRow($sql, array($package, $package), DB_FETCHMODE_ASSOC);
+        return $info;
+    }
+
+    function packageFeatureStats($package)
+    {
+        $type = ' bug_type = "Feature/Change Request" AND ';
+        $sql  = '
+            SELECT
+                (SELECT COUNT(bugdb.id) FROM bugdb WHERE bugdb.package_name = ? AND ' . $type . ' bugdb.registered = 1) as total,
+                COUNT(bugdb.id) as count,
+                AVG(TO_DAYS(NOW()) - TO_DAYS(ts1)) as average,
+                MAX(TO_DAYS(NOW()) - TO_DAYS(ts1)) as oldest
+            FROM bugdb, packages
+            WHERE
+                name = ? AND
+                bugdb.package_name = packages.name AND
+                status IN ("Open","Feedback","Assigned","Analyzed","Verified","Critical") AND
+                ' . $type . '
+                bugdb.registered = 1';
+        $info = $this->_dbh->getRow($sql, array($package, $package), DB_FETCHMODE_ASSOC);
+        return  $info;
     }
 
     function bugRank()
@@ -236,4 +255,3 @@ class PEAR_Bugs
         return $bugs;
     }
 }
-?>

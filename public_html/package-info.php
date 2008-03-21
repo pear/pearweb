@@ -325,10 +325,16 @@ if (empty($action)) {
     echo '<td width="50%" class="textcell">';
     $bugs = new PEAR_Bugs;
     $buginfo = $bugs->packageBugStats($pkg['name']);
+    $frinfo  = $bugs->packageFeaturestats($pkg['name']);
     if (!$buginfo['count']) {
         echo 'No open bugs';
-    } else {
+    }
+
+    if ($buginfo['count'] || $frinfo['counf']) {
         echo '<ul>';
+    }
+
+    if ($buginfo['count']) {
         $bstats = $bugs->bugRank();
         foreach ($bstats as $i => $pi) {
             if ($pi['name'] == $pkg['name']) {
@@ -343,9 +349,19 @@ if (empty($action)) {
             $buginfo['count'] . ' (' . $buginfo['total'] . ' total bugs)</strong></li>';
         echo '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>';
         echo '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>';
+    }
+
+    if ($frinfo['count']) {
+        echo '<li>Number of open <a href="/bugs/search.php?cmd=display&package_name[]=' .
+            $pkg['name'] . '&bug_type=Feature%2FChange+Request">feature requests</a>: <strong>' .
+            $frinfo['count'] . ' (' . $frinfo['total'] . ' feature requests)</strong></li>';
+    }
+
+    if ($buginfo['count'] || $frinfo['counf']) {
         echo '</ul>';
     }
-    echo '<br /><br />' . make_link('/bugs/report.php?package=' . $name, 'Report a new bug to ' . $name);
+
+    echo '<br />' . make_link('/bugs/report.php?package=' . $name, 'Report a new bug to ' . $name);
     echo '</td>';
     echo '</tr>';
     echo '<tr>';
