@@ -179,8 +179,13 @@ echo make_link('http://' . PEAR_CHANNELNAME . '/feeds/user_' . $handle . '.rss')
 echo '</li>' . "\n";
 
 if (!empty($row['latitude']) && !empty($row['longitude'])) {
-    echo '    <li>Map: &nbsp;';
-    echo make_link('http://' . PEAR_CHANNELNAME . '/map/?handle=' . $handle);
+    echo '    <li class="geo">Map: &nbsp;';
+    $geo = '<span class="latitude">'
+        . $row['latitude']
+        . '</span>, <span class="longitude">'
+        . $row['longitude']
+        . '</span>';
+    echo make_link('http://' . PEAR_CHANNELNAME . '/map/?handle=' . $handle, $geo);
     echo '</li>' . "\n";
 }
 
