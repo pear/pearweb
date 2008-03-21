@@ -221,8 +221,5 @@ while (list(, $listinfo) = each($mailing_lists)) {
  ezmlm <a href="http://www.ezmlm.org/ezman-0.32/ezman1.html">here</a>.
 </p>
 
-<p><a href="/support/">&laquo; Back to the Support overview</a></p>
-
 <?php
 response_footer();
-?>

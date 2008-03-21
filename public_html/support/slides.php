@@ -381,8 +381,6 @@ that have been held about PEAR.</p>
  </li>
 </ul>
 
-<p><a href="/support/">&laquo; Back to the Support overview</a></p>
-
 <hr />
 
 <p>Do you know of other presentation slides that should be added here?

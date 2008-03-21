@@ -77,8 +77,5 @@ put on your webpage, telling the world what makes your site tick?</p>
 download them and save them locally in order to keep HTTP traffic
 low.</p>
 
-<p><a href="/support/">&laquo; Back to the Support overview</a></p>
-
 <?php
 response_footer();
-?>

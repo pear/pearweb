@@ -165,8 +165,6 @@ IT[X]: <a href="http://www.ulf-wendel.de/projekte/itx/index.php">http://www.ulf-
  </li>
 </ul>
 
-<p><a href="/support/">&laquo; Back to the Support overview</a></p>
-
 <hr />
 
 <p>Do you know of other tutorials that should be added here?

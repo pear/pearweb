@@ -18,7 +18,7 @@
    $Id$
 */
 
-response_header("Support");
+response_header('Support');
 ?>
 
 <h1>Support</h1>
@@ -53,4 +53,3 @@ mailing lists in <a href="http://php-mag.net/itr/psecom,id,207,nodeid,207.html">
 
 <?php
 response_footer();
-?>
