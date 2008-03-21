@@ -354,7 +354,7 @@ if (empty($action)) {
     if ($frinfo['count']) {
         echo '<li>Number of open <a href="/bugs/search.php?cmd=display&package_name[]=' .
             $pkg['name'] . '&bug_type=Feature%2FChange+Request">feature requests</a>: <strong>' .
-            $frinfo['count'] . ' (' . $frinfo['total'] . ' feature requests)</strong></li>';
+            $frinfo['count'] . ' (' . $frinfo['total'] . ' total feature requests)</strong></li>';
     }
 
     if ($buginfo['count'] || $frinfo['counf']) {
