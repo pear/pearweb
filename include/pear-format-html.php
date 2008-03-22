@@ -852,11 +852,25 @@ function print_package_navigation($pacid, $name, $action)
  */
 function make_ticket_links($text)
 {
+    global $dbh;
     $text = preg_replace('/(?<=php)\s*(bug(?:fix)?|feat(?:ure)?|doc(?:umentation)?|req(?:uest)?)\s+#([0-9]+)/i',
                          ' <a href="http://bugs.php.net/\\2">\\1 \\2</a>',
                          $text);
-    $text = preg_replace('/(?<![>a-z])(bug(?:fix)?|feat(?:ure)?|doc(?:umentation)?|req(?:uest)?)\s+#([0-9]+)/i',
-                         '<a href="/bugs/\\2">\\0</a>', $text);
+    $pear_regex = '/(?<![>a-z])(bug(?:fix)?|feat(?:ure)?|doc(?:umentation)?|req(?:uest)?)\s+#([0-9]+)/i';
+    //$text = preg_replace($pear_regex, '<a href="/bugs/\\2">\\0</a>', $text);
+    preg_match_all($pear_regex, $text, $matches);
+    if (!empty($matches[2])) {
+        $ids = implode(', ', $matches[2]);
+        $sql = 'SELECT package_name, sdesc FROM bugdb WHERE id IN(' . $ids . ')';
+        $res = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
+        foreach ($res as $k => $b) {
+            $t     = $matches[0][$k];
+            $title = $b['package_name'] . ': ' . $b['sdesc'];
+            $link  = make_link('/bugs/' . $matches[2][$k], $t, null, null, $title);
+            $text  = str_replace($t, $link, $text);
+        }
+    }
+
     return $text;
 }
 
