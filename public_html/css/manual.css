@@ -148,17 +148,19 @@ td div.note {
     padding: 2px;
 }
 
-.chapter .note,
-.refsect1 .note,
-.refsect2 .note,
-.refsect3 .note,
-.sect3 .note,
-.sect2 .note,
-.sect1 .note {
+.chapter >.note,
+.refsect1 > .note,
+.refsect2 > .note,
+.refsect3 > .note,
+.sect3 > .note,
+.sect2 > .note,
+.sect1 > .note {
     background-color: #FFFFCC;
     border: 0.5px solid brown;
     color:inherit;
     text-align:left;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 td div.pending_note {
