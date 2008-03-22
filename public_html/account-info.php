@@ -146,7 +146,7 @@ if (isset($auth_user)) {
                                 $row['email']);
     echo '    <li>Email: &nbsp;';
     echo make_link('/account-mail.php?handle=' . $handle,
-               htmlspecialchars($row['email']));
+               htmlspecialchars($row['email']), '', 'class="email"');
     echo "</li>\n";
 } else {
     echo '    <li>Email: &nbsp;';
@@ -156,7 +156,7 @@ if (isset($auth_user)) {
 
 if ($row['homepage']) {
     echo '    <li>Homepage: &nbsp;<span class="url">';
-    echo make_link(htmlspecialchars($row['homepage']));
+    echo make_link(htmlspecialchars($row['homepage']), '', '', 'rel="me"');
     echo "</span></li>\n";
 }
 
