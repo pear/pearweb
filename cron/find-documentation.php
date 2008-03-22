@@ -24,41 +24,48 @@
  *
  * @version $Revision$
  */
-require_once "PEAR.php";
-require_once "VFS.php";
-require_once "VFS/file.php";
-require_once "HTTP/Request.php";
+require_once 'PEAR.php';
+require_once 'VFS.php';
+require_once 'VFS/file.php';
+require_once 'HTTP/Request.php';
 
-require_once "DB.php";
+require_once 'DB.php';
 
 $basepath = "/home/mj/cvs/peardoc/en/package/";
 
-$vfs = new VFS_file(array("vfsroot" => $basepath));
+$vfs = new VFS_file(array('vfsroot' => $basepath));
 
 $options = array(
     'persistent' => false,
     'portability' => DB_PORTABILITY_ALL,
 );
-$dbh =& DB::connect("mysql://pear:pear@localhost/pear", $options);
+$dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 if (DB::isError($dbh)) {
     exit(1);
 }
 
-$update = $dbh->prepare("UPDATE packages SET doc_link = ?
-        WHERE name = ? AND (doc_link IS NULL OR doc_link NOT LIKE 'http://%' OR doc_link LIKE 'http://pear.php.net/%')");
+$host = 'http://' . PEAR_CHANNELNAME;
+
+$sql = "
+    UPDATE packages SET
+        doc_link = ?
+    WHERE name = ? AND
+    (doc_link IS NULL OR doc_link NOT LIKE 'http://%' OR doc_link LIKE '" . $host . "/%')";
+$update = $dbh->prepare($sql);
 
 // {{{ readFolder()
 
-function readFolder($folder) {
-    global $vfs, $basepath, $dbh, $update;
+function readFolder($folder)
+{
+    global $vfs, $basepath, $dbh, $update, $host;
 
     static $level;
     $level++;
 
     $result = $vfs->listFolder($folder);
 
-    if ($folder == ".") {
-        $folder = "";
+    if ($folder == '.') {
+        $folder = '';
     }
 
     foreach ($result as $file) {
@@ -79,20 +86,20 @@ function readFolder($folder) {
                 preg_match("/<title>(.*)<\/title>/", $content, $matches1);
                 preg_match("/<sect1 id\=\"(.*)\">/", $content, $matches2);
 
-                $url = "/manual/en/" . $matches2[1] . ".php";
+                $url = '/manual/en/' . $matches2[1] . '.php';
 
-                $a = &new HTTP_Request("http://pear.php.net" . $url);
+                $a = &new HTTP_Request($host . $url);
                 $a->sendRequest();
 
                 if ($a->getResponseCode() == 404) {
                     $new_url = preg_replace("=\.([^\.]+)\.php$=", ".php", $url);
 
-                    $a->reset("http://pear.php.net/" . $new_url);
+                    $a->reset($host . $new_url);
 
                     if ($a->getResponseCode() != 404) {
                         $url = $new_url;
                     } else {
-                        $url = "";
+                        $url = '';
                     }
                 }
 
@@ -104,5 +111,4 @@ function readFolder($folder) {
 
 // }}}
 
-readFolder(".");
-?>
+readFolder('.');
