@@ -38,6 +38,8 @@ $a->setPhpDep('5.2.3');
 $a->setPearInstallerDep('1.7.1');
 $a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.1');
 $a->addPackageDepWithChannel('required', 'pearweb', 'pear.php.net', '1.18.0');
+$a->addPackageDepWithChannel('required', 'VFS', 'pear.php.net');
+$a->addPackageDepWithChannel('required', 'HTTP_Request', 'pear.php.net');
 $a->addExtensionDep('required', 'pcre');
 $a->addExtensionDep('required', 'mysqli');
 
