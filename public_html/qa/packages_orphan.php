@@ -26,13 +26,11 @@ auth_require('pear.dev');
 response_header('Quality Assurance Initiative - Orphan packages',
     false);
 
-$query = "
-    select p1.name as name1, p2.name as name2
-    from packages p1
-    left join packages p2 on p1.newpk_id=p2.id
-    where p1.unmaintained=1 and p1.package_type = 'pear' and p1.approved = 1
-    order by p1.name
-";
+$query = '
+    SELECT name, newpackagename, newchannel
+    FROM packages
+    WHERE unmaintained = 1 AND package_type = "pear" AND approved = 1
+    ORDER BY name';
 
 $packages = $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
 
@@ -42,25 +40,43 @@ if (count($packages) == 0) {
     exit();
 }
 
-echo "<h3>List of orphan packages</h3>\n";
-
-echo "<ul>\n";
+$superseded_packages = $orphan_packages = '';
 foreach ($packages as $pck => $info) {
-
-    $link = make_link('/package/' . $info['name1'],
-        $info['name1'], '', 'title="' . $info['name1'] . '"');
+    $link = make_link('/package/' . $info['name'],
+        $info['name'], '', 'title="' . $info['name'] . '"');
 
     $link_superseding = '';
 
-    if (!empty($info['name2'])) {
+    if (!empty($info['newpackagename'])) {
         $link_superseding = 'There is a superseding package: ';
-        $link_superseding .= make_link('/package/' . $info['name2'],
-        $info['name2'], '', 'title="' . $info['name2'] . '"');
+        if ($info['newchannel'] != PEAR_CHANNELNAME) {
+            $host = 'http://' . $info['newchannel'];
+        } else {
+            $host = '/package/' . $info['newpackagename'];
+        }
+        $link_superseding .= make_link($host, $info['newpackagename'], '',
+                                       'title="' . $info['newpackagename'] . '"');
     }
 
-    echo '<li>' . $link . ' ' . $link_superseding . "</li>\n";
+    if ($link_superseding !== '') {
+        $superseded_packages .= '<li>' . $link . ' ' . $link_superseding . "</li>\n";
+    } else {
+        $orphan_packages .= '<li>' . $link . ' ' . $link_superseding . "</li>\n";
+    }
 }
+
+echo "<h2>List of orphan packages</h2>\n";
+
+echo '<table>';
+echo '<th>Orphaned Packages</th><th>Superseded Packages</th>';
+echo '<tr><td style="width: 50%; vertical-align: top;">';
+echo "<ul>\n";
+echo $orphan_packages;
 echo "</ul>\n";
+echo '</td><td style="width: 50%; vertical-align: top;">';
+echo "<ul>\n";
+echo $superseded_packages;
+echo "</ul>\n";
+echo '</td></tr></table>';
 
 response_footer();
-?>
