@@ -140,10 +140,25 @@ table.EXAMPLE-CODE pre.screen {
 }
 
 td div.note {
-    background-color: #FFFFCC;
-    border: 0.5px solid brown;
+    border-style: solid;
+    border-width: 1px;
+    background-color: #e0e0e0;
     color: inherit;
     text-align: left;
+    padding: 2px;
+}
+
+.chapter .note,
+.refsect1 .note,
+.refsect2 .note,
+.refsect3 .note,
+.sect3 .note,
+.sect2 .note,
+.sect1 .note {
+    background-color: #FFFFCC;
+    border: 0.5px solid brown;
+    color:inherit;
+    text-align:left;
 }
 
 td div.pending_note {
