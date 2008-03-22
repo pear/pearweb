@@ -235,7 +235,7 @@ function init_auth_user()
     if (!empty($auth_user)) {
         return true;
     }
-    require_once 'pear-database.php';
+    require_once 'pear-database-user.php';
     $data = user::info($_COOKIE['PEAR_USER'], null, true, false);
     $auth_user = new PEAR_Auth();
     $auth_user->data($data);
