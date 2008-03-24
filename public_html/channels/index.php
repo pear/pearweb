@@ -34,12 +34,14 @@ $tabs = array("List" => array("url" => "/channels/index.php",
 
 <p>A number of third-party sites make it possible to install their
 software package using the new <a href="/manual/en/guide.migrating.channels.php">channels</a>
-feature of PEAR &ge; 1.4.0.  Specific installation instructures are 
+feature of PEAR &ge; 1.4.0.  Specific installation instructures are
 provided on the individual pages.</p>
 
 <h2>List of Sites</h2>
 
 <ul>
+  <li><a href="http://pear.11abacus.com/">11abacus</a></li>
+  <li><a href="http://pear.agavi.org/">Agavi</a></li>
   <li><a href="http://pear.crtx.org/">Cerebral Cortex</a></li>
   <li><a href="http://pear.crisscott.com/">Crisscott</a></li>
   <li><a href="http://pear.domain51.com/">Domain51</a></li>
