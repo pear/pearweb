@@ -50,12 +50,17 @@ provided on the individual pages.</p>
   <li><a href="http://pear.horde.org/">Horde</a></li>
   <li><a href="http://pear.midcom-project.org/">Midgard Project</a></li>
   <li><a href="http://pearified.com/">Pearified</a></li>
+  <li><a href="http://phing.info/">Phing</a></li>
   <li><a href="http://pear.php-tools.net/">PHP Application Tools</a></li>
+  <li><a href="http://pear.phpunit.de/">PHPUnit</a></li>
+  <li><a href="http://pear.phpspec.org/">PHPSpec</a></li>
   <li><a href="http://pear.phpkitchen.com/">Seagull</a></li>
+  <li><a href="http://pear-smarty.googlecode.com/">Inofficial Smarty channel</a></li>
   <li><a href="http://pear.si.kz">si.kz</a></li>
   <li><a href="http://pear.symfony-project.com/">Symfony</a></li>
   <li><a href="http://solarphp.com/home/index.php?area=Main&amp;page=DownloadInstall#toc1">Solar</a></li>
   <li><a href="http://pear.funkatron.com/">Edward Finkler</a></li>
+  <li><a href="http://zend.googlecode.com/">Inofficial Zend Framework channel</a></li>
 </ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
