@@ -18,6 +18,8 @@
 
 define ('PEARWEB_TEMPLATEDIR', dirname(dirname(__FILE__)) . '/templates/');
 if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.net') {
+    define('SITE', $_ENV['SITE']);
+    define('SITE_BIG', strtoupper(SITE));
     define('PEAR_CHANNELNAME',           $_ENV['PEAR_CHANNELNAME']);
     define('PEAR_WEBMASTER_EMAIL',       $_ENV['PEAR_WEBMASTER_EMAIL']);
     define('PEAR_QA_EMAIL',              $_ENV['PEAR_QA_EMAIL']);
@@ -41,6 +43,8 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PEAR_WIKI_URL',              $_ENV['PEAR_WIKI_URL']);
     define('PEAR_WIKI_DSN',              $_ENV['PEAR_WIKI_DSN']);
 } else {
+    define('SITE', 'pear');
+    define('SITEBIG', strtoupper(SITE));
      // The channel server name that is used for all info
     define('PEAR_CHANNELNAME', 'pear.php.net');
     // The channel webmaster email
