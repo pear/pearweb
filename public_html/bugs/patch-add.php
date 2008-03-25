@@ -29,6 +29,7 @@ if (isset($_POST['addpatch'])) {
         response_footer();
         exit;
     }
+
     if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_POST['bug']))) {
         response_header('Error :: invalid bug selected');
         report_error('Invalid bug "' . $id . '" selected');
@@ -174,34 +175,14 @@ if (isset($_POST['addpatch'])) {
          * Email the package maintainers/leaders about
          * the new patch added to their bug request.
          */
-        require_once 'Damblan/Mailer.php';
-        require_once 'Damblan/Bugs.php';
-
-        $patchName = htmlspecialchars($_POST['name']);
-
-        $rev       = $e;
-
-        $mailData = array(
-            'id'         => $bug,
-            'url'        => 'http://' . PEAR_CHANNELNAME .
-                        "/bugs/patch-display.php?bug=$bug&patch=$patchName&revision=$rev&display=1",
-            'package'    => $buginfo['package_name'],
-            'summary'    => $dbh->getOne('SELECT sdesc from bugdb WHERE id = ?', array($bug)),
-            'date'       => date('Y-m-d H:i:s'),
-            'name'       => $_POST['name'],
-            'packageUrl' => 'http://' . PEAR_CHANNELNAME .
-                            '/bugs/bug.php?id=' . $bug,
+        require_once 'bugs/pear-bugs-utils.php';
+        $patch = array(
+            'patch'        => $_POST['name'],
+            'bug_id'       => $bug,
+            'revision'     => $e,
+            'package_name' => $buginfo['package_name'],
         );
-
-        $additionalHeaders['To'] = Damblan_Bugs::getMaintainers($buginfo['package_name']);
-
-        $mailer = Damblan_Mailer::create('Patch_Added', $mailData);
-
-        $res = true;
-
-        if (!DEVBOX) {
-            $res = $mailer->send($additionalHeaders);
-        }
+        $res = PEAR_Bugs_Utils::sendPatchEmail($patch);
 
         if (PEAR::isError($res)) {
             // Patch not sent. Let's handle it here but not now..
@@ -209,30 +190,30 @@ if (isset($_POST['addpatch'])) {
     }
     // }}}
     $package = $buginfo['package_name'];
-    $bug = $buginfo['id'];
-    $name = $_POST['name'];
+    $bug     = $buginfo['id'];
+    $name    = $_POST['name'];
     $patches = $patchinfo->listPatches($bug);
-    $errors = array();
+    $errors  = array();
     include PEARWEB_TEMPLATEDIR . '/bugs/patchadded.php';
     exit;
 }
-if (!isset($_GET['bug'])) {
+if (!isset($_GET['bug_id'])) {
     response_header('Error :: no bug selected');
     report_error('No bug selected to add a patch to');
     response_footer();
     exit;
 }
-if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_GET['bug']))) {
+if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_GET['bug_id']))) {
     response_header('Error :: invalid bug selected');
     report_error('Invalid bug "' . $id . '" selected');
     response_footer();
     exit;
 }
-$email = isset($_GET['email']) ? $_GET['email'] : '';
-$errors = array();
+$email   = isset($_GET['email']) ? $_GET['email'] : '';
+$errors  = array();
 $package = $buginfo['package_name'];
-$bug = $buginfo['id'];
-$name = isset($_GET['patch']) ? $_GET['patch'] : '';
+$bug     = $buginfo['id'];
+$name    = isset($_GET['patch']) ? $_GET['patch'] : '';
 $patches = $patchinfo->listPatches($bug);
 $captcha = $numeralCaptcha->getOperation();
 $_SESSION['answer'] = $numeralCaptcha->getAnswer();
