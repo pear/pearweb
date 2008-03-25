@@ -330,7 +330,7 @@ if (empty($action)) {
         echo 'No open bugs';
     }
 
-    if ($buginfo['count'] || $frinfo['counf']) {
+    if ($buginfo['count'] || $frinfo['count']) {
         echo '<ul>';
     }
 
@@ -357,7 +357,7 @@ if (empty($action)) {
             $frinfo['count'] . ' (' . $frinfo['total'] . ' total feature requests)</strong></li>';
     }
 
-    if ($buginfo['count'] || $frinfo['counf']) {
+    if ($buginfo['count'] || $frinfo['count']) {
         echo '</ul>';
     }
 

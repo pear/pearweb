@@ -149,8 +149,8 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
 
 <?php
     if (count($info['releases']) > 0) {
-        echo "<br />\n";
 ?>
+    <br />
     <table cellspacing="0" cellpadding="3" style="border: 0px; width: 90%;">
     <caption style="background-color: #CCCCCC;">Release Statistics</caption>
     <tr>

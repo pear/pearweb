@@ -54,9 +54,7 @@ if (auth_verify($_POST['PEAR_USER'], $password)) {
     // mark user as active if they were inactive
     $dbh->query('UPDATE users SET active = 1 WHERE handle = ?', array($_POST['PEAR_USER']));
 
-    /*
-     * Determine URL
-     */
+    // Determine URL
     if (isset($_POST['PEAR_OLDURL'])
         && basename($_POST['PEAR_OLDURL']) != 'login.php'
         && !preg_match('|://|', $_POST['PEAR_OLDURL']))
