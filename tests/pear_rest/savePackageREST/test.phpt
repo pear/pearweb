@@ -18,7 +18,7 @@ $mock->addDataQuery("SELECT
             p.newchannel as new_channel,
             p.blocktrackbacks
             FROM packages p, categories c
-            WHERE p.package_type = 'pear' AND p.approved = 1 AND  c.id = p.category AND p.name = 'Test'",
+            WHERE p.package_type = 'pear' AND p.approved = 1 AND c.id = p.category AND p.name = 'Test'",
             array(array(
                 'packageid' => 1,
                 'name' => 'Test',

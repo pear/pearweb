@@ -3,7 +3,7 @@ PEAR_REST->savePackageMaintainerREST()
 --FILE--
 <?php
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-$mock->addDataQuery("SELECT id FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND  p.name = 'PEAR'", array(
+$mock->addDataQuery("SELECT id FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND p.name = 'PEAR'", array(
     array('id' => 123),
 ), array('id'));
 $mock->addDataQuery("SELECT * FROM maintains WHERE package = 123", array(

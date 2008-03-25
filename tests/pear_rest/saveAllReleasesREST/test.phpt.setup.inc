@@ -3,245 +3,245 @@
 //var_export($d->getAll("SELECT release, version FROM deps WHERE package = '14' AND type=\"php\" and relation=\"ge\"", array(), DB_FETCHMODE_ASSOC));
 
 $mock->addDataQuery("SELECT release, version FROM deps WHERE package = '14' AND type=\"php\" and relation=\"ge\"",array (
-  0 => 
+  0 =>
   array (
     'release' => '1092',
     'version' => '4.1',
   ),
-  1 => 
+  1 =>
   array (
     'release' => '1142',
     'version' => '4.1',
   ),
-  2 => 
+  2 =>
   array (
     'release' => '1274',
     'version' => '4.2',
   ),
-  3 => 
+  3 =>
   array (
     'release' => '1455',
     'version' => '4.2',
   ),
-  4 => 
+  4 =>
   array (
     'release' => '1764',
     'version' => '4.2',
   ),
-  5 => 
+  5 =>
   array (
     'release' => '1772',
     'version' => '4.2',
   ),
-  6 => 
+  6 =>
   array (
     'release' => '1803',
     'version' => '4.2',
   ),
-  7 => 
+  7 =>
   array (
     'release' => '1916',
     'version' => '4.2',
   ),
-  8 => 
+  8 =>
   array (
     'release' => '2043',
     'version' => '4.2',
   ),
-  9 => 
+  9 =>
   array (
     'release' => '2073',
     'version' => '4.2',
   ),
-  10 => 
+  10 =>
   array (
     'release' => '2075',
     'version' => '4.2',
   ),
-  11 => 
+  11 =>
   array (
     'release' => '2099',
     'version' => '4.2',
   ),
-  12 => 
+  12 =>
   array (
     'release' => '2101',
     'version' => '4.2',
   ),
-  13 => 
+  13 =>
   array (
     'release' => '2151',
     'version' => '4.2',
   ),
-  14 => 
+  14 =>
   array (
     'release' => '2153',
     'version' => '4.2',
   ),
-  15 => 
+  15 =>
   array (
     'release' => '2156',
     'version' => '4.2',
   ),
-  16 => 
+  16 =>
   array (
     'release' => '2165',
     'version' => '4.2',
   ),
-  17 => 
+  17 =>
   array (
     'release' => '2176',
     'version' => '4.2',
   ),
-  18 => 
+  18 =>
   array (
     'release' => '2204',
     'version' => '4.2',
   ),
-  19 => 
+  19 =>
   array (
     'release' => '2234',
     'version' => '4.2',
   ),
-  20 => 
+  20 =>
   array (
     'release' => '2328',
     'version' => '4.2',
   ),
-  21 => 
+  21 =>
   array (
     'release' => '2518',
     'version' => '4.2',
   ),
-  22 => 
+  22 =>
   array (
     'release' => '2539',
     'version' => '4.2',
   ),
-  23 => 
+  23 =>
   array (
     'release' => '2583',
     'version' => '4.2',
   ),
-  24 => 
+  24 =>
   array (
     'release' => '2594',
     'version' => '4.2',
   ),
-  25 => 
+  25 =>
   array (
     'release' => '2596',
     'version' => '4.2',
   ),
-  26 => 
+  26 =>
   array (
     'release' => '2597',
     'version' => '4.2',
   ),
-  27 => 
+  27 =>
   array (
     'release' => '2601',
     'version' => '4.2',
   ),
-  28 => 
+  28 =>
   array (
     'release' => '2622',
     'version' => '4.2',
   ),
-  29 => 
+  29 =>
   array (
     'release' => '2661',
     'version' => '4.2',
   ),
-  30 => 
+  30 =>
   array (
     'release' => '2752',
     'version' => '4.2',
   ),
-  31 => 
+  31 =>
   array (
     'release' => '2777',
     'version' => '4.2',
   ),
-  32 => 
+  32 =>
   array (
     'release' => '2825',
     'version' => '4.2',
   ),
-  33 => 
+  33 =>
   array (
     'release' => '2940',
     'version' => '4.2',
   ),
-  34 => 
+  34 =>
   array (
     'release' => '3070',
     'version' => '4.2',
   ),
-  35 => 
+  35 =>
   array (
     'release' => '3095',
     'version' => '4.2',
   ),
-  36 => 
+  36 =>
   array (
     'release' => '3147',
     'version' => '4.2',
   ),
-  37 => 
+  37 =>
   array (
     'release' => '3408',
     'version' => '4.2',
   ),
-  38 => 
+  38 =>
   array (
     'release' => '3417',
     'version' => '4.2',
   ),
-  39 => 
+  39 =>
   array (
     'release' => '3418',
     'version' => '4.2',
   ),
-  40 => 
+  40 =>
   array (
     'release' => '3467',
     'version' => '4.2',
   ),
-  41 => 
+  41 =>
   array (
     'release' => '3568',
     'version' => '4.3.0',
   ),
-  42 => 
+  42 =>
   array (
     'release' => '3714',
     'version' => '4.3.0',
   ),
-  43 => 
+  43 =>
   array (
     'release' => '3752',
     'version' => '4.3.0',
   ),
-  44 => 
+  44 =>
   array (
     'release' => '3830',
     'version' => '4.3.0',
   ),
-  45 => 
+  45 =>
   array (
     'release' => '3862',
     'version' => '4.3.0',
   ),
-  46 => 
+  46 =>
   array (
     'release' => '3979',
     'version' => '4.3.0',
   ),
 ), array('release', 'version'));
-$mock->addDataQuery("SELECT id FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND  p.name = 'PEAR'", array(array('id' => '14')), array('id'));
+$mock->addDataQuery("SELECT id FROM packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND p.name = 'PEAR'", array(array('id' => '14')), array('id'));
 $mock->addDataQuery("SELECT * FROM releases WHERE package = '14' ORDER BY releasedate DESC", array (
-  0 => 
+  0 =>
   array (
     'id' => '3979',
     'package' => '14',
@@ -271,7 +271,7 @@ approaches this complexity, and so the error messages were incorrect.
 * fix Bug #10130: Console_Getopt 1.2.2 not upgraded, even though it is compatible',
     'packagefile' => NULL,
   ),
-  1 => 
+  1 =>
   array (
     'id' => '3862',
     'package' => '14',
@@ -307,7 +307,7 @@ New features since 1.4.11:
                             __construct()
  * implement Request #8779: add package.xml 2.1 support for zend extensions
  * implement Request #8827: add a yesno type handling for post-install scripts
- 
+
  * Structures_Graph is now a required dependency (1.0.2 or newer) for
    sorting of dependencies upon installation
  * update Archive_Tar recommended version to 1.3.2
@@ -366,7 +366,7 @@ New features since 1.4.11:
  * fix notice when running "pear sign" (noticed by Christian Weiske)',
     'packagefile' => NULL,
   ),
-  2 => 
+  2 =>
   array (
     'id' => '3830',
     'package' => '14',
@@ -388,7 +388,7 @@ New features since 1.4.11:
 * fix Bug #9757: pear does not validate -d input (pear -d php_dir=whatever command)',
     'packagefile' => NULL,
   ),
-  3 => 
+  3 =>
   array (
     'id' => '3752',
     'package' => '14',
@@ -403,7 +403,7 @@ New features since 1.4.11:
 * fix Bug #9551: listing packages in pear.geeklog.net fails',
     'packagefile' => NULL,
   ),
-  4 => 
+  4 =>
   array (
     'id' => '3714',
     'package' => '14',
@@ -432,7 +432,7 @@ New features since 1.4.11:
 * implement Request #8827: add a yesno type handling for post-install scripts',
     'packagefile' => NULL,
   ),
-  5 => 
+  5 =>
   array (
     'id' => '3568',
     'package' => '14',
@@ -491,7 +491,7 @@ New features since 1.4.11:
 * implement Request #8779: add package.xml 2.1 support for zend extensions',
     'packagefile' => NULL,
   ),
-  6 => 
+  6 =>
   array (
     'id' => '3467',
     'package' => '14',
@@ -507,7 +507,7 @@ New features since 1.4.11:
 * fix warnings in the list-all command',
     'packagefile' => NULL,
   ),
-  7 => 
+  7 =>
   array (
     'id' => '3418',
     'package' => '14',
@@ -523,7 +523,7 @@ New features since 1.4.11:
 * fix Bug #7640: Check invalid date format
 * fix Bug #7726: <uri> dependency is broken
 * fix Bug #7830: Warning in package-dependencies command when a dir is used
-* fix Bug #7842: package-dependencies wrong type display with package 1.0 
+* fix Bug #7842: package-dependencies wrong type display with package 1.0
 * fix Bug #8230: pear help channel-discover shows wrong text
 * fix many open_basedir issues
 * fix an issue in the better state detection
@@ -534,7 +534,7 @@ New features since 1.4.11:
 * check pearinstaller dependency prior to validating package.xml 2.0',
     'packagefile' => NULL,
   ),
-  8 => 
+  8 =>
   array (
     'id' => '3408',
     'package' => '14',
@@ -550,7 +550,7 @@ New features since 1.4.11:
 * fix Bug #7640: Check invalid date format
 * fix Bug #7726: <uri> dependency is broken
 * fix Bug #7830: Warning in package-dependencies command when a dir is used
-* fix Bug #7842: package-dependencies wrong type display with package 1.0 
+* fix Bug #7842: package-dependencies wrong type display with package 1.0
 * fix many open_basedir issues
 * fix an issue in the better state detection
 * fix typo in pickle command that would allow pickling of non-PECL package.xml
@@ -558,11 +558,11 @@ New features since 1.4.11:
   when installing local package file
 * implement Request #7844: download_dir and temp_dir configuration option
 * check pearinstaller dependency prior to validating package.xml 2.0
-  
+
 ',
     'packagefile' => NULL,
   ),
-  9 => 
+  9 =>
   array (
     'id' => '3147',
     'package' => '14',
@@ -581,7 +581,7 @@ users who use --packagingroot may find that installation fails
 * fix Bug #7075: PEAR_PackageFile_v2 :: setLogger failed on autodetection',
     'packagefile' => NULL,
   ),
-  10 => 
+  10 =>
   array (
     'id' => '3095',
     'package' => '14',
@@ -604,7 +604,7 @@ caused crashes in many places due to improper error handling
 * fix Bug #7020: tests/PEAR_Registry/api1_1/test_getChannelValidator.phpt crashes PEAR',
     'packagefile' => NULL,
   ),
-  11 => 
+  11 =>
   array (
     'id' => '3070',
     'package' => '14',
@@ -644,7 +644,7 @@ caused crashes in many places due to improper error handling
                  not in root dir',
     'packagefile' => NULL,
   ),
-  12 => 
+  12 =>
   array (
     'id' => '2940',
     'package' => '14',
@@ -672,7 +672,7 @@ caused crashes in many places due to improper error handling
 * fix Request #6119: Add PEAR_Frontend_Gtk2 support to PEAR',
     'packagefile' => NULL,
   ),
-  13 => 
+  13 =>
   array (
     'id' => '2825',
     'package' => '14',
@@ -692,7 +692,7 @@ caused crashes in many places due to improper error handling
 * fix Bug #5959: patch: pear makerpm produces RPMs that do not uninstall/upgrade cleanly',
     'packagefile' => NULL,
   ),
-  14 => 
+  14 =>
   array (
     'id' => '2777',
     'package' => '14',
@@ -706,7 +706,7 @@ caused crashes in many places due to improper error handling
     'releasenotes' => '* fix Bug #5865: doesn\'t work with PHP4.2.x',
     'packagefile' => NULL,
   ),
-  15 => 
+  15 =>
   array (
     'id' => '2752',
     'package' => '14',
@@ -719,7 +719,7 @@ caused crashes in many places due to improper error handling
     'releasedate' => '2005-11-03 18:21:11',
     'releasenotes' => 'MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run "pear channel-update" after upgrading for exponentially
 faster list-all/remote-list!!
@@ -749,7 +749,7 @@ faster list-all/remote-list!!
 * fix Bug #5810: internet should not be contacted on install if dependencies are installed',
     'packagefile' => NULL,
   ),
-  16 => 
+  16 =>
   array (
     'id' => '2661',
     'package' => '14',
@@ -775,7 +775,7 @@ faster list-all/remote-list!!
 * fix Bug #5629: pear install http_download dies with bad error message',
     'packagefile' => NULL,
   ),
-  17 => 
+  17 =>
   array (
     'id' => '2622',
     'package' => '14',
@@ -823,7 +823,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
 * fix Bug #5513: PEAR 1.4 does not install non-pear.php.net packages',
     'packagefile' => NULL,
   ),
-  18 => 
+  18 =>
   array (
     'id' => '2601',
     'package' => '14',
@@ -856,7 +856,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   to the latest version, or PEAR will not upgrade properly',
     'packagefile' => NULL,
   ),
-  19 => 
+  19 =>
   array (
     'id' => '2597',
     'package' => '14',
@@ -892,7 +892,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     installed package deps',
     'packagefile' => NULL,
   ),
-  20 => 
+  20 =>
   array (
     'id' => '2594',
     'package' => '14',
@@ -929,7 +929,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * fix Bug #5394: postinstallscript sub-tags need namespace prefix',
     'packagefile' => NULL,
   ),
-  21 => 
+  21 =>
   array (
     'id' => '2583',
     'package' => '14',
@@ -968,7 +968,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * fix Bug #5322: Clean up docs and handling of exceptions',
     'packagefile' => NULL,
   ),
-  22 => 
+  22 =>
   array (
     'id' => '2539',
     'package' => '14',
@@ -1016,7 +1016,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * fix Bug #5135: pear info PEAR has notice with a13 installed',
     'packagefile' => NULL,
   ),
-  23 => 
+  23 =>
   array (
     'id' => '2518',
     'package' => '14',
@@ -1029,11 +1029,11 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     'releasedate' => '2005-08-18 13:30:21',
     'releasenotes' => '* Bump XML_RPC dependency to 1.4.0
 * return by reference from PEAR::raiseError()
-  
+
 ',
     'packagefile' => NULL,
   ),
-  24 => 
+  24 =>
   array (
     'id' => '2328',
     'package' => '14',
@@ -1065,12 +1065,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -1080,7 +1080,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: "pear package" only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -1175,7 +1175,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     installing a package from that channel',
     'packagefile' => NULL,
   ),
-  25 => 
+  25 =>
   array (
     'id' => '2234',
     'package' => '14',
@@ -1207,12 +1207,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -1222,7 +1222,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: "pear package" only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -1294,7 +1294,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * remove <max> tag requirement for php dependency',
     'packagefile' => NULL,
   ),
-  26 => 
+  26 =>
   array (
     'id' => '2204',
     'package' => '14',
@@ -1326,12 +1326,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -1341,7 +1341,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: "pear package" only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -1402,7 +1402,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * fix Bug #4072: pear list-all -c channel does not list installed packages',
     'packagefile' => NULL,
   ),
-  27 => 
+  27 =>
   array (
     'id' => '2176',
     'package' => '14',
@@ -1434,12 +1434,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -1449,7 +1449,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: "pear package" only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -1496,7 +1496,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     PEAR_PackageFile_v2_rw',
     'packagefile' => NULL,
   ),
-  28 => 
+  28 =>
   array (
     'id' => '2165',
     'package' => '14',
@@ -1528,12 +1528,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -1543,7 +1543,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: "pear package" only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -1580,7 +1580,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * make package-validate command work on packaged .tgz files',
     'packagefile' => NULL,
   ),
-  29 => 
+  29 =>
   array (
     'id' => '2156',
     'package' => '14',
@@ -1612,12 +1612,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -1627,7 +1627,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: "pear package" only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -1652,7 +1652,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * fix Bug #3863 illogical warning about PEAR_Frontend_Gtk 0.4.0 with PEAR 1.4.0a6',
     'packagefile' => NULL,
   ),
-  30 => 
+  30 =>
   array (
     'id' => '2153',
     'package' => '14',
@@ -1684,12 +1684,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -1699,7 +1699,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: "pear package" only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -1718,7 +1718,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * fix Bug #3860 PEAR_Dependency2 not included in 1 case',
     'packagefile' => NULL,
   ),
-  31 => 
+  31 =>
   array (
     'id' => '2151',
     'package' => '14',
@@ -1750,12 +1750,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -1765,7 +1765,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: "pear package" only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -1782,7 +1782,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * implement Request #3717 [Patch] Implement Simple run-tests output',
     'packagefile' => NULL,
   ),
-  32 => 
+  32 =>
   array (
     'id' => '2101',
     'package' => '14',
@@ -1814,12 +1814,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -1829,12 +1829,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: "pear package" only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1',
     'packagefile' => NULL,
   ),
-  33 => 
+  33 =>
   array (
     'id' => '2099',
     'package' => '14',
@@ -1866,12 +1866,12 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -1883,7 +1883,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Fix Bug #3677: Post-Install script message needs to display channel name',
     'packagefile' => NULL,
   ),
-  34 => 
+  34 =>
   array (
     'id' => '2075',
     'package' => '14',
@@ -1915,14 +1915,14 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC',
     'packagefile' => NULL,
   ),
-  35 => 
+  35 =>
   array (
     'id' => '2073',
     'package' => '14',
@@ -1956,7 +1956,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
   * Everything above here that you just read',
     'packagefile' => NULL,
   ),
-  36 => 
+  36 =>
   array (
     'id' => '2043',
     'package' => '14',
@@ -1972,7 +1972,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
 * fix Bug #3506: pear install should export the pear version into the environment',
     'packagefile' => NULL,
   ),
-  37 => 
+  37 =>
   array (
     'id' => '1916',
     'package' => '14',
@@ -1995,7 +1995,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
 * make pear help listing more useful (put how-to-use info at the bottom of the listing)',
     'packagefile' => NULL,
   ),
-  38 => 
+  38 =>
   array (
     'id' => '1803',
     'package' => '14',
@@ -2009,7 +2009,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     'releasenotes' => 'add RunTest.php to package.xml, make run-tests display failed tests, and use ui',
     'packagefile' => NULL,
   ),
-  39 => 
+  39 =>
   array (
     'id' => '1772',
     'package' => '14',
@@ -2036,7 +2036,7 @@ Other:
  * fix warning in PEAR_Registry for windows 98 users',
     'packagefile' => NULL,
   ),
-  40 => 
+  40 =>
   array (
     'id' => '1274',
     'package' => '14',
@@ -2050,9 +2050,9 @@ Other:
     'releasenotes' => 'PEAR Installer:
 
  * Bug #534  pear search doesn\'t list unstable releases
- * Bug #933  CMD Usability Patch 
- * Bug #937  throwError() treats every call as static 
- * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error 
+ * Bug #933  CMD Usability Patch
+ * Bug #937  throwError() treats every call as static
+ * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error
  * Bug #1008 safe mode raises warning
 
 PEAR_ErrorStack:
@@ -2062,7 +2062,7 @@ PEAR_ErrorStack:
    stable.  require_once \'PEAR/ErrorStack.php\' to use.',
     'packagefile' => NULL,
   ),
-  41 => 
+  41 =>
   array (
     'id' => '1142',
     'package' => '14',
@@ -2086,7 +2086,7 @@ PEAR_ErrorStack:
 * Fully unit tested the installer, packager, downloader, and PEAR_Common',
     'packagefile' => NULL,
   ),
-  42 => 
+  42 =>
   array (
     'id' => '1092',
     'package' => '14',
@@ -2110,7 +2110,7 @@ PEAR_ErrorStack:
 * Fully unit tested the installer, packager, downloader, and PEAR_Common',
     'packagefile' => NULL,
   ),
-  43 => 
+  43 =>
   array (
     'id' => '1024',
     'package' => '14',
@@ -2132,7 +2132,7 @@ PEAR_ErrorStack:
 * Fully unit tested the installer, packager, downloader, and PEAR_Common',
     'packagefile' => NULL,
   ),
-  44 => 
+  44 =>
   array (
     'id' => '919',
     'package' => '14',
@@ -2151,7 +2151,7 @@ PEAR_ErrorStack:
 * Various other bugfixes and cleanups',
     'packagefile' => NULL,
   ),
-  45 => 
+  45 =>
   array (
     'id' => '887',
     'package' => '14',
@@ -2170,7 +2170,7 @@ PEAR_ErrorStack:
   package.xml, making them a requirement',
     'packagefile' => NULL,
   ),
-  46 => 
+  46 =>
   array (
     'id' => '875',
     'package' => '14',
@@ -2218,7 +2218,7 @@ System Class:
 * Added the System::find() command (read API doc for more info)',
     'packagefile' => NULL,
   ),
-  47 => 
+  47 =>
   array (
     'id' => '774',
     'package' => '14',
@@ -2232,7 +2232,7 @@ System Class:
     'releasenotes' => '- Set back the default library path (BC issues)',
     'packagefile' => NULL,
   ),
-  48 => 
+  48 =>
   array (
     'id' => '771',
     'package' => '14',
@@ -2261,7 +2261,7 @@ The main purpouse of this command is for easily adding extensions to the PHP sou
 before compiling it.',
     'packagefile' => NULL,
   ),
-  49 => 
+  49 =>
   array (
     'id' => '753',
     'package' => '14',
@@ -2288,7 +2288,7 @@ The main purpouse of this command is for easily adding extensions to the PHP sou
 before compiling it.',
     'packagefile' => NULL,
   ),
-  50 => 
+  50 =>
   array (
     'id' => '752',
     'package' => '14',
@@ -2315,7 +2315,7 @@ The main purpouse of this command is for easily adding extensions to the PHP sou
 before compiling it.',
     'packagefile' => NULL,
   ),
-  51 => 
+  51 =>
   array (
     'id' => '750',
     'package' => '14',
@@ -2341,7 +2341,7 @@ The main purpouse of this command is for easily adding extensions to the PHP sou
 before compiling it.',
     'packagefile' => NULL,
   ),
-  52 => 
+  52 =>
   array (
     'id' => '675',
     'package' => '14',
@@ -2362,7 +2362,7 @@ The main purpouse of this command is for easily adding extensions to the PHP sou
 before compiling it.',
     'packagefile' => NULL,
   ),
-  53 => 
+  53 =>
   array (
     'id' => '674',
     'package' => '14',
@@ -2382,7 +2382,7 @@ The main purpouse of this command is for easily adding extensions to the PHP sou
 before compiling it.',
     'packagefile' => NULL,
   ),
-  54 => 
+  54 =>
   array (
     'id' => '587',
     'package' => '14',
@@ -2415,7 +2415,7 @@ PEAR INSTALLER:
   functions are now registered during "pear package".',
     'packagefile' => NULL,
   ),
-  55 => 
+  55 =>
   array (
     'id' => '372',
     'package' => '14',
@@ -2441,7 +2441,7 @@ PEAR INSTALLER:
 * Windows output buffering bugfix for "pear" command',
     'packagefile' => NULL,
   ),
-  56 => 
+  56 =>
   array (
     'id' => '353',
     'package' => '14',
@@ -2456,7 +2456,7 @@ PEAR INSTALLER:
 * added "clear-cache" command',
     'packagefile' => NULL,
   ),
-  57 => 
+  57 =>
   array (
     'id' => '345',
     'package' => '14',
@@ -2474,7 +2474,7 @@ PEAR INSTALLER:
   to override the default php_dir on Windows!)',
     'packagefile' => NULL,
   ),
-  58 => 
+  58 =>
   array (
     'id' => '306',
     'package' => '14',
@@ -2493,7 +2493,7 @@ PEAR INSTALLER:
   around',
     'packagefile' => NULL,
   ),
-  59 => 
+  59 =>
   array (
     'id' => '259',
     'package' => '14',
@@ -2546,7 +2546,7 @@ Bugfixes, PEAR Library:
 * use getenv() as fallback for $_ENV',
     'packagefile' => NULL,
   ),
-  60 => 
+  60 =>
   array (
     'id' => '117',
     'package' => '14',
@@ -2572,7 +2572,7 @@ Bugfixes, PEAR Library:
 * new and more generic Frontend API',
     'packagefile' => NULL,
   ),
-  61 => 
+  61 =>
   array (
     'id' => '99',
     'package' => '14',
@@ -2592,7 +2592,7 @@ Bugfixes, PEAR Library:
 * disable magic_quotes_runtime',
     'packagefile' => NULL,
   ),
-  62 => 
+  62 =>
   array (
     'id' => '93',
     'package' => '14',
@@ -2629,7 +2629,7 @@ though it claimed to be.  This version finally is self-hosting
 * lots of minor fixes',
     'packagefile' => NULL,
   ),
-  63 => 
+  63 =>
   array (
     'id' => '38',
     'package' => '14',
@@ -2664,7 +2664,7 @@ though it claimed to be.  This version finally is self-hosting
     'releasedate', 'releasenotes', 'packagefile'));
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3979'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.5.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -3193,7 +3193,7 @@ New features since 1.4.11:
                             __construct()
  * implement Request #8779: add package.xml 2.1 support for zend extensions
  * implement Request #8827: add a yesno type handling for post-install scripts
- 
+
  * Structures_Graph is now a required dependency (1.0.2 or newer) for
    sorting of dependencies upon installation
  * update Archive_Tar recommended version to 1.3.2
@@ -3259,7 +3259,7 @@ New features since 1.4.11:
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3862'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -3369,7 +3369,7 @@ New features since 1.4.11:
                             __construct()
  * implement Request #8779: add package.xml 2.1 support for zend extensions
  * implement Request #8827: add a yesno type handling for post-install scripts
- 
+
  * Structures_Graph is now a required dependency (1.0.2 or newer) for
    sorting of dependencies upon installation
  * update Archive_Tar recommended version to 1.3.2
@@ -3828,7 +3828,7 @@ New features since 1.4.11:
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3830'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -4309,7 +4309,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -4457,7 +4457,7 @@ users who use --packagingroot may find that installation fails
 * fix Bug #7640: Check invalid date format
 * fix Bug #7726: &lt;uri&gt; dependency is broken
 * fix Bug #7830: Warning in package-dependencies command when a dir is used
-* fix Bug #7842: package-dependencies wrong type display with package 1.0 
+* fix Bug #7842: package-dependencies wrong type display with package 1.0
 * fix Bug #8230: pear help channel-discover shows wrong text
 * fix many open_basedir issues
 * fix an issue in the better state detection
@@ -4571,7 +4571,7 @@ users who use --packagingroot may find that installation fails
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3752'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -5044,7 +5044,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -5192,7 +5192,7 @@ users who use --packagingroot may find that installation fails
 * fix Bug #7640: Check invalid date format
 * fix Bug #7726: &lt;uri&gt; dependency is broken
 * fix Bug #7830: Warning in package-dependencies command when a dir is used
-* fix Bug #7842: package-dependencies wrong type display with package 1.0 
+* fix Bug #7842: package-dependencies wrong type display with package 1.0
 * fix Bug #8230: pear help channel-discover shows wrong text
 * fix many open_basedir issues
 * fix an issue in the better state detection
@@ -5297,7 +5297,7 @@ users who use --packagingroot may find that installation fails
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3714'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -5784,7 +5784,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -5932,7 +5932,7 @@ users who use --packagingroot may find that installation fails
 * fix Bug #7640: Check invalid date format
 * fix Bug #7726: &lt;uri&gt; dependency is broken
 * fix Bug #7830: Warning in package-dependencies command when a dir is used
-* fix Bug #7842: package-dependencies wrong type display with package 1.0 
+* fix Bug #7842: package-dependencies wrong type display with package 1.0
 * fix Bug #8230: pear help channel-discover shows wrong text
 * fix many open_basedir issues
 * fix an issue in the better state detection
@@ -6014,7 +6014,7 @@ users who use --packagingroot may find that installation fails
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3568'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -6531,7 +6531,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -6679,7 +6679,7 @@ users who use --packagingroot may find that installation fails
 * fix Bug #7640: Check invalid date format
 * fix Bug #7726: &lt;uri&gt; dependency is broken
 * fix Bug #7830: Warning in package-dependencies command when a dir is used
-* fix Bug #7842: package-dependencies wrong type display with package 1.0 
+* fix Bug #7842: package-dependencies wrong type display with package 1.0
 * fix Bug #8230: pear help channel-discover shows wrong text
 * fix many open_basedir issues
 * fix an issue in the better state detection
@@ -6708,7 +6708,7 @@ users who use --packagingroot may find that installation fails
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3568'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -7225,7 +7225,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -7373,7 +7373,7 @@ users who use --packagingroot may find that installation fails
 * fix Bug #7640: Check invalid date format
 * fix Bug #7726: &lt;uri&gt; dependency is broken
 * fix Bug #7830: Warning in package-dependencies command when a dir is used
-* fix Bug #7842: package-dependencies wrong type display with package 1.0 
+* fix Bug #7842: package-dependencies wrong type display with package 1.0
 * fix Bug #8230: pear help channel-discover shows wrong text
 * fix many open_basedir issues
 * fix an issue in the better state detection
@@ -7402,7 +7402,7 @@ users who use --packagingroot may find that installation fails
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3467'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -7875,7 +7875,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -8023,7 +8023,7 @@ users who use --packagingroot may find that installation fails
 * fix Bug #7640: Check invalid date format
 * fix Bug #7726: &lt;uri&gt; dependency is broken
 * fix Bug #7830: Warning in package-dependencies command when a dir is used
-* fix Bug #7842: package-dependencies wrong type display with package 1.0 
+* fix Bug #7842: package-dependencies wrong type display with package 1.0
 * fix Bug #8230: pear help channel-discover shows wrong text
 * fix many open_basedir issues
 * fix an issue in the better state detection
@@ -8042,7 +8042,7 @@ users who use --packagingroot may find that installation fails
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3418'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -8132,7 +8132,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 * fix Bug #7640: Check invalid date format
 * fix Bug #7726: &lt;uri&gt; dependency is broken
 * fix Bug #7830: Warning in package-dependencies command when a dir is used
-* fix Bug #7842: package-dependencies wrong type display with package 1.0 
+* fix Bug #7842: package-dependencies wrong type display with package 1.0
 * fix Bug #8230: pear help channel-discover shows wrong text
 * fix many open_basedir issues
 * fix an issue in the better state detection
@@ -8526,7 +8526,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -8672,7 +8672,7 @@ users who use --packagingroot may find that installation fails
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3408'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -8762,7 +8762,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 * fix Bug #7640: Check invalid date format
 * fix Bug #7726: &lt;uri&gt; dependency is broken
 * fix Bug #7830: Warning in package-dependencies command when a dir is used
-* fix Bug #7842: package-dependencies wrong type display with package 1.0 
+* fix Bug #7842: package-dependencies wrong type display with package 1.0
 * fix many open_basedir issues
 * fix an issue in the better state detection
 * fix typo in pickle command that would allow pickling of non-PECL package.xml
@@ -10052,7 +10052,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -10198,7 +10198,7 @@ users who use --packagingroot may find that installation fails
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3147'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -10673,7 +10673,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -10806,7 +10806,7 @@ caused crashes in many places due to improper error handling
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3095'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -11285,7 +11285,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -11401,7 +11401,7 @@ faster list-all/remote-list!!
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '3070'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -11897,7 +11897,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -11979,7 +11979,7 @@ faster list-all/remote-list!!
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2940'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -12451,7 +12451,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
     <state>stable</state>
     <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -12511,7 +12511,7 @@ faster list-all/remote-list!!
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2825'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.5" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -13084,7 +13084,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
    <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
    <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -13134,7 +13134,7 @@ faster list-all/remote-list!!
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2777'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.3" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -13701,7 +13701,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
    <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
    <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -13738,7 +13738,7 @@ faster list-all/remote-list!!
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2777'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.3" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -14305,7 +14305,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
    <license uri="http://www.php.net/license/3_0.txt">PHP License</license>
    <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -14342,7 +14342,7 @@ faster list-all/remote-list!!
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2752'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.3" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -14420,7 +14420,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>MINOR SECURITY FIX release
 A security vulnerability has been discovered in all
-PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed, 
+PEAR versions (1.0 to 1.4.2).  This vulnerability has been fixed,
 and this is a recommended upgrade for all users.
 Run &quot;pear channel-update&quot; after upgrading for exponentially
 faster list-all/remote-list!!
@@ -14933,7 +14933,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2661'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -15471,7 +15471,7 @@ THIS IS CAUSED BY A BUG IN 1.4.0 THAT IS FIXED IN 1.4.1
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2622'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -15984,7 +15984,7 @@ to the latest version, or PEAR will not upgrade properly</notes>
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2601'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -16791,7 +16791,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2597'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -17592,7 +17592,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2583'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0b2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -18364,7 +18364,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2594'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="UTF-8"?>
 <package packagerversion="1.4.0RC1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -19148,7 +19148,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2539'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0b1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -19900,7 +19900,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2518'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0b1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -20652,7 +20652,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2328'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a12" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -20732,12 +20732,12 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -20747,7 +20747,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: &quot;pear package&quot; only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -21461,7 +21461,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2234'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a11" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -21541,12 +21541,12 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -21556,7 +21556,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: &quot;pear package&quot; only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -22222,7 +22222,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2204'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a10" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -22302,12 +22302,12 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -22317,7 +22317,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: &quot;pear package&quot; only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -22947,7 +22947,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2176'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a9" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -23027,12 +23027,12 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -23042,7 +23042,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: &quot;pear package&quot; only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -23607,7 +23607,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2165'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a8" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -23687,12 +23687,12 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -23702,7 +23702,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: &quot;pear package&quot; only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -24220,7 +24220,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2156'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a7" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -24300,12 +24300,12 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -24315,7 +24315,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: &quot;pear package&quot; only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -24696,7 +24696,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2153'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a5" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -24776,12 +24776,12 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -24791,7 +24791,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: &quot;pear package&quot; only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -25152,7 +25152,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2151'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a5" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -25232,12 +25232,12 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -25247,7 +25247,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: &quot;pear package&quot; only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1
 
@@ -25584,7 +25584,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2101'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a3" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -25664,12 +25664,12 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -25679,7 +25679,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   * Fix Bug #3634: still too many pear-specific restrictions on package valid
   * Implement Request #3647: &quot;pear package&quot; only includes one package.xml
   * Fix Bug #3677: Post-Install script message needs to display channel name
-  
+
   Specific changes from 1.4.0a3:
   * upgrade suggested XML_RPC version to 1.2.1</notes>
  <contents>
@@ -25989,7 +25989,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2099'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a3" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -26069,12 +26069,12 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
   * Use 1.2.0 as recommended version of XML_RPC
-  
+
   Specific changes from 1.4.0a2:
  BC BREAK FOR PECL DEVS ONLY:
  In order to circumvent strict package-validation, use
@@ -26370,7 +26370,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2075'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -26450,7 +26450,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
   Specific changes from 1.3.5:
   * Implement request #1789: SSL support for xml-rpc and download
   * Everything above here that you just read
-  
+
   Specific changes from 1.4.0a1:
   * Fix Bug #3610: fix for PDO package in 1.3.5 was never merged to 1.4.0a1
   * Fix Bug #3612: fatal error in PEAR_Downloader_Package
@@ -26724,7 +26724,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2073'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0"?>
 <package packagerversion="1.4.0a1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
@@ -27049,12 +27049,12 @@ Other:
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '2043'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
 <package version="1.0" packagerversion="1.4.0a1">
- <name>PEAR</name>       
+ <name>PEAR</name>
  <summary>PEAR Base System</summary>
  <description>The PEAR package contains:
  * the PEAR installer, for creating, distributing
@@ -27276,9 +27276,9 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
     <notes>PEAR Installer:
 
  * Bug #534  pear search doesn\'t list unstable releases
- * Bug #933  CMD Usability Patch 
- * Bug #937  throwError() treats every call as static 
- * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error 
+ * Bug #933  CMD Usability Patch
+ * Bug #937  throwError() treats every call as static
+ * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error
  * Bug #1008 safe mode raises warning
 
 PEAR_ErrorStack:
@@ -27339,7 +27339,7 @@ Other:
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '1916'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -27472,9 +27472,9 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
       <notes>PEAR Installer:
 
  * Bug #534  pear search doesn\'t list unstable releases
- * Bug #933  CMD Usability Patch 
- * Bug #937  throwError() treats every call as static 
- * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error 
+ * Bug #933  CMD Usability Patch
+ * Bug #937  throwError() treats every call as static
+ * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error
  * Bug #1008 safe mode raises warning
 
 PEAR_ErrorStack:
@@ -27483,7 +27483,7 @@ PEAR_ErrorStack:
    PEAR_Error.  It should be considered experimental until explicitly marked
    stable.  require_once \'PEAR/ErrorStack.php\' to use.
 
-    
+
 </notes>
     </release>
     <release>
@@ -27504,7 +27504,7 @@ Other:
  * fix critical problem in package.xml for linux in 1.3.2
  * fix staticPopCallback() in PEAR_ErrorStack
  * fix warning in PEAR_Registry for windows 98 users
-    
+
 </notes>
     </release>
     <release>
@@ -27522,7 +27522,7 @@ Other:
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '1803'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -27646,9 +27646,9 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
       <notes>PEAR Installer:
 
  * Bug #534  pear search doesn\'t list unstable releases
- * Bug #933  CMD Usability Patch 
- * Bug #937  throwError() treats every call as static 
- * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error 
+ * Bug #933  CMD Usability Patch
+ * Bug #937  throwError() treats every call as static
+ * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error
  * Bug #1008 safe mode raises warning
 
 PEAR_ErrorStack:
@@ -27657,7 +27657,7 @@ PEAR_ErrorStack:
    PEAR_Error.  It should be considered experimental until explicitly marked
    stable.  require_once \'PEAR/ErrorStack.php\' to use.
 
-    
+
 </notes>
     </release>
     <release>
@@ -27678,7 +27678,7 @@ Other:
  * fix critical problem in package.xml for linux in 1.3.2
  * fix staticPopCallback() in PEAR_ErrorStack
  * fix warning in PEAR_Registry for windows 98 users
-    
+
 </notes>
     </release>
   </changelog>
@@ -27689,7 +27689,7 @@ Other:
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '1772'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -27825,9 +27825,9 @@ Other:
       <notes>PEAR Installer:
 
  * Bug #534  pear search doesn\'t list unstable releases
- * Bug #933  CMD Usability Patch 
- * Bug #937  throwError() treats every call as static 
- * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error 
+ * Bug #933  CMD Usability Patch
+ * Bug #937  throwError() treats every call as static
+ * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error
  * Bug #1008 safe mode raises warning
 
 PEAR_ErrorStack:
@@ -27836,7 +27836,7 @@ PEAR_ErrorStack:
    PEAR_Error.  It should be considered experimental until explicitly marked
    stable.  require_once \'PEAR/ErrorStack.php\' to use.
 
-    
+
 </notes>
     </release>
     <release>
@@ -27855,7 +27855,7 @@ PEAR_ErrorStack:
 * Moved download code into its own class
 * Fully unit tested the installer, packager, downloader, and PEAR_Common
 
-    
+
 </notes>
     </release>
   </changelog>
@@ -27866,7 +27866,7 @@ PEAR_ErrorStack:
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '1274'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -27923,9 +27923,9 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
     <notes>PEAR Installer:
 
  * Bug #534  pear search doesn\'t list unstable releases
- * Bug #933  CMD Usability Patch 
- * Bug #937  throwError() treats every call as static 
- * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error 
+ * Bug #933  CMD Usability Patch
+ * Bug #937  throwError() treats every call as static
+ * Bug #964 PEAR_ERROR_EXCEPTION causes fatal error
  * Bug #1008 safe mode raises warning
 
 PEAR_ErrorStack:
@@ -28008,7 +28008,7 @@ PEAR_ErrorStack:
 * Moved download code into its own class
 * Fully unit tested the installer, packager, downloader, and PEAR_Common
 
-    
+
 </notes>
     </release>
   </changelog>
@@ -28019,7 +28019,7 @@ PEAR_ErrorStack:
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '1142'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -28147,7 +28147,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '1092'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -28275,7 +28275,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '1024'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -28401,7 +28401,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '1024'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -28527,7 +28527,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '919'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -28648,7 +28648,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '887'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -28769,7 +28769,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '875'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -28915,7 +28915,7 @@ System Class:
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '774'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -29246,7 +29246,7 @@ $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
 * Added new pear &quot;bundle&quot; command, which downloads and uncompress a PECL package.
 The main purpouse of this command is for easily adding extensions to the PHP sources
 before compiling it.
-      
+
 </notes>
     </release>
     <release>
@@ -29273,7 +29273,7 @@ PEAR INSTALLER:
 
   All classes and non-private (not underscore-prefixed) methods and
   functions are now registered during &quot;pear package&quot;.
-        
+
 </notes>
     </release>
     <release>
@@ -29460,7 +29460,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '771'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -29810,7 +29810,7 @@ PEAR INSTALLER:
 
   All classes and non-private (not underscore-prefixed) methods and
   functions are now registered during &quot;pear package&quot;.
-        
+
 </notes>
     </release>
     <release>
@@ -29997,7 +29997,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '753'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -30345,7 +30345,7 @@ PEAR INSTALLER:
 
   All classes and non-private (not underscore-prefixed) methods and
   functions are now registered during &quot;pear package&quot;.
-        
+
 </notes>
     </release>
     <release>
@@ -30532,7 +30532,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '752'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -30880,7 +30880,7 @@ PEAR INSTALLER:
 
   All classes and non-private (not underscore-prefixed) methods and
   functions are now registered during &quot;pear package&quot;.
-        
+
 </notes>
     </release>
     <release>
@@ -31067,7 +31067,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '750'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <!DOCTYPE package SYSTEM "http://pear.php.net/dtd/package-1.0">
@@ -31414,7 +31414,7 @@ PEAR INSTALLER:
 
   All classes and non-private (not underscore-prefixed) methods and
   functions are now registered during &quot;pear package&quot;.
-        
+
 </notes>
     </release>
     <release>
@@ -31601,7 +31601,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '675'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -31940,7 +31940,7 @@ PEAR INSTALLER:
 
   All classes and non-private (not underscore-prefixed) methods and
   functions are now registered during &quot;pear package&quot;.
-        
+
 </notes>
     </release>
     <release>
@@ -32127,7 +32127,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '674'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -32465,7 +32465,7 @@ PEAR INSTALLER:
 
   All classes and non-private (not underscore-prefixed) methods and
   functions are now registered during &quot;pear package&quot;.
-        
+
 </notes>
     </release>
     <release>
@@ -32652,7 +32652,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '587'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -33166,7 +33166,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '372'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -33422,7 +33422,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '353'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -33658,7 +33658,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '345'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -33885,7 +33885,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '306'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -34097,7 +34097,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '259'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -34296,7 +34296,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '117'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -34447,7 +34447,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '99'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -34591,7 +34591,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '93'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
@@ -34710,7 +34710,7 @@ though it claimed to be.  This version finally is self-hosting
 
 $mock->addDataQuery("SELECT packagexml FROM files WHERE package = '14' AND
                 release = '38'", array (
-  0 => 
+  0 =>
   array (
     'packagexml' => '<?xml version="1.0" encoding="ISO-8859-1" ?>
 <package version="1.0">
