@@ -4,13 +4,13 @@ category::delete() [basic]
 <?php
 // setup
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-$mock->addInsertQuery("INSERT INTO categories (id, name, description, parent)VALUES (1, 'test', 'hi there', NULL)", array(), 1);
-$mock->addDataQuery("select max(cat_right) + 1 from categories
-                              where parent is null", array(
+$mock->addInsertQuery("INSERT INTO categories (id, name, description, parent) VALUES (1, 'test', 'hi there', NULL)", array(), 1);
+$mock->addDataQuery("SELECT max(cat_right) + 1 FROM categories
+                              WHERE parent IS NULL", array(
     array('max(cat_right) + 1' => '1')), array('max(cat_right) + 1'));
-$mock->addUpdateQuery("update categories
-                        set cat_left = 1, cat_right = 2
-                        where id = 1", array(), 1);
+$mock->addUpdateQuery("UPDATE categories
+                        SET cat_left = 1, cat_right = 2
+                        WHERE id = 1", array(), 1);
 $mock->addDataQuery("SELECT * FROM categories WHERE name = 'test'",
     array(array('id' => 1,
           'parent' => null,
@@ -45,7 +45,7 @@ $mock->addDataQuery("SELECT
             WHERE
                 p.category = c.id AND
                 c.name = 'test'", array(
-                ), array('id', 'name'));    
+                ), array('id', 'name'));
 $id = category::add(array('name' => 'test', 'desc' => 'hi there'));
 $phpt->assertFileExists($restdir . '/c/test/info.xml', 'info.xml');
 $phpt->assertFileExists($restdir . '/c/test/packages.xml', 'packages.xml');

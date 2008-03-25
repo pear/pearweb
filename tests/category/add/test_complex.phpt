@@ -4,16 +4,16 @@ category::add() [complex]
 <?php
 // setup
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
-$mock->addInsertQuery("INSERT INTO categories (id, name, description, parent)VALUES (1, 'test', 'hi there', 20)", array(), 1);
-$mock->addDataQuery("select cat_right from categories where id = 20", array(
+$mock->addInsertQuery("INSERT INTO categories (id, name, description, parent) VALUES (1, 'test', 'hi there', 20)", array(), 1);
+$mock->addDataQuery("SELECT cat_right FROM categories WHERE id = 20", array(
     array('cat_right' => '40')), array('cat_right'));
-$mock->addUpdateQuery("update categories
-                        set cat_left = 40, cat_right = 41
-                        where id = 1", array(), 1);
-$mock->addUpdateQuery("update categories set cat_left = cat_left+2
-                        where cat_left > 40", array(), 25);
-$mock->addUpdateQuery("update categories set cat_right = cat_right+2
-                        where cat_right >= 40 and id <> 1", array(), 24);
+$mock->addUpdateQuery("UPDATE categories
+                        SET cat_left = 40, cat_right = 41
+                        WHERE id = 1", array(), 1);
+$mock->addUpdateQuery("UPDATE categories SET cat_left = cat_left+2
+                        WHERE cat_left > 40", array(), 25);
+$mock->addUpdateQuery("UPDATE categories SET cat_right = cat_right+2
+                        WHERE cat_right >= 40 and id <> 1", array(), 24);
 $mock->addDataQuery("SELECT * FROM categories WHERE name = 'test'",
     array(array('id' => 1,
           'parent' => 20,
@@ -48,21 +48,21 @@ $mock->addDataQuery("SELECT
             WHERE
                 p.category = c.id AND
                 c.name = 'test'", array(
-                ), array('id', 'name'));    
+                ), array('id', 'name'));
 
 // test
 $id = category::add(array('name' => 'test', 'desc' => 'hi there', 'parent' => 20));
 $phpt->assertEquals(1, $id, 'id');
 $phpt->assertEquals(array (
-  0 => 'INSERT INTO categories (id, name, description, parent)VALUES (1, \'test\', \'hi there\', 20)',
-  1 => 'select cat_right from categories where id = 20',
-  2 => 'update categories
-                        set cat_left = 40, cat_right = 41
-                        where id = 1',
-  3 => 'update categories set cat_left = cat_left+2
-                        where cat_left > 40',
-  4 => 'update categories set cat_right = cat_right+2
-                        where cat_right >= 40 and id <> 1',
+  0 => 'INSERT INTO categories (id, name, description, parent) VALUES (1, \'test\', \'hi there\', 20)',
+  1 => 'SELECT cat_right FROM categories WHERE id = 20',
+  2 => 'UPDATE categories
+                        SET cat_left = 40, cat_right = 41
+                        WHERE id = 1',
+  3 => 'UPDATE categories SET cat_left = cat_left+2
+                        WHERE cat_left > 40',
+  4 => 'UPDATE categories SET cat_right = cat_right+2
+                        WHERE cat_right >= 40 and id <> 1',
   5 => 'SELECT * FROM categories WHERE name = \'test\'',
   6 => 'SELECT p.name AS name FROM packages p, categories c WHERE p.package_type = \'pear\' AND p.category = c.id AND c.name = \'test\' AND p.approved = 1',
   7 => 'SELECT * FROM categories ORDER BY name',

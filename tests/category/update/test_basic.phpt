@@ -109,12 +109,12 @@ $mock->addDataQuery("SELECT type, relation, version, name, `release` as `release
 $pear_rest->savePackageREST('Blah2');
 
 // to make sure old files are deleted
-$mock->addInsertQuery("INSERT INTO categories (id, name, description, parent)VALUES (1, 'test', 'none', NULL)", array(), array());
-$mock->addDataQuery("select max(cat_right) + 1 from categories
-                              where parent is null", array(array('m' => 1)), array('m'));
-$mock->addUpdateQuery("update categories
-                        set cat_left = 1, cat_right = 2
-                        where id = 1", array(), array());
+$mock->addInsertQuery("INSERT INTO categories (id, name, description, parent) VALUES (1, 'test', 'none', NULL)", array(), array());
+$mock->addDataQuery("SELECT max(cat_right) + 1 FROM categories
+                              WHERE parent IS NULL", array(array('m' => 1)), array('m'));
+$mock->addUpdateQuery("UPDATE categories
+                        SET cat_left = 1, cat_right = 2
+                        WHERE id = 1", array(), array());
 $mock->addDataQuery("SELECT * FROM categories WHERE name = 'test'", array(
     array('id' => 1, 'parent' => 0, 'name' => 'test', 'summary' => 'hi', 'description' => 'old desc',
     'npackages' => 0, 'pkg_left' => 0, 'pkg_right' => 0, 'cat_left' => 0, 'cat_right' => 0)
