@@ -256,14 +256,6 @@ class user
             $errors[] = 'Your lastname appears to be too short.';
         }
 
-        // Firstname and lastname must start with an uppercase letter
-        if (!preg_match("/^[A-Z]/", $data['firstname'])) {
-            $errors[] = 'Your firstname must begin with an uppercase letter';
-        }
-        if (!preg_match("/^[A-Z]/", $data['lastname'])) {
-            $errors[] = 'Your lastname must begin with an uppercase letter';
-        }
-
         // No names with only uppercase letters
         if ($data['firstname'] === strtoupper($data['firstname'])) {
             $errors[] = 'Your firstname must not consist of only uppercase letters.';
