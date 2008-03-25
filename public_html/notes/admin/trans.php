@@ -29,8 +29,8 @@ switch ($action) {
             if (!empty($note['user_handle'])) {
                 $ldesc .= user_link($note['user_handle'], true);
             } else {
-                include_once dirname(dirname(dirname(__FILE__))) . '/bugs/include/functions.inc';
-                $ldesc .= spam_protect($note['user_name'], 'text');
+                include_once 'bugs/pear-bugs-utils.php';
+                $ldesc .= PEAR_Bugs_Utils::spamProtect($note['user_name'], 'text');
             }
             $ldesc          .=  "\n\n" . str_replace('<br />', '', $dbh->escapeSimple(html_entity_decode($note['note_text'])));
             $package_version = null;
