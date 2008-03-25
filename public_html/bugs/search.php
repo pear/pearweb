@@ -160,7 +160,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
             // Fetch the last release date
             include_once 'pear-database-package.php';
-            $releaseDate = package::getRecent(1, rinse($package_name[0]));
+            $releaseDate = package::getRecent(1, $package_name[0]);
             if (PEAR::isError($releaseDate)) {
                 break;
             }
@@ -188,7 +188,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         $where_clause .= $sql_search;
         if (count($ignored) > 0 ) {
             $warnings[] = 'The following words were ignored: ' .
-                    rinse(implode(', ', array_unique($ignored)));
+                    implode(', ', array_unique($ignored));
         }
     }
 
@@ -367,10 +367,10 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 '?cmd=display' .
                 $package_name_string  .
                 $package_nname_string .
-                '&amp;search_for='  . urlencode(rinse($search_for)) .
-                '&amp;php_os='      . urlencode(rinse($php_os)) .
+                '&amp;search_for='  . urlencode($search_for) .
+                '&amp;php_os='      . urlencode($php_os) .
                 '&amp;boolean='     . $boolean_search .
-                '&amp;author_email='. urlencode(rinse($author_email)) .
+                '&amp;author_email='. urlencode($author_email) .
                 '&amp;bug_type='    . $bug_type .
                 '&amp;bug_age='     . $bug_age .
                 '&amp;bug_updated=' . $bug_updated .
@@ -403,7 +403,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 show_bugs_menu($package_name, $status);
             }
 
-            $link .= '&amp;status='      . urlencode(rinse($status));
+            $link .= '&amp;status='      . urlencode($status);
 
             $package_count = count($package_name);
 ?>
@@ -551,7 +551,7 @@ report_error($warnings, 'warnings', 'WARNING:');
   <td><input type="text" name="assign" value="<?php echo clean($assign);?>" />
 <?php
     if ($auth_user) {
-        $u = rinse(htmlspecialchars($_REQUEST['PEAR_USER']));
+        $u = htmlspecialchars($_REQUEST['PEAR_USER']);
         print "<input type=\"button\" value=\"set to $u\" onclick=\"form.assign.value='$u'\" />";
     }
 ?>
@@ -575,7 +575,7 @@ report_error($warnings, 'warnings', 'WARNING:');
   <td><input accesskey="m" type="text" name="author_email" value="<?php echo clean($author_email); ?>" />
 <?php
     if ($auth_user) {
-        $u = rinse(htmlspecialchars($_REQUEST['PEAR_USER']));
+        $u = htmlspecialchars($_REQUEST['PEAR_USER']);
         print "<input type=\"button\" value=\"set to $u\" onclick=\"form.author_email.value='$u'\" />";
     }
 ?>

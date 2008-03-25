@@ -83,7 +83,7 @@ if (isset($_POST['in'])) {
          */
         if (isset($auth_user) && auth_check('pear.dev')) {
             require_once 'pear-database-maintainer.php';
-            $m = maintainer::get(rinse($_POST['in']['package_name']), false, true);
+            $m = maintainer::get($_POST['in']['package_name'], false, true);
 
             if (isset($m[$auth_user->handle]) &&
                 in_array($m[$auth_user->handle]['role'], array('lead', 'developer'))) {
@@ -99,7 +99,7 @@ if (isset($_POST['in'])) {
             $_POST['in']['did_luser_search'] = 1;
 
             // search for a match using keywords from the subject
-            $sdesc = rinse($_POST['in']['sdesc']);
+            $sdesc = $_POST['in']['sdesc'];
 
             /*
              * If they are filing a feature request,
@@ -321,62 +321,64 @@ if (isset($_POST['in'])) {
 
             $report  = '';
             $report .= 'From:             ' . $_POST['in']['handle'] . "\n";
-            $report .= 'Operating system: ' . rinse($_POST['in']['php_os']) . "\n";
-            $report .= 'Package version:  ' . rinse($_POST['in']['package_version']) . "\n";
-            $report .= 'PHP version:      ' . rinse($_POST['in']['php_version']) . "\n";
+            $report .= 'Operating system: ' . $_POST['in']['php_os'] . "\n";
+            $report .= 'Package version:  ' . $_POST['in']['package_version'] . "\n";
+            $report .= 'PHP version:      ' . $_POST['in']['php_version'] . "\n";
             $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
             $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
             $report .= 'Bug description:  ';
 
-            $fdesc = rinse($fdesc);
-            $sdesc = rinse($_POST['in']['sdesc']);
+            $fdesc = $fdesc;
+            $sdesc = $_POST['in']['sdesc'];
 
             $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
             $ascii_report .= "\n-- \nEdit bug report at ";
-            $ascii_report .= "http://$site.php.net/bugs/bug.php?id=$cid&edit=";
+            $ascii_report .= "http://" . PEAR_CHANNELNAME . "/bugs/bug.php?id=$cid&edit=";
 
-            list($mailto, $mailfrom) = get_package_mail($_POST['in']['package_name']);
+            include_once 'pear-bugs-utils.php';
+            $pbu = new PEAR_Bugs_Utils;
+            list($mailto, $mailfrom) = $pbu->getPackageMail($_POST['in']['package_name']);
 
-            $email = rinse($_POST['in']['email']);
-            $protected_email  = '"' . spam_protect($email, 'text') . '"';
+            $email = $_POST['in']['email'];
+            require_once 'bugs/pear-bugs-utils.php';
+            $protected_email  = '"' . PEAR_Bugs_Utils::spamProtect($email, 'text') . '"';
             $protected_email .= '<' . $mailfrom . '>';
 
             $extra_headers  = 'From: '           . $protected_email . "\n";
             $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
             $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
-            $extra_headers .= 'X-PHP-Type: '     . rinse($_POST['in']['bug_type']) . "\n";
-            $extra_headers .= 'X-PHP-PackageVersion: '  . rinse($_POST['in']['package_version']) . "\n";
-            $extra_headers .= 'X-PHP-Version: '  . rinse($_POST['in']['php_version']) . "\n";
-            $extra_headers .= 'X-PHP-Category: ' . rinse($_POST['in']['package_name']) . "\n";
-            $extra_headers .= 'X-PHP-OS: '       . rinse($_POST['in']['php_os']) . "\n";
+            $extra_headers .= 'X-PHP-Type: '     . $_POST['in']['bug_type'] . "\n";
+            $extra_headers .= 'X-PHP-PackageVersion: '  . $_POST['in']['package_version'] . "\n";
+            $extra_headers .= 'X-PHP-Version: '  . $_POST['in']['php_version'] . "\n";
+            $extra_headers .= 'X-PHP-Category: ' . $_POST['in']['package_name'] . "\n";
+            $extra_headers .= 'X-PHP-OS: '       . $_POST['in']['php_os'] . "\n";
             $extra_headers .= 'X-PHP-Status: Open' . "\n";
-            $extra_headers .= 'Message-ID: <bug-' . $cid . '@'.$site.'.php.net>';
+            $extra_headers .= 'Message-ID: <bug-' . $cid . '@' . PEAR_CHANNELNAME . '>';
 
             $type = @$types[$_POST['in']['bug_type']];
 
             if (!DEVBOX) {
                 // mail to package developers
-                @mail($mailto, "[$siteBig-BUG] $type #$cid [NEW]: $sdesc",
+                @mail($mailto, "[" . SITE_BIG . "-BUG] $type #$cid [NEW]: $sdesc",
                         $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
                         '-f ' . PEAR_BOUNCE_EMAIL);
                 // mail to reporter, only if the reporter is also not the package maintainer
                 if (strpos($mailto, $email) !== false) {
-                    @mail($email, "[$siteBig-BUG] $type #$cid: $sdesc",
+                    @mail($email, "[" . SITE_BIG . "-BUG] $type #$cid: $sdesc",
                         $ascii_report . "2\n",
-                        "From: $siteBig Bug Database <$mailfrom>\n" .
+                        "From: " . SITE_BIG . " Bug Database <$mailfrom>\n" .
                         "X-PHP-Bug: $cid\n" .
-                        "Message-ID: <bug-$cid@$site.php.net>",
+                        "Message-ID: <bug-$cid@" . PEAR_CHANNELNAME . ">",
                         '-f ' . PEAR_BOUNCE_EMAIL);
                 }
             }
 
             if (!empty($_POST['in']['addpatch'])) {
-                localRedirect('patch-add.php?bug=' . $cid . '&email=' .
-                    $_POST['in']['email']);
+                localRedirect('patch-add.php?bug=' . $cid . '&email=' . $_POST['in']['email']);
             } elseif (!isset($buggie) && !empty($_POST['in']['addpatch'])) {
-                require_once 'bugs/pear-bug-accountrequest.php';
-                $r = new PEAR_Bug_Accountrequest();
-                $info = $r->sendPatchEmail($cid, $patchrevision,
+                //FIXME This is possible not needed anymore, look into it
+                require_once 'bugs/pear-bugs-utils.php';
+                PEAR_Bugs_Utils::sendPatchEmail($cid, $patchrevision,
                     $_POST['in']['package_name'], $auth_user->handle);
             }
             localRedirect('bug.php?id=' . $cid . '&thanks=4');

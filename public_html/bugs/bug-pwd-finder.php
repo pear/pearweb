@@ -20,6 +20,7 @@
 
 // Obtain common includes
 require_once './include/prepend.inc';
+require_once 'bugs/pear-bugs-utils.php';
 
 $errors  = array();
 $success = '';
@@ -47,7 +48,7 @@ if (!empty($bug_id)) {
             if ($resp) {
                 $success = 'The password for bug report #' . $bug_id
                             . ' has been sent to '
-                            . spam_protect($row['email'], 'text');
+                            . PEAR_Bugs_Utils::spamProtect($row['email'], 'text');
             } else {
                 $errors[] = 'Sorry. Mail can not be sent at this time. Please try again later.';
             }

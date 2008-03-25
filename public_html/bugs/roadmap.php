@@ -154,7 +154,7 @@ if (isset($_GET['new']) && isset($_POST['go'])) {
     if (isset($_POST['importbugs'])) {
         // Fetch the last release date
         include_once 'pear-database-package.php';
-        $releaseDate = package::getRecent(1, rinse($_GET['package']));
+        $releaseDate = package::getRecent(1, $_GET['package']);
         if (PEAR::isError($releaseDate)) {
             break;
         }
@@ -163,14 +163,14 @@ if (isset($_GET['new']) && isset($_POST['go'])) {
             FROM bugdb
             LEFT JOIN packages ON packages.name = bugdb.package_name
             WHERE bugdb.registered IN(1,0)
-            AND bugdb.package_name = ' . $dbh->quoteSmart(rinse($_GET['package'])) . '
+            AND bugdb.package_name = ?
             AND bugdb.status IN' .
             " ('Closed', 'Duplicate', 'Bogus', 'Wont Fix', 'Suspended')
             AND (UNIX_TIMESTAMP('" . $releaseDate[0]['releasedate'] . "') < UNIX_TIMESTAMP(bugdb.ts2))" .
             'AND (bugdb.bug_type = "Bug" OR bugdb.bug_type="Documentation Problem")';
 
         $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
-        $res =& $dbh->query($query);
+        $res =& $dbh->query($query, array($_GET['package']));
         while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
             $link->id = $row['id'];
             $link->delete();
