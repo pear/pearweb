@@ -29,10 +29,11 @@ require_once './include/prepend.inc';
 // Get user's CVS password
 require_once './include/cvs-auth.inc';
 
+require_once 'bugs/pear-bugs-utils.php';
+$pbu = new PEAR_Bugs_Utils;
+
 // Numeral Captcha Class
 require_once 'Text/CAPTCHA/Numeral.php';
-
-// Instantiate the numeral captcha object.
 $numeralCaptcha = new Text_CAPTCHA_Numeral();
 
 Bug_DataObject::init();
@@ -142,14 +143,14 @@ if ($edit == 3 && auth_check('pear.dev')) {
 }
 
 if (!empty($_POST['pw'])) {
-    $user = !empty($_POST['user']) ? htmlspecialchars(rinse($_POST['user'])) : '';
-    $pw = rinse($_POST['pw']);
+    $user = !empty($_POST['user']) ? htmlspecialchars($_POST['user']) : '';
+    $pw = $_POST['pw'];
 } elseif (isset($auth_user) && $auth_user && $auth_user->handle && $edit == 1) {
-    $user = rinse($auth_user->handle);
-    $pw   = rinse($auth_user->password);
+    $user = $auth_user->handle;
+    $pw   = $auth_user->password;
 } elseif (isset($_COOKIE['MAGIC_COOKIE'])) {
     @list($user, $pw) = explode(':', base64_decode($_COOKIE['MAGIC_COOKIE']));
-    $user = rinse($user);
+    $user = $user;
     if ($pw === null) {
         $pw = '';
     }
@@ -382,7 +383,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
     }
 } elseif (isset($_POST['in']) && isset($_POST['preview']) && $edit == 2) {
     $ncomment = trim($_POST['ncomment']);
-    $from     = rinse($_POST['in']['commentemail']);
+    $from     = $_POST['in']['commentemail'];
 } elseif (isset($_POST['in'])  && !isset($_POST['preview']) && $edit == 1) {
     // Edits submitted by developer
 
@@ -612,7 +613,7 @@ if ($bug['modified']) {
     } elseif ($bug['handle'] && $bug['showemail'] != '0') {
         echo '<a href="/user/' . $bug['handle'] . '">' . $bug['handle'] . '</a>';
     } else {
-        echo spam_protect(htmlspecialchars($bug['email']));
+        echo $pbu->spamProtect(htmlspecialchars($bug['email']));
     }
 ?></td>
    <th>Assigned:</th>
@@ -730,7 +731,7 @@ if (isset($_POST['preview']) && !empty($ncomment)) {
         $preview .= '<a href="/user/' . $auth_user->handle . '">' .
             $auth_user->handle . '</a>';
     } else {
-        $preview .= spam_protect(htmlspecialchars($from));
+        $preview .= $pbu->spamProtect(htmlspecialchars($from));
     }
     $preview .= "</strong>\n<pre class=\"note\">";
     $comment = wordwrap($ncomment, 72);
@@ -949,7 +950,7 @@ if ($edit == 1 || $edit == 2) {
      <tr>
       <th>From:</th>
       <td colspan="3">
-       <?php echo spam_protect(field('email')) ?>
+       <?php echo $pbu->spamProtect(field('email')) ?>
       </td>
      </tr>
      <tr>
@@ -1273,7 +1274,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
         if ($handle) {
             echo '<a href="/user/' . $handle . '">' . $handle . "</a></strong>\n";
         } else {
-            echo spam_protect(htmlspecialchars($email))."</strong>\n";
+            echo $pbu->spamProtect(htmlspecialchars($email))."</strong>\n";
         }
     }
     if ($comment_name && $registered) {
