@@ -167,14 +167,6 @@ class PEAR_Bug_Accountrequest
             $errors[] = 'Your lastname appears to be too short.';
         }
 
-        // Firstname and lastname must start with an uppercase letter
-        if (!preg_match("/^[A-Z]/", $firstname)) {
-            $errors[] = 'Your firstname must begin with an uppercase letter';
-        }
-        if (!preg_match("/^[A-Z]/", $lastname)) {
-            $errors[] = 'Your lastname must begin with an uppercase letter';
-        }
-
         // No names with only uppercase letters
         if ($firstname === strtoupper($firstname)) {
             $errors[] = 'Your firstname must not consist of only uppercase letters.';
