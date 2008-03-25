@@ -84,7 +84,7 @@
   <active>yes</active>
  </developer>
  <date>2008-03-09</date>
- <time>21:41:59</time>
+ <time>22:53:03</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -127,6 +127,7 @@ lala
      <file name="patchtracker.php" role="www" />
      <file name="pear-bug-accountrequest.php" role="www" />
      <file name="pear-bugs.php" role="www" />
+     <file name="pear-bugs-utils.php" role="www" />
      <file name="pear.ini" role="www" />
      <file name="pear.links.ini" role="www" />
     </dir> <!-- /include/bugs -->
