@@ -72,7 +72,7 @@ class PEAR_Bug_Accountrequest
 
     function _makeSalt($handle)
     {
-        list($usec, $sec) = explode(" ", microtime());
+        list($usec, $sec) = explode(' ', microtime());
         return md5($handle . ((float)$usec + (float)$sec));
     }
 
@@ -211,12 +211,12 @@ class PEAR_Bug_Accountrequest
         $sql = 'SELECT handle from bug_account_request WHERE salt = ?';
         $temphandle = $this->dbh->getOne($sql, array($this->salt));
         // update all relevant records to the new handle
-        $this->dbh->query('UPDATE bugdb_comments set reporter_name=? WHERE handle=?', array($name, $temphandle));
-        $this->dbh->query('UPDATE bugdb set reporter_name=? WHERE handle=?', array($name, $temphandle));
-        $this->dbh->query('UPDATE users set handle=? WHERE handle=?', array($handle, $temphandle));
-        $this->dbh->query('UPDATE bugdb set registered=1, handle=? WHERE handle=?', array($handle, $temphandle));
-        $this->dbh->query('UPDATE bugdb_comments set handle=? WHERE handle=?', array($handle, $temphandle));
-        $this->dbh->query('UPDATE bugdb_patchtracker set developer=? WHERE developer=?', array($handle, $temphandle));
+        $this->dbh->query('UPDATE bugdb_comments set reporter_name = ? WHERE handle = ?', array($name, $temphandle));
+        $this->dbh->query('UPDATE bugdb set reporter_name = ? WHERE handle = ?', array($name, $temphandle));
+        $this->dbh->query('UPDATE users set handle = ? WHERE handle = ?', array($handle, $temphandle));
+        $this->dbh->query('UPDATE bugdb set registered = 1, handle = ? WHERE handle = ?', array($handle, $temphandle));
+        $this->dbh->query('UPDATE bugdb_comments set handle = ? WHERE handle = ?', array($handle, $temphandle));
+        $this->dbh->query('UPDATE bugdb_patchtracker set developer = ? WHERE developer = ?', array($handle, $temphandle));
         $this->handle = $handle;
         // activate the handle and grant karma
         // implicitly without human intervention
@@ -245,7 +245,7 @@ class PEAR_Bug_Accountrequest
 
         user::update($data, true);
 
-        $id = $this->dbh->nextId("karma");
+        $id = $this->dbh->nextId('karma');
 
         $query = 'INSERT INTO karma VALUES (?, ?, ?, ?, NOW())';
         $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', 'pearweb'));
@@ -254,6 +254,8 @@ class PEAR_Bug_Accountrequest
         $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', 'pearweb'));
 
         if (!DB::isError($sth)) {
+            require_once 'bugs/pear-bugs-utils.php';
+            $pbu = new PEAR_Bugs_Utils;
             note::add("uid", $this->handle, 'Account opened', 'pearweb');
             $bugs = $this->dbh->getAll('SELECT * FROM bugdb WHERE handle = ?',
                 array($this->handle), DB_FETCHMODE_ASSOC);
@@ -266,14 +268,15 @@ class PEAR_Bug_Accountrequest
                     AND bugdb.id = bugdb_patchtracker.bugdb_id', array($this->handle),
                     DB_FETCHMODE_ASSOC);
             foreach ($patches as $patch) {
-                $this->sendPatchEmail($patch);
+                $pbu->sendPatchEmail($patch);
             }
             $bugs = $this->dbh->getAll('SELECT bugdb_comments.email,bugdb_comments.comment,
                     bugdb_comments.reporter_name, bugdb.id,
                     bugdb.bug_type,bugdb.package_name,bugdb.sdesc,
                     bugdb.ldesc,bugdb.php_version, bugdb.php_os,bugdb.status,
                     bugdb.assign,bugdb.package_version
-                 FROM bugdb_comments,bugdb WHERE bugdb.id=bugdb_comments.bug AND
+                 FROM bugdb_comments, bugdb
+                 WHERE bugdb.id = bugdb_comments.bug AND
                  bugdb_comments.handle = ?',
                 array($this->handle), DB_FETCHMODE_ASSOC);
             foreach ($bugs as $bug) {
@@ -292,61 +295,45 @@ class PEAR_Bug_Accountrequest
         return false;
     }
 
-    /**
-     * Produces an array of email addresses the report should go to
-     *
-     * @param string $package_name  the package's name
-     *
-     * @return array  an array of email addresses
-     */
-    function get_package_mail($package_name, $bug_id = false)
+    function listRequests()
     {
-        global $site, $bugEmail, $dbh;
-        switch ($package_name) {
-            case 'Bug System':
-            case 'PEPr':
-            case 'Web Site':
-                $arr = $this->get_package_mail('pearweb');
-                $arr[0] .= ',' . PEAR_WEBMASTER_EMAIL;
-                return array($arr[0], PEAR_WEBMASTER_EMAIL);
-            case 'Documentation':
-                return array(PEAR_DOC_EMAIL, PEAR_DOC_EMAIL);
-        }
+    }
 
-        include_once 'pear-database-package.php';
-        $maintainers = package::info($package_name, 'authors');
-
-        $to = array();
-        foreach ($maintainers as $data) {
-            if (!$data['active']) {
-                continue;
-            }
-            $to[] = $data['email'];
-        }
-
-        /* subscription */
-        if ($bug_id) {
-            $bug_id = (int)$bug_id;
-
-            $assigned = $dbh->getOne('SELECT assign FROM bugdb WHERE id = ' . $bug_id);
-            if ($assigned) {
-                $assigned = $dbh->getOne('SELECT email FROM users WHERE handle = "' . $assigned . '"');
-                if ($assigned && !in_array($assigned, $to)) {
-                    // assigned is not a maintainer
-                    $to[] = $assigned;
+    function cleanOldRequests()
+    {
+        $old = gmdate('Y-m-d', strtotime('-1 Day'));
+        $query = 'SELECT handle FROM bug_account_request WHERE created_on < ?';
+        $all = $this->dbh->getAll($query, array($old));
+        require_once 'bugs/patchtracker.php';
+        $p = new Bugs_Patchtracker;
+        // purge reserved usernames as well as their account requests
+        if (is_array($all)) {
+            foreach ($all as $data) {
+                $this->dbh->query('
+                    DELETE FROM users WHERE handle = ?
+                ', array($data[0]));
+                $this->dbh->query('
+                    DELETE FROM bugdb WHERE handle = ?
+                ', array($data[0]));
+                $this->dbh->query('
+                    DELETE FROM bugdb_comments WHERE handle = ?
+                ', array($data[0]));
+                $sql = 'SELECT * FROM bugdb_patchtracker WHERE developer = ?';
+                $patches = $this->dbh->getAll($sql, array($data[0]), DB_FETCHMODE_ASSOC);
+                foreach ($patches as $patch) {
+                    $p->detach($patch['bugdb_id'], $patch['patch'], $patch['revision']);
                 }
             }
-            $bcc = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id=' . $bug_id);
-            $bcc = array_diff($bcc, $to);
-            $bcc = array_unique($bcc);
-            return array(implode(', ', $to), $bugEmail, implode(', ', $bcc));
         }
-
-        return array(implode(', ', $to), $bugEmail);
+        $query = 'DELETE FROM bug_account_request WHERE created_on < ?';
+        // purge out-of-date account requests
+        return $this->dbh->query($query, array($old));
     }
 
     function sendBugCommentEmail($bug)
     {
+        include_once 'pear-bugs-utils.php';
+        $pbu = new PEAR_Bugs_Utils;
         $ncomment = trim($bug['comment']);
         $tla = array(
             'Open'        => 'Opn',
@@ -372,8 +359,7 @@ class PEAR_Bug_Accountrequest
         $headers = $text = array();
 
         /* Default addresses */
-        list($mailto,$mailfrom, $Bcc) =
-            $this->get_package_mail($bug['package_name'], $bug['id']);
+        list($mailto,$mailfrom, $Bcc) = $pbu->getPackageMail($bug['package_name'], $bug['id']);
 
         $headers[] = array(" ID", $bug['id']);
 
@@ -381,7 +367,7 @@ class PEAR_Bug_Accountrequest
         $from = "\"$this->handle\" <$this->email>";
 
         $prefix = " ";
-        if ($f = $this->spam_protect($this->email, 'text')) {
+        if ($f = $pbu->spamProtect($this->email, 'text')) {
             $headers[] = array($prefix.'Reported By', $f);
         }
 
@@ -425,7 +411,7 @@ class PEAR_Bug_Accountrequest
             $text[] = " New Comment:\n\n".$ncomment;
         }
 
-        $text[] = $this->get_old_comments($bug['id'], empty($ncomment));
+        $text[] = $pbu->getOldComments($bug['id'], empty($ncomment));
 
         /* format mail so it looks nice, use 72 to make piners happy */
         $wrapped_text = wordwrap(join("\n",$text), 72);
@@ -447,7 +433,7 @@ class PEAR_Bug_Accountrequest
         $subj .= " #{$bug['id']} [Com]: ";
 
         # the user gets sent mail with an envelope sender that ignores bounces
-        if (DEVBOX == false) {
+        if (DEVBOX === false) {
             @mail($bug['email'],
                   "[PEAR-BUG] " . $subj . $bug['sdesc'],
                   $user_text,
@@ -474,113 +460,6 @@ class PEAR_Bug_Accountrequest
         }
     }
 
-    static function sendPatchEmail($patch)
-    {
-        require_once 'Damblan/Mailer.php';
-        require_once 'Damblan/Bugs.php';
-        $patchName = urlencode($patch['patch']);
-        $mailData = array(
-            'id'         => $patch['bugdb_id'],
-            'url'        => 'http://' . PEAR_CHANNELNAME .
-                            "/bugs/patch-display.php?bug=$patch[bugdb_id]&patch=$patchName&revision=$patch[revision]&display=1",
-
-            'date'       => date('Y-m-d H:i:s'),
-            'name'       => $patch['patch'],
-            'package'    => $patch['package_name'],
-            'summary'    => $GLOBALS['dbh']->getOne('SELECT sdesc from bugdb
-                WHERE id=?', array($patch['bugdb_id'])),
-            'packageUrl' => 'http://' . PEAR_CHANNELNAME .
-                            '/bugs/bug.php?id=' . $patch['bugdb_id'],
-        );
-
-        $additionalHeaders['To'] = Damblan_Bugs::getMaintainers($patch['package_name']);
-        $mailer = Damblan_Mailer::create('Patch_Added', $mailData);
-        $res = true;
-        if (!DEVBOX) {
-            $res = $mailer->send($additionalHeaders);
-        }
-    }
-
-    /**
-     * Produces a string containing the bug's prior comments
-     *
-     * @param int $bug_id  the bug's id number
-     * @param int $all     should all existing comments be returned?
-     *
-     * @return string  the comments
-     */
-    function get_old_comments($bug_id, $all = 0)
-    {
-        $divider = str_repeat("-", 72);
-        $max_message_length = 10 * 1024;
-        $max_comments = 5;
-        $output = ""; $count = 0;
-
-        $res =& $this->dbh->query("SELECT ts, email, comment, handle FROM bugdb_comments WHERE bug = $bug_id ORDER BY ts DESC");
-
-        # skip the most recent unless the caller wanted all comments
-        if (!$all) {
-            $row =& $res->fetchRow(DB_FETCHMODE_ORDERED);
-            if (!$row) {
-                return '';
-            }
-        }
-
-        while (($row =& $res->fetchRow(DB_FETCHMODE_ORDERED)) &&
-                strlen($output) < $max_message_length && $count++ < $max_comments) {
-            $email = $row[3] ?
-                $row[3] :
-                $this->spam_protect($row[1], 'text');
-            $output .= "[$row[0]] $email\n\n$row[2]\n\n$divider\n\n";
-        }
-
-        if (strlen($output) < $max_message_length && $count < $max_comments) {
-            $res =& $this->dbh->query("SELECT ts1,email,ldesc,handle FROM bugdb WHERE id = $bug_id");
-            if (!$res) {
-                return $output;
-            }
-            $row =& $res->fetchRow(DB_FETCHMODE_ORDERED);
-            if (!$row) {
-                return $output;
-            }
-            $email = $row[3] ?
-                $row[3] :
-                $this->spam_protect($row[1], 'text');
-            return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "[$row[0]] $email\n\n$row[2]\n\n$divider\n\n");
-        } else {
-            return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "The remainder of the comments for this report are too long. To view\nthe rest of the comments, please view the bug report online at\n    http://pear.php.net/bugs/bug.php?id=$bug_id\n");
-        }
-
-        return '';
-    }
-
-    /**
-     * Obfuscates email addresses to hinder spammer's spiders
-     *
-     * Turns "@" into character entities that get interpreted as "at" and
-     * turns "." into character entities that get interpreted as "dot".
-     *
-     * @param string $txt     the email address to be obfuscated
-     * @param string $format  how the output will be displayed ('html', 'text')
-     *
-     * @return string  the altered email address
-     */
-    function spam_protect($txt, $format = 'html')
-    {
-        if ($format == 'html') {
-            $translate = array(
-                '@' => ' &#x61;&#116; ',
-                '.' => ' &#x64;&#111;&#x74; ',
-            );
-        } else {
-            $translate = array(
-                '@' => ' at ',
-                '.' => ' dot ',
-            );
-        }
-        return strtr($txt, $translate);
-    }
-
     function sendBugEmail($buginfo)
     {
         $report  = '';
@@ -597,16 +476,18 @@ class PEAR_Bug_Accountrequest
 
         $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
         $ascii_report .= "\n-- \nEdit bug report at ";
-        $ascii_report .= "http://pear.php.net/bugs/bug.php?id=$buginfo[id]&edit=1";
+        $ascii_report .= "http://" . PEAR_CHANNELNAME . "/bugs/bug.php?id=$buginfo[id]&edit=1";
 
-        list($mailto, $mailfrom) = $this->get_package_mail($buginfo['package_name']);
+        include_once 'bugs/pear-bugs-utils.php';
+        $pbu = new PEAR_Bugs_Utils;
+        list($mailto, $mailfrom) = $pbu->getPackageMail($buginfo['package_name']);
 
         $email = $this->email;
-        $protected_email  = '"' . $this->spam_protect($email, 'text') . '"';
+        $protected_email  = '"' . $pbu->spamProtect($email, 'text') . '"';
         $protected_email .= '<' . $mailfrom . '>';
 
         if ((!isset($email) || !isset($mailfrom)) && (isset($buginfo['reporter_name']))) {
-            $protected_email = '"' . $buginfo['reporter_name'] . '" <' . $this->spam_protect($buginfo['email']) . '>';
+            $protected_email = '"' . $buginfo['reporter_name'] . '" <' . $pbu->spamProtect($buginfo['email']) . '>';
         }
 
         $extra_headers  = 'From: '           . $protected_email . "\n";
@@ -618,7 +499,7 @@ class PEAR_Bug_Accountrequest
         $extra_headers .= 'X-PHP-Category: ' . $buginfo['package_name'] . "\n";
         $extra_headers .= 'X-PHP-OS: '       . $buginfo['php_os'] . "\n";
         $extra_headers .= 'X-PHP-Status: Open' . "\n";
-        $extra_headers .= 'Message-ID: <bug-' . $buginfo['id'] . '@pear.php.net>';
+        $extra_headers .= 'Message-ID: <bug-' . $buginfo['id'] . '@' . PEAR_CHANNELNAME . '>';
 
         $types = array(
             'Bug'                     => 'Bug',
@@ -637,42 +518,8 @@ class PEAR_Bug_Accountrequest
                   $ascii_report . "2\n",
                   "From: pear.php.net Bug Database <$mailfrom>\n" .
                   "X-PHP-Bug: $buginfo[id]\n" .
-                  "Message-ID: <bug-$buginfo[id]@pear.php.net>",
+                  "Message-ID: <bug-$buginfo[id]@" . PEAR_CHANNELNAME . ">",
                   '-f ' . PEAR_BOUNCE_EMAIL);
         }
-    }
-    function listRequests()
-    {
-    }
-
-    function cleanOldRequests()
-    {
-        $old = gmdate('Y-m-d', strtotime('-1 Day'));
-        $query = 'SELECT handle FROM bug_account_request WHERE created_on < ?';
-        $all = $this->dbh->getAll($query, array($old));
-        require_once 'bugs/patchtracker.php';
-        $p = new Bugs_Patchtracker;
-        // purge reserved usernames as well as their account requests
-        if (is_array($all)) {
-            foreach ($all as $data) {
-                $this->dbh->query('
-                    DELETE FROM users WHERE handle = ?
-                ', array($data[0]));
-                $this->dbh->query('
-                    DELETE FROM bugdb WHERE handle = ?
-                ', array($data[0]));
-                $this->dbh->query('
-                    DELETE FROM bugdb_comments WHERE handle = ?
-                ', array($data[0]));
-                $sql = 'SELECT * FROM bugdb_patchtracker WHERE developer = ?';
-                $patches = $this->dbh->getAll($sql, array($data[0]), DB_FETCHMODE_ASSOC);
-                foreach ($patches as $patch) {
-                    $p->detach($patch['bugdb_id'], $patch['patch'], $patch['revision']);
-                }
-            }
-        }
-        $query = 'DELETE FROM bug_account_request WHERE created_on < ?';
-        // purge out-of-date account requests
-        return $this->dbh->query($query, array($old));
     }
 }
