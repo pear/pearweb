@@ -10,7 +10,7 @@ class PEAR_Bugs_Utils
      */
     public function getPackageMail($package_name, $bug_id = false)
     {
-        global $site, $bugEmail, $dbh;
+        global $bugEmail, $dbh;
         switch ($package_name) {
             case 'Bug System':
             case 'PEPr':
@@ -39,7 +39,7 @@ class PEAR_Bugs_Utils
 
             $assigned = $dbh->getOne('SELECT assign FROM bugdb WHERE id = ' . $bug_id);
             if ($assigned) {
-                $assigned = $dbh->getOne('SELECT email FROM users WHERE handle = "' . $assigned . '"');
+                $assigned = $dbh->getOne('SELECT email FROM users WHERE handle = ?', array($assigned));
                 if ($assigned && !in_array($assigned, $to)) {
                     // assigned is not a maintainer
                     $to[] = $assigned;
