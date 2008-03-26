@@ -452,7 +452,7 @@ if (!package_exists($_REQUEST['package'])) {
  <strong>Note:</strong><br />
  Please supply any information that may be helpful in fixing the bug:
  <ul style="padding-left: 15px;">
-  <li>The version number of the <?php echo $siteBig; ?> package or files you are using.</li>
+  <li>The version number of the <?php echo SITE_BIG; ?> package or files you are using.</li>
   <li>A short script that reproduces the problem.</li>
   <li>The list of modules you compiled PHP with (your configure line).</li>
   <li>Any other information unique or specific to your setup.</li>
@@ -538,8 +538,8 @@ else: // if (isset($auth_user))
             echo '<p><strong>WARNING: You are saying the <em>package';
             echo ' affected</em> is the &quot;Bug System.&quot; This';
             echo ' category is <em>only</em> for telling us about problems';
-            echo ' that the '.$siteBig.' website\'s bug user interface is having. If';
-            echo ' your bug is about a '.$siteBig.' package or other aspect of the';
+            echo ' that the '.SITE_BIG.' website\'s bug user interface is having. If';
+            echo ' your bug is about a '.SITE_BIG.' package or other aspect of the';
             echo ' website, please hit the back button and actually read that';
             echo ' page so you can properly categorize your bug.</strong></p>';
             echo '<input type="hidden" name="in[package_version]" value="" />';
