@@ -81,9 +81,9 @@ if ($developer) {
     $from .= ' AND m.handle = ' .  $dbh->quoteSmart($developer);
 }
 
-switch ($site) {
+switch (SITE) {
     case 'pecl':
-        $where = ' WHERE p.package_type = ' . $dbh->quoteSmart($site);
+        $where = ' WHERE p.package_type = ' . $dbh->quoteSmart(SITE);
         break;
     case 'pear':
         if ($pseudo) {
