@@ -76,7 +76,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     $query = 'SELECT SQL_CALC_FOUND_ROWS bugdb.*, ' .
              ' TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged FROM bugdb';
 
-    if (!empty($site) || $maintain != '' || $handle != '') {
+    if ($maintain != '' || $handle != '') {
         $query .= ' LEFT JOIN packages ON packages.name = bugdb.package_name';
     }
 
@@ -274,7 +274,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     }
 
     $where_clause .= ' AND (packages.package_type = '
-                   . $dbh->quoteSmart($site);
+                   . $dbh->quoteSmart(SITE);
 
     if ($pseudo = array_intersect($pseudo_pkgs, $package_name)) {
         $where_clause .= " OR bugdb.package_name";
