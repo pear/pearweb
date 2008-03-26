@@ -99,7 +99,7 @@ if (SITE == 'pear') {
  *
  * @return string  the sanitized string
  *
- * @see escapeSQL(), field(), txfield()
+ * @see escapeSQL(), txfield()
  */
 function clean($in)
 {
@@ -117,7 +117,7 @@ function clean($in)
  *
  * @return string|array  the sanitized data
  *
- * @see clean(), field(), txfield()
+ * @see clean(), txfield()
  */
 function escapeSQL($in)
 {
@@ -147,8 +147,7 @@ function escapeSQL($in)
  * @see clean(), escapeSQL(), txfield()
  */
 function field($n) {
-    $in = isset($_POST['in']) ? clean($_POST['in'][$n]) : clean($GLOBALS['bug'][$n]);
-    return $in;
+    return isset($_POST['in']) ? clean($_POST['in'][$n]) : clean($GLOBALS['bug'][$n]);
 }
 
 /**
@@ -162,7 +161,7 @@ function field($n) {
  *
  * @return mixed  the data requested
  *
- * @see clean(), escapeSQL(), field()
+ * @see clean(), escapeSQL()
  */
 function txfield($n, $bug = null, $in = null)
 {
@@ -445,7 +444,7 @@ function show_types($current, $show_any, $default = '')
             SELECT name FROM packages
             WHERE approved = 1 AND package_type = ?
             ORDER BY name";
-        $list = $dbh->getCol($sql, array(SITE));
+        $list = $dbh->getCol($sql, 'name', array(SITE));
         foreach ($list as $name) {
             $bug_items[$name] = $name;
         }
