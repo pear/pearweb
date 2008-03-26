@@ -44,7 +44,6 @@ $query .= ' bugdb.*, UNIX_TIMESTAMP(ts1) as ts1a, UNIX_TIMESTAMP(ts2) as ts2a,
             TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged'
         . ' FROM bugdb' .
           ' LEFT JOIN packages ON packages.name = bugdb.package_name';
-}
 
 if (!empty($_GET['maintain']) || !empty($_GET['handle'])) {
     $query .= ' LEFT JOIN maintains ON packages.id = maintains.package';
