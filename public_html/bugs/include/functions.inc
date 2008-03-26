@@ -99,7 +99,7 @@ if (SITE == 'pear') {
  *
  * @return string  the sanitized string
  *
- * @see escapeSQL(), oneof(), field(), txfield()
+ * @see escapeSQL(), field(), txfield()
  */
 function clean($in)
 {
@@ -117,7 +117,7 @@ function clean($in)
  *
  * @return string|array  the sanitized data
  *
- * @see clean(), oneof(), field(), txfield()
+ * @see clean(), field(), txfield()
  */
 function escapeSQL($in)
 {
@@ -134,27 +134,6 @@ function escapeSQL($in)
 }
 
 /**
- * Goes through each variable submitted and returns the value
- * from the first variable which has a non-empty value
- *
- * Handy function for when you're dealing with user input or a default.
- *
- * @param mixed  as many variables as you wish to check
- *
- * @return mixed  the value, if any
- *
- * @see clean(), escapeSQL(), field(), txfield()
- */
-function oneof()
-{
-    foreach (func_get_args() as $arg) {
-        if ($arg) {
-            return $arg;
-        }
-    }
-}
-
-/**
  * Returns the data from the field requested and sanitizes
  * it for use as HTML
  *
@@ -165,11 +144,11 @@ function oneof()
  *
  * @return mixed  the data requested
  *
- * @see clean(), escapeSQL(), oneof(), txfield()
+ * @see clean(), escapeSQL(), txfield()
  */
 function field($n) {
-    $in = isset($_POST['in']) ? clean($_POST['in'][$n]) : null;
-    return oneof($in, clean($GLOBALS['bug'][$n]));
+    $in = isset($_POST['in']) ? clean($_POST['in'][$n]) : clean($GLOBALS['bug'][$n]);
+    return $in;
 }
 
 /**
@@ -183,13 +162,14 @@ function field($n) {
  *
  * @return mixed  the data requested
  *
- * @see clean(), escapeSQL(), oneof(), field()
+ * @see clean(), escapeSQL(), field()
  */
 function txfield($n, $bug = null, $in = null)
 {
-    $one = (isset($in) && isset($in[$n]))   ? $in[$n]  : false;
+    $one = (isset($in)  && isset($in[$n]))  ? $in[$n]  : false;
+    if ($one) return $one;
     $two = (isset($bug) && isset($bug[$n])) ? $bug[$n] : false;
-    return oneof($one, $two);
+    if ($two) return $two;
 }
 
 /**
@@ -616,7 +596,8 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
     /* Default addresses */
     include_once 'bugs/pear-bugs-utils.php';
     $pbu = new PEAR_Bugs_Utils;
-    list($mailto, $mailfrom, $Bcc) = $pbu->getPackageMail(oneof($in['package_name'], $bug['package_name']), $id);
+    $pm  = isset($in['package_name']) ? $in['package_name'] : $bug['package_name'];
+    list($mailto, $mailfrom, $Bcc) = $pbu->getPackageMail($pm, $id);
 
     $headers[] = array(" ID", $bug['id']);
 
