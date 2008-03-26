@@ -74,11 +74,8 @@ $package_nname  = (isset($_GET['package_nname']) && is_array($_GET['package_nnam
 
 if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     $query = 'SELECT SQL_CALC_FOUND_ROWS bugdb.*, ' .
-             ' TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged FROM bugdb';
-
-    if ($maintain != '' || $handle != '') {
-        $query .= ' LEFT JOIN packages ON packages.name = bugdb.package_name';
-    }
+             ' TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) AS unchanged FROM bugdb' .
+             ' LEFT JOIN packages ON packages.name = bugdb.package_name';
 
     if ($maintain != '' || $handle != '') {
         $query .= ' LEFT JOIN maintains ON packages.id = maintains.package';
