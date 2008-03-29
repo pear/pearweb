@@ -44,7 +44,7 @@ if (isset($patch) && isset($revision)) {
             '<p><strong>If you do not have a confirmation message</strong>, <a href="resend-request-email.php?' .
             'handle=' . urlencode($patchinfo->getDeveloper($bug_id, $patch, $revision))
             . '">click here to re-send</a> or write a message to' .
-            ' <a href="mailto:' . PEAR_DEV_LIST . '">' . PEAR_DEV_LIST . '</a> asking for manual approval of your account.</p>';
+            ' <a href="mailto:' . PEAR_DEV_EMAIL . '">' . PEAR_DEV_EMAIL . '</a> asking for manual approval of your account.</p>';
         response_footer();
         exit;
     }
