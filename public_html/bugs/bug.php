@@ -50,7 +50,7 @@ if (isset($_GET['unsubscribe'])) {
     $unsubcribe = (int)$_GET['unsubscribe'];
 
     $hash = isset($_GET['t']) ? $_GET['t'] : false;
-    $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
+    SITE == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
 
     if (!$hash) {
         localRedirect('bug.php?id='.$id);
@@ -185,8 +185,8 @@ if (isset($_POST['unsubscribe_to_bug']) OR isset($_POST['subscribe_to_bug'])) {
 }
 
 // Redirect to PECL if it's a PECL bug
-if (!empty($bug['package_type']) && $bug['package_type'] != $site) {
-    $site == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
+if (!empty($bug['package_type']) && $bug['package_type'] != SITE) {
+    SITE == 'pear' ? $redirect = 'pecl' : $redirect = 'pear';
     localRedirect('http://' . $redirect . '.php.net/bugs/bug.php?id='.$id);
     exit;
 }
@@ -544,7 +544,7 @@ switch ($bug['bug_type']) {
 }
 response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']), false,
     ' <link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://' .
-    htmlspecialchars($_SERVER['HTTP_HOST']) . '/feeds/bug_' . $id . '.rss" />
+    PEAR_CHANNELNAME . '/feeds/bug_' . $id . '.rss" />
 ');
 
 show_bugs_menu(txfield('package_name'));
@@ -565,7 +565,7 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
                         . ' notified. You may return here and check on the'
                         . ' status or update your report at any time. The URL'
                         . ' for your bug report is: <a href="/bugs/'. $id . '">'
-                        . 'http://'.$site.'.php.net/bugs/' . $id . '</a>.');
+                        . 'http://'. PEAR_CHANNELNAME .'/bugs/' . $id . '</a>.');
 
 } elseif ($_GET['thanks'] == 6) {
     report_success('Thanks for voting! Your vote should be reflected'
@@ -708,15 +708,15 @@ if ($bug['modified']) {
 
 <?php
 
-control(0, 'View');
+control(0, 'View', $id, $edit);
 if (
     (!(isset($auth_user) && $auth_user && $auth_user->registered) || !auth_check('pear.dev')) && $edit != 2
 ) {
-    control(3, 'Add Comment');
+    control(3, 'Add Comment', $id, $edit);
 }
 
 if (auth_check('pear.bug') || auth_check('pear.dev')) {
-    control(1, 'Edit');
+    control(1, 'Edit', $id, $edit);
 }
 
 ?>
@@ -900,8 +900,9 @@ if ($edit == 1 || $edit == 2) {
       <th>Status:</th>
       <td <?php echo (($edit != 1) ? 'colspan="3"' : '' ) ?>>
        <select name="in[status]">
-        <?php show_state_options(isset($_POST['in']) && isset($_POST['in']['status']) ?
-            $_POST['in']['status'] : '', $edit, $bug['status']) ?>
+        <?php
+            $status = isset($_POST['in']) && isset($_POST['in']['status']) ? $_POST['in']['status'] : '';
+            show_state_options($status, $edit, $bug['status']) ?>
        </select>
 
 <?php
@@ -912,8 +913,7 @@ if ($edit == 1 || $edit == 2) {
         <th>Assign to:</th>
         <td>
          <input type="text" size="10" maxlength="16" name="in[assign]"
-          value="<?php echo field('assign') ?>" />
-
+          value="<?php echo field('assign', $bug) ?>" />
 <?php
     }
 ?>
@@ -944,13 +944,13 @@ if ($edit == 1 || $edit == 2) {
       <th>Summary:</th>
       <td colspan="3">
        <input type="text" size="60" maxlength="80" name="in[sdesc]"
-        value="<?php echo field('sdesc') ?>" />
+        value="<?php echo field('sdesc', $bug) ?>" />
       </td>
      </tr>
      <tr>
       <th>From:</th>
       <td colspan="3">
-       <?php echo $pbu->spamProtect(field('email')) ?>
+       <?php echo $pbu->spamProtect(field('email', $bug)) ?>
       </td>
      </tr>
      <tr>
@@ -965,17 +965,17 @@ if ($edit == 1 || $edit == 2) {
       <th>PHP Version:</th>
       <td>
        <input type="text" size="20" maxlength="100" name="in[php_version]"
-        value="<?php echo field('php_version') ?>" />
+        value="<?php echo field('php_version', $bug) ?>" />
       </td>
       <th>Package Version:</th>
       <td>
        <input type="text" size="20" maxlength="100" name="in[package_version]"
-        value="<?php echo field('package_version') ?>" />
+        value="<?php echo field('package_version', $bug) ?>" />
       </td>
       <th>OS:</th>
       <td>
        <input type="text" size="20" maxlength="32" name="in[php_os]"
-        value="<?php echo field('php_os') ?>" />
+        value="<?php echo field('php_os', $bug) ?>" />
       </td>
      </tr>
      <?php if (auth_check('pear.dev')): ?>
@@ -1264,7 +1264,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
             echo '<pre class="note">If you submitted this note, check your email.';
             echo 'If you do not have a message, <a href="resend-request-email.php?' .
             'handle=' . urlencode($handle) . "\">click here to re-send</a>\n",
-            'MANUAL CONFIRMATION IS NOT POSSIBLE.  Write a message to <a href="mailto:' . PEAR_DEV_LIST . '">' . PEAR_DEV_LIST . '</a>' . "\n",
+            'MANUAL CONFIRMATION IS NOT POSSIBLE.  Write a message to <a href="mailto:' . PEAR_DEV_EMAIL . '">' . PEAR_DEV_EMAIL . '</a>' . "\n",
             "to request the confirmation link.  All bugs/comments/patches associated with this
 \nemail address will be deleted within 48 hours if the account request is not confirmed!";
             echo "</pre>\n</div>";
@@ -1274,6 +1274,8 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
         if ($handle) {
             echo '<a href="/user/' . $handle . '">' . $handle . "</a></strong>\n";
         } else {
+            require_once 'bugs/pear-bugs-utils.php';
+            $pbu = new PEAR_Bugs_Utils;
             echo $pbu->spamProtect(htmlspecialchars($email))."</strong>\n";
         }
     }
@@ -1321,15 +1323,15 @@ function delete_comment($id, $com_id)
     $res =& $dbh->query($query);
 }
 
-function control($num, $desc)
+function control($num, $desc, $id, $edit)
 {
     echo '<span id="control_' . $num . '" class="control';
-    if ($GLOBALS['edit'] == $num) {
+    if ($edit == $num) {
         echo ' active">';
         echo $desc;
     } else {
         echo '">';
-        echo '<a href="' . htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $GLOBALS['id'];
+        echo '<a href="' . htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $id;
         echo ($num ? "&amp;edit=$num" : '');
         echo '">' . $desc . '</a>';
     }

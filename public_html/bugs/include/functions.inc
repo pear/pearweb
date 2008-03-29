@@ -146,8 +146,8 @@ function escapeSQL($in)
  *
  * @see clean(), escapeSQL(), txfield()
  */
-function field($n) {
-    return isset($_POST['in']) ? clean($_POST['in'][$n]) : clean($GLOBALS['bug'][$n]);
+function field($n, $bug) {
+    return clean(isset($_POST['in']) ? $_POST['in'][$n] : $bug[$n]);
 }
 
 /**
