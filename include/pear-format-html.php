@@ -885,10 +885,23 @@ function make_ticket_links($text)
  *
  * @return string  the time formatted time
  */
-function make_utc_date($ts = null, $format = 'Y-m-d H:i \U\T\C')
+function make_utc_date($ts = null, $format = 'Y-m-d H:i e')
+{
+    return format_date($ts, $format);
+}
+
+/**
+ * Turns a unix timestamp into a uniformly formatted date
+ * If the date is during the current year, the year is omitted.
+ *
+ * @param int $date  the unix timestamp to be formatted
+ * @param string $format date function formatted string
+ * @return string  the formatted date
+ */
+function format_date($ts = null, $format = 'Y-m-d H:i e')
 {
     if (!$ts) {
         $ts = time();
     }
-    return gmdate($format, $ts);
+    return gmdate($format, $ts - date('Z', $ts));
 }
