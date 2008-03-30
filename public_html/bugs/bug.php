@@ -1331,9 +1331,8 @@ function control($num, $desc, $id, $edit)
         echo $desc;
     } else {
         echo '">';
-        echo '<a href="' . htmlspecialchars($_SERVER['PHP_SELF']) . '?id=' . $id;
-        echo ($num ? "&amp;edit=$num" : '');
-        echo '">' . $desc . '</a>';
+        $add = $num ? "&amp;edit=$num" : '';
+        echo '<a href="bug.php?id=' . $id . $add . '">' . $desc . '</a>';
     }
     echo "</span>\n";
 }
