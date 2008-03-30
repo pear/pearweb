@@ -669,6 +669,7 @@ function user_link($handle, $compact = false)
  */
 function make_link($url, $linktext = '', $target = '', $extras = '', $title = '')
 {
+    $url = htmlspecialchars($url, ENT_QUOTES, 'ISO8859-15', false);
     return sprintf('<a href="%s"%s%s%s>%s</a>',
         $url,
         ($target ? ' target="'.$target.'"' : ''),
