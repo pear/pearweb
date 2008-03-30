@@ -37,8 +37,12 @@ div#body {
     padding: 0.3em 0.5em 1em 1em;
 }
 
-div#body a {
+div#body a[href] {
     text-decoration: underline;
+}
+
+h1 a, h2 a, h3 a {
+  text-decoration: none !important;
 }
 
 /* HEADER */
