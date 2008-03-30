@@ -17,6 +17,7 @@
    +----------------------------------------------------------------------+
    $Id$
 */
+date_default_timezone_set('UTC');
 require_once 'pear-config.php';
 require_once 'PEAR.php';
 include_once 'pear-format-html.php';
