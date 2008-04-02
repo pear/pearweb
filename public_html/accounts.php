@@ -25,7 +25,7 @@ $self = htmlspecialchars($_SERVER['PHP_SELF']);
 $offset = isset($_GET['offset']) ? (int) $_GET['offset'] : null;
 $letter = isset($_GET['letter']) ? strip_tags($_GET['letter']) : null;
 
-print "<h1>Accounts</h1>\n";
+echo "<h1>Accounts</h1>\n";
 
 $query = 'SELECT SUBSTRING(handle,1,1) FROM users '.
          'WHERE registered = 1 ORDER BY handle';
@@ -62,18 +62,18 @@ $last = $offset - $page_size;
 $lastlink = $self . "?offset=$last";
 $next = $offset + $page_size;
 $nextlink = $self. "?offset=$next";
-print '<table border="0" cellspacing="1" cellpadding="5" width="100%">' . "\n";
-print " <tr>\n";
-print '  <th class="form-label_top_center" style="font-size: 80%">';
+echo '<table border="0" cellspacing="1" cellpadding="5" width="100%">' . "\n";
+echo " <tr>\n";
+echo '  <th class="form-label_top_center" style="font-size: 80%">';
 if ($offset > 0) {
-    print "<a href=\"$lastlink\">&lt;&lt; Last $page_size</a>";
+    echo "<a href=\"$lastlink\">&lt;&lt; Last $page_size</a>";
 } else {
-    print "&nbsp;";
+    echo "&nbsp;";
 }
-print "</th>\n";
-print '  <th class="form-label_top_center" colspan="2">' . "\n";
+echo "</th>\n";
+echo '  <th class="form-label_top_center" colspan="2">' . "\n";
 
-print '<table border="0" width="100%"><tr><td>';
+echo '<table border="0" width="100%"><tr><td>';
 foreach ($firstletters as $fl) {
     $o = $first_letter_offsets[$fl];
     if ($o >= $offset && $o <= $last_shown) {
@@ -82,15 +82,15 @@ foreach ($firstletters as $fl) {
         printf('<a href="%s?letter=%s">%s</a> ', $self, $fl, strtoupper($fl));
     }
 }
-print '</td><td rowspan="2" align="right">';
-print '<form><input type="button" onclick="';
-$gourl = "http://" . htmlspecialchars($_SERVER['HTTP_HOST']);
+echo '</td><td rowspan="2" align="right">';
+echo '<form><input type="button" onclick="';
+$gourl = "http://" . PEAR_CHANNELNAME;
 if ($_SERVER['SERVER_PORT'] != 80) {
     $gourl .= ":".$_SERVER['SERVER_PORT'];
 }
 $gourl .= "/user/";
-print "u=prompt('Go to account:','');if(u)location.href='$gourl'+u;";
-print '" value="Go to account.." /></td></tr><tr><td>';
+echo "u=prompt('Go to account:','');if(u)location.href='$gourl'+u;";
+echo '" value="Go to account.." /></td></tr><tr><td>';
 printf("Displaying accounts %d - %d of %d<br />\n",
         $offset, min($offset+$show, $naccounts), $naccounts);
 
@@ -98,77 +98,74 @@ $sth = $dbh->limitQuery('SELECT handle,name,email,homepage,showemail '.
                         'FROM users WHERE registered = 1 ORDER BY handle',
                         $offset, $show);
 
-print "</td></tr></table>\n";
-print "</th>\n";
-print '  <th class="form-label_top_center" style="font-size: 80%">';
+echo "</td></tr></table>\n";
+echo "</th>\n";
+echo '  <th class="form-label_top_center" style="font-size: 80%">';
 if ($offset + $page_size < $naccounts) {
     $nn = min($page_size, $naccounts - $offset - $page_size);
-    print "<a href=\"$nextlink\">Next $nn &gt;&gt;</a>";
+    echo "<a href=\"$nextlink\">Next $nn &gt;&gt;</a>";
 } else {
-    print "&nbsp;";
+    echo "&nbsp;";
 }
-print "</th>\n";
-print " </tr>\n";
+echo "</th>\n";
+echo " </tr>\n";
 
-print " <tr>\n";
-print '  <th class="form-label_top_center">Handle</th>' . "\n";
-print '  <th class="form-label_top_center">Name</th>' . "\n";
-print '  <th class="form-label_top_center">Email</th>' . "\n";
-print '  <th class="form-label_top_center">Homepage</th>' . "\n";
-print " </tr>\n";
+echo " <tr>\n";
+echo '  <th class="form-label_top_center">Handle</th>' . "\n";
+echo '  <th class="form-label_top_center">Name</th>' . "\n";
+echo '  <th class="form-label_top_center">Email</th>' . "\n";
+echo '  <th class="form-label_top_center">Homepage</th>' . "\n";
+echo " </tr>\n";
 
 $rowno = 0;
 while (is_array($row = $sth->fetchRow(DB_FETCHMODE_ASSOC))) {
     extract($row);
     if (++$rowno % 2) {
-        print " <tr bgcolor=\"#e8e8e8\">\n";
+        echo " <tr bgcolor=\"#e8e8e8\">\n";
     } else {
-        print " <tr bgcolor=\"#e0e0e0\">\n";
+        echo " <tr bgcolor=\"#e0e0e0\">\n";
     }
-    print "  <td>" . make_link("/user/" . $handle, $handle) . "</td>\n";
-    print '  <td style="white-space: nowrap">' . $name . "</td>\n";
+    echo "  <td>" . make_link("/user/" . $handle, $handle) . "</td>\n";
+    echo '  <td style="white-space: nowrap">' . $name . "</td>\n";
 
-    if ($showemail &&
-        !empty($auth_user) &&
-        !empty($auth_user->registered))
-    {
-        print '  <td>' . make_mailto_link($email) . "</td>\n";
+    if ($showemail && !empty($auth_user) && !empty($auth_user->registered)) {
+        echo '  <td>' . make_mailto_link($email) . "</td>\n";
     } else {
-        print '  <td>(';
+        echo '  <td>(';
         echo make_link('/account-mail.php?handle=' . $handle, 'not shown');
-        print ")</td>\n";
+        echo ")</td>\n";
     }
     if (!empty($homepage)) {
-        print '<td><a href="' . $homepage . '">Homepage</a></td>' . "\n";
+        echo '<td><a href="' . $homepage . '">Homepage</a></td>' . "\n";
     } else {
-        print '<td>&nbsp;</td>';
+        echo '<td>&nbsp;</td>';
     }
-    print " </tr>\n";
+    echo " </tr>\n";
 }
 
-print " <tr>\n";
-print '  <th class="form-label_top_center" style="font-size: 80%">' . "\n";
+echo " <tr>\n";
+echo '  <th class="form-label_top_center" style="font-size: 80%">' . "\n";
 if ($offset > 0) {
-    print "<a href=\"$lastlink\">&lt;&lt; Last $page_size</a>";
+    echo "<a href=\"$lastlink\">&lt;&lt; Last $page_size</a>";
 } else {
-    print "&nbsp;";
+    echo "&nbsp;";
 }
-print "</th>\n";
-print '  <th class="form-label_top_center" colspan="2">';
+echo "</th>\n";
+echo '  <th class="form-label_top_center" colspan="2">';
 
-print '<table border="0"><tr><td>';
-print '</td><td rowspan="2">&nbsp;';
-print "</td></tr></table>\n";
-print "</td>\n";
-print '  <th class="form-label_top_center" style="font-size: 80%">';
+echo '<table border="0"><tr><td>';
+echo '</td><td rowspan="2">&nbsp;';
+echo "</td></tr></table>\n";
+echo "</td>\n";
+echo '  <th class="form-label_top_center" style="font-size: 80%">';
 if ($offset + $page_size < $naccounts) {
     $nn = min($page_size, $naccounts - $offset - $page_size);
-    print "<a href=\"$nextlink\">Next $nn &gt;&gt;</a>";
+    echo "<a href=\"$nextlink\">Next $nn &gt;&gt;</a>";
 } else {
-    print "&nbsp;";
+    echo "&nbsp;";
 }
-print "</th>\n";
-print " </tr>\n";
-print "</table>\n";
+echo "</th>\n";
+echo " </tr>\n";
+echo "</table>\n";
 
 response_footer();
