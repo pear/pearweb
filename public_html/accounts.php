@@ -32,7 +32,7 @@ $query = 'SELECT SUBSTRING(handle,1,1) FROM users '.
 $all_firstletters = $dbh->getCol($query);
 // I wish there was a way to do this in mysql...
 $first_letter_offsets = array();
-for ($i = 0; $i < sizeof($all_firstletters); $i++) {
+for ($i = 0; $i < count($all_firstletters); $i++) {
     $l = $all_firstletters[$i];
     if (isset($first_letter_offsets[$l])) {
         continue;
@@ -52,7 +52,11 @@ if (empty($show)) {
 }
 settype($offset, "integer");
 
-$naccounts = $dbh->getOne("SELECT COUNT(handle) FROM users WHERE registered = 1");
+$sql = '
+    SELECT COUNT(u.handle) FROM users u
+    LEFT JOIN karma k ON k.user = u.handle
+    WHERE u.registered = 1 AND k.level = ?';
+$naccounts = $dbh->getOne($sql, array('pear.dev'));
 
 $last_shown = $offset + $page_size - 1;
 
@@ -94,9 +98,11 @@ echo '" value="Go to account.." /></td></tr><tr><td>';
 printf("Displaying accounts %d - %d of %d<br />\n",
         $offset, min($offset+$show, $naccounts), $naccounts);
 
-$sth = $dbh->limitQuery('SELECT handle,name,email,homepage,showemail '.
-                        'FROM users WHERE registered = 1 ORDER BY handle',
-                        $offset, $show);
+$sql = 'SELECT u.handle, name, u.email, u.homepage, u.showemail '.
+       'FROM users u
+       LEFT JOIN karma k ON k.user = u.handle
+       WHERE u.registered = 1 AND k.level = "pear.dev" ORDER BY handle';
+$sth = $dbh->limitQuery($sql, $offset, $show);
 
 echo "</td></tr></table>\n";
 echo "</th>\n";
