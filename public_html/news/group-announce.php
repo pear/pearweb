@@ -18,22 +18,30 @@
    $Id$
 */
 
-response_header("Announcing the PEAR Group");
+response_header('Announcing the PEAR Group');
 ?>
 
 <h1>Announcing the PEAR Group</h1>
 
+[August 20, 2003]
+
 <div style="margin-left:2em;margin-right:2em">
 
-<p>On 12th August 2003 <?php echo user_link("ssb", true); ?>, the founder of PEAR, announced
-the forming of the PEAR Group, which will be the governing body of
-PEAR. The full announcement can be
-<?php echo make_link("http://marc.theaimsgroup.com/?l=pear-dev&m=106073080219083&w=2",
-                     "found here"); ?>.</p>
-<p>More information about the Group, including a first administrative
-document, can be found at a <?php echo make_link("/group/", "dedicated place"); ?> 
-on pear.php.net.</p>
+<p>
+ On 12th August 2003 <?php echo user_link('ssb', true); ?>, the founder of PEAR, announced
+ the forming of the PEAR Group, which will be the governing body of
+ PEAR. The full announcement can be
+<?php echo make_link('http://marc.theaimsgroup.com/?l=pear-dev&m=106073080219083&w=2',
+                     'found here'); ?>.
+</p>
+
+<p>
+ More information about the Group, including a first administrative
+ document, can be found at a <?php echo make_link("/group/", "dedicated place"); ?>
+ on pear.php.net.
+</p>
 
 </div>
 
-<?php response_footer(); ?>
+<?php
+response_footer();

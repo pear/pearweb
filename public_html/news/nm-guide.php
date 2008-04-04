@@ -18,16 +18,21 @@
    $Id$
 */
 
-response_header("New Maintainer&#39;s Guide");
+response_header('New Maintainer&#39;s Guide');
 ?>
 
 <h1>New Maintainer&#39;s Guide</h1>
 
+[August 3, 2004]
+
 <div style="margin-left:2em;margin-right:2em">
-<p>2004-08-03: The online manual is now featuring the 
-<a href="/manual/en/guide-newmaint.php">New Maintainer&#39;s Guide</a>. 
-This guide provides an overview about the process of contributing new
-packages to PEAR.</p>
+ <p>
+  The online manual is now featuring the
+  <a href="/manual/en/guide-newmaint.php">New Maintainer&#39;s Guide</a>.
+  This guide provides an overview about the process of contributing new
+  packages to PEAR.
+ </p>
 </div>
 
-<?php response_footer(); ?>
+<?php
+response_footer();

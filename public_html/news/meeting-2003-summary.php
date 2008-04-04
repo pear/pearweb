@@ -19,9 +19,10 @@
 */
 
 response_header();
-
 ?>
 <h1>PEAR Meeting - Summary</h1>
+
+[May 16, 2003]
 
 <div style="margin-left:2em;margin-right:2em">
 
@@ -295,4 +296,3 @@ although in Stig's original proposal, he suggested morphing on the server.
 </div>
 <?php
 response_footer();
-?>

@@ -18,10 +18,12 @@
    $Id$
 */
 
-response_header("Weekly Summaries");
+response_header('Weekly Summaries');
 ?>
 
 <h1>Weekly Summaries</h1>
+
+[March 29, 2004]
 
 <div style="margin-left:2em;margin-right:2em">
 
@@ -31,4 +33,5 @@ about the events on the PEAR mailing lists.  Do not miss to inspect this
 fine resource regularly.</p>
 
 </div>
-<?php response_footer(); ?>
+<?php
+response_footer();

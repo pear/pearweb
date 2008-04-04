@@ -18,29 +18,36 @@
    $Id$
 */
 
-response_header("Own website for PECL");
+response_header('Own website for PECL');
 ?>
 
 <h1>Own infrastructure for PECL</h1>
 
-<div style="margin-left:2em;margin-right:2em">
-<p>PECL, formerly known as PHP Extension Code Library, has been renamed
-to PHP Extension Community Library. Additionally all PECL related
-services have been moved to their own website:
-<?php echo make_link("http://pecl.php.net/"); ?>.</p>
+[October 15, 2003]
 
-<p>This means that if you are looking for PECL packages, you won't
-find them here on pear.php.net anymore; you will have to search for them
-on the <?php echo make_link("http://pecl.php.net/", "PECL website"); ?>
-instead. The PECL project also has an independent mailing list battery
-now. An overview of the PECL mailing lists can be found
-<?php echo make_link("http://pecl.php.net/support.php", "here"); ?>.
+<div style="margin-left:2em;margin-right:2em">
+<p>
+ PECL, formerly known as PHP Extension Code Library, has been renamed
+ to PHP Extension Community Library. Additionally all PECL related
+ services have been moved to their own website:
+ <?php echo make_link('http://pecl.php.net/'); ?>.
 </p>
 
-<p>More information about PECL can be found in the
-<?php echo make_link("http://pear.php.net/manual/en/introduction.php#about-pecl", "PEAR Manual"); ?>.
+<p>
+ This means that if you are looking for PECL packages, you won't
+ find them here on pear.php.net anymore; you will have to search for them
+ on the <?php echo make_link('http://pecl.php.net/', 'PECL website'); ?>
+ instead. The PECL project also has an independent mailing list battery
+ now. An overview of the PECL mailing lists can be found
+ <?php echo make_link('http://pecl.php.net/support.php', 'here'); ?>.
+</p>
+
+<p>
+ More information about PECL can be found in the
+ <?php echo make_link('http://pear.php.net/manual/en/introduction.php#about-pecl', 'PEAR Manual'); ?>.
 </p>
 
 </div>
 
-<?php response_footer(); ?>
+<?php
+response_footer();

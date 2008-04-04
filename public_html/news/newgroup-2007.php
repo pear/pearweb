@@ -18,16 +18,18 @@
    $Id$
 */
 
-response_header("First democratically elected PEAR Group");
+response_header('First democratically elected PEAR Group');
 ?>
 
 <h1>The first democratically elected PEAR Group has taken power</h1>
+
+[May 4, 2007]
 
 <div style="margin-left:2em;margin-right:2em">
 <p>
 For the first time in its history, PEAR has a new PEAR Group.  Following on the
 heels of the adoption of the <a href="/manual/en/constitution.php">Constitution</a>,
-the new members have been elected by secret ballot of 
+the new members have been elected by secret ballot of
 the PEAR developers and they have chosen:
  <ul>
   <li>
@@ -41,7 +43,7 @@ the PEAR developers and they have chosen:
   </li>
   <li>
     Joshua Eichorn
-  </li>    
+  </li>
   <li>
     Christian Weiske
   </li>
@@ -65,4 +67,5 @@ You can see more information about the PEAR Group by clicking <a href="/group/" 
 </p>
 </div>
 
-<?php response_footer(); ?>
+<?php
+response_footer();

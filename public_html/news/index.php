@@ -51,4 +51,3 @@ echo ' <li>' . make_link('release-1.0.php', 'PEAR 1.0 is released!') . " (Januar
 echo '</ul>';
 
 response_footer();
-?>

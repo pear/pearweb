@@ -22,6 +22,8 @@ response_header();
 ?>
 <h1>PEAR Meeting in Amsterdam</h1>
 
+[March 20, 2003]
+
 <div style="margin-left:2em;margin-right:2em">
 We will hold the first PEAR Meeting (following the
 <a href="http://www.phpconference.com/">Int. PHP Conference</a>) in

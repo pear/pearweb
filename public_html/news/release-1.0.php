@@ -18,10 +18,12 @@
    $Id$
 */
 
-response_header("PEAR 1.0 is released!");
+response_header('PEAR 1.0 is released!');
 
 ?>
 <h1>PEAR 1.0 is released!</h1>
+
+[December 27, 2002]
 
 <div style="margin-left:2em;margin-right:2em">
 As of PHP 4.3.0, PEAR is an officially supported
@@ -55,4 +57,5 @@ hacking:
 <a href="/user/ssb">Stig Bakken &lt;stig&#64;php.net&gt;</a>
 </div>
 
-<?php response_footer(); ?>
+<?php
+response_footer();
