@@ -67,7 +67,8 @@ do {
 
         $request = new PEAR_Election_Accountrequest();
         $salt = $request->addRequest($stripped['handle'], $stripped['email'],
-            $stripped['firstname'], $stripped['lastname'], $stripped);
+            $stripped['firstname'], $stripped['lastname'], $stripped['password'],
+            $stripped['password2']);
 
         if (PEAR::isError($salt)) {
             $errors[] = 'Database error (e.g. email address already registered).';
@@ -171,8 +172,6 @@ MSG;
         'lastname'      => @$hsc['lastname'],
         'email'         => @$hsc['email'],
         'showemail'     => @$hsc['showemail'],
-        'homepage'      => @$hsc['homepage'],
-        'moreinfo'      => @$hsc['moreinfo'],
         'comments_read' => @$hsc['comments_read'],
     ));
 
@@ -188,12 +187,6 @@ MSG;
     $_SESSION['answer'] = $numeralCaptcha->getAnswer();
     $form->addElement('text', 'email', 'Email Address:', array('size' => 20));
     $form->addElement('checkbox', 'showemail', 'Show email address?');
-    $form->addElement('text', 'homepage', 'Homepage:'
-            . '<p class="cell_note">(optional)</p>', array('size' => 40));
-    $form->addElement('textarea', 'moreinfo',
-            'More relevant information about you:'
-            . '<p class="cell_note">(optional)</p>',
-            array('cols' => 40, 'rows' => 5));
     $form->addElement('checkbox', 'comments_read', 'I have read EVERYTHING on this page:');
     $form->addElement('submit', 'submit', 'Submit Request');
     $form->display();
@@ -206,5 +199,3 @@ MSG;
 }
 
 response_footer();
-
-?>

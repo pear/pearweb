@@ -43,18 +43,20 @@ class PEAR_Election_Accountrequest
      *
      * @return string salt
      */
-    function addRequest($handle, $email, $firstName, $lastName, $additionnalData)
+    function addRequest($handle, $email, $firstName, $lastName, $pw1, $pw2)
     {
         $data = array(
             'handle'     => $handle,
             'firstname'  => $firstName,
             'lastname'   => $lastName,
             'email'      => $email,
+            'password'   => $pw1,
+            'password2'  => $pw2,
             'purpose'    => 'vote in general election',
             'fromt_site' => 'pear',
+            'moreinfo'   => '',
+            'homepage'   => '',
         );
-
-        $data = array_merge($additionnalData, $data);
 
         include_once 'pear-database-user.php';
         $useradd = user::add($data, false, true);
