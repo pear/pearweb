@@ -142,7 +142,7 @@ while (is_array($row = $sth->fetchRow(DB_FETCHMODE_ASSOC))) {
         echo ")</td>\n";
     }
     if (!empty($homepage)) {
-        echo '<td><a href="' . $homepage . '">Homepage</a></td>' . "\n";
+        echo '<td><a href="' . $homepage . '" rel="nofollow">Homepage</a></td>' . "\n";
     } else {
         echo '<td>&nbsp;</td>';
     }
