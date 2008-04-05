@@ -1,15 +1,15 @@
 <?php
 require 'include/functions.inc';
-if (!isset($_GET['bug'])) {
+if (!isset($_GET['bug_id'])) {
     response_header('Error :: no bug selected');
-    report_error('No bug selected to add a patch to');
+    report_error('No patch selected to view');
     response_footer();
     exit;
 }
 
 $revision = $_GET['revision'];
 $patch    = $_GET['patch'];
-$bug_id   = (int)$_GET['bug'];
+$bug_id   = (int)$_GET['bug_id'];
 
 require 'bugs/patchtracker.php';
 $patchinfo = new Bugs_Patchtracker;
