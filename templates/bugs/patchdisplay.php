@@ -1,8 +1,8 @@
 <?php response_header('Patch :: ' . clean($package) . ' :: Bug #' . clean($bug)); ?>
 <h1>Patch version <?php echo format_date($revision) ?> for <?php echo clean($package) ?> Bug #<?php
     echo clean($bug) ?></h1>
-<a href="bug.php?id=<?php echo urlencode($bug) ?>">Return to Bug #<?php echo clean($bug) ?></a> 
-| <a href="patch-display.php?bug=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
+<a href="bug.php?id=<?php echo urlencode($bug) ?>">Return to Bug #<?php echo clean($bug) ?></a>
+| <a href="patch-display.php?bug_id=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
     ?>&revision=<?php echo urlencode($revision) ?>&download=1">Download this patch</a><br />
 <?php
 if (count($obsoletedby)) {
@@ -10,7 +10,7 @@ if (count($obsoletedby)) {
     foreach ($obsoletedby as $betterpatch) {
         echo '<li><a href="/bugs/patch-display.php?patch=',
              urlencode($betterpatch['patch']),
-             '&bug=', $bug, '&revision=', $betterpatch['revision'],
+             '&bug_id=', $bug, '&revision=', $betterpatch['revision'],
              '">', htmlspecialchars($betterpatch['patch']), ', revision ',
              format_date($betterpatch['revision']), '</a></li>';
     }
@@ -22,7 +22,7 @@ if (count($obsoletes)) {
     foreach ($obsoletes as $betterpatch) {
         echo '<li><a href="/bugs/patch-display.php?patch=',
              urlencode($betterpatch['obsolete_patch']),
-             '&bug=', $bug,
+             '&bug_id=', $bug,
              '&revision=', $betterpatch['obsolete_revision'],
              '">', htmlspecialchars($betterpatch['obsolete_patch']), ', revision ',
              format_date($betterpatch['obsolete_revision']), '</a></li>';
@@ -34,12 +34,12 @@ Patch Revisions:
 <?php
 echo '<ul>';
 foreach ($revisions as $i => $rev) {
-    echo '<li><a href="patch-display.php?bug=', urlencode($bug), '&patch=',
+    echo '<li><a href="patch-display.php?bug_id=', urlencode($bug), '&patch=',
          urlencode($patch), '&revision=', urlencode($rev[0]), '">',
-         format_date($rev[0]), '</a>', 
+         format_date($rev[0]), '</a>',
          ' <a href="/bugs/patch-display.php?patch=',
              urlencode($patch),
-             '&bug=', $bug, '&diff=1&old=', $rev[0], '&revision=',
+             '&bug_id=', $bug, '&diff=1&old=', $rev[0], '&revision=',
              $revision, '">[diff to current]</a></li>';
 }
 echo '</ul></li>';
