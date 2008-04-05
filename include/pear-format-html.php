@@ -759,19 +759,14 @@ function make_image($file, $alt = '', $align = '', $extras = '', $dir = '',
 function print_tabbed_navigation($items)
 {
     global $self;
-
     $page = basename($self);
 
     echo '<div id="nav">' . "\n";
     echo "  <ul>\n";
     foreach ($items as $title => $item) {
         echo "    <li>";
-        echo '<a href="' . $item['url']
-             . '" title="' . $item['title'] . '"';
-        if ($page == $item['url']) {
-            echo ' class="active"';
-        }
-        echo '>' . $title . "</a>";
+        $css = $page == $item['url'] ? ' class="current"' : '';
+        echo make_link($item['url'], $title, '', $css, $item['title']);
         echo "</li>\n";
     }
     echo "  </ul>\n";
@@ -791,9 +786,9 @@ function print_package_navigation($pacid, $name, $action)
 {
     global $auth_user;
 
-    $nav_items = array(
+    $items = array(
         'Main'          => array('url'   => '',
-                                 'title' => ''),
+                                 'title' => 'Main view'),
         'Download'      => array('url'   => 'download',
                                  'title' => 'Download releases of this package'),
         'Documentation' => array('url'   => 'docs',
@@ -811,34 +806,33 @@ function print_package_navigation($pacid, $name, $action)
         (user::maintains($auth_user->handle, $pacid, 'lead') ||
          user::isAdmin($auth_user->handle) ||
          user::isQA($auth_user->handle))
-       ) {
-        $nav_items['Edit']             = array('url'   => '/package-edit.php?id='.$pacid,
+    ) {
+        $items['Edit']             = array('url'   => '/package-edit.php?id='.$pacid,
                                                'title' => 'Edit this package');
-        $nav_items['Edit Maintainers'] = array('url'   => '/admin/package-maintainers.php?pid='.$pacid,
+        $items['Edit Maintainers'] = array('url'   => '/admin/package-maintainers.php?pid='.$pacid,
                                                'title' => 'Edit the maintainers of this package');
     }
-    if (isset($auth_user) && is_object($auth_user) &&
-        ($auth_user->isAdmin() || $auth_user->isQA())
-       ) {
-        $nav_items['Delete']           = array('url'   => '/package-delete.php?id='.$pacid,
+
+    if (isset($auth_user) && is_object($auth_user)
+        && ($auth_user->isAdmin() || $auth_user->isQA())
+    ) {
+        $items['Delete']           = array('url'   => '/package-delete.php?id='.$pacid,
                                                'title' => 'Delete this package');
     }
 
-    echo '<div id="nav">';
-    foreach ($nav_items as $title => $item) {
+    //echo print_tabbed_navigation($nav_items);
+
+    echo '<div id="nav">' . "\n";
+    foreach ($items as $title => $item) {
         if (!empty($item['url']) && $item['url']{0} == '/') {
             $url = $item['url'];
         } else {
             $url = '/package/' . htmlspecialchars($name) . '/' . $item['url'];
         }
-        echo '<a href="' . $url . '"'
-            . ' title="' . $item['title'] . '" '
-            . ($action == $item['url'] ? ' class="current" ' : '')
-            . '>'
-            . $title
-            . '</a> ';
+        $css = $action == $item['url'] ? ' class="current" ' : '';
+        echo make_link($url, $title, '', $css, $item['title']);
     }
-    echo '</div>';
+    echo '</div>' . "\n";
 }
 
 /**
@@ -873,21 +867,6 @@ function make_ticket_links($text)
     }
 
     return $text;
-}
-
-
-/**
- * Converts a Unix timestamp to a date() formatted string in the UTC time zone
- *
- * @param int    $ts      a Unix timestamp from the local machine.  If none
- *                         is provided the current time is used.
- * @param string $format  a format string, as per http://php.net/date
- *
- * @return string  the time formatted time
- */
-function make_utc_date($ts = null, $format = 'Y-m-d H:i e')
-{
-    return format_date($ts, $format);
 }
 
 /**
