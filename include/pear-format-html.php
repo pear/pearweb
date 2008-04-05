@@ -848,6 +848,9 @@ function print_package_navigation($pacid, $name, $action)
 function make_ticket_links($text)
 {
     global $dbh;
+    $text = preg_replace('/#patch bug:([0-9]+);patch:([0-9a-z_\-\.]+);revision:([0-9]+);/i',
+                         '<a href="patch-display.php?bug_id=\\1&amp;patch=\\2&amp;revision=\\3">patch \\2</a>',
+                         $text);
     $text = preg_replace('/(?<=php)\s*(bug(?:fix)?|feat(?:ure)?|doc(?:umentation)?|req(?:uest)?)\s+#([0-9]+)/i',
                          ' <a href="http://bugs.php.net/\\2">\\1 \\2</a>',
                          $text);
@@ -861,7 +864,7 @@ function make_ticket_links($text)
         foreach ($res as $k => $b) {
             $t     = $matches[0][$k];
             $title = $b['package_name'] . ': ' . $b['sdesc'];
-            $link  = make_link('/bugs/' . $matches[2][$k], $t, null, null, $title);
+            $link  = make_link($matches[2][$k], $t, null, null, $title);
             $text  = str_replace($t, $link, $text);
         }
     }
