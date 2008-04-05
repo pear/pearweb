@@ -190,9 +190,9 @@ function show_byage_options($current)
         '30'  => '30 days ago',
         '90'  => '90 days ago',
     );
-    while (list($k,$v) = each($opts)) {
-        echo "<option value=\"$k\"", ($current==$k ? ' selected="selected"' : ''),
-             ">$v</option>\n";
+    foreach ($opts as $k => $v) {
+        $selected = $current == $k ? ' selected="selected"' : '';
+        echo '<option value="'.$k.'"' . $selected . ">$v</option>\n";
     }
 }
 
@@ -207,18 +207,12 @@ function show_byage_options($current)
 function show_limit_options($limit = 30)
 {
     for ($i = 10; $i < 100; $i += 10) {
-        echo '<option value="' . $i . '"';
-        if ($limit == $i) {
-            echo ' selected="selected"';
-        }
-        echo ">$i bugs</option>\n";
+        $selected = $limit == $i ? ' selected="selected"' : '';
+        echo '<option value="' . $i . '"' . $selected . ">$i bugs</option>\n";
     }
 
-    echo '<option value="All"';
-    if ($limit == 'All') {
-        echo ' selected="selected"';
-    }
-    echo ">All</option>\n";
+    $all = $limit == 'All' ? ' selected="selected"' : '';
+    echo '<option value="All"' . $all . ">All</option>\n";
 }
 
 /**
@@ -249,11 +243,8 @@ function show_type_options($current = 'Bug', $all = false)
     }
 
     foreach ($types as $k => $v) {
-        echo '<option value="' . $k . '"';
-        if ($current == $k) {
-            echo ' selected="selected"';
-        }
-        echo '>' . $k . '</option>' . "\n";
+        $s = $current == $k ? ' selected="selected"' : '';
+        echo '<option value="' . $k . '"' . $s . '>' . $k . "</option>\n";
     }
 }
 
@@ -331,13 +322,13 @@ function show_package_version_options($package, $current)
 {
     global $pseudo_pkgs, $dbh;
     if (in_array($package, $pseudo_pkgs, true)) {
-        echo '<input type="text" size="20" maxlength="100" name="in[package_version]"
+        echo '<input type="text" size="20" maxlength="100" id="in[package_version]"
     value="' . clean($current) . '" />';
         return;
     }
     $pid = $dbh->getOne('SELECT id from packages where name = ?', array($package));
     if (!$pid) {
-        echo '<input type="text" size="20" maxlength="100" name="in[package_version]"
+        echo '<input type="text" size="20" maxlength="100" id="in[package_version]"
     value="' . clean($current) . '" />';
         return;
     }
@@ -365,7 +356,7 @@ function show_package_version_options($package, $current)
     } else {
         $versions = array(1 => 1);
     }
-    echo '<select name="in[package_version]">' . "\n";
+    echo '<select id="in[package_version]">' . "\n";
     echo '<option value="">--Please Select--</option>' . "\n";
     $use = 0;
 
@@ -763,20 +754,6 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
 }
 
 /**
- * Turns a unix timestamp into a uniformly formatted date
- *
- * If the date is during the current year, the year is omitted.
- *
- * @param int $date  the unix timestamp to be formatted
- *
- * @return string  the formatted date
- */
-function format_date($date)
-{
-    return date('Y-m-d H:i', $date - date('Z', $date)) . ' UTC';
-}
-
-/**
  * Converts any URI's found in the string to hyperlinks
  *
  * @param string $text  the text to be examined
@@ -808,7 +785,9 @@ function package_exists($type)
     if (in_array($type, $pseudo_pkgs)) {
         return true;
     }
-    $found = $dbh->getOne('SELECT count(id) FROM packages WHERE packages.name = ?', array($type));
+
+    $sql = 'SELECT count(id) FROM packages WHERE packages.name = ?';
+    $found = $dbh->getOne($sql, array($type));
     return $found == 1 ? true : false;
 }
 
