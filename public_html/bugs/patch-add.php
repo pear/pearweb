@@ -121,6 +121,7 @@ if (isset($_POST['addpatch'])) {
                 include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
                 exit;
             }
+
             try {
                 $buggie->sendEmail();
             } catch (Exception $e) {
@@ -148,8 +149,7 @@ if (isset($_POST['addpatch'])) {
     }
     $bug = $buginfo['id'];
     PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
-    $e = $patchinfo->attach($bug, 'patch', $_POST['name'], $auth_user->handle,
-        $_POST['obsoleted']);
+    $e = $patchinfo->attach($bug, 'patch', $_POST['name'], $auth_user->handle, $_POST['obsoleted']);
     PEAR::popErrorHandling();
     if (PEAR::isError($e)) {
         $package = $buginfo['package_name'];
@@ -169,15 +169,29 @@ if (isset($_POST['addpatch'])) {
         include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
         exit;
     }
-    // {{{ Email after the patch is added.
+    // {{{ Email after the patch is added and add a comment to the bug report.
     if (!isset($buggie)) {
+        $patch_name = $_POST['name'];
+        $url = 'patch-display.php?bug=$bug&patch=$patch_name&revision=$e&display=1';
+        // Add a comment about this in the bug report
+        $text = <<<TXT
+The following patch has been added/updated:
+
+Patch Name:  $patch_name
+URL:         #patch bug:$bug;patch:$patch_name;revision:$e;
+TXT;
+
+        $query = 'INSERT INTO bugdb_comments' .
+                 ' (bug, email, ts, comment, reporter_name, handle) VALUES (?, ?, NOW(), ?, ?, ?)';
+        $dbh->query($query, array($bug, $auth_user->email, $text, $auth_user->name, $auth_user->handle));
+
         /**
          * Email the package maintainers/leaders about
          * the new patch added to their bug request.
          */
         require_once 'bugs/pear-bugs-utils.php';
         $patch = array(
-            'patch'        => $_POST['name'],
+            'patch'        => $patch_name,
             'bug_id'       => $bug,
             'revision'     => $e,
             'package_name' => $buginfo['package_name'],
@@ -197,6 +211,8 @@ if (isset($_POST['addpatch'])) {
     include PEARWEB_TEMPLATEDIR . '/bugs/patchadded.php';
     exit;
 }
+
+// View part
 if (!isset($_GET['bug_id'])) {
     response_header('Error :: no bug selected');
     report_error('No bug selected to add a patch to');
