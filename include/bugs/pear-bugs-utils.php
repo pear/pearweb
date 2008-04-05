@@ -137,7 +137,7 @@ class PEAR_Bugs_Utils
         require_once 'Damblan/Mailer.php';
         require_once 'Damblan/Bugs.php';
         $name = urlencode($patch['patch']);
-        $id   = $patch['bugdb_id'];
+        $id   = $patch['bug_id'];
         $host = 'http://' . PEAR_CHANNELNAME;
         $mailData = array(
             'id'         => $id,
