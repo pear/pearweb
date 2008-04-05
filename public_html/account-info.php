@@ -88,12 +88,7 @@ if (isset($auth_user) && is_object($auth_user)
     echo '<div id="nav">';
 
     foreach ($nav_items as $title => $item) {
-        if (!empty($item['url']) && $item['url']{0} == '/') {
-            $url = $item['url'];
-        } else {
-            $url = '/package/' . $name . '/' . $item['url'];
-        }
-        echo '<a href="' . $url . '"'
+        echo '<a href="' . $item['url'] . '"'
             . ' title="' . $item['title'] . '"> '
             . $title
             . '</a>';
@@ -156,7 +151,7 @@ if (isset($auth_user)) {
 
 if ($row['homepage']) {
     echo '    <li>Homepage: &nbsp;<span class="url">';
-    echo make_link(htmlspecialchars($row['homepage']), '', '', 'rel="me"');
+    echo make_link(htmlspecialchars($row['homepage']), '', '', 'rel="nofollow me"');
     echo "</span></li>\n";
 }
 
