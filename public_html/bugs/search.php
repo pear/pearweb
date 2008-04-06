@@ -46,7 +46,7 @@ if (isset($newrequest['PHPSESSID'])) {
     unset($newrequest['PHPSESSID']);
 }
 response_header('Bugs :: Search', false, ' <link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://' .
-    htmlspecialchars($_SERVER['HTTP_HOST']) . '/bugs/rss/search.php?' . http_build_query($_REQUEST) . '" />
+    PEAR_CHANNELNAME . '/bugs/rss/search.php?' . http_build_query($_REQUEST) . '" />
 ');
 
 $warnings = $errors = array();
@@ -69,6 +69,7 @@ $handle         = !empty($_GET['handle']) ? $_GET['handle'] : '';
 $maintain       = !empty($_GET['maintain']) ? $_GET['maintain'] : '';
 $bug_type       = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? $_GET['bug_type'] : '';
 $boolean_search = isset($_GET['boolean']) ? (int)$_GET['boolean'] : 0;
+define('BOOLEAN_SEARCH', $boolean);
 $package_name   = (isset($_GET['package_name'])  && is_array($_GET['package_name']))  ? $_GET['package_name']  : array();
 $package_nname  = (isset($_GET['package_nname']) && is_array($_GET['package_nname'])) ? $_GET['package_nname'] : array();
 
@@ -360,8 +361,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             }
         }
 
-        $link = htmlspecialchars($_SERVER['PHP_SELF']) .
-                '?cmd=display' .
+        $link = 'search.php?cmd=display' .
                 $package_name_string  .
                 $package_nname_string .
                 '&amp;search_for='  . urlencode($search_for) .
@@ -441,7 +441,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>' . "\n";
 
                 /* Date */
-                echo '  <td align="center">'.format_date(strtotime($row['ts1'])).'</td>' . "\n";
+                echo '  <td align="center">'.format_date(strtotime($row['ts1']), 'Y-m-d').'</td>' . "\n";
                 if ($package_count !== 1) {
                     $pck = htmlspecialchars($row['package_name']);
                     echo '  <td><a href="/package/'.$pck.'">'.$pck.'</a></td>' . "\n";
@@ -474,7 +474,7 @@ report_error($errors);
 report_error($warnings, 'warnings', 'WARNING:');
 
 ?>
-<form id="asearch" method="get" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) ?>">
+<form id="asearch" method="get" action="search.php">
 <table id="primary">
 <tr valign="top">
   <th>Find bugs</th>
