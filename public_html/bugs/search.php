@@ -69,7 +69,7 @@ $handle         = !empty($_GET['handle']) ? $_GET['handle'] : '';
 $maintain       = !empty($_GET['maintain']) ? $_GET['maintain'] : '';
 $bug_type       = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? $_GET['bug_type'] : '';
 $boolean_search = isset($_GET['boolean']) ? (int)$_GET['boolean'] : 0;
-define('BOOLEAN_SEARCH', $boolean);
+define('BOOLEAN_SEARCH', $boolean_search);
 $package_name   = (isset($_GET['package_name'])  && is_array($_GET['package_name']))  ? $_GET['package_name']  : array();
 $package_nname  = (isset($_GET['package_nname']) && is_array($_GET['package_nname'])) ? $_GET['package_nname'] : array();
 
