@@ -111,7 +111,18 @@ $mailing_lists = array(
         true,
         'php.pear.webmaster',
         'php.pear.website',
-    )
+    ),
+
+    array (
+        'pear-bugs',
+        'PEAR bugs list',
+        'A list for people that want to monitor every single bug and comments/changes on those bugs',
+        false,
+        false,
+        true,
+        'php.pear.bugs',
+        'php.pear.bugs',
+    ),
 );
 
 if (isset($_POST['action'])) {
@@ -168,7 +179,7 @@ if (isset($_POST['action'])) {
  <a href="/manual/en/support.php">manual</a>.
 </p>
 
-<form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+<form method="post" action="/support/lists.php">
 <table class="form-holder" cellpadding="5" cellspacing="1">
 
 <?php
