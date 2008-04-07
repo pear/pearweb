@@ -10,7 +10,7 @@ class PEAR_Bugs_Utils
      */
     public function getPackageMail($package_name, $bug_id = false)
     {
-        global $bugEmail, $dbh;
+        global $dbh;
         switch ($package_name) {
             case 'Bug System':
             case 'PEPr':
@@ -45,13 +45,19 @@ class PEAR_Bugs_Utils
                     $to[] = $assigned;
                 }
             }
+
+            // Add the bug mailing list if any
+            if (PEARWEB_BUG_ML_EMAIL != '') {
+                $to[] = PEARWEB_BUG_ML_EMAIL;
+            }
+
             $bcc = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id = ' . $bug_id);
             $bcc = array_diff($bcc, $to);
             $bcc = array_unique($bcc);
-            return array(implode(', ', $to), $bugEmail, implode(', ', $bcc));
+            return array(implode(', ', $to), PEAR_QA_EMAIL, implode(', ', $bcc));
         }
 
-        return array(implode(', ', $to), $bugEmail);
+        return array(implode(', ', $to), PEAR_QA_EMAIL);
     }
 
     /**
