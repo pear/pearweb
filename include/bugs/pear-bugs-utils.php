@@ -47,8 +47,8 @@ class PEAR_Bugs_Utils
             }
 
             // Add the bug mailing list if any
-            if (PEARWEB_BUG_ML_EMAIL != '') {
-                $to[] = PEARWEB_BUG_ML_EMAIL;
+            if (PEARWEB_BUGS_ML_EMAIL != '') {
+                $to[] = PEARWEB_BUGS_ML_EMAIL;
             }
 
             $bcc = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id = ' . $bug_id);
