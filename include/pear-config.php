@@ -62,6 +62,7 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     // The channel webmaster email
     define('PEAR_CORE_EMAIL', 'pear-core@lists.php.net');
     define('PEAR_BOUNCE_EMAIL', 'bounce-no-user@php.net');
+    define('PEARWEB_BUGS_ML_EMAIL', 'pear-bugs@lists.php.net');
     // The channel webmaster email
     define('PEAR_CHANNEL_SUMMARY', 'PEAR PHP Extension and Application Repository');
     /**
