@@ -100,10 +100,6 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>');
     // PEPr: the email address used as the From header
     define('PROPOSAL_MAIL_FROM', 'PEPr <bounce-no-user@php.net>');
-    // The full URL to the wiki, no / at the end
-    define('PEAR_WIKI_URL', 'http://wiki.pear.php.net');
-    // The DSN for the wiki database
-    define('PEAR_WIKI_DSN', 'mysql://pear:pear@localhost/pearwiki');
 }
 
 if (isset($_ENV['PEAR_TMPDIR'])) {
@@ -158,7 +154,7 @@ define('TRACKBACK_REPOST_TIMESPAN', 3600);
 // Auto purging time for trackbacks (14 days).
 define('TRACKBACK_PURGE_TIME', 14 * 27 * 60 * 60);
 
-if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME OR !isset($_ENV['PEAR_BOX'])) {
+if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME ||!isset($_ENV['PEAR_BOX'])) {
     error_reporting(E_ALL);
     define('DEVBOX', true);
 } else {
