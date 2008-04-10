@@ -141,7 +141,6 @@ class PEAR_Bugs_Utils
     static function sendPatchEmail($patch)
     {
         require_once 'Damblan/Mailer.php';
-        require_once 'Damblan/Bugs.php';
         $name = urlencode($patch['patch']);
         $id   = $patch['bug_id'];
         $host = 'http://' . PEAR_CHANNELNAME;
@@ -156,7 +155,7 @@ class PEAR_Bugs_Utils
             'packageUrl' => $host . '/bugs/bug.php?id=' . $id,
         );
 
-        $additionalHeaders['To'] = Damblan_Bugs::getMaintainers($patch['package_name']);
+        $additionalHeaders['To'] = self::getMaintainers($patch['package_name']);
         $mailer = Damblan_Mailer::create('Patch_Added', $mailData);
         $res = true;
         if (!DEVBOX) {
@@ -164,4 +163,37 @@ class PEAR_Bugs_Utils
         }
         return $res;
     }
+
+    // {{{ public function getMaintainers
+    /**
+     * Get maintainers
+     *
+     * Get maintainers to inform of a trackback (the
+     * lead maintainers of a package).
+     *
+     * @since
+     * @access public
+     * @param  boolean $activeOnly  To get only active leads
+     *                 is set to false by default so there's
+     *                 no bc problems.
+     *
+     * @return array(string) The list of maintainer emails.
+     */
+    function getMaintainers ($id, $leadOnly = false, $activeOnly = true)
+    {
+        include_once 'pear-database-maintainer.php';
+        $maintainers = maintainer::get($id, $leadOnly, $activeOnly);
+        $res = array();
+
+        include_once 'pear-database-user.php';
+        foreach ($maintainers as $maintainer => $data) {
+            $tmpUser = user::info($maintainer, 'email');
+            if (!is_array($tmpUser) || !isset($tmpUser['email'])) {
+                continue;
+            }
+            $res[] = $tmpUser['email'];
+        }
+        return $res;
+    }
+    // }}}
 }
