@@ -26,34 +26,46 @@ response_header('PEAR 1.0 is released!');
 [December 27, 2002]
 
 <div style="margin-left:2em;margin-right:2em">
+</p>
 As of PHP 4.3.0, PEAR is an officially supported
 part of PHP.  From this release, the PEAR installer with all its
 prerequisites is installed by default on Unix-style systems (Windows
 will follow in 4.3.2).  It has been a long pregnancy.
+</p>
+
 <br /><br />
-Some historical highlights:
-<br /><br />
-1999-11-21 : Malin Bakken was born<br />
-1999-11-22 : the first few lines of PEAR code were committed (DB.php)<br />
-2000-07-24 : the PEAR and PEAR_Error classes were born<br />
-2000-08-01 : first working version of the "pear" command<br />
-2001-05-15 : first contributor to base system<br />
-2001-12-28 : first package uploaded to the current pear.php.net<br />
-2002-05-26 : installer can upgrade itself<br />
-2002-06-13 : first version of Gtk installer<br />
-2002-07-11 : first version of Web installer<br />
-<br /><br />
+<dl>
+ <dt>Some historical highlights:</dt>
+ <dd>
+<ul>
+ <li>1999-11-21 : Malin Bakken was born</li>
+ <li>1999-11-22 : the first few lines of PEAR code were committed (DB.php)</li>
+ <li>2000-07-24 : the PEAR and PEAR_Error classes were born</li>
+ <li>2000-08-01 : first working version of the "pear" command</li>
+ <li>2001-05-15 : first contributor to base system</li>
+ <li>2001-12-28 : first package uploaded to the current pear.php.net</li>
+ <li>2002-05-26 : installer can upgrade itself</li>
+ <li>2002-06-13 : first version of Gtk installer</li>
+ <li>2002-07-11 : first version of Web installer</li>
+</ul>
+</dd>
+</dl>
+
+<p>
 Thanks to all PEAR contributors, and special thanks to those who have
 pitching in when I've been too busy with family and work to do any PHP
 hacking:
-<br /><br />
-* Tomas V.V.Cox<br />
-* Martin Jansen<br />
-* Christian Dickmann<br />
-* Jon Parise<br />
-* Richard Heyes<br />
-* Pierre-Alain Joye
-<br /><br />
+</p>
+
+<ul>
+ <li>Tomas V.V.Cox</li>
+ <li>Martin Jansen</li>
+ <li>Christian Dickmann</li>
+ <li>Jon Parise</li>
+ <li>Richard Heyes</li>
+ <li>Pierre-Alain Joye</li>
+</ul>
+
 <a href="/user/ssb">Stig Bakken &lt;stig&#64;php.net&gt;</a>
 </div>
 
