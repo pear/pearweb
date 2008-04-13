@@ -2,20 +2,7 @@
 <h1>Roadmap for Package <?php echo clean($this->package); ?></h1>
 <a href="/bugs/search.php?package_name[]=<?php echo urlencode(clean($this->package)) ?>&status=Open&cmd=display">Bug Tracker</a> | <a href="/<?php echo urlencode(clean($this->package)) ?>">Package Home</a> | <a href="roadmap.php?showold=1&package=<?php echo urlencode($this->package) ?>">Show Old Roadmaps</a>
 <?php if ($GLOBALS['auth_user']) { ?>
-<ul class="side_pages">
-<?php foreach ($this->roadmap as $info):
-if (in_array($info['roadmap_version'], $this->releases)) {
-    if (!$this->showold) continue;
-}
-$future = ($info['releasedate'] == '1976-09-02 17:15:30');
-?>
- <li class="side_page"><a href="#a<?php echo $info['roadmap_version'] ?>"><?php echo $info['roadmap_version'] ?></a> (<a href="roadmap.php?edit=<?php echo $info['id']
- ?>">edit</a>|<a href="roadmap.php?delete=<?php echo $info['id']
- ?>" onclick="return confirm('Really delete roadmap <?php echo $info['roadmap_version']
- ?>?');">delete</a>)</li>
-<?php endforeach; ?>
- <li><a href="roadmap.php?package=<?php echo urlencode($this->package) ?>&new=1">New roadmap</a></li>
-</ul>
+ | <a href="roadmap.php?package=<?php echo urlencode($this->package) ?>&new=1">New roadmap</a>
 <?php
 }
 
@@ -33,23 +20,30 @@ if (in_array($info['roadmap_version'], $this->releases)) {
     $x = ceil((((strtotime($info['releasedate']) - time()) / 60) / 60) / 24);
 ?>
 <a name="a<?php echo $info['roadmap_version'] ?>"></a>
-<h2>Version <?php echo $info['roadmap_version'] ?></h2>
+<h2>Version <?php echo $info['roadmap_version'] ?>
+ <span style="font-size: 77%; font-weight: normal; color: black;">
+ (<a href="roadmap.php?edit=<?php echo $info['id']
+ ?>">edit</a>|<a href="roadmap.php?delete=<?php echo $info['id']
+ ?>" onclick="return confirm('Really delete roadmap <?php echo $info['roadmap_version']
+ ?>?');">delete</a>)
+ </span>
+</h2>
 <table style="width: 100%;">
  <tr>
   <td colspan="2">
    <?php if ($GLOBALS['auth_user']) : ?>
    <a href="roadmap.php?package=<?php echo urlencode($this->package). $showold ?>&addbugs=1&roadmap=<?php
-    echo urlencode($info['roadmap_version']) ?>">Add Bugs/Features to this Roadmap</a><br />
+    echo urlencode($info['roadmap_version']) ?>">Add Bugs/Features to this Roadmap</a>
    <?php endif; ?>
    <?php if (auth_check('pear.dev')) : ?>
-   <a href="roadmap.php?package=<?php echo urlencode($this->package). $showold ?>&packagexml=1&roadmap=<?php
+   | <a href="roadmap.php?package=<?php echo urlencode($this->package). $showold ?>&packagexml=1&roadmap=<?php
     echo urlencode($info['roadmap_version']) ?>">Generate package.xml for this release</a>
    <?php endif; ?>
   </td>
  </tr>
  <tr>
   <td class="form-input">
-   <strong>Scheduled Release Date:</strong> <strong<?php
+   <strong>Scheduled Release Date:</strong> <span<?php
     if (!$future) {
         if ($x < 0) {
             echo ' class="lateRelease"';
@@ -60,10 +54,15 @@ if (in_array($info['roadmap_version'], $this->releases)) {
     } else {
         echo date('Y-m-d', strtotime($info['releasedate'])) .
                   ' (' . $x . ' day';
-        if ($x != 1) echo 's';
-        if ($x < 0) echo '!!';
+        if ($x != 1) {
+            echo 's';
+        }
+
+        if ($x < 0) {
+            echo '!!';
+        }
         echo ')';
-    } ?></strong>
+    } ?></span>
   </td>
  </tr>
  <tr>
