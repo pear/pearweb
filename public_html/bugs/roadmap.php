@@ -393,9 +393,7 @@ if (empty($_GET['direction']) || $_GET['direction'] != 'DESC') {
     $direction = 'DESC';
 }
 
-if (empty($_GET['order_by']) ||
-    !array_key_exists($_GET['order_by'], $order_options))
-{
+if (empty($_GET['order_by']) || !array_key_exists($_GET['order_by'], $order_options)) {
     $order_by = 'id';
 } else {
     $order_by = $_GET['order_by'];
@@ -441,7 +439,7 @@ $savant->showold = isset($_GET['showold']);
 $savant->releases = array_keys($releases);
 $allroadmaps = Bug_DataObject::bugDB('bugdb_roadmap');
 $allroadmaps->package = $_GET['package'];
-$allroadmaps->orderBy('releasedate ASC');
+$allroadmaps->orderBy('roadmap_version ASC');
 $allroadmaps->find(false);
 $roadmaps = Bug_DataObject::bugDB('bugdb_roadmap_link');
 $roadmaps->selectAs();
