@@ -515,7 +515,7 @@ function report_error($in, $class = 'errors', $head = 'ERROR:')
                 $msg = $msg->getMessage();
             }
         }
-        echo '<li>' . htmlspecialchars($msg) . "</li>\n";
+        echo '<li>' . $msg . "</li>\n";
     }
     echo "</ul></div>\n";
     return true;
