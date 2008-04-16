@@ -85,12 +85,15 @@ $infos = $dbh->getAll($sql, $data);
 $infos = array();
 if (empty($infos)) {
     response_header('PEAR Maps');
-    report_warning('No users with geo info were found');
-} elseif (isset($_GET['handle']) && !empty($_GET['handle']) && empty($infos)) {
-    response_header('PEAR Maps');
     echo '<h1>PEAR Developer Locations</h1>';
-    echo '<p>User <strong>' . $handle . '</strong> does not have latitude & longitude set.</p>';
-} else {
+    if (isset($_GET['handle']) && !empty($_GET['handle'])){
+        report_error('User <strong>' . $handle . '</strong> does not have latitude &amp; longitude set.');
+    } else {
+        report_error('No users have latitude &amp; longitude data set');
+    }
+}
+
+if (!empty($infos)) {
     $map = '<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
     response_header('PEAR Maps', false, $map);
 ?>
@@ -100,7 +103,8 @@ if (empty($infos)) {
  The map below contains the locations of the PEAR developers who have added
  their location to their user profile.
 </p>
- <noscript>
+
+<noscript>
 <?php
     echo '<h1>Maps Links</h1>';
     foreach ($maps as $map) {
@@ -110,9 +114,9 @@ if (empty($infos)) {
     }
     echo '<hr noshade="noshade"/>';
 ?>
-  </noscript>
-    <script language="javascript" type="text/javascript">
+</noscript>
 
+<script type="text/javascript">
  points = new Array();
 <?php
 foreach ($infos as $info) {
@@ -120,7 +124,7 @@ foreach ($infos as $info) {
 }
 ?>
 </script>
-<script language="javascript" type="text/javascript" src="../javascript/peardev_map.js"></script>
+<script type="text/javascript" src="../javascript/peardev_map.js"></script>
 
 <div style="width: 100%; height: 500px; border: 1px solid black;" id="peardev_map">
 </div>
@@ -135,7 +139,7 @@ if (isset($auth_user) && empty($auth_user->latitude)) {
 ?>
 <?php
 if (!empty($infos)) {
-    $showMap = '<script language="javascript" type="text/javascript">showfullmap();</script>';
+    $showMap = '<script type="text/javascript">showfullmap();</script>';
     response_footer(false, $showMap);
 } else {
     response_footer();
