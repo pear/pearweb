@@ -82,8 +82,16 @@ if (isset($_GET['handle']) && !empty($_GET['handle'])) {
 }
 
 $infos = $dbh->getAll($sql, $data);
-if (!empty($infos)) {
-    $map = '<script type="text/javascript" language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
+$infos = array();
+if (empty($infos)) {
+    response_header('PEAR Maps');
+    report_warning('No users with geo info were found');
+} elseif (isset($_GET['handle']) && !empty($_GET['handle']) && empty($infos)) {
+    response_header('PEAR Maps');
+    echo '<h1>PEAR Developer Locations</h1>';
+    echo '<p>User <strong>' . $handle . '</strong> does not have latitude & longitude set.</p>';
+} else {
+    $map = '<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
     response_header('PEAR Maps', false, $map);
 ?>
 <h1>PEAR Developer Locations</h1>
@@ -106,7 +114,7 @@ if (!empty($infos)) {
     <script language="javascript" type="text/javascript">
 
  points = new Array();
-?>
+<?php
 foreach ($infos as $info) {
     echo " points.push(['" . addslashes($info[0]) . "', '" . addslashes($info[1]) . "', '" . addslashes($info[2]) . "', '" . addslashes($info[3]) . "']);\n";
 }
@@ -114,17 +122,12 @@ foreach ($infos as $info) {
 </script>
 <script language="javascript" type="text/javascript" src="../javascript/peardev_map.js"></script>
 
-<div style="width: 100%; height: 500px; border: 1px solid black;"
-     id="peardev_map">
+<div style="width: 100%; height: 500px; border: 1px solid black;" id="peardev_map">
 </div>
 <?php
-} elseif (isset($_GET['handle']) && !empty($_GET['handle']) && empty($infos)) {
-    response_header('PEAR Maps');
-    echo '<h1>PEAR Developer Locations</h1>';
-    echo '<p>User <strong>' . $handle . '</strong> does not latitude & longitude set.</p>';
 }
 
-if ($auth_user && empty($auth_user->latitude)) {
+if (isset($auth_user) && empty($auth_user->latitude)) {
     echo "<p><strong>Tip:</strong> You can add your coordinates in your "
     . make_link("/account-edit.php?handle=" . $auth_user->handle, "profile")
     . ".</p>";
@@ -132,9 +135,7 @@ if ($auth_user && empty($auth_user->latitude)) {
 ?>
 <?php
 if (!empty($infos)) {
-    $showMap = '<script language="javascript" type="text/javascript">
-showfullmap();
-</script>';
+    $showMap = '<script language="javascript" type="text/javascript">showfullmap();</script>';
     response_footer(false, $showMap);
 } else {
     response_footer();
