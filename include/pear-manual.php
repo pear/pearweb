@@ -172,7 +172,7 @@ function navigationBar($title, $id, $loc)
 {
     global $NEXT, $PREV, $tstamp,$CHARSET;
 
-    echo '<table class="man-nav" cellpadding="0" cellspacing="4">' . "\n";
+    echo '<table class="man-nav" id="man-nav-' . $loc . '" cellpadding="0">' . "\n";
     echo ' <tr class="man-nav_prev-next" valign="top">' . "\n";
     echo '  <td class="man-nav_prev" align="left">' . "\n   ";
     if ($PREV[1]) {
