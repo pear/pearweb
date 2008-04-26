@@ -516,7 +516,7 @@ class PEAR_Bug_Accountrequest
             // mail to reporter
             @mail($email, "[PEAR-BUG] $buginfo[bug_type] #$buginfo[id]: $sdesc",
                   $ascii_report . "2\n",
-                  "From: pear.php.net Bug Database <$mailfrom>\n" .
+                  "From: " . PEAR_CHANNELNAME . " Bug Database <$mailfrom>\n" .
                   "X-PHP-Bug: $buginfo[id]\n" .
                   "Message-ID: <bug-$buginfo[id]@" . PEAR_CHANNELNAME . ">",
                   '-f ' . PEAR_BOUNCE_EMAIL);
