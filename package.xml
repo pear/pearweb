@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -83,8 +83,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-03-09</date>
- <time>22:53:03</time>
+ <date>2008-04-10</date>
+ <time>15:02:20</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -99,6 +99,9 @@ lala
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
+   <dir name="config">
+     <file name="config.php.dist" role="php" />
+   </dir><!-- /config -->
    <dir name="cron">
     <dir name="mirror">
      <file name="download_stats.php" role="www" />
@@ -126,8 +129,8 @@ lala
      </dir> <!-- /include/bugs/Diff -->
      <file name="patchtracker.php" role="www" />
      <file name="pear-bug-accountrequest.php" role="www" />
-     <file name="pear-bugs.php" role="www" />
      <file name="pear-bugs-utils.php" role="www" />
+     <file name="pear-bugs.php" role="www" />
      <file name="pear.ini" role="www" />
      <file name="pear.links.ini" role="www" />
     </dir> <!-- /include/bugs -->
@@ -138,6 +141,11 @@ lala
      </dir> <!-- /include/Damblan/Log -->
      <dir name="Mail">
       <file name="Patch_Added.tpl.php" role="www" />
+      <file name="pearweb_account_request.tpl.php" role="www" />
+      <file name="pearweb_account_request_bug.tpl.php" role="www" />
+      <file name="pearweb_account_request_existing.tpl.php" role="www" />
+      <file name="pearweb_account_request_new.tpl.php" role="www" />
+      <file name="pearweb_account_request_vote.tpl.php" role="www" />
       <file name="Trackback_Approve.tpl.php" role="www" />
       <file name="Trackback_Delete.tpl.php" role="www" />
       <file name="Trackback_New.tpl.php" role="www" />
@@ -148,7 +156,6 @@ lala
       <file name="Site.php" role="www" />
       <file name="Users.php" role="www" />
      </dir> <!-- /include/Damblan/Search -->
-     <file name="Bugs.php" role="www" />
      <file name="Karma.php" role="www" />
      <file name="Log.php" role="www" />
      <file name="Mailer.php" role="www" />
@@ -287,12 +294,7 @@ lala
       <file name="plusbottom.gif" role="www" />
       <file name="plustop.gif" role="www" />
      </dir> <!-- /public_html/gifs/TreeMenu -->
-     <file name="arrow_top.gif" role="www" />
-     <file name="beta_bg.gif" role="www" />
-     <file name="black.gif" role="www" />
      <file name="blank.gif" role="www" />
-     <file name="box-0.gif" role="www" />
-     <file name="box-1.gif" role="www" />
      <file name="caret-l.gif" role="www" />
      <file name="caret-r.gif" role="www" />
      <file name="caret-t.gif" role="www" />
@@ -307,7 +309,6 @@ lala
      <file name="moreinfo-no.gif" role="www" />
      <file name="moreinfo-yes.gif" role="www" />
      <file name="moreinfo.gif" role="www" />
-     <file name="next.gif" role="www" />
      <file name="pear-blogbutton1.png" role="www" />
      <file name="pear-blogbutton2.png" role="www" />
      <file name="pear-eps.png" role="www" />
@@ -327,15 +328,10 @@ lala
      <file name="pecl.gif" role="www" />
      <file name="peclsmall.gif" role="www" />
      <file name="pecl_item.gif" role="www" />
-     <file name="php-logo.gif" role="www" />
      <file name="phpmag02cover.gif" role="www" />
      <file name="phpmagazine.gif" role="www" />
-     <file name="prev.gif" role="www" />
-     <file name="small_submit_black.gif" role="www" />
      <file name="small_submit_white.gif" role="www" />
      <file name="spacer.gif" role="www" />
-     <file name="tri-back.gif" role="www" />
-     <file name="tri.gif" role="www" />
     </dir> <!-- /public_html/gifs -->
     <dir name="javascript">
      <dir name="TreeMenu">
@@ -476,7 +472,6 @@ lala
     <file name="category-manager.html" role="www" />
     <file name="packages.html" role="www" />
    </dir> <!-- /templates -->
-   <file name="generateREST.php" role="www" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
@@ -561,7 +556,8 @@ lala
     <tasks:replace from="@php-dir@" to="php_dir" type="pear-config" />
     <tasks:replace from="@version@" to="version" type="package-info" />
    </file>
-   <file name="processReleases.php" role="www" />
+   <file name="pearweb_election.php" role="www" />
+   <file name="pearweb_pepr.php" role="www" />
    <file name="README" role="www" />
    <file name="TODO" role="www" />
   </dir> <!-- / -->
@@ -2088,7 +2084,7 @@ Split off index-updated files into pearweb_index package</notes>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-03-09</date>
+   <date>2008-04-10</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 lala
