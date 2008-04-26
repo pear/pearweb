@@ -65,7 +65,7 @@ switch ($params['action']) {
 $extraHeaders = '<link rel="alternate" href="/map/locationREST.php?handle=' . $handle . '" type="application/rdf+xml" title="FOAF" />';
 $extraHeaders .= '<link rel="alternate" href="/feeds/user_' . $handle . '.rss" type="application/rdf+xml" title="Packages involving this user" />';
 
-response_header('User Information :: ' . htmlspecialchars($row['name']), false, $extraHeaders);
+response_header(htmlspecialchars($row['name']), false, $extraHeaders);
 
 echo '<h1>User Information: ' . htmlspecialchars($row['name']) . "</h1>\n";
 
