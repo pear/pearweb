@@ -283,7 +283,7 @@ if (empty($action)) {
     if (isset($versions[0])) {
         echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
         echo ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
-        echo ' was released on ' . make_utc_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
+        echo ' was released on ' . format_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
         echo ' (<a href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
 
         if ($pkg['releases'][$versions[0]]['state'] != 'stable') {
@@ -294,7 +294,7 @@ if (empty($action)) {
                     print $rel_ver . '.tgz">' . $rel_ver . '</a>';
                     echo ' (stable)';
                     echo ' was released on ';
-                    print make_utc_date(strtotime($rel_arr['releasedate']),
+                    print format_date(strtotime($rel_arr['releasedate']),
                                         'Y-m-d');
                     echo ' (<a href="/package/' . htmlspecialchars($name);
                     echo '/download/' . $rel_ver . '">Changelog</a>)';
@@ -526,7 +526,7 @@ if (empty($action)) {
             echo '<td class="textcell">' . $release_version . '</td>';
             echo '<td>';
             echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
-            echo '<b>Release date:</b> ' . make_utc_date(strtotime($info['releasedate'])) . '<br />';
+            echo '<b>Release date:</b> ' . format_date(strtotime($info['releasedate'])) . '<br />';
             echo '<b>Release state:</b> ' . htmlspecialchars($info['state']) . '<br /><br />';
             echo '<b>Changelog:</b><br /><br />' . nl2br(make_ticket_links(htmlspecialchars($info['releasenotes']))) . '<br /><br />';
 
@@ -588,7 +588,7 @@ if (empty($action)) {
         } else {
             // Simple view
             echo '  <td><a href="/package/' . htmlspecialchars($name) . '/download/' . $release_version . '">' . $release_version . "</a></td>\n";
-            echo '  <td>' . make_utc_date(strtotime($info['releasedate']), 'Y-m-d') . ' &nbsp; &nbsp; ' . htmlspecialchars($info['state']) . "</td>\n";
+            echo '  <td>' . format_date(strtotime($info['releasedate']), 'Y-m-d') . ' &nbsp; &nbsp; ' . htmlspecialchars($info['state']) . "</td>\n";
         }
 
         echo " </tr>\n";
@@ -718,7 +718,7 @@ what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about tra
         echo 'Date:';
         echo '</th>';
         echo '<td class="ulcell">';
-        print make_utc_date($trackback->get('timestamp'), 'Y-m-d');
+        print format_date($trackback->get('timestamp'), 'Y-m-d');
         echo '</td>';
         echo '</tr>';
 
