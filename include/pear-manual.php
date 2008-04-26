@@ -173,8 +173,8 @@ function navigationBar($title, $id, $loc)
     global $NEXT, $PREV, $tstamp,$CHARSET;
 
     echo '<table class="man-nav" id="man-nav-' . $loc . '" cellpadding="0">' . "\n";
-    echo ' <tr class="man-nav_prev-next" valign="top">' . "\n";
-    echo '  <td class="man-nav_prev" align="left">' . "\n   ";
+    echo ' <tr class="man-nav_prev-next">' . "\n";
+    echo '  <td class="man-nav_prev">' . "\n   ";
     if ($PREV[1]) {
         $link = @htmlspecialchars($PREV[1], ENT_QUOTES, $CHARSET);
         if (strlen($link) > 45) {
@@ -188,7 +188,7 @@ function navigationBar($title, $id, $loc)
     }
     echo "\n";
     echo '  </td>' . "\n";
-    echo '  <td class="man-nav_next" align="right">' . "\n";
+    echo '  <td class="man-nav_next">' . "\n";
     if ($NEXT[1]) {
         $link = @htmlspecialchars($NEXT[1], ENT_QUOTES, $CHARSET);
         if (strlen($link) > 45) {
@@ -205,7 +205,7 @@ function navigationBar($title, $id, $loc)
     echo ' </tr>' . "\n";
 
     echo ' <tr class="man-nav_space">' . "\n";
-    echo '  <td class="man-nav_space" colspan="2" height="1">';
+    echo '  <td class="man-nav_space" colspan="2">';
     echo '   <hr class="greyline" width="100%" />';
     echo '  </td>' . "\n";
     echo ' </tr>' . "\n";
@@ -228,18 +228,18 @@ function navigationBar($title, $id, $loc)
             $links[] = make_link("html/$file.html", 'Plain HTML');
         }
 
-        echo '     <td class="man-nav_view" align="left">' . "\n";
+        echo '     <td class="man-nav_view">' . "\n";
         echo count($links) ? 'View this page in' : '&nbsp;';
         echo "\n";
         echo '     </td>' . "\n";
-        echo '     <td class="man-nav_updated" align="right">';
+        echo '     <td class="man-nav_updated">';
         echo 'Last updated: '.$tstamp;
         echo '     </td>' . "\n";
         echo '    </tr>'  . "\n";
 
         if (count($links)) {
             echo '    <tr class="man-nav_languages">' . "\n";
-            echo '     <td class="man-nav_languages" colspan="2" align="left">' . "\n";
+            echo '     <td class="man-nav_languages" colspan="2">' . "\n";
             echo join(' | ', $links);
             echo "\n";
             echo '     </td>' . "\n";
@@ -247,15 +247,15 @@ function navigationBar($title, $id, $loc)
         }
 
     } else {
-        echo '     <td class="man-nav_download" align="left">' . "\n";
+        echo '     <td class="man-nav_download">' . "\n";
         echo make_link('/download-docs.php', 'Download Documentation');
         echo "\n";
         echo '     </td>' . "\n";
-        echo '     <td class="man-nav_updated" align="right">';
+        echo '     <td class="man-nav_updated">';
         echo 'Last updated: '.$tstamp;
         echo '</td>' . "\n";
         echo '    </tr>' . "\n";
-        echo '    <tr><td colspan="2" class="man-nav_bug" align="left">' . "\n";
+        echo '    <tr><td colspan="2" class="man-nav_bug">' . "\n";
         echo '    Do you think that something on this page is wrong?';
         $package_name = getPackageNameForId($id);
         echo '    Please <a href="' . getBugReportLink($package_name) . '">file a bug report</a> ';
@@ -263,7 +263,7 @@ function navigationBar($title, $id, $loc)
         echo "\n";
         echo '   </td></tr>';
         echo "\n";
-        echo "<tr><td colspan=\"2\"><strong>User Notes:</strong></td></tr>\n";
+        echo "<tr><td colspan=\"2\" id=\"user-notes\"><strong>User Notes:</strong></td></tr>\n";
         echo "<tr><td colspan=\"2\">\n";
         echo getComments($id);
         echo "</td></tr>\n";
