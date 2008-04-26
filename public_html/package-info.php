@@ -196,9 +196,9 @@ EOD;
 $name = htmlspecialchars(strip_tags($name));
 
 if ($version) {
-    response_header('Package :: ' . $name . ' :: ' . $version, null, $trackback_header);
+    response_header($name . ' :: ' . $version, null, $trackback_header);
 } else {
-    response_header('Package :: ' . $name, null, $trackback_header);
+    response_header($name, null, $trackback_header);
 }
 
 html_category_urhere($pkg['categoryid'], true);
