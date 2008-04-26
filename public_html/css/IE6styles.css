@@ -6,3 +6,11 @@
 button, input[type="button"], input[type="submit"]  {
     padding: 0px;
 }
+
+li.man-side_top, li.man-side_up {
+    text-indent: -0.2em;
+}
+
+li.man-side_page, td.man-nav_download, li.man-side_download {
+    margin-left: 0.7em;
+}

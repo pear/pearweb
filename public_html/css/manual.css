@@ -24,7 +24,7 @@ li.man-side_up {
 }
 
 li.man-side_download {
-    list-style: url(/gifs/box-0.gif) square;
+    list-style: square;
     text-indent: -0.4em;
 }
 
@@ -35,7 +35,7 @@ ul.man-side_pages {
     margin-bottom: 0.5em;
     margin-left: 0.8em;
     padding-left: 0.8em;
-    list-style: url(/gifs/box-0.gif) square;
+    list-style: square;
 }
 
 li.man-side_page {
@@ -51,12 +51,21 @@ li.man-side_page_nested {
 
 table.man-nav {
     background-color: #F0F0F0;
-    border-bottom:1px solid #CCCCCC;
-    width: 95%;
+    border-bottom: 1px solid #CCCCCC;
+    width: 97%;
     min-width: 30em;
     border-collapse: separate;
     border-spacing: 0.5em;
-    margin-top: -0.3em
+}
+
+table#man-nav-top {
+    margin-top: -0.3em;
+    margin-bottom: 0.5em;
+}
+
+table#man-nav-bottom {
+    margin-top: 1em;
+    margin-bottom: 0.2em;
 }
 
 /* top row */
@@ -65,12 +74,33 @@ td.man-nav_prev, td.man-nav_next {
     font-size: 75%;
 }
 
+td.man-nav_prev {
+    text-align: left;
+}
+
+td.man-nav_next {
+    text-align: right;
+}
+
+td.man-nav_prev-next {
+    vertical-align: top;
+}
+
+td.man-nav_space {
+    height: 1px;
+}
+
 /* middle row */
 
 td.man-nav_view,
-td.man-nav_updated,
 td.man-nav_download,
 td.man-nav_bug {
+    text-align: left;
+    font-size: 75%;
+}
+
+td.man-nav_updated {
+    text-align: right;
     font-size: 75%;
 }
 
@@ -78,6 +108,10 @@ td.man-nav_bug {
 
 td.man-nav_languages {
     font-size: 75%;
+}
+
+#user-notes {
+    padding-top: 1em;
 }
 
 /* === Examples === */
@@ -88,11 +122,10 @@ code, pre, tt {
 }
 
 pre.php {
-    border-color:       black;
-    border-style:       dashed;
-    border-width:       1px;
-    background-color:   #eee;
-    padding:            5px;
+    border:             0;
+    background-color:   #EAEAEA;
+    padding:            0.5em;
+    margin:             0.5em;
 }
 
 pre.xml {
@@ -103,6 +136,10 @@ pre.xml {
     color: black;
     font-size: 100%;
     padding: 0.5em;
+}
+
+pre.synopsis {
+    margin: 0.5em;
 }
 
 table.EXAMPLE {
@@ -128,10 +165,6 @@ table.EXAMPLE-CODE, pre.synopsis {
     background-color: white;
 }
 
-pre.synopsis {
-    margin: 0.5em;
-}
-
 table.EXAMPLE-CODE pre.screen {
     background-color: #EAEAEA;
     color: black;
@@ -139,32 +172,43 @@ table.EXAMPLE-CODE pre.screen {
     padding: 0.5em;
 }
 
+/* === Notes === */
 td div.note {
-    border-style: solid;
-    border-width: 1px;
+    border: 0;
     background-color: #e0e0e0;
     color: inherit;
     text-align: left;
-    padding: 2px;
+    padding: 0.5em;
 }
 
-.chapter >.note,
-.refsect1 > .note,
-.refsect2 > .note,
-.refsect3 > .note,
-.sect3 > .note,
-.sect2 > .note,
-.sect1 > .note {
-    background-color: #FFFFCC;
-    border: 0.5px solid brown;
-    color:inherit;
+.chapter blockquote.note,
+.refsect1 blockquote.note,
+.refsect2 blockquote.note,
+.refsect3 blockquote.note,
+.sect3 blockquote.note,
+.sect2 blockquote.note,
+.sect1 blockquote.note {
+    background-color: inherit;
+    border: 0;
+    color: inherit;
     text-align:left;
-    margin-top: 10px;
-    margin-bottom: 10px;
+}
+
+.chapter div.note,
+.refsect1 div.note,
+.refsect2 div.note,
+.refsect3 div.note,
+.sect3 div.note,
+.sect2 div.note,
+.sect1 div.note {
+    border: 0;
+    background-color: #FFFFCC;
+    margin: 0.25em;
+    padding: 0.25em;
 }
 
 td div.pending_note {
-    border-style: dashed;
+    border-style: solid;
     border-width: 1px;
     background-color: #909090;
     color: inherit;
@@ -174,7 +218,7 @@ td div.pending_note {
 td div.note_text {
     background-color: #f0f0f0;
     color: inherit;
-    padding: 2px;
+    padding: 0.5em;
     margin-top: 4px;
     text-align: left;
 }
@@ -184,17 +228,21 @@ td div.note_handle {
     text-align: left;
 }
 
+/* === Headings === */
 .chapter, .sect1, h2.sect2, h3.sect3 {
     padding-top: 1.0em;
 }
 
-table.CALSTABLE td, table.CALSTABLE th {
+/* === Inline tables === */
+table.CALSTABLE td,
+table.CALSTABLE th {
     padding: 0.3em;
 }
 
-table.CALSTABLE th  {
+table.CALSTABLE th {
     font-weight: bold;
 }
+
 table.CALSTABLE {
     border-color: #F0F0F0;
     margin: auto;
