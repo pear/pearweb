@@ -43,7 +43,7 @@ h1 a, h2 a, h3 a {
 
 /* HEADER */
 #header {
-    background-color: #449922;
+    background-color: #4e9a06;
 }
 
 #header img {
@@ -269,7 +269,7 @@ ul.side_pages {
     margin-bottom: 1.5em;
     margin-left: 1em;
     padding-left: 1em;
-    list-style: url(/gifs/box-0.gif) square;
+    list-style: square;
 }
 
 li.side_page {
@@ -551,20 +551,30 @@ div.success ul {
 
 a:link, a:visited {
     color: #006600;
+    /*color: #3465a4;
+    color: #4e9a06;*/
     text-decoration: none;
 }
 
 a:hover {
     color: #003300;
+    /*color: #729fcf;
+    color: #73d216;*/
+    text-decoration: underline;
 }
 
-th.headrow {
+.Project {
+    width: 100%;
+}
+
+.Project th {
     font-weight: bold;
     padding-bottom: 4px;
     font-size: 108%;
     text-align: left;
     border-bottom: 1px solid #000;
     white-space: nowrap;
+    width: 50%;
 }
 
 th.others {
@@ -572,22 +582,15 @@ th.others {
     text-align: left;
 }
 
-td.textcell {
+.Project td {
     vertical-align: top;
     padding-left: 1.2em;
     padding-bottom: 1em;
+    width: 50%;
 }
 
-td.textcell p {
-    margin-top: 0em;
-}
-
-td.textcell ul, td.ulcell ul {
-    margin-top: 0px;
-}
-
-td.ulcell {
-    vertical-align: top;
+.Project td p, .Project td ul {
+    margin-top: 0;
 }
 
 em {
