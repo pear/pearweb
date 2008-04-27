@@ -56,18 +56,19 @@ class pearweb_Channel_REST_Generator
             @chmod($cdir, 0777);
         }
 
-        $category = $dbh->getRow('SELECT * FROM categories WHERE name = ?', array($category),
-            DB_FETCHMODE_ASSOC);
+        $sql = 'SELECT name, description FROM categories WHERE name = ?';
+        $category = $dbh->getRow($sql, array($category), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($category)) {
             return $category;
         }
 
-        $query = "SELECT p.name AS name " .
-            "FROM packages p, categories c " .
-            "WHERE p.package_type = 'pear' " .
-            "AND p.category = c.id AND c.name = ? AND p.approved = 1";
+        $query = '
+            SELECT p.name AS name
+            FROM packages p, categories c
+            WHERE p.package_type = ?
+            AND p.category = c.id AND c.name = ? AND p.approved = 1';
 
-        $sth = $dbh->getAll($query, array($category['name']), DB_FETCHMODE_ASSOC);
+        $sth = $dbh->getAll($query, array(SITE, $category['name']), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($sth)) {
             return $sth;
         }
@@ -131,6 +132,7 @@ class pearweb_Channel_REST_Generator
 
         include_once 'pear-database-category.php';
         $packages = category::listPackages($category);
+
         $fullpackageinfo = '<?xml version="1.0" encoding="UTF-8" ?>
 <f xmlns="http://pear.php.net/dtd/rest.categorypackageinfo"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
