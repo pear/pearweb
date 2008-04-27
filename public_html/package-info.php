@@ -140,7 +140,7 @@ $supersede    = (bool) $pkg['new_channel'];
 // Maintainer information
 include_once 'pear-database-maintainer.php';
 $maintainers = maintainer::get($pacid);
-$accounts  = '<ul>';
+$accounts  = '<ul>' . "\n";
 //$bugs = new PEAR_Bugs;
 
 foreach ($maintainers as $handle => $row) {
@@ -149,10 +149,10 @@ foreach ($maintainers as $handle => $row) {
     $accounts .= user_link($handle);
     $accounts .= ' (' . $row['role'] .
                   ($row['active'] == 0 ? ', inactive' : '');
-    $accounts .= ')</li>';
+    $accounts .= ')</li>' . "\n";
 }
 
-$accounts .= '</ul>';
+$accounts .= '</ul>' . "\n";
 
 $channel_name = PEAR_CHANNELNAME;
 
@@ -245,22 +245,22 @@ if (empty($action)) {
     }
     // }}}
 
-    echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%" class="Project">';
-    echo '<tr>';
-    echo '<th class="headrow" style="width: 50%">&raquo; Summary</th>';
-    echo '<th class="headrow" style="width: 50%">&raquo; License</th>';
-    echo '</tr>';
-    echo '<tr>';
-    echo '<td class="textcell shortdesc">' . htmlspecialchars($summary) . '</td>';
-    echo '<td class="textcell">' . package::get_license_link($license) . '</td>';
-    echo '</tr>';
+    echo '<table border="0" cellspacing="0" cellpadding="2" class="Project">' . "\n";
+    echo '<tr>' . "\n";
+    echo '<th>&raquo; Summary</th>' . "\n";
+    echo '<th>&raquo; License</th>' . "\n";
+    echo '</tr>' . "\n";
+    echo '<tr>' . "\n";
+    echo '<td class="shortdesc">' . htmlspecialchars($summary) . '</td>' . "\n";
+    echo '<td class="license">' . package::get_license_link($license) . '</td>' . "\n";
+    echo '</tr>' . "\n";
 
-    echo '<tr>';
-    echo '<th width="50%" class="headrow">&raquo; Current Release</th>';
-    echo '<th width="50%" class="headrow">&raquo; Bug Summary</th>';
-    echo '</tr>';
-    echo '<tr>';
-    echo '<td width="50%" class="textcell">';
+    echo '<tr>' . "\n";
+    echo '<th>&raquo; Current Release</th>' . "\n";
+    echo '<th>&raquo; Bug Summary</th>' . "\n";
+    echo '</tr>' . "\n";
+    echo '<tr>' . "\n";
+    echo '<td>' . "\n";
     if (isset($versions[0])) {
         echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
         echo ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
@@ -272,11 +272,10 @@ if (empty($action)) {
                 if ($rel_arr['state'] == 'stable') {
                     echo "<br />\n";
                     echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-';
-                    print $rel_ver . '.tgz">' . $rel_ver . '</a>';
+                    echo $rel_ver . '.tgz">' . $rel_ver . '</a>';
                     echo ' (stable)';
                     echo ' was released on ';
-                    print format_date(strtotime($rel_arr['releasedate']),
-                                        'Y-m-d');
+                    echo format_date(strtotime($rel_arr['releasedate']), 'Y-m-d');
                     echo ' (<a href="/package/' . htmlspecialchars($name);
                     echo '/download/' . $rel_ver . '">Changelog</a>)';
                     break;
@@ -302,8 +301,8 @@ if (empty($action)) {
             echo ', ' . Roadmap_Info::percentDone($name) . '% complete)';
         }
     }
-    echo '</td>';
-    echo '<td width="50%" class="textcell">';
+    echo '</td>' . "\n";
+    echo '<td>' . "\n";
     $bugs = new PEAR_Bugs;
     $buginfo = $bugs->packageBugStats($pkg['name']);
     $frinfo  = $bugs->packageFeaturestats($pkg['name']);
@@ -327,15 +326,15 @@ if (empty($action)) {
         }
         echo '<li>Number of <a href="/bugs/search.php?cmd=display&package_name[]=' .
             $pkg['name'] . '&status=OpenFeedback&bug_type=Bugs">open bugs</a>: <strong>' .
-            $buginfo['count'] . ' (' . $buginfo['total'] . ' total bugs)</strong></li>';
-        echo '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>';
-        echo '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>';
+            $buginfo['count'] . ' (' . $buginfo['total'] . ' total bugs)</strong></li>' . "\n";
+        echo '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>' . "\n";
+        echo '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>' . "\n";
     }
 
     if ($frinfo['count']) {
         echo '<li>Number of open <a href="/bugs/search.php?cmd=display&package_name[]=' .
             $pkg['name'] . '&bug_type=Feature%2FChange+Request">feature requests</a>: <strong>' .
-            $frinfo['count'] . ' (' . $frinfo['total'] . ' total feature requests)</strong></li>';
+            $frinfo['count'] . ' (' . $frinfo['total'] . ' total feature requests)</strong></li>' . "\n";
     }
 
     if ($buginfo['count'] || $frinfo['count']) {
@@ -343,27 +342,27 @@ if (empty($action)) {
     }
 
     echo '<br />' . make_link('/bugs/report.php?package=' . $name, 'Report a new bug to ' . $name);
-    echo '</td>';
-    echo '</tr>';
-    echo '<tr>';
+    echo '</td>' . "\n";
+    echo '</tr>' . "\n";
+    echo '<tr>' . "\n";
     if (isset($auth_user)) {
-        echo '<th class="headrow">&raquo; Description</th>';
-        echo '<th class="headrow">&raquo; Package.xml suggestions (for developers)</th>';
+        echo '<th>&raquo; Description</th>' . "\n";
+        echo '<th>&raquo; Package.xml suggestions (for developers)</th>' . "\n";
     } else {
-        echo '<th colspan="2" class="headrow">&raquo; Description</th>';
+        echo '<th colspan="2">&raquo; Description</th>' . "\n";
     }
-    echo '</tr>';
-    echo '<tr>';
+    echo '</tr>' . "\n";
+    echo '<tr>' . "\n";
     if (isset($auth_user)) {
         require 'package/releasehelper.php';
         $helper = new package_releasehelper($pkg['name']);
-        echo '<td class="textcell description">' . nl2br(htmlspecialchars($description)) . '</td>';
-        echo '<td class="textcell">';
-        echo '<ul>';
+        echo '<td class="description">' . nl2br(htmlspecialchars($description)) . '</td>' . "\n";
+        echo '<td>' . "\n";
+        echo '<ul>' . "\n";
         if (!$helper->hasReleases()) {
             echo '   <li>First release should be version <strong><a href="/bugs/roadmap.php?package=' .
             urlencode($name) . '&showornew=0.1.0">0.1.0</a></strong>, stability <strong>alpha</strong>';
-            echo '   </li>';
+            echo '   </li>' . "\n";
         } else {
             $bugfix = $helper->getNextBugfixVersion();
             $newfeatures =  $helper->getNewFeatureVersion();
@@ -373,7 +372,7 @@ if (empty($action)) {
                     '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
                     $bugfix[0]. '#a' . $bugfix[0] . '">' . $bugfix[0] . '</a></strong>, stability ' .
                       '<strong>' . $bugfix[1] . '</strong>';
-                echo '   </li>';
+                echo '   </li>' . "\n";
                 echo '   <li>';
                 if ($helper->lastWasReleaseCandidate()) {
                     echo '    Next Stable release should be: <strong>';
@@ -384,14 +383,14 @@ if (empty($action)) {
                     '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
                     $newfeatures[0]. '#a' . $newfeatures[0] . '">' . $newfeatures[0] .
                       '</a></strong>, stability <strong>' . $newfeatures[1] . '</strong>';
-                echo '   </li>';
+                echo '   </li>' . "\n";
             } else {
                 echo '   <li>';
                 echo '    Next Bugfix release should be: <strong><a href="' .
                     '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
                     $bugfix[0]. '#a' . $bugfix[0] . '">' . $bugfix[0] . '</a></strong>, stability ' .
                       '<strong>' . $bugfix[1] . '</strong>';
-                echo '   </li>';
+                echo '   </li>' . "\n";
                 $beta =  $helper->getNextBetaRelease();
                 if ($beta) {
                     echo '   <li>';
@@ -399,7 +398,7 @@ if (empty($action)) {
                         '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
                         $beta[0] . '#a' . $beta[0] . '">' . $beta[0] .
                         '</a></strong>, stability <strong>' . $beta[1] . '</strong>';
-                    echo '   </li>';
+                    echo '   </li>' . "\n";
                 }
                 if ($helper->canAddFeatures()) {
                     echo '   <li>';
@@ -407,7 +406,7 @@ if (empty($action)) {
                         '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
                         $newfeatures[0] . '#a' . $newfeatures[0] . '">' . $newfeatures[0] .
                         '</a></strong>, stability <strong>' . $newfeatures[1] . '</strong>';
-                    echo '   </li>';
+                    echo '   </li>' . "\n";
                 }
             }
         }
@@ -419,50 +418,50 @@ if (empty($action)) {
             echo '  to create package2.xml. ';
             echo '  Both package.xml and package2.xml may be used together, or you may ';
             echo '  choose to replace package.xml with package2.xml for the next release.';
-            echo ' </li>';
+            echo ' </li>' . "\n";
         }
-        echo '</ul>';
-        echo '</td>';
+        echo '</ul>' . "\n";
+        echo '</td>' . "\n";
     } else {
-        echo '<td colspan="2" class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
+        echo '<td colspan="2">' . nl2br(htmlspecialchars($description)) . '</td>' . "\n";
     }
-    echo '</tr>';
+    echo '</tr>' . "\n";
 
-    echo '<tr>';
-    echo '<th class="headrow" style="width: 50%">&raquo; Maintainers</th>';
-    echo '<th class="headrow" style="width: 50%">&raquo; More Information</th>';
-    echo '</tr>';
-    echo '<tr>';
-    echo '<td class="ulcell">' . $accounts . '</td>';
-    echo '<td class="ulcell">';
+    echo '<tr>' . "\n";
+    echo '<th>&raquo; Maintainers</th>' . "\n";
+    echo '<th>&raquo; More Information</th>' . "\n";
+    echo '</tr>' . "\n";
+    echo '<tr>' . "\n";
+    echo '<td>' . $accounts . '</td>' . "\n";
+    echo '<td>' . "\n";
 
-    echo '<ul>';
+    echo '<ul>' . "\n";
 
     if (!empty($homepage)) {
-        echo '<li>' . make_link(htmlspecialchars($homepage), 'External Package Homepage', '' , 'class="homepage"') . '</li>';
+        echo '<li>' . make_link(htmlspecialchars($homepage), 'External Package Homepage', '' , 'class="homepage"') . '</li>' . "\n";
     }
     if (!empty($cvs_link)) {
-        echo '<li><a href="' . htmlspecialchars($cvs_link) . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
+        echo '<li><a href="' . htmlspecialchars($cvs_link) . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>' . "\n";
     }
-    echo '<li><a href="/feeds/pkg_' . strtolower(htmlspecialchars($name)) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>';
+    echo '<li><a href="/feeds/pkg_' . strtolower(htmlspecialchars($name)) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>' . "\n";
     echo '<li><a href="/package-stats.php?pid=' . $pkg['packageid'] . '&cid=' .
-        $pkg['categoryid'] . '" title="View download statistics for this package">View Download Statistics</a></li>';
-    echo '</ul>';
-    echo '</td>';
-    echo '</tr>';
+        $pkg['categoryid'] . '" title="View download statistics for this package">View Download Statistics</a></li>' . "\n";
+    echo '</ul>' . "\n";
+    echo '</td>' . "\n";
+    echo '</tr>' . "\n";
 
     // {{{ Dependants
 
     include_once 'pear-database-package.php';
     $dependants = package::getDependants($name);
     if ($rel_count > 0 && count($dependants) > 0) {
-        echo '<tr>';
-        echo '<th colspan="2" class="headrow">&raquo; Packages that depend on ' . htmlspecialchars($name) . '</th>';
-        echo '</tr>';
-        echo '<tr>';
+        echo '<tr>' . "\n";
+        echo '<th colspan="2">&raquo; Packages that depend on ' . htmlspecialchars($name) . '</th>' . "\n";
+        echo '</tr>' . "\n";
+        echo '<tr>' . "\n";
 
-        echo '<td colspan="2" class="ulcell">';
-        echo '<ul>';
+        echo '<td colspan="2">' . "\n";
+        echo '<ul>' . "\n";
 
         foreach ($dependants as $dep) {
             echo '<li>' . package::makeLink($dep['p_name']);
@@ -472,15 +471,14 @@ if (empty($action)) {
             echo "</li>\n";
         }
 
-        echo '</ul>';
-        echo '</td>';
-
-        echo '</tr>';
+        echo '</ul>' . "\n";
+        echo '</td>' . "\n";
+        echo '</tr>' . "\n";
     }
 
     // }}}
 
-    echo '</table>';
+    echo '</table>' . "\n";
 
     // }}}
 
@@ -493,8 +491,8 @@ if (empty($action)) {
     echo '<a href="/package/' . htmlspecialchars($name) . '/download/All">Show All Changelogs</a>';
     echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     echo ' <tr>';
-    echo '  <th class="headrow" style="width: 20%">&raquo; Version</th>';
-    echo '  <th class="headrow">&raquo; Information</th>';
+    echo '  <th style="width: 20%">&raquo; Version</th>';
+    echo '  <th>&raquo; Information</th>';
     echo "</tr>\n";
 
     foreach ($pkg['releases'] as $release_version => $info) {
@@ -503,7 +501,7 @@ if (empty($action)) {
         if ($show_all || ($i++ == 0 && empty($version)) || $release_version === $version) {
             // Detailed view
 
-            echo '<td class="textcell">' . $release_version . '</td>';
+            echo '<td>' . $release_version . '</td>';
             echo '<td>';
             echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
             echo '<b>Release date:</b> ' . format_date(strtotime($info['releasedate'])) . '<br />';
@@ -590,11 +588,11 @@ if (empty($action)) {
 
     echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     echo '<tr>';
-    echo '<th class="headrow" style="width: 50%">&raquo; End-user documentation</th>';
-    echo '<th class="headrow" style="width: 50%">&raquo; API documentation</th>';
+    echo '<th>&raquo; End-user documentation</th>';
+    echo '<th>&raquo; API documentation</th>';
     echo '</tr>';
     echo '<tr>';
-    echo '<td class="ulcell">';
+    echo '<td>';
 
     if (!empty($doc_link)) {
         echo '<ul><li><a href="' . htmlspecialchars($doc_link) . '">End-user Documentation</a></li></ul>';
@@ -603,7 +601,7 @@ if (empty($action)) {
     }
 
     echo '</td>';
-    echo '<td class="textcell">';
+    echo '<td>';
 
     if ($rel_count > 0) {
         echo '<p>Auto-generated API documentation for each ';
@@ -669,7 +667,7 @@ what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about tra
         echo '<th class="others">';
         echo 'Weblog:';
         echo '</th>';
-        echo '<td class="ulcell" style="width:100%">';
+        echo '<td style="width:100%">';
         print $trackback->get('blog_name');
         echo '</td>';
         echo '</tr>';
@@ -679,7 +677,7 @@ what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about tra
             echo '<th class="others">';
             echo 'Approved:';
             echo '</th>';
-            echo '<td class="ulcell">';
+            echo '<td>';
             print ($trackback->get('approved')) ? '<b>yes</b>' : '<b>no</b>';
             echo '</td>';
             echo '</tr>';
@@ -688,7 +686,7 @@ what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about tra
         echo '<th class="others">';
         echo 'Title:';
         echo '</th>';
-        echo '<td class="ulcell">';
+        echo '<td>';
         echo '<a href="'.$trackback->get('url').'">'.$trackback->get('title').'</a>';
         echo '</td>';
         echo '</tr>';
@@ -697,7 +695,7 @@ what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about tra
         echo '<th class="others">';
         echo 'Date:';
         echo '</th>';
-        echo '<td class="ulcell">';
+        echo '<td>';
         print format_date($trackback->get('timestamp'), 'Y-m-d');
         echo '</td>';
         echo '</tr>';
@@ -705,7 +703,7 @@ what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about tra
         echo '<tr>';
         echo '<th class="others">';
         echo '</th>';
-        echo '<td class="ulcell">';
+        echo '<td>';
         print  $trackback->get('excerpt');
         echo '</td>';
         echo '</tr>';
@@ -715,7 +713,7 @@ what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about tra
             echo '<th class="others">';
             echo 'IP:';
             echo '</th>';
-            echo '<td class="ulcell">';
+            echo '<td>';
             print $trackback->get('ip');
             echo '</td>';
             echo '</tr>';
@@ -723,7 +721,7 @@ what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about tra
             echo '<tr>';
             echo '<th class="others">';
             echo '</th>';
-            echo '<td class="ulcell">';
+            echo '<td>';
             if (!$trackback->get('approved')) {
                 echo '[<a href="/trackback/trackback-admin.php?action=approve&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Approve</a>] ';
             }
