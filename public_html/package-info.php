@@ -38,22 +38,6 @@ $pacid = $params['package|pacid'];
 if (!empty($pacid)) {
     include_once 'pear-database-package.php';
     $pkg = package::info($pacid);
-//    $stats = $dbh->getAssoc('SELECT
-//releases.package,
-//dl_number/DATEDIFF(NOW(),MIN(releases.releasedate)) as d
-//FROM releases, packages, package_stats
-//WHERE
-//    packages.id = releases.package AND
-//    packages.package_type = \'pear\' AND
-//    package_stats.release = releases.version AND
-//    package_stats.package = packages.name
-//GROUP BY releases.package
-//ORDER BY d DESC');
-//
-//    $amount = $stats[$pkg['packageid']];
-//    $newstats = array_flip(array_values($stats));
-//    $rank = ($newstats[$amount] + 1) . ' of ' . count($stats);
-
     $rel_count = count($pkg['releases']);
 }
 
@@ -163,7 +147,7 @@ foreach ($maintainers as $handle => $row) {
     //$buginfo = $bugs->getRank($handle);
     $accounts .= '<li>';
     $accounts .= user_link($handle);
-    $accounts .= '(' . $row['role'] .
+    $accounts .= ' (' . $row['role'] .
                   ($row['active'] == 0 ? ', inactive' : '');
     $accounts .= ')</li>';
 }
@@ -195,20 +179,17 @@ EOD;
 
 $name = htmlspecialchars(strip_tags($name));
 
+$doap = 'profile="http://purl.org/stuff/hdoap/profile"';
 if ($version) {
-    response_header($name . ' :: ' . $version, null, $trackback_header);
+    response_header($name . ' :: ' . $version, null, $trackback_header, $doap);
 } else {
-    response_header($name, null, $trackback_header);
+    response_header($name, null, $trackback_header, $doap);
 }
 
 html_category_urhere($pkg['categoryid'], true);
 
-echo '<h1>Package Information: ' . $name; // . ' (download rank: ' . $rank . ')';
-if ($version) {
-    echo ' ' .  $version;
-}
-
-echo "</h1>\n";
+$v = $version ? ' ' .  $version : '';
+echo '<h1>Package Information: ' . $name . $v . "</h1>\n";
 
 print_package_navigation($pacid, $name, $action);
 
@@ -251,7 +232,7 @@ if (empty($action)) {
     if (!is_null($apply_rule) && isset($dec_messages[$apply_rule])) {
         $str  = '<div class="warnings">';
         $str .= $dec_messages[$apply_rule];
-        if ($pkg['new_channel'] == 'pear.php.net') {
+        if ($pkg['new_channel'] == PEAR_CHANNELNAME) {
             $str .= '  Use <a href="/package/' . $pkg['new_package'] .
                 '">' . htmlspecialchars($pkg['new_package']) . '</a> instead.';
         } elseif ($pkg['new_channel']) {
@@ -264,13 +245,13 @@ if (empty($action)) {
     }
     // }}}
 
-    echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
+    echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%" class="Project">';
     echo '<tr>';
     echo '<th class="headrow" style="width: 50%">&raquo; Summary</th>';
     echo '<th class="headrow" style="width: 50%">&raquo; License</th>';
     echo '</tr>';
     echo '<tr>';
-    echo '<td class="textcell">' . htmlspecialchars($summary) . '</td>';
+    echo '<td class="textcell shortdesc">' . htmlspecialchars($summary) . '</td>';
     echo '<td class="textcell">' . package::get_license_link($license) . '</td>';
     echo '</tr>';
 
@@ -284,7 +265,7 @@ if (empty($action)) {
         echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
         echo ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
         echo ' was released on ' . format_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
-        echo ' (<a href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
+        echo ' (<a class="download-page" href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
 
         if ($pkg['releases'][$versions[0]]['state'] != 'stable') {
             foreach ($pkg['releases'] as $rel_ver => $rel_arr) {
@@ -376,7 +357,7 @@ if (empty($action)) {
     if (isset($auth_user)) {
         require 'package/releasehelper.php';
         $helper = new package_releasehelper($pkg['name']);
-        echo '<td class="textcell">' . nl2br(htmlspecialchars($description)) . '</td>';
+        echo '<td class="textcell description">' . nl2br(htmlspecialchars($description)) . '</td>';
         echo '<td class="textcell">';
         echo '<ul>';
         if (!$helper->hasReleases()) {
@@ -458,8 +439,7 @@ if (empty($action)) {
     echo '<ul>';
 
     if (!empty($homepage)) {
-        echo '<li>' . make_link(htmlspecialchars($homepage),
-                                 'External Package Homepage') . '</li>';
+        echo '<li>' . make_link(htmlspecialchars($homepage), 'External Package Homepage', '' , 'class="homepage"') . '</li>';
     }
     if (!empty($cvs_link)) {
         echo '<li><a href="' . htmlspecialchars($cvs_link) . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>';
