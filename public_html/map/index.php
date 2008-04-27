@@ -82,7 +82,6 @@ if (isset($_GET['handle']) && !empty($_GET['handle'])) {
 }
 
 $infos = $dbh->getAll($sql, $data);
-$infos = array();
 if (empty($infos)) {
     response_header('PEAR Maps');
     echo '<h1>PEAR Developer Locations</h1>';
