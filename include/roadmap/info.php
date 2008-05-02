@@ -3,23 +3,21 @@ class Roadmap_Info
 {
     function roadmapExists($package)
     {
-        $ret = $GLOBALS['dbh']->getOne('
-            SELECT id
-            FROM bugdb_roadmap WHERE
-            package=?
-        ',array($package));
+        $sql = 'SELECT id FROM bugdb_roadmap WHERE package = ?';
+        $ret = $GLOBALS['dbh']->getOne($sql, array($package));
         return (boolean)$ret;
     }
 
     function nextRelease($package)
     {
-        $ret = $GLOBALS['dbh']->getAll('
+        $sql = '
             SELECT roadmap_version,releasedate
             FROM bugdb_roadmap WHERE
-            package=? AND
+            package = ? AND
             releasedate <> "1976-09-02 17:15:30"
-            ORDER BY releasedate ASC
-        ',array($package));
+            ORDER BY releasedate ASC';
+
+        $ret = $GLOBALS['dbh']->getAll($sql, array($package));
         if (!$ret) {
             return false;
         }
@@ -27,7 +25,10 @@ class Roadmap_Info
         include_once 'pear-database-package.php';
         $releases = array_keys(package::info($package, 'releases'));
         foreach ($ret as $roadmap) {
-            if (in_array($roadmap[0], $releases)) continue;
+            if (in_array($roadmap[0], $releases)) {
+                continue;
+            }
+
             return $roadmap;
         }
     }
@@ -37,20 +38,22 @@ class Roadmap_Info
         if (!$next) {
             list($next,) = Roadmap_Info::nextRelease($package);
         }
-        $count = $GLOBALS['dbh']->getAssoc('
-            SELECT bugdb.status,COUNT(bugdb.id) FROM bugdb_roadmap_link,
-                bugdb, bugdb_roadmap
+
+        $sql = '
+            SELECT bugdb.status, COUNT(bugdb.id)
+            FROM bugdb_roadmap_link b_r_l, bugdb_roadmap b_r, bugdb
             WHERE
-                bugdb_roadmap.roadmap_version=? AND
-                bugdb_roadmap.package=? AND
-                bugdb_roadmap_link.roadmap_id=bugdb_roadmap.id AND
-                bugdb.id=bugdb_roadmap_link.id
-            GROUP BY bugdb.status
-        ', false, array($next, $package));
-        $total = 0;
-        $closed = 0;
+                b_r.roadmap_version = ? AND
+                b_r.package = ? AND
+                b_r_l.roadmap_id = b_r.id AND
+                bugdb.id = b_r_l.id
+            GROUP BY bugdb.status';
+
+        $count = $GLOBALS['dbh']->getAssoc($sql, false, array($next, $package));
+        $total = $closed = 0;
+        $s = array('Closed', 'Duplicate', 'Bogus', "Won't Fix");
         foreach ($count as $status => $amount) {
-            if ($status == 'Closed') {
+            if (in_array($status, $s)) {
                 $closed = $amount;
             }
             $total += $amount;

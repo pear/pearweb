@@ -10,7 +10,7 @@ class Roadmap_Package_Generator
     /**
      * @param string $package Package for this roadmap
      */
-    function Roadmap_Package_Generator($package)
+    function __construct($package)
     {
         $this->_dbh = &$GLOBALS['dbh'];
         $this->_package = $package;
@@ -24,15 +24,16 @@ class Roadmap_Package_Generator
      */
     function getRoadmapPackage($version)
     {
-        $packagexml = $this->_dbh->getOne('
+        $sql = '
             SELECT packagexml
             FROM packages p, releases r, files f
             WHERE
-                p.name=? AND
+                p.name = ? AND
                 r.package = p.id AND
                 f.release = r.id
-            ORDER BY r.releasedate DESC
-        ', array($this->_package));
+            ORDER BY r.releasedate DESC';
+
+        $packagexml = $this->_dbh->getOne($sql, array($this->_package));
         if ($packagexml) {
             $pf = $this->getPackageXmlV2($packagexml);
             $oldchangelog = $pf->getChangelog();
@@ -157,6 +158,7 @@ class Roadmap_Package_Generator
                 'php license' => 'http://www.php.net/license',
                 'lgpl' => 'http://www.gnu.org/copyleft/lesser.html',
                 'bsd' => 'http://www.opensource.org/licenses/bsd-license.php',
+                'bsd license' => 'http://www.opensource.org/licenses/bsd-license.php',
                 'bsd style' => 'http://www.opensource.org/licenses/bsd-license.php',
                 'bsd-style' => 'http://www.opensource.org/licenses/bsd-license.php',
                 'mit' => 'http://www.opensource.org/licenses/mit-license.php',
@@ -172,7 +174,7 @@ class Roadmap_Package_Generator
         $pf->clearContents();
         $pf->addFile('/', 'ADDFILESHERE', array('name' => 'ADDFILESHERE', 'role' => 'php'));
         $pf->setPhpDep('4.3.0');
-        $pf->setPearinstallerDep('1.4.3');
+        $pf->setPearinstallerDep('1.5.4');
         $pf->addRelease();
         return $pf;
     }
@@ -231,19 +233,21 @@ class Roadmap_Package_Generator
      */
     function getReleaseNotes($version)
     {
-        $bugs = $this->_dbh->getAll('
+        $sql = '
             SELECT b.sdesc, b.assign, b.bug_type, b.id
             FROM
                 bugdb b, bugdb_roadmap_link l, bugdb_roadmap r
             WHERE
-                r.package=? AND
-                r.roadmap_version=? AND
+                r.package = ? AND
+                r.roadmap_version = ? AND
                 l.roadmap_id = r.id AND
                 b.id = l.id AND
-                b.status="Closed"
-            ORDER BY b.bug_type, b.id
-        ', array($this->_package, $version), DB_FETCHMODE_ASSOC);
-        $notes = '';
+                b.status = ?
+            ORDER BY b.bug_type, b.id';
+
+        $values = array($this->_package, $version, 'Closed');
+        $bugs   = $this->_dbh->getAll($sql , $values, DB_FETCHMODE_ASSOC);
+        $notes  = '';
         foreach ($bugs as $bug) {
             $fix = in_array($bug['bug_type'], array('Bug', 'Documentation Bug')) ?
                 ' * Fix Bug #' :
