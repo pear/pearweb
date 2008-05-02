@@ -50,7 +50,7 @@ $query = "
         (b.bug_type = 'Bug' OR b.bug_type = 'Documentation Problem' OR
          b.bug_type = 'Feature/Change Request')
       AND
-        (p.package_type = '$site'
+        (p.package_type = '" . SITE . "'
              OR
          b.package_name IN ('Documentation'))
     ORDER BY b.package_name, b.id, b.status";
@@ -152,7 +152,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
             }
 
             $from = SITE != 'pecl' ?  ' QA' : ' Dev';
-            $mail_headers = 'From: ' . SITE_BIG . $from . ' <' . $bugEmail .">\r\n";
+            $mail_headers = 'From: ' . SITE_BIG . $from . ' <' . PEAR_QA_EMAIL .">\r\n";
 
             if ($to == '') {
                 $query = "SELECT u.name, u.email
@@ -164,7 +164,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                             AND
                               m.active = '1'
                             AND
-                              p.package_type = '$site'
+                              p.package_type = '" . SITE . "'
                             AND
                               p.approved = 1
                             AND
@@ -193,6 +193,6 @@ if (count($result) > 0 && !PEAR::isError($result)) {
     }
     // Email PEAR-QA the whole bug list
     if (!DEVBOX) {
-        mail(PEAR_QA_EMAIL, SITE_BIG . ' Bug Summary Report', $body, 'From: ' . SITE_BIG . $from . ' <' . $bugEmail .">\r\n", '-f ' . PEAR_BOUNCE_EMAIL);
+        mail(PEAR_QA_EMAIL, SITE_BIG . ' Bug Summary Report', $body, 'From: ' . SITE_BIG . $from . ' <' . PEAR_QA_EMAIL .">\r\n", '-f ' . PEAR_BOUNCE_EMAIL);
     }
 }
