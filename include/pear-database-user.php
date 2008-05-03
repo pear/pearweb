@@ -7,10 +7,10 @@ class user
         global $dbh;
 
         include_once 'pear-database-note.php';
-        note::removeAll("uid", $uid);
+        note::removeAll('uid', $uid);
         $GLOBALS['pear_rest']->deleteMaintainerREST($uid);
         $GLOBALS['pear_rest']->saveAllMaintainersREST();
-        $dbh->query('DELETE FROM users WHERE handle = '. $dbh->quote($uid));
+        $dbh->query('DELETE FROM users WHERE handle = ?', array($uid));
         return ($dbh->affectedRows() > 0);
     }
 
@@ -50,7 +50,7 @@ class user
 
         $data = array();
         $data['registered'] = 1;
-        $data['active'] = 1;
+        $data['active']     = 1;
         /* $data['ppp_only'] = 0; */
         if (is_array($arr)) {
             $data['userinfo'] = $arr[1];
@@ -136,11 +136,11 @@ class user
         global $dbh;
         $query = 'SELECT p.id, p.name, m.role, m.active'
             . ' FROM packages p, maintains m'
-            . ' WHERE m.handle = ? AND p.id = m.package AND p.package_type = "pear"'
+            . ' WHERE m.handle = ? AND p.id = m.package AND p.package_type = ?'
             . (($onlyApprovedPackages) ? ' AND approved = 1' : '')
             . ' ORDER BY p.name';
 
-        return $dbh->getAll($query, array($user));
+        return $dbh->getAll($query, array($user, SITE));
     }
 
     static function info($user, $field = null, $registered = true, $hidePassword = true)
@@ -336,13 +336,12 @@ class user
 
         $xhdr = "From: $name <{$data['email']}>\nMessage-Id: <account-request-{$handle}@" .
             PEAR_CHANNELNAME . ">\n";
-        // $xhdr .= "\nBCC: pear-group@php.net";
+        // $xhdr .= "\nBCC: " . PEAR_GROUP_EMAIL;
         $subject = "PEAR Account Request: {$handle}";
 
         $ok = true;
-        if (!DEVBOX && !$automatic && PEAR_CHANNELNAME === 'pear.php.net') {
-            $ok = @mail('pear-group@php.net', $subject, $msg, $xhdr,
-                            '-f ' . PEAR_BOUNCE_EMAIL);
+        if (!DEVBOX && !$automatic && PEAR_CHANNELNAME == 'pear.php.net') {
+            $ok = @mail(PEAR_GROUP_EMAIL, $subject, $msg, $xhdr, '-f ' . PEAR_BOUNCE_EMAIL);
         }
 
         PEAR::popErrorHandling();
@@ -431,118 +430,28 @@ class user
         global $dbh;
         $recent = array();
 
-        $query = "SELECT p.id AS id, " .
-            "p.name AS name, " .
-            "p.summary AS summary, " .
-            "r.version AS version, " .
-            "r.releasedate AS releasedate, " .
-            "r.releasenotes AS releasenotes, " .
-            "r.doneby AS doneby, " .
-            "r.state AS state " .
-            "FROM packages p, releases r, maintains m " .
-            "WHERE p.package_type = 'pear' AND p.id = r.package " .
-            "AND p.id = m.package AND m.handle = '" . $handle . "' " .
-            "ORDER BY r.releasedate DESC";
+        $query = '
+            SELECT
+                p.id AS id,
+                p.name AS name,
+                p.summary AS summary,
+                r.version AS version,
+                r.releasedate AS releasedate,
+                r.releasenotes AS releasenotes,
+                r.doneby AS doneby,
+                r.state AS state
+            FROM packages p, releases r, maintains m
+            WHERE
+                p.package_type = ?
+                AND p.id = r.package
+                AND p.id = m.package
+                AND m.handle = ?
+            ORDER BY r.releasedate DESC';
 
-        $sth = $dbh->limitQuery($query, 0, $n);
+        $sth = $dbh->limitQuery($query, 0, $n, array(SITE, $handle));
         while ($sth->fetchInto($row, DB_FETCHMODE_ASSOC)) {
             $recent[] = $row;
         }
         return $recent;
-    }
-
-    /**
-     * Get list of current developers and the packages they maintain.
-     *
-     * The output of this method is used on public websites for
-     * a Who Is Who of the PEAR developers.  In order to avoid abuse,
-     * access to this method via XML_RPC is granted based on a whitelist
-     * of IP addresses.
-     *
-     * @access public
-     * @return array
-     */
-    static function getWhoIsWho() {
-        global $dbh;
-
-        // IP whitelist
-        if (!in_array($_SERVER['REMOTE_ADDR'], array('209.61.191.11'))) {
-            return array();
-        }
-
-        $query_maintainers = "SELECT p.name, m.role, p.package_type "
-            . "FROM maintains m, packages p "
-            . "WHERE m.package = p.id AND m.handle = ?";
-        $maintainers = $dbh->prepare($query_maintainers);
-
-        $group = $dbh->prepare("SELECT COUNT(id) "
-                               . "FROM karma "
-                               . "WHERE level = 'pear.group' AND user = ?");
-
-        /* The PECL developers don't have the "pear.dev" karma level.
-         * Thus every registered user needs to be checked.
-         */
-        $query = "SELECT handle, name, homepage, userinfo "
-            . "FROM users WHERE registered = 1";
-
-        $query_group = "SELECT user FROM karma WHERE level = 'pear.group'";
-
-        $group_ids = $dbh->getCol($query_group);
-        $group_ids = array_flip($group_ids);
-
-        $users = $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
-
-        foreach ($users as $id => $user) {
-            // Figure out which packages are maintained by the user
-            $sth = $dbh->execute($maintainers, array($user['handle']));
-
-            // Skip if the user is maintaining nothing
-            if ($sth->numRows() == 0) {
-                unset($users[$id]);
-                continue;
-            }
-
-            while ($row =& $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
-                $users[$id]['maintains'][] = $row;
-
-                if (!isset($users[$id]['type'])) {
-                    $users[$id]['type'] = 0;
-                }
-
-                // Returned 'type' is 1 for PEAR, 2 for PECL or 3 for both
-                switch ($users[$id]['type']) {
-                case '3':
-                    break;
-
-                case '2':
-                    if ($row['package_type'] == 'pear') {
-                        $users[$id]['type'] = 3;
-                    }
-                    break;
-
-                case '1':
-                    if ($row['package_type'] == 'pecl') {
-                        $users[$id]['type'] = 3;
-                    }
-                    break;
-
-                default:
-                    if ($row['package_type'] == 'pecl') {
-                        $users[$id]['type'] = 2;
-                    } else {
-                        $users[$id]['type'] = 1;
-                    }
-                    break;
-                }
-            }
-
-            if (isset($group_ids[$user['handle']])) {
-                $users[$id]['group'] = 1;
-            } else {
-                $users[$id]['group'] = 0;
-            }
-        }
-
-        return $users;
     }
 }
