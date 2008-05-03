@@ -64,7 +64,7 @@ class maintainer
             include_once 'pear-database-package.php';
             $package = package::info($package, 'id');
         }
-        $query = "SELECT handle, role, active FROM maintains WHERE package = ?";
+        $query = 'SELECT handle, role, active FROM maintains WHERE package = ?';
 
         if ($lead) {
             $query .= " AND role = 'lead'";
@@ -74,23 +74,9 @@ class maintainer
             $query .= ' AND active = 1';
         }
 
-        $query .= " ORDER BY active DESC";
+        $query .= ' ORDER BY active DESC';
 
         return $dbh->getAssoc($query, true, array($package), DB_FETCHMODE_ASSOC);
-    }
-
-    /**
-     * Get the roles of a specific user
-     *
-     * @static
-     * @param  string Handle of the user
-     * @return array
-     */
-    static function getByUser($user)
-    {
-        global $dbh;
-        $query = 'SELECT p.name, m.role FROM packages p, maintains m WHERE p.package_type = ? AND p.approved = 1 AND m.package = p.id AND m.handle = ?';
-        return $dbh->getAssoc($query, array('pear'), array($user));
     }
 
     /**
@@ -102,8 +88,7 @@ class maintainer
      */
     static function isValidRole($role)
     {
-        require_once "PEAR/Common.php";
-
+        require_once 'PEAR/Common.php';
         static $roles;
         if (empty($roles)) {
             $roles = PEAR_Common::getUserRoles();
@@ -123,14 +108,18 @@ class maintainer
     {
         global $dbh, $auth_user;
         include_once 'pear-database-user.php';
-        if (!$auth_user->isAdmin() && !$auth_user->isQA() && !user::maintains($auth_user->handle, $package, 'lead')) {
+        if (!$auth_user->isAdmin() && !$auth_user->isQA()
+            && !user::maintains($auth_user->handle, $package, 'lead')
+        ) {
             return PEAR::raiseError('maintainer::remove: insufficient privileges');
         }
+
         if (is_string($package)) {
             include_once 'pear-database-package.php';
             $package = package::info($package, 'id');
         }
-        $sql = "DELETE FROM maintains WHERE package = ? AND handle = ?";
+
+        $sql = 'DELETE FROM maintains WHERE package = ? AND handle = ?';
         return $dbh->query($sql, array($package, $user));
     }
 
@@ -146,12 +135,8 @@ class maintainer
      */
     static function updateAll($pkgid, $users, $print = false, $releasing = false)
     {
-        require_once "Damblan/Log.php";
-
+        require_once 'Damblan/Log.php';
         global $dbh, $auth_user;
-
-        $admin = $auth_user->isAdmin();
-        $qa    = $auth_user->isQA();
 
         // Only admins and leads can do this.
         if (maintainer::mayUpdate($pkgid) == false) {
@@ -160,7 +145,7 @@ class maintainer
 
         $logger = new Damblan_Log;
         if ($print) {
-            require_once "Damblan/Log/Print.php";
+            require_once 'Damblan/Log/Print.php';
             $observer = new Damblan_Log_Print;
             $logger->attach($observer);
         }
@@ -178,6 +163,9 @@ class maintainer
         $old_users = array_keys($old);
         $new_users = array_keys($users);
 
+        $admin = $auth_user->isAdmin();
+        $qa    = $auth_user->isQA();
+
         if (!$admin && !$qa && !in_array($auth_user->handle, $new_users)) {
             return PEAR::raiseError("You can not delete your own maintainer role or you will not ".
                                     "be able to complete the update process. Set your name ".
@@ -190,7 +178,7 @@ class maintainer
                 $users[$auth_user->handle]['role']);
         }
         foreach ($users as $user => $u) {
-            $role = $u['role'];
+            $role   = $u['role'];
             $active = $u['active'];
 
             if (!maintainer::isValidRole($role)) {
@@ -236,12 +224,12 @@ class maintainer
      * @param  string Role
      * @param  string Is the developer actively working on the package?
      */
-    static function update($package, $user, $role, $active) {
+    static function update($package, $user, $role, $active)
+    {
         global $dbh;
 
-        $query = "UPDATE maintains SET role = ?, active = ? " .
-            "WHERE package = ? AND handle = ?";
-        return $dbh->query($query, array($role, $active, $package, $user));
+        $sql = 'UPDATE maintains SET role = ?, active = ? WHERE package = ? AND handle = ?';
+        return $dbh->query($sql, array($role, $active, $package, $user));
     }
 
     /**
@@ -251,14 +239,14 @@ class maintainer
      * @param  int  ID of the package
      * @return boolean
      */
-    static function mayUpdate($package) {
+    static function mayUpdate($package)
+    {
         global $auth_user;
 
-        $admin = $auth_user->isAdmin();
-        $qa    = $auth_user->isQA();
-
         include_once 'pear-database-user.php';
-        if (!$admin && !$qa && !user::maintains($auth_user->handle, $package, 'lead')) {
+        if (!$auth_user->isAdmin() && !$auth_user->isQA()
+            && !user::maintains($auth_user->handle, $package, 'lead')
+        ) {
             return false;
         }
 
