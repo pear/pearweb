@@ -183,20 +183,25 @@ class category
         global $dbh;
         $recent = array();
 
-        $query = "SELECT p.id AS id, " .
-            "p.name AS name, " .
-            "p.summary AS summary, " .
-            "r.version AS version, " .
-            "r.releasedate AS releasedate, " .
-            "r.releasenotes AS releasenotes, " .
-            "r.doneby AS doneby, " .
-            "r.state AS state " .
-            "FROM packages p, releases r, categories c " .
-            "WHERE p.package_type = 'pear' AND p.id = r.package " .
-            "AND p.category = c.id AND c.name = '" . $category . "'" .
-            "ORDER BY r.releasedate DESC";
+        $query = '
+            SELECT
+                p.id AS id,
+                p.name AS name,
+                p.summary AS summary,
+                r.version AS version,
+                r.releasedate AS releasedate,
+                r.releasenotes AS releasenotes,
+                r.doneby AS doneby,
+                r.state AS state
+            FROM packages p, releases r, categories c
+            WHERE
+                p.package_type = ?
+                AND p.id = r.package
+                AND p.category = c.id
+                AND c.name = ?
+            ORDER BY r.releasedate DESC';
 
-        $sth = $dbh->limitQuery($query, 0, $n);
+        $sth = $dbh->limitQuery($query, 0, $n, array(SITE, $category));
         while ($sth->fetchInto($row, DB_FETCHMODE_ASSOC)) {
             $recent[] = $row;
         }
@@ -213,8 +218,8 @@ class category
     static function isValid($category)
     {
         global $dbh;
-        $query = "SELECT id FROM categories WHERE name = ?";
-        $sth = $dbh->query($query, array($category));
+        $sql = 'SELECT id FROM categories WHERE name = ?';
+        $sth = $dbh->query($sql, array($category));
         return ($sth->numRows() > 0);
     }
 }
