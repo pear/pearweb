@@ -88,7 +88,7 @@ foreach ($bugs['pear'] as $name => $qa) {
     $table->addRow(array(
         make_link('/package/' . $name . '/', $name),
         make_link('/bugs/search.php?cmd=display&package_name[]=' . $name . '&status=CRSLR', count($qa['bug_id'])),
-        make_utc_date($qa['last_release'])
+        format_date($qa['last_release'])
     ));
     $table->setCellAttributes($row, 1, 'style="text-align: center;"');
     $row++;
@@ -107,7 +107,7 @@ foreach ($bugs['pecl'] as $name => $qa) {
     $table->addRow(array(
         make_link('/package/' . $name . '/', $name),
         count($qa['bug_id']),
-        make_utc_date($qa['last_release'])
+        format_date($qa['last_release'])
     ));
     $table->setCellAttributes($row, 1, 'style="text-align: center;"');
     $row++;
