@@ -68,10 +68,10 @@ if (!DB::isError($name)) {
 // Check less strictly if nothing has been found previously
 $sql = "SELECT p.id, p.name, p.summary
             FROM packages p
-            WHERE package_type = 'pear' AND approved = 1 AND name LIKE ?
+            WHERE package_type = ? AND approved = 1 AND name LIKE ?
             ORDER BY p.name";
 $term = "%" . basename($pkg) . "%";
-$packages = $dbh->getAll($sql, array($term), DB_FETCHMODE_ASSOC);
+$packages = $dbh->getAll($sql, array(SITE, $term), DB_FETCHMODE_ASSOC);
 
 if (count($packages) === 1) {
     localRedirect($pinfo_url . $packages[0]['name'] . '/redirected');
