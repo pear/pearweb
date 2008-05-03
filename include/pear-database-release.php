@@ -41,19 +41,24 @@ class release
     static function getRecent($n = 5)
     {
         global $dbh;
-        $sth = $dbh->limitQuery("SELECT packages.id AS id, ".
-                                "packages.name AS name, ".
-                                "packages.summary AS summary, ".
-                                "releases.version AS version, ".
-                                "releases.releasedate AS releasedate, ".
-                                "releases.releasenotes AS releasenotes, ".
-                                "releases.doneby AS doneby, ".
-                                "releases.state AS state ".
-                                "FROM packages, releases ".
-                                "WHERE packages.id = releases.package ".
-                                "AND packages.approved = 1 ".
-                                "AND packages.package_type = 'pear' ".
-                                "ORDER BY releases.releasedate DESC", 0, $n);
+
+        $sql = '
+            SELECT
+                p.id AS id,
+                p.name AS name,
+                p.summary AS summary,
+                r.version AS version,
+                r.releasedate AS releasedate,
+                r.releasenotes AS releasenotes,
+                r.doneby AS doneby,
+                r.state AS state
+            FROM packages p, releases r
+            WHERE
+                p.id = r.package
+                AND p.approved = 1
+                AND p.package_type = ?
+                ORDER BY r.releasedate DESC';
+        $sth = $dbh->limitQuery($sql, 0, $n, array(SITE));
         $recent = array();
         // XXX Fixme when DB gets limited getAll()
         while ($sth->fetchInto($row, DB_FETCHMODE_ASSOC)) {
@@ -75,7 +80,7 @@ class release
                     packages.name <> "pearweb" AND
                     packages.name <> "pearweb_phars" AND
                     packages.id = releases.package AND
-                    packages.package_type = \'pear\' AND
+                    packages.package_type = ? AND
                     a.release_id = releases.id AND
                     a.package_id = packages.id AND
                     packages.newpk_id IS NULL AND
@@ -92,7 +97,7 @@ class release
                     packages.name <> "pearweb" AND
                     packages.name <> "pearweb_phars" AND
                     packages.id = releases.package AND
-                    packages.package_type = \'pear\' AND
+                    packages.package_type = ? AND
                     a.release_id = releases.id AND
                     a.package_id = packages.id AND
                     packages.newpk_id IS NULL AND
@@ -100,7 +105,7 @@ class release
                     a.yearmonth = "' . date('Y-m-01 00:00:00', time()) . '"
                 ORDER BY d DESC';
         }
-        $sth = $dbh->limitQuery($query, 0, $n);
+        $sth = $dbh->limitQuery($query, 0, $n, array(SITE));
         $recent = array();
         // XXX Fixme when DB gets limited getAll()
         while ($sth->fetchInto($row, DB_FETCHMODE_ASSOC)) {
@@ -131,28 +136,30 @@ class release
         $end_f   = date('Y-m-d 00:00:00', $end);
 
         $site = strtolower($site);
-        if (!in_array($site, array('pear', 'pecl'))) {
+        if (!in_array($site, array('pear', 'pear2', 'pecl'))) {
             $site = 'pear';
         }
 
-        $sql =  "SELECT packages.id AS id, ".
-                "packages.name AS name, ".
-                "packages.summary AS summary, ".
-                "packages.description AS description, ".
-                "releases.version AS version, ".
-                "releases.releasedate AS releasedate, ".
-                "releases.releasenotes AS releasenotes, ".
-                "releases.doneby AS doneby, ".
-                "releases.state AS state ".
-                "FROM packages, releases ".
-                "WHERE packages.id = releases.package ".
-                "AND releases.releasedate > '{$start_f}' AND releases.releasedate < '{$end_f}'".
-                "AND packages.package_type = '{$site}'" .
-                "ORDER BY releases.releasedate DESC";
+        $sql = '
+            SELECT
+                p.id AS id,
+                p.name AS name,
+                p.summary AS summary,
+                p.description AS description,
+                r.version AS version,
+                r.releasedate AS releasedate,
+                r.releasenotes AS releasenotes,
+                r.doneby AS doneby,
+                r.state AS state
+            FROM packages p, releases r
+            WHERE
+                p.id = r.package
+                AND r.releasedate > ? AND r.releasedate < ?
+                AND p.package_type = ?
+                ORDER BY r.releasedate DESC';
 
         // limited to 50 to stop overkill on the server!
-        $sth = $dbh->limitQuery($sql,0,50);
-
+        $sth = $dbh->limitQuery($sql, 0, 50, array($start_f, $end_f, $site));
         while ($sth->fetchInto($row, DB_FETCHMODE_ASSOC)) {
             $recent[] = $row;
         }
@@ -494,10 +501,10 @@ class release
             } elseif ($row === null) {
                 return PEAR::raiseError("File '$file' not found");
             }
-            $path = $row['fullpath'];
+            $path        = $row['fullpath'];
             $log_release = $row['release'];
-            $log_file = $row['id'];
-            $basename = $file;
+            $log_file    = $row['id'];
+            $basename    = $file;
         } elseif ($version === null) {
             // Get the most recent version
             $row = $dbh->getRow("SELECT id FROM releases ".
@@ -694,27 +701,6 @@ class release
     /**
      * Promote new release
      *
-     * @param array Coming from PEAR_common::infoFromDescFile('package.xml')
-     * @param string Filename of the new uploaded release
-     * @return void
-     */
-    static function promote($pkginfo, $upload)
-    {
-        if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
-            return;
-        }
-
-        $package = $pkginfo['package'];
-        $notes   = $pkginfo['release_notes'];
-        $desc    = $pkginfo['description'];
-        $version = $pkginfo['version'];
-        $state   = $pkginfo['release_state'];
-        $this->_processPromote($package, $upload, $version, $notes, $desc, $state);
-    }
-
-    /**
-     * Promote new release
-     *
      * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
      * @param string Filename of the new uploaded release
      * @return void
@@ -729,11 +715,7 @@ class release
         $notes   = $pkginfo->getNotes();
         $desc    = $pkginfo->getDescription();
         $state   = $pkginfo->getState();
-        $this->_processPromote($package, $upload, $version, $notes, $desc, $state);
-    }
 
-    function _processPromote($package, $upload, $version, $notes, $desc, $state)
-    {
         include_once 'pear-database-package.php';
         $authors = package::info($package, 'authors');
         $txt_authors = '';
@@ -797,39 +779,33 @@ END;
             return PEAR::raiseError('release::remove: insufficient privileges');
         }
 
-        $success = true;
-
         // get files that have to be removed
-        $query = sprintf("SELECT fullpath FROM files WHERE package = '%s' AND release = '%s'",
-                         $package,
-                         $release);
+        $sql = 'SELECT fullpath FROM files WHERE package = ? AND release = ?';
+        $sth = $dbh->query($sql, array($package, $release));
 
-        $sth = $dbh->query($query);
-
+        // Should we error out if the removal fails ?
+        $success = true;
         while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
             if (!@unlink($row['fullpath'])) {
                 $success = false;
             }
         }
 
-        $query = sprintf("DELETE FROM files WHERE package = '%s' AND `release` = '%s'",
-                         $package,
-                         $release
-                         );
-        $sth = $dbh->query($query);
+        $sql = 'DELETE FROM files WHERE package = ? AND `release` = ?';
+        $sth = $dbh->query($sql, array($package, $release));
 
-        include_once 'pear-database-package.php';
-        $pname = package::info($package, 'name');
-        $version = $dbh->getOne('SELECT version from releases WHERE package = ? and id = ?',
-            array($package, $release));
-        $query = sprintf("DELETE FROM releases WHERE package = '%s' AND id = '%s'",
-                         $package,
-                         $release
-                         );
-        $sth = $dbh->query($query);
+        $sql     = 'SELECT version from releases WHERE package = ? and id = ?';
+        $version = $dbh->getOne($sql, array($package, $release));
+        $query   = 'DELETE FROM releases WHERE package = ? AND id = ?';
+
+        $sth = $dbh->query($query, array($package, $release));
         // remove statistics on this release
         $dbh->query('DELETE FROM package_stats WHERE pid = ? AND rid = ?', array($package, $release));
         $dbh->query('DELETE FROM aggregated_package_stats WHERE package_id = ? AND release_id = ?', array($package, $release));
+
+        include_once 'pear-database-package.php';
+        $pname = package::info($package, 'name');
+
         $GLOBALS['pear_rest']->saveAllReleasesREST($pname);
         $GLOBALS['pear_rest']->deleteReleaseREST($pname, $version);
         $GLOBALS['pear_rest']->savePackagesCategoryREST(package::info($pname, 'category'));
