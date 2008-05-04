@@ -108,9 +108,11 @@ do {
             }
 
             include_once 'pear-database-user.php';
-            if (!auth_check('pear.admin') &&
+            if (
+                !auth_check('pear.admin') &&
                 !auth_check('pear.qa') &&
-                !user::maintains($auth_user->handle, $pacid, 'lead')) {
+                !user::maintains($auth_user->handle, $pacid, 'lead')
+            ) {
                 $errors[] = 'You don\'t have permissions to upload this release.';
                 break;
             }
@@ -121,9 +123,9 @@ do {
             $users = array();
             foreach ($info->getMaintainers() as $user) {
                 $users[strtolower($user['handle'])] = array(
-                                                        'role'   => $user['role'],
-                                                        'active' => !isset($user['active']) || $user['active'] == 'yes',
-                                                      );
+                    'role'   => $user['role'],
+                    'active' => !isset($user['active']) || $user['active'] == 'yes',
+                );
             }
 
             include_once 'pear-database-maintainer.php';
@@ -163,8 +165,88 @@ do {
 
         PEAR::pushErrorHandling(PEAR_ERROR_CALLBACK, 'report_warning');
         include_once 'pear-database-release.php';
-        release::promote_v2($info, $file);
+        release::promote($info, $file);
         PEAR::popErrorHandling();
+
+        // Roadmap thingo
+        require_once 'roadmap/info.php';
+
+        $sql = '
+            SELECT b.id, b.sdesc, b.email, b.reporter_name, b.bug_type, b.handle
+            FROM
+                bugdb b, bugdb_roadmap_link l, bugdb_roadmap r
+            WHERE
+                r.package = ? AND
+                r.roadmap_version = ? AND
+                l.roadmap_id = r.id AND
+                b.id = l.id AND
+                b.status = ?
+            ORDER BY b.bug_type, b.id';
+
+        $values = array($info->getPackage(), $info->getVersion(), 'Closed');
+        $bugs   = $GLOBALS['dbh']->getAll($sql , $values, DB_FETCHMODE_ASSOC);
+
+        $sql = 'SELECT m.handle FROM maintains m, packages p WHERE p.id = m.package AND p.name = ?';
+        $m   = $dbh->getCol($sql, 0, $package);
+
+        $bug_types = array('Bug', 'Documentation Bug');
+        $notes = array();
+        foreach ($bugs as $bug) {
+            // Ignoring bugs maintainers reported
+            if (in_array($bug['handle'], $m)) {
+                continue;
+            }
+
+            if (!isset($notes[$bug['email']]['note'])) {
+                $notes[$bug['email']]['note'] = '';
+            }
+
+            $type = in_array($bug['bug_type'], $bug_types) ? 'bugs' : 'features';
+            if (!isset($notes[$bug['email']][$type])) {
+                $notes[$bug['email']][$type] = '';
+            }
+
+            $summary = wordwrap($bug['sdesc'], 70);
+            // indent word-wrapped lines
+            $summary = implode("\n   ", explode("\n", $summary));
+            $notes[$bug['email']]['name']  = $bug['reporter_name'];
+            $notes[$bug['email']][$type] .= " * ID #$bug[id]: $summary\n";
+        }
+
+        $email_header  = "Hello {name},\n\n";
+        $email_header .= "We'd like to inform you that the following issues you reported have been addressed in the new version of {package}:\n";
+        $email_footer  = "\nYou can get the new version via http://{channel}/package/{package}/download/{version}\n";
+        $email_footer .= "or install with pear install {package}{state} / pear upgrade {package}{state}";
+        $mail_headers  = 'From: ' . SITE_BIG . ' QA <' . PEAR_QA_EMAIL .">\r\n";
+        $subject       = '[' . SITE_BIG . '-BUG] Bug report submission follow up for package ' . $info->getPackage();
+        $state = $info->getState() == 'stable' ? '' : '-' . $state;
+
+        foreach ($notes as $email => $n) {
+            $find    = array('{name}', '{package}');
+            $replace = array($n['name'], $info->getPackage());
+            $header = str_replace($find, $replace, $email_header);
+
+            $find    = array('{channel}', '{package}', '{version}', '{state}');
+            $replace = array(PEAR_CHANNELNAME, $info->getPackage(), $info->getVersion(), $state);
+            $footer  = str_replace($find, $replace, $email_footer);
+
+            $text = '';
+            if (isset($n['bugs'])) {
+                $text .= "\nFixed Bugs:\n";
+                $text .= $n['bugs'];
+            }
+
+            if (isset($n['features'])) {
+                $text .= "\nImplemented Features:\n";
+                $text .= $n['features'];
+            }
+
+            $body = $header . $text . $footer;
+            $to   = $n['name'] . '<' . $email . '>';
+            if (!DEVBOX) {
+                mail($to, $subject, $body, $mail_headers, '-f ' . PEAR_BOUNCE_EMAIL);
+            }
+        }
 
         $success              = true;
         $display_form         = true;
@@ -252,7 +334,7 @@ if ($display_verification) {
             }
         }
         if ($info->getState() == 'stable') {
-            $releases = package::info($info->getPackage(), 'releases', true);
+            $releases = package::info($info->getPackage(), 'releases');
             if (!count($releases)) {
                 $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
                 "  Try releasing version 1.0.0RC1, state 'beta'";
@@ -299,13 +381,14 @@ function checkUser($user)
 {
     global $dbh;
     // It's a lead or user of the package
-    $query = "SELECT m.handle
-              FROM packages p, maintains m
-              WHERE
-                 m.handle = ? AND
-                 p.id = m.package AND
-                 m.role = 'lead'";
-    $res = $dbh->getOne($query, array($user));
+    $query = '
+        SELECT m.handle
+        FROM packages p, maintains m
+        WHERE
+            m.handle = ? AND
+            p.id = m.package AND
+            m.role = ?';
+    $res = $dbh->getOne($query, array($user, 'lead'));
     if ($res !== null) {
         return true;
     }
