@@ -24,6 +24,7 @@
  *
  * @version $Revision$
  */
+require_once dirname(dirname(__FILE__)) . '/include/pear-config.php';
 require_once 'PEAR.php';
 require_once 'VFS.php';
 require_once 'VFS/file.php';
@@ -69,18 +70,18 @@ function readFolder($folder)
     }
 
     foreach ($result as $file) {
-       if (is_dir($basepath . $folder . "/" . $file['name'])) {
-            if ($folder == "") {
+       if (is_dir($basepath . $folder . '/' . $file['name'])) {
+            if ($folder == '') {
                 $newfolder = $file['name'];
             } else {
-                $newfolder = $folder . "/" . $file['name'];
+                $newfolder = $folder . '/' . $file['name'];
             }
             readFolder($newfolder);
             $level--;
         } else {
             if ($level == 2 && preg_match("/\.xml$/", $file['name'])) {
 
-                $path = $basepath . $folder . "/" . $file['name'];
+                $path = $basepath . $folder . '/' . $file['name'];
                 $content = file_get_contents($path);
 
                 preg_match("/<title>(.*)<\/title>/", $content, $matches1);
