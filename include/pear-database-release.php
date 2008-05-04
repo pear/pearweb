@@ -433,7 +433,8 @@ class release
         }
 
         include_once 'pear-database-package.php';
-        if (!in_array(package::info($package, 'name'), array('pearweb', 'pearweb_phars'), true)) {
+        $n = package::info($package, 'name');
+        if (!in_array($n, array('pearweb', 'pearweb_phars'), true)) {
             // Add release archive file to API documentation queue
             $query = "INSERT INTO apidoc_queue (filename, queued) "
                  . "VALUES ('" . $file. "', NOW())";
@@ -621,80 +622,40 @@ class release
     {
         global $dbh;
 
-        $dbh->query('UPDATE aggregated_package_stats
-            SET downloads = downloads + 1
-            WHERE
-                package_id = ? AND
-                release_id = ? AND
-                yearmonth = ?',
-            array($package, $release_id, date('Y-m-01')));
-        if ($dbh->affectedRows() == 0) {
-            $dbh->query('INSERT INTO aggregated_package_stats
-                (package_id, release_id, yearmonth, downloads)
-                VALUES(?, ?, ?, 1)',
-                array($package, $release_id, date('Y-m-01')));
+        $query = 'SELECT version, name, category FROM releases, packages'
+               . ' WHERE package = ? AND releases.id = ? AND packages.id = releases.package';
+        $pkginfo = $dbh->getAll($query, array($package, $release_id), DB_FETCHMODE_ASSOC);
+
+        if (PEAR::isError($pkginfo) || !$pkginfo) {
+            return PEAR::raiseError('release:: the package you requested'
+                                    . ' has no release by that number');
         }
 
-//      This method can be used when we have MySQL 4.1,
-//      30% efficiency gain at least over previous method
-//      $dbh->query('INSERT INTO aggregated_package_stats
-//          (package_id, release_id, yearmonth, downloads)
-//          VALUES(?, ?, ?, 1)
-//          ON DUPLICATE KEY UPDATE downloads = downloads + 1',
-//          array($package, $release_id, date('Y-m-01')));
+        $sql = '
+            INSERT INTO aggregated_package_stats
+                (package_id, release_id, yearmonth, downloads)
+            VALUES(?, ?, ?, 1)
+                ON DUPLICATE KEY UPDATE downloads = downloads + 1';
+        $dbh->query($sql, array($package, $release_id, date('Y-m-01')));
 
         // {{{ Update package_stats table
 
-//      This method can be used when we have MySQL 4.1,
-//      30% efficiency gain at least over previous method
-//        $query = 'INSERT INTO package_stats
-//                      (dl_number, package, release, pid, rid, cid, last_dl)
-//                      VALUES (1, ?, ?, ?, ?, ?, ?)
-//                      ON DUPLICATE KEY UPDATE
-//                      dl_number=dl_number+1,
-//                      last_dl = "' . date('Y-m-d H:i:s') . '"';
-//
-//        $dbh->query($query, array($pkg_info['name'],
-//                                  $version,
-//                                  $package,
-//                                  $release_id,
-//                                  $pkg_info['categoryid'],
-//                                  date('Y-m-d H:i:s')
-//                                  )
-//                    );
+        $query = '
+            INSERT INTO package_stats
+                (dl_number, package, release, pid, rid, cid, last_dl)
+            VALUES (1, ?, ?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                    dl_number = dl_number + 1,
+                    last_dl = "' . date('Y-m-d H:i:s') . '"';
 
-        $query = 'UPDATE package_stats '
-            . ' SET dl_number = dl_number + 1,'
-            . " last_dl = '" . date('Y-m-d H:i:s') . "'"
-            . ' WHERE pid = ? AND rid = ?';
-        $dbh->query($query, array($package, $release_id));
-
-        if ($dbh->affectedRows() == 0) {
-            include_once 'pear-database-package.php';
-
-            $query = 'SELECT version, name, category FROM releases, packages'
-                   . ' WHERE package = ? AND releases.id = ? AND packages.id=releases.package';
-            $pkginfo = $dbh->getAll($query, array($package, $release_id), DB_FETCHMODE_ASSOC);
-
-            if (PEAR::isError($pkginfo) || !$pkginfo) {
-                return PEAR::raiseError('release:: the package you requested'
-                                        . ' has no release by that number');
-            }
-
-            $query = 'INSERT INTO package_stats'
-                   . ' (dl_number, package, `release`, pid, rid, cid, last_dl)'
-                   . ' VALUES (1, ?, ?, ?, ?, ?, ?)';
-
-            $dbh->query($query, array($pkginfo[0]['name'],
-                                      $pkginfo[0]['version'],
-                                      $package,
-                                      $release_id,
-                                      $pkginfo[0]['category'],
-                                      date('Y-m-d H:i:s')
-                                      )
-                        );
-        }
-
+        $dbh->query($query, array($pkginfo[0]['name'],
+                                  $pkginfo[0]['version'],
+                                  $package,
+                                  $release_id,
+                                  $pkginfo[0]['category'],
+                                  date('Y-m-d H:i:s')
+                                  )
+                    );
         // }}}
     }
 
@@ -705,7 +666,7 @@ class release
      * @param string Filename of the new uploaded release
      * @return void
      */
-    static function promote_v2($pkginfo, $upload)
+    static function promote($pkginfo, $upload)
     {
         if ($_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME) {
             return;
