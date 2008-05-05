@@ -196,4 +196,16 @@ class PEAR_Bugs_Utils
         return $res;
     }
     // }}}
+
+    /**
+     * Check if the given package uses an external bug system or not
+     *
+     */
+    function getExternalSystem($package)
+    {
+        global $dbh;
+        $sql = 'SELECT bug_link FROM packages WHERE name = ?';
+        $res = $dbh->getOne($sql, array($package));
+        return $res;
+    }
 }
