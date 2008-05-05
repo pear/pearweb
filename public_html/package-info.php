@@ -202,14 +202,14 @@ if (empty($action)) {
 
     // {{{ Supeseded checks
     $dec_messages = array(
-        'abandoned' => 'This package is not maintained anymore and has been superseded.',
-        'superseded' => 'This package has been superseded, but is still maintained for bugs and security fixes.',
+        'abandoned'    => 'This package is not maintained anymore and has been superseded.',
+        'superseded'   => 'This package has been superseded, but is still maintained for bugs and security fixes.',
         'unmaintained' => 'This package is not maintained, if you would like to take over please go to <a href="http://pear.php.net/manual/en/newmaint.takingover.php">this page</a>.'
     );
 
     $dec_table = array(
-        'abandoned'   => array('superseded' => 'Y', 'unmaintained' => 'Y'),
-        'superseded'  => array('superseded' => 'Y', 'unmaintained' => 'N'),
+        'abandoned'    => array('superseded' => 'Y', 'unmaintained' => 'Y'),
+        'superseded'   => array('superseded' => 'Y', 'unmaintained' => 'N'),
         'unmaintained' => array('superseded' => 'N', 'unmaintained' => 'Y'),
     );
 
@@ -257,12 +257,16 @@ if (empty($action)) {
 
     echo '<tr>' . "\n";
     echo '<th>&raquo; Current Release</th>' . "\n";
-    echo '<th>&raquo; Bug Summary</th>' . "\n";
+    if (empty($pkg['bug_link'])) {
+        echo '<th>&raquo; Bug Summary</th>' . "\n";
+    } else {
+        echo "<th>&nbsp;</th>\n";
+    }
     echo '</tr>' . "\n";
     echo '<tr>' . "\n";
     echo '<td>' . "\n";
     if (isset($versions[0])) {
-        echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
+        echo '<a href="http://download.' . PEAR_CHANNELNAME . '/package/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
         echo ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
         echo ' was released on ' . format_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
         echo ' (<a class="download-page" href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
@@ -271,7 +275,7 @@ if (empty($action)) {
             foreach ($pkg['releases'] as $rel_ver => $rel_arr) {
                 if ($rel_arr['state'] == 'stable') {
                     echo "<br />\n";
-                    echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-';
+                    echo '<a href="http://download.' . PEAR_CHANNELNAME . '/package/' . htmlspecialchars($name) . '-';
                     echo $rel_ver . '.tgz">' . $rel_ver . '</a>';
                     echo ' (stable)';
                     echo ' was released on ';
@@ -285,7 +289,7 @@ if (empty($action)) {
     } else {
         echo 'No releases have been made yet.';
     }
-    if (Roadmap_Info::roadmapExists($name)) {
+    if (empty($pkg['bug_link']) && Roadmap_Info::roadmapExists($name)) {
         echo '<br /><a href="/bugs/roadmap.php?package=' . urlencode($name) .
             '">Development Roadmap</a>';
         $nextrelease = Roadmap_Info::nextRelease($name);
@@ -303,45 +307,47 @@ if (empty($action)) {
     }
     echo '</td>' . "\n";
     echo '<td>' . "\n";
-    $bugs = new PEAR_Bugs;
-    $buginfo = $bugs->packageBugStats($pkg['name']);
-    $frinfo  = $bugs->packageFeaturestats($pkg['name']);
-    if (!$buginfo['count']) {
-        echo 'No open bugs';
-    }
-
-    if ($buginfo['count'] || $frinfo['count']) {
-        echo '<ul>';
-    }
-
-    if ($buginfo['count']) {
-        $bstats = $bugs->bugRank();
-        foreach ($bstats as $i => $pi) {
-            if ($pi['name'] == $pkg['name']) {
-                echo '<li>Package Maintenance Rank: <strong>' . ++$i . '</strong> of ' .
-                    count ($bstats) .
-                    ' packages with open bugs</li>';
-                break;
-            }
+    if (empty($pkg['bug_link'])) {
+        $bugs = new PEAR_Bugs;
+        $buginfo = $bugs->packageBugStats($pkg['name']);
+        $frinfo  = $bugs->packageFeaturestats($pkg['name']);
+        if (!$buginfo['count']) {
+            echo 'No open bugs';
         }
-        echo '<li>Number of <a href="/bugs/search.php?cmd=display&package_name[]=' .
-            $pkg['name'] . '&status=OpenFeedback&bug_type=Bugs">open bugs</a>: <strong>' .
-            $buginfo['count'] . ' (' . $buginfo['total'] . ' total bugs)</strong></li>' . "\n";
-        echo '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>' . "\n";
-        echo '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>' . "\n";
-    }
 
-    if ($frinfo['count']) {
-        echo '<li>Number of open <a href="/bugs/search.php?cmd=display&package_name[]=' .
-            $pkg['name'] . '&bug_type=Feature%2FChange+Request">feature requests</a>: <strong>' .
-            $frinfo['count'] . ' (' . $frinfo['total'] . ' total feature requests)</strong></li>' . "\n";
-    }
+        if ($buginfo['count'] || $frinfo['count']) {
+            echo '<ul>';
+        }
 
-    if ($buginfo['count'] || $frinfo['count']) {
-        echo '</ul>';
-    }
+        if ($buginfo['count']) {
+            $bstats = $bugs->bugRank();
+            foreach ($bstats as $i => $pi) {
+                if ($pi['name'] == $pkg['name']) {
+                    echo '<li>Package Maintenance Rank: <strong>' . ++$i . '</strong> of ' .
+                        count ($bstats) .
+                        ' packages with open bugs</li>';
+                    break;
+                }
+            }
+            echo '<li>Number of <a href="/bugs/search.php?cmd=display&package_name[]=' .
+                $pkg['name'] . '&status=OpenFeedback&bug_type=Bugs">open bugs</a>: <strong>' .
+                $buginfo['count'] . ' (' . $buginfo['total'] . ' total bugs)</strong></li>' . "\n";
+            echo '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>' . "\n";
+            echo '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>' . "\n";
+        }
 
-    echo '<br />' . make_link('/bugs/report.php?package=' . $name, 'Report a new bug to ' . $name);
+        if ($frinfo['count']) {
+            echo '<li>Number of open <a href="/bugs/search.php?cmd=display&package_name[]=' .
+                $pkg['name'] . '&bug_type=Feature%2FChange+Request">feature requests</a>: <strong>' .
+                $frinfo['count'] . ' (' . $frinfo['total'] . ' total feature requests)</strong></li>' . "\n";
+        }
+
+        if ($buginfo['count'] || $frinfo['count']) {
+            echo '</ul>';
+        }
+
+        echo '<br />' . make_link('/bugs/report.php?package=' . $name, 'Report a new bug to ' . $name);
+    }
     echo '</td>' . "\n";
     echo '</tr>' . "\n";
     echo '<tr>' . "\n";
