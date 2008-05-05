@@ -67,47 +67,60 @@ if (isset($_POST['submit'])) {
               ($_POST['new_package'] && !$_POST['new_channel'])) {
         report_error('You have to enter both channel + package name for packages moved out of PEAR!');
     } else {
-        $query = 'UPDATE packages SET name = ?, license = ?,
-                  summary = ?, description = ?, category = ?,
-                  homepage = ?, package_type = ?, doc_link = ?, cvs_link = ?,
-                  unmaintained = ?, newpk_id = ?, newchannel = ?, newpackagename = ?
-                  WHERE id = ?';
+        $query = '
+            UPDATE packages SET
+                name = ?,
+                license = ?,
+                summary = ?,
+                description = ?,
+                category = ?,
+                homepage = ?,
+                package_type = ?,
+                doc_link = ?,
+                bug_link = ?,
+                cvs_link = ?,
+                unmaintained = ?,
+                newpk_id = ?,
+                newchannel = ?,
+                newpackagename = ?
+            WHERE id = ?';
 
         if (!empty($_POST['newpk_id'])) {
             $_POST['new_channel'] = 'pear.php.net';
-            $_POST['new_package'] = $dbh->getOne('SELECT name from packages WHERE id=?',
+            $_POST['new_package'] = $dbh->getOne('SELECT name from packages WHERE id = ?',
                 array($_POST['newpk_id']));
             if (!$_POST['new_package']) {
                 $_POST['new_channel'] = $_POST['newpk_id'] = null;
             }
         } else {
             if ($_POST['new_channel'] == 'pear.php.net') {
-                $_POST['newpk_id'] = $dbh->getOne('SELECT id from packages WHERE name=?',
+                $_POST['newpk_id'] = $dbh->getOne('SELECT id from packages WHERE name = ?',
                     array($_POST['new_package']));
                 if (!$_POST['newpk_id']) {
                     $_POST['new_channel'] = $_POST['new_package'] = null;
                 }
             }
         }
+
         $qparams = array(
-                      $_POST['name'],
-                      $_POST['license'],
-                      $_POST['summary'],
-                      $_POST['description'],
-                      $_POST['category'],
-                      $_POST['homepage'],
-                      'pear',
-                      $_POST['doc_link'],
-                      $_POST['cvs_link'],
-                      isset($_POST['unmaintained']) ? 1 : 0 ,
-                      isset($_POST['newpk_id']) ? $_POST['newpk_id'] : null,
-                      $_POST['new_channel'],
-                      $_POST['new_package'],
-                      $_GET['id']
-                    );
+            $_POST['name'],
+            $_POST['license'],
+            $_POST['summary'],
+            $_POST['description'],
+            $_POST['category'],
+            $_POST['homepage'],
+            'pear',
+            $_POST['doc_link'],
+            $_POST['bug_link'],
+            $_POST['cvs_link'],
+            isset($_POST['unmaintained']) ? 1 : 0 ,
+            isset($_POST['newpk_id']) ? $_POST['newpk_id'] : null,
+            $_POST['new_channel'],
+            $_POST['new_package'],
+            $_GET['id']
+        );
 
         $sth = $dbh->query($query, $qparams);
-
         if (PEAR::isError($sth)) {
             report_error('Unable to save data!');
         } else {
@@ -202,6 +215,7 @@ $renderer->setGroupElementTemplate(
         'category'     => (int)$row['categoryid'],
         'homepage'     => htmlspecialchars($row['homepage']),
         'doc_link'     => htmlspecialchars($row['doc_link']),
+        'bug_link'     => htmlspecialchars($row['bug_link']),
         'cvs_link'     => htmlspecialchars($row['cvs_link']),
         'unmaintained' => ($row['unmaintained']) ? true : false,
         'newpk_id'     => (int)$row['newpk_id'],
@@ -231,12 +245,13 @@ $sl->setMultiple(true);
 
 $form->addElement('text', 'homepage', 'H<span class="accesskey">o</span>mepage:', 'size="25" maxlength="255" accesskey="0"');
 $form->addElement('text', 'doc_link', 'Documentation URI:', 'size="50" maxlength="255"');
+$form->addElement('text', 'bug_link', 'Bug Tracker URI:', 'size="50" maxlength="255"');
 $form->addElement('text', 'cvs_link', 'Web CVS URI', 'size="50" maxlength="255"');
 $form->addElement('checkbox', 'unmaintained', 'Is this package unmaintained ?');
 
 $packages = package::listAllwithReleases();
 
-$rows = array(0 => "");
+$rows = array(0 => '');
 foreach ($packages as $id => $info) {
     if ($id == $_GET['id']) {
         continue;
@@ -273,7 +288,7 @@ foreach ($row['releases'] as $version => $release) {
     echo "<tr>\n";
     echo '  <td class="form-input">' . htmlspecialchars($version) . "</td>\n";
     echo '  <td class="form-input">';
-    echo make_utc_date(strtotime($release['releasedate']));
+    echo format_date(strtotime($release['releasedate']));
     echo "</td>\n";
     echo '  <td class="form-input">' . "\n";
 
