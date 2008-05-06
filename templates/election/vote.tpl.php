@@ -1,9 +1,12 @@
 <?php response_header('Vote'); ?>
 <h1>Vote in a PEAR Election</h1>
 
-<?php if (isset($error)): ?>
+<?php if (isset($error) && !empty($error)): ?>
 <div class="errors"><?php echo $error; ?></div>
 <?php endif; // if (isset($error)): ?>
+<?php if (isset($info) && !empty($info)): ?>
+<div class="success"><?php echo $info; ?></div>
+<?php endif; // if (isset($info)): ?>
 Current date is <strong><?php echo date('Y-m-d'); ?></strong>
 
 <?php if (count($currentelections)): ?>
