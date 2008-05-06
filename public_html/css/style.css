@@ -394,10 +394,8 @@ button, input[type="button"], input[type="submit"], input[type="reset"] {
     font-family: "Lucida Grande", Myriad, "Andale Sans", "Luxi Sans", "Bitstream Vera Sans", Tahoma, "Toga Sans", Helvetica, Arial, sans-serif;
     font-weight: bold;
     background:#fafafa;
-    color: #888a85;
-    border: 1px solid #babdb6;
-    border-top: 1px solid #d3d7cf;
-    border-left: 1px solid #d3d7cf;
+    color: #000;
+    border: 1px solid #000;
     margin-left: 2px;
     margin-right: 2px;
     cursor: pointer;
@@ -412,8 +410,7 @@ button, input[type="button"], input[type="submit"], input[type="reset"] {
 }
 
 button:hover, input[type="button"]:hover, input[type="submit"]:hover, input[type="reset"]:hover {
-    background: #fafafa;
-    color: #333;
+    border-color: #696969;
 }
 
 button:active, input[type="button"]:active, input[type="submit"]:active, input[type="reset"]:active {
