@@ -128,7 +128,7 @@ if (!isset($_POST['step'])) {
     $currentelections = $voter->listCurrentElections();
     $completedelections = $voter->listCompletedElections();
     $allelections = $voter->listAllElections();
-    $error = 'Election saved';
+    $info = 'Election saved';
     $retrieval = false;
     $old = false;
     require PEARWEB_TEMPLATEDIR . '/election/vote.tpl.php';
