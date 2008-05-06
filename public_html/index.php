@@ -25,7 +25,7 @@ if (@sizeof($recent) > 0) {
     $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
     $today = date("D, jS M y");
     foreach ($recent as $release) {
-        $releasedate = make_utc_date(strtotime($release['releasedate']), "D, jS M y");
+        $releasedate = format_date(strtotime($release['releasedate']), "D, jS M y");
         if ($releasedate == $today) {
             $releasedate = "today";
         }
