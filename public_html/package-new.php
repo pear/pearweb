@@ -65,7 +65,7 @@ do {
         include_once 'pear-database-package.php';
         $pkg = package::add(array(
                                   'name'        => $_POST['name'],
-                                  'type'        => 'pear',
+                                  'type'        => SITE,
                                   'category'    => $_POST['category'],
                                   'license'     => $_POST['license'],
                                   'summary'     => $_POST['summary'],
