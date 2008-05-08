@@ -31,10 +31,9 @@ $errors       = array();
 $jumpto       = 'handle';
 
 $stripped = @array_map('strip_tags', $_POST);
-
 response_header('Request Account');
 
-print '<h1>Request Account</h1>';
+echo '<h1>Request Account</h1>';
 
 do {
     if (isset($stripped['submit'])) {
@@ -81,6 +80,12 @@ do {
         //  The add method performs further validation then creates the account
         include_once 'pear-database-user.php';
         $ok = user::add($stripped);
+        if (PEAR::isError($ok)) {
+            $errors[] = 'This email address has already been registered by another user';
+            $display_form = true;
+            break;
+        }
+
 
         if (!empty($stripped['jumpto'])) {
             $jumpto = $stripped['jumpto'];

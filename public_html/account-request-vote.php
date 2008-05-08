@@ -71,7 +71,7 @@ do {
             $stripped['password2']);
 
         if (PEAR::isError($salt)) {
-            $errors[] = 'Database error (e.g. email address already registered).';
+            $errors[] = 'This email address has already been registered by another user';
             $display_form = true;
             break;
         }

@@ -81,6 +81,11 @@ do {
         //  The add method performs further validation then creates the account
         include_once 'pear-database-user.php';
         $ok = user::add($stripped);
+        if (PEAR::isError($ok)) {
+            $errors[] = 'This email address has already been registered by another user';
+            $display_form = true;
+            break;
+        }
 
         if (!empty($stripped['jumpto'])) {
             $jumpto = $stripped['jumpto'];
