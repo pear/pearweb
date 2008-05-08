@@ -108,7 +108,7 @@ response_header($category_title);
 $sth = $dbh->query('SELECT c.*, COUNT(p.id) AS npackages' .
                    ' FROM categories c' .
                    ' LEFT JOIN packages p ON p.category = c.id ' .
-                   " WHERE p.package_type = 'pear'" .
+                   " WHERE p.package_type = '" . SITE . "'" .
                    '  AND p.approved = 1' .
                    "  AND c.parent $category_where " .
                    ' GROUP BY c.id ' .
@@ -130,7 +130,7 @@ $subpkgs = $dbh->getAssoc("SELECT p.category, p.id AS id, p.name AS name, p.summ
                           "  FROM packages p, categories c".
                           " WHERE c.parent $category_where ".
                           '   AND p.approved = 1' .
-                          "   AND p.package_type = 'pear' ".
+                          "   AND p.package_type = '" . SITE . "' ".
                           "   AND (p.newpk_id IS NULL OR p.newpk_id = 0)".
                           "   AND p.category = c.id ORDER BY p.name",
                           false, null, DB_FETCHMODE_ASSOC, true);
@@ -235,7 +235,7 @@ if (!empty($catpid)) {
         (SELECT state FROM releases WHERE package = p.id ORDER BY id DESC LIMIT 1) as status
         FROM packages p
         WHERE package_type = ? AND approved = 1 AND category = ? ORDER BY name';
-    $packages = $dbh->getAll($sql, array('pear', $catpid));
+    $packages = $dbh->getAll($sql, array(SITE, $catpid));
 
     // Paging
     $total = count($packages);
