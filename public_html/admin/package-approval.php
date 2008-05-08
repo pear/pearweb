@@ -18,17 +18,16 @@
    $Id$
 */
 
-auth_require("pear.admin");
+auth_require('pear.admin');
 
-response_header("PEAR Administration :: Package Approval");
+response_header('PEAR Administration :: Package Approval');
 
 echo "<h1>Package Approval</h1>\n";
 
 // Approve package identified by its id
 if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
-
     if (!empty($_GET['approve'])) {
-        $query = "UPDATE packages SET approved = 1 WHERE id = " . (int)$_GET['approve'] . " AND approved = 0";
+        $query = "UPDATE packages SET approved = 1 WHERE approved = 0 AND id = " . (int)$_GET['approve'];
         $id = $_GET['approve'];
         $action = "approved";
     } elseif (!empty($_GET['reject'])) {
@@ -37,12 +36,11 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
         $action = "rejected";
     }
 
-    $info_query = "SELECT * FROM packages WHERE id = ?";
-    $row = $dbh->getRow($info_query, array($id), DB_FETCHMODE_ASSOC);
-
     $res = $dbh->query($query);
-
     if (!PEAR::isError($res) && $dbh->affectedRows() > 0) {
+        $sql = 'SELECT * FROM packages WHERE id = ?';
+        $row = $dbh->getRow($sql, array($id), DB_FETCHMODE_ASSOC);
+
         if ($action == 'approved') {
              include_once 'pear-rest.php';
             $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
@@ -57,10 +55,9 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
 
         $logger = new Damblan_Log;
         $observer = new Damblan_Log_Mail;
-        $observer->setRecipients("pear-group@php.net");
-        $observer->setHeader("In-Reply-To", "<approve-request-" . $row['id'] . "@" . PEAR_CHANNELNAME
-            . ">");
-        $observer->setHeader("Subject", "[PEAR Group] Package " . $row['name'] . " has been " . $action);
+        $observer->setRecipients(PEAR_GROUP_EMAIL);
+        $observer->setHeader("In-Reply-To", "<approve-request-" . $row['id'] . "@" . PEAR_CHANNELNAME . ">");
+        $observer->setHeader("Subject", "[" . SITE_BIG . " Group] Package " . $row['name'] . " has been " . $action);
 
         $logger->attach($observer);
         $logger->log($auth_user->handle . " " . $action . " " . $row['name']);
@@ -73,7 +70,7 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
             $query = 'SELECT u.email FROM users u, maintains m WHERE m.package = ? AND u.handle = m.handle';
             $rows = $dbh->getAll($query, array($id), DB_FETCHMODE_ASSOC);
             foreach ($rows as $u_row) {
-                mail($u_row['email'], 'PEAR Package ' . $action, $mailtext, 'From: "PEAR Package Approval System" <pear-group@php.net>', '-f bounce-no-user@php.net');
+                mail($u_row['email'], SITE_BIG . ' Package ' . $action, $mailtext, 'From: "' . SITE_BIG . ' Package Approval System" <' . PEAR_GROUP_EMAIL . '>', '-f ' . PEAR_BOUNCE_EMAIL);
             }
         }
 
@@ -85,8 +82,8 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
     }
 }
 
-$query = "SELECT * FROM packages WHERE approved = 0 AND package_type = 'pear'";
-$rows = $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
+$query = 'SELECT id, name FROM packages WHERE approved = 0 AND package_type = ?';
+$rows = $dbh->getAll($query, array(SITE), DB_FETCHMODE_ASSOC);
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 
 if (count($rows) == 0) {
