@@ -410,32 +410,6 @@ if (!package_exists($_REQUEST['package'])) {
 } else {
     response_header('Report - New');
 
-    try {
-        // Uncomment this if you need to test on Windows
-        $resolver = null;
-        // $resolver = new Net_DNS_Resolver;
-        // $resolver->nameservers = array('66.114.197.251');
-
-        $sphp = Services_ProjectHoneyPot::factory(HONEYPOT_API_KEY, $resolver);
-        $sphp->setResponseFormat('object');
-        $ip = $_SERVER['REMOTE_ADDR'];
-        // Uncomment for testing or get one from http://www.projecthoneypot.org/top_harvesters.php
-        // $ip = '209.85.138.136';
-        $status = $sphp->query($ip);
-    } catch (Services_ProjectHoneyPot_Exception $e) {
-       report_error($e);
-       $display_form = false;
-    }
-
-    if ($status && $status->suspicious) {
-        $errors = 'We can not allow you to continue since your IP has been marked suspecious by the
-                   http://projecthoneypot.org/, if that was done in error then please contact ' .
-                   PEAR_DEV_EMAIL . ' as well as the projecthoneypot people to resolve the issue.';
-        report_error($errors);
-        response_footer();
-        exit;
-    }
-
     // See if this package uses an external bug system
     require_once 'bugs/pear-bugs-utils.php';
     $bug_link = PEAR_Bugs_Utils::getExternalSystem($clean_package);
@@ -465,7 +439,34 @@ if (!package_exists($_REQUEST['package'])) {
         );
         show_bugs_menu($clean_package);
 
-        ?>
+    try {
+        // Uncomment this if you need to test on Windows
+        $resolver = null;
+        // $resolver = new Net_DNS_Resolver;
+        // $resolver->nameservers = array('66.114.197.251');
+
+        $sphp = Services_ProjectHoneyPot::factory(HONEYPOT_API_KEY, $resolver);
+        $sphp->setResponseFormat('object');
+        $ip = $_SERVER['REMOTE_ADDR'];
+        // Uncomment for testing or get one from http://www.projecthoneypot.org/top_harvesters.php
+        // $ip = '209.85.138.136';
+        $status = $sphp->query($ip);
+    } catch (Services_ProjectHoneyPot_Exception $e) {
+       report_error($e);
+       response_footer();
+       exit;
+    }
+
+    if ($status && $status->suspicious) {
+        $errors = 'We can not allow you to continue since your IP has been marked suspecious by the
+                   http://projecthoneypot.org/, if that was done in error then please contact ' .
+                   PEAR_DEV_EMAIL . ' as well as the projecthoneypot people to resolve the issue.';
+        report_error($errors);
+        response_footer();
+        exit;
+    }
+
+?>
 
 <p>
  Before you report a bug, make sure to search for similar bugs using the
