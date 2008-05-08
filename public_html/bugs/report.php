@@ -43,7 +43,7 @@ if (isset($_POST['save']) && isset($_POST['pw'])) {
 
 // captcha is not necessary if the user is logged in
 if (isset($auth_user) && $auth_user->registered) {
-    if (!auth_check('pear.dev') && auth_check('pear.voter') && !auth_check('pear.bug')) {
+    if (auth_check('pear.voter') && !auth_check('pear.dev') && !auth_check('pear.bug')) {
         // auto-grant bug tracker karma if it isn't present
         require_once 'Damblan/Karma.php';
         $karma = new Damblan_Karma($dbh);
@@ -268,23 +268,24 @@ if (isset($_POST['in'])) {
                 $_POST['in']['package_name'] = 'pearweb';
             }
 
-            $query = 'INSERT INTO bugdb (
-                      registered,
-                      package_name,
-                      bug_type,
-                      email,
-                      handle,
-                      sdesc,
-                      ldesc,
-                      package_version,
-                      php_version,
-                      php_os,
-                      reporter_name,
-                      passwd,
-                      status,
-                      ts1
-                     )
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "", "Open", NOW())';
+            $query = '
+                INSERT INTO bugdb (
+                    registered,
+                    package_name,
+                    bug_type,
+                    email,
+                    handle,
+                    sdesc,
+                    ldesc,
+                    package_version,
+                    php_version,
+                    php_os,
+                    reporter_name,
+                    passwd,
+                    status,
+                    ts1
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, "", "Open", NOW())';
 
             $values = array (
                 $registereduser,
@@ -335,7 +336,7 @@ if (isset($_POST['in'])) {
             $ascii_report .= "\n-- \nEdit bug report at ";
             $ascii_report .= "http://" . PEAR_CHANNELNAME . "/bugs/bug.php?id=$cid&edit=";
 
-            include_once 'pear-bugs-utils.php';
+            include_once 'bugs/pear-bugs-utils.php';
             $pbu = new PEAR_Bugs_Utils;
             list($mailto, $mailfrom) = $pbu->getPackageMail($_POST['in']['package_name']);
 
@@ -374,7 +375,7 @@ if (isset($_POST['in'])) {
             }
 
             if (!empty($_POST['in']['addpatch'])) {
-                localRedirect('patch-add.php?bug=' . $cid . '&email=' . $_POST['in']['email']);
+                localRedirect('patch-add.php?bug_id=' . $cid . '&email=' . $_POST['in']['email']);
             } elseif (!isset($buggie) && !empty($_POST['in']['addpatch'])) {
                 //FIXME This is possible not needed anymore, look into it
                 require_once 'bugs/pear-bugs-utils.php';
@@ -400,11 +401,24 @@ if (!is_string($_REQUEST['package'])) {
     exit;
 }
 
+$clean_package = clean($_REQUEST['package']);
 if (!package_exists($_REQUEST['package'])) {
-    $errors[] = 'Package "' . clean($_REQUEST['package']) . '" does not exist.';
+    $errors[] = 'Package "' . $clean_package . '" does not exist.';
     response_header("Report - Invalid bug type");
     report_error($errors);
 } else {
+    response_header('Report - New');
+
+    // See if this package uses an external bug system
+    require_once 'bugs/pear-bugs-utils.php';
+    $bug_link = PEAR_Bugs_Utils::getExternalSystem($clean_package);
+    if (!empty($bug_link)) {
+        $link = make_link($bug_link);
+        report_success($clean_package . ' has an external bug system that can be reached at ' . $link);
+        response_footer();
+        exit;
+    }
+
     if (!isset($_POST['in'])) {
         $_POST['in'] = array(
                  'package_name' => '',
@@ -422,8 +436,7 @@ if (!package_exists($_REQUEST['package'])) {
                  'passwd' => '',
 
         );
-        response_header('Report - New');
-        show_bugs_menu(clean($_REQUEST['package']));
+        show_bugs_menu($clean_package);
 
         ?>
 
@@ -461,8 +474,7 @@ if (!package_exists($_REQUEST['package'])) {
      (<strong>not</strong> your whole php.ini!)
   </li>
   <li>
-     A <a href="http://bugs.php.net/bugs-generating-backtrace.php">gdb
-     backtrace</a>.
+     A <a href="http://bugs.php.net/bugs-generating-backtrace.php">gdb backtrace</a>.
   </li>
  </ul>
 </p>
@@ -472,11 +484,9 @@ if (!package_exists($_REQUEST['package'])) {
 
     report_error($errors);
 
-$self = htmlspecialchars($_SERVER['PHP_SELF']);
-$action = $self . '?package=' . clean($_REQUEST['package']);
+$action = 'report.php?package=' . $clean_package;
 ?>
-<form method="post"
- action="<?php echo $action ?>" name="bugreport" id="bugreport">
+<form method="post" action="<?php echo $action ?>" name="bugreport" id="bugreport">
 <table class="form-holder" cellspacing="1">
  <tr>
   <th class="form-label_left">
@@ -507,18 +517,18 @@ else: // if (isset($auth_user))
    PHP version:
   </th>
   <td class="form-input">
-   <select name="in[php_version]">
+   <select name="in[php_version]" id="in[php_version]">
     <?php show_version_options($_POST['in']['php_version']); ?>
    </select>
   </td>
  </tr>
- <?php if (!in_array(clean($_REQUEST['package']), $pseudo_pkgs, true)): ?>
+ <?php if (!in_array($clean_package, $pseudo_pkgs, true)): ?>
  <tr>
   <th class="form-label_left">
    Package version:
   </th>
   <td class="form-input">
-   <?php echo show_package_version_options(clean($_REQUEST['package']),
+   <?php echo show_package_version_options($clean_package,
         clean($_POST['in']['package_version'])); ?>
   </td>
  </tr>
@@ -532,8 +542,8 @@ else: // if (isset($auth_user))
     <?php
 
     if (!empty($_REQUEST['package'])) {
-        echo '<input type="hidden" name="in[package_name]" value="';
-        echo clean($_REQUEST['package']) . '" />' . clean($_REQUEST['package']);
+        echo '<input type="hidden" name="in[package_name]" id="in[package_name]" value="';
+        echo $clean_package . '" />' . $clean_package;
         if ($_REQUEST['package'] == 'Bug System') {
             echo '<p><strong>WARNING: You are saying the <em>package';
             echo ' affected</em> is the &quot;Bug System.&quot; This';
@@ -545,8 +555,8 @@ else: // if (isset($auth_user))
             echo '<input type="hidden" name="in[package_version]" value="" />';
         }
     } else {
-        echo '<select name="in[package_name]">' . "\n";
-        show_types(null, 0, clean($_REQUEST['package']));
+        echo '<select name="in[package_name]" id="in[package_name]">' . "\n";
+        show_types(null, 0, $clean_package);
         echo '</select>';
     }
 
@@ -559,7 +569,7 @@ else: // if (isset($auth_user))
    Bug Type:
   </th>
   <td class="form-input">
-   <select name="in[bug_type]">
+   <select name="in[bug_type]" id="in[bug_type]">
     <?php show_type_options($_POST['in']['bug_type']); ?>
    </select>
   </td>
@@ -569,7 +579,7 @@ if (auth_check('pear.dev')) {
     $content = '';
     Bug_DataObject::init();
     $db = Bug_DataObject::bugDB('bugdb_roadmap');
-    $db->package = clean($_REQUEST['package']);
+    $db->package = $clean_package;
     $db->orderBy('releasedate ASC');
     $myroadmaps = array();
     if (isset($_POST['in']) && isset($_POST['in']['roadmap']) &&
@@ -581,9 +591,9 @@ if (auth_check('pear.dev')) {
             $released = $dbh->getOne('SELECT releases.id
                 FROM packages, releases, bugdb_roadmap b
                 WHERE
-                b.id=? AND
-                packages.name=b.package AND releases.package=packages.id AND
-                releases.version=b.roadmap_version',
+                b.id = ? AND
+                packages.name = b.package AND releases.package = packages.id AND
+                releases.version = b.roadmap_version',
                 array($db->id));
             if ($released) {
                 $content .= '<span class="headerbottom">';
@@ -614,9 +624,9 @@ if (auth_check('pear.dev')) {
   <td class="form-input">
    <?php
     if (isset($_GET['showold'])) {
-        echo '<a href="report.php?package=' . clean($_REQUEST['package']) . '">Hide released roadmaps</a>';
+        echo '<a href="report.php?package=' . $clean_package . '">Hide released roadmaps</a>';
     } else {
-        echo '<a href="report.php?package=' . clean($_REQUEST['package']) . '&amp;showold=1">Show released roadmaps</a>';
+        echo '<a href="report.php?package=' . $clean_package . '&amp;showold=1">Show released roadmaps</a>';
     }
     echo '<br />' . $content;
    ?>
@@ -630,14 +640,14 @@ if (auth_check('pear.dev')) {
    Operating system:
   </th>
   <td class="form-input">
-   <input type="text" size="20" maxlength="32" name="in[php_os]"
+   <input type="text" size="20" maxlength="32" name="in[php_os]" id="in[php_os]"
     value="<?php echo clean($_POST['in']['php_os']); ?>" />
   </td>
  </tr>
  <?php if (!isset($auth_user)): ?>
  <tr>
   <th>Solve the problem : <?php print $numeralCaptcha->getOperation(); ?> = ?</th>
-  <td class="form-input"><input type="text" name="captcha" /></td>
+  <td class="form-input"><input type="text" name="captcha" id="captcha" /></td>
  </tr>
  <?php $_SESSION['answer'] = $numeralCaptcha->getAnswer(); ?>
  <?php endif; // if (!isset($auth_user)): ?>
@@ -646,7 +656,7 @@ if (auth_check('pear.dev')) {
    Summary:
   </th>
   <td class="form-input">
-   <input type="text" size="40" maxlength="79" name="in[sdesc]"
+   <input type="text" size="40" maxlength="79" name="in[sdesc]" id="in[sdesc]"
     value="<?php echo clean($_POST['in']['sdesc']); ?>" />
   </td>
  </tr>
@@ -660,14 +670,14 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="8" name="in[ldesc]"
-    wrap="physical"><?php echo clean($_POST['in']['ldesc']); ?></textarea>
+   <textarea cols="60" rows="8" name="in[ldesc]" id="in[ldesc]" wrap="physical">
+   <?php echo clean($_POST['in']['ldesc']); ?></textarea>
   </td>
  </tr>
  <tr>
   <th class="form-label_left"></th>
   <td class="form-input">
-   <input type="checkbox" name="in[addpatch]"
+   <input type="checkbox" name="in[addpatch]" id="in[addpatch]"
     <?php echo isset($_POST['in']['addpatch']) ? 'checked="checked"' : ''; ?> />
  I have files to attach to this report
   </td>
@@ -683,8 +693,8 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="8" name="in[repcode]"
-    wrap="no"><?php echo clean($_POST['in']['repcode']); ?></textarea>
+   <textarea cols="60" rows="8" name="in[repcode]" id="in[repcode]"wrap="no">
+   <?php echo clean($_POST['in']['repcode']); ?></textarea>
   </td>
  </tr>
  <tr>
@@ -695,8 +705,8 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="8" name="in[expres]"
-    wrap="physical"><?php echo clean($_POST['in']['expres']); ?></textarea>
+   <textarea cols="60" rows="8" name="in[expres]" id="in[expres]" wrap="physical">
+   <?php echo clean($_POST['in']['expres']); ?></textarea>
   </td>
  </tr>
  <tr>
@@ -710,8 +720,8 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="8" name="in[actres]"
-    wrap="physical"><?php echo clean($_POST['in']['actres']); ?></textarea>
+   <textarea cols="60" rows="8" name="in[actres]" name="in[actres]" wrap="physical">
+   <?php echo clean($_POST['in']['actres']); ?></textarea>
   </td>
  </tr>
  <tr>
