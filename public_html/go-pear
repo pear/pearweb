@@ -22,7 +22,7 @@
 /**
  * go-pear is the online PEAR installer: just download it and run it
  * (through a browser or command line), it will set up a minimal PEAR
- * installation that will be ready for immediatel use.
+ * installation that will be ready for immediate use.
  *
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
  * @version    CVS: $Id$
@@ -1258,10 +1258,12 @@ function temp_dir($default=false)
         /* try it really, is_writable is buggy with openbasedir */
         $fh = @fopen(realpath($default) . "/test","wb");
         if ($fh) {
-            $ptmp = $default;
+            // desparately try to set temp dir any possible way, see bug #13167
+            $ptmp = $_temp = $temp_dir = $default;
+            if (!isset($_ENV)) { $_ENV = array(); }
+            $_ENV['TMPDIR'] = $_ENV['TEMP'] = $default;
             return true;
         } else {
-            $ptmp = "failed";
             return false;
         }
     }
@@ -1309,7 +1311,7 @@ function temp_dir($default=false)
     // If for some reason the user has no rights to access to
     // the standard tempdir, we assume that he has the right
     // to access his prefix and choose $prefix/tmp as tempdir
-    if (!$_temp) {
+    if (!$_temp || !is_writable($_temp)) {
         print "System's Tempdir failed, trying to use \$prefix/tmp ...";
         $res = mkdir_p($prefix.'/tmp');
         if (!$res) {
