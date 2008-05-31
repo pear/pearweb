@@ -204,6 +204,7 @@ if (count($catdata) > 0){
  * Begin code for showing packages if we
  * aren't at the top level.
  */
+$numPages = $currentPage = 1;
 if (!empty($catpid)) {
     $nrow = 0;
     // Subcategories list
