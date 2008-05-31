@@ -38,6 +38,7 @@ if ($handle && !ereg('^[0-9a-z_]{2,20}$', $handle)) {
 
 ob_start();
 
+// FIXME uses a hardcoded api key, bad bad bad
 $map = '
 <script language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjPqDvnoTwt1l2d9kE7aeSRSaX3uuPis-gsi6PocQln0mfq-TehSSt5OZ9q0OyzKSOAfNu8NuLlNgWA"></script>
 ';
@@ -157,41 +158,22 @@ switch ($command) {
     case 'change_password':
         include_once 'pear-database-user.php';
         $user = user::info($handle, 'password', true, false);
+
         // If it's an admin we can change ones password without knowing {{{
         // it's old password.
-        if ($auth_user->isAdmin()) {
-
-            if ($_POST['password'] != $_POST['password2']) {
-                PEAR::raiseError('The new passwords do not match.');
+        if (!$auth_user->isAdmin()) {
+            if (empty($_POST['password_old'])
+                || empty($_POST['password'])
+                || empty($_POST['password2'])
+            ) {
+                PEAR::raiseError('Please fill out all password fields.');
                 break;
             }
-            
-            $data = array(
-                'password' => md5($_POST['password']),
-                'handle'   => $handle,
-            );
-            
-            $result = user::update($data);
-            if ($result) {
-                $expire = !empty($_POST['PEAR_PERSIST']) ? 2147483647 : 0;
-                setcookie('PEAR_PW', md5($_POST['password']), $expire, '/');
 
-                report_success('The password was successfully updated.');
+            if ($user['password'] != md5($_POST['password_old'])) {
+                PEAR::raiseError('You provided a wrong old password.');
+                break;
             }
-            break;
-        }
-        /* }}} */
-        
-        if (empty($_POST['password_old']) || empty($_POST['password']) ||
-            empty($_POST['password2'])
-        ) {
-            PEAR::raiseError('Please fill out all password fields.');
-            break;
-        }
-
-        if ($user['password'] != md5($_POST['password_old'])) {
-            PEAR::raiseError('You provided a wrong old password.');
-            break;
         }
 
         if ($_POST['password'] != $_POST['password2']) {
@@ -205,6 +187,9 @@ switch ($command) {
         );
         $result = user::update($data);
         if ($result) {
+            // TODO do the SVN push here
+
+
             $expire = !empty($_POST['PEAR_PERSIST']) ? 2147483647 : 0;
             setcookie('PEAR_PW', md5($_POST['password']), $expire, '/');
 
@@ -271,7 +256,6 @@ $form->setDefaults(array(
     'longitude' => htmlspecialchars($row['longitude']),
 ));
 
-$form->addElement('html', '<caption class="form-caption">Edit Your Information</caption>');
 $form->addElement('checkbox', 'active', 'Active User?');
 $form->addElement('text', 'name', '<span class="accesskey">N</span>ame:', 'size="40" accesskey="n"');
 $form->addElement('text', 'email', 'Email:', array('size' => 40));
@@ -303,7 +287,7 @@ print '<a name="password"></a>' . "\n";
 print '<h2>&raquo; Manage your password</h2>' . "\n";
 
 
-$form = new HTML_QuickForm('account-edit-password', 'post', 'account-edit.php', 'test');
+$form = new HTML_QuickForm('account-edit-password', 'post', 'account-edit.php', 'style="padding-top: 20px;"');
 
 $renderer =& $form->defaultRenderer();
 $renderer->setElementTemplate('
@@ -329,7 +313,6 @@ $renderer->setFormTemplate('
  </div>
 </form>');
 
-$form->addElement('html', '<caption class="form-caption">Change Password</caption>');
 $form->addElement('password', 'password_old', '<span class="accesskey">O</span>ld Password:', 'accesskey="0"');
 $form->addElement('password', 'password',  'Current Password:');
 $form->addElement('password', 'password2', 'Repeat Password:');
