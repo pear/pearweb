@@ -291,7 +291,7 @@ class release
 
         if (!$pkg_info) {
             require_once 'Archive/Tar.php';
-            $tar = &new Archive_Tar($file);
+            $tar = new Archive_Tar($file);
 
             $oldpackagexml = $tar->extractInString('package.xml');
             if (null === $packagexml = $tar->extractInString('package2.xml')) {
@@ -339,8 +339,8 @@ class release
         if (!$pkg_info) {
             require_once 'PEAR/PackageFile.php';
             require_once 'PEAR/Config.php';
-            $config   = &PEAR_Config::singleton();
-            $pf       = &new PEAR_PackageFile($config);
+            $config   = PEAR_Config::singleton();
+            $pf       = new PEAR_PackageFile($config);
             $pkg_info = $pf->fromXmlString($packagexml, PEAR_VALIDATE_DOWNLOADING,
                 $compatible ? 'package2.xml' : 'package.xml');
         }
