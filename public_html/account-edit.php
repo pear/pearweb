@@ -114,35 +114,6 @@ if ($command == 'update') {
         break;
     }
 
-    $old_acl = $dbh->getCol('SELECT path FROM cvs_acl '.
-                            'WHERE username = ' . "'$handle'" . ' AND access = 1', 0);
-
-    $new_acl = preg_split("/[\r\n]+/", trim($_POST['cvs_acl']));
-
-    $lost_entries = array_diff($old_acl, $new_acl);
-    $new_entries = array_diff($new_acl, $old_acl);
-
-    if (sizeof($lost_entries) > 0) {
-        $sth = $dbh->prepare("DELETE FROM cvs_acl WHERE username = ? ".
-                             "AND path = ?");
-        foreach ($lost_entries as $ent) {
-            $del = $dbh->affectedRows();
-            $dbh->execute($sth, array($handle, $ent));
-            print "Removing CVS access to " . htmlspecialchars($ent)
-                    . " for " . htmlspecialchars($handle) . "...<br />\n";
-        }
-    }
-
-    if (sizeof($new_entries) > 0) {
-        $sth = $dbh->prepare("INSERT INTO cvs_acl (username,path,access) ".
-                             "VALUES(?,?,?)");
-        foreach ($new_entries as $ent) {
-            $dbh->execute($sth, array($handle, $ent, 1));
-            print "Adding CVS access to " . htmlspecialchars($ent)
-                    . " for " . htmlspecialchars($handle) . "...<br />\n";
-        }
-    }
-
     report_success('Your information was successfully updated.');
 }
 
@@ -193,11 +164,6 @@ $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
 
 $row = $dbh->getRow('SELECT * FROM users WHERE handle = ?', array($handle));
 
-$cvs_acl_arr = $dbh->getCol('SELECT path FROM cvs_acl'
-                            . ' WHERE username = ? AND access = 1', 0,
-                            array($handle));
-$cvs_acl = implode("\n", $cvs_acl_arr);
-
 if ($row === null) {
     error_handler(htmlspecialchars($handle) . ' is not a valid account name.',
                   'Invalid Account');
@@ -241,7 +207,6 @@ $form->setDefaults(array(
     'wishlist'  => htmlspecialchars($row['wishlist']),
     'pgpkeyid'  => htmlspecialchars($row['pgpkeyid']),
     'userinfo'  => htmlspecialchars($row['userinfo']),
-    'cvs_acl'   => htmlspecialchars($cvs_acl),
     'latitude'  => htmlspecialchars($row['latitude']),
     'longitude' => htmlspecialchars($row['longitude']),
 ));
@@ -256,7 +221,6 @@ $form->addElement('text', 'pgpkeyid', 'PGP Key ID:'
         . '<p class="cell_note">(Without leading 0x)</p>', array('size' => 40, 'maxlength' => 20));
 $form->addElement('textarea', 'userinfo', 'Additional User Information:'
         . '<p class="cell_note">(limited to 255 chars)</p>', 'cols="40" rows="5"');
-$form->addElement('textarea', 'cvs_acl', 'CVS Access:', 'cols="40" rows="5"');
 $form->addElement('text', 'latitude', 'Latitude Point:', 'size="40" id="latitude"');
 $form->addElement('text', 'longitude', 'Longitude Point:', 'size="40" id="longitude"');
 $form->addElement('static', null, '
