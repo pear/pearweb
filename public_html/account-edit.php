@@ -60,133 +60,132 @@ if (isset($_POST['command']) && strlen($_POST['command'] < 32)) {
     $command = 'display';
 }
 
-switch ($command) {
-    case 'update':
-        $fields_list = array("name", "email", "homepage", "showemail", "userinfo", "pgpkeyid", "wishlist", "latitude", "longitude", "active");
+if ($command == 'update') {
+    $fields_list = array('name', 'email', 'homepage', 'showemail', 'userinfo',
+                         'pgpkeyid', 'wishlist', 'latitude', 'longitude', 'active');
 
-        $user_post = array('handle' => $handle);
-        foreach ($fields_list as $k) {
-            if ($k == 'showemail') {
-                $user_post['showemail'] =  isset($_POST['showemail']) ? 1 : 0;
-                continue;
-            }
+    $user_post = array('handle' => $handle);
+    foreach ($fields_list as $k) {
+        if ($k == 'showemail') {
+            $user_post['showemail'] =  isset($_POST['showemail']) ? 1 : 0;
+            continue;
+        }
 
-            if ($k == 'active') {
-                $user_post['active'] =  isset($_POST['active']) ? 1 : 0;
-                continue;
-            }
+        if ($k == 'active') {
+            $user_post['active'] =  isset($_POST['active']) ? 1 : 0;
+            continue;
+        }
 
-            if ($k == 'wishlist') {
-                $user_post['wishlist'] = isset($_POST['wishlist']) ? strip_tags($_POST['wishlist']) : '';
-                continue;
-            }
+        if ($k == 'wishlist') {
+            $user_post['wishlist'] = isset($_POST['wishlist']) ? strip_tags($_POST['wishlist']) : '';
+            continue;
+        }
 
-            if ($k == 'latitude') {
-                $user_post['latitude'] = isset($_POST['latitude']) ? strip_tags($_POST['latitude']) : '';
-            }
+        if ($k == 'latitude') {
+            $user_post['latitude'] = isset($_POST['latitude']) ? strip_tags($_POST['latitude']) : '';
+        }
 
-            if ($k == 'longitude') {
-                $user_post['longitude'] = isset($_POST['longitude']) ? strip_tags($_POST['longitude']) : '';
-            }
+        if ($k == 'longitude') {
+            $user_post['longitude'] = isset($_POST['longitude']) ? strip_tags($_POST['longitude']) : '';
+        }
 
-            if (!isset($_POST[$k])) {
-                report_error('Invalid data submitted.');
+        if (!isset($_POST[$k])) {
+            report_error('Invalid data submitted.');
+            response_footer();
+            exit();
+        }
+
+        if ($k != 'userinfo') {
+            $user_post[$k] = htmlspecialchars($_POST[$k]);
+        } else {
+            $user_post[$k] = $_POST[$k];
+            if (strlen($user_post[$k]) > 500) {
+                report_error('User information exceeds the allowed length of 500 characters.');
                 response_footer();
                 exit();
             }
-
-            if ($k != 'userinfo') {
-                $user_post[$k] = htmlspecialchars($_POST[$k]);
-            } else {
-                $user_post[$k] = $_POST[$k];
-                if (strlen($user_post[$k]) > 500) {
-                    report_error('User information exceeds the allowed length of 500 characters.');
-                    response_footer();
-                    exit();
-                }
-            }
         }
+    }
 
-        include_once 'pear-database-user.php';
-        $result = user::update($user_post);
-        if (DB::isError($result)) {
-            PEAR::raiseError('Could not update the user profile, please notifiy ' . PEAR_WEBMASTER_EMAIL);
+    include_once 'pear-database-user.php';
+    $result = user::update($user_post);
+    if (DB::isError($result)) {
+        PEAR::raiseError('Could not update the user profile, please notifiy ' . PEAR_WEBMASTER_EMAIL);
+        break;
+    }
+
+    $old_acl = $dbh->getCol('SELECT path FROM cvs_acl '.
+                            'WHERE username = ' . "'$handle'" . ' AND access = 1', 0);
+
+    $new_acl = preg_split("/[\r\n]+/", trim($_POST['cvs_acl']));
+
+    $lost_entries = array_diff($old_acl, $new_acl);
+    $new_entries = array_diff($new_acl, $old_acl);
+
+    if (sizeof($lost_entries) > 0) {
+        $sth = $dbh->prepare("DELETE FROM cvs_acl WHERE username = ? ".
+                             "AND path = ?");
+        foreach ($lost_entries as $ent) {
+            $del = $dbh->affectedRows();
+            $dbh->execute($sth, array($handle, $ent));
+            print "Removing CVS access to " . htmlspecialchars($ent)
+                    . " for " . htmlspecialchars($handle) . "...<br />\n";
+        }
+    }
+
+    if (sizeof($new_entries) > 0) {
+        $sth = $dbh->prepare("INSERT INTO cvs_acl (username,path,access) ".
+                             "VALUES(?,?,?)");
+        foreach ($new_entries as $ent) {
+            $dbh->execute($sth, array($handle, $ent, 1));
+            print "Adding CVS access to " . htmlspecialchars($ent)
+                    . " for " . htmlspecialchars($handle) . "...<br />\n";
+        }
+    }
+
+    report_success('Your information was successfully updated.');
+}
+
+if ($command == 'change_password') {
+    include_once 'pear-database-user.php';
+    $user = user::info($handle, 'password', true, false);
+
+    // If it's an admin we can change ones password without knowing {{{
+    // it's old password.
+    if (!$auth_user->isAdmin()) {
+        if (empty($_POST['password_old'])
+            || empty($_POST['password'])
+            || empty($_POST['password2'])
+        ) {
+            PEAR::raiseError('Please fill out all password fields.');
             break;
         }
 
-        $old_acl = $dbh->getCol('SELECT path FROM cvs_acl '.
-                                'WHERE username = ' . "'$handle'" . ' AND access = 1', 0);
-
-        $new_acl = preg_split("/[\r\n]+/", trim($_POST['cvs_acl']));
-
-        $lost_entries = array_diff($old_acl, $new_acl);
-        $new_entries = array_diff($new_acl, $old_acl);
-
-        if (sizeof($lost_entries) > 0) {
-            $sth = $dbh->prepare("DELETE FROM cvs_acl WHERE username = ? ".
-                                 "AND path = ?");
-            foreach ($lost_entries as $ent) {
-                $del = $dbh->affectedRows();
-                $dbh->execute($sth, array($handle, $ent));
-                print "Removing CVS access to " . htmlspecialchars($ent)
-                        . " for " . htmlspecialchars($handle) . "...<br />\n";
-            }
-        }
-
-        if (sizeof($new_entries) > 0) {
-            $sth = $dbh->prepare("INSERT INTO cvs_acl (username,path,access) ".
-                                 "VALUES(?,?,?)");
-            foreach ($new_entries as $ent) {
-                $dbh->execute($sth, array($handle, $ent, 1));
-                print "Adding CVS access to " . htmlspecialchars($ent)
-                        . " for " . htmlspecialchars($handle) . "...<br />\n";
-            }
-        }
-
-        report_success('Your information was successfully updated.');
-        break;
-
-    case 'change_password':
-        include_once 'pear-database-user.php';
-        $user = user::info($handle, 'password', true, false);
-
-        // If it's an admin we can change ones password without knowing {{{
-        // it's old password.
-        if (!$auth_user->isAdmin()) {
-            if (empty($_POST['password_old'])
-                || empty($_POST['password'])
-                || empty($_POST['password2'])
-            ) {
-                PEAR::raiseError('Please fill out all password fields.');
-                break;
-            }
-
-            if ($user['password'] != md5($_POST['password_old'])) {
-                PEAR::raiseError('You provided a wrong old password.');
-                break;
-            }
-        }
-
-        if ($_POST['password'] != $_POST['password2']) {
-            PEAR::raiseError('The new passwords do not match.');
+        if ($user['password'] != md5($_POST['password_old'])) {
+            PEAR::raiseError('You provided a wrong old password.');
             break;
         }
+    }
 
-        $data = array(
-            'password' => md5($_POST['password']),
-            'handle'   => $handle,
-        );
-        $result = user::update($data);
-        if ($result) {
-            // TODO do the SVN push here
-
-
-            $expire = !empty($_POST['PEAR_PERSIST']) ? 2147483647 : 0;
-            setcookie('PEAR_PW', md5($_POST['password']), $expire, '/');
-
-            report_success('Your password was successfully updated.');
-        }
+    if ($_POST['password'] != $_POST['password2']) {
+        PEAR::raiseError('The new passwords do not match.');
         break;
+    }
+
+    $data = array(
+        'password' => md5($_POST['password']),
+        'handle'   => $handle,
+    );
+    $result = user::update($data);
+    if ($result) {
+        // TODO do the SVN push here
+
+
+        $expire = !empty($_POST['PEAR_PERSIST']) ? 2147483647 : 0;
+        setcookie('PEAR_PW', md5($_POST['password']), $expire, '/');
+
+        report_success('Your password was successfully updated.');
+    }
 }
 
 
