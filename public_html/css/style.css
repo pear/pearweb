@@ -564,7 +564,7 @@ a:hover {
     width: 100%;
 }
 
-.Project th {
+.Project th, th.headrow {
     font-weight: bold;
     padding-bottom: 4px;
     font-size: 108%;
@@ -579,7 +579,7 @@ th.others {
     text-align: left;
 }
 
-.Project td {
+.Project td, td.textcell {
     vertical-align: top;
     padding-left: 1.2em;
     padding-bottom: 1em;
