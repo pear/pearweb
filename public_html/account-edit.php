@@ -36,12 +36,7 @@ if ($handle && !ereg('^[0-9a-z_]{2,20}$', $handle)) {
     exit();
 }
 
-ob_start();
-
-// FIXME uses a hardcoded api key, bad bad bad
-$map = '
-<script language="javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAAjPqDvnoTwt1l2d9kE7aeSRSaX3uuPis-gsi6PocQln0mfq-TehSSt5OZ9q0OyzKSOAfNu8NuLlNgWA"></script>
-';
+$map = '<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
 response_header('Edit Profile :: ' . $handle, false, $map);
 
 print '<h1>Edit Profile: ';
@@ -323,5 +318,4 @@ $form->addElement('hidden', 'handle', htmlspecialchars($handle));
 $form->addElement('hidden', 'command', 'change_password');
 $form->display();
 
-ob_end_flush();
 response_footer();
