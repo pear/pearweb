@@ -39,11 +39,11 @@ if ($handle && !ereg('^[0-9a-z_]{2,20}$', $handle)) {
 $map = '<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
 response_header('Edit Profile :: ' . $handle, false, $map);
 
-print '<h1>Edit Profile: ';
-print '<a href="/user/'. htmlspecialchars($handle) . '">'
+echo '<h1>Edit Profile: ';
+echo '<a href="/user/'. htmlspecialchars($handle) . '">'
         . htmlspecialchars($handle) . '</a></h1>' . "\n";
 
-print "<ul><li><a href=\"#password\">Manage your password</a></li></ul>";
+echo "<ul><li><a href=\"#password\">Manage your password</a></li></ul>";
 
 $admin = $auth_user->isAdmin();
 $user  = $auth_user->is($handle);
@@ -64,33 +64,29 @@ switch ($command) {
     case 'update':
         $fields_list = array("name", "email", "homepage", "showemail", "userinfo", "pgpkeyid", "wishlist", "latitude", "longitude", "active");
 
-        $user_data_post = array('handle' => $handle);
+        $user_post = array('handle' => $handle);
         foreach ($fields_list as $k) {
             if ($k == 'showemail') {
-                $user_data_post['showemail'] =  isset($_POST['showemail']) ? 1 : 0;
+                $user_post['showemail'] =  isset($_POST['showemail']) ? 1 : 0;
                 continue;
             }
 
             if ($k == 'active') {
-                $user_data_post['active'] =  isset($_POST['active']) ? 1 : 0;
+                $user_post['active'] =  isset($_POST['active']) ? 1 : 0;
                 continue;
             }
 
             if ($k == 'wishlist') {
-                $user_data_post['wishlist'] = isset($_POST['wishlist']) ? strip_tags($_POST['wishlist']) : '';
+                $user_post['wishlist'] = isset($_POST['wishlist']) ? strip_tags($_POST['wishlist']) : '';
                 continue;
             }
 
             if ($k == 'latitude') {
-                $user_data_post['latitude'] =
-                    isset($_POST['latitude']) ?
-                    strip_tags($_POST['latitude']) : '';
+                $user_post['latitude'] = isset($_POST['latitude']) ? strip_tags($_POST['latitude']) : '';
             }
 
             if ($k == 'longitude') {
-                $user_data_post['longitude'] =
-                    isset($_POST['longitude']) ?
-                    strip_tags($_POST['longitude']) : '';
+                $user_post['longitude'] = isset($_POST['longitude']) ? strip_tags($_POST['longitude']) : '';
             }
 
             if (!isset($_POST[$k])) {
@@ -100,10 +96,10 @@ switch ($command) {
             }
 
             if ($k != 'userinfo') {
-                $user_data_post[$k] = htmlspecialchars($_POST[$k]);
+                $user_post[$k] = htmlspecialchars($_POST[$k]);
             } else {
-                $user_data_post[$k] = $_POST[$k];
-                if (strlen($user_data_post[$k]) > 500) {
+                $user_post[$k] = $_POST[$k];
+                if (strlen($user_post[$k]) > 500) {
                     report_error('User information exceeds the allowed length of 500 characters.');
                     response_footer();
                     exit();
@@ -112,7 +108,7 @@ switch ($command) {
         }
 
         include_once 'pear-database-user.php';
-        $result = user::update($user_data_post);
+        $result = user::update($user_post);
         if (DB::isError($result)) {
             PEAR::raiseError('Could not update the user profile, please notifiy ' . PEAR_WEBMASTER_EMAIL);
             break;
@@ -275,11 +271,10 @@ $form->addElement('hidden', 'handle', htmlspecialchars($handle));
 $form->addElement('hidden', 'command', 'update');
 $form->display();
 
-print '
-<div style="position:absolute; visibility: hidden;" id="pearweb_map"></div>';
+echo '<div style="position:absolute; visibility: hidden;" id="pearweb_map"></div>';
 
-print '<a name="password"></a>' . "\n";
-print '<h2>&raquo; Manage your password</h2>' . "\n";
+echo '<a name="password"></a>' . "\n";
+echo '<h2>&raquo; Manage your password</h2>' . "\n";
 
 
 $form = new HTML_QuickForm('account-edit-password', 'post', 'account-edit.php', 'style="padding-top: 20px;"');
