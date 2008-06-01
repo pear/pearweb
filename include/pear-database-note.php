@@ -10,19 +10,16 @@
  */
 class note
 {
-    static function add($key, $value, $note, $author = '')
+    static function add($value, $note, $author = '')
     {
         global $dbh, $auth_user;
         if (empty($author)) {
             $author = $auth_user->handle;
         }
-        if (!in_array($key, array('uid', 'rid', 'cid', 'pid'), true)) {
-            // bad hackers not allowed
-            $key = 'uid';
-        }
-        $nid = $dbh->nextId("notes");
-        $stmt = $dbh->prepare("INSERT INTO notes (id,$key,nby,ntime,note) ".
-                              "VALUES(?,?,?,?,?)");
+
+        $nid = $dbh->nextId('notes');
+        $sql = 'INSERT INTO notes (id, uid, nby, ntime, note) VALUES(?,?,?,?,?)';
+        $stmt = $dbh->prepare($sql);
         $res = $dbh->execute($stmt, array($nid, $value, $author,
                              gmdate('Y-m-d H:i'), $note));
         if (DB::isError($res)) {
@@ -41,10 +38,10 @@ class note
         return true;
     }
 
-    static function removeAll($key, $value)
+    static function removeAll($value)
     {
         global $dbh;
-        $res = $dbh->query("DELETE FROM notes WHERE $key = ". $dbh->quote($value));
+        $res = $dbh->query("DELETE FROM notes WHERE uid = ". $dbh->quoteSmart($value));
         if (DB::isError($res)) {
             return $res;
         }
