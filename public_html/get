@@ -48,7 +48,8 @@
 // shut up or we risk getting corrupted tgz files
 error_reporting(0);
 
-function error_404($obj) {
+function error_404($obj)
+{
     header('HTTP/1.0 404 Not Found');
     if (is_object($obj)) {
         echo $obj->getMessage();
@@ -106,5 +107,3 @@ switch (sizeof($opts)) {
         $ok = false;
     }
 }
-
-?>
