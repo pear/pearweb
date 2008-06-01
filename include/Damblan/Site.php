@@ -32,7 +32,7 @@ class Damblan_Site
      * @access public
      * @return object Instance of Damblan_Site
      */
-    function &factory()
+    function &getInstance()
     {
         static $_instance;
 
@@ -69,4 +69,3 @@ class Damblan_Site
         }
     }
 }
-?>
