@@ -84,6 +84,39 @@ this interface</a>.</p>
 <h2>&raquo; Hot off the Press</h2>
 <div id="news">
  <p>
+  <strong>[June 19, 2008]</strong>
+  This year again, the PEAR community had to elect a president to lead the PEAR project thorough the year 2008 and 2009. David Coallier has accepted his role as
+  the president of the project and became Greg Beaver's successor.
+  <br /><br />
+  You can see the result of the election "<a href="/election/info.php?election=10&results=1">at the election page</a>" or reach him at all times at <?php echo
+  make_mailto_link('president@pear.php.net'); ?>
+ </p>
+
+ <p>
+  <strong>[June 19, 2008]</strong>
+  For the second year the elections are now over and a new PEAR Group has been formed. Just like last year and always following the Constitution, the new members
+  have been elected by a secret ballot of PEAR Developers. They have chosen:
+  <ul>
+   <li>Joshua Eichorn</li>
+   <li>Helgi &THORN;ormar &THORN;orbjornsson</li>
+   <li>Joe Stump</li>
+   <li>Christian Weiske</li>
+   <li>Chuck Burgess</li>
+   <li> Travis Swicegood</li>
+   <li>Brett Bieber</li>
+  </ul>
+
+  You can see more information about the PEAR Group by clicking <a href="http://pear.php.net/group/"> here</a>
+ </p>
+
+ <p>
+  <strong>[June 5, 2008]</strong><br />
+  It this time of the year, the election for the PEAR group of 2008 - 2009 has begun as
+  well as for president of the same time period, please head over to <a href="http://pear.php.net/election/">the election page</a>
+  and cast your vote on the people you want to be at the helm of PEAR.
+ </p>
+
+ <p>
   <strong>[January 3, 2008]</strong><br />
   As promised, XML-RPC has been disabled at pear.php.net.  Information is now
   served via REST files at pear.php.net/rest.  If you are using
