@@ -20,12 +20,82 @@
  * $Id$
  */
 
-require_once dirname(__FILE__) . "/../include/pear-config.php";
-require_once "DB.php";
-require_once "PEAR/Common.php";
-require_once "Archive/Tar.php";
+require_once dirname(dirname(__FILE__)) . '/include/pear-config.php';
+require_once 'DB.php';
+require_once 'PEAR/Common.php';
+require_once 'Archive/Tar.php';
 
-$pkg_handler = new PEAR_Common();
+class apidocqueue extends PEAR_Common
+{
+    // {{{ infoFromTgzFile()
+    /**
+     * Returns information about a package file.  Expects the name of
+     * a gzipped tar file as input.
+     *
+     * @param string  $file  name of .tgz file
+     *
+     * @return array  array with package information
+     *
+     * @access public
+     * @deprecated use PEAR_PackageFile->fromTgzFile() instead
+     *
+     */
+    function infoFromTgzFile($file)
+    {
+        $config = &PEAR_Config::singleton();
+        $packagefile = &new PEAR_PackageFile($config);
+        $pf = &$packagefile->fromTgzFile($file, PEAR_VALIDATE_NORMAL);
+        if (PEAR::isError($pf)) {
+            $errs = $pf->getUserinfo();
+            if (is_array($errs)) {
+                foreach ($errs as $error) {
+                    $e = $this->raiseError($error['message'], $error['code'], null, null, $error);
+                }
+            }
+            return $pf;
+        }
+        return $this->_postProcessValidPackagexml($pf);
+    }
+
+   /**
+     * @param PEAR_PackageFile_v1|PEAR_PackageFile_v2
+     * @return array
+     */
+    function _postProcessValidPackagexml(&$pf)
+    {
+        if (is_a($pf, 'PEAR_PackageFile_v2')) {
+            // sort of make this into a package.xml 1.0-style array
+            // changelog is not converted to old format.
+            $arr = $pf->toArray(true);
+            $arr = array_merge($arr, $arr['old']);
+            unset($arr['old']);
+            unset($arr['xsdversion']);
+            unset($arr['contents']);
+            unset($arr['compatible']);
+            unset($arr['channel']);
+            unset($arr['uri']);
+            unset($arr['dependencies']);
+            unset($arr['phprelease']);
+            unset($arr['extsrcrelease']);
+            unset($arr['zendextsrcrelease']);
+            unset($arr['extbinrelease']);
+            unset($arr['zendextbinrelease']);
+            unset($arr['bundle']);
+            unset($arr['lead']);
+            unset($arr['developer']);
+            unset($arr['helper']);
+            unset($arr['contributor']);
+            $arr['filelist'] = $pf->getFilelist();
+            $this->pkginfo = $arr;
+            return $arr;
+        } else {
+            $this->pkginfo = $pf->toArray();
+            return $this->pkginfo;
+        }
+    }
+}
+
+$pkg_handler = new apidocqueue();
 
 $options = array(
     'persistent' => false,
