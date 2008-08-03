@@ -1260,8 +1260,7 @@ function temp_dir($default=false)
         if ($fh) {
             // desparately try to set temp dir any possible way, see bug #13167
             $ptmp = $_temp = $temp_dir = $default;
-            if (!isset($_ENV)) { $_ENV = array(); }
-            $_ENV['TMPDIR'] = $_ENV['TEMP'] = $default;
+            putenv('TMPDIR='.$default);
             return true;
         } else {
             return false;
