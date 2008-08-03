@@ -762,6 +762,7 @@ foreach ($config_vars as $var) {
 }
 $config->set('download_dir', $temp_dir . '/download');
 $config->set('temp_dir', $temp_dir);
+$config->set('http_proxy', $http_proxy);
 $config->store();
 
 $registry = new PEAR_Registry($php_dir);
@@ -1799,7 +1800,18 @@ function displayHTML($page = 'Welcome', $data = array())
 <?php
     } elseif ($page == 'config') {
         if (!empty($GLOBALS['http_proxy'])) {
-            list($proxy_host, $proxy_port) = explode(':', $GLOBALS['http_proxy']);
+            $tmp_proxy = parse_url($GLOBALS['http_proxy']);
+
+            $proxy_host = $tmp_proxy['scheme'] . '://';
+            if ($tmp_proxy['user'] != '') {
+                $proxy_host .= $tmp_proxy['user'];
+                if ($tmp_proxy['pass'] != '') {
+                    $proxy_host .= ':' . $tmp_proxy['pass'];
+                }
+                $proxy_host .= '@';
+            }
+            $proxy_host .= $tmp_proxy['host'];
+            $proxy_port = $tmp_proxy['port'];
         } else {
             $proxy_host = $proxy_port = '';
         }
