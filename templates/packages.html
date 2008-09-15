@@ -12,11 +12,24 @@
 //-->
 </script>
 
+<div style="text-align: center; margin-bottom: 6px;">
+    Filter by
+    <?php
+        $php = isset($_GET['php']) ? $_GET['php'] : 'all';
 
-<table width="100%">
+        $sel = $php == '4' ? 'style="font-weight: bold;" ' : '';
+        echo ' <a ' . $sel . 'href="?php=4">PHP 4+</a> |';
+        $sel = $php == '5' ? 'style="font-weight: bold;" ' : '';
+        echo ' <a ' . $sel . 'href="?php=5">PHP 5+</a> |';
+        $sel = $php == 'all' ? 'style="font-weight: bold;" ' : '';
+        echo ' <a ' . $sel . 'href="?php=all">All PHP versions</a>';
+    ?>
+</div>
+
+<table style="width:100%; margin-bottom: 10px;">
  <tr>
   <th valign="top" align="left">
-   Contents of :: <?php html_category_urhere($catpid, false)?>
+   Contents of :: <?php html_category_urhere($catpid, false, $php)?>
 <?php
     if ($currentPage) {
         echo '   (Page ' . $currentPage . ' of ' . $numPages . ')';
