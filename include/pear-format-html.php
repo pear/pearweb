@@ -74,7 +74,7 @@ $_style = '';
  * @param string $style
  * @return void
  */
-function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '')
+function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '', $head = '')
 {
     global $_style, $_header_done, $self, $auth_user, $RSIDEBAR_DATA, $in_manual;
 
@@ -99,12 +99,11 @@ function response_header($title = 'The PHP Extension and Application Repository'
         header('Content-Type: text/html; charset=ISO-8859-15');
     }
 ?>
-
 <!DOCTYPE html>
 <html>
-<head>
+<head<?php echo $head ?>>
 <?php echo $extraHeaders; ?>
- <title>PEAR :: <?php echo $title; ?></title>
+ <title><?php echo $title; ?></title>
  <link rel="shortcut icon" href="/gifs/favicon.ico" />
  <link rel="stylesheet" type="text/css" href="/css/reset-fonts.css" />
  <link rel="stylesheet" type="text/css" href="/css/style.css" />
@@ -425,6 +424,7 @@ function draw_navigation()
     // Not really menu items but required so the correct
     // sub menu item gets selected
     $fake = array(
+        '/developers/'        => '/accounts.php',
         '/user/'              => '/accounts.php',
         '/package/'           => '/packages.php',
         '/package-edit.php'   => '/packages.php',
@@ -577,9 +577,13 @@ function report_success($in)
  * Top Level :: XML :: XML_RPC
  * @param bool $link_lastest If the last category should or not be a link
  */
-function html_category_urhere($id, $link_lastest = false)
+function html_category_urhere($id, $link_lastest = false, $php = 'all')
 {
-    $html = '<a href="/packages.php">Top Level</a>';
+    $url = '/packages.php';
+    if ($php != 'all' && ($php == '4' || $php == '5')) {
+        $url .= '&amp;php=' . $php;
+    }
+    $html = '<a href="' . $url . '">Top Level</a>';
     if ($id !== null) {
         global $dbh;
         $res = $dbh->query("SELECT c.id, c.name
@@ -593,9 +597,12 @@ function html_category_urhere($id, $link_lastest = false)
             if (!$link_lastest && $i >= $nrows -1) {
                 break;
             }
-            $html .= "  :: ".
-                     "<a href=\"/packages.php?catpid={$row['id']}&amp;catname={$row['name']}\">".
-                     "{$row['name']}</a>";
+
+            $url = '/packages.php?catpid=' . $row['id'] . '&amp;catname=' . $row['name'];
+            if ($php != 'all' && ($php == '4' || $php == '5')) {
+                $url .= '&amp;php=' . $php;
+            }
+            $html .= '  :: <a class="category" href="' . $url . '">' . $row['name'] . '</a>';
             $i++;
         }
         if (!$link_lastest) {
