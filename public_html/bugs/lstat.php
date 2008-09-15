@@ -20,11 +20,13 @@
 
 $dbh->pushErrorHandling(PEAR_ERROR_RETURN);
 
-$res =& $dbh->getOne("SELECT count(bugdb.id) AS count FROM bugdb
-        LEFT JOIN packages ON packages.name = bugdb.package_name
-        WHERE bugdb.status
-         IN ('Open', 'Assigned', 'Analyzed', 'Critical', 'Verified')
-         AND (bugdb.bug_type = 'Bug' OR bugdb.bug_type = 'Documentation Problem')
-         AND packages.package_type = 'pear'");
+$sql = "
+    SELECT count(bugdb.id) AS count FROM bugdb
+    LEFT JOIN packages ON packages.name = bugdb.package_name
+    WHERE bugdb.status
+        IN ('Open', 'Assigned', 'Analyzed', 'Critical', 'Verified')
+        AND (bugdb.bug_type = 'Bug' OR bugdb.bug_type = 'Documentation Problem')
+        AND packages.package_type = ?";
+$res =& $dbh->getOne($sql, array(SITE));
 
 echo DB::isError($res) ? 0 : $res;
