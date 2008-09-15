@@ -105,14 +105,39 @@ if ($catpid) {
 response_header($category_title);
 
 // 1) Show categories of this level
-$sth = $dbh->query('SELECT c.*, COUNT(p.id) AS npackages' .
-                   ' FROM categories c' .
-                   ' LEFT JOIN packages p ON p.category = c.id ' .
-                   " WHERE p.package_type = '" . SITE . "'" .
-                   '  AND p.approved = 1' .
-                   "  AND c.parent $category_where " .
-                   ' GROUP BY c.id ' .
-                   'ORDER BY name');
+$php = isset($_GET['php']) ? $_GET['php'] : 'all';
+$sql = '
+    SELECT
+        c.*, COUNT(DISTINCT p.id) AS npackages
+    FROM categories c
+    LEFT JOIN packages p ON p.category = c.id';
+
+if ($php != 'all') {
+    $sql .= '
+    LEFT JOIN releases r ON p.id = r.package
+    LEFT JOIN deps d ON r.package = d.package';
+}
+
+$sql .='
+    WHERE
+        p.package_type = "' . SITE . '" AND
+        p.approved = 1 AND
+        c.parent ' . $category_where;
+
+if ($php != 'all') {
+    $php_version = $php == '5' ? ' >= 5 AND d.relation = "ge"' : ' = 4';
+    $sql .= '
+        AND
+        d.release = (SELECT id FROM releases WHERE package = p.id ORDER BY releasedate DESC LIMIT 1) AND
+        d.optional = 0 AND
+        d.type = "php" AND
+        SUBSTRING(d.version, 1, 1) ' . $php_version;
+}
+
+$sql .= '
+    GROUP BY c.id
+    ORDER BY c.name';
+$sth = $dbh->query($sql);
 
 $table   = new HTML_Table('border="0" cellpadding="6" cellspacing="2" width="100%"');
 $nrow    = 0;
@@ -126,14 +151,41 @@ $subcats = $dbh->getAssoc("SELECT p.id AS pid, c.id AS id, c.name AS name, c.sum
                           false, null, DB_FETCHMODE_ASSOC, true);
 
 // Get names of sub-packages
-$subpkgs = $dbh->getAssoc("SELECT p.category, p.id AS id, p.name AS name, p.summary AS summary".
-                          "  FROM packages p, categories c".
-                          " WHERE c.parent $category_where ".
-                          '   AND p.approved = 1' .
-                          "   AND p.package_type = '" . SITE . "' ".
-                          "   AND (p.newpk_id IS NULL OR p.newpk_id = 0)".
-                          "   AND p.category = c.id ORDER BY p.name",
-                          false, null, DB_FETCHMODE_ASSOC, true);
+$sql = '
+    SELECT
+        p.category, p.id AS id, p.name AS name, p.summary AS summary
+    FROM categories c
+    LEFT JOIN packages p ON p.category = c.id';
+
+if ($php != 'all') {
+    $sql .= '
+    LEFT JOIN releases r ON p.id = r.package
+    LEFT JOIN deps d ON r.package = d.package';
+}
+
+$sql .= '
+    WHERE
+        c.parent ' . $category_where . '
+        AND p.approved = 1
+        AND p.package_type = "' . SITE . '"
+        AND (p.newpk_id IS NULL OR p.newpk_id = 0)
+        AND p.category = c.id';
+
+if ($php != 'all') {
+    $php_version = $php == '5' ? ' >= 5 AND d.relation = "ge"' : ' = 4';
+    $sql .= '
+        AND
+        d.release = (SELECT id FROM releases WHERE package = p.id ORDER BY releasedate DESC LIMIT 1) AND
+        d.optional = 0 AND
+        d.type = "php" AND
+        SUBSTRING(d.version, 1, 1) ' . $php_version . '
+        GROUP BY p.id';
+}
+
+$sql .= '
+    ORDER BY p.name';
+
+$subpkgs = $dbh->getAssoc($sql, false, null, DB_FETCHMODE_ASSOC, true);
 
 $max_sub_links = 4;
 $totalpackages = 0;
@@ -153,7 +205,7 @@ while ($sth->fetchInto($row)) {
     if (isset($subcats[$id])) {
         foreach ($subcats[$id] as $subcat) {
             $sub_links[] = '<b><a href="'. $script_name .'?catpid='.$subcat['id'].'&amp;catname='.
-                            urlencode($subcat['name']).'" title="'.htmlspecialchars($subcat['summary']).'">'.$subcat['name'].'</a></b>';
+                            urlencode($subcat['name']).'&amp;php=' . $php . '" title="'.htmlspecialchars($subcat['summary']).'">'.$subcat['name'].'</a></b>';
             if (count($sub_links) >= $max_sub_links) {
                 break;
             }
@@ -170,16 +222,15 @@ while ($sth->fetchInto($row)) {
         }
     }
 
-    if (sizeof($sub_links) >= $max_sub_links) {
-        $sub_links = implode(', ', $sub_links) . ' ' . make_image("caret-r.gif", "[more]");
-    } else {
-        $sub_links = implode(', ', $sub_links);
+    $sub_links = implode(', ', $sub_links);
+    if (count($sub_links) >= $max_sub_links) {
+        $sub_links .= ' ' . make_image("caret-r.gif", "[more]");
     }
 
     settype($npackages, 'string');
     settype($ncategories, 'string');
 
-    $data  = '<font size="+1"><b><a href="'. $script_name .'?catpid='.$id.'&amp;catname='.urlencode($name).'">'.$name.'</a></b></font> ('.$npackages.')<br />';//$name; //array($name, $npackages, $ncategories, $summary);
+    $data  = '<font size="+1"><b><a href="'. $script_name .'?catpid='.$id.'&amp;catname='.urlencode($name).'&amp;php=' . $php . '">'.$name.'</a></b></font> ('.$npackages.')<br />';//$name; //array($name, $npackages, $ncategories, $summary);
     $data .= $sub_links.'<br />';
     $catdata[] = $data;
 
@@ -230,12 +281,37 @@ if (!empty($catpid)) {
     }
 
     // Package list
+    $php = isset($_GET['php']) ? $_GET['php'] : 'all';
     $sql = '
-        SELECT id, name, summary, license, unmaintained, newpk_id,
-        (SELECT COUNT(package) FROM releases WHERE package = p.id) as numreleases,
-        (SELECT state FROM releases WHERE package = p.id ORDER BY id DESC LIMIT 1) as status
-        FROM packages p
-        WHERE package_type = ? AND approved = 1 AND category = ? ORDER BY name';
+        SELECT
+            p.id, p.name, p.summary, p.license, p.unmaintained, p.newpk_id,
+            (SELECT COUNT(package) FROM releases WHERE package = p.id) AS numreleases,
+            (SELECT state FROM releases WHERE package = p.id ORDER BY id DESC LIMIT 1) AS status
+        FROM packages p';
+
+    if ($php != 'all') {
+        $sql .= '
+        LEFT JOIN releases r ON p.id = r.package
+        LEFT JOIN deps d ON r.package = d.package';
+    }
+
+    $sql .= '
+        WHERE
+            p.package_type = ? AND p.approved = 1 AND p.category = ?';
+
+    if ($php != 'all') {
+        $php_version = $php == '5' ? ' >= 5 AND d.relation = "ge"' : ' = 4';
+        $sql .= '
+            AND
+            d.release = (SELECT id FROM releases WHERE package = p.id ORDER BY releasedate DESC LIMIT 1) AND
+            d.optional = 0 AND
+            d.type = "php" AND
+            SUBSTRING(d.version, 1, 1) ' . $php_version . '
+            GROUP BY p.id';
+    }
+
+    $sql .='
+        ORDER BY p.name ASC';
     $packages = $dbh->getAll($sql, array(SITE, $catpid));
 
     // Paging
