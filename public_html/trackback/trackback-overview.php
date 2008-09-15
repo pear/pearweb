@@ -48,6 +48,7 @@ $pager_options = array(
     'perPage'    => $number,
     'delta'      => 5,
     'totalItems' => $max,
+    'urlVar'     => 'page',
     'curPageSpanPre'  => '[ <strong>',
     'curPageSpanPost' => '</strong> ]',
     'lastPagePre'     => '[ <strong>',
@@ -121,7 +122,7 @@ foreach ($trackbacks as $trackback) {
     echo 'Date:';
     echo '</th>';
     echo '<td class="ulcell">';
-    echo make_utc_date($trackback->get('timestamp'), 'Y-m-d');
+    echo format_date($trackback->get('timestamp'), 'Y-m-d');
     echo '</td>';
     echo '</tr>';
 

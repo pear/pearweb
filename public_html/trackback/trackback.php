@@ -104,7 +104,7 @@ $mailData = array(
     'title' => $trackback->get('title'),
     'url' => $trackback->get('url'),
     'excerpt' => $trackback->get('excerpt'),
-    'date' => make_utc_date($trackback->get('timestamp')),
+    'date' => format_date($trackback->get('timestamp')),
     'timestamp' => $trackback->get('timestamp'),
 );
 
