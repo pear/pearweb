@@ -45,35 +45,38 @@ class package
         // lead
         extract($data);
         if (empty($license)) {
-            $license = "PHP License";
+            $license = 'BSD License';
         }
         if (!empty($category) && (int)$category == 0) {
-            $category = $dbh->getOne("SELECT id FROM categories WHERE name = ?",
-                                     array($category));
+            $sql = 'SELECT id FROM categories WHERE name = ?';
+            $category = $dbh->getOne($sql, array($category));
         }
         if (empty($category)) {
             return PEAR::raiseError("package::add: invalid `category' field");
         }
+
         if (empty($name)) {
             return PEAR::raiseError("package::add: invalid `name' field");
         }
 
         $query = '
-            INSERT INTO packages (id, name, package_type, category, license, summary,
-                                  description, homepage, cvs_link)
+            INSERT INTO packages
+                (id, name, package_type, category, license, summary, description, homepage, cvs_link)
             VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)';
         $id = $dbh->nextId('packages');
         $err = $dbh->query($query, array($id, $name, $type, $category, $license, $summary, $description, $homepage, $cvs_link));
         if (DB::isError($err)) {
             return $err;
         }
-        $sql = "UPDATE categories SET npackages = npackages + 1
-                WHERE id = $category";
-        if (DB::isError($err = $dbh->query($sql))) {
+        $sql = 'UPDATE categories SET npackages = npackages + 1 WHERE id = ?';
+        $err = $dbh->query($sql, array($category));
+        if (DB::isError($err)) {
             return $err;
         }
+
         include_once 'pear-database-maintainer.php';
-        if (isset($lead) && DB::isError($err = maintainer::add($id, $lead, 'lead'))) {
+        $err = maintainer::add($id, $lead, 'lead');
+        if (isset($lead) && DB::isError($err)) {
             return $err;
         }
 
@@ -100,389 +103,125 @@ class package
     }
 
     /**
-     * Get a download URL, or an array containing the latest version and its
-     * release info.
-     *
-     * If a bundle is specified, then an array of information from getDownloadURL()
-     * will be returned
-     * @param array an array in format:
-     *              array(
-     *                'channel' => channel name (not used in pear),
-     *                'package' => package name,
-     *                ['version' => specific version to retrieve,]
-     *                ['state' => specific state to retrieve,]
-     *                ['bundle' => specific bundle to retrieve,]
-     *              )
-     * @param string preferred_state configuration value
-     * @param string|false installed version of this package
-     * @return bool|array
-     */
-    static function getDownloadURL($packageinfo, $prefstate = 'stable',
-                            $installed = false)
-    {
-        if (!isset($packageinfo['package'])) {
-            return PEAR::raiseError('getDownloadURL parameter $packageinfo must ' .
-                'contain a "package" index');
-        }
-        if (isset($packageinfo['channel']) && $packageinfo['channel'] != PEAR_CHANNELNAME) {
-            return PEAR::raiseError('getDownloadURL channel must be ' . PEAR_CHANNELNAME);
-        }
-
-        include_once 'pear-database-release.php';
-        $states = release::betterStates($prefstate, true);
-        if (!$states) {
-            return PEAR::raiseError("getDownloadURL: preferred state '$prefstate' " .
-                'is not a valid stability state');
-        }
-        $package = $packageinfo['package'];
-        $info = package::info($package, 'releases');
-        if (!count($info)) {
-            return false;
-        }
-
-        $state = $version = null;
-        if (isset($packageinfo['state'])) {
-            $state = $packageinfo['state'];
-        }
-        if (isset($packageinfo['version'])) {
-            $version = $packageinfo['version'];
-        }
-
-        $release = $found = false;
-        foreach ($info as $ver => $release) {
-            if ($installed && version_compare($ver, $installed, '<')) {
-                continue;
-            }
-            if (isset($state)) {
-                if ($release['state'] == $state) {
-                    $found = true;
-                    break;
-                }
-            } elseif (isset($version)) {
-                if ($ver == $version) {
-                    $found = true;
-                    break;
-                }
-            } else {
-                if (in_array($release['state'], $states)) {
-                    $found = true;
-                    break;
-                }
-            }
-        }
-
-        if ($found) {
-            return
-                array('version' => $ver,
-                      'info' => package::getPackageFile($packageinfo['package'], $ver),
-                      'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
-                               $package . '-' . $ver);
-        }
-
-        reset($info);
-        list($ver, $release) = each($info);
-        return array('version' => $ver,
-                     'info' => package::getPackageFile($packageinfo['package'], $ver));
-    }
-
-    /**
-     * @param string|int package name or id
-     * @param string     release version
-     * @return string|PEAR_Error|null package.xml contents from this release
-     */
-    static function getPackageFile($package, $version)
-    {
-        global $dbh;
-        $what = is_numeric($package) ? 'id' : 'name';
-
-        $relids = $dbh->getRow('SELECT releases.id as rid, packages.id as pid' .
-            ' FROM releases, packages WHERE ' .
-            "packages.$what = ? AND releases.version = ? AND " .
-            'releases.package = packages.id', array($package, $version), DB_FETCHMODE_ASSOC);
-        if (PEAR::isError($relids)) {
-            return $relids;
-        }
-        if ($relids === null) {
-            $ptest = $dbh->getOne('SELECT id FROM packages WHERE ' . $what . ' = ?', array($package));
-            if ($ptest === null) {
-                return PEAR::raiseError('Unknown package "' . $package . '"');
-            }
-            $rtest = $dbh->getOne('SELECT id FROM releases WHERE version = ?', array($version));
-            if ($rtest === null) {
-                return PEAR::raiseError('No release of version "' . $version . '" for package "' .
-                    $package . '"');
-            }
-        }
-        if (is_array($relids) && isset($relids['rid'])) {
-            $packagexml = $dbh->getOne('SELECT packagexml FROM files WHERE ' .
-                'package = ? AND `release` = ?', array($relids['pid'], $relids['rid']));
-            if (is_string($packagexml)) {
-                return $packagexml;
-            }
-        }
-    }
-
-    /**
-     * Get a download URL for a dependency, or an array containing the
-     * latest version and its release info.
-     *
-     * If a bundle is specified, then an array of information
-     * will be returned
-     * @param string package.xml version for the dependency (1.0 or 2.0)
-     * @param array dependency information
-     * @param array dependent package information
-     * @param string preferred state
-     * @param string installed version of this dependency
-     * @return bool|array
-     */
-    static function getDepDownloadURL($xsdversion, $dependency, $deppackage,
-                               $prefstate = 'stable', $installed = false)
-    {
-        $info = package::info($dependency['name'], 'releases', true);
-        if (!count($info)) {
-            return false;
-        }
-
-        include_once 'pear-database-release.php';
-        $states = release::betterStates($prefstate, true);
-        if (!$states) {
-            return PEAR::raiseError("getDepDownloadURL: preferred state '$prefstate' " .
-                'is not a valid stability state');
-        }
-        $exclude = array();
-        $min = $max = $recommended = false;
-        if ($xsdversion == '1.0') {
-            $pinfo['package'] = $dependency['name'];
-            $pinfo['channel'] = 'pear.php.net'; // this is always true - don't change this
-            switch ($dependency['rel']) {
-                case 'ge' :
-                    $min = $dependency['version'];
-                break;
-                case 'gt' :
-                    $min = $dependency['version'];
-                    $exclude = array($dependency['version']);
-                break;
-                case 'eq' :
-                    $recommended = $dependency['version'];
-                break;
-                case 'lt' :
-                    $max = $dependency['version'];
-                    $exclude = array($dependency['version']);
-                break;
-                case 'le' :
-                    $max = $dependency['version'];
-                break;
-                case 'ne' :
-                    $exclude = array($dependency['version']);
-                break;
-            }
-        } elseif ($xsdversion == '2.0') {
-            $pinfo['package'] = $dependency['name'];
-            if ($dependency['channel'] != PEAR_CHANNELNAME) {
-                return PEAR::raiseError('getDepDownloadURL channel must be ' . PEAR_CHANNELNAME);
-            }
-            $min = isset($dependency['min']) ? $dependency['min'] : false;
-            $max = isset($dependency['max']) ? $dependency['max'] : false;
-            $recommended = isset($dependency['recommended']) ?
-                $dependency['recommended'] : false;
-            if (isset($dependency['exclude']) && !isset($dependency['exclude'][0])) {
-                $exclude = array($dependency['exclude']);
-            }
-        }
-        $release = $found = false;
-        foreach ($info as $ver => $release) {
-            if (in_array($ver, $exclude)) { // skip excluded versions
-                continue;
-            }
-            // allow newer releases to say "I'm OK with the dependent package"
-            if ($xsdversion == '2.0' && isset($release['compatibility'])) {
-                if (isset($release['compatibility'][$deppackage['channel']]
-                      [$deppackage['package']]) && in_array($ver,
-                        $release['compatibility'][$deppackage['channel']]
-                        [$deppackage['package']])) {
-                    $recommended = $ver;
-                }
-            }
-            if ($recommended) {
-                if ($ver != $recommended) { // if we want a specific
-                    // version, then skip all others
-                    continue;
-                } else {
-                    if (!in_array($release['state'], $states)) {
-                        // the stability is too low, but we must return the
-                        // recommended version if possible
-                        return array('version' => $ver,
-                                     'info' => package::getPackageFile($dependency['name'], $ver));
-                    }
-                }
-            }
-            if ($min && version_compare($ver, $min, 'lt')) { // skip too old versions
-                continue;
-            }
-            if ($max && version_compare($ver, $max, 'gt')) { // skip too new versions
-                continue;
-            }
-            if ($installed && version_compare($ver, $installed, '<')) {
-                continue;
-            }
-            if (in_array($release['state'], $states)) { // if in the preferred state...
-                $found = true; // ... then use it
-                break;
-            }
-        }
-        if ($found) {
-            return
-                array('version' => $ver,
-                      'info' => package::getPackageFile($dependency['name'], $ver),
-                      'url' => 'http://' . $_SERVER['SERVER_NAME'] . '/get/' .
-                               $pinfo['package'] . '-' . $ver);
-        }
-
-        reset($info);
-        list($ver, $release) = each($info);
-        return array('version' => $ver,
-                     'info' => package::getPackageFile($dependency['name'], $ver));
-    }
-
-    /*
-     * Implemented $field values:
-     * releases, notes, category, description, authors, categoryid,
-     * packageid, authors
-     */
-
-    /**
      * Get package information
      *
      * @static
      * @param  mixed   Name of the package or it's ID
      * @param  string  Single field to fetch
-     * @param  boolean Should PECL packages also be taken into account?
+     * @param  boolean Look in all channels
      * @return mixed
      */
-    static function info($pkg, $field = null, $allow_pecl = false)
+    static function info($pkg, $field = null, $show_all = false)
     {
         global $dbh;
         $what = is_numeric($pkg) ? 'id' : 'name';
 
-        if ($allow_pecl) {
-             $package_type = "((p.package_type = 'pear' AND p.approved = 1) OR p.package_type = 'pecl') AND";
-        } else {
-             $package_type = "p.package_type = 'pear' AND p.approved = 1 AND";
+        $package_type = '';
+        if ($show_all === false) {
+             $package_type = "p.package_type = '" . SITE .  "' AND";
         }
 
         $pkg_sql = "SELECT
-            p.id AS packageid, p.name AS name,
+            p.id AS packageid,
+            p.name AS name,
             p.package_type AS type,
-            c.id AS categoryid, c.name AS category,
-            p.stablerelease AS stable, p.license AS license,
-            p.summary AS summary, p.homepage AS homepage,
-            p.description AS description, p.cvs_link AS cvs_link,
-            p.doc_link as doc_link, p.bug_link as bug_link,
+            c.id AS categoryid,
+            c.name AS category,
+            p.stablerelease AS stable,
+            p.license AS license,
+            p.summary AS summary,
+            p.homepage AS homepage,
+            p.description AS description,
+            p.cvs_link AS cvs_link,
+            p.doc_link as doc_link,
+            p.bug_link as bug_link,
             p.unmaintained AS unmaintained,
             p.newpk_id AS newpk_id,
             p.newpackagename as new_package,
             p.newchannel as new_channel,
             p.blocktrackbacks
             FROM packages p, categories c
-            WHERE " . $package_type . " c.id = p.category AND p.{$what} = ?";
-        $rel_sql = "SELECT version, id, doneby, license, summary, ".
-             "description, releasedate, releasenotes, state " . //, packagexmlversion ".
-             "FROM releases ".
-             "WHERE package = ? ".
-             "ORDER BY releasedate DESC";
-        $notes_sql = "SELECT id, nby, ntime, note FROM notes WHERE pid = ?";
-        $deps_sql = "SELECT type, relation, version, name, `release` as `release`, optional
-                     FROM deps
-                     WHERE package = ? ORDER BY optional ASC";
-        $newpk_sql = "SELECT name FROM packages WHERE id=?";
+            WHERE " . $package_type . " p.approved = 1 AND c.id = p.category AND p.{$what} = ?";
+
+        $rel_sql = '
+            SELECT
+                version, id, doneby, license, summary,
+                description, releasedate, releasenotes, state
+            FROM releases
+            WHERE package = ?
+            ORDER BY releasedate DESC';
+
+        $notes_sql = 'SELECT id, nby, ntime, note FROM notes WHERE pid = ?';
+
+        $deps_sql = '
+            SELECT type, relation, version, name, `release` as `release`, optional
+            FROM deps
+            WHERE package = ? ORDER BY optional ASC';
+
         if ($field === null) {
             $info = $dbh->getRow($pkg_sql, array($pkg), DB_FETCHMODE_ASSOC);
-            $info['releases'] = $dbh->getAssoc($rel_sql, false, array($info['packageid']), DB_FETCHMODE_ASSOC);
-            $rels = sizeof($info['releases']) ? array_keys($info['releases']) : array('');
+            $info['releases'] = $dbh->getAssoc($rel_sql, false, array(@$info['packageid']), DB_FETCHMODE_ASSOC);
+            $rels = count($info['releases']) ? array_keys($info['releases']) : array('');
             $info['stable'] = $rels[0];
             $info['notes']  = $dbh->getAssoc($notes_sql, false, array(@$info['packageid']), DB_FETCHMODE_ASSOC);
             $deps = $dbh->getAll($deps_sql, array(@$info['packageid']), DB_FETCHMODE_ASSOC);
-            foreach($deps as $dep) {
+            foreach ($deps as $dep) {
                 $rel_version = null;
-                foreach($info['releases'] as $version => $rel) {
+                foreach ($info['releases'] as $version => $rel) {
                     if ($rel['id'] == $dep['release']) {
                         $rel_version = $version;
                         break;
-                    };
-                };
+                    }
+                }
                 if ($rel_version !== null) {
                     unset($dep['release']);
                     $info['releases'][$rel_version]['deps'][] = $dep;
-                };
-            };
-        } else {
-            // get a single field
-            if ($field == 'releases' || $field == 'notes') {
-                if ($what == "name") {
-                    $pid = $dbh->getOne("SELECT p.id FROM packages p ".
-                                        "WHERE " . $package_type . " p.name = ?", array($pkg));
-                } else {
-                    $pid = $pkg;
                 }
-                if ($field == 'releases') {
-                    $info = $dbh->getAssoc($rel_sql, false, array($pid),
-                    DB_FETCHMODE_ASSOC);
-                } elseif ($field == 'notes') {
-                    $info = $dbh->getAssoc($notes_sql, false, array($pid),
-                    DB_FETCHMODE_ASSOC);
-                }
-            } elseif ($field == 'category') {
-                $sql = "SELECT c.name FROM categories c, packages p ".
-                     "WHERE c.id = p.category AND " . $package_type . " p.{$what} = ?";
-                $info = $dbh->getOne($sql, array($pkg));
-            } elseif ($field == 'description') {
-                $sql = "SELECT description FROM packages p WHERE " . $package_type . " p.{$what} = ?";
-                $info = $dbh->query($sql, array($pkg));
-            } elseif ($field == 'authors') {
-                $sql = "SELECT u.handle, u.name, u.email, u.showemail, m.active, m.role
-                        FROM maintains m, users u, packages p
-                        WHERE " . $package_type ." m.package = p.id
-                        AND p.$what = ?
-                        AND m.handle = u.handle";
-                $info = $dbh->getAll($sql, array($pkg), DB_FETCHMODE_ASSOC);
-            } else {
-                if ($field == 'categoryid') {
-                    $dbfield = 'category';
-                } elseif ($field == 'packageid') {
-                    $dbfield = 'id';
-                } else {
-                    $dbfield = $field;
-                }
-                $sql = "SELECT $dbfield FROM packages p WHERE " . $package_type ." p.{$what} = ?";
-                $info = $dbh->getOne($sql, array($pkg));
             }
+
+            return $info;
+        }
+
+        // get a single field
+        if ($field == 'releases' || $field == 'notes') {
+            if ($what == 'name') {
+                $sql = 'SELECT p.id FROM packages p WHERE ' . $package_type . ' p.approved = 1 AND p.name = ?';
+                $pid = $dbh->getOne($sql, array($pkg));
+            } else {
+                $pid = $pkg;
+            }
+            if ($field == 'releases') {
+                $info = $dbh->getAssoc($rel_sql, false, array($pid), DB_FETCHMODE_ASSOC);
+            } elseif ($field == 'notes') {
+                $info = $dbh->getAssoc($notes_sql, false, array($pid), DB_FETCHMODE_ASSOC);
+            }
+        } elseif ($field == 'category') {
+            $sql = "SELECT c.name FROM categories c, packages p ".
+                 "WHERE c.id = p.category AND " . $package_type . " p.approved = 1 AND p.{$what} = ?";
+            $info = $dbh->getOne($sql, array($pkg));
+        } elseif ($field == 'description') {
+            $sql = "SELECT description FROM packages p WHERE " . $package_type . " p.approved = 1 AND p.{$what} = ?";
+            $info = $dbh->query($sql, array($pkg));
+        } elseif ($field == 'authors') {
+            $sql = "SELECT u.handle, u.name, u.email, u.showemail, m.active, m.role
+                    FROM maintains m, users u, packages p
+                    WHERE " . $package_type ." p.approved = 1 AND m.package = p.id
+                    AND p.$what = ?
+                    AND m.handle = u.handle";
+            $info = $dbh->getAll($sql, array($pkg), DB_FETCHMODE_ASSOC);
+        } else {
+            if ($field == 'categoryid') {
+                $dbfield = 'category';
+            } elseif ($field == 'packageid') {
+                $dbfield = 'id';
+            } else {
+                $dbfield = $field;
+            }
+            $sql = "SELECT $dbfield FROM packages p WHERE " . $package_type ." p.approved = 1 AND p.{$what} = ?";
+            $info = $dbh->getOne($sql, array($pkg));
         }
 
         return $info;
-    }
-
-    /**
-     *
-     */
-    static function search($fragment, $summary = false, $released_only = true, $stable_only = true,
-                    $include_pecl = false)
-    {
-        $all = package::listAll($released_only, $stable_only, $include_pecl);
-        if (!$all) {
-            return PEAR::raiseError('no packages found');
-        }
-        $ret = array();
-        foreach ($all as $name => $info) {
-            $found = (!empty($fragment) && stristr($name, $fragment) !== false);
-            if (!$found && !(isset($summary) && !empty($summary)
-                && (stristr($info['summary'], $summary) !== false
-                    || stristr($info['description'], $summary) !== false)))
-            {
-                continue;
-            };
-            $ret[$name] = $info;
-        }
-        return $ret;
     }
 
     /**
@@ -498,8 +237,8 @@ class package
     static function listAllNames()
     {
         global $dbh;
-
-        return $dbh->getAssoc("SELECT id, name FROM packages WHERE package_type = 'pear' AND approved = 1 ORDER BY name");
+        $sql = 'SELECT id, name FROM packages WHERE package_type = ? AND approved = 1 ORDER BY name';
+        return $dbh->getAssoc($sql, false, array(SITE));
     }
 
     /**
@@ -511,59 +250,61 @@ class package
      * @param boolean List also PECL packages
      * @return array
      */
-    static function listAll($released_only = true, $stable_only = true, $include_pecl = null)
+    static function listAll($released_only = true, $stable_only = true)
     {
-        global $dbh, $HTTP_RAW_POST_DATA;
+        global $dbh;
 
-        if ($include_pecl === null && isset($HTTP_RAW_POST_DATA)) {
-            $include_pecl = true;
-        }
+        $sql = '
+            SELECT
+                p.name,
+                p.id AS packageid,
+                c.id AS categoryid,
+                c.name AS category,
+                p.license AS license,
+                p.summary AS summary,
+                p.description AS description,
+                m.handle AS lead
+            FROM packages p, categories c, maintains m
+            WHERE
+                p.package_type = ? AND
+                p.approved = 1 AND
+                c.id = p.category AND
+                p.id = m.package AND
+                m.role = ?
+            ORDER BY p.name';
+        $packageinfo = $dbh->getAssoc($sql, false, array(SITE, 'lead'), DB_FETCHMODE_ASSOC);
 
-        $package_type = '';
-        if (!$include_pecl) {
-            $package_type = "p.package_type = 'pear' AND p.approved = 1 AND ";
-        }
-
-        $packageinfo = $dbh->getAssoc("SELECT p.name, p.id AS packageid, ".
-            "c.id AS categoryid, c.name AS category, ".
-            "p.license AS license, ".
-            "p.summary AS summary, ".
-            "p.description AS description, ".
-            "m.handle AS lead ".
-            " FROM packages p, categories c, maintains m ".
-            "WHERE " . $package_type .
-            " c.id = p.category ".
-            "  AND p.id = m.package ".
-            "  AND m.role = 'lead' ".
-            "ORDER BY p.name", false, null, DB_FETCHMODE_ASSOC);
         $allreleases = $dbh->getAssoc(
             "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
             "FROM packages p, releases r ".
-            "WHERE " . $package_type .
+            "WHERE p.package_type = ? AND " .
             ' p.id = r.package ' .
-            "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
+            "ORDER BY r.releasedate ASC ", false, array(SITE), DB_FETCHMODE_ASSOC);
+
         if ($released_only) {
             $stablereleases = $dbh->getAssoc(
                 "SELECT p.name, r.id AS rid, r.version AS stable, r.state AS state ".
                 "FROM packages p, releases r ".
-                "WHERE " . $package_type .
+                "WHERE p.package_type = ? AND " .
                 "p.id = r.package ".
                 "AND r.state = 'stable' " .
-                "ORDER BY r.releasedate ASC ", false, null, DB_FETCHMODE_ASSOC);
+                "ORDER BY r.releasedate ASC ", false, array(SITE), DB_FETCHMODE_ASSOC);
         } else {
             $stablereleases = $allreleases;
         }
-        $deps = $dbh->getAll(
-            "SELECT package, `release` , type, relation, `version`, name ".
-            "FROM deps", null, DB_FETCHMODE_ASSOC);
+
+        $sql  = 'SELECT package, `release` , type, relation, `version`, name FROM deps';
+        $deps = $dbh->getAll($sql, null, DB_FETCHMODE_ASSOC);
         foreach ($packageinfo as $pkg => $info) {
             $packageinfo[$pkg]['stable'] = false;
         }
+
         foreach ($stablereleases as $pkg => $stable) {
             $packageinfo[$pkg]['stable'] = $stable['stable'];
             $packageinfo[$pkg]['unstable'] = false;
             $packageinfo[$pkg]['state']  = $stable['state'];
         }
+
         if (!$stable_only) {
             foreach ($allreleases as $pkg => $stable) {
                 if ($stable['state'] == 'stable') {
@@ -620,6 +361,7 @@ class package
                 }
             }
         }
+
         return $packageinfo;
     }
 
@@ -634,109 +376,28 @@ class package
     {
         global $dbh;
 
-        $query = "SELECT
-                      p.id AS pid, p.name, r.id AS rid, r.version, r.state
-                  FROM packages p, releases r
-                  WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package
-                  ORDER BY p.name, r.version DESC";
-        $sth = $dbh->query($query);
-
+        $query = '
+            SELECT
+                p.id AS pid, p.name, r.id AS rid, r.version, r.state
+            FROM packages p, releases r
+            WHERE p.package_type = ? AND p.approved = 1 AND p.id = r.package
+            ORDER BY p.name, r.version DESC';
+        $sth = $dbh->getAll($query, array(SITE), DB_FETCHMODE_ASSOC);
         if (DB::isError($sth)) {
             return $sth;
         }
 
         $packages = array();
-        while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
+        foreach ($sth as $row) {
             $packages[$row['pid']]['name'] = $row['name'];
-            $packages[$row['pid']]['releases'][] = array('id' => $row['rid'],
-                                                         'version' => $row['version'],
-                                                         'state' => $row['state']
-                                                         );
+            $packages[$row['pid']]['releases'][] = array(
+                'id'      => $row['rid'],
+                'version' => $row['version'],
+                'state'   => $row['state']
+            );
         }
 
         return $packages;
-    }
-
-    /**
-     * List latest releases
-     *
-     * @static
-     * @param  string Only list release with specific state (Optional)
-     * @return array
-     */
-    static function listLatestReleases($state = '')
-    {
-        global $dbh;
-        $query =
-             "SELECT ".
-             "p.name AS package, ".
-             "r.version AS version, ".
-             "r.state AS state, ".
-             "f.fullpath AS fullpath ".
-             "FROM packages p, releases r, files f ".
-             "WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package ".
-             "AND f.package = p.id ".
-             "AND f.release = r.id";
-
-        include_once 'pear-database-release.php';
-        if (release::isValidState($state)) {
-            $better = release::betterStates($state);
-            $query .= " AND (r.state = '$state'";
-            $i = 0;
-            if (is_array($better)) {
-                foreach ($better as $b) {
-                    $query .= " OR r.state = '$b'";
-                }
-            }
-            $query .= ")";
-        }
-        $query .= " ORDER BY p.name";
-        $sortfunc = "version_compare_firstelem";
-        $res = $dbh->getAssoc($query, false, null, DB_FETCHMODE_ASSOC, true);
-        foreach ($res as $pkg => $ver) {
-            if (sizeof($ver) > 1) {
-                usort($ver, $sortfunc);
-            }
-            $res[$pkg] = array_pop($ver);
-            $res[$pkg]['filesize'] = (int)@filesize($res[$pkg]['fullpath']);
-            unset($res[$pkg]['fullpath']);
-        }
-        return $res;
-    }
-
-    /**
-     * List available upgrades
-     *
-     * @static
-     * @param array Array containing the currently installed packages
-     * @return array
-     */
-    static function listUpgrades($currently_installed)
-    {
-        global $dbh;
-        if (sizeof($currently_installed) == 0) {
-            return array();
-        }
-        $query = "SELECT ".
-             "p.name AS package, ".
-             "r.id AS releaseid, ".
-             "r.package AS packageid, ".
-             "r.version AS version, ".
-             "r.state AS state, ".
-             "r.doneby AS doneby, ".
-             "r.license AS license, ".
-             "r.summary AS summary, ".
-             "r.description AS description, ".
-             "r.releasedate AS releasedate, ".
-             "r.releasenotes AS releasenotes ".
-             "FROM releases r, packages p WHERE p.package_type = 'pear' AND p.approved = 1 AND r.package = p.id AND (";
-        $conditions = array();
-        foreach ($currently_installed as $package => $info) {
-            extract($info); // state, version
-            $conditions[] = "(package = '$package' AND state = '$state')";
-        }
-        $query .= implode(" OR ", $conditions) . ")";
-        return $dbh->getAssoc($query, false, null, DB_FETCHMODE_ASSOC);
     }
 
     /**
@@ -751,9 +412,10 @@ class package
         global $dbh, $auth_user;
         $package_id = package::info($pkgid, 'id');
         if (PEAR::isError($package_id) || empty($package_id)) {
-            return PEAR::raiseError("Package not registered or not approved. Please register it first with \"New Package\" or wait until it gets approved.");
+            return PEAR::raiseError('Package not registered or not approved. Please register it first with "New Package" or wait until it gets approved.');
         }
-        if ($auth_user->isAdmin() == false && $auth_user->isQA() == false) {
+
+        if ($auth_user->isAdmin() === false && $auth_user->isQA() === false) {
             include_once 'pear-database-user.php';
             $role = user::maintains($auth_user->handle, $package_id);
             if ($role != 'lead' && $role != 'developer') {
@@ -772,8 +434,7 @@ class package
         if (!count($fields)) {
             return;
         }
-        $sql = 'UPDATE packages SET ' . implode(', ', $fields) .
-               " WHERE id=$package_id";
+        $sql = 'UPDATE packages SET ' . implode(', ', $fields) . " WHERE id = $package_id";
         $row = package::info($pkgid, 'name');
         $GLOBALS['pear_rest']->saveAllPackagesREST();
         $GLOBALS['pear_rest']->savePackageREST($row);
@@ -790,17 +451,18 @@ class package
     static function getDependants($package)
     {
         global $dbh;
-        $query = 'SELECT p.name AS p_name, ' .
-            ' MAX(r.version) AS max_dep, ' .
-            ' MAX(rm.version) as max_pkg ' .
-            'FROM packages p,  deps AS d ' .
-            '  LEFT JOIN  (releases AS r) ON (r.id = d.release) ' .
-            '  LEFT JOIN releases AS rm ON (rm.package = d.package) ' .
-            "WHERE d.package = p.id AND d.type = 'pkg' " .
-            "      AND d.name = ? " .
-            'GROUP BY d.package ' .
-            'ORDER BY p.name';
-        return $dbh->getAll($query, array($package), DB_FETCHMODE_ASSOC);
+        $query = '
+            SELECT
+                p.name AS p_name,
+                MAX(r.version) AS max_dep,
+                MAX(rm.version) as max_pkg
+            FROM packages p, deps AS d
+            LEFT JOIN releases AS r  ON r.id = d.release
+            LEFT JOIN releases AS rm ON rm.package = d.package
+            WHERE d.package = p.id AND d.type = ? AND d.name = ?
+            GROUP BY d.package
+            ORDER BY p.name';
+        return $dbh->getAll($query, array('pkg', $package), DB_FETCHMODE_ASSOC);
     }
 
     /**
@@ -815,20 +477,25 @@ class package
         global $dbh;
         $recent = array();
 
-        $query = "SELECT p.id AS id, " .
-            "p.name AS name, " .
-            "p.summary AS summary, " .
-            "r.version AS version, " .
-            "r.releasedate AS releasedate, " .
-            "r.releasenotes AS releasenotes, " .
-            "r.doneby AS doneby, " .
-            "r.state AS state " .
-            "FROM packages p, releases r " .
-            "WHERE p.package_type = 'pear' AND p.approved = 1 AND p.id = r.package " .
-            "AND p.name = '" . $package . "'" .
-            "ORDER BY r.releasedate DESC";
+        $query = '
+            SELECT
+                p.id AS id,
+                p.name AS name,
+                p.summary AS summary,
+                r.version AS version,
+                r.releasedate AS releasedate,
+                r.releasenotes AS releasenotes,
+                r.doneby AS doneby,
+                r.state AS state
+            FROM packages p, releases r
+            WHERE
+                p.package_type = ?
+                AND p.approved = 1
+                AND p.id = r.package
+                AND p.name = ? .
+            ORDER BY r.releasedate DESC';
 
-        $sth = $dbh->limitQuery($query, 0, $n);
+        $sth = $dbh->limitQuery($query, 0, $n, array(SITE, $package));
         while ($sth->fetchInto($row, DB_FETCHMODE_ASSOC)) {
             $recent[] = $row;
         }
@@ -845,24 +512,9 @@ class package
     static function isValid($package)
     {
         global $dbh;
-        $query = "SELECT id FROM packages WHERE package_type = 'pear' AND approved = 1 AND name = ?";
-        $sth = $dbh->query($query, array($package));
+        $query = 'SELECT id FROM packages WHERE package_type = ? AND approved = 1 AND name = ?';
+        $sth = $dbh->query($query, array(SITE, $package));
         return ($sth->numRows() > 0);
-    }
-
-    /**
-     * Get all notes for given package
-     *
-     * @access public
-     * @param  int ID of the package
-     * @return array
-     */
-    static function getNotes($package)
-    {
-        global $dbh;
-
-        $query = "SELECT * FROM notes WHERE pid = ? ORDER BY ntime";
-        return $dbh->getAll($query, array($package), DB_FETCHMODE_ASSOC);
     }
 
     /**
@@ -877,8 +529,8 @@ class package
         global $dbh;
 
         $query = 'UPDATE packages
-                    SET blocktrackbacks=' . ((int) !$allow) . '
-                WHERE name=' . $dbh->quoteSmart($name);
+                    SET blocktrackbacks = ' . ((int) !$allow) . '
+                WHERE name = ' . $dbh->quoteSmart($name);
         $res = $dbh->query($query);
     }
 
@@ -892,7 +544,7 @@ class package
      */
     function makeLink($name)
     {
-        return make_link("/package/" . $name . "/", $name);
+        return make_link('/package/' . $name . '/', $name);
     }
 
     /**
@@ -947,13 +599,6 @@ class package
             return $link;
         }
 
-        return ($link != '' ? '<a href="' . $link . '">' . $license . "</a>\n" : $license);
+        return ($link != '' ? '<a class="license" href="' . $link . '" rel="license">' . $license . "</a>\n" : $license);
     }
-}
-
-function version_compare_firstelem($a, $b)
-{
-    reset($a);
-    $elem = key($a);
-    return version_compare($a[$elem], $b[$elem]);
 }
