@@ -51,7 +51,7 @@ $_GET['rid'] = isset($_GET['rid']) ? (int) $_GET['rid'] : 0;
 
 $query = "SELECT * FROM packages"
          . (!empty($_GET['cid']) ? " WHERE category = '" . $_GET['cid'] . "' AND " : " WHERE ")
-         . " packages.package_type = 'pear'"
+         . " packages.package_type = '" . SITE . "'"
          . " ORDER BY name";
 
 $sth = $dbh->query($query);
@@ -160,8 +160,8 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
         <th style="text-align: left;">Last Download</th>
     </tr>
 <?php
-        $release_statistics = statistics::release($_GET['pid'],
-                (isset($_GET['rid']) ? $_GET['rid'] : ''));
+        $rid = isset($_GET['rid']) ? $_GET['rid'] : '';
+        $release_statistics = statistics::release($_GET['pid'], $rid);
 
         foreach ($release_statistics as $key => $value) {
             $version = make_link('/package/' . $info['name'] .
@@ -327,17 +327,23 @@ natsort($releases);
  */
 } elseif (!empty($_GET['cid'])) {
 
-    $category_name     = $dbh->getOne(sprintf("SELECT name FROM categories WHERE id = %d", $_GET['cid']));
-    $total_packages    = $dbh->getOne(sprintf("SELECT COUNT(DISTINCT pid) FROM package_stats ps LEFT JOIN packages p ON p.id = ps.pid WHERE package_type='pear' AND cid = %d", $_GET['cid']));
-    $total_packages    = $dbh->getOne(sprintf("SELECT COUNT(DISTINCT pid) FROM package_stats ps, packages p WHERE package_type='pear' AND p.id = ps.pid AND cid = %d", $_GET['cid']));
-    $total_maintainers = $dbh->getOne(sprintf("SELECT COUNT(DISTINCT m.handle) FROM maintains m, packages p WHERE package_type='pear' AND m.package = p.id AND p.category = %d", $_GET['cid']));
-    $total_releases    = $dbh->getOne(sprintf("SELECT COUNT(*) FROM package_stats ps, packages p WHERE package_type='pear' AND p.id = ps.pid AND cid = %d", $_GET['cid']));
-    $total_categories  = $dbh->getOne(sprintf("SELECT COUNT(*) FROM categories WHERE parent = %d", $_GET['cid']));
+    $sql = sprintf("SELECT name FROM categories WHERE id = %d", $_GET['cid']);
+    $category_name     = $dbh->getOne($sql);
+    $sql = sprintf("SELECT COUNT(DISTINCT pid) FROM package_stats ps LEFT JOIN packages p ON p.id = ps.pid WHERE package_type = '" . SITE . "' AND cid = %d", $_GET['cid']);
+    $total_packages    = $dbh->getOne($sql);
+    $sql = sprintf("SELECT COUNT(DISTINCT pid) FROM package_stats ps, packages p WHERE package_type = '" . SITE . "' AND p.id = ps.pid AND cid = %d", $_GET['cid']);
+    $total_packages    = $dbh->getOne($sql);
+    $sql = sprintf("SELECT COUNT(DISTINCT m.handle) FROM maintains m, packages p WHERE package_type = '" . SITE . "' AND m.package = p.id AND p.category = %d", $_GET['cid']);
+    $total_maintainers = $dbh->getOne($sql);
+    $sql = sprintf("SELECT COUNT(*) FROM package_stats ps, packages p WHERE package_type = '" . SITE . "' AND p.id = ps.pid AND cid = %d", $_GET['cid']);
+    $total_releases    = $dbh->getOne($sql);
+    $sql = sprintf("SELECT COUNT(*) FROM categories WHERE parent = %d", $_GET['cid']);
+    $total_categories  = $dbh->getOne($sql);
 
     // Query to get package list from package_stats_table
     $query = sprintf("SELECT SUM(ps.dl_number) AS dl_number, ps.package, ps.release, ps.pid, ps.rid, ps.cid
                     FROM package_stats ps, packages p
-                    WHERE p.package_type = 'pear' AND p.id = ps.pid AND
+                    WHERE p.package_type = '" . SITE . "' AND p.id = ps.pid AND
                     p.category = %s GROUP BY ps.pid ORDER BY dl_number DESC",
                     $_GET['cid']
                     );
@@ -347,17 +353,18 @@ natsort($releases);
  */
 } else {
 
-    $total_packages    = number_format($dbh->getOne('SELECT COUNT(id) FROM packages WHERE package_type="pear" and approved=1'), 0, '.', ',');
-    $total_maintainers = number_format($dbh->getOne('SELECT COUNT(DISTINCT handle) FROM maintains m, packages p WHERE package_type="pear" AND m.package = p.id'), 0, '.', ',');
+    $total_packages    = number_format($dbh->getOne('SELECT COUNT(id) FROM packages WHERE package_type = "' . SITE . '" and approved=1'), 0, '.', ',');
+    $total_maintainers = number_format($dbh->getOne('SELECT COUNT(DISTINCT handle) FROM maintains m, packages p WHERE package_type = "' . SITE . '" AND m.package = p.id'), 0, '.', ',');
     $total_releases    = number_format($dbh->getOne('SELECT COUNT(*) FROM releases r, packages p
-                        WHERE r.package = p.id AND p.package_type="pear"'), 0, '.', ',');
+                        WHERE r.package = p.id AND p.package_type = "' . SITE . '"'), 0, '.', ',');
     $total_categories  = number_format($dbh->getOne('SELECT COUNT(*) FROM categories'), 0, '.', ',');
     $total_downloads   = number_format($dbh->getOne('SELECT SUM(dl_number) FROM package_stats, packages p
-                       WHERE package_stats.pid = p.id AND p.package_type="pear"'), 0, '.', ',');
-    $query             = "SELECT sum(ps.dl_number) as dl_number, ps.package, ps.pid, ps.rid, ps.cid
-                        FROM package_stats ps, packages p
-                        WHERE p.id = ps.pid AND p.package_type = 'pear'
-                        GROUP BY ps.pid ORDER BY dl_number DESC";
+                       WHERE package_stats.pid = p.id AND p.package_type = "' . SITE . '"'), 0, '.', ',');
+    $query = "
+        SELECT SUM(ps.dl_number) AS dl_number, ps.package, ps.pid, ps.rid, ps.cid
+        FROM package_stats ps, packages p
+        WHERE p.id = ps.pid AND p.package_type = '" . SITE . "'
+        GROUP BY ps.pid ORDER BY dl_number DESC";
 
 }
 
