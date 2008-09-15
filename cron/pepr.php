@@ -67,20 +67,18 @@ foreach ($proposals AS $id => $proposal) {
     }
 }
 
-
 /**
- * Converts a Unix timestamp to a date() formatted string in the UTC time zone
+ * Turns a unix timestamp into a uniformly formatted date
+ * If the date is during the current year, the year is omitted.
  *
- * @param int    $ts      a Unix timestamp from the local machine.  If none
- *                         is provided the current time is used.
- * @param string $format  a format string, as per http://php.net/date
- *
- * @return string  the time formatted time
+ * @param int $date  the unix timestamp to be formatted
+ * @param string $format date function formatted string
+ * @return string  the formatted date
  */
-function make_utc_date($ts = null, $format = 'Y-m-d H:i \U\T\C')
+function format_date($ts = null, $format = 'Y-m-d H:i e')
 {
     if (!$ts) {
         $ts = time();
     }
-    return gmdate($format, $ts);
+    return gmdate($format, $ts - date('Z', $ts));
 }
