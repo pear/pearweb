@@ -121,7 +121,7 @@ function makeBorderTOC($this, $id = '')
         $cut = $indent ? 22 : 24;
         $title_fmt = wordwrap($title_fmt, $cut, "\n", true);
         $class = ($indent) ? 'man-side_page_nested' : 'man-side_page';
-        $RSIDEBAR_DATA .= '  <li class="' . $class . '">'
+        $RSIDEBAR_DATA .= "\n" . '  <li class="' . $class . '">'
                 . (($title == $this) ? "<strong>$title_fmt</strong>"
                                      : make_link($url, $title_fmt));
 
