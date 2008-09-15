@@ -65,8 +65,7 @@ if ($handle === null || empty($handle)) {
                 echo "Successfully <b>removed</b> karma &quot;"
                         . htmlspecialchars($_GET['level'])
                         . "&quot;<br /><br />";
-                note::add('uid', $handle, 'removed ' . $_GET['level'] . ' karma',
-                    $auth_user->handle);
+                note::add($handle, 'removed ' . $_GET['level'] . ' karma', $auth_user->handle);
             }
             break;
 
@@ -77,8 +76,7 @@ if ($handle === null || empty($handle)) {
                         . htmlspecialchars($_POST['level'])
                         . "&quot;<br /><br />";
 
-                note::add('uid', $handle, 'added ' . $_POST['level'] . ' karma',
-                    $auth_user->handle);
+                note::add($handle, 'added ' . $_POST['level'] . ' karma', $auth_user->handle);
             }
             break;
         }
