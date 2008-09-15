@@ -183,7 +183,7 @@ class PEAR_Bug_Accountrequest
         if ($handle == $this->dbh->getOne($sql, array($handle))) {
             $id = $this->dbh->nextId("karma");
 
-            $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
+            $query = 'INSERT INTO karma VALUES (?, ?, ?, ?, NOW())';
             $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', 'pearweb'));
             return true;
         }
@@ -230,7 +230,7 @@ class PEAR_Bug_Accountrequest
         @$arr = unserialize($user['userinfo']);
 
         include_once 'pear-database-note.php';
-        note::removeAll("uid", $handle);
+        note::removeAll($handle);
 
         $data = array();
         $data['registered'] = 1;
@@ -240,31 +240,30 @@ class PEAR_Bug_Accountrequest
             $data['userinfo'] = $arr[1];
         }
         $data['create']   = gmdate('Y-m-d');
-        $data['createBy'] = 'pearweb';
+        $data['createBy'] = SITE . 'web';
         $data['handle']   = $handle;
 
         user::update($data, true);
 
-        $id = $this->dbh->nextId('karma');
-
         $query = 'INSERT INTO karma VALUES (?, ?, ?, ?, NOW())';
-        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', 'pearweb'));
 
-        $id = $this->dbh->nextId("karma");
-        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', 'pearweb'));
+        $id = $this->dbh->nextId('karma');
+        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', SITE . 'web'));
+        $id = $this->dbh->nextId('karma');
+        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', SITE . 'web'));
 
         if (!DB::isError($sth)) {
             require_once 'bugs/pear-bugs-utils.php';
             $pbu = new PEAR_Bugs_Utils;
-            note::add("uid", $this->handle, 'Account opened', 'pearweb');
+            note::add($this->handle, 'Account opened', SITE . 'web');
             $bugs = $this->dbh->getAll('SELECT * FROM bugdb WHERE handle = ?',
                 array($this->handle), DB_FETCHMODE_ASSOC);
             foreach ($bugs as $bug) {
                 $this->sendBugEmail($bug);
             }
-            $patches = $this->dbh->getAll('SELECT bugdb.package_name,bugdb_patchtracker.*
+            $patches = $this->dbh->getAll('SELECT bugdb.package_name, bugdb_patchtracker.*
                 FROM bugdb_patchtracker, bugdb
-                WHERE bugdb_patchtracker.developer=?
+                WHERE bugdb_patchtracker.developer = ?
                     AND bugdb.id = bugdb_patchtracker.bugdb_id', array($this->handle),
                     DB_FETCHMODE_ASSOC);
             foreach ($patches as $patch) {
@@ -292,6 +291,7 @@ class PEAR_Bug_Accountrequest
             $this->deleteRequest();
             return true;
         }
+
         return false;
     }
 
