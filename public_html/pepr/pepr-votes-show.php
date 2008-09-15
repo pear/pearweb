@@ -152,7 +152,7 @@ if ($proposal->status == 'vote') {
             $pepr_end += PROPOSAL_STATUS_VOTE_TIMELINE;
         }
         echo '    <p>Voting Will End approximately ';
-        echo make_utc_date($pepr_end);
+        echo format_date($pepr_end);
         echo "</p>\n";
 
         $formArray = $form->toArray();
@@ -272,7 +272,7 @@ switch ($proposal->status) {
                 echo ' &nbsp;(';
                 echo make_link('/user/' . htmlspecialchars($vote->user_handle),
                            htmlspecialchars($users[$vote->user_handle]['name']));
-                echo ')&nbsp; ' . make_utc_date($vote->timestamp);
+                echo ')&nbsp; ' . format_date($vote->timestamp);
                 echo "</li>\n";
             }
 

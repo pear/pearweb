@@ -31,15 +31,15 @@ function getDays($date) {
 // {{{ Fetch for orphan drafts
 
 $sql = <<<EOS
-SELECT 
+SELECT
     p.id AS id,
     p.pkg_name AS pkg_name,
     p.user_handle AS user_handle,
     UNIX_TIMESTAMP(p.draft_date) AS draft_date
-FROM 
+FROM
     package_proposals AS p
-WHERE 
-    p.status = "draft" 
+WHERE
+    p.status = "draft"
     AND p.draft_date < DATE_ADD(NOW(), INTERVAL -30 DAY)
 ORDER BY draft_date DESC
 EOS;
@@ -53,11 +53,11 @@ $res['orphan_drafts'] = $dbh->getAll($sql, DB_FETCHMODE_ASSOC);
 
 // Get IDs from proposals with comments in the last 30 days
 $sql = <<<EOS
-SELECT 
+SELECT
     ppc.pkg_prop_id
-FROM 
-    package_proposal_comments ppc 
-WHERE 
+FROM
+    package_proposal_comments ppc
+WHERE
     FROM_UNIXTIME(timestamp) > DATE_ADD(NOW(), INTERVAL - 30 DAY)
 GROUP BY ppc.pkg_prop_id
 EOS;
@@ -120,7 +120,7 @@ foreach ($resProposalSets as $set) {
 }
 
 $sql = '
-SELECT 
+SELECT
     pp.id AS id
 FROM
     packages AS p
@@ -178,7 +178,7 @@ $i = 0;
 foreach ($res['orphan_drafts'] as $set) {
     echo '<tr style='.(($i++ % 2 == 0) ? '"background-color: #CCCCCC;"' : '').'>';
     echo '<td class="textcell"><a href="/pepr/pepr-proposal-show.php?id='.$set['id'].'">'.$set['pkg_name'].'</a></td>';
-    echo '<td class="textcell">'.getDays($set['draft_date']).' days ago<br />('.make_utc_date($set['draft_date']).')</td>';
+    echo '<td class="textcell">'.getDays($set['draft_date']).' days ago<br />('.format_date($set['draft_date']).')</td>';
     echo '<td class="textcell">'.user_link($set['user_handle']).'</td>';
     echo '</tr>';
 }
@@ -204,12 +204,12 @@ $i = 0;
 foreach ($res['orphan_proposals'] as $set) {
     echo '<tr style='.(($i++ % 2 == 0) ? '"background-color: #CCCCCC;"' : '').'>';
     echo '<td class="textcell"><a href="/pepr/pepr-proposal-show.php?id='.$set['id'].'">'.$set['pkg_name'].'</a></td>';
-    echo '<td class="textcell">'.getDays($set['draft_date']).' days ago<br />('.make_utc_date($set['draft_date']).')</td>';
-    echo '<td class="textcell">'.getDays($set['proposal_date']).' days ago<br /> ('.make_utc_date($set['proposal_date']).')</td>';
-//    echo '<td class="textcell">'.getDays($set['latest_change']).' days ago<br /> ('.make_utc_date($set['latest_change']).')</td>';
-//    echo '<td class="textcell">'.getDays($set['latest_comment']).' days ago<br /> (<a href="/pepr-comment-show.php?id='.$set['id'].'">'.make_utc_date($set['latest_comment']).'</a>)</td>';
+    echo '<td class="textcell">'.getDays($set['draft_date']).' days ago<br />('.format_date($set['draft_date']).')</td>';
+    echo '<td class="textcell">'.getDays($set['proposal_date']).' days ago<br /> ('.format_date($set['proposal_date']).')</td>';
+//    echo '<td class="textcell">'.getDays($set['latest_change']).' days ago<br /> ('.format_date($set['latest_change']).')</td>';
+//    echo '<td class="textcell">'.getDays($set['latest_comment']).' days ago<br /> (<a href="/pepr-comment-show.php?id='.$set['id'].'">'.format_date($set['latest_comment']).'</a>)</td>';
     echo '<td class="textcell">'.user_link($set['user_handle']).'</td>';
-    
+
     echo '</tr>';
 }
 echo '</table>';
@@ -237,15 +237,15 @@ $i = 0;
 foreach ($res['orphan_finished'] as $set) {
     echo '<tr style='.(($i++ % 2 == 0) ? '"background-color: #CCCCCC;"' : '').'>';
     echo '<td class="textcell"><a href="/pepr/pepr-proposal-show.php?id='.$set['id'].'">'.$set['pkg_name'].'</a></td>';
-    echo '<td class="textcell">'.getDays($set['draft_date']).' days ago<br />('.make_utc_date($set['draft_date']).')</td>';
-    echo '<td class="textcell">'.getDays($set['proposal_date']).' days ago<br /> ('.make_utc_date($set['proposal_date']).')</td>';
-    echo '<td class="textcell">'.getDays($set['vote_date']).' days ago<br /> ('.make_utc_date($set['vote_date']).')</td>';
+    echo '<td class="textcell">'.getDays($set['draft_date']).' days ago<br />('.format_date($set['draft_date']).')</td>';
+    echo '<td class="textcell">'.getDays($set['proposal_date']).' days ago<br /> ('.format_date($set['proposal_date']).')</td>';
+    echo '<td class="textcell">'.getDays($set['vote_date']).' days ago<br /> ('.format_date($set['vote_date']).')</td>';
     if ($set['longened_date'] > 1000) {
-        echo '<td class="textcell">'.getDays($set['longened_date']).' days ago<br /> ('.make_utc_date($set['longened_date']).')</td>';
+        echo '<td class="textcell">'.getDays($set['longened_date']).' days ago<br /> ('.format_date($set['longened_date']).')</td>';
     } else {
         echo '<td class="textcell">-</td>';
     }
-    
+
     echo '<td class="textcell">'.user_link($set['user_handle']).'</td>';
     echo '<td class="textcell"><a href="/search.php?q='.
             urlencode(str_replace('_', ' ', strtolower($set['pkg_name']))).

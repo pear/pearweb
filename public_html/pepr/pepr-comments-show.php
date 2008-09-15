@@ -156,7 +156,7 @@ if (is_array($comments) && (count($comments) > 0)) {
         }
         echo '<li><p style="margin: 0em 0em 0.3em 0em;">';
         echo user_link($comment->user_handle, true);
-        echo ' [' . make_utc_date($comment->timestamp) . ']</p>';
+        echo ' [' . format_date($comment->timestamp) . ']</p>';
         echo nl2br(htmlentities(trim($comment->comment))) . "\n</li>";
     }
     echo "   </ul>\n";

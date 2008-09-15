@@ -228,7 +228,7 @@ if ($proposal != null) {
             $form->addElement('static', 'next_stage', '',
                               'You can set &quot;' . @$next_stage_text
                               . '&quot; after '
-                              . make_utc_date($timeline) . '.');
+                              . format_date($timeline) . '.');
         }
     }
 }
@@ -261,7 +261,7 @@ function checkLinkTypeAndUrl($link, $linkCount) {
         return preg_match('@^http\://@i', $url) ? true: false;
     }
 
-    return '' == $url? true: false;
+    return '' == $url? true : false;
 }
 
 $form->registerRule('checkLinkTypeAndUrl', 'callback', 'checkLinkTypeAndUrl');
@@ -386,8 +386,7 @@ if (!empty($_GET['next_stage'])) {
             break;
     }
     if ($karma->has($auth_user->handle, 'pear.pepr.admin')) {
-        $bbox[] = 'Your changes were recorded and necessary emails'
-                . ' were sent.';
+        $bbox[] = 'Your changes were recorded and necessary emails were sent.';
     }
     if ($bbox) {
         report_success(implode(' ', $bbox));
@@ -399,9 +398,6 @@ if (!empty($_GET['next_stage'])) {
 }
 
 display_pepr_nav($proposal);
-
 $form->display();
 
 response_footer();
-
-?>

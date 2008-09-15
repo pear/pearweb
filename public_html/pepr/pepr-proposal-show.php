@@ -108,7 +108,7 @@ if ($proposal->status == 'finished') {
         $pepr_end += PROPOSAL_STATUS_VOTE_TIMELINE;
     }
     echo '    <li>Voting Will End: ';
-    echo make_utc_date($pepr_end);
+    echo format_date($pepr_end);
     echo "</li>\n";
 }
 
@@ -174,26 +174,26 @@ foreach ($proposal->links as $link) {
   <td class="ulcell" valign="top">
    <ul>
     <li>
-     First Draft: <?php echo make_utc_date($proposal->draft_date, 'Y-m-d') ?>
+     First Draft: <?php echo format_date($proposal->draft_date, 'Y-m-d') ?>
     </li>
 
 <?php
 
 if ($proposal->proposal_date) {
     echo '    <li>';
-    echo 'Proposal: ' . make_utc_date($proposal->proposal_date, 'Y-m-d');
+    echo 'Proposal: ' . format_date($proposal->proposal_date, 'Y-m-d');
     echo "</li>\n";
 }
 
 if ($proposal->vote_date) {
     echo '    <li>';
-    echo 'Call for Votes: ' . make_utc_date($proposal->vote_date, 'Y-m-d');
+    echo 'Call for Votes: ' . format_date($proposal->vote_date, 'Y-m-d');
     echo "</li>\n";
 }
 
 if ($proposal->longened_date) {
     echo '    <li>';
-    echo 'Voting Extended: ' . make_utc_date($proposal->longened_date, 'Y-m-d');
+    echo 'Voting Extended: ' . format_date($proposal->longened_date, 'Y-m-d');
     echo "</li>\n";
 }
 
@@ -205,9 +205,7 @@ if ($proposal->longened_date) {
 
 <?php
 
-if ($changelog = @ppComment::getAll($proposal->id,
-                                    'package_proposal_changelog'))
-{
+if ($changelog = @ppComment::getAll($proposal->id, 'package_proposal_changelog')) {
     echo "<ul>\n";
     include_once 'pear-database-user.php';
     foreach ($changelog as $comment) {
@@ -216,7 +214,7 @@ if ($changelog = @ppComment::getAll($proposal->id,
         }
         echo '<li><p style="margin: 0em 0em 0.3em 0em; font-size: 90%;">';
         echo htmlspecialchars($userinfo[$comment->user_handle]['name']);
-        echo '<br />[' . make_utc_date($comment->timestamp) . ']</p>';
+        echo '<br />[' . format_date($comment->timestamp) . ']</p>';
 
         switch ($proposal->markup) {
             case 'wiki':
@@ -241,5 +239,3 @@ echo "  </td>\n </tr>\n";
 echo "</table>\n";
 
 response_footer();
-
-?>
