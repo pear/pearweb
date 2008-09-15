@@ -25,7 +25,7 @@ response_header('ActiveState Active Award for Stig Bakken');
 
 [July 11, 2003]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
 
 <p>
  <?php echo user_link('ssb'); ?>

@@ -25,7 +25,7 @@ response_header('Announcing the PEAR Group');
 
 [August 20, 2003]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
 
 <p>
  On 12th August 2003 <?php echo user_link('ssb', true); ?>, the founder of PEAR, announced
