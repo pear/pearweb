@@ -144,9 +144,9 @@ response_header('PEAR Administration');
 
 // {{{ adding and deleting notes
 if (!empty($_REQUEST['cmd'])) {
-    if ($_REQUEST['cmd'] == "Add note" && !empty($_REQUEST['note']) && !empty($_REQUEST['key']) && !empty($_REQUEST['id'])) {
+    if ($_REQUEST['cmd'] == "Add note" && !empty($_REQUEST['note']) && !empty($_REQUEST['id'])) {
         include_once 'pear-database-note.php';
-        note::add($_REQUEST['key'], $_REQUEST['id'], $_REQUEST['note']);
+        note::add($_REQUEST['id'], $_REQUEST['note']);
         unset($_REQUEST['cmd']);
 
     } elseif ($_REQUEST['cmd'] == "Delete note" && !empty($_REQUEST['id'])) {
@@ -318,7 +318,6 @@ do {
 	    print "$i   To add a note, enter it here:<br />\n";
 	    print "$i    <textarea rows=\"3\" cols=\"55\" name=\"note\"></textarea><br />\n";
 	    print "$i   <input type=\"submit\" value=\"Add note\" name=\"cmd\" />\n";
-	    print "$i   <input type=\"hidden\" name=\"key\" value=\"uid\" />\n";
 	    print $i . '   <input type="hidden" name="id" value="' . $requser['handle'] . "\" />\n";
 	    print "$i   <input type=\"hidden\" name=\"acreq\" value=\"$acreq\" />\n";
 	    print "$i  </td>\n";
@@ -557,4 +556,3 @@ foreach ($reasons as $reason) {
 } while (false);
 
 response_footer();
-?>
