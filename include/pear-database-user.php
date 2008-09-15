@@ -7,7 +7,7 @@ class user
         global $dbh;
 
         include_once 'pear-database-note.php';
-        note::removeAll('uid', $uid);
+        note::removeAll($uid);
         $GLOBALS['pear_rest']->deleteMaintainerREST($uid);
         $GLOBALS['pear_rest']->saveAllMaintainersREST();
         $dbh->query('DELETE FROM users WHERE handle = ?', array($uid));
@@ -21,7 +21,7 @@ class user
                                     array($uid));
 
         include_once 'pear-database-note.php';
-        note::add("uid", $uid, "Account rejected: $reason");
+        note::add($uid, "Account rejected: $reason");
         $msg = "Your PEAR account request was rejected by " . $auth_user->handle . ":\n\n".
              "$reason\n";
         $xhdr = 'From: ' . $auth_user->handle . '@php.net';
@@ -46,7 +46,7 @@ class user
         @$arr = unserialize($user['userinfo']);
 
         include_once 'pear-database-note.php';
-        note::removeAll('uid', $uid);
+        note::removeAll($uid);
 
         $data = array();
         $data['registered'] = 1;
@@ -68,7 +68,7 @@ class user
         }
 
         include_once 'pear-database-note.php';
-        note::add("uid", $uid, "Account opened");
+        note::add($uid, "Account opened");
         $msg = "Your PEAR account request has been opened.\n".
              "To log in, go to http://" . PEAR_CHANNELNAME . "/ and click on \"login\" in\n".
              "the top-right menu.\n";
@@ -95,15 +95,6 @@ class user
         global $dbh;
         $karma = new Damblan_Karma($dbh);
         return $karma->has($handle, 'pear.qa');
-    }
-
-    static function listAdmins()
-    {
-        require_once 'Damblan/Karma.php';
-
-        global $dbh;
-        $karma = new Damblan_Karma($dbh);
-        return $karma->getUser('pear.admin');
     }
 
     static function exists($handle)
@@ -303,6 +294,7 @@ class user
             'password'   => $md5pw,
             'registered' => 0,
             'userinfo'   => $userinfo,
+            'from_site'  => SITE,
         );
 
         $dbh->expectError(DB_ERROR_CONSTRAINT);
@@ -312,7 +304,7 @@ class user
             INSERT INTO users
                 (handle, name, email, homepage, showemail, password, registered, userinfo, from_site)
             VALUES
-                (?, ?, ?, ?, ?, ?, ?, ?, "pear")';
+                (?, ?, ?, ?, ?, ?, ?, ?, ?)';
 
         $err = $dbh->query($sql, $set_vars);
         $dbh->popExpect();
