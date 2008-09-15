@@ -18,6 +18,9 @@
  * @version   $Id$
  */
 
+// Have this style sheet included in all bug pages.
+extra_styles('/css/bugs.css');
+
 /**
  * Obtain the functions and variables used throughout the bug system
  */

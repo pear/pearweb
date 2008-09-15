@@ -23,10 +23,6 @@
  * DEFINE VARIABLES ============================
  */
 
-// Have this style sheet included in all bug pages.
-extra_styles('/css/bugs.css');
-$bugEmail = PEAR_QA_EMAIL;
-
 /* update include/bugs/pear-bug-accountrequest.php if these change! */
 // used in mail_bug_updates(), below, and class for search results
 $tla = array(
@@ -99,7 +95,7 @@ if (SITE == 'pear') {
  *
  * @return string  the sanitized string
  *
- * @see escapeSQL(), txfield()
+ * @see txfield()
  */
 function clean($in)
 {
@@ -108,9 +104,6 @@ function clean($in)
 
 /**
  * Escape strings so they can be used as literals in queries
- *
- * If magic_quotes_gpc is on, the slashes are stripped out
- * then the escaping is done.
  *
  * @param string|array $in  the data to be sanitized.  If it's an array, each
  *                           element is sanitized.
@@ -144,7 +137,7 @@ function escapeSQL($in)
  *
  * @return mixed  the data requested
  *
- * @see clean(), escapeSQL(), txfield()
+ * @see clean(), txfield()
  */
 function field($n, $bug) {
     return clean(isset($_POST['in']) ? $_POST['in'][$n] : $bug[$n]);
@@ -161,7 +154,7 @@ function field($n, $bug) {
  *
  * @return mixed  the data requested
  *
- * @see clean(), escapeSQL()
+ * @see clean()
  */
 function txfield($n, $bug = null, $in = null)
 {
