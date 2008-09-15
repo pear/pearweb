@@ -32,7 +32,8 @@ of the following individuals (in no particular order):</p>
   <li><a href="/user/jeichorn" title="Joshua Eichorn">Joshua Eichorn</a></li>
   <li><a href="/user/cweiske" title="Christian Weiske">Christian Weiske</a> [Vice President]</li>
   <li><a href="/user/dufuz" title="Helgi &THORN;ormar &THORN;orbjoernsson">Helgi &THORN;ormar &THORN;orbjoernsson</a></li>
-  <li><a href="/user/bbieber" title="Brett Bieber">Brett Bieber</a></li>
+  <li><a href="/user/saltybeagle" title="Brett Bieber">Brett Bieber</a></li>
+  <li><a href="/user/tswicegood" title="Travis Swicegood">Travis Swicegood</a></li>
 </ul>
 
 <p>
