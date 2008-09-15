@@ -269,7 +269,7 @@ class PEAR_Auth
         } elseif (isset($this->handle)) {
             $ret = strtolower($this->handle);
         } else {
-            return false;
+            $ret = false;
         }
         return (strtolower($handle) == $ret);
     }
@@ -280,7 +280,7 @@ class PEAR_Auth
             return false;
         }
         require_once 'pear-database-user.php';
-        return (user::isAdmin($this->handle));
+        return user::isAdmin($this->handle);
     }
 
     function isQA()
