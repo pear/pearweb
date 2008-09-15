@@ -46,8 +46,7 @@ if (!in_array($state, $states)) {
 include_once 'pear-database-package.php';
 $pck = new package();
 
-$packages = $pck->listAll(false, false, false, $state);
-
+$packages = $pck->listAll(false, false);
 if (PEAR::isError($packages)) {
     report_error('Cannot list packages');
     response_footer();
@@ -61,9 +60,9 @@ $time_scale = 15552000; // how much time elapsed since last release, in seconds
 
 $tables[$state]['old'] = new HTML_Table(
     array(
-	'id'          => 'old',
-	'cellspacing' => 0,
-	'class'       => 'sortable'
+        'id'          => 'old',
+        'cellspacing' => 0,
+        'class'       => 'sortable'
     )
 );
 $tables[$state]['old']->setCaption(
@@ -97,14 +96,13 @@ foreach ($packages as $package => $pck_data) {
     $total_packages_nbr++;
 
     $latest_release = $pck->getRecent(1, $package);
-
     if (PEAR::isError($latest_release) || count($latest_release) == 0) {
         continue;
     }
 
     // we just want to see the packages for a given state
     if ($latest_release[0]['state'] != $state) {
-	continue;
+        continue;
     }
 
     $release_date = strtotime($latest_release[0]['releasedate']);
