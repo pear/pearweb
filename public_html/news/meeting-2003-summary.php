@@ -24,7 +24,7 @@ response_header();
 
 [May 16, 2003]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
 
 <h2>&raquo; Introduction</h2>
 

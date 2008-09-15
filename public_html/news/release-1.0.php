@@ -25,7 +25,7 @@ response_header('PEAR 1.0 is released!');
 
 [December 27, 2002]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
 </p>
 As of PHP 4.3.0, PEAR is an officially supported
 part of PHP.  From this release, the PEAR installer with all its

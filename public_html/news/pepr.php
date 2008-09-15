@@ -25,7 +25,7 @@ response_header('Announcing PEPr');
 
 [January 25, 2004]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
  <p>
   As of today (25th January 2004) <?php echo make_link('/pepr/', 'PEPr'); ?>
   is the official tool to handle all proposals for new packages in

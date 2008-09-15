@@ -25,7 +25,7 @@ response_header('Own website for PECL');
 
 [October 15, 2003]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
 <p>
  PECL, formerly known as PHP Extension Code Library, has been renamed
  to PHP Extension Community Library. Additionally all PECL related

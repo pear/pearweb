@@ -25,7 +25,7 @@ response_header('PEAR elects its first president');
 
 [May 4, 2007]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
  <p>
   On May 1, 2007, The PEAR community officially elected
   <a href="/user/cellog" title="PEAR President">Gregory Beaver</a>

@@ -25,7 +25,7 @@ response_header('Innovating the future: Package.xml 1.0 and PEAR 1.3.6 are offic
 
 [February 1, 2007]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
  <p>
   If you are using PEAR 1.3.6 or older, you will no longer be able to install or upgrade
   packages as of January 1, 2008.  On this day, the XML-RPC server at pear.php.net will be

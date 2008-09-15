@@ -24,7 +24,7 @@ response_header();
 
 [March 20, 2003]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
 We will hold the first PEAR Meeting (following the
 <a href="http://www.phpconference.com/">Int. PHP Conference</a>) in
 Amsterdam on May 9th at 17:30.

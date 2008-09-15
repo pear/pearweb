@@ -25,7 +25,7 @@ response_header('First democratically elected PEAR Group');
 
 [May 4, 2007]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
 <p>
 For the first time in its history, PEAR has a new PEAR Group.  Following on the
 heels of the adoption of the <a href="/manual/en/constitution.php">Constitution</a>,

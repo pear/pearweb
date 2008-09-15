@@ -25,13 +25,13 @@ response_header('Weekly Summaries');
 
 [March 29, 2004]
 
-<div style="margin-left:2em;margin-right:2em">
-
-<p><a href="http://zend.com/">Zend.com</a> is now featuring a dedicated
-section for a <a href="http://www.zend.com/zend/pear/">weekly summary</a>
-about the events on the PEAR mailing lists.  Do not miss to inspect this
-fine resource regularly.</p>
-
+<div id="news-entry">
+ <p>
+  <a href="http://zend.com/">Zend.com</a> is now featuring a dedicated
+  section for a <a href="http://www.zend.com/zend/pear/">weekly summary</a>
+  about the events on the PEAR mailing lists.  Do not miss to inspect this
+  fine resource regularly.
+ </p>
 </div>
 <?php
 response_footer();

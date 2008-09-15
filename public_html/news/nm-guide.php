@@ -25,7 +25,7 @@ response_header('New Maintainer&#39;s Guide');
 
 [August 3, 2004]
 
-<div style="margin-left:2em;margin-right:2em">
+<div id="news-entry">
  <p>
   The online manual is now featuring the
   <a href="/manual/en/guide-newmaint.php">New Maintainer&#39;s Guide</a>.
