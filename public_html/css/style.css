@@ -544,6 +544,79 @@ div.success ul {
     font-weight: normal;
 }
 
+/* ========= Package download styles ========= */
+/* Applies to http://pearweb/package/foo/download (package-info.php) */
+table#download-releases {
+    width: 100%;
+}
+
+table#download-releases tr.featured-release {
+    border-collapse: separate;
+    border: 1px solid #DCDCDC;
+    border-spacing: 1px;
+}
+
+table#download-releases tr.featured-release td {
+    border-top: 1px solid #DCDCDC;
+    padding-top: 1.0em;
+    padding-bottom: 0.5em;
+    padding-right: 2.0em;
+}
+
+table#download-releases tr.featured-release .action-hint {
+    font-size: 0.8em;
+    color: #969696;
+    margin-top: 0.1em;
+}
+
+table#download-releases tr.featured-release p.action-hint {
+    margin-bottom: 0 !important;
+}
+
+table#download-releases tr.featured-release .action-hint a {
+    text-decoration: none !important;
+}
+
+table#download-releases tr.featured-release .textcell {
+    width: 20%;
+}
+
+table#download-releases tr.featured-release .package-download-action {
+    margin-bottom: 2.0em;
+    float: left;
+    margin-right: 2.0em;
+    border-left: 1px solid #F0F0F0;
+    padding-left: 0.75em;
+}
+
+table#download-releases tr.featured-release .action {
+    display: block;
+    margin-top: 0.1em;
+    margin-left: 1.5em;
+}
+
+table#download-releases tr.featured-release kbd {
+    background-color: #F0F0F0;
+    padding: 0.1em;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+}
+
+table#download-releases tr.normal-release  {
+    border-bottom: 1px solid #FAFAFA;
+    background-color: #FDFDFD;
+}
+
+table#download-releases .stable {}
+
+table#download-releases .beta {
+    color: #FF6600;
+}
+
+table#download-releases .alpha, table#download-releases .devel {
+    color: red;
+}
+
 /* ========= Other ========= */
 
 a:link, a:visited {

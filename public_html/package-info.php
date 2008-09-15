@@ -494,28 +494,50 @@ if (empty($action)) {
 
     $i = 0;
 
-    echo '<a href="/package/' . htmlspecialchars($name) . '/download/All">Show All Changelogs</a>';
-    echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
-    echo ' <tr>';
-    echo '  <th style="width: 20%">&raquo; Version</th>';
-    echo '  <th>&raquo; Information</th>';
+    echo '<p><a href="/package/' . htmlspecialchars($name) . '/download/All">Show All Changelogs</a></p>
+    <table id="download-releases">
+     <tr>
+      <th>&raquo; Version</th>
+      <th>&raquo; Information</th>';
     echo "</tr>\n";
 
     foreach ($pkg['releases'] as $release_version => $info) {
-        echo " <tr>\n";
+        $first = ($i++ == 0 && empty($version));
+        $featured = $show_all || $first || $release_version === $version;
+        $td_class = $featured? 'featured-release' : 'normal-release';
 
-        if ($show_all || ($i++ == 0 && empty($version)) || $release_version === $version) {
+        echo ' <tr class="' . $td_class . '">' . "\n";
+        if ($featured) {
+
             // Detailed view
+            ?>
+            <td class="textcell">
+                <?php echo make_link('/package/' . htmlspecialchars($name) . '/download/' . $release_version, $release_version); ?>
+            </td>
+            <td>
+                <div class="package-download-action">
+                    <h4>Easy Install</h4>
+                    <p class="action-hint">Not sure? Get <a href="/manual/en/installation.php">more info</a>.</p>
+                    <p class="action"><kbd>pear install <?php echo htmlspecialchars($name); ?>-<?php echo $release_version; ?></kbd></p>
+                </div>
 
-            echo '<td>' . $release_version . '</td>';
-            echo '<td>';
-            echo '<a href="http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $release_version . '.tgz"><b>Download</b></a><br /><br />';
-            echo '<b>Release date:</b> ' . format_date(strtotime($info['releasedate'])) . '<br />';
-            echo '<b>Release state:</b> ' . htmlspecialchars($info['state']) . '<br /><br />';
-            echo '<b>Changelog:</b><br /><br />' . nl2br(make_ticket_links(htmlspecialchars($info['releasenotes']))) . '<br /><br />';
+                <div class="package-download-action download">
+                    <h4>Download</h4>
+                    <p class="action-hint">For manual installation only</p>
+                    <p class="action">
+                        <?php print make_link('http://download.pear.php.net/package/' . htmlspecialchars($name) . '-' . $release_version . '.tgz',
+                                              $release_version); ?>
+                    </p>
+                </div>
+                <br style="clear: both;" />
+            <?php
+            echo '<strong>Release date:</strong> ' . format_date(strtotime($info['releasedate'])) . '<br />';
+            echo '<strong>Release state:</strong> ';
+            echo '<span class="' . htmlspecialchars($info['state']) . '">' . htmlspecialchars($info['state']) . '</span><br /><br />';
+            echo '<strong>Changelog:</strong><br /><br />' . nl2br(make_ticket_links(htmlspecialchars($info['releasenotes']))) . '<br /><br />';
 
             if (!empty($info['deps']) && count($info['deps']) > 0) {
-                echo '<b>Dependencies:</b>';
+                echo '<strong>Dependencies:</strong>';
 
                 $rel_trans = array('lt' => 'older than %s',
                                    'le' => 'version %s or older',
@@ -563,7 +585,9 @@ if (empty($action)) {
                     $dep_text .= '</li>';
                 }
 
-                echo '<ul>' . $dep_text . '</ul>';
+                if (!empty($dep_text)) {
+                    echo '<ul>' . $dep_text . '</ul>';
+                }
 
             }
 
@@ -571,8 +595,14 @@ if (empty($action)) {
 
         } else {
             // Simple view
-            echo '  <td><a href="/package/' . htmlspecialchars($name) . '/download/' . $release_version . '">' . $release_version . "</a></td>\n";
-            echo '  <td>' . format_date(strtotime($info['releasedate']), 'Y-m-d') . ' &nbsp; &nbsp; ' . htmlspecialchars($info['state']) . "</td>\n";
+            echo '<td><p>';
+            echo make_link('/package/' . htmlspecialchars($name) . '/download/' . $release_version, $release_version);
+            echo "</p></td>\n";
+
+            echo '<td>';
+            echo '<strong>' . format_date(strtotime($info['releasedate']), 'Y-m-d') . '</strong><br />';
+            echo '<span class="' . htmlspecialchars($info['state']) . '">' . htmlspecialchars($info['state']) . '</span>';
+            echo "</td>\n";
         }
 
         echo " </tr>\n";
