@@ -131,8 +131,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             $where_clause .= " AND bugdb.status='$status'";
             break;
         case 'Old Feedback':
-            $where_clause .= " AND bugdb.status='Feedback'" .
-                             ' AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 60';
+            $where_clause .= " AND bugdb.status = 'Feedback'" .
+                             ' AND TO_DAYS(NOW()) - TO_DAYS(bugdb.ts2) > 60';
             break;
         case 'Fresh':
             $where_clause .= ' AND bugdb.status NOT IN' .
@@ -142,7 +142,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
         case 'Stale':
             $where_clause .= ' AND bugdb.status NOT IN' .
                              " ('Closed', 'Duplicate', 'Bogus')" .
-                             ' AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) > 30';
+                             ' AND TO_DAYS(NOW()) - TO_DAYS(bugdb.ts2) > 30';
             break;
         case 'Not Assigned':
             $where_clause .= ' AND bugdb.status NOT IN' .

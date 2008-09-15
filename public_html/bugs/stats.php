@@ -66,7 +66,7 @@ if ($auth_user) {
     }
 }
 
-$query  = 'SELECT b.package_name, b.status, COUNT(*) AS quant'
+$query  = 'SELECT b.package_name, b.status, COUNT(b.id) AS quant'
         . ' FROM bugdb AS b';
 
 $from = ' LEFT JOIN packages AS p ON p.name = b.package_name';
@@ -91,7 +91,7 @@ switch (SITE) {
                     . " OR b.package_name IN ('"
                     . implode("', '", $pseudo_pkgs) . "'))";
         } else {
-            $where = " WHERE p.package_type = 'pear'";
+            $where = " WHERE p.package_type = " . $dbh->quoteSmart(SITE);
         }
         break;
     default:
@@ -143,7 +143,7 @@ if ($total > 0) {
 }
 
 
-$_SERVER['QUERY_STRING'] ? $query_string = '?' . $_SERVER['QUERY_STRING'] : '';
+$query_string = $_SERVER['QUERY_STRING'] ? '?' . $_SERVER['QUERY_STRING'] : '';
 
 
 // Fetch list of all categories
@@ -156,13 +156,12 @@ $res = category::listAll();
  <tr>
   <td style="white-space: nowrap">
    <form method="get" action="stats.php<?php echo $query_string ?>">
-   <strong>
+   <p><strong>
     <label for="category" accesskey="o">
      Categ<span class="accesskey">o</span>ry:
     </label>
    </strong>
-   <select class="small" name="category" id="category"
-           onchange="this.form.submit(); return false;">
+   <select class="small" id="category" onchange="this.form.submit(); return false;">
     <option value=""
 <?php
 
@@ -172,11 +171,8 @@ if (!$category) {
 echo '>All</option>' . "\n";
 
 foreach ($res as $row) {
-    echo '    <option value="' . $row['name'] . '"';
-    if ($category == $row['name']) {
-        echo ' selected="selected"';
-    }
-    echo '>' . $row['name'] . '</option>' . "\n";
+    $s = $category == $row['name'] ? ' selected="selected"' : '';
+    echo '    <option value="' . $row['name'] . '"'.$s.'>' . $row['name'] . '</option>' . "\n";
 }
 
 ?>
@@ -184,10 +180,15 @@ foreach ($res as $row) {
    </select>
 
    <strong>Developer:</strong>
-   <select class="small" name="developer" id="developers"
-           onchange="this.form.submit(); return false;">
+   <select class="small" id="developers" onchange="this.form.submit(); return false;">
     <option value=""
 <?php
+if (!$developer) {
+    echo ' selected="selected"';
+    $developer = '';
+}
+
+echo '>All</option>' . "\n";
 
 /*
  * Fetch list of developers
@@ -197,19 +198,9 @@ $users =& $dbh->query('SELECT u.handle AS handle, u.name AS name'
                       . ' WHERE u.handle = m.handle'
                       . ' GROUP BY handle ORDER BY u.name');
 
-if (!$developer) {
-    echo ' selected="selected"';
-    $developer = '';
-}
-
-echo '>All</option>' . "\n";
-
 while ($u = $users->fetchRow(DB_FETCHMODE_ASSOC)) {
-    echo '    <option value="' . $u['handle'] . '"';
-    if ($developer == $u['handle']) {
-        echo ' selected="selected"';
-    }
-    echo '>' . $u['name'] . '</option>' . "\n";
+    $s = $developer == $u['handle'] ? ' selected="selected"' : '';
+    echo '    <option value="' . $u['handle'] . '"'.$s.'>' . $u['name'] . '</option>' . "\n";
 }
 
 ?>
@@ -217,15 +208,14 @@ while ($u = $users->fetchRow(DB_FETCHMODE_ASSOC)) {
    </select>
 
    <strong>Bug Type:</strong>
-   <select class="small" id="bug_type" name="bug_type"
-           onchange="this.form.submit(); return false;">
+   <select class="small" id="bug_type" onchange="this.form.submit(); return false;">
 
    <?php show_type_options($bug_type, true) ?>
 
    </select>
 
    <input class="small" type="submit" name="submitStats" value="Search" />
-   </form>
+   </p></form>
   </td>
  </tr>
 </table>
@@ -244,7 +234,7 @@ if ($total == 0) {
     exit;
 }
 
-echo display_stat_header($total, true);
+echo display_stat_header($total, true, $titles);
 
 echo " <tr>\n";
 echo '  <td class="bug_head">All' . "</td>\n";
@@ -269,7 +259,7 @@ foreach ($pkg[$sort_by] as $name => $value) {
     if ($name != 'all') {
         /* Output a new header row every 40 lines */
         if (($stat_row++ % 40) == 0) {
-            echo display_stat_header($total, false);
+            echo display_stat_header($total, false, $titles);
         }
         echo " <tr>\n";
         echo '  <td class="bug_head'.$class.'">' . package_link($name) . "</td>\n";
@@ -309,14 +299,14 @@ function bugstats($status, $name)
     } else {
         if (empty($pkg[$status][$name])) {
             return '&nbsp;';
-        } else {
-            return '<a href="search.php?cmd=display&amp;'.
-                   'bug_type='.$bug_type.'&amp;status=' .
-                   $status .
-                   '&amp;package_name%5B%5D=' . urlencode($name) .
-                   '&amp;by=Any&amp;limit=30'.$string.'">' .
-                   $pkg[$status][$name] . "</a>\n";
         }
+
+        return '<a href="search.php?cmd=display&amp;'.
+               'bug_type='.$bug_type.'&amp;status=' .
+               $status .
+               '&amp;package_name%5B%5D=' . urlencode($name) .
+               '&amp;by=Any&amp;limit=30'.$string.'">' .
+               $pkg[$status][$name] . "</a>\n";
     }
 }
 
@@ -345,17 +335,14 @@ function package_link($name)
     global $pseudo_pkgs;
 
     if (!in_array($name, $pseudo_pkgs)) {
-        return '<a href="/package/' . $name . '" class="bug_stats">' .
-               $name . '</a>';
-    } else {
-        return $name;
+        return '<a href="/package/' . $name . '" class="bug_stats">' . $name . '</a>';
     }
+
+    return $name;
 }
 
-function display_stat_header($total, $grandtotal = true)
+function display_stat_header($total, $grandtotal = true, $titles)
 {
-    global $titles;
-
     $stat_head  = " <tr>\n";
     if ($grandtotal) {
         $stat_head .= '  <th class="bug_header">Name</th>' . "\n";
@@ -371,5 +358,3 @@ function display_stat_header($total, $grandtotal = true)
     $stat_head .= '</tr>' . "\n";
     return $stat_head;
 }
-
-?>

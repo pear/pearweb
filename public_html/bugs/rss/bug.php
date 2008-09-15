@@ -17,8 +17,8 @@ $query  = "SELECT id,package_name,bug_type,email,sdesc,ldesc,php_version,
                   php_os,status,ts1,ts2,assign,package_version,handle,
                   UNIX_TIMESTAMP(ts1) as ts1a, UNIX_TIMESTAMP(ts2) as ts2a
                   FROM bugdb
-                  WHERE id=?
-                  AND registered=1";
+                  WHERE id = ?
+                  AND registered = 1";
 
 $res = $dbh->getAll($query, array($id), DB_FETCHMODE_ASSOC);
 
