@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.8.0alpha1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -83,8 +83,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-04-10</date>
- <time>15:02:20</time>
+ <date>2008-11-04</date>
+ <time>16:49:30</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -99,9 +99,6 @@ lala
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <dir name="config">
-     <file name="config.php.dist" role="php" />
-   </dir><!-- /config -->
    <dir name="cron">
     <dir name="mirror">
      <file name="download_stats.php" role="www" />
@@ -141,11 +138,6 @@ lala
      </dir> <!-- /include/Damblan/Log -->
      <dir name="Mail">
       <file name="Patch_Added.tpl.php" role="www" />
-      <file name="pearweb_account_request.tpl.php" role="www" />
-      <file name="pearweb_account_request_bug.tpl.php" role="www" />
-      <file name="pearweb_account_request_existing.tpl.php" role="www" />
-      <file name="pearweb_account_request_new.tpl.php" role="www" />
-      <file name="pearweb_account_request_vote.tpl.php" role="www" />
       <file name="Trackback_Approve.tpl.php" role="www" />
       <file name="Trackback_Delete.tpl.php" role="www" />
       <file name="Trackback_New.tpl.php" role="www" />
@@ -333,6 +325,9 @@ lala
      <file name="small_submit_white.gif" role="www" />
      <file name="spacer.gif" role="www" />
     </dir> <!-- /public_html/gifs -->
+    <dir name="group">
+     <file name="archive.php" role="www" />
+    </dir> <!-- /public_html/group -->
     <dir name="javascript">
      <dir name="TreeMenu">
       <file name="TreeMenu.js" role="www" />
@@ -556,8 +551,6 @@ lala
     <tasks:replace from="@php-dir@" to="php_dir" type="pear-config" />
     <tasks:replace from="@version@" to="version" type="package-info" />
    </file>
-   <file name="pearweb_election.php" role="www" />
-   <file name="pearweb_pepr.php" role="www" />
    <file name="README" role="www" />
    <file name="TODO" role="www" />
   </dir> <!-- / -->
@@ -2084,7 +2077,7 @@ Split off index-updated files into pearweb_index package</notes>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-04-10</date>
+   <date>2008-11-04</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 lala

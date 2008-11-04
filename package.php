@@ -18,6 +18,7 @@ $a = PEAR_PackageFileManager2::importOptions(
             'pearweb_*.php',
             'tests/',
             'weeklynews/',
+            'scripts/'
         ),
     ));
 

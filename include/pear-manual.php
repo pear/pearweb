@@ -259,7 +259,7 @@ function navigationBar($title, $id, $loc)
         echo '    Do you think that something on this page is wrong?';
         $package_name = getPackageNameForId($id);
         echo '    Please <a href="' . getBugReportLink($package_name) . '">file a bug report</a> ';
-        echo '    or <a href="/notes/add-note-form.php?redirect=' . htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8') . '&uri=' . htmlspecialchars($id) . '">add a note</a>. ';
+        echo '    or <a href="/notes/add-note-form.php?redirect=' . htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8') . '&amp;uri=' . htmlspecialchars(urlencode($id)) . '">add a note</a>. ';
         echo "\n";
         echo '   </td></tr>';
         echo "\n";
