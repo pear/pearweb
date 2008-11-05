@@ -123,7 +123,7 @@ function makeBorderTOC($this, $id = '')
         $class = ($indent) ? 'man-side_page_nested' : 'man-side_page';
         $RSIDEBAR_DATA .= "\n" . '  <li class="' . $class . '">'
                 . (($title == $this) ? "<strong>$title_fmt</strong>"
-                                     : make_link($url, $title_fmt));
+                                     : make_link($url, $title_fmt)) . '</li>';
 
         // after 'Class Summary' (or 'constructor', if 'Class Summary' doesn't
         // exist, we want to indent the methods
