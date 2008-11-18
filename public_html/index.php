@@ -89,7 +89,7 @@ this interface</a>.</p>
   the president of the project and became Greg Beaver's successor.
   <br /><br />
   You can see the result of the election "<a href="/election/info.php?election=10&results=1">at the election page</a>" or reach him at all times at <?php echo
-  make_mailto_link('president@pear.php.net'); ?>
+  make_mailto_link('pear-president@php.net'); ?>
  </p>
 
  <p>
