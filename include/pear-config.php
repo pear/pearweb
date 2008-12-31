@@ -72,20 +72,20 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
      */
     define('PEAR_AUTH_REALM', 'PEAR');
     // Where package tarballs can be found
-    define('PEAR_TARBALL_DIR', '/var/lib/pear');
+    define('PEAR_TARBALL_DIR', '/home/pear/packages');
     // Key file returning key for Akismet.com spam chek.
     define('TRACKBACK_AKISMET_KEY_FILE', '/usr/local/www/akismet.key');
     // Where the CHM builds of the manual are located
-    define('PEAR_CHM_DIR', '/var/lib/pear/chm/');
+    define('PEAR_CHM_DIR', '/home/pear/packages/chm/');
     /**
      * Location of the documentation automatically generated for each
      * package by phpDocumentor
      */
-    define('PEAR_APIDOC_DIR', '/var/lib/pear/apidoc/');
+    define('PEAR_APIDOC_DIR', '/home/pear/packages/apidoc/');
     // Where patches can be found
-    define('PEAR_PATCHES', '/var/lib/pear/patches/');
+    define('PEAR_PATCHES', '/home/pear/packages/patches/');
     // Where proposed patches reside
-    define('PEAR_CVS', '/var/lib/pear/patches/cvs/');
+    define('PEAR_CVS', '/home/pear/packages/patches/cvs/');
     /**
      * PEPr: the address of the PEAR Developer email list
      *
@@ -163,7 +163,7 @@ if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME ||!isset($_ENV['PEAR_BOX'])) {
 }
 
 if (!DEVBOX) {
-    define('PEAR_REST_PATH', '/var/lib/pearweb/rest');
+    define('PEAR_REST_PATH', '/home/pear/pearweb/rest');
 } else {
     define('PEAR_REST_PATH', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
             DIRECTORY_SEPARATOR . 'rest');
