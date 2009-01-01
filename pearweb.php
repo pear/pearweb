@@ -187,6 +187,7 @@ class pearweb_postinstall
      */
     function setupHttpdconf($answers)
     {
+        // TODO handle ports properly
         $eol = PHP_EOL;
         if (!realpath($answers['path']) || !file_exists($answers['path'])) {
             $this->_ui->outputData('No such file: "' . $answers['path'] . '"');
@@ -243,11 +244,11 @@ class pearweb_postinstall
         $middle[] = ' ServerName ' . $answers['pear'] . $eol;
         $middle[] = $eol;
         // apache requires all path separators to be "/" even on windows
-        $middle[] = ' DocumentRoot ' . str_replace('\\', '/', '@web-dir@') . '/public_html' . $eol;
+        $middle[] = ' DocumentRoot ' . str_replace('\\', '/', '@www-dir@') . '/public_html' . $eol;
         $middle[] = ' DirectoryIndex index.php index.html' . $eol;
         $middle[] = $eol;
         $middle[] = ' php_value include_path .' . PATH_SEPARATOR .
-            str_replace('\\', '/', '@web-dir@')
+            str_replace('\\', '/', '@www-dir@')
             . '/include' . PATH_SEPARATOR . str_replace('\\', '/', '@php-dir@') . $eol;
         $middle[] = ' php_value auto_prepend_file pear-prepend.php' . $eol;
         $middle[] = ' php_flag magic_quotes_gpc off' . $eol;
@@ -256,11 +257,11 @@ class pearweb_postinstall
         $middle[] = $eol;
         $middle[] = ' ErrorDocument 404 /error/404.php' . $eol;
         $middle[] = $eol;
-        $middle[] = ' Alias /package ' . str_replace('\\', '/', '@web-dir@')
+        $middle[] = ' Alias /package ' . str_replace('\\', '/', '@www-dir@')
             . '/public_html/package-info.php' . $eol;
-        $middle[] = ' Alias /user    ' . str_replace('\\', '/', '@web-dir@')
+        $middle[] = ' Alias /user    ' . str_replace('\\', '/', '@www-dir@')
             . '/public_html/account-info.php' . $eol;
-        $middle[] = ' Alias /sidebar/pear.gif ' . str_replace('\\', '/', '@web-dir@')
+        $middle[] = ' Alias /sidebar/pear.gif ' . str_replace('\\', '/', '@www-dir@')
             . '/public_html/gifs/pear_item.gif' . $eol;
         $middle[] = ' Alias /distributions/manual/chm /var/lib/pear/chm' . $eol;
         $middle[] = ' Alias /reference /var/lib/pear/apidoc' . $eol;

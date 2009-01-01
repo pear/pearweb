@@ -8,14 +8,15 @@ $a = PEAR_PackageFileManager2::importOptions(
         'baseinstalldir' => '/',
         'filelistgenerator' => 'cvs',
         'roles' => array('*' => 'www'),
-        'exceptions' => array('pearweb.php' => 'php'),
+        'exceptions' => array(
+            'pearweb.php' => 'php',
+        ),
         'simpleoutput' => true,
         'ignore' => array(
             '*.phar',
             'package-*.xml',
             'package.php',
             'package_*.php',
-            'pearweb_*.php',
             'tests/',
             'weeklynews/',
             'scripts/'
@@ -27,7 +28,7 @@ $a->setReleaseVersion('1.18.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-lala
+kjsfld
 ');
 $a->resetUsesrole();
 $a->clearDeps();
@@ -120,7 +121,7 @@ $script->addParamGroup(
     );
 
 $a->addPostinstallTask($script, 'pearweb.php');
-$a->addReplacement('pearweb.php', 'pear-config', '@web-dir@', 'web_dir');
+$a->addReplacement('pearweb.php', 'pear-config', '@www-dir@', 'www_dir');
 $a->addReplacement('pearweb.php', 'pear-config', '@php-dir@', 'php_dir');
 $a->addReplacement('pearweb.php', 'package-info', '@version@', 'version');
 $a->generateContents();
