@@ -195,7 +195,7 @@ echo '      <li>Rank: <strong><a href="/bugs/stats_dev.php">#' . $info['rank'] .
 echo '      <li>Average age of open bugs: <strong>' . $info['openage'] . ' days</strong></li>' . "\n";
 $url = '/bugs/search.php?handle=' . $handle . '&cmd=display&bug_type=Bug&status=OpenFeedback&showmenu=1';
 echo '      <li>Number of open bugs: <strong><a href="' . $url . '">' . $info['opencount'] . '</a></strong></li>' . "\n";
-echo '      <li>Assigned bugs relative to all maintained packages\' bugs: <strong>' .
+echo '      <li>Assigned bugs relative to all maintained packages bugs: <strong>' .
     round($info['assigned'] * 100) . '%</strong></li>' . "\n";
 echo '      <li>Number of submitted patches: <strong>' .
     $info['patches'] . '</strong></li>' . "\n";
