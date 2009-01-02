@@ -2,7 +2,7 @@
 <h1>Roadmap for Package <?php echo clean($this->package); ?></h1>
 <ul class="side_pages">
 <?php foreach ($this->roadmap as $info): ?>
- <li class="side_page"><a href="roadmap.php?package=<?php echo urlencode($info['package'])
+ <li><a href="roadmap.php?package=<?php echo urlencode($info['package'])
  ?>#a<?php echo $info['roadmap_version'] ?>"><?php echo $info['roadmap_version'] ?></a> (<a href="roadmap.php?edit=<?php echo $info['id']
  ?>">edit</a>|<a href="roadmap.php?delete=<?php echo $info['id']
  ?>" onclick="return confirm('Really delete roadmap <?php echo $info['roadmap_version']
@@ -18,7 +18,7 @@ if ($this->errors) {
 }
 ?>
 <h2><?php if ($this->isnew) { echo 'Create new'; } else { echo 'Edit'; } ?> Roadmap</h2>
-<form name="roadmapform" method="post" action="roadmap.php?<?php
+<form id="roadmapform" method="post" action="roadmap.php?<?php
     if ($this->isnew) {
         echo 'package=' . urlencode($this->info['package']) . '&new=1';
     } else {
@@ -72,4 +72,5 @@ if ($this->isnew && !empty($this->lastRelease)) {
 </table>
 <input type="submit" name="go" value="Save" />
 </form>
-<?php response_footer(); ?>
+<?php
+response_footer();
