@@ -115,9 +115,7 @@ class Manual_Notes
         $split = explode('<?php', $note);
         if (count($split) == 1) {
             // no PHP code
-            $this->dbc->query('UPDATE ' . $this->notesTableName . '
-                SET note_compiled=? WHERE note_id=?',
-            array(nl2br(htmlspecialchars($note)), $id));
+            $compiled = nl2br(htmlspecialchars($note));
         } else {
             // compile PHP code
             $compiled = nl2br(htmlspecialchars(array_shift($split)));
@@ -128,9 +126,9 @@ class Manual_Notes
                     $compiled .= nl2br(htmlspecialchars($segment[1]));
                 }
             }
-            $this->dbc->query('UPDATE ' . $this->notesTableName . '
-                SET note_compiled=? WHERE note_id=?', array($compiled, $id));
         }
+        $sql = 'UPDATE ' . $this->notesTableName . ' SET note_compiled = ? WHERE note_id = ?';
+        $this->dbc->query($sql, array($compiled, $id));
     }
     // {{{ public function getSingleCommentById
     /**
@@ -153,7 +151,6 @@ class Manual_Notes
              FROM {$this->notesTableName}
               WHERE note_id = ?";
         $res = $this->dbc->getRow($sql, array($noteId), DB_FETCHMODE_ASSOC);
-
         if (PEAR::isError($res)) {
             return $res;
         }
@@ -269,14 +266,13 @@ class Manual_Notes
 
         $sql = "
             UPDATE {$this->notesTableName}
-             SET note_approved   = ?
+             SET note_approved = ?
               WHERE $qs
               LIMIT ?
         ";
         $noteIdList[] = count($noteIdList);
 
         $res = $this->dbc->query($sql, $noteIdList);
-
         if (PEAR::isError($res)) {
             return $res;
         }
@@ -315,7 +311,6 @@ class Manual_Notes
         ";
 
         $res = $this->dbc->query($sql, array($url, $userName, $approved, $noteId));
-
         if (PEAR::isError($res)) {
             return $res;
         }
@@ -356,7 +351,6 @@ class Manual_Notes
         ";
 
         $res = $this->dbc->query($sql);
-
         if (PEAR::isError($res)) {
             return $res;
         }
@@ -379,7 +373,6 @@ class Manual_Notes
     function deleteSingleComment($note_id)
     {
         $res = $this->deleteComments(array($note_id));
-
         if (PEAR::isError($res)) {
             return $res;
         }
