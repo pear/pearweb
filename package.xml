@@ -84,7 +84,7 @@
   <active>yes</active>
  </developer>
  <date>2009-01-02</date>
- <time>07:19:16</time>
+ <time>10:15:13</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -148,16 +148,10 @@ kjsfld
       <file name="Trackback_New.tpl.php" role="www" />
      </dir> <!-- /include/Damblan/Mail -->
      <dir name="Search">
+      <file name="Lists.php" role="www" />
       <file name="Packages.php" role="www" />
-      <file name="Patch_Added.tpl.php" role="www" />
-      <file name="pearweb_account_request.tpl.php" role="www" />
-      <file name="pearweb_account_request_bug.tpl.php" role="www" />
-      <file name="pearweb_account_request_existing.tpl.php" role="www" />
-      <file name="pearweb_account_request_new.tpl.php" role="www" />
-      <file name="pearweb_account_request_vote.tpl.php" role="www" />
-      <file name="Trackback_Approve.tpl.php" role="www" />
-      <file name="Trackback_Delete.tpl.php" role="www" />
-      <file name="Trackback_New.tpl.php" role="www" />
+      <file name="PEPr.php" role="www" />
+      <file name="Site.php" role="www" />
       <file name="Users.php" role="www" />
      </dir> <!-- /include/Damblan/Search -->
      <file name="Karma.php" role="www" />
