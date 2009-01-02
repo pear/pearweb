@@ -88,7 +88,7 @@
 - Point the upgrade instructions to a Console Getops version that works for 1.3 users [dufuz]
  </notes>
  <contents>
-  <dir baseinstalldir="/" name="/">
+  <dir baseinstalldir="/pear.php.net/" name="/">
    <dir name="public_html">
     <dir name="about">
      <file name="credits.php" role="www" />

@@ -5,7 +5,7 @@ $a = PEAR_PackageFileManager2::importOptions(
     dirname(__FILE__) . '/package-qa.xml',
     array(
         'packagefile' => 'package-qa.xml',
-        'baseinstalldir' => '/',
+        'baseinstalldir' => '/pear.php.net/',
         'filelistgenerator' => 'cvs',
         'roles' => array('*' => 'www'),
         'simpleoutput' => true,

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.8.0alpha1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_manual</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website manual bits</summary>
@@ -71,8 +71,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-03-22</date>
- <time>22:09:27</time>
+ <date>2009-01-02</date>
+ <time>07:19:50</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.0</api>
@@ -86,7 +86,7 @@
 - split the manual code from pearweb [dufuz]
  </notes>
  <contents>
-  <dir baseinstalldir="/" name="/">
+  <dir baseinstalldir="/pear.php.net/" name="/">
    <dir name="cron">
     <file name="apidoc-queue.php" role="www" />
     <file name="find-documentation.php" role="www" />
@@ -181,7 +181,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-03-22</date>
+   <date>2009-01-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - split the manual code from pearweb [dufuz]

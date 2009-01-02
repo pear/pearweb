@@ -84,7 +84,7 @@
   <active>yes</active>
  </developer>
  <date>2009-01-02</date>
- <time>04:32:07</time>
+ <time>07:19:16</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -98,7 +98,7 @@
 kjsfld
  </notes>
  <contents>
-  <dir baseinstalldir="/" name="/">
+  <dir baseinstalldir="/pear.php.net/" name="/">
    <dir name="cron">
     <dir name="mirror">
      <file name="download_stats.php" role="www" />
@@ -435,9 +435,7 @@ kjsfld
     <file name="notes.sql" role="www" />
     <file name="packages.sql" role="www" />
     <file name="package_stats.sql" role="www" />
-    <file name="pearweb_election.xml" role="www" />
     <file name="pearweb_mdb2schema.xml" role="www" />
-    <file name="pearweb_pepr.xml" role="www" />
     <file name="pepr.sql" role="www" />
     <file name="process_mysqldump_for5.sh" role="www" />
     <file name="README" role="www" />

@@ -5,7 +5,7 @@ $a = PEAR_PackageFileManager2::importOptions(
     dirname(__FILE__) . '/package-manual.xml',
     array(
         'packagefile' => 'package-manual.xml',
-        'baseinstalldir' => '/',
+        'baseinstalldir' => '/pear.php.net/',
         'filelistgenerator' => 'cvs',
         'roles' => array('*' => 'www'),
         'exceptions' => array('pearweb_manual.php' => 'php'),

@@ -3,7 +3,7 @@ require_once 'PEAR/PackageFileManager2.php';
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-channel.xml',
     array(
-        'baseinstalldir' => '/',
+        'baseinstalldir' => '/pear.php.net/',
         'packagefile' => 'package-channel.xml',
         'filelistgenerator' => 'cvs',
         'roles' => array('*' => 'www'),

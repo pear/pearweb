@@ -57,7 +57,7 @@ You can download go-pear from http://pear.php.net/go-pear
  <notes>using PEAR-stable again
  simplified intro and installation instructions</notes>
  <contents>
-  <dir baseinstalldir="/" name="/">
+  <dir baseinstalldir="/pear.php.net/" name="/">
    <file baseinstalldir="/" name="public_html/go-pear" role="www">
     <tasks:replace from="@package_version@" to="version" type="package-info" />
    </file>

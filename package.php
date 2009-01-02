@@ -5,7 +5,7 @@ PEAR::setErrorHandling(PEAR_ERROR_DIE);
 $a = PEAR_PackageFileManager2::importOptions(
     $dir . '/package.xml',
     array(
-        'baseinstalldir' => '/',
+        'baseinstalldir' => '/pear.php.net/',
         'filelistgenerator' => 'cvs',
         'roles' => array('*' => 'www'),
         'exceptions' => array(
@@ -21,7 +21,8 @@ $a = PEAR_PackageFileManager2::importOptions(
             'weeklynews/',
             'scripts/'
         ),
-    ));
+    )
+);
 
 
 $a->setReleaseVersion('1.18.0');

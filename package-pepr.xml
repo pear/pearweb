@@ -72,7 +72,7 @@
   <active>yes</active>
  </developer>
  <date>2009-01-02</date>
- <time>04:33:30</time>
+ <time>07:19:56</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.0</api>
@@ -86,7 +86,7 @@
 - split the pepr code from pearweb [dufuz]
  </notes>
  <contents>
-  <dir baseinstalldir="/" name="/">
+  <dir baseinstalldir="/pear.php.net/" name="/">
    <dir name="cron">
     <file name="pepr.php" role="www" />
    </dir> <!-- /cron -->
