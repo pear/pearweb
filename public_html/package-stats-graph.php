@@ -25,8 +25,9 @@
  * TODO:
  *  o Dropdown on stats page to determine between
  *    monthly/weekly stats
- *  o Multiple releases per graph, ie side by side
- *    bar chart.
+ *  o Maybe add a piechart - not tho on the same data as we are providing atm
+ *    this would maybe show all releases and overall download on some nifty
+ *    layout or whatever
  */
 
 /*
@@ -66,7 +67,7 @@ $package_id   = (int)$_GET['pid'];
 $package_name = $dbh->getOne('SELECT name FROM packages WHERE id = ' . $package_id);
 $package_rel  = count($releases) === 1 ? $dbh->getOne('SELECT version FROM releases WHERE id = ' . (int)$releases[0]) : '';
 
-if (!isset($_GET['type']) OR empty($_GET['type'])) {
+if (!isset($_GET['type']) || empty($_GET['type'])) {
     $class = 'ezcGraphLineChart';
 } else {
     $type = strtolower(htmlspecialchars($_GET['type'], ENT_QUOTES));
@@ -130,7 +131,8 @@ foreach ($releases as $release) {
                    $package_id,
                    $release_clause = $release > 0 ? 'AND a.release_id = ' . (int) $release : '');
 
-    if ($result = $dbh->query($sql)) {
+    $result = $dbh->query($sql);
+    if ($result) {
         while ($row = $result->fetchRow(DB_FETCHMODE_ASSOC)) {
             $key = sprintf('%04d%02d', $row['dyear'], $row['dmonth']);
             if (!isset($x_axis[$key])) {
