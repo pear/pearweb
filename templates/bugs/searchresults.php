@@ -68,7 +68,7 @@ if (!function_exists('show_prev_next')) {
         echo '  <td>', htmlspecialchars($row['package_name']), '</td>' . "\n";
         echo '  <td>', htmlspecialchars(@$this->types[$row['bug_type']]), '</td>' . "\n";
         echo '  <td>', htmlspecialchars($row['status']);
-        if ($row['status'] == 'Feedback' && $row['unchanged'] > 0) {
+        if ($row['status'] == 'Feedback' && isset($row['unchanged']) && $row['unchanged'] > 0) {
             printf ("<br />%d day%s", $row['unchanged'], $row['unchanged'] > 1 ? 's' : '');
         }
         echo '</td>' . "\n";
