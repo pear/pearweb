@@ -49,7 +49,7 @@ function setupNavigation($data)
     $tstamp = gmdate('D, d M Y',getlastmod());
 }
 
-function makeBorderTOC($this, $id = '')
+function makeBorderTOC($id, $this = '')
 {
     global $NEXT, $PREV, $UP, $HOME, $TOC, $DOCUMENT_ROOT;
     global $RSIDEBAR_DATA, $LANG,$CHARSET;
@@ -168,7 +168,7 @@ function makeBorderTOC($this, $id = '')
     $RSIDEBAR_DATA .= "<!-- END MANUAL'S SIDEBAR TOC -->\n\n";
 }
 
-function navigationBar($title, $id, $loc)
+function navigationBar($id, $title, $loc)
 {
     global $NEXT, $PREV, $tstamp,$CHARSET;
 
@@ -334,25 +334,25 @@ function sendManualHeaders($charset, $lang)
         Header('Content-language: ' . $lang);
 }
 
-function manualHeader($title, $id = '')
+function manualHeader($id, $title = '')
 {
     global $HTDIG, $CHARSET;
 
-    makeBorderTOC($title, $id);
+    makeBorderTOC($id, $title);
 
     header('Content-Type: text/html; charset=' . $CHARSET);
     response_header('Manual :: ' . $title);
     # create links to plain html and other languages
     if (!$HTDIG) {
-        navigationBar($title, $id, 'top');
+        navigationBar($id, $title, 'top');
     }
 }
 
-function manualFooter($title, $id = '')
+function manualFooter($id, $title = '')
 {
     global $HTDIG;
     if (!$HTDIG) {
-        navigationBar($title, $id, 'bottom');
+        navigationBar($id, $title, 'bottom');
     }
 
     response_footer();
