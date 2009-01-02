@@ -23,6 +23,9 @@
         echo ' <a ' . $sel . 'href="?php=5">PHP 5+</a> |';
         $sel = $php == 'all' ? 'style="font-weight: bold;" ' : '';
         echo ' <a ' . $sel . 'href="?php=all">All PHP versions</a>';
+        if (!$catpid) {
+            echo ' | Total number of packages: ' . $totalpackages;
+        }
     ?>
 </div>
 
