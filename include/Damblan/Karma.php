@@ -40,10 +40,10 @@ class Damblan_Karma
      * @access public
      * @param  object Instance of PEAR::DB
      */
-    function Damblan_Karma($dbh, $logger = null, $observer = null)
+    public function __construct($dbh, $logger = null, $observer = null)
     {
-        $this->_dbh = $dbh;
-        $this->_logger = $logger;
+        $this->_dbh      = $dbh;
+        $this->_logger   = $logger;
         $this->_observer = $observer;
     }
 
@@ -58,7 +58,7 @@ class Damblan_Karma
      * @param  string Level
      * @return boolean
      */
-    function has($user, $level)
+    public function has($user, $level)
     {
         $levels = array();
 
@@ -95,17 +95,13 @@ class Damblan_Karma
             $levels = array('pear.admin', 'pear.group');
             break;
 
-        case 'doc.chm-upload' :
-            $levels = array('pear.doc.chm-upload', 'pear.group');
-            break;
-
         default :
             $levels = array($level);
             break;
 
         }
 
-        $query = "SELECT * FROM karma WHERE user = ? AND level IN (!)";
+        $query = 'SELECT * FROM karma WHERE user = ? AND level IN (!)';
 
         $sth = $this->_dbh->query($query, array($user, "'" . implode("','", $levels) . "'"));
         return ($sth->numRows() > 0);
@@ -119,7 +115,7 @@ class Damblan_Karma
      * @param  string Level
      * @return boolean
      */
-    function grant($user, $level)
+    public function grant($user, $level)
     {
         global $auth_user;
 
@@ -134,16 +130,16 @@ class Damblan_Karma
             return false;
         }
 
-        $id = $this->_dbh->nextId("karma");
+        $id = $this->_dbh->nextId('karma');
         if (DB::isError($id)) {
             return false;
         }
 
-        $query = "INSERT INTO karma VALUES (?, ?, ?, ?, NOW())";
+        $query = 'INSERT INTO karma VALUES (?, ?, ?, ?, NOW())';
         $sth = $this->_dbh->query($query, array($id, $user, $level, $auth_user->handle));
 
         if (!DB::isError($sth)) {
-            $this->_notify($auth_user->handle, $user, "Added level \"" . $level . "\"");
+            $this->_notify($auth_user->handle, $user, 'Added level "' . $level . '"');
             return true;
         }
 
@@ -158,7 +154,7 @@ class Damblan_Karma
      * @param  string Level
      * @return boolean
      */
-    function remove($user, $level)
+    public function remove($user, $level)
     {
         global $auth_user;
 
@@ -166,11 +162,11 @@ class Damblan_Karma
             return false;
         }
 
-        $query = "DELETE FROM karma WHERE user = ? AND level = ?";
+        $query = 'DELETE FROM karma WHERE user = ? AND level = ?';
         $sth = $this->_dbh->query($query, array($user, $level));
 
         if (!DB::isError($sth)) {
-            $this->_notify($auth_user->handle, $user, "Removed level \"" . $level . "\"");
+            $this->_notify($auth_user->handle, $user, 'Removed level "' . $level . '"');
             return true;
         }
 
@@ -184,9 +180,9 @@ class Damblan_Karma
      * @param  string Name of the user
      * @return array
      */
-    function get($user)
+    public function get($user)
     {
-        $query = "SELECT * FROM karma WHERE user = ?";
+        $query = 'SELECT * FROM karma WHERE user = ?';
         return $this->_dbh->getAll($query, array($user), DB_FETCHMODE_ASSOC);
     }
 
@@ -197,9 +193,9 @@ class Damblan_Karma
      * @param  string Level
      * @return array
      */
-    function getUsers($level)
+    public function getUsers($level)
     {
-        $query = "SELECT * FROM karma WHERE level = ?";
+        $query = 'SELECT * FROM karma WHERE level = ?';
         return $this->_dbh->getAll($query, array($level), DB_FETCHMODE_ASSOC);
     }
 
@@ -210,9 +206,9 @@ class Damblan_Karma
      * @return array Nested array containing the name of each leven and
      *               the number of occurrences of this level.
      */
-    function getLevels()
+    public function getLevels()
     {
-        $query = "SELECT level, COUNT(level) AS sum FROM karma GROUP BY level";
+        $query = 'SELECT level, COUNT(level) AS sum FROM karma GROUP BY level';
         return $this->_dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
     }
 
@@ -222,12 +218,12 @@ class Damblan_Karma
      * @access private
      * @return boolean False on error, true otherwise
      */
-    function _requireKarma()
+    private function _requireKarma()
     {
         global $auth_user;
 
-        if ($this->has($auth_user->handle, "global.karma.manager") == false) {
-            PEAR::raiseError("Insufficient privileges");
+        if ($this->has($auth_user->handle, 'global.karma.manager') === false) {
+            PEAR::raiseError('Insufficient privileges');
             return false;
         }
         return true;
@@ -245,7 +241,7 @@ class Damblan_Karma
      * @param  string Describes the type of karma update
      * @return void
      */
-    function _notify($admin_user, $user, $action)
+    private function _notify($admin_user, $user, $action)
     {
         require_once 'Damblan/Log.php';
         require_once 'Damblan/Log/Mail.php';
@@ -257,9 +253,9 @@ class Damblan_Karma
         }
         if (!DEVBOX && !$this->_observer) {
             $this->_observer = new Damblan_Log_Mail;
-            $this->_observer->setRecipients("pear-group@php.net");
+            $this->_observer->setRecipients(PEAR_GROUP_EMAIL);
             $this->_observer->setHeader("From", "\"PEAR Karma Manager\" <pear-sys@php.net>");
-            $this->_observer->setHeader("Reply-To", "<pear-group@php.net>");
+            $this->_observer->setHeader("Reply-To", "<" . PEAR_GROUP_EMAIL . ">");
             $this->_observer->setHeader("Subject", "[PEAR Group] Karma update");
             $this->_logger->attach($this->_observer);
         }
@@ -268,4 +264,3 @@ class Damblan_Karma
         $this->_logger->log($text);
     }
 }
-?>
