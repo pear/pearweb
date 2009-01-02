@@ -160,7 +160,8 @@ class category
     static function listPackages($category)
     {
         global $dbh;
-        $query = 'SELECT
+        $query = '
+            SELECT
                 p.id, p.name
             FROM
                 packages p, categories c
