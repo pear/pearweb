@@ -30,7 +30,7 @@ PEAR packages.</p>
 
 <ul class="spaced">
  <li>
-  <a href="http://codewalkers.com/forum/index.php?forum=pear">Codewalker</a>: PEAR Forum.
+  <a href="http://forums.codewalkers.com/pear-packages-47/">Codewalker</a>: PEAR Forum.
  </li>
  <li>
   <a href="http://www.pear-forum.org/">pear-forum.org</a>: forum dedicated to PEAR
