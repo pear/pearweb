@@ -624,14 +624,19 @@ if (empty($action)) {
 
     echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     echo '<tr>';
-    echo '<th>&raquo; End-user documentation</th>';
+    echo '<th width="50%">&raquo; End-user documentation</th>';
     echo '<th>&raquo; API documentation</th>';
     echo '</tr>';
     echo '<tr>';
-    echo '<td>';
+    echo '<td style="vertical-align: top">';
 
     if (!empty($doc_link)) {
         echo '<ul><li><a href="' . htmlspecialchars($doc_link) . '">End-user Documentation</a></li></ul>';
+
+        $tocfile = 'manual/en/packagetocs/' . strtolower($name) . '.htm';
+        if (file_exists($tocfile)) {
+            echo file_get_contents($tocfile);
+        }
     } else {
         echo '<p>No end-user documentation is available for this package.</p>';
     }
