@@ -374,10 +374,6 @@ kjsfld
      <file name="packages.php" role="www" />
     </dir> <!-- /public_html/tags -->
     <dir name="trackback">
-     <dir name="CVS">
-      <file name="admin.php" role="www" />
-      <file name="packages.php" role="www" />
-     </dir> <!-- /public_html/trackback/CVS -->
      <file name="trackback-admin.php" role="www" />
      <file name="trackback-overview.php" role="www" />
      <file name="trackback.php" role="www" />
