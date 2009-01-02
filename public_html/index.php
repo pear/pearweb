@@ -102,7 +102,7 @@ this interface</a>.</p>
    <li>Joe Stump</li>
    <li>Christian Weiske</li>
    <li>Chuck Burgess</li>
-   <li> Travis Swicegood</li>
+   <li>Travis Swicegood</li>
    <li>Brett Bieber</li>
   </ul>
 
