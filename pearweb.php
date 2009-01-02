@@ -108,7 +108,7 @@ class pearweb_postinstall
         $c['name'] = $answers['database'];
         $c['create'] = 1;
         $c['overwrite'] = 0;
-        $dir = opendir('@www-dir@/0pear.php.net/sql/.pearweb-upgrade');
+        $dir = opendir('@www-dir@/pear.php.net/sql/.pearweb-upgrade');
         $oldversion = false;
         while (false !== ($entry = readdir($dir))) {
             if ($entry[0] === '.') {
