@@ -52,8 +52,7 @@ if (!user::maintains($auth_user->handle, $_GET['id'], 'lead') &&
     !user::isAdmin($auth_user->handle) &&
     !user::isQA($auth_user->handle))
 {
-    report_error('Editing only permitted by package leads, PEAR Admins'
-                 . ' or PEAR QA');
+    report_error('Editing only permitted by package leads, PEAR Admins or PEAR QA');
     response_footer();
     exit;
 }
