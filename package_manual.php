@@ -74,7 +74,7 @@ $script->addParamGroup(
     );
 
 $a->addPostinstallTask($script, 'pearweb_election.php');
-$a->addReplacement('pearweb_election.php', 'pear-config', '@web-dir@', 'web_dir');
+$a->addReplacement('pearweb_election.php', 'pear-config', '@www-dir@', 'www_dir');
 $a->addReplacement('pearweb_election.php', 'pear-config', '@php-dir@', 'php_dir');
 $a->addReplacement('pearweb_election.php', 'package-info', '@version@', 'version');
 $a->clearContents();

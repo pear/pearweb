@@ -30,6 +30,7 @@ $a->setPhpDep('5.2.3');
 $a->setPearInstallerDep('1.7.1');
 $a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.1');
 $a->addPackageDepWithChannel('required', 'pearweb', 'pear.php.net', '1.18.0');
+$a->addPackageDepWithChannel('required', 'Text_Wiki', 'pear.php.net', '1.2.0');
 $a->addExtensionDep('required', 'pcre');
 $a->addExtensionDep('required', 'mysqli');
 
@@ -64,7 +65,7 @@ $script->addParamGroup(
     );
 
 $a->addPostinstallTask($script, 'pearweb_pepr.php');
-$a->addReplacement('pearweb_pepr.php', 'pear-config', '@web-dir@', 'web_dir');
+$a->addReplacement('pearweb_pepr.php', 'pear-config', '@www-dir@', 'www_dir');
 $a->addReplacement('pearweb_pepr.php', 'pear-config', '@php-dir@', 'php_dir');
 $a->addReplacement('pearweb_pepr.php', 'package-info', '@version@', 'version');
 $a->generateContents();

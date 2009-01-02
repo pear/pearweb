@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.8.0alpha1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_pepr</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website package voting</summary>
@@ -71,8 +71,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-03-06</date>
- <time>22:26:41</time>
+ <date>2009-01-02</date>
+ <time>04:33:30</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.0</api>
@@ -91,11 +91,6 @@
     <file name="pepr.php" role="www" />
    </dir> <!-- /cron -->
    <dir name="include">
-    <dir name="Damblan">
-     <dir name="Search">
-      <file name="PEPr.php" role="www" />
-     </dir> <!-- /include/Damblan/Search -->
-    </dir> <!-- /include/Damblan -->
     <dir name="pepr">
      <file name="pepr-emails.php" role="www" />
      <file name="pepr.php" role="www" />
@@ -114,6 +109,9 @@
      <file name="pepr-votes-show.php" role="www" />
     </dir> <!-- /public_html/pepr -->
    </dir> <!-- /public_html -->
+   <dir name="sql">
+    <file name="pearweb_pepr.xml" role="www" />
+   </dir> <!-- /sql -->
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -134,6 +132,11 @@
     <channel>pear.php.net</channel>
     <min>1.18.0</min>
    </package>
+   <package>
+    <name>Text_Wiki</name>
+    <channel>pear.php.net</channel>
+    <min>1.2.0</min>
+   </package>
    <extension>
     <name>pcre</name>
    </extension>
@@ -153,7 +156,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-03-06</date>
+   <date>2009-01-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - split the pepr code from pearweb [dufuz]

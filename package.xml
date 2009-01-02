@@ -83,8 +83,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-11-04</date>
- <time>16:49:30</time>
+ <date>2009-01-02</date>
+ <time>04:32:07</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -95,7 +95,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-lala
+kjsfld
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -138,21 +138,32 @@ lala
      </dir> <!-- /include/Damblan/Log -->
      <dir name="Mail">
       <file name="Patch_Added.tpl.php" role="www" />
+      <file name="pearweb_account_request.tpl.php" role="www" />
+      <file name="pearweb_account_request_bug.tpl.php" role="www" />
+      <file name="pearweb_account_request_existing.tpl.php" role="www" />
+      <file name="pearweb_account_request_new.tpl.php" role="www" />
+      <file name="pearweb_account_request_vote.tpl.php" role="www" />
       <file name="Trackback_Approve.tpl.php" role="www" />
       <file name="Trackback_Delete.tpl.php" role="www" />
       <file name="Trackback_New.tpl.php" role="www" />
      </dir> <!-- /include/Damblan/Mail -->
      <dir name="Search">
-      <file name="Lists.php" role="www" />
       <file name="Packages.php" role="www" />
-      <file name="Site.php" role="www" />
+      <file name="Patch_Added.tpl.php" role="www" />
+      <file name="pearweb_account_request.tpl.php" role="www" />
+      <file name="pearweb_account_request_bug.tpl.php" role="www" />
+      <file name="pearweb_account_request_existing.tpl.php" role="www" />
+      <file name="pearweb_account_request_new.tpl.php" role="www" />
+      <file name="pearweb_account_request_vote.tpl.php" role="www" />
+      <file name="Trackback_Approve.tpl.php" role="www" />
+      <file name="Trackback_Delete.tpl.php" role="www" />
+      <file name="Trackback_New.tpl.php" role="www" />
       <file name="Users.php" role="www" />
      </dir> <!-- /include/Damblan/Search -->
      <file name="Karma.php" role="www" />
      <file name="Log.php" role="www" />
      <file name="Mailer.php" role="www" />
      <file name="Search.php" role="www" />
-     <file name="Site.php" role="www" />
      <file name="Trackback.php" role="www" />
      <file name="URL.php" role="www" />
     </dir> <!-- /include/Damblan -->
@@ -363,6 +374,10 @@ lala
      <file name="packages.php" role="www" />
     </dir> <!-- /public_html/tags -->
     <dir name="trackback">
+     <dir name="CVS">
+      <file name="admin.php" role="www" />
+      <file name="packages.php" role="www" />
+     </dir> <!-- /public_html/trackback/CVS -->
      <file name="trackback-admin.php" role="www" />
      <file name="trackback-overview.php" role="www" />
      <file name="trackback.php" role="www" />
@@ -547,10 +562,12 @@ lala
       </tasks:param>
      </tasks:paramgroup>
     </tasks:postinstallscript>
-    <tasks:replace from="@web-dir@" to="web_dir" type="pear-config" />
+    <tasks:replace from="@www-dir@" to="www_dir" type="pear-config" />
     <tasks:replace from="@php-dir@" to="php_dir" type="pear-config" />
     <tasks:replace from="@version@" to="version" type="package-info" />
    </file>
+   <file name="pearweb_election.php" role="www" />
+   <file name="pearweb_pepr.php" role="www" />
    <file name="README" role="www" />
    <file name="TODO" role="www" />
   </dir> <!-- / -->
@@ -666,11 +683,6 @@ lala
     <min>0.4.0</min>
    </package>
    <package>
-    <name>Text_Wiki</name>
-    <channel>pear.php.net</channel>
-    <min>1.2.0</min>
-   </package>
-   <package>
     <name>HTML_QuickForm</name>
     <channel>pear.php.net</channel>
     <min>3.2.3</min>
@@ -749,7 +761,9 @@ lala
    </stability>
    <date>2004-02-20</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>Initial attempt to package the core elements of the PEAR website</notes>
+   <notes>
+Initial attempt to package the core elements of the PEAR website
+   </notes>
   </release>
   <release>
    <version>
@@ -762,7 +776,9 @@ lala
    </stability>
    <date>2006-10-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>use web role, add post-install script</notes>
+   <notes>
+use web role, add post-install script
+   </notes>
   </release>
   <release>
    <version>
@@ -775,7 +791,9 @@ lala
    </stability>
    <date>2006-10-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>use web role, add post-install script</notes>
+   <notes>
+use web role, add post-install script
+   </notes>
   </release>
   <release>
    <version>
@@ -788,9 +806,11 @@ lala
    </stability>
    <date>2006-10-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* add HTML_TreeMenu dep
+   <notes>
+* add HTML_TreeMenu dep
 * add dep group for PHP4-based install and mysql
-* add dep group for PHP5-based install and mysqli</notes>
+* add dep group for PHP5-based install and mysqli
+   </notes>
   </release>
   <release>
    <version>
@@ -803,7 +823,9 @@ lala
    </stability>
    <date>2006-10-14</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* add gettext extension dep for VFS package (simplifies installation)</notes>
+   <notes>
+* add gettext extension dep for VFS package (simplifies installation)
+   </notes>
   </release>
   <release>
    <version>
@@ -816,9 +838,11 @@ lala
    </stability>
    <date>2006-10-18</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* new statistics
-* remove unused database table &quot;downloads&quot;
-* add popular packages to homepage</notes>
+   <notes>
+* new statistics
+* remove unused database table downloads
+* add popular packages to homepage
+   </notes>
   </release>
   <release>
    <version>
@@ -831,7 +855,9 @@ lala
    </stability>
    <date>2006-10-19</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* add license dropdown to PEPr</notes>
+   <notes>
+* add license dropdown to PEPr
+   </notes>
   </release>
   <release>
    <version>
@@ -844,10 +870,12 @@ lala
    </stability>
    <date>2006-10-21</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix Bug #9113: Package stats problems
+   <notes>
+* fix Bug #9113: Package stats problems
   - order releases in category page
   - remove stats for removed releases
-* implement Request #9112 Changes for &quot;Popular Packages&quot;</notes>
+* implement Request #9112 Changes for Popular Packages
+   </notes>
   </release>
   <release>
    <version>
@@ -860,7 +888,9 @@ lala
    </stability>
    <date>2006-10-29</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>Prepare for deployment through PEAR channel</notes>
+   <notes>
+Prepare for deployment through PEAR channel
+   </notes>
   </release>
   <release>
    <version>
@@ -873,7 +903,8 @@ lala
    </stability>
    <date>2006-12-13</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix REST generation for deprecated packages/channels
+   <notes>
+* fix REST generation for deprecated packages/channels
 * fix REST generation of packagesinfo.xml for categories
 * fix winner calculation in election interface
 * fix Bug #5340: User details are overescaped
@@ -881,16 +912,16 @@ lala
 * fix Bug #9209: Missing package description in proposal editor
 * fix Bug #9368: election interface needs labels for radio buttons/checkboxes
 * fix Bug #9369: email vote hash and vote choice
-* fix Bug #9370: add easy &quot;back&quot; navigation button for voting interface
+* fix Bug #9370: add easy back navigation button for voting interface
 * fix Bug #9371: election interface: each page should check whether voting
                  has already occurred
 * fix Bug #9372: election interface should separate Abstain button visually on page
 * fix Bug #9403: more informative election vote email
-* fix Bug #9404: clarify &quot;retrieve vote&quot;
+* fix Bug #9404: clarify retrieve vote
 * fix Bug #9405: add back button to info.php
 * fix Bug #9476: schema validation error on postinstall script
-* fix Bug #9483: registering for voter account &quot;enter intended purpose&quot;
-* fix Bug #9526: if date is next year, election interface won&apos;t
+* fix Bug #9483: registering for voter account enter intended purpose
+* fix Bug #9526: if date is next year, election interface wont
                  properly save new election
 * implement Request #7828: PEAR Bug Summary Report
 * implement Request #9118: Added new feature to pepr
@@ -901,7 +932,8 @@ lala
 * add missing PEPr tables to the MDB2 schema .xml file
 * add list of PEAR books in the support section
 * add bug summary statistics to package homepages, clearly showing
-  packages with little or no attention to bugs</notes>
+  packages with little or no attention to bugs
+   </notes>
   </release>
   <release>
    <version>
@@ -914,7 +946,9 @@ lala
    </stability>
    <date>2006-12-13</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* hide emails of developers in maps who request it</notes>
+   <notes>
+* hide emails of developers in maps who request it
+   </notes>
   </release>
   <release>
    <version>
@@ -927,15 +961,17 @@ lala
    </stability>
    <date>2006-12-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* add statistics for developers&apos; bug activity
+   <notes>
+* add statistics for developers bug activity
 * auto-assign to developer when a developer marks a bug closed
-* adjusted the bugtracker&apos;s database schema to handle developer usernames of up to 20 characters length
-* fix Bug #7246: missing &quot;Need reproduce script&quot; quick fix
-* fix Bug #8082: Developer&apos;s bugs list doesn&apos;t include Feedback status
-* fix Bug #8682: Assigning a bug to a new package doesn&apos;t reset the package version field.
+* adjusted the bugtrackers database schema to handle developer usernames of up to 20 characters length
+* fix Bug #7246: missing Need reproduce script quick fix
+* fix Bug #8082: Developers bugs list doesnt include Feedback status
+* fix Bug #8682: Assigning a bug to a new package doesnt reset the package version field.
 * fix Bug #8795: Bug ID is given two times in mails
 * fix Bug #9134: Bugtracker suggests PECL bugs
-* fix Bug #9205: URL needs to be escaped in &quot;quick fix&quot; text</notes>
+* fix Bug #9205: URL needs to be escaped in quick fix text
+   </notes>
   </release>
   <release>
    <version>
@@ -948,15 +984,17 @@ lala
    </stability>
    <date>2006-12-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* add statistics for developers&apos; bug activity
+   <notes>
+* add statistics for developers bug activity
 * auto-assign to developer when a developer marks a bug closed
-* adjusted the bugtracker&apos;s database schema to handle developer usernames of up to 20 characters length
-* fix Bug #7246: missing &quot;Need reproduce script&quot; quick fix
-* fix Bug #8082: Developer&apos;s bugs list doesn&apos;t include Feedback status
-* fix Bug #8682: Assigning a bug to a new package doesn&apos;t reset the package version field.
+* adjusted the bugtrackers database schema to handle developer usernames of up to 20 characters length
+* fix Bug #7246: missing Need reproduce script quick fix
+* fix Bug #8082: Developers bugs list doesnt include Feedback status
+* fix Bug #8682: Assigning a bug to a new package doesnt reset the package version field.
 * fix Bug #8795: Bug ID is given two times in mails
 * fix Bug #9134: Bugtracker suggests PECL bugs
-* fix Bug #9205: URL needs to be escaped in &quot;quick fix&quot; text</notes>
+* fix Bug #9205: URL needs to be escaped in quick fix text
+   </notes>
   </release>
   <release>
    <version>
@@ -969,7 +1007,9 @@ lala
    </stability>
    <date>2006-12-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix line spacing in jpgraph_bar.php so statistics graphs will display</notes>
+   <notes>
+* fix line spacing in jpgraph_bar.php so statistics graphs will display
+   </notes>
   </release>
   <release>
    <version>
@@ -982,7 +1022,9 @@ lala
    </stability>
    <date>2006-12-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix line spacing in jpgraph_bar.php so statistics graphs will display</notes>
+   <notes>
+* fix line spacing in jpgraph_bar.php so statistics graphs will display
+   </notes>
   </release>
   <release>
    <version>
@@ -995,8 +1037,10 @@ lala
    </stability>
    <date>2006-12-27</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix line spacing in jpgraph_bar.php so statistics graphs will display
-* fix Bug #9702: captcha problem</notes>
+   <notes>
+* fix line spacing in jpgraph_bar.php so statistics graphs will display
+* fix Bug #9702: captcha problem
+   </notes>
   </release>
   <release>
    <version>
@@ -1009,7 +1053,9 @@ lala
    </stability>
    <date>2007-01-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered</notes>
+   <notes>
+updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
+   </notes>
   </release>
   <release>
    <version>
@@ -1022,8 +1068,10 @@ lala
    </stability>
    <date>2007-01-06</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
-(32-bit only had problem)</notes>
+   <notes>
+updated install-pear-nozlib.phar/go-pear.phar for PHP 5.2 fixes problems users have encountered
+(32-bit only had problem)
+   </notes>
   </release>
   <release>
    <version>
@@ -1036,9 +1084,11 @@ lala
    </stability>
    <date>2007-01-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Hide PECL packages in the developer profiles.
+   <notes>
+* Hide PECL packages in the developer profiles.
 * fix #9796: xmlrpc function package.info raised DB error syntax
-* update go-pear for PEAR 1.5.0 release</notes>
+* update go-pear for PEAR 1.5.0 release
+   </notes>
   </release>
   <release>
    <version>
@@ -1051,7 +1101,9 @@ lala
    </stability>
    <date>2007-01-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix go-pear to work with PEAR 1.5.0</notes>
+   <notes>
+* fix go-pear to work with PEAR 1.5.0
+   </notes>
   </release>
   <release>
    <version>
@@ -1064,10 +1116,12 @@ lala
    </stability>
    <date>2007-01-31</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* add helpful hints on next package versions to package homepages
+   <notes>
+* add helpful hints on next package versions to package homepages
 * add vivid warning for packages using package.xml 1.0
 * officially deprecate package.xml 1.0 on the homepage
-* dis-allow uploading of package.xml 1.0-based packages in release-upload.php</notes>
+* dis-allow uploading of package.xml 1.0-based packages in release-upload.php
+   </notes>
   </release>
   <release>
    <version>
@@ -1080,11 +1134,13 @@ lala
    </stability>
    <date>2007-02-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes># fix next version for 1.0.0RC3 and company
+   <notes>
+# fix next version for 1.0.0RC3 and company
 * add helpful hints on next package versions to package homepages
 * add vivid warning for packages using package.xml 1.0
 * officially deprecate package.xml 1.0 on the homepage
-* dis-allow uploading of package.xml 1.0-based packages in release-upload.php</notes>
+* dis-allow uploading of package.xml 1.0-based packages in release-upload.php
+   </notes>
   </release>
   <release>
    <version>
@@ -1097,12 +1153,14 @@ lala
    </stability>
    <date>2007-02-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes># fix next version for 1.0.0RC3 and company
+   <notes>
+# fix next version for 1.0.0RC3 and company
 * add helpful hints on next package versions to package homepages
 * add vivid warning for packages using package.xml 1.0
 * officially deprecate package.xml 1.0 on the homepage
 * dis-allow uploading of package.xml 1.0-based packages in release-upload.php
-* up PEAR and Archive_Tar dependencies</notes>
+* up PEAR and Archive_Tar dependencies
+   </notes>
   </release>
   <release>
    <version>
@@ -1115,7 +1173,9 @@ lala
    </stability>
    <date>2007-02-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix unneeded require, fatal error</notes>
+   <notes>
+* fix unneeded require, fatal error
+   </notes>
   </release>
   <release>
    <version>
@@ -1128,8 +1188,10 @@ lala
    </stability>
    <date>2007-02-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix Bug #9974: BBCode dependency
-* fix Bug #10014: package2.xml is never used</notes>
+   <notes>
+* fix Bug #9974: BBCode dependency
+* fix Bug #10014: package2.xml is never used
+   </notes>
   </release>
   <release>
    <version>
@@ -1142,8 +1204,10 @@ lala
    </stability>
    <date>2007-02-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix Bug #10009: Two errors on developer map
-* do not generate API docs for the pearweb package</notes>
+   <notes>
+* fix Bug #10009: Two errors on developer map
+* do not generate API docs for the pearweb package
+   </notes>
   </release>
   <release>
    <version>
@@ -1156,7 +1220,9 @@ lala
    </stability>
    <date>2007-02-06</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix Bug #10038: PHP License = PHP License 3.01, or latest license</notes>
+   <notes>
+* fix Bug #10038: PHP License = PHP License 3.01, or latest license
+   </notes>
   </release>
   <release>
    <version>
@@ -1169,10 +1235,12 @@ lala
    </stability>
    <date>2007-02-09</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* add PHP 5.2.1 to the list of versions
+   <notes>
+* add PHP 5.2.1 to the list of versions
 * fix Bug #10039: Bug suggestions return duplicate and incorrect bug titles
-* fix Bug #10040: Download page shows &lt;conflicts/&gt; deps as &quot;dependencies&quot;
-* fix Bug #9603: deprecated packages should use channel/package</notes>
+* fix Bug #10040: Download page shows conflicts/ deps as dependencies
+* fix Bug #9603: deprecated packages should use channel/package
+   </notes>
   </release>
   <release>
    <version>
@@ -1185,7 +1253,9 @@ lala
    </stability>
    <date>2007-02-10</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* remove the phars, release as package pearweb_phars</notes>
+   <notes>
+* remove the phars, release as package pearweb_phars
+   </notes>
   </release>
   <release>
    <version>
@@ -1198,10 +1268,12 @@ lala
    </stability>
    <date>2007-02-12</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix email headers for auto-generated mails
+   <notes>
+* fix email headers for auto-generated mails
 * fix Bug #9165: Category dropdown in New Package should indent subcategories
 * fix implementation of Request #7828 (now Bug #7828): PEAR Bug Summary Report
-* implement Request #9543: Change the bug summary, add total</notes>
+* implement Request #9543: Change the bug summary, add total
+   </notes>
   </release>
   <release>
    <version>
@@ -1214,8 +1286,10 @@ lala
    </stability>
    <date>2007-02-12</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* don&apos;t generate docs for pearweb_phars package
-* remove unneeded headers from Damblan_Mailer templates</notes>
+   <notes>
+* dont generate docs for pearweb_phars package
+* remove unneeded headers from Damblan_Mailer templates
+   </notes>
   </release>
   <release>
    <version>
@@ -1228,7 +1302,9 @@ lala
    </stability>
    <date>2007-02-17</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* another attempt to stop spamming pear-sys</notes>
+   <notes>
+* another attempt to stop spamming pear-sys
+   </notes>
   </release>
   <release>
    <version>
@@ -1241,7 +1317,9 @@ lala
    </stability>
    <date>2007-02-17</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* implement initial roadmap support for packages</notes>
+   <notes>
+* implement initial roadmap support for packages
+   </notes>
   </release>
   <release>
    <version>
@@ -1254,12 +1332,14 @@ lala
    </stability>
    <date>2007-02-19</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* implement initial roadmap support for packages
+   <notes>
+* implement initial roadmap support for packages
 * fix potential fatal error in package editing while updating REST
 * fix pearweb.php run-scripts
 * fix mdb2 schema xml
 * fix Bug #1467: Two E-mails are sent when the proposer comments on his own PEPr
-* fix Bug #10115: if you don&apos;t maintain a bug, and are assigned, no update emails</notes>
+* fix Bug #10115: if you dont maintain a bug, and are assigned, no update emails
+   </notes>
   </release>
   <release>
    <version>
@@ -1272,8 +1352,10 @@ lala
    </stability>
    <date>2007-02-19</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* roadmap description not being set on creation
-* wrong parameter order for in_array() caused fatal error on assigning bugs to a roadmap</notes>
+   <notes>
+* roadmap description not being set on creation
+* wrong parameter order for in_array() caused fatal error on assigning bugs to a roadmap
+   </notes>
   </release>
   <release>
    <version>
@@ -1286,7 +1368,9 @@ lala
    </stability>
    <date>2007-02-20</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix Bug #10133: foreach() error when closing PEAR bug</notes>
+   <notes>
+* fix Bug #10133: foreach() error when closing PEAR bug
+   </notes>
   </release>
   <release>
    <version>
@@ -1299,8 +1383,10 @@ lala
    </stability>
    <date>2007-02-21</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix Bug #10133: foreach() error when closing PEAR bug
-* enhance roadmap functionality - make it much easier to add/remove bugs from a roadmap</notes>
+   <notes>
+* fix Bug #10133: foreach() error when closing PEAR bug
+* enhance roadmap functionality - make it much easier to add/remove bugs from a roadmap
+   </notes>
   </release>
   <release>
    <version>
@@ -1313,7 +1399,9 @@ lala
    </stability>
    <date>2007-02-21</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* add needed authorization for roadmap modification ease form</notes>
+   <notes>
+* add needed authorization for roadmap modification ease form
+   </notes>
   </release>
   <release>
    <version>
@@ -1326,7 +1414,9 @@ lala
    </stability>
    <date>2007-02-21</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* add list of closed bugs since last release</notes>
+   <notes>
+* add list of closed bugs since last release
+   </notes>
   </release>
   <release>
    <version>
@@ -1339,9 +1429,11 @@ lala
    </stability>
    <date>2007-02-22</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* hide old elections
+   <notes>
+* hide old elections
 * fix election creation interface date validation
-* fix display of election detail</notes>
+* fix display of election detail
+   </notes>
   </release>
   <release>
    <version>
@@ -1354,9 +1446,11 @@ lala
    </stability>
    <date>2007-02-22</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* hide old elections
+   <notes>
+* hide old elections
 * fix election creation interface date validation
-* fix display of election detail</notes>
+* fix display of election detail
+   </notes>
   </release>
   <release>
    <version>
@@ -1369,7 +1463,9 @@ lala
    </stability>
    <date>2007-02-22</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* add note about PEAR structure election on front page</notes>
+   <notes>
+* add note about PEAR structure election on front page
+   </notes>
   </release>
   <release>
    <version>
@@ -1382,8 +1478,10 @@ lala
    </stability>
    <date>2007-02-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* hide bug/feature detail by default in roadmap
-* re-order PHP versions so that 5.x is first, remove old CVS tags, add HEAD</notes>
+   <notes>
+* hide bug/feature detail by default in roadmap
+* re-order PHP versions so that 5.x is first, remove old CVS tags, add HEAD
+   </notes>
   </release>
   <release>
    <version>
@@ -1396,10 +1494,12 @@ lala
    </stability>
    <date>2007-02-24</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* hide bug/feature detail by default in roadmap [cellog]
+   <notes>
+* hide bug/feature detail by default in roadmap [cellog]
 * re-order PHP versions so that 5.x is first, remove old CVS tags, add HEAD [cellog]
 * implement REST1.2 (maintainer role information in p/maintainers2.xml)
-* Fixed bug #9127 extending make_ticket_links() matched words [mj]</notes>
+* Fixed bug #9127 extending make_ticket_links() matched words [mj]
+   </notes>
   </release>
   <release>
    <version>
@@ -1412,21 +1512,23 @@ lala
    </stability>
    <date>2007-03-04</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix release upload: don&apos;t let custom non-pear built packages with no package.xml
+   <notes>
+* fix release upload: dont let custom non-pear built packages with no package.xml
   in root dir slip through the cracks
 * fix .xsd for REST1.2
-* fix Bug #10183: roadmap link to bug tracker needs &amp;cmd=display
+* fix Bug #10183: roadmap link to bug tracker needs cmd=display
 * fix Bug #10212: if multiple roadmaps exist, assigning bugs to one
   may overwrite the other
-* implement Request #9973: Add a &quot;developing with PEAR effectively&quot;
+* implement Request #9973: Add a developing with PEAR effectively
   document to the site
-* implement Request #10150: Allow &quot;future&quot; roadmap versions
+* implement Request #10150: Allow future roadmap versions
 * implement Request #10176: patch tracker for bugs
 * implement Request #10179: implement package.xml generation with auto-changelog
   from roadmap
 * implement Request #10180: require account to open/edit bugs,
   use auto-email verification like pear.voter
-* implement Request #10197: add PHP version and API version to release REST</notes>
+* implement Request #10197: add PHP version and API version to release REST
+   </notes>
   </release>
   <release>
    <version>
@@ -1439,8 +1541,10 @@ lala
    </stability>
    <date>2007-03-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* fix Bug #10267: Wrong link to user profile [quipo]
-* fix Bug #10271: passwords are double-MD5()ed [cellog]</notes>
+   <notes>
+* fix Bug #10267: Wrong link to user profile [quipo]
+* fix Bug #10271: passwords are double-MD5()ed [cellog]
+   </notes>
   </release>
   <release>
    <version>
@@ -1453,9 +1557,11 @@ lala
    </stability>
    <date>2007-03-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10263: old roadmaps not hidden upon release [cellog]
+   <notes>
+* Fix Bug #10263: old roadmaps not hidden upon release [cellog]
 * Fix Bug #10268: Incorrect vote retrieval link [cellog]
-* Fix Bug #10270: roadmap versions should be sorted by release date [cellog]</notes>
+* Fix Bug #10270: roadmap versions should be sorted by release date [cellog]
+   </notes>
   </release>
   <release>
    <version>
@@ -1468,7 +1574,9 @@ lala
    </stability>
    <date>2007-03-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix patch tracker developer naming</notes>
+   <notes>
+* Fix patch tracker developer naming
+   </notes>
   </release>
   <release>
    <version>
@@ -1481,9 +1589,11 @@ lala
    </stability>
    <date>2007-03-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Implement *much* better popular packages algorithm: only
+   <notes>
+* Implement *much* better popular packages algorithm: only
   count downloads per day for the current month.  This gives
-  newer packages a fighting chance to be popular :)</notes>
+  newer packages a fighting chance to be popular :)
+   </notes>
   </release>
   <release>
    <version>
@@ -1496,9 +1606,11 @@ lala
    </stability>
    <date>2007-03-07</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10293: &quot;Comment by:&quot; is emtpy in bug emails [cellog]
-* Fix Bug #10294: problems with &quot;voting-only&quot;-account [cellog]
-* Fix Bug #10301: no easy way to edit old bugs submitted [cellog]</notes>
+   <notes>
+* Fix Bug #10293: Comment by: is emtpy in bug emails [cellog]
+* Fix Bug #10294: problems with voting-only-account [cellog]
+* Fix Bug #10301: no easy way to edit old bugs submitted [cellog]
+   </notes>
   </release>
   <release>
    <version>
@@ -1511,9 +1623,11 @@ lala
    </stability>
    <date>2007-03-07</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10293: &quot;Comment by:&quot; is emtpy in bug emails [cellog]
-* Fix Bug #10294: problems with &quot;voting-only&quot;-account [cellog]
-* Fix Bug #10301: no easy way to edit old bugs submitted [cellog]</notes>
+   <notes>
+* Fix Bug #10293: Comment by: is emtpy in bug emails [cellog]
+* Fix Bug #10294: problems with voting-only-account [cellog]
+* Fix Bug #10301: no easy way to edit old bugs submitted [cellog]
+   </notes>
   </release>
   <release>
    <version>
@@ -1526,7 +1640,9 @@ lala
    </stability>
    <date>2007-03-07</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Implement Request #10302: password reset form for pear.dev accounts</notes>
+   <notes>
+* Implement Request #10302: password reset form for pear.dev accounts
+   </notes>
   </release>
   <release>
    <version>
@@ -1539,9 +1655,10 @@ lala
    </stability>
    <date>2007-03-12</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10307: Feature #1234 texts don&apos;t become links [davidc]
+   <notes>
+* Fix Bug #10307: Feature #1234 texts dont become links [davidc]
 * Fix Bug #10309: Badly formed XML schema [davidc]
-* Fix Bug #10318: Don&apos;t send remainders for Spam bugs [mj]
+* Fix Bug #10318: Dont send remainders for Spam bugs [mj]
 * Fix Bug #10319: Wrong ID in links for Documentation bugs [mj]
 * Fix Bug #10321: Separate patches from comments in the bug report page [mj]
 * Fix Bug #10323: HTML special characters not escaped in patch output [mj]
@@ -1549,11 +1666,12 @@ lala
 * Fix Bug #10328: no verification sent for new users who comment on bugs [cellog]
 * Fix Bug #10331: no log-in needed until after the bug is reported/comment is added [cellog]
 * Fix Bug #10334: edit=2 should shunt to edit=1 for newer bugs [cellog]
-* Implement Feature #9214: Patch to add &quot;Users&quot; category on main page [davidc]
+* Implement Feature #9214: Patch to add Users category on main page [davidc]
 * Implement Feature #10035: No trackback notifications for in active developers [davidc]
 * Implement Feature #10320: Allow numbers in patch name [mj]
 * Implement Feature #10322: Explain allowed chars in patch name [mj]
-* Implement Feature #10329: add &quot;resend account confirmation&quot; link for unconfirmed account bugs [cellog]</notes>
+* Implement Feature #10329: add resend account confirmation link for unconfirmed account bugs [cellog]
+   </notes>
   </release>
   <release>
    <version>
@@ -1566,9 +1684,11 @@ lala
    </stability>
    <date>2007-03-12</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10332: in bug.php, roadmaps randomly ordered [cellog]
-* Fix Bug #10344: don&apos;t send out bug emails until accounts are confirmed [cellog]
-* Fix Bug #10345: if logged in, email address is asked for [cellog]</notes>
+   <notes>
+* Fix Bug #10332: in bug.php, roadmaps randomly ordered [cellog]
+* Fix Bug #10344: dont send out bug emails until accounts are confirmed [cellog]
+* Fix Bug #10345: if logged in, email address is asked for [cellog]
+   </notes>
   </release>
   <release>
    <version>
@@ -1581,10 +1701,12 @@ lala
    </stability>
    <date>2007-03-13</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10360: trackbacks for non-existent packages allowed [cellog]
+   <notes>
+* Fix Bug #10360: trackbacks for non-existent packages allowed [cellog]
 * Fix Bug #10361: emails still bounce to pear-sys@php.net [timj]
 * Implement Feature #10322: Explain allowed chars in patch name [mj]
-* Implement Feature #10351: Don&apos;t show edit/delete links in roadmap view [mj]</notes>
+* Implement Feature #10351: Dont show edit/delete links in roadmap view [mj]
+   </notes>
   </release>
   <release>
    <version>
@@ -1597,7 +1719,8 @@ lala
    </stability>
    <date>2007-03-22</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
+   <notes>
+* Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
 * Fix Bug #10445: election edit does not allow changing choices [cellog]
 * Fix Bug #10446: election choices not shown if the election has not yet happened [cellog]
 * Fix Bug #10455: multiple bug account requests with the same email [cellog]
@@ -1607,7 +1730,8 @@ lala
 * Implement Feature #10356: notification emails when roadmap has bugs assigned/removed [cellog]
 * Implement Feature #10357: Allow dots in patch name [quipo]
 * Implement Feature #10362: fade roadmap versions already released in bug edit [cellog]
-Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
+Also, fix fatal error in some cases if user is not pear.dev karma user
+   </notes>
   </release>
   <release>
    <version>
@@ -1620,7 +1744,8 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-03-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
+   <notes>
+* Fix Bug #9999: release is a reserved work in mysql 5 [saltybeagle]
 * Fix Bug #10445: election edit does not allow changing choices [cellog]
 * Fix Bug #10446: election choices not shown if the election has not yet happened [cellog]
 * Fix Bug #10455: multiple bug account requests with the same email [cellog]
@@ -1630,7 +1755,8 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
 * Implement Feature #10356: notification emails when roadmap has bugs assigned/removed [cellog]
 * Implement Feature #10357: Allow dots in patch name [quipo]
 * Implement Feature #10362: fade roadmap versions already released in bug edit [cellog]
-Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
+Also, fix fatal error in some cases if user is not pear.dev karma user
+   </notes>
   </release>
   <release>
    <version>
@@ -1643,11 +1769,13 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-03-24</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10468: user notes approval page needs links back to comments [davidc]
+   <notes>
+* Fix Bug #10468: user notes approval page needs links back to comments [davidc]
 * Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
 * Implement Feature #10463: Moving a comment to pending [davidc]
 * Implement Feature #10464: display assigned roadmap versions in non-edit [davidc]
-* Implement Feature #10477: onload focus [davidc]</notes>
+* Implement Feature #10477: onload focus [davidc]
+   </notes>
   </release>
   <release>
    <version>
@@ -1660,10 +1788,12 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-03-25</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10482: PHP4 obsolete package [davidc]
+   <notes>
+* Fix Bug #10482: PHP4 obsolete package [davidc]
 * Fix Bug #10486: Opera centers text in the new notes section of the manual [davidc]
 * Implement Feature #10480: split channel.xml into its own package [cellog]
-* Implement Feature #10481: Adding link to manage notes in the developer menu [davidc]</notes>
+* Implement Feature #10481: Adding link to manage notes in the developer menu [davidc]
+   </notes>
   </release>
   <release>
    <version>
@@ -1676,11 +1806,13 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-03-27</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
-* Fix Bug #10484: Bug edit form has gotten &amp;quot;ugly&amp;quot; [cellog]
+   <notes>
+* Fix Bug #10470: timestamp is displayed as 1969 for all notes [cellog]
+* Fix Bug #10484: Bug edit form has gotten quot;uglyquot; [cellog]
 * Fix Bug #10487: Package description is almost empty [cellog]
 * Fix Bug #10498: extra symbols are appended to patches [cellog]
-* Fix Bug #10523: Bug tracker emails need validation to prevent ,another@example.com [cellog]</notes>
+* Fix Bug #10523: Bug tracker emails need validation to prevent ,another@example.com [cellog]
+   </notes>
   </release>
   <release>
    <version>
@@ -1693,9 +1825,10 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-04-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10479: Approving a bug accont to a developer account doesn&apos;t show the right
+   <notes>
+* Fix Bug #10479: Approving a bug accont to a developer account doesnt show the right
   notes [cellog]
-* Fix Bug #10485: Difference between &quot;Notes&quot; and &quot;User comments&quot; [davidc]
+* Fix Bug #10485: Difference between Notes and User comments [davidc]
 * Fix Bug #10504: MySQL 5 and DEFAULT value for INT columns [davidc]
 * Fix Bug #10514: Pending manual notes are shown on every page [cellog]
 * Fix Bug #10528: Wrongly formatted packageinfo.xml [cellog]
@@ -1709,7 +1842,8 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
 * Implement Feature #10492: Patch obsoletes previous one [cellog]
 * Implement Feature #10519: Jump to notes page from notes manager [cellog]
 * Implement Feature #10526: anonymous patch registration like bug tracker registration [cellog]
-* Implement Feature #10582: shunt Bug System/Website/PEPr bugs to pearweb package [cellog]</notes>
+* Implement Feature #10582: shunt Bug System/Website/PEPr bugs to pearweb package [cellog]
+   </notes>
   </release>
   <release>
    <version>
@@ -1722,8 +1856,10 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-04-09</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10644: Add patch when creating bug fails [cellog]
-* Fix Bug #10658: Error when removing all bugs from a roadmap [davidc]</notes>
+   <notes>
+* Fix Bug #10644: Add patch when creating bug fails [cellog]
+* Fix Bug #10658: Error when removing all bugs from a roadmap [davidc]
+   </notes>
   </release>
   <release>
    <version>
@@ -1736,14 +1872,16 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-04-21</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10563: search bugs for current package [cellog]
-* Fix Bug #10683: &quot;This package been superseded&quot; problem [cweiske]
+   <notes>
+* Fix Bug #10563: search bugs for current package [cellog]
+* Fix Bug #10683: This package been superseded problem [cweiske]
 * Fix Bug #10694: RC releases not accepted when uploading new release [cipri]
 * Fix Bug #10706: popular.rss feed broken [cellog]
 * Fix Bug #10710: errors/glitches confirming account [cellog]
-* Fix Bug #10756: Can&apos;t upload patch [cellog]
+* Fix Bug #10756: Cant upload patch [cellog]
 * Implement Feature #10359: Developer bugfix stats for last month [cellog]
-* Implement Feature #10368: Bug reporting stats [cellog]</notes>
+* Implement Feature #10368: Bug reporting stats [cellog]
+   </notes>
   </release>
   <release>
    <version>
@@ -1756,9 +1894,10 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-04-24</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10725: bug date/time values inconsistent [dufuz]
+   <notes>
+* Fix Bug #10725: bug date/time values inconsistent [dufuz]
 * Fix Bug #10773: email is not validated for bug comments [cellog]
-* Fix Bug #10802: Opening up the detailed roadmap doesn&apos;t jump down to the proper anchor [dufuz]
+* Fix Bug #10802: Opening up the detailed roadmap doesnt jump down to the proper anchor [dufuz]
 * Fix Bug #10831: Election Interface Bug [davidc]
 * Fix Bug #10832: Election election id is not checked [davidc]
 * Implement Feature #6829: Full involved bugs information in personal menu [cellog]
@@ -1768,9 +1907,10 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
 * Implement Feature #10766: highlight own name on bug stats page [dufuz]
 * Implement Feature #10798: Split up the pear-database file [dufuz]
 * Implement Feature #10801: Links to packages homepage in the search view [dufuz]
-* Implement Feature #10818: add Igor&apos;s slides [davidc]
+* Implement Feature #10818: add Igors slides [davidc]
 * Implement Feature #10824: Missing link to elections [davidc]
-* Implement Feature #10826: Missing &quot;select all&quot; notes [davidc]</notes>
+* Implement Feature #10826: Missing select all notes [davidc]
+   </notes>
   </release>
   <release>
    <version>
@@ -1783,8 +1923,10 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-05-04</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fixed Bug #10841 warnings raised on public_html/bugs/stats.php [dufuz]
-* Request #10849 Remove DB_Storage [dufuz]</notes>
+   <notes>
+* Fixed Bug #10841 warnings raised on public_html/bugs/stats.php [dufuz]
+* Request #10849 Remove DB_Storage [dufuz]
+   </notes>
   </release>
   <release>
    <version>
@@ -1797,14 +1939,15 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-05-04</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #9589: Link input field on requestform too short [cellog]
+   <notes>
+* Fix Bug #9589: Link input field on requestform too short [cellog]
 * Fix Bug #10709: Can not reset my password [cellog]
-* Fix Bug #10731: &amp;quot;Doc Bug&amp;quot; doesn&amp;apos;t appear on Roadmap [davidc]
+* Fix Bug #10731: quot;Doc Bugquot; doesnapos;t appear on Roadmap [davidc]
 * Fix Bug #10841: warnings raised on public_html/bugs/stats.php [dufuz]
-* Fix Bug #10855: &amp;quot;Fixed Since Version...&amp;quot; a misnomer [davidc]
-* Fix Bug #10863: &amp;quot;Doc #&amp;quot; not hyperlink in Changelog View [davidc]
+* Fix Bug #10855: quot;Fixed Since Version...quot; a misnomer [davidc]
+* Fix Bug #10863: quot;Doc #quot; not hyperlink in Changelog View [davidc]
 * Fix Bug #10868: User note link pointing to nowhere [cellog]
-* Fix Bug #10872: &amp;quot;New search&amp;quot; link in bug tracker does not work [dufuz]
+* Fix Bug #10872: quot;New searchquot; link in bug tracker does not work [dufuz]
 * Fix Bug #10874: roadmap generated package.xml contains info from previous package.xml [cellog]
 * Fix Bug #10876: The handle part in My Bugs url collieds with author_email [dufuz]
 * Fix Bug #10880: Registration Link Broken [cellog]
@@ -1814,7 +1957,8 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
 * Implement Feature #10561: Open bug stats include bugs with unconfirmed identities [cellog]
 * Implement Feature #10562: Mark complete user as inactive [cellog]
 * Implement Feature #10829: Enhance Patch Upload process [cellog]
-* Implement Feature #10849: Remove DB_Storage [dufuz]</notes>
+* Implement Feature #10849: Remove DB_Storage [dufuz]
+   </notes>
   </release>
   <release>
    <version>
@@ -1827,7 +1971,8 @@ Also, fix fatal error in some cases if user is not pear.dev karma user</notes>
    </stability>
    <date>2007-05-07</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>Add Security announcement
+   <notes>
+Add Security announcement
 http://pear.php.net/advisory-20070507.txt
 * Fix Bug #10856: proposal stays in voting phase [mj]
 * Fix Bug #10885: Milestones not saved when submitting a bug [cellog]
@@ -1839,13 +1984,14 @@ http://pear.php.net/advisory-20070507.txt
 * Fix Bug #10932: Admin package maintainers error [davidc]
 * Fix Bug #10933: Patch diff view shows warnings [cellog]
 * Fix Bug #10948: Unclosed tags in bug tracker [wiesemann]
-* Fix Bug #10950: Fix for #10908 removed &quot;CVS&quot; package version selection for new bugs [cellog]
+* Fix Bug #10950: Fix for #10908 removed CVS package version selection for new bugs [cellog]
 * Fix Bug #10957: dufuz broke voter account registration [cellog]
-* Fix Bug #10958: &quot;Old patches&quot; list does not UTC [mj]
+* Fix Bug #10958: Old patches list does not UTC [mj]
 * Fix Bug #10959: context is not htmlspecialchar()ed in patch diff [cellog]
 * Fix Bug #10960: registration fails for voter [cellog]
 * Implement Feature #8808: RSS feed for bug system [cellog]
-* Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]</notes>
+* Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]
+   </notes>
   </release>
   <release>
    <version>
@@ -1858,7 +2004,8 @@ http://pear.php.net/advisory-20070507.txt
    </stability>
    <date>2007-05-08</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>Add Security announcement
+   <notes>
+Add Security announcement
 http://pear.php.net/advisory-20070507.txt
 * Fix Bug #10856: proposal stays in voting phase [mj]
 * Fix Bug #10885: Milestones not saved when submitting a bug [cellog]
@@ -1870,14 +2017,15 @@ http://pear.php.net/advisory-20070507.txt
 * Fix Bug #10932: Admin package maintainers error [davidc]
 * Fix Bug #10933: Patch diff view shows warnings [cellog]
 * Fix Bug #10948: Unclosed tags in bug tracker [wiesemann]
-* Fix Bug #10950: Fix for #10908 removed &quot;CVS&quot; package version selection for new bugs [cellog]
+* Fix Bug #10950: Fix for #10908 removed CVS package version selection for new bugs [cellog]
 * Fix Bug #10957: dufuz broke voter account registration [cellog]
-* Fix Bug #10958: &quot;Old patches&quot; list does not UTC [mj]
+* Fix Bug #10958: Old patches list does not UTC [mj]
 * Fix Bug #10959: context is not htmlspecialchar()ed in patch diff [cellog]
 * Fix Bug #10960: registration fails for voter [cellog]
 * Implement Feature #8808: RSS feed for bug system [cellog]
 * Implement Feature #10624: Generated package.xml mis-orders releases. [cellog]
-* Added developer implemented feature using Net_URL and now is correctly using Net_URL2 [davidc]</notes>
+* Added developer implemented feature using Net_URL and now is correctly using Net_URL2 [davidc]
+   </notes>
   </release>
   <release>
    <version>
@@ -1890,18 +2038,19 @@ http://pear.php.net/advisory-20070507.txt
    </stability>
    <date>2007-06-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #10660: go-pear won&apos;t install with PHP 4.4.4 [cellog]
+   <notes>
+* Fix Bug #10660: go-pear wont install with PHP 4.4.4 [cellog]
 * Fix Bug #10877: Post install script results in a syntax error in httpd.conf [wiesemann]
 * Fix Bug #10906: Bug tracker escapes too much [cellog]
 * Fix Bug #10985: Showing panes where user has no rights [wiesemann]
 * Fix Bug #10991: Bug RSS feed contains duplicated square brackets [wiesemann]
-* Fix Bug #11007: Can&apos;t repropose rejected package [cellog]
+* Fix Bug #11007: Cant repropose rejected package [cellog]
 * Fix Bug #11016: Fixes for manual user notes [wiesemann]
 * Fix Bug #11018: Misleading column name in bugs stats [wiesemann]
 * Fix Bug #11024: Wrong copyright [davidc]
 * Fix Bug #11043: Too short lines in bug tracker [wiesemann]
 * Fix Bug #11062: Fatal error on package creation [wiesemann]
-* Fix Bug #11072: Account request form doesn&apos;t make clear that it requires usernames in
+* Fix Bug #11072: Account request form doesnt make clear that it requires usernames in
   lowercase [wiesemann]
 * Fix Bug #11078: Release upload form: RC error message is wrong if state is alpha [wiesemann]
 * Fix Bug #11126: patch tracker email never sent when patch attached with initial bug
@@ -1910,7 +2059,8 @@ http://pear.php.net/advisory-20070507.txt
 * Fix Bug #11146: account opening causes critical error [cellog]
 * Implement Feature #9555: Add list with mirrors [cellog]
 * Implement Feature #10539: Ability to transform doc notes into Documentation bugs [davidc]
-Split off index-updated files into pearweb_index package</notes>
+Split off index-updated files into pearweb_index package
+   </notes>
   </release>
   <release>
    <version>
@@ -1923,23 +2073,24 @@ Split off index-updated files into pearweb_index package</notes>
    </stability>
    <date>2007-06-24</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #11180 User note&apos;s timestamp is updated on approval [dufuz]
+   <notes>
+* Fix Bug #11180 User notes timestamp is updated on approval [dufuz]
 * Fix Bug #11192 Bug comments create wrong links to other bugs+
                Now a bug link has to have # to be valid and thus parsed [dufuz]
 * Fix Bug #11194 source code input on account creation [dufuz]
-* Fix Bug #11199  	&quot;New search&quot; does not select current package [cellog]
+* Fix Bug #11199  	New search does not select current package [cellog]
 * Fix Bug #11200 Add html anchors for letters in proposal list [dufuz]
 * Fix Bug #11201 RFCs miss text [dufuz / justinpatrin]
 * Fix Bug #11223 User info page lists unapproved packages[wiesemann]
-* Fix Bug #11240 can&apos;t submit patch (wrong mimetype reported)[wiesemann]
+* Fix Bug #11240 cant submit patch (wrong mimetype reported)[wiesemann]
 * Fix Bug #11242 Constraint violation when requesting an account for voting [wiesemann]
 * Fix Bug #11259 cannot show bug detail on [html_progress2] roadmap [dufuz]
 * Fix Bug #11267 Pecl account requests are shown in pearweb admin ui and via versa [dufuz]
-* Fix Bug #11268 success/warning/error messages don&apos;t stay consistent enough [dufuz]
+* Fix Bug #11268 success/warning/error messages dont stay consistent enough [dufuz]
 * Fix Bug #11269 Roadmap only calcs bugs marked as Closed as finished [dufuz]
 * Fix Bug #11327 allreleases2.xml is not updated on release [cellog]
-* Fix Bug #11349 Net_URL2 isn&apos;t listed as a dependency [dufuz]
-* Fix Bug #11397 Roadmap: new entry on generated package.xml&apos;s changelog has wrong(new) version [dufuz]
+* Fix Bug #11349 Net_URL2 isnt listed as a dependency [dufuz]
+* Fix Bug #11397 Roadmap: new entry on generated package.xmls changelog has wrong(new) version [dufuz]
 * Request #11249 unit tests for index.php and login.php [cellog]
 * Request #11272 release-upload.php needs unit tests [cellog]
 * Request #11273 account-request.php needs unit tests [dufuz]
@@ -1947,7 +2098,8 @@ Split off index-updated files into pearweb_index package</notes>
 * Request #11275 account-request-confirm.php needs unit tests [dufuz]
 * Request #11276 public_html/get needs unit tests [cellog]
 * Request #11339 account-request-newpackage.php needs unit tests [dufuz]
-* Request #11340 account-request-existingpackage.php needs unit tests [dufuz]</notes>
+* Request #11340 account-request-existingpackage.php needs unit tests [dufuz]
+   </notes>
   </release>
   <release>
    <version>
@@ -1960,7 +2112,8 @@ Split off index-updated files into pearweb_index package</notes>
    </stability>
    <date>2007-07-29</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Request #11109 Restyle the warning message css [dufuz]
+   <notes>
+* Request #11109 Restyle the warning message css [dufuz]
 * Request #11362 Get rid of captcha for pear.dev when sending mail to user via webform [dufuz]
 * Request #11436 split go-pear in its own package [dufuz]
 * Request #10539 Transform note into documentation bugs [davidc]
@@ -1979,7 +2132,8 @@ Split off index-updated files into pearweb_index package</notes>
 * Fix Bug #11669 Open bugs reporting error [Duplicate]
 * Fix Bug #11672 Email  failure notice [Duplicate]
 * Fix Bug #11680 Wrong Bug Count [davidc]
-* Fix Bug #11094 users table should include longitude, latitude on creation [dufuz]</notes>
+* Fix Bug #11094 users table should include longitude, latitude on creation [dufuz]
+   </notes>
   </release>
   <release>
    <version>
@@ -1992,31 +2146,32 @@ Split off index-updated files into pearweb_index package</notes>
    </stability>
    <date>2008-01-03</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix Bug #9476: schema validation error on postinstall script [dufuz]
+   <notes>
+* Fix Bug #9476: schema validation error on postinstall script [dufuz]
 * Fix Bug #11094: users table should include longitude, latitude on creation [dufuz]
 * Fix Bug #11295: Fixed in CVS does not mark a bug as closed [dufuz]
 * Fix Bug #11308: Bug tracker: no feedback after (un)subscribing [cellog]
-* Fix Bug #11382: Tell registering users they need to provide &amp;quot;Firstname Lastname&amp;quot; [dufuz]
+* Fix Bug #11382: Tell registering users they need to provide quot;Firstname Lastnamequot; [dufuz]
 * Fix Bug #11412: Incorrect Package Statistics for Category [dufuz]
 * Fix Bug #11421: Developers should be able to read unconfirmed bugcomments [dufuz]
-* Fix Bug #11422: &amp;quot;Status: Open | Feedback | All&amp;quot; header not displayed when no bugs are
+* Fix Bug #11422: quot;Status: Open | Feedback | Allquot; header not displayed when no bugs are
   found [wiesemann]
 * Fix Bug #11441: Package releases not available [cellog]
 * Fix Bug #11456: Admin page account overview [cellog]
 * Fix Bug #11497: RSS feed description field should contain breaks [dufuz]
-* Fix Bug #11502: Uploading patch doesn&amp;apos;t work [cellog]
+* Fix Bug #11502: Uploading patch doesnapos;t work [cellog]
 * Fix Bug #11638: Link to Bug Tracker on User Note Entry Screen fails [dufuz]
 * Fix Bug #11759: Manual: Note form loses page URL [cellog]
 * Fix Bug #11760: Bug tracker: summary is shown twice [wiesemann]
-* Fix Bug #11180  User note&apos;s timestamp is updated on approval [cellog]
+* Fix Bug #11180  User notes timestamp is updated on approval [cellog]
 * Fix Bug #11804: Forgotten Password Field for mailaddress too short [cellog]
 * Fix Bug #12004: Roadmap lacks error handling in case of duplicate roadmap versions [dufuz]
 * Fix Bug #12021: Inconsistent bug tracker behaviour [dufuz]
-* Fix Bug #12237: Patch upload doesn&amp;apos;t work during ticket creation [dufuz]
-* Fix Bug #12296: 17k patch won&amp;apos;t upload - described limit is 20k but actual is 10k. [dufuz]
+* Fix Bug #12237: Patch upload doesnapos;t work during ticket creation [dufuz]
+* Fix Bug #12296: 17k patch wonapos;t upload - described limit is 20k but actual is 10k. [dufuz]
 * Fix Bug #12467: adding 5.2.5 to the PHP version select box [wiesemann]
-* Fix Bug #12470: don&amp;apos;t list non-developers [dufuz]
-* Fix Bug #12502: Bug tracker: &amp;quot;Add Comment&amp;quot; tab not always visible [dufuz]
+* Fix Bug #12470: donapos;t list non-developers [dufuz]
+* Fix Bug #12502: Bug tracker: quot;Add Commentquot; tab not always visible [dufuz]
 * Fix Bug #12526: Last updated on bottom of each page [dufuz]
 * Fix Bug #12718: Unnecessary space in package list on account info page [wiesemann]
 * Fix Bug #12728: Undefined variable error in notes system [wiesemann]
@@ -2024,7 +2179,7 @@ Split off index-updated files into pearweb_index package</notes>
 * Implement Feature #10800: Copy closed tickets since last release into a new roadmap [dufuz]
 * Implement Feature #10900: link developer maps from pearweb [cweiske]
 * Implement Feature #10943: Remove verification screen for developers [dufuz]
-* Implement Feature #11086: tabs &amp;amp; whitespace mixing in assorted files [dufuz]
+* Implement Feature #11086: tabs amp; whitespace mixing in assorted files [dufuz]
 * Implement Feature #11109: Restyle the warning message css [dufuz]
 * Implement Feature #11118: List of PEAR packages should not show deprecated packages [dufuz]
 * Implement Feature #11270: Replace all image CAPTCHA with math one [dufuz]
@@ -2049,7 +2204,8 @@ Split off index-updated files into pearweb_index package</notes>
 * Implement Feature #12786: Redesign of the menu system [dufuz]
 * Implement Feature #12787: YUI Reset CSS to unify the site more properly between A grade browsers [dufuz]
 * Implement Feature #12788: Make the layout fluid via Divs where it make sense [dufuz]
-* Implement Feature #12789: Move the developer bugs stats into it&amp;apos;s own file [dufuz]</notes>
+* Implement Feature #12789: Move the developer bugs stats into itapos;s own file [dufuz]
+   </notes>
   </release>
   <release>
    <version>
@@ -2062,11 +2218,13 @@ Split off index-updated files into pearweb_index package</notes>
    </stability>
    <date>2008-01-14</date>
    <license uri="http://www.php.net/license">PHP License</license>
-   <notes>* Fix couple of small CSS issues
+   <notes>
+* Fix couple of small CSS issues
 * Fix Bug #12803: Monthly bug summary shows PECL bugs [dufuz]
-* Fix Bug #12826: Navigation tab &amp;apos;Main&amp;apos; incorrectly becomes the &amp;quot;current&amp;quot; tab [dufuz]
+* Fix Bug #12826: Navigation tab apos;Mainapos; incorrectly becomes the quot;currentquot; tab [dufuz]
 * Fix Bug #12830: Javascript error on Google map in IE [davidc]
-* Fix Bug #12831: Account info page: developer stats link points to old location [wiesemann]</notes>
+* Fix Bug #12831: Account info page: developer stats link points to old location [wiesemann]
+   </notes>
   </release>
   <release>
    <version>
@@ -2077,10 +2235,10 @@ Split off index-updated files into pearweb_index package</notes>
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-11-04</date>
+   <date>2009-01-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-lala
+kjsfld
    </notes>
   </release>
  </changelog>

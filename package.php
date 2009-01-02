@@ -57,9 +57,8 @@ $a->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.6.0')
 $a->addPackageDepWithChannel('required', 'Log', 'pear.php.net', '1.8.4');
 $a->addPackageDepWithChannel('required', 'Mail', 'pear.php.net', '1.1.13');
 $a->addPackageDepWithChannel('required', 'Services_Trackback', 'pear.php.net', '0.4.0');
-// required for PEPr
-$a->addPackageDepWithChannel('required', 'Text_Wiki', 'pear.php.net', '1.2.0');
 $a->addPackageDepWithChannel('required', 'HTML_QuickForm', 'pear.php.net', '3.2.3');
+// This is used in the admin menu for category
 $a->addPackageDepWithChannel('required', 'HTML_TreeMenu', 'pear.php.net', '1.2.0');
 $a->addPackageDepWithChannel('required', 'MDB2_Driver_mysqli', 'pear.php.net');
 $a->addExtensionDep('required', 'pcre');

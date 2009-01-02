@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.8.0alpha1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_election</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website election</summary>
@@ -71,8 +71,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-02-21</date>
- <time>21:40:22</time>
+ <date>2009-01-02</date>
+ <time>04:33:37</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.0</api>
@@ -105,6 +105,9 @@
      <file name="new.php" role="www" />
     </dir> <!-- /public_html/election -->
    </dir> <!-- /public_html -->
+   <dir name="sql">
+    <file name="pearweb_election.xml" role="www" />
+   </dir> <!-- /sql -->
    <dir name="templates">
     <dir name="election">
      <file name="confirm.tpl.php" role="www" />
@@ -141,6 +144,11 @@
     <channel>pear.php.net</channel>
     <min>1.18.0</min>
    </package>
+   <package>
+    <name>Text_Wiki</name>
+    <channel>pear.php.net</channel>
+    <min>1.2.0</min>
+   </package>
    <extension>
     <name>pcre</name>
    </extension>
@@ -160,7 +168,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2008-02-21</date>
+   <date>2009-01-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - split the election code from pearweb [dufuz]
