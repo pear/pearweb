@@ -16,13 +16,17 @@
     Filter by
     <?php
         $php = isset($_GET['php']) ? $_GET['php'] : 'all';
+        $cid = '';
+        if (isset($_GET['catpid'])) {
+            $cid = 'catpid=' . (int)$_GET['catpid'] . '&amp;';
+        }
 
         $sel = $php == '4' ? 'style="font-weight: bold;" ' : '';
-        echo ' <a ' . $sel . 'href="?php=4">PHP 4</a> |';
+        echo ' <a ' . $sel . 'href="?' . $cid . 'php=4">PHP 4</a> |';
         $sel = $php == '5' ? 'style="font-weight: bold;" ' : '';
-        echo ' <a ' . $sel . 'href="?php=5">PHP 5+</a> |';
+        echo ' <a ' . $sel . 'href="?' . $cid . 'php=5">PHP 5+</a> |';
         $sel = $php == 'all' ? 'style="font-weight: bold;" ' : '';
-        echo ' <a ' . $sel . 'href="?php=all">All PHP versions</a>';
+        echo ' <a ' . $sel . 'href="?' . $cid . 'php=all">All PHP versions</a>';
         if (!$catpid) {
             echo ' | Total number of packages: ' . $totalpackages;
         }
