@@ -44,7 +44,7 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PEAR_WIKI_DSN',              $_ENV['PEAR_WIKI_DSN']);
 } else {
     define('SITE', 'pear');
-    define('SITEBIG', strtoupper(SITE));
+    define('SITE_BIG', strtoupper(SITE));
      // The channel server name that is used for all info
     define('PEAR_CHANNELNAME', 'pear.php.net');
     // The channel webmaster email
@@ -59,6 +59,7 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PEAR_DEV_EMAIL', 'pear-dev@lists.php.net');
     // The channel webmaster email
     define('PEAR_GENERAL_EMAIL', 'pear-general@lists.php.net');
+    define('PEAR_GROUP_EMAIL', 'pear-group@php.net');
     // The channel webmaster email
     define('PEAR_CORE_EMAIL', 'pear-core@lists.php.net');
     define('PEAR_BOUNCE_EMAIL', 'bounce-no-user@php.net');
@@ -154,8 +155,10 @@ define('TRACKBACK_REPOST_TIMESPAN', 3600);
 // Auto purging time for trackbacks (14 days).
 define('TRACKBACK_PURGE_TIME', 14 * 27 * 60 * 60);
 
-if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME ||!isset($_ENV['PEAR_BOX'])) {
-    error_reporting(E_ALL);
+define('HONEYPOT_API_KEY', 'rmclkmerkfxm');
+
+if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME || !isset($_ENV['PEAR_BOX'])) {
+    error_reporting(1083);
     define('DEVBOX', true);
 } else {
     error_reporting(E_ALL ^ E_NOTICE);
