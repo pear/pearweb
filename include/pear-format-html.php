@@ -582,7 +582,7 @@ function html_category_urhere($id, $link_lastest = false, $php = 'all')
 {
     $url = '/packages.php';
     if ($php != 'all' && ($php == '4' || $php == '5')) {
-        $url .= '&amp;php=' . $php;
+        $url .= '?php=' . $php;
     }
     $html = '<a href="' . $url . '">Top Level</a>';
     if ($id !== null) {
