@@ -85,9 +85,9 @@ class pearweb_postinstall
                   'seqname_format' => 'id',
                   'quote_identifier' => true));
         // for upgrade purposes
-        if (!file_exists('@web-dir@' . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR .
+        if (!file_exists('@www-dir@' . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR .
             '.pearweb-upgrade')) {
-            if (!mkdir('@web-dir@' . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR .
+            if (!mkdir('@www-dir@' . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR .
                   '.pearweb-upgrade')) {
                 $this->_ui->outputData('error - make sure we can create directories');
                 return false;
@@ -95,7 +95,7 @@ class pearweb_postinstall
         }
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $c = $a->parseDatabaseDefinitionFile(
-            realpath('@web-dir@/sql/pearweb_mdb2schema.xml'));
+            realpath('@www-dir@/sql/pearweb_mdb2schema.xml'));
         PEAR::staticPopErrorHandling();
         if (PEAR::isError($c)) {
             $extra = '';
@@ -108,7 +108,7 @@ class pearweb_postinstall
         $c['name'] = $answers['database'];
         $c['create'] = 1;
         $c['overwrite'] = 0;
-        $dir = opendir('@web-dir@/sql/.pearweb-upgrade');
+        $dir = opendir('@www-dir@/sql/.pearweb-upgrade');
         $oldversion = false;
         while (false !== ($entry = readdir($dir))) {
             if ($entry[0] === '.') {
@@ -130,9 +130,9 @@ class pearweb_postinstall
                 }
             }
         }
-        if (!file_exists('@web-dir@/sql/.pearweb-upgrade/' .
+        if (!file_exists('@www-dir@/sql/.pearweb-upgrade/' .
               $answers['database'] . '-@version@.ser')) {
-            $fp = fopen('@web-dir@/sql/.pearweb-upgrade/' .
+            $fp = fopen('@www-dir@/sql/.pearweb-upgrade/' .
                 $answers['database'] . '-@version@.ser', 'w');
             fwrite($fp, serialize($c));
             fclose($fp);
@@ -145,7 +145,7 @@ class pearweb_postinstall
             $oldversion = false;
         }
         if ($oldversion) {
-            $curdef = unserialize(file_get_contents('@web-dir@/sql/.pearweb-upgrade/' .
+            $curdef = unserialize(file_get_contents('@www-dir@/sql/.pearweb-upgrade/' .
               $answers['database'] . '-' . $oldversion . '.ser'));
             if (!is_array($curdef)) {
                 $this->_ui->outputData('invalid data returned from previous version');

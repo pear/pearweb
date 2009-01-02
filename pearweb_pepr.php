@@ -85,9 +85,9 @@ class pearweb_pepr_postinstall
                   'seqname_format' => 'id',
                   'quote_identifier' => true));
         // for upgrade purposes
-        if (!file_exists('@web-dir@' . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR .
+        if (!file_exists('@www-dir@' . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR .
             '.pearweb-upgrade')) {
-            if (!mkdir('@web-dir@' . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR .
+            if (!mkdir('@www-dir@' . DIRECTORY_SEPARATOR . 'sql' . DIRECTORY_SEPARATOR .
                   '.pearweb-upgrade')) {
                 $this->_ui->outputData('error - make sure we can create directories');
                 return false;
@@ -95,7 +95,7 @@ class pearweb_pepr_postinstall
         }
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $c = $a->parseDatabaseDefinitionFile(
-            realpath('@web-dir@/sql/pearweb_mdb2schema.xml'));
+            realpath('@www-dir@/sql/pearweb_mdb2schema.xml'));
         PEAR::staticPopErrorHandling();
         if (PEAR::isError($c)) {
             $extra = '';
@@ -108,7 +108,7 @@ class pearweb_pepr_postinstall
         $c['name']      = $answers['database'];
         $c['create']    = 1;
         $c['overwrite'] = 0;
-        $dir = opendir('@web-dir@/sql/.pearweb-upgrade');
+        $dir = opendir('@www-dir@/sql/.pearweb-upgrade');
         $oldversion = false;
         while (false !== ($entry = readdir($dir))) {
             if ($entry[0] === '.') {
@@ -130,9 +130,9 @@ class pearweb_pepr_postinstall
                 }
             }
         }
-        if (!file_exists('@web-dir@/sql/.pearweb-upgrade/' .
+        if (!file_exists('@www-dir@/sql/.pearweb-upgrade/' .
               $answers['database'] . '-@version@.ser')) {
-            $fp = fopen('@web-dir@/sql/.pearweb-upgrade/' .
+            $fp = fopen('@www-dir@/sql/.pearweb-upgrade/' .
                 $answers['database'] . '-@version@.ser', 'w');
             fwrite($fp, serialize($c));
             fclose($fp);
@@ -145,7 +145,7 @@ class pearweb_pepr_postinstall
             $oldversion = false;
         }
         if ($oldversion) {
-            $curdef = unserialize(file_get_contents('@web-dir@/sql/.pearweb-upgrade/' .
+            $curdef = unserialize(file_get_contents('@www-dir@/sql/.pearweb-upgrade/' .
               $answers['database'] . '-' . $oldversion . '.ser'));
             if (!is_array($curdef)) {
                 $this->_ui->outputData('invalid data returned from previous version');
@@ -222,11 +222,11 @@ class pearweb_pepr_postinstall
         $middle[] = ' ServerName ' . $answers['pear'] . $eol;
         $middle[] = $eol;
         // apache requires all path separators to be "/" even on windows
-        $middle[] = ' DocumentRoot ' . str_replace('\\', '/', '@web-dir@') . '/public_html' . $eol;
+        $middle[] = ' DocumentRoot ' . str_replace('\\', '/', '@www-dir@') . '/public_html' . $eol;
         $middle[] = ' DirectoryIndex index.php index.html' . $eol;
         $middle[] = $eol;
         $middle[] = ' php_value include_path .' . PATH_SEPARATOR .
-            str_replace('\\', '/', '@web-dir@')
+            str_replace('\\', '/', '@www-dir@')
             . '/include' . PATH_SEPARATOR . str_replace('\\', '/', '@php-dir@') . $eol;
         $middle[] = ' php_value auto_prepend_file pear-prepend.php' . $eol;
         $middle[] = ' php_flag magic_quotes_gpc off' . $eol;
@@ -235,11 +235,11 @@ class pearweb_pepr_postinstall
         $middle[] = $eol;
         $middle[] = ' ErrorDocument 404 /error/404.php' . $eol;
         $middle[] = $eol;
-        $middle[] = ' Alias /package ' . str_replace('\\', '/', '@web-dir@')
+        $middle[] = ' Alias /package ' . str_replace('\\', '/', '@www-dir@')
             . '/public_html/package-info.php' . $eol;
-        $middle[] = ' Alias /user    ' . str_replace('\\', '/', '@web-dir@')
+        $middle[] = ' Alias /user    ' . str_replace('\\', '/', '@www-dir@')
             . '/public_html/account-info.php' . $eol;
-        $middle[] = ' Alias /sidebar/pear.gif ' . str_replace('\\', '/', '@web-dir@')
+        $middle[] = ' Alias /sidebar/pear.gif ' . str_replace('\\', '/', '@www-dir@')
             . '/public_html/gifs/pear_item.gif' . $eol;
         $middle[] = ' Alias /distributions/manual/chm /var/lib/pear/chm' . $eol;
         $middle[] = ' Alias /reference /var/lib/pear/apidoc' . $eol;
