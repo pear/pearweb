@@ -163,7 +163,7 @@ class proposal
     {
         return array(
             'title'         => 'PEPr Proposal ['.$this->id.']: '.$this->pkg_category.'::'.$this->pkg_name,
-            'link'          => 'http://pear.php.net/pepr/pepr-proposal-show.php?id='. $this->id,
+            'link'          => 'http://' . PEAR_CHANNELNAME . '/pepr/pepr-proposal-show.php?id='. $this->id,
             'desc'          => '
 Proposed package:        '.$this->pkg_category.'::'.$this->pkg_name.'<br />
 Proposer:                '.user_link($this->user_handle, true).'<br />
@@ -730,7 +730,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
                 $comment = "\n\nComment:\n\n" . $vote->comment;
             }
 
-            $vote_url = "http://pear.php.net/pepr/pepr-vote-show.php?id=".$this->id."&handle=".$user_handle;
+            $vote_url = "http://" . PEAR_CHANNELNAME . "/pepr/pepr-vote-show.php?id=".$this->id."&handle=".$user_handle;
         }
 
         if ($event == 'change_status_finished') {
@@ -747,7 +747,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
             }
         }
 
-        $proposal_url = "http://pear.php.net/pepr/pepr-proposal-show.php?id=".$this->id;
+        $proposal_url = "http://" . PEAR_CHANNELNAME . "/pepr/pepr-proposal-show.php?id=".$this->id;
         $end_voting_time = (@$this->longened_date > 0) ? $this->longened_date + PROPOSAL_STATUS_VOTE_TIMELINE : @$this->vote_date + PROPOSAL_STATUS_VOTE_TIMELINE;
 
         if ($event == 'proposal_comment' && $user_handle == $this->user_handle) {
@@ -790,9 +790,9 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
                               (isset($ownerinfo['handle'])) ? user_link($ownerinfo['handle'], true) : "",
                               (isset($actorinfo['name'])) ? $actorinfo['name'] : "",
                               (isset($actorinfo['email'])) ? $actorinfo['email'] : "",
-                              (isset($actorinfo['handle'])) ? "http://pear.php.net/user/".$actorinfo['handle'] : "",
+                              (isset($actorinfo['handle'])) ? "http://" . PEAR_CHANNELNAME . "/user/".$actorinfo['handle'] : "",
                               $proposal_url,
-                              make_utc_date($end_voting_time),
+                              format_date($end_voting_time),
                               (isset($vote)) ? $vote->value : 0,
                               (isset($vote)) ? $vote_url : "",
                               PROPOSAL_MAIL_PEAR_DEV,
@@ -821,9 +821,9 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         $headers .= "X-PEPr-Status: " . $this->getStatus() . "\n";
 
         if ($event == "change_status_proposal") {
-            $headers .= "Message-ID: <proposal-" . $this->id . "@pear.php.net>\n";
+            $headers .= "Message-ID: <proposal-" . $this->id . "@" . PEAR_CHANNELNAME . ">\n";
         } else {
-            $headers .= "In-Reply-To: <proposal-" . $this->id . "@pear.php.net>\n";
+            $headers .= "In-Reply-To: <proposal-" . $this->id . "@" . PEAR_CHANNELNAME . ">\n";
         }
 
         if (!DEVBOX) {

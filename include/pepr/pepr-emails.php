@@ -110,5 +110,3 @@ $proposalEmailTexts = array(
         'text'      => "{comment}\n\n-- \n{proposal_url}"
     ),
 );
-
-?>
