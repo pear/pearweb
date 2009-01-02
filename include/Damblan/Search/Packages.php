@@ -88,7 +88,7 @@ class Damblan_Search_Packages extends Damblan_Search
             $ors = array();
         }
 
-        return implode(' AND ', $where) . " AND approved = 1 AND package_type = 'pear'";
+        return implode(' AND ', $where) . " AND approved = 1 AND package_type = '" . SITE . "'";
     }
 
     function decorate(&$value, $key)

@@ -21,8 +21,6 @@
 require_once 'Damblan/Search.php';
 require_once 'Pager/Pager.php';
 
-define('ITEMS_PER_PAGE', 10);
-
 /**
  * User search class
  *
