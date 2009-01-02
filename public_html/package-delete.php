@@ -33,13 +33,15 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
+$id = (int)$_GET['id'];
+
 include_once 'pear-database-package.php';
 if (!isset($_POST['confirm'])) {
-    $pkg = package::info($_GET['id']);
-    print_package_navigation($_GET['id'], $pkg['name'],
-                             '/package-delete.php?id=' . $_GET['id']);
+    $pkg = package::info($id);
+    print_package_navigation($id, $pkg['name'],
+                             '/package-delete.php?id=' . $id);
 
-    echo '<form action="' . 'package-delete.php?id=' . htmlspecialchars($_GET['id']) . '" method="post">';
+    echo '<form action="' . 'package-delete.php?id=' . htmlspecialchars($id) . '" method="post">';
     echo '<table class="form-holder" style="margin-bottom: 2em;" cellspacing="1">';
     echo '<caption class="form-caption">Confirm</caption>';
 
@@ -62,7 +64,7 @@ if (!isset($_POST['confirm'])) {
 } elseif ($_POST['confirm'] == 'yes') {
 
     // XXX: Implement backup functionality
-    // make_backup($_GET['id']);
+    // make_backup($id);
 
     $tables = array('releases'  => 'package',
                     'maintains' => 'package',
@@ -74,10 +76,10 @@ if (!isset($_POST['confirm'])) {
 
     $file_rm = 0;
 
-    $query = "SELECT p.name, r.version FROM packages p, releases r
-                WHERE p.id = r.package AND r.package = '" . $_GET['id'] . "'";
+    $query = 'SELECT p.name, r.version FROM packages p, releases r
+                WHERE p.id = r.package AND r.package = ?';
 
-    $row = $dbh->getAll($query);
+    $row = $dbh->getAll($query, array($id));
 
     foreach ($row as $value) {
         $file = sprintf("%s/%s-%s.tgz",
@@ -95,15 +97,15 @@ if (!isset($_POST['confirm'])) {
 
     echo "\n" . $file_rm . " file(s) deleted\n\n";
 
-    $catid = package::info($_GET['id'], 'categoryid');
-    $packagename = package::info($_GET['id'], 'name');
-    $dbh->query("UPDATE categories SET npackages = npackages-1 WHERE id=$catid");
+    $catid       = package::info($id, 'categoryid');
+    $packagename = package::info($id, 'name');
+    $dbh->query("UPDATE categories SET npackages = npackages - 1 WHERE id = $catid");
 
     foreach ($tables as $table => $field) {
         $query = sprintf("DELETE FROM %s WHERE %s = '%s'",
                          $table,
                          $field,
-                         $_GET['id']
+                         $id
                          );
 
         echo "Removing package information from table \"" . $table . "\": ";
@@ -115,13 +117,10 @@ if (!isset($_POST['confirm'])) {
     include_once 'pear-rest.php';
     $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
     $pear_rest->deletePackageREST($packagename);
-    echo "</pre>\nPackage " . $_GET['id'] . " has been deleted.\n";
-
+    echo "</pre>\nPackage " . $id . " has been deleted.\n";
 } elseif ($_POST['confirm'] == 'no') {
-
-    $pkg = package::info($_GET['id']);
-    print_package_navigation($_GET['id'], $pkg['name'],
-                             '/package-delete.php?id=' . $_GET['id']);
+    $pkg = package::info($id);
+    print_package_navigation($id, $pkg['name'], '/package-delete.php?id=' . $id);
 
     echo "The package has not been deleted.\n<br /><br />\n";
 }
