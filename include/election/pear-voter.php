@@ -8,7 +8,7 @@ class PEAR_Voter
     var $user = false;
     var $voteSalt;
     var $damblan;
-    function PEAR_Voter()
+    function __construct()
     {
         $this->dbh = &$GLOBALS['dbh'];
         $this->user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : false;

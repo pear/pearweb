@@ -23,11 +23,11 @@ class PEAR_Election_Accountrequest
 
     function find($salt)
     {
-        $request = $this->dbh->getRow('
+        $sql = '
             SELECT id, created_on, salt, handle
             FROM election_account_request
-            WHERE salt = ?
-        ', array($salt), DB_FETCHMODE_ASSOC);
+            WHERE salt = ?';
+        $request = $this->dbh->getRow($sql, array($salt), DB_FETCHMODE_ASSOC);
 
         if (count($request) > 0) {
             foreach ($request as $field => $value) {
@@ -53,7 +53,7 @@ class PEAR_Election_Accountrequest
             'password'   => $pw1,
             'password2'  => $pw2,
             'purpose'    => 'vote in general election',
-            'fromt_site' => 'pear',
+            'fromt_site' => SITE,
             'moreinfo'   => '',
             'homepage'   => '',
         );
@@ -106,17 +106,13 @@ class PEAR_Election_Accountrequest
         }
 
         include_once 'pear-database-note.php';
-        note::removeAll('uid', $this->handle);
+        note::removeAll($this->handle);
 
-        @$arr = unserialize($user['userinfo']);
         $data = array();
         $data['handle']     = $user['handle'];
         $data['registered'] = 1;
-        if (is_array($arr)) {
-            $data['userinfo'] = $arr[1];
-        }
-        $data['created']   = gmdate('Y-m-d H:i');
-        $data['createdby'] = 'pearweb';
+        $data['created']    = gmdate('Y-m-d');
+        $data['createdby']  = SITE . 'web';
 
         $e = user::update($data, true);
         if (PEAR::isError($e) || !$e) {
@@ -126,12 +122,12 @@ class PEAR_Election_Accountrequest
         $query = 'INSERT INTO karma VALUES (?, ?, ?, ?, NOW())';
 
         $id = $this->dbh->nextId('karma');
-        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', 'pearweb'));
+        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.voter', SITE . 'web'));
         $id = $this->dbh->nextId('karma');
-        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', 'pearweb'));
+        $sth = $this->dbh->query($query, array($id, $this->handle, 'pear.bug', SITE . 'web'));
 
         if (!DB::isError($sth)) {
-            note::add("uid", $this->handle, "Account opened", 'pearweb');
+            note::add($this->handle, 'Account opened', SITE . 'web');
             $msg = "Your PEAR voter account has been opened.\n"
                 . "You can now participate in the elections  by going to\n"
                 . "    http://" . PEAR_CHANNELNAME . "/election/";
@@ -142,6 +138,7 @@ class PEAR_Election_Accountrequest
             $this->deleteRequest();
             return true;
         }
+
         return false;
     }
 

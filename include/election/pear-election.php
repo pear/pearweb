@@ -23,7 +23,7 @@ class PEAR_Election
         } else {
             // if we aren't admin, we can't touch other people's elections
             return $this->dbh->getAll('
-                SELECT 
+                SELECT
                     IF(votestart > NOW(),"no","yes") as active, elections.*
                 FROM elections WHERE
                     votestart > NOW() AND
@@ -50,9 +50,9 @@ class PEAR_Election
                 $info['summary' . $i] = $all[$i]['summary'];
                 $info['summary_link' . $i] = $all[$i]['summary_link'];
             } else {
-                $info['summary' . $i] = 
+                $info['summary' . $i] =
                     empty($_POST['summary' . $i]) ? '' : $_POST['summary' . $i];
-                $info['summary_link' . $i] = 
+                $info['summary_link' . $i] =
                     empty($_POST['summary_link' . $i]) ? '' : $_POST['summary_link' . $i];
             }
         }
@@ -84,10 +84,10 @@ class PEAR_Election
     {
         $error = array();
         if (empty($_POST['purpose'])) {
-            $error[] = 'Election Purpose (summary) is required'; 
+            $error[] = 'Election Purpose (summary) is required';
         }
         if (empty($_POST['choices'])) {
-            $error[] = 'Number of Choices is required'; 
+            $error[] = 'Number of Choices is required';
         } else {
             if (!is_numeric($_POST['choices']) ||
                   ((int) $_POST['choices'] != $_POST['choices'])) {
@@ -108,7 +108,7 @@ class PEAR_Election
             }
         }
         if (empty($_POST['detail'])) {
-            $error[] = 'Election detail is required'; 
+            $error[] = 'Election detail is required';
         }
         $nextyear = date('Y') + 1;
         $thisyear = $nextyear - 1;
@@ -245,8 +245,7 @@ class PEAR_Election
             $_POST['maximum'],
             $_POST['eligiblevoters']
             ));
-        $id = $this->dbh->phptype == 'mysql' ?
-            mysql_insert_id() : mysqli_insert_id($this->dbh->connection);
+        $id = mysqli_insert_id($this->dbh->connection);
         for ($i = 1; $i <= $_POST['choices']; $i++) {
             $this->dbh->query('
                 INSERT INTO election_choices
@@ -311,7 +310,7 @@ class PEAR_Election
         if (!$this->electionExists($id)) {
             return false;
         }
-        if ($this->user == $this->dbh->getOne('SELECT creator FROM elections WHERE id=?', 
+        if ($this->user == $this->dbh->getOne('SELECT creator FROM elections WHERE id=?',
               array($id))) {
             return true;
         }
