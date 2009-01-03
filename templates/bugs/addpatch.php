@@ -35,7 +35,7 @@ if (!$loggedin) {?>
 <?php } ?>
  <tr>
   <th class="form-label_left">
-   Choose an existing Patch to update, or add a new one
+   Patch Name
   </th>
   <td class="form-input">
    <input type="text" maxlength="40" name="name" value="<?php echo clean($name) ?>" /><br />
