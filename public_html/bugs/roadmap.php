@@ -3,7 +3,8 @@
 /**
  * Obtain common includes
  */
-require dirname(__FILE__) . '/include/functions.inc';
+require dirname(__FILE__) . '/include/prepend.inc';
+
 Bug_DataObject::init();
 if (isset($_GET['packagexml'])) {
     $roadmap = Bug_DataObject::bugDB('bugdb_roadmap');
