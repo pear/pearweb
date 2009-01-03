@@ -83,8 +83,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-01-02</date>
- <time>10:15:13</time>
+ <date>2009-01-03</date>
+ <time>08:21:08</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -136,17 +136,6 @@ kjsfld
       <file name="Mail.php" role="www" />
       <file name="Print.php" role="www" />
      </dir> <!-- /include/Damblan/Log -->
-     <dir name="Mail">
-      <file name="Patch_Added.tpl.php" role="www" />
-      <file name="pearweb_account_request.tpl.php" role="www" />
-      <file name="pearweb_account_request_bug.tpl.php" role="www" />
-      <file name="pearweb_account_request_existing.tpl.php" role="www" />
-      <file name="pearweb_account_request_new.tpl.php" role="www" />
-      <file name="pearweb_account_request_vote.tpl.php" role="www" />
-      <file name="Trackback_Approve.tpl.php" role="www" />
-      <file name="Trackback_Delete.tpl.php" role="www" />
-      <file name="Trackback_New.tpl.php" role="www" />
-     </dir> <!-- /include/Damblan/Mail -->
      <dir name="Search">
       <file name="Lists.php" role="www" />
       <file name="Packages.php" role="www" />
@@ -452,6 +441,17 @@ kjsfld
      <file name="roadmap_packagexml.php" role="www" />
      <file name="searchresults.php" role="www" />
     </dir> <!-- /templates/bugs -->
+    <dir name="mail">
+     <file name="Patch_Added.tpl.php" role="www" />
+     <file name="pearweb_account_request.tpl.php" role="www" />
+     <file name="pearweb_account_request_bug.tpl.php" role="www" />
+     <file name="pearweb_account_request_existing.tpl.php" role="www" />
+     <file name="pearweb_account_request_new.tpl.php" role="www" />
+     <file name="pearweb_account_request_vote.tpl.php" role="www" />
+     <file name="Trackback_Approve.tpl.php" role="www" />
+     <file name="Trackback_Delete.tpl.php" role="www" />
+     <file name="Trackback_New.tpl.php" role="www" />
+    </dir> <!-- /templates/mail -->
     <dir name="release">
      <file name="upload-form.php" role="www" />
      <file name="verification-form.php" role="www" />
@@ -2223,7 +2223,7 @@ Split off index-updated files into pearweb_index package
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-01-02</date>
+   <date>2009-01-03</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 kjsfld
