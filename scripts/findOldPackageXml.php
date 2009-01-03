@@ -1,6 +1,10 @@
 <?php
 require_once 'DB.php';
-$dbh = DB::connect('mysql://pear:pear@localhost/pear');
+$dbh = DB::connect('mysqli://pear:pear@localhost/pear');
+if (PEAR::isError($dbh)) {
+    die('Database connection failed');
+}
+
 $sql  = '
     SELECT r.id, p.name, files.packagexml
     FROM packages p
