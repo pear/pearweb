@@ -492,7 +492,7 @@ class package
                 p.package_type = ?
                 AND p.approved = 1
                 AND p.id = r.package
-                AND p.name = ? .
+                AND p.name = ?
             ORDER BY r.releasedate DESC';
 
         $sth = $dbh->limitQuery($query, 0, $n, array(SITE, $package));
