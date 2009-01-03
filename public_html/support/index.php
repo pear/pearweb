@@ -32,7 +32,7 @@ navigation tabs above.</p>
 <p>If you are new to PEAR, collected knowledge that does not fit into
 the FAQ is available at this document: <a href="effectivepearuse.php">Developing Effectively with PEAR Packages</a></p>
 
-<p>Additionaly one can ask for help on the <i>#pear</i>
+<p>Additionaly one can ask for help on the <i><a href="irc://efnet/#pear">#pear</a></i>
 <acronym title="Internet Relay Chat">IRC</acronym> channel at the
 <a href="http://www.efnet.org"> Eris Free Net</a>.</p>
 
