@@ -1,3 +1,4 @@
+<?php if (count($patches)): ?>
 <div class="explain">
 <table>
  <tr>
@@ -7,13 +8,7 @@
    <?php endif; //if ($canpatch) ?>
   </td>
  </tr>
-<?php if (!count($patches)): ?>
- <tr>
-  <th class="form-label_left">
-   No patches
-  </th>
- </tr>
-<?php else: //if (!count($patches))
+<?php
     foreach ($patches as $patch => $revisions):
 ?>
  <tr>
@@ -30,6 +25,7 @@
  </tr>
 <?php
     endforeach; //foreach ($patches as $name => $rev)
-endif; //if (!count($patches)) ?>
+?>
 </table>
 </div>
+<?php endif; //if (count($patches)) ?>

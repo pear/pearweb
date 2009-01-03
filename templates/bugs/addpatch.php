@@ -50,6 +50,7 @@ if (!$loggedin) {?>
    <input type="file" name="patch"/>
   </td>
  </tr>
+<?php if (!empty($patches)) { ?>
  <tr>
   <th class="form-label_left">
    Old patches this patch should replace:
@@ -69,11 +70,16 @@ if (!$loggedin) {?>
    </select>
   </td>
  </tr>
+<?php } ?>
 </table>
+<br />
 <input type="submit" name="addpatch" value="Save" />
 </form>
+<?php if (!empty($patches)) { ?>
 <h2>Existing patches:</h2>
 <?php
+}
+
 $canpatch = false;
 require dirname(__FILE__) . '/listpatches.php';
 response_footer(); ?>
