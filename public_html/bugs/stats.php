@@ -257,8 +257,8 @@ foreach ($pkg[$sort_by] as $name => $value) {
     }
 
     if ($name != 'all') {
-        /* Output a new header row every 40 lines */
-        if (($stat_row++ % 40) == 0) {
+        /* Output a new header row every 30 lines */
+        if (($stat_row++ % 30) == 0) {
             echo display_stat_header($total, false, $titles);
         }
         echo " <tr>\n";
