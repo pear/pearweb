@@ -1,4 +1,8 @@
-<?php response_header('Roadmap :: ' . clean($this->package)); ?>
+<?php
+response_header('Roadmap :: ' . clean($this->package));
+show_bugs_menu(clean($this->package));
+?>
+
 <h1>Roadmap for Package <?php echo clean($this->package); ?></h1>
 <ul class="side_pages">
 <?php foreach ($this->roadmap as $info): ?>

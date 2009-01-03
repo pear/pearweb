@@ -1,6 +1,9 @@
-<?php response_header('Roadmap :: ' . clean($this->package));?>
+<?php
+response_header('Roadmap :: ' . clean($this->package));
+show_bugs_menu(clean($this->package));
+?>
 <h1>Roadmap for Package <?php echo clean($this->package); ?></h1>
-<a href="/bugs/search.php?package_name[]=<?php echo urlencode(clean($this->package)) ?>&status=Open&cmd=display">Bug Tracker</a> | <a href="/<?php echo urlencode(clean($this->package)) ?>">Package Home</a> | <a href="roadmap.php?showold=1&package=<?php echo urlencode($this->package) ?>">Show Old Roadmaps</a>
+<a href="roadmap.php?showold=1&package=<?php echo urlencode($this->package) ?>">Show Old Roadmaps</a>
 <?php if ($GLOBALS['auth_user']) { ?>
  | <a href="roadmap.php?package=<?php echo urlencode($this->package) ?>&new=1">New roadmap</a>
 <?php
