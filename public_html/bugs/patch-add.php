@@ -147,6 +147,7 @@ if (isset($_POST['addpatch'])) {
             exit;
         }
     }
+
     $bug = $buginfo['id'];
     PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
     $e = $patchinfo->attach($bug, 'patch', $_POST['name'], $auth_user->handle, $_POST['obsoleted']);
@@ -169,6 +170,7 @@ if (isset($_POST['addpatch'])) {
         include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
         exit;
     }
+
     // {{{ Email after the patch is added and add a comment to the bug report.
     if (!isset($buggie)) {
         $patch_name = $_POST['name'];
@@ -203,6 +205,7 @@ TXT;
         }
     }
     // }}}
+
     $package = $buginfo['package_name'];
     $bug     = $buginfo['id'];
     $name    = $_POST['name'];
@@ -225,6 +228,7 @@ if (PEAR::isError($buginfo = $patchinfo->getBugInfo($_GET['bug_id']))) {
     response_footer();
     exit;
 }
+
 $email   = isset($_GET['email']) ? $_GET['email'] : '';
 $errors  = array();
 $package = $buginfo['package_name'];
