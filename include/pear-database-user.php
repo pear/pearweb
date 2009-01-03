@@ -117,8 +117,9 @@ class user
         }
 
         if (is_array($role)) {
-            return $dbh->getOne('SELECT role FROM maintains WHERE handle = ? AND package = ? '.
-                                'AND role IN ("?")', array($user, $package_id, implode('","', $role)));
+            $res = $dbh->getOne('SELECT role FROM maintains WHERE handle = ? AND package = ? '.
+                                'AND role IN ("' . implode('", "', $role) . '")', array($user, $package_id));
+            return $res;
         }
 
         return $dbh->getOne('SELECT role FROM maintains WHERE handle = ? AND package = ? '.
