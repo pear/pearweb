@@ -2,7 +2,7 @@
 
     /**
      * Used variables in this template:
-     * 
+     *
      * %id%             The trackback ID
      * %blog_name%      The name of the blog tracking back
      * %title%          The title of the backtracking entry
@@ -14,7 +14,7 @@
      */
 
     $tpl = array(
-        'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
+        'Reply-To' => array(SITE_BIG . ' Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
         'Subject' => '[Trackback] Trackback approved for %id%',
         'Body' => 'Dear maintainer,
 
@@ -33,5 +33,3 @@ Executor:   %user%
 You can choose one of the following actions:
 Delete: http://' . PEAR_CHANNELNAME . '/trackback/trackback-admin.php?action=delete&id=%id%&timestamp=%timestamp%'
      );
-
-?>

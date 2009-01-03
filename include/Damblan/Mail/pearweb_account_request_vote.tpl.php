@@ -8,9 +8,9 @@
      */
 
     $tpl = array(
-        'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
-        'Subject' => '[PEAR-ACCOUNT-REQUEST] Your account request : %username%',
-        'Body' => 'You have requested an account to vote in general PEAR elections.
+        'Reply-To' => array(SITE_BIG . ' Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
+        'Subject' => '[' . SITE_BIG . '] Your account request : %username%',
+        'Body' => 'You have requested an account to vote in general ' . SITE_BIG . ' elections.
 
 This account is only for voting, and is not for proposing a new package.
 
@@ -19,7 +19,5 @@ To confirm please follow the link
 
 If you have received this email by mistake we apologize for any
 inconvenience. You do not need to reply to this email.
- 
-PEAR Quality Assurance.');
 
-?>
+' SITE_BIG . ' Quality Assurance.');

@@ -2,7 +2,7 @@
 
     /**
      * Used variables in this template:
-     * 
+     *
      * %id%             The trackback ID
      * %blog_name%      The name of the blog tracking back
      * %title%          The title of the backtracking entry
@@ -14,7 +14,7 @@
      */
 
     $tpl = array(
-        'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
+        'Reply-To' => array(SITE_BIG . ' Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
         'Subject' => '[Trackback] Trackback deleted for %id%',
         'Body' => 'Dear maintainer,
 
@@ -30,5 +30,3 @@ Excerpt:
 
 Executor:    %user%'
      );
-
-?>

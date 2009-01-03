@@ -2,7 +2,7 @@
 
     /**
      * Used variables in this template:
-     * 
+     *
      * %id%             The patch ID
      * %url%            The URL of the patch entry
      * %packageUrl%     The package url
@@ -10,7 +10,7 @@
      */
 
     $tpl = array(
-        'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
+        'Reply-To' => array(SITE_BIG . ' Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
         'Subject' => '[Patch] Patch Added/Updated for bug %id%',
         'Body' => 'Dear maintainer,
 
@@ -25,5 +25,3 @@ Date:        %date%
 View bug report at : %packageUrl%
 '
      );
-
-?>

@@ -9,12 +9,10 @@
      */
 
     $tpl = array(
-        'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
+        'Reply-To' => array(SITE_BIG . ' Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
         'Subject' => '[ACCOUNT-REQUEST] Account request : %username%',
         'Body' => 'An account has been requested by %firstname% %lastname%
 
 To handle the request please click on the following link:
 http://' . PEAR_CHANNELNAME . '/admin/index.php?acreq=%username%'
      );
-
-?>

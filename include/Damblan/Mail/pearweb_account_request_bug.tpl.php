@@ -9,8 +9,8 @@
 
     $tpl = array(
         'To'       => array(),
-        'Reply-To' => array('PEAR Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
-        'Subject' => '[PEAR-ACCOUNT-REQUEST] Your bug tracker account request',
+        'Reply-To' => array(SITE_BIG . ' Webmaster <' . PEAR_WEBMASTER_EMAIL . '>'),
+        'Subject' => '[' . SITE_BIG . '-ACCOUNT-REQUEST] Your bug tracker account request',
         'Body' => 'You have requested an account to open bugs or comment on existing bugs.
 
 This account is only for use with the bug tracker, but can be updated to allow voting
@@ -21,7 +21,5 @@ To confirm please follow the link
 
 If you have received this email by mistake we apologize for any
 inconvenience. You do not need to reply to this email.
- 
-PEAR Quality Assurance.');
 
-?>
+' . SITE_BIG . ' Quality Assurance.');
