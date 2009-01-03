@@ -78,7 +78,7 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
         SUM(reproduced) AS reproduced,SUM(tried) AS tried,
         SUM(sameos) AS sameos, SUM(samever) AS samever,
         AVG(score)+3 AS average,STD(score) AS deviation,
-        users.showemail, users.handle, p.package_type
+        users.showemail, users.handle, p.package_type, p.id as package_id
         FROM bugdb b
         LEFT JOIN bugdb_votes ON b.id = bug
         LEFT JOIN users ON users.handle = b.handle
@@ -94,7 +94,7 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
         SUM(reproduced) AS reproduced,SUM(tried) AS tried,
         SUM(sameos) AS sameos, SUM(samever) AS samever,
         AVG(score)+3 AS average,STD(score) AS deviation,
-        users.showemail, users.handle, p.package_type,
+        users.showemail, users.handle, p.package_type, p.id as package_id
         1 as registered
         FROM bugdb b
         LEFT JOIN bugdb_votes ON b.id = bug
@@ -685,6 +685,7 @@ if ($bug['modified']) {
    <td>&nbsp;</td>
   </tr>
 
+<?php if (!isset($auth_user) || !user::maintains($auth_user->handle, $bug['package_id'], array('developer', 'lead'))) { ?>
  <form id="subscribetobug" action="bug.php?id=<?php echo $id; ?>" method="post">
   <tr>
     <th>Subscribe to this entry?</th>
@@ -710,8 +711,7 @@ if (isset($auth_user) && $auth_user && $auth_user->registered) {
 ?>
   </tr>
  </form>
-
-
+<?php } ?>
 
 
 <?php if ($bug['votes']) {?>
