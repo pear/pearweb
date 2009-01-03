@@ -1,4 +1,7 @@
-<?php response_header('Add Patch :: ' . clean($package)); ?>
+<?php
+response_header('Add Patch :: ' . clean($package));
+show_bugs_menu(clean($package));
+?>
 <h2>Add a Patch to <a href="/bugs/<?php echo clean($bug) ?>">Bug #<?php echo clean($bug) ?></a> for Package <?php echo '<a href="/package/', clean($package), '">', clean($package), '</a>'; ?></h2>
 <ul>
  <li>One problem per patch, please</li>
