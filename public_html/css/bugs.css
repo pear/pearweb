@@ -338,6 +338,12 @@ span.explain {
     border-spacing: 2px
 }
 
+#package-stats tr:hover td.bug_bg1,
+#package-stats tr:hover td.bug_bg0,
+#package-stats tr:hover td.bug_head {
+    background-color: #70d4d2;
+}
+
 #dev-stats th {
     font-weight: bold;
     text-align: center;
