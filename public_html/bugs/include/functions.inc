@@ -159,9 +159,14 @@ function field($n, $bug) {
 function txfield($n, $bug = null, $in = null)
 {
     $one = (isset($in)  && isset($in[$n]))  ? $in[$n]  : false;
-    if ($one) return $one;
+    if ($one) {
+        return $one;
+    }
+
     $two = (isset($bug) && isset($bug[$n])) ? $bug[$n] : false;
-    if ($two) return $two;
+    if ($two) {
+        return $two;
+    }
 }
 
 /**
