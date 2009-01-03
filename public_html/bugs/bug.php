@@ -688,9 +688,8 @@ if ($bug['modified']) {
 <?php if (!isset($auth_user) || !user::maintains($auth_user->handle, $bug['package_id'], array('developer', 'lead'))) { ?>
  <form id="subscribetobug" action="bug.php?id=<?php echo $id; ?>" method="post">
   <tr>
-    <th>Subscribe to this entry?</th>
+    <th>Subscription</th>
 <?php
-///FIXME check if the user is a package maintainer or not
 if (isset($auth_user) && $auth_user && $auth_user->registered) {
     $sql = 'SELECT COUNT(bug_id) FROM bugdb_subscribe WHERE email = ? AND bug_id = ?';
     $res = $dbh->getOne($sql, array($auth_user->email, $id));
