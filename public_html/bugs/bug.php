@@ -685,6 +685,35 @@ if ($bug['modified']) {
    <td>&nbsp;</td>
   </tr>
 
+ <form id="subscribetobug" action="bug.php?id=<?php echo $id; ?>" method="post">
+  <tr>
+    <th>Subscribe to this entry?</th>
+<?php
+///FIXME check if the user is a package maintainer or not
+if (isset($auth_user) && $auth_user && $auth_user->registered) {
+    $sql = 'SELECT COUNT(bug_id) FROM bugdb_subscribe WHERE email = ? AND bug_id = ?';
+    $res = $dbh->getOne($sql, array($auth_user->email, $id));
+   if ($res === '0') {
+    echo '<td><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>';
+   } else {
+    echo '<td><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>';
+   }
+   echo '<th>&nbsp;</th>';
+   echo '<td>&nbsp;</td>';
+} else {
+?>
+    <td><label for="subscribe_email">Your email:</label>&nbsp;<input type="text" id="subscribe_email" value="" /></td>
+    <td><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>
+    <td><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>
+<?php
+}
+?>
+  </tr>
+ </form>
+
+
+
+
 <?php if ($bug['votes']) {?>
   <tr id="votes">
    <th>Votes:</th><td><?php echo $bug['votes'] ?></td>
@@ -1021,9 +1050,30 @@ if ($edit == 1 || $edit == 2) {
      </tr>
      <?php endif; //if (auth_check('pear.dev'))?>
     </table>
-    <div class="explain">
-     <h1><a href="patch-add.php?bug_id=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
-    </div>
+<?php
+} else {
+    echo '<br /><br />';
+}
+
+    // Display patches
+    require_once 'bugs/patchtracker.php';
+    $patches = new Bugs_Patchtracker;
+    $p = $patches->listPatches($id);
+    ?>
+    <h2>Patches</h2>
+    <a href="patch-add.php?bug_id=<?php echo $id; ?>">Add a Patch</a><br /><br />
+    <?php
+    foreach ($p as $name => $revisions) {
+        $obsolete = $patches->getObsoletingPatches($bug['id'], $name, $revisions[0][0]);
+        $style = !empty($obsolete) ? ' style="background-color: yellow; text-decoration: line-through;" ' : '';
+        ?><a href="patch-display.php?bug_id=<?php echo $bug['id'] ?>&patch=<?php
+            echo urlencode($name) ?>&revision=latest" <?php echo $style; ?>><?php echo clean($name) ?></a> (last revision <?php echo format_date($revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php
+            echo "\n";
+    }
+    echo '<br />';
+
+if ($edit == 1 || $edit == 2) {
+?>
     <p style="margin-bottom: 0em">
     <label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<span class="accesskey">m</span>ment:</b></label>
     </p>
@@ -1038,43 +1088,7 @@ if ($edit == 1 || $edit == 2) {
 
 <?php
 } // if ($edit == 1 || $edit == 2)
-?>
-<div class="explain">
- <form id="subscribetobug" action="bug.php?id=<?php echo $id; ?>" method="post">
-  <table>
-   <tr>
-    <th class="details" colspan="2">Subscribe to this entry?</th>
-   </tr>
-<?php
-///FIXME detect if the logged in user is already subscribed or not
-if (isset($auth_user) && $auth_user && $auth_user->registered) {
-    $sql = 'SELECT COUNT(bug_id) FROM bugdb_subscribe WHERE email = ? AND bug_id = ?';
-    $res = $dbh->getOne($sql, array($auth_user->email, $id));
-   echo '<tr>';
-   if ($res === '0') {
-    echo '<td class="details"><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>';
-   } else {
-    echo '<td class="details"><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>';
-   }
-   echo '</tr>';
-} else {
-?>
-   <tr>
-    <th class="details"><label for="subscribe_email">Your email:</label></th>
-    <td><input type="text" id="subscribe_email" value="" /></td>
-   </tr>
-   <tr>
-    <td class="details"><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>
-    <td class="details"><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>
-   </tr>
-<?php
-}
-?>
-  </table>
- </form>
-</div>
 
-<?php
 if ($edit == 3) {
 ?>
     <form id="comment" action="bug.php" method="post">
@@ -1210,23 +1224,6 @@ if ($bug['ldesc']) {
     output_note(0, $bug['submitted'], $bug['email'], $bug['ldesc'], $bug['showemail'], $bug['bughandle'], $bug['reporter_name'], $bug['registered']);
 }
 
-// Display patches
-require_once 'bugs/patchtracker.php';
-$patches = new Bugs_Patchtracker;
-$p = $patches->listPatches($id);
-?>
-<h2>Patches</h2>
-<?php
-foreach ($p as $name => $revisions) {
-    $obsolete = $patches->getObsoletingPatches($bug['id'], $name, $revisions[0][0]);
-    $style = !empty($obsolete) ? ' style="background-color: yellow; text-decoration: line-through;" ' : '';
-    ?><a href="patch-display.php?bug_id=<?php echo $bug['id'] ?>&patch=<?php
-        echo urlencode($name) ?>&revision=latest" <?php echo $style; ?>><?php echo clean($name) ?></a> (last revision <?php echo format_date($revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php
-        echo "\n";
-}
-?>
-<br /><a href="patch-add.php?bug_id=<?php echo $id; ?>">Add a Patch</a><br />
-<?php
 // Display comments
 $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporter_name as comment_name, IF(c.handle <> "",u.registered,1) as registered,
     u.showemail, u.handle,c.handle as bughandle
