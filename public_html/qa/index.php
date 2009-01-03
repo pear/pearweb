@@ -17,6 +17,8 @@
    +----------------------------------------------------------------------+
    $Id$
 */
+require_once 'Damblan/Karma.php';
+
 response_header("Quality Assurance Initiative");
 ?>
 
@@ -35,14 +37,10 @@ team works can be found in the
 
 <ul>
 <?php
-  echo ' <li>' . user_link('gurugeek', true) . "</li>\n";
-  echo ' <li>' . user_link('thesaur', true) . "</li>\n";
-  echo ' <li>' . user_link('arnaud', true) . "</li>\n";
-  echo ' <li>' . user_link('toby', true) . "</li>\n";
-  echo ' <li>' . user_link('schst', true) . "</li>\n";
-  echo ' <li>' . user_link('davey', true) . "</li>\n";
-  echo ' <li>' . user_link('kguest', true) . "</li>\n";
-  echo ' <li>' . user_link('dufuz', true) . "</li>\n";
+    $karma = new Damblan_Karma($dbh);
+    foreach ($karma->getUsers('pear.qa') as $user) {
+        echo ' <li>' . user_link(htmlspecialchars($user['user']), true) . "</li>\n";
+    }
 ?>
 </ul>
 
