@@ -13,7 +13,7 @@
    | obtain it through the world-wide-web, please send a note to          |
    | license@php.net so we can mail you a copy immediately.               |
    +----------------------------------------------------------------------+
-   | Authors: Helgi Þormar Þorbjörnsson <dufuz@php.net>                   |
+   | Authors: Helgi Þormar Þorbjörnsson <helgi@php.net>                   |
    +----------------------------------------------------------------------+
    $Id$
 */
@@ -94,7 +94,7 @@ foreach ($bugs['pear'] as $name => $qa) {
     $row++;
 }
 
-echo '<h2 id="pear">PEAR (' . $row . ')</h2>';
+echo '<h2 id="pear">PEAR (' . count($bugs['pear']) . ')</h2>';
 echo $table->toHTML();
 
 // PECL
@@ -114,7 +114,7 @@ foreach ($bugs['pecl'] as $name => $qa) {
     $row++;
 }
 
-echo '<h2 id="pecl">PECL (' . $row . ')</h2>';
+echo '<h2 id="pecl">PECL (' . count($bugs['pecl']) . ')</h2>';
 echo $table->toHTML();
 
 response_footer();
