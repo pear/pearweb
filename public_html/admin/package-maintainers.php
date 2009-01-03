@@ -116,6 +116,39 @@ if (isset($_POST) && isset($_POST['role'])) {
 
       $update = 0;
    }
+
+    /*
+    // TODO do the SVN push here
+    $query = '
+        SELECT handle FROM maintains WHERE package = ?
+        AND (role = ? OR role = ?)
+        AND active = 1
+        ORDER BY active DESC';
+
+    $values = array($_POST['name'], 'lead', 'developer');
+    $maintainers =  $dbh->getAll($query, $values, DB_FETCHMODE_ASSOC);
+
+    $hostname = 'https://svn.pear.php.net/admin/REST';
+    require_once 'HTTP/Request.php';
+    $req = new HTTP_Request($hostname . '/syncACL.php/getsalt');
+    $req->setMethod(HTTP_REQUEST_METHOD_GET);
+    $req->sendRequest();
+    $salt = $req->getResponseBody();
+    $code = $req->getResponseCode();
+    $cookies = $req->getResponseCookies();
+    $session = $cookies[0]['value'];
+
+    $send = new HTTP_Request($hostname . '/syncACL.php/sync');
+    $send->setMethod(HTTP_REQUEST_METHOD_POST);
+    $send->addCookie('PHPSESSID', $session);
+    $send->addPostData('salt', $salt);
+    $send->addPostData('package',     $_POST['name']);
+    $send->addPostData('maintainers', $maintainers);
+    $send->addPostData('project',     'pear1');
+    $send->sendRequest();
+    $sendBody = $send->getResponseBody();
+    $sendCode = $send->getResponseCode();
+    */
 }
 
 include_once 'PEAR/Common.php';
