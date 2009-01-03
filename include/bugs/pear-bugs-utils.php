@@ -114,11 +114,9 @@ class PEAR_Bugs_Utils
             }
         }
 
-        include_once 'bugs/pear-bugs-utils.php';
-        $pbu = new PEAR_Bugs_Utils;
         while (($row =& $res->fetchRow(DB_FETCHMODE_ORDERED)) &&
                 strlen($output) < $max_message_length && $count++ < $max_comments) {
-            $email = $row[3] ? $row[3] : $pbu->spamProtect($row[1], 'text');
+            $email = $row[3] ? $row[3] : $this->spamProtect($row[1], 'text');
             $output .= "[$row[0]] $email\n\n$row[2]\n\n$divider\n\n";
         }
 
@@ -131,7 +129,7 @@ class PEAR_Bugs_Utils
             if (!$row) {
                 return $output;
             }
-            $email = $row[3] ? $row[3] : $pbu->spamProtect($row[1], 'text');
+            $email = $row[3] ? $row[3] : $this->spamProtect($row[1], 'text');
             return ("\n\nPrevious Comments:\n$divider\n\n" . $output . "[$row[0]] $email\n\n$row[2]\n\n$divider\n\n");
         }
 
