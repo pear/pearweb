@@ -109,15 +109,18 @@ class user
     {
         global $dbh;
         include_once 'pear-database-package.php';
+
         $package_id = package::info($pkgid, 'id');
         if ($role == 'any') {
             return $dbh->getOne('SELECT role FROM maintains WHERE handle = ? '.
                                 'AND package = ?', array($user, $package_id));
         }
+
         if (is_array($role)) {
             return $dbh->getOne('SELECT role FROM maintains WHERE handle = ? AND package = ? '.
                                 'AND role IN ("?")', array($user, $package_id, implode('","', $role)));
         }
+
         return $dbh->getOne('SELECT role FROM maintains WHERE handle = ? AND package = ? '.
                             'AND role = ?', array($user, $package_id, $role));
     }
