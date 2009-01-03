@@ -82,7 +82,7 @@ $table->setHeaderContents(0, 0, 'Package');
 $table->setHeaderContents(0, 1, '# bugs');
 $table->setHeaderContents(0, 2, 'Last Release Date');
 
-echo '<h2 id="pear">PEAR</h2>';
+
 $row = 1;
 foreach ($bugs['pear'] as $name => $qa) {
     $table->addRow(array(
@@ -93,6 +93,8 @@ foreach ($bugs['pear'] as $name => $qa) {
     $table->setCellAttributes($row, 1, 'style="text-align: center;"');
     $row++;
 }
+
+echo '<h2 id="pear">PEAR (' . $row . ')</h2>';
 echo $table->toHTML();
 
 // PECL
@@ -101,7 +103,6 @@ $table->setHeaderContents(0, 0, 'Package');
 $table->setHeaderContents(0, 1, '# bugs');
 $table->setHeaderContents(0, 2, 'Last Release Date');
 
-echo '<h2 id="pecl">PECL</h2>';
 $row = 1;
 foreach ($bugs['pecl'] as $name => $qa) {
     $table->addRow(array(
@@ -112,6 +113,8 @@ foreach ($bugs['pecl'] as $name => $qa) {
     $table->setCellAttributes($row, 1, 'style="text-align: center;"');
     $row++;
 }
+
+echo '<h2 id="pecl">PECL (' . $row . ')</h2>';
 echo $table->toHTML();
 
 response_footer();
