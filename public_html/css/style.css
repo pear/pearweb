@@ -704,6 +704,10 @@ h2 {
     margin-top: 0.5em;
 }
 
+h2.no-border {
+    border: 0px;
+}
+
 h3 {
     font-size: 108%;
     font-weight: bold;
