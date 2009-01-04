@@ -5,6 +5,7 @@ show_bugs_menu(clean($this->package));
 
 <h1>Roadmap for Package <?php echo clean($this->package); ?></h1>
 <ul class="side_pages">
+ <li><a href="roadmap.php?package=<?php echo urlencode($this->package) ?>&new=1">New roadmap</a></li>
 <?php foreach ($this->roadmap as $info): ?>
  <li><a href="roadmap.php?package=<?php echo urlencode($info['package'])
  ?>#a<?php echo $info['roadmap_version'] ?>"><?php echo $info['roadmap_version'] ?></a> (<a href="roadmap.php?edit=<?php echo $info['id']
@@ -12,7 +13,6 @@ show_bugs_menu(clean($this->package));
  ?>" onclick="return confirm('Really delete roadmap <?php echo $info['roadmap_version']
  ?>?');">delete</a>)</li>
 <?php endforeach; ?>
- <li><a href="roadmap.php?package=<?php echo urlencode($this->package) ?>&new=1">New roadmap</a></li>
 </ul>
 <?php
 if ($this->errors) {
@@ -21,7 +21,7 @@ if ($this->errors) {
     }
 }
 ?>
-<h2><?php if ($this->isnew) { echo 'Create new'; } else { echo 'Edit'; } ?> Roadmap</h2>
+<h2 class="no-border"><?php if ($this->isnew) { echo 'Create new'; } else { echo 'Edit'; } ?> Roadmap</h2>
 <form id="roadmapform" method="post" action="roadmap.php?<?php
     if ($this->isnew) {
         echo 'package=' . urlencode($this->info['package']) . '&new=1';
@@ -74,6 +74,7 @@ if ($this->isnew && !empty($this->lastRelease)) {
 }
 ?>
 </table>
+<br />
 <input type="submit" name="go" value="Save" />
 </form>
 <?php
