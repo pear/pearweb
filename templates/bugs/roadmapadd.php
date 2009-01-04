@@ -3,8 +3,6 @@ response_header('Roadmap :: ' . clean($this->package)) . ' :: Manage Bugs';
 show_bugs_menu(clean($this->package));
 ?>
 <h1>Manage Bugs/Features in Roadmap for Package <?php echo clean($this->package); ?></h1>
-<a href="/bugs/search.php?package_name[]=<?php echo urlencode(clean($this->package)) ?>&status=Open&cmd=display">Bug Tracker</a> |
-<a href="roadmap.php?package=<?php echo urlencode(clean($this->package)) ?>">Back to Roadmap Manager</a> | <a href="/<?php echo urlencode(clean($this->package)) ?>">Package Home</a>
 <h2>Version <?php echo $this->roadmap ?></h2>
 <?php if ($this->saved):?>
 <div class="errors">Changes Saved</div>
