@@ -83,8 +83,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-01-03</date>
- <time>08:21:08</time>
+ <date>2009-01-04</date>
+ <time>09:16:27</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -592,6 +592,10 @@ kjsfld
     <name>Text_CAPTCHA_Numeral</name>
     <channel>pear.php.net</channel>
     <min>1.1.0</min>
+   </package>
+   <package>
+    <name>Services_ProjectHoneyPot</name>
+    <channel>pear.php.net</channel>
    </package>
    <package>
     <name>DB</name>
@@ -2223,7 +2227,7 @@ Split off index-updated files into pearweb_index package
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-01-03</date>
+   <date>2009-01-04</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 kjsfld
