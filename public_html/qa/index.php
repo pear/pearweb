@@ -24,14 +24,12 @@ response_header("Quality Assurance Initiative");
 
 <h1>The PEAR Quality Assurance Initiative</h1>
 
-<p>The PEAR Quality Assurance Initiative is still in its early stages,
-but some basic information about how the
-<acronym title="Quality Assurance">QA</acronym>
-team works can be found in the
-<a href="/pepr/pepr-proposal-show.php?id=60">appendant RFC</a>.
+<p>The PEAR Quality Assurance Initiative is designed to promote quality within PEAR.
+You can find out more about how the <acronym title="Quality Assurance">QA</acronym>
+team works in the <a href="/pepr/pepr-proposal-show.php?id=60">appendant RFC</a>, and the <a href="http://wiki.php.net/pear/qa">wiki</a>.
 </p>
 
-<p>The current membery of the
+<p>The current members of the
  <acronym title="Quality Assurance">QA</acronym> Team are:
 </p>
 
