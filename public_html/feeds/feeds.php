@@ -30,8 +30,7 @@ function rss_bailout() {
 function rss_create($items, $channel_title, $channel_description, $dest_file = false) {
     if (is_array($items) && count($items) > 0) {
 
-        $rss_top = '
-<?xml version="1.0" encoding="iso-8859-1"?>
+        $rss_top = '<?xml version="1.0" encoding="iso-8859-1"?>
 <rdf:RDF
     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
     xmlns="http://purl.org/rss/1.0/"
