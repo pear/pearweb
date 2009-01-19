@@ -87,7 +87,7 @@ switch (SITE) {
         break;
     case 'pear':
         if ($pseudo) {
-            $where .= " WHERE (p.package_type = 'pear'"
+            $where = " WHERE (p.package_type = 'pear'"
                     . " OR b.package_name IN ('"
                     . implode("', '", $pseudo_pkgs) . "'))";
         } else {
@@ -127,7 +127,7 @@ while ($result->fetchInto($row)) {
 }
 
 foreach ($titles as $key => $val) {
-    if (is_array($pkg_tmp[$key])) {
+    if (isset($pkg_tmp[$key]) && is_array($pkg_tmp[$key])) {
         $pkg[$key] = array_merge($pkg_names, $pkg_tmp[$key]);
     } else {
         $pkg[$key] = $pkg_names;
