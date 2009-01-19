@@ -337,9 +337,10 @@ if (empty($action)) {
         }
 
         if ($frinfo['count']) {
-            echo '<li>Number of open <a href="/bugs/search.php?cmd=display&package_name[]=' .
-                $pkg['name'] . '&bug_type=Feature%2FChange+Request">feature requests</a>: <strong>' .
+            $link = make_link('/bugs/search.php?cmd=display&package_name[]=' . $pkg['name'] . '&status=OpenFeedback&bug_type=Feature%2FChange+Request', 'feature requests');
+            echo '<li>Number of open ' . $link . ': <strong>' .
                 $frinfo['count'] . ' (' . $frinfo['total'] . ' total feature requests)</strong></li>' . "\n";
+
         }
 
         if ($buginfo['count'] || $frinfo['count']) {
