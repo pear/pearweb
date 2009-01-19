@@ -37,7 +37,7 @@ $a->setPhpDep('5.2.3');
 $a->setPearInstallerDep('1.7.1');
 $a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.1');
 $a->addPackageDepWithChannel('required', 'Archive_Tar', 'pear.php.net', '1.3.2');
-$a->addPackageDepWithChannel('required', 'HTTP_Request', 'pear.php.net', '1.2.2');
+$a->addPackageDepWithChannel('required', 'HTTP_Request2', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
 $a->addPackageDepWithChannel('required', 'Text_CAPTCHA_Numeral', 'pear.php.net', '1.1.0');
 $a->addPackageDepWithChannel('required', 'Services_ProjectHoneyPot', 'pear.php.net');
