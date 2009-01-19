@@ -129,25 +129,23 @@ if (isset($_POST) && isset($_POST['role'])) {
     $maintainers =  $dbh->getAll($query, $values, DB_FETCHMODE_ASSOC);
 
     $hostname = 'https://svn.pear.php.net/admin/REST';
-    require_once 'HTTP/Request.php';
-    $req = new HTTP_Request($hostname . '/syncACL.php/getsalt');
-    $req->setMethod(HTTP_REQUEST_METHOD_GET);
-    $req->sendRequest();
-    $salt = $req->getResponseBody();
-    $code = $req->getResponseCode();
-    $cookies = $req->getResponseCookies();
+    require_once 'HTTP/Request2.php';
+    $req = new HTTP_Request2($hostname . '/syncACL.php/getsalt');
+    $response = $req->send();
+    $salt = $response->getBody();
+    $code = $response->getStatus();
+    $cookies = $response->getCookies();
     $session = $cookies[0]['value'];
 
-    $send = new HTTP_Request($hostname . '/syncACL.php/sync');
-    $send->setMethod(HTTP_REQUEST_METHOD_POST);
+    $send = new HTTP_Request2($hostname . '/syncACL.php/sync');
     $send->addCookie('PHPSESSID', $session);
-    $send->addPostData('salt', $salt);
-    $send->addPostData('package',     $_POST['name']);
-    $send->addPostData('maintainers', $maintainers);
-    $send->addPostData('project',     'pear1');
-    $send->sendRequest();
-    $sendBody = $send->getResponseBody();
-    $sendCode = $send->getResponseCode();
+    $send->addPostParameter('salt', $salt);
+    $send->addPostParameter('package',     $_POST['name']);
+    $send->addPostParameter('maintainers', $maintainers);
+    $send->addPostParameter('project',     'pear1');
+    $response = $send->send();
+    $sendBody = $response->getBody();
+    $sendCode = $response->getCode();
     */
 }
 
