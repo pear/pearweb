@@ -25,6 +25,6 @@ $a->resetUsesrole();
 $a->clearDeps();
 $a->setPhpDep('4.3.0');
 $a->setPearInstallerDep('1.4.11');
-$a->addPackageDepWithChannel('required', 'HTTP_Request', 'pear.php.net');
+$a->addPackageDepWithChannel('required', 'HTTP_Request2', 'pear.php.net');
 $a->generateContents();
 $a->writePackageFile();
