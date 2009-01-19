@@ -20,7 +20,7 @@
 response_header("Channels :: Add");
 
 require_once "HTML/QuickForm.php";
-require_once "HTTP/Request.php";
+require_once "HTTP/Request2.php";
 require_once "Net/URL2.php";
 require_once "Damblan/Log.php";
 require_once "Damblan/Log/Mail.php";
@@ -74,12 +74,13 @@ $form->addRule("project[link]", "Please supply a valid project link", "regex", "
 $form->applyFilter("project[link]", "htmlspecialchars");
 
 if ($form->validate()) {
-    $req =& new HTTP_Request;
-
     $url =& new Net_URL2($form->exportValue("project[link]"));
-    $req->setURL($url->protocol . "://" . $url->host . ":" . $url->port . "/channel.xml");
-    $req->sendRequest();
-    if ($req->getResponseCode() != 200) {
+
+    $req =& new HTTP_Request2;
+
+    $req->setURL($url->getScheme() . "://" . $url->getHost() . ":" . $url->getPort() . "/channel.xml");
+    $response = $req->send();
+    if ($response->getStatus() != 200) {
         echo "<div class=\"errors\">The submitted URL does not ";
         echo "appear to point to a valid channel site.  You will ";
         echo "have to make sure that <tt>/channel.xml</tt> at least ";
@@ -89,7 +90,7 @@ if ($form->validate()) {
         echo "</div>";
 
         $form->display();
-    } elseif (!$req->getResponseBody()) {
+    } elseif (!$response->getBody()) {
         // channel.xml is empty - spam spam spam
         echo "<div class=\"errors\">The submitted URL does not ";
         echo "appear to point to a valid channel site.  You will ";
@@ -100,7 +101,7 @@ if ($form->validate()) {
         echo "</div>";
 
         $form->display();
-    } elseif (strlen($req->getResponseBody()) > 100000) {
+    } elseif (strlen($response->getBody()) > 100000) {
         // channel.xml is huge - possible DoS attack
         echo "<div class=\"errors\">The submitted URL does not ";
         echo "appear to point to a valid channel site.  You will ";
@@ -116,7 +117,7 @@ if ($form->validate()) {
             // poor man's try/catch
             require_once 'PEAR/ChannelFile.php';
             $chan = new PEAR_ChannelFile;
-            if (!$chan->fromXmlString($req->getResponseBody())) {
+            if (!$chan->fromXmlString($response->getBody())) {
                 // channel.xml is invalid xml - spam spam spam
                 echo "<div class=\"errors\">The submitted URL does not ";
                 echo "appear to point to a valid channel site.  You will ";
@@ -142,7 +143,7 @@ if ($form->validate()) {
                 $form->display();
                 break;
             }
-            if ($url->host != $chan->getServer()) {
+            if ($url->getHost() != $chan->getServer()) {
                 // channel.xml refers to different site - spam spam spam
                 echo "<div class=\"errors\">The submitted URL does not ";
                 echo "appear to point to a valid channel site.  You will ";
