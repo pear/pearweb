@@ -27,9 +27,13 @@ $letter = isset($_GET['letter']) ? strip_tags($_GET['letter']) : null;
 
 echo "<h1>Accounts</h1>\n";
 
-$query = 'SELECT SUBSTRING(handle,1,1) FROM users '.
-         'WHERE registered = 1 ORDER BY handle';
-$all_firstletters = $dbh->getCol($query);
+$sql = '
+    SELECT SUBSTRING(handle,1,1) FROM users u
+    LEFT JOIN karma k ON k.user = u.handle
+    WHERE u.registered = 1 AND k.level = ? ORDER BY handle';
+
+$all_firstletters = $dbh->getCol($sql, 0, array('pear.dev'));
+
 // I wish there was a way to do this in mysql...
 $first_letter_offsets = array();
 for ($i = 0; $i < count($all_firstletters); $i++) {
