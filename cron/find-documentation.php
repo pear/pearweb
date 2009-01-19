@@ -28,7 +28,7 @@ require_once dirname(dirname(__FILE__)) . '/include/pear-config.php';
 require_once 'PEAR.php';
 require_once 'VFS.php';
 require_once 'VFS/file.php';
-require_once 'HTTP/Request.php';
+require_once 'HTTP/Request2.php';
 
 require_once 'DB.php';
 
@@ -89,19 +89,15 @@ function readFolder($folder)
 
                 $url = '/manual/en/' . $matches2[1] . '.php';
 
-                $a = &new HTTP_Request($host . $url);
-                $a->sendRequest();
+                $a = new HTTP_Request2($host . $url);
+                $a->send();
 
-                if ($a->getResponseCode() == 404) {
+                if ($a->getStatus() == 404) {
                     $new_url = preg_replace("=\.([^\.]+)\.php$=", ".php", $url);
-
                     $a->reset($host . $new_url);
-
-                    if ($a->getResponseCode() != 404) {
-                        $url = $new_url;
-                    } else {
-                        $url = '';
-                    }
+                    $a->setURL($host . $new_url);
+                    $a->send();
+                    $url = $a->getStatus() != 404 ? $new_url : '';
                 }
 
                 $res = $dbh->execute($update, array($url, $matches1[1]));
