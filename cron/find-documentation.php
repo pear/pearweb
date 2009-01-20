@@ -32,7 +32,11 @@ require_once 'HTTP/Request2.php';
 
 require_once 'DB.php';
 
-$basepath = "/home/mj/cvs/peardoc/en/package/";
+if (!file_exists('en/package')) {
+    echo "Please cd into peardoc checkout\n";
+    exit(2);
+}
+$basepath = getcwd() . '/en/package/';
 
 $vfs = new VFS_file(array('vfsroot' => $basepath));
 
