@@ -75,7 +75,7 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     // Where package tarballs can be found
     define('PEAR_TARBALL_DIR', '/home/pear/packages');
     // Key file returning key for Akismet.com spam chek.
-    define('TRACKBACK_AKISMET_KEY_FILE', '/usr/local/www/akismet.key');
+    define('TRACKBACK_AKISMET_KEY_FILE', '/var/www/html/pearweb/akismet.key');
     // Where the CHM builds of the manual are located
     define('PEAR_CHM_DIR', '/home/pear/packages/chm/');
     /**
