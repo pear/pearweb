@@ -115,7 +115,7 @@ if (!isset($_POST['confirm'])) {
     }
 
     include_once 'pear-rest.php';
-    $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
+    $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
     $pear_rest->deletePackageREST($packagename);
     echo "</pre>\nPackage " . $id . " has been deleted.\n";
 } elseif ($_POST['confirm'] == 'no') {

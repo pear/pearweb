@@ -43,7 +43,7 @@ if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
 
         if ($action == 'approved') {
              include_once 'pear-rest.php';
-            $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
+            $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
             $pear_rest->savePackageREST($row['name']);
             $pear_rest->saveAllPackagesREST();
             include_once 'pear-database-package.php';
