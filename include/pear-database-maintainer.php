@@ -42,7 +42,7 @@ class maintainer
         }
         $packagename = package::info($package, 'name');
         include_once 'pear-rest.php';
-        $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH);
+        $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
         $pear_rest->savePackageMaintainerREST($packagename);
         return true;
     }

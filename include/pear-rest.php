@@ -4,12 +4,14 @@ class pearweb_Channel_REST_Generator
     protected $_restdir;
     protected $extra;
     protected $channel;
+    private $db;
 
-    public function __construct($base)
+    public function __construct($base, $db, $channel = PEAR_CHANNELNAME)
     {
         $this->_restdir = $base;
         $this->extra    = '/rest/';
-        $this->channel  = PEAR_CHANNELNAME;
+        $this->channel  = $channel;
+        $this->db       = $db;
     }
 
     public function saveAllCategoriesREST()
@@ -19,6 +21,7 @@ class pearweb_Channel_REST_Generator
         if (PEAR::isError($categories)) {
             return $categories;
         }
+
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <a xmlns="http://pear.php.net/dtd/rest.allcategories"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -38,26 +41,31 @@ class pearweb_Channel_REST_Generator
 
         $cdir = $this->_restdir . DIRECTORY_SEPARATOR . 'c' . DIRECTORY_SEPARATOR;
         if (!is_dir($cdir)) {
-            mkdir($cdir, 0777, true);
+            if (!mkdir($cdir, 0777, true)) {
+                return PEAR::raiseError('Creating directory '. $cdir . ' failed - Check the permissions');
+            }
             @chmod($cdir, 0777);
         }
 
         $file = $cdir . 'categories.xml';
-        file_put_contents($file, $info);
+        if (!file_put_contents($file, $info)) {
+            return PEAR::raiseError('Writing to file ' . $file . ' failed - Check the permissions');
+        }
         @chmod($file, 0666);
     }
 
     public function saveCategoryREST($category)
     {
-        global $dbh;
         $cdir = $this->_restdir . DIRECTORY_SEPARATOR . 'c' . DIRECTORY_SEPARATOR;
         if (!is_dir($cdir)) {
-            mkdir($cdir, 0777, true);
+            if (!mkdir($cdir, 0777, true)) {
+                return PEAR::raiseError('Creating directory ' . $cdir . ' failed - Check the permissions');
+            }
             @chmod($cdir, 0777);
         }
 
         $sql = 'SELECT name, description FROM categories WHERE name = ?';
-        $category = $dbh->getRow($sql, array($category), DB_FETCHMODE_ASSOC);
+        $category = $this->db->getRow($sql, array($category), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($category)) {
             return $category;
         }
@@ -68,16 +76,19 @@ class pearweb_Channel_REST_Generator
             WHERE p.package_type = ?
             AND p.category = c.id AND c.name = ? AND p.approved = 1';
 
-        $sth = $dbh->getAll($query, array(SITE, $category['name']), DB_FETCHMODE_ASSOC);
+        $sth = $this->db->getAll($query, array(SITE, $category['name']), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($sth)) {
             return $sth;
         }
 
         $cndir = $cdir . urlencode($category['name']) . DIRECTORY_SEPARATOR;
         if (!is_dir($cndir)) {
-            mkdir($cndir, 0777, true);
+            if (!mkdir($cndir, 0777, true)) {
+                return PEAR::raiseError('Creating directory ' . $cndir . ' failed - Check the permissions');
+            }
             @chmod($cndir, 0777);
         }
+
         $category['description'] = htmlspecialchars($category['description']);
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <c xmlns="http://pear.php.net/dtd/rest.category"
@@ -90,9 +101,12 @@ class pearweb_Channel_REST_Generator
  <a>' . htmlspecialchars($category['name']) . '</a>
  <d>' . $category['description'] . '</d>
 </c>';
+
         // category info
         $file = $cndir . 'info.xml';
-        file_put_contents($file, $info);
+        if (!file_put_contents($file, $info)) {
+            return PEAR::raiseError('Writing file ' . $file . ' failed - Check the permissions');
+        }
         @chmod($file, 0666);
 
         $list = '<?xml version="1.0" encoding="UTF-8" ?>
@@ -108,9 +122,12 @@ class pearweb_Channel_REST_Generator
 ';
         }
         $list .= '</l>';
+
         // list packages in a category
         $file = $cndir . 'packages.xml';
-        file_put_contents($file, $list);
+        if (!file_put_contents($file, $list)) {
+            return PEAR::raiseError('Writing file ' . $file . ' failed - Check the permissions');
+        }
         @chmod($file, 0666);
     }
 
@@ -124,7 +141,9 @@ class pearweb_Channel_REST_Generator
         // list packages in a category
         $dir = $cdir . DIRECTORY_SEPARATOR . urlencode($category) . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
+            if (!mkdir($dir, 0777, true)) {
+                return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
+            }
         }
 
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
@@ -146,6 +165,7 @@ class pearweb_Channel_REST_Generator
             if (!file_exists($pmdir . DIRECTORY_SEPARATOR . 'info.xml')) {
                 continue;
             }
+
             $fullpackageinfo .= '<pi>
 ';
             $fullpackageinfo .= str_replace($this->_getPackageRESTProlog(), '<p>',
@@ -177,14 +197,15 @@ class pearweb_Channel_REST_Generator
         $fullpackageinfo .= '</f>';
 
         $file = $dir . 'packagesinfo.xml';
-        file_put_contents($file, $fullpackageinfo);
+        if (!file_put_contents($file, $fullpackageinfo)) {
+            return PEAR::raiseError('Writing file ' . $file . ' failed - Check the permissions');
+        }
         @chmod($file, 0666);
     }
 
     public function deleteCategoryREST($category)
     {
-        $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'c' .
-                    DIRECTORY_SEPARATOR . urlencode($category);
+        $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'c' . DIRECTORY_SEPARATOR . urlencode($category);
         if (!is_dir($dir)) {
             return;
         }
@@ -213,12 +234,16 @@ class pearweb_Channel_REST_Generator
 
         $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'p' . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
+            if (!mkdir($dir, 0777, true)) {
+                return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check ther permissions');
+            }
             @chmod($dir, 0777);
         }
 
         $file = $dir . 'packages.xml';
-        file_put_contents($file, $info);
+        if (!file_put_contents($file, $info)) {
+            return PEAR::raiseError('Writing file ' . $file . ' failed - Check the permissions');
+        }
         @chmod($file, 0666);
     }
 
@@ -234,7 +259,6 @@ class pearweb_Channel_REST_Generator
 
     public function savePackageREST($package)
     {
-        global $dbh;
         include_once 'pear-database-package.php';
         $package = package::info($package);
 
@@ -271,13 +295,17 @@ class pearweb_Channel_REST_Generator
         $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'p' . DIRECTORY_SEPARATOR
                 . strtolower($package['name']) . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
+            if (!mkdir($dir, 0777, true)) {
+                return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
+            }
             @chmod($dir, 0777);
         }
 
         // package information
         $file = $dir . 'info.xml';
-        file_put_contents($file, $info);
+        if (!file_put_contents($file, $info)) {
+            return PEAR::raiseError('Writing file ' . $file . ' failed - Check the permissions');
+        }
         @chmod($file, 0666);
     }
 
@@ -287,6 +315,7 @@ class pearweb_Channel_REST_Generator
             // don't delete the entire package/release info
             return;
         }
+
         require_once 'System.php';
         $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p' . DIRECTORY_SEPARATOR;
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r' . DIRECTORY_SEPARATOR;
@@ -321,17 +350,16 @@ class pearweb_Channel_REST_Generator
     {
         require_once 'PEAR/PackageFile/Parser/v2.php';
         require_once 'PEAR/Config.php';
-        global $dbh;
 
         include_once 'pear-database-package.php';
         $pid = package::info($package, 'id');
-        $releases = $dbh->getAll('SELECT * FROM releases WHERE package = ? ORDER BY releasedate DESC',
+        $releases = $this->db->getAll('SELECT * FROM releases WHERE package = ? ORDER BY releasedate DESC',
             array($pid), DB_FETCHMODE_ASSOC);
         if (PEAR::isError($releases)) {
             return $releases;
         }
 
-        $deps = $dbh->getAssoc('SELECT release, version FROM deps WHERE package = ? AND type="php" and relation="ge"', false,
+        $deps = $this->db->getAssoc('SELECT release, version FROM deps WHERE package = ? AND type="php" and relation="ge"', false,
             array($pid));
         if (PEAR::isError($deps)) {
             return $releases;
@@ -339,7 +367,9 @@ class pearweb_Channel_REST_Generator
 
         $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r' . DIRECTORY_SEPARATOR;
         if (!is_dir($rdir)) {
-            mkdir($rdir, 0777, true);
+            if (!mkdir($rdir, 0777, true)) {
+                return PEAR::raiseError('Creating directory ' . $rdir . ' failed - Check the permissions');
+            }
             @chmod($rdir, 0777);
         }
 
@@ -353,11 +383,12 @@ class pearweb_Channel_REST_Generator
         $info  = $this->_getAllReleasesRESTProlog($package);
         $info2 = $this->_getAllReleases2RESTProlog($package);
         foreach ($releases as $release) {
-            $packagexml = $dbh->getOne('SELECT packagexml FROM files WHERE package = ? AND
+            $packagexml = $this->db->getOne('SELECT packagexml FROM files WHERE package = ? AND
                 release = ?', array($pid, $release['id']));
             if (PEAR::isError($packagexml)) {
                 return $packagexml;
             }
+
             $extra = '';
             if (strpos($packagexml, ' version="2.0"')) {
                 // little quick hack to determine package.xml version
@@ -378,10 +409,12 @@ class pearweb_Channel_REST_Generator
                             if (!is_array($entry['exclude'])) {
                                 $entry['exclude'] = array($entry['exclude']);
                             }
+
                             foreach ($entry['exclude'] as $exclude) {
                                 $extra .= '<x>' . $exclude . '</x>';
                             }
                         }
+
                         $extra .= '</co>
 ';
                     }
@@ -390,15 +423,19 @@ class pearweb_Channel_REST_Generator
             if (!isset($latest)) {
                 $latest = $release['version'];
             }
+
             if ($release['state'] == 'stable' && !isset($stable)) {
                 $stable = $release['version'];
             }
+
             if ($release['state'] == 'beta' && !isset($beta)) {
                 $beta = $release['version'];
             }
+
             if ($release['state'] == 'alpha' && !isset($alpha)) {
                 $alpha = $release['version'];
             }
+
             $info .= ' <r><v>' . $release['version'] . '</v><s>' . $release['state'] . '</s>'
                  . $extra . '</r>
 ';
@@ -407,22 +444,31 @@ class pearweb_Channel_REST_Generator
                  . '<m>' . $phpdep . '</m>' . $extra . '</r>
 ';
         }
+
         $info .= '</a>';
         $info2 .= '</a>';
 
         $dir = $rdir . strtolower($package) . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
+            if (!mkdir($dir, 0777, true)) {
+                return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
+            }
             @chmod($dir, 0777);
         }
 
-        file_put_contents($dir . 'allreleases.xml', $info);
+        if (!file_put_contents($dir . 'allreleases.xml', $info)) {
+            return PEAR::raiseError('Writing file ' . $dir . 'allreleases.xml failed - Check the permissions');
+        }
         @chmod($dir . 'allreleases.xml', 0666);
 
-        file_put_contents($dir . 'allreleases2.xml', $info2);
+        if (!file_put_contents($dir . 'allreleases2.xml', $info2)) {
+            return PEAR::raiseError('Writing file ' . $dir . 'allreleases2.xml failed - Check the permissions');
+        }
         @chmod($dir . 'allreleases2.xml', 0666);
 
-        file_put_contents($dir . 'latest.txt', $latest);
+        if (!file_put_contents($dir . 'latest.txt', $latest)) {
+            return PEAR::raiseError('Writing file ' . $dir . 'latest.txt failed - Check the permissions');
+        }
         @chmod($dir . 'latest.txt', 0666);
 
         // remove .txt in case all releases of this stability were deleted
@@ -430,15 +476,23 @@ class pearweb_Channel_REST_Generator
         @unlink($dir . 'beta.txt');
         @unlink($dir . 'alpha.txt');
         if (isset($stable)) {
-            file_put_contents($dir . 'stable.txt', $stable);
+            if (!file_put_contents($dir . 'stable.txt', $stable)) {
+                return PEAR::raiseError('Writing file ' . $dir . 'stable.txt failed - Check the permissions');
+            }
             @chmod($dir . 'stable.txt', 0666);
         }
+
         if (isset($beta)) {
-            file_put_contents($dir . 'beta.txt', $beta);
+            if (!file_put_contents($dir . 'beta.txt', $beta)) {
+                return PEAR::raiseError('Writing file ' . $dir . 'beta.txt failed - Check the permissions');
+            }
             @chmod($dir . 'beta.txt', 0666);
         }
+
         if (isset($alpha)) {
-            file_put_contents($dir . 'alpha.txt', $alpha);
+            if (!file_put_contents($dir . 'alpha.txt', $alpha)) {
+                return PEAR::raiseError('Writing file ' . $dir . 'alpha.txt failed - Check the permissions');
+            }
             @chmod($dir . 'alpha.txt', 0666);
         }
     }
@@ -457,10 +511,10 @@ class pearweb_Channel_REST_Generator
 
     public function saveReleaseREST($filepath, $packagexml, $pkgobj, $releasedby, $id)
     {
-        global $dbh;
         $package = $pkgobj->getPackage();
-        $releasedate = $dbh->getOne('SELECT releasedate FROM releases WHERE id = ?',
-            array($id));
+        $version = $pkgobj->getVersion();
+
+        $releasedate = $this->db->getOne('SELECT releasedate FROM releases WHERE id = ?', array($id));
 
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <r xmlns="http://pear.php.net/dtd/rest.release"
@@ -470,7 +524,7 @@ class pearweb_Channel_REST_Generator
     http://pear.php.net/dtd/rest.release.xsd">
  <p xlink:href="' . $this->extra . 'p/' . strtolower($package) . '">' . $package . '</p>
  <c>' . $this->channel . '</c>
- <v>' . $pkgobj->getVersion() . '</v>
+ <v>' . $version . '</v>
  <st>' . $pkgobj->getState() . '</st>
  <l>' . $pkgobj->getLicense() . '</l>
  <m>' . $releasedby . '</m>
@@ -479,8 +533,8 @@ class pearweb_Channel_REST_Generator
  <da>' . $releasedate . '</da>
  <n>' . htmlspecialchars($pkgobj->getNotes()) . '</n>
  <f>' . filesize($filepath) . '</f>
- <g>http://' . $this->channel . '/get/' . $package . '-' . $pkgobj->getVersion() . '</g>
- <x xlink:href="package.' . $pkgobj->getVersion() . '.xml"/>
+ <g>http://' . $this->channel . '/get/' . $package . '-' . $version . '</g>
+ <x xlink:href="package.' . $version . '.xml"/>
 </r>';
         $d = $pkgobj->getDeps(true);
         $minphp = isset($d['required']) ? $d['required']['php']['min'] : '4.3.0';
@@ -492,7 +546,7 @@ class pearweb_Channel_REST_Generator
     http://pear.php.net/dtd/rest.release2.xsd">
  <p xlink:href="' . $this->extra . 'p/' . strtolower($package) . '">' . $package . '</p>
  <c>' .  $this->channel . '</c>
- <v>' .  $pkgobj->getVersion() . '</v>
+ <v>' .  $version . '</v>
  <a>' .  $pkgobj->getVersion('api') . '</a>
  <mp>' . $minphp . '</mp>
  <st>' . $pkgobj->getState() . '</st>
@@ -503,29 +557,38 @@ class pearweb_Channel_REST_Generator
  <da>' . $releasedate . '</da>
  <n>' .  htmlspecialchars($pkgobj->getNotes()) . '</n>
  <f>' .  filesize($filepath) . '</f>
- <g>http://' . $this->channel . '/get/' . $package . '-' . $pkgobj->getVersion() . '</g>
- <x xlink:href="package.' . $pkgobj->getVersion() . '.xml"/>
+ <g>http://' . $this->channel . '/get/' . $package . '-' . $version . '</g>
+ <x xlink:href="package.' . $version . '.xml"/>
 </r>';
 
         $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'r'
                 . DIRECTORY_SEPARATOR . strtolower($package) . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
+            if (!mkdir($dir, 0777, true)) {
+                return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
+            }
             @chmod($dir, 0777);
         }
 
-        file_put_contents($dir . $pkgobj->getVersion() . '.xml', $info);
-        @chmod($dir . $pkgobj->getVersion() . '.xml', 0666);
+        if (!file_put_contents($dir . $version . '.xml', $info)) {
+            return PEAR::raiseError('Creating directory ' . $dir . $version .'.xml failed - Check the permissions');
+        }
+        @chmod($dir . $version . '.xml', 0666);
 
-        file_put_contents($dir . 'v2.' . $pkgobj->getVersion() . '.xml', $info2);
-        @chmod($dir . 'v2.' . $pkgobj->getVersion() . '.xml', 0666);
+        if (!file_put_contents($dir . 'v2.' . $version . '.xml', $info2)) {
+            return PEAR::raiseError('Writing file ' . $dir . 'v2.' . $version . '.xml failed - Check the permissions');
+        }
+        @chmod($dir . 'v2.' . $version . '.xml', 0666);
 
-        file_put_contents($dir . 'package.' . $pkgobj->getVersion() . '.xml', $packagexml);
-        @chmod($dir . 'package.' . $pkgobj->getVersion() . '.xml', 0666);
+        if (!file_put_contents($dir . 'package.' . $version . '.xml', $packagexml)) {
+            return PEAR::raiseError('Writing file ' . $dir . 'package.' . $version . '.xml failed - Check the permissions');
+        }
+        @chmod($dir . 'package.' . $version . '.xml', 0666);
 
-        file_put_contents($dir . 'deps.' . $pkgobj->getVersion() . '.txt',
-                          serialize($pkgobj->getDeps(true)));
-        @chmod($dir . 'deps.' . $pkgobj->getVersion() . '.txt', 0666);
+        if (!file_put_contents($dir . 'deps.' . $version . '.txt', serialize($pkgobj->getDeps(true)))) {
+            return PEAR::raiseError('Writing file ' . $dir . 'deps.' . $version . '.txt failed - Check the permissions');
+        }
+        @chmod($dir . 'deps.' . $version . '.txt', 0666);
     }
 
     public function deleteMaintainerREST($handle)
@@ -539,10 +602,9 @@ class pearweb_Channel_REST_Generator
 
     public function savePackageMaintainerREST($package)
     {
-        global $dbh;
         include_once 'pear-database-package.php';
         $pid = package::info($package, 'id');
-        $maintainers = $dbh->getAll('SELECT handle, active, role FROM maintains WHERE package = ?', array($pid),
+        $maintainers = $this->db->getAll('SELECT handle, active, role FROM maintains WHERE package = ?', array($pid),
             DB_FETCHMODE_ASSOC);
 
         $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'p'
@@ -578,13 +640,20 @@ class pearweb_Channel_REST_Generator
             $info2 .= '</m>';
 
             if (!is_dir($dir)) {
-                mkdir($dir, 0777, true);
+                if (!mkdir($dir, 0777, true)) {
+                    return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
+                }
                 @chmod($dir, 0777);
             }
 
-            file_put_contents($dir . 'maintainers.xml', $info);
+            if (!file_put_contents($dir . 'maintainers.xml', $info)) {
+                return PEAR::raiseError('Writing file ' . $dir . 'maintainers.xml failed - Check the permissions');
+            }
             @chmod($dir . 'maintainers.xml', 0666);
-            file_put_contents($dir . 'maintainers2.xml', $info2);
+
+            if (!file_put_contents($dir . 'maintainers2.xml', $info2)) {
+                return PEAR::raiseError('Writing file ' . $dir . 'maintainers2.xml failed - Check the permissions');
+            }
             @chmod($dir . 'maintainers2.xml', 0666);
         } else {
             @unlink($dir . 'maintainers.xml');
@@ -594,8 +663,7 @@ class pearweb_Channel_REST_Generator
 
     public function saveMaintainerREST($maintainer)
     {
-        global $dbh;
-        $maintainer = $dbh->getRow('SELECT handle, name, homepage FROM users WHERE handle = ?',
+        $maintainer = $this->db->getRow('SELECT handle, name, homepage FROM users WHERE handle = ?',
             array($maintainer), DB_FETCHMODE_ASSOC);
 
         $uri = '';
@@ -616,29 +684,35 @@ class pearweb_Channel_REST_Generator
         $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'm'
                 . DIRECTORY_SEPARATOR . $maintainer['handle'] . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
+            if (!mkdir($dir, 0777, true)) {
+                return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
+            }
             @chmod($dir, 0777);
         }
 
         // package information
         $file = $dir .'info.xml';
-        file_put_contents($file, $info);
+        if (!file_put_contents($file, $info)) {
+            return PEAR::raiseError('Writing file ' . $file . ' failed - Check the permissions');
+        }
         @chmod($file, 0666);
     }
 
     public function saveAllMaintainersREST()
     {
-        include_once 'pear-database-user.php';
-        $maintainers = user::listAllHandles();
         $info = '<?xml version="1.0" encoding="UTF-8" ?>
 <m xmlns="http://pear.php.net/dtd/rest.allmaintainers"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xsi:schemaLocation="http://pear.php.net/dtd/rest.allmaintainers
     http://pear.php.net/dtd/rest.allmaintainers.xsd">' . "\n";
+
         // package information
         require_once 'Damblan/Karma.php';
-        $karma = &new Damblan_Karma($GLOBALS['dbh']);
+        $karma = &new Damblan_Karma($this->db);
+
+        include_once 'pear-database-user.php';
+        $maintainers = user::listAllHandles();
         foreach ($maintainers as $maintainer) {
             if (!$karma->has($maintainer['handle'], 'pear.dev')) {
                 continue;
@@ -650,12 +724,16 @@ class pearweb_Channel_REST_Generator
 
         $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'm' . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
+            if (!mkdir($dir, 0777, true)) {
+                return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
+            }
             @chmod($dir, 0777);
         }
 
         $file = $dir . 'allmaintainers.xml';
-        file_put_contents($file, $info);
+        if (!file_put_contents($file, $info)) {
+            return PEAR::raiseError('Writing file ' . $file . ' failed - Check the permissions');
+        }
         @chmod($file, 0666);
     }
 }
