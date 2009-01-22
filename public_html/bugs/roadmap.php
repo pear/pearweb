@@ -465,7 +465,6 @@ while ($allroadmaps->fetch()) {
         $features->joinAdd($roadmaps);
         $features->bug_type = 'Feature/Change Request';
         $rows = $features->find(false);
-        $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
 
         if ($rows) {
             $package_string = '';
@@ -479,7 +478,7 @@ while ($allroadmaps->fetch()) {
 
             $savant->begin = $begin;
             $savant->rows = $rows;
-            $savant->total_rows = $total_rows;
+            $savant->total_rows = $rows;
             $savant->link = $link;
             $savant->limit = $limit;
             $results = array();
@@ -498,7 +497,6 @@ while ($allroadmaps->fetch()) {
         $bugs->joinAdd($roadmaps);
         $bugs->whereAdd('bugdb.bug_type IN("Bug", "Documentation Problem")');
         $rows = $bugs->find(false);
-        $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
 
         if ($rows) {
             $package_string = '';
@@ -512,7 +510,7 @@ while ($allroadmaps->fetch()) {
 
             $savant->begin = $begin;
             $savant->rows = $rows;
-            $savant->total_rows = $total_rows;
+            $savant->total_rows = $rows;
             $savant->link = $link;
             $savant->limit = $limit;
             $results = array();
