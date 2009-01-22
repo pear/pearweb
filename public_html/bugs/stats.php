@@ -119,6 +119,14 @@ $query .= ' ORDER BY b.package_name, b.status';
 $result =& $dbh->query($query);
 
 while ($result->fetchInto($row)) {
+    if (!isset($pkg_total[$row['package_name']])) {
+        $pkg_total[$row['package_name']] = 0;
+    }
+
+    if (!isset($all[$row['status']])) {
+        $all[$row['status']] = 0;
+    }
+
     $pkg_tmp[$row['status']][$row['package_name']]  = $row['quant'];
     $pkg_total[$row['package_name']]               += $row['quant'];
     $all[$row['status']]                           += $row['quant'];
@@ -293,7 +301,7 @@ function bugstats($status, $name)
         if (isset($all[$status])) {
             return '<a href="search.php?cmd=display&amp;' .
                    'bug_type='.$bug_type.'&amp;status=' .$status .
-                   '&amp;by=Any&amp;limit=30'.$string.'">' .
+                   '&amp;by=Any&amp;limit=30">' .
                    $all[$status] . "</a>\n";
         }
     } else {
@@ -305,7 +313,7 @@ function bugstats($status, $name)
                'bug_type='.$bug_type.'&amp;status=' .
                $status .
                '&amp;package_name%5B%5D=' . urlencode($name) .
-               '&amp;by=Any&amp;limit=30'.$string.'">' .
+               '&amp;by=Any&amp;limit=30">' .
                $pkg[$status][$name] . "</a>\n";
     }
 }
