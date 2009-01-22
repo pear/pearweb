@@ -147,7 +147,14 @@ do {
 
             include_once 'pear-rest.php';
             $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
-            $pear_rest->savePackageMaintainerREST($info->getPackage());
+            $return = $pear_rest->savePackageMaintainerREST($info->getPackage());
+            if (PEAR::isError($return)) {
+                if (auth_check('pear.admin')) {
+                    $errors[] = $return->getMessage();
+                } else {
+                    $errors[] = 'There seems to have been a problem with saving the REST files - please inform the webmasters at ' . PEAR_WEBMASTER_EMAIL;
+                }
+            }
 
             include_once 'pear-database-release.php';
             $file = release::upload($info->getPackage(), $info->getVersion(),
@@ -155,6 +162,7 @@ do {
                                     $distfile, md5_file($distfile), $info, $packagexml,
                                     $compatible_pxml);
         }
+
         if (PEAR::isError($file)) {
             $ui = $file->getUserInfo();
             $errors[] = 'Error while uploading package: ' .
