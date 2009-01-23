@@ -313,7 +313,7 @@ class release
                                   $auth_user->handle, $relnotes));
         // Update files table
         $query = "INSERT INTO files ".
-             "(id,package,release,md5sum,basename,fullpath,packagexml) ".
+             "(id,package,`release`,md5sum,basename,fullpath,packagexml) ".
              "VALUES(?,?,?,?,?,?,?)";
         $sth = $dbh->prepare($query);
         $file_id = $dbh->nextId("files");
