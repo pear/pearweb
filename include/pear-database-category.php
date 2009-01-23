@@ -69,9 +69,12 @@ class category
         if (PEAR::isError($err)) {
             return $err;
         }
-        $GLOBALS['pear_rest']->saveCategoryREST($name);
-        $GLOBALS['pear_rest']->saveAllCategoriesREST();
-        $GLOBALS['pear_rest']->savePackagesCategoryREST($name);
+
+        include_once 'pear-rest.php';
+        $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
+        $pear_rest->saveCategoryREST($name);
+        $pear_rest->saveAllCategoriesREST();
+        $pear_rest->savePackagesCategoryREST($name);
         return $id;
     }
 
@@ -85,15 +88,19 @@ class category
      */
     static function update($id, $name, $desc = '')
     {
+        global $dbh;
         $sql  = 'SELECT name FROM categories WHERE id = ?';
         $data = $GLOBALS['dbh']->getOne($sql, array($id));
-        $GLOBALS['pear_rest']->deleteCategoryREST($data);
+
+        include_once 'pear-rest.php';
+        $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
+        $pear_rest->deleteCategoryREST($data);
 
         $sql = 'UPDATE categories SET name = ?, description = ? WHERE id = ?';
         $ret = $GLOBALS['dbh']->query($sql, array($name, $desc, $id));
-        $GLOBALS['pear_rest']->saveCategoryREST($name);
-        $GLOBALS['pear_rest']->saveAllCategoriesREST();
-        $GLOBALS['pear_rest']->savePackagesCategoryREST($name);
+        $pear_rest->saveCategoryREST($name);
+        $pear_rest->saveAllCategoriesREST();
+        $pear_rest->savePackagesCategoryREST($name);
         return $ret;
     }
 
@@ -134,8 +141,10 @@ class category
         // Update any child categories
         $GLOBALS['dbh']->query(sprintf('UPDATE categories SET parent = %s WHERE parent = %d', ($parentID ? $parentID : 'NULL'), $id));
 
-        $GLOBALS['pear_rest']->deleteCategoryREST($name);
-        $GLOBALS['pear_rest']->saveAllCategoriesREST();
+        include_once 'pear-rest.php';
+        $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $GLOBALS['dbh']);
+        $pear_rest->deleteCategoryREST($name);
+        $pear_rest->saveAllCategoriesREST();
         return true;
     }
 
