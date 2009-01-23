@@ -424,7 +424,7 @@ class release
                 }
 
                 if (PEAR::isError($res)) {
-                    $dbh->query('DELETE FROM deps WHERE release = ' . $release_id);
+                    $dbh->query('DELETE FROM deps WHERE `release` = ' . $release_id);
                     $dbh->query('DELETE FROM releases WHERE id = '  . $release_id);
                     @unlink($file);
                     return $res;
@@ -643,7 +643,7 @@ class release
 
         $query = '
             INSERT INTO package_stats
-                (dl_number, package, release, pid, rid, cid, last_dl)
+                (dl_number, package, `release`, pid, rid, cid, last_dl)
             VALUES (1, ?, ?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
                     dl_number = dl_number + 1,
@@ -742,7 +742,7 @@ END;
         }
 
         // get files that have to be removed
-        $sql = 'SELECT fullpath FROM files WHERE package = ? AND release = ?';
+        $sql = 'SELECT fullpath FROM files WHERE package = ? AND `release` = ?';
         $sth = $dbh->query($sql, array($package, $release));
 
         // Should we error out if the removal fails ?
