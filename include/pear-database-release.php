@@ -446,10 +446,11 @@ class release
         }
 
         // Update Cache
-        $GLOBALS['pear_rest']->saveAllReleasesREST($package);
-        $GLOBALS['pear_rest']->saveReleaseREST($file, $packagexml, $pkg_info, $auth_user->handle,
-            $release_id);
-        $GLOBALS['pear_rest']->savePackagesCategoryREST(package::info($package, 'category'));
+        include_once 'pear-rest.php';
+        $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
+        $pear_rest->saveAllReleasesREST($package);
+        $pear_rest->saveReleaseREST($file, $packagexml, $pkg_info, $auth_user->handle, $release_id);
+        $pear_rest->savePackagesCategoryREST(package::info($package, 'category'));
 
         return $file;
     }
@@ -767,9 +768,11 @@ END;
         include_once 'pear-database-package.php';
         $pname = package::info($package, 'name');
 
-        $GLOBALS['pear_rest']->saveAllReleasesREST($pname);
-        $GLOBALS['pear_rest']->deleteReleaseREST($pname, $version);
-        $GLOBALS['pear_rest']->savePackagesCategoryREST(package::info($pname, 'category'));
+        include_once 'pear-rest.php';
+        $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
+        $pear_rest->saveAllReleasesREST($pname);
+        $pear_rest->deleteReleaseREST($pname, $version);
+        $pear_rest->savePackagesCategoryREST(package::info($pname, 'category'));
 
         if (PEAR::isError($sth)) {
             return false;
