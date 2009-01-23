@@ -436,9 +436,12 @@ class package
         }
         $sql = 'UPDATE packages SET ' . implode(', ', $fields) . " WHERE id = $package_id";
         $row = package::info($pkgid, 'name');
-        $GLOBALS['pear_rest']->saveAllPackagesREST();
-        $GLOBALS['pear_rest']->savePackageREST($row);
-        $GLOBALS['pear_rest']->savePackagesCategoryREST(package::info($pkgid, 'category'));
+
+        include_once 'pear-rest.php';
+        $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
+        $pear_rest->saveAllPackagesREST();
+        $pear_rest->savePackageREST($row);
+        $pear_rest->savePackagesCategoryREST(package::info($pkgid, 'category'));
         return $dbh->query($sql, $prep);
     }
 
