@@ -8,8 +8,11 @@ class user
 
         include_once 'pear-database-note.php';
         note::removeAll($uid);
-        $GLOBALS['pear_rest']->deleteMaintainerREST($uid);
-        $GLOBALS['pear_rest']->saveAllMaintainersREST();
+
+        include_once 'pear-rest.php';
+        $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
+        $pear_rest->deleteMaintainerREST($uid);
+        $pear_rest->saveAllMaintainersREST();
         $dbh->query('DELETE FROM users WHERE handle = ?', array($uid));
         return ($dbh->affectedRows() > 0);
     }
@@ -63,8 +66,10 @@ class user
 
         $karma->grant($user['handle'], $karmalevel);
         if ($karma->has($user['handle'], 'pear.dev')) {
-            $GLOBALS['pear_rest']->saveMaintainerREST($user['handle']);
-            $GLOBALS['pear_rest']->saveAllMaintainersREST();
+            include_once 'pear-rest.php';
+            $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
+            $pear_rest->saveMaintainerREST($user['handle']);
+            $pear_rest->saveAllMaintainersREST();
         }
 
         include_once 'pear-database-note.php';
