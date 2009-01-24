@@ -50,7 +50,7 @@ provided on the individual pages.</p>
   <li><a href="http://pear.horde.org/">Horde</a></li>
   <li><a href="http://pear.midcom-project.org/">Midgard Project</a></li>
   <li><a href="http://pearified.com/">Pearified</a></li>
-  <li><a href="http://phing.info/">Phing</a></li>
+  <li><a href="http://pear.phing.info/">Phing</a></li>
   <li><a href="http://pear.php-tools.net/">PHP Application Tools</a></li>
   <li><a href="http://pear.phpunit.de/">PHPUnit</a></li>
   <li><a href="http://pear.phpspec.org/">PHPSpec</a></li>
