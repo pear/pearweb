@@ -42,6 +42,7 @@ FROM packages, releases AS r1
   ON r1.releasedate < r2.releasedate
   AND r1.package = r2.package
 WHERE packages.id = r1.package
+ AND packages.package_type = 'pear'
  AND r2.releasedate IS NULL
 SQL;
 $res = $dbh->query($query);
