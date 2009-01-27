@@ -22,8 +22,8 @@
   <email>arnaud@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-01-02</date>
- <time>07:20:04</time>
+ <date>2009-01-03</date>
+ <time>06:10:57</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.0</api>
@@ -41,6 +41,7 @@
    <dir name="public_html">
     <dir name="qa">
      <file name="packages_closed_reports_no_release.php" role="www" />
+     <file name="patches_on_open_reports.php" role="www" />
      <file name="packages_orphan.php" role="www" />
      <file name="packages_status.php" role="www" />
      <file name="packages_status_detail.php" role="www" />
@@ -79,7 +80,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-01-02</date>
+   <date>2009-01-03</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - split qa script code from pearweb [dufuz]
