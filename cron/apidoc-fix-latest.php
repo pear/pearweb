@@ -36,9 +36,13 @@ if (DB::isError($dbh)) {
 $dbh->setFetchMode(DB_FETCHMODE_OBJECT);
 
 $query = <<<SQL
-SELECT DISTINCT packages.name AS name, releasedate, version
-FROM releases, packages WHERE packages.id = package
-GROUP BY package ORDER BY releasedate DESC
+SELECT r1.releasedate AS releasedate, r1.version AS version, packages.name AS name
+FROM packages, releases AS r1
+ LEFT JOIN releases AS r2
+  ON r1.releasedate < r2.releasedate
+  AND r1.package = r2.package
+WHERE packages.id = r1.package
+ AND r2.releasedate IS NULL
 SQL;
 $res = $dbh->query($query);
 
