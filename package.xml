@@ -108,7 +108,9 @@ kjsfld
      <file name="README" role="www" />
     </dir> <!-- /cron/mirror -->
     <file name="bug-summary.php" role="www" />
-    <file name="bug-update-php-version.php" role="www" />
+    <file name="bug-update-php-version.php" role="www">
+     <tasks:replace from="@www-dir@" to="www_dir" type="pear-config" />
+    </file>   
     <file name="trackback-cleanup.php" role="www" />
     <file name="update-website.php" role="www" />
    </dir> <!-- /cron -->
