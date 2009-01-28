@@ -252,7 +252,7 @@ echo make_link('/about/credits.php', 'CREDITS');
     Bandwidth and hardware provided by:
     <?php
      if ($_SERVER['SERVER_NAME'] == 'pear.php.net') {
-        echo make_link('http://www.pair.com/', 'pair Networks');
+        echo make_link('http://www.eukhost.com/', 'eUKhost');
      } elseif ($_SERVER['SERVER_NAME'] == PEAR_CHANNELNAME) {
         echo PEAR_CHANNELNAME;
      } else {
