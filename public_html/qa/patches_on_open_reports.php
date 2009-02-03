@@ -75,7 +75,7 @@ echo '<h2 id="pear">PEAR (' . count($bugs['pear']) . ')</h2>';
 echo $table->toHTML();
 
 echo '<h2>Details</h2>';
-foreach ($bugs['pear']as $name => $qa) {
+foreach ($bugs['pear'] as $name => $qa) {
     echo '<h3 id="package_bugs_' . $name . '">' . $name . '</h3>';
     echo '<ul>';
     foreach ($qa['bug_id'] as $bug_id) {
