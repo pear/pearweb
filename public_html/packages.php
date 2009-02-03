@@ -267,7 +267,7 @@ if (!empty($catpid)) {
 
     if (count($subcats) > 0) {
         foreach ($subcats as $subcat) {
-            if ($current_level_cat[$subcat['id']] < 1) {
+            if (empty($current_level_cat[$subcat['id']])) {
                 continue;
             }
             $subCategories[] = sprintf('<b><a href="%s?catpid=%d&catname=%s" title="%s">%s</a></b>',
