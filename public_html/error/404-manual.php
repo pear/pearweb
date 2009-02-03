@@ -6,6 +6,6 @@
 found in the PEAR manual.</p>
 
 <p>Please go to the <?php echo make_link('/manual/', 'Table of Contents'); ?>
-and try to find the desired chapter there.</p>
+ and try to find the desired chapter there.</p>
 
 <?php response_footer(); ?>
