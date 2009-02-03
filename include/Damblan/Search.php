@@ -56,11 +56,11 @@ class Damblan_Search
                 break;
             case 'site' :
                 require_once 'Damblan/Search/Site.php';
-                $s = new Damblan_Search_Site;
+                $s = new Damblan_Search_Site($dbh);
                 break;
             case 'pepr' :
                 require_once 'Damblan/Search/PEPr.php';
-                $s = new Damblan_Search_PEPr;
+                $s = new Damblan_Search_PEPr($dbh);
                 break;
             case 'pear-dev':
             case 'pear-cvs':
