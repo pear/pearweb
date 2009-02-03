@@ -384,7 +384,7 @@ class pearweb_Channel_REST_Generator
         $info2 = $this->_getAllReleases2RESTProlog($package);
         foreach ($releases as $release) {
             $packagexml = $this->db->getOne('SELECT packagexml FROM files WHERE package = ? AND
-                release = ?', array($pid, $release['id']));
+                `release` = ?', array($pid, $release['id']));
             if (PEAR::isError($packagexml)) {
                 return $packagexml;
             }
