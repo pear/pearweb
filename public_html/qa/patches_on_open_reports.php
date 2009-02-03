@@ -49,7 +49,7 @@ $res        = $dbh->getAll($sql, null, DB_FETCHMODE_ASSOC);
 $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
 
 echo 'Checks <a href="#pear">PEAR</a> and <a href="#pecl">PECL</a><br />';
-echo 'Found ' . $total_rows . ' reports that have been closed but their package has not had a release in 6 months<br /><br />';
+echo 'Found ' . $total_rows . ' reports with patches attached<br /><br />';
 
 foreach ($res as $data) {
     $bugs[$data['package_type']][$data['name']]['bug_id'][]     = $data['bug_id'];
@@ -65,7 +65,7 @@ $row = 1;
 foreach ($bugs['pear'] as $name => $qa) {
     $table->addRow(array(
         make_link('/package/' . $name . '/', $name),
-        count($qa['bug_id']),
+        make_link('#package_bugs_' . $name, count($qa['bug_id'])),
     ));
     $table->setCellAttributes($row, 1, 'style="text-align: center;"');
     $row++;
@@ -73,5 +73,15 @@ foreach ($bugs['pear'] as $name => $qa) {
 
 echo '<h2 id="pear">PEAR (' . count($bugs['pear']) . ')</h2>';
 echo $table->toHTML();
+
+echo '<h2>Details</h2>';
+foreach ($bugs['pear']as $name => $qa) {
+    echo '<h3 id="package_bugs_' . $name . '">' . $name . '</h3>';
+    echo '<ul>';
+    foreach ($qa['bug_id'] as $bug_id) {
+        echo '<li>' . make_link('/bugs/' . $bug_id, $bug_id) . '</li>';
+    }
+    echo '</ul>';
+}
 
 response_footer();
