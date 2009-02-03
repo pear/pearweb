@@ -102,7 +102,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
-<head<?php echo $head ?>>
+<head <?php echo $head ?>>
 <?php echo $extraHeaders; ?>
  <title><?php echo $title; ?></title>
  <link rel="shortcut icon" href="/gifs/favicon.ico" />
