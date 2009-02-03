@@ -543,7 +543,7 @@ class release
             $release_id = $row['id'];
         }
         if (!isset($path) && isset($release_id)) {
-            $sql = "SELECT fullpath, basename, id FROM files WHERE release = ".
+            $sql = "SELECT fullpath, basename, id FROM files WHERE `release` = ".
                  $release_id;
             $row = $dbh->getRow($sql, DB_FETCHMODE_ORDERED);
             if (PEAR::isError($row)) {
