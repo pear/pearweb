@@ -1288,12 +1288,14 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
     // This has to be done so we don't wordwrap the changeset part again
     $search  = "</div>\n";
     $needle  = strrpos($comment, $search);
-    $fix     = substr($comment, $needle + strlen($search)); // Get from last div until end of string
-    $status  = substr($comment, 0, $needle) . $search;
+    if ($needle !== false) {
+        $fix     = substr($comment, $needle + strlen($search)); // Get from last div until end of string
+        $status  = substr($comment, 0, $needle) . $search;
 
-    $comment = htmlspecialchars(wordwrap($fix, 72, "\n", true), ENT_QUOTES, 'ISO-8859-15', false);
-    $comment = make_ticket_links(addlinks($comment));
-    $comment = $status . $comment;
+        $comment = htmlspecialchars(wordwrap($fix, 72, "\n", true), ENT_QUOTES, 'ISO-8859-15', false);
+        $comment = make_ticket_links(addlinks($comment));
+        $comment = $status . $comment;
+    }
 
     echo $comment;
     echo "</pre>\n";
