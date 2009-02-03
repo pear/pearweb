@@ -359,7 +359,7 @@ class pearweb_Channel_REST_Generator
             return $releases;
         }
 
-        $deps = $this->db->getAssoc('SELECT release, version FROM deps WHERE package = ? AND type="php" and relation="ge"', false,
+        $deps = $this->db->getAssoc('SELECT `release`, `version` FROM deps WHERE package = ? AND type="php" and relation="ge"', false,
             array($pid));
         if (PEAR::isError($deps)) {
             return $releases;
