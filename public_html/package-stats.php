@@ -55,7 +55,7 @@ $query = "SELECT * FROM packages"
          . " ORDER BY name";
 
 $sth = $dbh->query($query);
-
+$packages = array();
 while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
     $packages[$row['id']] = $row['name'];
 }
