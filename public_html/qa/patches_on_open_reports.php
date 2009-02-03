@@ -53,7 +53,6 @@ echo 'Found ' . $total_rows . ' reports that have been closed but their package 
 
 foreach ($res as $data) {
     $bugs[$data['package_type']][$data['name']]['bug_id'][]     = $data['bug_id'];
-    $bugs[$data['package_type']][$data['name']]['last_release'] = $data['releasedate'];
 }
 
 // PEAR
