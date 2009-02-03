@@ -94,7 +94,7 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
         SUM(reproduced) AS reproduced,SUM(tried) AS tried,
         SUM(sameos) AS sameos, SUM(samever) AS samever,
         AVG(score)+3 AS average,STD(score) AS deviation,
-        users.showemail, users.handle, p.package_type, p.id as package_id
+        users.showemail, users.handle, p.package_type, p.id as package_id,
         1 as registered
         FROM bugdb b
         LEFT JOIN bugdb_votes ON b.id = bug
