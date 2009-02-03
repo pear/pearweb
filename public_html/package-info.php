@@ -329,8 +329,8 @@ if (empty($action)) {
                     break;
                 }
             }
-            echo '<li>Number of <a href="/bugs/search.php?cmd=display&package_name[]=' .
-                $pkg['name'] . '&status=OpenFeedback&bug_type=Bugs">open bugs</a>: <strong>' .
+            $link = make_link('/bugs/search.php?cmd=display&package_name[]=' . $pkg['name'] . '&status=OpenFeedback&bug_type=Bugs', 'open bugs');
+            echo '<li>Number of ' . $link . ': <strong>' .
                 $buginfo['count'] . ' (' . $buginfo['total'] . ' total bugs)</strong></li>' . "\n";
             echo '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>' . "\n";
             echo '<li>Oldest open bug: <strong>' . $buginfo['oldest'] . ' days</strong></li>' . "\n";
