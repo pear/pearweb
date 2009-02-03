@@ -84,9 +84,9 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
      */
     define('PEAR_APIDOC_DIR', '/home/pear/packages/apidoc/');
     // Where patches can be found
-    define('PEAR_PATCHES', '/home/pear/packages/patches/');
+    define('PEAR_PATCHES', '/home/pear/pearweb/patches/');
     // Where proposed patches reside
-    define('PEAR_CVS', '/home/pear/packages/patches/cvs/');
+    define('PEAR_CVS', '/home/pear/pearweb/patches/cvs/');
     /**
      * PEPr: the address of the PEAR Developer email list
      *
@@ -115,7 +115,7 @@ define('PEAR_CVS_TMPDIR',          PEAR_TMPDIR . '/cvs');
 // Where pearweb's temporary uploads should be stored
 define('PEAR_UPLOAD_TMPDIR',       PEAR_TMPDIR . '/uploads');
 // Where pearweb's temporary uploads should be stored
-define('PEAR_PATCHTRACKER_TMPDIR', PEAR_TMPDIR . '/patch');
+define('PEAR_PATCHTRACKER_TMPDIR', '/home/pear/pearweb/patches/');
 
 if (isset($_ENV['PEAR_DATABASE_DSN'])) {
     define('PEAR_DATABASE_DSN', $_ENV['PEAR_DATABASE_DSN']);
