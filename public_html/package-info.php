@@ -643,7 +643,7 @@ if (empty($action)) {
     }
 
     echo '</td>';
-    echo '<td>';
+    echo '<td style="vertical-align: top">';
 
     if ($rel_count > 0) {
         echo '<p>Auto-generated API documentation for each ';
