@@ -1289,7 +1289,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
     $fix     = $comment;
     $status  = "";
 
-    $search  = "</div>\n";
+    $search  = "</div>";
     $needle  = strrpos($comment, $search);
     if ($needle !== false) {
         $fix     = substr($comment, $needle + strlen($search)); // Get from last div until end of string
