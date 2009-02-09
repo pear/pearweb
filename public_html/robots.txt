@@ -4,5 +4,6 @@ Disallow: /get
 Disallow: /search.php
 Disallow: /distributions
 Disallow: /bugs/search.php
+Disallow: /bugs/bug-pwd-finder.php
 Disallow: /package/*/docs/
 Allow: /package/*/docs/latest/
