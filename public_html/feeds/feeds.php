@@ -38,7 +38,7 @@ function rss_create($items, $channel_title, $channel_description, $dest_file = f
     xmlns:dc="http://purl.org/dc/elements/1.1/"
 >
     <channel rdf:about="http://' . PEAR_CHANNELNAME . '">
-    <link>http:// ' . PEAR_CHANNELNAME . '/</link>
+    <link>http://' . PEAR_CHANNELNAME . '/</link>
     <dc:creator>' . PEAR_WEBMASTER_EMAIL . '</dc:creator>
     <dc:publisher>' . PEAR_WEBMASTER_EMAIL . '</dc:publisher>
     <dc:language>en-us</dc:language>';
