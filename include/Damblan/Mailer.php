@@ -81,7 +81,7 @@ class Damblan_Mailer
     function &create($template, $data)
     {
         if (!is_array($template)) {
-            require 'Damblan/Mail/'.$template.'.tpl.php';
+            require PEARWEB_TEMPLATEDIR  . 'mail/'.$template.'.tpl.php';
             if (!isset($tpl)) {
                 return PEAR::raiseError('Template '.$template.' does not exist.');
             }
