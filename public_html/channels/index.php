@@ -42,14 +42,12 @@ provided on the individual pages.</p>
 <ul>
   <li><a href="http://pear.11abacus.com/">11abacus</a></li>
   <li><a href="http://pear.agavi.org/">Agavi</a></li>
-  <li><a href="http://pear.crtx.org/">Cerebral Cortex</a></li>
   <li><a href="http://pear.crisscott.com/">Crisscott</a></li>
   <li><a href="http://pear.domain51.com/">Domain51</a></li>
   <li><a href="http://components.ez.no/">eZ components</a></li>
   <li><a href="http://gnope.org/pearfront/">Gnope PHP-GTK2 applications</a></li>
   <li><a href="http://pear.horde.org/">Horde</a></li>
   <li><a href="http://pear.midcom-project.org/">Midgard Project</a></li>
-  <li><a href="http://pearified.com/">Pearified</a></li>
   <li><a href="http://pear.phing.info/">Phing</a></li>
   <li><a href="http://pear.php-tools.net/">PHP Application Tools</a></li>
   <li><a href="http://pear.phpunit.de/">PHPUnit</a></li>
