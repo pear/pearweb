@@ -157,7 +157,7 @@ define('TRACKBACK_PURGE_TIME', 14 * 27 * 60 * 60);
 
 define('HONEYPOT_API_KEY', 'rmclkmerkfxm');
 
-if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME || !isset($_ENV['PEAR_BOX'])) {
+if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME || !isset($_SERVER['PEAR_BOX'])) {
     error_reporting(1083);
     define('DEVBOX', true);
 } else {
