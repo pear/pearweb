@@ -366,7 +366,7 @@ if ($total_rows > 0) {
         $i++;
         echo "      <rdf:li rdf:resource=\"http://" .  PEAR_CHANNELNAME . "/bug/{$row['id']}\" />\n";
         $items[$i] = "    <item rdf:about=\"http://" .  PEAR_CHANNELNAME . "/bug/{$row['id']}\">\n";
-        $items[$i] .= '      <title>' . utf8_encode(htmlspecialchars($row['bug_type'] . ' ' . $row['id'] . ' [' . $row['status'] . '] ' . $row['sdesc'])) . "</title>\n";
+        $items[$i] .= '      <title>' . utf8_encode(htmlspecialchars($row['package_name'] . ': ' . $row['bug_type'] . ' ' . $row['id'] . ' [' . $row['status'] . '] ' . $row['sdesc'])) . "</title>\n";
         $items[$i] .= "      <link>http://" . PEAR_CHANNELNAME . "/bugs/{$row['id']}</link>\n";
         $items[$i] .= '      <description><![CDATA[' . utf8_encode(htmlspecialchars($row['ldesc'])) . "]]></description>\n";
         if (!$row['unchanged']) {
