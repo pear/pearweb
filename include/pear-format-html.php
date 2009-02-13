@@ -379,6 +379,7 @@ function draw_navigation()
         $sub['/admin/']['/admin/category-manager.php'] = 'Manage categories';
         $sub['/admin/']['/tags/admin.php']             = 'Manage tags';
         $sub['/admin/']['/admin/karma.php']            = 'Karma';
+        $sub['/admin/']['/admin/apidoc-log.php']       = 'APIdoc log';
     }
 
     // Orders the main items in the proper order according to $main_order
