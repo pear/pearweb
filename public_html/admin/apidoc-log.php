@@ -39,21 +39,21 @@ if (!empty($_GET['filename'])) {
         echo "  <li>Command output:<br /><pre>" . strip_tags($info['log']) . "</pre></li>\n";
         echo "</ul>\n";
     }
+} else {
+    $query = "SELECT filename FROM apidoc_queue ORDER BY queued DESC";
+    $sth = $dbh->query($query);
+
+    echo "<p>Select a filename:</p>\n\n";
+
+    echo "<ul>";
+    while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
+        printf("<li><a href=\"/admin/apidoc-log.php?filename=%s\">%s</a></li>\n",
+            urlencode($row['filename']),
+            $row['filename']
+        );
+   }
+   echo "</ul>";
 }
-
-$query = "SELECT filename FROM apidoc_queue ORDER BY queued DESC";
-$sth = $dbh->query($query);
-
-echo "<p>Select a filename:</p>\n\n";
-
-echo "<ul>";
-while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
-    printf("<li><a href=\"/admin/apidoc-log.php?filename=%s\">%s</a></li>\n",
-           urlencode($row['filename']),
-           $row['filename']
-           );
-}
-echo "</ul>";
 
 response_footer();
 ?>
