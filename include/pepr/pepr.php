@@ -464,11 +464,13 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
             $this->id = mysqli_insert_id($dbh->connection);
         }
         ppLink::deleteAll($dbh, $this->id);
-        foreach ($this->links as $link) {
-            if (!empty($link->url)) {
-                $res = $link->store($dbh, $this->id);
-                if (DB::isError($res)) {
-                    return $res;
+        if (isset($this->links) && count($this->links)) {
+            foreach ($this->links as $link) {
+                if (!empty($link->url)) {
+                    $res = $link->store($dbh, $this->id);
+                    if (DB::isError($res)) {
+                        return $res;
+                    }
                 }
             }
         }
