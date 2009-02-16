@@ -131,7 +131,7 @@ Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
  </li>
 
  <li>
-  <cite><a href="http://www.devshed.com/Server_Side/PHP/DBAbstraction">Database
+  <cite><a href="http://www.devshed.com/c/a/PHP/Database-Abstraction-With-PHP/">Database
   Abstraction With PHP</a></cite> on devshed.com.
  </li>
  <li>
