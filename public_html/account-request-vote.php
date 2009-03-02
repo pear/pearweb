@@ -127,7 +127,9 @@ try {
 }
 
 // Check about the last 30 days
-if ($status && $status->suspicious && $status->getLastActivity() < 30) {
+if ($status && $status->getLastActivity() < 30
+    && ($status->suspicious || $status->isCommentSpammer() || $status->isHarvester() || $status->isSearchEngine())
+) {
     $errors = 'We can not allow you to continue since your IP has been marked suspicious within the past 30 days
             by the http://projecthoneypot.org/, if that was done in error then please contact ' .
                PEAR_DEV_EMAIL . ' as well as the projecthoneypot people to resolve the issue.';
