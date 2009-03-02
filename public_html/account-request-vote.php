@@ -126,9 +126,10 @@ try {
    $display_form = false;
 }
 
-if ($status && $status->suspicious) {
-    $errors = 'We can not allow you to continue since your IP has been marked suspicious by the
-               http://projecthoneypot.org/, if that was done in error then please contact ' .
+// Check about the last 3 months
+if ($status && $status->suspicious && $status->getLastActivity() < 90) {
+    $errors = 'We can not allow you to continue since your IP has been marked suspicious within the past 3 months
+            by the http://projecthoneypot.org/, if that was done in error then please contact ' .
                PEAR_DEV_EMAIL . ' as well as the projecthoneypot people to resolve the issue.';
     report_error($errors);
     $display_form = false;
