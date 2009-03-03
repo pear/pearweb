@@ -676,6 +676,7 @@ class release
         $package = $pkginfo->getPackage();
         $notes   = $pkginfo->getNotes();
         $desc    = $pkginfo->getDescription();
+        $version = $pkginfo->getVersion();
         $state   = $pkginfo->getState();
 
         include_once 'pear-database-package.php';
