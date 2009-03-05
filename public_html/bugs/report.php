@@ -458,7 +458,7 @@ if (!package_exists($_REQUEST['package'])) {
     }
 
     // Check about the last 30 days
-    if ($status && $status->getLastActivity() < 30
+    if (!isset($auth_user) && $status && $status->getLastActivity() < 30
         && ($status->suspicious || $status->isCommentSpammer() || $status->isHarvester() || $status->isSearchEngine())
     ) {
         $errors = 'We can not allow you to continue since your IP has been marked suspicious within the past 30 days
