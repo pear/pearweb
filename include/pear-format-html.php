@@ -683,7 +683,7 @@ function make_link($url, $linktext = '', $target = '', $extras = '', $title = ''
         $url,
         ($target ? ' target="'.$target.'"' : ''),
         ($extras ? ' '.$extras : ''),
-        ($title ? ' title="'.$title.'"' : ''),
+        ($title ? ' title="'.htmlspecialchars($title).'"' : ''),
         ($linktext != '' ? $linktext : $url)
     );
 }
