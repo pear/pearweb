@@ -651,10 +651,15 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
     }
 
     if ($ncomment) {
+        $ncomment = preg_replace('#<div id="changeset">(.*)</div>#sUe',
+                                 "ltrim(strip_tags('\\1'))", $ncomment);
         $text[] = " New Comment:\n\n" . $ncomment;
     }
 
-    $text[] = $pbu->getOldComments($bug['id'], empty($ncomment));
+    $old_comments = $pbu->getOldComments($bug['id'], empty($ncomment));
+    $old_comments = preg_replace('#<div id="changeset">(.*)</div>#sUe',
+                                 "ltrim(strip_tags('\\1'))", $old_comments);
+    $text[] = $old_comments;
 
     /* format mail so it looks nice, use 72 to make piners happy */
     $wrapped_text = wordwrap(join("\n",$text), 72);
