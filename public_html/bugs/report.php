@@ -701,8 +701,7 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="8" name="in[ldesc]" id="in[ldesc]" wrap="physical">
-   <?php echo clean($_POST['in']['ldesc']); ?></textarea>
+   <textarea cols="60" rows="8" name="in[ldesc]" id="in[ldesc]" wrap="physical"><?php echo clean($_POST['in']['ldesc']); ?></textarea>
   </td>
  </tr>
  <tr>
@@ -724,8 +723,7 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="8" name="in[repcode]" id="in[repcode]"wrap="no">
-   <?php echo clean($_POST['in']['repcode']); ?></textarea>
+   <textarea cols="60" rows="8" name="in[repcode]" id="in[repcode]"wrap="no"><?php echo clean($_POST['in']['repcode']); ?></textarea>
   </td>
  </tr>
  <tr>
@@ -736,8 +734,7 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="8" name="in[expres]" id="in[expres]" wrap="physical">
-   <?php echo clean($_POST['in']['expres']); ?></textarea>
+   <textarea cols="60" rows="8" name="in[expres]" id="in[expres]" wrap="physical"><?php echo clean($_POST['in']['expres']); ?></textarea>
   </td>
  </tr>
  <tr>
@@ -751,8 +748,7 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="8" name="in[actres]" name="in[actres]" wrap="physical">
-   <?php echo clean($_POST['in']['actres']); ?></textarea>
+   <textarea cols="60" rows="8" name="in[actres]" name="in[actres]" wrap="physical"><?php echo clean($_POST['in']['actres']); ?></textarea>
   </td>
  </tr>
  <tr>
