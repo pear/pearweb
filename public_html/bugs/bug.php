@@ -1128,27 +1128,26 @@ if ($edit == 3) {
       <th class="details">Y<span class="accesskey">o</span>ur email address:<br />
       <strong>MUST BE VALID</strong></th>
       <td class="form-input">
-       <input type="text" size="40" maxlength="40" id="in[commentemail]"
+       <input type="text" size="40" maxlength="40" name="in[commentemail]" id="in[commentemail]"
         value="<?php echo clean(isset($_POST['in']) && isset($_POST['in']['commentemail']) ?
             $_POST['in']['commentemail'] : '') ?>"
         accesskey="o" />
-       <input type="hidden" id="id" value="<?php echo $id ?>" />
-       <input type="hidden" id="edit" value="<?php echo $edit?>" />
+       <input type="hidden" name="id" id="id" value="<?php echo $id ?>" />
+       <input type="hidden" name="edit" id="edit" value="<?php echo $edit?>" />
       </td>
      </tr>
      <tr>
       <th>Solve the problem : <?php print $numeralCaptcha->getOperation(); ?> = ?</th>
-      <td class="form-input"><input type="text" id="captcha" /></td>
+      <td class="form-input"><input type="text" name="captcha" id="captcha" /></td>
      </tr>
      <?php $_SESSION['answer'] = $numeralCaptcha->getAnswer(); ?>
      <?php endif; // if (!$auth_user): ?>
     </table>
 
     <div>
-     <input type="hidden" id="id" value="<?php echo $id ?>" />
-     <input type="hidden" id="edit" value="<?php echo $edit ?>" />
-     <textarea cols="60" rows="10" id="ncomment"wrap="physical">
-     <?php echo clean($ncomment) ?></textarea>
+     <input type="hidden" name="id" id="id" value="<?php echo $id ?>" />
+     <input type="hidden" name="edit" id="edit" value="<?php echo $edit ?>" />
+     <textarea cols="60" rows="10" name="ncomment" id="ncomment" wrap="physical"><?php echo clean($ncomment) ?></textarea>
      <br /><input type="submit" name="preview" value="Preview" />&nbsp;<input type="submit" value="Submit" />
     </div>
 
