@@ -354,7 +354,7 @@ function show_package_version_options($package, $current)
     } else {
         $versions = array(1 => 1);
     }
-    echo '<select id="in[package_version]">' . "\n";
+    echo '<select name="in[package_version]" id="in[package_version]">' . "\n";
     echo '<option value="">--Please Select--</option>' . "\n";
     $use = 0;
 
