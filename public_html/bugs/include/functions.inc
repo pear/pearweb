@@ -320,13 +320,13 @@ function show_package_version_options($package, $current)
 {
     global $pseudo_pkgs, $dbh;
     if (in_array($package, $pseudo_pkgs, true)) {
-        echo '<input type="text" size="20" maxlength="100" id="in[package_version]"
+        echo '<input type="text" size="20" maxlength="100" name="in[package_version]" id="in[package_version]"
     value="' . clean($current) . '" />';
         return;
     }
     $pid = $dbh->getOne('SELECT id from packages where name = ?', array($package));
     if (!$pid) {
-        echo '<input type="text" size="20" maxlength="100" id="in[package_version]"
+        echo '<input type="text" size="20" maxlength="100" name="in[package_version]" id="in[package_version]"
     value="' . clean($current) . '" />';
         return;
     }
