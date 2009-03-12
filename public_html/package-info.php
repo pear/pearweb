@@ -535,7 +535,7 @@ if (empty($action)) {
             echo '<strong>Release date:</strong> ' . format_date(strtotime($info['releasedate'])) . '<br />';
             echo '<strong>Release state:</strong> ';
             echo '<span class="' . htmlspecialchars($info['state']) . '">' . htmlspecialchars($info['state']) . '</span><br /><br />';
-            echo '<strong>Changelog:</strong><br /><br />' . nl2br(make_ticket_links(htmlspecialchars($info['releasenotes']))) . '<br /><br />';
+            echo '<strong>Changelog:</strong><br /><br />' . nl2br(make_ticket_links(htmlspecialchars($info['releasenotes']), '/bugs/')) . '<br /><br />';
 
             if (!empty($info['deps']) && count($info['deps']) > 0) {
                 echo '<strong>Dependencies:</strong>';
