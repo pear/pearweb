@@ -107,6 +107,7 @@ class PEAR_Bugs
         $opencount = $this->_dbh->getOne('SELECT COUNT(*)
              FROM bugdb b, maintains m, packages p
              WHERE
+              m.active = 1 AND
               m.handle = ? AND
               p.id = m.package AND
               b.package_name = p.name AND
