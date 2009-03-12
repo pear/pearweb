@@ -43,7 +43,6 @@ echo '<h1>Edit Profile: ';
 echo '<a href="/user/'. htmlspecialchars($handle) . '">'
         . htmlspecialchars($handle) . '</a></h1>' . "\n";
 
-echo "<ul><li><a href=\"#password\">Manage your password</a></li></ul>";
 
 $admin = $auth_user->isAdmin();
 $user  = $auth_user->is($handle);
@@ -53,6 +52,8 @@ if (!$admin && !$user) {
     response_footer();
     exit();
 }
+
+echo "<ul><li><a href=\"#password\">Manage your password</a></li></ul>";
 
 if (isset($_POST['command']) && strlen($_POST['command'] < 32)) {
     $command = htmlspecialchars($_POST['command']);
