@@ -850,11 +850,12 @@ function print_package_navigation($pacid, $name, $action)
  * If the bug number is prefixed by the word "PHP," the link will
  * go to bugs.php.net.  Otherwise, the bug is considered a PEAR bug.
  *
- * @param string $text  the text to check for bug numbers
+ * @param string $text      the text to check for bug numbers
+ * @param string $urlPrefix In case we need to prefix the url
  *
  * @return string  the string with bug numbers hyperlinked
  */
-function make_ticket_links($text)
+function make_ticket_links($text, $urlPrefix = '')
 {
     global $dbh;
     $text = preg_replace('/#patch bug:([0-9]+);patch:([0-9a-z_\-\.]+);revision:([0-9]+);/i',
@@ -873,7 +874,7 @@ function make_ticket_links($text)
         foreach ($res as $k => $b) {
             $t     = $matches[0][$k];
             $title = $b['package_name'] . ': ' . $b['sdesc'];
-            $link  = make_link($matches[2][$k], $t, null, null, $title);
+            $link  = make_link($urlPrefix . $matches[2][$k], $t, null, null, $title);
             $text  = str_replace($t, $link, $text);
         }
     }
