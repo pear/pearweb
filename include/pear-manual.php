@@ -119,7 +119,7 @@ function makeBorderTOC($id, $this = '')
 
         // So that package/function names don't bleed over the sidebar
         $cut = $indent ? 22 : 24;
-        $title_fmt = wordwrap($title_fmt, $cut, "\n", true);
+        $title_fmt = wordwrap($title_fmt, $cut, '<br />', true);
         $class = ($indent) ? 'man-side_page_nested' : 'man-side_page';
         $RSIDEBAR_DATA .= "\n" . '  <li class="' . $class . '">'
                 . (($title == $this) ? "<strong>$title_fmt</strong>"
