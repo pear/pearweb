@@ -20,6 +20,7 @@
 
 
 // Details about PEAR accounts
+require_once 'Damblan/Karma.php';
 require_once 'Damblan/URL.php';
 require_once 'HTTP.php';
 $site = new Damblan_URL();
@@ -184,28 +185,30 @@ if (!empty($row['latitude']) && !empty($row['longitude'])) {
     echo '</li>' . "\n";
 }
 
-echo '    <li>Bug Statistics: <br />' . "\n";
-echo '     <ul>' . "\n";
+$karma =& new Damblan_Karma($dbh);
+if ($karma->has($handle, 'pear.dev')) {
+    echo '    <li>Bug Statistics: <br />' . "\n";
+    echo '     <ul>' . "\n";
 
-require 'bugs/pear-bugs.php';
-$bugs = new PEAR_Bugs;
-$info = $bugs->developerBugStats($handle);
-echo '      <li>Rank: <strong><a href="/bugs/stats_dev.php">#' . $info['rank'] . ' of ' . count($info['rankings']) . '</a></strong> developers who have fixed bugs <strong>(' .
-    $info['alltime'] . ' fixed bugs)</strong></li>' . "\n";
-echo '      <li>Average age of open bugs: <strong>' . $info['openage'] . ' days</strong></li>' . "\n";
-$url = '/bugs/search.php?handle=' . $handle . '&cmd=display&bug_type=Bug&status=OpenFeedback&showmenu=1';
-echo '      <li>Number of open bugs: <strong><a href="' . $url . '">' . $info['opencount'] . '</a></strong></li>' . "\n";
-echo '      <li>Assigned bugs relative to all maintained packages bugs: <strong>' .
-    round($info['assigned'] * 100) . '%</strong></li>' . "\n";
-echo '      <li>Number of submitted patches: <strong>' .
-    $info['patches'] . '</strong></li>' . "\n";
-echo '      <li>Number of bugs opened using account: <strong>' .
-    $info['opened'] . '</strong></li>' . "\n";
-echo '      <li>Number of bug comments using account: <strong>' .
-    $info['commented'] . '</strong></li>' . "\n";
-echo '     </ul>' . "\n";
-echo '    </li>' . "\n";
-
+    require 'bugs/pear-bugs.php';
+    $bugs = new PEAR_Bugs;
+    $info = $bugs->developerBugStats($handle);
+    echo '      <li>Rank: <strong><a href="/bugs/stats_dev.php">#' . $info['rank'] . ' of ' . count($info['rankings']) . '</a></strong> developers who have fixed bugs <strong>(' .
+        $info['alltime'] . ' fixed bugs)</strong></li>' . "\n";
+    echo '      <li>Average age of open bugs: <strong>' . $info['openage'] . ' days</strong></li>' . "\n";
+    $url = '/bugs/search.php?handle=' . $handle . '&cmd=display&bug_type=Bug&status=OpenFeedback&showmenu=1';
+    echo '      <li>Number of open bugs: <strong><a href="' . $url . '">' . $info['opencount'] . '</a></strong></li>' . "\n";
+    echo '      <li>Assigned bugs relative to all maintained packages bugs: <strong>' .
+        round($info['assigned'] * 100) . '%</strong></li>' . "\n";
+    echo '      <li>Number of submitted patches: <strong>' .
+        $info['patches'] . '</strong></li>' . "\n";
+    echo '      <li>Number of bugs opened using account: <strong>' .
+        $info['opened'] . '</strong></li>' . "\n";
+    echo '      <li>Number of bug comments using account: <strong>' .
+        $info['commented'] . '</strong></li>' . "\n";
+    echo '     </ul>' . "\n";
+    echo '    </li>' . "\n";
+}
 ?>
 
    </ul>
