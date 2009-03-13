@@ -99,8 +99,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
         header('Content-Type: text/html; charset=ISO-8859-15');
     }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html>
 <head <?php echo $head ?>>
 <?php echo $extraHeaders; ?>
