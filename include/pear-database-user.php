@@ -146,6 +146,10 @@ class user
     static function info($user, $field = null, $registered = true, $hidePassword = true)
     {
         global $dbh;
+        
+        if (!$dbh) {
+            return null;
+        }
 
         $handle = strpos($user, '@') ? 'email' : 'handle';
 
