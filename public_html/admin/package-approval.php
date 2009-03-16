@@ -102,7 +102,7 @@ if (count($rows) == 0) {
         $table->addRow($tmp);
     }
 
-    $table->toHTML();
+    echo $table->toHTML();
 }
 
 echo "<br /><br />";
