@@ -20,4 +20,4 @@ To confirm please follow the link
 If you have received this email by mistake we apologize for any
 inconvenience. You do not need to reply to this email.
 
-' SITE_BIG . ' Quality Assurance.');
+' . SITE_BIG . ' Quality Assurance.');
