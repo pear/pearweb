@@ -176,7 +176,7 @@ function navigationBar($id, $title, $loc)
     echo ' <tr class="man-nav_prev-next">' . "\n";
     echo '  <td class="man-nav_prev">' . "\n   ";
     if ($PREV[1]) {
-        $link = @htmlspecialchars($PREV[1], ENT_QUOTES, $CHARSET);
+        $link = $PREV[1];
         if (strlen($link) > 45) {
             $link = str_replace('::', '::<br />', $link);
         }
@@ -190,7 +190,7 @@ function navigationBar($id, $title, $loc)
     echo '  </td>' . "\n";
     echo '  <td class="man-nav_next">' . "\n";
     if ($NEXT[1]) {
-        $link = @htmlspecialchars($NEXT[1], ENT_QUOTES, $CHARSET);
+        $link = $NEXT[1];
         if (strlen($link) > 45) {
             $link = str_replace('::', '::<br />', $link);
         }
