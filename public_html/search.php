@@ -43,8 +43,8 @@ foreach (array("packages" => "Packages", "site" => "This Site (using Yahoo!)", "
     echo "<option value=\"" . $key . "\" " . $selected . ">" . $value . "</option>\n";
 }
 echo "</select>\n";
-if (is_object($pager)) {
-    echo $pager->getPerPageSelectBox(10, 90, 10, false, array('optionText' => '%d packages', 'attributes' => 'id="perPage"', 'checkMaxLimit' => true));
+if ($search->getTotal() > $perP) {
+    echo $pager->getPerPageSelectBox(10, 90, 10, false, array('optionText' => '%d items', 'attributes' => 'id="perPage"', 'checkMaxLimit' => true));
 }
 echo "<input type=\"submit\" value=\"Search\" />\n";
 echo "<script language=\"JavaScript\" type=\"text/javascript\">document.forms.search.q.focus();</script>\n";
