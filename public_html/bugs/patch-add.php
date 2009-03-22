@@ -180,7 +180,8 @@ if (isset($_POST['addpatch'])) {
 The following patch has been added/updated:
 
 Patch Name:  $patch_name
-URL:         #patch bug:$bug;patch:$patch_name;revision:$e;
+Revision:    $e
+URL:         $url
 TXT;
 
         $query = 'INSERT INTO bugdb_comments' .
