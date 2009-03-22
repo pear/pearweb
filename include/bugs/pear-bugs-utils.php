@@ -145,7 +145,7 @@ class PEAR_Bugs_Utils
         $mailData = array(
             'id'         => $id,
             'url'        => $host .
-                            "/bugs/patch-display.php?bug=$id&patch=$name&revision=$patch[revision]&display=1",
+                            "/bugs/patch-display.php?bug_id=$id&patch=$name&revision=$patch[revision]&display=1",
             'date'       => date('Y-m-d H:i:s'),
             'name'       => $patch['patch'],
             'package'    => $patch['package_name'],
