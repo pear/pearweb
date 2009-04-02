@@ -468,6 +468,23 @@ function make_menu($data, $id, $self)
 }
 
 /**
+ * Returns the detailled error message of an PEAR_Error or an Exception
+ *
+ * @param PEAR_Error|Exception $error Error object
+ *
+ * @return string Detailled error message
+ */
+function get_detail_error_msg($error)
+{
+    if ($error instanceof Exception) {
+        $msg = $error->__toString();
+    } else {
+        $msg = $error->getMessage() . '... ' . $error->getUserInfo();
+    }
+    return $msg;
+}
+
+/**
  * Display errors or warnings as a <ul> inside a <div>
  *
  * Here's what happens depending on $in:
@@ -489,11 +506,7 @@ function report_error($in, $class = 'errors', $head = 'ERROR:')
 {
     if (PEAR::isError($in) || $in instanceof Exception) {
         if (DEVBOX == true) {
-            if ($in instanceof Exception) {
-                $in = array($in->__toString());
-            } else {
-                $in = array($in->getMessage() . '... ' . $in->getUserInfo());
-            }
+            $in = array(get_detail_error_msg($in));
         } else {
             $in = array($in->getMessage());
         }
@@ -507,11 +520,7 @@ function report_error($in, $class = 'errors', $head = 'ERROR:')
     foreach ($in as $msg) {
         if (PEAR::isError($msg) || $msg instanceof Exception) {
             if (DEVBOX == true) {
-                if ($msg instanceof Exception) {
-                    $msg = array($msg->__toString());
-                } else {
-                    $msg = array($msg->getMessage() . '... ' . $msg->getUserInfo());
-                }
+                $msg = get_detail_error_msg($msg);
             } else {
                 $msg = $msg->getMessage();
             }
@@ -558,6 +567,7 @@ function error_handler($errobj, $title = 'Error')
     response_header($title);
     report_error($errobj);
     response_footer();
+    error_log('pearweb errorhandler: ' . get_detail_error_msg($errobj), 0);
     exit;
 }
 
