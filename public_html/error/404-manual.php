@@ -1,3 +1,13 @@
+<?php
+$file = $_SERVER['REQUEST_URI'];
+//try english file
+$enfile = str_replace('/manual/', '/manual/en/', $file);
+if (file_exists(dirname(__FILE__) . '/../' . $enfile)) { 
+    header('HTTP/1.0 301 Moved permanently');
+    header('Location: ' . $enfile);
+    exit();
+}
+?>
 <?php response_header('Error 404'); ?>
 
 <h1>Error 404 - document not found</h1>
