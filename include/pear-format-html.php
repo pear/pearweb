@@ -478,8 +478,10 @@ function get_detail_error_msg($error)
 {
     if ($error instanceof Exception) {
         $msg = $error->__toString();
-    } else {
+    } else if ($error instanceof PEAR_Error) {
         $msg = $error->getMessage() . '... ' . $error->getUserInfo();
+    } else {
+        $msg = (string)$error;
     }
     return $msg;
 }
