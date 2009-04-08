@@ -198,8 +198,10 @@ class Bugs_Patchtracker
                 $this->_dbh->query('DELETE FROM bugdb_patchtracker
                     WHERE bugdb_id = ? and patch = ? and revision = ?',
                     array($bugid, $name, $id));
-                return PEAR::raiseError('Error: uploaded patch file must be text ' .
-                    'file (save as e.g. "patch.txt" or "package.diff")');
+                return PEAR::raiseError('Error: uploaded patch file must be text'
+                    . ' file (save as e.g. "patch.txt" or "package.diff")'
+                    . ' (detected "' . htmlspecialchars($mime) . '")'
+                );
             }
             $tmpfile = $file->moveTo($this->patchDir($bugid, $name));
             if (PEAR::isError($tmpfile)) {
