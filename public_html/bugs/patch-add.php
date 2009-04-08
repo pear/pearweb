@@ -174,7 +174,7 @@ if (isset($_POST['addpatch'])) {
     // {{{ Email after the patch is added and add a comment to the bug report.
     if (!isset($buggie)) {
         $patch_name = $_POST['name'];
-        $url = 'patch-display.php?bug=$bug&patch=$patch_name&revision=$e&display=1';
+        $url = "patch-display.php?bug=$bug&patch=$patch_name&revision=$e&display=1";
         $bugurl ='http://' . PEAR_CHANNELNAME . '/bugs/' . $url;
         // Add a comment about this in the bug report
         $text = <<<TXT
