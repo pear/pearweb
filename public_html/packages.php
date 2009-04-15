@@ -131,7 +131,7 @@ if ($php != 'all') {
         d.release = (SELECT id FROM releases WHERE package = p.id ORDER BY releasedate DESC LIMIT 1) AND
         d.optional = 0 AND
         d.type = "php" AND
-        SUBSTRING(d.version, 1, 1) ' . $php_version;
+        ((SUBSTRING(d.version, 1, 1) ' . $php_version . ') OR (SUBSTRING(d.name, 1, 1) ' . $php_version . '))';
 }
 
 $sql .= '
@@ -178,7 +178,7 @@ if ($php != 'all') {
         d.release = (SELECT id FROM releases WHERE package = p.id ORDER BY releasedate DESC LIMIT 1) AND
         d.optional = 0 AND
         d.type = "php" AND
-        SUBSTRING(d.version, 1, 1) ' . $php_version . '
+        ((SUBSTRING(d.version, 1, 1) ' . $php_version . ') OR (SUBSTRING(d.name, 1, 1) ' . $php_version . '))
         GROUP BY p.id';
 }
 
@@ -306,7 +306,7 @@ if (!empty($catpid)) {
             d.release = (SELECT id FROM releases WHERE package = p.id ORDER BY releasedate DESC LIMIT 1) AND
             d.optional = 0 AND
             d.type = "php" AND
-            SUBSTRING(d.version, 1, 1) ' . $php_version . '
+            ((SUBSTRING(d.version, 1, 1) ' . $php_version . ') OR (SUBSTRING(d.name, 1, 1) ' . $php_version . '))
             GROUP BY p.id';
     }
 
