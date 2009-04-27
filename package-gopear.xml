@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.7.0RC2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.7.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_gopear</name>
  <channel>pear.php.net</channel>
  <summary>go-pear script for pear.php.net</summary>
@@ -43,8 +43,8 @@ You can download go-pear from http://pear.php.net/go-pear
   <email>cox@idecnet.com</email>
   <active>no</active>
  </lead>
- <date>2009-04-27</date>
- <time>22:44:13</time>
+ <date>2008-08-03</date>
+ <time>15:42:27</time>
  <version>
   <release>1.1.2</release>
   <api>1.1.0</api>
@@ -54,12 +54,13 @@ You can download go-pear from http://pear.php.net/go-pear
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
- <notes>
-- use www role
- </notes>
+ <notes>Bugfixes:
+ * Fixed temp_dir bug, see #13167
+ * PEAR servers switched from viewcvs to viewvc
+ * fix proxy bug, see #14365 (jwerner)</notes>
  <contents>
-  <dir baseinstalldir="/pear.php.net/" name="/">
-   <file name="public_html/go-pear" role="www">
+  <dir baseinstalldir="/" name="/">
+   <file baseinstalldir="/" md5sum="b4dba4fdecc3d69d6300d83f69969ec9" name="public_html/go-pear" role="www">
     <tasks:replace from="@package_version@" to="version" type="package-info" />
    </file>
   </dir>
@@ -70,7 +71,7 @@ You can download go-pear from http://pear.php.net/go-pear
     <min>4.2.0</min>
    </php>
    <pearinstaller>
-    <min>1.8.0</min>
+    <min>1.7.0</min>
    </pearinstaller>
   </required>
  </dependencies>
@@ -143,6 +144,20 @@ You can download go-pear from http://pear.php.net/go-pear
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>New version: more user friendly and robust (especially the webbased part of it)
    + installs pear-beta as suggested by cweiske in #12727</notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.1</release>
+    <api>1.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2008-02-01</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>using PEAR-stable again
+    simplified intro and installation instructions</notes>
   </release>
  </changelog>
 </package>
