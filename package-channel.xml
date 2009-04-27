@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.0alpha1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_channelxml</name>
  <channel>pear.php.net</channel>
  <summary>channel.xml and DTD for pear.php.net channel</summary>
@@ -40,10 +40,10 @@
   <email>dufuz@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-01-02</date>
- <time>07:19:32</time>
+ <date>2009-04-27</date>
+ <time>22:11:21</time>
  <version>
-  <release>1.13.0</release>
+  <release>1.14.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -52,9 +52,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Remove the xmlrpc tags
-- fix de mirror, make it use SSL to work
-- now handles the DTD for PEAR
+- use www_dir role
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -93,8 +91,12 @@
     <min>4.3.0</min>
    </php>
    <pearinstaller>
-    <min>1.4.11</min>
+    <min>1.8.0</min>
    </pearinstaller>
+   <package>
+    <name>HTTP_Request2</name>
+    <channel>pear.php.net</channel>
+   </package>
   </required>
  </dependencies>
  <phprelease />
@@ -159,6 +161,21 @@ jump to 1.12.0 so we can tag
 - Remove the xmlrpc tags
 - fix de mirror, make it use SSL to work
 - now handles the DTD for PEAR
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.14.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-04-27</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- use www_dir role
    </notes>
   </release>
  </changelog>

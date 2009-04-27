@@ -13,18 +13,16 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
             'public_html/dtd/'
         ),
     ));
-$a->setReleaseVersion('1.13.0');
+$a->setReleaseVersion('1.14.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Remove the xmlrpc tags
-- fix de mirror, make it use SSL to work
-- now handles the DTD for PEAR
+- use www_dir role
 ');
 $a->resetUsesrole();
 $a->clearDeps();
 $a->setPhpDep('4.3.0');
-$a->setPearInstallerDep('1.4.11');
+$a->setPearInstallerDep('1.8.0');
 $a->addPackageDepWithChannel('required', 'HTTP_Request2', 'pear.php.net');
 $a->generateContents();
 $a->writePackageFile();
