@@ -11,6 +11,7 @@ $a = PEAR_PackageFileManager2::importOptions(
         'exceptions' => array('pearweb_manual.php' => 'php'),
         'simpleoutput' => true,
         'include' => array(
+            'cron/apidoc-fix-latest.php',
             'cron/apidoc-queue.php',
             'cron/find-documentation.php',
             'load-chm.sh',
@@ -26,17 +27,23 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.0.0');
+$a->setReleaseVersion('1.1.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- split the manual code from pearweb [dufuz]
+- fix apidoc queue on Linux
+- use www role
+- script to fix apidoc queue
+- make apidoc-log.php suitable to low-bandwidth connections
+- better 404 manual error handling
+- adjustments for PhD built docs
+- fix Bug #16038: Links in manual header/footer are double encoded
 ');
 $a->resetUsesrole();
 $a->clearDeps();
 $a->setPhpDep('5.2.3');
-$a->setPearInstallerDep('1.7.1');
-$a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.1');
+$a->setPearInstallerDep('1.8.0');
+$a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.8.0');
 $a->addPackageDepWithChannel('required', 'pearweb', 'pear.php.net', '1.18.0');
 $a->addPackageDepWithChannel('required', 'VFS', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTTP_Request2', 'pear.php.net');
