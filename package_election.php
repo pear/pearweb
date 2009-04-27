@@ -19,11 +19,13 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.0.0');
+$a->setReleaseVersion('1.0.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- split the election code from pearweb [dufuz]
+- use www_dir role
+- cosmetics
+- support for sitenames
 ');
 $a->resetUsesrole();
 $a->clearDeps();
