@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.0alpha1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_manual</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website manual bits</summary>
@@ -71,10 +71,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-01-02</date>
- <time>07:19:50</time>
+ <date>2009-04-28</date>
+ <time>21:47:57</time>
  <version>
-  <release>1.0.0</release>
+  <release>1.1.0</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -83,11 +83,18 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- split the manual code from pearweb [dufuz]
+- fix apidoc queue on Linux
+- use www role
+- script to fix apidoc queue
+- make apidoc-log.php suitable to low-bandwidth connections
+- better 404 manual error handling
+- adjustments for PhD built docs
+- fix Bug #16038: Links in manual header/footer are double encoded
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
    <dir name="cron">
+    <file name="apidoc-fix-latest.php" role="www" />
     <file name="apidoc-queue.php" role="www" />
     <file name="find-documentation.php" role="www" />
     <file name="load-chm.sh" role="www" />
@@ -142,12 +149,12 @@
     <min>5.2.3</min>
    </php>
    <pearinstaller>
-    <min>1.7.1</min>
+    <min>1.8.0</min>
    </pearinstaller>
    <package>
     <name>PEAR</name>
     <channel>pear.php.net</channel>
-    <min>1.7.1</min>
+    <min>1.8.0</min>
    </package>
    <package>
     <name>pearweb</name>
@@ -159,7 +166,7 @@
     <channel>pear.php.net</channel>
    </package>
    <package>
-    <name>HTTP_Request</name>
+    <name>HTTP_Request2</name>
     <channel>pear.php.net</channel>
    </package>
    <extension>
@@ -185,6 +192,27 @@
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - split the manual code from pearweb [dufuz]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.0</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-04-28</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- fix apidoc queue on Linux
+- use www role
+- script to fix apidoc queue
+- make apidoc-log.php suitable to low-bandwidth connections
+- better 404 manual error handling
+- adjustments for PhD built docs
+- fix Bug #16038: Links in manual header/footer are double encoded
    </notes>
   </release>
  </changelog>
