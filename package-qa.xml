@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.0alpha1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_qa</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website QA scripts</summary>
@@ -22,8 +22,8 @@
   <email>arnaud@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-01-03</date>
- <time>06:10:57</time>
+ <date>2009-04-28</date>
+ <time>22:28:03</time>
  <version>
   <release>1.0.0</release>
   <api>0.1.0</api>
@@ -41,10 +41,10 @@
    <dir name="public_html">
     <dir name="qa">
      <file name="packages_closed_reports_no_release.php" role="www" />
-     <file name="patches_on_open_reports.php" role="www" />
      <file name="packages_orphan.php" role="www" />
      <file name="packages_status.php" role="www" />
      <file name="packages_status_detail.php" role="www" />
+     <file name="patches_on_open_reports.php" role="www" />
     </dir> <!-- //public_html/qa -->
    </dir> <!-- //public_html -->
   </dir> <!-- / -->
@@ -80,7 +80,7 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-01-03</date>
+   <date>2009-04-28</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - split qa script code from pearweb [dufuz]
