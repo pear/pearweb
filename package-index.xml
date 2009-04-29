@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.5.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_index</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website, informational front pages</summary>
  <description>The pearweb_index package contains these files from public_html:
  index.php, mirrors.php, credits.php, copyright.php, gophp5.php
  about/credits.php, about/index.php, about/privacy.php
- group/index.php and group/docs/*, news/*, and support/*
- </description>
+ group/index.php and group/docs/*, news/*, and support/*</description>
  <lead>
   <name>Martin Jansen</name>
   <user>mj</user>
@@ -74,9 +73,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2008-01-05</date>
+ <date>2009-04-29</date>
+ <time>10:01:26</time>
  <version>
-  <release>1.16.14</release>
+  <release>1.17.0</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -85,7 +85,11 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Point the upgrade instructions to a Console Getops version that works for 1.3 users [dufuz]
+- fix pear manual link
+- improvements for qa bug overview pages
+- fix links on support pages
+- fix president email link
+- group archive page
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -94,7 +98,7 @@
      <file name="credits.php" role="www" />
      <file name="index.php" role="www" />
      <file name="privacy.php" role="www" />
-    </dir> <!-- /public_html/about -->
+    </dir> <!-- //public_html/about -->
     <dir name="group">
      <dir name="docs">
       <file name="20030820-vm.php" role="www" />
@@ -107,9 +111,10 @@
       <file name="20040402-la.php" role="www" />
       <file name="20051104-sa.php" role="www" />
       <file name="index.php" role="www" />
-     </dir> <!-- /public_html/group/docs -->
+     </dir> <!-- //public_html/group/docs -->
+     <file name="archive.php" role="www" />
      <file name="index.php" role="www" />
-    </dir> <!-- /public_html/group -->
+    </dir> <!-- //public_html/group -->
     <dir name="news">
      <file name="activestate-award-ssb.php" role="www" />
      <file name="group-announce.php" role="www" />
@@ -126,10 +131,10 @@
      <file name="vulnerability.php" role="www" />
      <file name="vulnerability2.php" role="www" />
      <file name="weekly-summaries.php" role="www" />
-    </dir> <!-- /public_html/news -->
+    </dir> <!-- //public_html/news -->
     <dir name="qa">
      <file name="index.php" role="www" />
-    </dir> <!-- /public_html/qa -->
+    </dir> <!-- //public_html/qa -->
     <dir name="support">
      <file name="books.php" role="www" />
      <file name="effectivepearuse.php" role="www" />
@@ -140,12 +145,12 @@
      <file name="pear.eps.gz" role="www" />
      <file name="slides.php" role="www" />
      <file name="tutorials.php" role="www" />
-    </dir> <!-- /public_html/support -->
+    </dir> <!-- //public_html/support -->
     <file name="copyright.php" role="www" />
+    <file name="gophp5.php" role="www" />
     <file name="index.php" role="www" />
     <file name="mirrors.php" role="www" />
-    <file name="gophp5.php" role="www" />
-   </dir> <!-- /public_html -->
+   </dir> <!-- //public_html -->
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -154,7 +159,7 @@
     <min>5.2.3</min>
    </php>
    <pearinstaller>
-    <min>1.7.1</min>
+    <min>1.8.0</min>
    </pearinstaller>
   </required>
  </dependencies>
@@ -172,7 +177,7 @@
    <date>2007-06-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-   initial split off of pearweb package
+initial split off of pearweb package
    </notes>
   </release>
   <release>
@@ -187,7 +192,7 @@
    <date>2007-06-01</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-   initial split off of pearweb package
+initial split off of pearweb package
    </notes>
   </release>
   <release>
@@ -202,8 +207,8 @@
    <date>2007-06-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-   Update news to include Paul Jone's election and addition of mirrors
-   Use version number of pearweb to allow non-conflicting release tags
+Update news to include Paul Jone&apos;s election and addition of mirrors
+Use version number of pearweb to allow non-conflicting release tags
    </notes>
   </release>
   <release>
@@ -218,7 +223,7 @@
    <date>2007-06-02</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-    Correct spelling of Paul Jones's last name on the PEAR group page (sigh...)
+Correct spelling of Paul Jones&apos;s last name on the PEAR group page (sigh...)
    </notes>
   </release>
   <release>
@@ -233,7 +238,7 @@
    <date>2007-06-04</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-    Note that Josh Eichorn is the VP for 07-08
+Note that Josh Eichorn is the VP for 07-08
    </notes>
   </release>
   <release>
@@ -248,7 +253,7 @@
    </stability>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-    Bug #11257 Wrong link tot Election results on mainpage news
+Bug #11257 Wrong link tot Election results on mainpage news
    </notes>
   </release>
   <release>
@@ -263,8 +268,8 @@
    </stability>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-    Add note about passing of Bertrand Gugger to homepage
-    Add REST-based remote login validation
+Add note about passing of Bertrand Gugger to homepage
+Add REST-based remote login validation
    </notes>
   </release>
   <release>
@@ -279,7 +284,7 @@
    </stability>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-    Fix remote login code to use DB
+Fix remote login code to use DB
    </notes>
   </release>
   <release>
@@ -294,8 +299,8 @@
    </stability>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-    Add option for specifying required user karma, require registered users
-    for remote login
+Add option for specifying required user karma, require registered users
+for remote login
    </notes>
   </release>
   <release>
@@ -310,7 +315,7 @@
    </stability>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-   - Created a new page at /gophp5.php in order to be able to be accepted in the gophp5.org movement
+- Created a new page at /gophp5.php in order to be able to be accepted in the gophp5.org movement
    </notes>
   </release>
   <release>
@@ -325,7 +330,7 @@
    </stability>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-   - announce planet pear
+- announce planet pear
    </notes>
   </release>
   <release>
@@ -340,7 +345,7 @@
    </stability>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-   - fix license group document link (bug #12317)
+- fix license group document link (bug #12317)
    </notes>
   </release>
   <release>
@@ -355,7 +360,7 @@
    </stability>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-   - Request #12790 Account for all the CSS changes in the pearweb package [dufuz]
+- Request #12790 Account for all the CSS changes in the pearweb package [dufuz]
    </notes>
   </release>
   <release>
@@ -370,7 +375,26 @@
    </stability>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-  - Bug #12833 news item on pear.php.net typo in xml_parser url [dufuz]
+- Bug #12833 news item on pear.php.net typo in xml_parser url [dufuz]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.17.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-04-29</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- fix pear manual link
+- improvements for qa bug overview pages
+- fix links on support pages
+- fix president email link
+- group archive page
    </notes>
   </release>
  </changelog>
