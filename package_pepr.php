@@ -14,15 +14,14 @@ $a = PEAR_PackageFileManager2::importOptions(
             'cron/pepr.php',
             'public_html/pepr/',
             'include/pepr/',
-            'include/Damblan/Search/Pepr.php',
             'sql/pearweb_pepr.xml',
         ),
     ));
-$a->setReleaseVersion('1.0.0');
+$a->setReleaseVersion('1.0.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- split the pepr code from pearweb [dufuz]
+- Remove include/Damblan/Search/PEPr.php since it should be in the main package
 ');
 $a->resetUsesrole();
 $a->clearDeps();

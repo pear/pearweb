@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.0alpha1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -83,8 +83,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-01-22</date>
- <time>22:30:48</time>
+ <date>2009-04-29</date>
+ <time>23:12:46</time>
  <version>
   <release>1.18.0</release>
   <api>0.1.1</api>
@@ -95,7 +95,93 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-kjsfld
+- log errors in syslog
+- improvements on honeypot bug reporting integration
+- don&apos;t crash when crashing (e.g. when credentials are wrong)
+- do not show bug stats if the person does not have a pear.dev karma [dufuz]
+- use HTML 5 doctype [saltybeagle]
+- list chm files on manual download page
+- add apidoclog to admin menu
+- fix mail template path
+- use \$_SERVER[PEAR_BOX] instead of \$_ENV since nobody knows how to set that
+- prevent search engines from sending password reminders
+- move patch directory
+- switch to eukhost
+- script to fix &quot;latest&quot; api doc links
+- use HTTP_Request2
+- dozens of other things that are too many to be listed here
+* Fix Bug #11180: User note&apos;s timestamp is updated on approval [cellog]
+* Fix Bug #11998: Broken emails from user note to bug converter [davidc]
+* Fix Bug #12375: Can&apos;t use UTF-8 chars in a bug report [dufuz]
+* Fix Bug #12709: DB Error (syntax) transforming note into Doc bug [davidc]
+* Fix Bug #12896: Bug system emails double the EOLs on quick response texts [dufuz]
+* Fix Bug #12899: account-request-confirm.php will encourage incorrect characters in
+   usernames [davidc]
+* Fix Bug #12946: .diff patch upload does not work with opera/linux [dufuz]
+* Fix Bug #12949: Notes to doc bug converter is broken [dufuz]
+* Fix Bug #13064: Problems with automatically added linebreaks in manual navigation bar [dufuz]
+* Fix Bug #13326: Removal of CHM upload script [mj]
+* Fix Bug #13399: BugDB: PHP CVS versions are of by many months [dufuz]
+* Fix Bug #13402: PEAR_Info doc end-user link broken [doconnor]
+* Fix Bug #13453: Broken cron job - find-documentation.php [dufuz]
+* Fix Bug #13534: Map view fails to render well if 0 entries [dufuz]
+* Fix Bug #13585: bug search broken w short keywords (pear.php.net vs mysql
+  configuration) [dufuz]
+* Fix Bug #13874: Display issue subscription status [dufuz]
+* Fix Bug #14011: Badly formatted descriptions [dufuz]
+* Fix Bug #14039: Incorrect links in the PEAR Group election [dufuz]
+* Fix Bug #14726: Bogus developer accounts [dufuz]
+* Fix Bug #15459: @web_dir@ doesn&apos;t work with new pear [dufuz]
+* Fix Bug #15460: VFS.php not found - missing dependency [dufuz]
+* Fix Bug #15533: file upload leads to white page when permissions don&apos;t work [dufuz]
+* Fix Bug #15666: List accounts page broken [dufuz]
+* Fix Bug #15667: Undefined variable \$where [dufuz]
+* Fix Bug #15669: Open feature requests count vs Open feature requests link [dufuz]
+* Fix Bug #15718: PHP Notice:  Undefined variable: string [dufuz]
+* Fix Bug #15724: The page to add a new PEAR channel doesn&apos;t load [dufuz]
+* Fix Bug #15730: Roadmap -&gt; Show Feature Detail displays oddly [dufuz]
+* Fix Bug #15905: wrong links on packages changelog [dufuz]
+* Fix Bug #15915: Search for developers - invalid pagination combo values [amir]
+* Fix Bug #15921: &quot;Manage your password&quot; should appear only if there&apos;s really a form [dufuz]
+* Fix Bug #15967: Issues with user notes [dufuz]
+* Fix Bug #15968: user information: open bugs count [dufuz]
+* Fix Bug #16036: Bug tracker emails: Patch links broken [dufuz]
+* Implement Feature #10532: Add a pear-bugs mailing list [dufuz]
+* Implement Feature #10903: Search the map for specific developer [dufuz]
+* Implement Feature #11082: Package Summary (Bug) Request Report [dufuz]
+* Implement Feature #11096: Patch: Consider adding microformat information to account pages [dufuz]
+* Implement Feature #11289: Commenting on proposals [dufuz]
+* Implement Feature #11350: Note management should not prompt the user delete notes when there are
+  none [davidc]
+* Implement Feature #11351: Make the Channels UI more public [dufuz]
+* Implement Feature #11352: Don&apos;t hardcode in email addresses (specifically, channels) [dufuz]
+* Implement Feature #11865: Note management displays too many results [davidc]
+* Implement Feature #12436: bug tracker: keep history of changes [dufuz]
+* Implement Feature #12453: disallow robots in versioned api docs [dufuz]
+* Implement Feature #12563: QA, detection of closed bugs that haven&apos;t made it into a release in X
+  months [dufuz]
+* Implement Feature #12792: Throw out JPGraph for a new lib [dufuz]
+* Implement Feature #12824: Better structure for the orphan QA page [dufuz]
+* Implement Feature #12828: Empty search for package should return all packages [dufuz]
+* Implement Feature #12829: Package search: option to allow more entries per page [dufuz]
+* Implement Feature #12843: link bugs opened by account [dufuz]
+* Implement Feature #12901: Improving pagination in packages.php [dufuz]
+* Implement Feature #13034: Max patch size of 20k is too small [dufuz]
+* Implement Feature #13041: Add note submitter to bugs created in the manual notes system [dufuz]
+* Implement Feature #13105: rss feed: name of package in title [dufuz]
+* Implement Feature #13327: When one package is found in 404, redirect right away [dufuz]
+* Implement Feature #13428: Add title to anchors which link to other internal bugs [dufuz]
+* Implement Feature #13470: make_link should make it easy to be xhtml friendly [dufuz]
+* Implement Feature #13539: automatically search manual when 404 on root dir [cweiske]
+* Implement Feature #13540: Improve the download interface for newbies [dufuz]
+* Implement Feature #13661: Sort Roadmaps by Version [dufuz]
+* Implement Feature #13833: Mail bug reporters when a release is out that fixes their bugs [dufuz]
+* Implement Feature #14208: make IRC channel clickable in support page [dufuz]
+* Implement Feature #14907: list people with qa karma on the qa page [dufuz]
+* Implement Feature #15511: Swap away from DB_Pager to Pager [dufuz]
+* Implement Feature #15668: Use HTTP_Request2 [dufuz]
+* Implement Feature #15777: List of packages which requires PEAR older than 1.5.4. [amir]
+* Implement Feature #15782: Find &quot;stable&quot; packages with version &lt; 1.0 [amir]
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -108,9 +194,8 @@ kjsfld
      <file name="README" role="www" />
     </dir> <!-- /cron/mirror -->
     <file name="bug-summary.php" role="www" />
-    <file name="bug-update-php-version.php" role="www">
-     <tasks:replace from="@www-dir@" to="www_dir" type="pear-config" />
-    </file>   
+    <file name="bug-update-php-version.php" role="www" />
+    <file name="election_results.php" role="www" />
     <file name="trackback-cleanup.php" role="www" />
     <file name="update-website.php" role="www" />
    </dir> <!-- /cron -->
@@ -149,6 +234,7 @@ kjsfld
      <file name="Log.php" role="www" />
      <file name="Mailer.php" role="www" />
      <file name="Search.php" role="www" />
+     <file name="Site.php" role="www" />
      <file name="Trackback.php" role="www" />
      <file name="URL.php" role="www" />
     </dir> <!-- /include/Damblan -->
@@ -321,9 +407,6 @@ kjsfld
      <file name="small_submit_white.gif" role="www" />
      <file name="spacer.gif" role="www" />
     </dir> <!-- /public_html/gifs -->
-    <dir name="group">
-     <file name="archive.php" role="www" />
-    </dir> <!-- /public_html/group -->
     <dir name="javascript">
      <dir name="TreeMenu">
       <file name="TreeMenu.js" role="www" />
@@ -418,6 +501,7 @@ kjsfld
     <file name="notes.sql" role="www" />
     <file name="packages.sql" role="www" />
     <file name="package_stats.sql" role="www" />
+    <file name="pearweb_election.xml" role="www" />
     <file name="pearweb_mdb2schema.xml" role="www" />
     <file name="pepr.sql" role="www" />
     <file name="process_mysqldump_for5.sh" role="www" />
@@ -566,12 +650,12 @@ kjsfld
     <min>5.2.3</min>
    </php>
    <pearinstaller>
-    <min>1.7.1</min>
+    <min>1.8.1</min>
    </pearinstaller>
    <package>
     <name>PEAR</name>
     <channel>pear.php.net</channel>
-    <min>1.7.1</min>
+    <min>1.8.1</min>
    </package>
    <package>
     <name>Archive_Tar</name>
@@ -703,37 +787,37 @@ kjsfld
   </required>
   <optional>
    <subpackage>
-    <name>pearweb_election</name>
-    <channel>pear.php.net</channel>
-    <min>1.0.0</min>
-   </subpackage>
-   <subpackage>
-    <name>pearweb_pepr</name>
-    <channel>pear.php.net</channel>
-    <min>1.0.0</min>
-   </subpackage>
-   <subpackage>
-    <name>pearweb_index</name>
-    <channel>pear.php.net</channel>
-    <min>1.16.14</min>
-   </subpackage>
-   <subpackage>
     <name>pearweb_channelxml</name>
     <channel>pear.php.net</channel>
-    <min>1.13.0</min>
+    <min>1.14.0</min>
+   </subpackage>
+   <subpackage>
+    <name>pearweb_election</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.1</min>
    </subpackage>
    <subpackage>
     <name>pearweb_gopear</name>
     <channel>pear.php.net</channel>
-    <min>1.1.1</min>
+    <min>1.1.3</min>
    </subpackage>
    <subpackage>
-    <name>pearweb_qa</name>
+    <name>pearweb_index</name>
     <channel>pear.php.net</channel>
-    <min>1.0.0</min>
+    <min>1.17.0</min>
    </subpackage>
    <subpackage>
     <name>pearweb_manual</name>
+    <channel>pear.php.net</channel>
+    <min>1.1.0</min>
+   </subpackage>
+   <subpackage>
+    <name>pearweb_pepr</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.1</min>
+   </subpackage>
+   <subpackage>
+    <name>pearweb_qa</name>
     <channel>pear.php.net</channel>
     <min>1.0.0</min>
    </subpackage>
@@ -2226,10 +2310,96 @@ Split off index-updated files into pearweb_index package
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-01-22</date>
+   <date>2009-04-29</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-kjsfld
+- log errors in syslog
+- improvements on honeypot bug reporting integration
+- don&apos;t crash when crashing (e.g. when credentials are wrong)
+- do not show bug stats if the person does not have a pear.dev karma [dufuz]
+- use HTML 5 doctype [saltybeagle]
+- list chm files on manual download page
+- add apidoclog to admin menu
+- fix mail template path
+- use \$_SERVER[PEAR_BOX] instead of \$_ENV since nobody knows how to set that
+- prevent search engines from sending password reminders
+- move patch directory
+- switch to eukhost
+- script to fix &quot;latest&quot; api doc links
+- use HTTP_Request2
+- dozens of other things that are too many to be listed here
+* Fix Bug #11180: User note&apos;s timestamp is updated on approval [cellog]
+* Fix Bug #11998: Broken emails from user note to bug converter [davidc]
+* Fix Bug #12375: Can&apos;t use UTF-8 chars in a bug report [dufuz]
+* Fix Bug #12709: DB Error (syntax) transforming note into Doc bug [davidc]
+* Fix Bug #12896: Bug system emails double the EOLs on quick response texts [dufuz]
+* Fix Bug #12899: account-request-confirm.php will encourage incorrect characters in
+   usernames [davidc]
+* Fix Bug #12946: .diff patch upload does not work with opera/linux [dufuz]
+* Fix Bug #12949: Notes to doc bug converter is broken [dufuz]
+* Fix Bug #13064: Problems with automatically added linebreaks in manual navigation bar [dufuz]
+* Fix Bug #13326: Removal of CHM upload script [mj]
+* Fix Bug #13399: BugDB: PHP CVS versions are of by many months [dufuz]
+* Fix Bug #13402: PEAR_Info doc end-user link broken [doconnor]
+* Fix Bug #13453: Broken cron job - find-documentation.php [dufuz]
+* Fix Bug #13534: Map view fails to render well if 0 entries [dufuz]
+* Fix Bug #13585: bug search broken w short keywords (pear.php.net vs mysql
+  configuration) [dufuz]
+* Fix Bug #13874: Display issue subscription status [dufuz]
+* Fix Bug #14011: Badly formatted descriptions [dufuz]
+* Fix Bug #14039: Incorrect links in the PEAR Group election [dufuz]
+* Fix Bug #14726: Bogus developer accounts [dufuz]
+* Fix Bug #15459: @web_dir@ doesn&apos;t work with new pear [dufuz]
+* Fix Bug #15460: VFS.php not found - missing dependency [dufuz]
+* Fix Bug #15533: file upload leads to white page when permissions don&apos;t work [dufuz]
+* Fix Bug #15666: List accounts page broken [dufuz]
+* Fix Bug #15667: Undefined variable \$where [dufuz]
+* Fix Bug #15669: Open feature requests count vs Open feature requests link [dufuz]
+* Fix Bug #15718: PHP Notice:  Undefined variable: string [dufuz]
+* Fix Bug #15724: The page to add a new PEAR channel doesn&apos;t load [dufuz]
+* Fix Bug #15730: Roadmap -&gt; Show Feature Detail displays oddly [dufuz]
+* Fix Bug #15905: wrong links on packages changelog [dufuz]
+* Fix Bug #15915: Search for developers - invalid pagination combo values [amir]
+* Fix Bug #15921: &quot;Manage your password&quot; should appear only if there&apos;s really a form [dufuz]
+* Fix Bug #15967: Issues with user notes [dufuz]
+* Fix Bug #15968: user information: open bugs count [dufuz]
+* Fix Bug #16036: Bug tracker emails: Patch links broken [dufuz]
+* Implement Feature #10532: Add a pear-bugs mailing list [dufuz]
+* Implement Feature #10903: Search the map for specific developer [dufuz]
+* Implement Feature #11082: Package Summary (Bug) Request Report [dufuz]
+* Implement Feature #11096: Patch: Consider adding microformat information to account pages [dufuz]
+* Implement Feature #11289: Commenting on proposals [dufuz]
+* Implement Feature #11350: Note management should not prompt the user delete notes when there are
+  none [davidc]
+* Implement Feature #11351: Make the Channels UI more public [dufuz]
+* Implement Feature #11352: Don&apos;t hardcode in email addresses (specifically, channels) [dufuz]
+* Implement Feature #11865: Note management displays too many results [davidc]
+* Implement Feature #12436: bug tracker: keep history of changes [dufuz]
+* Implement Feature #12453: disallow robots in versioned api docs [dufuz]
+* Implement Feature #12563: QA, detection of closed bugs that haven&apos;t made it into a release in X
+  months [dufuz]
+* Implement Feature #12792: Throw out JPGraph for a new lib [dufuz]
+* Implement Feature #12824: Better structure for the orphan QA page [dufuz]
+* Implement Feature #12828: Empty search for package should return all packages [dufuz]
+* Implement Feature #12829: Package search: option to allow more entries per page [dufuz]
+* Implement Feature #12843: link bugs opened by account [dufuz]
+* Implement Feature #12901: Improving pagination in packages.php [dufuz]
+* Implement Feature #13034: Max patch size of 20k is too small [dufuz]
+* Implement Feature #13041: Add note submitter to bugs created in the manual notes system [dufuz]
+* Implement Feature #13105: rss feed: name of package in title [dufuz]
+* Implement Feature #13327: When one package is found in 404, redirect right away [dufuz]
+* Implement Feature #13428: Add title to anchors which link to other internal bugs [dufuz]
+* Implement Feature #13470: make_link should make it easy to be xhtml friendly [dufuz]
+* Implement Feature #13539: automatically search manual when 404 on root dir [cweiske]
+* Implement Feature #13540: Improve the download interface for newbies [dufuz]
+* Implement Feature #13661: Sort Roadmaps by Version [dufuz]
+* Implement Feature #13833: Mail bug reporters when a release is out that fixes their bugs [dufuz]
+* Implement Feature #14208: make IRC channel clickable in support page [dufuz]
+* Implement Feature #14907: list people with qa karma on the qa page [dufuz]
+* Implement Feature #15511: Swap away from DB_Pager to Pager [dufuz]
+* Implement Feature #15668: Use HTTP_Request2 [dufuz]
+* Implement Feature #15777: List of packages which requires PEAR older than 1.5.4. [amir]
+* Implement Feature #15782: Find &quot;stable&quot; packages with version &lt; 1.0 [amir]
    </notes>
   </release>
  </changelog>
