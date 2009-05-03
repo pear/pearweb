@@ -13,11 +13,12 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
             'public_html/dtd/'
         ),
     ));
-$a->setReleaseVersion('1.14.0');
+$a->setReleaseVersion('1.15.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- use www_dir role
+- add piece framework channel
+- add links to channel info in the manual
 ');
 $a->resetUsesrole();
 $a->clearDeps();

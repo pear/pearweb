@@ -52,6 +52,7 @@ provided on the individual pages.</p>
   <li><a href="http://pear.php-tools.net/">PHP Application Tools</a></li>
   <li><a href="http://pear.phpunit.de/">PHPUnit</a></li>
   <li><a href="http://pear.phpspec.org/">PHPSpec</a></li>
+  <li><a href="http://pear.piece-framework.com/">Piece Framework</a></li>
   <li><a href="http://pear.phpkitchen.com/">Seagull</a></li>
   <li><a href="http://pear-smarty.googlecode.com/">Inofficial Smarty channel</a></li>
   <li><a href="http://pear.si.kz">si.kz</a></li>
@@ -63,6 +64,17 @@ provided on the individual pages.</p>
 </ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
+
+<h2>Channel server software</h2>
+
+<p>
+ The manual has a
+ <a href="/manual/en/core.rest.channelserversoftware.php">list of channel
+ server software</a>, as well as
+ <a href="/manual/en/core.rest.php">docs about the REST file structure</a> used
+ as base for channel servers.
+</p>
+
 
 <?php
 response_footer();
