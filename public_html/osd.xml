@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+    <ShortName>PEAR</ShortName>
+    <LongName>PHP Extension and Application Repository</LongName>
+    <Description>Finds a package name in the PEAR library.</Description>
+    <Tags>php pear library applications</Tags>
+    <Developer>Igor Feghali</Developer>
+    <Contact>ifeghali@php.net</Contact>
+    <Url type="text/html" 
+        template="http://pear.php.net/search.php?q={searchTerms}&amp;in=packages&amp;source=opensearch"/>
+    <Image height="16" width="16" type="image/vnd.microsoft.icon">http://pear.php.net/favicon.ico</Image>
+    <Query role="example" searchTerms="MDB2_Schema" />
+    <Attribution>
+        Copyright 2009, The PEAR Group, All Rights Reserved
+    </Attribution>
+    <SyndicationRight>open</SyndicationRight>
+    <AdultContent>false</AdultContent>
+    <Language>en-us</Language>
+    <OutputEncoding>UTF-8</OutputEncoding>
+    <InputEncoding>UTF-8</InputEncoding>
+</OpenSearchDescription>

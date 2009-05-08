@@ -119,6 +119,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
 <!--[if lt IE 8]>
  <script src="/javascript/IE8.js" type="text/javascript"></script>
 <![endif]-->
+ <link rel="search" type="application/opensearchdescription+xml" title="PEAR Search Plugin" href="http://pear.php.net/osd.xml" />
 </head>
 
 <body>
