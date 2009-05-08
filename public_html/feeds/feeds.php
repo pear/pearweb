@@ -162,7 +162,7 @@ switch ($type) {
             return PEAR::raiseError("The requested URL " . $_SERVER['REQUEST_URI'] . " was not found on this server.");
         }
 
-        $channel_title = "Latest releases";
+        $channel_title = "Latest releases of " . $package;
         $channel_description = "The latest releases for the package " . $package;
 
         $items = package::getRecent(10, $package);
