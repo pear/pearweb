@@ -54,6 +54,7 @@ function printForm($data = array())
     }
 
     $form = new HTML_QuickForm('contect', 'post', '/account-mail.php?handle=' . htmlspecialchars($_GET['handle']));
+    $form->removeAttribute('name');
 
     $renderer =& $form->defaultRenderer();
     $renderer->setElementTemplate('

@@ -74,6 +74,7 @@ if ($proposal->compareStatus('>', 'proposal')) {
 include_once 'HTML/QuickForm.php';
 $form =& new HTML_QuickForm('delete-proposal', 'post',
                             'pepr-proposal-delete.php?id=' . $proposal->id);
+$form->removeAttribute('name');
 
 $form->addElement('checkbox', 'delete', 'Really delete proposal for ',
                   htmlspecialchars($proposal->pkg_category) . '::'

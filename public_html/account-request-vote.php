@@ -166,6 +166,7 @@ MSG;
     report_error($errors);
 
     $form = new HTML_QuickForm('account-request-vote', 'post', 'account-request-vote.php#requestform');
+    $form->removeAttribute('name');
 
     $renderer =& $form->defaultRenderer();
     $renderer->setElementTemplate('

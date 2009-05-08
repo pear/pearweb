@@ -46,6 +46,7 @@ staff may reject your submission if they do not consider it appropriate.</p>
 
 <?php
 $form = new HTML_QuickForm("submitForm");
+$form->removeAttribute('name');
 
 if (isset($auth_user)) {
     $form->setDefaults(array("name" => $auth_user->name,

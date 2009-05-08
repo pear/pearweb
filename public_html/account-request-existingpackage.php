@@ -190,6 +190,7 @@ MSG;
     report_error($errors);
 
     $form = new HTML_QuickForm('account-request-existingpackage', 'post', 'account-request-existingpackage.php#requestform');
+    $form->removeAttribute('name');
 
     $renderer =& $form->defaultRenderer();
     $renderer->setElementTemplate('

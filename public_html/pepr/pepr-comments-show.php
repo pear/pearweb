@@ -41,6 +41,7 @@ display_pepr_nav($proposal);
 if ($auth_user && $proposal->getStatus() == 'proposal') {
     include_once 'HTML/QuickForm.php';
     $form =& new HTML_QuickForm('comment', 'post', 'pepr-comments-show.php?id=' . $id);
+    $form->removeAttribute('name');
 
     $c = $form->addElement('textarea', 'comment', null,
                       array('cols' => 70,

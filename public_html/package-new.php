@@ -144,6 +144,7 @@ if ($display_form) {
     }
 
 $form = new HTML_QuickForm('package-new', 'post', 'package-new.php');
+$form->removeAttribute('name');
 
 $renderer =& $form->defaultRenderer();
 $renderer->setElementTemplate('

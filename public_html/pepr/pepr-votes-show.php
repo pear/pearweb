@@ -41,6 +41,7 @@ echo '<h1>Proposal Votes for "' . htmlspecialchars($proposal->pkg_name) . "\"</h
 if ($auth_user && $proposal->mayVote($dbh, $auth_user->handle)) {
     $form =& new HTML_QuickForm('vote', 'post',
                                 'pepr-votes-show.php?id=' . $proposal->id);
+    $form->removeAttribute('name');
 
     $form->setDefaults(array('value' => 1));
     $form->addElement('select', 'value', '',

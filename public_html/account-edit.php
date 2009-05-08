@@ -172,6 +172,7 @@ if ($row === null) {
 
 
 $form = new HTML_QuickForm('account-edit', 'post', 'account-edit.php', 'test');
+$form->removeAttribute('name');
 
 $renderer =& $form->defaultRenderer();
 $renderer->setElementTemplate('
@@ -242,6 +243,7 @@ echo '<h2>&raquo; Manage your password</h2>' . "\n";
 
 
 $form = new HTML_QuickForm('account-edit-password', 'post', 'account-edit.php', 'style="padding-top: 20px;"');
+$form->removeAttribute('name');
 
 $renderer =& $form->defaultRenderer();
 $renderer->setElementTemplate('

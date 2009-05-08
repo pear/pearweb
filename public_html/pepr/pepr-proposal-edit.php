@@ -81,6 +81,7 @@ if ($proposal = proposal::get($dbh, @$_GET['id'])) {
 include_once 'HTML/QuickForm.php';
 $form =& new HTML_QuickForm('proposal_edit', 'post',
                             'pepr-proposal-edit.php?id=' . $id);
+$form->removeAttribute('name');
 
 $renderer =& $form->defaultRenderer();
 $renderer->setElementTemplate('
@@ -373,6 +374,8 @@ ob_end_flush();
 
 if (!empty($_GET['next_stage'])) {
     $form =& new HTML_QuickForm('no-form');
+    $form->removeAttribute('name');
+
     $bbox = array();
     switch ($proposal->status) {
         case 'proposal':

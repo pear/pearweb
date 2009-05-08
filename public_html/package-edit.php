@@ -171,6 +171,7 @@ print_package_navigation($row['packageid'], $row['name'],
                          '/package-edit.php?id=' . $row['packageid']);
 
 $form = new HTML_QuickForm('package-edit', 'post', '/package-edit.php?id=' . $row['packageid']);
+$form->removeAttribute('name');
 
 $renderer =& $form->defaultRenderer();
 $renderer->setElementTemplate('

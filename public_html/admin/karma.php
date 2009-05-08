@@ -42,6 +42,7 @@ if (!empty($_REQUEST['handle'])) {
 
 if ($handle === null || empty($handle)) {
     $form = new HTML_QuickForm('karma_edit', 'post', 'karma.php');
+    $form->removeAttribute('name');
 
     include_once 'pear-database-user.php';
     $list = user::listAll(true);
@@ -111,6 +112,8 @@ if ($handle === null || empty($handle)) {
     $table->setCaption("Grant karma to " . htmlspecialchars($handle), 'style="background-color: #CCCCCC;"');
 
     $form = new HTML_QuickForm('karma_grant', 'post', 'karma.php?action=grant');
+    $form->removeAttribute('name');
+
     $form->addElement('text', 'level', 'Level:&nbsp;');
     $form->addElement('hidden', 'handle', htmlspecialchars($handle));
     $form->addElement('submit', 'submit', 'Submit Changes');
