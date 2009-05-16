@@ -835,11 +835,11 @@ function incoming_details_are_valid($in, $initial = 0, $logged = false)
     }
 
     if (empty($in['sdesc'])) {
-        $errors[] = 'You must supply a short description of the bug you are reporting.';
+        $errors[] = 'You must supply a summary of the bug you are reporting.';
     }
 
     if ($initial && empty($in['ldesc'])) {
-        $errors[] = 'You must supply a long description of the bug you are reporting.';
+        $errors[] = 'You must supply a description of the bug you are reporting.';
     }
 
     return $errors;
