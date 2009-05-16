@@ -117,6 +117,7 @@ define('PEAR_UPLOAD_TMPDIR',       PEAR_TMPDIR . '/uploads');
 // Where pearweb's temporary uploads should be stored
 define('PEAR_PATCHTRACKER_TMPDIR', '/home/pear/pearweb/patches/');
 
+$_ENV['PEAR_DATABASE_DSN'] = 'mysql://root:slartybart@localhost/pearweb';
 if (isset($_ENV['PEAR_DATABASE_DSN'])) {
     define('PEAR_DATABASE_DSN', $_ENV['PEAR_DATABASE_DSN']);
 } else {

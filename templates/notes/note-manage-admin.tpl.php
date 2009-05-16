@@ -2,10 +2,24 @@
 extra_styles('/css/thickbox.css');
 response_header($title);
 ?>
+<style type="text/css">
+#actions_box {
+    position: fixed; background-color: white; right: 0; bottom: 0; padding: 1em;
+}
 
+.user_note label {
+    cursor: pointer;
+}
+.user_note {
+    margin-top: 1.5em;
+    padding-top: 1.5em;
+    border-top: 1px solid rgb(200, 200, 200);
+}
+
+</style>
 <script src="/javascript/jquery.js"></script>
 <script src="/javascript/thickbox.js"></script>
-<script language="javascript">
+<script type="text/javascript">
 
 function checkAll()
 {
@@ -43,65 +57,43 @@ if (isset($url) && !empty($url)) {
 <form action="/notes/admin/trans.php" method="post">
  <input type="hidden" name="action" value="<?php echo $action ?>" />
  <input type="hidden" name="url" value="<?php echo htmlspecialchars($url) ?>" />
- <table class="form-holder" cellspacing="1">
-  <tr>
-   <th class="form-label_left">Status</th>
-   <td class="form-input">Manual</td>
-   <td class="form-input">Comment</td>
-   <td class="form-input">Name/Email</td>
-   <td class="form-input">View Note</td>
-  </tr>
-  <?php foreach ($pendingComments as $pendingComment): ?>
-  <tr>
-  <th class="form-label_left">
-   <input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" />
-   <br />
-    <input class="makeDocBug" type="button"
-           value="Transform into a Doc Bug" onclick="document.location.href='/notes/admin/trans.php?action=makeDocBug&noteId=<?php echo $pendingComment['note_id']; ?>&url=<?php echo $pendingComment['page_url']; ?>'"/>
-   </th>
-   <td class="form-input">
-   <a href="/manual/en/<?php echo $pendingComment['page_url'] ?>"><?php
-    echo $pendingComment['page_url'] ?></a>
-   </td>
-   <td class="form-input">
-   <?php
-     if (strlen($pendingComment['unfiltered_note']) > 200) {
-         echo substr(htmlspecialchars($pendingComment['unfiltered_note']), 0, 200) . '...';
-     } else {
-         echo $pendingComment['note_text'];
-     }
-   ?>
-   </td>
-   <td class="form-input">
-   <?php echo htmlspecialchars($pendingComment['user_name']); ?>
-   </td>
-   <td class="form-input">
-    <a class="thickbox" href="view-note.php?height=300&width=450&ajax=yes&noteId=<?php echo $pendingComment['note_id'] ?>"
-       title="See full note">View</a>
-    |
-    <a href="view-note.php?ajax=no&status=<?php echo $status ?>&noteId=<?php echo $pendingComment['note_id'] ?>"
-       title="No JS View">(no js)</a>
 
-  </tr>
-  </tr>
+    <div id="actions_box">
+        <h3><?php echo $caption ?></h3>
+        <input id="submitButton" type="button" onclick="checkAll()" value="Select All" />&nbsp;
+        <input type="submit" name="<?php echo $name ?>" value="<?php echo $button ?>" />
+        <?php if ($name != 'undelete'): ?>
+          <input type="submit" name="delete" value="Delete" />
+        <?php endif; ?>
+    </div>
+ 
+
+  <?php foreach ($pendingComments as $pendingComment): ?>
+
+    <div class="user_note">
+        <h4><a href="/manual/en/<?php echo $pendingComment['page_url'] ?>"><?php echo $pendingComment['page_url'] ?></a> - <?php echo htmlspecialchars($pendingComment['user_name']); ?></h4>
+        <p>
+            <label>
+               <input type="checkbox" name="noteIds[]" value="<?php echo $pendingComment['note_id']; ?>" style="display: block; float: right" />
+               <?php
+                 if (strlen($pendingComment['unfiltered_note']) > 200) {
+                     echo substr(htmlspecialchars($pendingComment['unfiltered_note']), 0, 200) . '...';
+                 } else {
+                     echo $pendingComment['note_text'];
+                 }
+               ?>
+            </label>
+        </p>
+        <p>
+            <a class="thickbox" href="view-note.php?height=300&width=450&ajax=yes&noteId=<?php echo $pendingComment['note_id'] ?>"
+               title="See full note">View full note</a> <a href="view-note.php?ajax=no&status=<?php echo $status ?>&noteId=<?php echo $pendingComment['note_id'] ?>"
+               title="No JS View">(no js)</a>, or
+            <a href="/notes/admin/trans.php?action=makeDocBug&noteId=<?php echo $pendingComment['note_id']; ?>&url=<?php echo $pendingComment['page_url']; ?>">make a Doc Bug</a>.
+        </p>
+    </div> 
  <?php endforeach; ?>
-  <tr>
-   <th class="form-label_left">
-    <?php echo $caption ?></th>
-   <td class="form-input" colspan="4">
-    <input id="submitButton" type="button" onclick="checkAll()" value="Select All" />&nbsp;
-    <input type="submit" name="<?php echo $name ?>" value="<?php echo $button ?>" />
-   </td>
-  </tr>
-  <?php if ($name != 'undelete'): ?>
-  <tr>
-   <th class="form-label_left">Delete Notes</th>
-   <td class="form-input" colspan="4">
-    <div align="right"><input type="submit" name="delete" value="Delete" /></div>
-   </td>
-  </tr>
-  <?php endif; ?>
- </table>
+
+
 </form>
 <?php elseif (count($pendingComments) == 0) : ?>
 <h3>There are no user notes to manage, sorry... :(</h3>
