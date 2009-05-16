@@ -63,20 +63,18 @@ response_header();
 
 <h1>PEAR - PHP Extension and Application Repository</h1>
 
-<h2>&raquo; Users</h2>
+<h2>&raquo; What is it?</h2>
 
-<p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
-is a framework and distribution system for reusable PHP
-components. You can find help using PEAR packages in the
-<a href="/manual/en/">online manual</a> and the
-<a href="/manual/en/faq.php">FAQ</a>.</p>
+<p><acronym title="PHP Extension and Application Repository">PEAR</acronym> is a framework and distribution system for reusable PHP components.</p>
+
+<p>Sounds good? Perhaps you might want to know about <strong><a href="/manual/en/installation.php">installing PEAR on your system</a></strong> or <a href="/manual/en/guide.users.commandline.cli.php">installing pear packages</a>.</p>
+
+<p>You can find help using PEAR packages in the <a href="/manual/en/">online manual</a> and the <a href="/manual/en/faq.php">FAQ</a>.</p>
 
 <?php
 if (!$auth_user) {
 ?>
-<p>If you have been told by other PEAR developers to sign up for a
-PEAR website account, you can use <a href="/account-request.php">
-this interface</a>.</p>
+<p>If you have been told by other PEAR developers to sign up for a PEAR website account, you can use <a href="/account-request.php"> this interface</a>.</p>
 <?php
 }
 ?>
