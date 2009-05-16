@@ -340,6 +340,10 @@ function draw_navigation()
     $main_order[4]         = '/packages.php';
     $main['/packages.php'] = 'Packages';
     $sub['/packages.php']  = array();
+    if (!empty($auth_user) && !empty($auth_user->registered) && auth_check('pear.dev')) {
+        $sub['/packages.php']['/package-new.php']    = 'New Package';
+        $sub['/packages.php']['/release-upload.php'] = 'Upload Release';
+    }
     $sub['/packages.php']['/packages.php']      = 'List Packages';
     $sub['/packages.php']['/search.php']        = 'Search Packages';
     $sub['/packages.php']['/package-stats.php'] = 'Statistics';
