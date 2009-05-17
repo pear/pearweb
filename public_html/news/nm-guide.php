@@ -18,7 +18,7 @@
    $Id$
 */
 
-response_header('New Maintainer&#39;s Guide');
+response_header('New Maintainers&#39; Guide');
 ?>
 
 <h1>New Maintainer&#39;s Guide</h1>
@@ -28,7 +28,7 @@ response_header('New Maintainer&#39;s Guide');
 <div id="news-entry">
  <p>
   The online manual is now featuring the
-  <a href="/manual/en/guide-newmaint.php">New Maintainer&#39;s Guide</a>.
+  <a href="/manual/en/developers-newmaint.php">New Maintainers&#39; Guide</a>.
   This guide provides an overview about the process of contributing new
   packages to PEAR.
  </p>

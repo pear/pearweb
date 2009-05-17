@@ -54,7 +54,7 @@ if ($selectStatus == '') {
     echo "<p>";
     echo "PEPr is PEAR's system for managing the process of submitting ";
     echo "new packages. If you would like to submit your own package, ";
-    echo "please have a look at the <a href=\"/manual/en/guide-newmaint.php\">New Maintainer's Guide</a>.";
+    echo "please have a look at the <a href=\"/manual/en/developers-newmaint.php\">New Maintainers' Guide</a>.";
     echo "</p>";
     echo "<p>";
     echo "<a href=\"/feeds/pepr$searchPostfix.rss\"><img src=\"/gifs/feed.png\" width=\"16\" height=\"16\" alt=\"Aggregate this\" border=\"0\" /></a>";
