@@ -559,6 +559,9 @@ while ($allroadmaps->fetch()) {
     }
     $savant->roadmap[] = $allroadmaps->toArray();
 }
+
+usort($savant->roadmap, 'sort_roadmaps');
+
 $savant->package = $_GET['package'];
 if (isset($_GET['edit'])) {
     $bugdb = Bug_DataObject::bugDB('bugdb_roadmap');

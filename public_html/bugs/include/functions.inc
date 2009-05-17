@@ -795,6 +795,17 @@ function package_exists($type)
 }
 
 /**
+ * Natural version number sorting
+ *
+ * @see http://pear.php.net/bugs/bug.php?id=16160
+ */
+function sort_roadmaps($a, $b) 
+{
+    return version_compare($a['roadmap_version'], $b['roadmap_version']);
+}
+
+
+/**
  * Validate an incoming bug report
  *
  * @param
