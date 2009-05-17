@@ -107,7 +107,7 @@ if (!empty($_POST)) {
 /**
  * Create the menu, set the db to assoc mode
  */
-require_once('HTML/TreeMenu.php');
+require_once 'HTML/TreeMenu.php';
 $treeMenu = new HTML_TreeMenu();
 
 /**
@@ -126,5 +126,13 @@ if (!empty($_SESSION['category_manager']['error_msg'])) {
 
 $categories   = $dbh->getAll('SELECT id, name, description FROM categories ORDER BY id', null, DB_FETCHMODE_ASSOC);
 $treeMenuPres = new HTML_TreeMenu_DHTML($treeMenu, array('images' => '../gifs/TreeMenu', 'defaultClass' => 'treeMenuOff'));
+
+include_once 'pear-rest.php';
+global $dbh;
+$pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
+
+if (!is_writable($pear_rest->getCategoryDirectory())) {
+    $message = 'Warning: ' . $pear_rest->getCategoryDirectory() . ' is not writable';
+}
 
 include PEARWEB_TEMPLATEDIR . 'category-manager.html';

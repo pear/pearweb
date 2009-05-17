@@ -126,20 +126,20 @@ class category
 
         $name = $GLOBALS['dbh']->getOne('SELECT name FROM categories WHERE id = ?', array($id));
         // Get parent ID if any
-        $parentID = $GLOBALS['dbh']->getOne('SELECT parent FROM categories WHERE id = ' . $id);
+        $parentID = $GLOBALS['dbh']->getOne('SELECT parent FROM categories WHERE id = ?', array($id));
 
         // Delete it
-        $deleted_cat_left  = $GLOBALS['dbh']->getOne('SELECT cat_left FROM categories WHERE id = ' . $id);
-        $deleted_cat_right = $GLOBALS['dbh']->getOne('SELECT cat_right FROM categories WHERE id = ' . $id);
+        $deleted_cat_left  = $GLOBALS['dbh']->getOne('SELECT cat_left FROM categories WHERE id = ?', array($id));
+        $deleted_cat_right = $GLOBALS['dbh']->getOne('SELECT cat_right FROM categories WHERE id = ?', array($id));
 
         $GLOBALS['dbh']->query('DELETE FROM categories WHERE id = ' . $id);
 
         // Renumber
-        $GLOBALS['dbh']->query('UPDATE categories SET cat_left = cat_left - 1, cat_right = cat_right - 1 WHERE cat_left > ' . $deleted_cat_left . ' AND cat_right < ' . $deleted_cat_right);
-        $GLOBALS['dbh']->query('UPDATE categories SET cat_left = cat_left - 2, cat_right = cat_right - 2 WHERE cat_right > ' . $deleted_cat_right);
+        $GLOBALS['dbh']->query('UPDATE categories SET cat_left = cat_left - 1, cat_right = cat_right - 1 WHERE cat_left > ? AND cat_right < ?', array($deleted_cat_left, $deleted_cat_right));
+        $GLOBALS['dbh']->query('UPDATE categories SET cat_left = cat_left - 2, cat_right = cat_right - 2 WHERE cat_right > ?', array($deleted_cat_right));
 
         // Update any child categories
-        $GLOBALS['dbh']->query(sprintf('UPDATE categories SET parent = %s WHERE parent = %d', ($parentID ? $parentID : 'NULL'), $id));
+        $GLOBALS['dbh']->query('UPDATE categories SET parent = ? WHERE parent = ?', array(($parentID ? $parentID : 'NULL'), $id));
 
         include_once 'pear-rest.php';
         $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $GLOBALS['dbh']);
@@ -267,13 +267,13 @@ function renumber_visitations($id, $parent = null)
                               WHERE parent IS NULL");
         $left = ($left !== null) ? $left : 1; // first node
     } else {
-        $left = $dbh->getOne("SELECT cat_right FROM categories WHERE id = $parent");
+        $left = $dbh->getOne("SELECT cat_right FROM categories WHERE id = ?", array($parent));
     }
     $right = $left + 1;
     // update my self
     $err = $dbh->query("UPDATE categories
-                        SET cat_left = $left, cat_right = $right
-                        WHERE id = $id");
+                        SET cat_left = ?, cat_right = ?
+                        WHERE id = ?", array($left, $right, $id));
     if (PEAR::isError($err)) {
         return $err;
     }
@@ -281,13 +281,13 @@ function renumber_visitations($id, $parent = null)
         return true;
     }
     $err = $dbh->query("UPDATE categories SET cat_left = cat_left+2
-                        WHERE cat_left > $left");
+                        WHERE cat_left > ?", array($left));
     if (PEAR::isError($err)) {
         return $err;
     }
     // (cat_right >= $left) == update the parent but not the node itself
     $err = $dbh->query("UPDATE categories SET cat_right = cat_right+2
-                        WHERE cat_right >= $left and id <> $id");
+                        WHERE cat_right >= ? and id <> ?", array($left, $id));
     if (PEAR::isError($err)) {
         return $err;
     }
