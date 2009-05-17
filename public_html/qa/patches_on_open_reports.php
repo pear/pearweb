@@ -51,6 +51,7 @@ $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
 echo 'Checks <a href="#pear">PEAR</a> and <a href="#pecl">PECL</a><br />';
 echo 'Found ' . $total_rows . ' reports with patches attached<br /><br />';
 
+$bugs = array('pear' => array());
 foreach ($res as $data) {
     $bugs[$data['package_type']][$data['name']]['bug_id'][]     = $data['bug_id'];
 }

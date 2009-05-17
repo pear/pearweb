@@ -71,6 +71,7 @@ $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
 echo 'Checks <a href="#pear">PEAR</a> and <a href="#pecl">PECL</a><br />';
 echo 'Found ' . $total_rows . ' reports that have been closed but their package has not had a release in 6 months<br /><br />';
 
+$bugs = array('pear' => array(), 'pecl' => array());
 foreach ($res as $data) {
     $bugs[$data['package_type']][$data['name']]['bug_id'][]     = $data['bug_id'];
     $bugs[$data['package_type']][$data['name']]['last_release'] = $data['releasedate'];
