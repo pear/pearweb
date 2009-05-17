@@ -39,7 +39,7 @@ class pearweb_Channel_REST_Generator
         }
         $info .= '</a>';
 
-        $cdir = $this->_restdir . DIRECTORY_SEPARATOR . 'c' . DIRECTORY_SEPARATOR;
+        $cdir = $this->getCategoryDirectory();
         if (!is_dir($cdir)) {
             if (!mkdir($cdir, 0777, true)) {
                 return PEAR::raiseError('Creating directory '. $cdir . ' failed - Check the permissions');
@@ -54,9 +54,29 @@ class pearweb_Channel_REST_Generator
         @chmod($file, 0666);
     }
 
+    public function getCategoryDirectory() 
+    {
+        return $this->_restdir . DIRECTORY_SEPARATOR . 'c' . DIRECTORY_SEPARATOR;
+    }
+
+    public function getPackageDirectory() 
+    {
+        return $this->_restdir . DIRECTORY_SEPARATOR . 'p' . DIRECTORY_SEPARATOR;
+    }
+
+    public function getReleaseDirectory() 
+    {
+        return $this->_restdir . DIRECTORY_SEPARATOR . 'r' . DIRECTORY_SEPARATOR;
+    }
+
+    public function getMaintainerDirectory() 
+    {
+        return $this->_restdir . DIRECTORY_SEPARATOR . 'm' . DIRECTORY_SEPARATOR;
+    }
+
     public function saveCategoryREST($category)
     {
-        $cdir = $this->_restdir . DIRECTORY_SEPARATOR . 'c' . DIRECTORY_SEPARATOR;
+        $cdir = $this->getCategoryDirectory();
         if (!is_dir($cdir)) {
             if (!mkdir($cdir, 0777, true)) {
                 return PEAR::raiseError('Creating directory ' . $cdir . ' failed - Check the permissions');
@@ -133,21 +153,21 @@ class pearweb_Channel_REST_Generator
 
     public function savePackagesCategoryREST($category)
     {
-        $cdir = $this->_restdir . DIRECTORY_SEPARATOR . 'c';
+        $cdir = $this->getCategoryDirectory();
         if (!is_dir($cdir)) {
             return;
         }
 
         // list packages in a category
-        $dir = $cdir . DIRECTORY_SEPARATOR . urlencode($category) . DIRECTORY_SEPARATOR;
+        $dir = $cdir . urlencode($category) . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
             if (!mkdir($dir, 0777, true)) {
                 return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
             }
         }
 
-        $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p';
-        $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r';
+        $pdir = $this->getPackageDirectory();
+        $rdir = $this->getReleaseDirectory();
 
         include_once 'pear-database-category.php';
         $packages = category::listPackages($category);
@@ -161,23 +181,23 @@ class pearweb_Channel_REST_Generator
 ';
         clearstatcache();
         foreach ($packages as $package) {
-            $pmdir = $pdir . DIRECTORY_SEPARATOR . strtolower($package['name']);
-            if (!file_exists($pmdir . DIRECTORY_SEPARATOR . 'info.xml')) {
+            $pmdir = $pdir . strtolower($package['name']) . DIRECTORY_SEPARATOR;
+            if (!file_exists($pmdir . 'info.xml')) {
                 continue;
             }
 
             $fullpackageinfo .= '<pi>
 ';
             $fullpackageinfo .= str_replace($this->_getPackageRESTProlog(), '<p>',
-            file_get_contents($pmdir . DIRECTORY_SEPARATOR . 'info.xml'));
+            file_get_contents($pmdir . 'info.xml'));
 
-            $rmdir = $rdir . DIRECTORY_SEPARATOR . strtolower($package['name']);
-            if (file_exists($rmdir . DIRECTORY_SEPARATOR . 'allreleases.xml')) {
+            $rmdir = $rdir . strtolower($package['name']) . DIRECTORY_SEPARATOR;
+            if (file_exists($rmdir . 'allreleases.xml')) {
                 $fullpackageinfo .= str_replace(
                     $this->_getAllReleasesRESTProlog($package['name']), '
 <a>
 ',
-                file_get_contents($rmdir . DIRECTORY_SEPARATOR .'allreleases.xml'));
+                file_get_contents($rmdir . 'allreleases.xml'));
                 $files = scandir($rmdir);
                 foreach ($files as $entry) {
                     if (strpos($entry, 'deps.') === 0) {
@@ -185,7 +205,7 @@ class pearweb_Channel_REST_Generator
                         $fullpackageinfo .= '
 <deps>
  <v>' . $version . '</v>
- <d>' . htmlspecialchars(utf8_encode(file_get_contents($rmdir . DIRECTORY_SEPARATOR . $entry))) . '</d>
+ <d>' . htmlspecialchars(utf8_encode(file_get_contents($rmdir . $entry))) . '</d>
 </deps>
 ';
                     }
@@ -205,7 +225,7 @@ class pearweb_Channel_REST_Generator
 
     public function deleteCategoryREST($category)
     {
-        $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'c' . DIRECTORY_SEPARATOR . urlencode($category);
+        $dir = $this->getCategoryDirectory() . urlencode($category);
         if (!is_dir($dir)) {
             return;
         }
@@ -232,7 +252,7 @@ class pearweb_Channel_REST_Generator
         }
         $info .= '</a>';
 
-        $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'p' . DIRECTORY_SEPARATOR;
+        $dir = $this->getPackageDirectory();
         if (!is_dir($dir)) {
             if (!mkdir($dir, 0777, true)) {
                 return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check ther permissions');
@@ -292,8 +312,7 @@ class pearweb_Channel_REST_Generator
  <r xlink:href="' . $this->extra . 'r/' . strtolower($package['name']) . '"/>' . $parent . $deprecated . '
 </p>';
 
-        $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'p' . DIRECTORY_SEPARATOR
-                . strtolower($package['name']) . DIRECTORY_SEPARATOR;
+        $dir = $this->getPackageDirectory() . strtolower($package['name']) . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
             if (!mkdir($dir, 0777, true)) {
                 return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
@@ -317,8 +336,8 @@ class pearweb_Channel_REST_Generator
         }
 
         require_once 'System.php';
-        $pdir = $this->_restdir . DIRECTORY_SEPARATOR . 'p' . DIRECTORY_SEPARATOR;
-        $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r' . DIRECTORY_SEPARATOR;
+        $pdir = $this->getPackageDirectory();
+        $rdir = $this->getReleaseDirectory();
         // remove all package/release info for this package
         System::rm(array('-r', $pdir . strtolower($package)));
         System::rm(array('-r', $rdir . strtolower($package)));
@@ -365,7 +384,7 @@ class pearweb_Channel_REST_Generator
             return $releases;
         }
 
-        $rdir = $this->_restdir . DIRECTORY_SEPARATOR . 'r' . DIRECTORY_SEPARATOR;
+        $rdir = $this->getReleaseDirectory();
         if (!is_dir($rdir)) {
             if (!mkdir($rdir, 0777, true)) {
                 return PEAR::raiseError('Creating directory ' . $rdir . ' failed - Check the permissions');
@@ -499,8 +518,7 @@ class pearweb_Channel_REST_Generator
 
     public function deleteReleaseREST($package, $version)
     {
-        $dir  = $this->_restdir . DIRECTORY_SEPARATOR . 'r'
-                . DIRECTORY_SEPARATOR . strtolower($package) . DIRECTORY_SEPARATOR;
+        $dir  = $this->getReleaseDirectory() . strtolower($package) . DIRECTORY_SEPARATOR;
         if (@is_dir($dir)) {
             @unlink($dir . $version . '.xml');
             @unlink($dir . 'v2.' . $version . '.xml');
@@ -561,8 +579,7 @@ class pearweb_Channel_REST_Generator
  <x xlink:href="package.' . $version . '.xml"/>
 </r>';
 
-        $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'r'
-                . DIRECTORY_SEPARATOR . strtolower($package) . DIRECTORY_SEPARATOR;
+        $dir = $this->getReleaseDirectory() . strtolower($package) . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
             if (!mkdir($dir, 0777, true)) {
                 return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
@@ -594,7 +611,7 @@ class pearweb_Channel_REST_Generator
     public function deleteMaintainerREST($handle)
     {
         require_once 'System.php';
-        $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'm' . DIRECTORY_SEPARATOR . $handle;
+        $dir = $this->getMaintainterDirectory() . $handle;
         if (is_dir($dir)) {
             System::rm(array('-r', $dir));
         }
@@ -607,8 +624,7 @@ class pearweb_Channel_REST_Generator
         $maintainers = $this->db->getAll('SELECT handle, active, role FROM maintains WHERE package = ?', array($pid),
             DB_FETCHMODE_ASSOC);
 
-        $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'p'
-                . DIRECTORY_SEPARATOR . strtolower($package) . DIRECTORY_SEPARATOR;
+        $dir = $this->getPackageDirectory() . strtolower($package) . DIRECTORY_SEPARATOR;
         if (count($maintainers)) {
             $info2 = '<?xml version="1.0" encoding="UTF-8" ?>
 <m xmlns="http://pear.php.net/dtd/rest.packagemaintainers2"
@@ -681,8 +697,7 @@ class pearweb_Channel_REST_Generator
  <n>' .  htmlspecialchars($maintainer['name']) . '</n>
 ' . $uri . '</m>';
 
-        $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'm'
-                . DIRECTORY_SEPARATOR . $maintainer['handle'] . DIRECTORY_SEPARATOR;
+        $dir = $this->getMaintainerDirectory() . $maintainer['handle'] . DIRECTORY_SEPARATOR;
         if (!is_dir($dir)) {
             if (!mkdir($dir, 0777, true)) {
                 return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
@@ -722,7 +737,7 @@ class pearweb_Channel_REST_Generator
         }
         $info .= '</m>';
 
-        $dir = $this->_restdir . DIRECTORY_SEPARATOR . 'm' . DIRECTORY_SEPARATOR;
+        $dir = $this->getMaintainerDirectory();
         if (!is_dir($dir)) {
             if (!mkdir($dir, 0777, true)) {
                 return PEAR::raiseError('Creating directory ' . $dir . ' failed - Check the permissions');
