@@ -436,7 +436,7 @@ if (empty($_GET['limit']) || !(int)$_GET['limit']) {
 
 include_once 'pear-database-package.php';
 $releases = package::info($_GET['package'], 'releases');
-$savant->showold = isset($_GET['showold']);
+$savant->showold = !empty($_GET['showold']);
 $savant->releases = array_keys($releases);
 $allroadmaps = Bug_DataObject::bugDB('bugdb_roadmap');
 $allroadmaps->package = $_GET['package'];
