@@ -22,60 +22,46 @@ if ($this->errors) {
 }
 ?>
 <h2 class="no-border"><?php if ($this->isnew) { echo 'Create new'; } else { echo 'Edit'; } ?> Roadmap</h2>
-<form id="roadmapform" method="post" action="roadmap.php?<?php
+<form id="roadmapform" method="post" style="display: table; width: 80em" action="roadmap.php?<?php
     if ($this->isnew) {
-        echo 'package=' . urlencode($this->info['package']) . '&new=1';
+        echo 'package=' . urlencode($this->info['package']) . '&amp;new=1';
     } else {
         echo 'edit=' . $this->info['id'];
     } ?>">
-<table>
- <tr>
-  <th class="form-label_left">
-   Describe the Goals of this Release
-  </th>
-  <td class="form-input">
-   <textarea rows="5" cols="50" name="description"><?php echo htmlspecialchars($this->info['description']) ?></textarea>
-  </td>
- </tr>
- <tr>
-  <th class="form-label_left">
-   Release Version
-  </th>
-  <td class="form-input">
-   <input type="text" name="roadmap_version" value="<?php echo htmlspecialchars($this->info['roadmap_version']) ?>" />
-  </td>
- </tr>
- <tr>
-  <th class="form-label_left">
-   Scheduled Release Date<br />(use &quot;future&quot; for uncertain release date)
-  </th>
-  <td class="form-input">
-   <input type="text" name="releasedate" value="<?php
-       if ($this->info['releasedate'] == '1976-09-02 17:15:30') {
-           echo 'future';
-       } else {
-           echo $this->info['releasedate'];
-       } ?>" />
-  </td>
- </tr>
+
+
+   <p><label>Release Version<br />
+   <input type="text" name="roadmap_version" value="<?php echo htmlspecialchars($this->info['roadmap_version']) ?>" /></label></p>
+
+
+   <p><label>Scheduled Release Date (YYYY-MM-DD)<br />
+       <input type="text" name="releasedate" value="<?php
+           if ($this->info['releasedate'] == '1976-09-02 17:15:30') {
+               echo 'future';
+           } else {
+               echo $this->info['releasedate'];
+           } ?>" /></label><br />
+        (use &quot;future&quot; for uncertain release date)</p>
+        
+
+   <p><label>Describe the Goals of this Release<br />
+   <textarea rows="5" name="description" cols="80" style="margin: 0"><?php echo htmlspecialchars($this->info['description']) ?></textarea></label></p>
+
+
+
+
 <?php
 // Check if there has been a release before
-if ($this->isnew && !empty($this->lastRelease)) {
+if ($this->isnew && !empty($this->lastRelease) ) {
 ?>
- <tr>
-  <th class="form-label_left">
-   Import closed bugs since last release (<?php echo $this->lastRelease; ?>)
-  </th>
-  <td class="form-input">
-   <input type="checkbox" name="importbugs" <?php if ($this->import) { echo 'checked="checked"'; } ?> />
-  </td>
- </tr>
+   <p>Import closed bugs since last release (<?php echo $this->lastRelease; ?>)<br />
+
+   <input type="checkbox" name="importbugs" <?php if ($this->import) { echo 'checked="checked"'; } ?> /></p>
 <?php
 }
 ?>
-</table>
-<br />
-<input type="submit" name="go" value="Save" />
+            <p><input type="submit" name="go" value="Save" /></p>
+
 </form>
 <?php
 response_footer();
