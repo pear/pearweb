@@ -611,7 +611,7 @@ class pearweb_Channel_REST_Generator
     public function deleteMaintainerREST($handle)
     {
         require_once 'System.php';
-        $dir = $this->getMaintainterDirectory() . $handle;
+        $dir = $this->getMaintainerDirectory() . $handle;
         if (is_dir($dir)) {
             System::rm(array('-r', $dir));
         }
