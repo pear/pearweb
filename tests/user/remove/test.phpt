@@ -6,8 +6,8 @@ user::remove()
 require dirname(dirname(__FILE__)) . '/setup.php.inc';
 require_once 'pear-prepend.php';
 require_once 'pear-rest.php';
-$pear_rest = new pearweb_Channel_REST_Generator($restdir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rest');
-$rest = new pearweb_Channel_REST_Generator($rdir = dirname(__FILE__) . '/rest');
+$pear_rest = new pearweb_Channel_REST_Generator($restdir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rest', $dbh);
+$rest = new pearweb_Channel_REST_Generator($rdir = dirname(__FILE__) . '/rest', $dbh);
 
 require_once 'System.php';
 System::mkdir(array('-p', $rdir . '/m/dufuz'));
