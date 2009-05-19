@@ -7,7 +7,7 @@ $_ENV['PEAR_DATABASE_DSN'] = 'mock://pear:pear@localhost/pear';
 $_SERVER['SERVER_NAME'] = 'localhost';
 require_once 'pear-prepend.php';
 require_once 'pear-rest.php';
-$pear_rest = new pearweb_Channel_REST_Generator($restdir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rest');
+$pear_rest = new pearweb_Channel_REST_Generator($restdir = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'rest', $dbh);
 
 $options = array(
     'persistent' => false,
