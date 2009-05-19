@@ -279,7 +279,8 @@ class DB_mock extends DB_common
         try {
             $rows = $this->_mock->query($query);
         } catch (MockDB_Core_QueryException $e) {
-            echo "**Unplanned query:\n" . $e->getMessage();
+            echo "**Unplanned query:\n";
+            print $e;
             die;
         } catch (Exception $e) {
             return $this->raiseError(DB_ERROR, null, $e->getMessage(), $e->getCode());
