@@ -370,7 +370,7 @@ function show_package_version_options($package, $current)
     echo '<option value="CVS"';
     echo $current == 'CVS' ? ' selected' : '';
     echo ">CVS</option>\n";
-    echo '<option value="Unkown"';
+    echo '<option value="Unknown"';
     echo $current == 'Unknown' ? ' selected' : '';
     echo ">I have no idea</option>\n";
     echo "<option value=\"earlier\"", ($current == "earlier" ? " selected" : ""),  ">Earlier? Upgrade first!</option>\n";
