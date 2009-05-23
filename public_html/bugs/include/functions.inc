@@ -561,7 +561,7 @@ function bug_diff_render_html($diff)
         $changes .= '<span class="removed">' . clean($from) . '</span>' . "\n";
         $changes .= '<span class="added">' .   clean($to) . '</span>' . "\n";
     }
-    $changes .= '</div>' . "\n";
+    $changes .= '</div>';
 
     return $changes;
 }
