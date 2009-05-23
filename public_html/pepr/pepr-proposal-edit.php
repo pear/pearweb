@@ -76,7 +76,9 @@ if ($proposal = proposal::get($dbh, @$_GET['id'])) {
 }
 
 ?>
-<script language="javascript" src="/javascript/pear_editor.js"></script>
+<!-- pear-editor depends on detect-user-agent -->
+<script type="text/javascript" src="/javascript/detect-user-agent.js"></script>
+<script type="text/javascript" src="/javascript/pear_editor.js"></script>
 <?php
 include_once 'HTML/QuickForm.php';
 $form =& new HTML_QuickForm('proposal_edit', 'post',
