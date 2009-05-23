@@ -761,7 +761,7 @@ if (isset($_POST['preview']) && !empty($ncomment)) {
     } else {
         $preview .= $pbu->spamProtect(htmlspecialchars($from));
     }
-    $preview .= "</strong>\n<br /><span class=\"note\" style=\"white-space: pre\">";
+    $preview .= "</strong>\n<br /><span class=\"note\" style=\"white-space: pre-wrap\">";
     $comment = $ncomment;
     $preview .= make_ticket_links(addlinks($comment));
     $preview .= "</span>\n";
@@ -1061,7 +1061,7 @@ if ($edit == 1 || $edit == 2) {
     $p = $patches->listPatches($id);
     ?>
     <h2>Patches</h2>
-    <a href="patch-add.php?bug_id=<?php echo $id; ?>">Add a Patch</a><br /><br />
+    <p><a href="patch-add.php?bug_id=<?php echo $id; ?>">Add a Patch</a><br /><br />
     <?php
     foreach ($p as $name => $revisions) {
         $obsolete = $patches->getObsoletingPatches($bug['id'], $name, $revisions[0][0]);
@@ -1070,7 +1070,7 @@ if ($edit == 1 || $edit == 2) {
             echo urlencode($name) ?>&revision=latest" <?php echo $style; ?>><?php echo clean($name) ?></a> (last revision <?php echo format_date($revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php
             echo "\n";
     }
-    echo '<br />';
+    echo '</p>';
 
 if ($edit == 1 || $edit == 2) {
 ?>
@@ -1288,7 +1288,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
     if ($edit === 1 && $com_id !== 0 && auth_check('pear.dev')) {
         echo "&nbsp<a href=\"bug.php?id=$id&amp;edit=1&amp;hide_comment=$com_id\">[delete]</a>\n";
     }
-    echo '<pre class="note">'. "\n";
+    echo '<div class="note" style="white-space: pre-wrap; width: 60em; overflow: auto; max-height: 20em; padding: 1.0em; margin: 1.0em; background-color: rgb(240, 240, 240)">';
 
     // This has to be done so we don't wordwrap the changeset part again
     $fix     = $comment;
@@ -1307,7 +1307,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
 
 
     echo $comment;
-    echo "</pre>\n";
+    echo "</div>\n";
     echo '</div>' . "\n";
 }
 
