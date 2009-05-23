@@ -752,7 +752,8 @@ if (auth_check('pear.bug') || auth_check('pear.dev')) {
 <?php
 
 if (isset($_POST['preview']) && !empty($ncomment)) {
-    $preview = '<div class="comment">';
+    $preview = '';
+    $preview .= '<div class="comment" style="margin-bottom: 1.0em; padding: 0.5em; background-color: rgb(240, 240, 240);">';
     $preview .= "<strong>[" . format_date(time()) . "] ";
     if (isset($auth_user) && $auth_user) {
         $preview .= '<a href="/user/' . $auth_user->handle . '">' .
@@ -760,10 +761,10 @@ if (isset($_POST['preview']) && !empty($ncomment)) {
     } else {
         $preview .= $pbu->spamProtect(htmlspecialchars($from));
     }
-    $preview .= "</strong>\n<pre class=\"note\">";
-    $comment = wordwrap($ncomment, 72);
+    $preview .= "</strong>\n<br /><span class=\"note\" style=\"white-space: pre\">";
+    $comment = $ncomment;
     $preview .= make_ticket_links(addlinks($comment));
-    $preview .= "</pre>\n";
+    $preview .= "</span>\n";
     $preview .= '</div>';
 } else {
     $preview = '';
@@ -889,7 +890,7 @@ if ($edit == 1 || $edit == 2) {
 <?php
         }
     }
-    echo $preview;
+
 ?>
 
     <table id="bugform">
@@ -1077,12 +1078,17 @@ if ($edit == 1 || $edit == 2) {
     <label for="ncomment" accesskey="m"><b>New<?php if ($edit==1) echo "/Additional"?> Co<span class="accesskey">m</span>ment:</b></label>
     </p>
 
+    <?php echo $preview; ?>
+
     <textarea cols="60" rows="10" id="ncomment" name="ncomment"
      wrap="physical"><?php echo clean($ncomment) ?></textarea>
+
 
     <p style="margin-top: 0em;">
         <input type="submit" name="preview" value="Preview" />&nbsp;<input type="submit" value="Submit" />
     </p>
+
+
     </form>
 
 <?php
@@ -1295,7 +1301,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
         $status  = substr($comment, 0, $needle) . $search;
     }
 
-    $comment = htmlspecialchars(wordwrap($fix, 72, "\n", true), ENT_QUOTES, 'ISO-8859-15', false);
+    $comment = htmlspecialchars($fix, ENT_QUOTES, 'ISO-8859-15', false);
     $comment = make_ticket_links(addlinks($comment));
     $comment = $status . $comment;
 
