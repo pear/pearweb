@@ -25,11 +25,22 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.18.1');
+$a->setReleaseVersion('1.19');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Fix XSS problem, thanks to Tim Starling!
+Request #13449 Improve the user experience on the homepage
+Bug #16062 BB tag helper refers to non-existant variable "is_gecko"
+Bug #16112 us.pear.php.net is behind	
+Bug #16120 Broken link to "New Maintainers Guide" from "Package Proposals"
+Bug #16125 Link broken when path is attached to a bug report	 
+Bug #16160 Roadmap: natural sorting for package versions (1.19.0 before 1.9.0)
+Bug #16161 showold=0 does not hide old roadmaps
+Bug #16226 Incorrect warning
+Bug #16228 Difficult to see which checkboxes relate to notes
+Bug #16231 Broken links
+Bug #16232 Selecting unknown package version during bug reporting fails
+Fixed a www-dir replacement bug
 ');
 $a->resetUsesrole();
 $a->clearDeps();
