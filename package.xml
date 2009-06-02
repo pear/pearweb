@@ -47,6 +47,12 @@
   <email>dufuz@php.net</email>
   <active>yes</active>
  </lead>
+ <lead>
+  <name>Daniel O'Connor</name>
+  <user>doconnor</user>
+  <email>doconnor@php.net</email>
+  <active>yes</active>
+ </lead>
  <developer>
   <name>Stig Bakken</name>
   <user>ssb</user>
