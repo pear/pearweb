@@ -125,6 +125,7 @@ $a->addPostinstallTask($script, 'pearweb.php');
 $a->addReplacement('pearweb.php', 'pear-config', '@www-dir@', 'www_dir');
 $a->addReplacement('pearweb.php', 'pear-config', '@php-dir@', 'php_dir');
 $a->addReplacement('pearweb.php', 'package-info', '@version@', 'version');
+$a->addReplacement('cron/bug-update-php-version.php', 'pear-config', '@www-dir@', 'www_dir');
 $a->generateContents();
 
 if (isset($_SERVER['argv']) && @$_SERVER['argv'][1] == 'make') {
