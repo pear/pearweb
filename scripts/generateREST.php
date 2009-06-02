@@ -19,7 +19,7 @@ if (!isset($pear_rest)) {
     } else {
         $rest_path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'rest';
     }
-    $pear_rest = new pearweb_Channel_REST_Generator($rest_path);
+    $pear_rest = new pearweb_Channel_REST_Generator($rest_path, $dbh);
 }
 
 include_once 'DB.php';
