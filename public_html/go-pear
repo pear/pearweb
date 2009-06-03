@@ -2100,7 +2100,7 @@ function displayHTML($page = 'Welcome', $data = array())
                     <td bgcolor="#ffffff" height="20" id="installation_progress" class="green">0 %</td>
                   </tr>
                 </table>
-                <br>
+                <br />
                 <table border="0">
                   <tr>
                     <td bgcolor="#cccccc" width="10" height="20" id="download_progress_cell_0">&nbsp;</td>
@@ -2119,7 +2119,7 @@ function displayHTML($page = 'Welcome', $data = array())
                     <td bgcolor="#ffffff" height="20" id="download_file" class="green"></td>
                   </tr>
                 </table>
-                <br>
+                <br />
                 <iframe src="<?php echo basename(__FILE__); ?>?step=install-progress&amp;<?php echo SID;?>" width="700" height="700" frameborder="0" marginheight="0" marginwidth="0"></iframe>
               </td>
             </tr>
@@ -2197,7 +2197,7 @@ function displayHTMLInstallationSummary($data = '')
                 <td>
                   <span class="green">
                   <b>Note:</b> To use PEAR without any problems you need to add your<br/>
-                  PEAR Installation path (<?php echo $GLOBALS['php_dir']; ?>)<br>
+                  PEAR Installation path (<?php echo $GLOBALS['php_dir']; ?>)<br />
                   to your <a href="http://www.php.net/manual/en/configuration.directives.php#ini.include_path">include_path</a>.<br/>
                       <br/>
                   Using a .htaccess file or directly edit httpd.conf would be working solutions<br/>
@@ -2307,7 +2307,7 @@ function displayHTMLProgress($progress)
         };
         $msg[$key] = $value;
     };
-    $msg = implode('<br>', $msg);
+    $msg = implode('<br />', $msg);
 
     $msg.='<script type="text/javascript"> parent.setprogress('.((int) $progress).');  </script>';
 

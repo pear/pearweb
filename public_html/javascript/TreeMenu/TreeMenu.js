@@ -32,7 +32,7 @@
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
 //
-// $Id: TreeMenu.js,v 1.3 2009-06-03 14:53:04 clockwerx Exp $
+// $Id: TreeMenu.js,v 1.4 2009-06-03 14:56:32 clockwerx Exp $
 
 
 /**
@@ -203,7 +203,7 @@
 			var linkStart = nodes[i].link ? this.stringFormat('<a href="{0}" target="{1}">', nodes[i].link, this.linkTarget) : '';
 			var linkEnd   = nodes[i].link ? '</a>' : '';
 
-			output = this.stringFormat('{0}<nobr>{1}{2}{3}{4}<span {5}>{6}</span>{7}</nobr><br></div>',
+			output = this.stringFormat('{0}<nobr>{1}{2}{3}{4}<span {5}>{6}</span>{7}</nobr><br /></div>',
 			                  layerTag,
 							  prepend,
 			                  parentLayerID == null && (nodes.length == 1 || this.noTopLevelImages) ? '' : imgTag,
