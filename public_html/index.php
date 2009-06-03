@@ -122,13 +122,13 @@ if (!$auth_user) {
   direct URLs.  To upgrade to the latest PEAR, you can either use go-pear
   (<a href="http://pear.php.net/go-pear">http://pear.php.net/go-pear</a>) or
   upgrade using direct URLs:
+ </p>
   <pre>
    pear upgrade --force http://pear.php.net/get/Archive_Tar http://pear.php.net/get/XML_Parser http://pear.php.net/get/Console_Getopt-1.2.2
    pear upgrade --force http://pear.php.net/get/PEAR-1.3.3 (_IF_ your existing version is older than 1.3.3)
    pear upgrade --force http://pear.php.net/get/PEAR-1.4.3.tar
    pear upgrade PEAR
   </pre>
- </p>
 
  <p>
   <strong>[October 19, 2007]</strong><br />
@@ -175,13 +175,13 @@ if (!$auth_user) {
   As of January 1, 2008, PEAR will be dropping
   support for PEAR versions 1.3.6 and earlier.  If you are using PEAR 1.3.6 or earlier,
   we <em>strongly</em> encourage you to upgrade using these simple steps:
-  <code>
-   <pre>
-    pear upgrade --force PEAR-1.3.6 Archive_Tar-1.3.1 Console_Getopt-1.2
-    pear upgrade --force PEAR-1.4.11
-    pear upgrade PEAR
-   </pre>
-  </code>
+</p>
+ <pre>
+  pear upgrade --force PEAR-1.3.6 Archive_Tar-1.3.1 Console_Getopt-1.2
+  pear upgrade --force PEAR-1.4.11
+  pear upgrade PEAR
+ </pre>
+<p>
   The full story on what has changed, and what will change is <a href="/news/package.xml.1.0.php">here</a>.
  </p>
 </div>
