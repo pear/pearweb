@@ -17,16 +17,10 @@ __halt_compiler();
 ===DONE===
 --EXPECTF--
 %s
- <title>PEAR :: Account confirmation</title>
+ <title>Account confirmation</title>
 %s
 
-  <td class="content">
-
-    <h1>Confirm Account</h1><div class="errors">ERROR:<ul><li>Unknown salt</li>
+<h1>Confirm Account</h1><div class="errors">ERROR:<ul><li>Unknown salt</li>
 </ul></div>
-
-  </td>
-
-<!-- END MAIN CONTENT -->
 
 %s
