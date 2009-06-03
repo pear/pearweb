@@ -30,6 +30,8 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 Request #15985 Upgrade to Savant3
+Assorted fixed unit tests (old test expectations)
+XHTML / HTML validity improvements
 ');
 $a->resetUsesrole();
 $a->clearDeps();

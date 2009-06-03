@@ -48,7 +48,7 @@
   <active>yes</active>
  </lead>
  <lead>
-  <name>Daniel O'Connor</name>
+  <name>Daniel O&apos;Connor</name>
   <user>doconnor</user>
   <email>doconnor@php.net</email>
   <active>yes</active>
@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-06-03</date>
- <time>01:00:47</time>
+ <date>2009-06-04</date>
+ <time>01:29:38</time>
  <version>
-  <release>1.19.0</release>
+  <release>1.20.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,18 +101,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Request #13449 Improve the user experience on the homepage
-Bug #16062 BB tag helper refers to non-existant variable &quot;is_gecko&quot;
-Bug #16112 us.pear.php.net is behind	
-Bug #16120 Broken link to &quot;New Maintainers Guide&quot; from &quot;Package Proposals&quot;
-Bug #16125 Link broken when path is attached to a bug report	 
-Bug #16160 Roadmap: natural sorting for package versions (1.19.0 before 1.9.0)
-Bug #16161 showold=0 does not hide old roadmaps
-Bug #16226 Incorrect warning
-Bug #16228 Difficult to see which checkboxes relate to notes
-Bug #16231 Broken links
-Bug #16232 Selecting unknown package version during bug reporting fails
-Fixed a www-dir replacement bug
+Request #15985 Upgrade to Savant3
+Assorted fixed unit tests (old test expectations)
+XHTML / HTML validity improvements
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -626,9 +617,9 @@ Fixed a www-dir replacement bug
     <min>1.8.5</min>
    </package>
    <package>
-    <name>Savant2</name>
-    <channel>savant.pearified.com</channel>
-    <min>2.4.2</min>
+    <name>Savant3</name>
+    <channel>phpsavant.com</channel>
+    <min>3.0.0</min>
    </package>
    <package>
     <name>HTML_BBCodeParser</name>
@@ -2391,6 +2382,23 @@ Bug #16228 Difficult to see which checkboxes relate to notes
 Bug #16231 Broken links
 Bug #16232 Selecting unknown package version during bug reporting fails
 Fixed a www-dir replacement bug
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.20.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-06-04</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Request #15985 Upgrade to Savant3
+Assorted fixed unit tests (old test expectations)
+XHTML / HTML validity improvements
    </notes>
   </release>
  </changelog>
