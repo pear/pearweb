@@ -25,22 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.19.0');
+$a->setReleaseVersion('1.20.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Request #13449 Improve the user experience on the homepage
-Bug #16062 BB tag helper refers to non-existant variable "is_gecko"
-Bug #16112 us.pear.php.net is behind	
-Bug #16120 Broken link to "New Maintainers Guide" from "Package Proposals"
-Bug #16125 Link broken when path is attached to a bug report	 
-Bug #16160 Roadmap: natural sorting for package versions (1.19.0 before 1.9.0)
-Bug #16161 showold=0 does not hide old roadmaps
-Bug #16226 Incorrect warning
-Bug #16228 Difficult to see which checkboxes relate to notes
-Bug #16231 Broken links
-Bug #16232 Selecting unknown package version during bug reporting fails
-Fixed a www-dir replacement bug
+Request #15985 Upgrade to Savant3
 ');
 $a->resetUsesrole();
 $a->clearDeps();
@@ -55,7 +44,7 @@ $a->addPackageDepWithChannel('required', 'Services_ProjectHoneyPot', 'pear.php.n
 // used only in cron jobs
 $a->addPackageDepWithChannel('required', 'DB', 'pear.php.net', '1.6.5');
 $a->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '1.8.5');
-$a->addPackageDepWithChannel('required', 'Savant2', 'savant.pearified.com', '2.4.2');
+$a->addPackageDepWithChannel('required', 'Savant3', 'phpsavant.com', '3.0.0');
 $a->addPackageDepWithChannel('required', 'HTML_BBCodeParser', 'pear.php.net', '1.2.1');
 $a->addPackageDepWithChannel('required', 'HTML_TagCloud', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTML_Table', 'pear.php.net', '1.5');
