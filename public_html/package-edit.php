@@ -27,7 +27,7 @@ require_once 'tags/Manager.php';
 response_header('Edit Package');
 ?>
 
-<script language="javascript">
+<script type="text/javascript">
 <!--
 
 function confirmed_goto(url, message) {

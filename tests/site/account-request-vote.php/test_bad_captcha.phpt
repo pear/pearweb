@@ -122,7 +122,7 @@ Please use the &quot;latin counterparts&quot; of non-latin characters (for insta
 <input type="hidden" name="_fields" value="handle:firstname:lastname:password:email:showemail:homepage:moreinfo:comments_read:submit" />
 </form>
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 if (!document.forms[1].handle.disabled) document.forms[1].handle.focus();
 

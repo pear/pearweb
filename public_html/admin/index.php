@@ -218,7 +218,7 @@ if (!empty($_REQUEST['cmd'])) {
 // {{{ javascript functions
 
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 <!--
 
 function confirmed_goto(url, message) {
@@ -389,7 +389,7 @@ foreach ($reasons as $reason) {
     // {{{ admin menu
     } else {
 		?>
-		<script language="JavaScript" type="text/javascript">
+		<script type="text/javascript">
         <!--
 			/**
             * This code is *nasty* (nastyCode)

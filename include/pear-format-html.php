@@ -264,7 +264,7 @@ echo make_link('/about/credits.php', 'CREDITS');
 </div>
 <!-- Onload focus to pear -->
 <?php if (isset($GLOBALS['ONLOAD'])): ?>
-<script language="javascript">
+<script type="text/javascript">
 function makeFocus() {
     <?php echo htmlspecialchars($GLOBALS['ONLOAD']); ?>
 }

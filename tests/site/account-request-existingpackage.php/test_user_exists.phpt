@@ -185,7 +185,7 @@ Download PEAR Packages. <br />
 <input type="hidden" name="_fields" value="handle:firstname:lastname:password:email:showemail:existingpackage:purpose:homepage:moreinfo:comments_read:submit" />
 </form>
 
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
 if (!document.forms[1].handle.disabled) document.forms[1].handle.focus();
 

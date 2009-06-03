@@ -189,7 +189,7 @@ function doMD5(frm) {
  </tr>
 </table>
 <!-- Onload focus to pear -->
-<script language="javascript">
+<script type="text/javascript">
 function makeFocus() {
     document.login.PEAR_USER.focus();}
 

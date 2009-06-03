@@ -226,8 +226,8 @@ $form->addElement('textarea', 'userinfo', 'Additional User Information:'
 $form->addElement('text', 'latitude', 'Latitude Point:', 'size="40" id="latitude"');
 $form->addElement('text', 'longitude', 'Longitude Point:', 'size="40" id="longitude"');
 $form->addElement('static', null, '
-<script language="javascript" src="javascript/showmap.js"></script>
-<script language="javascript" src="javascript/popmap.js"></script>
+<script src="javascript/showmap.js"></script>
+<script src="javascript/popmap.js"></script>
 ');
 $form->addElement('static', null, '<a href="#" onclick="pearweb.display_map(event); showmap();">Open map</a>');
 
