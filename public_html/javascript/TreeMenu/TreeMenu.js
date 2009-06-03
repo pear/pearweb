@@ -32,7 +32,7 @@
 // |         Harald Radi <harald.radi@nme.at>                              |
 // +-----------------------------------------------------------------------+
 //
-// $Id: TreeMenu.js,v 1.2 2009-05-23 17:04:54 clockwerx Exp $
+// $Id: TreeMenu.js,v 1.3 2009-06-03 14:53:04 clockwerx Exp $
 
 
 /**
@@ -199,7 +199,7 @@
 	        */
 			var layerTag  = this.doesMenu() ? this.stringFormat('<div id="{0}" style="display: {1}" class="{2}">', layerID, visibility, (nodes[i].cssClass ? nodes[i].cssClass : this.defaultClass)) : this.stringFormat('<div class="{0}">', '');
 			var onMDown   = this.doesMenu() && nodes[i].n.length  && nodes[i].isDynamic ? this.stringFormat('onmousedown="{0}.toggleBranch(\'{1}\', true)" style="cursor: pointer; cursor: hand"', this.myname, layerID) : '';
-			var imgTag    = this.stringFormat('<img src="{0}/{1}{2}.gif" width="20" height="20" align="top" border="0" name="img_{3}" {4}>', this.iconpath, gifname, modifier, layerID, onMDown);
+			var imgTag    = this.stringFormat('<img src="{0}/{1}{2}.gif" width="20" height="20" align="top" name="img_{3}" {4}>', this.iconpath, gifname, modifier, layerID, onMDown);
 			var linkStart = nodes[i].link ? this.stringFormat('<a href="{0}" target="{1}">', nodes[i].link, this.linkTarget) : '';
 			var linkEnd   = nodes[i].link ? '</a>' : '';
 

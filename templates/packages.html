@@ -1,5 +1,5 @@
 <script src="/javascript/jquery.js"></script>
-<script language="JavaScript" type="text/javascript">
+<script type="text/javascript">
 <!--
     function toggleMoreInfo(packageName, packageID)
     {
@@ -62,10 +62,10 @@
     <?php endif?>
 
     <a href="#" title="Hide all more info" onclick="$('.moreInfoTR').hide();">
-     <img src="gifs/moreinfo-no.gif" width="17" height="17" border="0" vspace="3" alt="Hide all more info" />
+     <img src="gifs/moreinfo-no.gif" width="17" height="17" vspace="3" alt="Hide all more info" />
     </a>
     <a href="#" title="Show all more info" onclick="$('.moreInfoTR').show();">
-     <img src="gifs/moreinfo-yes.gif" width="17" height="17" border="0" vspace="3" alt="Show all more info" />
+     <img src="gifs/moreinfo-yes.gif" width="17" height="17" vspace="3" alt="Show all more info" />
     </a>
 
     <table style="border: solid 1px black; width: 100%" cellspacing="0" cellpadding="0">
@@ -94,7 +94,7 @@
          <td valign="top"><?php echo htmlspecialchars($p['summary']); ?></td>
           <td valign="top">
             <a href="#" onclick="toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>); return false" title="View more info about <?php echo $p['name']; ?>">
-                <img src="gifs/moreinfo.gif" alt="More Info" title="More Info" border="0" />
+                <img src="gifs/moreinfo.gif" alt="More Info" title="More Info" />
             </a>
           </td>
         </tr>
@@ -105,7 +105,7 @@
            <tr>
             <td><span class="moreInfoText">More information</span></td>
             <td align="right">
-              <a href="javascript: toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>)"><img class="closeButton" src="gifs/close.gif" border="0" alt="" /></a>
+              <a href="javascript: toggleMoreInfo(<?php echo "'".$p['name']."'"; ?>,<?php echo $p['id']; ?>)"><img class="closeButton" src="gifs/close.gif" alt="" /></a>
             </td>
            </tr>
           </table>

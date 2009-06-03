@@ -1729,7 +1729,7 @@ function displayHTML($page = 'Welcome', $data = array())
         }
         
         foreach ($menus as $menu => $descr) {
-            print('<img src="'.basename(__FILE__).'?action=img&amp;img=smallpear" border="0">');
+            print('<img src="'.basename(__FILE__).'?action=img&amp;img=smallpear" alt="" />');
 
             if (!$after_current) {
                 $class = '';
@@ -1859,7 +1859,7 @@ function displayHTML($page = 'Welcome', $data = array())
 	    <p>
 	    <table border="0">
               <tr>
-                <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" border="0"></td>
+                <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" /></td>
                 <td>
                   <span class="green">
                     <b>Note:</b> Make sure that PHP has the permission to access the specified<br/>
@@ -1935,7 +1935,7 @@ function displayHTML($page = 'Welcome', $data = array())
 		    <p>
                     <table border="0">
                       <tr>
-                        <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" border="0"></td>
+                        <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" alt="" /></td>
                         <td>
                           <span style="color: #ff0000">
                               <b>Warning:</b> Your PHP version (4.1.1) might be imcompatible with go-pear due to a bug<br/>
@@ -1953,7 +1953,7 @@ function displayHTML($page = 'Welcome', $data = array())
 	    <p>
             <table border="0">
               <tr>
-                <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" border="0"></td>
+                <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" alt="" /></td>
                 <td>
                   <span class="green">
                       <b>Note:</b> Installation might take some time, because go-pear has to<br/>
@@ -2193,7 +2193,7 @@ function displayHTMLInstallationSummary($data = '')
 
             <table border="0">
               <tr>
-                <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" border="0"></td>
+                <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" alt="" /></td>
                 <td>
                   <span class="green">
                   <b>Note:</b> To use PEAR without any problems you need to add your<br/>
@@ -2218,7 +2218,7 @@ function displayHTMLInstallationSummary($data = '')
 ?>
                     <table border="0">
                       <tr>
-                        <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" border="0"></td>
+                        <td valign="top"><img src="<?php echo basename(__FILE__); ?>?action=img&amp;img=note" alt="" /></td>
                         <td>
                           <span style="color: #ff0000">
                             <b>Warning:</b> Can not determine the URL of the freshly installed Web Frontend<br />

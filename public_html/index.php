@@ -35,7 +35,7 @@ if (@sizeof($recent) > 0) {
                           $release['version'] . '</a><br /> <small>(' .
                           $releasedate . ')</small></td></tr>';
     }
-    $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" border="0" /></a>';
+    $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" /></a>';
     $RSIDEBAR_DATA .= "<tr><td>&nbsp;</td></tr>\n";
     $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
@@ -51,7 +51,7 @@ if (@sizeof($popular) > 0) {
         $RSIDEBAR_DATA .= wordwrap($package['name'],25,"\n",1) . ' ' . $package['version'] . '</a><br /> <small>(' .
                           number_format($package['d'],2) . ')</small></td></tr>';
     }
-    $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" border="0" /></a>';
+    $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" /></a>';
     $RSIDEBAR_DATA .= "<tr><td><small>* downloads per day</small></td></tr>\n";
     $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
