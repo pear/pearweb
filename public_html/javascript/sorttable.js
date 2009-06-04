@@ -6,7 +6,7 @@
 
   Instructions:
   Download this file
-  Add <script src="sorttable.js"></script> to your HTML
+  Add <script type="text/javascript" src="sorttable.js"></script> to your HTML
   Add class="sortable" to any table you'd like to make sortable
   Click on the headers to sort
 
@@ -345,7 +345,7 @@ if (document.addEventListener) {
 /* for Internet Explorer */
 /*@cc_on @*/
 /*@if (@_win32)
-    document.write("<script id=__ie_onload defer src=javascript:void(0)><\/script>");
+    document.write("<script type='text/javascript' id=__ie_onload defer src=javascript:void(0)><\/script>");
     var script = document.getElementById("__ie_onload");
     script.onreadystatechange = function() {
         if (this.readyState == "complete") {

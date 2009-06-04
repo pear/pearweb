@@ -29,7 +29,7 @@ __halt_compiler();
  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://pear.php.net/feeds/latest.rss" />
  <!-- compliance patch for microsoft browsers -->
 <!--[if lt IE 8]>
- <script src="/javascript/IE8.js" type="text/javascript"></script>
+ <script type="text/javascript" src="/javascript/IE8.js"></script>
 <![endif]-->
  <link rel="search" type="application/opensearchdescription+xml" title="PEAR Search Plugin" href="http://pear.php.net/osd.xml" />
 </head>

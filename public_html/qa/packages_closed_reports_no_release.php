@@ -25,7 +25,7 @@
 include_once 'HTML/Table.php';
 
 // Sortable tables http://www.kryogenix.org/code/browser/sorttable/
-$extra_header = '<script src="/javascript/sorttable.js"></script>';
+$extra_header = '<script type="text/javascript" src="/javascript/sorttable.js"></script>';
 
 response_header('Quality Assurance Initiative - Packages with closed reports but no release in the last 6 months',
     false, $extra_header);

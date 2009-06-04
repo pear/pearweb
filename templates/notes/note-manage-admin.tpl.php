@@ -17,8 +17,8 @@ response_header($title);
 }
 
 </style>
-<script src="/javascript/jquery.js"></script>
-<script src="/javascript/thickbox.js"></script>
+<script type="text/javascript" src="/javascript/jquery.js"></script>
+<script type="text/javascript" src="/javascript/thickbox.js"></script>
 <script type="text/javascript">
 
 function checkAll()

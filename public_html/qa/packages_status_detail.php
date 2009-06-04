@@ -29,7 +29,7 @@ require 'HTML/Table.php';
 extra_styles('/css/packages_status.css');
 
 // Sortable tables http://www.kryogenix.org/code/browser/sorttable/
-$extra_header = '<script src="/javascript/sorttable.js"></script>';
+$extra_header = '<script type="text/javascript" src="/javascript/sorttable.js"></script>';
 $states = array('snapshot', 'devel', 'alpha', 'beta', 'stable');
 
 response_header('Quality Assurance Initiative - Packages status',

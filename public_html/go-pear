@@ -1979,7 +1979,7 @@ function displayHTML($page = 'Welcome', $data = array())
             <p>
             <span class="title">Installation in progress ...</span></br >
             <i>(If the page stops loading before the end of the installation, then just reload it)</i></p>
-            <script language="javascript">
+            <script type="text/javascript">
             <!--
 
                 var progress;
