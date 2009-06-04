@@ -37,13 +37,15 @@ $books = array(
                      "isbn" => "1904811795",
                      "url" => "http://www.packtpub.com/pear/book",
                      "publisher" => "Packt Publishing",
+                     "image" => "1904811795.png",
                      ),
                array("title" => "PHP PEAR &mdash; Anwendung und Entwicklung - Erweiterungen für PHP schreiben",
                      "authors" => array("Carsten M&ouml;hrke"),
                      "pearuser" => array(),
                      "isbn" => "3898425800",
                      "url" => "http://www.galileocomputing.de/katalog/buecher/titel/gp/titelID-891",
-                     "publisher" => "Galileo Computing"
+                     "publisher" => "Galileo Computing",
+                     "image" => "9783898425803.gif",
                      ),
                array("title" => "Foundations of PEAR: Rapid PHP Development",
                      "authors" => array("Nathan A. Good", "Allan Kent"),
@@ -70,7 +72,7 @@ foreach ($books as $book) {
     echo "<tr>\n";
     echo "  <td rowspan=\"4\" class=\"form-input\">\n";
     if (isset($book['image'])) {
-        echo "    <img src=\"/gifs/books/" . $book['image'] . "\" alt=\"Cover image for " . $book['title'] . "\" />\n";
+        echo "    <img src=\"/gifs/books/" . $book['image'] . "\" style=\"width: 100px; margin: 0.2em; margin-right: 0.5em;\" alt=\"Cover image for " . $book['title'] . "\" />\n";
     } else {
         echo "    <img src=\"/gifs/blank.gif\" width=\"50\" height=\"100\" alt=\"\" />\n";
     }
