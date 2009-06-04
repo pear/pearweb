@@ -276,7 +276,7 @@ MSG;
     $form->display();
 
     if ($jumpto) {
-        print "<script language=\"JavaScript\" type=\"text/javascript\">\n<!--\n";
+        print "<script type=\"text/javascript\">\n<!--\n";
         print "if (!document.forms[1].$jumpto.disabled) document.forms[1].$jumpto.focus();\n";
         print "\n// -->\n</script>\n";
     }

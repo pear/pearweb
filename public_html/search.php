@@ -47,7 +47,7 @@ if ($search->getTotal() > $perP) {
     echo $pager->getPerPageSelectBox(10, 90, 10, false, array('optionText' => '%d items', 'attributes' => 'id="perPage"', 'checkMaxLimit' => true));
 }
 echo "<input type=\"submit\" value=\"Search\" />\n";
-echo "<script language=\"JavaScript\" type=\"text/javascript\">document.forms.search.q.focus();</script>\n";
+echo "<script type=\"text/javascript\">document.forms.search.q.focus();</script>\n";
 echo "</form>\n";
 
 $total = $search->getTotal();

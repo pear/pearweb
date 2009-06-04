@@ -194,7 +194,7 @@ $renderer->setFormTemplate('
     $form->display();
 
     if ($jumpto) {
-        echo "\n<script language=\"JavaScript\">\n<!--\n";
+        echo "\n<script type=\"text/javascript\">\n<!--\n";
         echo "document.forms[1].$jumpto.focus();\n";
         echo "// -->\n</script>\n";
     }
