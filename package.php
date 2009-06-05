@@ -25,13 +25,12 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.20.0');
+$a->setReleaseVersion('1.20.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Request #15985 Upgrade to Savant3
-Assorted fixed unit tests (old test expectations)
-XHTML / HTML validity improvements
+- fix bug #13817: Gifs and new books [doconnor]
+- fix bug #16289: error on release upload [doconnor]
 ');
 $a->resetUsesrole();
 $a->clearDeps();

@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-06-04</date>
- <time>01:29:38</time>
+ <date>2009-06-05</date>
+ <time>23:29:50</time>
  <version>
-  <release>1.20.0</release>
+  <release>1.20.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,9 +101,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Request #15985 Upgrade to Savant3
-Assorted fixed unit tests (old test expectations)
-XHTML / HTML validity improvements
+- fix bug #13817: Gifs and new books [doconnor]
+- fix bug #16289: error on release upload [doconnor]
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -276,6 +275,8 @@ XHTML / HTML validity improvements
     <dir name="gifs">
      <dir name="books">
       <file name="1904811191.png" role="www" />
+      <file name="1904811795.png" role="www" />
+      <file name="9783898425803.gif" role="www" />
       <file name="foundations-of-pear.gif" role="www" />
      </dir> <!-- /public_html/gifs/books -->
      <dir name="TreeMenu">
@@ -2399,6 +2400,22 @@ Fixed a www-dir replacement bug
 Request #15985 Upgrade to Savant3
 Assorted fixed unit tests (old test expectations)
 XHTML / HTML validity improvements
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.20.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-06-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- fix bug #13817: Gifs and new books [doconnor]
+- fix bug #16289: error on release upload [doconnor]
    </notes>
   </release>
  </changelog>
