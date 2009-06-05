@@ -195,7 +195,7 @@ do {
         $bugs   = $GLOBALS['dbh']->getAll($sql , $values, DB_FETCHMODE_ASSOC);
 
         $sql = 'SELECT m.handle FROM maintains m, packages p WHERE p.id = m.package AND p.name = ?';
-        $m   = $dbh->getCol($sql, 0, $package);
+        $m   = $dbh->getCol($sql, 0, $info->getPackage());
 
         $bug_types = array('Bug', 'Documentation Bug');
         $notes = array();
@@ -227,7 +227,7 @@ do {
         $email_footer .= "or install with pear install {package}{state} / pear upgrade {package}{state}";
         $mail_headers  = 'From: ' . SITE_BIG . ' QA <' . PEAR_QA_EMAIL .">\r\n";
         $subject       = '[' . SITE_BIG . '-BUG] Bug report submission follow up for package ' . $info->getPackage();
-        $state = $info->getState() == 'stable' ? '' : '-' . $state;
+        $state = $info->getState() == 'stable' ? '' : '-' . $info->getState();
 
         foreach ($notes as $email => $n) {
             $find    = array('{name}', '{package}');
