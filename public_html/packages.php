@@ -256,6 +256,7 @@ if (count($catdata) > 0){
  * aren't at the top level.
  */
 $numPages = $currentPage = 1;
+$subCategories = array();
 if (!empty($catpid)) {
     $nrow = 0;
     // Subcategories list
