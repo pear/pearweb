@@ -273,14 +273,17 @@ if (isset($_POST['saveaddbugs'])) {
     $_GET['roadmap'] = $_POST['roadmap'];
     $_GET['addbugs'] = 1;
 }
-$test = Bug_DataObject::pearDB('packages');
-$test->name = $_GET['package'];
+
 if (!isset($_GET['package'])) {
     response_header('Error :: No package selected');
     report_error('No package selected');
     response_footer();
     exit;
 }
+
+$test = Bug_DataObject::pearDB('packages');
+$test->name = $_GET['package'];
+
 if (!$test->find()) {
     response_header('Error :: no such package');
     report_error('Unknown package "' . clean($_GET['package']) . '"');
