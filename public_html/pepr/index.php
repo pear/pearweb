@@ -67,15 +67,18 @@ $last_status = false;
 
 $finishedCounter = 0;
 
+$lastChar = null;
 foreach ($proposals as $proposal) {
     $status      = $proposal->getStatus();
     $status_true = $proposal->getStatus(true);
+
     if ($status != $last_status) {
         if ($last_status !== false) {
             echo "</ul>\n";
             echo "<p>";
             echo "</p>\n\n";
         }
+
         echo "<div style=\"float: right\"><a href='/feeds/pepr_".$status.".rss'><img src=\"/gifs/feed.png\" width=\"16\" height=\"16\" alt=\"Aggregate this\" border=\"0\" /></a></div>";
         echo '<h2 name="' . $status . '" id="';
         echo $status . '">';
@@ -84,11 +87,12 @@ foreach ($proposals as $proposal) {
         echo "<ul>\n";
         $last_status = $status;
     }
+
     $prpCat = $proposal->pkg_category;
-    if ($selectStatus != '' && (!isset($lastChar) || $lastChar != $prpCat{0})) {
+    if ($selectStatus != '' && (empty($lastChar) || $lastChar != $prpCat{0})) {
         $lastChar = $prpCat{0};
         echo "</ul>\n";
-        echo "<h3><a id=\"$lastchar\">$lastChar</a></h3>\n";
+        echo "<h3><a id=\"$lastChar\">$lastChar</a></h3>\n";
         echo "<ul>\n";
     }
     if ($status == 'finished' && $selectStatus != 'finished') {
@@ -121,6 +125,7 @@ foreach ($proposals as $proposal) {
     echo ' by ';
     echo make_link('/user/' . htmlspecialchars($proposal->user_handle),
                htmlspecialchars($users[$proposal->user_handle]['name']));
+
     switch ($status) {
         case 'proposal':
             echo ' &nbsp;(<a href="pepr-comments-show.php?id=' . $proposal->id;
