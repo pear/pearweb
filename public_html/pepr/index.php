@@ -27,6 +27,88 @@
  */
 require_once 'pepr/pepr.php';
 
+/**
+ * Helper to display the pepr proposal information better.
+ */
+function render_proposal($dbh, $proposal, $user, $already_voted) {
+    ob_start();
+    if ($already_voted) {
+        echo '(Already voted) ';
+    }
+
+    echo make_link('pepr-proposal-show.php?id=' . $proposal->id,
+               htmlspecialchars($proposal->pkg_category) . ' :: '
+               . htmlspecialchars($proposal->pkg_name));
+    echo ' by ';
+    echo make_link('/user/' . htmlspecialchars($proposal->user_handle),
+               htmlspecialchars($user['name']));
+
+    switch ($proposal->getStatus()) {
+        case 'proposal':
+            echo ' &nbsp;(<a href="pepr-comments-show.php?id=' . $proposal->id;
+            echo '">Comments</a>)';
+            break;
+        case 'vote':
+        case 'finished':
+            $voteSums = ppVote::getSum($dbh, $proposal->id);
+            echo ' &nbsp;(<a href="pepr-votes-show.php?id=' . $proposal->id;
+            echo '">Vote</a> sum: <strong>' . $voteSums['all'] . '</strong>';
+            echo '<small>, ' . $voteSums['conditional'];
+            echo ' conditional</small>)';
+    }
+    return ob_get_clean();
+}
+
+/**
+ * Has a given user voted on a package?
+ */
+function has_user_voted($user, $proposal, $dbh) {
+    if ($proposal->getStatus(true) == "Called for Votes") {
+        $proposal->getVotes($dbh);
+
+        if (in_array($user->handle, array_keys($proposal->votes))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function render_status($status, $status_description, $proposals, $dbh, $users) {
+    global $auth_user; // :(
+
+    ob_start();
+    echo "<div style=\"float: right\"><a href='/feeds/pepr_".$status.".rss'><img src=\"/gifs/feed.png\" width=\"16\" height=\"16\" alt=\"Aggregate this\" border=\"0\" /></a></div>";
+    echo '<h2 name="' . $status . '" id="';
+    echo $status . '">';
+    echo '&raquo; ' . htmlspecialchars($status_description);
+    echo "</h2>\n";
+
+
+    if (empty($proposals)) {
+        echo '<p>There are no ' . $status_description . ' proposals to render</p>';
+    } else {
+        echo "<ul>\n";
+
+        foreach ($proposals as $proposal) {
+            $already_voted = false;
+            if (isset($auth_user)) {
+                $already_voted = has_user_voted($auth_user, $proposal, $dbh);
+            }
+
+            echo "  <li>";
+            echo render_proposal($dbh, $proposal, $users[$proposal->user_handle], $already_voted);
+            echo "</li>\n";
+        }
+
+        echo "</ul>\n";
+    }
+    echo "<p>";
+    echo "</p>\n\n";
+    return ob_get_clean();
+}
+
+
+
 if (isset($_GET['filter']) && isset($proposalStatiMap[$_GET['filter']])) {
     $selectStatus = $_GET['filter'];
 } else {
@@ -50,7 +132,7 @@ if (isset($_GET['search'])) {
 response_header('PEPr :: Package Proposals');
 
 echo '<h1>Package Proposals</h1>' . "\n";
-if ($selectStatus == '') {
+if (empty($selectStatus)) {
     echo "<p>";
     echo "PEPr is PEAR's system for managing the process of submitting ";
     echo "new packages. If you would like to submit your own package, ";
@@ -63,89 +145,44 @@ if ($selectStatus == '') {
 
 display_overview_nav();
 
-$last_status = false;
-
-$finishedCounter = 0;
-
-$lastChar = null;
+$users = array();
 foreach ($proposals as $proposal) {
-    $status      = $proposal->getStatus();
-    $status_true = $proposal->getStatus(true);
-
-    if ($status != $last_status) {
-        if ($last_status !== false) {
-            echo "</ul>\n";
-            echo "<p>";
-            echo "</p>\n\n";
-        }
-
-        echo "<div style=\"float: right\"><a href='/feeds/pepr_".$status.".rss'><img src=\"/gifs/feed.png\" width=\"16\" height=\"16\" alt=\"Aggregate this\" border=\"0\" /></a></div>";
-        echo '<h2 name="' . $status . '" id="';
-        echo $status . '">';
-        echo '&raquo; ' . htmlspecialchars($status_true);
-        echo "</h2>\n";
-        echo "<ul>\n";
-        $last_status = $status;
-    }
-
-    $prpCat = $proposal->pkg_category;
-    if ($selectStatus != '' && (empty($lastChar) || $lastChar != $prpCat{0})) {
-        $lastChar = $prpCat{0};
-        echo "</ul>\n";
-        echo "<h3><a id=\"$lastChar\">$lastChar</a></h3>\n";
-        echo "<ul>\n";
-    }
-    if ($status == 'finished' && $selectStatus != 'finished') {
-        if (++$finishedCounter == 10) {
-            break;
-        }
-    }
-
     include_once 'pear-database-user.php';
     if (!isset($users[$proposal->user_handle])) {
         $users[$proposal->user_handle] = user::info($proposal->user_handle);
     }
+}
+$statuses = $proposalStatiMap;
 
-    $already_voted = false;
-    if (isset($auth_user) && $status_true == "Called for Votes") {
-        $proposal->getVotes($dbh);
-
-        if (in_array($auth_user->handle, array_keys($proposal->votes))) {
-            $already_voted = true;
-        }
-    }
-
-    echo "  <li>";
-    if ($already_voted) {
-        echo '(Already voted) ';
-    }
-    echo make_link('pepr-proposal-show.php?id=' . $proposal->id,
-               htmlspecialchars($proposal->pkg_category) . ' :: '
-               . htmlspecialchars($proposal->pkg_name));
-    echo ' by ';
-    echo make_link('/user/' . htmlspecialchars($proposal->user_handle),
-               htmlspecialchars($users[$proposal->user_handle]['name']));
-
-    switch ($status) {
-        case 'proposal':
-            echo ' &nbsp;(<a href="pepr-comments-show.php?id=' . $proposal->id;
-            echo '">Comments</a>)';
-            break;
-        case 'vote':
-        case 'finished':
-            $voteSums = ppVote::getSum($dbh, $proposal->id);
-            echo ' &nbsp;(<a href="pepr-votes-show.php?id=' . $proposal->id;
-            echo '">Vote</a> sum: <strong>' . $voteSums['all'] . '</strong>';
-            echo '<small>, ' . $voteSums['conditional'];
-            echo ' conditional</small>)';
-    }
-    echo "</li>\n";
+$proposals_by_status = array();
+foreach ($statuses as $status => $status_description) {
+    $proposals_by_status[$status] = array();
 }
 
-if ($selectStatus == '' && isset($proposal) && $status == 'finished') {
+foreach ($proposals as $proposal) {
+    //Only show 10 finished proposals unless we're specifically looking at everything
+    if ($selectStatus != 'finished' && $proposal->getStatus() == 'finished'
+        && count($proposals_by_status[$proposal->getStatus()]) >= 10) {
+        continue;
+    }
+
+    $proposals_by_status[$proposal->getStatus()][] = $proposal;
+}
+
+
+
+foreach ($statuses as $status => $status_description) {
+    // We've chosen all or a specific category
+    if (empty($selectStatus) || $selectStatus == $status) {
+        echo render_status($status, $status_description, $proposals_by_status[$status], $dbh, $users);
+    }
+}
+
+if (empty($selectStatus)) {
     echo make_link('/pepr/?filter=finished', 'All finished proposals');
 }
 
-echo "</ul>\n";
+
+
 
 response_footer();
