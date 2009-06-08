@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-06-05</date>
- <time>23:29:50</time>
+ <date>2009-06-08</date>
+ <time>15:18:02</time>
  <version>
-  <release>1.20.1</release>
+  <release>1.20.2</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,8 +101,13 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- fix bug #13817: Gifs and new books [doconnor]
-- fix bug #16289: error on release upload [doconnor]
+Refactored PEPR listings
+
+Bug #16291 E_NOTICE in patch display
+Bug #16293 E_WARNING when imploding packages
+Bug #16294 Syntax error in generated manual page 	 
+Bug #16295 E_NOTICE in roadmap.php
+Bug #16296 Undefined variable in pepr/index.php
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -2416,6 +2421,27 @@ XHTML / HTML validity improvements
    <notes>
 - fix bug #13817: Gifs and new books [doconnor]
 - fix bug #16289: error on release upload [doconnor]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.20.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-06-08</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Refactored PEPR listings
+
+Bug #16291 E_NOTICE in patch display
+Bug #16293 E_WARNING when imploding packages
+Bug #16294 Syntax error in generated manual page 	 
+Bug #16295 E_NOTICE in roadmap.php
+Bug #16296 Undefined variable in pepr/index.php
    </notes>
   </release>
  </changelog>
