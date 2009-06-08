@@ -1,5 +1,7 @@
 <?php if (!$old): ?>
 <p><a href="index.php?oldones=1">View Old Election Results</a></p>
+<?php else: ?>
+<p><a href="index.php">View Current Election Results</a></p>
 <?php endif; // if (!$this->old) ?>
 <?php if (count($completedelections)): ?>
 <h2>Election Results for Completed Elections:</h2>

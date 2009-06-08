@@ -124,12 +124,14 @@ if (isset($_POST['finalvote'])) {
 }
 
 if (!isset($_GET['election'])) {
+    $old = isset($_GET['oldones']);
+
     // display summary
     $currentelections = $voter->listCurrentElections();
-    $completedelections = $voter->listCompletedElections();
+    $completedelections = $voter->listCompletedElections($old);
     $allelections = $voter->listAllElections();
     $retrieval = false;
-    $old = false;
+
 
     require PEARWEB_TEMPLATEDIR . '/election/vote.tpl.php';
 
