@@ -25,12 +25,17 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.20.1');
+$a->setReleaseVersion('1.20.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- fix bug #13817: Gifs and new books [doconnor]
-- fix bug #16289: error on release upload [doconnor]
+Refactored PEPR listings
+
+Bug #16291 E_NOTICE in patch display
+Bug #16293 E_WARNING when imploding packages
+Bug #16294 Syntax error in generated manual page 	 
+Bug #16295 E_NOTICE in roadmap.php
+Bug #16296 Undefined variable in pepr/index.php
 ');
 $a->resetUsesrole();
 $a->clearDeps();
