@@ -354,6 +354,8 @@ function draw_navigation()
     $sub['/accounts.php']  = array();
     $sub['/accounts.php']['/map/']         = 'Find a Developer';
     $sub['/accounts.php']['/accounts.php'] = 'List Accounts';
+    $sub['/accounts.php']['/bugs/stats_dev.php'] = 'Developers Bug Statistics';
+
     if (!empty($auth_user) && !empty($auth_user->registered) && auth_check('pear.dev')) {
         $sub['/accounts.php']['/release-upload.php'] = 'Upload Release';
         $sub['/accounts.php']['/package-new.php']    = 'New Package';
@@ -372,7 +374,6 @@ function draw_navigation()
     $sub['/bugs/']  = array();
     $sub['/bugs/']['/bugs/search.php']    = 'Search for bugs';
     $sub['/bugs/']['/bugs/stats.php']     = 'Package Bug Statistics';
-    $sub['/bugs/']['/bugs/stats_dev.php'] = 'Developers Bug Statistics';
 
     if (!empty($auth_user) && $auth_user->isAdmin()) {
         $main_order[8]   = '/admin/';
