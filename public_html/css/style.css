@@ -855,3 +855,18 @@ td.moreInfo {
     margin-left:  2em;
     margin-right: 2em;
 }
+
+
+#news .news-entry {
+    margin-bottom: 1.0em;
+    padding: .25em;
+}
+#news .news-entry .news-footer {
+    font-size: 0.9em;
+    margin-top: 0.25em;
+    padding: 0.1em;
+    border-top: 1px solid rgb(220, 220, 220);
+}
+#news .news-entry h4 {
+    margin-bottom: 0.2em;
+}

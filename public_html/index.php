@@ -57,6 +57,11 @@ if (@sizeof($popular) > 0) {
     $RSIDEBAR_DATA .= "</table>\n";
 }
 
+$rss_feed = DAMBLAN_RSS_CACHE_DIR . '/pear-news.xml';
+if (file_exists($rss_feed)) {
+    $blog = simplexml_load_file($rss_feed);
+}
+
 $self = strip_tags(htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'iso-8859-1'));
 response_header();
 ?>
@@ -78,112 +83,22 @@ if (!$auth_user) {
 <?php
 }
 ?>
-
+<?php $n = 0; ?>
 <h2>&raquo; Hot off the Press</h2>
 <div id="news">
- <p>
-  <strong>[June 19, 2008]</strong>
-  This year again, the PEAR community had to elect a president to lead the PEAR project thorough the year 2008 and 2009. David Coallier has accepted his role as
-  the president of the project and became Greg Beaver's successor.
-  <br /><br />
-  You can see the result of the election "<a href="/election/info.php?election=10&results=1">at the election page</a>" or reach him at all times at <?php echo
-  make_mailto_link('pear-president@php.net'); ?>
- </p>
-
- <p>
-  <strong>[June 19, 2008]</strong>
-  For the second year the elections are now over and a new PEAR Group has been formed. Just like last year and always following the Constitution, the new members
-  have been elected by a secret ballot of PEAR Developers. They have chosen:
-  <ul>
-   <li>Joshua Eichorn</li>
-   <li>Helgi &THORN;ormar &THORN;orbjornsson</li>
-   <li>Joe Stump</li>
-   <li>Christian Weiske</li>
-   <li>Chuck Burgess</li>
-   <li>Travis Swicegood</li>
-   <li>Brett Bieber</li>
-  </ul>
-
-  You can see more information about the PEAR Group by clicking <a href="http://pear.php.net/group/"> here</a>
- </p>
-
- <p>
-  <strong>[June 5, 2008]</strong><br />
-  It this time of the year, the election for the PEAR group of 2008 - 2009 has begun as
-  well as for president of the same time period, please head over to <a href="http://pear.php.net/election/">the election page</a>
-  and cast your vote on the people you want to be at the helm of PEAR.
- </p>
-
- <p>
-  <strong>[January 3, 2008]</strong><br />
-  As promised, XML-RPC has been disabled at pear.php.net.  Information is now
-  served via REST files at pear.php.net/rest.  If you are using
-  a PEAR version earlier than 1.4.0, you will need to manually upgrade PEAR using
-  direct URLs.  To upgrade to the latest PEAR, you can either use go-pear
-  (<a href="http://pear.php.net/go-pear">http://pear.php.net/go-pear</a>) or
-  upgrade using direct URLs:
- </p>
-  <pre>
-   pear upgrade --force http://pear.php.net/get/Archive_Tar http://pear.php.net/get/XML_Parser http://pear.php.net/get/Console_Getopt-1.2.2
-   pear upgrade --force http://pear.php.net/get/PEAR-1.3.3 (_IF_ your existing version is older than 1.3.3)
-   pear upgrade --force http://pear.php.net/get/PEAR-1.4.3.tar
-   pear upgrade PEAR
-  </pre>
-
- <p>
-  <strong>[October 19, 2007]</strong><br />
-  Following the tradition of internet culture, PEAR now channels blogs
-  about PEAR. See it at
-  <a href="http://planet.pear.php.net/">Planet PEAR</a>.
- </p>
-
- <p>
-  <strong>[June 20, 2007]</strong><br />
-  PEAR is greatly saddened by the loss of
-  developer Bertrand Gugger to a heart attack on June 16.  More information is
-  available on the official PEAR blog at
-  <a href="http://blog.pear.php.net/2007/06/17/the-pear-project-mourns-the-loss-of-bertrand-gugger/">This entry</a>.
- </p>
-
- <p>
-  <strong>[June 1, 2007]</strong><br />
-  Welcome to the 7th and final member of the PEAR
-  Group, <strong><a href="/user/pmjones">Paul M. Jones</a></strong>!  The newly elected
-  <a href="/news/newgroup-2007.php">PEAR Group</a> and
-  <a href="/news/newpresident-2007.php">PEAR president</a> have already begun work.
-  The PEAR President is <a href="/user/cellog">Gregory Beaver</a>, and the
-  PEAR Group
-  is <a href="/user/mj">Martin Jansen</a>, <a href="/user/davidc">David Coallier</a>,
-  <a href="/user/arnaud">Arnaud Limbourg</a>, <a href="/user/jeichorn">Joshua Eichorn</a>,
-  <a href="/user/cweiske">Christian Weiske</a>, <a href="/user/dufuz">Helgi &THORN;ormar</a>,
-  and <a href="/user/pmjones">Paul M. Jones</a>.  Official results of the run-off election are
-  <a href="/election/info.php?election=9&amp;results=1">here</a>.
-  <a href="/manual/en/constitution.php">The Constitution</a> documents the governing
-  structure of PEAR.
- </p>
-
- <p>
-  <strong>[May 8, 2007]</strong><br />
-  A serious security vulnerability has been discovered in
-  the <a href="http://pear.php.net/PEAR">PEAR Installer</a> that affects all released versions.
-  PEAR version 1.5.4 has been released to address this security issue.  Further details are
-  available <a href="/news/vulnerability2.php">here</a>.
- </p>
-
- <p>
-  <strong>[February 1, 2007]</strong><br />
-  As of January 1, 2008, PEAR will be dropping
-  support for PEAR versions 1.3.6 and earlier.  If you are using PEAR 1.3.6 or earlier,
-  we <em>strongly</em> encourage you to upgrade using these simple steps:
-</p>
- <pre>
-  pear upgrade --force PEAR-1.3.6 Archive_Tar-1.3.1 Console_Getopt-1.2
-  pear upgrade --force PEAR-1.4.11
-  pear upgrade PEAR
- </pre>
-<p>
-  The full story on what has changed, and what will change is <a href="/news/package.xml.1.0.php">here</a>.
- </p>
+<?php if (!empty($blog)) { ?>
+    <?php foreach ($blog->xpath('//item') as $node) { ?>
+        <?php if ($n++ >= 3) { continue; } ?>
+        <div class="news-entry">
+            <h4><?php print make_link((string)$node->link, (string)$node->title); ?></h4>
+            <?php print $node->description; ?>
+            <p class="news-footer"><?php print $node->creator; ?> <?php print date("jS M Y h:ia", strtotime($node->pubDate)); ?>. Read <?php print make_link((string)$node->link, 'more'); ?> or see <?php print make_link((string)$node->comments, 'comments'); ?></p>
+        </div>
+    <?php } ?>
+<?php } else { ?>
+    <p>Looks like we don't have an RSS feed. Try adding a cron job to fetch <a href="http://blog.pear.bluga.net/feed/">http://blog.pear.bluga.net/feed/</a> and put it in <?php print $rss_feed; ?></p>
+    <pre>wget --output-document=/var/tmp/pear/rss_cache/pear-news.xml http://blog.pear.bluga.net/feed/</pre>
+<?php } ?>
 </div>
 <?php
 response_footer();
