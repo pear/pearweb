@@ -63,6 +63,12 @@ if (file_exists($rss_feed)) {
 }
 
 $self = strip_tags(htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'iso-8859-1'));
+
+$extraHeaders = '<link rel="alternate" href="http://blog.pear.php.net/feed/" type="application/rss+xml" title="PEAR News" />';
+
+response_header("PEAR - PHP Extension and Application Repository", false, $extraHeaders);
+
+
 response_header();
 ?>
 
@@ -96,8 +102,8 @@ if (!$auth_user) {
         </div>
     <?php } ?>
 <?php } else { ?>
-    <p>Looks like we don't have an RSS feed. Try adding a cron job to fetch <a href="http://blog.pear.bluga.net/feed/">http://blog.pear.bluga.net/feed/</a> and put it in <?php print $rss_feed; ?></p>
-    <pre>wget --output-document=/var/tmp/pear/rss_cache/pear-news.xml http://blog.pear.bluga.net/feed/</pre>
+    <p>Looks like we don't have an RSS feed. Try adding a cron job to fetch <a href="http://blog.pear.php.net/feed/">http://blog.pear.php.net/feed/</a> and put it in <?php print $rss_feed; ?></p>
+    <pre>wget --output-document=/var/tmp/pear/rss_cache/pear-news.xml http://blog.pear.php.net/feed/</pre>
 <?php } ?>
 </div>
 <?php
