@@ -256,6 +256,11 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         return $t;
     }
 
+    function getRecent($dbh, $n) {
+//'proposed'
+       return self::getAll($dbh, null, $n, 'proposal_date DESC');
+    }
+
     /**
      * Receive a complete bunch of proposals.
      *

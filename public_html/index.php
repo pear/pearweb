@@ -18,10 +18,15 @@
    $Id$
 */
 
-include_once 'pear-database-release.php';
+require_once 'pear-database-release.php';
+require_once 'pepr/pepr.php';
+require_once 'pear-database-user.php';
+
 $recent = release::getRecent(5);
-if (@sizeof($recent) > 0) {
-    $RSIDEBAR_DATA = "<strong>Recent&nbsp;Releases:</strong>\n";
+
+$RSIDEBAR_DATA = '';
+if (!empty($recent) > 0) {
+    $RSIDEBAR_DATA = "<strong>Recent Releases:</strong>\n";
     $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
     $today = date("D, jS M y");
     foreach ($recent as $release) {
@@ -42,8 +47,8 @@ if (@sizeof($recent) > 0) {
 }
 
 $popular = release::getPopular(5);
-if (@sizeof($popular) > 0) {
-    $RSIDEBAR_DATA .= "<strong>Popular&nbsp;Packages*:</strong>\n";
+if (!empty($popular)) {
+    $RSIDEBAR_DATA .= "<strong>Popular Packages*:</strong>\n";
     $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
     foreach ($popular as $package) {
         $RSIDEBAR_DATA .= "<tr><td>";
@@ -53,6 +58,39 @@ if (@sizeof($popular) > 0) {
     }
     $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" /></a>';
     $RSIDEBAR_DATA .= "<tr><td><small>* downloads per day</small></td></tr>\n";
+    $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
+    $RSIDEBAR_DATA .= "</table>\n";
+}
+
+$proposals = proposal::getRecent($dbh, 5);
+if (!empty($proposals)) {
+    $RSIDEBAR_DATA .= "<strong>Recently Proposed:</strong>\n";
+    $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
+    foreach ($proposals as $proposal) {
+        $RSIDEBAR_DATA .= "<tr><td>";
+        $RSIDEBAR_DATA .= make_link('/pepr/pepr-proposal-show.php?id=' . $proposal->id, wordwrap($proposal->pkg_category . '::' . $proposal->pkg_name,25,"\n",1)); 
+        $RSIDEBAR_DATA .= ' by ' . make_link('/user/' . htmlspecialchars($proposal->user_handle), $proposal->user_handle);
+
+        $RSIDEBAR_DATA .= '</td></tr>';
+    }
+    $feed_link = '<a href="/pepr/" title="PEPR Proposals">See all</a>';
+    $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
+    $RSIDEBAR_DATA .= "</table>\n";
+}
+
+$developers = user::listRecentUsersByKarma('pear.dev', 3);
+
+if (!empty($developers)) {
+
+    $RSIDEBAR_DATA .= "<strong>New Developers:</strong>\n";
+    $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
+    foreach ($developers as $developer) {
+        $RSIDEBAR_DATA .= "<tr><td>";
+        $RSIDEBAR_DATA .= make_link('/user/' . htmlspecialchars($developer['handle']), $developer['name']) . '<br />' . $developer['handle'];
+
+        $RSIDEBAR_DATA .= '</td></tr>';
+    }
+    $feed_link = '<a href="/user/" title="Developers">See all</a>';
     $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
 }

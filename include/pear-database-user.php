@@ -194,6 +194,18 @@ class user
         return $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
     }
 
+    static function listRecentUsersByKarma($karma, $limit)
+    {
+        global $dbh;
+        $query = 'SELECT * FROM users u
+                    JOIN karma k ON k.user = u.handle
+                    WHERE k.level = ? 
+                    ORDER BY granted_at DESC LIMIT ?';
+
+        return $dbh->getAll($query, array($karma, $limit), DB_FETCHMODE_ASSOC);
+    }
+
+
     static function listAllHandles($registered_only = true)
     {
         global $dbh;
