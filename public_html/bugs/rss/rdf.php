@@ -10,6 +10,41 @@ $desc .= "PHP: {$bug['php_version']} OS: {$bug['php_os']} Package Version: {$bug
 $desc .= $bug['ldesc'];
 $desc = '<pre>' . htmlspecialchars($desc) . '</pre>';
 
+$state = 'http://xmlns.com/baetle/#Open';
+switch ($bug['status']) {
+    case 'Closed':
+        $state = 'http://xmlns.com/baetle/#Closed';
+        break;
+    case 'Wont fix':
+        $state = 'http://xmlns.com/baetle/#WontFix';
+        break;
+    case 'No Feedback':
+        $state = 'http://xmlns.com/baetle/#Incomplete';
+        break;
+    case 'Bogus':
+        $state = 'http://xmlns.com/baetle/#WorksForMe';
+        break;
+    case 'Duplicate':
+        $state = 'http://xmlns.com/baetle/#Duplicate';
+        break;
+    case 'Suspended':
+        $state = 'http://xmlns.com/baetle/#Later';
+        break;
+    case 'Assigned':
+        $state = 'http://xmlns.com/baetle/#Started';
+        break;
+    case 'Open':
+        $state = 'http://xmlns.com/baetle/#Open';
+        break;
+    case 'Analyzed':
+    case 'Verified':
+        $state = 'http://xmlns.com/baetle/#Verified';
+        break;
+    case 'Feedback':
+        $state = 'http://xmlns.com/baetle/#NotReproducable';
+        break;
+}
+
 print '<?xml version="1.0"?>';
 ?>
 <rdf:RDF 
@@ -71,7 +106,8 @@ print '<?xml version="1.0"?>';
 				</sioc:User>
 			</btl:reporter>
 		<?php } ?>
-        <wf:state rdf:resource="" />
+
+        <wf:state rdf:resource="<?php print $state; ?>" />
     </btl:Bug>
 
     <item rdf:about="<?php print $uri; ?>">
