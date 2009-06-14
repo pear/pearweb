@@ -83,29 +83,29 @@ print '<?xml version="1.0"?>';
         </items>
     </channel>
 
-	<btl:Bug rdf:about="<?php print $uri; ?>">
+    <btl:Bug rdf:about="<?php print $uri; ?>">
         <btl:summary><?php print utf8_encode(htmlspecialchars($bug['sdesc'])); ?></btl:summary>
         <btl:description><?php print utf8_encode(htmlspecialchars($bug['ldesc']))  ?></btl:description>
        
         <?php  if (!empty($bug['handle']) || !empty($bug['email'])) { ?>
-			<btl:reporter>
-				<?php if (!empty($bug['handle'])) { ?>
-					<sioc:User rdf:about="http://<?php print PEAR_CHANNELNAME; ?>/user/<?php print $bug['handle']; ?>">
-				<?php } else { ?>
-					<sioc:User>
-				<?php } ?>
+            <btl:reporter>
+                <?php if (!empty($bug['handle'])) { ?>
+                    <sioc:User rdf:about="http://<?php print PEAR_CHANNELNAME; ?>/user/<?php print $bug['handle']; ?>">
+                <?php } else { ?>
+                    <sioc:User>
+                <?php } ?>
 
-				<?php if (!empty($bug['handle'])) { ?>
-					<foaf:accountName><?php print utf8_encode(htmlspecialchars($bug['handle'])); ?></foaf:accountName>
-				<?php } ?>
+                <?php if (!empty($bug['handle'])) { ?>
+                    <foaf:accountName><?php print utf8_encode(htmlspecialchars($bug['handle'])); ?></foaf:accountName>
+                <?php } ?>
 
-				<?php if (!empty($bug['email'])) { ?>
-					<foaf:mbox_sha1sum><?php print sha1('mailto:' .$bug['email']); ?></foaf:mbox_sha1sum>
-				<?php } ?>
+                <?php if (!empty($bug['email'])) { ?>
+                    <foaf:mbox_sha1sum><?php print sha1('mailto:' .$bug['email']); ?></foaf:mbox_sha1sum>
+                <?php } ?>
 
-				</sioc:User>
-			</btl:reporter>
-		<?php } ?>
+                </sioc:User>
+            </btl:reporter>
+        <?php } ?>
 
         <wf:state rdf:resource="<?php print $state; ?>" />
     </btl:Bug>
