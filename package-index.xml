@@ -73,10 +73,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-04-29</date>
- <time>10:01:26</time>
+ <date>2009-06-14</date>
+ <time>15:49:32</time>
  <version>
-  <release>1.17.0</release>
+  <release>1.21.0</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -85,11 +85,10 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- fix pear manual link
-- improvements for qa bug overview pages
-- fix links on support pages
-- fix president email link
-- group archive page
+Refactored RSS feeds for bugs
+Changed RSS feeds for homepage
+Individual bugs now render Baetle (RDF)
+Improved homepage to focus on the human side(s) of PEAR
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -395,6 +394,42 @@ for remote login
 - fix links on support pages
 - fix president email link
 - group archive page
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.20.3</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-06-14</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Refactored RSS feeds for bugs
+Changed RSS feeds for homepage
+Individual bugs now render Baetle (RDF)
+Improved homepage to focus on the human side(s) of PEAR
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.21.0</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-06-14</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Refactored RSS feeds for bugs
+Changed RSS feeds for homepage
+Individual bugs now render Baetle (RDF)
+Improved homepage to focus on the human side(s) of PEAR
    </notes>
   </release>
  </changelog>

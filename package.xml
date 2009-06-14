@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-06-08</date>
- <time>15:18:02</time>
+ <date>2009-06-14</date>
+ <time>15:47:48</time>
  <version>
-  <release>1.20.2</release>
+  <release>1.21.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,13 +101,10 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Refactored PEPR listings
-
-Bug #16291 E_NOTICE in patch display
-Bug #16293 E_WARNING when imploding packages
-Bug #16294 Syntax error in generated manual page 	 
-Bug #16295 E_NOTICE in roadmap.php
-Bug #16296 Undefined variable in pepr/index.php
+Refactored RSS feeds for bugs
+Changed RSS feeds for homepage
+Individual bugs now render Baetle (RDF)
+Improved homepage to focus on the human side(s) of PEAR
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -235,7 +232,9 @@ Bug #16296 Undefined variable in pepr/index.php
      </dir> <!-- /public_html/bugs/include -->
      <dir name="rss">
       <file name="bug.php" role="www" />
+      <file name="rdf.php" role="www" />
       <file name="search.php" role="www" />
+      <file name="xml.php" role="www" />
      </dir> <!-- /public_html/bugs/rss -->
      <file name="bug-pwd-finder.php" role="www" />
      <file name="bug.php" role="www" />
@@ -2442,6 +2441,24 @@ Bug #16293 E_WARNING when imploding packages
 Bug #16294 Syntax error in generated manual page 	 
 Bug #16295 E_NOTICE in roadmap.php
 Bug #16296 Undefined variable in pepr/index.php
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.21.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-06-14</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Refactored RSS feeds for bugs
+Changed RSS feeds for homepage
+Individual bugs now render Baetle (RDF)
+Improved homepage to focus on the human side(s) of PEAR
    </notes>
   </release>
  </changelog>
