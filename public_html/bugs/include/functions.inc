@@ -1,4 +1,4 @@
-ad<?php
+<?php
 
 /**
  * Contains functions and variables used throughout the bug system
