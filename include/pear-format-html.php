@@ -248,6 +248,7 @@ echo make_link('/about/credits.php', 'CREDITS');
                      'Copyright &copy; 2001-' . date('Y') . ' The PHP Group'); ?>
     All rights reserved.
   </div>
+
   <div id="foot-source">
     Bandwidth and hardware provided by:
     <?php
