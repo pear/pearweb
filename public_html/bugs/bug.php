@@ -541,10 +541,11 @@ switch ($bug['bug_type']) {
     case 'Feature/Change Request' : $bug_type = 'Request'; break;
     case 'Documentation Problem' : $bug_type = 'Doc Bug'; break;
 }
-response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']), false,
-    ' <link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://' .
-    PEAR_CHANNELNAME . '/feeds/bug_' . $id . '.rss" />
-');
+
+$extra = ' <link rel="meta" type="application/rdf+xml" title="Baetle data" href="http://' . PEAR_CHANNELNAME . '/feeds/bug_' . $id . '.rss" />';
+$extra .= ' <link rel="alternate" type="application/rss+xml" title="RSS feed of comments" href="http://' . PEAR_CHANNELNAME . '/feeds/bug_' . $id . '.rss" />';
+
+response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']), false, $extra);
 
 show_bugs_menu(txfield('package_name'));
 
@@ -1082,7 +1083,7 @@ if ($edit == 1 || $edit == 2) {
 
     <textarea cols="60" rows="10" id="ncomment" name="ncomment"
      wrap="physical"><?php echo clean($ncomment) ?></textarea>
-
+app
 
     <p style="margin-top: 0em;">
         <input type="submit" name="preview" value="Preview" />&nbsp;<input type="submit" value="Submit" />
