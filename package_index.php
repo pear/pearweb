@@ -24,15 +24,14 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.17.0');
+$a->setReleaseVersion('1.20.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- fix pear manual link
-- improvements for qa bug overview pages
-- fix links on support pages
-- fix president email link
-- group archive page
+Refactored RSS feeds for bugs
+Changed RSS feeds for homepage
+Individual bugs now render Baetle (RDF)
+Improved homepage to focus on the human side(s) of PEAR
 ');
 $a->resetUsesrole();
 $a->clearDeps();

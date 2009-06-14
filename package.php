@@ -25,17 +25,14 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.20.2');
+$a->setReleaseVersion('1.21.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Refactored PEPR listings
-
-Bug #16291 E_NOTICE in patch display
-Bug #16293 E_WARNING when imploding packages
-Bug #16294 Syntax error in generated manual page 	 
-Bug #16295 E_NOTICE in roadmap.php
-Bug #16296 Undefined variable in pepr/index.php
+Refactored RSS feeds for bugs
+Changed RSS feeds for homepage
+Individual bugs now render Baetle (RDF)
+Improved homepage to focus on the human side(s) of PEAR
 ');
 $a->resetUsesrole();
 $a->clearDeps();
