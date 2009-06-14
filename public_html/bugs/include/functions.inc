@@ -1,4 +1,4 @@
-<?php
+ad<?php
 
 /**
  * Contains functions and variables used throughout the bug system
@@ -765,7 +765,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
  */
 function addlinks($text)
 {
-    $text = preg_replace("/((mailto|http|ftp|nntp|news):.+?)(&gt;|\\s|\\)|\\.\\s|$)/i","<a href=\"\\1\">\\1</a>\\3",$text);
+    $text = preg_replace("/((mailto|http|https|ftp|nntp|news|svn):.+?)(&gt;|\\s|\\)|\\.\\s|$)/i","<a href=\"\\1\">\\1</a>\\3",$text);
     # what the heck is this for?
     $text = preg_replace("/[.,]?-=-\"/", '"', $text);
     return $text;
