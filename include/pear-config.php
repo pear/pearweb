@@ -42,6 +42,7 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PROPOSAL_MAIL_FROM',         $_ENV['PROPOSAL_MAIL_FROM']);
     define('PEAR_WIKI_URL',              $_ENV['PEAR_WIKI_URL']);
     define('PEAR_WIKI_DSN',              $_ENV['PEAR_WIKI_DSN']);
+    define('PEAR_GOOGLE_ANALYTICS_ID',   $_ENV['PEAR_GOOGLE_ANALYTICS_ID']);
 } else {
     define('SITE', 'pear');
     define('SITE_BIG', strtoupper(SITE));
@@ -66,6 +67,7 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PEARWEB_BUGS_ML_EMAIL', 'pear-bugs@lists.php.net');
     // The channel webmaster email
     define('PEAR_CHANNEL_SUMMARY', 'PEAR PHP Extension and Application Repository');
+    define('PEAR_GOOGLE_ANALYTICS_ID', 'UA-87966-6');
     /**
      * The authorization realm
      *
