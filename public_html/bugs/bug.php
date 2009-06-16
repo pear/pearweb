@@ -1083,7 +1083,6 @@ if ($edit == 1 || $edit == 2) {
 
     <textarea cols="60" rows="10" id="ncomment" name="ncomment"
      wrap="physical"><?php echo clean($ncomment) ?></textarea>
-app
 
     <p style="margin-top: 0em;">
         <input type="submit" name="preview" value="Preview" />&nbsp;<input type="submit" value="Submit" />
