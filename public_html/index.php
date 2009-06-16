@@ -69,7 +69,7 @@ if (!empty($proposals)) {
     foreach ($proposals as $proposal) {
         $RSIDEBAR_DATA .= "<tr><td>";
         $RSIDEBAR_DATA .= make_link('/pepr/pepr-proposal-show.php?id=' . $proposal->id, wordwrap($proposal->pkg_category . '::' . $proposal->pkg_name,25,"\n",1)); 
-        $RSIDEBAR_DATA .= ' by ' . make_link('/user/' . htmlspecialchars($proposal->user_handle), $proposal->user_handle);
+        $RSIDEBAR_DATA .= '<br />by ' . make_link('/user/' . htmlspecialchars($proposal->user_handle), $proposal->user_handle);
 
         $RSIDEBAR_DATA .= '</td></tr>';
     }
@@ -132,7 +132,9 @@ if (!$auth_user) {
         <?php if ($n++ >= 3) { continue; } ?>
         <div class="news-entry">
             <h4><?php print make_link((string)$node->link, (string)$node->title); ?></h4>
-            <?php print $node->description; ?>
+            <?php foreach ($node->children('content', true) as $description) { ?>
+                <?php print $description; ?>
+            <?php } ?>
             <p class="news-footer"><?php print $node->creator; ?> <?php print date("jS M Y h:ia", strtotime($node->pubDate)); ?>. Read <?php print make_link((string)$node->link, 'more'); ?> or see <?php print make_link((string)$node->comments, 'comments'); ?></p>
         </div>
     <?php } ?>
