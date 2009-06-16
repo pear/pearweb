@@ -17,11 +17,15 @@ $a = PEAR_PackageFileManager2::importOptions(
             'sql/pearweb_pepr.xml',
         ),
     ));
-$a->setReleaseVersion('1.0.1');
+$a->setReleaseVersion('1.0.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Remove include/Damblan/Search/PEPr.php since it should be in the main package
+Refactored RSS feeds for bugs
+Changed RSS feeds for homepage
+Individual bugs now render Baetle (RDF)
+Improved homepage to focus on the human side(s) of PEAR
+
 ');
 $a->resetUsesrole();
 $a->clearDeps();
