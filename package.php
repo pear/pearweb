@@ -25,14 +25,12 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.21.0');
+$a->setReleaseVersion('1.21.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Refactored RSS feeds for bugs
-Changed RSS feeds for homepage
-Individual bugs now render Baetle (RDF)
-Improved homepage to focus on the human side(s) of PEAR
+Stray typo on bug report UI
+More UTF8 Encoding
 ');
 $a->resetUsesrole();
 $a->clearDeps();

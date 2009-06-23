@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-06-14</date>
- <time>15:47:48</time>
+ <date>2009-06-24</date>
+ <time>07:49:10</time>
  <version>
-  <release>1.21.0</release>
+  <release>1.21.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,10 +101,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Refactored RSS feeds for bugs
-Changed RSS feeds for homepage
-Individual bugs now render Baetle (RDF)
-Improved homepage to focus on the human side(s) of PEAR
+Stray typo on bug report UI
+More UTF8 Encoding
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -735,7 +733,7 @@ Improved homepage to focus on the human side(s) of PEAR
    <subpackage>
     <name>pearweb_index</name>
     <channel>pear.php.net</channel>
-    <min>1.17.0</min>
+    <min>1.21.0</min>
    </subpackage>
    <subpackage>
     <name>pearweb_manual</name>
@@ -745,7 +743,7 @@ Improved homepage to focus on the human side(s) of PEAR
    <subpackage>
     <name>pearweb_pepr</name>
     <channel>pear.php.net</channel>
-    <min>1.0.1</min>
+    <min>1.0.2</min>
    </subpackage>
    <subpackage>
     <name>pearweb_qa</name>
@@ -2459,6 +2457,22 @@ Refactored RSS feeds for bugs
 Changed RSS feeds for homepage
 Individual bugs now render Baetle (RDF)
 Improved homepage to focus on the human side(s) of PEAR
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.21.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-06-24</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Stray typo on bug report UI
+More UTF8 Encoding
    </notes>
   </release>
  </changelog>
