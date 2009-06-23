@@ -8,7 +8,7 @@ if ($bug['handle']) {
 $desc .= date(DATE_ATOM, $bug['ts1a']) . "\n";
 $desc .= "PHP: {$bug['php_version']} OS: {$bug['php_os']} Package Version: {$bug['package_version']}\n\n";
 $desc .= $bug['ldesc'];
-$desc = '<pre>' . htmlspecialchars($desc) . '</pre>';
+$desc = '<pre>' . utf8_encode(htmlspecialchars($desc)) . '</pre>';
 
 $state = 'http://xmlns.com/baetle/#Open';
 switch ($bug['status']) {
@@ -100,7 +100,7 @@ print '<?xml version="1.0"?>';
                 <?php } ?>
 
                 <?php if (!empty($bug['email'])) { ?>
-                    <foaf:mbox_sha1sum><?php print sha1('mailto:' .$bug['email']); ?></foaf:mbox_sha1sum>
+                    <sioc:has_owner foaf:mbox_sha1sum="<?php print sha1('mailto:' .$bug['email']); ?>" />
                 <?php } ?>
 
                 </sioc:User>
@@ -147,8 +147,8 @@ print '<?xml version="1.0"?>';
 
             <link><?php print $uri; ?>#<?php print $comment['added']; ?></link>
             
-            <description><![CDATA[<pre><?php print htmlspecialchars($comment['comment']); ?></pre>]]></description>
-            <content:encoded><![CDATA[<pre><?php print htmlspecialchars($comment['comment']); ?></pre>]]></content:encoded>
+            <description><![CDATA[<pre><?php print utf8_encode(htmlspecialchars($comment['comment'])); ?></pre>]]></description>
+            <content:encoded><![CDATA[<pre><?php print utf8_encode(htmlspecialchars($comment['comment'])); ?></pre>]]></content:encoded>
             <dc:date><?php print date(DATE_ATOM, $comment['added']); ?></dc:date>
         </item>
     <?php } ?>
