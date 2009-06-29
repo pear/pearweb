@@ -370,9 +370,9 @@ if ($total_rows > 0) {
         $items[$i] .= "      <link>http://" . PEAR_CHANNELNAME . "/bugs/{$row['id']}</link>\n";
         $items[$i] .= '      <description><![CDATA[' . utf8_encode(htmlspecialchars($row['ldesc'])) . "]]></description>\n";
         if (!$row['unchanged']) {
-            $items[$i] .= '      <dc:date>' . rssdate($row['ts1a']) . "</dc:date>\n";
+            $items[$i] .= '      <dc:date>' . date(DATE_ATOM, $row['ts1a']) . "</dc:date>\n";
         } else {
-            $items[$i] .= '      <dc:date>' . rssdate($row['ts2a']) . "</dc:date>\n";
+            $items[$i] .= '      <dc:date>' . date(DATE_ATOM, $row['ts2a']) . "</dc:date>\n";
         }
         $items[$i] .= '      <dc:creator>' . utf8_encode(htmlspecialchars($pbu->spamProtect($row['email']))) . "</dc:creator>\n";
         $items[$i] .= '      <dc:subject>' .
@@ -407,9 +407,4 @@ if (count($warnings) > 0) {
         echo utf8_encode(htmlspecialchars('* ' . $warning)) . "\n";
     }
     echo "-->\n";
-}
-
-function rssdate($date)
-{
-    return date('r', $date - date('Z', $date));
 }
