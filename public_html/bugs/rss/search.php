@@ -364,11 +364,25 @@ if ($total_rows > 0) {
     $items = array();
     while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
         $i++;
+        $bug = $row;
+
+        $desc = "{$row['package_name']} {$row['bug_type']}\nReported by ";
+        if ($bug['handle']) {
+            $desc .= "{$row['handle']}\n";
+        } else {
+            $desc .= substr($row['email'], 0, strpos($row['email'], '@')) . "@...\n";
+        }
+        $desc .= date(DATE_ATOM, $row['ts1a']) . "\n";
+        $desc .= "PHP: {$row['php_version']} OS: {$row['php_os']} Package Version: {$row['package_version']}\n\n";
+        $desc .= $row['ldesc'];
+        $desc = '<pre>' . utf8_encode(htmlspecialchars($desc)) . '</pre>';
+
         echo "      <rdf:li rdf:resource=\"http://" .  PEAR_CHANNELNAME . "/bug/{$row['id']}\" />\n";
         $items[$i] = "    <item rdf:about=\"http://" .  PEAR_CHANNELNAME . "/bug/{$row['id']}\">\n";
         $items[$i] .= '      <title>' . utf8_encode(htmlspecialchars($row['package_name'] . ': ' . $row['bug_type'] . ' ' . $row['id'] . ' [' . $row['status'] . '] ' . $row['sdesc'])) . "</title>\n";
         $items[$i] .= "      <link>http://" . PEAR_CHANNELNAME . "/bugs/{$row['id']}</link>\n";
-        $items[$i] .= '      <description><![CDATA[' . utf8_encode(htmlspecialchars($row['ldesc'])) . "]]></description>\n";
+        $items[$i] .= '      <content:encoded><![CDATA[' .  $desc . "]]></content:encoded>\n";
+        $items[$i] .= '      <description><![CDATA[' .  $desc . "]]></description>\n";
         if (!$row['unchanged']) {
             $items[$i] .= '      <dc:date>' . date(DATE_ATOM, $row['ts1a']) . "</dc:date>\n";
         } else {
