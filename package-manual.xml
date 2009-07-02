@@ -71,10 +71,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-04-28</date>
- <time>21:47:57</time>
+ <date>2009-07-02</date>
+ <time>13:02:17</time>
  <version>
-  <release>1.1.0</release>
+  <release>1.1.1</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -83,38 +83,19 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- fix apidoc queue on Linux
-- use www role
-- script to fix apidoc queue
-- make apidoc-log.php suitable to low-bandwidth connections
-- better 404 manual error handling
-- adjustments for PhD built docs
-- fix Bug #16038: Links in manual header/footer are double encoded
+User notes administration usability overhall
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
    <dir name="cron">
-    <file name="apidoc-fix-latest.php" role="www" />
-    <file name="apidoc-queue.php" role="www" />
-    <file name="find-documentation.php" role="www" />
     <file name="load-chm.sh" role="www" />
    </dir> <!-- /cron -->
    <dir name="include">
     <dir name="notes">
      <file name="ManualNotes.class.php" role="www" />
     </dir> <!-- /include/notes -->
-    <file name="pear-manual.php" role="www" />
    </dir> <!-- /include -->
    <dir name="public_html">
-    <dir name="admin">
-     <file name="apidoc-log.php" role="www" />
-    </dir> <!-- /public_html/admin -->
-    <dir name="css">
-     <file name="manual.css" role="www" />
-    </dir> <!-- /public_html/css -->
-    <dir name="error">
-     <file name="404-manual.php" role="www" />
-    </dir> <!-- /public_html/error -->
     <dir name="manual">
      <file name="index.php" role="www" />
     </dir> <!-- /public_html/manual -->
@@ -128,9 +109,6 @@
      <file name="add-note.php" role="www" />
     </dir> <!-- /public_html/notes -->
    </dir> <!-- /public_html -->
-   <dir name="sql">
-    <file name="pearweb_manual.xml" role="www" />
-   </dir> <!-- /sql -->
    <dir name="templates">
     <dir name="notes">
      <file name="add-note-form.tpl.php" role="www" />
@@ -207,12 +185,33 @@
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - fix apidoc queue on Linux
+
 - use www role
+
 - script to fix apidoc queue
+
 - make apidoc-log.php suitable to low-bandwidth connections
+
 - better 404 manual error handling
+
 - adjustments for PhD built docs
+
 - fix Bug #16038: Links in manual header/footer are double encoded
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.1.1</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-07-02</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+User notes administration usability overhall
    </notes>
   </release>
  </changelog>

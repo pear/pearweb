@@ -27,17 +27,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.1.0');
+$a->setReleaseVersion('1.1.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- fix apidoc queue on Linux
-- use www role
-- script to fix apidoc queue
-- make apidoc-log.php suitable to low-bandwidth connections
-- better 404 manual error handling
-- adjustments for PhD built docs
-- fix Bug #16038: Links in manual header/footer are double encoded
+User notes administration usability overhall
 ');
 $a->resetUsesrole();
 $a->clearDeps();
