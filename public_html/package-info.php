@@ -329,7 +329,7 @@ if (empty($action)) {
                     break;
                 }
             }
-            $link = make_link('/bugs/search.php?cmd=display&package_name[]=' . $pkg['name'] . '&status=OpenFeedback&bug_type=Bugs', 'open bugs');
+            $link = make_link('/bugs/search.php?cmd=display&amp;package_name[]=' . $pkg['name'] . '&amp;status=OpenFeedback&amp;bug_type=Bugs', 'open bugs');
             echo '<li>Number of ' . $link . ': <strong>' .
                 $buginfo['count'] . ' (' . $buginfo['total'] . ' total bugs)</strong></li>' . "\n";
             echo '<li>Average age of open bugs: <strong>' . round($buginfo['average']) . ' days</strong></li>' . "\n";
@@ -337,7 +337,7 @@ if (empty($action)) {
         }
 
         if ($frinfo['count']) {
-            $link = make_link('/bugs/search.php?cmd=display&package_name[]=' . $pkg['name'] . '&status=OpenFeedback&bug_type=Feature%2FChange+Request', 'feature requests');
+            $link = make_link('/bugs/search.php?cmd=display&amp;package_name[]=' . $pkg['name'] . '&amp;status=OpenFeedback&amp;bug_type=Feature%2FChange+Request', 'feature requests');
             echo '<li>Number of open ' . $link . ': <strong>' .
                 $frinfo['count'] . ' (' . $frinfo['total'] . ' total feature requests)</strong></li>' . "\n";
 
@@ -368,7 +368,7 @@ if (empty($action)) {
         echo '<ul>' . "\n";
         if (!$helper->hasReleases()) {
             echo '   <li>First release should be version <strong><a href="/bugs/roadmap.php?package=' .
-            urlencode($name) . '&showornew=0.1.0">0.1.0</a></strong>, stability <strong>alpha</strong>';
+            urlencode($name) . '&amp;showornew=0.1.0">0.1.0</a></strong>, stability <strong>alpha</strong>';
             echo '   </li>' . "\n";
         } else {
             $bugfix = $helper->getNextBugfixVersion();
@@ -376,7 +376,7 @@ if (empty($action)) {
             if ($helper->nextCanBeStable()) {
                 echo '   <li>';
                 echo '    Next Bugfix release should be: <strong><a href="' .
-                    '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
+                    '/bugs/roadmap.php?package=' . urlencode($name) . '&amp;showornew=' .
                     $bugfix[0]. '#a' . $bugfix[0] . '">' . $bugfix[0] . '</a></strong>, stability ' .
                       '<strong>' . $bugfix[1] . '</strong>';
                 echo '   </li>' . "\n";
@@ -387,14 +387,14 @@ if (empty($action)) {
                     echo '    Next New Feature release should be: <strong>';
                 }
                 echo '<a href="' .
-                    '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
+                    '/bugs/roadmap.php?package=' . urlencode($name) . '&amp;showornew=' .
                     $newfeatures[0]. '#a' . $newfeatures[0] . '">' . $newfeatures[0] .
                       '</a></strong>, stability <strong>' . $newfeatures[1] . '</strong>';
                 echo '   </li>' . "\n";
             } else {
                 echo '   <li>';
                 echo '    Next Bugfix release should be: <strong><a href="' .
-                    '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
+                    '/bugs/roadmap.php?package=' . urlencode($name) . '&amp;showornew=' .
                     $bugfix[0]. '#a' . $bugfix[0] . '">' . $bugfix[0] . '</a></strong>, stability ' .
                       '<strong>' . $bugfix[1] . '</strong>';
                 echo '   </li>' . "\n";
@@ -402,7 +402,7 @@ if (empty($action)) {
                 if ($beta) {
                     echo '   <li>';
                     echo '    Next Stable API release should be: <strong><a href="' .
-                        '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
+                        '/bugs/roadmap.php?package=' . urlencode($name) . '&amp;showornew=' .
                         $beta[0] . '#a' . $beta[0] . '">' . $beta[0] .
                         '</a></strong>, stability <strong>' . $beta[1] . '</strong>';
                     echo '   </li>' . "\n";
@@ -410,7 +410,7 @@ if (empty($action)) {
                 if ($helper->canAddFeatures()) {
                     echo '   <li>';
                     echo '    Next New Feature release should be: <strong><a href="' .
-                        '/bugs/roadmap.php?package=' . urlencode($name) . '&showornew=' .
+                        '/bugs/roadmap.php?package=' . urlencode($name) . '&amp;showornew=' .
                         $newfeatures[0] . '#a' . $newfeatures[0] . '">' . $newfeatures[0] .
                         '</a></strong>, stability <strong>' . $newfeatures[1] . '</strong>';
                     echo '   </li>' . "\n";
@@ -765,9 +765,9 @@ what <a href="http://en.wikipedia.org/wiki/Trackback">Wikipedia writes about tra
             echo '</th>';
             echo '<td>';
             if (!$trackback->get('approved')) {
-                echo '[<a href="/trackback/trackback-admin.php?action=approve&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Approve</a>] ';
+                echo '[<a href="/trackback/trackback-admin.php?action=approve&amp;id='.$trackback->get('id').'&amp;timestamp='.$trackback->get('timestamp').'">Approve</a>] ';
             }
-            echo '[<a href="/trackback/trackback-admin.php?action=delete&id='.$trackback->get('id').'&timestamp='.$trackback->get('timestamp').'">Delete</a>]';
+            echo '[<a href="/trackback/trackback-admin.php?action=delete&ampid='.$trackback->get('id').'&amp;timestamp='.$trackback->get('timestamp').'">Delete</a>]';
             echo '</td>';
             echo '</tr>';
         }
