@@ -188,8 +188,8 @@ class pearweb_Channel_REST_Generator
 
             $fullpackageinfo .= '<pi>
 ';
-            $fullpackageinfo .= str_replace($this->_getPackageRESTProlog(), '<p>',
-            file_get_contents($pmdir . 'info.xml'));
+            $contents = file_get_contents($pmdir . 'info.xml');
+            $fullpackageinfo .= '<p>' . substr($contents, strpos($contents, '<n>'));
 
             $rmdir = $rdir . strtolower($package['name']) . DIRECTORY_SEPARATOR;
             if (file_exists($rmdir . 'allreleases.xml')) {
