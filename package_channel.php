@@ -5,7 +5,7 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
     array(
         'baseinstalldir' => '/pear.php.net/',
         'packagefile' => 'package-channel.xml',
-        'filelistgenerator' => 'cvs',
+        'filelistgenerator' => 'svn',
         'roles' => array('*' => 'www'),
         'simpleoutput' => true,
         'include' => array(
