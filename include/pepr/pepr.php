@@ -356,9 +356,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         if (!$this->id) {
             $this->id = 0;
         }
-        if ($handle != $this->user_handle) {
-            return false;
-        }
+
         if ($checkid) {
             $test = $dbh->getOne('SELECT id FROM package_proposals WHERE pkg_category = ?
                 AND pkg_name = ? AND user_handle = ? AND id <> ?', array($this->pkg_category,
