@@ -7,7 +7,7 @@
 /**
  * Useful files to have
  */
-set_include_path(dirname(__FILE__) . '/include' . PATH_SEPARATOR . get_include_path());
+set_include_path(dirname(dirname(__FILE__)) . '/include' . PATH_SEPARATOR . get_include_path());
 ob_start();
 require_once 'pear-config.php';
 require_once 'PEAR.php';
@@ -19,17 +19,17 @@ if (!isset($pear_rest)) {
     } else {
         $rest_path = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'public_html' . DIRECTORY_SEPARATOR . 'rest';
     }
+    
+    include_once 'DB.php';
+    
+    if (empty($dbh)) {
+        $options = array(
+            'persistent' => false,
+            'portability' => DB_PORTABILITY_ALL,
+        );
+        $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
+    }
     $pear_rest = new pearweb_Channel_REST_Generator($rest_path, $dbh);
-}
-
-include_once 'DB.php';
-
-if (empty($dbh)) {
-    $options = array(
-        'persistent' => false,
-        'portability' => DB_PORTABILITY_ALL,
-    );
-    $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 }
 ob_end_clean();
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
