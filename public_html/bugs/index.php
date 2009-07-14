@@ -1,4 +1,5 @@
 <?php
+require_once 'pear-database-package.php';
 
 /**
  * The bug system home page
@@ -20,54 +21,87 @@
 
 response_header('Bugs');
 
+$packages = package::listAllNames();
 ?>
 
 <h1>PEAR Bug Tracking System</h1>
+<style type="text/css">
+.bug-box {
+    display: table-cell;
+    width: 33%;
+    padding: 1.0em;
+    border:1px solid white;
+}
 
-<p>
- If you need support or you don't really know if the problem you found
- is a bug, please use our
- <?php echo make_link('/support/', 'support channels'); ?>.
-</p>
+.bug-box.help {
+    background-color:#FFFFC8;
+    border:1px solid #FF9B64;
+}
 
-<p>
- Before submitting a bug, please make sure nobody has already reported it by
- <?php echo make_link('search.php', 'searching the existing bugs'); ?>.
- Also, read the tips on how to
- <?php echo make_link('http://bugs.php.net/how-to-report.php',
-                  'report a bug that someone will want to help fix', 'top'); ?>.
-</p>
+.bug-box form {
+    margin: 2.0em;
+}
+</style>
+<div class="bug-box">
+    <h2>Report new Bug</h2>
+    <p>Got a test case?</p>
 
-<p>Now that you are ready to proceed:</p>
+    <p>Reproducable steps?</p>
+    <form method="get" action="/bugs/report.php">
+        <select name="package">
+            <option selected="selected">Choose your package</option>
+            <?php foreach ($packages as $id => $package) { ?>
+                <option name="<?php print $id; ?>"><?php print $package; ?></option>
+            <?php } ?>
+        </select>
+        <input type="submit" name="action" value="Go" />
+    </form>
+    <p style="font-size: 0.8em; text-align: right">Psst! Check the tips <?php echo make_link('http://bugs.php.net/how-to-report.php',
+                  'on getting your bugs fixed quickly', 'top'); ?>!</p>
+</div>
 
-<dl>
-  <dt>Package Bugs</dt>
-  <dd>
-   If you want to report a bug for a <strong>specific package</strong>,
-   please go to the package home page using the
-   <?php echo make_link('/packages.php', 'Browse&nbsp;Packages');?> tool
-   or the <?php echo make_link('/search.php', 'Package&nbsp;Search'); ?>
-   system.
-  </dd>
 
-  <dt style="margin-top: 1em;">Website Bugs</dt>
-  <dd>
-   If the bug you found does not relate to a package and has something to do with the website
-   then you can report it here:
-   <?php print make_bug_link('pearweb', 'report', '<strong>Website</strong>'); ?>
-    <br /><br />
-   If you think you found a problem with the manual then please use this link:
-   <?php print make_bug_link('Documentation', 'report', '<strong>Documentation</strong>'); ?>.
-  </dd>
-</dl>
+<div class="bug-box">
+    <h2>Enhancements</h2>
+    <p>Got a patch?</p>
+    <p>Or a great use case?</p>
+    <?php if (!empty($packages)) { ?>
+        <form method="get" action="/bugs/report.php">
+            <select name="package">
+                <option selected="selected">Choose your package</option>
+                <?php foreach ($packages as $id => $package) { ?>
+                    <option name="<?php print $id; ?>"><?php print $package; ?></option>
+                <?php } ?>
+            </select>
+            <input type="submit" name="action" value="Go" />
+        </form>
+    <?php } ?>
+</div>
 
-<p>
-You may find the
-<?php echo make_link('stats.php', 'Bug Statistics'); ?> page interesting.
-</p>
+<div class="bug-box help">
+    <h2>Get help</h2>
+    <p>Not sure if its a bug?</p>
+
+    <p>Try some of our support channels, and don't forget to <a href="http://pastebin.com">use pastebin</a>.
+        <ul>
+            <li>The <a href="/support/lists.php">pear-general mailing list</a></li>
+            <li>The <a href="irc://efnet/#pear">#pear IRC channel</a> on EFnet</li>
+        </ul>
+    </p>
+    
+</div>
+<h2 style="margin-top: 2.0em">Search, Tips, Tools and Statistics</h2>
+<p>Not what you wanted?</p>
+<!-- Shh -->
+<ul style="-moz-column-count:2">
+    <li><?php echo make_link('search.php', 'Search'); ?> existing bugs.</li>
+    <li>See <?php echo make_link('stats.php', 'Bug Statistics'); ?></li>
+    <li>Report a <?php print make_bug_link('pearweb', 'report', 'website'); ?> problem.</li>
+    <li>Report a <?php print make_bug_link('Documentation', 'report', 'documentation'); ?> problem.</li>
+    <li>Check out the <?php echo make_link('/manual/', 'manual'); ?>.</li>
+    <li>Check the <?php echo make_link('http://www.nabble.com/Pear---General-f166.html', 'pear-general', 'top'); ?> and <?php echo make_link('http://www.nabble.com/Pear---Dev-f167.html', 'pear-dev', 'top'); ?> mailing list archives.</li>
+</ul>
 
 <?php
-
 response_footer();
-
 ?>
