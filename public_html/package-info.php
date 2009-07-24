@@ -457,17 +457,17 @@ if (empty($action)) {
     echo '</td>' . "\n";
     echo '</tr>' . "\n";
 
+    echo '</table>' . "\n";
+
     // {{{ Dependants
 
+    echo '<hr />';
+    echo '<div style=" font-size: 0.9em; padding: 1.0em;">';
     include_once 'pear-database-package.php';
     $dependants = package::getDependants($name);
     if ($rel_count > 0 && count($dependants) > 0) {
-        echo '<tr>' . "\n";
-        echo '<th colspan="2">&raquo; Packages that depend on ' . htmlspecialchars($name) . '</th>' . "\n";
-        echo '</tr>' . "\n";
-        echo '<tr>' . "\n";
-
-        echo '<td colspan="2">' . "\n";
+        echo '<div style="width: 30em; float: left; margin: 0.5em">';
+        echo '<h4>Packages that depend on ' . htmlspecialchars($name) . '</h4>' . "\n";
         echo '<ul>' . "\n";
 
         foreach ($dependants as $dep) {
@@ -479,13 +479,50 @@ if (empty($action)) {
         }
 
         echo '</ul>' . "\n";
-        echo '</td>' . "\n";
-        echo '</tr>' . "\n";
+        echo '</div>';
     }
+
+
+    
+    $dependencies = package::getDependencies($name);
+    if (count($dependencies) > 0) {
+        echo '<div style="width: 30em; float: left; margin: 0.5em">';
+        echo '<h4>Dependencies for ' . htmlspecialchars($name) . '</h4>' . "\n";
+        echo '<ul>' . "\n";
+
+        foreach ($dependencies as $dep) {
+            echo '<li>';
+
+            switch ($dep['type']) {
+                case 'pkg':
+                    echo package::makeLink($dep['name']);
+                    break;
+                case 'php':
+                    echo $dep['name'];
+                    break;
+                case 'ext':
+                    echo $dep['name'] . " extension";
+                    break;
+                default:
+                    echo $dep['name'] .  $dep['type'];
+                    break;
+            }
+
+            echo " ";
+            echo $dep['version'] . " ";
+            echo $dep['optional']? " (Optional)" : null;
+
+            echo "</li>\n";
+        }
+
+        echo '</ul>' . "\n";
+        echo '</div>';
+    }
+    echo '<br style="clear: both" /></div>';
 
     // }}}
 
-    echo '</table>' . "\n";
+
 
     // }}}
 

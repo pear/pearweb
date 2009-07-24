@@ -469,6 +469,35 @@ class package
     }
 
     /**
+     * Get dependencies for the given package
+     *
+     * @param  string Name of the package
+     * @return array  List of packages that $package requires
+     */
+    static function getDependencies($package, $release = null)
+    {
+        global $dbh;
+
+        if (empty($release)) {
+            // Get the most recent version with a given state
+            $release = $dbh->getOne("SELECT r.id FROM releases r JOIN packages p ON p.id = r.package ".
+                                    "WHERE name = ?".
+                                    "ORDER BY releasedate DESC",
+                                    array($package));        }
+
+
+        $query = '
+            SELECT d.*
+                FROM packages p 
+
+            JOIN deps d ON p.id = d.package
+
+            WHERE p.name = ? AND d.release = ?';
+                
+        return $dbh->getAll($query, array($package, $release), DB_FETCHMODE_ASSOC);
+    }
+
+    /**
      * Get list of recent releases for the given package
      *
      * @param  int Number of releases to return
