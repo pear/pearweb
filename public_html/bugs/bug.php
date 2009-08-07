@@ -104,7 +104,7 @@ if ($dbh->getOne('SELECT handle FROM bugdb WHERE id=?', array($id))) {
         GROUP BY bug';
 }
 
-$bug =& $dbh->getRow($query, array($id), DB_FETCHMODE_ASSOC);
+$bug = $dbh->getRow($query, array($id), DB_FETCHMODE_ASSOC);
 
 if (!$bug) {
     response_header('No Such Bug');
@@ -858,7 +858,7 @@ if ($edit == 1 || $edit == 2) {
                 if (!isset($_POST['in']) || !is_array($_POST['in'])) {
 ?>
 
-                    Welcome! If you don't have a CVS account, you can't do
+                    Welcome! If you don't have a SVN account, you can't do
                     anything here. You can <a href=
                     "<?php echo "bug.php?id=$id&amp;edit=3" ?>"
                     >add a comment by following this link</a> or if you
@@ -870,22 +870,6 @@ if ($edit == 1 || $edit == 2) {
                 }
 
 ?>
-<!--
-<table>
-<tr>
-  <th class="details">CVS Username:</th>
-  <td><input type="text" name="user" value="<?php echo htmlspecialchars($user) ?>" size="10" maxlength="20" /></td>
-  <th class="details">CVS Password:</th>
-  <td><input type="password" name="pw" value="<?php echo htmlspecialchars($pw) ?>" size="10" maxlength="20" /></td>
-  <th class="details">
-   <label for="save">Remember:</label>
-  </th>
-  <td>
-   <input type="checkbox" id="save" name="save"<?php if ($_POST['save']) echo ' checked="checked"'?> />
-  </td>
-</tr>
-</table>
--->
             </div>
 
 <?php
@@ -1235,10 +1219,10 @@ $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporte
     LEFT JOIN users u ON u.handle = c.handle
     WHERE c.bug = ?
     GROUP BY c.id ORDER BY c.ts';
-$res =& $dbh->query($query, array($id));
+$res = $dbh->query($query, array($id));
 if ($res) {
     ?><h2>Comments</h2><?php
-    while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+    while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
         output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['bughandle'] ? $row['bughandle'] : $row['handle'], $row['comment_name'], $row['registered']);
     }
 }
@@ -1318,21 +1302,21 @@ function hide_comment($id, $com_id)
 {
     global $dbh;
     $query ='UPDATE bugdb_comments SET active = 0 WHERE bug = '.(int)$id.' AND id = '.(int)$com_id;
-    $res =& $dbh->query($query);
+    $res = $dbh->query($query);
 }
 
 function show_comment($id, $com_id)
 {
     global $dbh;
     $query ='UPDATE bugdb_comments SET active = 1 WHERE bug = '.(int)$id.' AND id = '.(int)$com_id;
-    $res =& $dbh->query($query);
+    $res = $dbh->query($query);
 }
 
 function delete_comment($id, $com_id)
 {
     global $dbh;
     $query = 'DELETE FROM bugdb_comments WHERE active = 0 bug = '.(int)$id.' AND id = '.(int)$com_id;
-    $res =& $dbh->query($query);
+    $res = $dbh->query($query);
 }
 
 function control($num, $desc, $id, $edit)

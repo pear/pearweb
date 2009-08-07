@@ -38,7 +38,7 @@ if (empty($dbh)) {
         'persistent' => false,
         'portability' => DB_PORTABILITY_ALL,
     );
-    $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
+    $dbh = DB::connect(PEAR_DATABASE_DSN, $options);
 }
 
 //include_once 'MDB2.php';
@@ -174,7 +174,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
         <option value="users">Developers</option>
         <option value="pear-dev">Developer mailing list</option>
         <option value="pear-general">General mailing list</option>
-        <option value="pear-cvs">CVS commits mailing list</option>
+        <option value="pear-cvs">SVN commits mailing list</option>
     </select>
     <input type="image" src="/gifs/small_submit_white.gif" alt="search" style="vertical-align: middle;" />
    </p>

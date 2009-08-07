@@ -181,7 +181,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         switch ($this->markup) {
             case 'wiki':
                include_once 'Text/Wiki.php';
-               $wiki =& new Text_Wiki();
+               $wiki = new Text_Wiki();
                $wiki->disableRule('wikilink');
                $description = $wiki->transform($this->pkg_description);
                break;
@@ -209,7 +209,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         $id  = (int)$id;
         $sql = "SELECT pkg_name, pkg_category, pkg_license, pkg_describtion, pkg_deps
                  FROM package_proposals WHERE id = ".$id;
-        $res =& $dbh->getRow($sql, null, DB_FETCHMODE_ASSOC);
+        $res = $dbh->getRow($sql, null, DB_FETCHMODE_ASSOC);
         if (DB::isError($res)) {
             return new proposal(array());
         }
@@ -245,7 +245,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
                         UNIX_TIMESTAMP(vote_date) as vote_date,
                         UNIX_TIMESTAMP(longened_date) as longened_date
                  FROM package_proposals WHERE id = ".$id;
-        $res =& $dbh->getRow($sql, null, DB_FETCHMODE_ASSOC);
+        $res = $dbh->getRow($sql, null, DB_FETCHMODE_ASSOC);
         if (DB::isError($res)) {
             return $res;
         }
@@ -298,7 +298,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         }
         $result = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-            $result[$set['id']] =& new proposal($set);
+            $result[$set['id']] = new proposal($set);
         }
         return $result;
     }
@@ -327,7 +327,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         }
         $result = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-            $result[$set['id']] =& new proposal($set);
+            $result[$set['id']] = new proposal($set);
         }
         return $result;
     }
@@ -414,7 +414,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
                     markup = ".$dbh->quoteSmart($this->markup)."
                     WHERE id = ".$this->id;
             $dbh->pushErrorHandling(PEAR_ERROR_RETURN);
-            $res =& $dbh->query($sql);
+            $res = $dbh->query($sql);
             $dbh->popErrorHandling();
             if (DB::isError($res)) {
                 if ($res->getCode() == DB_ERROR_CONSTRAINT) {
@@ -451,7 +451,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
                         ".$dbh->quoteSmart($this->user_handle).",
                         ".$dbh->quoteSmart($this->markup).")";
             $dbh->pushErrorHandling(PEAR_ERROR_RETURN);
-            $res =& $dbh->query($sql);
+            $res = $dbh->query($sql);
             $dbh->popErrorHandling();
             if (DB::isError($res)) {
                 if ($res->getCode() == DB_ERROR_CONSTRAINT) {
@@ -490,7 +490,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
             return PEAR::raiseError("You already voted!");
         }
         $vote->pkg_propop_id = $this->id;
-        $this->votes[$vote->user_handle] =& $vote;
+        $this->votes[$vote->user_handle] = $vote;
         $vote->store($dbh, $this->id);
         return true;
     }
@@ -528,7 +528,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         global $dbh, $karma;
 
         if (empty($karma)) {
-            $karma =& new Damblan_Karma($dbh);
+            $karma = new Damblan_Karma($dbh);
         }
 
         switch ($this->status) {
@@ -569,7 +569,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         global $karma;
 
         if (empty($karma)) {
-            $karma =& new Damblan_Karma($dbh);
+            $karma = new Damblan_Karma($dbh);
         }
 
         if ($this->getStatus() == 'vote' &&
@@ -699,7 +699,7 @@ Proposer:                '.user_link($this->user_handle, true).'<br />
         global $dbh, $karma, $auth_user;
 
         if (empty($karma)) {
-            $karma =& new Damblan_Karma($dbh);
+            $karma = new Damblan_Karma($dbh);
         }
 
         require 'pepr/pepr-emails.php';
@@ -870,7 +870,7 @@ class ppComment
             return $res;
         }
         $set = $res->fetchRow(DB_FETCHMODE_ASSOC);
-        $comment =& new ppComment($set);
+        $comment = new ppComment($set);
         return $comment;
     }
 
@@ -884,7 +884,7 @@ class ppComment
         }
         $comments = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-            $comments[] =& new ppVote($set);
+            $comments[] = new ppVote($set);
         }
         return $comments;
     }
@@ -948,7 +948,7 @@ class ppVote
         }
         $set = $res->fetchRow(DB_FETCHMODE_ASSOC);
         $set['reviews'] = unserialize($set['reviews']);
-        $vote =& new ppVote($set);
+        $vote = new ppVote($set);
         return $vote;
     }
 
@@ -962,7 +962,7 @@ class ppVote
         $votes = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
             $set['reviews'] = unserialize($set['reviews']);
-            $votes[$set['user_handle']] =& new ppVote($set);
+            $votes[$set['user_handle']] = new ppVote($set);
         }
         return $votes;
     }
@@ -1048,7 +1048,7 @@ class ppLink
         }
         $links = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-            $links[] =& new ppLink($set);
+            $links[] = new ppLink($set);
         }
         return $links;
     }
