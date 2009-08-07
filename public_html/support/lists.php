@@ -60,8 +60,8 @@ $mailing_lists = array(
 
     array (
         'pear-cvs',
-        'PEAR CVS list',
-        'All commits to PEAR\'s CVS repository get automatically posted to this list',
+        'PEAR SVN list',
+        'All commits to PEAR\'s SVN repository get automatically posted to this list',
         false,
         true,
         true,

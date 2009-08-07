@@ -84,7 +84,7 @@ __halt_compiler();
         <option value="users">Developers</option>
         <option value="pear-dev">Developer mailing list</option>
         <option value="pear-general">General mailing list</option>
-        <option value="pear-cvs">CVS commits mailing list</option>
+        <option value="pear-svn">SVN commits mailing list</option>
     </select>
     <input type="image" src="/gifs/small_submit_white.gif" alt="search" style="vertical-align: middle;" />
     </p>

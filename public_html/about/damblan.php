@@ -37,7 +37,7 @@ package.</p>
 
 <p>If you have questions or comments about Damblan, get in touch with
 <a href="/user/mj/">Martin</a>. The bleeding edge version of Damblan is 
-<a href="http://cvs.php.net/cvs.php/pearweb/include/Damblan">available via CVS</a>.
+<a href="http://svn.php.net/repository/pear/pearweb/trunk/include/Damblan">available via SVN</a>.
 </p>
 
 <p><a href="/about/">Back</a></p>

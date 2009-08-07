@@ -244,7 +244,7 @@ $sl->setMultiple(true);
 $form->addElement('text', 'homepage', 'H<span class="accesskey">o</span>mepage:', 'size="25" maxlength="255" accesskey="0"');
 $form->addElement('text', 'doc_link', 'Documentation URI:', 'size="50" maxlength="255"');
 $form->addElement('text', 'bug_link', 'Bug Tracker URI:', 'size="50" maxlength="255"');
-$form->addElement('text', 'cvs_link', 'Web CVS URI', 'size="50" maxlength="255"');
+$form->addElement('text', 'cvs_link', 'Web version control URI', 'size="50" maxlength="255"');
 $form->addElement('checkbox', 'unmaintained', 'Is this package unmaintained ?');
 
 $packages = package::listAllwithReleases();

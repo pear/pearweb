@@ -5,7 +5,7 @@
  *
  * @author     Gregory Beaver <cellog@php.net>
  * @copyright  1997-2005 The PHP Group
- * @version    CVS: $Id$
+ * @version    SVN: $Id$
  */
 
 class MockDB_Core_QueryException extends Exception {}

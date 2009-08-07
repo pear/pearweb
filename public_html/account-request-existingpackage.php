@@ -170,7 +170,7 @@ $mailto = '<a href="mailto:' . PEAR_DEV_EMAIL . '">PEAR developers mailing list<
 <p>
  <strong>Before</strong> filling out this form, you must seek approval by mailing
   the $mailto and developers of the package.  If you already have a PEAR account,
-  all you need to do is to request CVS karma (again, ask for help on the $mailto).
+  all you need to do is to request SVN karma (again, ask for help on the $mailto).
   You do not need a new account for each package that you maintain.
 </p>
 <h3>

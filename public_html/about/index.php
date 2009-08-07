@@ -45,18 +45,15 @@ have started to use a set of utility classes. We call it
 
 <h2>&raquo; Website Soure Code</h2>
 
-<p>The source code of the website is available via CVS. To checkout the 
+<p>The source code of the website is available via SVN. To checkout the 
 latest version, use the following commands:</p>
 
 <pre>
-$ cvs -d :pserver:cvsread@cvs.php.net:/repository login
-  [password is &quot;cvsread&quot;]
-
-$ cvs -d :pserver:cvsread@cvs.php.net:/repository co pearweb
+$ svn checkout http://svn.php.net/repository/pear/pearweb/trunk
 </pre>
 
 <p>One can also view the source code by using the
-<a href="http://cvs.php.net/cvs.php/pearweb">CVS web interface</a>.</p>
+<a href="http://svn.php.net/viewvc/pear/pearweb/">web interface</a>.</p>
 
 <h2>&raquo; Privacy Policy</h2>
 
@@ -66,7 +63,7 @@ $ cvs -d :pserver:cvsread@cvs.php.net:/repository co pearweb
 
 <p>The PHP code that runs the website is licensed under the PHP License.
 Some third-party code such as <a href="http://www.aditnus.no/jpgraph/">jpgraph</a>
-is bundled with the website in CVS and may be available under a 
+is bundled with the website in SVN and may be available under a 
 different license.  If you are uncertain about the license or copyright
 constraints, please get in touch with the
 <?php echo make_mailto_link(PEAR_WEBMASTER_EMAIL, 'webmaster mailing list'); ?>.</p>

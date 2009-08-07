@@ -63,7 +63,7 @@ class Damblan_Search
                 $s = new Damblan_Search_PEPr($dbh);
                 break;
             case 'pear-dev':
-            case 'pear-cvs':
+            case 'pear-svn':
             case 'pear-general':
                 require_once 'Damblan/Search/Lists.php';
                 $s = new Damblan_Search_Lists($searchType);

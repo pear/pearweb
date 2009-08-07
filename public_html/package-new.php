@@ -188,8 +188,8 @@ $renderer->setFormTemplate('
     $form->addElement('textarea', 'summary', 'Summary', array('cols' => 60));
     $form->addElement('textarea', 'desc', 'Full description', array('cols' => 60, 'rows' => 3));
     $form->addElement('text', 'homepage', 'Additional project homepage', array('size' => 40));
-    $form->addElement('text', 'cvs_link', 'CVS Web URL', array('size' => 40));
-    $form->addElement('static', null, null, '<small>For example: http://cvs.php.net/cvs.php/pear/XML_Parser</small>');
+    $form->addElement('text', 'cvs_link', 'Version control web URL', array('size' => 40));
+    $form->addElement('static', null, null, '<small>For example: http://svn.php.net/repository/pear/packages/XML_Parser/trunk</small>');
     $form->addElement('submit', 'submit', 'Submit Request');
     $form->display();
 
