@@ -96,7 +96,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
 
     if ($in_manual === false) {
         // The manual-related code takes care of sending the right headers.
-        header('Content-Type: text/html; charset=ISO-8859-15');
+        header('Content-Type: text/html; charset=UTF-8');
     }
 ?>
 <!DOCTYPE html>

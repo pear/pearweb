@@ -82,7 +82,7 @@ report_error($warnings, 'warnings', 'RECOMMENDATIONS:<br />'
  </tr>
 </table>
 <input type="hidden" name="distfile" value="<?php echo htmlspecialchars($tmpfile, ENT_QUOTES,
-    'ISO-8859-15') ?>" />
+    'UTF-8') ?>" />
 <input type="hidden" name="_fields" value="verify:cancel:distfile" />
 </form>
 

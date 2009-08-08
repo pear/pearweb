@@ -1285,7 +1285,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
         $status  = substr($comment, 0, $needle) . $search;
     }
 
-    $comment = htmlspecialchars($fix, ENT_QUOTES, 'ISO-8859-15', false);
+    $comment = htmlspecialchars($fix, ENT_QUOTES, 'UTF-8', false);
     $comment = make_ticket_links(addlinks($comment));
     $comment = $status . $comment;
 
