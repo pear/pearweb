@@ -34,6 +34,8 @@ $a->resetUsesrole();
 $a->clearDeps();
 $a->setPhpDep('5.2.3');
 $a->setPearInstallerDep('1.8.0');
+$a->addPackageDepWithChannel('required', 'pearweb_pepr', 'pear.php.net', '1.0.2');
+$a->addPackageDepWithChannel('required', 'pearweb', 'pear.php.net', '1.21.1');
 
 $a->generateContents();
 
