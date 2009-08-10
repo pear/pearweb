@@ -26,18 +26,18 @@ response_header('The PEAR Group');
 of the following individuals (in no particular order):</p>
 
 <ul>
-  <li><a href="/user/ashnazg" title="Chuck Burges">Chuck Burges</a></li>
+  <li><a href="/user/ashnazg" title="Chuck Burgess">Chuck Burgess</a></li>
   <li><a href="/user/davidc" title="David Coallier">David Coallier</a> [President]</li>
-  <li><a href="/user/jstump" title="Joe Stump">Joe Stump</a></li>
-  <li><a href="/user/jeichorn" title="Joshua Eichorn">Joshua Eichorn</a></li>
-  <li><a href="/user/cweiske" title="Christian Weiske">Christian Weiske</a> [Vice President]</li>
-  <li><a href="/user/dufuz" title="Helgi &THORN;ormar &THORN;orbjoernsson">Helgi &THORN;ormar &THORN;orbjoernsson</a></li>
+  <li><a href="/user/cweiske" title="Christian Weiske">Christian Weiske</a></li>
   <li><a href="/user/saltybeagle" title="Brett Bieber">Brett Bieber</a></li>
-  <li><a href="/user/tswicegood" title="Travis Swicegood">Travis Swicegood</a></li>
+  <li><a href="/user/doconnor" title="Daniel O'Connor">Daniel O'Connor</a></li>
+  <li><a href="/user/kguest" title="Ken Guest">Ken Guest</a></li>
+  <li><a href="/user/shupp" title="Bill Shupp">Bill Shupp</a></li>
+  <li><a href="/user/gauthierm" title="Michael Gauthier">Michael Gauthier</a></li>
 </ul>
 
 <p>
-The current PEAR Group membership lasts from June 15th, 2008 until June 15th, 2009, and
+The current PEAR Group membership lasts from June 15th, 2009 until June 15th, 2010, and
 is made up of PEAR developers duly elected by the developers of PEAR to serve.
 </p>
 

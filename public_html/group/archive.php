@@ -24,6 +24,19 @@ response_header('The PEAR Group - Archive');
 
 <p>This is an archive of older groups that have governed PEAR (names are in no particular order)</p>
 
+<h2>Group of May 1st, 2008 until May 1st, 2009</h2>
+<ul>
+  <li><a href="/user/ashnazg" title="Chuck Burges">Chuck Burges</a></li>
+  <li><a href="/user/davidc" title="David Coallier">David Coallier</a> [President]</li>
+  <li><a href="/user/jstump" title="Joe Stump">Joe Stump</a></li>
+  <li><a href="/user/jeichorn" title="Joshua Eichorn">Joshua Eichorn</a></li>
+  <li><a href="/user/cweiske" title="Christian Weiske">Christian Weiske</a> [Vice President]</li>
+  <li><a href="/user/dufuz" title="Helgi &THORN;ormar &THORN;orbjoernsson">Helgi &THORN;ormar &THORN;orbjoernsson</a></li>
+  <li><a href="/user/saltybeagle" title="Brett Bieber">Brett Bieber</a></li>
+  <li><a href="/user/tswicegood" title="Travis Swicegood">Travis Swicegood</a></li>
+</ul>
+
+
 <h2>Group of May 1st, 2007 until May 1st, 2008</h2>
 <ul>
   <li><a href="/user/cellog" title="Greg Beaver">Greg Beaver</a> [President]</li>
