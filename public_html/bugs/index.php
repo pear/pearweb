@@ -47,15 +47,20 @@ $packages = package::listAllNames();
     <p>Got a test case?</p>
 
     <p>Reproducable steps?</p>
-    <form method="get" action="/bugs/report.php">
-        <select name="package">
-            <option selected="selected">Choose your package</option>
-            <?php foreach ($packages as $id => $package) { ?>
-                <option name="<?php print $id; ?>"><?php print $package; ?></option>
-            <?php } ?>
-        </select>
-        <input type="submit" name="action" value="Go" />
-    </form>
+    <?php if (!empty($packages)) { ?>
+        <form method="get" action="/bugs/report.php">
+            <select name="package">
+                <option selected="selected">Choose your package</option>
+                <?php foreach ($packages as $id => $package) { ?>
+                    <option name="<?php print $id; ?>"><?php print $package; ?></option>
+                <?php } ?>
+            </select>
+            <input type="submit" name="action" value="Go" />
+        </form>
+    <?php } else { ?>
+        <p>0 packages found.</p>
+    <?php } ?>
+
     <p style="font-size: 0.8em; text-align: right">Psst! Check the tips <?php echo make_link('http://bugs.php.net/how-to-report.php',
                   'on getting your bugs fixed quickly', 'top'); ?>!</p>
 </div>
@@ -75,6 +80,8 @@ $packages = package::listAllNames();
             </select>
             <input type="submit" name="action" value="Go" />
         </form>
+    <?php } else { ?>
+        <p>0 packages found.</p>
     <?php } ?>
 </div>
 
