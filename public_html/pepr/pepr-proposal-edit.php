@@ -153,7 +153,7 @@ $form->addElement('textarea', 'pkg_description', 'Package description:', array('
 $form->addElement('select', 'markup', 'Markup', array('bbcode' => 'BBCode', 'wiki' => 'Wiki'));
 
 $helpLinks[] =& HTML_QuickForm::createElement('link', 'help_bbcode', '_blank', 'pepr-bbcode-help.php', 'You can use BBCode inside your description', array('target' => '_blank'));
-$helpLinks[] =& HTML_QuickForm::createElement('link', 'help_wiki', '_blank', 'http://wiki.ciaweb.net/yawiki/index.php?area=Text_Wiki&page=WikiRules', 'or Wiki markup', array('target' => '_blank'));
+$helpLinks[] =& HTML_QuickForm::createElement('link', 'help_wiki', '_blank', 'http://pear.reversefold.com/dokuwiki/doku.php?id=text_wiki', 'or Wiki markup', array('target' => '_blank'));
 $form->addGroup($helpLinks, 'markup_help', '', ' ');
 
 $form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '80'));
