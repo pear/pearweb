@@ -24,11 +24,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.21.1');
+$a->setReleaseVersion('1.21.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Fixed RSS feed reader to use content:encoded
+Fix bug #16138: mailing list subscription does not work [cweiske]
 ');
 $a->resetUsesrole();
 $a->clearDeps();

@@ -155,7 +155,7 @@ if (isset($_POST['action'])) {
                  'Website Subscription',
                  'This was a request generated from the form at'
                  . 'http://' . PEAR_CHANNELNAME . '/support/lists.php.',
-                 "From: {$_POST['email']}\r\n");
+                 "From: {$_POST['email']}");
         }
 
         report_success('A request has been entered into the mailing list'
