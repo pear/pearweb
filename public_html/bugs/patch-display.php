@@ -1,5 +1,5 @@
 <?php
-require 'include/functions.inc';
+require_once './include/prepend.inc';
 if (!isset($_GET['bug_id']) && !isset($_GET['bug'])) {
     response_header('Error :: no bug selected');
     report_error('No patch selected to view');
