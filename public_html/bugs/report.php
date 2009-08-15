@@ -114,6 +114,7 @@ if (isset($_POST['in'])) {
                 $where_clause .= "AND package_name != 'Feature/Change Request'";
             }
 
+            define('BOOLEAN_SEARCH', 0);
             list($sql_search, $ignored) = format_search_string($sdesc);
 
             $where_clause .= $sql_search;
