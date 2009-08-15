@@ -184,7 +184,8 @@ class Bugs_Patchtracker
                 'text/x-diff',
                 'text/x-patch',
                 'text/x-c++',
-                'text/x-c'
+                'text/x-c',
+                'text/x-c++ charset=us-ascii',//bug in finfo
             );
 
             // return mime type ala mimetype extension
