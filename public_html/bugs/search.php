@@ -291,7 +291,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
     $query .= $where_clause;
 
-     $direction = $_GET['direction'] != 'DESC' ? 'ASC' : 'DESC';
+    $direction = $_GET['direction'] != 'DESC' ? 'ASC' : 'DESC';
 
     if (empty($_GET['order_by']) ||
         !array_key_exists($_GET['order_by'], $order_options))
@@ -302,8 +302,8 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     }
 
     if (empty($_GET['reorder_by']) ||
-        !array_key_exists($_GET['reorder_by'], $order_options))
-    {
+        !array_key_exists($_GET['reorder_by'], $order_options)
+    ) {
         $reorder_by = '';
     } else {
         $reorder_by = $_GET['reorder_by'];
