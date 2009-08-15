@@ -353,3 +353,23 @@ span.explain {
     border-collapse: separate;
     border-spacing: 2px
 }
+
+
+
+table.patchlist th, table.patchlist th.details { 
+    vertical-align: top;
+    text-align: left;
+}
+table.patchlist tbody tr {
+    border-top: 1px dotted grey;
+}
+table.patchlist tbody td {
+    padding-bottom: 0.5em; 
+    font-weight: normal;
+}
+table.patchlist span.obsolete {
+    color: #BBB;
+}
+table.patchlist span.obsolete a {
+    color: #90b290;
+}

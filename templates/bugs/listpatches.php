@@ -1,6 +1,7 @@
 <?php if (count($patches)): ?>
 <div class="explain">
-<table>
+<table class="patchlist">
+ <thead>
  <tr>
   <td>
    <a href="bug.php?id=<?php echo urlencode($bug) ?>">Return to Bug #<?php echo clean($bug) ?></a>
@@ -8,24 +9,44 @@
    <?php endif; //if ($canpatch) ?>
   </td>
  </tr>
+ </thead>
+ <tbody>
 <?php
-    foreach ($patches as $patch => $revisions):
+    foreach ($patches as $patch => $revisions) {
+        $url = 'patch-display.php?bug_id=' .  urlencode($bug)
+            . '&amp;patch=' . urlencode($patch)
+            . '&amp;revision=latest';
+        $revobsolete = false;
 ?>
  <tr>
   <th class="details">
-   Patch <a href="?bug_id=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
-      ?>"><?php echo clean($patch); ?></a>
+   Patch <a href="<?php echo $url;?>"><?php echo clean($patch); ?></a>
   </th>
   <td>
-   <?php foreach ($revisions as $rev): ?>
-   revision <a href="patch-display.php?bug_id=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
-      ?>&revision=<?php echo $rev[0] ?>&display=1"><?php echo format_date($rev[0]) ?></a> by <a href="/user/<?php echo $rev[1] ?>"><?php echo $rev[1] ?></a><br />
-   <?php endforeach; //foreach ($revisions as $rev) ?>
+<?php
+        foreach ($revisions as $rev) {
+            $revurl = 'patch-display.php?bug_id=' . urlencode($bug)
+                . '&amp;patch=' . urlencode($patch)
+                . '&amp;revision=' . $rev[0]
+                . '&amp;display=1';
+            if ($revobsolete) {
+                echo '<span class="obsolete">';
+            }
+?>
+   revision <a href="<?php echo $revurl ?>"><?php echo format_date($rev[0]) ?></a> by <a href="/user/<?php echo $rev[1] ?>"><?php echo $rev[1] ?></a><br />
+    <?php 
+            if ($revobsolete) {
+                echo '</span>';
+            }
+            $revobsolete = true;
+        } //foreach ($revisions as $rev)
+    ?>
   </td>
  </tr>
 <?php
-    endforeach; //foreach ($patches as $name => $rev)
+    }//foreach ($patches as $name => $rev)
 ?>
+ </thead>
 </table>
 </div>
 <?php endif; //if (count($patches)) ?>

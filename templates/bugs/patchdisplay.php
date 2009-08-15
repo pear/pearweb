@@ -36,13 +36,28 @@ Patch Revisions:
 <?php
 echo '<ul>';
 foreach ($revisions as $i => $rev) {
-    echo '<li><a href="patch-display.php?bug_id=', urlencode($bug), '&patch=',
-         urlencode($patch), '&revision=', urlencode($rev[0]), '">',
-         format_date($rev[0]), '</a>',
-         ' <a href="/bugs/patch-display.php?patch=',
-             urlencode($patch),
-             '&bug_id=', $bug, '&diff=1&old=', $rev[0], '&revision=',
-             $revision, '">[diff to current]</a></li>';
+    $url = 'patch-display.php'
+        . '?bug_id=' . urlencode($bug)
+        . '&patch=' . urlencode($patch)
+        . '&revision=' . urlencode($rev[0]);
+    $diffurl = '/bugs/patch-display.php?patch='
+        . urlencode($patch)
+        . '&bug_id=' . $bug
+        . '&diff=1&old=' . $rev[0]
+        . '&revision=' . $revision;
+    $same = $rev[0] == $revision;
+    echo '<li>';
+    echo '<a href="' . htmlspecialchars($url) . '">'
+        . ($same ? '<strong>' : '')
+        . format_date($rev[0])
+        . ($same ? '</strong>' : '')
+        . '</a>';
+    if (!$same) {
+        echo ' <a href="' . htmlspecialchars($diffurl) . '">'
+            . '[diff to current]'
+            . '</a>';
+    }
+    echo '</li>';
 }
 echo '</ul></li>';
 ?>
