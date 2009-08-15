@@ -323,6 +323,7 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
     }
 } elseif (isset($_POST['ncomment']) && isset($_POST['preview']) && $edit == 3) {
     $ncomment = trim($_POST['ncomment']);
+    $from     = trim($_POST['in']['commentemail']);
 } elseif (isset($_POST['in']) && !isset($_POST['preview']) && $edit == 2) {
     // Edits submitted by original reporter for old bugs
 
