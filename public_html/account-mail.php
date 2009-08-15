@@ -102,7 +102,7 @@ function printForm($data = array())
     $form->addElement('text', 'email', 'Email Address:', array('size' => 40));
     $form->addElement('checkbox', 'copy_me', 'Send me a copy of this mail:');
     $form->addElement('text', 'subject', 'Subject:', array('size' => 40));
-    $form->addElement('textarea', 'text', 'Text:', array('cols' => 35, 'row' => 10));
+    $form->addElement('textarea', 'text', 'Text:', array('cols' => 80, 'rows' => 10));
     $form->addElement('submit', 'submit', 'Send Email');
     $form->display();
 

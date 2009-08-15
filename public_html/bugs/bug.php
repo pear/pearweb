@@ -1065,7 +1065,7 @@ if ($edit == 1 || $edit == 2) {
 
     <?php echo $preview; ?>
 
-    <textarea cols="60" rows="10" id="ncomment" name="ncomment"
+    <textarea cols="80" rows="10" id="ncomment" name="ncomment"
      wrap="physical"><?php echo clean($ncomment) ?></textarea>
 
     <p style="margin-top: 0em;">
