@@ -10,6 +10,11 @@ class Bugs_Patchtracker
     {
         if (!file_exists(PEAR_PATCHTRACKER_TMPDIR)) {
             if (!@mkdir(PEAR_PATCHTRACKER_TMPDIR)) {
+                trigger_error(
+                    'Could not create directory for patches:'
+                    . PEAR_PATCHTRACKER_TMPDIR,
+                    E_USER_NOTICE
+                );
                 $this->_upload = false;
                 $this->_dbh = &$GLOBALS['dbh'];
                 return;
@@ -183,6 +188,10 @@ class Bugs_Patchtracker
             );
 
             // return mime type ala mimetype extension
+            if (!class_exists('finfo')) {
+                $this->detach($bugid, $name, $id);
+                return PEAR::raiseError('Error: finfo missing (fileinfo extension)');
+            }
             $finfo = new finfo(FILEINFO_MIME);
             if (!$finfo) {
                 return PEAR::raiseError('Error: Opening fileinfo database failed');
@@ -195,9 +204,7 @@ class Bugs_Patchtracker
             $mime = $t[0];
 
             if (!in_array($mime, $allowed_mime_types)) {
-                $this->_dbh->query('DELETE FROM bugdb_patchtracker
-                    WHERE bugdb_id = ? and patch = ? and revision = ?',
-                    array($bugid, $name, $id));
+                $this->detach($bugid, $name, $id);
                 return PEAR::raiseError('Error: uploaded patch file must be text'
                     . ' file (save as e.g. "patch.txt" or "package.diff")'
                     . ' (detected "' . htmlspecialchars($mime) . '")'
@@ -205,9 +212,7 @@ class Bugs_Patchtracker
             }
             $tmpfile = $file->moveTo($this->patchDir($bugid, $name));
             if (PEAR::isError($tmpfile)) {
-                $this->_dbh->query('DELETE FROM bugdb_patchtracker
-                    WHERE bugdb_id = ? and patch = ? and revision = ?',
-                    array($bugid, $name, $id));
+                $this->detach($bugid, $name, $id);
                 return $tmpfile;
             }
             if (!$file->getProp('size')) {
