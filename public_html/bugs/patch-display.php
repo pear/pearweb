@@ -9,8 +9,7 @@ if (!isset($_GET['bug_id']) && !isset($_GET['bug'])) {
 
 $revision = isset($_GET['revision']) ? $_GET['revision'] : null;
 $patch    = isset($_GET['patch'])    ? $_GET['patch'] : null;
-
-$bug_id   = (int)$_GET['bug'];
+$bug_id   = isset($_GET['bug'])      ? $_GET['bug'] : null;
 if (empty($bug_id)) {
     $bug_id = (int)$_GET['bug_id'];
 }
