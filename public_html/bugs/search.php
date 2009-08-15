@@ -400,7 +400,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 show_bugs_menu($package_name, $status);
             }
 
-            $link .= '&amp;status='      . urlencode($status);
+            $link .= '&amp;status=' . urlencode($status);
 
             $package_count = count($package_name);
 ?>

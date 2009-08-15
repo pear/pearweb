@@ -905,6 +905,9 @@ function format_search_string($search)
  *
  * @param string|array $pkgname  the names of the packages the user is
  *                               presently viewing bugs for
+ * @param string       $status   Currently active status
+ *                               ("Open", "Feedback", "CRSLR")
+ * @param mixed        $fulllink URL to use as link base, or boolean false
  *
  * @return void
  */
