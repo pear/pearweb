@@ -80,6 +80,7 @@ if (isset($patch) && isset($revision)) {
     $canpatch    = auth_check('pear.bug') || auth_check('pear.dev');
 
     response_header('Bug #' . clean($bug) . ' :: Patches');
+    show_bugs_menu(clean($buginfo['package_name']));
     include PEARWEB_TEMPLATEDIR . '/bugs/listpatches.php';
     if (isset($_GET['diff']) && $_GET['diff'] && isset($_GET['old']) && is_numeric($_GET['old'])) {
         $old = $patchinfo->getPatchFullpath($bug_id, $patch, $_GET['old']);
