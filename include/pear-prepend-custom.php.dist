@@ -1,0 +1,33 @@
+<?php
+//to setup your own pearweb without hassle,
+// copy this file to pear-prepend-custom.php and
+// modify it
+$_ENV['PEAR_DATABASE_DSN'] = 'mysqli://pear:pear@localhost/pearweb'; 
+$_ENV['PEAR_CHANNELNAME']  = 'pearweb.bogo';
+$_ENV['SITE'] = 'pear';
+$_ENV['PEAR_WEBMASTER_EMAIL'] = 'cweiske@cweiske.de';
+$_ENV['PEAR_QA_EMAIL'] = 'cweiske@cweiske.de';
+$_ENV['PEAR_DOC_EMAIL'] = 'cweiske@cweiske.de';
+$_ENV['PEAR_ANNOUNCE_EMAIL'] = 'cweiske@cweiske.de';
+$_ENV['PEAR_DEV_EMAIL'] = 'cweiske@cweiske.de';
+$_ENV['PEAR_GENERAL_EMAIL'] = 'cweiske@cweiske.de';
+$_ENV['PEAR_CORE_EMAIL'] = 'cweiske@cweiske.de';
+$_ENV['PEAR_BOUNCE_EMAIL'] = 'cweiske@cweiske.de';
+$_ENV['PEAR_CHANNEL_SUMMARY'] = 'devbox for cweiske';
+$_ENV['PEAR_AUTH_REALM'] = 'auth realm';
+$_ENV['PEAR_TARBALL_DIR'] = '/home/cweiske/Dev/cvs/pear/tmp-pearweb/';
+$_ENV['TRACKBACK_AKISMET_KEY_FILE'] = '/home/cweiske/Dev/cvs/pear/tmp-pearweb/akismetkey';
+$_ENV['PEAR_CHM_DIR'] = '/home/cweiske/Dev/cvs/pear/tmp-pearweb/';
+$_ENV['PEAR_APIDOC_DIR'] = '/home/cweiske/Dev/cvs/pear/tmp-pearweb/apidoc/';
+$_ENV['PEAR_PATCHES'] = '/home/cweiske/Dev/cvs/pear/tmp-pearweb/patches/';
+$_ENV['PEAR_CVS'] = '/home/cweiske/Dev/cvs/pear/tmp-pearweb/patches/cvs/';
+$_ENV['PROPOSAL_MAIL_PEAR_DEV'] = 'cweiske@cweiske.de';
+$_ENV['PROPOSAL_MAIL_PEAR_GROUP'] = 'cweiske@cweiske.de';
+$_ENV['PROPOSAL_MAIL_FROM'] = 'pearweb@bogo.home.cweiske.de';
+$_ENV['PEAR_WIKI_URL'] = '';
+$_ENV['PEAR_WIKI_DSN'] = '';
+
+require_once 'PEAR.php';
+PEAR::setErrorHandling(PEAR_ERROR_TRIGGER);
+include 'pear-prepend.php';
+?>
