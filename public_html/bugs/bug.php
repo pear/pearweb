@@ -547,7 +547,7 @@ $extra .= ' <link rel="alternate" type="application/rss+xml" title="RSS feed of 
 
 response_header("$bug_type #$id :: " . htmlspecialchars($bug['sdesc']), false, $extra);
 
-show_bugs_menu(txfield('package_name'));
+show_bugs_menu($bug['package_name']);
 
 // DISPLAY BUG
 if (!isset($_GET['thanks'])) {
