@@ -703,7 +703,7 @@ if (isset($auth_user) && $auth_user && $auth_user->registered) {
    echo '<td>&nbsp;</td>';
 } else {
 ?>
-    <td><label for="subscribe_email">Your email:</label>&nbsp;<input type="text" id="subscribe_email" value="" /></td>
+    <td><label for="subscribe_email">Your email:</label>&nbsp;<input type="text" id="subscribe_email" name="subscribe_email" value="" /></td>
     <td><input type="submit" name="subscribe_to_bug" value="Subscribe" /></td>
     <td><input type="submit" name="unsubscribe_to_bug" value="Unsubscribe" /></td>
 <?php
