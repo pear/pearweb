@@ -63,5 +63,5 @@ echo '</ul></li>';
 ?>
 <h3>Developer: <a href="/user/<?php echo $handle ?>"><?php echo $handle ?></a></h3>
 <pre>
-<?php echo htmlentities($patchcontents); ?>
+<?php echo htmlentities($patchcontents, null, 'UTF-8'); ?>
 </pre>
