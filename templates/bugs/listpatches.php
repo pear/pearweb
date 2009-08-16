@@ -12,23 +12,22 @@
  </thead>
  <tbody>
 <?php
-    foreach ($patches as $patch => $revisions) {
+    foreach ($patches as $lpPatch => $lpRevisions) {
         $url = 'patch-display.php?bug_id=' .  urlencode($bug)
-            . '&amp;patch=' . urlencode($patch)
+            . '&amp;patch=' . urlencode($lpPatch)
             . '&amp;revision=latest';
         $revobsolete = false;
 ?>
  <tr>
   <th class="details">
-   Patch <a href="<?php echo $url;?>"><?php echo clean($patch); ?></a>
+   Patch <a href="<?php echo $url;?>"><?php echo clean($lpPatch); ?></a>
   </th>
   <td>
 <?php
-        foreach ($revisions as $rev) {
+        foreach ($lpRevisions as $rev) {
             $revurl = 'patch-display.php?bug_id=' . urlencode($bug)
-                . '&amp;patch=' . urlencode($patch)
-                . '&amp;revision=' . $rev[0]
-                . '&amp;display=1';
+                . '&amp;patch=' . urlencode($lpPatch)
+                . '&amp;revision=' . $rev[0];
             if ($revobsolete) {
                 echo '<span class="obsolete">';
             }
