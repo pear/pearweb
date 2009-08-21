@@ -445,6 +445,7 @@ More UTF8 Encoding
      <file name="listpatches.php" role="www" />
      <file name="patchadded.php" role="www" />
      <file name="patchdiff.php" role="www" />
+     <file name="patchinfo.php" role="www" />
      <file name="patchdisplay.php" role="www" />
      <file name="patchform.php" role="www" />
      <file name="registernewaccount.php" role="www" />
