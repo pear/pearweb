@@ -107,17 +107,18 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
 
 if (isset($_ENV['PEAR_TMPDIR'])) {
     define('PEAR_TMPDIR', $_ENV['PEAR_TMPDIR']);
+    // Where pearweb's temporary uploads should be stored
+    define('PEAR_PATCHTRACKER_TMPDIR', PEAR_TMPDIR . '/patches');
 } else {
     // Where pearweb's temporary files should be stored
     define('PEAR_TMPDIR', '/var/tmp/pear');
+    define('PEAR_PATCHTRACKER_TMPDIR', '/home/pear/pearweb/patches/');
 }
 
 // Where pearweb's temporary CVS files should be stored
 define('PEAR_CVS_TMPDIR',          PEAR_TMPDIR . '/cvs');
 // Where pearweb's temporary uploads should be stored
 define('PEAR_UPLOAD_TMPDIR',       PEAR_TMPDIR . '/uploads');
-// Where pearweb's temporary uploads should be stored
-define('PEAR_PATCHTRACKER_TMPDIR', PEAR_TMPDIR . '/patches');
 
 if (isset($_ENV['PEAR_DATABASE_DSN'])) {
     define('PEAR_DATABASE_DSN', $_ENV['PEAR_DATABASE_DSN']);
