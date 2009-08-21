@@ -84,6 +84,7 @@ if (isset($patch) && isset($revision)) {
     include PEARWEB_TEMPLATEDIR . '/bugs/listpatches.php';
     if (isset($_GET['diff']) && $_GET['diff'] && isset($_GET['old']) && is_numeric($_GET['old'])) {
         $old = $patchinfo->getPatchFullpath($bug_id, $patch, $_GET['old']);
+        $diffoldrev = (int)$_GET['old'];
         $new = $path;
         if (!realpath($old) || !realpath($new)) {
             response_header('Error :: Cannot retrieve patch');
@@ -97,10 +98,12 @@ if (isset($patch) && isset($revision)) {
         assert_options(ASSERT_WARNING, 0);
         $d    = new Text_Diff($orig = file($old), $now = file($new));
         $diff = new Text_Diff_Renderer_pearweb($d);
+        include PEARWEB_TEMPLATEDIR . '/bugs/patchinfo.php';
         include PEARWEB_TEMPLATEDIR . '/bugs/patchdiff.php';
         response_footer();
         exit;
     }
+    include PEARWEB_TEMPLATEDIR . '/bugs/patchinfo.php';
     include PEARWEB_TEMPLATEDIR . '/bugs/patchdisplay.php';
     response_footer();
     exit;

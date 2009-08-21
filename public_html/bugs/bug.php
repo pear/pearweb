@@ -748,6 +748,9 @@ if (auth_check('pear.bug') || auth_check('pear.dev')) {
     control(1, 'Edit', $id, $edit);
 }
 
+control('patch-list.php', 'Patches', $id, $edit);
+control(6, 'Add patch', $id, $edit);
+
 ?>
 
 </div>
@@ -1320,16 +1323,31 @@ function delete_comment($id, $com_id)
     $res = $dbh->query($query);
 }
 
+/**
+ * Display a bug control tab (View, Add comment, edit etc.)
+ *
+ * @param mixed   $num  Current tab number - or URL when != bug.php
+ * @param string  $desc Tab label
+ * @param integer $id   Bug number
+ * @param mixed   $edit Current $num
+ *
+ * @return void
+ */
 function control($num, $desc, $id, $edit)
 {
     echo '<span id="control_' . $num . '" class="control';
-    if ($edit == $num) {
+    if ($edit === $num) {
         echo ' active">';
         echo $desc;
     } else {
         echo '">';
-        $add = $num ? "&amp;edit=$num" : '';
-        echo '<a href="bug.php?id=' . $id . $add . '">' . $desc . '</a>';
+        if (is_numeric($num)) {
+            $add = $num ? "&amp;edit=$num" : '';
+            $url = 'bug.php?id=' . $id . $add;
+        } else {
+            $url = $num;
+        }
+        echo '<a href="' . $url . '">' . $desc . '</a>';
     }
     echo "</span>\n";
 }
