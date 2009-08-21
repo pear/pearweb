@@ -1,19 +1,10 @@
 <?php if (count($patches)): ?>
-<div class="explain">
 <table class="patchlist">
- <thead>
- <tr>
-  <td>
-   <a href="bug.php?id=<?php echo urlencode($bug) ?>">Return to Bug #<?php echo clean($bug) ?></a>
-   <?php if ($canpatch): ?> | <a href="patch-add.php?bug_id=<?php echo urlencode($bug) ?>">Add a Patch</a>
-   <?php endif; //if ($canpatch) ?>
-  </td>
- </tr>
- </thead>
  <tbody>
 <?php
     foreach ($patches as $lpPatch => $lpRevisions) {
-        $url = 'patch-display.php?bug_id=' .  urlencode($bug)
+        $url = 'bug.php?id=' .  urlencode($bug)
+            . '&amp;edit=12'
             . '&amp;patch=' . urlencode($lpPatch)
             . '&amp;revision=latest';
         $revobsolete = false;
@@ -25,7 +16,8 @@
   <td>
 <?php
         foreach ($lpRevisions as $rev) {
-            $revurl = 'patch-display.php?bug_id=' . urlencode($bug)
+            $revurl = 'bug.php?id=' . urlencode($bug)
+                . '&amp;edit=12'
                 . '&amp;patch=' . urlencode($lpPatch)
                 . '&amp;revision=' . $rev[0];
             if ($revobsolete) {
@@ -47,5 +39,4 @@
 ?>
  </thead>
 </table>
-</div>
 <?php endif; //if (count($patches)) ?>

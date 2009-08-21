@@ -3,18 +3,80 @@
  * Display information about a patch (specific revision)
  *  and lists all revisions
  */
+
+$downurl = 'bug.php'
+    . '?id=' . $bug_id
+    . '&edit=12'
+    . '&patch=' . urlencode($patch)
+    . '&revision=' . urlencode($revision)
+    . '&download=1';
 ?>
-<h1>Patch version <?php echo format_date($revision) ?> for <?php echo clean($package) ?> Bug #<?php
-    echo clean($bug) ?></h1>
-
-<a href="bug.php?id=<?php echo urlencode($bug) ?>">
- Return to Bug #<?php echo clean($bug) ?>
-</a>
-| <a href="patch-display.php?bug_id=<?php echo urlencode($bug) ?>&patch=<?php echo urlencode($patch)
-    ?>&revision=<?php echo urlencode($revision) ?>&download=1">
- Download this patch
-</a><br />
-
+<div class="bugheader">
+<table class="details">
+ <tbody>
+  <tr>
+   <th>Patch</th>
+   <td><strong><?php echo $patch; ?></strong></td>
+   <th rowspan="5">Revisions</th>
+   <td rowspan="5">
+<?php
+echo '<ul style="padding: 0px; margin: 0px; margin-left: 10px;">';
+foreach ($revisions as $i => $rev) {
+    $url = 'bug.php'
+        . '?id=' . urlencode($bug)
+        . '&edit=12'
+        . '&patch=' . urlencode($patch)
+        . '&revision=' . urlencode($rev[0]);
+    $diffurl = '/bugs/bug.php'
+        . '?patch=' . urlencode($patch)
+        . '&id=' . $bug
+        . '&edit=12'
+        . '&diff=1&old=' . $rev[0]
+        . '&revision=' . $revision;
+    $same = $rev[0] == $revision;
+    $diffold = isset($diffoldrev) && $rev[0] == $diffoldrev;
+    echo '<li>';
+    echo '<a href="' . htmlspecialchars($url) . '">'
+        . ($same ? '<strong>' : '')
+        . ($diffold ? '<em>' : '')
+        . format_date($rev[0])
+        . ($diffold ? '</em>' : '')
+        . ($same ? '</strong>' : '')
+        . '</a>';
+    if (!$same && !$diffold) {
+        echo ' <a href="' . htmlspecialchars($diffurl) . '">'
+            . '[diff to current]'
+            . '</a>';
+    }
+    echo '</li>';
+}
+echo '</ul></li>';
+?>
+   </td>
+  </tr>
+  <tr>
+   <th>Revision</th>
+   <td><?php echo format_date($revision); ?></td>
+  </tr>
+  <tr>
+   <th>Developer</th>
+   <td>
+    <a href="/user/<?php echo $handle; ?>"><?php echo $handle; ?></a>
+   </td>
+  </tr>
+  <tr>
+   <td>&nbsp;</td><td></td>
+  </tr>
+  <tr>
+   <td></td>
+   <td>
+    <a href="<?php echo $downurl; ?>">Download patch</a>
+   </td>
+  </tr>
+ </tbody>
+</table>
+</div>
+<br/>
 
 <?php
 if (count($obsoletedby)) {
@@ -44,38 +106,4 @@ if (count($obsoletes)) {
     echo '</ul></p>';
 }
 ?>
-
-Patch Revisions:
-<?php
-echo '<ul>';
-foreach ($revisions as $i => $rev) {
-    $url = 'patch-display.php'
-        . '?bug_id=' . urlencode($bug)
-        . '&patch=' . urlencode($patch)
-        . '&revision=' . urlencode($rev[0]);
-    $diffurl = '/bugs/patch-display.php?patch='
-        . urlencode($patch)
-        . '&bug_id=' . $bug
-        . '&diff=1&old=' . $rev[0]
-        . '&revision=' . $revision;
-    $same = $rev[0] == $revision;
-    $diffold = isset($diffoldrev) && $rev[0] == $diffoldrev;
-    echo '<li>';
-    echo '<a href="' . htmlspecialchars($url) . '">'
-        . ($same ? '<strong>' : '')
-        . ($diffold ? '<em>' : '')
-        . format_date($rev[0])
-        . ($diffold ? '</em>' : '')
-        . ($same ? '</strong>' : '')
-        . '</a>';
-    if (!$same && !$diffold) {
-        echo ' <a href="' . htmlspecialchars($diffurl) . '">'
-            . '[diff to current]'
-            . '</a>';
-    }
-    echo '</li>';
-}
-echo '</ul></li>';
-?>
-<h3>Developer: <a href="/user/<?php echo $handle ?>"><?php echo $handle ?></a></h3>
 

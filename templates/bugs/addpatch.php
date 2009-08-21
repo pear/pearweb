@@ -1,8 +1,8 @@
 <?php
-response_header('Add Patch :: ' . clean($package));
-show_bugs_menu(clean($package));
+$formurl = 'bug.php'
+    . '?id=' . $id
+    . '&edit=13';
 ?>
-<h2>Add a Patch to <a href="/bugs/<?php echo clean($bug) ?>">Bug #<?php echo clean($bug) ?></a> for Package <?php echo '<a href="/package/', clean($package), '">', clean($package), '</a>'; ?></h2>
 <ul>
  <li>One problem per patch, please</li>
  <li>Patches must be 100k or smaller</li>
@@ -10,7 +10,10 @@ show_bugs_menu(clean($package));
  <li>Only text/plain files accepted</li>
  <li>choose a meaningful patch name (i.e. add-fronk-support)</li>
 </ul>
-<form name="patchform" method="post" action="patch-add.php" enctype="multipart/form-data">
+
+<form name="patchform" method="post"
+ action="<?php echo $formurl; ?>" enctype="multipart/form-data"
+>
 <input type="hidden" name="MAX_FILE_SIZE" value="102400" />
 <input type="hidden" name="bug" value="<?php echo clean($bug) ?>" />
 <?php

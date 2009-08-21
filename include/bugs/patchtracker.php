@@ -186,6 +186,7 @@ class Bugs_Patchtracker
                 'text/x-c++',
                 'text/x-c',
                 'text/x-c++ charset=us-ascii',//bug in finfo
+                'text/plain charset=us-ascii',
             );
 
             // return mime type ala mimetype extension
@@ -298,6 +299,25 @@ class Bugs_Patchtracker
             false, array($bugid),
             DB_FETCHMODE_ORDERED, true
         );
+    }
+
+    /**
+     * Retrieve the number of patches for a bug
+     *
+     * @param int $bugid
+     *
+     * @return integer
+     */
+    function getPatchCount($bugid)
+    {
+        $res = $this->_dbh->getRow(
+            'SELECT COUNT(*) as number
+                FROM bugdb_patchtracker, users
+                WHERE bugdb_id = ? AND users.handle = bugdb_patchtracker.developer',
+            false, array($bugid),
+            DB_FETCHMODE_ORDERED, true
+        );
+        return (int)$res[0];
     }
 
     /**

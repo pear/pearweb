@@ -44,6 +44,18 @@ if (empty($_REQUEST['id']) || !(int)$_REQUEST['id']) {
 }
 
 $id   = (int)$_REQUEST['id'];
+/**
+ * Edit mode
+ *  0 - View bug
+ *  1 - Edit bug (user authenticated)
+ *  2 - Add comment (old code)
+ *  3 - Add comment (anonymously)
+ * 11 - List patches
+ * 12 - Patch details
+ * 13 - Add patch
+ * 
+ * @var integer
+ */
 $edit = (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) ?  0 : (int)$_REQUEST['edit'];
 
 if (isset($_GET['unsubscribe'])) {
@@ -577,13 +589,15 @@ if ($_GET['thanks'] == 1 || $_GET['thanks'] == 2) {
     report_success('Your unsubscribe request has been processed, please check your email');
 } elseif ($_GET['thanks'] == 9) {
     report_success('You have successfully unsubscribed');
+} elseif ($_GET['thanks'] == 13) {
+    report_success('Patch added');
 }
 
 report_error($errors);
 ?>
 
-<div id="bugheader">
-<table id="details">
+<div class="bugheader">
+<table class="details">
   <tr id="title">
 <?php
        echo '<th id="number">' . $bug_type . '&nbsp;#' . $id . '</th>';
@@ -737,7 +751,7 @@ if (isset($auth_user) && $auth_user && $auth_user->registered) {
 
 <?php
 
-control(0, 'View', $id, $edit);
+control(0, 'Comments', $id, $edit);
 if (
     (!(isset($auth_user) && $auth_user && $auth_user->registered) || !auth_check('pear.dev')) && $edit != 2
 ) {
@@ -748,8 +762,19 @@ if (auth_check('pear.bug') || auth_check('pear.dev')) {
     control(1, 'Edit', $id, $edit);
 }
 
-control('patch-list.php', 'Patches', $id, $edit);
-control(6, 'Add patch', $id, $edit);
+// Display patches                                                       
+require_once 'bugs/patchtracker.php';
+$patches = new Bugs_Patchtracker();
+$patchcount = $patches->getPatchCount($id);
+if ($patchcount > 0) {
+    control(11, $patchcount . ' Patches', $id, $edit);
+}
+//show patch details only when active
+if ($edit == 12) {
+    control(12, 'Patch details', $id, $edit);
+}
+
+control(13, 'Add patch', $id, $edit);
 
 ?>
 
@@ -1040,26 +1065,21 @@ if ($edit == 1 || $edit == 2) {
      <?php endif; //if (auth_check('pear.dev'))?>
     </table>
 <?php
+} else if ($edit == 11 || $edit == 12) {
+    //list patches
+    echo '<br/><br/><br/>';
+    require 'patch-display.php';
+    response_footer();
+    exit();
+} else if ($edit == 13) {
+    //add patch
+    echo '<br/><br/><br/>';
+    require 'patch-add.php';
+    response_footer();
+    exit();
 } else {
     echo '<br /><br />';
 }
-
-    // Display patches
-    require_once 'bugs/patchtracker.php';
-    $patches = new Bugs_Patchtracker;
-    $p = $patches->listPatches($id);
-    ?>
-    <h2>Patches</h2>
-    <p><a href="patch-add.php?bug_id=<?php echo $id; ?>">Add a Patch</a><br /><br />
-    <?php
-    foreach ($p as $name => $revisions) {
-        $obsolete = $patches->getObsoletingPatches($bug['id'], $name, $revisions[0][0]);
-        $style = !empty($obsolete) ? ' style="background-color: yellow; text-decoration: line-through;" ' : '';
-        ?><a href="patch-display.php?bug_id=<?php echo $bug['id'] ?>&patch=<?php
-            echo urlencode($name) ?>&revision=latest" <?php echo $style; ?>><?php echo clean($name) ?></a> (last revision <?php echo format_date($revisions[0][0]) ?> by <?php echo $revisions[0][1] ?>)<br /><?php
-            echo "\n";
-    }
-    echo '</p>';
 
 if ($edit == 1 || $edit == 2) {
 ?>
@@ -1326,7 +1346,7 @@ function delete_comment($id, $com_id)
 /**
  * Display a bug control tab (View, Add comment, edit etc.)
  *
- * @param mixed   $num  Current tab number - or URL when != bug.php
+ * @param mixed   $num  Current tab number
  * @param string  $desc Tab label
  * @param integer $id   Bug number
  * @param mixed   $edit Current $num
@@ -1341,12 +1361,9 @@ function control($num, $desc, $id, $edit)
         echo $desc;
     } else {
         echo '">';
-        if (is_numeric($num)) {
-            $add = $num ? "&amp;edit=$num" : '';
-            $url = 'bug.php?id=' . $id . $add;
-        } else {
-            $url = $num;
-        }
+        $add = $num ? "&amp;edit=$num" : '';
+        $url = 'bug.php?id=' . $id . $add;
+
         echo '<a href="' . $url . '">' . $desc . '</a>';
     }
     echo "</span>\n";

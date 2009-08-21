@@ -42,6 +42,7 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PROPOSAL_MAIL_FROM',         $_ENV['PROPOSAL_MAIL_FROM']);
     define('PEAR_WIKI_URL',              $_ENV['PEAR_WIKI_URL']);
     define('PEAR_WIKI_DSN',              $_ENV['PEAR_WIKI_DSN']);
+    define('PEARWEB_BUGS_ML_EMAIL',      $_ENV['PEARWEB_BUGS_ML_EMAIL']);
 } else {
     define('SITE', 'pear');
     define('SITE_BIG', strtoupper(SITE));
@@ -116,7 +117,7 @@ define('PEAR_CVS_TMPDIR',          PEAR_TMPDIR . '/cvs');
 // Where pearweb's temporary uploads should be stored
 define('PEAR_UPLOAD_TMPDIR',       PEAR_TMPDIR . '/uploads');
 // Where pearweb's temporary uploads should be stored
-define('PEAR_PATCHTRACKER_TMPDIR', '/home/pear/pearweb/patches/');
+define('PEAR_PATCHTRACKER_TMPDIR', PEAR_TMPDIR . '/patches');
 
 if (isset($_ENV['PEAR_DATABASE_DSN'])) {
     define('PEAR_DATABASE_DSN', $_ENV['PEAR_DATABASE_DSN']);
