@@ -39,7 +39,7 @@ $books = array(
                      "publisher" => "Packt Publishing",
                      "image" => "1904811795.png",
                      ),
-               array("title" => "PHP PEAR &mdash; Anwendung und Entwicklung - Erweiterungen für PHP schreiben",
+               array("title" => "PHP PEAR &mdash; Anwendung und Entwicklung - Erweiterungen f&uuml;r PHP schreiben",
                      "authors" => array("Carsten M&ouml;hrke"),
                      "pearuser" => array(),
                      "isbn" => "3898425800",

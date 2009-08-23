@@ -33,7 +33,6 @@ of pear.php.net. Pick a mirror site close to you, or visit
 the provider's homepage:
 </p>
 
-<p>
 <table border="0" cellpadding="2" cellspacing="1" width="100%">
  <tr bgcolor="#cccccc">
   <th>Mirror Address</th>
@@ -46,7 +45,7 @@ the provider's homepage:
     $mprevious = 'aa';
     foreach ($MIRRORS as $murl => $mdata) {
         echo '<tr bgcolor="#e0e0e0"><td>', make_link($murl, $murl),
-             '</td><td>', make_link($mdata[3], $mdata[1]);
+             '</td><td>', make_link($mdata[3], $mdata[1]), '</td>';
         echo '<td>';
         if ($mprevious != $mdata[0]) {
             echo $COUNTRIES[$mdata[0]];
@@ -69,7 +68,6 @@ the provider's homepage:
     }
 ?>
 </table>
-</p>
 
 <!--
 <p>
