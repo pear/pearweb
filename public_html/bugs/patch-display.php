@@ -6,14 +6,23 @@
 $revision = isset($_GET['revision']) ? $_GET['revision'] : null;
 $patch    = isset($_GET['patch'])    ? $_GET['patch'] : null;
 
+//$id is set when being included
 if (!isset($id)) {
-    //redirect to bug.php - probably an old link
-    //FIXME
+    /**
+     * Old links to patches may call this script directly
+     * - in this case, redirect to new URL
+     */
     $bug_id = isset($_GET['bug']) ? (int)$_GET['bug'] : null;
     if ($bug_id === null && isset($_GET['bug_id'])) {
         $bug_id = (int)$_GET['bug_id'];
     }
-    header("Location: /bugs/bug.php?id=$bug_id&edit=11");
+    $spat = $patch == null ? '': '&patch=' . $patch;
+    $srev = $revision == null ? '': '&revision=' . $revision;
+    $edit = $spat ? 12 : 11;
+    header(
+        'Location: /bugs/bug.php'
+        . "?id=$bug_id&edit=" . $edit . $spat . $srev
+    );
     exit();
 }
 
