@@ -1,7 +1,7 @@
 <?php
 $formurl = 'bug.php'
     . '?id=' . $id
-    . '&edit=13';
+    . '&amp;edit=13';
 ?>
 <ul>
  <li>One problem per patch, please</li>
@@ -62,7 +62,7 @@ if (!$loggedin) {?>
    Old patches this patch should replace:
   </th>
   <td class="form-input">
-   <select name="obsoleted[]" multiple="true" size="5">
+   <select name="obsoleted[]" size="5">
     <option value="0">(none)</option>
    <?php
    foreach ($patches as $patchname => $patch2) {
