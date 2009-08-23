@@ -185,8 +185,6 @@ class Bugs_Patchtracker
                 'text/x-patch',
                 'text/x-c++',
                 'text/x-c',
-                'text/x-c++ charset=us-ascii',//bug in finfo
-                'text/plain charset=us-ascii',
             );
 
             // return mime type ala mimetype extension
@@ -201,8 +199,11 @@ class Bugs_Patchtracker
 
             // get mime-type for a specific file
             $mime = $finfo->file($file->getProp('tmp_name'));
-            // get rid of the charset part
+            // get rid of the comment
             $t    = explode(';', $mime);
+            $mime = $t[0];
+            //get rid of charset
+            $t    = explode(' ', $mime);
             $mime = $t[0];
 
             if (!in_array($mime, $allowed_mime_types)) {

@@ -1,12 +1,15 @@
 <?php
+if (!isset($id)) {
+    header('HTTP/1.0 400 Bad Request');
+    exit();
+}
+
 $canpatch = true;
 
-// Numeral Captcha Class
 require_once 'Text/CAPTCHA/Numeral.php';
-// Instantiate the numeral captcha object.
 $numeralCaptcha = new Text_CAPTCHA_Numeral();
 
-$patchinfo = new Bugs_Patchtracker;
+$patchinfo = new Bugs_Patchtracker();
 // captcha is not necessary if the user is logged in
 if (isset($auth_user) && $auth_user->registered) {
     auth_require('pear.dev', 'pear.bug');
@@ -21,229 +24,21 @@ if (PEAR::isError($buginfo = $patchinfo->getBugInfo($id))) {
     response_footer();
     exit;
 }
+
 $loggedin = isset($auth_user) && $auth_user->registered;
 
 if (!isset($_POST['addpatch'])) {
     /**
-     * Normal patch form
+     * Normal patch form with predefined variables
      */
-    $email   = isset($_GET['email']) ? $_GET['email'] : '';
-    $errors  = array();
-    $package = $buginfo['package_name'];
-    $bug     = $buginfo['id'];
-    $name    = isset($_GET['patch']) ? $_GET['patch'] : '';
-    $patches = $patchinfo->listPatches($bug);
-    $captcha = $numeralCaptcha->getOperation();
+    $email     = isset($_GET['email']) ? $_GET['email'] : '';
+    $errors    = array();
+    $package   = $buginfo['package_name'];
+    $bug       = $buginfo['id'];
+    $patchname = isset($_GET['patchname']) ? $_GET['patchname'] : '';
+    $captcha   = $numeralCaptcha->getOperation();
     $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-    include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
-    exit();
 }
-
-/**
- * Handle patch upload
- */
-if (!isset($_POST['obsoleted'])) {
-    $_POST['obsoleted'] = array();
-}
-
-$email = isset($_POST['email']) ? $_POST['email'] : '';
-
-if (!isset($_POST['name']) || empty($_POST['name'])
-    || !is_string($_POST['name'])
-) {
-    $package = $buginfo['package_name'];
-    $bug     = $buginfo['id'];
-    if (!is_string($_POST['name'])) {
-        $_POST['name'] = '';
-    }
-    $name     = $_POST['name'];
-    $patches  = $patchinfo->listPatches($bug);
-    $errors[] = 'No patch name entered';
-    $captcha  = $numeralCaptcha->getOperation();
-    include PEARWEB_TEMPLATEDIR. '/bugs/addpatch.php';
-    exit;
-}
-
-if (!$loggedin) {
-    try {
-        $errors = array();
-        if (empty($_POST['email'])) {
-            $errors[] = 'Email address must be valid!';
-        }
-        $preg = "/^[.\\w+-]+@[.\\w-]+\\.\\w{2,}\z/i";
-        if (!preg_match($preg,$_POST['email'])) {
-            $errors[] = 'Email address must be valid!';
-        }
-        /**
-         * Check if session answer is set, then compare
-         * it with the post captcha value. If it's not
-         * the same, then it's an incorrect password.
-         */
-        if (isset($_SESSION['answer'])
-            && strlen(trim($_SESSION['answer'])) > 0
-        ) {
-            if ($_POST['captcha'] != $_SESSION['answer']) {
-                $errors[] = 'Incorrect Captcha';
-            }
-        }
-        if (count($errors)) {
-            throw new Exception('');
-        }
-        // user doesn't exist yet
-        require_once 'bugs/pear-bug-accountrequest.php';
-        $buggie = new PEAR_Bug_Accountrequest();
-        $salt = $buggie->addRequest($_POST['email']);
-        if (is_array($salt)) {
-            $errors = $salt;
-            response_header('Add patch - Problems');
-            throw new Exception('');
-        }
-        if (PEAR::isError($salt)) {
-            $errors[] = $salt;
-            response_header('Add patch - Problems');
-            throw new Exception('');
-        }
-        if ($salt === false) {
-            $errors[] = 'Your account cannot be added to the queue.'
-                . ' Please write a mail message to the '
-                . ' <i>pear-dev</i> mailing list.';
-            response_header('Add patch - Problems');
-            throw new Exception('');
-        }
-
-        $bug = $buginfo['id'];
-        PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
-        $e = $patchinfo->attach($bug, 'patch', $_POST['name'],
-                                $buggie->handle, $_POST['obsoleted']);
-        PEAR::popErrorHandling();
-        if (PEAR::isError($e)) {
-            $buggie->deleteRequest();
-            $package = $buginfo['package_name'];
-            $bug = $buginfo['id'];
-            if (!is_string($_POST['name'])) {
-                $_POST['name'] = '';
-            }
-            $name = $_POST['name'];
-            $patches = $patchinfo->listPatches($bug);
-            $errors[] = $e->getMessage();
-            $errors[] =
-                'Could not attach patch "' .
-                htmlspecialchars($_POST['name']) .
-                '" to Bug #' . $bug;
-            $captcha = $numeralCaptcha->getOperation();
-            $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-            include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
-            exit;
-        }
-
-        try {
-            $buggie->sendEmail();
-        } catch (Exception $e) {
-            response_header('Error sending confirmation email');
-            report_error(array('Patch was successfully attached, but account confirmation email not sent, please report to ' .  PEAR_DEV_EMAIL, $e));
-            response_footer();
-            exit;
-        }
-        localRedirect('/bugs/bug.php?id=' . $bug . '&edit=12&patch=' .
-                      urlencode($_POST['name']) . '&revision=' . $e);
-        exit;
-    } catch (Exception $e) {
-        $package = $buginfo['package_name'];
-        $bug = $buginfo['id'];
-        if (!is_string($_POST['name'])) {
-            $_POST['name'] = '';
-        }
-        $name = $_POST['name'];
-        $patches = $patchinfo->listPatches($bug);
-        $captcha = $numeralCaptcha->getOperation();
-        $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-        include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
-        exit;
-    }
-}
-
-$bug = $buginfo['id'];
-PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
-$e = $patchinfo->attach(
-    $bug, 'patch', $_POST['name'],
-    $auth_user->handle, $_POST['obsoleted']
-);
-PEAR::popErrorHandling();
-if (PEAR::isError($e)) {
-    $package = $buginfo['package_name'];
-    if (!is_string($_POST['name'])) {
-        $_POST['name'] = '';
-    }
-    $name    = $_POST['name'];
-    $patches = $patchinfo->listPatches($bug);
-    $errors  = array(
-        $e->getMessage(),
-        'Could not attach patch "' .
-        htmlspecialchars($_POST['name']) . '" to Bug #' . $bug
-    );
-    $captcha = $numeralCaptcha->getOperation();
-    $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-
-    include PEARWEB_TEMPLATEDIR . '/bugs/addpatch.php';
-    exit;
-}
-
-// {{{ Email after the patch is added and add a comment to the bug report.
-if (!isset($buggie)) {
-    $patch_name = $_POST['name'];
-    $url    = "bug.php?id=$bug&edit=12&patch=$patch_name&revision=$e";
-    $bugurl ='http://' . PEAR_CHANNELNAME . '/bugs/' . $url;
-    // Add a comment about this in the bug report
-    $text = <<<TXT
-        The following patch has been added/updated:
-
-    Patch Name:  $patch_name
-        Revision:    $e
-        URL:         $bugurl
-TXT;
-
-    $query = 'INSERT INTO bugdb_comments' .
-        ' (bug, email, ts, comment, reporter_name, handle) VALUES (?, ?, NOW(), ?, ?, ?)';
-    $dbh->query(
-        $query,
-        array(
-            $bug, $auth_user->email, $text,
-            $auth_user->name, $auth_user->handle
-        )
-    );
-
-    /**
-     * Email the package maintainers/leaders about
-     * the new patch added to their bug request.
-     */
-    require_once 'bugs/pear-bugs-utils.php';
-    $patch = array(
-        'patch'        => $patch_name,
-        'bug_id'       => $bug,
-        'revision'     => $e,
-        'package_name' => $buginfo['package_name'],
-    );
-    $res = PEAR_Bugs_Utils::sendPatchEmail($patch);
-
-    if (PEAR::isError($res)) {
-        // Patch not sent. Let's handle it here but not now..
-    }
-}
-// }}}
-localRedirect(
-    '/bugs/bug.php'
-    . '?id=' . $bug
-    . '&edit=12'
-    . '&patch=' . urlencode($_POST['name'])
-    . '&revision=' . $e
-    . '&thanks=13'
-);
-
-$package = $buginfo['package_name'];
-$bug     = $buginfo['id'];
-$name    = $_POST['name'];
-$patches = $patchinfo->listPatches($bug);
-$errors  = array();
-include PEARWEB_TEMPLATEDIR . '/bugs/patchadded.php';
-
+$patches = $patchinfo->listPatches($id);
+include PEARWEB_TEMPLATEDIR. '/bugs/addpatch.php';
 ?>

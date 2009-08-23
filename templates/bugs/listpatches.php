@@ -3,7 +3,7 @@
  <tbody>
 <?php
     foreach ($patches as $lpPatch => $lpRevisions) {
-        $url = 'bug.php?id=' .  urlencode($bug)
+        $url = 'bug.php?id=' .  urlencode($id)
             . '&amp;edit=12'
             . '&amp;patch=' . urlencode($lpPatch)
             . '&amp;revision=latest';
@@ -16,7 +16,7 @@
   <td>
 <?php
         foreach ($lpRevisions as $rev) {
-            $revurl = 'bug.php?id=' . urlencode($bug)
+            $revurl = 'bug.php?id=' . urlencode($id)
                 . '&amp;edit=12'
                 . '&amp;patch=' . urlencode($lpPatch)
                 . '&amp;revision=' . $rev[0];
@@ -30,6 +30,9 @@
                 echo '</span>';
             }
             $revobsolete = true;
+            if ($listpatches_showone) {
+                break;
+            }
         } //foreach ($revisions as $rev)
     ?>
   </td>

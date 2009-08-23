@@ -30,7 +30,8 @@ require_once './include/prepend.inc';
 require_once './include/cvs-auth.inc';
 
 require_once 'bugs/pear-bugs-utils.php';
-$pbu = new PEAR_Bugs_Utils;
+require_once 'bugs/patchtracker.php';
+$pbu = new PEAR_Bugs_Utils();
 
 // Numeral Captcha Class
 require_once 'Text/CAPTCHA/Numeral.php';
@@ -245,7 +246,12 @@ if ($edit === 1 && isset($auth_user) && $auth_user && $auth_user->registered) {
 // handle any updates, displaying errors if there were any
 $errors = array();
 
-if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
+if (isset($_POST['addpatch'])) {
+    //handle patch upload
+    require 'handle-patch.php';
+} else if (isset($_POST['ncomment']) && !isset($_POST['preview'])
+    && $edit == 3
+) {
     // Submission of additional comment by others
 
     /* Check if session answer is set, then compare
@@ -538,8 +544,9 @@ if (isset($_POST['ncomment']) && !isset($_POST['preview']) && $edit == 3) {
     $ncomment = '';
 }
 
-if (isset($_POST['in']) && (!isset($_POST['preview']) && $ncomment ||
-      $previous != $current)) {
+if (isset($_POST['in'])
+    && (!isset($_POST['preview']) && $ncomment || $previous != $current)
+) {
     if (!$errors) {
         if (!isset($buggie)) {
             mail_bug_updates($bug, $_POST['in'], $from, $ncomment, $edit, $id, $previous, $current);
@@ -754,7 +761,6 @@ if (isset($auth_user) && $auth_user && $auth_user->registered) {
 control(0, 'Comments', $id, $edit);
 
 // Display patches                                                       
-require_once 'bugs/patchtracker.php';
 $patches = new Bugs_Patchtracker();
 $patchcount = $patches->getPatchCount($id);
 if ($patchcount > 0) {

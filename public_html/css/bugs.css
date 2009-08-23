@@ -104,6 +104,9 @@ div.bugheader {
     width: 100%;
 }
 
+div.bugheader table.details td {
+    vertical-align: top;
+}
 div.bugheader table.details th {
     text-align: right;
     vertical-align: top;

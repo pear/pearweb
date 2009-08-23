@@ -80,9 +80,9 @@ foreach ($revisions as $i => $rev) {
 if (count($obsoletedby)) {
     echo '<div class="warnings">This patch is obsolete</div><p>Obsoleted by patches:<ul>';
     foreach ($obsoletedby as $betterpatch) {
-        echo '<li><a href="/bugs/patch-display.php?patch=',
+        echo '<li><a href="/bugs/bug.php?edit=12&amp;patch=',
              urlencode($betterpatch['patch']),
-             '&bug_id=', $bug, '&revision=', $betterpatch['revision'],
+             '&amp;id=', $bug, '&amp;revision=', $betterpatch['revision'],
              '">', htmlspecialchars($betterpatch['patch']), ', revision ',
              format_date($betterpatch['revision']), '</a></li>';
     }
@@ -94,10 +94,10 @@ if (count($obsoletes)) {
     echo '<div class="warnings">This patch renders other patches obsolete</div>',
          '<p>Obsolete patches:<ul>';
     foreach ($obsoletes as $betterpatch) {
-        echo '<li><a href="/bugs/patch-display.php?patch=',
+        echo '<li><a href="/bugs/bug.php?edit=12&amp;patch=',
              urlencode($betterpatch['obsolete_patch']),
-             '&bug_id=', $bug,
-             '&revision=', $betterpatch['obsolete_revision'],
+             '&amp;id=', $bug,
+             '&amp;revision=', $betterpatch['obsolete_revision'],
              '">', htmlspecialchars($betterpatch['obsolete_patch']), ', revision ',
              format_date($betterpatch['obsolete_revision']), '</a></li>';
     }

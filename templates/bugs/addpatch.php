@@ -16,13 +16,6 @@ $formurl = 'bug.php'
 >
 <input type="hidden" name="MAX_FILE_SIZE" value="102400" />
 <input type="hidden" name="bug" value="<?php echo clean($bug) ?>" />
-<?php
-if ($errors) {
-    foreach ($errors as $err) {
-        echo '<div class="errors">' . htmlspecialchars($err) . '</div>';
-    }
-}
-?>
 <table>
 <?php
 if (!$loggedin) {?>
@@ -44,7 +37,7 @@ if (!$loggedin) {?>
    Patch Name
   </th>
   <td class="form-input">
-   <input type="text" maxlength="40" name="name" value="<?php echo clean($name) ?>" /><br />
+   <input type="text" maxlength="40" name="patchname" value="<?php echo clean($patchname) ?>" /><br />
    <small>The patch name must be shorter than 40 characters and it must only contain alpha-numeric characters, dots, underscores or hyphens.</small>
   </td>
  </tr>
@@ -62,13 +55,13 @@ if (!$loggedin) {?>
    Old patches this patch should replace:
   </th>
   <td class="form-input">
-   <select name="obsoleted[]" size="5">
+   <select name="obsoleted[]" size="5" multiple="multiple">
     <option value="0">(none)</option>
    <?php
-   foreach ($patches as $patchname => $patch2) {
+   foreach ($patches as $patchesname => $patch2) {
        foreach ($patch2 as $patch) {
-           echo '<option value="', htmlspecialchars($patchname . '#' . $patch[0]),
-                '">', htmlspecialchars($patchname), ', Revision ',
+           echo '<option value="', htmlspecialchars($patchesname . '#' . $patch[0]),
+                '">', htmlspecialchars($patchesname), ', Revision ',
                 format_date($patch[0]), ' (', $patch[1], ')</option>';
        }
    }
@@ -87,5 +80,6 @@ if (!$loggedin) {?>
 }
 
 $canpatch = false;
+$listpatches_showone = true;
 require dirname(__FILE__) . '/listpatches.php';
 response_footer(); ?>
