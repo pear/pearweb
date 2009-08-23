@@ -134,6 +134,7 @@ More UTF8 Encoding
      <dir name="Diff">
       <file name="pearweb.php" role="www" />
      </dir> <!-- /include/bugs/Diff -->
+     <file name="handle-patch.php" role="www" />
      <file name="patchtracker.php" role="www" />
      <file name="pear-bug-accountrequest.php" role="www" />
      <file name="pear-bugs-utils.php" role="www" />
