@@ -29,7 +29,7 @@ $packages = package::listAllNames();
 .bug-box {
     display: table-cell;
     width: 33%;
-    padding: 1.0em;
+    padding: 0.5em;
     border:1px solid white;
 }
 
@@ -39,7 +39,7 @@ $packages = package::listAllNames();
 }
 
 .bug-box form {
-    margin: 2.0em;
+    margin: 0.5em;
 }
 </style>
 <div class="bug-box">
@@ -52,7 +52,7 @@ $packages = package::listAllNames();
             <select name="package">
                 <option selected="selected">Choose your package</option>
                 <?php foreach ($packages as $id => $package) { ?>
-                    <option name="<?php print $id; ?>"><?php print $package; ?></option>
+                    <option value="<?php print $id; ?>"><?php print $package; ?></option>
                 <?php } ?>
             </select>
             <input type="submit" name="action" value="Go" />
@@ -75,7 +75,7 @@ $packages = package::listAllNames();
             <select name="package">
                 <option selected="selected">Choose your package</option>
                 <?php foreach ($packages as $id => $package) { ?>
-                    <option name="<?php print $id; ?>"><?php print $package; ?></option>
+                    <option value="<?php print $id; ?>"><?php print $package; ?></option>
                 <?php } ?>
             </select>
             <input type="submit" name="action" value="Go" />
@@ -90,11 +90,11 @@ $packages = package::listAllNames();
     <p>Not sure if its a bug?</p>
 
     <p>Try some of our support channels, and don't forget to <a href="http://pastebin.com">use pastebin</a>.
-        <ul>
-            <li>The <a href="/support/lists.php">pear-general mailing list</a></li>
-            <li>The <a href="irc://efnet/#pear">#pear IRC channel</a> on EFnet</li>
-        </ul>
     </p>
+    <ul>
+     <li>The <a href="/support/lists.php">pear-general mailing list</a></li>
+     <li>The <a href="irc://efnet/#pear">#pear IRC channel</a> on EFnet</li>
+    </ul>
     
 </div>
 <h2 style="margin-top: 2.0em">Search, Tips, Tools and Statistics</h2>

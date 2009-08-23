@@ -163,7 +163,7 @@ $res = category::listAll();
 <table>
  <tr>
   <td style="white-space: nowrap">
-   <form method="get" action="stats.php<?php echo $query_string ?>">
+   <form method="get" action="stats.php<?php echo htmlspecialchars($query_string) ?>">
    <p><strong>
     <label for="category" accesskey="o">
      Categ<span class="accesskey">o</span>ry:
@@ -242,9 +242,9 @@ if ($total == 0) {
     exit;
 }
 
-echo display_stat_header($total, true, $titles);
+echo '<thead>' . display_stat_header($total, true, $titles) . '</thead>';
 
-echo " <tr>\n";
+echo "<tbody><tr>\n";
 echo '  <td class="bug_head">All' . "</td>\n";
 echo '  <td class="bug_bg0">' . $total . "</td>\n";
 
@@ -283,6 +283,7 @@ foreach ($pkg[$sort_by] as $name => $value) {
     }
 }
 ?>
+ </tbody>
 </table>
 <?php
 response_footer();
@@ -299,9 +300,10 @@ function bugstats($status, $name)
 
     if ($name == 'all') {
         if (isset($all[$status])) {
-            return '<a href="search.php?cmd=display&amp;' .
-                   'bug_type='.$bug_type.'&amp;status=' .$status .
-                   '&amp;by=Any&amp;limit=30">' .
+            return '<a href="search.php?cmd=display'
+                . '&amp;bug_type='.$bug_type
+                . '&amp;status=' . urlencode($status)
+                . '&amp;by=Any&amp;limit=30">' .
                    $all[$status] . "</a>\n";
         }
     } else {
@@ -309,12 +311,12 @@ function bugstats($status, $name)
             return '&nbsp;';
         }
 
-        return '<a href="search.php?cmd=display&amp;'.
-               'bug_type='.$bug_type.'&amp;status=' .
-               $status .
-               '&amp;package_name%5B%5D=' . urlencode($name) .
-               '&amp;by=Any&amp;limit=30">' .
-               $pkg[$status][$name] . "</a>\n";
+        return '<a href="search.php?cmd=display'
+            . '&amp;bug_type=' . $bug_type
+            . '&amp;status=' . urlencode($status)
+            . '&amp;package_name%5B%5D=' . urlencode($name)
+            . '&amp;by=Any&amp;limit=30">'
+            . $pkg[$status][$name] . "</a>\n";
     }
 }
 
@@ -332,10 +334,10 @@ function sort_url($name)
     } else {
         $attr = 'class="bug_stats_choosen"';
     }
-    return '<a href="./stats.php?sort_by=' . urlencode($name) .
-           '&amp;rev=' . $reve . '&amp;category=' . $category .
-           '&amp;developer=' . $developer . '" ' . $attr . '>' .
-           $titles[$name] . '</a>';
+    return '<a href="./stats.php?sort_by=' . urlencode($name)
+        . '&amp;rev=' . $reve . '&amp;category=' . urlencode($category)
+        . '&amp;developer=' . $developer . '" ' . $attr . '>'
+        . $titles[$name] . '</a>';
 }
 
 function package_link($name)
