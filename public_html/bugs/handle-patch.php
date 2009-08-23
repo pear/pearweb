@@ -171,11 +171,10 @@ if (!isset($buggie)) {
     $bugurl    ='http://' . PEAR_CHANNELNAME . '/bugs/' . $url;
     // Add a comment about this in the bug report
     $text = <<<TXT
-        The following patch has been added/updated:
-
-    Patch Name:  $patchname
-        Revision:    $e
-        URL:         $bugurl
+The following patch has been added/updated:
+ Patch Name:  $patchname
+ Revision:    $e
+ URL:         $bugurl
 TXT;
 
     $query = 'INSERT INTO bugdb_comments' .
