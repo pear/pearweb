@@ -877,12 +877,18 @@ function print_package_navigation($pacid, $name, $action)
 function make_ticket_links($text, $urlPrefix = '')
 {
     global $dbh;
-    $text = preg_replace('/#patch bug:([0-9]+);patch:([0-9a-z_\-\.]+);revision:([0-9]+);/i',
-                         '<a href="patch-display.php?bug_id=\\1&amp;patch=\\2&amp;revision=\\3">patch \\2</a>',
-                         $text);
-    $text = preg_replace('/(?<=php)\s*(bug(?:fix)?|feat(?:ure)?|doc(?:umentation)?|req(?:uest)?)\s+#([0-9]+)/i',
-                         ' <a href="http://bugs.php.net/\\2">\\1 \\2</a>',
-                         $text);
+    $text = preg_replace(
+        '/#patch bug:([0-9]+);patch:([0-9a-z_\-\.]+);revision:([0-9]+);/i',
+        '<a href="bug.php?id=\\1&amp;edit=12&amp;patch=\\2&amp;revision=\\3"'
+        . ' title="Revision \\3">'
+        . 'patch \\2</a>',
+        $text
+    );
+    $text = preg_replace(
+        '/(?<=php)\s*(bug(?:fix)?|feat(?:ure)?|doc(?:umentation)?|req(?:uest)?)\s+#([0-9]+)/i',
+        ' <a href="http://bugs.php.net/\\2">\\1 \\2</a>',
+        $text
+    );
     $pear_regex = '/(?<![>a-z])(bug(?:fix)?|feat(?:ure)?|doc(?:umentation)?|req(?:uest)?)\s+#([0-9]+)/i';
     //$text = preg_replace($pear_regex, '<a href="/bugs/\\2">\\0</a>', $text);
     preg_match_all($pear_regex, $text, $matches);
