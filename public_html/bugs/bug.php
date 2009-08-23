@@ -752,8 +752,18 @@ if (isset($auth_user) && $auth_user && $auth_user->registered) {
 <?php
 
 control(0, 'Comments', $id, $edit);
+
+// Display patches                                                       
+require_once 'bugs/patchtracker.php';
+$patches = new Bugs_Patchtracker();
+$patchcount = $patches->getPatchCount($id);
+if ($patchcount > 0) {
+    control(11, 'Patches (' . $patchcount . ')', $id, $edit);
+}
+
 if (
-    (!(isset($auth_user) && $auth_user && $auth_user->registered) || !auth_check('pear.dev')) && $edit != 2
+    (!(isset($auth_user) && $auth_user && $auth_user->registered)
+    || !auth_check('pear.dev')) && $edit != 2
 ) {
     control(3, 'Add Comment', $id, $edit);
 }
@@ -762,19 +772,12 @@ if (auth_check('pear.bug') || auth_check('pear.dev')) {
     control(1, 'Edit', $id, $edit);
 }
 
-// Display patches                                                       
-require_once 'bugs/patchtracker.php';
-$patches = new Bugs_Patchtracker();
-$patchcount = $patches->getPatchCount($id);
-if ($patchcount > 0) {
-    control(11, $patchcount . ' Patches', $id, $edit);
-}
+control(13, 'Add patch', $id, $edit);
+
 //show patch details only when active
 if ($edit == 12) {
     control(12, 'Patch details', $id, $edit);
 }
-
-control(13, 'Add patch', $id, $edit);
 
 ?>
 
