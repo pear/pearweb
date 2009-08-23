@@ -196,7 +196,7 @@ if ($karma->has($handle, 'pear.dev')) {
     echo '      <li>Rank: <strong><a href="/bugs/stats_dev.php">#' . $info['rank'] . ' of ' . count($info['rankings']) . '</a></strong> developers who have fixed bugs <strong>(' .
         $info['alltime'] . ' fixed bugs)</strong></li>' . "\n";
     echo '      <li>Average age of open bugs: <strong>' . $info['openage'] . ' days</strong></li>' . "\n";
-    $url = '/bugs/search.php?handle=' . $handle . '&cmd=display&bug_type=Bug&status=OpenFeedback&showmenu=1';
+    $url = '/bugs/search.php?handle=' . $handle . '&amp;cmd=display&amp;bug_type=Bug&amp;status=OpenFeedback&amp;showmenu=1';
     echo '      <li>Number of open bugs: <strong><a href="' . $url . '">' . $info['opencount'] . '</a></strong></li>' . "\n";
     echo '      <li>Assigned bugs relative to all maintained packages bugs: <strong>' .
         round($info['assigned'] * 100) . '%</strong></li>' . "\n";

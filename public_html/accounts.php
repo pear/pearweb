@@ -91,14 +91,14 @@ foreach ($firstletters as $fl) {
     }
 }
 echo '</td><td rowspan="2" align="right">';
-echo '<form><input type="button" onclick="';
+echo '<form method="get" action="#"><input type="button" onclick="';
 $gourl = "http://" . PEAR_CHANNELNAME;
 if ($_SERVER['SERVER_PORT'] != 80) {
     $gourl .= ":".$_SERVER['SERVER_PORT'];
 }
 $gourl .= "/user/";
 echo "u=prompt('Go to account:','');if(u)location.href='$gourl'+u;";
-echo '" value="Go to account.." /></td></tr><tr><td>';
+echo '" value="Go to account.." /></form></td></tr><tr><td>';
 printf("Displaying accounts %d - %d of %d<br />\n",
         $offset, min($offset+$show, $naccounts), $naccounts);
 
@@ -166,7 +166,7 @@ echo '  <th class="form-label_top_center" colspan="2">';
 echo '<table border="0"><tr><td>';
 echo '</td><td rowspan="2">&nbsp;';
 echo "</td></tr></table>\n";
-echo "</td>\n";
+echo "</th>\n";
 echo '  <th class="form-label_top_center" style="font-size: 80%">';
 if ($offset + $page_size < $naccounts) {
     $nn = min($page_size, $naccounts - $offset - $page_size);
