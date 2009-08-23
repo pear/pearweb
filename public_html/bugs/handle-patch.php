@@ -167,7 +167,7 @@ if (PEAR::isError($e)) {
 // {{{ Email after the patch is added and add a comment to the bug report.
 if (!isset($buggie)) {
     $patchname = $_POST['patchname'];
-    $url       = "bug.php?id=$bug&edit=12&patch=$patchname&revision=$e";
+    $url       = "bug.php?id=$id&edit=12&patch=$patchname&revision=$e";
     $bugurl    ='http://' . PEAR_CHANNELNAME . '/bugs/' . $url;
     // Add a comment about this in the bug report
     $text = <<<TXT
