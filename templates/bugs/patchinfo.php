@@ -4,12 +4,10 @@
  *  and lists all revisions
  */
 
-$downurl = 'bug.php'
+$downurl = 'patch-download.php'
     . '?id=' . $bug_id
-    . '&edit=12'
     . '&patch=' . urlencode($patch)
-    . '&revision=' . urlencode($revision)
-    . '&download=1';
+    . '&revision=' . urlencode($revision);
 ?>
 <div class="bugheader">
 <table class="details">

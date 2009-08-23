@@ -254,33 +254,61 @@ class Bugs_Patchtracker
     }
 
     /**
+     * Checks if the patch is valid in the database
+     *
+     * @param integer $bugid    ID number of bug
+     * @param string  $name     Name of patch
+     * @param integer $revision Patch revision (timestamp)
+     *
+     * @return boolean True if all is ok, false if not
+     */
+    function isPatchValid($bugid, $name, $revision)
+    {
+        if (!$this->_dbh->getOne('SELECT bugdb_id FROM bugdb_patchtracker
+              WHERE bugdb_id = ? AND patch = ? AND revision = ?',
+              array($bugid, $name, $revision))
+        ) {
+            return false;
+        }
+        if (!$this->_dbh->getOne(
+            'SELECT registered FROM users, bugdb_patchtracker
+            WHERE bugdb_id = ? AND patch = ? AND revision = ? AND
+            users.handle = bugdb_patchtracker.developer',
+            array($bugid, $name, $revision)
+        )) {
+            // user is not registered
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Retrieve the actual contents of the patch
      *
-     * @param int $bugid
-     * @param string $name
-     * @param int $revision
-     * @return string
+     * @param integer $bugid    ID number of bug
+     * @param string  $name     Name of patch
+     * @param integer $revision Patch revision (timestamp)
+     *
+     * @return string Patch contents
      */
     function getPatch($bugid, $name, $revision)
     {
-        if ($this->_dbh->getOne('SELECT bugdb_id FROM bugdb_patchtracker
-              WHERE bugdb_id = ? AND patch = ? AND revision = ?',
-              array($bugid, $name, $revision))) {
-            if (!$this->_dbh->getOne('SELECT registered FROM users, bugdb_patchtracker
-                WHERE bugdb_id = ? AND patch = ? AND revision = ? AND
-                users.handle = bugdb_patchtracker.developer', array($bugid, $name, $revision))) {
-                // user is not registered
-                throw new Exception('User who submitted this patch has not registered');
-            }
-            $contents = @file_get_contents($this->getPatchFullpath($bugid, $name, $revision));
-            if (!$contents) {
-                return PEAR::raiseError('Cannot retrieve patch revision "' .
-                    $revision . '" for patch "' . $name . '"');
-            }
-            return $contents;
+        if (!$this->isPatchValid($bugid, $name, $revision)) {
+            return PEAR::raiseError(
+                'No such patch revision "' .
+                $revision . '", or no such patch "' . $name . '"'
+            );
         }
-        return PEAR::raiseError('No such patch revision "' .
-            $revision . '", or no such patch "' . $name . '"');
+
+        $contents = @file_get_contents(
+            $this->getPatchFullpath($bugid, $name, $revision)
+        );
+        if (!$contents) {
+            return PEAR::raiseError('Cannot retrieve patch revision "' .
+                $revision . '" for patch "' . $name . '"'
+            );
+        }
+        return $contents;
     }
 
     /**
