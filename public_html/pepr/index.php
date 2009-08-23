@@ -78,8 +78,7 @@ function render_status($status, $status_description, $proposals, $dbh, $users) {
 
     ob_start();
     echo "<div style=\"float: right\"><a href='/feeds/pepr_".$status.".rss'><img src=\"/gifs/feed.png\" width=\"16\" height=\"16\" alt=\"Aggregate this\" border=\"0\" /></a></div>";
-    echo '<h2 name="' . $status . '" id="';
-    echo $status . '">';
+    echo '<h2 id="' . $status . '">';
     echo '&raquo; ' . htmlspecialchars($status_description);
     echo "</h2>\n";
 
@@ -102,8 +101,7 @@ function render_status($status, $status_description, $proposals, $dbh, $users) {
 
         echo "</ul>\n";
     }
-    echo "<p>";
-    echo "</p>\n\n";
+    echo "\n\n";
     return ob_get_clean();
 }
 
