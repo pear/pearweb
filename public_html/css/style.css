@@ -621,9 +621,6 @@ table#download-releases .alpha, table#download-releases .devel {
 
 a:link, a:visited {
     color: #006600;
-    /*color: #3465a4;
-    color: #4e9a06;*/
-    text-decoration: none;
 }
 
 a:hover {
