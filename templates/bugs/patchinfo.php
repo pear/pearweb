@@ -6,8 +6,8 @@
 
 $downurl = 'patch-download.php'
     . '?id=' . $bug_id
-    . '&patch=' . urlencode($patch)
-    . '&revision=' . urlencode($revision);
+    . '&amp;patch=' . urlencode($patch)
+    . '&amp;revision=' . urlencode($revision);
 ?>
 <div class="bugheader">
 <table class="details">
