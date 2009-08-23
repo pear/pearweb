@@ -17,8 +17,8 @@ $downurl = 'patch-download.php'
    <td><strong><?php echo $patch; ?></strong></td>
    <th rowspan="5">Revisions</th>
    <td rowspan="5">
+    <ul class="revlist">
 <?php
-echo '<ul style="padding: 0px; margin: 0px; margin-left: 10px;">';
 foreach ($revisions as $i => $rev) {
     $url = 'bug.php'
         . '?id=' . urlencode($bug)
@@ -31,15 +31,15 @@ foreach ($revisions as $i => $rev) {
         . '&edit=12'
         . '&diff=1&old=' . $rev[0]
         . '&revision=' . $revision;
-    $same = $rev[0] == $revision;
+    $same    = $rev[0] == $revision;
     $diffold = isset($diffoldrev) && $rev[0] == $diffoldrev;
-    echo '<li>';
+    echo '<li'
+        . ($same ? ' class="active"' : '')
+        . ($diffold ? ' class="diffold"' : '')
+        . '>';
     echo '<a href="' . htmlspecialchars($url) . '">'
-        . ($same ? '<strong>' : '')
-        . ($diffold ? '<em>' : '')
         . format_date($rev[0])
-        . ($diffold ? '</em>' : '')
-        . ($same ? '</strong>' : '')
+
         . '</a>';
     if (!$same && !$diffold) {
         echo ' <a href="' . htmlspecialchars($diffurl) . '">'
@@ -48,8 +48,8 @@ foreach ($revisions as $i => $rev) {
     }
     echo '</li>';
 }
-echo '</ul></li>';
 ?>
+    </ul>
    </td>
   </tr>
   <tr>

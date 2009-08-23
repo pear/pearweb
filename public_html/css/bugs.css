@@ -136,14 +136,29 @@ div.bugheader table.details td#summary {
     margin-left: 5px;
 }
 
+ul.revlist { 
+    padding: 0px;
+    margin: 0px;
+    margin-left: 10px;
+}
+ul.revlist li.active { 
+    font-weight: bold;
+    background-color: #DDFFDD;
+}
+ul.revlist li.diffold {
+    font-weight: bold;
+    font-style: italic;
+    background-color: #FFDDDD;
+}
+
 .diffheader {
-    background: #EEEE00;
+    background-color: #FFFFAA;
 }
 .newdiff {
-    background: #FF0000;
+    background-color: #DDFFDD;
 }
 .olddiff {
-    background: #AAAAAA;
+    background-color: #FFDDDD;
     text-decoration: line-through;
 }
 
