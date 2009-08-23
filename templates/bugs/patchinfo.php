@@ -8,6 +8,10 @@ $downurl = 'patch-download.php'
     . '?id=' . $bug_id
     . '&amp;patch=' . urlencode($patch)
     . '&amp;revision=' . urlencode($revision);
+$newrevurl = 'bug.php'
+    . '?id=' . $bug_id
+    . '&amp;edit=13'
+    . '&amp;patchname=' . urlencode($patch);
 ?>
 <div class="bugheader">
 <table class="details">
@@ -49,6 +53,7 @@ foreach ($revisions as $i => $rev) {
     echo '</li>';
 }
 ?>
+     <li><a href="<?php echo $newrevurl; ?>">Upload new revision</a></li>
     </ul>
    </td>
   </tr>
