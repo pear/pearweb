@@ -76,7 +76,7 @@ echo <<<HTML
     <label for="pear_persist_chckbx">Remember username and password.</label></td>
      </tr>
      <tr>
-      <th class="form-label_left">&nbsp;</td>
+      <th class="form-label_left">&nbsp;</th>
       <td class="form-input"><input type="submit" value="Log in!" /></td>
      </tr>
     </table>
