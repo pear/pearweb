@@ -45,8 +45,12 @@ if (isset($newrequest['PEAR_PW'])) {
 if (isset($newrequest['PHPSESSID'])) {
     unset($newrequest['PHPSESSID']);
 }
-response_header('Bugs :: Search', false, ' <link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://' .
-    PEAR_CHANNELNAME . '/bugs/rss/search.php?' . http_build_query($_REQUEST) . '" />
+response_header(
+    'Bugs :: Search',
+    false,
+    ' <link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://'
+    . PEAR_CHANNELNAME . '/bugs/rss/search.php?'
+    . htmlspecialchars(http_build_query($_REQUEST)) . '" />
 ');
 
 $warnings = $errors = array();
