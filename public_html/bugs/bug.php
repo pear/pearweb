@@ -1145,12 +1145,10 @@ if ($edit == 3) {
       <th class="details">Y<span class="accesskey">o</span>ur email address:<br />
       <strong>MUST BE VALID</strong></th>
       <td class="form-input">
-       <input type="text" size="40" maxlength="40" name="in[commentemail]" id="in[commentemail]"
+       <input type="text" size="40" maxlength="40" name="in[commentemail]" id="in-commentemail-"
         value="<?php echo clean(isset($_POST['in']) && isset($_POST['in']['commentemail']) ?
             $_POST['in']['commentemail'] : '') ?>"
         accesskey="o" />
-       <input type="hidden" name="id" id="id" value="<?php echo $id ?>" />
-       <input type="hidden" name="edit" id="edit" value="<?php echo $edit?>" />
       </td>
      </tr>
      <tr>
@@ -1164,7 +1162,7 @@ if ($edit == 3) {
     <div>
      <input type="hidden" name="id" id="id" value="<?php echo $id ?>" />
      <input type="hidden" name="edit" id="edit" value="<?php echo $edit ?>" />
-     <textarea cols="60" rows="10" name="ncomment" id="ncomment" wrap="physical"><?php echo clean($ncomment) ?></textarea>
+     <textarea cols="60" rows="10" name="ncomment" id="ncomment"><?php echo clean($ncomment) ?></textarea>
      <br /><input type="submit" name="preview" value="Preview" />&nbsp;<input type="submit" value="Submit" />
     </div>
 

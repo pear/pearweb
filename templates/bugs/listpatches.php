@@ -37,6 +37,6 @@
 <?php
     }//foreach ($patches as $name => $rev)
 ?>
- </thead>
+ </tbody>
 </table>
 <?php endif; //if (count($patches)) ?>
