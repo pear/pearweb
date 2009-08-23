@@ -39,7 +39,7 @@ echo "<input type=\"text\" name=\"q\" value=\"" . $term . "\" size=\"30\" /> in 
 
 echo "<select name=\"in\" size=\"1\">\n";
 foreach (array("packages" => "Packages", "site" => "This Site (using Yahoo!)", "users" => "Developers") as $key => $value) {
-    $selected = ($key == $in) ? " selected=\"yes\" " : "";
+    $selected = ($key == $in) ? " selected=\"selected\" " : "";
     echo "<option value=\"" . $key . "\" " . $selected . ">" . $value . "</option>\n";
 }
 echo "</select>\n";

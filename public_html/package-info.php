@@ -296,7 +296,7 @@ if (empty($action)) {
         if ($nextrelease) {
             $x = ceil((((strtotime($nextrelease[1]) - time()) / 60) / 60) / 24);
             echo ' (next release: <strong><a href="/bugs/roadmap.php?package=' .
-                urlencode($name) .'&roadmapdetail=' . $nextrelease[0]
+                urlencode($name) .'&amp;roadmapdetail=' . $nextrelease[0]
                 . '#a' . $nextrelease[0] . '">' . $nextrelease[0] .
                 '</a></strong> in ';
             echo $x . ' day';
@@ -451,7 +451,7 @@ if (empty($action)) {
         echo '<li><a href="' . htmlspecialchars($cvs_link) . '" title="Browse the source tree (in CVS, Subversion or another RCS) of this package">Browse the source tree</a></li>' . "\n";
     }
     echo '<li><a href="/feeds/pkg_' . strtolower(htmlspecialchars($name)) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>' . "\n";
-    echo '<li><a href="/package-stats.php?pid=' . $pkg['packageid'] . '&cid=' .
+    echo '<li><a href="/package-stats.php?pid=' . $pkg['packageid'] . '&amp;cid=' .
         $pkg['categoryid'] . '" title="View download statistics for this package">View Download Statistics</a></li>' . "\n";
     echo '</ul>' . "\n";
     echo '</td>' . "\n";

@@ -184,7 +184,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
         // Print the graph
         $type   = isset($_GET['type']) && $_GET['type'] == 'bar' ? '&type=bar' : '';
         $driver = isset($_GET['driver']) && $_GET['driver'] == 'image' ? '&driver=image' : '';
-        $url    = sprintf('package-stats-graph.php?pid=%s&releases=%s%s%s', (int)$_GET['pid'], isset($_GET['rid']) ? (int)$_GET['rid'] : '', $driver, $type);
+        $url    = sprintf('package-stats-graph.php?pid=%s&amp;releases=%s%s%s', (int)$_GET['pid'], isset($_GET['rid']) ? (int)$_GET['rid'] : '', $driver, $type);
         if (isset($_GET['driver']) && $_GET['driver'] == 'gd') {
             echo '<img src="' . $url . '" id="stats_graph" width="743" height="250" alt="" />';
         } else {
@@ -193,11 +193,11 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     <!--[if IE]>
      <embed src="<?php echo $url; ?>" type="image/svg+xml" id="stats_graph_svg" width="743" height="250" />
     <![endif]-->
-    <![if !IE]-->
+    <!--[if !IE]>-->
      <object data="<?php echo $url; ?>" type="image/svg+xml" id="stats_graph_svg" width="743" height="250">
       You need a browser capeable of SVG to display this image.
      </object>
-    <![endif]-->
+    <!--<![endif]-->
 </div>
 <?php
         }
@@ -257,8 +257,8 @@ natsort($releases);
             graphForm.update.value = 'Updating...';
 
             var url = 'package-stats-graph.php?pid=<?php echo (int)$_GET['pid']; ?>';
-            url += '<?php echo isset($_GET['type']) && $_GET['type'] == 'line' ? '&type=line' : ''; ?>';
-            url += '<?php echo isset($_GET['driver']) && $_GET['driver'] == 'image' ? '&driver=image' : ''?>';
+            url += '<?php echo isset($_GET['type']) && $_GET['type'] == 'line' ? '&amp;type=line' : ''; ?>';
+            url += '<?php echo isset($_GET['driver']) && $_GET['driver'] == 'image' ? '&amp;driver=image' : ''?>';
             url += '&releases=' + releases_qs;
             var svg  = document.getElementById('stats_graph_svg');
             if (svg != null) {
@@ -383,7 +383,7 @@ if (@!$_GET['pid']) {
 ?>
 <table border="0" width="90%">
  <tr>
-  <th colspan="4" style="background-color: #CCCCCC;"><?php echo $header?><th>
+  <th colspan="4" style="background-color: #CCCCCC;"><?php echo $header?></th>
  </tr>
  <tr>
   <td style="width: 25%;">Total&nbsp;Packages:</td>
@@ -416,7 +416,7 @@ if (@!$_GET['pid']) {
     echo '<div style="height: 300px; width: 90%; overflow: auto">';
     echo " <table border=\"0\" width=\"100%\" cellpadding=\"2\" cellspacing=\"2\">\n";
     echo ' <tr>
-  <th colspan="3" style="background-color: #CCCCCC;">Package Statistics<th>
+  <th colspan="3" style="background-color: #CCCCCC;">Package Statistics</th>
  </tr>';
     echo "  <tr align=\"left\" bgcolor=\"#cccccc\">\n";
     echo "   <th>Package Name</th>\n";

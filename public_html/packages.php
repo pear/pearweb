@@ -271,7 +271,7 @@ if (!empty($catpid)) {
             if (empty($current_level_cat[$subcat['id']])) {
                 continue;
             }
-            $subCategories[] = sprintf('<b><a href="%s?catpid=%d&catname=%s" title="%s">%s</a></b>',
+            $subCategories[] = sprintf('<b><a href="%s?catpid=%d&amp;catname=%s" title="%s">%s</a></b>',
                                        $script_name,
                                        $subcat['id'],
                                        urlencode($subcat['name']),

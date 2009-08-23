@@ -619,7 +619,7 @@ function html_category_urhere($id, $link_lastest = false, $php = 'all')
                 break;
             }
 
-            $url = '/packages.php?catpid=' . $row['id'] . '&amp;catname=' . $row['name'];
+            $url = '/packages.php?catpid=' . $row['id'] . '&amp;catname=' . urlencode($row['name']);
             if ($php != 'all' && ($php == '4' || $php == '5')) {
                 $url .= '&amp;php=' . $php;
             }
