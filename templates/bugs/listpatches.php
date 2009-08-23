@@ -30,7 +30,7 @@
                 echo '</span>';
             }
             $revobsolete = true;
-            if ($listpatches_showone) {
+            if (isset($listpatches_showone) && $listpatches_showone) {
                 break;
             }
         } //foreach ($revisions as $rev)
