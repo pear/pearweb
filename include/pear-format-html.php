@@ -262,7 +262,7 @@ echo make_link('/about/credits.php', 'CREDITS');
      echo "\n";
     ?>
   </div>
-
+</div>
 
 <!-- Onload focus to pear -->
 <?php if (isset($GLOBALS['ONLOAD'])): ?>
