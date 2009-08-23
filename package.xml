@@ -241,6 +241,7 @@ More UTF8 Encoding
      <file name="lstat.php" role="www" />
      <file name="patch-add.php" role="www" />
      <file name="patch-display.php" role="www" />
+     <file name="patch-download.php" role="www" />
      <file name="quick-fix-desc.php" role="www" />
      <file name="report.php" role="www" />
      <file name="resend-request-email.php" role="www" />
