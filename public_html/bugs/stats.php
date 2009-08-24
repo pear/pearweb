@@ -49,6 +49,7 @@ $pkg       = array();
 $pkg_tmp   = array();
 $pkg_total = array();
 $pkg_names = array();
+$pkg_unm   = array();
 $all       = array();
 $pseudo    = true;
 
@@ -67,7 +68,8 @@ if ($auth_user) {
 }
 
 $query  = 'SELECT b.package_name, b.status, COUNT(b.id) AS quant'
-        . ' FROM bugdb AS b';
+    . ', p.unmaintained AS unmaintained'
+    . ' FROM bugdb AS b';
 
 $from = ' LEFT JOIN packages AS p ON p.name = b.package_name';
 if ($category && $category{0} != '*') {
@@ -129,6 +131,8 @@ while ($result->fetchInto($row)) {
     if (!isset($all[$row['status']])) {
         $all[$row['status']] = 0;
     }
+
+    $row['unmaintained'] && $pkg_unm[$row['package_name']] = true;
 
     $pkg_tmp[$row['status']][$row['package_name']]  = $row['quant'];
     $pkg_total[$row['package_name']]               += $row['quant'];
@@ -272,6 +276,7 @@ foreach ($pkg[$sort_by] as $name => $value) {
     } else {
         $class = '';
     }
+    $unm = isset($pkg_unm[$name]) ? '*' : '';
 
     if ($name != 'all') {
         /* Output a new header row every 30 lines */
@@ -279,7 +284,7 @@ foreach ($pkg[$sort_by] as $name => $value) {
             echo display_stat_header($total, false, $titles);
         }
         echo " <tr>\n";
-        echo '  <td class="bug_head'.$class.'">' . package_link($name) . "</td>\n";
+        echo '  <td class="bug_head'.$class.'">' . $unm . package_link($name) . "</td>\n";
         echo '  <td class="bug_bg0'.$class.'">' . $pkg_total[$name];
         echo "</td>\n";
 
@@ -294,6 +299,8 @@ foreach ($pkg[$sort_by] as $name => $value) {
 ?>
  </tbody>
 </table>
+
+<p><tt>*</tt> means unmaintained</p>
 <?php
 response_footer();
 
