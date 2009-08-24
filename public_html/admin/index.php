@@ -493,7 +493,7 @@ foreach ($reasons as $reason) {
                                    "WHERE u.registered = 0 AND from_site != 'pecl'");
         if (is_array($requests) && sizeof($requests) > 0) {
             $head = array(
-                "<font face=\"Marlett\"><a href=\"#\" onclick=\"toggleSelectAll(this)\">6</a></font>",
+                "<a href=\"#\" onclick=\"toggleSelectAll(this)\">&#x2713;</a>",
                 "Name", "Handle", "Account Purpose", "Status", "&nbsp;"
             );
             $table->addRow($head, null, 'th');
