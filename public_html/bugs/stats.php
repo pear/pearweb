@@ -70,7 +70,7 @@ $query  = 'SELECT b.package_name, b.status, COUNT(b.id) AS quant'
         . ' FROM bugdb AS b';
 
 $from = ' LEFT JOIN packages AS p ON p.name = b.package_name';
-if ($category) {
+if ($category && $category{0} != '*') {
     $pseudo = false;
     $from .= ' JOIN categories AS c ON c.id = p.category';
     $from .= ' AND c.name = ' .  $dbh->quoteSmart($category);
@@ -100,6 +100,9 @@ switch (SITE) {
 
 if ($developer) {
     $where .= ' AND m.active = 1';
+}
+if ($category == '*unmaintained*') {
+    $where .= ' AND p.unmaintained = 1';
 }
 
 if (empty($_GET['bug_type'])) {
@@ -160,7 +163,7 @@ $res = category::listAll();
 
 ?>
 
-<table>
+<table class="bugstats">
  <tr>
   <td style="white-space: nowrap">
    <form method="get" action="stats.php<?php echo htmlspecialchars($query_string) ?>">
@@ -169,14 +172,20 @@ $res = category::listAll();
      Categ<span class="accesskey">o</span>ry:
     </label>
    </strong>
-   <select class="small" id="category" onchange="this.form.submit(); return false;">
-    <option value=""
+   <select class="small" name="category" id="category" onchange="this.form.submit(); return false;">
 <?php
-
+echo '<option value=""';
 if (!$category) {
     echo ' selected="selected"';
 }
 echo '>All</option>' . "\n";
+
+echo '<option value="*unmaintained*"';
+if ($category == '*unmaintained*') {
+    echo ' selected="selected"';
+}
+echo '>*unmaintained*</option>' . "\n";
+
 
 foreach ($res as $row) {
     $s = $category == $row['name'] ? ' selected="selected"' : '';
@@ -187,8 +196,8 @@ foreach ($res as $row) {
 
    </select>
 
-   <strong>Developer:</strong>
-   <select class="small" id="developers" onchange="this.form.submit(); return false;">
+   <label for="developer"><strong>Developer:</strong></label>
+   <select class="small" name="developer" id="developer" onchange="this.form.submit(); return false;">
     <option value=""
 <?php
 if (!$developer) {
@@ -215,8 +224,8 @@ while ($u = $users->fetchRow(DB_FETCHMODE_ASSOC)) {
 
    </select>
 
-   <strong>Bug Type:</strong>
-   <select class="small" id="bug_type" onchange="this.form.submit(); return false;">
+   <label for="bug_type"><strong>Bug Type:</strong></label>
+   <select class="small" name="bug_type" id="bug_type" onchange="this.form.submit(); return false;">
 
    <?php show_type_options($bug_type, true) ?>
 
