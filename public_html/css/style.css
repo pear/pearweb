@@ -8,6 +8,11 @@ body {
     text-align: left;
 }
 
+a {
+    text-decoration: none;
+    border-bottom: 1px dotted #006600;
+}
+
 acronym {
     text-decoration: underline;
 }
@@ -23,6 +28,7 @@ ul, ol {
 
 ul li {
     list-style-type: square;
+    margin-bottom: 0.1em;
 }
 
 ol li {
@@ -39,6 +45,7 @@ div#body {
 
 h1 a, h2 a, h3 a {
   text-decoration: none !important;
+  border-bottom: none;
 }
 
 /* HEADER */
@@ -72,6 +79,7 @@ h1 a, h2 a, h3 a {
     padding-left: 1px;
     padding-right: 5px;
     text-decoration: none;
+    border-bottom: none;
     border-right: 1px solid black;
 }
 
@@ -82,6 +90,7 @@ h1 a, h2 a, h3 a {
 #user a {
     color: #FFFFFF;
     text-decoration: none;
+    border-bottom: none;
 }
 
 #user a:hover {
@@ -141,6 +150,7 @@ h1 a, h2 a, h3 a {
     padding-left: 8px;
     padding-right: 8px;
     text-decoration: none;
+    border-bottom: none;
     font-family: verdana;
 }
 #menu li.current a, #menu li.current a:hover  {
@@ -171,6 +181,7 @@ h1 a, h2 a, h3 a {
 
 #submenu a {
     text-decoration: none;
+    border-bottom: none;
     vertical-align: middle;
     line-height: 22px;
 }
@@ -615,6 +626,20 @@ table#download-releases .beta {
 
 table#download-releases .alpha, table#download-releases .devel {
     color: red;
+}
+
+/* Package list (/packages.php) */
+table.packages td {
+    padding-bottom: 1em;
+}
+table.packages .cat {
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+/* Bug stats table */
+table.bugstats form label {
+/*    display:block;*/
 }
 
 /* ========= Other ========= */

@@ -139,7 +139,7 @@ $sql .= '
     ORDER BY c.name';
 $sth = $dbh->query($sql);
 
-$table   = new HTML_Table('border="0" cellpadding="6" cellspacing="2" width="100%"');
+$table   = new HTML_Table('class="packages" border="0" cellpadding="6" cellspacing="2" width="100%"');
 $nrow    = 0;
 $catdata = array();
 
@@ -230,7 +230,7 @@ while ($sth->fetchInto($row)) {
     settype($npackages, 'string');
     settype($ncategories, 'string');
 
-    $data  = '<font size="+1"><b><a href="'. $script_name .'?catpid='.$id.'&amp;catname='.urlencode($name).'&amp;php=' . $php . '">'.$name.'</a></b></font> ('.$npackages.')<br />';//$name; //array($name, $npackages, $ncategories, $summary);
+    $data  = '<span class="cat"><a href="'. $script_name .'?catpid='.$id.'&amp;catname='.urlencode($name).'&amp;php=' . $php . '">'.$name.'</a></span> ('.$npackages.')<br />';//$name; //array($name, $npackages, $ncategories, $summary);
     $data .= $sub_links.'<br />';
     $catdata[] = $data;
 
