@@ -562,6 +562,9 @@ else: // if (isset($auth_user))
   <td class="form-input">
    <?php echo show_package_version_options($clean_package,
         clean($_POST['in']['package_version'])); ?>
+   <small>
+    <a target="_blank" href="/bugs/packageversion-desc.php">How to retrieve that?</a>
+   </small>
   </td>
  </tr>
  <?php endif; ?>
