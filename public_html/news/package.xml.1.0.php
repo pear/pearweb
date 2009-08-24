@@ -47,8 +47,8 @@ response_header('Innovating the future: Package.xml 1.0 and PEAR 1.3.6 are offic
  <p>
  <kbd>
   <pre>
-pear upgrade --force PEAR-1.3.6 Archive_Tar-1.3.1 Console_Getopt-1.2
-pear upgrade PEAR-1.4.3
+pear upgrade --force http://pear.php.net/get/PEAR-1.3.6.tgz http://pear.php.net/get/Archive_Tar-1.3.1 http://pear.php.net/get/Console_Getopt-1.2
+pear upgrade http://pear.php.net/get/PEAR-1.4.3
 pear upgrade --force PEAR-1.4.11
 pear upgrade PEAR
    </pre>
