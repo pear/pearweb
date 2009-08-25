@@ -1073,8 +1073,8 @@ if ($edit == 1 || $edit == 2) {
                 }
             }
             ?>
-            &nbsp;<a id="showold" href="#FIXME" onclick="javascript:document.getElementById('roadmaps').className='rm'" title="Show already released roadmaps">&gt;&gt;</a>
-            &nbsp;<a id="hideold" href="#FIXME" onclick="javascript:document.getElementById('roadmaps').className='rm-hideold'" title="Hide already released roadmaps">&lt;&lt;</a>
+            &nbsp;<a id="showold" href="#" onclick="javascript:document.getElementById('roadmaps').className='rm'" title="Show already released roadmaps">&gt;&gt;</a>
+            &nbsp;<a id="hideold" href="#" onclick="javascript:document.getElementById('roadmaps').className='rm-hideold'" title="Hide already released roadmaps">&lt;&lt;</a>
             <?php
         } else {
             ?>(No roadmap defined)<?php
