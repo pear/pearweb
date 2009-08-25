@@ -76,10 +76,6 @@ div#controls a {
     text-decoration: none;
 }
 
-div#controls a:hover {
-    text-decoration: underline;
-}
-
 td#summary {
     font-weight: bold;
 }
@@ -247,6 +243,7 @@ a.bug_stats_choosen {
     color: #006600;
 }
 
+
 /* === Search === */
 
 a.status_active {
@@ -392,3 +389,18 @@ table.patchlist span.obsolete {
 table.patchlist span.obsolete a {
     color: #90b290;
 }
+
+/* Bug detail page */
+td.rm-hideold span.released {
+    display: none;
+}
+td.rm-hideold span.active {
+    display: inline;
+}
+td.rm-hideold #hideold {
+    display: none;
+}
+td.rm #showold {
+    display: none;
+}
+

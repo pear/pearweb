@@ -1033,7 +1033,7 @@ if ($edit == 1 || $edit == 2) {
      <tr>
       <th>Assigned to <br />Roadmap Version(s):<br />
       (<span class="headerbottom">Already released</span>)</th>
-      <td colspan="5"><?php
+      <td id="roadmaps" colspan="5" class="rm-hideold"><?php
         $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
         $link->id = $id;
         $link->find(false);
@@ -1054,17 +1054,28 @@ if ($edit == 1 || $edit == 2) {
                     releases.version=b.roadmap_version',
                     array($db->id));
                 if ($released) {
-                    echo '<span class="headerbottom">';
+                    echo '<span class="headerbottom released'
+                    . (isset($links[$db->id]) ? ' active' : '')
+                    . '">';
                 }
-                ?><input type="checkbox" name="in[fixed_versions][]" value="<?php
-                echo $db->id . '"';
+                echo '<input type="checkbox"'
+                    . ' name="in[fixed_versions][]" value="' . $db->id . '"'
+                    . ' id="a-r-' . $db->id . '"';
                 if (isset($links[$db->id])) {
                     echo ' checked="checked"';
-                }?>/> <?php echo $db->roadmap_version; '<br />';
+                }
+                echo '/>';
+                echo '<label for="a-r-' . $db->id . '">'
+                    . '&nbsp;' . $db->roadmap_version
+                    . '</label>';
                 if ($released) {
                     echo '&nbsp;</span>';
                 }
             }
+            ?>
+            &nbsp;<a id="showold" href="#FIXME" onclick="javascript:document.getElementById('roadmaps').className='rm'" title="Show already released roadmaps">&gt;&gt;</a>
+            &nbsp;<a id="hideold" href="#FIXME" onclick="javascript:document.getElementById('roadmaps').className='rm-hideold'" title="Hide already released roadmaps">&lt;&lt;</a>
+            <?php
         } else {
             ?>(No roadmap defined)<?php
         }
