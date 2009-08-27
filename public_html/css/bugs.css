@@ -243,6 +243,15 @@ a.bug_stats_choosen {
     color: #006600;
 }
 
+.bugstats span.filter {
+    display: block;
+    float: left;
+    padding-left: 1em; 
+}
+.bugstats span.filter label{
+    display: block;
+    font-weight: bold;
+}
 
 /* === Search === */
 

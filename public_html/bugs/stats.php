@@ -171,11 +171,10 @@ $res = category::listAll();
  <tr>
   <td style="white-space: nowrap">
    <form method="get" action="stats.php<?php echo htmlspecialchars($query_string) ?>">
-   <p><strong>
+   <p><span class="filter">
     <label for="category" accesskey="o">
      Categ<span class="accesskey">o</span>ry:
     </label>
-   </strong>
    <select class="small" name="category" id="category" onchange="this.form.submit(); return false;">
 <?php
 echo '<option value=""';
@@ -198,11 +197,12 @@ foreach ($res as $row) {
 
 ?>
 
-   </select>
-
-   <label for="developer"><strong>Developer:</strong></label>
-   <select class="small" name="developer" id="developer" onchange="this.form.submit(); return false;">
-    <option value=""
+    </select>
+   </span>
+   <span class="filter">
+    <label for="developer">Developer:</label>
+    <select class="small" name="developer" id="developer" onchange="this.form.submit(); return false;">
+     <option value=""
 <?php
 if (!$developer) {
     echo ' selected="selected"';
@@ -226,16 +226,20 @@ while ($u = $users->fetchRow(DB_FETCHMODE_ASSOC)) {
 
 ?>
 
-   </select>
-
-   <label for="bug_type"><strong>Bug Type:</strong></label>
-   <select class="small" name="bug_type" id="bug_type" onchange="this.form.submit(); return false;">
+    </select>
+   </span>
+   <span class="filter">
+    <label for="bug_type">Bug Type:</label>
+    <select class="small" name="bug_type" id="bug_type" onchange="this.form.submit(); return false;">
 
    <?php show_type_options($bug_type, true) ?>
 
-   </select>
-
-   <input class="small" type="submit" name="submitStats" value="Search" />
+    </select>
+   </span>
+   <span class="filter">
+    <br/>
+    <input class="small" type="submit" name="submitStats" value="Search" />
+   </span>
    </p></form>
   </td>
  </tr>
