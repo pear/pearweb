@@ -1067,7 +1067,7 @@ if ($edit == 1 || $edit == 2) {
                 echo '/>';
                 echo '<label for="a-r-' . $db->id . '">'
                     . '&nbsp;' . $db->roadmap_version
-                    . '</label>';
+                    . '</label> ';
                 if ($released) {
                     echo '&nbsp;</span>';
                 }
