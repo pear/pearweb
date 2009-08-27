@@ -266,7 +266,7 @@ if (empty($action)) {
     echo '<tr>' . "\n";
     echo '<td>' . "\n";
     if (isset($versions[0])) {
-        echo '<a href="http://download.' . PEAR_CHANNELNAME . '/package/' . htmlspecialchars($name) . '-' . $versions[0] . '.tgz">' . $versions[0] . '</a>';
+        echo ' <a class="download-page" href="/package/' . htmlspecialchars($name) . '/download/">' . $versions[0] . '</a>';
         echo ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
         echo ' was released on ' . format_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
         echo ' (<a class="download-page" href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
@@ -550,7 +550,7 @@ if (empty($action)) {
             // Detailed view
             ?>
             <td class="textcell">
-                <?php echo make_link('/package/' . htmlspecialchars($name) . '/download/' . $release_version, $release_version); ?>
+             <strong><?php echo $release_version; ?></strong>
             </td>
             <td>
                 <div class="package-download-action">
