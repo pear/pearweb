@@ -416,3 +416,30 @@ span.released {
     background-color: #b6b6cc;
 }
 
+/* bug index page */
+.bug-box {
+    float: left;
+    padding: 0.5em;
+    width: 230px;
+    border:1px solid white;
+}
+.bug-box select {
+    width: 200px;
+}
+
+.bug-box.help {
+    background-color:#FFFFC8;
+    border:1px solid #FF9B64;
+    width: auto;
+}
+
+.bug-box form {
+    margin: 0.5em;
+}
+
+input.bugs-go {
+    float: right;
+    padding-right: 10px;
+    padding-left: 10px;
+    margin-top: 0.5em;
+}

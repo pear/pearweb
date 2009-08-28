@@ -19,29 +19,15 @@ require_once 'pear-database-package.php';
  * @version   $Id$
  */
 
+// Obtain common includes
+require_once './include/prepend.inc';
+
 response_header('Bugs');
 
 $packages = package::listAllNames();
 ?>
 
 <h1>PEAR Bug Tracking System</h1>
-<style type="text/css">
-.bug-box {
-    display: table-cell;
-    width: 33%;
-    padding: 0.5em;
-    border:1px solid white;
-}
-
-.bug-box.help {
-    background-color:#FFFFC8;
-    border:1px solid #FF9B64;
-}
-
-.bug-box form {
-    margin: 0.5em;
-}
-</style>
 <div class="bug-box">
     <h2>Report new Bug</h2>
     <p>Got a test case?</p>
@@ -54,14 +40,14 @@ $packages = package::listAllNames();
                 <?php foreach ($packages as $id => $package) { ?>
                     <option value="<?php print $package; ?>"><?php print $package; ?></option>
                 <?php } ?>
-            </select>
-            <input type="submit" name="action" value="Go" />
+            </select><br/>
+            <input type="submit" name="action" value="Go" class="bugs-go" />
         </form>
     <?php } else { ?>
         <p>0 packages found.</p>
     <?php } ?>
 
-    <p style="font-size: 0.8em; text-align: right">Psst! Check the tips <?php echo make_link('http://bugs.php.net/how-to-report.php',
+    <p style="font-size: 0.8em; text-align: right; clear:both;">Psst! Check the tips <?php echo make_link('http://bugs.php.net/how-to-report.php',
                   'on getting your bugs fixed quickly', 'top'); ?>!</p>
 </div>
 
@@ -77,8 +63,8 @@ $packages = package::listAllNames();
                 <?php foreach ($packages as $id => $package) { ?>
                     <option value="<?php print $package; ?>"><?php print $package; ?></option>
                 <?php } ?>
-            </select>
-            <input type="submit" name="action" value="Go" />
+            </select><br/>
+            <input type="submit" name="action" value="Go" class="bugs-go" />
         </form>
     <?php } else { ?>
         <p>0 packages found.</p>
@@ -89,7 +75,8 @@ $packages = package::listAllNames();
     <h2>Get help</h2>
     <p>Not sure if its a bug?</p>
 
-    <p>Try some of our support channels, and don't forget to <a href="http://pastebin.com">use pastebin</a>.
+    <p>Try some of our support channels,<br/>
+     and don not forget to <a href="http://pastebin.com">use pastebin</a>.
     </p>
     <ul>
      <li>The <a href="/support/lists.php">pear-general mailing list</a></li>
@@ -97,7 +84,7 @@ $packages = package::listAllNames();
     </ul>
     
 </div>
-<h2 style="margin-top: 2.0em">Search, Tips, Tools and Statistics</h2>
+<h2 style="margin-top: 2.0em; clear: both">Search, Tips, Tools and Statistics</h2>
 <p>Not what you wanted?</p>
 <!-- Shh -->
 <ul style="-moz-column-count:2">
