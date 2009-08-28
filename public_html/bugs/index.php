@@ -58,6 +58,7 @@ $packages = package::listAllNames();
     <p>Or a great use case?</p>
     <?php if (!empty($packages)) { ?>
         <form method="get" action="/bugs/report.php">
+            <input type="hidden" name="bug_type" value="Feature/Change Request"/>
             <select name="package">
                 <option selected="selected" value="">Choose your package</option>
                 <?php foreach ($packages as $id => $package) { ?>

@@ -614,8 +614,15 @@ else: // if (isset($auth_user))
    Bug Type:
   </th>
   <td class="form-input">
+   <?php
+        if (isset($_REQUEST['bug_type'])) {
+            $selectedBt = $_REQUEST['bug_type'];
+        } else {
+            $selectedBt = $_POST['in']['bug_type'];
+        }
+   ?>
    <select name="in[bug_type]" id="in[bug_type]">
-    <?php show_type_options($_POST['in']['bug_type']); ?>
+    <?php show_type_options($selectedBt); ?>
    </select>
   </td>
  </tr>
