@@ -75,7 +75,7 @@ $packages = package::listAllNames();
             <select name="package">
                 <option selected="selected">Choose your package</option>
                 <?php foreach ($packages as $id => $package) { ?>
-                    <option value="<?php print $id; ?>"><?php print $package; ?></option>
+                    <option value="<?php print $package; ?>"><?php print $package; ?></option>
                 <?php } ?>
             </select>
             <input type="submit" name="action" value="Go" />
