@@ -1031,8 +1031,7 @@ if ($edit == 1 || $edit == 2) {
      </tr>
      <?php if (auth_check('pear.dev')): ?>
      <tr>
-      <th>Assigned to <br />Roadmap Version(s):<br />
-      (<span class="headerbottom">Already released</span>)</th>
+      <th>Roadmap:</th>
       <td id="roadmaps" colspan="5" class="rm-hideold"><?php
         $link = Bug_DataObject::bugDB('bugdb_roadmap_link');
         $link->id = $id;
@@ -1073,8 +1072,8 @@ if ($edit == 1 || $edit == 2) {
                 }
             }
             ?>
-            &nbsp;<a id="showold" href="#" onclick="javascript:document.getElementById('roadmaps').className='rm'" title="Show already released roadmaps">&gt;&gt;</a>
-            &nbsp;<a id="hideold" href="#" onclick="javascript:document.getElementById('roadmaps').className='rm-hideold'" title="Hide already released roadmaps">&lt;&lt;</a>
+            &nbsp;<a id="showold" href="#" onclick="javascript:document.getElementById('roadmaps').className='rm';return false;" title="Show already released roadmaps">&gt;&gt;</a>
+            &nbsp;<a id="hideold" href="#" onclick="javascript:document.getElementById('roadmaps').className='rm-hideold';return false;" title="Hide already released roadmaps">&lt;&lt;</a>
             <?php
         } else {
             ?>(No roadmap defined)<?php
@@ -1274,6 +1273,7 @@ if ($res) {
   <li><span class="explain">&nbsp;&nbsp;&nbsp;</span>&nbsp;Explanation</li>
   <li><span class="success">&nbsp;&nbsp;&nbsp;</span>&nbsp;Success</li>
   <li><span class="errors">&nbsp;&nbsp;&nbsp;</span>&nbsp;Failure</li>
+  <li><span class="released">&nbsp;&nbsp;&nbsp;</span>&nbsp;Roadmap version already released</li>
 </ul>
 
 <?php

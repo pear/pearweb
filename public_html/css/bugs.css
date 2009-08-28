@@ -348,7 +348,7 @@ span.explain {
     border-color: #000066;
 }
 
-#explain-messages span.errors, #explain-messages span.success, #explain-messages span.explain {
+#explain-messages span.errors, #explain-messages span.success, #explain-messages span.explain, #explain-messages span.released {
     padding: 0 !important;
     margin: 0 !important;
     height: 10px;
@@ -411,5 +411,8 @@ td.rm-hideold #hideold {
 }
 td.rm #showold {
     display: none;
+}
+span.released {
+    background-color: #b6b6cc;
 }
 
