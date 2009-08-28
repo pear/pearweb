@@ -48,9 +48,9 @@ For Windows:
 */
   'fixedcvs' => array(
     'status' => 'Closed',
-    'desc' => 'Fixed in CVS',
+    'desc' => 'Fixed in SVN',
     'message' =>
-'This bug has been fixed in CVS.
+'This bug has been fixed in SVN.
 
 If this was a documentation problem, the fix will appear on ' . PEAR_CHANNELNAME . ' by the end of next Sunday (CET).
 
