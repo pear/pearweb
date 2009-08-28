@@ -405,7 +405,7 @@ if (!is_string($_REQUEST['package'])) {
 
 $clean_package = clean($_REQUEST['package']);
 if (empty($_REQUEST['package'])) {
-	$errors[] = 'Please choose a package before clicking "Go".';
+    $errors[] = 'Please choose a package before clicking "Go".';
     response_header("Report - No package selected");
     report_error($errors);
 } elseif (!package_exists($_REQUEST['package'])) {
