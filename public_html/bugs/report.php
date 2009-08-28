@@ -408,41 +408,47 @@ if (empty($_REQUEST['package'])) {
     $errors[] = 'Please choose a package before clicking "Go".';
     response_header("Report - No package selected");
     report_error($errors);
-} elseif (!package_exists($_REQUEST['package'])) {
+    response_footer();
+    exit();
+}
+if (!package_exists($_REQUEST['package'])) {
     $errors[] = 'Package "' . $clean_package . '" does not exist.';
-    response_header("Report - Invalid bug type");
+    response_header("Report - Invalid package");
     report_error($errors);
-} else {
-    response_header('Report - New');
+    response_footer();
+    exit();
+}
 
-    // See if this package uses an external bug system
-    require_once 'bugs/pear-bugs-utils.php';
-    $bug_link = PEAR_Bugs_Utils::getExternalSystem($clean_package);
-    if (!empty($bug_link)) {
-        $link = make_link($bug_link);
-        report_success($clean_package . ' has an external bug system that can be reached at ' . $link);
-        response_footer();
-        exit;
-    }
+response_header('Report - New');
 
-    if (!isset($_POST['in'])) {
-        $_POST['in'] = array(
-                 'package_name' => '',
-                 'bug_type' => '',
-                 'email' => '',
-                 'handle' => '',
-                 'sdesc' => '',
-                 'ldesc' => '',
-                 'repcode' => '',
-                 'expres' => '',
-                 'actres' => '',
-                 'package_version' => '',
-                 'php_version' => '',
-                 'php_os' => '',
-                 'passwd' => '',
+// See if this package uses an external bug system
+require_once 'bugs/pear-bugs-utils.php';
+$bug_link = PEAR_Bugs_Utils::getExternalSystem($clean_package);
+if (!empty($bug_link)) {
+    $link = make_link($bug_link);
+    report_success($clean_package . ' has an external bug system that can be reached at ' . $link);
+    response_footer();
+    exit;
+}
 
-        );
-        show_bugs_menu($clean_package);
+if (!isset($_POST['in'])) {
+    $_POST['in'] = array(
+                         'package_name' => '',
+                         'bug_type' => '',
+                         'email' => '',
+                         'handle' => '',
+                         'sdesc' => '',
+                         'ldesc' => '',
+                         'repcode' => '',
+                         'expres' => '',
+                         'actres' => '',
+                         'package_version' => '',
+                         'php_version' => '',
+                         'php_os' => '',
+                         'passwd' => '',
+
+                         );
+    show_bugs_menu($clean_package);
 
     try {
         // Uncomment this if you need to test on Windows
@@ -457,9 +463,9 @@ if (empty($_REQUEST['package'])) {
         // $ip = '209.85.138.136';
         $status = $sphp->query($ip);
     } catch (Services_ProjectHoneyPot_Exception $e) {
-       report_error($e);
-       response_footer();
-       exit;
+        report_error($e);
+        response_footer();
+        exit;
     }
 
     // Check about the last 30 days
@@ -468,7 +474,7 @@ if (empty($_REQUEST['package'])) {
     ) {
         $errors = 'We can not allow you to continue since your IP has been marked suspicious within the past 30 days
                 by the http://projecthoneypot.org/, if that was done in error then please contact ' .
-                   PEAR_DEV_EMAIL . ' as well as the projecthoneypot people to resolve the issue.';
+            PEAR_DEV_EMAIL . ' as well as the projecthoneypot people to resolve the issue.';
         report_error($errors);
         response_footer();
         exit;
@@ -516,7 +522,7 @@ if (empty($_REQUEST['package'])) {
 </p>
 
 <?php
-    }
+    }//no post set
 
     report_error($errors);
 
@@ -768,6 +774,6 @@ if (auth_check('pear.dev')) {
 </table>
 </form>
 <?php
-}
+
 
 response_footer();
