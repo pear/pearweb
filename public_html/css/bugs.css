@@ -431,6 +431,7 @@ span.released {
     background-color:#FFFFC8;
     border:1px solid #FF9B64;
     width: auto;
+    float: right;
 }
 
 .bug-box form {
