@@ -161,7 +161,12 @@ define('TRACKBACK_PURGE_TIME', 14 * 27 * 60 * 60);
 define('HONEYPOT_API_KEY', 'rmclkmerkfxm');
 
 if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME || !isset($_SERVER['PEAR_BOX'])) {
-    error_reporting(E_ALL|E_NOTICE);
+    //we cannot display deprecation errors since dependent packages are php4
+    error_reporting(
+        E_ERROR|E_WARNING|E_PARSE|E_NOTICE
+        |E_CORE_ERROR|E_CORE_WARNING|E_COMPILE_ERROR|E_COMPILE_WARNING
+        |E_USER_ERROR|E_USER_WARNING|E_USER_NOTICE
+    );
     define('DEVBOX', true);
 } else {
     error_reporting(E_ALL ^ E_NOTICE);
