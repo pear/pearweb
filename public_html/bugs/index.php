@@ -36,7 +36,7 @@ $packages = package::listAllNames();
     <?php if (!empty($packages)) { ?>
         <form method="get" action="/bugs/report.php">
             <select name="package">
-                <option selected="selected">Choose your package</option>
+                <option selected="selected" value="">Choose your package</option>
                 <?php foreach ($packages as $id => $package) { ?>
                     <option value="<?php print $package; ?>"><?php print $package; ?></option>
                 <?php } ?>
@@ -59,7 +59,7 @@ $packages = package::listAllNames();
     <?php if (!empty($packages)) { ?>
         <form method="get" action="/bugs/report.php">
             <select name="package">
-                <option selected="selected">Choose your package</option>
+                <option selected="selected" value="">Choose your package</option>
                 <?php foreach ($packages as $id => $package) { ?>
                     <option value="<?php print $package; ?>"><?php print $package; ?></option>
                 <?php } ?>
