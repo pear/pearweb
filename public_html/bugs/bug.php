@@ -376,7 +376,8 @@ if (isset($_POST['addpatch'])) {
     }
 
     if (!empty($_POST['in']['package_name']) &&
-        $bug['package_name'] != $_POST['in']['package_name']) {
+        $bug['package_name'] != $_POST['in']['package_name']
+    ) {
         // reset package version if we change package name
         $_POST['in']['package_version'] = '';
     }
@@ -484,7 +485,8 @@ if (isset($_POST['addpatch'])) {
         }
 
         if (!empty($_POST['in']['package_name']) &&
-            $bug['package_name'] != $_POST['in']['package_name']) {
+            $bug['package_name'] != $_POST['in']['package_name']
+        ) {
             // reset package version if we change package name
             $_POST['in']['package_version'] = '';
         }
