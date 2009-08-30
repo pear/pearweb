@@ -77,7 +77,7 @@ $packages = package::listAllNames();
     <p>Not sure if its a bug?</p>
 
     <p>Try some of our support channels,<br/>
-     and don not forget to <a href="http://pastebin.com">use pastebin</a>.
+     and do not forget to <a href="http://pastebin.com">use pastebin</a>.
     </p>
     <ul>
      <li>The <a href="/support/lists.php">pear-general mailing list</a></li>
