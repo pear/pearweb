@@ -409,7 +409,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             $package_count = count($package_name);
 ?>
 
-<table style="width: 100%; border-collapse: separate; border-spacing: 2px;">
+<table class="bug-results">
 <?php show_prev_next($begin, $rows, $total_rows, $link, $limit);?>
 <?php if ($package_count === 1) { ?>
  <tr>
@@ -438,14 +438,14 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
             <?php
 
             while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-                echo ' <tr valign="top" class="' . $tla[$row['status']] . '">' . "\n";
+                echo ' <tr class="bug-result ' . $tla[$row['status']] . '">' . "\n";
 
                 /* Bug ID */
-                echo '  <td align="center"><a href="/bugs/'.$row['id'].'">'.$row['id'].'</a>';
+                echo '  <td class="bug-id"><a href="/bugs/'.$row['id'].'">'.$row['id'].'</a>';
                 echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>' . "\n";
 
                 /* Date */
-                echo '  <td align="center">'.format_date(strtotime($row['ts1']), 'Y-m-d').'</td>' . "\n";
+                echo '  <td class="bug-date">'.format_date(strtotime($row['ts1']), 'Y-m-d').'</td>' . "\n";
                 if ($package_count !== 1) {
                     $pck = htmlspecialchars($row['package_name']);
                     echo '  <td><a href="/package/'.$pck.'">'.$pck.'</a></td>' . "\n";

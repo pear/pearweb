@@ -114,6 +114,7 @@ function response_header($title = 'The PHP Extension and Application Repository'
 ?>
  <!--[if IE 7]><link rel="stylesheet" type="text/css" href="/css/IE7styles.css" /><![endif]-->
  <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/IE6styles.css" /><![endif]-->
+ <link rel="stylesheet" type="text/css" href="/css/print.css" media="print" />
  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo PEAR_CHANNELNAME; ?>/feeds/latest.rss" />
  <!-- compliance patch for microsoft browsers -->
 <!--[if lt IE 8]>

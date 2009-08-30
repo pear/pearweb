@@ -444,3 +444,18 @@ input.bugs-go {
     padding-left: 10px;
     margin-top: 0.5em;
 }
+
+table.bug-results {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 2px;
+}
+
+table.bug-results tr.bug-result {
+	vertical-align: top;
+}
+
+table.bug-results td.bug-id,
+table.bug-results td.bug-date {
+	text-align: center;
+}
