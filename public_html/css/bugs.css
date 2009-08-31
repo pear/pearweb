@@ -423,28 +423,47 @@ span.released {
     width: 230px;
     border:1px solid white;
 }
+.bug-box-first {
+	padding-left: 0;
+}
 .bug-box select {
-    width: 200px;
+    width: 100%;
 }
 
-.bug-box.help {
-    background-color:#FFFFC8;
-    border:1px solid #FF9B64;
+.bug-box h2 {
+	margin-top: 0;
+}
+
+.bug-box p {
+	margin: 12px;
+}
+
+.bug-box-help {
+    background-color: #fffbc9;
+    border: 1px solid #f0dca1;
     width: auto;
-    float: right;
 }
 
 .bug-box form {
-    margin: 0.5em;
+    margin: 8px;
+}
+
+p.bug-note {
+	font-size: 75%;
+	background: #fffbc9;
+	margin: 0 8px;
+    border: 1px solid #f0dca1;
+	padding: 4px;
+	clear: right;
 }
 
 input.bugs-go {
-    float: right;
-    padding-right: 10px;
-    padding-left: 10px;
-    margin-top: 0.5em;
+    padding: 1px 4px;
+    margin: 0.5em 0;
+	float: right;
 }
 
+/* search results */
 table.bug-results {
 	width: 100%;
 	border-collapse: separate;
