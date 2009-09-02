@@ -86,7 +86,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
             $dev_text .= '  ID  Status     Summary'."\n";
 
             foreach ($value as $id => $bug_info) {
-                $text = sprintf("%4d ", $id);
+                $text = sprintf("%5d ", $id);
                 $text .= sprintf("%-8s ",$bug_info['status']);
                 $text .= ' '.$bug_info['sdesc'].'. ';
                 $body .= $text . "\n";
@@ -134,7 +134,7 @@ if (count($result) > 0 && !PEAR::isError($result)) {
                             $dev_text .= 'Package ' . $bug_info['package_name'];
                             $current_package = $bug_info['package_name'];
                         }
-                        $text  = sprintf("%4d ", $bug_info['id']);
+                        $text  = sprintf("%5d ", $bug_info['id']);
                         $text .= sprintf("%-8s ",$bug_info['status']);
                         $text .= ' '.$bug_info['sdesc'].'. ';
 
