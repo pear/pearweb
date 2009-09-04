@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.0RC4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-06-24</date>
- <time>07:49:10</time>
+ <date>2009-09-04</date>
+ <time>21:33:42</time>
  <version>
-  <release>1.21.1</release>
+  <release>1.22.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,8 +101,27 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Stray typo on bug report UI
-More UTF8 Encoding
+This version brings major usability enhancements to the patch tracker.
+It also makes most of pearweb XHTML valid.
+
+- Fix bug #16456: encode bug descriptions properly [doconnor]
+- Fix bug #14665 Fixed broken link [doconnor]
+- Fix bug #16138: mailing list subscription does not work [cweiske]
+- Fix bug #16528: Patchtracker download links fail when bug has several patches
+
+- Implement request #14983: display package dependencies on package page [doconnor]
+- Implement request #16496: News page should point you at the pear blog [doconnor]
+- Implement request #13448: Usability: distinguishing links in content [cweiske]
+- Implement request #14516: Bugtracker: tell users how to get package version [cweiske]
+- Implement request #15641: change hint [cweiske]
+- Implement request #13754: Allow Search for Unmaintained Packages on Bug Stats page [cweiske]
+- Implement request #13726: Highlight Unmaintained Packages on Bug Stats page [cweiske]
+- Implement request #16365: improve usability of download link for download page. [cweiske]
+- Implement request #16494: rPrint stylesheet for bug lists [gauthierm]
+
+- Fix old CVS links in a number of places [doconnor]
+- Fix several bugs and warnings in patchtracker [cweiske]
+- Make text input fields for bugs and contacting larger [cweiske]
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -118,7 +137,7 @@ More UTF8 Encoding
     <file name="bug-update-php-version.php" role="www">
      <tasks:replace from="@www-dir@" to="www_dir" type="pear-config" />
     </file>
-    <file name="election_results.php" role="www" />
+    <file name="rss-to-twitter.php" role="www" />
     <file name="trackback-cleanup.php" role="www" />
     <file name="update-website.php" role="www" />
    </dir> <!-- /cron -->
@@ -200,6 +219,7 @@ More UTF8 Encoding
     <file name="pear-database-statistics.php" role="www" />
     <file name="pear-database-user.php" role="www" />
     <file name="pear-format-html.php" role="www" />
+    <file name="pear-prepend-custom.php.dist" role="www" />
     <file name="pear-prepend.php" role="www" />
     <file name="pear-rest.php" role="www" />
     <file name="site.php" role="www" />
@@ -239,6 +259,7 @@ More UTF8 Encoding
      <file name="handle-patch.php" role="www" />
      <file name="index.php" role="www" />
      <file name="lstat.php" role="www" />
+     <file name="packageversion-desc.php" role="www" />
      <file name="patch-add.php" role="www" />
      <file name="patch-display.php" role="www" />
      <file name="patch-download.php" role="www" />
@@ -259,6 +280,7 @@ More UTF8 Encoding
      <file name="IE6styles.css" role="www" />
      <file name="IE7styles.css" role="www" />
      <file name="packages_status.css" role="www" />
+     <file name="print.css" role="www" />
      <file name="reset-fonts.css" role="www" />
      <file name="style.css" role="www" />
      <file name="thickbox.css" role="www" />
@@ -432,7 +454,6 @@ More UTF8 Encoding
     <file name="notes.sql" role="www" />
     <file name="packages.sql" role="www" />
     <file name="package_stats.sql" role="www" />
-    <file name="pearweb_election.xml" role="www" />
     <file name="pearweb_mdb2schema.xml" role="www" />
     <file name="pepr.sql" role="www" />
     <file name="process_mysqldump_for5.sh" role="www" />
@@ -447,9 +468,9 @@ More UTF8 Encoding
      <file name="listpatches.php" role="www" />
      <file name="patchadded.php" role="www" />
      <file name="patchdiff.php" role="www" />
-     <file name="patchinfo.php" role="www" />
      <file name="patchdisplay.php" role="www" />
      <file name="patchform.php" role="www" />
+     <file name="patchinfo.php" role="www" />
      <file name="registernewaccount.php" role="www" />
      <file name="roadmap.php" role="www" />
      <file name="roadmapadd.php" role="www" />
@@ -736,17 +757,17 @@ More UTF8 Encoding
    <subpackage>
     <name>pearweb_index</name>
     <channel>pear.php.net</channel>
-    <min>1.21.0</min>
+    <min>1.21.2</min>
    </subpackage>
    <subpackage>
     <name>pearweb_manual</name>
     <channel>pear.php.net</channel>
-    <min>1.1.0</min>
+    <min>1.1.1</min>
    </subpackage>
    <subpackage>
     <name>pearweb_pepr</name>
     <channel>pear.php.net</channel>
-    <min>1.0.2</min>
+    <min>1.0.3</min>
    </subpackage>
    <subpackage>
     <name>pearweb_qa</name>
@@ -2476,6 +2497,41 @@ Improved homepage to focus on the human side(s) of PEAR
    <notes>
 Stray typo on bug report UI
 More UTF8 Encoding
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.22.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-09-04</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+This version brings major usability enhancements to the patch tracker.
+It also makes most of pearweb XHTML valid.
+
+- Fix bug #16456: encode bug descriptions properly [doconnor]
+- Fix bug #14665 Fixed broken link [doconnor]
+- Fix bug #16138: mailing list subscription does not work [cweiske]
+- Fix bug #16528: Patchtracker download links fail when bug has several patches
+
+- Implement request #14983: display package dependencies on package page [doconnor]
+- Implement request #16496: News page should point you at the pear blog [doconnor]
+- Implement request #13448: Usability: distinguishing links in content [cweiske]
+- Implement request #14516: Bugtracker: tell users how to get package version [cweiske]
+- Implement request #15641: change hint [cweiske]
+- Implement request #13754: Allow Search for Unmaintained Packages on Bug Stats page [cweiske]
+- Implement request #13726: Highlight Unmaintained Packages on Bug Stats page [cweiske]
+- Implement request #16365: improve usability of download link for download page. [cweiske]
+- Implement request #16494: rPrint stylesheet for bug lists [gauthierm]
+
+- Fix old CVS links in a number of places [doconnor]
+- Fix several bugs and warnings in patchtracker [cweiske]
+- Make text input fields for bugs and contacting larger [cweiske]
    </notes>
   </release>
  </changelog>

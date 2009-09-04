@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.0RC4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_index</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website, informational front pages</summary>
@@ -73,8 +73,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-08-12</date>
- <time>21:38:46</time>
+ <date>2009-09-04</date>
+ <time>21:32:52</time>
  <version>
   <release>1.21.2</release>
   <api>1.0.0</api>
@@ -463,7 +463,7 @@ Fixed RSS feed reader to use content:encoded
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-08-12</date>
+   <date>2009-09-04</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 Fix bug #16138: mailing list subscription does not work [cweiske]

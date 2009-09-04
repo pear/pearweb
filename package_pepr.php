@@ -17,15 +17,11 @@ $a = PEAR_PackageFileManager2::importOptions(
             'sql/pearweb_pepr.xml',
         ),
     ));
-$a->setReleaseVersion('1.0.2');
+$a->setReleaseVersion('1.0.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Refactored RSS feeds for bugs
-Changed RSS feeds for homepage
-Individual bugs now render Baetle (RDF)
-Improved homepage to focus on the human side(s) of PEAR
-
+- Remove date_format which caused pepr proposals to be stuck forever [bbieber]
 ');
 $a->resetUsesrole();
 $a->clearDeps();

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.8.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.0RC4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_manual</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website manual bits</summary>
@@ -71,8 +71,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-07-02</date>
- <time>13:02:17</time>
+ <date>2009-09-04</date>
+ <time>21:33:01</time>
  <version>
   <release>1.1.1</release>
   <api>0.1.0</api>
@@ -88,14 +88,27 @@ User notes administration usability overhall
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
    <dir name="cron">
+    <file name="apidoc-fix-latest.php" role="www" />
+    <file name="apidoc-queue.php" role="www" />
+    <file name="find-documentation.php" role="www" />
     <file name="load-chm.sh" role="www" />
    </dir> <!-- /cron -->
    <dir name="include">
     <dir name="notes">
      <file name="ManualNotes.class.php" role="www" />
     </dir> <!-- /include/notes -->
+    <file name="pear-manual.php" role="www" />
    </dir> <!-- /include -->
    <dir name="public_html">
+    <dir name="admin">
+     <file name="apidoc-log.php" role="www" />
+    </dir> <!-- /public_html/admin -->
+    <dir name="css">
+     <file name="manual.css" role="www" />
+    </dir> <!-- /public_html/css -->
+    <dir name="error">
+     <file name="404-manual.php" role="www" />
+    </dir> <!-- /public_html/error -->
     <dir name="manual">
      <file name="index.php" role="www" />
     </dir> <!-- /public_html/manual -->
@@ -109,6 +122,9 @@ User notes administration usability overhall
      <file name="add-note.php" role="www" />
     </dir> <!-- /public_html/notes -->
    </dir> <!-- /public_html -->
+   <dir name="sql">
+    <file name="pearweb_manual.xml" role="www" />
+   </dir> <!-- /sql -->
    <dir name="templates">
     <dir name="notes">
      <file name="add-note-form.tpl.php" role="www" />
@@ -208,7 +224,7 @@ User notes administration usability overhall
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-07-02</date>
+   <date>2009-09-04</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 User notes administration usability overhall
