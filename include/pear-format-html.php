@@ -39,6 +39,7 @@ if (empty($dbh)) {
         'portability' => DB_PORTABILITY_ALL,
     );
     $dbh = DB::connect(PEAR_DATABASE_DSN, $options);
+    $dbh->query('SET NAMES "utf8"');
 }
 
 //include_once 'MDB2.php';
