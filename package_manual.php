@@ -27,11 +27,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.1.1');
+$a->setReleaseVersion('1.1.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-User notes administration usability overhall
+- text/javascript for all <script> [clockwerx]
 ');
 $a->resetUsesrole();
 $a->clearDeps();
