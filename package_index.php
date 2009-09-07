@@ -24,11 +24,13 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.21.2');
+$a->setReleaseVersion('1.22.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Fix bug #16138: mailing list subscription does not work [cweiske]
+- Fix request #15641: change hint [cweiske]
+- Drop link to planet pear [clockwerx]
+- Fix HTML errors [cweiske]
 ');
 $a->resetUsesrole();
 $a->clearDeps();
