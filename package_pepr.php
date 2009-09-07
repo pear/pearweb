@@ -22,6 +22,9 @@ $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 - Remove date_format which caused pepr proposals to be stuck forever [bbieber]
+- Fix HTML errors [cweiske]
+- Fix bug #16410: Rejected PEPr proposals should not steal names [clockwerx]
+- Dropped restrictions around "the same user must be the re-proposer" [clockwerx]
 ');
 $a->resetUsesrole();
 $a->clearDeps();

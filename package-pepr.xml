@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.0RC4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_pepr</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website package voting</summary>
@@ -71,8 +71,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-09-04</date>
- <time>21:33:09</time>
+ <date>2009-09-07</date>
+ <time>21:36:21</time>
  <version>
   <release>1.0.3</release>
   <api>0.1.0</api>
@@ -84,6 +84,9 @@
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
 - Remove date_format which caused pepr proposals to be stuck forever [bbieber]
+- Fix HTML errors [cweiske]
+- Fix bug #16410: Rejected PEPr proposals should not steal names [clockwerx]
+- Dropped restrictions around &quot;the same user must be the re-proposer&quot; [clockwerx]
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -204,10 +207,13 @@ Improved homepage to focus on the human side(s) of PEAR
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-09-04</date>
+   <date>2009-09-07</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - Remove date_format which caused pepr proposals to be stuck forever [bbieber]
+- Fix HTML errors [cweiske]
+- Fix bug #16410: Rejected PEPr proposals should not steal names [clockwerx]
+- Dropped restrictions around &quot;the same user must be the re-proposer&quot; [clockwerx]
    </notes>
   </release>
  </changelog>
