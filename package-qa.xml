@@ -22,10 +22,10 @@
   <email>arnaud@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-09-04</date>
- <time>21:33:15</time>
+ <date>2009-09-07</date>
+ <time>21:18:14</time>
  <version>
-  <release>1.0.0</release>
+  <release>1.0.1</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -34,7 +34,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- split qa script code from pearweb [dufuz]
+- text/javascript for all &lt;script&gt; [clockwerx]
+- fix E_NOTICES [clockwerx]
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -80,10 +81,26 @@
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-09-04</date>
+   <date>2009-04-28</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - split qa script code from pearweb [dufuz]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.1</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-09-07</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- text/javascript for all &lt;script&gt; [clockwerx]
+- fix E_NOTICES [clockwerx]
    </notes>
   </release>
  </changelog>

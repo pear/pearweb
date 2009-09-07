@@ -16,11 +16,12 @@ $a = PEAR_PackageFileManager2::importOptions(
             'public_html/qa/index.php'
         ),
     ));
-$a->setReleaseVersion('1.0.0');
+$a->setReleaseVersion('1.0.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- split qa script code from pearweb [dufuz]
+- text/javascript for all <script> [clockwerx]
+- fix E_NOTICES [clockwerx]
 ');
 $a->resetUsesrole();
 $a->clearDeps();
