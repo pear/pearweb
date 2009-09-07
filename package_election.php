@@ -19,13 +19,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.0.1');
+$a->setReleaseVersion('1.0.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- use www_dir role
-- cosmetics
-- support for sitenames
+- Bug #14040: Old elections link does not work [clockwerx]
 ');
 $a->resetUsesrole();
 $a->clearDeps();
