@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.0RC4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -89,8 +89,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-09-04</date>
- <time>21:33:42</time>
+ <date>2009-09-07</date>
+ <time>22:29:39</time>
  <version>
   <release>1.22.0</release>
   <api>0.1.1</api>
@@ -747,22 +747,22 @@ It also makes most of pearweb XHTML valid.
    <subpackage>
     <name>pearweb_election</name>
     <channel>pear.php.net</channel>
-    <min>1.0.1</min>
+    <min>1.0.2</min>
    </subpackage>
    <subpackage>
     <name>pearweb_gopear</name>
     <channel>pear.php.net</channel>
-    <min>1.1.3</min>
+    <min>1.1.4</min>
    </subpackage>
    <subpackage>
     <name>pearweb_index</name>
     <channel>pear.php.net</channel>
-    <min>1.21.2</min>
+    <min>1.22.0</min>
    </subpackage>
    <subpackage>
     <name>pearweb_manual</name>
     <channel>pear.php.net</channel>
-    <min>1.1.1</min>
+    <min>1.1.2</min>
    </subpackage>
    <subpackage>
     <name>pearweb_pepr</name>
@@ -772,7 +772,7 @@ It also makes most of pearweb XHTML valid.
    <subpackage>
     <name>pearweb_qa</name>
     <channel>pear.php.net</channel>
-    <min>1.0.0</min>
+    <min>1.0.1</min>
    </subpackage>
   </optional>
  </dependencies>
@@ -2508,7 +2508,7 @@ More UTF8 Encoding
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-09-04</date>
+   <date>2009-09-07</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 This version brings major usability enhancements to the patch tracker.
