@@ -256,7 +256,7 @@ if (count($catdata) > 0){
  * aren't at the top level.
  */
 $numPages = $currentPage = 1;
-$subCategories = array();
+$subCategories = "";
 if (!empty($catpid)) {
     $nrow = 0;
     // Subcategories list
@@ -271,14 +271,14 @@ if (!empty($catpid)) {
             if (empty($current_level_cat[$subcat['id']])) {
                 continue;
             }
-            $subCategories[] = sprintf('<b><a href="%s?catpid=%d&amp;catname=%s" title="%s">%s</a></b>',
+            $subCategoriesFragments[] = sprintf('<b><a href="%s?catpid=%d&amp;catname=%s" title="%s">%s</a></b>',
                                        $script_name,
                                        $subcat['id'],
                                        urlencode($subcat['name']),
                                        htmlspecialchars($subcat['summary']),
                                        $subcat['name']);
         }
-        $subCategories = implode(', ', $subCategories);
+        $subCategories = implode(', ', $subCategoriesFragments);
     }
 
     // Package list
