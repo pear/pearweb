@@ -442,7 +442,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
                 /* Bug ID */
                 echo '  <td class="bug-id"><a href="/bugs/'.$row['id'].'">'.$row['id'].'</a>';
-                echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>' . "\n";
+                echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1" class="edit">(edit)</a></td>' . "\n";
 
                 /* Date */
                 echo '  <td class="bug-date">'.format_date(strtotime($row['ts1']), 'Y-m-d').'</td>' . "\n";

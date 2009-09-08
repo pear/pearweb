@@ -61,7 +61,7 @@ if (!function_exists('show_prev_next')) {
 
         /* Bug ID */
         echo '  <td align="center"><a href="bug.php?id='.$row['id'].'">'.$row['id'].'</a>';
-        echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1">(edit)</a></td>' . "\n";
+        echo '<br /><a href="bug.php?id='.$row['id'].'&amp;edit=1" class="edit">(edit)</a></td>' . "\n";
 
         /* Date */
         echo '  <td align="center">'.date ('Y-m-d H:i:s', strtotime ($row['ts1'])).'</td>' . "\n";
