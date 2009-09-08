@@ -25,31 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.22.0');
+$a->setReleaseVersion('1.22.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-This version brings major usability enhancements to the patch tracker.
-It also makes most of pearweb XHTML valid.
-
-- Fix bug #16456: encode bug descriptions properly [doconnor]
-- Fix bug #14665 Fixed broken link [doconnor]
-- Fix bug #16138: mailing list subscription does not work [cweiske]
-- Fix bug #16528: Patchtracker download links fail when bug has several patches
-
-- Implement request #14983: display package dependencies on package page [doconnor]
-- Implement request #16496: News page should point you at the pear blog [doconnor]
-- Implement request #13448: Usability: distinguishing links in content [cweiske]
-- Implement request #14516: Bugtracker: tell users how to get package version [cweiske]
-- Implement request #15641: change hint [cweiske]
-- Implement request #13754: Allow Search for Unmaintained Packages on Bug Stats page [cweiske]
-- Implement request #13726: Highlight Unmaintained Packages on Bug Stats page [cweiske]
-- Implement request #16365: improve usability of download link for download page. [cweiske]
-- Implement request #16494: rPrint stylesheet for bug lists [gauthierm]
-
-- Fix old CVS links in a number of places [doconnor]
-- Fix several bugs and warnings in patchtracker [cweiske]
-- Make text input fields for bugs and contacting larger [cweiske]
+Fix bug #16572: Image category shows "Sub-categories: Array" [doconnor]
 ');
 $a->resetUsesrole();
 $a->clearDeps();
