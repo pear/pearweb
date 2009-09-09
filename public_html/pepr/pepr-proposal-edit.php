@@ -261,7 +261,7 @@ function checkLinkTypeAndUrl($link, $linkCount) {
     }
 
     if ('' != $url) {
-        return preg_match('@^http\://@i', $url) ? true: false;
+        return preg_match('@^https?\://@i', $url) ? true: false;
     }
 
     return '' == $url? true : false;

@@ -17,14 +17,11 @@ $a = PEAR_PackageFileManager2::importOptions(
             'sql/pearweb_pepr.xml',
         ),
     ));
-$a->setReleaseVersion('1.0.3');
+$a->setReleaseVersion('1.0.4');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Remove date_format which caused pepr proposals to be stuck forever [bbieber]
-- Fix HTML errors [cweiske]
-- Fix bug #16410: Rejected PEPr proposals should not steal names [clockwerx]
-- Dropped restrictions around "the same user must be the re-proposer" [clockwerx]
+- Fix Bug #16578 Unable to use https URL in "Links" section [saltybeagle]
 ');
 $a->resetUsesrole();
 $a->clearDeps();
