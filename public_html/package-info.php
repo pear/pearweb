@@ -29,7 +29,12 @@ $site = new Damblan_URL;
 
 
 // {{{ setup, queries
-$params = array('package|pacid' => '', 'action' => '', 'version' => '', 'allowtrackbacks' => '');
+$params = array(
+    'package|pacid' => '',
+    'action' => '',
+    'version' => '',
+    'allowtrackbacks' => ''
+);
 $site->getElements($params);
 
 $pacid = $params['package|pacid'];
@@ -91,6 +96,12 @@ if (!empty($params['action'])) {
     case 'redirected' :
         $redirected = true;
         $params['action']= '';
+
+    case 'doap':
+        //throw out doap data
+        include 'package-doap.php';
+        exit();
+        break;
 
     default :
         $action = '';
@@ -178,12 +189,15 @@ EOD;
 // {{{ page header
 
 $name = htmlspecialchars(strip_tags($name));
+$extraHeaders = $trackback_header
+    . ' <link rel="meta" title="DOAP" type="application/rdf+xml"'
+    . ' href="/package/' . $name . '/doap"/>';
 
 $doap = 'profile="http://purl.org/stuff/hdoap/profile"';
 if ($version) {
-    response_header($name . ' :: ' . $version, null, $trackback_header, $doap);
+    response_header($name . ' :: ' . $version, null, $extraHeaders, $doap);
 } else {
-    response_header($name, null, $trackback_header, $doap);
+    response_header($name, null, $extraHeaders, $doap);
 }
 
 html_category_urhere($pkg['categoryid'], true);

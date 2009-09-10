@@ -71,12 +71,17 @@ $_style = '';
 /**
  * Prints out the XHTML headers and top of the page.
  *
- * @param string $title  a string to go into the header's <title>
- * @param string $style
+ * @param string $title        A string to go into the header's <title>
+ * @param string $style        -Unused-
+ * @param string $extraHeaders Additional HTML head tags
+ * @param string $head         <head> parameters
+ *
  * @return void
  */
-function response_header($title = 'The PHP Extension and Application Repository', $style = false, $extraHeaders = '', $head = '')
-{
+function response_header(
+    $title = 'The PHP Extension and Application Repository',
+    $style = false, $extraHeaders = '', $head = ''
+) {
     global $_style, $_header_done, $self, $auth_user, $RSIDEBAR_DATA, $in_manual;
 
     $extra_styles = extra_styles();
