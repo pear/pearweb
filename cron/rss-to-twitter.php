@@ -30,7 +30,7 @@ if (!isset($argv[3])) {
     exit(1);
 }
 
-$cacheDir    = $argv[3];
+$cacheDir = $argv[3];
 if (!file_exists($cacheDir)) {
     $mkdirResult = mkdir($cacheDir, 0777, true);
     if ($mkdirResult === false) {
