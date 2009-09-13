@@ -8,6 +8,7 @@
  *  
  *  <code>
  *  php rss-to-twitter.php twitter_username twitter_password;
+ *  php rss-to-twitter.php twitter_username twitter_password cache_directory;
  *  </code>
  *  
  *  @category  pearweb
@@ -21,15 +22,21 @@ require_once 'HTTP/Request2.php';
 require_once 'XML/Feed/Parser.php';
 require_once 'Cache/Lite.php';
 require_once 'Services/Twitter.php';
+require_once 'Date.php';
 
-if (!isset($argv[2])) {
-    echo "usage: php " . __FILE__ . " <twitter_username> <twitter_password>\n";
+if (!isset($argv[3])) {
+    echo "usage: php " . __FILE__
+         .  " <twitter_username> <twitter_password> <directory>\n";
     exit(1);
 }
 
-$cacheDir = '/tmp/twitterrss/';
+$cacheDir    = $argv[3];
 if (!file_exists($cacheDir)) {
-    mkdir($cacheDir, 0777, true);
+    $mkdirResult = mkdir($cacheDir, 0777, true);
+    if ($mkdirResult === false) {
+        echo "Unable to create $cacheDir\n";
+        exit(1);
+    }
 }
 $cache = new Cache_Lite(array('cacheDir'             => $cacheDir,
                               'lifeTime'             => null,
@@ -40,8 +47,20 @@ $response    = $httpRequest->send();
 $rss         = new XML_Feed_Parser($response->getBody());
 $twitter     = new Services_Twitter($argv[1], $argv[2]);
 
+// Figure out the current time
+$tz  = new Date_TimeZone(date_default_timezone_get());
+$now = new Date();
+$now->setTZ($tz);
+
 $all = array();
 foreach ($rss as $feed) {
+    // Is this more than an hour old?  If so, skip it.
+    $rssDate  = new Date($feed->date);
+    $span     = new Date_Span($rssDate, $now);
+    $hoursOld = (int)ceil($span->toHours());
+    if ($hoursOld > 1) {
+        continue;
+    }
     $all[$feed->title] = $feed->link;
 }
 
@@ -50,7 +69,7 @@ $reversed = array_reverse($all, true);
 
 $exclamations = array('Cool!',
                       'Awesome!',
-                      'Great scott!',
+                      'Great Scott!',
                       'Sweet!',
                       'Great horny toads!');
 
