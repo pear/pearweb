@@ -377,7 +377,8 @@ if (isset($_POST['in'])) {
             }
 
             if (!empty($_POST['in']['addpatch'])) {
-                localRedirect('patch-add.php?bug_id=' . $cid . '&email=' . $_POST['in']['email']);
+                // Add patch page
+                localRedirect('bug.php?id=' . $cid . '&email=' . $_POST['in']['email'] . '&edit=13');
             } elseif (!isset($buggie) && !empty($_POST['in']['addpatch'])) {
                 //FIXME This is possible not needed anymore, look into it
                 require_once 'bugs/pear-bugs-utils.php';
