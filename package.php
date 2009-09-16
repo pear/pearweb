@@ -25,11 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.22.1');
+$a->setReleaseVersion('1.22.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Fix bug #16572: Image category shows "Sub-categories: Array" [doconnor]
+- Fix bug #16614: Bug comment emails have wrong link [cweiske]
 ');
 $a->resetUsesrole();
 $a->clearDeps();

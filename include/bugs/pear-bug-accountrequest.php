@@ -476,7 +476,7 @@ class PEAR_Bug_Accountrequest
 
         $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
         $ascii_report .= "\n-- \nEdit bug report at ";
-        $ascii_report .= "http://" . PEAR_CHANNELNAME . "/bugs/bug.php?id=$buginfo[id]&edit=1";
+        $ascii_report .= "http://" . PEAR_CHANNELNAME . "/bugs/bug.php?id=$buginfo[id]&edit=";
 
         include_once 'bugs/pear-bugs-utils.php';
         $pbu = new PEAR_Bugs_Utils;
