@@ -193,11 +193,10 @@ $extraHeaders = $trackback_header
     . ' <link rel="meta" title="DOAP" type="application/rdf+xml"'
     . ' href="/package/' . $name . '/doap"/>';
 
-$doap = 'profile="http://purl.org/stuff/hdoap/profile"';
 if ($version) {
-    response_header($name . ' :: ' . $version, null, $extraHeaders, $doap);
+    response_header($name . ' :: ' . $version, null, $extraHeaders);
 } else {
-    response_header($name, null, $extraHeaders, $doap);
+    response_header($name, null, $extraHeaders);
 }
 
 html_category_urhere($pkg['categoryid'], true);

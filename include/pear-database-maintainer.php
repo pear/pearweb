@@ -50,11 +50,11 @@ class maintainer
     /**
      * Get maintainer(s) for package
      *
-     * @static
-     * @param  mixed Name of the package or it's ID
-     * @param  boolean Only return lead maintainers?
-     * @param  boolean Only get all maintainers but possibility
-     *                 of getting all maintainer if active is set to false.
+     * @param mixed   Name of the package or it's ID
+     * @param boolean Only return lead maintainers?
+     * @param boolean Only get all maintainers but possibility
+     *                of getting all maintainer if active is set to false.
+     *
      * @return array
      */
     static function get($package, $lead = false, $active = false)
@@ -65,6 +65,45 @@ class maintainer
             $package = package::info($package, 'id');
         }
         $query = 'SELECT handle, role, active FROM maintains WHERE package = ?';
+
+        if ($lead) {
+            $query .= " AND role = 'lead'";
+        }
+
+        if ($active) {
+            $query .= ' AND active = 1';
+        }
+
+        $query .= ' ORDER BY active DESC';
+
+        return $dbh->getAssoc($query, true, array($package), DB_FETCHMODE_ASSOC);
+    }
+
+    /**
+     * Get maintainer details for package.
+     *
+     * @internal Used in DOAP package export, package-doap.php
+     *
+     * @param mixed   Name of the package or it's ID
+     * @param boolean Only return lead maintainers?
+     * @param boolean Only get all maintainers but possibility
+     *                of getting all maintainer if active is set to false.
+     *
+     * @return array
+     */
+    static function getDetailled($package, $lead = false, $active = false)
+    {
+        global $dbh;
+        if (is_string($package)) {
+            include_once 'pear-database-package.php';
+            $package = package::info($package, 'id');
+        }
+        $query = 'SELECT'
+            . ' users.handle as handle, role, users.active as active'
+            . ' , name, email, homepage, longitude, latitude'
+            . ' FROM maintains, users'
+            . ' WHERE users.handle=maintains.handle'
+            . ' AND package = ?';
 
         if ($lead) {
             $query .= " AND role = 'lead'";

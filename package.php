@@ -25,12 +25,13 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.22.2');
+$a->setReleaseVersion('1.23.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
 - Fix bug #16614: Bug comment emails have wrong link [cweiske]
 - Fix bug #16604: Broken link/redirecting to patch add at the wrong time. [doconnor]
+- Implement request #13354: Implement DOAP output [cweiske]
 ');
 $a->resetUsesrole();
 $a->clearDeps();
