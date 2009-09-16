@@ -38,7 +38,14 @@ $url = 'http://pear.php.net/package/' . $pkg['name'];
 $p = $x->Project;
 $p['rdf:about'] = $url;
 $p->name = $pkg['name'];
-$p->homepage['rdf:resource'] = $url;
+
+//use external homepage when given
+$homepage = $pkg['homepage'];
+if ($homepage == '') {
+    $homepage = $url;
+}
+$p->homepage['rdf:resource'] = $homepage;
+
 //we have no "created" data in our database. use first release
 end($pkg['releases']);
 $p->created = reset(
