@@ -48,10 +48,10 @@ $p->created = reset(
     )
 );
 $p->shortdesc = $pkg['summary'];
-$p->shortdesc['lang'] = 'en';
+$p->shortdesc['xml:lang'] = 'en';
 
 $p->description = $pkg['description'];
-$p->description['lang'] = 'en';
+$p->description['xml:lang'] = 'en';
 
 $p->{'mailing-list'}[0]['rdf:resource'] = 'http://pear.php.net/support/lists.php';
 $p->{'mailing-list'}[1]['rdf:resource'] = 'http://news.php.net/php.pear.general';
