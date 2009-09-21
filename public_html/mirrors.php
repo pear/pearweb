@@ -19,7 +19,7 @@
 */
 
 if (isset($country)) {
-  header("Location: http://$country.pear.php.net/");
+    header("Location: http://$country.pear.php.net/");
 }
 response_header("Mirrors Page");
 require_once 'site.php';
@@ -33,13 +33,12 @@ of pear.php.net. Pick a mirror site close to you, or visit
 the provider's homepage:
 </p>
 
-<table border="0" cellpadding="2" cellspacing="1" width="100%">
+<table border="0" cellpadding="2" cellspacing="1" width="100%" class="mirrors">
  <tr bgcolor="#cccccc">
   <th>Mirror Address</th>
   <th>Provider</th>
   <th>Country</th>
   <th>Type</th>
-  <th>Default Language</th>
  </tr>
 <?php
     $mprevious = 'aa';
@@ -63,18 +62,11 @@ the provider's homepage:
                 echo '</td><td>Pending';
                 break;
         }
-        echo '</td><td>' . $LANGUAGES[$mdata[6]] . '</td></tr>';
+        echo '</td></tr>';
         $mprevious = $mdata[0];
     }
 ?>
 </table>
-
-<!--
-<p>
-If you are interested in hosting a mirror of this site,
-<?php echo make_link("/README.mirror", "here's how"); ?>.
-</p>
-//-->
 
 <?php
 response_footer();

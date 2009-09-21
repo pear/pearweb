@@ -19,8 +19,7 @@
 */
 
 /**
- * XXX: This file is currently not used. If there will be mirrors
- * one fine day, this is the place to manage them.
+ * This file is used in public_html/mirrors.php
  */
 
 /* Structure of MIRRORS array:
@@ -30,14 +29,12 @@
   3	"url for hosting company",
   4	flag for whether site is a full mirror (1) or just a download site (0), or just a placeholder (2),
   5	flag for whether search engine works (1) or not (0) on the site
-  6 default language code
 */
 
 $MIRRORS = array(
-  'http://pear.php.net/'           => array('us', 'eUKhost', 0, 'http://www.eukhost.com/', 1, 0, 'en' ),
-  'http://us.pear.php.net/'        => array('us', 'Bluga', 0, 'http://www.bluga.net/', 0, 0, 'en' ),
-  'http://de.pear.php.net/'        => array('de', 'Christian Weiske', 0, 'http://www.cweiske.de/', 0, 0, 'de' ),
-//  'http://pear.php.easydns.ca/' => array('ca', 'easyDNS Technologies', 0, 'http://www.easydns.com/', 1, 0, 'en' )
+  'http://pear.php.net/'    => array('us', 'eUKhost', 0, 'http://www.eukhost.com/', 1, 0),
+  'http://us.pear.php.net/' => array('us', 'Digg', 0, 'http://digg.com/', 0, 0),
+  'http://de.pear.php.net/' => array('de', 'Christian Weiske', 0, 'http://cweiske.de/', 0, 0),
 );
 
 $COUNTRIES = array(
