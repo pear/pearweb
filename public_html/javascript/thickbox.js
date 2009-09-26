@@ -72,7 +72,7 @@ function TB_show(caption, url, rel) {
 			}
 		
 			// find the anchors that point to the group
-			var imageGroup = $("a[@rel="+rel+"]").get();
+			var imageGroup = $("a[rel="+rel+"]").get();
 			var foundSelf = false;
 			
 			// loop through the anchors, looking for ourself, saving information about previous and next image

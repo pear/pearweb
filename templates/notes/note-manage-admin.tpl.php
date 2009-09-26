@@ -17,24 +17,26 @@ response_header($title);
 }
 
 </style>
-<script type="text/javascript" src="/javascript/jquery.js"></script>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
 <script type="text/javascript" src="/javascript/thickbox.js"></script>
 <script type="text/javascript">
-
-function checkAll()
-{
-    $("input[@type='checkbox']").each(function() {
-        if (this.checked) {
-            this.checked = false;
-            $('input[@id=submitButton]').attr({'value': 'Select All'});
-            return true;
+    var isChecked = false;
+    
+    $('#submitButton').live('click', function() {
+        if (isChecked === false) {
+            $('input[type=checkbox]').each(function() {
+                $(this).attr('checked', 'check');
+                isChecked = true;
+            });
+        } else {
+            $('input[type=checkbox]').each(function() {
+                $(this).attr('checked', false);
+                isChecked = false;
+            });
         }
-        $('input[@id=submitButton]').attr({'value': 'Deselect All'});
-        this.checked = true;
     });
-}
 </script>
-
 <h1>Notes Management Area</h1>
 <?php if (count($pendingComments) > 0) : ?>
 <h3><?php echo $title; ?></h3>
@@ -60,7 +62,7 @@ if (isset($url) && !empty($url)) {
 
     <div id="actions_box">
         <h3><?php echo $caption ?></h3>
-        <input id="submitButton" type="button" onclick="checkAll()" value="Select All" />&nbsp;
+        <input id="submitButton" type="button"  value="Select All" />&nbsp;
         <input type="submit" name="<?php echo $name ?>" value="<?php echo $button ?>" />
         <?php if ($name != 'undelete'): ?>
           <input type="submit" name="delete" value="Delete" />
