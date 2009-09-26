@@ -32,6 +32,7 @@ $a->setNotes('
 - Fix bug #16614: Bug comment emails have wrong link [cweiske]
 - Fix bug #16604: Broken link/redirecting to patch add at the wrong time. [doconnor]
 - Implement request #13354: Implement DOAP output [cweiske]
+- Fix bug #16227: Wrong selectors being used by jquery. [davidc]
 ');
 $a->resetUsesrole();
 $a->clearDeps();
