@@ -90,9 +90,9 @@
   <active>yes</active>
  </developer>
  <date>2009-09-28</date>
- <time>17:28:59</time>
+ <time>18:06:34</time>
  <version>
-  <release>1.23.0</release>
+  <release>1.23.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,10 +101,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Fix bug #16614: Bug comment emails have wrong link [cweiske]
-- Fix bug #16604: Broken link/redirecting to patch add at the wrong time. [doconnor]
-- Implement request #13354: Implement DOAP output [cweiske]
-- Fix bug #16227: Wrong selectors being used by jquery. [davidc]
+- Fix E_WARNING with DOAP output for pearweb [cweiske]
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -2565,6 +2562,21 @@ Fix bug #16572: Image category shows &quot;Sub-categories: Array&quot; [doconnor
 - Fix bug #16604: Broken link/redirecting to patch add at the wrong time. [doconnor]
 - Implement request #13354: Implement DOAP output [cweiske]
 - Fix bug #16227: Wrong selectors being used by jquery. [davidc]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.23.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-09-28</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Fix E_WARNING with DOAP output for pearweb [cweiske]
    </notes>
   </release>
  </changelog>

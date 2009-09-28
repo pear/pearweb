@@ -25,14 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.23.0');
+$a->setReleaseVersion('1.23.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Fix bug #16614: Bug comment emails have wrong link [cweiske]
-- Fix bug #16604: Broken link/redirecting to patch add at the wrong time. [doconnor]
-- Implement request #13354: Implement DOAP output [cweiske]
-- Fix bug #16227: Wrong selectors being used by jquery. [davidc]
+- Fix E_WARNING with DOAP output for pearweb [cweiske]
 ');
 $a->resetUsesrole();
 $a->clearDeps();

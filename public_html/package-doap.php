@@ -72,15 +72,21 @@ $p->{'download-page'}['rdf:resource'] = $url . '/download';
  */
 $maintainers = maintainer::getDetailled($pkg['packageid']);
 
+//PEAR -> DOAP
 $rolemap = array(
     'helper'      => 'helper',
     'contributor' => 'helper',
     'developer'   => 'developer',
     'lead'        => 'maintainer',
 );
-$n = 0;
+$rolecounter = array(
+    'helper'      => 0,
+    'developer'   => 0,
+    'maintainer'  => 0,
+);
 foreach ($maintainers as $nick => $maint) {
     $role = $rolemap[$maint['role']];
+    $n = $rolecounter[$role];
     $p->{$role}[$n]->{'foaf:Person'}->{'foaf:nick'} = $nick;
     $p->{$role}[$n]->{'foaf:Person'}->{'foaf:name'} = $maint['name'];
     $p->{$role}[$n]->{'foaf:Person'}->{'foaf:homepage'}['rdf:resource']
@@ -95,7 +101,7 @@ foreach ($maintainers as $nick => $maint) {
             ->{'geo:Point'}['geo:long'] = $maint['longitude'];
     }
 
-    ++$n;
+    ++$rolecounter[$role];
 }
 
 //category
