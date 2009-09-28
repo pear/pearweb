@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-09-08</date>
- <time>08:02:57</time>
+ <date>2009-09-28</date>
+ <time>17:28:59</time>
  <version>
-  <release>1.22.1</release>
+  <release>1.23.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,7 +101,10 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Fix bug #16572: Image category shows &quot;Sub-categories: Array&quot; [doconnor]
+- Fix bug #16614: Bug comment emails have wrong link [cweiske]
+- Fix bug #16604: Broken link/redirecting to patch add at the wrong time. [doconnor]
+- Implement request #13354: Implement DOAP output [cweiske]
+- Fix bug #16227: Wrong selectors being used by jquery. [davidc]
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -393,6 +396,7 @@ Fix bug #16572: Image category shows &quot;Sub-categories: Array&quot; [doconnor
     <file name="osd.xml" role="www" />
     <file name="package-changelog.php" role="www" />
     <file name="package-delete.php" role="www" />
+    <file name="package-doap.php" role="www" />
     <file name="package-edit.php" role="www" />
     <file name="package-info.php" role="www" />
     <file name="package-new.php" role="www" />
@@ -597,6 +601,22 @@ Fix bug #16572: Image category shows &quot;Sub-categories: Array&quot; [doconnor
    </package>
    <package>
     <name>HTTP_Request2</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
+    <name>Date</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
+    <name>XML_Feed_Parser</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
+    <name>Services_Twitter</name>
+    <channel>pear.php.net</channel>
+   </package>
+   <package>
+    <name>Cache_Lite</name>
     <channel>pear.php.net</channel>
    </package>
    <package>
@@ -2527,6 +2547,24 @@ It also makes most of pearweb XHTML valid.
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 Fix bug #16572: Image category shows &quot;Sub-categories: Array&quot; [doconnor]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.23.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-09-28</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Fix bug #16614: Bug comment emails have wrong link [cweiske]
+- Fix bug #16604: Broken link/redirecting to patch add at the wrong time. [doconnor]
+- Implement request #13354: Implement DOAP output [cweiske]
+- Fix bug #16227: Wrong selectors being used by jquery. [davidc]
    </notes>
   </release>
  </changelog>
