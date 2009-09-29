@@ -93,17 +93,18 @@ if (!empty($params['action'])) {
         $action = $params['action'];
         break;
 
-    case 'redirected' :
-        $redirected = true;
-        $params['action']= '';
-
     case 'doap':
         //throw out doap data
         include 'package-doap.php';
         exit();
         break;
 
-    default :
+    case 'redirected':
+        //needs to be directly before default
+        $redirected = true;
+        $params['action']= '';
+
+    default:
         $action = '';
         $version = htmlspecialchars(strip_tags($params['action']));
         break;

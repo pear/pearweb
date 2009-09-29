@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-09-28</date>
- <time>18:06:34</time>
+ <date>2009-09-29</date>
+ <time>12:24:42</time>
  <version>
-  <release>1.23.1</release>
+  <release>1.23.2</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,7 +101,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Fix E_WARNING with DOAP output for pearweb [cweiske]
+- Fix bug #16655: Package redirection broken; returns DOAP [aharvey]
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -2577,6 +2577,21 @@ Fix bug #16572: Image category shows &quot;Sub-categories: Array&quot; [doconnor
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - Fix E_WARNING with DOAP output for pearweb [cweiske]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.23.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-09-29</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Fix bug #16655: Package redirection broken; returns DOAP [aharvey]
    </notes>
   </release>
  </changelog>

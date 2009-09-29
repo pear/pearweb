@@ -25,11 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.23.1');
+$a->setReleaseVersion('1.23.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Fix E_WARNING with DOAP output for pearweb [cweiske]
+- Fix bug #16655: Package redirection broken; returns DOAP [aharvey]
 ');
 $a->resetUsesrole();
 $a->clearDeps();
