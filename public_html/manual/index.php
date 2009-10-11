@@ -22,54 +22,67 @@ require_once 'HTML/Table.php';
 response_header('Documentation');
 ?>
 
-<h1>Documentation</h1>
+<div class="manual-content" id="manual-content">
 
-<p>The PEAR documentation is a centralized place where developers can
-add the documentation for their package.</p>
+ <h1>Documentation</h1>
 
-<p>Currently the documentation is available in the following languages:</p>
+ <p class="para">
+  The PEAR documentation is a centralized place where developers can
+  add the documentation for their package.
+ </p>
 
-<ul>
+ <p class="para">
+  Currently the documentation is available in the following languages:
+ </p>
 
+ <ul class="itemizedlist">
 <?php
 $outdated_languages = array_slice($doc_languages, 4);
 
 $i = 0;
 foreach (array_slice($doc_languages, 0, 4) as $domain => $name) {
-    echo '<li>';
+    echo "  <li class=\"listitem\">";
     if ($i++ == 0) {
-        echo '<b>' . make_link('/manual/' . $domain . '/', $name) . '</b>';
+        echo '<strong>' . make_link('/manual/' . $domain . '/', $name) . '</strong>';
     } else {
         echo make_link('/manual/' . $domain . '/', $name);
     }
-    echo '</li>';
+    echo "</li>\n";
 }
 ?>
+ </ul>
 
-</ul>
+ <p class="para">
+  The translations of the following languages are outdated but still available:
+ </p>
 
-<p>The translations of the following languages are outdated but still available:</p>
-
-<ul>
+ <ul class="itemizedlist">
 <?php
 foreach ($outdated_languages as $domain => $name) {
-    echo '<li>';
+    echo "  <li class=\"listitem\">";
     echo make_link('/manual/' . $domain . '/', $name);
-    echo '</li>';
+    echo "</li>\n";
 }
 ?>
-</ul>
+ </ul>
 
-<p>If you prefer to have an offline version of the documentation, you can
-download it in a variety of formats.</p>
+ <h2>Download Documentation</h2>
 
-<p><strong>Note to Windows users</strong>: If you are using
-Microsoft Internet Explorer under Windows XP SP2 or
-later and you are going to download the documentation in CHM
-format, you should "unblock" the file after downloading it, by
-right-clicking on it and selecting the properties menu item. Then click
-on the 'Unblock' button. Failing to do this may lead to errors
-in the visualization of the file, due to a Microsoft bug.</p>
+ <p class="para">
+  If you prefer to have an offline version of the documentation, you can
+  download it in a variety of formats.
+ </p>
+
+ <blockquote class="note">
+  <p class="para"><strong>Note to Windows users</strong>: If you are using
+   Microsoft Internet Explorer under Windows XP SP2 or
+   later and you are going to download the documentation in CHM
+   format, you should "unblock" the file after downloading it, by
+   right-clicking on it and selecting the properties menu item. Then click
+   on the 'Unblock' button. Failing to do this may lead to errors
+   in the visualization of the file, due to a Microsoft bug.
+  </p>
+ </blockquote>
 
 <?php
 $formats = array(
@@ -82,16 +95,15 @@ $formats = array(
     "pear_manual_{LANG}.html.bz2"    => array('One big HTML file',   'html.bz2'),
 );
 
-$table = new HTML_Table('style="width: 70%"');
-$table->setCaption('Download Documentation', 'style="background-color: #CCCCCC;"');
+$table = new HTML_Table('class="informaltable"');
 
-$table->addRow(array('Type', 'Format'));
+$table->addRow(array('Type', 'Format'), '', 'th');
 foreach ($doc_languages as $domain => $name) {
-    $language = '<strong>' . $name . '</strong>';
+    $language = $name;
     if (array_key_exists($domain, $outdated_languages)) {
-        $language .= ' (outdated)';
+        $language .= ' <span>(outdated)</span>';
     }
-    $table->addRow(array($language), 'style="background-color: #E8E8E8;" colspan="2"');
+    $table->addRow(array($language), 'colspan="2"', 'th');
 
     foreach ($formats as $filename => $information) {
         if ($domain == "ru" && $information[1] == "chm") {
@@ -105,5 +117,10 @@ foreach ($doc_languages as $domain => $name) {
     }
 }
 echo $table->toHTML();
+?>
+
+</div>
+
+<?php
 
 response_footer();

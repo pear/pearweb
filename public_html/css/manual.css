@@ -1,210 +1,202 @@
 /* STYLES FOR VIEWING THE MANUAL ON THE WEBSITE */
 
+/* === Layout === */
+
+div#body {
+	line-height: 1.4;
+	margin: 0;
+	padding: 0;
+}
+
+div#footer {
+	margin-top: 0;
+}
+
+#manual-content {
+	margin: 1em 250px 1em 1em;
+}
+
 /* === Navigation Sidebar === */
 
-/* larger links: manual home, up one level, download */
+#manual-sidebar {
+	width: 220px;
+	float: right;
+	margin: 1em 1em 0 0;
+}
 
-ul.man-side_top,
-ul.man-side_up,
-ul.man-side_download {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    margin-left: 0.7em;
+.manual-sidebar-top ul,
+.manual-sidebar-up ul,
+.manual-sidebar-info ul {
+    margin: 0.5em 0 1em 0.8em;
     padding-left: 0.7em;
 }
 
-li.man-side_top {
+.manual-sidebar-up ul{
+    margin-bottom: 0;
+}
+
+.manual-sidebar-pages ol {
+	margin: 0.5em 1em 1em 2em;
+}
+
+.manual-sidebar-top li {
     list-style: url(/gifs/caret-t.gif) circle;
     text-indent: -0.4em;
 }
 
-li.man-side_up {
+.manual-sidebar-up li {
     list-style: url(/gifs/caret-u.gif) disc;
     text-indent: -0.4em;
 }
 
-li.man-side_download {
-    list-style: square;
+.manual-sidebar-info li {
+	list-style-type: none;
     text-indent: -0.4em;
 }
 
-/* list of manual pages */
-
-ul.man-side_pages {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    margin-left: 0.8em;
-    padding-left: 0.8em;
-    list-style: square;
+.manual-sidebar-up,
+.manual-sidebar-info {
+	border-top: 1px solid #ccc;
 }
 
-li.man-side_page {
-    text-indent: -0.4em;
+li.manual-sidebar-page {
+    font-size: 85%;
+	margin: 0.5em 0;
+}
+
+li.manual-sidebar-page-nested {
     font-size: 85%;
 }
 
-li.man-side_page_nested {
-    font-size: 100%;
+ol.manual-sidebar-pages-nested {
+	margin: 0 0 1em 1em;
 }
 
-/* === Navigation Box (previous, next, languages) === */
+/* === Navigation Bar (previous, next, languages) === */
 
-table.man-nav {
-    background-color: #F0F0F0;
-    border-bottom: 1px solid #CCCCCC;
-    width: 97%;
-    min-width: 30em;
-    border-collapse: separate;
-    border-spacing: 0.5em;
+.manual-navigation {
+	background: #f0f0f0;
+	padding: 1em;
 }
 
-table#man-nav-top {
-    margin-top: -0.3em;
-    margin-bottom: 0.5em;
+.manual-navigation a {
+	border-bottom: none;
 }
 
-table#man-nav-bottom {
-    margin-top: 1em;
-    margin-bottom: 0.2em;
+a.manual-previous,
+a.manual-next {
+	display: block;
+	font-size: 85%;
+	max-width: 40%;
+
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 }
 
-/* top row */
-
-td.man-nav_prev, td.man-nav_next {
-    font-size: 75%;
+a.manual-previous {
+	float: left;
+	padding: 4px 10px 4px 40px;
+	background: url(../images/elements/left-off.png) no-repeat left 7px;
 }
 
-td.man-nav_prev {
-    text-align: left;
+a.manual-next {
+	float: right;
+	padding: 4px 40px 4px 10px;
+	background: url(../images/elements/right-off.png) no-repeat right 7px;
+	text-align: right;
 }
 
-td.man-nav_next {
-    text-align: right;
+a.manual-previous:hover,
+a.manual-next:hover {
+	background-color: #fff;
+	color: #7ac20e;
 }
 
-td.man-nav_prev-next {
-    vertical-align: top;
+a.manual-previous:hover {
+	background-image: url(../images/elements/left-on.png);
 }
 
-td.man-nav_space {
-    height: 1px;
+a.manual-next:hover {
+	background-image: url(../images/elements/right-on.png);
 }
 
-/* middle row */
-
-td.man-nav_view,
-td.man-nav_download,
-td.man-nav_bug {
-    text-align: left;
-    font-size: 75%;
+a.manual-previous span.title,
+a.manual-next span.title {
+	display: block;
+	color: #888;
 }
 
-td.man-nav_updated {
-    text-align: right;
-    font-size: 75%;
+a.manual-previous:hover span.title,
+a.manual-next:hover span.title {
+	color: #aaa;
 }
 
-/* bottom row */
-
-td.man-nav_languages {
-    font-size: 75%;
+.manual-clear {
+	clear: both;
 }
 
-#user-notes {
-    padding-top: 1em;
+.manual-info,
+.manual-bug {
+	margin: 1em 0;
+	font-size: 85%;
 }
 
-/* === Examples === */
-
-code, pre, tt {
-    font-family: "andale mono", "monotype.com", "courier new", courier, monospace;
-    margin: 0px;
+.manual-info a,
+.manual-bug a {
+	border-bottom: 1px dotted;
 }
 
-pre.php {
-    border:             0;
-    background-color:   #EAEAEA;
-    padding:            0.5em;
-    margin:             0.5em;
+.manual-navigation-no-nav .manual-info {
+	margin-top: 0;
 }
 
-pre.xml {
-    margin: 0.5em;
-    max-height: 35em;
-    overflow-y: auto;
-    background-color: #EAEAEA;
-    color: black;
-    font-size: 100%;
-    padding: 0.5em;
+#manual-navigation-top {
+	border-bottom: 1px solid #ccc;
 }
 
-pre.synopsis {
-    margin: 0.5em;
+#manual-navigation-bottom{
+	margin: 0;
+	border-top: 1px solid #ccc;
+	clear: right;
 }
 
-table.EXAMPLE {
-    margin-top: 1em;
-    width: 95%;
-    border: 0;
+.manual-languages {
+    font-size: 85%;
 }
 
-table.EXAMPLE-CODE, table.warning {
-    width: 95%;
+.manual-language-list {
+	margin: 0 0 1em 0;
+	display: inline;
 }
 
-table.EXAMPLE table.EXAMPLE-CODE {
-    width: 100%;
+.manual-language-list li {
+	display: inline;
 }
 
-table.EXAMPLE p {
-    margin-top: 0em;
-    margin-bottom: 0em;
+.manual-language-list a {
+	border-bottom: 1px dotted;
 }
 
-table.EXAMPLE-CODE, pre.synopsis {
-    background-color: white;
+.manual-notes {
+	clear: left;
 }
 
-table.EXAMPLE-CODE pre.screen {
-    background-color: #EAEAEA;
-    color: black;
-    margin: 0.5em;
-    padding: 0.5em;
+.manual-notes h3 {
+	margin: 0;
 }
 
-/* === Notes === */
+#manual-navigation-top.manual-navigation-no-nav {
+	display: none;
+}
+
+/* === User Notes === */
+
 td div.note {
     border: 0;
     background-color: #e0e0e0;
     color: inherit;
     text-align: left;
     padding: 0.5em;
-}
-
-.chapter blockquote.note,
-.refsect1 blockquote.note,
-.refsect2 blockquote.note,
-.refsect3 blockquote.note,
-.sect3 blockquote.note,
-.sect2 blockquote.note,
-.sect1 blockquote.note {
-    background-color: inherit;
-    border: 0;
-    color: inherit;
-    text-align:left;
-}
-
-.chapter div.note,
-.refsect1 div.note,
-.refsect2 div.note,
-.refsect3 div.note,
-.sect3 div.note,
-.sect2 div.note,
-.sect1 div.note {
-    border: 0;
-    background-color: #FFFFCC;
-    margin: 0.25em;
-    padding: 0.25em;
 }
 
 td div.pending_note {
@@ -229,26 +221,222 @@ td div.note_handle {
 }
 
 /* === Headings === */
-.chapter, .sect1, h2.sect2, h3.sect3 {
-    padding-top: 1.0em;
+
+h1 {
+	margin: 1em 0 0 0;
 }
 
-/* === Inline tables === */
-table.CALSTABLE td,
-table.CALSTABLE th {
-    padding: 0.3em;
+h1.refname {
+	margin: 0;
 }
 
-table.CALSTABLE th {
-    font-weight: bold;
+h2, h3 {
+	border-bottom: 1px solid #ccc;
+	margin: 1.5em 0 0 0;
 }
 
-table.CALSTABLE {
-    border-color: #F0F0F0;
-    margin: auto;
+.info + p,
+.title + p {
+	margin-top: 0.5em;
 }
 
-div.table a b {
-    display: block;
-    text-align: center;
+/* === Content === */
+
+.para {
+	margin: 1em 0;
+}
+
+.simpara {
+	margin: 0;
+}
+
+.listitem {
+	margin: 0;
+}
+
+.classname,
+.package {
+	font-weight: inherit;
+}
+
+/* === Notes, Warnings, Etc === */
+
+.note,
+.important,
+.warning,
+.tip {
+	border: 1px solid;
+	margin: 1em 0;
+	padding: 0 1em 0 62px;
+	min-height: 48px;
+
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+.note {
+	background: #fffbc9 url(../images/elements/note.png) no-repeat 0 0;
+	border-color: #f0dca1;
+	color: #534c38;
+}
+
+.important,
+.warning {
+	background: #ffd8d0 url(../images/elements/warning.png) no-repeat 0 0;
+	border-color: #ffbab0;
+	color: #882420;
+}
+
+.tip {
+	background: #eef url(../images/elements/tip.png) no-repeat 0 0;
+	color: #448;
+	border-color: #aaf;
+}
+
+.note .simpara,
+.important .simpara,
+.warning .simpara,
+.tip .simpara {
+	margin: 1em 0;
+}
+
+.note .informalexample,
+.note .example,
+.note .screen,
+.important .informalexample,
+.important .example,
+.important .screen,
+.warning .informalexample,
+.warning .example,
+.warning .screen,
+.tip .informalexample,
+.tip .example,
+.tip .screen {
+	border: none;
+	background: none;
+	padding: 0;
+}
+
+.note .informalexample .screen,
+.note .example .screen,
+.important .informalexample .screen,
+.important .example .screen,
+.warning .informalexample .screen,
+.warning .example .screen,
+.tip .informalexample .screen,
+.tip .example .screen {
+	margin: 0;
+}
+
+h3.warning-title {
+	color: #882420;
+	border-bottom: none;
+	margin: 0.8em 0 0 0;
+}
+
+h3.warning-title + p {
+	margin-top: 0;
+}
+
+/* === Tables === */
+
+table.table,
+table.informaltable {
+	border-spacing: 0;
+	width: 100%;
+	border: 1px solid #ccc;
+}
+
+table.table caption {
+	padding: 0.5em 0 1em 0;
+	margin: 0;
+	font-size: 85%;
+	color: #666;
+	caption-side: bottom;
+}
+
+table.table td,
+table.informaltable td {
+	padding: 0.5em 1em;
+	border: 1px solid #ccc;
+}
+
+table.informaltable td {
+	padding: 0.25em 1em;
+	border-left: none;
+	border-right: none;
+}
+
+table.table th,
+table.informaltable th {
+	font-weight: bold;
+	background: #f0f0f0;
+	color: #666;
+	padding: 0.5em 1em;
+	border: 1px solid #ccc;
+}
+
+table.informaltable th {
+	padding: 0.25em 1em;
+	border-left: none;
+	border-right: none;
+}
+
+table.table th span,
+table.informaltable th span {
+	font-weight: normal;
+}
+
+/* === Examples === */
+
+.phpcode,
+.screen,
+.xmlcode {
+	margin: 1em 0;
+	padding: 1em;
+	background: #eee;
+	border: 1px solid #ccc;
+}
+
+.screen .replaceable {
+	font-style: italic;
+}
+
+.example,
+.informalexample {
+	background: #eee;
+	border: 1px solid #ccc;
+	margin: 1em 0;
+}
+
+.example p.para,
+.example p.simpara,
+.informalexampl p.para,
+.informalexampl p.simpara {
+	margin: 1em;
+}
+
+.example .phpcode,
+.informalexample .phpcode,
+.example .screen,
+.informalexample .screen,
+.example pre.xmlcode,
+.informalexample pre.xmlcode {
+	padding: 0;
+	margin: 1em;
+	background: none;
+	border: none;
+}
+
+.example div.xmlcode,
+div.xmlcode pre.xmlcode,
+.informalexample div.xmlcode {
+	margin: 0;
+	padding: 0;
+	border: none;
+	background: none;
+}
+
+.example div.xmlcode pre.xmlcode {
+	margin: 1em;
 }

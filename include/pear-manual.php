@@ -13,7 +13,7 @@
    | obtain it through the world-wide-web, please send a note to          |
    | license@php.net so we can mail you a copy immediately.               |
    +----------------------------------------------------------------------+
-   | Authors:                                                             |
+   | Authors: Michael Gauthier <mike@silverorange.com>                    |
    +----------------------------------------------------------------------+
    $Id$
 */
@@ -35,8 +35,6 @@ $doc_languages = array('en' => 'English',
 $NEXT = $PREV = $UP = $HOME = array(false, false);
 $TOC = array();
 
-$RSIDEBAR_DATA = '';
-
 function setupNavigation($data)
 {
     global $NEXT, $PREV, $UP, $HOME, $TOC, $tstamp;
@@ -46,45 +44,69 @@ function setupNavigation($data)
     $PREV = @$data['prev'];
     $UP   = @$data['up'];
     $TOC =  @$data['toc'];
-    $tstamp = gmdate('D, d M Y',getlastmod());
+    $tstamp = gmdate('D, d M Y', getlastmod());
 }
 
-function makeBorderTOC($id, $this = '')
+function wordWrapTitle($title, $indent = false)
 {
-    global $NEXT, $PREV, $UP, $HOME, $TOC, $DOCUMENT_ROOT;
-    global $RSIDEBAR_DATA, $LANG,$CHARSET;
+    $title     = trim($title, "\t\n :");
+    $wrapped   = array($title);
+    $maxLength = ($indent) ? 22 : 24;
 
-    $RSIDEBAR_DATA  = "\n\n<!-- START MANUAL'S SIDEBAR TOC -->\n\n";
-    $RSIDEBAR_DATA .= '<form method="get" action="/manual-lookup.php">' . "\n";
-    $RSIDEBAR_DATA .= '<table border="0" cellpadding="4" cellspacing="0">' . "\n";
-
-    /** The manual lookup will be implemented at a later point.
-    $RSIDEBAR_DATA .= '<tr valign="top"><td><small>' .
-        '<input type="hidden" name="lang" value="' . $LANG . '">' .
-        'lookup: <input type="text" class="small" name="function" size="10"> ' .
-        make_submit('small_submit_white.gif', 'lookup', 'bottom') .
-        '<br /></small></td></tr>';
-
-    $RSIDEBAR_DATA .= '<tr bgcolor="#cccccc"><td></td></tr>';
-    */
-
-    $RSIDEBAR_DATA .= '<tr valign="top"><td>' . "\n";
-
-    $RSIDEBAR_DATA .= ' <ul class="man-side_top">' . "\n"
-                   . '  <li class="man-side_top">'
-                   . make_link('./', $HOME[1]) . "</li>\n"
-                   . ' </ul>' . "\n\n";
-
-    $RSIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
-
-    if (($HOME[1] != $UP[1]) && $UP[1]) {
-        $RSIDEBAR_DATA .= ' <ul class="man-side_up">' . "\n"
-                       . '  <li class="man-side_up">'
-                       . make_link($UP[0], $UP[1]) . "</li>\n"
-                       . ' </ul>' . "\n\n";
+    if (strlen($title) > $maxLength && strpos($title, '::') !== false) {
+        // break long titles on scope operator
+        $wrapped = explode('::', $title);
+        $partCount = count($wrapped);
+        foreach ($wrapped as $i => $piece) {
+            if ($i !== ($partCount - 1)) {
+                $wrapped[$i] = $wrapped[$i] . '::';
+            }
+        }
+    } elseif (strlen($title) > $maxLength) {
+        // word wrap titles
+        $wrapped = array();
+        while (strlen($title) > $maxLength) {
+            $chunk = substr($title, 0, $maxLength);
+            $pos = strrpos($chunk, ' ');
+            if ($pos === false) {
+                $pos = $maxLength;
+            }
+            $wrapped[] = trim(substr($title, 0, $pos));
+            $title = trim(substr($title, $pos));
+        }
+        $title = trim($title);
+        if (strlen($title) > 0) {
+            $wrapped[] = $title;
+        }
     }
 
-    $RSIDEBAR_DATA .= ' <ul class="man-side_pages">' . "\n";
+    return $wrapped;
+}
+
+function navigationSidebar($id, $this = '')
+{
+    global $NEXT, $PREV, $UP, $HOME, $TOC, $DOCUMENT_ROOT;
+    global $LANG, $CHARSET;
+
+    echo "\n\n<!-- START MANUAL SIDEBAR -->\n";
+    echo "<div class=\"manual-sidebar\" id=\"manual-sidebar\">\n";
+
+    echo " <div class=\"manual-sidebar-top\">\n";
+    echo "  <ul>\n";
+    echo "   <li>" . make_link('./', $HOME[1]) . "</li>\n";
+    echo "  </ul>\n";
+    echo " </div>\n\n";
+
+    if (($HOME[1] != $UP[1]) && $UP[1]) {
+        echo " <div class=\"manual-sidebar-up\">\n";
+        echo "  <ul>\n";
+        echo "   <li>" . make_link($UP[0], $UP[1]) . "</li>\n";
+        echo "  </ul>\n";
+        echo " </div>\n\n";
+    }
+
+    echo " <div class=\"manual-sidebar-pages\">\n";
+    echo "  <ol>";
 
     $package_name = getPackageNameForId($id);
     $indent = false;
@@ -96,19 +118,30 @@ function makeBorderTOC($id, $this = '')
             continue;
         }
 
-        $title_fmt = trim(@htmlspecialchars($title, ENT_QUOTES, $CHARSET));
+        // decode any entities
+        $title_fmt = html_entity_decode($title, ENT_QUOTES, $CHARSET);
+
+        // trim unnecessary duplication of package name in title
         if (!is_null($package_name)) {
             $title_fmt = preg_replace('/^\s*' . $package_name . '[_\w]*::/', '', $title_fmt);
         }
-        if (strlen($title_fmt) > 25) {
-            $title_fmt = str_replace('::', '::<br />', $title_fmt);
+
+        // word wrap it, get each line as an array element
+        $title_parts = wordWrapTitle($title_fmt);
+
+        // encode XML special chars for each line
+        foreach ($title_parts as $j => $part) {
+            $title_parts[$j] = @htmlspecialchars($part, ENT_QUOTES, $CHARSET);
         }
+
+        // implode it back to a single string
+        $title_fmt = implode('<br />', $title_parts);
 
         // if we're in indentation mode for methods, we have to stop the
         // indentation when we find 'Class Summary'
         if ($indent && substr($title_fmt, 0, 13) == 'Class Summary') {
-            $RSIDEBAR_DATA .= "</li>\n";
-            $RSIDEBAR_DATA .= '</ul>';
+            echo "</li>\n";
+            echo '</ol>';
             $indent = false;
         }
 
@@ -117,12 +150,10 @@ function makeBorderTOC($id, $this = '')
             $title_fmt = 'Constructor';
         }
 
-        // So that package/function names don't bleed over the sidebar
-        $cut = $indent ? 22 : 24;
-        $title_fmt = wordwrap($title_fmt, $cut, '<br />', true);
-        $class = ($indent) ? 'man-side_page_nested' : 'man-side_page';
-        $RSIDEBAR_DATA .= "\n" . '  <li class="' . $class . '">'
-                . (($title == $this) ? "<strong>$title_fmt</strong>"
+        // display the title
+        $class = ($indent) ? 'manual-sidebar-page-nested' : 'manual-sidebar-page';
+        echo "\n" . '   <li class="' . $class . '">'
+                . (($url == $id) ? "<strong>$title_fmt</strong>"
                                      : make_link($url, $title_fmt)) . '</li>';
 
         // after 'Class Summary' (or 'constructor', if 'Class Summary' doesn't
@@ -131,167 +162,171 @@ function makeBorderTOC($id, $this = '')
             || ($title_fmt == 'Constructor' && !$indent)
            ) {
             $indent = true;
-            $RSIDEBAR_DATA .= '<ul class="man-side_pages">';
+            echo '<ol class="manual-sidebar-pages-nested">';
         }
     }
 
     if ($indent) {
-        $RSIDEBAR_DATA .= "  </li>\n";
-        $RSIDEBAR_DATA .= '</ul>';
+        echo "  </li>\n";
+        echo '</ol>';
     }
 
-    $RSIDEBAR_DATA .= " </ul>\n\n";
+    echo "\n";
 
-    if (count($TOC) > 1) {
-        $RSIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
-    }
+    echo "  </ol>\n";
+    echo " </div>\n";
 
     // if we have a package name, add links to the package and the API docs
     if (!is_null($package_name)) {
-        $RSIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n";
-        $RSIDEBAR_DATA .= '  <li class="man-side_download">'
-                       . make_link('/package/' . $package_name,
-                                   'Package Info') . "</li>\n";
-        $RSIDEBAR_DATA .= '  <li class="man-side_download">'
-                       . make_link('/package/' . $package_name . '/docs/latest/',
-                                   'API Documentation') . "</li>\n";
-        $RSIDEBAR_DATA .= ' </ul>' . "\n";
-        $RSIDEBAR_DATA .= ' <hr class="greyline" width="100%" />' . "\n\n";
+        echo "\n";
+
+        echo " <div class=\"manual-sidebar-info\">\n";
+        echo "  <ul>\n";
+        echo "   <li>" . make_link('/package/' . $package_name, 'Package Info') . "</li>\n";
+        echo "   <li>" . make_link('/package/' . $package_name . '/docs/latest/', 'API Documentation') . "</li>\n";
+        echo "  </ul>\n";
+        echo " </div>\n";
     }
 
-    $RSIDEBAR_DATA .= ' <ul class="man-side_download">' . "\n"
-                   . '  <li class="man-side_download">'
-                   . make_link('/manual/', 'Download Documentation') . "</li>\n";
-    $RSIDEBAR_DATA .= ' </ul>' . "\n\n";
-
-    $RSIDEBAR_DATA .= "</td></tr></table></form>\n\n";
-    $RSIDEBAR_DATA .= "<!-- END MANUAL'S SIDEBAR TOC -->\n\n";
+    echo "</div>\n";
+    echo "<!-- END MANUAL SIDEBAR -->\n\n";
 }
 
 function navigationBar($id, $title, $loc)
 {
-    global $NEXT, $PREV, $tstamp,$CHARSET;
+    global $NEXT, $PREV, $tstamp, $CHARSET;
 
-    echo '<table class="man-nav" id="man-nav-' . $loc . '" cellpadding="0">' . "\n";
-    echo ' <tr class="man-nav_prev-next">' . "\n";
-    echo '  <td class="man-nav_prev">' . "\n   ";
+    $navClass = ($NEXT[1] || $PREV[1]) ?
+        'manual-navigation' : 'manual-navigation manual-navigation-no-nav';
+
+    echo "<!-- START MANUAL NAVIGATION -->\n";
+    echo "<div class=\"{$navClass}\" id=\"manual-navigation-{$loc}\">\n";
+
     if ($PREV[1]) {
         $link = $PREV[1];
         if (strlen($link) > 45) {
             $link = str_replace('::', '::<br />', $link);
         }
-        echo make_image('caret-l.gif', 'previous');
-        echo make_link($PREV[0], $link, false,
-                   ($loc == 'top' ? 'accesskey="r"' : false)
-        );
-        echo ' (P<span class="accesskey">r</span>evious)';
+
+        // not using make_link because of embedded <span>
+        $accesskey = ($loc == 'top') ? ' accesskey="r"' : '';
+        echo " <a class=\"manual-previous\" href=\"{$PREV[0]}\"{$accesskey}>";
+        echo $link . "\n";
+        echo '<span class="title">(P<span class="accesskey">r</span>evious)</span>';
+        echo "</a>\n";
     }
+
     echo "\n";
-    echo '  </td>' . "\n";
-    echo '  <td class="man-nav_next">' . "\n";
+
     if ($NEXT[1]) {
         $link = $NEXT[1];
         if (strlen($link) > 45) {
             $link = str_replace('::', '::<br />', $link);
         }
-        echo '(Ne<span class="accesskey">x</span>t) ';
-        echo make_link($NEXT[0], $link, false,
-                   ($loc == 'top' ? 'accesskey="x"' : false)
-        );
-        echo make_image('caret-r.gif', 'next');
+
+        // not using make_link because of embedded <span>
+        $accesskey = ($loc == 'top') ? ' accesskey="x"' : '';
+        echo " <a class=\"manual-next\" href=\"{$NEXT[0]}\"{$accesskey}>";
+        echo $link . "\n";
+        echo '<span class="title">(Ne<span class="accesskey">x</span>t)</span>';
+        echo "</a>\n";
     }
+
     echo "\n";
-    echo '  </td>' . "\n";
-    echo ' </tr>' . "\n";
 
-    echo ' <tr class="man-nav_space">' . "\n";
-    echo '  <td class="man-nav_space" colspan="2">';
-    echo '   <hr class="greyline" width="100%" />';
-    echo '  </td>' . "\n";
-    echo ' </tr>' . "\n";
+    echo " <div class=\"manual-clear\"></div>\n";
 
-    echo ' <tr class="man-nav_langholder">' . "\n";
-    echo '  <td class="man-nav_langholder" colspan="2">' . "\n";
-    echo '   <table class="man-nav_langholder" width="100%" border="0">' . "\n";
-    echo '    <tr class="man-nav_view-updated" valign="top">' . "\n";
+    if ($loc == 'bottom') {
 
-    if ($loc != 'bottom') {
-        global $LANGUAGES;
-        $links = array();
-        foreach($LANGUAGES as $code => $name) {
+        // info and download links
+        echo " <div class=\"manual-info\">";
+        echo "Last updated: {$tstamp}";
+        // UTF-8 em-dash
+        echo " \xe2\x80\x94 " . make_link('/manual/', 'Download Documentation');
+        echo "</div>\n";
+
+        echo "\n";
+
+        // bug report links
+        $package_name = getPackageNameForId($id);
+        echo " <div class=\"manual-bug\">\n";
+        echo '  Do you think that something on this page is wrong?';
+        echo '  Please <a href="' . getBugReportLink($package_name) . '">file a bug report</a> ';
+        echo '  or <a href="/notes/add-note-form.php?redirect=' . htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8') . '&amp;uri=' . htmlspecialchars(urlencode($id)) . '">add a note</a>. ';
+        echo "\n";
+        echo " </div>\n";
+
+        echo "\n";
+
+        // language chooser
+        global $LANGUAGES, $LANG;
+        $langs = array();
+        foreach ($LANGUAGES as $code => $name) {
             if (file_exists("../$code/$id")) {
-                $links[] = make_link("../$code/$id", $name);
+                $langs[] = array(
+                    'code'  => $code,
+                    'title' => $name,
+                    'link'  => make_link("../$code/$id", $name)
+                );
             }
         }
-        $file = substr($id,0,-4);
-        if (file_exists("html/$file.html")) {
-            $links[] = make_link("html/$file.html", 'Plain HTML');
+
+        $file = substr($id, 0, -4);
+        if (file_exists("html/{$file}.html")) {
+            $langs[] = array(
+                'code'  => null,
+                'title' => 'Plain HTML',
+                'link'  => make_link("html/{$file}.html", 'Plain HTML')
+            );
         }
 
-        echo '     <td class="man-nav_view">' . "\n";
-        echo count($links) ? 'View this page in' : '&nbsp;';
-        echo "\n";
-        echo '     </td>' . "\n";
-        echo '     <td class="man-nav_updated">';
-        echo 'Last updated: '.$tstamp;
-        echo '     </td>' . "\n";
-        echo '    </tr>'  . "\n";
-
-        if (count($links)) {
-            echo '    <tr class="man-nav_languages">' . "\n";
-            echo '     <td class="man-nav_languages" colspan="2">' . "\n";
-            echo join(' | ', $links);
-            echo "\n";
-            echo '     </td>' . "\n";
-            echo '    </tr>' . "\n";
+        if (count($langs)) {
+            echo " <div class=\"manual-languages\">\n";
+            echo 'View this page in:';
+            echo "  <ul class=\"manual-language-list\">\n";
+            $count = 0;
+            foreach ($langs as $lang) {
+                echo "   <li class=\"manual-language\">";
+                if ($count > 0) {
+                    // UTF-8 bullet
+                    echo " &nbsp;\xe2\x80\xa2&nbsp; ";
+                }
+                if ($lang['code'] == $LANG) {
+                    echo '<strong>' . $lang['title'] . '</strong>';
+                } else {
+                    echo $lang['link'];
+                }
+                echo "</li>\n";
+                $count++;
+            }
+            echo "  </ul>\n";
+            echo " </div>\n";
         }
 
-    } else {
-        echo '     <td class="man-nav_download">' . "\n";
-        echo make_link('/download-docs.php', 'Download Documentation');
         echo "\n";
-        echo '     </td>' . "\n";
-        echo '     <td class="man-nav_updated">';
-        echo 'Last updated: '.$tstamp;
-        echo '</td>' . "\n";
-        echo '    </tr>' . "\n";
-        echo '    <tr><td colspan="2" class="man-nav_bug">' . "\n";
-        echo '    Do you think that something on this page is wrong?';
-        $package_name = getPackageNameForId($id);
-        echo '    Please <a href="' . getBugReportLink($package_name) . '">file a bug report</a> ';
-        echo '    or <a href="/notes/add-note-form.php?redirect=' . htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8') . '&amp;uri=' . htmlspecialchars(urlencode($id)) . '">add a note</a>. ';
-        echo "\n";
-        echo '   </td></tr>';
-        echo "\n";
-        echo "<tr><td colspan=\"2\" id=\"user-notes\"><strong>User Notes:</strong></td></tr>\n";
-        echo "<tr><td colspan=\"2\">\n";
-        echo getComments($id);
-        echo "</td></tr>\n";
-        echo "\n";
+
+        // user notes
+        echo " <div class=\"manual-notes\" id=\"user-notes\">\n";
+        echo "  <h3>User Notes:</h3>\n";
+        echo "  " . getComments($id) . "\n";
+        echo " </div>\n";
     }
 
-    echo '   </table>';
-    echo "\n";
-    echo '  </td>';
-    echo "\n";
-    echo ' </tr>';
-    echo "\n";
-    echo "</table>\n";
-
+    echo "</div>\n<!-- END MANUAL NAVIGATION -->\n\n";
 }
 
 function getPackageNameForId($id)
 {
     global $dbh;
     static $package_name = null;  // static variable to avoid multiple queries
-    if (is_null($package_name)) {
+/*    if (is_null($package_name)) {
         $res = preg_match('/^package\.[\w-]+\.([\w-]+).*\.php$/', $id, $matches);
         if ($res === 1) {
             $package = str_replace('-', '_', $matches[1]);
             $query = 'SELECT name FROM packages WHERE LCASE(name) = LCASE(?)';
             $package_name = $dbh->getOne($query, $package);
         }
-    }
+    }*/
     return $package_name;
 }
 
@@ -309,7 +344,7 @@ function getComments($uri)
     $output = '';
 
     require_once 'notes/ManualNotes.class.php';
-    $manualNotes = new Manual_Notes;
+    $manualNotes = new Manual_Notes();
     $comments = $manualNotes->getPageComments($uri, auth_check('pear.dev'));
 
     if (empty($comments)) {
@@ -325,31 +360,38 @@ function getComments($uri)
 
 function sendManualHeaders($charset, $lang)
 {
-        global $LANG,$CHARSET;
+        global $LANG, $CHARSET;
         $LANG = $lang;
         $CHARSET = $charset;
         Header('Cache-Control: public, max-age=600');
         Header('Vary: Cookie');
         Header('Content-type: text/html;charset=' . $charset);
-        Header('Content-language: ' . $lang);
+        Header('Content-Language: ' . $lang);
 }
 
 function manualHeader($id, $title = '')
 {
     global $HTDIG, $CHARSET;
 
-    makeBorderTOC($id, $title);
-
     header('Content-Type: text/html; charset=' . $CHARSET);
     response_header('Manual :: ' . $title);
-    # create links to plain html and other languages
+
+    // create links to plain html and other languages
     if (!$HTDIG) {
         navigationBar($id, $title, 'top');
     }
+
+    // draw manual sidebar
+    navigationSidebar($id, $title);
+
+    // start main manual content
+    echo "<div class=\"manual-content\" id=\"manual-content\">\n";
 }
 
 function manualFooter($id, $title = '')
 {
+    echo "</div>\n";
+
     global $HTDIG;
     if (!$HTDIG) {
         navigationBar($id, $title, 'bottom');
