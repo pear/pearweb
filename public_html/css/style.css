@@ -57,6 +57,10 @@ h1 a, h2 a, h3 a {
     margin: .5em 1.0em;
 }
 
+#header a {
+    border: none;
+}
+
 /* USER */
 #user {
     float: right;
@@ -130,13 +134,11 @@ h1 a, h2 a, h3 a {
 }
 
 #menu {
-    width: 100%;
-    float: left;
     margin: 0!important;
 }
 #menu li {
-    float: left;
     list-style-type: none;
+    display: inline;
 }
 #menu li a {
     background-color: #006600;
@@ -167,7 +169,7 @@ h1 a, h2 a, h3 a {
 }
 
 #submenu {
-    clear: both;
+    clear: left;
     border-bottom: 1px solid black;
     width: auto;
     height: 22px;
