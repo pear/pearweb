@@ -42,14 +42,14 @@ if (empty($dbh)) {
     $dbh->query('SET NAMES "utf8"');
 }
 
-//include_once 'MDB2.php';
-//if (empty($dbc)) {
-//    $options = array(
-//        'persistent' => false,
-//        'portability' => MDB2_PORTABILITY_ALL,
-//    );
-//    $dbc = MDB2::singleton(PEAR_DATABASE_DSN, $options);
-//}
+include_once 'MDB2.php';
+if (empty($dbc)) {
+    $options = array(
+        'persistent' => false,
+        'portability' => MDB2_PORTABILITY_ALL,
+    );
+    $dbc = MDB2::singleton(PEAR_DATABASE_DSN, $options);
+}
 
 $self = htmlspecialchars($_SERVER['PHP_SELF']);
 
