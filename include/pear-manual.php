@@ -319,14 +319,14 @@ function getPackageNameForId($id)
 {
     global $dbh;
     static $package_name = null;  // static variable to avoid multiple queries
-/*    if (is_null($package_name)) {
+    if (is_null($package_name)) {
         $res = preg_match('/^package\.[\w-]+\.([\w-]+).*\.php$/', $id, $matches);
         if ($res === 1) {
             $package = str_replace('-', '_', $matches[1]);
             $query = 'SELECT name FROM packages WHERE LCASE(name) = LCASE(?)';
             $package_name = $dbh->getOne($query, $package);
         }
-    }*/
+    }
     return $package_name;
 }
 
