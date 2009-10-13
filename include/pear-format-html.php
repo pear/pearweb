@@ -72,9 +72,9 @@ $_style = '';
  * Prints out the XHTML headers and top of the page.
  *
  * @param string $title        A string to go into the header's <title>
- * @param string $style        -Unused-
+ * @param string $style        -Unused- Sets global $_style variable
  * @param string $extraHeaders Additional HTML head tags
- * @param string $head         <head> parameters
+ * @param string $head         <head> tag attributes
  *
  * @return void
  */

@@ -35,16 +35,23 @@ $doc_languages = array('en' => 'English',
 $NEXT = $PREV = $UP = $HOME = array(false, false);
 $TOC = array();
 
+/**
+ * Fills global variables with navigational links.
+ *
+ * @param array $data Array containing home, next, prev, up and toc keys.
+ *
+ * @return void
+ */
 function setupNavigation($data)
 {
     global $NEXT, $PREV, $UP, $HOME, $TOC, $tstamp;
-    $HOME = @$data['home'];
+    $HOME    = @$data['home'];
     $HOME[0] = './';
-    $NEXT = @$data['next'];
-    $PREV = @$data['prev'];
-    $UP   = @$data['up'];
-    $TOC =  @$data['toc'];
-    $tstamp = gmdate('D, d M Y', getlastmod());
+    $NEXT    = @$data['next'];
+    $PREV    = @$data['prev'];
+    $UP      = @$data['up'];
+    $TOC     =  @$data['toc'];
+    $tstamp  = gmdate('D, d M Y', getlastmod());
 }
 
 function wordWrapTitle($title, $indent = false)
@@ -315,6 +322,13 @@ function navigationBar($id, $title, $loc)
     echo "</div>\n<!-- END MANUAL NAVIGATION -->\n\n";
 }
 
+/**
+ * Extracts the package name from a given manual page id.
+ *
+ * @param string $id Docbook chunk id (Manual page id)
+ *
+ * @return string Package name, null if not found
+ */
 function getPackageNameForId($id)
 {
     global $dbh;
@@ -330,6 +344,14 @@ function getPackageNameForId($id)
     return $package_name;
 }
 
+/**
+ * Returns the URI to report a bug for the package
+ *
+ * @param string $package_name Package name, may be NULL for
+ *                             documentation bugs
+ *
+ * @return string URI
+ */
 function getBugReportLink($package_name)
 {
     $bug_report_link = '/bugs/report.php?package=Documentation';
@@ -339,6 +361,13 @@ function getBugReportLink($package_name)
     return $bug_report_link;
 }
 
+/**
+ * Generates and returns the notes comments HTML.
+ *
+ * @param string $uri Manual page id
+ *
+ * @return string HTML
+ */
 function getComments($uri)
 {
     $output = '';
@@ -358,25 +387,45 @@ function getComments($uri)
     return $output;
 }
 
+/**
+ * Sends HTTP headers for the manual.
+ *
+ * @internal
+ * Sets global $LANG and $CHARSET parameters to the values passed
+ * to this function.
+ *
+ * @param string $charset Charset (encoding) to send
+ * @param string $lang    2-letter language code
+ *
+ * @return void
+ */
 function sendManualHeaders($charset, $lang)
 {
-        global $LANG, $CHARSET;
-        $LANG = $lang;
-        $CHARSET = $charset;
-        Header('Cache-Control: public, max-age=600');
-        Header('Vary: Cookie');
-        Header('Content-type: text/html;charset=' . $charset);
-        Header('Content-Language: ' . $lang);
+    global $LANG,$CHARSET;
+    $LANG = $lang;
+    $CHARSET = $charset;
+    Header('Cache-Control: public, max-age=600');
+    Header('Vary: Cookie');
+    Header('Content-Type: text/html;charset=' . $charset);
+    Header('Content-Language: ' . $lang);
 }
 
-function manualHeader($id, $title = '')
+/**
+ * Displays HTML headers suitable to display a manual page.
+ *
+ * @param string $id           ID of the docbook chunk (manual page id)
+ * @param string $title        Manual page title
+ * @param string $extraHeaders Additional HTML header tags
+ *
+ * @return void
+ */
+function manualHeader($id, $title = '', $extraHeaders = null)
 {
     global $HTDIG, $CHARSET;
 
     header('Content-Type: text/html; charset=' . $CHARSET);
-    response_header('Manual :: ' . $title);
-
-    // create links to plain html and other languages
+    response_header('Manual :: ' . $title, false, $extraHeaders);
+    //create links to plain html and other languages
     if (!$HTDIG) {
         navigationBar($id, $title, 'top');
     }
@@ -388,6 +437,14 @@ function manualHeader($id, $title = '')
     echo "<div class=\"manual-content\" id=\"manual-content\">\n";
 }
 
+/**
+ * Display html footer and closing html tag
+ *
+ * @param string $id    ID of docbook chunk (manual page id)
+ * @param string $title Manual page title
+ *
+ * @return void
+ */
 function manualFooter($id, $title = '')
 {
     echo "</div>\n";
