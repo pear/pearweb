@@ -20,17 +20,18 @@
 
 require_once 'site.php';
 
-$doc_languages = array('en' => 'English',
-                       'fr' => 'French',
-                       'de' => 'German',
-                       'ja' => 'Japanese',
-                       'nl' => 'Dutch',
-                       'hu' => 'Hungarian',
-                       // 'it' => 'Italian',
-                       'pl' => 'Polish',
-                       'ru' => 'Russian',
-                       // 'es' => 'Spanish',
-                       );
+$doc_languages = array(
+    'en' => 'English',
+    'fr' => 'French',
+    'de' => 'German',
+    'ja' => 'Japanese',
+    'nl' => 'Dutch',
+    'hu' => 'Hungarian',
+    // 'it' => 'Italian',
+    'pl' => 'Polish',
+    'ru' => 'Russian',
+    // 'es' => 'Spanish',
+);
 
 $NEXT = $PREV = $UP = $HOME = array(false, false);
 $TOC = array();
@@ -50,7 +51,7 @@ function setupNavigation($data)
     $NEXT    = @$data['next'];
     $PREV    = @$data['prev'];
     $UP      = @$data['up'];
-    $TOC     =  @$data['toc'];
+    $TOC     = @$data['toc'];
     $tstamp  = gmdate('D, d M Y', getlastmod());
 }
 
@@ -424,7 +425,11 @@ function manualHeader($id, $title = '', $extraHeaders = null)
     global $HTDIG, $CHARSET;
 
     header('Content-Type: text/html; charset=' . $CHARSET);
-    response_header('Manual :: ' . $title, false, $extraHeaders);
+    response_header(
+        'Manual :: ' . $title,
+        false,
+        $extraHeaders . getManualHeaderNavLinks()
+    );
     //create links to plain html and other languages
     if (!$HTDIG) {
         navigationBar($id, $title, 'top');
@@ -455,4 +460,34 @@ function manualFooter($id, $title = '')
     }
 
     response_footer();
+}
+
+/**
+ * Creates HTML <link rel..> tags that are used by user agents
+ * that support it.
+ *
+ * @internal
+ * Utilizes global $NEXT, $PREV, $UP, $HOME variables
+ *
+ * @return string HTML code that should be included in
+ *                the HTML <head> tag.
+ */
+function getManualHeaderNavLinks()
+{
+    global $NEXT, $PREV, $UP, $HOME;
+
+    $eh = '';
+    if (isset($NEXT)) {
+        $eh .= ' <link rel="next" href="' . $NEXT[0] . '" title="' . $NEXT[1] . '"/>' . "\n";
+    }
+    if (isset($PREV)) {
+        $eh .= ' <link rel="prev" href="' . $PREV[0] . '" title="' . $PREV[1] . '"/>' . "\n";
+    }
+    if (isset($UP)) {
+        $eh .= ' <link rel="up" href="' . $UP[0] . '" title="' . $UP[1] . '"/>' . "\n";
+    }
+    if (isset($HOME)) {
+        $eh .= ' <link rel="home" href="' . $HOME[0] . '" title="' . $HOME[1] . '"/>' . "\n";
+    }
+    return $eh;
 }
