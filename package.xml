@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -89,8 +89,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-09-29</date>
- <time>12:24:42</time>
+ <date>2009-10-14</date>
+ <time>13:08:22</time>
  <version>
   <release>1.23.2</release>
   <api>0.1.1</api>
@@ -101,6 +101,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
+- Enhance peardoc styles [gauthierm]
 - Fix bug #16655: Package redirection broken; returns DOAP [aharvey]
  </notes>
  <contents>
@@ -338,6 +339,17 @@
      <file name="small_submit_white.gif" role="www" />
      <file name="spacer.gif" role="www" />
     </dir> <!-- /public_html/gifs -->
+    <dir name="images">
+     <dir name="elements">
+      <file name="left-off.png" role="www" />
+      <file name="left-on.png" role="www" />
+      <file name="note.png" role="www" />
+      <file name="right-off.png" role="www" />
+      <file name="right-on.png" role="www" />
+      <file name="tip.png" role="www" />
+      <file name="warning.png" role="www" />
+     </dir> <!-- /public_html/images/elements -->
+    </dir> <!-- /public_html/images -->
     <dir name="javascript">
      <dir name="TreeMenu">
       <file name="TreeMenu.js" role="www" />
@@ -2588,9 +2600,10 @@ Fix bug #16572: Image category shows &quot;Sub-categories: Array&quot; [doconnor
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2009-09-29</date>
+   <date>2009-10-14</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
+- Enhance peardoc styles [gauthierm]
 - Fix bug #16655: Package redirection broken; returns DOAP [aharvey]
    </notes>
   </release>
