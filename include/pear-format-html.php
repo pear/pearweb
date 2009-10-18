@@ -467,15 +467,25 @@ function make_menu($data, $id, $self)
 {
     $html = "\n";
     $html .= '<ul id="' . $id . '">' . "\n";
+
+    $count = 1;
+    $total = count($data);
     foreach ($data as $url => $tit) {
-        $class = '';
+        $classes = array('menu-item');
+
         if ($url == $self) {
-            $class = ' class="current"';
+            $classes[] = 'current';
         }
 
-        $html .= ' <li' . $class . '>';
+        if ($count == $total) {
+            $classes[] = 'menu-item-last';
+        }
+
+        $html .= ' <li class="' . implode(' ', $classes) . '">';
         $html .= '<a href="' . $url . '">' . $tit . '</a>';
         $html .= "</li>\n";
+
+        $count++;
     }
     $html .= "</ul>\n\n";
 
