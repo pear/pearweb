@@ -25,11 +25,12 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.23.2');
+$a->setReleaseVersion('1.23.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Fix bug #16655: Package redirection broken; returns DOAP [aharvey]
+- Enhance category package browser styles [gauthierm]
+- Enhance peardoc styles [gauthierm]
 ');
 $a->resetUsesrole();
 $a->clearDeps();

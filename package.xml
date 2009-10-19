@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-10-14</date>
- <time>13:08:22</time>
+ <date>2009-10-19</date>
+ <time>00:49:19</time>
  <version>
-  <release>1.23.2</release>
+  <release>1.23.3</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,8 +101,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
+- Enhance category package browser styles [gauthierm]
 - Enhance peardoc styles [gauthierm]
-- Fix bug #16655: Package redirection broken; returns DOAP [aharvey]
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -190,6 +190,7 @@
      <file name="passwordmanage.php" role="www" />
     </dir> <!-- /include/users -->
     <file name="pear-auth.php" role="www" />
+    <file name="pear-class-license.php" role="www" />
     <file name="pear-config.php" role="www" />
     <file name="pear-database-category.php" role="www" />
     <file name="pear-database-channel.php" role="www" />
@@ -200,6 +201,7 @@
     <file name="pear-database-statistics.php" role="www" />
     <file name="pear-database-user.php" role="www" />
     <file name="pear-format-html.php" role="www" />
+    <file name="pear-page-packages.php" role="www" />
     <file name="pear-prepend-custom.php.dist" role="www" />
     <file name="pear-prepend.php" role="www" />
     <file name="pear-rest.php" role="www" />
@@ -260,6 +262,7 @@
      <file name="bugs.css" role="www" />
      <file name="IE6styles.css" role="www" />
      <file name="IE7styles.css" role="www" />
+     <file name="packages.css" role="www" />
      <file name="packages_status.css" role="www" />
      <file name="print.css" role="www" />
      <file name="reset-fonts.css" role="www" />
@@ -341,6 +344,8 @@
     </dir> <!-- /public_html/gifs -->
     <dir name="images">
      <dir name="elements">
+      <file name="category-background.png" role="www" />
+      <file name="category-header-background.png" role="www" />
       <file name="left-off.png" role="www" />
       <file name="left-on.png" role="www" />
       <file name="note.png" role="www" />
@@ -419,6 +424,10 @@
     <file name="search.php" role="www" />
     <file name="wishlist.php" role="www" />
    </dir> <!-- /public_html -->
+   <dir name="resources">
+    <file name="documentation-nav-arrows.svg" role="www" />
+    <file name="message-backgrounds.svg" role="www" />
+   </dir> <!-- /resources -->
    <dir name="rfc">
     <file name="003-dependencies.txt" role="www" />
     <file name="stats.txt" role="www" />
@@ -498,7 +507,6 @@
      <file name="passwordresetconfirmed.php" role="www" />
     </dir> <!-- /templates/users -->
     <file name="category-manager.html" role="www" />
-    <file name="packages.html" role="www" />
    </dir> <!-- /templates -->
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
@@ -2605,6 +2613,22 @@ Fix bug #16572: Image category shows &quot;Sub-categories: Array&quot; [doconnor
    <notes>
 - Enhance peardoc styles [gauthierm]
 - Fix bug #16655: Package redirection broken; returns DOAP [aharvey]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.23.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2009-10-19</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Enhance category package browser styles [gauthierm]
+- Enhance peardoc styles [gauthierm]
    </notes>
   </release>
  </changelog>
