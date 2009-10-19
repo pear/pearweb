@@ -2,7 +2,7 @@
 
 /* ========= Main Content Holders ========= */
 body {
-    font-family: verdana;
+    font-family: verdana, helvetica, sans-serif;
     background-color: white;
     color: black;
     text-align: left;
@@ -40,7 +40,7 @@ ol li {
 div#body {
     width: auto;
     vertical-align: top;
-    padding: 0.3em 0.5em 1em 1em;
+    padding: 0.3em 1em 1em 1em;
 }
 
 h1 a, h2 a, h3 a {
@@ -152,7 +152,7 @@ h1 a, h2 a, h3 a {
     padding-right: 8px;
     text-decoration: none;
     border-bottom: none;
-    font-family: verdana;
+    font-family: verdana, helvetica, sans-serif;
 }
 #menu li.current a, #menu li.current a:hover  {
     background: #ffffff;
@@ -629,14 +629,7 @@ table#download-releases .alpha, table#download-releases .devel {
     color: red;
 }
 
-/* Package list (/packages.php) */
-table.packages td {
-    padding-bottom: 1em;
-}
-table.packages .cat {
-    font-size: 1.4em;
-    font-weight: bold;
-}
+/* ========= Package Categories ========= */
 
 /* Bug stats table */
 table.bugstats form label {
