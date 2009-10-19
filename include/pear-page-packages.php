@@ -33,7 +33,7 @@
 /**
  * Static license methods
  */
-require_once dirname(__FILE__) . '/pear-class-license.php';
+require_once 'pear-class-license.php';
 
 /**
  * Class to display the package category browser

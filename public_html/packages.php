@@ -27,7 +27,7 @@
 /**
  * Page class
  */
-require_once dirname(__FILE__) . '/../include/pear-page-packages.php';
+require_once 'pear-page-packages.php';
 
 /*
  * Check input variables. Expected URI variabless:
