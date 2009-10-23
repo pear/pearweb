@@ -169,7 +169,7 @@ if (@$_SERVER['SERVER_NAME'] != PEAR_CHANNELNAME || !isset($_SERVER['PEAR_BOX'])
     );
     define('DEVBOX', true);
 } else {
-    error_reporting(E_ALL ^ E_NOTICE);
+    error_reporting(E_ALL ^ E_NOTICE ^ E_DEPRECATED);
     define('DEVBOX', false);
 }
 
