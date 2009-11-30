@@ -349,7 +349,7 @@ that have been held about PEAR.</p>
  </li>
 
  <li>
-  <p><cite><a href="http://conf2.php.net/show/powerpear">
+  <p><cite><a href="http://talks.php.net/show/powerpear">
   Teach Yourself PEAR in 6 Hours</a></cite></p>
   <ul>
     <li>Date: 2002-11-03</li>
