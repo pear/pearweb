@@ -47,10 +47,6 @@ XML with PHP and PEAR::XML_Serializer</a></cite> is another article about
  </li>
 
  <li>
-  <a href="http://php.chregu.tv/sql2xml/">XML_sql2xml tutorial</a>.
-  A PEAR package for converting SQL query results or arrays to XML.
- </li>
- <li>
   <cite><a href="http://www.zend.com/pear/tutorials/Mail.php">PEAR::Mail</a></cite>
   on zend.com.
  </li>
@@ -75,15 +71,6 @@ XML with PHP and PEAR::XML_Serializer</a></cite> is another article about
     Configuration Manipulation With PHP Config
    </a>
   </cite>
- </li>
- <li>
-  <cite>
-   <a href="http://builder.com.com/5100-6374_14-5216364.html">
-    Extract XML document statistics with PHP
-   </a>
-  </cite>
-    talks about using the <a href="/package/XML_Statistics/">XML_Statistics</a>
-    package.
  </li>
  <li>
   <cite>
