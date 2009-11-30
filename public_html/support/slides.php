@@ -32,6 +32,19 @@ that have been held about PEAR.</p>
  <li>
   <p>
    <cite>
+    <a href="http://talks.php.net/show/ossbarcamp2009">PEAR</a>
+   </cite>
+  </p>
+  <ul>
+    <li>Date: 2009-09-19</li>
+    <li>Presenter: <?php echo user_link('kguest', true); ?></li>
+    <li>Venue: OSS BarCamp, Dublin, Ireland</li>
+    <li>Language: English</li>
+  </ul>
+ </li>
+ <li>
+  <p>
+   <cite>
     <a href="http://www.novadevel.com/m/ifeghali/slides/PHPConfBrasil07-PEAR_pears_and_dogs.pdf">PEAR, pears and dogs</a>
    </cite>
   </p>
