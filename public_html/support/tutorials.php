@@ -45,11 +45,6 @@ PHPkitchen</a>.</p>
 XML with PHP and PEAR::XML_Serializer</a></cite> is another article about
   XML_Serializer.
  </li>
- <li>
-  <cite><a href="http://www.php-mag.net/itr/online_artikel/psecom,id,455,nodeid,114.html">Grokking
-Stats</a></cite>: a PDF article by Jesus M. Castagnetto about Math_Stats
-  and Math_Histogram.
- </li>
 
  <li>
   <a href="http://php.chregu.tv/sql2xml/">XML_sql2xml tutorial</a>.
