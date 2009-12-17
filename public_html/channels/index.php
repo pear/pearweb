@@ -60,8 +60,9 @@ provided on the individual pages.</p>
   <li><a href="http://pear.symfony-project.com/">Symfony</a></li>
   <li><a href="http://solarphp.com/home/index.php?area=Main&amp;page=DownloadInstall#toc1">Solar</a></li>
   <li><a href="http://pear.funkatron.com/">Edward Finkler</a></li>
-  <li><a href="http://zend.googlecode.com/">Inofficial Zend Framework channel</a></li>
+  <li><a href="http://zend.googlecode.com/">Unofficial Zend Framework channel</a></li>
   <li><a href="http://pear.firephp.org/">FirePHP</a></li>
+  <li><a href="http://pear.timj.co.uk/">Tim Jackson's PHP tools</a></li>
 </ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
