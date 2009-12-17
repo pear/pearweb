@@ -804,7 +804,7 @@ if (isset($_POST['preview']) && !empty($ncomment)) {
     }
     $preview .= "</strong>\n<br /><span class=\"note\" style=\"white-space: pre-wrap\">";
     $comment = $ncomment;
-    $preview .= make_ticket_links(addlinks($comment));
+    $preview .= make_ticket_links(addlinks(clean($comment)));
     $preview .= "</span>\n";
     $preview .= '</div>';
 } else {
@@ -1330,7 +1330,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
     }
 
     $comment = htmlspecialchars($fix, ENT_QUOTES, 'UTF-8', false);
-    $comment = make_ticket_links(addlinks($comment));
+    $comment = make_ticket_links(addlinks(clean($comment)));
     $comment = $status . $comment;
 
 
