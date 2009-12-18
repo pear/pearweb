@@ -54,7 +54,7 @@ $id   = (int)$_REQUEST['id'];
  * 11 - List patches
  * 12 - Patch details
  * 13 - Add patch
- * 
+ *
  * @var integer
  */
 $edit = (empty($_REQUEST['edit']) || !(int)$_REQUEST['edit']) ?  0 : (int)$_REQUEST['edit'];
@@ -762,7 +762,7 @@ if (isset($auth_user) && $auth_user && $auth_user->registered) {
 
 control(0, 'Comments', $id, $edit);
 
-// Display patches                                                       
+// Display patches
 $patches = new Bugs_Patchtracker();
 $patchcount = $patches->getPatchCount($id);
 if ($patchcount > 0) {
@@ -1329,8 +1329,7 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
         $status  = substr($comment, 0, $needle) . $search;
     }
 
-    $comment = htmlspecialchars($fix, ENT_QUOTES, 'UTF-8', false);
-    $comment = make_ticket_links(addlinks(clean($comment)));
+    $comment = make_ticket_links(addlinks(clean($fix)));
     $comment = $status . $comment;
 
 
