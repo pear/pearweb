@@ -440,14 +440,14 @@ if (isset($_POST['addpatch'])) {
                     case 'Web Site' :
                     case 'Bug System' :
                     case 'PEPr' :
-                        $errors[] = 'Cannot use "try cvs" with ' . $bug['package_name'];
+                        $errors[] = 'Cannot use "try svn" with ' . $bug['package_name'];
                         break;
                     case 'PEAR' :
-                        $reason = str_replace('@cvs@', 'pear-core', $reason);
+                        $reason = str_replace('@cvs@', 'pear/pear-core/trunk', $reason);
                         $ncomment = "$reason\n\n$ncomment";
                         break;
                     default :
-                        $reason = str_replace('@cvs@', 'pear/' . $bug['package_name'], $reason);
+                        $reason = str_replace('@cvs@', 'pear/packages/' . $bug['package_name'] . '/trunk', $reason);
                         $ncomment = "$reason\n\n$ncomment";
                         break;
                 }

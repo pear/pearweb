@@ -68,6 +68,7 @@ $a->addPackageDepWithChannel('required', 'HTML_QuickForm', 'pear.php.net', '3.2.
 // This is used in the admin menu for category
 $a->addPackageDepWithChannel('required', 'HTML_TreeMenu', 'pear.php.net', '1.2.0');
 $a->addPackageDepWithChannel('required', 'MDB2_Driver_mysqli', 'pear.php.net');
+$a->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net');
 $a->addExtensionDep('required', 'pcre');
 $a->addExtensionDep('required', 'mysqli');
 $a->addExtensionDep('required', 'fileinfo');

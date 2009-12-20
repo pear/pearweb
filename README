@@ -21,7 +21,7 @@ Read this before starting to hack on the PEAR website.
 ------------------------------------------------------------------------
 
     People constantly committing code that makes (parts of) the website 
-    unaccessable will loose their CVS karma.
+    inaccessible will lose their SVN karma.
 
     Test your changes before committing them.  If you are unable to set 
     up a test environment, you must not commit anything!

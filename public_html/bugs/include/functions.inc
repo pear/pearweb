@@ -367,9 +367,9 @@ function show_package_version_options($package, $current)
         $p = htmlspecialchars($v[0]);
         echo ' value = "' . $p . '">' . $p . ' (' . htmlspecialchars($v[1]) . ")</option>\n";
     }
-    echo '<option value="CVS"';
-    echo $current == 'CVS' ? ' selected' : '';
-    echo ">CVS</option>\n";
+    echo '<option value="SVN"';
+    echo $current == 'SVN' ? ' selected' : '';
+    echo ">SVN</option>\n";
     echo '<option value="Unknown"';
     echo $current == 'Unknown' ? ' selected' : '';
     echo ">I have no idea</option>\n";

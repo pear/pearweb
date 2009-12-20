@@ -244,12 +244,12 @@ class pearweb_postinstall
         $middle[] = ' ServerName ' . $answers['pear'] . $eol;
         $middle[] = $eol;
         // apache requires all path separators to be "/" even on windows
-        $middle[] = ' DocumentRoot ' . str_replace('\\', '/', '@www-dir@') . '/public_html' . $eol;
+        $middle[] = ' DocumentRoot ' . str_replace('\\', '/', '@www-dir@') . '/pear.php.net' . $eol;
         $middle[] = ' DirectoryIndex index.php index.html' . $eol;
         $middle[] = $eol;
         $middle[] = ' php_value include_path .' . PATH_SEPARATOR .
             str_replace('\\', '/', '@www-dir@')
-            . '/include' . PATH_SEPARATOR . str_replace('\\', '/', '@php-dir@') . $eol;
+            . '/pear.php.net/include' . PATH_SEPARATOR . str_replace('\\', '/', '@php-dir@') . $eol;
         $middle[] = ' php_value auto_prepend_file pear-prepend.php' . $eol;
         $middle[] = ' php_flag magic_quotes_gpc off' . $eol;
         $middle[] = ' php_flag magic_quotes_runtime off' . $eol;
