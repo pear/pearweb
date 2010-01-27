@@ -89,7 +89,7 @@ function readFolder($folder)
                 $content = file_get_contents($path);
 
                 preg_match("/<title>(.*)<\/title>/", $content, $matches1);
-                preg_match("/<sect1 id\=\"(.*)\">/", $content, $matches2);
+                preg_match("/<book.*xml:id\=\"(.*)\">/", $content, $matches2);
 
                 $url = '/manual/en/' . $matches2[1] . '.php';
 
