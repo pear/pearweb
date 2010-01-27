@@ -93,15 +93,14 @@ function readFolder($folder)
 
                 $url = '/manual/en/' . $matches2[1] . '.php';
 
-                $a = new HTTP_Request2($host . $url);
-                $a->send();
+                $request = new HTTP_Request2($host . $url);
+                $response = $request->send();
 
-                if ($a->getStatus() == 404) {
+                if ($response->getStatus() == 404) {
                     $new_url = preg_replace("=\.([^\.]+)\.php$=", ".php", $url);
-                    $a->reset($host . $new_url);
-                    $a->setURL($host . $new_url);
-                    $a->send();
-                    $url = $a->getStatus() != 404 ? $new_url : '';
+                    $request->setURL($host . $new_url);
+                    $response = $request->send();
+                    $url = $response->getStatus() != 404 ? $new_url : '';
                 }
 
                 $res = $dbh->execute($update, array($url, $matches1[1]));
