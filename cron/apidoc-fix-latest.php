@@ -58,9 +58,15 @@ while ($row = $res->fetchRow()) {
 
     //check if apidoc of current version exists
     if (file_exists($latestdir)) {
-        'ok: ' . $latestdir . ' -> ' . $dir . "\n";
-        ++$ok;
-        continue;
+        if (realpath($latestdir) != $dir) {
+            //latest is not correctly symlinked
+            echo 'Unlinking incorrectly linked ' . $latestdir . ' -> ' . realpath($latestdir) . "\n";
+            unlink($latestdir);
+        } else {
+            'ok: ' . $latestdir . ' -> ' . $dir . "\n";
+            ++$ok;
+            continue;
+        }
     }
     if (!file_exists($dir)) {
         echo 'No apidoc for current version: ' . $dir . "\n";
