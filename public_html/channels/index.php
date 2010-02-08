@@ -66,6 +66,8 @@ provided on the individual pages.</p>
   <li><a href="http://pear.phpundercontrol.org/">phpUnderControl</a></li>
   <li><a href="http://pear.pdepend.org/">PHP Depend</a></li>
   <li><a href="http://pear.phpmd.org/">PHP Mess Detector</a></li>
+  <li><a href="http://pear.pearfarm.org/">PEARFarm</a></li>
+  <li><a href="http://pear.pirum-project.org/">Pirum</a></li>
 </ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
