@@ -63,6 +63,9 @@ provided on the individual pages.</p>
   <li><a href="http://zend.googlecode.com/">Unofficial Zend Framework channel</a></li>
   <li><a href="http://pear.firephp.org/">FirePHP</a></li>
   <li><a href="http://pear.timj.co.uk/">Tim Jackson's PHP tools</a></li>
+  <li><a href="http://pear.phpundercontrol.org/">phpUnderControl</a></li>
+  <li><a href="http://pear.pdepend.org/">PHP Depend</a></li>
+  <li><a href="http://pear.phpmd.org/">PHP Mess Detector</a></li>
 </ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
