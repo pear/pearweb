@@ -576,6 +576,10 @@ class package
      */
     function makeLink($name)
     {
+        if ($name == "PEAR Installer") {
+            return make_link('/package/PEAR', $name); 
+        }
+
         return make_link('/package/' . $name . '/', $name);
     }
 
