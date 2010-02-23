@@ -63,7 +63,7 @@ switch ($action) {
                 )
             ";
 
-            $args = array($registered, $package_name, $bug_type
+            $args = array($registered, $package_name, $bug_type,
                           $email, $handle, $sdesc, $ldesc, $php_version, $php_os, $status, $reporter_name);
 
             $dbh->query($sql, $args);
