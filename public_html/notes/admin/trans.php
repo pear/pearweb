@@ -57,13 +57,16 @@ switch ($action) {
                     passwd,
                     reporter_name
                 ) VALUES (
-                    '$registered', '$package_name', '$bug_type', '$email', '$handle',
-                    '$sdesc', '$ldesc', null, '$php_version', '$php_os',
-                    '$status', NOW(), null, '$reporter_name'
+                    ?, ?, ?, ?, ?,
+                    ?, ?, null, ?, ?,
+                    ?, NOW(), null, ?
                 )
             ";
 
-            $dbh->query($sql);
+            $args = array($registered, $package_name, $bug_type
+                          $email, $handle, $sdesc, $ldesc, $php_version, $php_os, $status, $reporter_name);
+
+            $dbh->query($sql, $args);
             // TODO: add error handling
 
             $id = mysqli_insert_id($dbh->connection);
