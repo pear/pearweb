@@ -55,7 +55,7 @@ abstract class license
      */
     public static function normalize($license)
     {
-        $normalized = $license;
+        $normalized = trim($license);
 
         switch (strtolower($license)) {
         case 'php':
@@ -202,59 +202,45 @@ abstract class license
      */
     public static function getLink($license)
     {
-        $link = null;
+        $normalised = self::normalize($license);
 
-        switch (self::normalize($license)) {
+        switch ($normalised) {
+
         case 'PHP':
-            $link = 'http://www.php.net/license';
-            break;
+            return 'http://www.php.net/license';
 
         case 'PHP 2.02':
-            $license = 'http://www.php.net/license/2_02.txt';
-            break;
+            return 'http://www.php.net/license/2_02.txt';
 
         case 'PHP 3.01':
-            $license = 'http://www.php.net/license/3_01.txt';
-            break;
+            return 'http://www.php.net/license/3_01.txt';
 
         case 'LGPL':
-            $license = 'http://www.gnu.org/copyleft/lesser.html';
-            break;
+            return 'http://www.gnu.org/copyleft/lesser.html';
 
         case 'LGPL 2.1':
-            $license = 'http://www.gnu.org/licenses/lgpl-2.1.html';
-            break;
+            return 'http://www.gnu.org/licenses/lgpl-2.1.html';
 
         case 'LGPL 3':
-            $license = 'http://www.gnu.org/licenses/lgpl-3.0.html';
-            break;
+            return 'http://www.gnu.org/licenses/lgpl-3.0.html';
 
         case 'BSD':
-            $license = 'http://www.opensource.org/licenses/bsd-license.php';
-            break;
+            return 'http://www.opensource.org/licenses/bsd-license.php';
 
         case 'MIT':
-            $license = 'http://www.opensource.org/licenses/mit-license.php';
-            break;
+            return 'http://www.opensource.org/licenses/mit-license.php';
 
         case 'GPL':
-            $license = 'http://www.gnu.org/copyleft/gpl.html';
-            break;
+            return 'http://www.gnu.org/copyleft/gpl.html';
 
         case 'Apache 2.0':
-            $license = 'http://www.opensource.org/licenses/apache2.0.php';
-            break;
+            return 'http://www.opensource.org/licenses/apache2.0.php';
 
         case 'W3C':
-            $license = 'http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231';
-            break;
-
-        default:
-            $license = null;
-            break;
+            return 'http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231';
         }
 
-        return $license;
+        return null;
     }
 
     /**
