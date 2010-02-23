@@ -27,7 +27,7 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.1.2');
+$a->setReleaseVersion('1.1.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
