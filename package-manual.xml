@@ -72,7 +72,7 @@
   <active>yes</active>
  </developer>
  <date>2010-02-23</date>
- <time>22:56:34</time>
+ <time>22:59:35</time>
  <version>
   <release>1.1.3</release>
   <api>0.1.0</api>
@@ -83,7 +83,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- text/javascript for all &lt;script&gt; [clockwerx]
+Bug #16747 Broken licence links
+Bug #17148      Add user note as doc bug syntax errors
+Bug #16913      broken link to PEAR Installer
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -257,7 +259,9 @@ User notes administration usability overhall
    <date>2010-02-23</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-- text/javascript for all &lt;script&gt; [clockwerx]
+Bug #16747 Broken licence links
+Bug #17148      Add user note as doc bug syntax errors
+Bug #16913      broken link to PEAR Installer
    </notes>
   </release>
  </changelog>

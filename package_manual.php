@@ -31,7 +31,9 @@ $a->setReleaseVersion('1.1.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- text/javascript for all <script> [clockwerx]
+Bug #16747 Broken licence links
+Bug #17148      Add user note as doc bug syntax errors
+Bug #16913      broken link to PEAR Installer
 ');
 $a->resetUsesrole();
 $a->clearDeps();
