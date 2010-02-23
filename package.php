@@ -25,12 +25,13 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.24.0');
+$a->setReleaseVersion('1.24.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Enhance category package browser styles [gauthierm]
-- Enhance peardoc styles [gauthierm]
+Bug #16747 Broken licence links
+Bug #17148 	Add user note as doc bug syntax errors
+Bug #16913 	broken link to PEAR Installer
 ');
 $a->resetUsesrole();
 $a->clearDeps();
