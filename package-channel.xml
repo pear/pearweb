@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.0RC4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_channelxml</name>
  <channel>pear.php.net</channel>
  <summary>channel.xml and DTD for pear.php.net channel</summary>
@@ -40,10 +40,10 @@
   <email>dufuz@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-09-04</date>
- <time>21:32:32</time>
+ <date>2010-03-11</date>
+ <time>10:18:53</time>
  <version>
-  <release>1.15.0</release>
+  <release>1.15.1</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -52,8 +52,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- add piece framework channel
-- add links to channel info in the manual
+- update xsd for channel and package xml files to the latest included in Pyrus
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -193,6 +192,21 @@ jump to 1.12.0 so we can tag
    <notes>
 - add piece framework channel
 - add links to channel info in the manual
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.15.1</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-03-11</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- update xsd for channel and package xml files to the latest included in Pyrus
    </notes>
   </release>
  </changelog>

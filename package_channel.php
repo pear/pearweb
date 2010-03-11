@@ -13,12 +13,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
             'public_html/dtd/'
         ),
     ));
-$a->setReleaseVersion('1.15.0');
+$a->setReleaseVersion('1.15.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- add piece framework channel
-- add links to channel info in the manual
+- update xsd for channel and package xml files to the latest included in Pyrus
 ');
 $a->resetUsesrole();
 $a->clearDeps();
