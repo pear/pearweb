@@ -68,6 +68,9 @@ provided on the individual pages.</p>
   <li><a href="http://pear.phpmd.org/">PHP Mess Detector</a></li>
   <li><a href="http://pear.pearfarm.org/">PEARFarm</a></li>
   <li><a href="http://pear.pirum-project.org/">Pirum</a></li>
+  <li><a href="http://pearhub.org/">PEARHub</a></li>
+  <li><a href="http://pear.fluentdom.org/">FluentDOM</a></li>
+  <li><a href="http://www.faett.net/">Faett</a></li>
 </ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
