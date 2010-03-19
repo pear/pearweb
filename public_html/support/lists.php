@@ -20,8 +20,6 @@
 
 response_header('Support - Mailing Lists');
 
-echo '<h1>Support</h1>';
-
 /*
  * array of lists (
  *     list,
@@ -168,7 +166,6 @@ if (isset($_POST['action'])) {
 
 ?>
 
-<h2>&raquo; Mailing Lists</h2>
 
 <p>
  There are <?php echo count($mailing_lists)-1; ?> PEAR-related mailing

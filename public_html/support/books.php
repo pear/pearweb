@@ -20,8 +20,6 @@
 
 response_header("Support - Books");
 
-echo "<h1>Support</h1>";
-
 $books = array(
                array("title" => "The PEAR Installer Manifesto",
                      "authors" => array("Gregory Beaver"),
@@ -58,8 +56,6 @@ $books = array(
                );
 
 ?>
-
-<h2>&raquo; Books</h2>
 
 <p>The following is a list of books that have been written about PEAR.
 There are a lot more PHP books that describe some PEAR packages.

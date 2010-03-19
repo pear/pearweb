@@ -21,9 +21,6 @@
 response_header('Support');
 ?>
 
-<h1>Support</h1>
-
-<h2>&raquo; Overview</h2>
 
 <p>Besides the <a href="/manual/">manual</a> the PEAR website provides
 a number of other support resources. You can select them using the

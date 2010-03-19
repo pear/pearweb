@@ -20,11 +20,6 @@
 
 response_header('Support - Presentation Slides');
 ?>
-
-<h1>Support</h1>
-
-<h2>&raquo; Presentation Slides</h2>
-
 <p>The following is a list of pointers to the slides of presentations
 that have been held about PEAR.</p>
 

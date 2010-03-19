@@ -18,12 +18,9 @@
    $Id$
 */
 
-response_header('Support - Tutorials');
+response_header('Support - Forums');
 ?>
 
-<h1>Support</h1>
-
-<h2>&raquo; Forums</h2>
 
 <p>The following is a list of pointers to external forums about
 PEAR packages.</p>

@@ -21,9 +21,6 @@
 response_header("Support - Icons");
 ?>
 
-<h1>Support</h1>
-
-<h2>&raquo; Icons</h2>
 
 <p>What programming tool would be complete without a set of icons to
 put on your webpage, telling the world what makes your site tick?</p>

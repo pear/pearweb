@@ -20,11 +20,6 @@
 
 response_header('Support - Tutorials');
 ?>
-
-<h1>Support</h1>
-
-<h2>&raquo; Tutorials</h2>
-
 <p>The following is a list of pointers to external tutorials about
 PEAR packages. In addition to this list one can find additional links
 on <a href="http://www.phpkitchen.com/staticpages/index.php?page=2003041204203962">
