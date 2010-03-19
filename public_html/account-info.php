@@ -23,7 +23,12 @@
 require_once 'Damblan/Karma.php';
 require_once 'Damblan/URL.php';
 require_once 'HTTP.php';
+require 'bugs/pear-bugs.php';
+include_once 'pear-database-user.php';
+
+$bugs = new PEAR_Bugs();
 $site = new Damblan_URL();
+$karma = new Damblan_Karma($dbh);
 
 $params = array('handle' => '', 'action' => '');
 $site->getElements($params);
@@ -37,7 +42,8 @@ if (empty($handle)) {
 
 $dbh->setFetchmode(DB_FETCHMODE_ASSOC);
 
-include_once 'pear-database-user.php';
+
+$permissions = $karma->get($handle);
 $row = user::info($handle);
 
 if ($row === null) {
@@ -62,6 +68,9 @@ switch ($params['action']) {
         break;
 
 }
+
+
+
 
 $extraHeaders = '<link rel="alternate" href="/map/locationREST.php?handle=' . $handle . '" type="application/rdf+xml" title="FOAF" />';
 $extraHeaders .= '<link rel="alternate" href="/feeds/user_' . $handle . '.rss" type="application/rdf+xml" title="Packages involving this user" />';
@@ -185,13 +194,12 @@ if (!empty($row['latitude']) && !empty($row['longitude'])) {
     echo '</li>' . "\n";
 }
 
-$karma =& new Damblan_Karma($dbh);
+
 if ($karma->has($handle, 'pear.dev')) {
     echo '    <li>Bug Statistics: <br />' . "\n";
     echo '     <ul>' . "\n";
 
-    require 'bugs/pear-bugs.php';
-    $bugs = new PEAR_Bugs;
+
     $info = $bugs->developerBugStats($handle);
     echo '      <li>Rank: <strong><a href="/bugs/stats_dev.php">#' . $info['rank'] . ' of ' . count($info['rankings']) . '</a></strong> developers who have fixed bugs <strong>(' .
         $info['alltime'] . ' fixed bugs)</strong></li>' . "\n";
@@ -226,7 +234,7 @@ if (count($packages) > 0 || count($notes) > 0) {
 
  <tr>
   <th class="headrow" style="width: 50%">&raquo; Maintains These Packages</th>
-  <th class="headrow" style="width: 50%">&raquo; Notes Regarding User</th>
+  <th class="headrow" style="width: 50%">Karma and History</th>
  </tr>
  <tr>
   <td valign="top">
@@ -253,8 +261,17 @@ foreach ($packages as $row) {
    </ul>
   </td>
   <td valign="top">
+<?php if (!empty($permissions)) { ?>
+    <h4>Current Karma</h4>
+    <ul>
+        <?php foreach ($permissions as $permission) { ?>
+            <li><?php print $permission['level']; ?> by <?php print $permission['granted_by']; ?><br /><span style="opacity: 0.3"><?php print substr($permission['granted_at'], 0, 10); ?></span></li>
+        <?php } ?>
+    </ul>
+<?php } ?>
+<h4>History and notes</h4>
 <?php
-if (count($notes) == 0) {
+if (empty($notes)) {
     echo '<p>There are no notes for this user.</p>';
 }
 ?>
