@@ -684,12 +684,13 @@ if (empty($action)) {
 
     if (!empty($doc_link)) {
         echo '<ul><li><a href="' . htmlspecialchars($doc_link) . '">End-user Documentation</a></li></ul>';
+    }
 
-        $tocfile = 'manual/en/packagetocs/' . strtolower($name) . '.htm';
-        if (file_exists($tocfile)) {
-            echo file_get_contents($tocfile);
-        }
-    } else {
+    // auto-discover toc even if doc_link is empty
+    $tocfile = 'manual/en/packagetocs/' . strtolower($name) . '.htm';
+    if (file_exists($tocfile)) {
+        echo file_get_contents($tocfile);
+    } else if (empty($doc_link)) {
         echo '<p>No end-user documentation is available for this package.</p>';
     }
 
