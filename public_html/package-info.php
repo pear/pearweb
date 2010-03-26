@@ -191,6 +191,7 @@ EOD;
 // {{{ page header
 
 $name = htmlspecialchars(strip_tags($name));
+$helper = new package_releasehelper($name);
 $extraHeaders = $trackback_header
     . ' <link rel="meta" title="DOAP" type="application/rdf+xml"'
     . ' href="/package/' . $name . '/doap"/>';
@@ -285,6 +286,20 @@ if (empty($action)) {
         echo ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
         echo ' was released on ' . format_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
         echo ' (<a class="download-page" href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
+        ?>
+            <div class="package-download-action" style="margin-top: 1.0em">
+                <h5 style="font-weight: bold">Easy Install</h5>
+                <p class="action-hint">Not sure? Get <a href="/manual/en/installation.php">more info</a>.</p>
+                <p class="action"><kbd>pear install <?php echo htmlspecialchars($name); ?></kbd></p>
+
+                <?php if (!$helper->hasOldPackagexml()) { ?>
+                    <h5 style="font-weight: bold">Pyrus Install</h5>
+                    <p>Try <a href="http://pear2.php.net/">PEAR2</a>'s installer, Pyrus.</p>
+                    <p class="action"><kbd>php pyrus.phar install pear/<?php echo htmlspecialchars($name); ?></kbd></p>
+                <?php } ?>
+            </div>
+        <?php            
+
 
         if ($pkg['releases'][$versions[0]]['state'] != 'stable') {
             foreach ($pkg['releases'] as $rel_ver => $rel_arr) {
@@ -301,6 +316,9 @@ if (empty($action)) {
                 }
             }
         }
+
+
+
     } else {
         echo 'No releases have been made yet.';
     }
