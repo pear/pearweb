@@ -24,6 +24,7 @@ require_once 'Damblan/Karma.php';
 require_once 'Damblan/URL.php';
 require_once 'bugs/pear-bugs.php';
 require 'roadmap/info.php';
+require_once 'package/releasehelper.php';
 
 $site = new Damblan_URL;
 
@@ -375,7 +376,6 @@ if (empty($action)) {
     echo '</tr>' . "\n";
     echo '<tr>' . "\n";
     if (isset($auth_user)) {
-        require 'package/releasehelper.php';
         $helper = new package_releasehelper($pkg['name']);
         echo '<td class="description">' . nl2br(htmlspecialchars($description)) . '</td>' . "\n";
         echo '<td>' . "\n";
@@ -541,7 +541,7 @@ if (empty($action)) {
     // }}}
 
 } elseif ($action == 'download') {
-
+    $helper = new package_releasehelper($name);
     // {{{ Download
 
     $i = 0;
@@ -571,6 +571,14 @@ if (empty($action)) {
                     <h4>Easy Install</h4>
                     <p class="action-hint">Not sure? Get <a href="/manual/en/installation.php">more info</a>.</p>
                     <p class="action"><kbd>pear install <?php echo htmlspecialchars($name); ?>-<?php echo $release_version; ?></kbd></p>
+
+                    <?php if (!$helper->hasOldPackagexml()) { ?>
+                        <h4>Pyrus Install</h4>
+                        <p>Try <a href="http://pear2.php.net/">PEAR2</a>'s installer, Pyrus.</p>
+                        <p class="action"><kbd>php pyrus.phar install pear/<?php echo htmlspecialchars($name); ?>-<?php echo $release_version; ?></kbd></p>
+                    <?php } ?>
+                    
+
                 </div>
 
                 <div class="package-download-action download">
