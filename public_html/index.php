@@ -105,7 +105,8 @@ div#otherbody {
     <div style="display: table-cell; width: 50%; padding: 1.0em;" class="pearblurb">
 
         <div style="padding: 1.0em; color: white">
-            <span style="font-size: 1.5em; display: block;"><img src="http://pearweb/gifs/pearsmall.gif" alt="PEAR" /></span>
+            <span style="font-size: 1.5em; display: block;"><img src="/gifs/pearsmall.gif" alt="PEAR" /></span>
+
             PHP Extension and Application Repository
         </div>
 
