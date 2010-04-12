@@ -103,7 +103,9 @@ function readFolder($folder)
                     $url = $response->getStatus() != 404 ? $new_url : '';
                 }
 
-                $res = $dbh->execute($update, array($url, $matches1[1]));
+                if ($url) {
+                    $res = $dbh->execute($update, array($url, $matches1[1]));
+                }
             }
         }
     }
