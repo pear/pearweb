@@ -88,8 +88,8 @@ function readFolder($folder)
                 $path = $basepath . $folder . '/' . $file['name'];
                 $content = file_get_contents($path);
 
-                preg_match("/<title>(.*)<\/title>/", $content, $matches1);
-                preg_match("/<book.*xml:id\=\"(.*)\">/", $content, $matches2);
+                preg_match("/<title>\s*(\w+)\s*<\/title>/s", $content, $matches1);
+                preg_match("/<book.*?xml:id\=\"(.*?)\"\s*>/s", $content, $matches2);
 
                 $url = '/manual/en/' . $matches2[1] . '.php';
 
