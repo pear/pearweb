@@ -78,14 +78,12 @@ provided on the individual pages.</p>
 
 <h2>Channel server software</h2>
 
-<p>
- The manual has a
- <a href="/manual/en/core.rest.channelserversoftware.php">list of channel
- server software</a>, as well as
- <a href="/manual/en/core.rest.php">docs about the REST file structure</a> used
- as base for channel servers.
-</p>
-
+<ul>
+    <li><a href="http://pear.chiaraquartet.net">Chiara_PEAR_Server</a> (<a href="http://greg.chiaraquartet.net/archives/123-Setting-up-your-own-PEAR-channel-with-Chiara_PEAR_Server-the-official-way.html">Documentation</a></li>
+    <li><a href="http://svn.php.net/viewvc/pear2/sandbox/SimpleChannelServer/trunk/">SimpleChannelServer</a> (<a href="http://saltybeagle.com/2008/12/using-simplechannelserver-to-manage-a-pear-channel-on-google-code/">documentation</a>)</li>
+    <li><a href="http://www.pirum-project.org/">Pirum</a></li>
+    <li><a href="http://pearfarm.org/">Pearfarm</a></li>
+</ul>
 
 <?php
 response_footer();
