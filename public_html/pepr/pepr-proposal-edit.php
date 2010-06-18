@@ -115,7 +115,6 @@ $form->addElement('text', 'pkg_name', 'Package name:');
 
 // Dropdown possible licenses, less confusing for users
 $possibleLicenses = array(
-    'PHP License 3.01' => 'PHP License 3.01',
     'Apache License'   => 'Apache License',
     'LGPL'             => 'LGPL',
     'BSD Style'        => 'BSD Style',
