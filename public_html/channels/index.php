@@ -72,6 +72,7 @@ provided on the individual pages.</p>
   <li><a href="http://pear.fluentdom.org/">FluentDOM</a></li>
   <li><a href="http://www.faett.net/">Faett</a></li>
   <li><a href="http://phpseclib.sourceforge.net/pear.htm">phpseclib</a></li>
+  <li><a href="http://pear.indeyets.pp.ru">Alexey Zakhlestin's PEAR channel</a></li>
 </ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
