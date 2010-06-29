@@ -122,6 +122,11 @@ do {
             }
             $users = array();
             foreach ($info->getMaintainers() as $user) {
+                if (!user::exists($user['handle'])) {
+                    $errors[] = 'Unknown user: ' . $user['handle'];
+                    continue;
+                }
+
                 $users[strtolower($user['handle'])] = array(
                     'role'   => $user['role'],
                     'active' => !isset($user['active']) || $user['active'] == 'yes',
