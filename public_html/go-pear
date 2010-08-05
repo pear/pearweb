@@ -105,9 +105,9 @@ Please upgrade PHP to a newer version, and try again.  See you then.
 $gopear_bundle_dir = dirname(__FILE__).'/go-pear-bundle';
 
 $bootstrap_files = array(
-    'PEAR.php'             => 'http://cvs.php.net/viewvc.cgi/pear-core/PEAR.php?view=co&pathrev=PEAR_1_4',
-    'Archive/Tar.php'      => 'http://cvs.php.net/viewvc.cgi/pear/Archive_Tar/Archive/Tar.php?view=co&pathrev=RELEASE_1_3_2',
-    'Console/Getopt.php'   => 'http://cvs.php.net/viewvc.cgi/pear-core/Console/Getopt.php?view=co&pathrev=PEAR_1_4',
+    'PEAR.php'             => 'http://svn.php.net/viewvc/pear/pear-core/branches/PEAR_1_4/PEAR.php?view=co',
+    'Archive/Tar.php'      => 'http://svn.php.net/viewvc/pear/packages/Archive_Tar/tags/RELEASE_1_3_2/Archive/Tar.php?view=co',
+    'Console/Getopt.php'   => 'http://svn.php.net/viewvc/pear/pear-core/branches/PEAR_1_4/Console/Getopt.php?view=co',
     );
 
 $bootstrap_pkgs = array( // uses URL like http://pear.php.net/get/%s
