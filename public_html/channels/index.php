@@ -45,7 +45,6 @@ provided on the individual pages.</p>
   <li><a href="http://pear.crisscott.com/">Crisscott</a></li>
   <li><a href="http://pear.domain51.com/">Domain51</a></li>
   <li><a href="http://components.ez.no/">eZ components</a></li>
-  <li><a href="http://gnope.org/pearfront/">Gnope PHP-GTK2 applications</a></li>
   <li><a href="http://pear.horde.org/">Horde</a></li>
   <li><a href="http://pear.midcom-project.org/">Midgard Project</a></li>
   <li><a href="http://pear.phing.info/">Phing</a></li>
@@ -53,10 +52,8 @@ provided on the individual pages.</p>
   <li><a href="http://pear.phpunit.de/">PHPUnit</a></li>
   <li><a href="http://pear.phpspec.org/">PHPSpec</a></li>
   <li><a href="http://pear.piece-framework.com/">Piece Framework</a></li>
-  <li><a href="http://pear.phpkitchen.com/">Seagull</a></li>
   <li><a href="http://pear-smarty.googlecode.com/">Inofficial Smarty channel</a></li>
   <li><a href="http://pear.si.kz">si.kz</a></li>
-  <li><a href="http://pear.struts4php.org">Struts for PHP</a></li>
   <li><a href="http://pear.symfony-project.com/">Symfony</a></li>
   <li><a href="http://solarphp.com/home/index.php?area=Main&amp;page=DownloadInstall#toc1">Solar</a></li>
   <li><a href="http://pear.funkatron.com/">Edward Finkler</a></li>
