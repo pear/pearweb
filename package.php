@@ -25,13 +25,13 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.24.1');
+$a->setReleaseVersion('1.24.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Bug #16747 Broken licence links
-Bug #17148 	Add user note as doc bug syntax errors
-Bug #16913 	broken link to PEAR Installer
+Bug #17472 Broken link on Packages > Channels > List 	doconnor
+Bug #17533 Releases and roles do not seem to work. 	doconnor
+Bug #17663 dead links on http://pear.php.net/channels/ 	doconnor
 ');
 $a->resetUsesrole();
 $a->clearDeps();

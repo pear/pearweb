@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2010-02-23</date>
- <time>22:28:06</time>
+ <date>2010-08-15</date>
+ <time>00:05:06</time>
  <version>
-  <release>1.24.1</release>
+  <release>1.24.2</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,9 +101,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Bug #16747 Broken licence links
-Bug #17148 	Add user note as doc bug syntax errors
-Bug #16913 	broken link to PEAR Installer
+Bug #17472 Broken link on Packages &gt; Channels &gt; List 	doconnor
+Bug #17533 Releases and roles do not seem to work. 	doconnor
+Bug #17663 dead links on http://pear.php.net/channels/ 	doconnor
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -764,7 +764,7 @@ Bug #16913 	broken link to PEAR Installer
    <subpackage>
     <name>pearweb_channelxml</name>
     <channel>pear.php.net</channel>
-    <min>1.15.0</min>
+    <min>1.15.1</min>
    </subpackage>
    <subpackage>
     <name>pearweb_election</name>
@@ -784,7 +784,7 @@ Bug #16913 	broken link to PEAR Installer
    <subpackage>
     <name>pearweb_manual</name>
     <channel>pear.php.net</channel>
-    <min>1.1.2</min>
+    <min>1.1.3</min>
    </subpackage>
    <subpackage>
     <name>pearweb_pepr</name>
@@ -2667,6 +2667,23 @@ Fix bug #16572: Image category shows &quot;Sub-categories: Array&quot; [doconnor
 Bug #16747 Broken licence links
 Bug #17148 	Add user note as doc bug syntax errors
 Bug #16913 	broken link to PEAR Installer
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.24.2</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-08-15</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Bug #17472 Broken link on Packages &gt; Channels &gt; List 	doconnor
+Bug #17533 Releases and roles do not seem to work. 	doconnor
+Bug #17663 dead links on http://pear.php.net/channels/ 	doconnor
    </notes>
   </release>
  </changelog>
