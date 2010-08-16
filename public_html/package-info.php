@@ -485,6 +485,11 @@ if (empty($action)) {
     echo '<li><a href="/feeds/pkg_' . strtolower(htmlspecialchars($name)) . '.rss" title="RSS feed for the releases of the package">RSS release feed</a></li>' . "\n";
     echo '<li><a href="/package-stats.php?pid=' . $pkg['packageid'] . '&amp;cid=' .
         $pkg['categoryid'] . '" title="View download statistics for this package">View Download Statistics</a></li>' . "\n";
+
+    if (PEARWEB_CI_SERVER) {
+        echo '<li><a href="' PEARWEB_CI_SERVER . 'buildresults/' . htmlspecialchars($name) . '">Check trunk unit tests</a> (if applicable)</li>' . "\n";
+    }
+
     echo '</ul>' . "\n";
     echo '</td>' . "\n";
     echo '</tr>' . "\n";

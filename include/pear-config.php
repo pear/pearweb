@@ -105,6 +105,12 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PROPOSAL_MAIL_FROM', 'PEPr <bounce-no-user@php.net>');
 }
 
+if (isset($_ENV['PEARWEB_CI_SERVER'])) {
+    define('PEARWEB_CI_SERVER',  $_ENV['PEARWEB_CI_SERVER']);
+} else {
+    define('PEARWEB_CI_SERVER', 'http://test.pear.php.net:8080/cruisecontrol/');
+}
+
 if (isset($_ENV['PEAR_TMPDIR'])) {
     define('PEAR_TMPDIR', $_ENV['PEAR_TMPDIR']);
     // Where pearweb's temporary uploads should be stored
