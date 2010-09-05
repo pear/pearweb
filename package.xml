@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2010-08-15</date>
- <time>00:05:06</time>
+ <date>2010-09-05</date>
+ <time>13:42:00</time>
  <version>
-  <release>1.24.2</release>
+  <release>1.24.3</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,9 +101,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Bug #17472 Broken link on Packages &gt; Channels &gt; List 	doconnor
-Bug #17533 Releases and roles do not seem to work. 	doconnor
-Bug #17663 dead links on http://pear.php.net/channels/ 	doconnor
+Bug #17717 	package.xml XSD does not support __uri channels
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -2684,6 +2682,21 @@ Bug #16913 	broken link to PEAR Installer
 Bug #17472 Broken link on Packages &gt; Channels &gt; List 	doconnor
 Bug #17533 Releases and roles do not seem to work. 	doconnor
 Bug #17663 dead links on http://pear.php.net/channels/ 	doconnor
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.24.3</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-09-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Bug #17717 	package.xml XSD does not support __uri channels
    </notes>
   </release>
  </changelog>

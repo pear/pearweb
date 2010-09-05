@@ -25,14 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.24.2');
+$a->setReleaseVersion('1.24.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Bug #17472 Broken link on Packages > Channels > List 	doconnor
-Bug #17533 Releases and roles do not seem to work. 	doconnor
-Bug #17663 dead links on http://pear.php.net/channels/ 	doconnor
-');
+Bug #17717 	package.xml XSD does not support __uri channels');
 $a->resetUsesrole();
 $a->clearDeps();
 $a->setPhpDep('5.2.3');
