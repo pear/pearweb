@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<book
+ xmlns="http://docbook.org/ns/docbook"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ version="lillet" xml:id="package.networking.net-ldap2"
+>
+ <info>
+  <title>Net_LDAP2</title>
+  <abstract>
+    <para>
+        Net_LDAP2 allows you to query and manipulate the data stored in directory
+        servers using PHP in an object-oriented way.
+    </para>
+    <para>
+        Detailed usage examples are available at: <literal>/your/pear/path/docs/Net_LDAP2/examples/</literal>
+    </para>
+  </abstract>
+ </info>
+
+
+ <chapter>
+    &package.networking.net-ldap2.introduction;
+    &package.networking.net-ldap2.errorhandling;
+    &package.networking.net-ldap2.connect;
+    &package.networking.net-ldap2.search;
+    &package.networking.net-ldap2.fetching;
+    &package.networking.net-ldap2.attributes;
+    &package.networking.net-ldap2.entries;
+    &package.networking.net-ldap2.filter;
+    &package.networking.net-ldap2.ldif;
+    &package.networking.net-ldap2.schemacache;
+ </chapter>
+</book>

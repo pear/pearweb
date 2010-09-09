@@ -59,8 +59,34 @@ $sql = "
     (doc_link IS NULL OR doc_link NOT LIKE 'http://%' OR doc_link LIKE '" . $host . "/%')";
 $update = $dbh->prepare($sql);
 
-// {{{ readFolder()
+function checkDocumentation($path) {
 
+    $dom = new DOMDocument();
+    @$dom->loadHTML(file_get_contents($path)); // I know: @ is evil, but it's either that or load chapters.ent - 422K of DTD
+
+    $document = simplexml_import_dom($dom);
+    $titles = $document->xpath("//title");
+    $books = $document->xpath("//book");
+
+    if (empty($titles)) {
+        throw new Exception("No //title element");
+    }
+
+    if (empty($books)) {
+        throw new Exception("No //book element");
+    }
+
+    $attributes = $books[0]->attributes();
+
+    if (empty($attributes['xml:id'])) {
+        throw new Exception("Missing package xml:id attribute");
+    }
+
+    return array((string)$titles[0], $attributes['xml:id']);
+}
+
+
+// {{{ readFolder()
 function readFolder($folder)
 {
     global $vfs, $basepath, $dbh, $update, $host;
@@ -85,32 +111,29 @@ function readFolder($folder)
             $level--;
         } else {
             if ($level == 2 && preg_match("/\.xml$/", $file['name'])) {
-
                 $path = $basepath . $folder . '/' . $file['name'];
-                $content = file_get_contents($path);
 
-                preg_match("/<title>\s*(\w+)\s*<\/title>/s", $content, $matches1);
-                preg_match("/<book.*?xml:id\=\"(.*?)\"\s*>/s", $content, $matches2);
+                try {
+                    list($title, $package) = checkDocumentation($path);
 
-                if (empty($matches2[1])) {
-                    print "Unable to match /<book.*?xml:id\=\"(.*?)\"\s*>/s for " . $path . ", skipping\n";
-                    continue;
-                }
+        
+                    $url = '/manual/en/' . $package . '.php';
 
-                $url = '/manual/en/' . $matches2[1] . '.php';
-
-                $request = new HTTP_Request2($host . $url);
-                $response = $request->send();
-
-                if ($response->getStatus() == 404) {
-                    $new_url = preg_replace("=\.([^\.]+)\.php$=", ".php", $url);
-                    $request->setURL($host . $new_url);
+                    $request = new HTTP_Request2($host . $url);
                     $response = $request->send();
-                    $url = $response->getStatus() != 404 ? $new_url : '';
-                }
 
-                if ($url) {
-                    $res = $dbh->execute($update, array($url, $matches1[1]));
+                    if ($response->getStatus() == 404) {
+                        $new_url = preg_replace("=\.([^\.]+)\.php$=", ".php", $url);
+                        $request->setURL($host . $new_url);
+                        $response = $request->send();
+                        $url = $response->getStatus() == 404 ? $new_url : '';
+                    }
+
+                    if ($url) {
+                        $res = $dbh->execute($update, array($url, $matches1[1]));
+                    }
+                } catch (Exception $e) {
+                    print $e->getMessage() . "\n";
                 }
             }
         }
@@ -118,5 +141,5 @@ function readFolder($folder)
 }
 
 // }}}
-
+//checkDocumentation(dirname(__FILE__) . '/sample.xml');
 readFolder('.');
