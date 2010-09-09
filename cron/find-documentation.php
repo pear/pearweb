@@ -93,7 +93,7 @@ function readFolder($folder)
                 preg_match("/<book.*?xml:id\=\"(.*?)\"\s*>/s", $content, $matches2);
 
                 if (empty($matches2[1])) {
-                    print "Unable to match /<book.*?xml:id\=\"(.*?)\"\s*>/s for " . $path . ", skipping";
+                    print "Unable to match /<book.*?xml:id\=\"(.*?)\"\s*>/s for " . $path . ", skipping\n";
                     continue;
                 }
 
