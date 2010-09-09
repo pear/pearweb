@@ -92,7 +92,7 @@ function readFolder($folder)
                 preg_match("/<title>\s*(\w+)\s*<\/title>/s", $content, $matches1);
                 preg_match("/<book.*?xml:id\=\"(.*?)\"\s*>/s", $content, $matches2);
 
-                if (empty($matches2)) {
+                if (empty($matches2[1])) {
                     print "Unable to match /<book.*?xml:id\=\"(.*?)\"\s*>/s for " . $path . ", skipping";
                     continue;
                 }
