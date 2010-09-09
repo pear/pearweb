@@ -46,6 +46,7 @@ $options = array(
 );
 $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 if (DB::isError($dbh)) {
+    print $dbh->getMessage() . "\n";
     exit(1);
 }
 
