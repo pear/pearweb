@@ -130,7 +130,7 @@ function readFolder($folder)
                     }
 
                     if ($url) {
-                        $res = $dbh->execute($update, array($url, $matches1[1]));
+                        $res = $dbh->execute($update, array($url, $title));
                     }
                 } catch (Exception $e) {
                     print $e->getMessage() . "\n";
