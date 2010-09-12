@@ -22,15 +22,16 @@ require_once 'HTTP/Request2.php';
 require_once 'XML/Feed/Parser.php';
 require_once 'Cache/Lite.php';
 require_once 'Services/Twitter.php';
+require_once 'HTTP/OAuth/Consumer.php';
 require_once 'Date.php';
 
-if (!isset($argv[3])) {
+if (!isset($argv[5])) {
     echo "usage: php " . __FILE__
-         .  " <twitter_username> <twitter_password> <directory>\n";
+         .  " <consumer_key> <consumer_secret> <token> <token_secret> <directory>\n";
     exit(1);
 }
 
-$cacheDir = $argv[3];
+$cacheDir = $argv[5];
 if (!file_exists($cacheDir)) {
     $mkdirResult = mkdir($cacheDir, 0777, true);
     if ($mkdirResult === false) {
@@ -45,7 +46,9 @@ $cache = new Cache_Lite(array('cacheDir'             => $cacheDir,
 $httpRequest = new HTTP_Request2('http://pear.php.net/feeds/latest.rss');
 $response    = $httpRequest->send();
 $rss         = new XML_Feed_Parser($response->getBody());
-$twitter     = new Services_Twitter($argv[1], $argv[2]);
+$oauth       = new HTTP_OAuth_Consumer($argv[1], $argv[2], $argv[3], $argv[4]);
+$twitter     = new Services_Twitter();
+$twitter->setOAuth($oauth);
 
 // Figure out the current time
 $tz  = new Date_TimeZone(date_default_timezone_get());
@@ -71,6 +74,10 @@ $exclamations = array('Cool!',
                       'Awesome!',
                       'Great Scott!',
                       'Sweet!',
+                      'Holy Crap!',
+                      'Sweet sassy molassy!',
+                      'Huzzah!',
+                      'Jiminey crickets!',
                       'Great horny toads!');
 
 foreach ($reversed as $title => $link) {
