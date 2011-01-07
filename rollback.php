@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+require_once 'MDB2.php';
 $dsn  = 'mysql://root:@localhost/pear';
 
 try {
