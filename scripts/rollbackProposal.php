@@ -1,7 +1,7 @@
 #!/usr/bin/env php
 <?php
 require_once 'MDB2.php';
-$dsn  = 'mysql://pear:pear@localhost/pearweb';
+$dsn  = 'mysqli://pear:pear@localhost/pear';
 
 try {
     $proposal_id = (int) $argv[1];
