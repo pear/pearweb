@@ -699,12 +699,6 @@ if (empty($action)) {
 
     // {{{ Documentation
 
-    // Redirect users to the end user docs if auto gen docs are not present and
-    // end user docs are, happens only in pecl
-    if ($rel_count === 0 && !empty($doc_link)) {
-        localRedirect($doc_link);
-    }
-
     echo '<table border="0" cellspacing="0" cellpadding="2" style="width: 100%">';
     echo '<tr>';
     echo '<th width="50%">&raquo; End-user documentation</th>';
