@@ -490,7 +490,7 @@ foreach ($reasons as $reason) {
         $table->setCaption('Account Requests', 'style="background-color: #CCCCCC;"');
         $requests = $dbh->getAssoc("SELECT u.handle,u.name,n.note,u.userinfo FROM users u ".
                                    "LEFT JOIN notes n ON n.uid = u.handle ".
-                                   "WHERE u.registered = 0 AND from_site != 'pecl'");
+                                   "WHERE u.registered = 0");
         if (is_array($requests) && sizeof($requests) > 0) {
             $head = array(
                 "<a href=\"#\" onclick=\"toggleSelectAll(this)\">&#x2713;</a>",
