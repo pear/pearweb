@@ -33,7 +33,8 @@ TABLE_FILES=\
     pepr.sql \
     apidoc_queue.sql \
     election.sql \
-    karma.sql
+    karma.sql \
+    tags.sql
 SQL_TYPE=mysql
 SQL_USER=pear
 SQL_PW=pear
