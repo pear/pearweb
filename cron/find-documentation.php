@@ -37,16 +37,17 @@ if (!file_exists('en/package')) {
     exit(2);
 }
 $basepath = getcwd() . '/en/package/';
+$debug = false;
 
 $vfs = new VFS_file(array('vfsroot' => $basepath));
 
 $options = array(
-    'persistent' => false,
+    'persistent'  => false,
     'portability' => DB_PORTABILITY_ALL,
 );
 $dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
 if (DB::isError($dbh)) {
-    print $dbh->getMessage() . "\n";
+    print $dbh->getMessage() . "\n" . $dbh->getUserInfo() . "\n";
     exit(1);
 }
 
@@ -60,7 +61,7 @@ $sql = "
 $update = $dbh->prepare($sql);
 
 function checkDocumentation($path) {
-
+    checkDocLog('checkDocumentation of ' . $path);
     $dom = new DOMDocument();
     @$dom->loadHTML(file_get_contents($path)); // I know: @ is evil, but it's either that or load chapters.ent - 422K of DTD
 
@@ -85,6 +86,10 @@ function checkDocumentation($path) {
     return array((string)$titles[0], $attributes['xml:id']);
 }
 
+function checkDocLog($msg)
+{
+    $GLOBALS['debug'] && print($msg . "\n");
+}
 
 // {{{ readFolder()
 function readFolder($folder)
@@ -94,6 +99,11 @@ function readFolder($folder)
     static $level;
     $level++;
 
+    if (substr($folder, -5) == '/.svn') {
+        return;
+    }
+
+    checkDocLog('readFolder ' . $folder);
     $result = $vfs->listFolder($folder);
 
     if ($folder == '.') {
@@ -116,21 +126,25 @@ function readFolder($folder)
                 try {
                     list($title, $package) = checkDocumentation($path);
 
-        
                     $url = '/manual/en/' . $package . '.php';
 
+                    checkDocLog('trying  ' . $host . $url);
                     $request = new HTTP_Request2($host . $url);
                     $response = $request->send();
 
-                    if ($response->getStatus() == 404) {
+                    if ($response->getStatus() >= 400) {
                         $new_url = preg_replace("=\.([^\.]+)\.php$=", ".php", $url);
                         $request->setURL($host . $new_url);
+                        checkDocLog('trying2 ' . $host . $new_url);
                         $response = $request->send();
-                        $url = $response->getStatus() == 404 ? $new_url : '';
+                        $url = $response->getStatus() > 400 ? '' : $new_url;
                     }
 
                     if ($url) {
+                        checkDocLog('Found doc url: ' . $url . ', title: ' . $title);
                         $res = $dbh->execute($update, array($url, $title));
+                    } else {
+                        checkDocLog('No url for ' . $title);
                     }
                 } catch (Exception $e) {
                     print $e->getMessage() . "\n";
