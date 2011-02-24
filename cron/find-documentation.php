@@ -3,7 +3,7 @@
  * Trying to find documentation URLs for PEAR packages in the peardoc Docbook sources.
  * Updates the package doc links in database if they are empty.
  *
- * Paramters:
+ * Parameters:
  *  --debug   Display debugging data
  *
  * @author  Martin Jansen <mj@php.net>
