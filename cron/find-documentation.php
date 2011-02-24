@@ -1,27 +1,13 @@
 <?php
-/*
- * +----------------------------------------------------------------------+
- * | PEAR Web site version 1.0                                            |
- * +----------------------------------------------------------------------+
- * | Copyright (c) 2003-2004 The PEAR Group                               |
- * +----------------------------------------------------------------------+
- * | This source file is subject to version 2.02 of the PHP license,      |
- * | that is bundled with this package in the file LICENSE, and is        |
- * | available at through the world-wide-web at                           |
- * | http://www.php.net/license/2_02.txt.                                 |
- * | If you did not receive a copy of the PHP license and are unable to   |
- * | obtain it through the world-wide-web, please send a note to          |
- * | license@php.net so we can mail you a copy immediately.               |
- * +----------------------------------------------------------------------+
- * | Authors: Martin Jansen <mj@php.net>                                  |
- * +----------------------------------------------------------------------+
- *
- * $Id$
- */
-
 /**
- * Trying to find documentation URLs for PEAR packages in the peardoc Docbook sources
+ * Trying to find documentation URLs for PEAR packages in the peardoc Docbook sources.
+ * Updates the package doc links in database if they are empty.
  *
+ * Paramters:
+ *  --debug   Display debugging data
+ *
+ * @author  Martin Jansen <mj@php.net>
+ * @license LGPL
  * @version $Revision$
  */
 require_once dirname(dirname(__FILE__)) . '/include/pear-config.php';
@@ -37,7 +23,7 @@ if (!file_exists('en/package')) {
     exit(2);
 }
 $basepath = getcwd() . '/en/package/';
-$debug = false;
+$debug = in_array('--debug', $argv);
 
 $vfs = new VFS_file(array('vfsroot' => $basepath));
 
@@ -62,12 +48,18 @@ $update = $dbh->prepare($sql);
 
 function checkDocumentation($path) {
     checkDocLog('checkDocumentation of ' . $path);
-    $dom = new DOMDocument();
-    @$dom->loadHTML(file_get_contents($path)); // I know: @ is evil, but it's either that or load chapters.ent - 422K of DTD
+    //our xml file contains entities that include other files
+    // we need to remove them since loading them would take really really long
+    $xmlstr = preg_replace(
+        '/&[a-zA-Z0-9._-]+;/',
+        '',
+        file_get_contents($path)
+    );
 
-    $document = simplexml_import_dom($dom);
-    $titles = $document->xpath("//title");
-    $books = $document->xpath("//book");
+    $document = simplexml_load_string($xmlstr);
+    $document->registerXPathNamespace('db', 'http://docbook.org/ns/docbook');
+    $titles = $document->xpath("//db:title");
+    $books = $document->xpath("//db:book");
 
     if (empty($titles)) {
         throw new Exception("No //title element");
@@ -77,13 +69,12 @@ function checkDocumentation($path) {
         throw new Exception("No //book element");
     }
 
-    $attributes = $books[0]->attributes();
-
-    if (empty($attributes['xml:id'])) {
-        throw new Exception("Missing package xml:id attribute");
+    $attributes = $books[0]->attributes('http://www.w3.org/XML/1998/namespace');
+    if (empty($attributes['id'])) {
+        throw new Exception('Missing package xml:id attribute');
     }
 
-    return array((string)$titles[0], $attributes['xml:id']);
+    return array((string)$titles[0], $attributes['id']);
 }
 
 function checkDocLog($msg)
