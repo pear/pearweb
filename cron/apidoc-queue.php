@@ -145,13 +145,11 @@ foreach ($rows as $filename) {
         }
         pclose($process);
 
-        $cmd = sprintf("ln -sf %s/%s-%s %s/%s-latest",
-                       PEAR_APIDOC_DIR,
-                       $name,
-                       $info['version'],
-                       PEAR_APIDOC_DIR,
-                       $name);
-        `$cmd`;
+        //update "latest" symlink
+        $latestdir  = PEAR_APIDOC_DIR . $name . '-latest';
+        $versiondir = PEAR_APIDOC_DIR . $name . '-' . $info['version'];
+        is_link($latestdir) && unlink($latestdir);
+        symlink($versiondir, $latestdir);
 
         $query = "UPDATE apidoc_queue SET finished = NOW(), log = ? WHERE filename = ?";
         $dbh->query($query, array($output, $filename));

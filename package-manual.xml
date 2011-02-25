@@ -80,10 +80,10 @@
   <active>yes</active>
  </developer>
 
- <date>2011-02-24</date>
+ <date>2011-02-25</date>
  <time>22:28:00</time>
  <version>
-  <release>1.2.1</release>
+  <release>1.2.2</release>
   <api>1.2.0</api>
  </version>
  <stability>
@@ -93,8 +93,7 @@
  <license uri="http://www.php.net/license">PHP License</license>
 
  <notes>
-find-documentation loads XML as XML and uses proper xpaths with namespaces.
-This finally fixes all the issues with automatic doc finding.
+- Fix bug #16627: HTTP_Request2 - "latest" docs not linked
  </notes>
 
  <contents>
@@ -314,6 +313,22 @@ Bug #16913      broken link to PEAR Installer
    <notes>
 find-documentation loads XML as XML and uses proper xpaths with namespaces.
 This finally fixes all the issues with automatic doc finding.
+   </notes>
+  </release>
+
+  <release>
+   <version>
+    <release>1.2.2</release>
+    <api>1.2.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-02-25</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Fix bug #16627: HTTP_Request2 - "latest" docs not linked
    </notes>
   </release>
  </changelog>
