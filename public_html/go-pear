@@ -87,7 +87,8 @@ if (WEBINSTALLER && isset($_GET['action']) && $_GET['action'] == 'img' && isset(
 }
 
 // Check if PHP version is sufficient
-if (function_exists("version_compare") && version_compare(phpversion(), "4.4.0",'<')) {
+$phpVersion = phpversion();
+if (function_exists("version_compare") && version_compare($phpVersion, "4.4",'<')) {
     die("Sorry!  Your PHP version is too old.  PEAR and this script requires at
 least PHP 4.4.0 for stable operation.
 
@@ -99,6 +100,13 @@ If your source is 4.4.x or newer, just make sure you don't run
 
 Please upgrade PHP to a newer version, and try again.  See you then.
 
+");
+} elseif (function_exists("version_compare") && version_compare($phpVersion, "5.2",'>=')) {
+    die("Sorry!  Your PHP version is too new ($phpVersion) for this go-pear.
+Instead use http://pear.php.net/go-pear.phar for a more stable and current
+version of go-pear, more suited to your PHP version.
+
+Thank you for your coopertion and sorry for the inconvenience!
 ");
 }
 
