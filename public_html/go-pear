@@ -101,7 +101,7 @@ If your source is 4.4.x or newer, just make sure you don't run
 Please upgrade PHP to a newer version, and try again.  See you then.
 
 ");
-} elseif (function_exists("version_compare") && version_compare($phpVersion, "5.2",'>=')) {
+} elseif (function_exists("version_compare") && version_compare($phpVersion, "5.1.6",'>=')) {
     die("Sorry!  Your PHP version is too new ($phpVersion) for this go-pear.
 Instead use http://pear.php.net/go-pear.phar for a more stable and current
 version of go-pear, more suited to your PHP version.
