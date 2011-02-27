@@ -87,14 +87,14 @@ if (WEBINSTALLER && isset($_GET['action']) && $_GET['action'] == 'img' && isset(
 }
 
 // Check if PHP version is sufficient
-if (function_exists("version_compare") && version_compare(phpversion(), "4.3.0",'<')) {
+if (function_exists("version_compare") && version_compare(phpversion(), "4.4.0",'<')) {
     die("Sorry!  Your PHP version is too old.  PEAR and this script requires at
-least PHP 4.3.0 for stable operation.
+least PHP 4.4.0 for stable operation.
 
 It may be that you have a newer version of PHP installed in your web
 server, but an older version installed as the 'php' command.  In this
 case, you need to rebuilt PHP from source.
-If your source is 4.3.x or newer, just make sure you don't run
+If your source is 4.4.x or newer, just make sure you don't run
 'configure' with --disable-cli, rebuilt and copy sapi/cli/php.
 
 Please upgrade PHP to a newer version, and try again.  See you then.
