@@ -58,7 +58,7 @@ You can download go-pear from http://pear.php.net/go-pear
 * Fixed Bug #18132: Write binary file when creating Structures_Graph [dufuz]
 * Fixed Bug #18211: go-pear.php fails due to permission problems [dufuz]
 
-Now we advice people to use http://pear.php.net/go-pear.phar when they have PHP 5.2+
+Now we advice people to use http://pear.php.net/go-pear.phar when they have PHP 5.1+
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
