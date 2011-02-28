@@ -403,6 +403,7 @@ Bug #17717 	package.xml XSD does not support __uri channels
     <file name="advisory-20051104.txt" role="www" />
     <file name="advisory-20060108.txt" role="www" />
     <file name="advisory-20070507.txt" role="www" />
+    <file name="advisory-20110228.txt" role="www" />
     <file name="favicon.ico" role="www" />
     <file name="get" role="www" />
     <file name="login.php" role="www" />
@@ -2419,9 +2420,9 @@ Fix XSS problem, thanks to Tim Starling!
    <notes>
 Request #13449 Improve the user experience on the homepage
 Bug #16062 BB tag helper refers to non-existant variable &quot;is_gecko&quot;
-Bug #16112 us.pear.php.net is behind	
+Bug #16112 us.pear.php.net is behind
 Bug #16120 Broken link to &quot;New Maintainers Guide&quot; from &quot;Package Proposals&quot;
-Bug #16125 Link broken when path is attached to a bug report	 
+Bug #16125 Link broken when path is attached to a bug report
 Bug #16160 Roadmap: natural sorting for package versions (1.19.0 before 1.9.0)
 Bug #16161 showold=0 does not hide old roadmaps
 Bug #16226 Incorrect warning
@@ -2480,7 +2481,7 @@ Refactored PEPR listings
 
 Bug #16291 E_NOTICE in patch display
 Bug #16293 E_WARNING when imploding packages
-Bug #16294 Syntax error in generated manual page 	 
+Bug #16294 Syntax error in generated manual page
 Bug #16295 E_NOTICE in roadmap.php
 Bug #16296 Undefined variable in pepr/index.php
    </notes>
