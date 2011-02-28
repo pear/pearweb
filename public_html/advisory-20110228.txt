@@ -1,0 +1,60 @@
+SECURITY VULNERABILITY ANNOUNCEMENT
+February 28, 2011
+
+     Advisory: PEAR installer symlink vulnerability
+ Release Date: 2011/02/28
+Last Modified: 2011/02/28
+       Author: Helgi Thormar Thorbjoernsson [helgi@php.net]
+  Application: PEAR installer <= 1.9.1
+         Risk: Medium
+Vendor Status: The PEAR project has released an updated version
+   References: http://pear.php.net/advisory-20110228.txt
+           ID: PSA 20110228-01
+
+Overview:
+
+  The PEAR installer is available from http://pear.php.net/package/PEAR.
+The PEAR installer is used to install PHP-based software packages
+distributed from pear.php.net and PHP extensions from pecl.php.net.  As
+of version 1.4.0, the PEAR installer can also install software packages
+from other sources, known as "channels."
+
+The lack of symlink checks while doing installation and upgrades, which
+initiate various system write operations, can cause privileged users
+unknowingly to overwrite critical system files.
+
+Details:
+
+  To be vulnerable, a non-privileged user that has access to the system must
+explicitly create a symlink from a predictable location, to which PEAR will
+write, with an end point at a system critical file such as /etc/passwd.
+
+A non-privileged user is not required to have permission to the symlink
+endpoint, the required privileges are obtained by asking a privileged
+user to perform a routine task, such as installation or upgrade of packages,
+which will in turn write to a predictable location; the whole process is
+transparent for the privileged user and will in turn write to the symbolically
+linked endpoint.
+
+It is not possible to inject arbitrary information with this approach, it is
+only possible to overwrite symlinked files with one of the files coming from
+the PEAR package being installed/updated.
+
+The following steps have been taken to fix the problem at hand:
+ * tmpnam has been put in use to ensure fairly non-predictible paths
+ * Proper symlink checks have been put in place and a warning is issued
+   if a write operation happens on a symlink as well as the operation is
+   cancelled
+
+Further information about how symlink attacks work can be found at
+http://www.infosecwriters.com/texts.php?op=display&id=159
+
+Recommendation:
+
+  We strongly recommend to upgrade to the new version
+
+  PEAR 1.9.2 or higher
+  pear upgrade PEAR-1.9.2
+  http://pear.php.net/get/PEAR-1.9.2.tgz
+
+Thanks to Raphael Geisert, Ondrej Sury and rest of the Debian team.
