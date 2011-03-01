@@ -457,7 +457,7 @@ if (!isset($_POST['in'])) {
         // $resolver = new Net_DNS_Resolver;
         // $resolver->nameservers = array('66.114.197.251');
 
-        $sphp = Services_ProjectHoneyPot::factory(HONEYPOT_API_KEY, $resolver);
+        $sphp = new Services_ProjectHoneyPot(HONEYPOT_API_KEY, $resolver);
         $sphp->setResponseFormat('object');
         $ip = $_SERVER['REMOTE_ADDR'];
         // Uncomment for testing or get one from http://www.projecthoneypot.org/top_harvesters.php
