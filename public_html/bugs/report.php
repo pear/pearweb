@@ -462,7 +462,7 @@ if (!isset($_POST['in'])) {
         $ip = $_SERVER['REMOTE_ADDR'];
         // Uncomment for testing or get one from http://www.projecthoneypot.org/top_harvesters.php
         // $ip = '209.85.138.136';
-        $status = $sphp->query($ip);
+        $results = $sphp->query($ip);
     } catch (Services_ProjectHoneyPot_Exception $e) {
         report_error($e);
         response_footer();
@@ -470,15 +470,25 @@ if (!isset($_POST['in'])) {
     }
 
     // Check about the last 30 days
-    if (!isset($auth_user) && $status && $status->getLastActivity() < 30
-        && ($status->isCommentSpammer() || $status->isHarvester() || $status->isSearchEngine())
-    ) {
-        $errors = 'We can not allow you to continue since your IP has been marked suspicious within the past 30 days
-                by the http://projecthoneypot.org/, if that was done in error then please contact ' .
-            PEAR_DEV_EMAIL . ' as well as the projecthoneypot people to resolve the issue.';
-        report_error($errors);
-        response_footer();
-        exit;
+    if (!isset($auth_user) && $results) {
+        foreach ($results as $status) {
+            foreach ($status as $ip => $item) {
+                if (empty($item)) {
+                   continue;
+                }
+
+                if ($status->getLastActivity() < 30 && ($status->isCommentSpammer() 
+                                                         || $status->isHarvester()
+                                                         || $status->isSearchEngine())) {
+                    $errors = 'We can not allow you to continue since your IP has been marked suspicious within the past 30 days
+                               by the http://projecthoneypot.org/, if that was done in error then please contact ' .
+                               PEAR_DEV_EMAIL . ' as well as the projecthoneypot people to resolve the issue.';
+                    report_error($errors);
+                    response_footer();
+                    exit;
+                }
+            }
+        }
     }
 
 ?>
