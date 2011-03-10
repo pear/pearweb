@@ -46,7 +46,7 @@ You can download go-pear from http://pear.php.net/go-pear
  <date>2011-02-28</date>
  <time>18:05:42</time>
  <version>
-  <release>1.1.5</release>
+  <release>1.1.6</release>
   <api>1.1.0</api>
  </version>
  <stability>
@@ -55,10 +55,7 @@ You can download go-pear from http://pear.php.net/go-pear
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-* Fixed Bug #18132: Write binary file when creating Structures_Graph [dufuz]
-* Fixed Bug #18211: go-pear.php fails due to permission problems [dufuz]
-
-Now we advice people to use http://pear.php.net/go-pear.phar when they have PHP 5.1+
+  * Onlyy direct people towards go-pear.phar if they are running PHP 5.1+ on the CLI oppose to in web installer mode.
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -219,6 +216,24 @@ Now we advice people to use http://pear.php.net/go-pear.phar when they have PHP 
 - Fix bug #12910 - &lt;br&gt; begone! [clockwerx]
    </notes>
   </release>
+  <release>
+ <date>2011-02-28</date>
+ <time>18:05:42</time>
+ <version>
+  <release>1.1.5</release>
+  <api>1.1.0</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+* Fixed Bug #18132: Write binary file when creating Structures_Graph [dufuz]
+* Fixed Bug #18211: go-pear.php fails due to permission problems [dufuz]
 
+Now we advice people to use http://pear.php.net/go-pear.phar when they have PHP 5.1+
+ </notes>
+  </release>
  </changelog>
 </package>
