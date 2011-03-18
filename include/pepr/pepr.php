@@ -3,8 +3,6 @@
 /**
  * Establishes the procedures, objects and variables used throughout PEPr.
  *
- * The <var>$proposalTypeMap</var> arrays is defined here.
- *
  * NOTE: Proposal constants are defined in pearweb/include/pear-config.php.
  *
  * This source file is subject to version 3.0 of the PHP license,
@@ -115,63 +113,4 @@ function shorten_string($string)
 require_once __DIR__ . '/pepr-proposal.php';
 require_once __DIR__ . '/pepr-ppcomment.php';
 require_once __DIR__ . '/pepr-ppvote.php';
-
-global $proposalTypeMap;
-$proposalTypeMap = array(
-                         'pkg_file'             => "PEAR package file (.tgz)",
-                         'pkg_source'           => "Package source file (.phps/.htm)",
-                         'pkg_example'          => "Package example (.php)",
-                         'pkg_example_source'   => "Package example source (.phps/.htm)",
-                         'pkg_doc'              => "Package documentation");
-
-class ppLink
-{
-    var $pkg_prop_id;
-    var $type;
-    var $url;
-
-    function __construct($dbhResArr)
-    {
-        foreach ($dbhResArr as $name => $value) {
-            $this->$name = $value;
-        }
-    }
-
-    function &getAll(&$dbh, $proposalId)
-    {
-        $sql = 'SELECT * FROM package_proposal_links WHERE pkg_prop_id = ? ORDER BY type';
-        $res = $dbh->query($sql, array($proposalId));
-        if (DB::isError($res)) {
-            return $res;
-        }
-        $links = array();
-        while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-            $links[] = new ppLink($set);
-        }
-        return $links;
-    }
-
-    function deleteAll($dbh, $proposalId)
-    {
-        $sql = 'DELETE FROM package_proposal_links WHERE pkg_prop_id = ?';
-        $res = $dbh->query($sql, array($proposalId));
-        return $res;
-    }
-
-    function store($dbh, $proposalId)
-    {
-        $sql = "INSERT INTO package_proposal_links (pkg_prop_id, type, url)
-                    VALUES (".$proposalId.", ".$dbh->quoteSmart($this->type).", ".$dbh->quoteSmart($this->url).")";
-        $res = $dbh->query($sql);
-        return $res;
-    }
-
-    function getType($humanReadable = false)
-    {
-        if ($humanReadable) {
-            return $GLOBALS['proposalTypeMap'][$this->type];
-        }
-
-        return $this->type;
-    }
-}
+require_once __DIR__ . '/pepr-pplink.php';
