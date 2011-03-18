@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Interface for inputing/editing a proposal.
  *
@@ -123,35 +122,28 @@ $possibleLicenses = array(
 
 $form->addElement('select', 'pkg_license', 'License:', $possibleLicenses);
 
-// Easy codes. makes it easier for people to put bb codes
+/**
+ * @desc Easy codes. makes it easier for people to put bb codes
+ *       Since 2011-03-18 these helpers are Text_Wiki examples.
+ */
 $bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Bold',
-                                              array('onclick' =>
-                              "insertTags('pkg_description', '[b]', '[/b]','bold')"));
-
-$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Italic',
-                                              array('onclick' =>
-                              "insertTags('pkg_description', '[i]', '[/i]','italic')"));
-
-$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Underline',
-                                              array('onclick' =>
-                              "insertTags('pkg_description', '[u]', '[/u]','underline')"));
-$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Red Txt',
-                                              array('onclick' =>
-                              "insertTags('pkg_description', '[color=red]', '[/color]','red text')"));
+   	array('onclick' => "insertTags('pkg_description', '**', '**','bold')")
+);
 $bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'PHPCode',
-                                              array('onclick' =>
-                              "insertTags('pkg_description', '[code=php]', '[/code]','print \'php code\';')"));
-$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'List',
-                                              array('onclick' =>
-                              "insertTags('pkg_description', '[list]\\n[*]', '\\n[/list]','list')"));
-
+    array(
+        'onclick' => "insertTags('pkg_description', '<code type=\"php\">', '</code>','print \'php code\';')"
+    )
+);
+$bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Link',
+    array(
+        'onclick' => "insertTags('pkg_description', '[', ']', 'http://example.org example.org')"
+    )
+);
 $form->addGroup($bbhelpers, 'markup_help', 'BB Helpers (beta)', ' | ');
 
-
 $form->addElement('textarea', 'pkg_description', 'Package description:', array('rows' => 20, 'cols' => '80', 'id' => 'pkg_description'));
-$form->addElement('select', 'markup', 'Markup', array('bbcode' => 'BBCode', 'wiki' => 'Wiki'));
+$form->addElement('hidden', 'markup', 'wiki');
 
-$helpLinks[] =& HTML_QuickForm::createElement('link', 'help_bbcode', '_blank', 'pepr-bbcode-help.php', 'You can use BBCode inside your description', array('target' => '_blank'));
 $helpLinks[] =& HTML_QuickForm::createElement('link', 'help_wiki', '_blank', 'http://pear.reversefold.com/dokuwiki/doku.php?id=text_wiki', 'or Wiki markup', array('target' => '_blank'));
 $form->addGroup($helpLinks, 'markup_help', '', ' ');
 
