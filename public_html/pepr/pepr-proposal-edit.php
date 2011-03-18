@@ -139,7 +139,7 @@ $bbhelpers[] = HTML_QuickForm::createElement('link', null, '_blank', '#', 'Link'
         'onclick' => "insertTags('pkg_description', '[', ']', 'http://example.org example.org')"
     )
 );
-$form->addGroup($bbhelpers, 'markup_help', 'BB Helpers (beta)', ' | ');
+$form->addGroup($bbhelpers, 'markup_help', 'Formatting Helpers (beta)', ' | ');
 
 $form->addElement('textarea', 'pkg_description', 'Package description:', array('rows' => 20, 'cols' => '80', 'id' => 'pkg_description'));
 $form->addElement('hidden', 'markup', 'wiki');
