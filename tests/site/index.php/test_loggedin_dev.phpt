@@ -164,7 +164,7 @@ __halt_compiler();
 %s
 <h2>&raquo; Users</h2>
 <div class="indent">
-<p><acronym title="PHP Extension and Application Repository">PEAR</acronym>
+<p><abbr title="PHP Extension and Application Repository">PEAR</abbr>
 is a framework and distribution system for reusable PHP
 components. You can find help using PEAR packages in the
 <a href="/manual/en/">online manual</a> and the

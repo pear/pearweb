@@ -90,7 +90,7 @@ foreach ($firstletters as $fl) {
         printf('<a href="%s?letter=%s">%s</a> ', $self, $fl, strtoupper($fl));
     }
 }
-echo '</td><td rowspan="2" align="right">';
+echo '</td><td rowspan="2">';
 echo '<form method="get" action="#"><input type="button" onclick="';
 $gourl = "http://" . PEAR_CHANNELNAME;
 if ($_SERVER['SERVER_PORT'] != 80) {

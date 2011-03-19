@@ -13,7 +13,7 @@ a {
     border-bottom: 1px dotted #006600;
 }
 
-acronym {
+abbr {
     text-decoration: underline;
 }
 

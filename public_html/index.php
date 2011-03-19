@@ -111,7 +111,7 @@ response_header("PEAR - PHP Extension and Application Repository", false, $extra
 
 <h2>&raquo; What is it?</h2>
 
-<p><acronym title="PHP Extension and Application Repository">PEAR</acronym> is a framework and distribution system for reusable PHP components.</p>
+<p><abbr title="PHP Extension and Application Repository">PEAR</abbr> is a framework and distribution system for reusable PHP components.</p>
 
 <p>Sounds good? Perhaps you might want to know about <strong><a href="/manual/en/installation.php">installing PEAR on your system</a></strong> or <a href="/manual/en/guide.users.commandline.cli.php">installing pear packages</a>.</p>
 

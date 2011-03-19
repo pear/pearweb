@@ -31,7 +31,7 @@ response_header('Document Type Definitions');
  </tr>
  <tr>
   <td valign="top"><a href="/dtd/package-1.0">package-1.0</a></td>
-  <td valign="top">This is the <acronym title="Document Type Definition">DTD</acronym>
+  <td valign="top">This is the <abbr title="Document Type Definition">DTD</abbr>
   that defines the legal building blocks of the <tt>package.xml</tt>
   file that comes with each package. More information about
   <tt>package.xml</tt> can be found
@@ -40,7 +40,7 @@ response_header('Document Type Definitions');
  </tr>
  <tr>
   <td valign="top"><a href="/dtd/package-1.0.xsd">package-1.0.xsd</a></td>
-  <td valign="top">This is the <acronym title="XML Schema Definition">XSD</acronym>
+  <td valign="top">This is the <abbr title="XML Schema Definition">XSD</abbr>
   that defines the legal building blocks of the <tt>package.xml</tt>
   file that comes with each package. More information about
   <tt>package.xml</tt> can be found
@@ -49,7 +49,7 @@ response_header('Document Type Definitions');
  </tr>
  <tr>
   <td valign="top"><a href="/dtd/package-2.0.xsd">package-2.0.xsd</a></td>
-  <td valign="top">This is the <acronym title="XML Schema Definition">XSD</acronym>
+  <td valign="top">This is the <abbr title="XML Schema Definition">XSD</abbr>
   that defines the legal building blocks of version 2.0 of <tt>package.xml</tt>
   file that comes with each package. More information about
   <tt>package.xml</tt> version 2.0 can be found
@@ -58,7 +58,7 @@ response_header('Document Type Definitions');
  </tr>
  <tr>
   <td valign="top"><a href="/dtd/channel-1.0.xsd">channel-1.0.xsd</a></td>
-  <td valign="top">This is the <acronym title="XML Schema Definition">XSD</acronym>
+  <td valign="top">This is the <abbr title="XML Schema Definition">XSD</abbr>
   that defines the legal building blocks of <tt>channel.xml</tt>
   file that defines the communication protocols of a channel. More information about
   <tt>channel.xml</tt> can be found

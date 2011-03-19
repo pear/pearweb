@@ -40,7 +40,7 @@ The agenda is as follows:
 <li>Quality vs. Quantity</li>
 <li>Should documentation be a requirement for new packages?
 (<?php echo make_link("/~mj/004-documentation.txt", "RfC"); ?>)</li>
-<li>The <acronym title="PEAR Foundation Classes">PFC</acronym>
+<li>The <abbr title="PEAR Foundation Classes">PFC</abbr>
 <a href="http://marc.theaimsgroup.com/?l=pear-dev&m=104617534710384&w=2">RfC</a></li>
 <li>PEAR on Windows</li>
 <li>Preventing conflicts among developers</li>

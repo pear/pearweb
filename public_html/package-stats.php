@@ -296,7 +296,7 @@ natsort($releases);
    </td>
   </tr>
   <tr>
-   <td valign="top">
+   <td style="vertical-align: top">
     Release:
     <select name="releases">
      <option value="">Select...</option>
@@ -306,13 +306,13 @@ natsort($releases);
      <?php endforeach?>
     </select>
    </td>
-   <td align="right">
+   <td style="text-align: right">
     <input type="submit" style="width: 100px" name="add" value="Add" onclick="addGraphItem(); return false;" />
     <input type="submit" style="width: 100px" name="remove" value="Remove" onclick="removeGraphItem(); return false" />
    </td>
   </tr>
   <tr>
-   <td align="center" colspan="2">
+   <td style="text-align: center" colspan="2">
     <input type="submit" name="update" value="Update graph" onclick="updateGraph(); return false" />
    </td>
   </tr>
@@ -387,19 +387,19 @@ if (@!$_GET['pid']) {
  </tr>
  <tr>
   <td style="width: 25%;">Total&nbsp;Packages:</td>
-  <td align="center" style="width: 25%; background-color: #CCCCCC;"><?php echo $total_packages; ?></td>
+  <td style="width: 25%; background-color: #CCCCCC; text-align: center;"><?php echo $total_packages; ?></td>
   <td style="width: 25%;">Total&nbsp;Releases:</td>
-  <td align="center" style="width: 25%; background-color: #CCCCCC;"><?php echo $total_releases; ?></td>
+  <td style="width: 25%; background-color: #CCCCCC; text-align: center;"><?php echo $total_releases; ?></td>
  </tr>
  <tr>
   <td style="width: 25%;">Total&nbsp;Maintainers:</td>
-  <td align="center" style="width: 25%; background-color: #CCCCCC;"><?php echo $total_maintainers; ?></td>
+  <td style="width: 25%; background-color: #CCCCCC; text-align: center;"><?php echo $total_maintainers; ?></td>
   <td style="width: 25%;">Total&nbsp;Categories:</td>
-  <td align="center" style="width: 25%; background-color: #CCCCCC;"><?php echo $total_categories; ?></td>
+  <td style="width: 25%; background-color: #CCCCCC; text-align: center;"><?php echo $total_categories; ?></td>
  </tr>
     <?php
      if(empty($_GET['cid'])) {
-         echo " <tr>\n  <td width=\"25%\">Total&nbsp;Downloads:</td>\n  <td width=\"25%\" align=\"center\" bgcolor=\"#cccccc\">$total_downloads</td>\n </tr>\n";
+         echo " <tr>\n  <td width=\"25%\">Total&nbsp;Downloads:</td>\n  <td style=\"width:25%; text-align:center; background-color: #cccccc\">$total_downloads</td>\n </tr>\n";
      }
    ?>
 </table>
@@ -413,16 +413,18 @@ if (@!$_GET['pid']) {
         PEAR::raiseError('unable to generate stats');
     }
 
-    echo '<div style="height: 300px; width: 90%; overflow: auto">';
-    echo " <table border=\"0\" width=\"100%\" cellpadding=\"2\" cellspacing=\"2\">\n";
-    echo ' <tr>
-  <th colspan="3" style="background-color: #CCCCCC;">Package Statistics</th>
- </tr>';
-    echo "  <tr align=\"left\" bgcolor=\"#cccccc\">\n";
-    echo "   <th>Package Name</th>\n";
-    echo '   <th><span class="accesskey"># of downloads</span></th>' . "\n";
-    echo "   <th>&nbsp;</th>\n";
-    echo "  </tr>\n";
+    ?>
+<div style="height: 300px; width: 90%; overflow: auto">
+    <table style="border: 0; width: 100%" cellpadding="2" cellspacing="2">
+        <tr>
+            <th colspan="3" style="background-color: #CCCCCC;">Package Statistics</th>
+        </tr>
+        <tr style="text-align:left; background-color: #cccccc\">
+            <th>Package Name</th>
+            <th><span class="accesskey"># of downloads</span></th>
+            <th>&nbsp;</th>
+        </tr>
+<?php
 
     $lastPackage = "";
 
@@ -436,7 +438,7 @@ if (@!$_GET['pid']) {
                                 $row['package'] . "</a>";
         }
 
-        echo "  <tr bgcolor=\"#eeeeee\">\n";
+        echo "  <tr style=\"background-color: #eeeeee\">\n";
         echo "   <td>" . $row['package'] .  "</td>\n";
         echo "   <td>" . number_format($row['dl_number'], 0, '.', ',') . "</td>\n";
         echo "   <td>[". make_link("/package-stats.php?cid=" . $row['cid'] . "&amp;pid=" . $row['pid'] , 'Details') . "]</td>\n";
