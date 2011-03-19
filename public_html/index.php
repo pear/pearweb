@@ -42,7 +42,7 @@ if (!empty($recent) > 0) {
     }
     $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" /></a>';
     $RSIDEBAR_DATA .= "<tr><td>&nbsp;</td></tr>\n";
-    $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
+    $RSIDEBAR_DATA .= '<tr><td style="text-align: right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
 }
 
@@ -58,7 +58,7 @@ if (!empty($popular)) {
     }
     $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" /></a>';
     $RSIDEBAR_DATA .= "<tr><td><small>* downloads per day</small></td></tr>\n";
-    $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
+    $RSIDEBAR_DATA .= '<tr><td style="text-align: right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
 }
 
@@ -74,7 +74,7 @@ if (!empty($proposals)) {
         $RSIDEBAR_DATA .= '</td></tr>';
     }
     $feed_link = '<a href="/pepr/" title="PEPR Proposals">See all</a>';
-    $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
+    $RSIDEBAR_DATA .= '<tr><td style="text-align: right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
 }
 
@@ -91,7 +91,7 @@ if (!empty($developers)) {
         $RSIDEBAR_DATA .= '</td></tr>';
     }
     $feed_link = '<a href="/user/" title="Developers">See all</a>';
-    $RSIDEBAR_DATA .= '<tr><td align="right">' . $feed_link . "</td></tr>\n";
+    $RSIDEBAR_DATA .= '<tr><td style="text-align: right">' . $feed_link . "</td></tr>\n";
     $RSIDEBAR_DATA .= "</table>\n";
 }
 
