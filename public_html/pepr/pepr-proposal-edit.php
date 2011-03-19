@@ -144,7 +144,14 @@ $form->addGroup($bbhelpers, 'markup_help', 'Formatting Helpers (beta)', ' | ');
 $form->addElement('textarea', 'pkg_description', 'Package description:', array('rows' => 20, 'cols' => '80', 'id' => 'pkg_description'));
 $form->addElement('hidden', 'markup', 'wiki');
 
-$helpLinks[] =& HTML_QuickForm::createElement('link', 'help_wiki', '_blank', 'http://pear.reversefold.com/dokuwiki/doku.php?id=text_wiki', 'or Wiki markup', array('target' => '_blank'));
+$helpLinks[] =& HTML_QuickForm::createElement(
+    'link',
+    'help_wiki',
+    '_blank',
+    'http://pear.reversefold.com/dokuwiki/doku.php?id=text_wiki',
+    'Wiki markup',
+    array('target' => '_blank')
+);
 $form->addGroup($helpLinks, 'markup_help', '', ' ');
 
 $form->addElement('textarea', 'pkg_deps', 'Package dependencies <small>(list)</small>:', array('rows' => 6, 'cols' => '80'));
