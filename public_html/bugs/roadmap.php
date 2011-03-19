@@ -87,7 +87,7 @@ if (isset($_GET['edit']) || isset($_GET['new']) || isset($_GET['delete'])) {
     include_once 'pear-database-package.php';
     $bugtest->package = package::info($_GET['package'], 'id');
     $bugtest->handle = $auth_user->handle;
-    if (!$bugtest->find(true) || !$bugtest->role == 'lead') {
+    if (!$auth_user->isQa() && (!$bugtest->find(true) || !$bugtest->role == 'lead')) {
         response_header('Error :: insufficient privileges');
         report_error('You must be a lead maintainer to edit a package\'s roadmap');
         response_footer();
