@@ -71,10 +71,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-09-07</date>
- <time>21:36:21</time>
+ <date>2011-03-19</date>
+ <time>06:33:55</time>
  <version>
-  <release>1.0.3</release>
+  <release>1.0.4</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -83,10 +83,9 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Remove date_format which caused pepr proposals to be stuck forever [bbieber]
-- Fix HTML errors [cweiske]
-- Fix bug #16410: Rejected PEPr proposals should not steal names [clockwerx]
-- Dropped restrictions around &quot;the same user must be the re-proposer&quot; [clockwerx]
+- Remove BBCode (in favour of only supporting Text_Wiki from now on) [till]
+- Small refactoring while debugging [till]
+- Fix Bug #16578 Unable to use https URL in &quot;Links&quot; section [saltybeagle]
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -96,6 +95,10 @@
    <dir name="include">
     <dir name="pepr">
      <file name="pepr-emails.php" role="www" />
+     <file name="pepr-ppcomment.php" role="www" />
+     <file name="pepr-pplink.php" role="www" />
+     <file name="pepr-ppvote.php" role="www" />
+     <file name="pepr-proposal.php" role="www" />
      <file name="pepr.php" role="www" />
     </dir> <!-- /include/pepr -->
    </dir> <!-- /include -->
@@ -214,6 +217,23 @@ Improved homepage to focus on the human side(s) of PEAR
 - Fix HTML errors [cweiske]
 - Fix bug #16410: Rejected PEPr proposals should not steal names [clockwerx]
 - Dropped restrictions around &quot;the same user must be the re-proposer&quot; [clockwerx]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.4</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-03-19</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Remove BBCode (in favour of only supporting Text_Wiki from now on) [till]
+- Small refactoring while debugging [till]
+- Fix Bug #16578 Unable to use https URL in &quot;Links&quot; section [saltybeagle]
    </notes>
   </release>
  </changelog>

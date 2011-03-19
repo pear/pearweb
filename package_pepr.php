@@ -21,6 +21,8 @@ $a->setReleaseVersion('1.0.4');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
+- Remove BBCode (in favour of only supporting Text_Wiki from now on) [till]
+- Small refactoring while debugging [till]
 - Fix Bug #16578 Unable to use https URL in "Links" section [saltybeagle]
 ');
 $a->resetUsesrole();
