@@ -33,7 +33,7 @@ if (!class_exists('HTML_QuickForm2_Element_InputUrl')) {
 }
 
 if (!defined('PEAR_COMMON_PACKAGE_NAME_PREG')) {
-    define('PEAR_COMMON_PACKAGE_NAME_PREG', '/^([A-Z][a-zA-Z0-9_]+|[a-z][a-z0-9_]+)\z/');
+    define('PEAR_COMMON_PACKAGE_NAME_PREG', '^([A-Z][a-zA-Z0-9_]+|[a-z][a-z0-9_]+)$');
 }
 
 auth_require('pear.dev');
@@ -66,7 +66,7 @@ do {
             }
         }
 
-        if (!preg_match(PEAR_COMMON_PACKAGE_NAME_PREG, $_POST['name'])) {
+        if (!preg_match('/' . PEAR_COMMON_PACKAGE_NAME_PREG . '/', $_POST['name'])) {
             $errors[] = 'Invalid package name.  PEAR package names must start'
                         . ' with a capital letter and contain only letters,'
                         . ' digits and underscores.';
