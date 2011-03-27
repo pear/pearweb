@@ -18,7 +18,19 @@
    $Id$
 */
 
-require_once 'HTML/QuickForm.php';
+require_once 'HTML/QuickForm2.php';
+require_once 'HTML/QuickForm2/Renderer.php';
+require_once 'HTML/QuickForm2/Element/Input.php';
+
+/** @todo Shift ! */
+if (!class_exists('HTML_QuickForm2_Element_InputUrl')) {
+    class HTML_QuickForm2_Element_InputUrl extends HTML_QuickForm2_Element_Input
+    {
+        protected $attributes = array('type' => 'url');
+    }
+
+    HTML_QuickForm2_Factory::registerElement('url', 'HTML_QuickForm2_Element_InputUrl');
+}
 
 if (!defined('PEAR_COMMON_PACKAGE_NAME_PREG')) {
     define('PEAR_COMMON_PACKAGE_NAME_PREG', '/^([A-Z][a-zA-Z0-9_]+|[a-z][a-z0-9_]+)\z/');
@@ -143,35 +155,13 @@ if ($display_form) {
         }
     }
 
-$form = new HTML_QuickForm('package-new', 'post', 'package-new.php');
+$form = new HTML_QuickForm2('package-new', 'post', 'package-new.php');
 $form->removeAttribute('name');
 
-$renderer =& $form->defaultRenderer();
-$renderer->setElementTemplate('
- <tr>
-  <th class="form-label_left">
-   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
-   {label}
-  </th>
-  <td class="form-input">
-   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
-   {element}
-  </td>
- </tr>
-');
-
-$renderer->setFormTemplate('
-<form{attributes}>
- <div>
-  {hidden}
-  <table border="0" class="form-holder" cellspacing="1">
-   {content}
-  </table>
- </div>
-</form>');
+$renderer = HTML_QuickForm2_Renderer::factory('default');
 
     // Set defaults for the form elements
-    $form->setDefaults(array(
+    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
         'name'     => isset($_POST['name'])     ? $_POST['name']     : '',
         'license'  => isset($_POST['license'])  ? $_POST['license']  : '',
         'category' => isset($_POST['category']) ? $_POST['category'] : '',
@@ -179,19 +169,17 @@ $renderer->setFormTemplate('
         'desc'     => isset($_POST['desc'])     ? $_POST['desc']     : '',
         'homepage' => isset($_POST['homepage']) ? $_POST['homepage'] : '',
         'cvs_link' => isset($_POST['cvs_link']) ? $_POST['cvs_link'] : '',
-    ));
+    )));
 
-    $form->addElement('html', '<caption class="form-caption">Register Package</caption>');
-    $form->addElement('text', 'name', 'Package Name', array('size' => 20));
-    $form->addElement('text', 'license', 'License', array('size' => 20));
-    $form->addElement('select', 'category', 'Category', $categories);
-    $form->addElement('textarea', 'summary', 'Summary', array('cols' => 60));
-    $form->addElement('textarea', 'desc', 'Full description', array('cols' => 60, 'rows' => 3));
-    $form->addElement('text', 'homepage', 'Additional project homepage', array('size' => 40));
-    $form->addElement('text', 'cvs_link', 'Version control web URL', array('size' => 40));
-    $form->addElement('static', null, null, '<small>For example: http://svn.php.net/repository/pear/packages/XML_Parser/trunk</small>');
+    $form->addElement('text', 'name', array('size' => 20, 'required' => 'required'))->setLabel("Package Name");
+    $form->addElement('text', 'license', array('size' => 20, 'required' => 'required', 'placeholder' => 'BSD'))->setLabel("License");
+    $form->addElement('select', 'category', array('required' => 'required'))->setLabel("Category")->loadOptions($categories);
+    $form->addElement('textarea', 'summary', array('cols' => 60, 'required' => 'required'))->setLabel("Summary");
+    $form->addElement('textarea', 'desc', array('cols' => 60, 'rows' => 5, 'required' => 'required'))->setLabel("Full description");
+    $form->addElement('url', 'homepage', array('size' => 40, 'placeholder' => 'http://example.com'))->setLabel("Additional project homepage");
+    $form->addElement('url', 'cvs_link', array('size' => 40, 'placeholder' => 'http://svn.php.net/repository/pear/packages/XML_Parser/trunk/'))->setLabel("Version control web URL");
     $form->addElement('submit', 'submit', 'Submit Request');
-    $form->display();
+    print $form->render($renderer);
 
     if ($jumpto) {
         echo "\n<script type=\"text/javascript\">\n<!--\n";
