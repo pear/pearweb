@@ -21,7 +21,8 @@
 
 auth_require('pear.dev');
 
-require_once 'HTML/QuickForm.php';
+require_once 'HTML/QuickForm2.php';
+require_once 'HTML/QuickForm2/Renderer.php';
 require_once 'tags/Manager.php';
 
 response_header('Edit Package');
@@ -170,42 +171,19 @@ if (empty($row['name'])) {
 print_package_navigation($row['packageid'], $row['name'],
                          '/package-edit.php?id=' . $row['packageid']);
 
-$form = new HTML_QuickForm('package-edit', 'post', '/package-edit.php?id=' . $row['packageid']);
+$sth = $dbh->query('SELECT id, name FROM categories ORDER BY name');
+
+while ($cat_row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
+    $rows[$cat_row['id']] = $cat_row['name'];
+}
+
+$form = new HTML_QuickForm2('package-edit', 'post', array('action' => '/package-edit.php?id=' . $row['packageid']));
 $form->removeAttribute('name');
 
-$renderer =& $form->defaultRenderer();
-$renderer->setElementTemplate('
- <tr>
-  <th class="form-label_left">
-   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
-   {label}
-  </th>
-  <td class="form-input">
-   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
-   {element}
-  </td>
- </tr>
-');
-
-$renderer->setFormTemplate('
-<form{attributes}>
- <div>
-  {hidden}
-  <table border="0" class="form-holder" style="margin-bottom: 2em;" cellspacing="1">
-   {content}
-  </table>
- </div>
-</form>');
-
-$renderer->setGroupElementTemplate(
-'<span>{label}</span>
- <span style="font-size:10px;">
-  <!-- BEGIN required --><span style="color: #f00">* </span><!-- END required -->
- </span>{element}', 'm');
-
+$renderer = HTML_QuickForm2_Renderer::factory('default');
 
     // Set defaults for the form elements
-    $form->setDefaults(array(
+    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
         'name'         => htmlspecialchars($row['name']),
         'license'      => htmlspecialchars($row['license']),
         'summary'      => htmlspecialchars($row['summary']),
@@ -219,33 +197,25 @@ $renderer->setGroupElementTemplate(
         'newpk_id'     => (int)$row['newpk_id'],
         'new_channel'  => htmlspecialchars($row['new_channel']),
         'new_package'  => htmlspecialchars($row['new_package']),
-    ));
+    )));
 
-$form->addElement('html', '<caption class="form-caption">Edit Package Information</caption>');
-$form->addElement('text', 'name', 'Pa<span class="accesskey">c</span>kage Name:', 'size="50" maxlength="80" accesskey="c"');
-$form->addElement('text', 'license', 'License:', 'size="50" maxlength="50"');
-$form->addElement('textarea', 'summary', 'Summary', 'cols="75" rows="7" maxlength="255"');
-$form->addElement('textarea', 'description', 'Description', 'cols="75" rows="12"');
-
-$sth = $dbh->query('SELECT id, name FROM categories ORDER BY name');
-
-while ($cat_row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
-    $rows[$cat_row['id']] = $cat_row['name'];
-}
-$form->addElement('select', 'category', 'Category:', $rows);
+$form->addElement('text', 'name', array('maxlength' => "80",  'accesskey' => "c"))->setLabel('Pa<span class="accesskey">c</span>kage Name');
+$form->addElement('text', 'license', array('maxlength' => "50", 'placeholder' => 'BSD'))->setLabel('License:');
+$form->addElement('textarea', 'summary', array('cols' => "75", 'rows' => "7", 'maxlength' => "255"))->setLabel('Summary');
+$form->addElement('textarea', 'description', array('cols' => "75", 'rows' => "12"))->setLabel('Description');
+$form->addElement('select', 'category')->setLabel('Category:')->loadOptions($rows);
 
 $manager = new Tags_Manager;
-$select = array('' => '(none)') + $manager->getTags(false, true);
-$sl = $form->addElement('select', 'tags', 'Tags:', $select);
-$sl->setValue(array_keys($manager->getTags($row['name'], true)));
-$sl->setSize(10);
-$sl->setMultiple(true);
 
-$form->addElement('text', 'homepage', 'H<span class="accesskey">o</span>mepage:', 'size="25" maxlength="255" accesskey="0"');
-$form->addElement('text', 'doc_link', 'Documentation URI:', 'size="50" maxlength="255"');
-$form->addElement('text', 'bug_link', 'Bug Tracker URI:', 'size="50" maxlength="255"');
-$form->addElement('text', 'cvs_link', 'Web version control URI', 'size="50" maxlength="255"');
-$form->addElement('checkbox', 'unmaintained', 'Is this package unmaintained ?');
+$sl = $form->addElement('select', 'tags', array('multiple' => 'multiple'))->setLabel('Tags:')->loadOptions(array('' => '(none)') + $manager->getTags(false, true));
+$sl->setValue(array_keys($manager->getTags($row['name'], true)));
+
+
+$form->addElement('text', 'homepage', array('maxlength' => 255, 'accesskey' => "O"))->setLabel('H<span class="accesskey">o</span>mepage:');
+$form->addElement('url', 'doc_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/manual'))->setLabel('Documentation URI:');
+$form->addElement('url', 'bug_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/bugs'))->setLabel('Bug Tracker URI:');
+$form->addElement('url', 'cvs_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/svn/trunk'))->setLabel('Web version control URI');
+$form->addElement('checkbox', 'unmaintained')->setLabel('Is this package unmaintained ?');
 
 $packages = package::listAllwithReleases();
 
@@ -257,18 +227,16 @@ foreach ($packages as $id => $info) {
     $rows[$id] = $info['name'];
 }
 
-$maintain = array();
-$maintain[] = &HTML_QuickForm::createElement('select', 'newpk_id', 'Choose either a PEAR package:', $rows);
-$maintain[] = &HTML_QuickForm::createElement('static', null, 'Or a package moved out of PEAR');
-$maintain[] = &HTML_QuickForm::createElement('text', 'new_channel', 'Channel:', 'size="50" maxlength="255"');
-$maintain[] = &HTML_QuickForm::createElement('text', 'new_package', 'Package:', 'size="50" maxlength="255"');
-$form->addGroup($maintain, 'm', 'New package (superseding this one):', '<br />', false);
+$form->addElement('select', 'newpk_id')->setLabel('Superseeded by:')->loadOptions($rows);
 
-$buttons = array();
-$buttons[] = &HTML_QuickForm::createElement('submit', 'submit', 'Save Changes');
-$buttons[] = &HTML_QuickForm::createElement('reset', 'cancel', 'Cancel', 'onClick="javascript:window.location.href=\'/package/' . $_GET['id'] . '\'; return false"\'');
-$form->addGroup($buttons, null, null, '&nbsp;');
-$form->display();
+$form->addElement('text', 'new_channel', array('maxlength' => 255, 'placeholder' => 'pear.phpunit.de'))->setLabel('Moved to channel:');
+$form->addElement('text', 'new_package', array('maxlength' => 255, 'placeholder' => 'PHPUnit'));
+
+
+$form->addElement('submit', 'submit')->setLabel('Save Changes');
+
+
+print $form->render($renderer);
 ?>
 
 <table class="form-holder" cellspacing="1">
