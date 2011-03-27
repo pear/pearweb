@@ -332,6 +332,12 @@ div#foot-source {
 
 /* ========= Forms ========= */
 
+/** QuickForm2 default renderer behaviours */
+div.row { display: table-row; }
+label.element, div.element { display: table-cell; }
+
+/* Normal content */
+
 table.form-holder {
     background-color: #FFFFFF;
     width: auto;
@@ -348,6 +354,7 @@ caption.form-caption {
 }
 
 /* Labels on the left side of form and table rows */
+label.element,
 th.form-label_left {
     padding: 3px;
     text-align: left;
@@ -368,6 +375,7 @@ th.form-label_top_center {
     background-color: #339900;
 }
 
+div.element,
 td.form-input {
     padding: 3px;
     text-align: left;
@@ -473,6 +481,7 @@ submit {
     border: 0px;
 }
 
+div.element textarea,
 td.form-input textarea {
     margin: 0;
 }
