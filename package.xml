@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.0" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -89,8 +89,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2010-09-05</date>
- <time>13:42:00</time>
+ <date>2011-03-27</date>
+ <time>17:47:07</time>
  <version>
   <release>1.24.3</release>
   <api>0.1.1</api>
@@ -118,6 +118,7 @@ Bug #17717 	package.xml XSD does not support __uri channels
      <tasks:replace from="@www-dir@" to="www_dir" type="pear-config" />
     </file>
     <file name="rss-to-twitter.php" role="www" />
+    <file name="sample.xml" role="www" />
     <file name="trackback-cleanup.php" role="www" />
     <file name="update-website.php" role="www" />
    </dir> <!-- /cron -->
@@ -649,6 +650,7 @@ Bug #17717 	package.xml XSD does not support __uri channels
    <package>
     <name>Services_ProjectHoneyPot</name>
     <channel>pear.php.net</channel>
+    <min>0.5.3</min>
    </package>
    <package>
     <name>DB</name>
@@ -733,6 +735,11 @@ Bug #17717 	package.xml XSD does not support __uri channels
     <min>3.2.3</min>
    </package>
    <package>
+    <name>HTML_QuickForm2</name>
+    <channel>pear.php.net</channel>
+    <min>0.5.0</min>
+   </package>
+   <package>
     <name>HTML_TreeMenu</name>
     <channel>pear.php.net</channel>
     <min>1.2.0</min>
@@ -769,7 +776,7 @@ Bug #17717 	package.xml XSD does not support __uri channels
    <subpackage>
     <name>pearweb_gopear</name>
     <channel>pear.php.net</channel>
-    <min>1.1.4</min>
+    <min>1.1.6</min>
    </subpackage>
    <subpackage>
     <name>pearweb_index</name>
@@ -779,12 +786,12 @@ Bug #17717 	package.xml XSD does not support __uri channels
    <subpackage>
     <name>pearweb_manual</name>
     <channel>pear.php.net</channel>
-    <min>1.1.3</min>
+    <min>1.2.2</min>
    </subpackage>
    <subpackage>
     <name>pearweb_pepr</name>
     <channel>pear.php.net</channel>
-    <min>1.0.3</min>
+    <min>1.0.4</min>
    </subpackage>
    <subpackage>
     <name>pearweb_qa</name>
@@ -2690,7 +2697,7 @@ Bug #17663 dead links on http://pear.php.net/channels/ 	doconnor
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2010-09-05</date>
+   <date>2011-03-27</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 Bug #17717 	package.xml XSD does not support __uri channels
