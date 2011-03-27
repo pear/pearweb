@@ -742,10 +742,6 @@ Bug #17717 	package.xml XSD does not support __uri channels
     <channel>pear.php.net</channel>
    </package>
    <package>
-    <name>MDB2_Schema</name>
-    <channel>pear.php.net</channel>
-   </package>
-   <package>
     <name>Graph</name>
     <channel>components.ez.no</channel>
    </package>
