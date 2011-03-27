@@ -169,7 +169,7 @@ class user
             return $row;
         }
 
-        if (($field == 'password' && $hidePassword) || preg_match('/[^a-z]/', $user)) {
+        if (($field == 'password' && $hidePassword) || preg_match('/[^0-9a-z]/', $user)) {
             return null;
         }
 
