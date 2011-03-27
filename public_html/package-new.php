@@ -118,11 +118,8 @@ if ($display_form) {
 </p>
 
 <p>
- Note that if you don't follow this simple rule and break
- established naming conventions, your package will be taken hostage.
- So please play nice, that way we can keep the bureaucracy at a minimum.
+Generally, a format of <em>Category_SpecificComponent</em> is a good way to go.
 </p>
-
 <?php
     // get parent categories
     $sql = 'SELECT id, name FROM categories WHERE parent IS NULL ORDER BY name';
@@ -177,8 +174,10 @@ $renderer = HTML_QuickForm2_Renderer::factory('default');
     $form->addElement('textarea', 'summary', array('cols' => 60, 'required' => 'required'))->setLabel("Summary");
     $form->addElement('textarea', 'desc', array('cols' => 60, 'rows' => 5, 'required' => 'required'))->setLabel("Full description");
     $form->addElement('url', 'homepage', array('size' => 40, 'placeholder' => 'http://example.com'))->setLabel("Additional project homepage");
-    $form->addElement('url', 'cvs_link', array('size' => 40, 'placeholder' => 'http://svn.php.net/repository/pear/packages/XML_Parser/trunk/'))->setLabel("Version control web URL");
+    $form->addElement('url', 'cvs_link', array('size' => 40, 'placeholder' => 'http://example.com/svn/trunk/'))->setLabel("Version control web URL");
     $form->addElement('submit', 'submit', 'Submit Request');
+
+    print '<h2>Register Package</h2>';
     print $form->render($renderer);
 
     if ($jumpto) {
