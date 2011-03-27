@@ -24,8 +24,9 @@
  * Obtain the common functions and classes.
  */
 require_once 'pepr/pepr.php';
+require_once 'HTML/QuickForm.php';
 
-if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
+if (!isset($_GET['id']) || !($proposal = proposal::get($dbh, $_GET['id']))) {
     response_header('PEPr :: Votes :: Invalid Request');
     echo "<h1>Proposal Votes</h1>\n";
     report_error('The requested proposal does not exist.');
@@ -33,13 +34,12 @@ if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
     exit;
 }
 
-include_once 'HTML/QuickForm.php';
 
 response_header('PEPr :: Votes :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Proposal Votes for "' . htmlspecialchars($proposal->pkg_name) . "\"</h1>\n";
 
 if ($auth_user && $proposal->mayVote($dbh, $auth_user->handle)) {
-    $form =& new HTML_QuickForm('vote', 'post',
+    $form = new HTML_QuickForm('vote', 'post',
                                 'pepr-votes-show.php?id=' . $proposal->id);
     $form->removeAttribute('name');
 
