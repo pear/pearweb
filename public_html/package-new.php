@@ -155,7 +155,7 @@ if ($display_form) {
         }
     }
 
-$form = new HTML_QuickForm2('package-new', 'post', 'package-new.php');
+$form = new HTML_QuickForm2('package-new', 'post');
 $form->removeAttribute('name');
 
 $renderer = HTML_QuickForm2_Renderer::factory('default');
@@ -171,7 +171,7 @@ $renderer = HTML_QuickForm2_Renderer::factory('default');
         'cvs_link' => isset($_POST['cvs_link']) ? $_POST['cvs_link'] : '',
     )));
 
-    $form->addElement('text', 'name', array('size' => 20, 'required' => 'required'))->setLabel("Package Name");
+    $form->addElement('text', 'name', array('size' => 20, 'required' => 'required', 'placeholder' => 'XML_Parser', 'pattern' => PEAR_COMMON_PACKAGE_NAME_PREG))->setLabel("Package Name");
     $form->addElement('text', 'license', array('size' => 20, 'required' => 'required', 'placeholder' => 'BSD'))->setLabel("License");
     $form->addElement('select', 'category', array('required' => 'required'))->setLabel("Category")->loadOptions($categories);
     $form->addElement('textarea', 'summary', array('cols' => 60, 'required' => 'required'))->setLabel("Summary");
