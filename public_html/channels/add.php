@@ -76,14 +76,14 @@ if (isset($auth_user)) {
                              "email" => $auth_user->email)));
 }
 
-$name = $form->addElement("text", "name", array('required' => 'required', 'placeholder' => 'John Doe'))
-                    ->setLabel("Your name")
-                    ->addFilter("htmlspecialchars")
-                    ->addRule('required', "Please enter your name");
+$name = $form->addElement("text", "name", array('required' => 'required', 'placeholder' => 'John Doe'));
+$name->setLabel("Your name");
+$name->addFilter("htmlspecialchars");
+$name->addRule('required', "Please enter your name");
 
-$email = $form->addElement("email", "email", array('required' => 'required', 'you@example.com'))
-                    ->setLabel("Email")
-                    ->addFilter("htmlspecialchars");
+$email = $form->addElement("email", "email", array('required' => 'required', 'you@example.com'));
+$email->setLabel("Email");
+$email->addFilter("htmlspecialchars");
 
 $email->addRule('required', "Please enter your email address");
 $email->addRule('callback', '', array('callback'  => 'filter_var',
