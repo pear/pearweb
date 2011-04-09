@@ -183,9 +183,10 @@ if ($form->validate()) {
             break;
         }
 
-        echo "If you think that this mechanism does not work ";
+        echo '</div>';
+        echo "<p>If you think that this mechanism does not work ";
         echo "properly, please drop a mail to the ";
-        echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
+        echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.</p>';
 
         echo $form;
     }
