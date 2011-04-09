@@ -82,6 +82,7 @@ $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array("contact_name" =
                          "contact_email" => $channel['contact_email'],
                          "project_label" => $channel["project_label"],
                          "project_link" => $channel["project_link"],
+                         "channel" => $channel["name"],
                          "is_active" => 1,
                         )));
 
@@ -97,6 +98,7 @@ $contact_email->addFilter("htmlspecialchars");
 $contact_email->addRule('required', "Please enter your email address");
 $contact_email->addRule('callback', '', array('callback'  => 'filter_var',
                                       'arguments' => array(FILTER_VALIDATE_EMAIL)));
+$project_name = $form->addElement("hidden", "channel");
 
 $project_label = $form->addElement("text", "project_label", array('required' => 'required', 'placeholder' => 'PHPUnit'));
 $project_label->setLabel("Project Name");
