@@ -100,10 +100,10 @@ $project_label->setLabel("Project Name");
 $project_label->addFilter("htmlspecialchars");
 $project_label->addRule('required', "Please enter your project name");
 
-$link = $form->addElement("url", "project[link]", array('required' => 'required', 'placeholder' => 'http://pear.phpunit.de/'));
-$link->setLabel("Project Homepage");
-$link->addFilter("htmlspecialchars");
-$link->addRule('required', "Please enter your project link");
+$project_link = $form->addElement("url", "project[link]", array('required' => 'required', 'placeholder' => 'http://pear.phpunit.de/'));
+$project_link->setLabel("Project Homepage");
+$project_link->addFilter("htmlspecialchars");
+$project_link->addRule('required', "Please enter your project link");
 
 $form->addElement("submit");
 
@@ -194,7 +194,7 @@ if ($form->validate()) {
                 }
                 $text = sprintf("[Channels] Please activate %s (%s) on the channel index.",
                                 $project_name->getValue(),
-                                $link->getValue());
+                                $project_link->getValue());
                 $from = sprintf('"%s" <%s>',
                                 $name->getValue(),
                                 $email->getValue());
