@@ -105,7 +105,7 @@ $project_label->setLabel("Project Name");
 $project_label->addFilter("htmlspecialchars");
 $project_label->addRule('required', "Please enter your project name");
 
-$project_link = $form->addElement("url", "project_link", array('required' => 'required', 'placeholder' => 'http://pear.phpunit.de/'));
+$project_link = $form->addElement("url", "project_link", array('required' => 'required', 'placeholder' => 'http://phpunit.de/'));
 $project_link->setLabel("Project Homepage");
 $project_link->addFilter("htmlspecialchars");
 $project_link->addRule('required', "Please enter your project link");
@@ -116,7 +116,7 @@ $is_active->setLabel("Active?");
 $form->addElement("submit");
 
 if ($form->validate()) {
-    $url = new Net_URL2('http://' . $project_name->getValue());
+    $url = new Net_URL2($project_name->getValue());
 
     try {
         $req = new HTTP_Request2;
@@ -138,7 +138,6 @@ if ($form->validate()) {
 
 
         echo "<div class=\"success\">Changes saved</div>\n";
-        echo $form;
     } catch (Exception $exception) {
         echo '<div class="errors">';
 
@@ -160,16 +159,9 @@ if ($form->validate()) {
         echo "<p>If you think that this mechanism does not work ";
         echo "properly, please drop a mail to the ";
         echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.</p>';
-
-        echo $form;
     }
-} else {
-    echo $form;
-
-    echo "<p>The &quot;Project Link&quot; should not point to the main ";
-    echo "homepage of the project, but rather to a page with installation ";
-    echo "instructures.</p>";
 }
+echo $form;
 ?>
 
 <p><a href="/channels/">Back to the index</a></p>
