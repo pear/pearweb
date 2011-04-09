@@ -438,14 +438,14 @@ button:active, input[type="button"]:active, input[type="submit"]:active, input[t
     color: #555;
 }
 
-input[type="text"], input[type="password"], select {
+input[type="text"], input[type="url"], input[type="email"], input[type="password"], select {
     border: 1px solid #ABADB3;
     border-radius: 2px;
     -moz-border-radius: 2px;
     -khtml-border-radius: 2px;
 }
 
-input[type="text"], input[type="password"], textarea, select {
+input[type="text"], input[type="url"], input[type="email"], input[type="password"], textarea, select {
     font-size: 85%;
     color: #333;
     background:#fff;
@@ -457,7 +457,7 @@ select {
     cursor: pointer;
 }
 
-input[type="text"]:focus, input[type="password"]:focus, textarea:focus  {
+input[type="text"]:focus, input[type="url"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus  {
     color: #000;
     background-color: #fff;
     border: 1px solid #3465a4;
@@ -485,6 +485,7 @@ div.element textarea,
 td.form-input textarea {
     margin: 0;
 }
+
 
 /* === Voting === */
 
