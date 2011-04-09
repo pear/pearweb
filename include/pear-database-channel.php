@@ -138,10 +138,6 @@ class channel
             throw new Exception("Invalid channel file");
         }
 
-        if ($url->getHost() != $chan->getServer()) {
-            throw new Exception("Channel server for wrong host");
-        }
-
 
         return true;
     }

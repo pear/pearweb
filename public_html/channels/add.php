@@ -119,9 +119,16 @@ if ($form->validate()) {
         $req->setURL($url->getScheme() . "://" . $url->getHost() . ":" . $url->getPort() . "/channel.xml");
         channel::validate($req, $chan, $project_name);
 
+        if ($url->getHost() != $chan->getServer()) {
+            throw new Exception("Channel server for wrong host");
+        }
+
+
         if (channel::exists($project_name)) {
             throw new Exception("Already exists");
         }
+
+
 
         $text = sprintf("[Channels] Please activate %s (%s) on the channel index.",
                         $project_name->getValue(),
