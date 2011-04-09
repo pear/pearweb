@@ -20,7 +20,10 @@
 require_once 'pear-database-channel.php';
 
 $channels = channel::listActive();
-
+$inactive_channels = array();
+if (auth_check('pear.admin')) {
+    $inactive_channels = channel::listInactive();
+}
 response_header("Channels");
 
 $tabs = array("List" => array("url" => "/channels/index.php",
@@ -45,7 +48,10 @@ provided on the individual pages.</p>
 
 <dl>
 <?php foreach ($channels as $channel) { ?>
-  <dt><a href="<?php print $channel['project_link']; ?>"><?php print $channel['project_label']; ?></a></dt>
+  <dt>
+    <a href="<?php print $channel['project_link']; ?>"><?php print $channel['project_label']; ?></a>
+    <?php if (auth_check('pear.admin')) { ?><a href="edit.php?channel=<?php print $channel['name']; ?>">edit</a><?php } ?>
+  </dt>
   <dl><kbd>$ pear channel-discover <?php print $channel['name']; ?></kbd></dl>
 <?php } ?>
 </dl>
@@ -81,6 +87,19 @@ provided on the individual pages.</p>
   <li><a href="http://phpseclib.sourceforge.net/pear.htm">phpseclib</a></li>
   <li><a href="http://pear.indeyets.pp.ru">Alexey Zakhlestin's PEAR channel</a></li>
 </ul>
+
+<?php if (auth_check('pear.admin')) { ?>
+    <h2>Sites to be Approved</h2>
+    <dl>
+    <?php foreach ($inactive_channels as $channel) { ?>
+      <dt>
+        <a href="<?php print $channel['project_link']; ?>"><?php print $channel['project_label']; ?></a>
+        <a href="edit.php?channel=<?php print $channel['name']; ?>">edit</a>
+      </dt>
+      <dl><kbd>$ pear channel-discover <?php print $channel['name']; ?></kbd></dl>
+    <?php } ?>
+    </dl>
+<?php } ?>
 
 <p><a href="/channels/add.php">Add your site</a></p>
 

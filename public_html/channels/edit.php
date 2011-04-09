@@ -138,6 +138,7 @@ if ($form->validate()) {
 
 
         echo "<div class=\"success\">Changes saved</div>\n";
+        echo $form;
     } catch (Exception $exception) {
         echo '<div class="errors">';
 
