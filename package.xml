@@ -89,8 +89,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-03-27</date>
- <time>17:47:07</time>
+ <date>2011-04-09</date>
+ <time>23:47:17</time>
  <version>
   <release>1.24.3</release>
   <api>0.1.1</api>
@@ -256,6 +256,7 @@ Bug #17717 	package.xml XSD does not support __uri channels
     </dir> <!-- /public_html/bugs -->
     <dir name="channels">
      <file name="add.php" role="www" />
+     <file name="edit.php" role="www" />
      <file name="index.php" role="www" />
     </dir> <!-- /public_html/channels -->
     <dir name="css">
@@ -2697,7 +2698,7 @@ Bug #17663 dead links on http://pear.php.net/channels/ 	doconnor
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2011-03-27</date>
+   <date>2011-04-09</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 Bug #17717 	package.xml XSD does not support __uri channels

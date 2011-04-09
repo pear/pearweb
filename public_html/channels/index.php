@@ -85,11 +85,11 @@ provided on the individual pages.</p>
 <p><a href="/channels/add.php">Add your site</a></p>
 
 <h2>Channel server software</h2>
-
+<p>Want to host your own channel? </p>
 <ul>
-    <li><a href="http://pear.chiaraquartet.net">Chiara_PEAR_Server</a> (<a href="http://greg.chiaraquartet.net/archives/123-Setting-up-your-own-PEAR-channel-with-Chiara_PEAR_Server-the-official-way.html">Documentation</a></li>
+    <li><a href="http://pear.chiaraquartet.net">Chiara_PEAR_Server</a> (<a href="http://greg.chiaraquartet.net/archives/123-Setting-up-your-own-PEAR-channel-with-Chiara_PEAR_Server-the-official-way.html">Documentation</a>)</li>
     <li><a href="http://svn.php.net/viewvc/pear2/sandbox/SimpleChannelServer/trunk/">SimpleChannelServer</a> (<a href="http://saltybeagle.com/2008/12/using-simplechannelserver-to-manage-a-pear-channel-on-google-code/">documentation</a>)</li>
-    <li><a href="http://www.pirum-project.org/">Pirum</a></li>
+    <li><a href="http://www.pirum-project.org/">Pirum</a> (<a href="http://blog.stuartherbert.com/php/2011/03/30/setting-up-your-own-pear-channel/">documentation</a>)</li>
     <li><a href="http://pearfarm.org/">Pearfarm</a></li>
 </ul>
 
