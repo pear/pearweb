@@ -46,29 +46,26 @@ provided on the individual pages.</p>
 
 <h2>List of Sites</h2>
 
-<dl>
+<ul>
 <?php foreach ($channels as $channel) { ?>
-  <dt>
-    <a href="<?php print $channel['project_link']; ?>"><?php print $channel['project_label']; ?></a>
-    <?php if (auth_check('pear.admin')) { ?><a href="edit.php?channel=<?php print $channel['name']; ?>">edit</a><?php } ?>
-  </dt>
-  <dl><kbd>$ pear channel-discover <?php print $channel['name']; ?></kbd></dl>
+  <li>
+    <a href="<?php print $channel['project_link']; ?>" title="<?php print $channel['name']; ?>"><?php print $channel['project_label']; ?></a>
+    <?php if (auth_check('pear.admin')) { ?>(<a href="edit.php?channel=<?php print $channel['name']; ?>">edit</a>)<?php } ?>
+  </li>
 <?php } ?>
-</dl>
+</ul>
 
 <p><a href="/channels/add.php">Add your site</a></p>
 
 <?php if (auth_check('pear.admin')) { ?>
     <h2>Sites to be Approved</h2>
-    <dl>
+    <ul>
     <?php foreach ($inactive_channels as $channel) { ?>
-      <dt>
-        <a href="<?php print $channel['project_link']; ?>"><?php print $channel['project_label']; ?></a>
-        <a href="edit.php?channel=<?php print $channel['name']; ?>">edit</a>
-      </dt>
-      <dl><kbd>$ pear channel-discover <?php print $channel['name']; ?></kbd></dl>
+      <li>
+        <a href="<?php print $channel['project_link']; ?>" title="<?php print $channel['name']; ?>"><?php print $channel['project_label']; ?></a>
+    <?php if (auth_check('pear.admin')) { ?>(<a href="edit.php?channel=<?php print $channel['name']; ?>">edit</a>)<?php } ?>      </li>
     <?php } ?>
-    </dl>
+    </ul>
 <?php } ?>
 
 <h2>Channel server software</h2>
