@@ -107,7 +107,7 @@ class channel
     static function listActive()
     {
         global $dbh;
-        $query = 'SELECT name, project_label, project_link, contact_name, contact_email FROM channels WHERE is_active = 1';
+        $query = 'SELECT name, project_label, project_link, contact_name, contact_email FROM channels WHERE is_active = 1 ORDER BY project_label';
         return $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
     }
 
@@ -119,7 +119,7 @@ class channel
     static function listInactive()
     {
         global $dbh;
-        $query = 'SELECT name, project_label, project_link, contact_name, contact_email FROM channels WHERE is_active = 0';
+        $query = 'SELECT name, project_label, project_link, contact_name, contact_email FROM channels WHERE is_active = 0 ORDER BY project_label';
         return $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
     }
 

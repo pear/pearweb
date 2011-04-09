@@ -75,11 +75,11 @@ $form = new HTML_QuickForm2("submitForm");
 $form->removeAttribute('name');
 
 if (isset($auth_user)) {
-    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array("name" => $auth_user->name,
-                             "email" => $auth_user->email)));
+    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array("contact_name" => $auth_user->name,
+                             "contact_email" => $auth_user->email)));
 }
 
-$contact_name = $form->addElement("text", "name", array('required' => 'required', 'placeholder' => 'John Doe'));
+$contact_name = $form->addElement("text", "contact_name", array('required' => 'required', 'placeholder' => 'John Doe'));
 $contact_name->setLabel("Your name");
 $contact_name->addFilter("htmlspecialchars");
 $contact_name->addRule('required', "Please enter your name");

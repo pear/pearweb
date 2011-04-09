@@ -19,7 +19,7 @@ INSERT INTO channels VALUES ('pear.crisscott.com', 1, 'Crisscott', 'http://pear.
 INSERT INTO channels VALUES ('pear.domain51.com', 1, 'Domain51', 'http://pear.domain51.com/', '', '');
 INSERT INTO channels VALUES ('components.ez.no', 1, 'eZ components', 'http://components.ez.no/', '', '');
 INSERT INTO channels VALUES ('pear.horde.org', 1, 'Horde', 'http://pear.horde.org/', '', '');
-INSERT INTO channels VALUES ('pear.midcom-project.org', 1, 'Midgard Project', 'http://pear.midcom-project.org/', '', '');
+INSERT INTO channels VALUES ('ragnaroek.pear.midgard-project.org', 1, 'Midgard Project', 'http://www.midguard-project.org/', '', '');
 INSERT INTO channels VALUES ('pear.phing.info', 1, 'Phing', 'http://pear.phing.info/', '', '');
 INSERT INTO channels VALUES ('pear.php-tools.net', 1, 'PHP Application Tools', 'http://pear.php-tools.net/', '', '');
 INSERT INTO channels VALUES ('pear.phpunit.de', 1, 'PHPUnit', 'http://pear.phpunit.de/', '', '');
