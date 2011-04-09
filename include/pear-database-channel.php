@@ -67,6 +67,18 @@ class channel
         }        
     }
 
+    static function exists($name) 
+    {
+        global $dbh;
+        $query = "SELECT * FROM channels WHERE name = ?";
+        $err = $dbh->query($query, array($name));
+        if (DB::isError($err)) {
+            return $err;
+        }
+
+        return $err->numRows();
+    }
+
     /**
      * List all registered channels
      * @return array Format: array(array(channel server), array(channel server),... )
@@ -99,5 +111,38 @@ class channel
         global $dbh;
         $query = 'SELECT name, project_label, project_link, contact_name, contact_email FROM channels WHERE is_active = 0';
         return $dbh->getAll($query, null, DB_FETCHMODE_ASSOC);
+    }
+
+    /** A method to validate a channel */
+    static function validate(HTTP_Request2 $req, PEAR_ChannelFile $chan) 
+    {
+        $response = $req->send();
+        if ($response->getStatus() != 200) {
+            throw new Exception("Invalid channel site");
+        }
+
+        if (!$response->getBody()) {
+            throw new Exception("Empty channel.xml");
+        }
+
+
+        if (strlen($response->getBody()) > 100000) {
+            throw new Exception("Channel.xml too large");
+        }
+
+        if (!$chan->fromXmlString($response->getBody())) {
+            throw new Exception("Invalid xml");
+        }
+
+        if (!$chan->validate()) {
+            throw new Exception("Invalid channel file");
+        }
+
+        if ($url->getHost() != $chan->getServer()) {
+            throw new Exception("Channel server for wrong host");
+        }
+
+
+        return true;
     }
 }

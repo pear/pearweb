@@ -27,6 +27,7 @@ require_once "Damblan/Log/Mail.php";
 require_once 'pear-database-channel.php';
 require_once 'HTML/QuickForm2/Renderer.php';
 require_once 'HTML/QuickForm2/Element/Input.php';
+require_once 'PEAR/ChannelFile.php';
 
 /** @todo Shift ! */
 if (!class_exists('HTML_QuickForm2_Element_InputUrl')) {
@@ -48,6 +49,8 @@ if (!class_exists('HTML_QuickForm2_Element_InputEmai')) {
 
     HTML_QuickForm2_Factory::registerElement('email', 'HTML_QuickForm2_Element_InputEmail');
 }
+
+$chan = new PEAR_ChannelFile;
 
 $tabs = array("List" => array("url" => "/channels/index.php",
                               "title" => "List Sites."),
@@ -114,113 +117,68 @@ if ($form->validate()) {
         $req = new HTTP_Request2;
 
         $req->setURL($url->getScheme() . "://" . $url->getHost() . ":" . $url->getPort() . "/channel.xml");
-        $response = $req->send();
-        if ($response->getStatus() != 200) {
-            echo "<div class=\"errors\">The submitted URL does not ";
-            echo "appear to point to a valid channel site.  You will ";
-            echo "have to make sure that <tt>/channel.xml</tt> at least ";
-            echo "exists and is valid.  If you think that this mechanism does not work ";
-            echo "properly, please drop a mail to the ";
-            echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
-            echo "</div>";
+        channel::validate($request, $chan, $project_name);
 
-            echo $form;
-        } elseif (!$response->getBody()) {
-            // channel.xml is empty - spam spam spam
-            echo "<div class=\"errors\">The submitted URL does not ";
-            echo "appear to point to a valid channel site.  You will ";
-            echo "have to make sure that <tt>/channel.xml</tt> at least ";
-            echo "exists and is valid.  If you think that this mechanism does not work ";
-            echo "properly, please drop a mail to the ";
-            echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
-            echo "</div>";
-
-            echo $form;
-        } elseif (strlen($response->getBody()) > 100000) {
-            // channel.xml is huge - possible DoS attack
-            echo "<div class=\"errors\">The submitted URL does not ";
-            echo "appear to point to a valid channel site.  You will ";
-            echo "have to make sure that <tt>/channel.xml</tt> at least ";
-            echo "exists and is not huge.  If you think that this mechanism does not work ";
-            echo "properly, please drop a mail to the ";
-            echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
-            echo "</div>";
-
-            echo $form;
-        } else {
-            do {
-                // poor man's try/catch
-                require_once 'PEAR/ChannelFile.php';
-                $chan = new PEAR_ChannelFile;
-                if (!$chan->fromXmlString($response->getBody())) {
-                    // channel.xml is invalid xml - spam spam spam
-                    echo "<div class=\"errors\">The submitted URL does not ";
-                    echo "appear to point to a valid channel site.  You will ";
-                    echo "have to make sure that <tt>/channel.xml</tt> at least ";
-                    echo "exists and is valid.  If you think that this mechanism does not work ";
-                    echo "properly, please drop a mail to the ";
-                    echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
-                    echo "</div>";
-
-                    echo $form;
-                    break;
-                }
-                if (!$chan->validate()) {
-                    // channel.xml is invalid channelfile xml - spam spam spam
-                    echo "<div class=\"errors\">The submitted URL does not ";
-                    echo "appear to point to a valid channel site.  You will ";
-                    echo "have to make sure that <tt>/channel.xml</tt> at least ";
-                    echo "exists and is valid.  If you think that this mechanism does not work ";
-                    echo "properly, please drop a mail to the ";
-                    echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
-                    echo "</div>";
-
-                    echo $form;
-                    break;
-                }
-                if ($url->getHost() != $chan->getServer()) {
-                    // channel.xml refers to different site - spam spam spam
-                    echo "<div class=\"errors\">The submitted URL does not ";
-                    echo "appear to point to a valid channel site.  You will ";
-                    echo "have to make sure that <tt>/channel.xml</tt> at least ";
-                    echo "exists and is valid.  In addition, it must refer to ";
-                    echo "your channel.  If you think that this mechanism does not work ";
-                    echo "properly, please drop a mail to the ";
-                    echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
-                    echo "</div>";
-
-                    echo $form;
-                    break;
-                }
-                $text = sprintf("[Channels] Please activate %s (%s) on the channel index.",
-                                $project_name->getValue(),
-                                $project_link->getValue());
-                $from = sprintf('"%s" <%s>',
-                                $name->getValue(),
-                                $email->getValue());
-
-                $logger = new Damblan_Log;
-
-                $observer = new Damblan_Log_Mail;
-                $observer->setRecipients(PEAR_WEBMASTER_EMAIL);
-                $observer->setHeader("From", $from);
-                $observer->setHeader("Subject", "Channel link submission");
-                $logger->attach($observer);
-
-                $logger->log($text);
-
-                // Add the channel to the DB, but not yet activated
-                channel::add($project_name);
-                channel::edit($project_name, $project_label, $project_link, $name, $email);
-
-                echo "<div class=\"success\">Thanks for your submission.  It will ";
-                echo "be reviewed as soon as possible.</div>\n";
-            } while (false);
+        if (channel::exists($project_name)) {
+            throw new Exception("Already exists");
         }
-    } catch (HTTP_Request2_Exception $exception) {
+
+        $text = sprintf("[Channels] Please activate %s (%s) on the channel index.",
+                        $project_name->getValue(),
+                        $project_link->getValue());
+        $from = sprintf('"%s" <%s>',
+                        $name->getValue(),
+                        $email->getValue());
+
+        $logger = new Damblan_Log;
+
+        $observer = new Damblan_Log_Mail;
+        $observer->setRecipients(PEAR_WEBMASTER_EMAIL);
+        $observer->setHeader("From", $from);
+        $observer->setHeader("Subject", "Channel link submission");
+        $logger->attach($observer);
+
+        $logger->log($text);
+
+        // Add the channel to the DB, but not yet activated
+        channel::add($project_name);
+        channel::edit($project_name, $project_label, $project_link, $name, $email);
+
+
+        echo "<div class=\"success\">Thanks for your submission.  It will ";
+        echo "be reviewed as soon as possible.</div>\n";
+    } catch (Exception $exception) {
         echo '<div class="errors">';
-        echo $exception->getMessage();
-        echo "</div>";
+
+        switch ($exception->getMessage()) {
+            case "Invalid channel site":
+                echo "The submitted URL does not ";
+                echo "appear to point to a valid channel site.  You will ";
+                echo "have to make sure that <tt>/channel.xml</tt> at least ";
+                echo "exists and is valid.";
+            break;
+
+            case "Empty channel.xml":
+                echo "The submitted URL does not ";
+                echo "appear to point to a valid channel site.  You will ";
+                echo "have to make sure that <tt>/channel.xml</tt> at least ";
+                echo "exists and is valid.";
+            break;
+
+            case "Channel.xml too large":
+                echo "The submitted URL does not ";
+                echo "appear to point to a valid channel site.  You will ";
+                echo "have to make sure that <tt>/channel.xml</tt> at least ";
+                echo "exists and is not huge.";
+            break;
+            default:
+                echo $exception->getMessage();
+            break;
+        }
+
+        echo "If you think that this mechanism does not work ";
+        echo "properly, please drop a mail to the ";
+        echo '<a href="mailto:' . PEAR_WEBMASTER_EMAIL . '">webmasters</a>.';
 
         echo $form;
     }
