@@ -117,7 +117,7 @@ if ($form->validate()) {
         $req = new HTTP_Request2;
 
         $req->setURL($url->getScheme() . "://" . $url->getHost() . ":" . $url->getPort() . "/channel.xml");
-        channel::validate($request, $chan, $project_name);
+        channel::validate($req, $chan, $project_name);
 
         if (channel::exists($project_name)) {
             throw new Exception("Already exists");
