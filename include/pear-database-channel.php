@@ -27,14 +27,44 @@ class channel
      *       - connect and retrieve the channel.xml
      *         to verify that this is possible
      */
-    static function add($name, $server)
+    static function add($name)
     {
         global $dbh;
-        $query = 'INSERT INTO channels (name) VALUES (?)';
+        $query = 'INSERT INTO channels (name, is_active) VALUES (?, 0)';
         $err = $dbh->query($query, array($name));
         if (DB::isError($err)) {
             return $err;
         }
+    }
+
+    static function edit($name, $project_label, $project_link, $contact_name, $contact_email)
+    {
+        global $dbh;
+        $query = 'UPDATE channels SET project_label = ?, project_link = ?, contact_name = ?, contact_email = ? WHERE name = ?';
+        $err = $dbh->query($query, array($project_label, $project_link, $contact_name, $contact_email, $name));
+        if (DB::isError($err)) {
+            return $err;
+        }
+    }
+
+    static function activate($name) 
+    {
+        global $dbh;
+        $query = "UPDATE channels SET is_active = 1 WHERE name = ?";
+        $err = $dbh->query($query, array($name));
+        if (DB::isError($err)) {
+            return $err;
+        }        
+    }
+
+    static function remove($name) 
+    {
+        global $dbh;
+        $query = "DELETE FROM channels WHERE name = ?";
+        $err = $dbh->query($query, array($name));
+        if (DB::isError($err)) {
+            return $err;
+        }        
     }
 
     /**
@@ -44,7 +74,30 @@ class channel
     static function listAll()
     {
         global $dbh;
-        $query = 'SELECT * FROM channels';
+        $query = 'SELECT name FROM channels';
+        return $dbh->getAll($query, null, DB_FETCHMODE_ORDERED);
+    }
+
+    /**
+     * List all registered channels that are approved
+     * @return array Format: array(array(channel server), array(channel server),... )
+     */
+    static function listActive()
+    {
+        global $dbh;
+        $query = 'SELECT name FROM channels WHERE is_active = 1';
+        return $dbh->getAll($query, null, DB_FETCHMODE_ORDERED);
+    }
+
+
+    /**
+     * List all registered channels pending approval
+     * @return array Format: array(array(channel server), array(channel server),... )
+     */
+    static function listInactive()
+    {
+        global $dbh;
+        $query = 'SELECT name FROM channels WHERE is_active = 0';
         return $dbh->getAll($query, null, DB_FETCHMODE_ORDERED);
     }
 }
