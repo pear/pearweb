@@ -24,7 +24,7 @@ require_once "HTTP/Request2.php";
 require_once "Net/URL2.php";
 require_once "Damblan/Log.php";
 require_once "Damblan/Log/Mail.php";
-
+require_once 'pear-database-channel.php';
 require_once 'HTML/QuickForm2/Renderer.php';
 require_once 'HTML/QuickForm2/Element/Input.php';
 
@@ -89,7 +89,12 @@ $email->addRule('required', "Please enter your email address");
 $email->addRule('callback', '', array('callback'  => 'filter_var',
                                       'arguments' => array(FILTER_VALIDATE_EMAIL)));
 
-$project_name = $form->addElement("text", "project[name]", array('required' => 'required', 'placeholder' => 'PHPUnit'))
+$project_name = $form->addElement("text", "project[name]", array('required' => 'required', 'placeholder' => 'pear.phpunit.de'))
+                    ->setLabel("Channel discover")
+                    ->addFilter("htmlspecialchars")
+                    ->addRule('required', "Please enter your project channel discover line");
+
+$project_label = $form->addElement("text", "project[label]", array('required' => 'required', 'placeholder' => 'PHPUnit'))
                     ->setLabel("Project Name")
                     ->addFilter("htmlspecialchars")
                     ->addRule('required', "Please enter your project name");
@@ -186,7 +191,7 @@ if ($form->validate()) {
                     echo $form;
                     break;
                 }
-                $text = sprintf("[Channels] Please add %s (%s) to the channel index.",
+                $text = sprintf("[Channels] Please activate %s (%s) on the channel index.",
                                 $project_name->getValue(),
                                 $link->getValue());
                 $from = sprintf('"%s" <%s>',
@@ -202,6 +207,10 @@ if ($form->validate()) {
                 $logger->attach($observer);
 
                 $logger->log($text);
+
+                // Add the channel to the DB, but not yet activated
+                channel::add($project_name);
+                channel::edit($project_name, $project_label, $project_link, $name, $email);
 
                 echo "<div class=\"success\">Thanks for your submission.  It will ";
                 echo "be reviewed as soon as possible.</div>\n";
