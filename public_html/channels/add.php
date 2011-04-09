@@ -89,25 +89,26 @@ $email->addRule('required', "Please enter your email address");
 $email->addRule('callback', '', array('callback'  => 'filter_var',
                                       'arguments' => array(FILTER_VALIDATE_EMAIL)));
 
-$project_name = $form->addElement("text", "project[name]", array('required' => 'required', 'placeholder' => 'pear.phpunit.de'))
-                    ->setLabel("Channel discover")
-                    ->addFilter("htmlspecialchars")
-                    ->addRule('required', "Please enter your project channel discover line");
+$project_name = $form->addElement("text", "project[name]", array('required' => 'required', 'placeholder' => 'pear.phpunit.de'));
 
-$project_label = $form->addElement("text", "project[label]", array('required' => 'required', 'placeholder' => 'PHPUnit'))
-                    ->setLabel("Project Name")
-                    ->addFilter("htmlspecialchars")
-                    ->addRule('required', "Please enter your project name");
+$project_name->setLabel("Channel discover");
+$project_name->addFilter("htmlspecialchars");
+$project_name->addRule('required', "Please enter your project channel discover line");
+
+$project_label = $form->addElement("text", "project[label]", array('required' => 'required', 'placeholder' => 'PHPUnit'));
+$project_label->setLabel("Project Name");
+$project_label->addFilter("htmlspecialchars");
+$project_label->addRule('required', "Please enter your project name");
 
 $link = $form->addElement("url", "project[link]", array('required' => 'required', 'placeholder' => 'http://pear.phpunit.de/'));
-$link->setLabel("Link");
+$link->setLabel("Project Homepage");
 $link->addFilter("htmlspecialchars");
 $link->addRule('required', "Please enter your project link");
 
 $form->addElement("submit");
 
 if ($form->validate()) {
-    $url = new Net_URL2($link->getValue());
+    $url = new Net_URL2('http://' . $project_name->getValue());
 
     try {
         $req = new HTTP_Request2;
