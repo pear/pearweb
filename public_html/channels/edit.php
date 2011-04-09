@@ -49,11 +49,11 @@ if (!class_exists('HTML_QuickForm2_Element_InputEmai')) {
 
 auth_require('pear.admin');
 
-if (empty($_GET['channel']) || !channel::exists($_GET['channel'])) {
+if (empty($_REQUEST['channel']) || !channel::exists($_REQUEST['channel'])) {
     die("Invalid channel specified");
 }
 
-$channel = $dbh->query("SELECT * FROM channels WHERE name = ?", array($_GET['channel']))->fetchRow(DB_FETCHMODE_ASSOC);
+$channel = $dbh->query("SELECT * FROM channels WHERE name = ?", array($_REQUEST['channel']))->fetchRow(DB_FETCHMODE_ASSOC);
 
 $chan = new PEAR_ChannelFile;
 
