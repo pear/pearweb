@@ -53,7 +53,7 @@ if (empty($_GET['channel']) || !channel::exists($_GET['channel'])) {
     die("Invalid channel specified");
 }
 
-$channel = $dbh->query("SELECT * FROM channels WHERE name = ?", array($_GET['channel']), DB_FETCHMODE_ASSOC);
+$channel = $dbh->query("SELECT * FROM channels WHERE name = ?", array($_GET['channel']))->fetchRow(DB_FETCHMODE_ASSOC);
 
 $chan = new PEAR_ChannelFile;
 
@@ -78,38 +78,32 @@ response_header("Channels :: Edit");
 $form = new HTML_QuickForm2("submitForm");
 $form->removeAttribute('name');
 
-$form->addDataSource(new HTML_QuickForm2_DataSource_Array(array("name" => $channel['contact_name'],
-                         "email" => $channel['contact_email'],
-                         "project[label]" => $channel["project_label"],
-                         "project[link]" => $channel["project_link"],
+$form->addDataSource(new HTML_QuickForm2_DataSource_Array(array("contact_name" => $channel['contact_name'],
+                         "contact_email" => $channel['contact_email'],
+                         "project_label" => $channel["project_label"],
+                         "project_link" => $channel["project_link"],
                          "is_active" => 1,
                         )));
 
-$name = $form->addElement("text", "name", array('required' => 'required', 'placeholder' => 'John Doe'));
-$name->setLabel("Your name");
-$name->addFilter("htmlspecialchars");
-$name->addRule('required', "Please enter your name");
+$contact_name = $form->addElement("text", "contact_name", array('required' => 'required', 'placeholder' => 'John Doe'));
+$contact_name->setLabel("Your name");
+$contact_name->addFilter("htmlspecialchars");
+$contact_name->addRule('required', "Please enter your name");
 
-$email = $form->addElement("email", "email", array('required' => 'required', 'you@example.com'));
-$email->setLabel("Email");
-$email->addFilter("htmlspecialchars");
+$contact_email = $form->addElement("email", "contact_email", array('required' => 'required', 'you@example.com'));
+$contact_email->setLabel("Email");
+$contact_email->addFilter("htmlspecialchars");
 
-$email->addRule('required', "Please enter your email address");
-$email->addRule('callback', '', array('callback'  => 'filter_var',
+$contact_email->addRule('required', "Please enter your email address");
+$contact_email->addRule('callback', '', array('callback'  => 'filter_var',
                                       'arguments' => array(FILTER_VALIDATE_EMAIL)));
 
-$project_name = $form->addElement("text", "project[name]", array('required' => 'required', 'placeholder' => 'pear.phpunit.de'));
-
-$project_name->setLabel("Channel discover");
-$project_name->addFilter("htmlspecialchars");
-$project_name->addRule('required', "Please enter your project channel discover line");
-
-$project_label = $form->addElement("text", "project[label]", array('required' => 'required', 'placeholder' => 'PHPUnit'));
+$project_label = $form->addElement("text", "project_label", array('required' => 'required', 'placeholder' => 'PHPUnit'));
 $project_label->setLabel("Project Name");
 $project_label->addFilter("htmlspecialchars");
 $project_label->addRule('required', "Please enter your project name");
 
-$project_link = $form->addElement("url", "project[link]", array('required' => 'required', 'placeholder' => 'http://pear.phpunit.de/'));
+$project_link = $form->addElement("url", "project_link", array('required' => 'required', 'placeholder' => 'http://pear.phpunit.de/'));
 $project_link->setLabel("Project Homepage");
 $project_link->addFilter("htmlspecialchars");
 $project_link->addRule('required', "Please enter your project link");
@@ -126,13 +120,19 @@ if ($form->validate()) {
         $req = new HTTP_Request2;
 
         $req->setURL($url->getScheme() . "://" . $url->getHost() . ":" . $url->getPort() . "/channel.xml");
-        channel::validate($req, $chan, $project_name);
+        channel::validate($req, $chan);
 
         if ($url->getHost() != $chan->getServer()) {
             throw new Exception("Channel server for wrong host");
         }
 
-        channel::edit($project_name, $project_label, $project_link, $name, $email);
+        channel::edit($channel['name'], $project_label->getValue(), $project_link->getValue(), $contact_name->getValue(), $contact_email->getValue());
+
+        if ($is_active->getValue()) {
+            channel::activate($channel['name']);
+        } else {
+            channel::deactivate($channel['name']);
+        }
 
 
         echo "<div class=\"success\">Changes saved</div>\n";
@@ -141,12 +141,6 @@ if ($form->validate()) {
 
         switch ($exception->getMessage()) {
             case "Invalid channel site":
-                echo "The submitted URL does not ";
-                echo "appear to point to a valid channel site.  You will ";
-                echo "have to make sure that <tt>/channel.xml</tt> at least ";
-                echo "exists and is valid.";
-            break;
-
             case "Empty channel.xml":
                 echo "The submitted URL does not ";
                 echo "appear to point to a valid channel site.  You will ";
@@ -154,12 +148,6 @@ if ($form->validate()) {
                 echo "exists and is valid.";
             break;
 
-            case "Channel.xml too large":
-                echo "The submitted URL does not ";
-                echo "appear to point to a valid channel site.  You will ";
-                echo "have to make sure that <tt>/channel.xml</tt> at least ";
-                echo "exists and is not huge.";
-            break;
             default:
                 echo $exception->getMessage();
             break;

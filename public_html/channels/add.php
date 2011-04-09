@@ -79,17 +79,17 @@ if (isset($auth_user)) {
                              "email" => $auth_user->email)));
 }
 
-$name = $form->addElement("text", "name", array('required' => 'required', 'placeholder' => 'John Doe'));
-$name->setLabel("Your name");
-$name->addFilter("htmlspecialchars");
-$name->addRule('required', "Please enter your name");
+$contact_name = $form->addElement("text", "name", array('required' => 'required', 'placeholder' => 'John Doe'));
+$contact_name->setLabel("Your name");
+$contact_name->addFilter("htmlspecialchars");
+$contact_name->addRule('required', "Please enter your name");
 
-$email = $form->addElement("email", "email", array('required' => 'required', 'you@example.com'));
-$email->setLabel("Email");
-$email->addFilter("htmlspecialchars");
+$contact_email = $form->addElement("email", "contact_email", array('required' => 'required', 'you@example.com'));
+$contact_email->setLabel("Email");
+$contact_email->addFilter("htmlspecialchars");
 
-$email->addRule('required', "Please enter your email address");
-$email->addRule('callback', '', array('callback'  => 'filter_var',
+$contact_email->addRule('required', "Please enter your email address");
+$contact_email->addRule('callback', '', array('callback'  => 'filter_var',
                                       'arguments' => array(FILTER_VALIDATE_EMAIL)));
 
 $project_name = $form->addElement("text", "project[name]", array('required' => 'required', 'placeholder' => 'pear.phpunit.de'));
@@ -117,14 +117,14 @@ if ($form->validate()) {
         $req = new HTTP_Request2;
 
         $req->setURL($url->getScheme() . "://" . $url->getHost() . ":" . $url->getPort() . "/channel.xml");
-        channel::validate($req, $chan, $project_name);
+        channel::validate($req, $chan);
 
         if ($url->getHost() != $chan->getServer()) {
             throw new Exception("Channel server for wrong host");
         }
 
 
-        if (channel::exists($project_name)) {
+        if (channel::exists($project_name->getValue())) {
             throw new Exception("Already exists");
         }
 
@@ -134,8 +134,8 @@ if ($form->validate()) {
                         $project_name->getValue(),
                         $project_link->getValue());
         $from = sprintf('"%s" <%s>',
-                        $name->getValue(),
-                        $email->getValue());
+                        $contact_name->getValue(),
+                        $contact_email->getValue());
 
         $logger = new Damblan_Log;
 
@@ -148,8 +148,8 @@ if ($form->validate()) {
         $logger->log($text);
 
         // Add the channel to the DB, but not yet activated
-        channel::add($project_name);
-        channel::edit($project_name, $project_label, $project_link, $name, $email);
+        channel::add($project_name->getValue());
+        channel::edit($project_name->getValue(), $project_label->getValue(), $project_link->getValue(), $contact_name->getValue(), $contact_email->getValue());
 
 
         echo "<div class=\"success\">Thanks for your submission.  It will ";
@@ -159,25 +159,11 @@ if ($form->validate()) {
 
         switch ($exception->getMessage()) {
             case "Invalid channel site":
-                echo "The submitted URL does not ";
-                echo "appear to point to a valid channel site.  You will ";
-                echo "have to make sure that <tt>/channel.xml</tt> at least ";
-                echo "exists and is valid.";
-            break;
-
             case "Empty channel.xml":
                 echo "The submitted URL does not ";
                 echo "appear to point to a valid channel site.  You will ";
                 echo "have to make sure that <tt>/channel.xml</tt> at least ";
                 echo "exists and is valid.";
-            break;
-
-            case "Channel.xml too large":
-                echo "The submitted URL does not ";
-                echo "appear to point to a valid channel site.  You will ";
-                echo "have to make sure that <tt>/channel.xml</tt> at least ";
-                echo "exists and is not huge.";
-            break;
             default:
                 echo $exception->getMessage();
             break;

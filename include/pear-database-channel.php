@@ -57,6 +57,16 @@ class channel
         }        
     }
 
+    static function deactivate($name) 
+    {
+        global $dbh;
+        $query = "UPDATE channels SET is_active = 0 WHERE name = ?";
+        $err = $dbh->query($query, array($name));
+        if (DB::isError($err)) {
+            return $err;
+        }        
+    }
+
     static function remove($name) 
     {
         global $dbh;
