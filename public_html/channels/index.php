@@ -17,6 +17,10 @@
    +----------------------------------------------------------------------+
    $Id$
 */
+require_once 'pear-database-channel.php';
+
+$channels = channel::listActive();
+
 response_header("Channels");
 
 $tabs = array("List" => array("url" => "/channels/index.php",
@@ -39,6 +43,12 @@ provided on the individual pages.</p>
 
 <h2>List of Sites</h2>
 
+<dl>
+<?php foreach ($channels as $channel) { ?>
+  <dt><a href="<?php print $channel['project_link']; ?>"><?php print $channel['project_label']; ?></a></dt>
+  <dl><kbd>$ pear channel-discover <?php print $channel['name']; ?></kbd></dl>
+<?php } ?>
+</dl>
 <ul>
   <li><a href="http://pear.11abacus.com/">11abacus</a></li>
   <li><a href="http://pear.agavi.org/">Agavi</a></li>

@@ -5,8 +5,10 @@ CREATE TABLE channels (
   project_link varchar(255) NOT NULL default '',
   contact_name varchar(255) NOT NULL default '',
   contact_email varchar(255) NOT NULL default '',
-  PRIMARY KEY  (name),
+  PRIMARY KEY  (name)
 );
 
 INSERT INTO channels VALUES ('pear.php.net', 1, 'PEAR', 'http://pear.php.net/', 'PEAR Webmaster', 'pear-webmaster@lists.php.net');
+
+INSERT INTO channels VALUES ('pecl.php.net', 1, 'PECL', 'http://pecl.php.net/', 'PEAR Webmaster', 'pear-webmaster@lists.php.net');
 
