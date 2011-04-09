@@ -45,7 +45,7 @@ feature of PEAR &ge; 1.4.0.  Specific installation instructures are
 provided on the individual pages.</p>
 
 <h2>List of Sites</h2>
-
+<p>There are <?php print count($channels); ?> channel(s) we know of.</p>
 <ul>
 <?php foreach ($channels as $channel) { ?>
   <li>
@@ -59,6 +59,7 @@ provided on the individual pages.</p>
 
 <?php if (auth_check('pear.admin')) { ?>
     <h2>Sites to be Approved</h2>
+    <p>There are <?php print count($inactive_channels); ?> site(s) to be approved.</p>
     <ul>
     <?php foreach ($inactive_channels as $channel) { ?>
       <li>
