@@ -55,7 +55,7 @@ provided on the individual pages.</p>
 <?php } ?>
 </ul>
 
-<p><a href="/channels/add.php">Add your site</a></p>
+<p><a href="/channels/add.php">Add your site</a>, or <a href="/channels/xbel.php" rel="alternate">grab the bookmarks</a></p>
 
 <?php if (auth_check('pear.admin')) { ?>
     <h2>Sites to be Approved</h2>
