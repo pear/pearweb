@@ -29,7 +29,14 @@ $a->setReleaseVersion('1.24.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Bug #17717 	package.xml XSD does not support __uri channels');
+Channel list now stored in database (please DROP TABLE channels; and import channels.sql on deployment)
+Added ability to activate/deactivate channels
+Added application/xbel+xml output of channel list
+Upgraded some forms to HTML_QuickForm2, HTML5 controls
+Bug #17717 	package.xml XSD does not support __uri channels
+Bug #18284	Can\'t change password
+Bug #18294	Forgot password says: Unknown user "hm2k"
+');
 $a->resetUsesrole();
 $a->clearDeps();
 $a->setPhpDep('5.2.3');

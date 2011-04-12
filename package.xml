@@ -89,8 +89,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-04-09</date>
- <time>23:47:17</time>
+ <date>2011-04-13</date>
+ <time>07:25:19</time>
  <version>
   <release>1.24.3</release>
   <api>0.1.1</api>
@@ -101,7 +101,13 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
+Channel list now stored in database (please DROP TABLE channels; and import channels.sql on deployment)
+Added ability to activate/deactivate channels
+Added application/xbel+xml output of channel list
+Upgraded some forms to HTML_QuickForm2, HTML5 controls
 Bug #17717 	package.xml XSD does not support __uri channels
+Bug #18284	Can&apos;t change password
+Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -258,6 +264,7 @@ Bug #17717 	package.xml XSD does not support __uri channels
      <file name="add.php" role="www" />
      <file name="edit.php" role="www" />
      <file name="index.php" role="www" />
+     <file name="xbel.php" role="www" />
     </dir> <!-- /public_html/channels -->
     <dir name="css">
      <file name="bugs.css" role="www" />
@@ -2698,10 +2705,16 @@ Bug #17663 dead links on http://pear.php.net/channels/ 	doconnor
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2011-04-09</date>
+   <date>2011-04-13</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
+Channel list now stored in database (please DROP TABLE channels; and import channels.sql on deployment)
+Added ability to activate/deactivate channels
+Added application/xbel+xml output of channel list
+Upgraded some forms to HTML_QuickForm2, HTML5 controls
 Bug #17717 	package.xml XSD does not support __uri channels
+Bug #18284	Can&apos;t change password
+Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
    </notes>
   </release>
  </changelog>
