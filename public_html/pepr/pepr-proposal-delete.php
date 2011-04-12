@@ -24,6 +24,7 @@
  * Obtain the common functions and classes.
  */
 require_once 'pepr/pepr.php';
+require_once 'HTML/QuickForm2.php';
 
 auth_require('pear.pepr');
 
@@ -38,13 +39,27 @@ if (!empty($_GET['isDeleted'])) {
     exit;
 }
 
-if (!$proposal =& proposal::get($dbh, @$_GET['id'])) {
+if (empty($_GET['id'])) {
     response_header('PEPr :: Delete :: Invalid Request');
     echo "<h1>Delete Proposal</h1>\n";
     report_error('The requested proposal does not exist.');
     response_footer();
     exit;
 }
+
+$proposal = proposal::get($dbh, $_GET['id']);
+
+if (!$proposal) {
+    response_header('PEPr :: Delete :: Invalid Request');
+    echo "<h1>Delete Proposal</h1>\n";
+    report_error('The requested proposal does not exist.');
+    response_footer();
+    exit;
+}
+
+$karma = new Damblan_Karma($dbh);
+
+$form = new HTML_QuickForm2('delete-proposal', 'post', array('action' => 'pepr-proposal-delete.php?id=' . $proposal->id));
 
 ob_start();
 
@@ -62,7 +77,6 @@ if (!$proposal->mayEdit($auth_user->handle)) {
 }
 
 if ($proposal->compareStatus('>', 'proposal')) {
-    $karma =& new Damblan_Karma($dbh);
     if ($karma->has($auth_user->handle, 'pear.pepr.admin')) {
         report_error('This proposal has reached the "'
                      . $proposal->getStatus(true) . '" phase.'
@@ -71,30 +85,22 @@ if ($proposal->compareStatus('>', 'proposal')) {
     }
 }
 
-include_once 'HTML/QuickForm.php';
-$form =& new HTML_QuickForm('delete-proposal', 'post',
-                            'pepr-proposal-delete.php?id=' . $proposal->id);
 $form->removeAttribute('name');
 
-$form->addElement('checkbox', 'delete', 'Really delete proposal for ',
-                  htmlspecialchars($proposal->pkg_category) . '::'
-                  . htmlspecialchars($proposal->pkg_name));
+$form->addElement('checkbox', 'delete', array('required' => 'required'))
+      ->setLabel('You are sure?');
 
-$form->addElement('textarea', 'reason',
-                  'Please tell us why you chose to delete this proposal ');
+$reason = $form->addElement('textarea', 'reason');
+$reason->setLabel('Why?');
 
 $form->addElement('submit', 'submit', 'Do it');
-
-$form->addRule('delete', 'You have to check the box to delete!', 'required',
-               '', 'client');
-
 
 if (isset($_POST['submit'])) {
     if ($form->validate()) {
         $proposal->delete($dbh);
         $proposal->sendActionEmail('proposal_delete', 'mixed',
                                    $auth_user->handle,
-                                   $form->exportValue('reason'));
+                                   $reason->getValue());
         ob_end_clean();
         localRedirect('pepr-proposal-delete.php?id=' . $proposal->id . '&isDeleted=1');
     } else {
@@ -106,7 +112,7 @@ if (isset($_POST['submit'])) {
 ob_end_flush();
 display_pepr_nav($proposal);
 
-$form->display();
+print $form;
 
 response_footer();
 
