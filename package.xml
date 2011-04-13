@@ -90,7 +90,7 @@
   <active>yes</active>
  </developer>
  <date>2011-04-13</date>
- <time>07:25:19</time>
+ <time>09:13:14</time>
  <version>
   <release>1.24.3</release>
   <api>0.1.1</api>
@@ -181,6 +181,14 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
     <dir name="fonts">
      <file name="coolveti.ttf" role="www" />
     </dir> <!-- /include/fonts -->
+    <dir name="HTML">
+     <dir name="QuickForm2">
+      <dir name="Element">
+       <file name="InputEmail.php" role="www" />
+       <file name="InputUrl.php" role="www" />
+      </dir> <!-- /include/HTML/QuickForm2/Element -->
+     </dir> <!-- /include/HTML/QuickForm2 -->
+    </dir> <!-- /include/HTML -->
     <dir name="package">
      <file name="releasehelper.php" role="www" />
     </dir> <!-- /include/package -->
