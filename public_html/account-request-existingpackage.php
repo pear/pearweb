@@ -254,7 +254,7 @@ MSG;
 
 
     $form->addElement('textarea', 'purpose',
-            array('cols' => 40, 'rows' => 5, 'placeholder' => 'I will improve...'))->setLabel('How will you help the package?');
+            array('cols' => 40, 'rows' => 5, 'required' => 'required', 'placeholder' => 'I will improve...'))->setLabel('How will you help the package?');
     $form->addElement('url', 'homepage', array('placeholder' => 'http://example.com'))->setLabel('Homepage:'
             . '<p class="cell_note">(optional)</p>');
     $form->addElement('textarea', 'moreinfo',
