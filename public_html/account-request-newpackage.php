@@ -62,7 +62,7 @@ do {
             $display_form = true;
         }
 
-        if (isset($_POST['purposecheck']) && count($_POST['purposecheck'])) {
+        if (isset($_POST['purposek']) && count($_POST['purpose'])) {
             $errors[] = 'The purpose(s) you selected do not require a PEAR account.';
             $display_form = true;
         }
@@ -245,7 +245,7 @@ MSG;
     foreach ($invalid_purposes as $i => $purposeKey) {
         $purpose->addElement('checkbox', $i)
                 ->setLabel($purposeKey)
-                ->setValue(@$_POST['purposecheck'][$i]);
+                ->setValue(@$_POST['purpose'][$i]);
     }
 
     $form->addElement('textarea', 'purpose',
