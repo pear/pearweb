@@ -243,14 +243,14 @@ MSG;
 
     $checkbox = array();
     foreach ($invalid_purposes as $i => $purposeKey) {
-        $purpose->addElement('checkbox', 'purposecheck[' . $i . ']')
+        $purpose->addElement('checkbox', $i')
                 ->setLabel($purposeKey)
                 ->setValue(@$_POST['purposecheck'][$i]);
     }
 
     $form->addElement('textarea', 'purpose',
-            array('cols' => 40, 'rows' => 5, 'required' => 'required'))
-         ->setLabel('Short summary of package that you have finished and are ready to propose:');
+            array('cols' => 40, 'rows' => 5, 'required' => 'required', 'placeholder' => 'Category_PackageName does... '))
+         ->setLabel('Short summary of package:');
 
     $form->addElement('url', 'sourcecode', array('placeholder' => 'http://example.com/svn/', 'required' => 'required'))
          ->setLabel('Link to browseable online source code:');
@@ -260,7 +260,7 @@ MSG;
     $form->addElement('textarea', 'moreinfo',
             array('cols' => 40, 'rows' => 5, 'placeholder' => "I am a developer who has ..."))->setLabel('More relevant information about you:'
             . '<p class="cell_note">(optional)</p>');
-    $form->addElement('checkbox', 'comments_read', array('required' => 'required'))->setLabel('I have read EVERYTHING on this page:');
+    $form->addGroup('read_everything')->addElement('checkbox', 'comments_read', array('required' => 'required'))->setLabel('I have read EVERYTHING on this page');
     $form->addElement('submit', 'submit')->setLabel('Submit Request');
 
     print $form->render($renderer);
