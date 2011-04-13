@@ -382,6 +382,9 @@ td.form-input {
     vertical-align: top;
     background-color: #e8e8e8;
 }
+div.element.group {
+    background-color: inherit;
+}
 
 td.form-input_center {
     padding: 3px;

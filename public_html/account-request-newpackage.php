@@ -18,10 +18,19 @@
    $Id$
 */
 
-require_once 'HTML/QuickForm.php';
+require_once 'HTML/QuickForm2.php';
+require_once 'HTML/QuickForm2/Renderer/PEAR.php';
+/** @todo Remove once these are in QF2 */
+
+
+require_once 'HTML/QuickForm2/Element/InputNumber.php';
+require_once 'HTML/QuickForm2/Element/InputEmail.php';
+require_once 'HTML/QuickForm2/Element/InputUrl.php';
+
 require_once 'Damblan/Mailer.php';
 require_once 'Text/CAPTCHA/Numeral.php';
 require_once 'Services/ProjectHoneyPot.php';
+require_once 'pear-database-user.php';
 
 $numeralCaptcha = new Text_CAPTCHA_Numeral();
 session_start();
@@ -29,7 +38,7 @@ session_start();
 $display_form = true;
 $width        = 60;
 $errors       = array();
-$jumpto       = 'handle';
+
 
 $stripped = @array_map('strip_tags', $_POST);
 response_header('Request Account');
@@ -79,7 +88,7 @@ do {
         }
 
         //  The add method performs further validation then creates the account
-        include_once 'pear-database-user.php';
+
         $ok = user::add($stripped);
         if (PEAR::isError($ok)) {
             $errors[] = 'This email address has already been registered by another user';
@@ -87,10 +96,6 @@ do {
             break;
         }
 
-
-        if (!empty($stripped['jumpto'])) {
-            $jumpto = $stripped['jumpto'];
-        }
 
         if (isset($stripped['display_form'])) {
             $display_form = $stripped['display_form'];
@@ -132,26 +137,40 @@ try {
     //$resolver = new Net_DNS_Resolver;
     //$resolver->nameservers = array('66.114.197.251');
 
-    $sphp = Services_ProjectHoneyPot::factory(HONEYPOT_API_KEY, $resolver);
+    $sphp = new Services_ProjectHoneyPot(HONEYPOT_API_KEY, $resolver);
     $sphp->setResponseFormat('object');
     $ip = $_SERVER['REMOTE_ADDR'];
     // Uncomment for testing or get one from http://www.projecthoneypot.org/top_harvesters.php
     // $ip = '209.85.138.136';
-    $status = $sphp->query($ip);
+    $results = $sphp->query($ip);
 } catch (Services_ProjectHoneyPot_Exception $e) {
    report_error($e);
    $display_form = false;
 }
 
-// Check about the last 30 days
-if ($status && $status->getLastActivity() < 30
-    && ($status->suspicious || $status->isCommentSpammer() || $status->isHarvester() || $status->isSearchEngine())
-) {
-    $errors = 'We can not allow you to continue since your IP has been marked suspicious within the past 30 days
-            by the http://projecthoneypot.org/, if that was done in error then please contact ' .
-               PEAR_DEV_EMAIL . ' as well as the projecthoneypot people to resolve the issue.';
-    report_error($errors);
-    $display_form = false;
+foreach ($results as $status) {
+    foreach ($status as $ip => $item) {
+        if (empty($item)) {
+           continue;
+        }
+
+        foreach ($status as $ip => $item) {
+            if (empty($item)) {
+               continue;
+            }
+
+            if ($status->getLastActivity() < 30 && ($status->isCommentSpammer() 
+                                                     || $status->isHarvester()
+                                                     || $status->isSearchEngine())) {
+                // Check about the last 30 days
+                $errors = 'We can not allow you to continue since your IP has been marked suspicious within the past 30 days
+                        by the http://projecthoneypot.org/, if that was done in error then please contact ' .
+                           PEAR_DEV_EMAIL . ' as well as the projecthoneypot people to resolve the issue.';
+                report_error($errors);
+                $display_form = false;
+            }
+        }
+    }
 }
 
 if ($display_form) {
@@ -179,36 +198,15 @@ MSG;
 
     report_error($errors);
 
-    $form = new HTML_QuickForm('account-request-newpackage', 'post', 'account-request-newpackage.php#requestform');
+    $form = new HTML_QuickForm2('account-request-newpackage', 'post', array('action' => 'account-request-newpackage.php#requestform'));
     $form->removeAttribute('name');
 
-    $renderer =& $form->defaultRenderer();
-    $renderer->setElementTemplate('
- <tr>
-  <th class="form-label_left">
-   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
-   {label}
-  </th>
-  <td class="form-input">
-   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
-   {element}
-  </td>
- </tr>
-');
+    $renderer = new HTML_QuickForm2_Renderer_PEAR();
 
-    $renderer->setFormTemplate('
-<form{attributes}>
- <div>
-  {hidden}
-  <table border="0" class="form-holder" cellspacing="1">
-   {content}
-  </table>
- </div>
-</form>');
 
     $hsc = array_map('htmlspecialchars', $stripped);
     // Set defaults for the form elements
-    $form->setDefaults(array(
+    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
         'handle'        => @$hsc['handle'],
         'firstname'     => @$hsc['firstname'],
         'lastname'      => @$hsc['lastname'],
@@ -220,55 +218,54 @@ MSG;
         'homepage'      => @$hsc['homepage'],
         'moreinfo'      => @$hsc['moreinfo'],
         'comments_read' => @$hsc['comments_read'],
-    ));
+    )));
 
-    $form->addElement('html', '<caption class="form-caption">Request Account</caption>');
-    $form->addElement('text', 'handle', 'Use<span class="accesskey">r</span>name:',
-            'size="12" maxlength="20" accesskey="r"');
-    $form->addElement('text', 'firstname', 'First Name:', array('size' => 30));
-    $form->addElement('text', 'lastname', 'Last Name:', array('size' => 30));
-    $form->addElement('password', 'password', 'Password:', array('size' => 10));
-    $form->addElement('password', 'password2', 'Repeat Password:', array('size' => 10));
-    $text  = $numeralCaptcha->getOperation() . ' = <input type="text" size="4" maxlength="4" name="captcha" />';
-    $form->addElement('static', null, 'Solve the problem:', $text);
+    $form->addElement('text', 'handle', array('placeholder' => 'psmith', 'maxlength' => "20", 'accesskey' => "r", 'required' => 'required'))->setLabel('Use<span class="accesskey">r</span>name:');
+
+    $form->addElement('text', 'firstname', array('placeholder' => 'Peter', 'required' => 'required'))->setLabel('First Name:');
+    $form->addElement('text', 'lastname', array('placeholder' => 'Smith', 'required' => 'required'))->setLabel('Last Name:');
+    $form->addElement('password', 'password', array('size' => 10, 'required' => 'required'))->setLabel('Password:');
+    $form->addElement('password', 'password2', array('size' => 10, 'required' => 'required'))->setLabel('Repeat Password:');
+    $form->addElement('number', 'captcha', array('maxlength' => 4, 'required' => 'required'))->setLabel("What is " . $numeralCaptcha->getOperation() . '?');
     $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-    $form->addElement('text', 'email', 'Email Address:', array('size' => 20));
-    $form->addElement('checkbox', 'showemail', 'Show email address?');
-    $form->addElement('text', 'newpackage', 'Proposed Package Name:', array('size' => 20));
+
+
+    $form->addElement('email', 'email', array('placeholder' => 'you@example.com', 'required' => 'required'))->setLabel('Email Address:');
+    $form->addElement('checkbox', 'showemail')->setLabel( 'Show email address?');
+    $form->addElement('text', 'newpackage', array('placeholder' => 'Category_PackageName', 'required' => 'required'))->setLabel('Proposed Package Name:');
 
     $invalid_purposes = array(
         'Propose a new, incomplete package, or an incomplete idea for a package',
         'Browse ' . PEAR_CHANNELNAME . '.'
     );
 
+    $purpose = $form->addGroup('purpose')->setLabel('Purpose of your PEAR account:');
+
     $checkbox = array();
     foreach ($invalid_purposes as $i => $purposeKey) {
-        $el = &HTML_QuickForm::createElement('checkbox', $i, null, ' ' . $purposeKey);
-        $el->setValue(@$_POST['purposecheck'][$i]);
-        $checkbox[] = $el;
+        $purpose->addElement('checkbox', 'purposecheck[' . $i . ']')
+                ->setLabel($purposeKey)
+                ->setValue(@$_POST['purposecheck'][$i]);
     }
-    $form->addGroup($checkbox, 'purposecheck', 'Purpose of your PEAR account:'
-            . '<p class="cell_note">(Check all that apply)</p>', '<br />');
 
     $form->addElement('textarea', 'purpose',
-            'Short summary of package that you have finished and are ready to propose:',
-            array('cols' => 40, 'rows' => 5));
-    $form->addElement('text', 'sourcecode', 'Link to browseable online source code:', array('size' => 40));
-    $form->addElement('text', 'homepage', 'Homepage:'
-            . '<p class="cell_note">(optional)</p>', array('size' => 40));
-    $form->addElement('textarea', 'moreinfo',
-            'More relevant information about you:'
-            . '<p class="cell_note">(optional)</p>',
-            array('cols' => 40, 'rows' => 5));
-    $form->addElement('checkbox', 'comments_read', 'I have read EVERYTHING on this page:');
-    $form->addElement('submit', 'submit', 'Submit Request');
-    $form->display();
+            array('cols' => 40, 'rows' => 5, 'required' => 'required'))
+         ->setLabel('Short summary of package that you have finished and are ready to propose:');
 
-    if ($jumpto) {
-        print "<script type=\"text/javascript\">\n<!--\n";
-        print "if (!document.forms[1].$jumpto.disabled) document.forms[1].$jumpto.focus();\n";
-        print "\n// -->\n</script>\n";
-    }
+    $form->addElement('url', 'sourcecode', array('placeholder' => 'http://example.com/svn/', 'required' => 'required'))
+         ->setLabel('Link to browseable online source code:');
+
+    $form->addElement('url', 'homepage', array('placeholder' => 'http://example.com'))->setLabel('Homepage:'
+            . '<p class="cell_note">(optional)</p>');
+    $form->addElement('textarea', 'moreinfo',
+            array('cols' => 40, 'rows' => 5, 'placeholder' => "I am a developer who has ..."))->setLabel('More relevant information about you:'
+            . '<p class="cell_note">(optional)</p>');
+    $form->addElement('checkbox', 'comments_read', array('required' => 'required'))->setLabel('I have read EVERYTHING on this page:');
+    $form->addElement('submit', 'submit')->setLabel('Submit Request');
+
+    print $form->render($renderer);
+
+
 }
 
 response_footer();

@@ -90,7 +90,7 @@
   <active>yes</active>
  </developer>
  <date>2011-04-13</date>
- <time>09:29:56</time>
+ <time>11:14:26</time>
  <version>
   <release>1.24.3</release>
   <api>0.1.1</api>
@@ -188,6 +188,9 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
        <file name="InputNumber.php" role="www" />
        <file name="InputUrl.php" role="www" />
       </dir> <!-- /include/HTML/QuickForm2/Element -->
+      <dir name="Renderer">
+       <file name="PEAR.php" role="www" />
+      </dir> <!-- /include/HTML/QuickForm2/Renderer -->
      </dir> <!-- /include/HTML/QuickForm2 -->
     </dir> <!-- /include/HTML -->
     <dir name="package">
