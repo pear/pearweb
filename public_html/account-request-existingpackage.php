@@ -52,7 +52,7 @@ do {
             $display_form = true;
         }
 
-        if (empty($stripped['read_everything']['comments_read'])) {
+        if (empty($_POST['read_everything']['comments_read'])) {
             $errors[] = 'Obviously you did not read all the comments'
                       . ' concerning the need for an account. Please read '
                       . 'them again.';
