@@ -55,14 +55,14 @@ do {
             $display_form = true;
         }
 
-        if (empty($stripped['comments_read'])) {
+        if (empty($stripped['read_everything']['comments_read'])) {
             $errors[] = 'Obviously you did not read all the comments'
                       . ' concerning the need for an account. Please read '
                       . 'them again.';
             $display_form = true;
         }
 
-        if (isset($_POST['purposek']) && count($_POST['purpose'])) {
+        if (isset($_POST['purpose']) && count($_POST['purpose'])) {
             $errors[] = 'The purpose(s) you selected do not require a PEAR account.';
             $display_form = true;
         }
