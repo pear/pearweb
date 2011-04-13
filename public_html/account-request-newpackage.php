@@ -243,7 +243,7 @@ MSG;
 
     $checkbox = array();
     foreach ($invalid_purposes as $i => $purposeKey) {
-        $purpose->addElement('checkbox', $i')
+        $purpose->addElement('checkbox', $i)
                 ->setLabel($purposeKey)
                 ->setValue(@$_POST['purposecheck'][$i]);
     }
