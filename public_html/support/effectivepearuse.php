@@ -93,28 +93,28 @@ Handling the superglobals such as <code>$_POST</code>, <code>$_GET</code>, and <
 </p>
 
 <p>
-It is always best to let a well tested package, such as <a href="http://pear.php.net/HTML_QuickForm">HTML_QuickForm</a>, <a href="http://pear.php.net/MDB2">MDB2</a>, or <a href="http://pear.php.net/DB">DB</a> handle these values for you.
+It is always best to let a well tested package, such as <a href="http://pear.php.net/HTML_QuickForm2">HTML_QuickForm2</a>, <a href="http://pear.php.net/MDB2">MDB2</a>, or <a href="http://pear.php.net/DB">DB</a> handle these values for you.
 </p>
 
 <p>
-For input and output of form values, use HTML_QuickForm. It will automatically quote your values so as to stop XSS and will also make sure that magic_quotes_gpc isn't corrupting your values.
+For input and output of form values, use HTML_QuickForm2. It will automatically quote your values so as to stop XSS and will also make sure that magic_quotes_gpc isn't corrupting your values.
 </p>
 
 <?php
 highlight_string('
 <?php
 $value = \'inject">XX<input name="password" type="hidden" value="h4cked\';
-require_once \'HTML/QuickForm.php\';
-$form = new HTML_QuickForm();
-$form->addElement(\'password\', \'password\', \'Enter your password\');
-$form->setDefaults($value);
+require_once \'HTML/QuickForm2.php\';
+$form = new HTML_QuickForm2();
+$password_control = $form->addElement(\'password\', \'password\')->setLabel(\'Enter your password\')->setValue($value);
+
 if ($form->validate()) {
-    echo \'Password entered: \' . htmlentities($form->exportValue(\'password\'));
+    echo \'Password entered: \' . htmlentities($password_control->getValue(\'password\'));
 }
 $form->display();') ?>
 
 <p>
-If you had simply output <code>$value</code> without passing it through HTML_QuickForm you would have had injected HTML in your form. If you happened to have <pre>magic_quotes_gpc</pre> turned on (you should never have this on) then the value output would have had extra backslashes before any quotes passed in. If htmlentities() hadn't been run before outputting the value then any HTML entered would have been injected into your page.
+If you had simply output <code>$value</code> without passing it through HTML_QuickForm2 you would have had injected HTML in your form. If you happened to have <pre>magic_quotes_gpc</pre> turned on (you should never have this on) then the value output would have had extra backslashes before any quotes passed in. If htmlentities() hadn't been run before outputting the value then any HTML entered would have been injected into your page.
 </p>
 
 <p>

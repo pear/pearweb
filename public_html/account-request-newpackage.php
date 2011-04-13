@@ -243,9 +243,8 @@ MSG;
 
     $checkbox = array();
     foreach ($invalid_purposes as $i => $purposeKey) {
-        $purpose->addElement('checkbox', $i)
-                ->setLabel($purposeKey)
-                ->setValue(@$_POST['purpose'][$i]);
+        $purpose->addElement('checkbox', $i, array('checked' => !empty($_POST['purpose'][$i])? 'checked' : ''))
+                ->setLabel($purposeKey);
     }
 
     $form->addElement('textarea', 'purpose',

@@ -93,7 +93,7 @@ $project_link->setLabel("Project Homepage");
 $project_link->addFilter("htmlspecialchars");
 $project_link->addRule('required', "Please enter your project link");
 
-$is_active = $form->addElement("checkbox", 'is_active', array('checked' => $channel["is_active"]));
+$is_active = $form->addElement("checkbox", 'is_active', array('checked' => $channel["is_active"]? 'checked' : ''));
 $is_active->setLabel("Active?");
 
 $form->addElement("submit");
