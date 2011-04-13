@@ -99,6 +99,8 @@ if ($auth_user && $proposal->mayVote($dbh, $auth_user->handle)) {
                 $proposal->sendActionEmail('proposal_vote', 'user',
                                            $auth_user->handle);
                 report_success('Your vote has been registered successfully');
+
+                $form = false;
             }
         }
     }

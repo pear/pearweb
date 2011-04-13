@@ -25,7 +25,7 @@
  */
 require_once 'pepr/pepr.php';
 
-if (!$proposal =& proposal::get($dbh, (int)@$_GET['id'])) {
+if (!$proposal = proposal::get($dbh, (int)@$_GET['id'])) {
     response_header('PEPr :: Comments :: Invalid Request');
     echo "<h1>Comments for</h1>\n";
     report_error('The requested proposal does not exist.');
@@ -39,35 +39,28 @@ echo '<h1>Comments for &quot;' . htmlspecialchars($proposal->pkg_name) . "&quot;
 display_pepr_nav($proposal);
 
 if ($auth_user && $proposal->getStatus() == 'proposal') {
-    include_once 'HTML/QuickForm.php';
-    $form =& new HTML_QuickForm('comment', 'post', 'pepr-comments-show.php?id=' . $id);
+    include_once 'HTML/QuickForm2.php';
+    $form = new HTML_QuickForm2('comment', 'post', array('action' => 'pepr-comments-show.php?id=' . $id));
     $form->removeAttribute('name');
 
-    $c = $form->addElement('textarea', 'comment', null,
+    $c = $form->addElement('textarea', 'comment', 
                       array('cols' => 70,
                             'rows' => 20,
+                            'required' => 'required',
+                            'placeholder' => 'Hi. Can I politely suggest that...',
                             'id'   => 'comment_field'));
 
-    $form->addElement('static', '', '',
-            '<small>Your comment will also be sent to the'
-            . ' <strong>pear-dev</strong> mailing list.<br />'
-            . ' <strong>Please do not respond to other developers'
-            . ' comments</strong>.<br />'
-            . ' The author himself is responsible to reflect comments'
-            . ' in an acceptable way.</small>');
+    $form->addElement('submit', 'submit')->setLabel('Add New Comment');
 
-    $form->addElement('submit', 'submit', 'Add New Comment');
-
-    $form->applyFilter('comment', 'trim');
-    $form->addRule('comment', 'A comment is required', 'required', null, 'client');
+    $c->addFilter('trim');
+    $c->addRule('required', 'A comment is required');
 
     if (isset($_POST['submit'])) {
         if ($form->validate()) {
-            $comment = $form->exportValue('comment');
             $proposal->sendActionEmail('proposal_comment', 'user',
                                        $auth_user->handle,
-                                       $comment);
-            $proposal->addComment($comment, 'package_proposal_comments');
+                                       $c->getValue());
+            $proposal->addComment($c->getValue(), 'package_proposal_comments');
             report_success('Your comment was successfully processed');
             $c->setValue('');
         } else {
@@ -93,39 +86,7 @@ if ($proposal->getStatus() != 'proposal') {
     echo $proposal->getStatus(true) . '&quot; phase.';
 } else {
     if ($auth_user) {
-        $formArray = $form->toArray();
-
-        echo $form->getValidationScript();
-
-        echo '<form ' . $formArray['attributes'] . ">\n";
-        echo '<table class="form-holder" cellspacing="1">' . "\n";
-
-        echo ' <caption class="form-caption">Comment on This';
-        echo ' Proposal</caption>' . "\n";
-
-        echo " <tr>\n";
-        echo '  <th class="form-label_left">';
-        echo '   <label for="comment_field" accesskey="o">C<span';
-        echo ' class="accesskey">o</span>mment:</label>';
-        echo "  </th>\n";
-        echo '  <td class="form-input">';
-        echo $formArray['elements'][0]['html'] . "</td>\n";
-        echo " </tr>\n";
-
-        echo " <tr>\n";
-        echo '  <th class="form-label_left">&nbsp;</th>' . "\n";
-        echo '  <td class="form-input">';
-        echo $formArray['elements'][1]['html'] . "</td>\n";
-        echo " </tr>\n";
-
-        echo " <tr>\n";
-        echo '  <th class="form-label_left">&nbsp;</th>' . "\n";
-        echo '  <td class="form-input">';
-        echo $formArray['elements'][2]['html'] . "</td>\n";
-        echo " </tr>\n";
-
-        echo "</table>\n";
-        echo "</form>\n";
+        print $form;
     } else {
         echo 'Please log in to enter your comment. If you are not a registered';
         echo ' PEAR developer, you can comment by sending an email to ';
