@@ -37,7 +37,7 @@ session_start();
 require_once 'HTML/QuickForm2.php';
 /** @todo Remove once these become available in QF2 */
 require_once 'HTML/QuickForm2/Element/InputEmail.php';
-
+require_once 'HTML/QuickForm2/Element/InputNumber.php';
 require_once 'Text/CAPTCHA/Numeral.php';
 
 $stripped = @array_map('strip_tags', $_POST);
@@ -72,13 +72,14 @@ function printForm($data = array())
     $form->addElement('checkbox', 'copy_me')->setLabel('CC me?:');
     $form->addElement('text', 'subject', array('required' => 'required', 'size' => '80'))->setLabel('Subject:');
     $form->addElement('textarea', 'text', array('cols' => 80, 'rows' => 10, 'required' => 'required'))->setLabel('Text:');
-    $form->addElement('submit', 'submit')->setLabel('Send Email');
 
     if (!auth_check('pear.dev')) {
         $numeralCaptcha = new Text_CAPTCHA_Numeral();
-        $form->addElement('text', 'captcha', array('maxlength' => 4, 'required' => 'required'))->setLabel("What is " . $numeralCaptcha->getOperation() . ' = ');
+        $form->addElement('number', 'captcha', array('maxlength' => 4, 'required' => 'required'))->setLabel("What is " . $numeralCaptcha->getOperation() . '?');
         $_SESSION['answer'] = $numeralCaptcha->getAnswer();
     }
+
+    $form->addElement('submit', 'submit')->setLabel('Send Email');
 
     print $form;
 }
