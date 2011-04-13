@@ -24,7 +24,7 @@
  * Obtain the common functions and classes.
  */
 require_once 'pepr/pepr.php';
-require_once 'HTML/QuickForm.php';
+require_once 'HTML/QuickForm2.php';
 
 if (!isset($_GET['id']) || !($proposal = proposal::get($dbh, $_GET['id']))) {
     response_header('PEPr :: Votes :: Invalid Request');
@@ -39,49 +39,42 @@ response_header('PEPr :: Votes :: ' . htmlspecialchars($proposal->pkg_name));
 echo '<h1>Proposal Votes for "' . htmlspecialchars($proposal->pkg_name) . "\"</h1>\n";
 
 if ($auth_user && $proposal->mayVote($dbh, $auth_user->handle)) {
-    $form = new HTML_QuickForm('vote', 'post',
-                                'pepr-votes-show.php?id=' . $proposal->id);
+    $form = new HTML_QuickForm2('vote', 'post',
+                                array('action' => 'pepr-votes-show.php?id=' . $proposal->id));
     $form->removeAttribute('name');
 
-    $form->setDefaults(array('value' => 1));
-    $form->addElement('select', 'value', '',
-                      array(1 => '+1',
-                            0 => '0',
-                            -1 => '-1'),
-                      'id="vote_field"');
-    $form->addElement('checkbox', 'conditional', '', '', null, 1);
-    $form->addElement('textarea', 'comment', null,
-                      array('cols' => 70,
-                            'rows' => 20));
-    $form->addElement('select', 'reviews', '', $proposalReviewsMap,
-                      array('size' => count($proposalReviewsMap),
-                            'multiple' => 'multiple'));
-    $form->addElement('static', '', '',
-                      '<small>Note that you can only vote once!<br />'
-                      . 'For conditional votes, please leave a comment and'
-                      . ' vote +1 (<i>e.g.</i>, &quot;I\'m +1 if you'
-                      . ' change...&quot;).</small>');
-    $form->addElement('submit', 'submit', 'Vote');
+    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array('value' => 1)));
 
-    $form->applyFilter('comment', 'trim');
-    $form->addRule('value', 'Vote is a required field.', 'required',
-                   null, 'client');
-    $form->addRule('value', 'Vote must be +1, 0 or -1.', 'regex',
-                   '/-1|0|1/', 'client');
-    $form->addRule('reviews', 'Reviews is a required field.', 'required',
-                    null, 'client');
+    $vote = $form->addElement('select', 'value', array('id' => 'vote_field', 'required' => 'required'));
+    $vote->loadOptions(array(1 => '+1',
+                            0 => '0',
+                            -1 => '-1'));
+    $vote->setLabel("Vote:");
+
+    $is_conditional = $form->addElement('checkbox', 'conditional')->setLabel("Conditional Vote?:");
+
+    $comment = $form->addElement('textarea', 'comment',
+                      array('cols' => 70,
+                            'rows' => 20, 'placeholder' => 'I am +1* if you change...'))->setLabel("Comment:");
+
+    $review = $form->addElement('select', 'reviews',
+                      array('required' => 'required'));
+
+    $review->loadOptions($proposalReviewsMap);
+    $review->setLabel("Review:");
+
+    $form->addElement('submit', 'submit')->setLabel('Vote');
+
+    $comment->addFilter('trim');
 
     if (isset($_POST['submit'])) {
         if ($form->validate()) {
-            $value = $form->getElement('value');
-            $value = $value->getSelected();
-            $voteData['value'] = (int)$value['0'];
-            $is_conditional = $form->getElement('conditional');
-            $voteData['is_conditional'] = ($is_conditional->getChecked()) ? 1 : 0;
-            $comment = $form->getElement('comment');
+            $voteData['value'] = $vote->getValue();
+            $voteData['is_conditional'] = !empty($_POST['is_conditional']);
+
             $voteData['comment'] = $comment->getValue();
-            $reviews = $form->getElement('reviews');
-            $voteData['reviews'] = $reviews->getSelected();
+
+            $voteData['reviews'] = array($review->getValue());
             $voteData['user_handle'] = $auth_user->handle;
 
             $errors = array();
@@ -95,10 +88,8 @@ if ($auth_user && $proposal->mayVote($dbh, $auth_user->handle)) {
                           . " Please select '+1' and change your text to a"
                           . " form like 'I am +1 on this if you change...'.";
             }
-            foreach ($voteData['reviews'] as $value) {
-                if (!array_key_exists($value, $proposalReviewsMap)) {
-                    $errors[] = 'Reviews contains invalid data';
-                }
+            if (!array_key_exists($voteData['reviews'][0], $proposalReviewsMap)) {
+                $errors[] = 'Reviews contains invalid data';
             }
 
             if ($errors) {
@@ -108,12 +99,7 @@ if ($auth_user && $proposal->mayVote($dbh, $auth_user->handle)) {
                 $proposal->sendActionEmail('proposal_vote', 'user',
                                            $auth_user->handle);
                 report_success('Your vote has been registered successfully');
-                $form->removeElement('submit');
-                $form->freeze();
             }
-        } else {
-            $pepr_form = $form->toArray();
-            report_error($pepr_form['errors']);
         }
     }
 } else {
@@ -156,57 +142,9 @@ if ($proposal->status == 'vote') {
         echo format_date($pepr_end);
         echo "</p>\n";
 
-        $formArray = $form->toArray();
+        print $form;
 
-        echo $form->getValidationScript();
 
-        echo '<form ' . $formArray['attributes'] . ">\n";
-        echo '<table class="form-holder" cellspacing="1">' . "\n";
-
-        echo ' <caption class="form-caption">Vote on This';
-        echo ' Proposal</caption>' . "\n";
-
-        echo " <tr>\n";
-        echo '  <th class="form-label_left">';
-        echo '   <label for="vote_field" accesskey="o">V<span';
-        echo ' class="accesskey">o</span>te:</label>';
-        echo "  </th>\n";
-        echo '  <td class="form-input">';
-        echo $formArray['elements'][0]['html'] . ' ' . $formArray['elements'][0]['label'] . "</td>\n";
-        echo " </tr>\n";
-
-        echo " <tr>\n";
-        echo '  <th class="form-label_left">Conditional:</th>' . "\n";
-        echo '  <td class="form-input">';
-        echo $formArray['elements'][1]['html'] . "</td>\n";
-        echo " </tr>\n";
-
-        echo " <tr>\n";
-        echo '  <th class="form-label_left">Comment:</th>' . "\n";
-        echo '  <td class="form-input">';
-        echo $formArray['elements'][2]['html'] . "</td>\n";
-        echo " </tr>\n";
-
-        echo " <tr>\n";
-        echo '  <th class="form-label_left">Reviews:</th>' . "\n";
-        echo '  <td class="form-input">';
-        echo $formArray['elements'][3]['html'].$formArray['elements'][3]['label'] . "</td>\n";
-        echo " </tr>\n";
-
-        echo " <tr>\n";
-        echo '  <th class="form-label_left"></th>' . "\n";
-        echo '  <td class="form-input">';
-        echo $formArray['elements'][4]['html'] . "</td>\n";
-        echo " </tr>\n";
-
-        echo " <tr>\n";
-        echo '  <th class="form-label_left"></th>' . "\n";
-        echo '  <td class="form-input">';
-        echo $formArray['elements'][5]['html'] . "</td>\n";
-        echo " </tr>\n";
-
-        echo "</table>\n";
-        echo "</form>\n";
     } else {
         ?>
 
