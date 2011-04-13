@@ -24,17 +24,8 @@ auth_require('pear.dev');
 require_once 'tags/Manager.php';
 require_once 'HTML/QuickForm2.php';
 require_once 'HTML/QuickForm2/Renderer.php';
-require_once 'HTML/QuickForm2/Element/Input.php';
-
-/** @todo Shift ! */
-if (!class_exists('HTML_QuickForm2_Element_InputUrl')) {
-    class HTML_QuickForm2_Element_InputUrl extends HTML_QuickForm2_Element_Input
-    {
-        protected $attributes = array('type' => 'url');
-    }
-
-    HTML_QuickForm2_Factory::registerElement('url', 'HTML_QuickForm2_Element_InputUrl');
-}
+/** @todo Remove once part of QF2 */
+require_once 'HTML/QuickForm2/Element/InputUrl.php';
 
 
 response_header('Edit Package');

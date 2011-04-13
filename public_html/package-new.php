@@ -20,17 +20,9 @@
 
 require_once 'HTML/QuickForm2.php';
 require_once 'HTML/QuickForm2/Renderer.php';
-require_once 'HTML/QuickForm2/Element/Input.php';
+/** @todo Remove once part of QF2 */
+require_once 'HTML/QuickForm2/Element/InputUrl.php';
 
-/** @todo Shift ! */
-if (!class_exists('HTML_QuickForm2_Element_InputUrl')) {
-    class HTML_QuickForm2_Element_InputUrl extends HTML_QuickForm2_Element_Input
-    {
-        protected $attributes = array('type' => 'url');
-    }
-
-    HTML_QuickForm2_Factory::registerElement('url', 'HTML_QuickForm2_Element_InputUrl');
-}
 
 if (!defined('PEAR_COMMON_PACKAGE_NAME_PREG')) {
     define('PEAR_COMMON_PACKAGE_NAME_PREG', '^([A-Z][a-zA-Z0-9_]+|[a-z][a-z0-9_]+)$');
