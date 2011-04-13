@@ -18,7 +18,9 @@
    $Id$
 */
 
-include_once 'HTML/QuickForm.php';
+require_once 'HTML/QuickForm2.php';
+require_once 'HTML/QuickForm2/Element/InputUrl.php';
+require_once 'HTML/QuickForm2/Element/InputEmail.php';
 
 auth_require();
 if (isset($_GET['handle'])) {
@@ -36,7 +38,10 @@ if ($handle && !ereg('^[0-9a-z_]{2,20}$', $handle)) {
     exit();
 }
 
-$map = '<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
+$map = '';
+if (!empty($_SERVER['Google_API_Key'])) {
+    $map = '<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=' . $_SERVER['Google_API_Key'] . '"></script>';
+}
 response_header('Edit Profile :: ' . $handle, false, $map);
 
 echo '<h1>Edit Profile: ';
@@ -111,7 +116,7 @@ if ($command == 'update') {
     include_once 'pear-database-user.php';
     $result = user::update($user_post);
     if (DB::isError($result)) {
-        PEAR::raiseError('Could not update the user profile, please notifiy ' . PEAR_WEBMASTER_EMAIL);
+        PEAR::raiseError('Could not update the user profile, please notify ' . PEAR_WEBMASTER_EMAIL);
         break;
     }
 
@@ -171,36 +176,11 @@ if ($row === null) {
 }
 
 
-$form = new HTML_QuickForm('account-edit', 'post', 'account-edit.php', 'test');
+$form = new HTML_QuickForm2('account-edit', 'post');
 $form->removeAttribute('name');
 
-$renderer =& $form->defaultRenderer();
-$renderer->setElementTemplate('
- <tr>
-  <th class="form-label_left">
-   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
-   {label}
-  </th>
-  <td class="form-input">
-   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
-   {element}
-  </td>
- </tr>
-');
-
-$renderer->setFormTemplate('
-<form{attributes}>
- <div>
-  {hidden}
-  <table border="0" class="form-holder" cellspacing="1" style="margin-bottom: 2em;">
-   {content}
-  </table>
- </div>
-</form>');
-
-
 // Set defaults for the form elements
-$form->setDefaults(array(
+$form->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
     'active'    => htmlspecialchars($row['active']),
     'name'      => htmlspecialchars($row['name']),
     'email'     => htmlspecialchars($row['email']),
@@ -211,30 +191,32 @@ $form->setDefaults(array(
     'userinfo'  => htmlspecialchars($row['userinfo']),
     'latitude'  => htmlspecialchars($row['latitude']),
     'longitude' => htmlspecialchars($row['longitude']),
-));
+)));
 
-$form->addElement('checkbox', 'active', 'Active User?');
-$form->addElement('text', 'name', '<span class="accesskey">N</span>ame:', 'size="40" accesskey="n"');
-$form->addElement('text', 'email', 'Email:', array('size' => 40));
-$form->addElement('checkbox', 'showemail', 'Show email address?');
-$form->addElement('text', 'homepage', 'Homepage:', array('size' => 40));
-$form->addElement('text', 'wishlist', 'Wishlist URI:', array('size' => 40));
-$form->addElement('text', 'pgpkeyid', 'PGP Key ID:'
-        . '<p class="cell_note">(Without leading 0x)</p>', array('size' => 40, 'maxlength' => 20));
-$form->addElement('textarea', 'userinfo', 'Additional User Information:'
-        . '<p class="cell_note">(limited to 255 chars)</p>', 'cols="40" rows="5"');
-$form->addElement('text', 'latitude', 'Latitude Point:', 'size="40" id="latitude"');
-$form->addElement('text', 'longitude', 'Longitude Point:', 'size="40" id="longitude"');
-$form->addElement('static', null, '
-<script type="text/javascript" src="javascript/showmap.js"></script>
-<script type="text/javascript" src="javascript/popmap.js"></script>
-');
-$form->addElement('static', null, '<a href="#" onclick="pearweb.display_map(event); showmap();">Open map</a>');
+$form->addElement('checkbox', 'active')->setLabel('Active User?');
+$form->addElement('text', 'name', 'accesskey="n"')->setLabel('<span class="accesskey">N</span>ame:');
+$form->addElement('email', 'email')->setLabel('Email:');
+$form->addElement('checkbox', 'showemail')->setLabel('Show email address?');
+$form->addElement('url', 'homepage')->setLabel('Homepage:');
+$form->addElement('url', 'wishlist')->setLabel('Wishlist URI:');
+$form->addElement('text', 'pgpkeyid', array('maxlength' => 20))->setLabel('PGP Key ID:'
+        . '<p class="cell_note">(Without leading 0x)</p>');
+$form->addElement('textarea', 'userinfo','cols="40" rows="5"')->setLabel('Additional User Information:'
+        . '<p class="cell_note">(limited to 255 chars)</p>');
+$form->addElement('text', 'latitude', 'id="latitude"')->setLabel('Latitude Point:');
+$form->addElement('text', 'longitude', 'id="longitude"')->setLabel('Longitude Point:');
+if (!empty($_SERVER['Google_API_Key'])) {
+    $form->addElement('button', 'show_map', array('onclick' => "pearweb.display_map(event); showmap();"))->setValue('Open map');
+}
 
-$form->addElement('submit', 'submit', 'Submit');
-$form->addElement('hidden', 'handle', htmlspecialchars($handle));
-$form->addElement('hidden', 'command', 'update');
-$form->display();
+$form->addElement('submit', 'submit');
+$form->addElement('hidden', 'handle')->setValue(htmlspecialchars($handle));
+$form->addElement('hidden', 'command')->setValue('update');
+if (!empty($_SERVER['Google_API_Key'])) {
+    echo '<script type="text/javascript" src="javascript/showmap.js"></script>';
+    echo '<script type="text/javascript" src="javascript/popmap.js"></script>';
+}
+print $form;
 
 echo '<div style="position:absolute; visibility: hidden;" id="pearweb_map"></div>';
 
@@ -242,41 +224,18 @@ echo '<a name="password"></a>' . "\n";
 echo '<h2>&raquo; Manage your password</h2>' . "\n";
 
 
-$form = new HTML_QuickForm('account-edit-password', 'post', 'account-edit.php', 'style="padding-top: 20px;"');
+$form = new HTML_QuickForm2('account-edit-password', 'post', array('style' => "padding-top: 20px;"));
 $form->removeAttribute('name');
 
-$renderer =& $form->defaultRenderer();
-$renderer->setElementTemplate('
- <tr>
-  <th class="form-label_left">
-   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
-   {label}
-  </th>
-  <td class="form-input">
-   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
-   {element}
-  </td>
- </tr>
-');
+$form->addElement('password', 'password_old', array('accesskey' => "O"))->setLabel('<span class="accesskey">O</span>ld Password:');
+$form->addElement('password', 'password')->setLabel('Current Password:');
+$form->addElement('password', 'password2')->setLabel('Repeat Password:');
+$form->addElement('checkbox', 'PEAR_PERSIST')->setLabel('Remember username and password?');
 
-$renderer->setFormTemplate('
-<form{attributes}>
- <div>
-  {hidden}
-  <table border="0" class="form-holder" cellspacing="1">
-   {content}
-  </table>
- </div>
-</form>');
+$form->addElement('submit', 'submit');
+$form->addElement('hidden', 'handle')->setValue(htmlspecialchars($handle));
+$form->addElement('hidden', 'command')->setValue('change_password');
 
-$form->addElement('password', 'password_old', '<span class="accesskey">O</span>ld Password:', 'accesskey="0"');
-$form->addElement('password', 'password',  'Current Password:');
-$form->addElement('password', 'password2', 'Repeat Password:');
-$form->addElement('checkbox', 'PEAR_PERSIST', 'Remember username and password?');
-
-$form->addElement('submit', 'submit', 'Submit');
-$form->addElement('hidden', 'handle', htmlspecialchars($handle));
-$form->addElement('hidden', 'command', 'change_password');
-$form->display();
+print $form;
 
 response_footer();
