@@ -233,8 +233,8 @@ MSG;
     $form->addElement('number', 'captcha', array('maxlength' => 4, 'required' => 'required'))->setLabel("What is " . $numeralCaptcha->getOperation() . '?');
     $_SESSION['answer'] = $numeralCaptcha->getAnswer();
     $form->addElement('email', 'email', array('placeholder' => 'you@example.com', 'required' => 'required'))->setLabel('Email Address:');
-    $form->addElement('checkbox', 'showemail')->setLabel( 'Show email address?');
-    $form->addElement('text', 'existingpackage', 'Package Name:', array('size' => 20));
+    $form->addElement('checkbox', 'showemail')->setLabel('Show email address?');
+    $form->addElement('text', 'existingpackage', array('placeholder' => 'Category_PackageName', 'required' => 'required'))->setLabel('Package Name:');
 
     $invalid_purposes = array(
         'Learn about PEAR.',
