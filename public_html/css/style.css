@@ -382,7 +382,7 @@ td.form-input {
     vertical-align: top;
     background-color: #e8e8e8;
 }
-div.element.group {
+div.element.group label.element {
     background-color: inherit;
 }
 
