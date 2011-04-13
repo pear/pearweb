@@ -19,6 +19,12 @@
 */
 
 require_once 'HTML/QuickForm2.php';
+require_once 'HTML/QuickForm2/Renderer/PEAR.php';
+/** @todo Remove once in QF2 */
+require_once 'HTML/QuickForm2/Element/InputNumber.php';
+require_once 'HTML/QuickForm2/Element/InputEmail.php';
+require_once 'HTML/QuickForm2/Element/InputUrl.php';
+
 require_once 'Damblan/Mailer.php';
 require_once 'election/pear-election-accountrequest.php';
 require_once 'Text/CAPTCHA/Numeral.php';
@@ -180,32 +186,10 @@ MSG;
 
     report_error($errors);
 
-    $form = new HTML_QuickForm('account-request-vote', 'post', 'account-request-vote.php#requestform');
+    $form = new HTML_QuickForm2('account-request-vote', 'post', array('action' => 'account-request-vote.php#requestform'));
     $form->removeAttribute('name');
 
-    $renderer =& $form->defaultRenderer();
-    $renderer->setElementTemplate('
- <tr>
-  <th class="form-label_left">
-   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
-   {label}
-  </th>
-  <td class="form-input">
-   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
-   {element}
-  </td>
- </tr>
-');
-
-    $renderer->setFormTemplate('
-<form{attributes}>
- <div>
-  {hidden}
-  <table border="0" class="form-holder" cellspacing="1">
-   {content}
-  </table>
- </div>
-</form>');
+    $renderer = new HTML_QuickForm2_Renderer_PEAR();
 
     $hsc = array_map('htmlspecialchars', $stripped);
     // Set defaults for the form elements
@@ -218,27 +202,21 @@ MSG;
         'comments_read' => @$hsc['comments_read'],
     ));
 
-    $form->addElement('html', '<caption class="form-caption">Request Account</caption>');
-    $form->addElement('text', 'handle', 'Use<span class="accesskey">r</span>name:',
-            'size="12" maxlength="20" accesskey="r"');
-    $form->addElement('text', 'firstname', 'First Name:', array('size' => 30));
-    $form->addElement('text', 'lastname', 'Last Name:', array('size' => 30));
-    $form->addElement('password', 'password', 'Password:', array('size' => 10));
-    $form->addElement('password', 'password2', 'Repeat Password:', array('size' => 10));
-    $text  = $numeralCaptcha->getOperation() . ' = <input type="text" size="4" maxlength="4" name="captcha" />';
-    $form->addElement('static', null, 'Solve the problem:', $text);
-    $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-    $form->addElement('text', 'email', 'Email Address:', array('size' => 20));
-    $form->addElement('checkbox', 'showemail', 'Show email address?');
-    $form->addElement('checkbox', 'comments_read', 'I have read EVERYTHING on this page:');
-    $form->addElement('submit', 'submit', 'Submit Request');
-    $form->display();
 
-    if ($jumpto) {
-        echo "<script type=\"text/javascript\">\n<!--\n";
-        echo "if (!document.forms[1].$jumpto.disabled) document.forms[1].$jumpto.focus();\n";
-        echo "\n// -->\n</script>\n";
-    }
+    $form->addElement('text', 'handle', array('placeholder' => 'psmith', 'maxlength' => "20", 'accesskey' => "r", 'required' => 'required'))->setLabel('Use<span class="accesskey">r</span>name:');
+    $form->addElement('text', 'firstname', array('placeholder' => 'Peter', 'required' => 'required'))->setLabel('First Name:');
+    $form->addElement('text', 'lastname', array('placeholder' => 'Smith', 'required' => 'required'))->setLabel('Last Name:');
+    $form->addElement('password', 'password', array('size' => 10, 'required' => 'required'))->setLabel('Password:');
+    $form->addElement('password', 'password2', array('size' => 10, 'required' => 'required'))->setLabel('Repeat Password:');
+    $form->addElement('number', 'captcha', array('maxlength' => 4, 'required' => 'required'))->setLabel("What is " . $numeralCaptcha->getOperation() . '?');
+    $_SESSION['answer'] = $numeralCaptcha->getAnswer();
+    $form->addElement('email', 'email', array('placeholder' => 'you@example.com', 'required' => 'required'))->setLabel('Email Address:');
+    $form->addElement('checkbox', 'showemail')->setLabel( 'Show email address?');
+    $form->addGroup('read_everything')->addElement('checkbox', 'comments_read', array('required' => 'required'))->setLabel('I have read EVERYTHING on this page');
+    $form->addElement('submit', 'submit')->setLabel('Submit Request');
+
+    print $form->render($renderer);
+
 }
 
 response_footer();

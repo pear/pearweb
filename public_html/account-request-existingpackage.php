@@ -18,7 +18,12 @@
    $Id$
 */
 
-require_once 'HTML/QuickForm.php';
+require_once 'HTML/QuickForm2.php';
+require_once 'HTML/QuickForm2/Renderer/PEAR.php';
+/** @todo Remove once in QF2 */
+require_once 'HTML/QuickForm2/Element/InputNumber.php';
+require_once 'HTML/QuickForm2/Element/InputEmail.php';
+require_once 'HTML/QuickForm2/Element/InputUrl.php';
 require_once 'Damblan/Mailer.php';
 require_once 'Text/CAPTCHA/Numeral.php';
 require_once 'Services/ProjectHoneyPot.php';
@@ -54,7 +59,7 @@ do {
             $display_form = true;
         }
 
-        if (isset($_POST['purposecheck']) && count($_POST['purposecheck'])) {
+        if (isset($_POST['purpose']) && count($_POST['purpose'])) {
             $errors[] = 'The purpose(s) you selected do not require a PEAR account.';
             $display_form = true;
         }
@@ -116,7 +121,7 @@ do {
 
             if (!DEVBOX) {
                 $mailer = Damblan_Mailer::create('pearweb_account_request', $mailData);
-                $additionalHeaders['To'] = '"Arnaud Limbourg" <arnaud@limbourg.com>';
+                $additionalHeaders['To'] = PEAR_GROUP_EMAIL;
                 $mailer->send($additionalHeaders);
             }
         } elseif ($ok === false) {
@@ -204,32 +209,10 @@ MSG;
 
     report_error($errors);
 
-    $form = new HTML_QuickForm('account-request-existingpackage', 'post', 'account-request-existingpackage.php#requestform');
+    $form = new HTML_QuickForm2('account-request-existingpackage', 'post', array('action' => 'account-request-existingpackage.php#requestform'));
     $form->removeAttribute('name');
 
-    $renderer =& $form->defaultRenderer();
-    $renderer->setElementTemplate('
- <tr>
-  <th class="form-label_left">
-   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
-   {label}
-  </th>
-  <td class="form-input">
-   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
-   {element}
-  </td>
- </tr>
-');
-
-    $renderer->setFormTemplate('
-<form{attributes}>
- <div>
-  {hidden}
-  <table border="0" class="form-holder" cellspacing="1">
-   {content}
-  </table>
- </div>
-</form>');
+    $renderer = new HTML_QuickForm2_Renderer_PEAR();
 
     $hsc = array_map('htmlspecialchars', $stripped);
     // Set defaults for the form elements
@@ -246,18 +229,15 @@ MSG;
         'comments_read' => @$hsc['comments_read'],
     ));
 
-    $form->addElement('html', '<caption class="form-caption">Request Account</caption>');
-    $form->addElement('text', 'handle', 'Use<span class="accesskey">r</span>name:',
-            'size="12" maxlength="20" accesskey="r"');
-    $form->addElement('text', 'firstname', 'First Name:', array('size' => 30));
-    $form->addElement('text', 'lastname', 'Last Name:', array('size' => 30));
-    $form->addElement('password', 'password', 'Password:', array('size' => 10));
-    $form->addElement('password', 'password2', 'Repeat Password:', array('size' => 10));
-    $text  = $numeralCaptcha->getOperation() . ' = <input type="text" size="4" maxlength="4" name="captcha" />';
-    $form->addElement('static', null, 'Solve the problem:', $text);
+    $form->addElement('text', 'handle', array('placeholder' => 'psmith', 'maxlength' => "20", 'accesskey' => "r", 'required' => 'required'))->setLabel('Use<span class="accesskey">r</span>name:');
+    $form->addElement('text', 'firstname', array('placeholder' => 'Peter', 'required' => 'required'))->setLabel('First Name:');
+    $form->addElement('text', 'lastname', array('placeholder' => 'Smith', 'required' => 'required'))->setLabel('Last Name:');
+    $form->addElement('password', 'password', array('size' => 10, 'required' => 'required'))->setLabel('Password:');
+    $form->addElement('password', 'password2', array('size' => 10, 'required' => 'required'))->setLabel('Repeat Password:');
+    $form->addElement('number', 'captcha', array('maxlength' => 4, 'required' => 'required'))->setLabel("What is " . $numeralCaptcha->getOperation() . '?');
     $_SESSION['answer'] = $numeralCaptcha->getAnswer();
-    $form->addElement('text', 'email', 'Email Address:', array('size' => 20));
-    $form->addElement('checkbox', 'showemail', 'Show email address?');
+    $form->addElement('email', 'email', array('placeholder' => 'you@example.com', 'required' => 'required'))->setLabel('Email Address:');
+    $form->addElement('checkbox', 'showemail')->setLabel( 'Show email address?');
     $form->addElement('text', 'existingpackage', 'Package Name:', array('size' => 20));
 
     $invalid_purposes = array(
@@ -267,34 +247,28 @@ MSG;
         'Download PEAR Packages.',
     );
 
+    $purpose = $form->addGroup('purpose')->setLabel('Purpose of your PEAR account:');
+
     $checkbox = array();
     foreach ($invalid_purposes as $i => $purposeKey) {
-        $el = &HTML_QuickForm::createElement('checkbox', $i, null, ' ' . $purposeKey);
-        $el->setValue(@$_POST['purposecheck'][$i]);
-        $checkbox[] = $el;
+        $purpose->addElement('checkbox', $i, array('checked' => !empty($_POST['purpose'][$i])? 'checked' : ''))
+                ->setLabel($purposeKey);
     }
-    $form->addGroup($checkbox, 'purposecheck', 'Purpose of your PEAR account:'
-            . '<p class="cell_note">(Check all that apply)</p>', '<br />');
+
 
 
     $form->addElement('textarea', 'purpose',
-            'Short summary of how you are going to help the package in question:',
-            array('cols' => 40, 'rows' => 5));
-    $form->addElement('text', 'homepage', 'Homepage:'
-            . '<p class="cell_note">(optional)</p>', array('size' => 40));
+            array('cols' => 40, 'rows' => 5, 'placeholder' => 'I will improve...'))->setLabel('How will you help the package?');
+    $form->addElement('url', 'homepage', array('placeholder' => 'http://example.com'))->setLabel('Homepage:'
+            . '<p class="cell_note">(optional)</p>');
     $form->addElement('textarea', 'moreinfo',
-            'More relevant information about you:'
-            . '<p class="cell_note">(optional)</p>',
-            array('cols' => 40, 'rows' => 5));
-    $form->addElement('checkbox', 'comments_read', 'I have read EVERYTHING on this page:');
-    $form->addElement('submit', 'submit', 'Submit Request');
-    $form->display();
+            array('cols' => 40, 'rows' => 5, 'placeholder' => "I am a developer who has ..."))->setLabel('More relevant information about you:'
+            . '<p class="cell_note">(optional)</p>');
+    $form->addGroup('read_everything')->addElement('checkbox', 'comments_read', array('required' => 'required'))->setLabel('I have read EVERYTHING on this page');
+    $form->addElement('submit', 'submit')->setLabel('Submit Request');
 
-    if ($jumpto) {
-        print "<script type=\"text/javascript\">\n<!--\n";
-        print "if (!document.forms[1].$jumpto.disabled) document.forms[1].$jumpto.focus();\n";
-        print "\n// -->\n</script>\n";
-    }
+    print $form->render($renderer);
+
 }
 
 response_footer();
