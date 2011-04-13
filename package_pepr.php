@@ -21,6 +21,7 @@ $a->setReleaseVersion('1.0.4');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
+- Migration to QF2 for everything but pepr-proposal-editing [clockwerx]
 - Remove BBCode (in favour of only supporting Text_Wiki from now on) [till]
 - Small refactoring while debugging [till]
 - Fix Bug #16578 Unable to use https URL in "Links" section [saltybeagle]
@@ -30,6 +31,8 @@ $a->clearDeps();
 $a->setPhpDep('5.2.3');
 $a->setPearInstallerDep('1.7.1');
 $a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.7.1');
+$a->addPackageDepWithChannel('required', 'HTML_QuickForm', 'pear.php.net', '3.2.12');
+$a->addPackageDepWithChannel('required', 'HTML_QuickForm2', 'pear.php.net', '0.5.3');
 $a->addPackageDepWithChannel('required', 'pearweb', 'pear.php.net', '1.18.0');
 $a->addPackageDepWithChannel('required', 'Text_Wiki', 'pear.php.net', '1.2.0');
 $a->addExtensionDep('required', 'pcre');
