@@ -53,7 +53,7 @@ do {
             $display_form = true;
         }
 
-        if (empty($stripped['comments_read'])) {
+        if (empty($stripped['read_everything']['comments_read'])) {
             $errors[] = 'Obviously you did not read all the comments'
                       . ' concerning the need for an account. Please read '
                       . 'them again.';
@@ -80,10 +80,6 @@ do {
             $errors[] = 'This email address has already been registered by another user';
             $display_form = true;
             break;
-        }
-
-        if (!empty($stripped['jumpto'])) {
-            $jumpto = $stripped['jumpto'];
         }
 
         if (isset($stripped['display_form'])) {
@@ -199,7 +195,7 @@ MSG;
         'lastname'      => @$hsc['lastname'],
         'email'         => @$hsc['email'],
         'showemail'     => @$hsc['showemail'],
-        'comments_read' => @$hsc['comments_read'],
+        'read_everything' => @$hsc['read_everything'],
     ));
 
 

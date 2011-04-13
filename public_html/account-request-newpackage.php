@@ -62,7 +62,7 @@ do {
             $display_form = true;
         }
 
-        if (isset($_POST['purpose']) && count($_POST['purpose'])) {
+        if (isset($_POST['purposecheck']) && count($_POST['purposecheck'])) {
             $errors[] = 'The purpose(s) you selected do not require a PEAR account.';
             $display_form = true;
         }
@@ -217,7 +217,7 @@ MSG;
         'sourcecode'    => @$hsc['sourcecode'],
         'homepage'      => @$hsc['homepage'],
         'moreinfo'      => @$hsc['moreinfo'],
-        'comments_read' => @$hsc['comments_read'],
+        'read_everything' => @$hsc['read_everything'],
     )));
 
     $form->addElement('text', 'handle', array('placeholder' => 'psmith', 'maxlength' => "20", 'accesskey' => "r", 'required' => 'required'))->setLabel('Use<span class="accesskey">r</span>name:');
@@ -239,12 +239,12 @@ MSG;
         'Browse ' . PEAR_CHANNELNAME . '.'
     );
 
-    $purpose = $form->addGroup('purpose')->setLabel('Purpose of your PEAR account:');
+    $purpose = $form->addGroup('purposecheck')->setLabel('Purpose of your PEAR account:');
 
     $checkbox = array();
     foreach ($invalid_purposes as $i => $purposeKey) {
-        $purpose->addElement('checkbox', $i, array('checked' => !empty($_POST['purpose'][$i])? 'checked' : ''))
-                ->setLabel($purposeKey);
+        $purpose->addElement('checkbox', $i, array('checked' => !empty($_POST['purposecheck'][$i])? 'checked' : ''))
+                ->setLabel($purposeKey)->setValue(1);
     }
 
     $form->addElement('textarea', 'purpose',

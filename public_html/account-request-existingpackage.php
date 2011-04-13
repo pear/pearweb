@@ -52,14 +52,14 @@ do {
             $display_form = true;
         }
 
-        if (empty($stripped['comments_read'])) {
+        if (empty($stripped['read_everything']['comments_read'])) {
             $errors[] = 'Obviously you did not read all the comments'
                       . ' concerning the need for an account. Please read '
                       . 'them again.';
             $display_form = true;
         }
 
-        if (isset($_POST['purpose']) && count($_POST['purpose'])) {
+        if (isset($_POST['purposecheck']) && count($_POST['purposecheck'])) {
             $errors[] = 'The purpose(s) you selected do not require a PEAR account.';
             $display_form = true;
         }
@@ -91,10 +91,6 @@ do {
             $errors[] = 'This email address has already been registered by another user';
             $display_form = true;
             break;
-        }
-
-        if (!empty($stripped['jumpto'])) {
-            $jumpto = $stripped['jumpto'];
         }
 
         if (isset($stripped['display_form'])) {
@@ -216,7 +212,7 @@ MSG;
 
     $hsc = array_map('htmlspecialchars', $stripped);
     // Set defaults for the form elements
-    $form->setDefaults(array(
+    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
         'handle'        => @$hsc['handle'],
         'firstname'     => @$hsc['firstname'],
         'lastname'      => @$hsc['lastname'],
@@ -226,8 +222,8 @@ MSG;
         'purpose'       => @$hsc['purpose'],
         'homepage'      => @$hsc['homepage'],
         'moreinfo'      => @$hsc['moreinfo'],
-        'comments_read' => @$hsc['comments_read'],
-    ));
+        'read_everything' => @$hsc['read_everything'],
+    ))_;
 
     $form->addElement('text', 'handle', array('placeholder' => 'psmith', 'maxlength' => "20", 'accesskey' => "r", 'required' => 'required'))->setLabel('Use<span class="accesskey">r</span>name:');
     $form->addElement('text', 'firstname', array('placeholder' => 'Peter', 'required' => 'required'))->setLabel('First Name:');
@@ -247,11 +243,11 @@ MSG;
         'Download PEAR Packages.',
     );
 
-    $purpose = $form->addGroup('purpose')->setLabel('Purpose of your PEAR account:');
+    $purpose = $form->addGroup('purposecheck')->setLabel('Purpose of your PEAR account:');
 
     $checkbox = array();
     foreach ($invalid_purposes as $i => $purposeKey) {
-        $purpose->addElement('checkbox', $i, array('checked' => !empty($_POST['purpose'][$i])? 'checked' : ''))
+        $purpose->addElement('checkbox', $i, array('checked' => !empty($_POST['purposecheck'][$i])? 'checked' : ''))
                 ->setLabel($purposeKey);
     }
 
