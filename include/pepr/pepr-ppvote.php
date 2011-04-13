@@ -93,7 +93,7 @@ class ppVote
         if ($humanReadable) {
             $res = array();
             if (!empty($this->reviews)) {
-                foreach ($this->reviews as $review) {
+                foreach ((array)$this->reviews as $review) {
                     $res[] = $GLOBALS['proposalReviewsMap'][$review];
                 }
             }
