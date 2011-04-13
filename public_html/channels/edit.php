@@ -22,30 +22,13 @@ require_once "HTTP/Request2.php";
 require_once "Net/URL2.php";
 require_once 'pear-database-channel.php';
 require_once 'HTML/QuickForm2/Renderer.php';
-require_once 'HTML/QuickForm2/Element/Input.php';
+
+/** @todo Remove once these become available in QF2 */
+require_once 'HTML/QuickForm2/Element/InputUrl.php';
+require_once 'HTML/QuickForm2/Element/InputEmail.php';
+
 require_once 'PEAR/ChannelFile.php';
 
-
-/** @todo Shift ! */
-if (!class_exists('HTML_QuickForm2_Element_InputUrl')) {
-    class HTML_QuickForm2_Element_InputUrl extends HTML_QuickForm2_Element_Input
-    {
-        protected $attributes = array('type' => 'url');
-    }
-
-    HTML_QuickForm2_Factory::registerElement('url', 'HTML_QuickForm2_Element_InputUrl');
-}
-
-
-/** @todo Shift ! */
-if (!class_exists('HTML_QuickForm2_Element_InputEmai')) {
-    class HTML_QuickForm2_Element_InputEmail extends HTML_QuickForm2_Element_Input
-    {
-        protected $attributes = array('type' => 'email');
-    }
-
-    HTML_QuickForm2_Factory::registerElement('email', 'HTML_QuickForm2_Element_InputEmail');
-}
 
 auth_require('pear.admin');
 
