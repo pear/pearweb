@@ -53,7 +53,7 @@ if ($handle === null || empty($handle)) {
     }
     $form->addElement('select', 'handle')->setLabel('Handle:&nbsp;')->loadOptions($users);
     $form->addElement('submit', 'submit')->setLabel('Submit Changes');
-    $form->display();
+    print $form;
 } else {
 
     if (!empty($_GET['action'])) {
