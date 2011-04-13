@@ -189,14 +189,14 @@ MSG;
 
     $hsc = array_map('htmlspecialchars', $stripped);
     // Set defaults for the form elements
-    $form->setDefaults(array(
+    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
         'handle'        => @$hsc['handle'],
         'firstname'     => @$hsc['firstname'],
         'lastname'      => @$hsc['lastname'],
         'email'         => @$hsc['email'],
         'showemail'     => @$hsc['showemail'],
         'read_everything' => @$hsc['read_everything'],
-    ));
+    )));
 
 
     $form->addElement('text', 'handle', array('placeholder' => 'psmith', 'maxlength' => "20", 'accesskey' => "r", 'required' => 'required'))->setLabel('Use<span class="accesskey">r</span>name:');

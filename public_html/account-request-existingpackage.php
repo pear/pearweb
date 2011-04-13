@@ -223,7 +223,7 @@ MSG;
         'homepage'      => @$hsc['homepage'],
         'moreinfo'      => @$hsc['moreinfo'],
         'read_everything' => @$hsc['read_everything'],
-    ))_;
+    )));
 
     $form->addElement('text', 'handle', array('placeholder' => 'psmith', 'maxlength' => "20", 'accesskey' => "r", 'required' => 'required'))->setLabel('Use<span class="accesskey">r</span>name:');
     $form->addElement('text', 'firstname', array('placeholder' => 'Peter', 'required' => 'required'))->setLabel('First Name:');
