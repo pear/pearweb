@@ -24,7 +24,7 @@ $inactive_channels = array();
 if (auth_check('pear.admin')) {
     $inactive_channels = channel::listInactive();
 }
-response_header("Channels");
+response_header("Channels", false, '<link rel="alternate" type="application/xbel+xml" href="xbel.php" title="Channel list as XBEL" />');
 
 $tabs = array("List" => array("url" => "/channels/index.php",
                               "title" => "List Sites."),
