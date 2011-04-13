@@ -34,7 +34,10 @@ $errors = array();
 
 session_start();
 
-require_once 'HTML/QuickForm.php';
+require_once 'HTML/QuickForm2.php';
+/** @todo Remove once these become available in QF2 */
+require_once 'HTML/QuickForm2/Element/InputEmail.php';
+
 require_once 'Text/CAPTCHA/Numeral.php';
 
 $stripped = @array_map('strip_tags', $_POST);
@@ -43,75 +46,41 @@ $stripped = @array_map('strip_tags', $_POST);
 
 function printForm($data = array())
 {
-    // The first field that's empty
-    $focus = '';
-
-    foreach (array('name', 'email', 'copy_me', 'subject', 'text') as $key) {
-        if (!isset($data[$key])) {
-            $data[$key] = '';
-            ($focus == '') ? $focus = $key : '';
+    foreach (array('name', 'email', 'copy_me', 'subject', 'text') as $value) {
+        if (!isset($data[$value])) {
+            $data[$value] = '';
         }
     }
 
-    $form = new HTML_QuickForm('contect', 'post', '/account-mail.php?handle=' . htmlspecialchars($_GET['handle']));
+    $form = new HTML_QuickForm2('contect', 'post', array('action' => '/account-mail.php?handle=' . htmlspecialchars($_GET['handle'])));
     $form->removeAttribute('name');
 
-    $renderer =& $form->defaultRenderer();
-    $renderer->setElementTemplate('
- <tr>
-  <th class="form-label_left">
-   <!-- BEGIN required --><span style="color: #ff0000">*</span><!-- END required -->
-   {label}
-  </th>
-  <td class="form-input">
-   <!-- BEGIN error --><span style="color: #ff0000">{error}</span><br /><!-- END error -->
-   {element}
-  </td>
- </tr>
-');
-
-    $renderer->setFormTemplate('
-<form{attributes}>
- <div>
-  {hidden}
-  <table border="0" class="form-holder" cellspacing="1">
-   {content}
-  </table>
- </div>
-</form>');
-
     // Set defaults for the form elements
-    $form->setDefaults(array(
+    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
         'name'    => htmlspecialchars($data['name']),
         'email'   => htmlspecialchars($data['email']),
         'copy_me' => htmlspecialchars($data['copy_me']),
         'subject' => htmlspecialchars($data['subject']),
         'text'    => htmlspecialchars($data['text']),
-    ));
+    )));
 
-    $form->addElement('html', '<caption class="form-caption">Send Email</caption>');
-    $form->addElement('text', 'name', 'Y<span class="accesskey">o</span>ur Name:','size="40" accesskey="o"');
+    $form->addElement('text', 'name', array('required' => 'required'))->setLabel('Y<span class="accesskey">o</span>ur Name:','size="40" accesskey="o"');
+
+
+
+    $form->addElement('email', 'email', array('required' => 'required'))->setLabel('Email Address:');
+    $form->addElement('checkbox', 'copy_me')->setLabel('CC me?:');
+    $form->addElement('text', 'subject', array('required' => 'required', 'size' => '80'))->setLabel('Subject:');
+    $form->addElement('textarea', 'text', array('cols' => 80, 'rows' => 10, 'required' => 'required'))->setLabel('Text:');
+    $form->addElement('submit', 'submit')->setLabel('Send Email');
 
     if (!auth_check('pear.dev')) {
         $numeralCaptcha = new Text_CAPTCHA_Numeral();
-        $text  = $numeralCaptcha->getOperation() . ' = <input type="text" size="4" maxlength="4" name="captcha" />';
-        $form->addElement('static', null, 'Solve the problem:', $text);
+        $form->addElement('text', 'captcha', array('maxlength' => 4, 'required' => 'required'))->setLabel("What is " . $numeralCaptcha->getOperation() . ' = ');
         $_SESSION['answer'] = $numeralCaptcha->getAnswer();
     }
 
-    $form->addElement('text', 'email', 'Email Address:', array('size' => 40));
-    $form->addElement('checkbox', 'copy_me', 'Send me a copy of this mail:');
-    $form->addElement('text', 'subject', 'Subject:', array('size' => 40));
-    $form->addElement('textarea', 'text', 'Text:', array('cols' => 80, 'rows' => 10));
-    $form->addElement('submit', 'submit', 'Send Email');
-    $form->display();
-
-
-    echo "<script type=\"text/javascript\">\n";
-    echo "<!--\n";
-    echo "document.forms.contact." . $focus . ".focus();\n";
-    echo "-->\n";
-    echo "</script>";
+    print $form;
 }
 
 // }}}
