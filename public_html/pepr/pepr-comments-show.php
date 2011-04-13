@@ -48,9 +48,9 @@ if ($auth_user && $proposal->getStatus() == 'proposal') {
                             'rows' => 20,
                             'required' => 'required',
                             'placeholder' => 'Hi. Can I politely suggest that...',
-                            'id'   => 'comment_field'));
+                            'id'   => 'comment_field'))->setLabel('Comments:');
 
-    $form->addElement('submit', 'submit')->setLabel('Add New Comment');
+    $form->addElement('submit', 'submit');
 
     $c->addFilter('trim');
     $c->addRule('required', 'A comment is required');
@@ -62,9 +62,6 @@ if ($auth_user && $proposal->getStatus() == 'proposal') {
                                        $c->getValue());
             $proposal->addComment($c->getValue(), 'package_proposal_comments');
             report_success('Your comment was successfully processed');
-            $c->setValue('');
-        } else {
-            report_error($form->getElementError('comment'));
         }
     }
 }
