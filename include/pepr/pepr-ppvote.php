@@ -34,7 +34,7 @@ class ppVote
     var $pkg_prop_id;
     var $user_handle;
     var $value;
-    var $reviews;
+    var $reviews = array();
     var $is_conditional;
     var $comment;
     var $timestamp;
@@ -91,8 +91,11 @@ class ppVote
     function getReviews($humanReadable = false)
     {
         if ($humanReadable) {
-            foreach ($this->reviews as $review) {
-                $res[] = $GLOBALS['proposalReviewsMap'][$review];
+            $res = array();
+            if (!empty($this->reviews)) {
+                foreach ($this->reviews as $review) {
+                    $res[] = $GLOBALS['proposalReviewsMap'][$review];
+                }
             }
             return $res;
         }
