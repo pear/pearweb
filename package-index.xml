@@ -74,7 +74,7 @@
   <active>yes</active>
  </developer>
  <date>2011-04-26</date>
- <time>15:15:56</time>
+ <time>15:24:08</time>
  <version>
   <release>1.22.1</release>
   <api>1.0.0</api>
@@ -157,6 +157,11 @@ Link to new qa tools
    <pearinstaller>
     <min>1.8.0</min>
    </pearinstaller>
+   <package>
+    <name>pearweb_qa</name>
+    <channel>pear.php.net</channel>
+    <min>1.0.2</min>
+   </package>
    <package>
     <name>pearweb_pepr</name>
     <channel>pear.php.net</channel>
