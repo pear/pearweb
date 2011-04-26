@@ -60,7 +60,7 @@ $a->addPackageDepWithChannel('required', 'HTML_TagCloud', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTML_Table', 'pear.php.net', '1.5');
 $a->addPackageDepWithChannel('required', 'HTML_Menu', 'pear.php.net', '2.1.4');
 $a->addPackageDepWithChannel('required', 'Pager', 'pear.php.net', '2.2.0');
-$a->addPackageDepWithChannel('required', 'PEAR_PackageUpdate', 'pear.php.net');
+$a->addPackageDepWithChannel('required', 'PEAR_PackageUpdate', 'pear.php.net', '1.1.0RC1');
 //$a->addPackageDepWithChannel('required', 'PEAR_PackageFileManager', 'pear.php.net', '1.6.0');
 $a->addPackageDepWithChannel('required', 'Net_URL2', 'pear.php.net', '0.1.0');
 $a->addPackageDepWithChannel('required', 'Text_Diff', 'pear.php.net');

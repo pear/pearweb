@@ -89,8 +89,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-04-13</date>
- <time>11:14:26</time>
+ <date>2011-04-26</date>
+ <time>17:41:53</time>
  <version>
   <release>1.24.3</release>
   <api>0.1.1</api>
@@ -714,6 +714,7 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
    <package>
     <name>PEAR_PackageUpdate</name>
     <channel>pear.php.net</channel>
+    <min>1.1.0RC1</min>
    </package>
    <package>
     <name>Net_URL2</name>
@@ -801,7 +802,7 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
    <subpackage>
     <name>pearweb_index</name>
     <channel>pear.php.net</channel>
-    <min>1.22.0</min>
+    <min>1.22.1</min>
    </subpackage>
    <subpackage>
     <name>pearweb_manual</name>
@@ -816,7 +817,7 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
    <subpackage>
     <name>pearweb_qa</name>
     <channel>pear.php.net</channel>
-    <min>1.0.1</min>
+    <min>1.0.2</min>
    </subpackage>
   </optional>
  </dependencies>
@@ -2717,7 +2718,7 @@ Bug #17663 dead links on http://pear.php.net/channels/ 	doconnor
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2011-04-13</date>
+   <date>2011-04-26</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 Channel list now stored in database (please DROP TABLE channels; and import channels.sql on deployment)
