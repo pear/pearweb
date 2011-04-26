@@ -24,13 +24,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.22.0');
+$a->setReleaseVersion('1.22.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Fix request #15641: change hint [cweiske]
-- Drop link to planet pear [clockwerx]
-- Fix HTML errors [cweiske]
+Link to new qa tools
 ');
 $a->resetUsesrole();
 $a->clearDeps();

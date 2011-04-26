@@ -73,10 +73,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2009-09-07</date>
- <time>22:02:11</time>
+ <date>2011-04-26</date>
+ <time>15:15:56</time>
  <version>
-  <release>1.22.0</release>
+  <release>1.22.1</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -85,9 +85,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Fix request #15641: change hint [cweiske]
-- Drop link to planet pear [clockwerx]
-- Fix HTML errors [cweiske]
+Link to new qa tools
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -486,6 +484,21 @@ Fix bug #16138: mailing list subscription does not work [cweiske]
 - Fix request #15641: change hint [cweiske]
 - Drop link to planet pear [clockwerx]
 - Fix HTML errors [cweiske]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.22.1</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-04-26</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Link to new qa tools
    </notes>
   </release>
  </changelog>

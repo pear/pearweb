@@ -16,12 +16,11 @@ $a = PEAR_PackageFileManager2::importOptions(
             'public_html/qa/index.php'
         ),
     ));
-$a->setReleaseVersion('1.0.1');
+$a->setReleaseVersion('1.0.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- text/javascript for all <script> [clockwerx]
-- fix E_NOTICES [clockwerx]
+- Add new qa tools
 ');
 $a->resetUsesrole();
 $a->clearDeps();
