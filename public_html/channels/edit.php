@@ -104,12 +104,16 @@ if ($form->validate()) {
     try {
         $req = new HTTP_Request2;
 
-        $req->setURL($url->getScheme() . "://" . $url->getHost() . ":" . $url->getPort() . "/channel.xml");
-        channel::validate($req, $chan);
-
-        if ($url->getHost() != $chan->getServer()) {
-            throw new Exception("Channel server for wrong host");
+        $dir = explode("/", $url->getPath());
+        if (!empty($dir)) {
+            array_pop($dir);
         }
+        $dir[] = 'channel.xml';
+
+        $url->setPath(implode("/", $dir));
+
+        $req->setURL($url->getURL());
+        channel::validate($req, $chan);
 
         channel::edit($channel['name'], $project_label->getValue(), $project_link->getValue(), $contact_name->getValue(), $contact_email->getValue());
 
