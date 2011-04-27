@@ -108,10 +108,6 @@ if ($form->validate()) {
         $req->setURL($url->getURL());
         channel::validate($req, $chan);
 
-        if ($url->getHost() != $chan->getServer()) {
-            throw new Exception("Channel server for wrong host");
-        }
-
 
         if (channel::exists($project_name->getValue())) {
             throw new Exception("Already exists");
