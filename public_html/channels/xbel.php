@@ -22,8 +22,8 @@ require_once 'pear-database-channel.php';
 $channels = channel::listActive();
 
 header('Content-type: application/xbel+xml');
+echo '<?xml version="1.0"?>';
 ?>
-<?xml version="1.0"?>
 <xbel version="1.0">
 
 <?php foreach ($channels as $channel) { ?>
