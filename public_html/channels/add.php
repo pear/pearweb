@@ -97,8 +97,15 @@ if ($form->validate()) {
 
     try {
         $req = new HTTP_Request2;
+        $dir = explode("/", $url->getPath());
+        if (!empty($dir)) {
+            array_pop($dir);
+        }
+        $dir[] = 'channel.xml';
 
-        $req->setURL($url->getScheme() . "://" . $url->getHost() . ":" . $url->getPort() . "/channel.xml");
+        $url->setPath(implode("/", $dir));
+        
+        $req->setURL($url->getURL());
         channel::validate($req, $chan);
 
         if ($url->getHost() != $chan->getServer()) {
