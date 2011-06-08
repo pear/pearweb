@@ -68,7 +68,7 @@ if (!empty($proposals)) {
     $RSIDEBAR_DATA .= '<table class="sidebar-releases">' . "\n";
     foreach ($proposals as $proposal) {
         $RSIDEBAR_DATA .= "<tr><td>";
-        $RSIDEBAR_DATA .= make_link('/pepr/pepr-proposal-show.php?id=' . $proposal->id, wordwrap($proposal->pkg_category . '::' . $proposal->pkg_name,25,"\n",1)); 
+        $RSIDEBAR_DATA .= make_link('/pepr/pepr-proposal-show.php?id=' . $proposal->id, wordwrap($proposal->pkg_category . '::' . $proposal->pkg_name,25,"\n",1));
         $RSIDEBAR_DATA .= '<br />by ' . make_link('/user/' . htmlspecialchars($proposal->user_handle), $proposal->user_handle);
 
         $RSIDEBAR_DATA .= '</td></tr>';
@@ -145,7 +145,7 @@ if (!$auth_user) {
 </div>
 <h2>PEAR Community</h2>
 <div style="float: left">
-<script type="text/javascript" src="http://www.ohloh.net/p/3322/widgets/project_basic_stats.js"></script>
+<script type="text/javascript" src="https://www.ohloh.net/p/3322/widgets/project_basic_stats.js"></script>
 </div>
 <h3>Need help?</h3>
 <p>You can find help and <a href="/support/">support</a> on our <a href="http://pear.php.net/support/lists.php">mailing lists</a>, and <a href="irc://irc.efnet.org/pear">IRC channel</a></p>
@@ -153,4 +153,3 @@ if (!$auth_user) {
 
 <?php
 response_footer();
-
