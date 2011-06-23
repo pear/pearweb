@@ -51,7 +51,7 @@ if ($auth_user && $proposal->mayVote($dbh, $auth_user->handle)) {
                             -1 => '-1'));
     $vote->setLabel("Vote:");
 
-    $is_conditional = $form->addElement('checkbox', 'conditional')->setLabel("Conditional Vote?:");
+    $is_conditional = $form->addElement('checkbox', 'is_conditional')->setLabel("Conditional Vote?:");
 
     $comment = $form->addElement('textarea', 'comment',
                       array('cols' => 70,
