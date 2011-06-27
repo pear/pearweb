@@ -17,14 +17,12 @@ $a = PEAR_PackageFileManager2::importOptions(
             'sql/pearweb_pepr.xml',
         ),
     ));
-$a->setReleaseVersion('1.0.4');
+$a->setReleaseVersion('1.0.5');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Migration to QF2 for everything but pepr-proposal-editing [clockwerx]
-- Remove BBCode (in favour of only supporting Text_Wiki from now on) [till]
-- Small refactoring while debugging [till]
-- Fix Bug #16578 Unable to use https URL in "Links" section [saltybeagle]
+Security fixes
+Bugfix - pepr conditional votes
 ');
 $a->resetUsesrole();
 $a->clearDeps();

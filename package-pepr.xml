@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.3" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_pepr</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website package voting</summary>
@@ -71,10 +71,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-04-13</date>
- <time>20:36:56</time>
+ <date>2011-06-27</date>
+ <time>19:41:58</time>
  <version>
-  <release>1.0.4</release>
+  <release>1.0.5</release>
   <api>0.1.0</api>
  </version>
  <stability>
@@ -83,10 +83,8 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Migration to QF2 for everything but pepr-proposal-editing [clockwerx]
-- Remove BBCode (in favour of only supporting Text_Wiki from now on) [till]
-- Small refactoring while debugging [till]
-- Fix Bug #16578 Unable to use https URL in &quot;Links&quot; section [saltybeagle]
+Security fixes
+Bugfix - pepr conditional votes
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -246,6 +244,22 @@ Improved homepage to focus on the human side(s) of PEAR
 - Remove BBCode (in favour of only supporting Text_Wiki from now on) [till]
 - Small refactoring while debugging [till]
 - Fix Bug #16578 Unable to use https URL in &quot;Links&quot; section [saltybeagle]
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.0.5</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-06-27</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Security fixes
+Bugfix - pepr conditional votes
    </notes>
   </release>
  </changelog>
