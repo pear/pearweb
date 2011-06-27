@@ -48,7 +48,7 @@ class ppVote
 
     function get(&$dbh, $proposalId, $handle)
     {
-        $sql = "SELECT *, UNIX_TIMESTAMP(timestamp) AS timestamp FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId." AND user_handle='".$handle."'";
+        $sql = "SELECT *, UNIX_TIMESTAMP(timestamp) AS timestamp FROM package_proposal_votes WHERE pkg_prop_id = ". $dbh->quoteSmart($proposalId) ." AND user_handle= ". $dbh->quoteSmart($handle);
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
@@ -64,7 +64,7 @@ class ppVote
 
     function &getAll(&$dbh, $proposalId)
     {
-        $sql = "SELECT *, UNIX_TIMESTAMP(timestamp) AS timestamp FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId." ORDER BY timestamp ASC";
+        $sql = "SELECT *, UNIX_TIMESTAMP(timestamp) AS timestamp FROM package_proposal_votes WHERE pkg_prop_id = ". $dbh->quoteSmart($proposalId) ." ORDER BY timestamp ASC";
         $res = $dbh->query($sql);
         if (DB::isError($res)) {
             return $res;
@@ -83,7 +83,7 @@ class ppVote
             return PEAR::raiseError("Not initialized");
         }
         $sql = "INSERT INTO package_proposal_votes (pkg_prop_id, user_handle, value, is_conditional, comment, reviews)
-                    VALUES (".$proposalId.", ".$dbh->quoteSmart($this->user_handle).", ".$this->value.", ".(int)$this->is_conditional.", ".$dbh->quoteSmart($this->comment).", ".$dbh->quoteSmart(serialize($this->reviews)).")";
+                    VALUES (". $dbh->quoteSmart($proposalId).", ".$dbh->quoteSmart($this->user_handle).", ".$this->value.", ".(int)$this->is_conditional.", ".$dbh->quoteSmart($this->comment).", ".$dbh->quoteSmart(serialize($this->reviews)).")";
         $res = $dbh->query($sql);
         return $res;
     }
@@ -115,7 +115,7 @@ class ppVote
 
     function getCount($dbh, $proposalId)
     {
-        $sql = "SELECT COUNT(user_handle) FROM package_proposal_votes WHERE pkg_prop_id = ".$proposalId." GROUP BY pkg_prop_id";
+        $sql = "SELECT COUNT(user_handle) FROM package_proposal_votes WHERE pkg_prop_id = ".$dbh->quoteSmart($proposalId)." GROUP BY pkg_prop_id";
         $res = $dbh->getOne($sql);
         return (!empty($res)) ? $res: " 0";
     }
@@ -123,7 +123,7 @@ class ppVote
     function hasVoted($dbh, $userHandle, $proposalId)
     {
         $sql = "SELECT count(pkg_prop_id) as votecount FROM package_proposal_votes
-                    WHERE pkg_prop_id = ".$proposalId." AND user_handle = '".$userHandle."'
+                    WHERE pkg_prop_id = ".$dbh->quoteSmart($proposalId)." AND user_handle = ".$dbh->quoteSmart($userHandle)."
                     GROUP BY pkg_prop_id";
         $votes = $dbh->query($sql);
         return (bool)($votes->numRows());
