@@ -37,9 +37,6 @@ the FAQ is available at this document: <a href="effectivepearuse.php">Developing
 journals. Some of them are aggregated through
 <a href="http://planet-php.net/">Planet PHP</a>.</p>
 
-<p>PHP Magazine publishes a roundup of the events on the PEAR and PECL
-mailing lists in <a href="http://php-mag.net/itr/psecom,id,207,nodeid,207.html">PHPBarnstormer</a>.</p>
-
 <p>A channel for all PEAR-related blogs can be found at <a href="http://planet-pear.org/">Planet PEAR</a>.
 </p>
 
