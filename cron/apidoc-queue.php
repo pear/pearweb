@@ -101,8 +101,10 @@ $options = array(
     'persistent' => false,
     'portability' => DB_PORTABILITY_ALL,
 );
-$dbh =& DB::connect(PEAR_DATABASE_DSN, $options);
-
+$dbh = DB::connect(PEAR_DATABASE_DSN, $options);
+if (PEAR::isError($dbh)) {
+    die($dbh->getMessage());
+}
 $query = "SELECT filename FROM apidoc_queue WHERE finished = '0000-00-00 00:00:00'";
 $rows = $dbh->getCol($query);
 
