@@ -43,7 +43,7 @@ class apidocqueue extends PEAR_Common
     function infoFromTgzFile($file)
     {
         $config = &PEAR_Config::singleton();
-        $packagefile = &new PEAR_PackageFile($config);
+        $packagefile = new PEAR_PackageFile($config);
         $pf = &$packagefile->fromTgzFile($file, PEAR_VALIDATE_NORMAL);
         if (PEAR::isError($pf)) {
             $errs = $pf->getUserinfo();
