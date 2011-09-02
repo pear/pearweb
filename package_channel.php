@@ -13,11 +13,11 @@ $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-chann
             'public_html/dtd/'
         ),
     ));
-$a->setReleaseVersion('1.15.1');
+$a->setReleaseVersion('1.15.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- update xsd for channel and package xml files to the latest included in Pyrus
+- update channel.xml to use correct port for de.pear.php.net
 ');
 $a->resetUsesrole();
 $a->clearDeps();
