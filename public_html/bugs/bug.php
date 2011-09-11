@@ -1269,16 +1269,7 @@ if ($res) {
         output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['bughandle'] ? $row['bughandle'] : $row['handle'], $row['comment_name'], $row['registered']);
     }
 }
-?>
 
-<ul id="explain-messages">
-  <li><span class="explain">&nbsp;&nbsp;&nbsp;</span>&nbsp;Explanation</li>
-  <li><span class="success">&nbsp;&nbsp;&nbsp;</span>&nbsp;Success</li>
-  <li><span class="errors">&nbsp;&nbsp;&nbsp;</span>&nbsp;Failure</li>
-  <li><span class="released">&nbsp;&nbsp;&nbsp;</span>&nbsp;Roadmap version already released</li>
-</ul>
-
-<?php
 response_footer();
 
 
