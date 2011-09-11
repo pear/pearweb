@@ -325,8 +325,8 @@ if (isset($_POST['addpatch'])) {
             }
 
             $query = 'INSERT INTO bugdb_comments' .
-                     ' (bug, email, handle, ts, comment, reporter_name) VALUES (' .
-                     '?,?,?,NOW(),?,?)';
+                     ' (bug, email, handle, ts, comment, reporter_name, active) VALUES (' .
+                     '?,?,?,NOW(),?,?, 1)';
 
             $dbh->query($query, array($id, $_POST['in']['commentemail'], $_POST['in']['handle'],
                 $ncomment, $_POST['in']['name']));
@@ -397,7 +397,7 @@ if (isset($_POST['addpatch'])) {
 
         if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
-                     ' (bug, email, comment, ts) VALUES (?, ?, ?. NOW())';
+                     ' (bug, email, comment, ts, active) VALUES (?, ?, ?. NOW(), 1)';
             $dbh->query($query, array($id, $from, $ncomment));
         }
     }
@@ -532,7 +532,7 @@ if (isset($_POST['addpatch'])) {
 
         if (!empty($ncomment)) {
             $query = 'INSERT INTO bugdb_comments' .
-                     ' (bug, email, ts, comment, reporter_name, handle) VALUES (?, ?, NOW(), ?, ?, ?)';
+                     ' (bug, email, ts, comment, reporter_name, handle, active) VALUES (?, ?, NOW(), ?, ?, ?, 1)';
             $dbh->query($query, array($id, $from, $ncomment, $comment_name, $auth_user->handle));
         }
     }
@@ -1260,7 +1260,7 @@ $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporte
     u.showemail, u.handle,c.handle as bughandle
     FROM bugdb_comments c
     LEFT JOIN users u ON u.handle = c.handle
-    WHERE c.bug = ?
+    WHERE c.bug = ? AND c.active = 1
     GROUP BY c.id ORDER BY c.ts';
 $res = $dbh->query($query, array($id));
 if ($res) {

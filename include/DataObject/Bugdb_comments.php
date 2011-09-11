@@ -16,6 +16,7 @@ class Bugs_DBDataObject_Bugdb_Comments extends DB_DataObject
     var $handle;                          // string(20)  not_null
     var $ts;                              // datetime(19)
     var $comment;                         // blob(65535)  not_null blob
+    var $active;                          // bool
 
     /* Static get */
     function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('Bugs_DBDataObject_Bugdb_Comments',$k,$v); }

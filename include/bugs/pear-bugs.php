@@ -103,7 +103,7 @@ class PEAR_Bugs
         $opened = $this->_dbh->getOne('SELECT COUNT(*) FROM bugdb WHERE
             handle=?', array($handle));
         $commented = $this->_dbh->getOne('SELECT COUNT(*) FROM bugdb_comments WHERE
-            handle=?', array($handle));
+            handle=? AND active = 1', array($handle));
         $opencount = $this->_dbh->getOne('SELECT COUNT(*)
              FROM bugdb b, maintains m, packages p
              WHERE
@@ -222,13 +222,14 @@ class PEAR_Bugs
                   b.status NOT IN ("Spam", "Bogus")
                  GROUP BY u.handle
                  ORDER BY u.handle', false, array(), DB_FETCHMODE_ASSOC);
-        $comments = $this->_dbh->getAssoc('SELECT u.handle, COUNT(*) as c
+        $comments = $this->_dbh->getAssoc('SELECT u.handle, COUNT(0) as c
                  FROM bugdb_comments b, bugdb d, users u
                  WHERE
                   b.handle = u.handle AND
                   u.registered = 1 AND
                   d.id = b.bug AND
-                  d.status NOT IN ("Spam", "Bogus")
+                  d.status NOT IN ("Spam", "Bogus") AND
+                  b.active = 1
                  GROUP BY u.handle
                  ORDER BY u.handle', false, array(), DB_FETCHMODE_ASSOC);
         $patches = $this->_dbh->getAssoc('SELECT u.handle, COUNT(*) as c
