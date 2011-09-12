@@ -21,7 +21,7 @@
  */
 // Old PHPDocumentor setup:
 // For manual testing on sg1
-// $_ENV[DSN]
+// $_ENV['PEAR_DATABASE_DSN'] = 'mysqli://user:password@localhost/database';
 
 // 1. Ensure you have the appropriate phpdocumentor html template smarty bit installed.
 // ERROR: template directory "/usr/local/lib/php/pear/data/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/PEAR/" does not exist
@@ -158,27 +158,30 @@ foreach ($rows as $filename) {
 
     switch ($documentation_engine) {
         case 'docblox':
-            $command = sprintf("/usr/local/bin/docblox -d %s --title '%s' -t %s --template %s --ignore */data/*,*/tests/*; rm -rf %s",
-                        $tmpdir,
-                        $name,
-                        $name . " " . $info['version'],
-                        PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
-                        "default",
-                        $tmpdir
-                        );
+            $command = sprintf(
+                "/usr/local/bin/docblox -d %s --title '%s' -t %s --template %s --ignore */data/*,*/tests/*; rm -rf %s",
+                $tmpdir,
+                $name,
+                $name . " " . $info['version'],
+                PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
+                "default",
+                $tmpdir
+            );
  
             break;
         case 'phpdocumentor':
         default:
-            $command = sprintf("/usr/local/bin/phpdoc -d %s -dn '%s' -ti '%s' -p on -s on -t %s -o %s --ignore */data/*,*/tests/*; rm -rf %s",
-                               $tmpdir,
-                               $name,
-                               $name . " " . $info['version'],
-                               PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
-                               "HTML:Smarty:PEAR",
-                               $tmpdir
-                               );
-        }
+            $command = sprintf(
+                "/usr/local/bin/phpdoc -d %s -dn '%s' -ti '%s' -p on -s on -t %s -o %s --ignore */data/*,*/tests/*; rm -rf %s",
+                $tmpdir,
+                $name,
+                $name . " " . $info['version'],
+                PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
+                "HTML:Smarty:PEAR",
+                $tmpdir
+            );
+
+            break;
     }
 
     $output = "";
