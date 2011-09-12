@@ -161,7 +161,6 @@ foreach ($rows as $filename) {
             $command = sprintf(
                 "/usr/local/bin/docblox -d %s --title '%s' -t %s --template %s --ignore */data/*,*/tests/*; rm -rf %s",
                 $tmpdir,
-                $name,
                 $name . " " . $info['version'],
                 PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
                 "default",
