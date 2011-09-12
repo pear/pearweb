@@ -19,11 +19,36 @@
  *
  * $Id$
  */
+// Old PHPDocumentor setup:
+// For manual testing on sg1
+// $_ENV[DSN]
+
+// 1. Ensure you have the appropriate phpdocumentor html template smarty bit installed.
+// ERROR: template directory "/usr/local/lib/php/pear/data/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/PEAR/" does not exist
+// svn co svn co https://svn.php.net/repository/pear/packages/PhpDocumentor/trunk/ ../PhpDocumentor
+//  cp -R ../PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/PEAR/* /usr/local/lib/php/pear/data/PhpDocumentor/phpDocumentor/Converters/HTML/Smarty/templates/PEAR/
+
+// 2. Ensure you have a package in the correct APIDOC_QUEUE location - IE
+// /home/pear/packages/Validate_HU-0.1.2.tgz
+// 3. Ensure the apidoc_queue table has an entry to that .tar.gz file. IE:
+// INSERT INTO  apidoc_queue(filename) VALUES( '/home/pear/packages/Validate_HU-0.1.2.tgz');
+
+// Shiny new docblox setup
+// pear channel-discover pear.docblox-project.org
+// pear channel-discover pear.michelf.com
+// pear install michelf/markdownextra
+// pear install docblox
+// apt-get install graphviz
+// And... uncomment the below
+$documentation_engine = 'phpdocumentor';
+// $documentation_engine = 'docblox';
 
 require_once dirname(dirname(__FILE__)) . '/include/pear-config.php';
 require_once 'DB.php';
 require_once 'PEAR/Common.php';
 require_once 'Archive/Tar.php';
+
+$debug = false;
 
 class apidocqueue extends PEAR_Common
 {
@@ -113,6 +138,7 @@ foreach ($rows as $filename) {
     $tar = new Archive_Tar($filename);
 
     if (PEAR::isError($info)) {
+        trigger_error($info->getMessage());
         continue;
     }
 
@@ -129,14 +155,31 @@ foreach ($rows as $filename) {
 
     $tar->extract($tmpdir);
 
-    $command = sprintf("/usr/local/bin/phpdoc -d %s -dn '%s' -ti '%s' -p on -s on -t %s -o %s --ignore */data/*,*/tests/*; rm -rf %s",
-                       $tmpdir,
-                       $name,
-                       $name . " " . $info['version'],
-                       PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
-                       "HTML:Smarty:PEAR",
-                       $tmpdir
-                       );
+
+    switch ($documentation_engine) {
+        case 'docblox':
+            $command = sprintf("/usr/local/bin/docblox -d %s --title '%s' -t %s --template %s --ignore */data/*,*/tests/*; rm -rf %s",
+                        $tmpdir,
+                        $name,
+                        $name . " " . $info['version'],
+                        PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
+                        "default",
+                        $tmpdir
+                        );
+ 
+            break;
+        case 'phpdocumentor':
+        default:
+            $command = sprintf("/usr/local/bin/phpdoc -d %s -dn '%s' -ti '%s' -p on -s on -t %s -o %s --ignore */data/*,*/tests/*; rm -rf %s",
+                               $tmpdir,
+                               $name,
+                               $name . " " . $info['version'],
+                               PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
+                               "HTML:Smarty:PEAR",
+                               $tmpdir
+                               );
+        }
+    }
 
     $output = "";
     $process = popen($command, "r");
@@ -153,7 +196,15 @@ foreach ($rows as $filename) {
         is_link($latestdir) && unlink($latestdir);
         symlink($versiondir, $latestdir);
 
-        $query = "UPDATE apidoc_queue SET finished = NOW(), log = ? WHERE filename = ?";
-        $dbh->query($query, array($output, $filename));
+        // In debug mode; we render the output to stdout
+        if ($debug) {
+            print $output;
+        }
+
+        // In debug mode; we may not wish to write back changes
+        if (!$debug) {
+            $query = "UPDATE apidoc_queue SET finished = NOW(), log = ? WHERE filename = ?";
+            $dbh->query($query, array($output, $filename));
+        } 
     }
 }
