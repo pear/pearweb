@@ -1,0 +1,63 @@
+@import url('sen.full.min.css');
+@import url('navigation.css');
+@import url('api-content.css');
+@import url('default.css');
+
+body {
+    margin: 0px;
+    padding: 0px;
+}
+
+#db-header {
+    height: 110px;
+}
+
+#header {
+    height: 65px;
+}
+
+#menubar {
+    height: 21px;
+}
+
+#menu li:first-child {
+    margin-left: 0px !important;
+}
+
+#db-footer {
+    height: 1px;
+}
+
+ul#menu {
+    background: inherit;
+    display: inherit;
+    height: inherit;
+    line-height: inherit;
+    padding: inherit;
+    margin: inherit;
+    font-size: inherit;
+}
+
+ul#menu li {
+    padding: inherit;
+    margin: inherit;
+    border: inherit;
+    display: inherit;
+    float: inherit;
+}
+
+#submenu li {
+    padding-right: 6px !important;
+}
+
+#nav {
+    margin-bottom: 0px !important;
+}
+
+input#search_box {
+    top: 116px;
+}
+
+img#search_box_icon, img#search_box_clear {
+    top: 112px;
+}

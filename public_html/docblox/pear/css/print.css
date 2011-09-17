@@ -1,0 +1,47 @@
+#menubar,
+#submenu,
+#search,
+#nav,
+#controls {
+	display: none;
+}
+
+#header,
+#footer #foot-bar {
+	background: #fff;
+}
+
+#header {
+	border-bottom: 1px solid #000;
+}
+
+#footer #foot-bar {
+	padding-top: 1em;
+	border-top: none;
+}
+
+#user a,
+#user a:hover {
+	color: #000;
+}
+
+table.bug-results {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table.bug-results tr th {
+	border-bottom: 1px solid #ccc;
+	padding: 4px 2px;
+}
+
+table.bug-results tr.bug-result td {
+	border-bottom: 1px solid #ccc;
+	padding: 4px 2px;
+}
+
+table.bug-results tr,
+table.bug-results tr th,
+table.bug-results tr td {
+	background: #fff;
+}
