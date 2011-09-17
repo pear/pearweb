@@ -163,7 +163,7 @@ foreach ($rows as $filename) {
                 $tmpdir,
                 $name . " " . $info['version'],
                 PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
-                "default",
+                dirname(dirname(__FILE__)) . "/templates/docblox/pear",
                 $tmpdir
             );
  
