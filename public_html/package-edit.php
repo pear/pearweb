@@ -115,7 +115,7 @@ if (isset($_POST['submit'])) {
             $_POST['bug_link'],
             $_POST['cvs_link'],
             isset($_POST['unmaintained']) ? 1 : 0 ,
-            isset($_POST['newpk_id']) ? $_POST['newpk_id'] : null,
+            !empty($_POST['newpk_id']) ? $_POST['newpk_id'] : null,
             $_POST['new_channel'],
             $_POST['new_package'],
             $_GET['id']
