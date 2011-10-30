@@ -93,6 +93,6 @@ class Damblan_Search_Packages extends Damblan_Search
 
     function decorate(&$value, $key)
     {
-        $value['html'] = '<strong><a href="/package/' . $value['name'] . '">' . $value['name']  . '</a></strong>: ' . $value['summary'] . "\n";
+        $value['html'] = '<strong><a href="/package/' . $value['name'] . '">' . htmlentities($value['name'])  . '</a></strong>: ' . htmlentities($value['summary']) . "\n";
     }
 }
