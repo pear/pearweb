@@ -2,7 +2,11 @@
 if (count($errors)) {
     echo '<div class="warnings">';
     foreach ($errors as $error) {
-        echo htmlspecialchars($error) . "<br />";
+        if (is_scalar($error) && !preg_match('/\s*(INSERT|UPDATE|DELETE|SELECT)/', $error)) {
+            echo htmlspecialchars($error) . "<br />";
+        } else {
+            echo "Unable to display this error.<br />";
+        }
     }
     echo '</div>';
 }
