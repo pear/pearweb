@@ -297,7 +297,7 @@ if (isset($_POST['in'])) {
                 $_POST['in']['handle'],
                 $_POST['in']['sdesc'],
                 $fdesc,
-                $_POST['in']['package_version'],
+                @$_POST['in']['package_version'],
                 $_POST['in']['php_version'],
                 $_POST['in']['php_os'],
                 $_POST['in']['reporter_name'],
@@ -325,7 +325,7 @@ if (isset($_POST['in'])) {
             $report  = '';
             $report .= 'From:             ' . $_POST['in']['handle'] . "\n";
             $report .= 'Operating system: ' . $_POST['in']['php_os'] . "\n";
-            $report .= 'Package version:  ' . $_POST['in']['package_version'] . "\n";
+            $report .= 'Package version:  ' . @$_POST['in']['package_version'] . "\n";
             $report .= 'PHP version:      ' . $_POST['in']['php_version'] . "\n";
             $report .= 'Package:          ' . $_POST['in']['package_name'] . "\n";
             $report .= 'Bug Type:         ' . $_POST['in']['bug_type'] . "\n";
@@ -351,7 +351,7 @@ if (isset($_POST['in'])) {
             $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
             $extra_headers .= 'X-PHP-Bug: '      . $cid . "\n";
             $extra_headers .= 'X-PHP-Type: '     . $_POST['in']['bug_type'] . "\n";
-            $extra_headers .= 'X-PHP-PackageVersion: '  . $_POST['in']['package_version'] . "\n";
+            $extra_headers .= 'X-PHP-PackageVersion: '  . @$_POST['in']['package_version'] . "\n";
             $extra_headers .= 'X-PHP-Version: '  . $_POST['in']['php_version'] . "\n";
             $extra_headers .= 'X-PHP-Category: ' . $_POST['in']['package_name'] . "\n";
             $extra_headers .= 'X-PHP-OS: '       . $_POST['in']['php_os'] . "\n";
