@@ -50,7 +50,7 @@ $a->addPackageDepWithChannel('required', 'Services_Twitter', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'Cache_Lite', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
 $a->addPackageDepWithChannel('required', 'Text_CAPTCHA_Numeral', 'pear.php.net', '1.1.0');
-$a->addPackageDepWithChannel('required', 'Services_ProjectHoneyPot', 'pear.php.net', '0.5.3');
+$a->addPackageDepWithChannel('required', 'Services_ProjectHoneyPot', 'pear.php.net', '0.5.3', '0.5.3');
 // used only in cron jobs
 $a->addPackageDepWithChannel('required', 'DB', 'pear.php.net', '1.6.5');
 $a->addPackageDepWithChannel('required', 'DB_DataObject', 'pear.php.net', '1.8.5');
