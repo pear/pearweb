@@ -459,10 +459,9 @@ if (!isset($_POST['in'])) {
         // Uncomment this if you need to test on Windows
         $resolver = null;
         // $resolver = new Net_DNS_Resolver;
-        // $resolver->nameservers = array('66.114.197.251');
+        // $resolver->nameservers = array('8.8.8.8');
 
         $sphp = new Services_ProjectHoneyPot(HONEYPOT_API_KEY, $resolver);
-        $sphp->setResponseFormat('object');
         $ip = $_SERVER['REMOTE_ADDR'];
         // Uncomment for testing or get one from http://www.projecthoneypot.org/top_harvesters.php
         // $ip = '209.85.138.136';
