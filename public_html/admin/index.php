@@ -18,6 +18,7 @@
    $Id$
 */
 
+redirect_to_https();
 auth_require(true);
 require_once 'HTML/Table.php';
 

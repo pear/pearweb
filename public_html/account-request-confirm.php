@@ -1,4 +1,5 @@
 <?php
+redirect_to_https();
 require 'bugs/pear-bug-accountrequest.php';
 require 'election/pear-election-accountrequest.php';
 

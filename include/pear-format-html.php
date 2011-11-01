@@ -679,6 +679,25 @@ function localRedirect($url)
 }
 
 /**
+ * Sends browser to https:// protocol if possible and not in use already
+ *
+ * Strips whitespace characters that can be used for hacking.
+ */
+function redirect_to_https()
+{
+    if (!DEVBOX
+        && $_SERVER['SERVER_PORT'] != 443
+        && PEARWEB_PROTOCOL == 'https://')
+    {
+        header('Location: https://' . PEAR_CHANNELNAME . 
+               str_replace(array("\t", "\r", "\n", "\0", "\x0B"), '',
+                           $_SERVER['REQUEST_URI'])
+        );
+        exit;
+    }
+}
+
+/**
  * Create link to the account information page and to the user's wishlist
  *
  * @param string User's handle

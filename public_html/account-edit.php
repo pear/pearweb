@@ -18,6 +18,7 @@
    $Id$
 */
 
+redirect_to_https();
 @session_start();
 $csrf_token_name = 'pear_csrf_token_' . basename(__FILE__, '.php');
 

@@ -18,6 +18,7 @@
    $Id$
 */
 
+redirect_to_https();
 require_once 'HTML/QuickForm2.php';
 require_once 'HTML/QuickForm2/Renderer/PEAR.php';
 /** @todo Remove once these are in QF2 */
