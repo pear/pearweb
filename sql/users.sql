@@ -16,6 +16,7 @@ CREATE TABLE `users` (
   `pgpkey` longtext,
   `wishlist` varchar(255) default NULL,
   `active` int(11) NOT NULL default '1',
+  `from_site` varchar(4) NOT NULL default '',
   PRIMARY KEY  (`handle`),
   UNIQUE KEY `email_u` (`email`),
   KEY `handle` (`handle`,`registered`),
