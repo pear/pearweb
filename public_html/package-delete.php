@@ -22,6 +22,9 @@
  * Interface to delete a package.
  */
 
+@session_start();
+$csrf_token_name = 'pear_csrf_token_' . basename(__FILE__, '.php');
+
 response_header('Delete Package');
 echo '<h1>Delete Package</h1>';
 
@@ -59,9 +62,12 @@ if (!isset($_POST['confirm'])) {
     echo '<input type="submit" value="no" name="confirm" />';
     echo "</td></tr>\n";
     echo "</table>";
+    echo '<input type="hidden" value="' . create_csrf_token($csrf_token_name) . '" name="' . $csrf_token_name . '" />';
     echo "</form>";
 
-} elseif ($_POST['confirm'] == 'yes') {
+} elseif ($_POST['confirm'] == 'yes'
+          && validate_csrf_token($csrf_token_name))
+{
 
     // XXX: Implement backup functionality
     // make_backup($id);
@@ -118,7 +124,7 @@ if (!isset($_POST['confirm'])) {
     $pear_rest = new pearweb_Channel_REST_Generator(PEAR_REST_PATH, $dbh);
     $pear_rest->deletePackageREST($packagename);
     echo "</pre>\nPackage " . $id . " has been deleted.\n";
-} elseif ($_POST['confirm'] == 'no') {
+} else {
     $pkg = package::info($id);
     print_package_navigation($id, $pkg['name'], '/package-delete.php?id=' . $id);
 

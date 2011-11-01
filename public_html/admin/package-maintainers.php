@@ -18,6 +18,9 @@
    $Id$
 */
 
+@session_start();
+$csrf_token_name = 'pear_csrf_token_' . basename(__FILE__, '.php');
+
 auth_require();
 
 
@@ -41,6 +44,11 @@ if (!(isset($maintainers[$auth_user->handle]) && $maintainers[$auth_user->handle
 }
 
 if (isset($_POST) && isset($_POST['role'])) {
+   if (!validate_csrf_token($csrf_token_name)) {
+      report_error('Invalid token.');
+      response_footer();
+      exit();
+   }
 
    // Got a new maintainer?
    if (isset($_POST['handle']['new']) && !empty($_POST['handle']['new'])) {
@@ -151,6 +159,7 @@ if (isset($_POST) && isset($_POST['role'])) {
 
 include_once 'PEAR/Common.php';
 $roles = PEAR_Common::getUserRoles();
+$csrf_token_value = create_csrf_token($csrf_token_name);
 
 ?>
 <h1>Package Information: <?php echo $package_name; ?></h1>
@@ -197,6 +206,7 @@ foreach ($maintainers as $handle => $infos) {
 </tbody>
 </table>
 <input type="submit" name="Save" value="Save">
+<input type="hidden" name="<?php echo $csrf_token_name ?>" value="<?php echo $csrf_token_value ?>" />
 </form>
 
 <?php

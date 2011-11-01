@@ -18,6 +18,9 @@
    $Id$
 */
 
+@session_start();
+$csrf_token_name = 'pear_csrf_token_' . basename(__FILE__, '.php');
+
 auth_require('pear.admin');
 
 response_header('PEAR Administration :: Package Approval');
@@ -26,6 +29,12 @@ echo "<h1>Package Approval</h1>\n";
 
 // Approve package identified by its id
 if (!empty($_GET['approve']) || !empty($_GET['reject'])) {
+    if (!validate_csrf_token($csrf_token_name, 'GET')) {
+        report_error('Invalid token.');
+        response_footer();
+        exit();
+    }
+
     if (!empty($_GET['approve'])) {
         $query = "UPDATE packages SET approved = 1 WHERE approved = 0 AND id = " . (int)$_GET['approve'];
         $id = $_GET['approve'];
@@ -92,12 +101,15 @@ if (count($rows) == 0) {
     require_once 'HTML/Table.php';
     $table = new HTML_Table('style="width: 90%"');
     $table->setCaption('Unapproved packages', 'style="background-color: #CCCCCC;"');
+    $csrf_link = '&amp;' . urlencode($csrf_token_name) . '='
+        . urlencode(create_csrf_token($csrf_token_name));
+
     foreach ($rows as $row) {
         $tmp = array(
             $row['name'],
-            make_link("$self?approve=" . $row['id'], "Approve") .
+            make_link("$self?approve=" . $row['id'] . $csrf_link, "Approve") .
                 ' / ' .
-            make_link("$self?reject=" . $row['id'], "Reject")
+            make_link("$self?reject=" . $row['id'] . $csrf_link, "Reject")
         );
         $table->addRow($tmp);
     }

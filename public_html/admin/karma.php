@@ -18,6 +18,9 @@
    $Id$
 */
 
+@session_start();
+$csrf_token_name = 'pear_csrf_token_' . basename(__FILE__, '.php');
+
 include_once 'HTML/QuickForm2.php';
 include_once 'HTML/Table.php';
 require_once 'Damblan/Karma.php';
@@ -57,6 +60,12 @@ if ($handle === null || empty($handle)) {
 } else {
 
     if (!empty($_GET['action'])) {
+        if (!validate_csrf_token($csrf_token_name)) {
+            report_error('Invalid token.');
+            response_footer();
+            exit();
+        }
+
         include_once 'pear-database-note.php';
         switch ($_GET['action']) {
 
@@ -117,6 +126,8 @@ if ($handle === null || empty($handle)) {
     $form->addElement('text', 'level')->setLabel('Level:&nbsp;');
     $form->addElement('hidden', 'handle')->setValue(htmlspecialchars($handle));
     $form->addElement('submit', 'submit')->setLabel('Submit Changes');
+    $csrf_token_value = create_csrf_token($csrf_token_name);
+    $form->addElement('hidden', $csrf_token_name)->setValue($csrf_token_value);
     $table->addRow(array((string)$form));
     echo $table->toHTML();
 }

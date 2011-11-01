@@ -939,3 +939,40 @@ function format_date($ts = null, $format = 'Y-m-d H:i e')
     }
     return gmdate($format, $ts - date('Z', $ts));
 }
+
+/**
+ * Generates a token, stores it in $_SESSION, then returns it
+ * @param string $token_name  the name of the CSRF token
+ * @return string  the CSRF token value
+ */
+function create_csrf_token($token_name)
+{
+    $value = uniqid(rand(), true);
+    $_SESSION[$token_name] = $value;
+    return $value;
+}
+
+/**
+ * Checks the submitted CSRF token against $_SESSION
+ * @param string $method  variable to check: POST (default) or GET
+ * @param string $token_name  the name of the CSRF token
+ * @return bool
+ */
+function validate_csrf_token($token_name, $method = 'POST')
+{
+    if (empty($_SESSION[$token_name])) {
+        return false;
+    }
+    if ($method == 'POST') {
+        if (empty($_POST[$token_name])) {
+            return false;
+        }
+        $value = $_POST[$token_name];
+    } else {
+        if (empty($_GET[$token_name])) {
+            return false;
+        }
+        $value = $_GET[$token_name];
+    }
+    return $_SESSION[$token_name] == $value;
+}

@@ -16,6 +16,9 @@ if ($success) {
 } else {
     report_error($errors);
 }
+
+$csrf_token_value = create_csrf_token($csrf_token_name);
+
 ?>
 <p>
 Upload a new package distribution file built using &quot;<code>pear
@@ -46,5 +49,5 @@ Uploading new releases is restricted to each package's lead developer(s).
  </tr>
 </table>
 <input type="hidden" name="_fields" value="distfile:upload" />
+<input type="hidden" name="<?php echo $csrf_token_name ?>" value="<?php echo $csrf_token_value ?>" />
 </form>
-
