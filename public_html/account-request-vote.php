@@ -118,7 +118,6 @@ try {
     //$resolver->nameservers = array('66.114.197.251');
 
     $sphp = new Services_ProjectHoneyPot(HONEYPOT_API_KEY, $resolver);
-    $sphp->setResponseFormat('object');
     $ip = $_SERVER['REMOTE_ADDR'];
     // Uncomment for testing or get one from http://www.projecthoneypot.org/top_harvesters.php
     // $ip = '209.85.138.136';
