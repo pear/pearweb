@@ -16,6 +16,8 @@ CREATE TABLE `users` (
   `pgpkey` longtext,
   `wishlist` varchar(255) default NULL,
   `active` int(11) NOT NULL default '1',
+  `longitude` varchar(25) default NULL,
+  `latitude` varchar(25) default NULL,
   `from_site` varchar(4) NOT NULL default '',
   PRIMARY KEY  (`handle`),
   UNIQUE KEY `email_u` (`email`),
