@@ -27,11 +27,20 @@ require_once 'Services/ProjectHoneyPot.php';
  * Simple service class to wrap creation.
  *
  * @category Helper
+ * @package  pearweb
  * @author   Till Klampaeckel <till@php.net>
  */
 class Pearweb_Service_HoneyPot
 {
+    /**
+     * @param string $key API key
+     */
     protected $key;
+
+    /**
+     * @param Services_ProjectHoneyPot $sphp
+     */
+    protected $sphp;
 
     /**
      * __construct
@@ -60,6 +69,32 @@ class Pearweb_Service_HoneyPot
     }
 
     /**
+     * Return/create {@link Services_ProjectHoneyPot}.
+     *
+     * @return Services_ProjectHoneyPot
+     */
+    public function getHoneyPot()
+    {
+        if ($this->sphp instanceof Services_ProjectHoneyPot) {
+            return $this->sphp;
+        }
+        return new Services_ProjectHoneyPot($this->key, $this->getResolver());
+    }
+
+    /**
+     * Inject.
+     *
+     * @param Services_ProjectHoneyPot $sphp
+     *
+     * @return $this
+     */
+    public function setHoneyPot(Services_ProjectHoneyPot $sphp)
+    {
+        $this->sphp = $sphp;
+        return $this;
+    }
+
+    /**
      * Check the IP against HoneyPot.
      *
      * @return void
@@ -67,9 +102,7 @@ class Pearweb_Service_HoneyPot
      */
     public function check($ip)
     {
-        $resolver = $this->getResolver();
-
-        $sphp    = new Services_ProjectHoneyPot($this->key, $resolver);
+        $sphp    = $this->getHoneyPot();
         $results = $sphp->query($ip);
 
         foreach ($results as $status) {
