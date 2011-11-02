@@ -670,14 +670,10 @@ function getURL($url)
  * does not return.
  *
  * @param string $url Full/partial url to redirect to
- * @param  bool  $keepProtocol Whether to keep the current protocol or to force HTTP
  */
-function localRedirect($url, $keepProtocol = true)
+function localRedirect($url)
 {
-    $url = getURL($url, $keepProtocol);
-    if  ($keepProtocol === false) {
-        $url = preg_replace("/^https/", "http", $url);
-    }
+    $url = getURL($url, true);
     header('Location: ' . $url);
     exit;
 }
