@@ -1,4 +1,5 @@
 <?php
+redirect_to_https();
 require 'bugs/pear-bug-accountrequest.php';
 require 'election/pear-election-accountrequest.php';
 
@@ -19,7 +20,7 @@ if (isset($_POST['confirmdetails'])) {
                                        $_POST['PEAR_PW2'], $_POST['name']))) {
             $email = $request->email;
             $name = $_POST['name'];
-            $user = '';
+            $user = $_POST['PEAR_USER'];
             include PEARWEB_TEMPLATEDIR . '/bugs/registernewaccount.php';
             response_footer();
             exit;
@@ -33,6 +34,10 @@ if (isset($_POST['confirmdetails'])) {
             response_footer();
             exit;
         }
+
+        $email = $request->email;
+        $name = $_POST['name'];
+        $user = $_POST['PEAR_USER'];
         include PEARWEB_TEMPLATEDIR . '/bugs/registernewaccount.php';
         response_footer();
         exit;

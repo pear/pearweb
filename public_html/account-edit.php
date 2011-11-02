@@ -18,6 +18,10 @@
    $Id$
 */
 
+redirect_to_https();
+@session_start();
+$csrf_token_name = 'pear_csrf_token_' . basename(__FILE__, '.php');
+
 require_once 'HTML/QuickForm2.php';
 require_once 'HTML/QuickForm2/Element/InputUrl.php';
 require_once 'HTML/QuickForm2/Element/InputEmail.php';
@@ -48,7 +52,6 @@ echo '<h1>Edit Profile: ';
 echo '<a href="/user/'. htmlspecialchars($handle) . '">'
         . htmlspecialchars($handle) . '</a></h1>' . "\n";
 
-
 $admin = $auth_user->isAdmin();
 $user  = $auth_user->is($handle);
 
@@ -69,6 +72,12 @@ if (isset($_POST['command']) && strlen($_POST['command'] < 32)) {
 if ($command == 'update') {
     $fields_list = array('name', 'email', 'homepage', 'showemail', 'userinfo',
                          'pgpkeyid', 'wishlist', 'latitude', 'longitude', 'active');
+
+    if (!validate_csrf_token($csrf_token_name)) {
+        report_error('Invalid submission.');
+        response_footer();
+        exit();
+    }
 
     $user_post = array('handle' => $handle);
     foreach ($fields_list as $k) {
@@ -124,6 +133,12 @@ if ($command == 'update') {
 }
 
 if ($command == 'change_password') {
+    if (!validate_csrf_token($csrf_token_name)) {
+        report_error('Invalid token.');
+        response_footer();
+        exit();
+    }
+
     include_once 'pear-database-user.php';
     $user = user::info($handle, 'password', true, false);
 
@@ -176,6 +191,8 @@ if ($row === null) {
 }
 
 
+$csrf_token_value = create_csrf_token($csrf_token_name);
+
 $form = new HTML_QuickForm2('account-edit', 'post');
 $form->removeAttribute('name');
 
@@ -212,6 +229,7 @@ if (!empty($_SERVER['Google_API_Key'])) {
 $form->addElement('submit', 'submit');
 $form->addElement('hidden', 'handle')->setValue(htmlspecialchars($handle));
 $form->addElement('hidden', 'command')->setValue('update');
+$form->addElement('hidden', $csrf_token_name)->setValue($csrf_token_value);
 if (!empty($_SERVER['Google_API_Key'])) {
     echo '<script type="text/javascript" src="javascript/showmap.js"></script>';
     echo '<script type="text/javascript" src="javascript/popmap.js"></script>';
@@ -235,6 +253,7 @@ $form->addElement('checkbox', 'PEAR_PERSIST')->setLabel('Remember username and p
 $form->addElement('submit', 'submit');
 $form->addElement('hidden', 'handle')->setValue(htmlspecialchars($handle));
 $form->addElement('hidden', 'command')->setValue('change_password');
+$form->addElement('hidden', $csrf_token_name)->setValue($csrf_token_value);
 
 print $form;
 

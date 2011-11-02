@@ -18,6 +18,7 @@
    $Id$
 */
 
+redirect_to_https();
 auth_require(true);
 if (session_id() == '') {
     session_start();

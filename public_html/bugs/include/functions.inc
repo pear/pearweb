@@ -667,17 +667,17 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
     /* user text with attention, headers and previous messages */
     $user_text  = "ATTENTION! Do NOT reply to this email!\n" .
                   "To reply, use the web interface found at\n" .
-                  "http://" . PEAR_CHANNELNAME . "/bugs/bug.php?id=$bug[id]&edit=2\n\n\n" .
+                  PEARWEB_PROTOCOL . PEAR_CHANNELNAME . "/bugs/bug.php?id=$bug[id]&edit=2\n\n\n" .
                   $header_text .
                   $wrapped_text;
 
     /* developer text with headers, previous messages, and edit link */
     $dev_text = 'Edit report at ' .
-                "http://" . PEAR_CHANNELNAME . "/bugs/bug.php?id=$bug[id]&edit=1\n\n" .
+                PEARWEB_PROTOCOL . PEAR_CHANNELNAME . "/bugs/bug.php?id=$bug[id]&edit=1\n\n" .
                 $header_text .
                 $wrapped_text .
                 "\n-- \nEdit this bug report at " .
-                "http://" . PEAR_CHANNELNAME . "/bugs/bug.php?id=$bug[id]&edit=1\n";
+                PEARWEB_PROTOCOL . PEAR_CHANNELNAME . "/bugs/bug.php?id=$bug[id]&edit=1\n";
 
     if (preg_match('/.*@php\.net\z/', $bug['email'])) {
         $user_text = $dev_text;
@@ -1022,7 +1022,7 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
                       "A request has been made to remove your subscription to\n" .
                       SITE_BIG . " bug #$bug_id ($bug[sdesc])\n\n" .
                       "To confirm the removal please use this link:\n" .
-                      "http://" . PEAR_CHANNELNAME . "/bugs/bug.php?id=$bug[id]&unsubscribe=1&t=$hash\n\n\n";
+                      PEARWEB_PROTOCOL . PEAR_CHANNELNAME . "/bugs/bug.php?id=$bug[id]&unsubscribe=1&t=$hash\n\n\n";
         if (!DEVBOX) {
             @mail($email,
               "[" . SITE_BIG . "-BUG-unsubscribe] " . $bug['sdesc'],
@@ -1130,7 +1130,7 @@ class Bug_DataObject
      */
     function getHost()
     {
-        $a = parse_url('http://' . PEAR_CHANNELNAME);
+        $a = parse_url(PEARWEB_PROTOCOL . PEAR_CHANNELNAME);
         return $a['host'];
     }
 

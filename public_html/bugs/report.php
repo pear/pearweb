@@ -1,4 +1,5 @@
 <?php
+redirect_to_https();
 session_start();
 /**
  * Procedures for reporting bugs
@@ -270,6 +271,10 @@ if (isset($_POST['in'])) {
                 $_POST['in']['package_name'] = 'pearweb';
             }
 
+            if (empty($_POST['in']['package_version'])) {
+                $_POST['in']['package_version'] = null;
+            }
+
             $query = '
                 INSERT INTO bugdb (
                     registered,
@@ -336,7 +341,7 @@ if (isset($_POST['in'])) {
 
             $ascii_report  = "$report$sdesc\n\n" . wordwrap($fdesc);
             $ascii_report .= "\n-- \nEdit bug report at ";
-            $ascii_report .= "http://" . PEAR_CHANNELNAME . "/bugs/bug.php?id=$cid&edit=";
+            $ascii_report .= PEARWEB_PROTOCOL . PEAR_CHANNELNAME . "/bugs/bug.php?id=$cid&edit=";
 
             include_once 'bugs/pear-bugs-utils.php';
             $pbu = new PEAR_Bugs_Utils;
