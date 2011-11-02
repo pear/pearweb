@@ -158,7 +158,16 @@ class PEAR_Bug_Accountrequest
             $errors[] = 'User name "' . $handle .
                 '" already exists, please choose another user name';
         }
-        @list($firstname, $lastname) = explode(' ', $name, 2);
+
+        $name_parts = explode(' ', $name, 2);
+        if (count($name_parts) == 2) {
+            $firstname = $name_parts[0];
+            $lastname = $name_parts[1];
+        } else {
+            $firstname = $name_parts[0];
+            $lastname = null;
+        }
+
         // First- and lastname must be longer than 1 character
         if (strlen($firstname) == 1) {
             $errors[] = 'Your firstname appears to be too short.';

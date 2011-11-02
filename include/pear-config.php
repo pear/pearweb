@@ -105,6 +105,18 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PROPOSAL_MAIL_FROM', 'PEPr <bounce-no-user@php.net>');
 }
 
+if (isset($_ENV['PEARWEB_PROTOCOL'])) {
+    /**
+     * @ignore
+     */
+    define('PEARWEB_PROTOCOL', $_ENV['PEARWEB_PROTOCOL']);
+} else {
+    /**
+     * Which protocol to use: "https://" (preferred) or "http://".
+     */
+    define('PEARWEB_PROTOCOL', 'https://');
+}
+
 if (isset($_ENV['PEARWEB_CI_SERVER'])) {
     define('PEARWEB_CI_SERVER',  $_ENV['PEARWEB_CI_SERVER']);
 } else {

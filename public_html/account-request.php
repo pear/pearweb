@@ -22,6 +22,12 @@ response_header('Request Account');
 
 print '<h1>Request Account</h1>';
 $mailto = '<a href="mailto:' . PEAR_DEV_EMAIL . '">PEAR developers mailing list</a>';
+if (DEVBOX) {
+    $host = '';
+} else {
+    $host = PEARWEB_PROTOCOL . PEAR_CHANNELNAME;
+}
+
     echo <<<MSG
 <h1>PLEASE READ THIS CAREFULLY!</h1>
 <h3>
@@ -30,18 +36,18 @@ $mailto = '<a href="mailto:' . PEAR_DEV_EMAIL . '">PEAR developers mailing list<
 
 <ul>
  <li>
-  <a href="/account-request-newpackage.php">Want to propose a new (and <strong>complete</strong>) package for inclusion in PEAR.</a>
+  <a href="$host/account-request-newpackage.php">Want to propose a new (and <strong>complete</strong>) package for inclusion in PEAR.</a>
  </li>
  <li>
-  <a href="/account-request-existingpackage.php">Will be helping develop an existing package.</a>  Seek approval first for this by mailing
+  <a href="$host/account-request-existingpackage.php">Will be helping develop an existing package.</a>  Seek approval first for this by mailing
   the $mailto and developers of the package.
  </li>
  <li>
-  <a href="/account-request-vote.php">Want to vote in a general PEAR election or
+  <a href="$host/account-request-vote.php">Want to vote in a general PEAR election or
   report bugs/comment on bugs.</a>
  </li>
  <li>
-  <a href="/bugs/">Want to report a bug, or comment on an existing bug.</a>
+  <a href="$host/bugs/">Want to report a bug, or comment on an existing bug.</a>
   (You can create an account automatically by choosing a username/password on the bug
   report or edit page)
  </li>

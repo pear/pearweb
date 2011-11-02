@@ -18,6 +18,7 @@
    $Id$
 */
 
+redirect_to_https();
 auth_require("pear.dev");
 response_header("API Documentation Queue Log");
 

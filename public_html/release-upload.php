@@ -18,6 +18,9 @@
    $Id$
 */
 
+@session_start();
+$csrf_token_name = 'pear_csrf_token_' . basename(__FILE__, '.php');
+
 auth_require('pear.dev');
 
 define('HTML_FORM_MAX_FILE_SIZE', 16 * 1024 * 1024); // 16 MB
@@ -31,6 +34,11 @@ PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
 
 do {
     if (isset($_POST['upload'])) {
+        if (!validate_csrf_token($csrf_token_name)) {
+            $errors[] = 'Invalid token.';
+            break;
+        }
+
         // Upload Button
         include_once 'HTTP/Upload.php';
         $upload_obj = new HTTP_Upload('en');

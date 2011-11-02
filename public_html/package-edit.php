@@ -19,6 +19,9 @@
 */
 // Interface to update package information.
 
+@session_start();
+$csrf_token_name = 'pear_csrf_token_' . basename(__FILE__, '.php');
+
 auth_require('pear.dev');
 
 require_once 'tags/Manager.php';
@@ -64,7 +67,9 @@ if (!user::maintains($auth_user->handle, $_GET['id'], 'lead') &&
 // Update
 include_once 'pear-database-package.php';
 if (isset($_POST['submit'])) {
-    if (!$_POST['name'] || !$_POST['license'] || !$_POST['summary']) {
+    if (!validate_csrf_token($csrf_token_name)) {
+        report_error('Invalid token.');
+    } elseif (!$_POST['name'] || !$_POST['license'] || !$_POST['summary']) {
         report_error('You have to enter values for name, license and summary!');
     } elseif (($_POST['new_channel'] && !$_POST['new_package']) ||
               ($_POST['new_package'] && !$_POST['new_channel'])) {
@@ -237,6 +242,8 @@ $form->addElement('text', 'new_package', array('maxlength' => 255, 'placeholder'
 
 
 $form->addElement('submit', 'submit')->setLabel('Save Changes');
+$csrf_token_value = create_csrf_token($csrf_token_name);
+$form->addElement('hidden', $csrf_token_name)->setValue($csrf_token_value);
 
 
 print $form->render($renderer);

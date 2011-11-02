@@ -74,6 +74,7 @@ create: createdb $(SQL_TARGETS)
 	    echo "Fix these errors, run 'make destroy' and try again." ; \
 	else \
 	    echo "No errors found." ; \
+	    rm -f $(CLEANFILES) ; \
 	fi
 
 createdb:

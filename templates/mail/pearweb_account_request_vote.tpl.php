@@ -15,7 +15,7 @@
 This account is only for voting, and is not for proposing a new package.
 
 To confirm please follow the link
-  http://' . PEAR_CHANNELNAME . '/account-request-confirm.php?salt=%salt%
+  ' . PEARWEB_PROTOCOL . PEAR_CHANNELNAME . '/account-request-confirm.php?salt=%salt%
 
 If you have received this email by mistake we apologize for any
 inconvenience. You do not need to reply to this email.

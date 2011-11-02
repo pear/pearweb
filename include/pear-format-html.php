@@ -670,16 +670,31 @@ function getURL($url)
  * does not return.
  *
  * @param string $url Full/partial url to redirect to
- * @param  bool  $keepProtocol Whether to keep the current protocol or to force HTTP
  */
-function localRedirect($url, $keepProtocol = true)
+function localRedirect($url)
 {
-    $url = getURL($url, $keepProtocol);
-    if  ($keepProtocol === false) {
-        $url = preg_replace("/^https/", "http", $url);
-    }
+    $url = getURL($url, true);
     header('Location: ' . $url);
     exit;
+}
+
+/**
+ * Sends browser to https:// protocol if possible and not in use already
+ *
+ * Strips whitespace characters that can be used for hacking.
+ */
+function redirect_to_https()
+{
+    if (!DEVBOX
+        && $_SERVER['SERVER_PORT'] != 443
+        && PEARWEB_PROTOCOL == 'https://')
+    {
+        header('Location: https://' . PEAR_CHANNELNAME . 
+               str_replace(array("\t", "\r", "\n", "\0", "\x0B"), '',
+                           $_SERVER['REQUEST_URI'])
+        );
+        exit;
+    }
 }
 
 /**
@@ -938,4 +953,41 @@ function format_date($ts = null, $format = 'Y-m-d H:i e')
         $ts = time();
     }
     return gmdate($format, $ts - date('Z', $ts));
+}
+
+/**
+ * Generates a token, stores it in $_SESSION, then returns it
+ * @param string $token_name  the name of the CSRF token
+ * @return string  the CSRF token value
+ */
+function create_csrf_token($token_name)
+{
+    $value = uniqid(rand(), true);
+    $_SESSION[$token_name] = $value;
+    return $value;
+}
+
+/**
+ * Checks the submitted CSRF token against $_SESSION
+ * @param string $method  variable to check: POST (default) or GET
+ * @param string $token_name  the name of the CSRF token
+ * @return bool
+ */
+function validate_csrf_token($token_name, $method = 'POST')
+{
+    if (empty($_SESSION[$token_name])) {
+        return false;
+    }
+    if ($method == 'POST') {
+        if (empty($_POST[$token_name])) {
+            return false;
+        }
+        $value = $_POST[$token_name];
+    } else {
+        if (empty($_GET[$token_name])) {
+            return false;
+        }
+        $value = $_GET[$token_name];
+    }
+    return $_SESSION[$token_name] == $value;
 }

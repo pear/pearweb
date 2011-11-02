@@ -25,6 +25,13 @@ require_once './include/prepend.inc';
 response_header('Bugs');
 
 $packages = package::listAllNames();
+
+if (DEVBOX) {
+    $host = '';
+} else {
+    $host = PEARWEB_PROTOCOL . PEAR_CHANNELNAME;
+}
+
 ?>
 
 <h1>PEAR Bug Tracking System</h1>
@@ -34,7 +41,7 @@ $packages = package::listAllNames();
     Got a test case or reproducible steps?
     </p>
     <?php if (!empty($packages)) { ?>
-        <form method="get" action="/bugs/report.php">
+        <form method="get" action="<?php echo $host ?>/bugs/report.php">
             <select name="package">
                 <option selected="selected" value="">Select package ...</option>
                 <?php foreach ($packages as $id => $package) { ?>
@@ -56,7 +63,7 @@ $packages = package::listAllNames();
     <h2>Enhancements</h2>
     <p>Got a patch or a great use-case?</p>
     <?php if (!empty($packages)) { ?>
-        <form method="get" action="/bugs/report.php">
+        <form method="get" action="<?php echo $host ?>/bugs/report.php">
             <input type="hidden" name="bug_type" value="Feature/Change Request"/>
             <select name="package">
                 <option selected="selected" value="">Select package ...</option>
