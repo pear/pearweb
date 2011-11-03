@@ -685,9 +685,9 @@ function localRedirect($url)
  */
 function redirect_to_https()
 {
-    if (!DEVBOX
-        && $_SERVER['SERVER_PORT'] != 443
-        && PEARWEB_PROTOCOL == 'https://')
+    if ($_SERVER['SERVER_PORT'] != 443
+        && PEARWEB_PROTOCOL == 'https://'
+        && !DEVBOX)
     {
         header('Location: https://' . PEAR_CHANNELNAME . 
                str_replace(array("\t", "\r", "\n", "\0", "\x0B"), '',
