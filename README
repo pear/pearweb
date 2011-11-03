@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 DEVELOPER'S GUIDE FOR ``pearweb´´ CODE
 ========================================================================
-
-$Id$
 
 Read this before starting to hack on the PEAR website.
 
@@ -50,7 +47,6 @@ Read this before starting to hack on the PEAR website.
        +----------------------------------------------------------------------+
        | Author: Martin Jansen <mj@php.net>                                   |
        +----------------------------------------------------------------------+
-       $Id$
     */
 
 4) Performance
@@ -80,79 +76,8 @@ Read this before starting to hack on the PEAR website.
     [2] first.  Otherwise you may run into serious trouble.
 
 
-
 References
 ------------------------------------------------------------------------
 
 [1] http://pear.php.net/manual/en/standards.php
 [2] mailto:pear-webmaster@lists.php.net
-=======
-This package is http://pear.php.net/package/pearweb and has been migrated from http://svn.php.net/repository/pear/pearweb
-
-Please report all new issues via the PEAR bug tracker.
-
-If this package is marked as unmaintained and you have fixes, please submit your pull requests and start discussion on the pear-qa mailing list.
-
-To test, run either
-$ phpunit tests/
-Or
-$ pear run-tests -r
-
-To build, simply
-$ pear package
-To install from scratch
-$ pear install package.xml
-To upgrade
-$ pear upgrade -f package.xml
->>>>>>> Added README template for pearweb.
-This package is http://pear.php.net/package/pearweb and has been migrated from http://svn.php.net/repository/pear/pearweb
-
-Please report all new issues via the PEAR bug tracker.
-
-If this package is marked as unmaintained and you have fixes, please submit your pull requests and start discussion on the pear-qa mailing list.
-
-To test, run either
-$ phpunit tests/
-Or
-$ pear run-tests -r
-
-To build, simply
-$ pear package
-To install from scratch
-$ pear install package.xml
-To upgrade
-$ pear upgrade -f package.xml
-This package is http://pear.php.net/package/pearweb and has been migrated from http://svn.php.net/repository/pear/pearweb
-
-Please report all new issues via the PEAR bug tracker.
-
-If this package is marked as unmaintained and you have fixes, please submit your pull requests and start discussion on the pear-qa mailing list.
-
-To test, run either
-$ phpunit tests/
-Or
-$ pear run-tests -r
-
-To build, simply
-$ pear package
-To install from scratch
-$ pear install package.xml
-To upgrade
-$ pear upgrade -f package.xml
-This package is http://pear.php.net/package/pearweb and has been migrated from http://svn.php.net/repository/pear/pearweb
-
-Please report all new issues via the PEAR bug tracker.
-
-If this package is marked as unmaintained and you have fixes, please submit your pull requests and start discussion on the pear-qa mailing list.
-
-To test, run either
-$ phpunit tests/
-Or
-$ pear run-tests -r
-
-To build, simply
-$ pear package
-To install from scratch
-$ pear install package.xml
-To upgrade
-$ pear upgrade -f package.xml
