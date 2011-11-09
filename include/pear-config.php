@@ -120,7 +120,7 @@ if (isset($_ENV['PEARWEB_PROTOCOL'])) {
 if (isset($_ENV['PEARWEB_CI_SERVER'])) {
     define('PEARWEB_CI_SERVER',  $_ENV['PEARWEB_CI_SERVER']);
 } else {
-    define('PEARWEB_CI_SERVER', 'http://test.pear.php.net:8080/cruisecontrol/');
+    define('PEARWEB_CI_SERVER', 'http://test.pear.php.net:8080/');
 }
 
 if (isset($_ENV['PEAR_TMPDIR'])) {
