@@ -34,7 +34,10 @@ $n5 = unserialize($new5);
 $n4 = unserialize($new4);
 
 $file = '@www-dir@/pear.php.net/public_html/bugs/include/php_versions.php';
-include $file;
+if (!file_exists($file)) {
+    $file = dirname(__FILE__) . '/../public_html/bugs/include/php_versions.php';
+}
+require $file;
 
 $php4 = $php = array();
 foreach ($versions as $v) {
