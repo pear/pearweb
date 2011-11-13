@@ -124,11 +124,11 @@ if (isset($_GET['diff']) && $_GET['diff']
         exit();
     }
 
-    require_once 'Text/Diff.php';
+    require_once 'Horde/Text/Diff.php';
     require_once 'bugs/Diff/pearweb.php';
     assert_options(ASSERT_WARNING, 0);
-    $d    = new Text_Diff($orig = file($old), $now = file($new));
-    $diff = new Text_Diff_Renderer_pearweb($d);
+    $d    = new Horde_Text_Diff('auto', array($orig = file($old), $now = file($new)));
+    $diff = new Horde_Text_Diff_Renderer_pearweb();
     include PEARWEB_TEMPLATEDIR . '/bugs/patchinfo.php';
     include PEARWEB_TEMPLATEDIR . '/bugs/patchdiff.php';
     response_footer();

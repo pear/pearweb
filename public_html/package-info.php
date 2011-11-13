@@ -487,7 +487,7 @@ if (empty($action)) {
         $pkg['categoryid'] . '" title="View download statistics for this package">View Download Statistics</a></li>' . "\n";
 
     if (PEARWEB_CI_SERVER) {
-        echo '<li><a href="' . PEARWEB_CI_SERVER . 'buildresults/' . htmlspecialchars($name) . '">Check trunk unit tests</a> (if applicable)</li>' . "\n";
+        echo '<li><a href="' . PEARWEB_CI_SERVER . 'job/' . htmlspecialchars($name) . '">Check trunk unit tests</a> (if applicable)</li>' . "\n";
     }
 
     echo '</ul>' . "\n";

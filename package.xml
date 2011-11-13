@@ -722,8 +722,9 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
     <min>0.1.0</min>
    </package>
    <package>
-    <name>Text_Diff</name>
-    <channel>pear.php.net</channel>
+    <name>Horde_Text_Diff</name>
+    <channel>pear.horde.org</channel>
+    <min>1.0.0</min>
    </package>
    <package>
     <name>HTTP_Upload</name>
