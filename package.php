@@ -6,7 +6,7 @@ $a = PEAR_PackageFileManager2::importOptions(
     $dir . '/package.xml',
     array(
         'baseinstalldir' => '/pear.php.net/',
-        'filelistgenerator' => 'svn',
+        'filelistgenerator' => 'git',
         'roles' => array('*' => 'www'),
         'exceptions' => array(
             'pearweb.php' => 'php',
@@ -25,17 +25,14 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.24.3');
+$a->setReleaseVersion('1.25.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Channel list now stored in database (please DROP TABLE channels; and import channels.sql on deployment)
-Added ability to activate/deactivate channels
-Added application/xbel+xml output of channel list
-Upgraded some forms to HTML_QuickForm2, HTML5 controls
-Bug #17717 	package.xml XSD does not support __uri channels
-Bug #18284	Can\'t change password
-Bug #18294	Forgot password says: Unknown user "hm2k"
+XSS fixes
+HTTPS fixes
+Upgrade of Services_ProjectHoneyPot
+Upgrade of Horde_Text_Diff
 ');
 $a->resetUsesrole();
 $a->clearDeps();
