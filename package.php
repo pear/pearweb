@@ -61,7 +61,7 @@ $a->addPackageDepWithChannel('required', 'Pager', 'pear.php.net', '2.2.0');
 $a->addPackageDepWithChannel('required', 'PEAR_PackageUpdate', 'pear.php.net', '1.1.0RC1');
 //$a->addPackageDepWithChannel('required', 'PEAR_PackageFileManager', 'pear.php.net', '1.6.0');
 $a->addPackageDepWithChannel('required', 'Net_URL2', 'pear.php.net', '0.1.0');
-$a->addPackageDepWithChannel('required', 'Horde_Text_Diff', 'pear.php.net');
+$a->addPackageDepWithChannel('required', 'Horde_Text_Diff', 'pear.horde.org');
 $a->addPackageDepWithChannel('required', 'HTTP_Upload', 'pear.php.net', '0.8.1');
 $a->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.6.0');
 $a->addPackageDepWithChannel('required', 'Log', 'pear.php.net', '1.8.4');

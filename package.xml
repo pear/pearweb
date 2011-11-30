@@ -744,7 +744,7 @@ See https://github.com/pear/pearweb/commits/master for full details
    </package>
    <package>
     <name>Horde_Text_Diff</name>
-    <channel>pear.php.net</channel>
+    <channel>pear.horde.org</channel>
    </package>
    <package>
     <name>HTTP_Upload</name>
