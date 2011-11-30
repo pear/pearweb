@@ -89,8 +89,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-11-17</date>
- <time>00:39:48</time>
+ <date>2011-11-30</date>
+ <time>23:22:11</time>
  <version>
   <release>1.25.0</release>
   <api>0.1.1</api>
@@ -105,6 +105,7 @@ XSS fixes
 HTTPS fixes
 Upgrade of Services_ProjectHoneyPot
 Upgrade of Horde_Text_Diff
+See https://github.com/pear/pearweb/commits/master for full details
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -633,6 +634,7 @@ Upgrade of Horde_Text_Diff
     <tasks:replace from="@version@" to="version" type="package-info" />
    </file>
    <file name="pearweb_election.php" role="www" />
+   <file name="pearweb_pepr-1.0.5.tgz" role="www" />
    <file name="pearweb_pepr.php" role="www" />
    <file name="README" role="www" />
    <file name="rollback.php" role="www" />
@@ -2759,13 +2761,14 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2011-11-17</date>
+   <date>2011-11-30</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 XSS fixes
 HTTPS fixes
 Upgrade of Services_ProjectHoneyPot
 Upgrade of Horde_Text_Diff
+See https://github.com/pear/pearweb/commits/master for full details
    </notes>
   </release>
  </changelog>

@@ -33,6 +33,7 @@ XSS fixes
 HTTPS fixes
 Upgrade of Services_ProjectHoneyPot
 Upgrade of Horde_Text_Diff
+See https://github.com/pear/pearweb/commits/master for full details
 ');
 $a->resetUsesrole();
 $a->clearDeps();
