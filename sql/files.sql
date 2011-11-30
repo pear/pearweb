@@ -16,3 +16,5 @@ CREATE TABLE files (
   PRIMARY KEY  (id),
   UNIQUE KEY pkg_rel_plat (`package`,`release`,`platform`)
 );
+
+ALTER TABLE files ADD INDEX(basename);
