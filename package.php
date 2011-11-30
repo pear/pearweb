@@ -6,7 +6,7 @@ $a = PEAR_PackageFileManager2::importOptions(
     $dir . '/package.xml',
     array(
         'baseinstalldir' => '/pear.php.net/',
-        'filelistgenerator' => 'svn',
+        'filelistgenerator' => 'git',
         'roles' => array('*' => 'www'),
         'exceptions' => array(
             'pearweb.php' => 'php',
@@ -25,17 +25,14 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.24.3');
+$a->setReleaseVersion('1.25.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Channel list now stored in database (please DROP TABLE channels; and import channels.sql on deployment)
-Added ability to activate/deactivate channels
-Added application/xbel+xml output of channel list
-Upgraded some forms to HTML_QuickForm2, HTML5 controls
-Bug #17717 	package.xml XSD does not support __uri channels
-Bug #18284	Can\'t change password
-Bug #18294	Forgot password says: Unknown user "hm2k"
+XSS fixes
+HTTPS fixes
+Upgrade of Services_ProjectHoneyPot
+Upgrade of Horde_Text_Diff
 ');
 $a->resetUsesrole();
 $a->clearDeps();
@@ -63,7 +60,7 @@ $a->addPackageDepWithChannel('required', 'Pager', 'pear.php.net', '2.2.0');
 $a->addPackageDepWithChannel('required', 'PEAR_PackageUpdate', 'pear.php.net', '1.1.0RC1');
 //$a->addPackageDepWithChannel('required', 'PEAR_PackageFileManager', 'pear.php.net', '1.6.0');
 $a->addPackageDepWithChannel('required', 'Net_URL2', 'pear.php.net', '0.1.0');
-$a->addPackageDepWithChannel('required', 'Text_Diff', 'pear.php.net');
+$a->addPackageDepWithChannel('required', 'Horde_Text_Diff', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTTP_Upload', 'pear.php.net', '0.8.1');
 $a->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.6.0');
 $a->addPackageDepWithChannel('required', 'Log', 'pear.php.net', '1.8.4');

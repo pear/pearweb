@@ -76,6 +76,39 @@ Read this before starting to hack on the PEAR website.
     [2] first.  Otherwise you may run into serious trouble.
 
 
+7) Packaging & deployment
+------------------------------------------------------------------------
+See the instructions in https://wiki.php.net/systems/euk1 for production deployment
+
+Ensure that you have deployed and tested the changes on test.pear.php.net
+  $ pear upgrade -f package.xml
+or a specific area:
+  $ pear upgrade -f package-pepr.xml
+
+Once you have tested your changes, you can proceed.
+
+Third, make the appropriate pearweb release and push it to pear.php.net. Be sure to update the relevant package_*.php file and generate the new package.xml
+
+  $ vim package_pepr.php
+  $ php package_pepr.php make
+  $ git commit -m "Release preparation" package-pepr.xml package_pepr.php
+  $ pear package package-pepr.xml
+  $ git tag -a pearweb_pepr-1.2.3 -m 'PEARWeb_PEPR-1.2.3'
+
+Join the #pear IRC channel on efnet, and discuss the changes you are about to make.
+
+Next:
+  $ ssh pear.php.net
+  $ sudo pear upgrade pearweb
+  
+or
+  $ sudo pear upgrade pearweb_pepr
+
+Apply any mysql, crontab changes manually.
+
+Verify that http://pear.php.net/ is still functioning and update this changelog.
+
+
 References
 ------------------------------------------------------------------------
 
