@@ -90,7 +90,7 @@
   <active>yes</active>
  </developer>
  <date>2011-11-30</date>
- <time>23:22:11</time>
+ <time>23:25:20</time>
  <version>
   <release>1.25.0</release>
   <api>0.1.1</api>
@@ -548,7 +548,6 @@ See https://github.com/pear/pearweb/commits/master for full details
     </dir> <!-- /templates/users -->
     <file name="category-manager.html" role="www" />
    </dir> <!-- /templates -->
-   <file name="pearweb-1.24.3.tgz" role="www" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
