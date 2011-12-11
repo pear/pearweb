@@ -38,11 +38,11 @@ class Damblan_Log_Mail extends Log_observer
     var $_headers = array();
     var $_recipients = "";
 
-    function Damblan_Log_Mail()
+    function __construct()
     {
-        $this->Log_observer();
+        parent::__construct();
 
-        $this->_mailer =& Mail::factory('mail', '-f ' . PEAR_BOUNCE_EMAIL);
+        $this->_mailer = Mail::factory('mail', '-f ' . PEAR_BOUNCE_EMAIL);
 
         $this->_headers['From'] = "\"PEAR System Administrators\" <pear-sys@php.net>";
     }
