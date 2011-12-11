@@ -38,7 +38,8 @@ $sql = "SELECT
     packages.name,
     bugdb.ts2,
     bugdb.id AS bug_id,
-    UNIX_TIMESTAMP(r.releasedate) as releasedate
+    UNIX_TIMESTAMP(r.releasedate) as releasedate,
+    unmaintained
 FROM
     packages
     JOIN bugdb ON packages.name = bugdb.package_name AND bugdb.status = 'Closed'
@@ -82,14 +83,15 @@ $table = new HTML_Table(array('class' => 'sortable'));
 $table->setHeaderContents(0, 0, 'Package');
 $table->setHeaderContents(0, 1, '# bugs');
 $table->setHeaderContents(0, 2, 'Last Release Date');
-
+$table->setHeaderContents(0, 3, "Maintained?");
 
 $row = 1;
 foreach ($bugs['pear'] as $name => $qa) {
     $table->addRow(array(
         make_link('/package/' . $name . '/', $name),
         make_link('/bugs/search.php?cmd=display&package_name[]=' . $name . '&status=CRSLR', count($qa['bug_id'])),
-        format_date($qa['last_release'])
+        format_date($qa['last_release']),
+        $row['unmaintained'] ? 'No' : 'Yes'
     ));
     $table->setCellAttributes($row, 1, 'style="text-align: center;"');
     $row++;
@@ -97,11 +99,5 @@ foreach ($bugs['pear'] as $name => $qa) {
 
 echo '<h2 id="pear">PEAR (' . count($bugs['pear']) . ')</h2>';
 echo $table->toHTML();
-
-// PECL
-$table = new HTML_Table(array('class' => 'sortable'));
-$table->setHeaderContents(0, 0, 'Package');
-$table->setHeaderContents(0, 1, '# bugs');
-$table->setHeaderContents(0, 2, 'Last Release Date');
 
 response_footer();
