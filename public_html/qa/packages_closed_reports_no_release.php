@@ -76,6 +76,7 @@ $bugs = array('pear' => array(), 'pecl' => array());
 foreach ($res as $data) {
     $bugs[$data['package_type']][$data['name']]['bug_id'][]     = $data['bug_id'];
     $bugs[$data['package_type']][$data['name']]['last_release'] = $data['releasedate'];
+    $bugs[$data['package_type']][$data['name']]['unmaintained'] = $data['unmaintained'];
 }
 
 // PEAR
@@ -83,7 +84,7 @@ $table = new HTML_Table(array('class' => 'sortable'));
 $table->setHeaderContents(0, 0, 'Package');
 $table->setHeaderContents(0, 1, '# bugs');
 $table->setHeaderContents(0, 2, 'Last Release Date');
-$table->setHeaderContents(0, 3, "Maintained?");
+$table->setHeaderContents(0, 3, "Unmaintained?");
 
 $row = 1;
 foreach ($bugs['pear'] as $name => $qa) {
@@ -91,9 +92,10 @@ foreach ($bugs['pear'] as $name => $qa) {
         make_link('/package/' . $name . '/', $name),
         make_link('/bugs/search.php?cmd=display&package_name[]=' . $name . '&status=CRSLR', count($qa['bug_id'])),
         format_date($qa['last_release']),
-        $row['unmaintained'] ? 'No' : 'Yes'
+        $data['unmaintained'] ? 'Yes' : ''
     ));
     $table->setCellAttributes($row, 1, 'style="text-align: center;"');
+    $table->setCellAttributes($row, 3, 'style="text-align: center;"');
     $row++;
 }
 
