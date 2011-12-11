@@ -633,7 +633,6 @@ See https://github.com/pear/pearweb/commits/master for full details
     <tasks:replace from="@version@" to="version" type="package-info" />
    </file>
    <file name="pearweb_election.php" role="www" />
-   <file name="pearweb_pepr-1.0.5.tgz" role="www" />
    <file name="pearweb_pepr.php" role="www" />
    <file name="README" role="www" />
    <file name="rollback.php" role="www" />
