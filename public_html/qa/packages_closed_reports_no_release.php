@@ -92,7 +92,7 @@ foreach ($bugs['pear'] as $name => $qa) {
         make_link('/package/' . $name . '/', $name),
         make_link('/bugs/search.php?cmd=display&package_name[]=' . $name . '&status=CRSLR', count($qa['bug_id'])),
         format_date($qa['last_release']),
-        $data['unmaintained'] ? 'Yes' : ''
+        $qa['unmaintained'] ? 'Yes' : ''
     ));
     $table->setCellAttributes($row, 1, 'style="text-align: center;"');
     $table->setCellAttributes($row, 3, 'style="text-align: center;"');
