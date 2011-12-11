@@ -104,18 +104,4 @@ $table->setHeaderContents(0, 0, 'Package');
 $table->setHeaderContents(0, 1, '# bugs');
 $table->setHeaderContents(0, 2, 'Last Release Date');
 
-$row = 1;
-foreach ($bugs['pecl'] as $name => $qa) {
-    $table->addRow(array(
-        make_link('/package/' . $name . '/', $name),
-        count($qa['bug_id']),
-        format_date($qa['last_release'])
-    ));
-    $table->setCellAttributes($row, 1, 'style="text-align: center;"');
-    $row++;
-}
-
-echo '<h2 id="pecl">PECL (' . count($bugs['pecl']) . ')</h2>';
-echo $table->toHTML();
-
 response_footer();
