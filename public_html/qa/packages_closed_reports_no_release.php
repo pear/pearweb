@@ -64,7 +64,7 @@ $sql .= "
 GROUP BY
     packages.id, packages.name, bugdb.package_name, bugdb.id, r.package
 ORDER BY
-    unmaintained, r.releasedate";
+    unmaintained DESC, r.releasedate";
 
 $res        = $dbh->getAll($sql, null, DB_FETCHMODE_ASSOC);
 $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
