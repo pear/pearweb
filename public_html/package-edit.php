@@ -220,7 +220,7 @@ $sl->setValue(array_keys($manager->getTags($row['name'], true)));
 
 
 $form->addElement('text', 'homepage', array('maxlength' => 255, 'accesskey' => "O"))->setLabel('H<span class="accesskey">o</span>mepage:');
-$form->addElement('url', 'doc_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/manual'))->setLabel('Documentation URI:');
+$form->addElement('text', 'doc_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/manual'))->setLabel('Documentation URI:');
 $form->addElement('url', 'bug_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/bugs'))->setLabel('Bug Tracker URI:');
 $form->addElement('url', 'cvs_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/svn/trunk'))->setLabel('Web version control URI');
 $form->addElement('checkbox', 'unmaintained')->setLabel('Is this package unmaintained ?');
