@@ -174,7 +174,7 @@ if (isset($_POST['in'])) {
                         $summary = htmlspecialchars($summary);
                     }
 
-                    $bug_url = "/bugs/bug.php?id=$row[id]&amp;edit=2";
+                    $bug_url = "/bugs/bug.php?id=$row[id]";
 
                     echo " <tr>\n";
                     echo '  <td colspan="2"><strong>' . $row['package_name'] . '</strong> : <a href="' . $bug_url . '">Bug #';
