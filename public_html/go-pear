@@ -113,7 +113,7 @@ Thank you for your coopertion and sorry for the inconvenience!
 $gopear_bundle_dir = dirname(__FILE__).'/go-pear-bundle';
 
 $bootstrap_files = array(
-    'PEAR.php'             => 'http://svn.php.net/viewvc/pear/pear-core/branches/PEAR_1_4/PEAR.php?view=co',
+    'PEAR.php'             => 'https://raw.github.com/pear/pear-core/master/PEAR.php',
     'Archive/Tar.php'      => 'http://svn.php.net/viewvc/pear/packages/Archive_Tar/tags/Archive_Tar-1.3.7/Archive/Tar.php?view=co',
     'Console/Getopt.php'   => 'http://svn.php.net/viewvc/pear/pear-core/branches/PEAR_1_4/Console/Getopt.php?view=co',
     );
