@@ -35,9 +35,8 @@ class Damblan_Log extends Log_syslog
     var $_ident = 'pearweb';
     var $_mask = null;
 
-    function Damblan_Log()
+    function __construct()
     {
-        $this->_mask = Log::UPTO(PEAR_LOG_DEBUG);
+        $this->_mask = Log::MAX(PEAR_LOG_DEBUG);
     }
 }
-?>

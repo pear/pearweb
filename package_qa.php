@@ -6,7 +6,7 @@ $a = PEAR_PackageFileManager2::importOptions(
     array(
         'packagefile' => 'package-qa.xml',
         'baseinstalldir' => '/pear.php.net/',
-        'filelistgenerator' => 'svn',
+        'filelistgenerator' => 'git',
         'roles' => array('*' => 'www'),
         'simpleoutput' => true,
         'include' => array(
@@ -16,11 +16,12 @@ $a = PEAR_PackageFileManager2::importOptions(
             'public_html/qa/index.php'
         ),
     ));
-$a->setReleaseVersion('1.0.2');
+$a->setReleaseVersion('1.0.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Add new qa tools
+Add an unmaintained category to the output of packages-closed-no-release
+Remove restrictions on orphan package list
 ');
 $a->resetUsesrole();
 $a->clearDeps();

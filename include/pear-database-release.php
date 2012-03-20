@@ -496,7 +496,7 @@ class release
                 $uncompress = true;
             }
             $row = $dbh->getRow("SELECT fullpath, `release`, id FROM files ".
-                                "WHERE UPPER(basename) = ?", array(strtoupper($file)),
+                                "WHERE basename LIKE ?", array($file),
                                 DB_FETCHMODE_ASSOC);
             if (PEAR::isError($row)) {
                 return $row;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-04-26</date>
- <time>17:41:53</time>
+ <date>2011-11-30</date>
+ <time>23:25:20</time>
  <version>
-  <release>1.24.3</release>
+  <release>1.25.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,13 +101,11 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Channel list now stored in database (please DROP TABLE channels; and import channels.sql on deployment)
-Added ability to activate/deactivate channels
-Added application/xbel+xml output of channel list
-Upgraded some forms to HTML_QuickForm2, HTML5 controls
-Bug #17717 	package.xml XSD does not support __uri channels
-Bug #18284	Can&apos;t change password
-Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
+XSS fixes
+HTTPS fixes
+Upgrade of Services_ProjectHoneyPot
+Upgrade of Horde_Text_Diff
+See https://github.com/pear/pearweb/commits/master for full details
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -200,6 +198,9 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
      <file name="info.php" role="www" />
      <file name="package-generator.php" role="www" />
     </dir> <!-- /include/roadmap -->
+    <dir name="services">
+     <file name="HoneyPot.php" role="www" />
+    </dir> <!-- /include/services -->
     <dir name="tags">
      <file name="Cloud.php" role="www" />
      <file name="Manager.php" role="www" />
@@ -501,6 +502,24 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
      <file name="roadmap_packagexml.php" role="www" />
      <file name="searchresults.php" role="www" />
     </dir> <!-- /templates/bugs -->
+    <dir name="docblox">
+     <dir name="pear">
+      <dir name="css">
+       <file name="IE6styles.css" role="www" />
+       <file name="IE7styles.css" role="www" />
+       <file name="print.css" role="www" />
+       <file name="reset-fonts.css" role="www" />
+       <file name="style.css" role="www" />
+       <file name="theme.css" role="www" />
+      </dir> <!-- /templates/docblox/pear/css -->
+      <dir name="images">
+       <file name="favicon.ico" role="www" />
+       <file name="pearsmall.gif" role="www" />
+      </dir> <!-- /templates/docblox/pear/images -->
+      <file name="index.xsl" role="www" />
+      <file name="template.xml" role="www" />
+     </dir> <!-- /templates/docblox/pear -->
+    </dir> <!-- /templates/docblox -->
     <dir name="mail">
      <file name="Patch_Added.tpl.php" role="www" />
      <file name="pearweb_account_request.tpl.php" role="www" />
@@ -616,6 +635,7 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
    <file name="pearweb_election.php" role="www" />
    <file name="pearweb_pepr.php" role="www" />
    <file name="README" role="www" />
+   <file name="rollback.php" role="www" />
    <file name="TODO" role="www" />
   </dir> <!-- / -->
  </contents>
@@ -670,7 +690,7 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
    <package>
     <name>Services_ProjectHoneyPot</name>
     <channel>pear.php.net</channel>
-    <min>0.5.3</min>
+    <min>0.6.0</min>
    </package>
    <package>
     <name>DB</name>
@@ -724,7 +744,6 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
    <package>
     <name>Horde_Text_Diff</name>
     <channel>pear.horde.org</channel>
-    <min>1.0.0</min>
    </package>
    <package>
     <name>HTTP_Upload</name>
@@ -788,7 +807,7 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
    <subpackage>
     <name>pearweb_channelxml</name>
     <channel>pear.php.net</channel>
-    <min>1.15.1</min>
+    <min>1.15.2</min>
    </subpackage>
    <subpackage>
     <name>pearweb_election</name>
@@ -813,7 +832,7 @@ Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
    <subpackage>
     <name>pearweb_pepr</name>
     <channel>pear.php.net</channel>
-    <min>1.0.4</min>
+    <min>1.0.5</min>
    </subpackage>
    <subpackage>
     <name>pearweb_qa</name>
@@ -2729,6 +2748,25 @@ Upgraded some forms to HTML_QuickForm2, HTML5 controls
 Bug #17717 	package.xml XSD does not support __uri channels
 Bug #18284	Can&apos;t change password
 Bug #18294	Forgot password says: Unknown user &quot;hm2k&quot;
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.25.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2011-11-30</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+XSS fixes
+HTTPS fixes
+Upgrade of Services_ProjectHoneyPot
+Upgrade of Horde_Text_Diff
+See https://github.com/pear/pearweb/commits/master for full details
    </notes>
   </release>
  </changelog>

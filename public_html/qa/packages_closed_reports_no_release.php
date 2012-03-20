@@ -38,7 +38,8 @@ $sql = "SELECT
     packages.name,
     bugdb.ts2,
     bugdb.id AS bug_id,
-    UNIX_TIMESTAMP(r.releasedate) as releasedate
+    UNIX_TIMESTAMP(r.releasedate) as releasedate,
+    unmaintained
 FROM
     packages
     JOIN bugdb ON packages.name = bugdb.package_name AND bugdb.status = 'Closed'
@@ -60,21 +61,23 @@ $sql .= "
     UNIX_TIMESTAMP(r.releasedate) < UNIX_TIMESTAMP(bugdb.ts2)
   AND
     UNIX_TIMESTAMP(r.releasedate) < $min_release_date
+  AND 
+    packages.package_type = 'pear'
 GROUP BY
     packages.id, packages.name, bugdb.package_name, bugdb.id, r.package
 ORDER BY
-    r.releasedate";
+    unmaintained DESC, r.releasedate";
 
 $res        = $dbh->getAll($sql, null, DB_FETCHMODE_ASSOC);
 $total_rows = $dbh->getOne('SELECT FOUND_ROWS()');
 
-echo 'Checks <a href="#pear">PEAR</a> and <a href="#pecl">PECL</a><br />';
 echo 'Found ' . $total_rows . ' reports that have been closed but their package has not had a release in 6 months<br /><br />';
 
-$bugs = array('pear' => array(), 'pecl' => array());
+$bugs = array('pear' => array());
 foreach ($res as $data) {
     $bugs[$data['package_type']][$data['name']]['bug_id'][]     = $data['bug_id'];
     $bugs[$data['package_type']][$data['name']]['last_release'] = $data['releasedate'];
+    $bugs[$data['package_type']][$data['name']]['unmaintained'] = $data['unmaintained'];
 }
 
 // PEAR
@@ -82,40 +85,22 @@ $table = new HTML_Table(array('class' => 'sortable'));
 $table->setHeaderContents(0, 0, 'Package');
 $table->setHeaderContents(0, 1, '# bugs');
 $table->setHeaderContents(0, 2, 'Last Release Date');
-
+$table->setHeaderContents(0, 3, "Unmaintained?");
 
 $row = 1;
 foreach ($bugs['pear'] as $name => $qa) {
     $table->addRow(array(
         make_link('/package/' . $name . '/', $name),
         make_link('/bugs/search.php?cmd=display&package_name[]=' . $name . '&status=CRSLR', count($qa['bug_id'])),
-        format_date($qa['last_release'])
+        format_date($qa['last_release']),
+        $qa['unmaintained'] ? 'Yes' : ''
     ));
     $table->setCellAttributes($row, 1, 'style="text-align: center;"');
+    $table->setCellAttributes($row, 3, 'style="text-align: center;"');
     $row++;
 }
 
 echo '<h2 id="pear">PEAR (' . count($bugs['pear']) . ')</h2>';
-echo $table->toHTML();
-
-// PECL
-$table = new HTML_Table(array('class' => 'sortable'));
-$table->setHeaderContents(0, 0, 'Package');
-$table->setHeaderContents(0, 1, '# bugs');
-$table->setHeaderContents(0, 2, 'Last Release Date');
-
-$row = 1;
-foreach ($bugs['pecl'] as $name => $qa) {
-    $table->addRow(array(
-        make_link('/package/' . $name . '/', $name),
-        count($qa['bug_id']),
-        format_date($qa['last_release'])
-    ));
-    $table->setCellAttributes($row, 1, 'style="text-align: center;"');
-    $row++;
-}
-
-echo '<h2 id="pecl">PECL (' . count($bugs['pecl']) . ')</h2>';
 echo $table->toHTML();
 
 response_footer();

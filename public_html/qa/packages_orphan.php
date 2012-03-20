@@ -21,7 +21,6 @@
 /**
  * List orphan packages
  */
-auth_require('pear.dev');
 
 response_header('Quality Assurance Initiative - Orphan packages',
     false);
