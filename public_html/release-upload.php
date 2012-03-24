@@ -19,7 +19,7 @@
 */
 require_once 'Log.php';
 require_once 'Log/error_log.php';
-$log = new Log_error_log('Fileupload', null, null, null);
+$log = new Log_error_log('Fileupload', null, null, PEAR_LOG_DEBUG);
 
 @session_start();
 $csrf_token_name = 'pear_csrf_token_' . basename(__FILE__, '.php');
@@ -58,7 +58,7 @@ do {
             $tmpfile = $file->moveTo(PEAR_UPLOAD_TMPDIR);
             if (PEAR::isError($tmpfile)) {
                 $errors[] = $tmpfile->getMessage();
-                $log->err(print_r($file, true));
+                $log->err(print_r($tmpfile, true));
                 break;
             }
             $tmpsize = $file->getProp('size');
