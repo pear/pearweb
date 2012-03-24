@@ -48,7 +48,7 @@ do {
         $file = $upload_obj->getFiles('distfile');
         if (PEAR::isError($file)) {
             $errors[] = $file->getMessage();
-            $log->error(print_r($file, true));
+            $log->err(print_r($file, true));
             break;
         }
 
@@ -58,7 +58,7 @@ do {
             $tmpfile = $file->moveTo(PEAR_UPLOAD_TMPDIR);
             if (PEAR::isError($tmpfile)) {
                 $errors[] = $tmpfile->getMessage();
-                $log->error(print_r($file, true));
+                $log->err(print_r($file, true));
                 break;
             }
             $tmpsize = $file->getProp('size');
@@ -67,7 +67,7 @@ do {
             break;
         } elseif ($file->isError()) {
             $errors[] = $file->errorMsg();
-            $log->error(print_r($file, true));
+            $log->err(print_r($file, true));
             break;
         }
 
