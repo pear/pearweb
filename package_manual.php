@@ -43,6 +43,7 @@ $a->addPackageDepWithChannel('required', 'PEAR', 'pear.php.net', '1.8.0');
 $a->addPackageDepWithChannel('required', 'pearweb', 'pear.php.net', '1.18.0');
 $a->addPackageDepWithChannel('required', 'VFS', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTTP_Request2', 'pear.php.net');
+$a->addPackageDepWithChannel('required', 'phpDocumentor', 'pear.phpdoc.org');
 $a->addExtensionDep('required', 'pcre');
 $a->addExtensionDep('required', 'mysqli');
 
