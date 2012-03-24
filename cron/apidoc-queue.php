@@ -41,7 +41,7 @@
 // apt-get install graphviz
 // And... uncomment the below
 $documentation_engine = 'phpdocumentor';
-// $documentation_engine = 'docblox';
+// $documentation_engine = 'phpdocumentor2';
 
 require_once dirname(dirname(__FILE__)) . '/include/pear-config.php';
 require_once 'DB.php';
@@ -157,13 +157,12 @@ foreach ($rows as $filename) {
 
 
     switch ($documentation_engine) {
-        case 'docblox':
+        case 'phpdocumentor2':
             $command = sprintf(
-                "/usr/local/bin/docblox -d %s --title '%s' -t %s --template %s --ignore */data/*,*/tests/*; rm -rf %s",
+                "/usr/local/bin/phpdoc -d %s --title '%s' -t %s --ignore */data/*,*/tests/*; rm -rf %s",
                 $tmpdir,
                 $name . " " . $info['version'],
                 PEAR_APIDOC_DIR . "/" . $name . "-" . $info['version'],
-                dirname(dirname(__FILE__)) . "/templates/docblox/pear",
                 $tmpdir
             );
  
