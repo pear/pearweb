@@ -197,3 +197,8 @@ if (!DEVBOX) {
     define('PEAR_REST_PATH', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'public_html' .
             DIRECTORY_SEPARATOR . 'rest');
 }
+
+require_once 'Log.php';
+require_once 'Log/error_log.php';
+$log = new Log_error_log(0, PEAR_CHANNELNAME, null, PEAR_LOG_DEBUG);
+
