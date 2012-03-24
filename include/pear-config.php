@@ -218,11 +218,11 @@ $dirs = array(
 foreach ($dirs as $name => $dir) {
 
     if (!file_exists($dir)) {
-       $log->warn($name . ' set to ' . $dir . ' which does not exist');
+       $log->warning($name . ' set to ' . $dir . ' which does not exist');
     }
 
     if (!is_dir($dir)) {
-       $log->warn($name . ' set to ' . $dir . ' which is not a directory');
+       $log->warning($name . ' set to ' . $dir . ' which is not a directory');
        if (!mkdir($dir)) {
           $log->err("Could not mkdir " . $dir);
        }
