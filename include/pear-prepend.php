@@ -25,11 +25,14 @@ include_once 'pear-auth.php';
 
 // Installation / configuration type checks
 if (!file_exists(PEAR_UPLOAD_TMPDIR)) {
-   $log->err('PEAR_UPLOAD_TMPDIR set to ' . PEAR_UPLOAD_TMPDIR . ' which does not exist');
+   $log->warn('PEAR_UPLOAD_TMPDIR set to ' . PEAR_UPLOAD_TMPDIR . ' which does not exist');
 }
 
 if (!is_dir(PEAR_UPLOAD_TMPDIR)) {
-   $log->err('PEAR_UPLOAD_TMPDIR set to ' . PEAR_UPLOAD_TMPDIR . ' which is not a directory');
+   $log->warn('PEAR_UPLOAD_TMPDIR set to ' . PEAR_UPLOAD_TMPDIR . ' which is not a directory');
+   if (!mkdir(PEAR_UPLOAD_TMPDIR)) {
+      $log->err("Could not mkdir " . PEAR_UPLOAD_TMPDIR);
+   }
 }
 
 if (!is_writeable(PEAR_UPLOAD_TMPDIR)) {
