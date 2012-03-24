@@ -202,3 +202,73 @@ require_once 'Log.php';
 require_once 'Log/error_log.php';
 $log = new Log_error_log(0, PEAR_CHANNELNAME, null, PEAR_LOG_DEBUG);
 
+
+
+
+// Installation / configuration type checks
+$dirs = array(
+    'PEAR_APIDOC_DIR' => PEAR_APIDOC_DIR,
+    'PEAR_PATCHES' => PEAR_PATCHES,
+    'PEAR_CVS' => PEAR_CVS, 
+    'PEAR_TARBALL_DIR' => PEAR_TARBALL_DIR, 
+    'PEAR_CHM_DIR' => PEAR_CHM_DIR, 
+    'PEAR_UPLOAD_TMPDIR' => PEAR_UPLOAD_TMPDIR
+
+);
+foreach ($dirs as $name => $dir) {
+
+    if (!file_exists($dir)) {
+       $log->warn($name . ' set to ' . $dir . ' which does not exist');
+    }
+
+    if (!is_dir($dir)) {
+       $log->warn($name . ' set to ' . $dir . ' which is not a directory');
+       if (!mkdir($dir)) {
+          $log->err("Could not mkdir " . $dir);
+       }
+    }
+
+    if (!is_writeable($dir)) {
+       $log->err($name . ' set to ' . $dir . ' which is not writeable');
+    }
+}
+$emails = array(
+    'PEAR_WEBMASTER_EMAIL' => PEAR_WEBMASTER_EMAIL,
+    'PEAR_QA_EMAIL' => PEAR_QA_EMAIL,
+    'PEAR_DOC_EMAIL' => PEAR_DOC_EMAIL,
+    'PEAR_ANNOUNCE_EMAIL' => PEAR_ANNOUNCE_EMAIL,
+    'PEAR_DEV_EMAIL' => PEAR_DEV_EMAIL,
+    'PEAR_GENERAL_EMAIL' => PEAR_GENERAL_EMAIL,
+    'PEAR_GROUP_EMAIL' => PEAR_GROUP_EMAIL,
+    'PEAR_CORE_EMAIL' => PEAR_CORE_EMAIL,
+    'PEAR_BOUNCE_EMAIL' => PEAR_BOUNCE_EMAIL, 
+    'PEARWEB_BUGS_ML_EMAIL' => PEARWEB_BUGS_ML_EMAIL,
+);
+foreach ($emails as $name => $email) {
+   if (!Validate::email($email)) {
+      $log->err('Configured email ' . $name . ' = "' . $email . '" is not valid');
+   }
+}
+// TODO validate these
+/*
+    define('SITE', 'pear');
+    define('SITE_BIG', strtoupper(SITE));
+     // The channel server name that is used for all info
+    define('PEAR_CHANNELNAME', 'pear.php.net');
+    // The channel webmaster email
+    define('PEAR_CHANNEL_SUMMARY', 'PEAR PHP Extension and Application Repository');
+
+
+    define('PEAR_AUTH_REALM', 'PEAR');
+
+
+    define('TRACKBACK_AKISMET_KEY_FILE', '/var/www/html/pearweb/akismet.key');
+
+    define('PROPOSAL_MAIL_PEAR_DEV', 'PEAR developer mailinglist <pear-dev@lists.php.net>');
+
+    define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>');
+    // PEPr: the email address used as the From header
+    define('PROPOSAL_MAIL_FROM', 'PEPr <bounce-no-user@php.net>');
+
+*/
+

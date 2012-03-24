@@ -22,22 +22,8 @@ require_once 'pear-config.php';
 require_once 'PEAR.php';
 include_once 'pear-format-html.php';
 include_once 'pear-auth.php';
+require_once 'Validate.php';
 
-// Installation / configuration type checks
-if (!file_exists(PEAR_UPLOAD_TMPDIR)) {
-   $log->warn('PEAR_UPLOAD_TMPDIR set to ' . PEAR_UPLOAD_TMPDIR . ' which does not exist');
-}
-
-if (!is_dir(PEAR_UPLOAD_TMPDIR)) {
-   $log->warn('PEAR_UPLOAD_TMPDIR set to ' . PEAR_UPLOAD_TMPDIR . ' which is not a directory');
-   if (!mkdir(PEAR_UPLOAD_TMPDIR)) {
-      $log->err("Could not mkdir " . PEAR_UPLOAD_TMPDIR);
-   }
-}
-
-if (!is_writeable(PEAR_UPLOAD_TMPDIR)) {
-   $log->err('PEAR_UPLOAD_TMPDIR set to ' . PEAR_UPLOAD_TMPDIR . ' which is not writeable');
-}
 
 if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
     auth_logout();
