@@ -298,7 +298,7 @@ if (empty($action)) {
                     <p class="action"><kbd>php pyrus.phar install pear/<?php echo htmlspecialchars($name); ?></kbd></p>
                 <?php } ?>
             </div>
-        <?php            
+        <?php
 
 
         if ($pkg['releases'][$versions[0]]['state'] != 'stable') {
@@ -487,7 +487,7 @@ if (empty($action)) {
         $pkg['categoryid'] . '" title="View download statistics for this package">View Download Statistics</a></li>' . "\n";
 
     if (PEARWEB_CI_SERVER) {
-        echo '<li><a href="' . PEARWEB_CI_SERVER . 'job/' . htmlspecialchars($name) . '">Check trunk unit tests</a> (if applicable)</li>' . "\n";
+        echo '<li><a href="' . PEARWEB_CI_SERVER . 'job/' . htmlspecialchars($name) . '"><img src="' . PEARWEB_CI_SERVER . 'job/' . htmlspecialchars($name) . '/lastCompletedBuild/buildStatus"/><br />Build status</li>' . "\n";
     }
 
     echo '</ul>' . "\n";
@@ -520,7 +520,7 @@ if (empty($action)) {
     }
 
 
-    
+
     $dependencies = package::getDependencies($name);
     if (count($dependencies) > 0) {
         echo '<div style="width: 30em; float: left; margin: 0.5em">';
@@ -600,7 +600,7 @@ if (empty($action)) {
                         <p>Try <a href="http://pear2.php.net/">PEAR2</a>'s installer, Pyrus.</p>
                         <p class="action"><kbd>php pyrus.phar install pear/<?php echo htmlspecialchars($name); ?>-<?php echo $release_version; ?></kbd></p>
                     <?php } ?>
-                    
+
 
                 </div>
 
