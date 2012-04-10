@@ -43,6 +43,7 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PEAR_WIKI_URL',              $_ENV['PEAR_WIKI_URL']);
     define('PEAR_WIKI_DSN',              $_ENV['PEAR_WIKI_DSN']);
     define('PEARWEB_BUGS_ML_EMAIL',      $_ENV['PEARWEB_BUGS_ML_EMAIL']);
+    define('PEAR_DOCUMENTATION_ENGINE',  $_ENV['PEAR_DOCUMENTATION_ENGINE');
 } else {
     define('SITE', 'pear');
     define('SITE_BIG', strtoupper(SITE));
@@ -103,6 +104,8 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PROPOSAL_MAIL_PEAR_GROUP', 'PEAR group <pear-group@php.net>');
     // PEPr: the email address used as the From header
     define('PROPOSAL_MAIL_FROM', 'PEPr <bounce-no-user@php.net>');
+
+    define('PEAR_DOCUMENTATION_ENGINE', 'phpdocumentor');
 }
 
 if (isset($_ENV['PEARWEB_PROTOCOL'])) {
