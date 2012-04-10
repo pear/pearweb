@@ -901,3 +901,7 @@ td.moreInfo {
 #news .news-entry h4 {
     margin-bottom: 0.2em;
 }
+
+div.gadget {
+   border: none !important;
+}
