@@ -1,7 +1,7 @@
 <?php
 require_once 'PEAR/PackageFileManager2.php';
 $dir = dirname(__FILE__);
-PEAR::setErrorHandling(PEAR_ERROR_DIE);
+PEAR::setErrorHandling(PEAR_ERROR_EXCEPTION);
 $a = PEAR_PackageFileManager2::importOptions(
     $dir . '/package.xml',
     array(
