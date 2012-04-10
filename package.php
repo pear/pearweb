@@ -25,15 +25,12 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.25.0');
+$a->setReleaseVersion('1.26.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-XSS fixes
-HTTPS fixes
-Upgrade of Services_ProjectHoneyPot
-Upgrade of Horde_Text_Diff
-See https://github.com/pear/pearweb/commits/master for full details
+Fix Ohloh CSS annoyance
+Add some X-PHP headers to patch emails.
 ');
 $a->resetUsesrole();
 $a->clearDeps();
