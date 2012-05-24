@@ -114,8 +114,8 @@ $gopear_bundle_dir = dirname(__FILE__).'/go-pear-bundle';
 
 $bootstrap_files = array(
     'PEAR.php'             => 'https://raw.github.com/pear/pear-core/master/PEAR.php',
-    'Archive/Tar.php'      => 'http://svn.php.net/viewvc/pear/packages/Archive_Tar/tags/Archive_Tar-1.3.7/Archive/Tar.php?view=co',
-    'Console/Getopt.php'   => 'http://svn.php.net/viewvc/pear/pear-core/branches/PEAR_1_4/Console/Getopt.php?view=co',
+    'Archive/Tar.php'      => 'https://raw.github.com/pear/Archive_Tar/master/Archive/Tar.php',
+    'Console/Getopt.php'   => 'https://raw.github.com/pear/Console_Getopt/trunk/Console/Getopt.php',
     );
 
 $bootstrap_pkgs = array( // uses URL like http://pear.php.net/get/%s
