@@ -25,7 +25,7 @@
  * installation that will be ready for immediate use.
  *
  * @license    http://www.php.net/license/2_02.txt  PHP License 2.02
- * @version    CVS: $Id$
+ * @version    CVS: $Id: go-pear 309077 2011-03-10 18:36:20Z dufuz $
  * @link       http://pear.php.net/package/pearweb_gopear
  * @author     Tomas V.V.Cox <cox@idecnet.com>
  * @author     Stig Bakken <ssb@php.net>
@@ -730,7 +730,7 @@ if ($noextract) {
         displayHTMLProgress($progress += round(19 / count($bootstrap_pkgs)));
 
         $fullpkg = substr($tarball, 0, strrpos($tarball, '.'));
-        $tar = &new Archive_Tar($tarball, $have_gzip);
+        $tar = new Archive_Tar($tarball, $have_gzip);
         if (!$tar->extractModify($ptmp, $fullpkg)) {
             bail("Extraction for $fullpkg failed!\n");
         }
@@ -1032,16 +1032,26 @@ function parse_dirname($dir)
 
 function download_url($url, $destfile = null, $proxy = null)
 {
+	$isSSL = false;
     $use_suggested_filename = ($destfile === null);
     if ($use_suggested_filename) {
         $destfile = basename($url);
     }
     $tmp = parse_url($url);
+    
+    if ($tmp['scheme'] == 'https' || $tmp['scheme'] == 'ssl') {
+		$tmp['port'] = 443;
+		$isSSL = true;
+	}
+    
     if (empty($tmp['port'])) {
         $tmp['port'] = 80;
     }
     if (empty($proxy)) {
-        $fp = fsockopen($tmp['host'], $tmp['port'], $errno, $errstr);
+		if ($isSSL)
+			$fp = fsockopen("ssl://$tmp[host]", $tmp['port'], $errno, $errstr);
+		else
+			$fp = fsockopen($tmp['host'], $tmp['port'], $errno, $errstr);
         //print "\nconnecting to $tmp[host]:$tmp[port]\n";
     } else {
         $tmp_proxy = parse_url($proxy);
@@ -1057,7 +1067,11 @@ function download_url($url, $destfile = null, $proxy = null)
     if (empty($proxy)) {
         $path = $tmp['path'];
     } else {
-        $path = "http://$tmp[host]:$tmp[port]$tmp[path]";
+		if ($isSSL)
+			$path = "ssl://$tmp[host]:$tmp[port]$tmp[path]";
+		else
+			$path = "http://$tmp[host]:$tmp[port]$tmp[path]";
+
     }
     if (isset($tmp['query'])) {
         $path .= "?$tmp[query]";
