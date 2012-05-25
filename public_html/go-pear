@@ -944,8 +944,11 @@ if (WEBINSTALLER) {
             'index.php.txt',
             $webfrontend_file
         );
-    file_str_replace($webfrontend_file, '@pear_dir@', $GLOBALS['php_dir']);
     print "ok\n";
+    
+    if (!file_str_replace($webfrontend_file, '@pear_dir@', $GLOBALS['php_dir']))
+        print "You need to replace @pear_dir@ with the actual /path/to/PEAR/ in index.php\n"
+
 
     if ($_GET['step'] == 'install-progress') {
         displayHTMLProgress($progress = 100);
@@ -1040,8 +1043,8 @@ function file_str_replace($filename, $search, $replace)
 			return true;
 	$fh = fopen($filename, 'w');
 	if ($fh) {
-		$bytes = fwrite($f, $data);
-		fclose($f);
+		$bytes = fwrite($fh, $data);
+		fclose($fh);
 		return $bytes; 
 	}
 	return false;
