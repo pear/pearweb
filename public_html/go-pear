@@ -944,6 +944,7 @@ if (WEBINSTALLER) {
             'index.php.txt',
             $webfrontend_file
         );
+    file_str_replace($webfrontend_file, '@pear_dir@', $GLOBALS['php_dir']);
     print "ok\n";
 
     if ($_GET['step'] == 'install-progress') {
@@ -1028,6 +1029,25 @@ function parse_dirname($dir)
     return $dir;
 }
 
+// {{{ file_str_replace()
+
+function file_str_replace($filename, $search, $replace)
+{
+	$str = file_get_contents($filename);
+	$str = str_replace($search, $replace, $str);
+	if (function_exists('file_put_contents') 
+		&& file_put_contents($filename, $str) !== false)
+			return true;
+	$fh = fopen($filename, 'w');
+	if ($fh) {
+		$bytes = fwrite($f, $data);
+		fclose($f);
+		return $bytes; 
+	}
+	return false;
+}
+    
+// }}}
 
 // {{{ download_url()
 
@@ -1100,7 +1120,7 @@ function download_url($url, $destfile = null, $proxy = null)
             $content_length = trim($matches[1]);
         }
         if ($use_suggested_filename && !strncasecmp($line, $cdh, $cdhl)) {
-            if (eregi('filename="([^"]+)"', $line, $matches)) {
+            if (preg_match('@filename="([^"]+)"@', $line, $matches)) {
                 $destfile = basename($matches[1]);
             }
         }
