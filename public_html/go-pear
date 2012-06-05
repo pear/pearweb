@@ -113,10 +113,11 @@ Thank you for your coopertion and sorry for the inconvenience!
 $gopear_bundle_dir = dirname(__FILE__).'/go-pear-bundle';
 
 $bootstrap_files = array(
+    'PEAR5.php'            => 'https://raw.github.com/pear/pear-core/master/PEAR5.php',
     'PEAR.php'             => 'https://raw.github.com/pear/pear-core/master/PEAR.php',
-    'Archive/Tar.php'      => 'http://svn.php.net/viewvc/pear/packages/Archive_Tar/tags/Archive_Tar-1.3.7/Archive/Tar.php?view=co',
-    'Console/Getopt.php'   => 'http://svn.php.net/viewvc/pear/pear-core/branches/PEAR_1_4/Console/Getopt.php?view=co',
-    );
+    'Archive/Tar.php'      => 'https://raw.github.com/pear/Archive_Tar/master/Archive/Tar.php',
+    'Console/Getopt.php'   => 'https://raw.github.com/pear/Console_Getopt/trunk/Console/Getopt.php',
+);
 
 $bootstrap_pkgs = array( // uses URL like http://pear.php.net/get/%s
     'PEAR',
@@ -730,7 +731,7 @@ if ($noextract) {
         displayHTMLProgress($progress += round(19 / count($bootstrap_pkgs)));
 
         $fullpkg = substr($tarball, 0, strrpos($tarball, '.'));
-        $tar = &new Archive_Tar($tarball, $have_gzip);
+        $tar = new Archive_Tar($tarball, $have_gzip);
         if (!$tar->extractModify($ptmp, $fullpkg)) {
             bail("Extraction for $fullpkg failed!\n");
         }
@@ -944,6 +945,10 @@ if (WEBINSTALLER) {
             $webfrontend_file
         );
     print "ok\n";
+    
+    if (!file_str_replace($webfrontend_file, '@pear_dir@', $GLOBALS['php_dir'])) {
+        print "You need to replace @pear_dir@ with the actual /path/to/PEAR/ in index.php\n";
+    }
 
     if ($_GET['step'] == 'install-progress') {
         displayHTMLProgress($progress = 100);
@@ -1027,22 +1032,50 @@ function parse_dirname($dir)
     return $dir;
 }
 
+// {{{ file_str_replace()
+function file_str_replace($filename, $search, $replace)
+{
+    $str = file_get_contents($filename);
+    $str = str_replace($search, $replace, $str);
+    if (function_exists('file_put_contents') 
+        && file_put_contents($filename, $str) !== false)
+        return true;
+    $fh = fopen($filename, 'w');
+    if ($fh) {
+        $bytes = fwrite($fh, $data);
+        fclose($fh);
+        return $bytes; 
+    }
+    return false;
+}
+// }}}
 
 // {{{ download_url()
 
 function download_url($url, $destfile = null, $proxy = null)
 {
+    $isSSL = false;
     $use_suggested_filename = ($destfile === null);
     if ($use_suggested_filename) {
         $destfile = basename($url);
     }
     $tmp = parse_url($url);
+    
+    if ($tmp['scheme'] == 'https' || $tmp['scheme'] == 'ssl') {
+        $tmp['port'] = 443;
+        $isSSL = true;
+	}
+    
     if (empty($tmp['port'])) {
         $tmp['port'] = 80;
     }
     if (empty($proxy)) {
-        $fp = fsockopen($tmp['host'], $tmp['port'], $errno, $errstr);
-        //print "\nconnecting to $tmp[host]:$tmp[port]\n";
+		if ($isSSL) {
+			$fp = fsockopen("ssl://$tmp[host]", $tmp['port'], $errno, $errstr);
+		} else {
+			$fp = fsockopen($tmp['host'], $tmp['port'], $errno, $errstr);
+        }
+        // print "\nconnecting to $tmp[host]:$tmp[port]\n";
     } else {
         $tmp_proxy = parse_url($proxy);
         $phost     = $tmp_proxy['host'];
@@ -1057,7 +1090,11 @@ function download_url($url, $destfile = null, $proxy = null)
     if (empty($proxy)) {
         $path = $tmp['path'];
     } else {
-        $path = "http://$tmp[host]:$tmp[port]$tmp[path]";
+		if ($isSSL) {
+			$path = "ssl://$tmp[host]:$tmp[port]$tmp[path]";
+		} else {
+			$path = "http://$tmp[host]:$tmp[port]$tmp[path]";
+        }
     }
     if (isset($tmp['query'])) {
         $path .= "?$tmp[query]";
@@ -1085,7 +1122,7 @@ function download_url($url, $destfile = null, $proxy = null)
             $content_length = trim($matches[1]);
         }
         if ($use_suggested_filename && !strncasecmp($line, $cdh, $cdhl)) {
-            if (eregi('filename="([^"]+)"', $line, $matches)) {
+            if (preg_match('@filename="([^"]+)"@', $line, $matches)) {
                 $destfile = basename($matches[1]);
             }
         }
