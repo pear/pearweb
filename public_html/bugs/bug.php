@@ -382,11 +382,6 @@ if (isset($_POST['addpatch'])) {
         $_POST['in']['package_version'] = '';
     }
     $time = time();
-    if (!empty($_POST['in']['ts2'])) {
-       $date = new DateTime($_POST['in']['ts2']);
-
-       $time = $date->format("U");
-    }
     if (!$errors && !($errors = incoming_details_are_valid($_POST['in'], false, false))) {
         $time = time();
         $query = 'UPDATE bugdb SET' .
@@ -972,6 +967,7 @@ if ($edit == 1 || $edit == 2) {
 
        <?php if ($edit == 1 && auth_check('pear.dev')) { ?>
            <input type="datetime" name="ts2" value="<?php print date("c", $bug['ts2']); ?>" />
+           <script type="text/javascript">$("ts2").dtpicker();</script>
        <?php } ?>
 <?php
     if ($edit == 1 && auth_check('pear.dev')) {
