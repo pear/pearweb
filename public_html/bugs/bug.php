@@ -383,7 +383,6 @@ if (isset($_POST['addpatch'])) {
     }
     $time = time();
     if (!$errors && !($errors = incoming_details_are_valid($_POST['in'], false, false))) {
-        $time = time();
         $query = 'UPDATE bugdb SET' .
                  " sdesc='" . $dbh->escapeSimple($_POST['in']['sdesc']) . "'," .
                  " status='" . $dbh->escapeSimple($_POST['in']['status']) . "'," .
@@ -392,7 +391,7 @@ if (isset($_POST['addpatch'])) {
                  " package_version='" . $dbh->escapeSimple($_POST['in']['package_version']) . "'," .
                  " php_version='" . $dbh->escapeSimple($_POST['in']['php_version']) . "'," .
                  " php_os='" . $dbh->escapeSimple($_POST['in']['php_os']) . "'," .
-                 " ts2=UNIX_TIMESTAMP('" . $time . "'), " .
+                 " ts2=FROM_UNIXTIME(" . $time . "), " .
                  " email='" . $dbh->escapeSimple($from) . "' WHERE id=$id";
         $dbh->query($query);
 
@@ -506,7 +505,7 @@ if (isset($_POST['addpatch'])) {
                   " package_version='" . $dbh->escapeSimple($_POST['in']['package_version']) . "'," .
                   " php_version='" . $dbh->escapeSimple($_POST['in']['php_version']) . "'," .
                   " php_os='" . $dbh->escapeSimple($_POST['in']['php_os']) . "'," .
-                  " ts2=FROM_UNIXTIME('" . $time . "') WHERE id=$id";
+                  " ts2=FROM_UNIXTIME(" . $time . ") WHERE id=$id";
         $dbh->query($query);
 
         $previous = $dbh->getAll('SELECT roadmap_version
