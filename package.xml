@@ -377,6 +377,10 @@ Add some X-PHP headers to patch emails.
      <dir name="TreeMenu">
       <file name="TreeMenu.js" role="www" />
      </dir> <!-- /public_html/javascript/TreeMenu -->
+     <dir name="jquery-dtpicker">
+      <file name="jquery.dtpicker.css" role="www" />
+      <file name="jquery.dtpicker.min.js" role="www" />
+     </dir>
      <file name="detect-user-agent.js" role="www" />
      <file name="IE8.js" role="www" />
      <file name="jquery.js" role="www" />
