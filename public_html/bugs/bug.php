@@ -496,7 +496,6 @@ if (isset($_POST['addpatch'])) {
             $date = new DateTime($_POST['in']['ts2']);
 
             $time = $date->format("U");
-            $bug['modified'] = $time;
         }
 
         $query .= " sdesc='" . $dbh->escapeSimple($_POST['in']['sdesc']) . "'," .
@@ -543,6 +542,9 @@ if (isset($_POST['addpatch'])) {
                      ' (bug, email, ts, comment, reporter_name, handle, active) VALUES (?, ?, NOW(), ?, ?, ?, 1)';
             $dbh->query($query, array($id, $from, $ncomment, $comment_name, $auth_user->handle));
         }
+
+        localRedirect('bug.php?id='.$id);
+        exit;
     }
 } elseif (isset($_POST['in']) && isset($_POST['preview']) && $edit == 1) {
     $ncomment = trim($_POST['ncomment']);
