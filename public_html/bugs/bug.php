@@ -966,7 +966,7 @@ if ($edit == 1 || $edit == 2) {
        </select>
 
        <?php if ($edit == 1 && auth_check('pear.dev')) { ?>
-           <input type="datetime" name="ts2" value="<?php print date("c", $bug['ts2']); ?>" />
+           <input type="datetime" id="ts2" name="ts2" value="<?php print date("c", $bug['ts2']); ?>" />
            <script type="text/javascript">$("ts2").dtpicker();</script>
        <?php } ?>
 <?php
