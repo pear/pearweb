@@ -401,6 +401,7 @@ if (isset($_POST['addpatch'])) {
             $dbh->query($query, array($id, $from, $ncomment));
         }
     }
+
 } elseif (isset($_POST['in']) && isset($_POST['preview']) && $edit == 2) {
     $ncomment = trim($_POST['ncomment']);
     $from     = $_POST['in']['commentemail'];
@@ -495,6 +496,7 @@ if (isset($_POST['addpatch'])) {
             $date = new DateTime($_POST['in']['ts2']);
 
             $time = $date->format("U");
+            $bug['modified'] = $time;
         }
 
         $query .= " sdesc='" . $dbh->escapeSimple($_POST['in']['sdesc']) . "'," .
