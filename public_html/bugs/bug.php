@@ -496,6 +496,12 @@ if (isset($_POST['addpatch'])) {
             // reset package version if we change package name
             $_POST['in']['package_version'] = '';
         }
+        $time = time();
+        if (!empty($_POST['in']['ts2'])) {
+            $date = new DateTime($_POST['in']['ts2']);
+
+            $time = $date->format("U");
+        }
 
         $query .= " sdesc='" . $dbh->escapeSimple($_POST['in']['sdesc']) . "'," .
                   " status='" . $dbh->escapeSimple($status) . "'," .
@@ -505,7 +511,7 @@ if (isset($_POST['addpatch'])) {
                   " package_version='" . $dbh->escapeSimple($_POST['in']['package_version']) . "'," .
                   " php_version='" . $dbh->escapeSimple($_POST['in']['php_version']) . "'," .
                   " php_os='" . $dbh->escapeSimple($_POST['in']['php_os']) . "'," .
-                  " ts2=NOW() WHERE id=$id";
+                  " ts2=FROM_UNIXTIME('" . $time . "') WHERE id=$id";
         $dbh->query($query);
 
         $previous = $dbh->getAll('SELECT roadmap_version
@@ -964,6 +970,9 @@ if ($edit == 1 || $edit == 2) {
             show_state_options($status, $edit, $bug['status']) ?>
        </select>
 
+       <?php if ($edit == 1 && auth_check('pear.dev')) { ?>
+           <input type="datetime" name="ts2" value="<?php print date("c", $bug['ts2']); ?>" />
+       <?php } ?>
 <?php
     if ($edit == 1 && auth_check('pear.dev')) {
 ?>
