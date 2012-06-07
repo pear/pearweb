@@ -381,8 +381,14 @@ if (isset($_POST['addpatch'])) {
         // reset package version if we change package name
         $_POST['in']['package_version'] = '';
     }
+    $time = time();
+    if (!empty($_POST['in']['ts2'])) {
+       $date = new DateTime($_POST['in']['ts2']);
 
+       $time = $date->format("U");
+    }
     if (!$errors && !($errors = incoming_details_are_valid($_POST['in'], false, false))) {
+        $time = time();
         $query = 'UPDATE bugdb SET' .
                  " sdesc='" . $dbh->escapeSimple($_POST['in']['sdesc']) . "'," .
                  " status='" . $dbh->escapeSimple($_POST['in']['status']) . "'," .
@@ -391,7 +397,7 @@ if (isset($_POST['addpatch'])) {
                  " package_version='" . $dbh->escapeSimple($_POST['in']['package_version']) . "'," .
                  " php_version='" . $dbh->escapeSimple($_POST['in']['php_version']) . "'," .
                  " php_os='" . $dbh->escapeSimple($_POST['in']['php_os']) . "'," .
-                 ' ts2=NOW(), ' .
+                 " ts2=UNIX_TIMESTAMP('" . $time . "'), " .
                  " email='" . $dbh->escapeSimple($from) . "' WHERE id=$id";
         $dbh->query($query);
 
