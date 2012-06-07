@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+  <head>
+    <link href="./jquery.dtpicker.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="./jquery-1.3.2.min.js"></script>
+    <script type="text/javascript" src="./jquery.metadata.min.js"></script>
+    <script type="text/javascript" src="./jquery.dtpicker.min.js"></script>
+    <script type="text/javascript">
+      $(function () {
+        //You can change the defaults like this:
+        //$.extend($.fn.dtpicker.defaults, { squeeze: true });
+        //You can apply the dtpicker to all inputs (type=date, datetime, time, datetime-local) like this:
+        $("input").dtpicker();
+        //Or you could have done the same thing but applying options:
+        //$("input").dtpicker({ squeeze: true });
+        //I've used the metadata plugin and applied options in the class attribute below
+      });
+    </script>
+  </head>
+  <body>
+      <fieldset style="float: left;"><legend>datetime-local</legend>
+        <fieldset><legend>normal</legend><input type="datetime-local"></fieldset>
+        <fieldset><legend>squeeze the days section</legend><input type="datetime-local" class="{ squeeze: true }"></fieldset>
+        <fieldset><legend>with recent minimum</legend><input type="datetime-local" min="2009-02-03T04:30"></fieldset>
+        <fieldset><legend>with maximum</legend><input type="datetime-local" max="2010-08-08T23:00"></fieldset>
+        <fieldset><legend>with minimum and maximum</legend><input type="datetime-local" min="2009-03-14T16:00" max="2010-08-08T11:55"></fieldset>
+        <fieldset><legend>with close minimum and maximum</legend><input type="datetime-local" min="2009-08-01T12:15" max="2009-08-08T13:25"></fieldset>
+        <fieldset><legend>short month names</legend><input type="datetime-local" class="{ months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'] }"></fieldset>
+        <fieldset><legend>Spanish month names</legend><input type="datetime-local" class="{ months: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agusto', 'septiembre', 'octubre', 'noviembre', 'diciembre'] }"></fieldset>
+      </fieldset>
+      <fieldset style="float: left;"><legend>time</legend>
+        <fieldset><legend>normal</legend><input type="time"></fieldset>
+        <fieldset><legend>with minimum</legend><input type="time" min="10:30"></fieldset>
+        <fieldset><legend>with maximum</legend><input type="time" max="10:30"></fieldset>
+        <fieldset><legend>with minimum and maximum</legend><input type="time" min="10:30" max="14:45"></fieldset>
+      </fieldset>
+      <fieldset style="float: left;"><legend>date</legend>
+        <fieldset><legend>normal</legend><input type="date"></fieldset>
+        <fieldset><legend>squeeze the days section</legend><input type="date" class="{ squeeze: true }"></fieldset>
+        <fieldset><legend>with recent minimum</legend><input type="date" min="2009-02-03"></fieldset>
+        <fieldset><legend>with maximum</legend><input type="date" max="2011-08-08"></fieldset>
+        <fieldset><legend>with minimum and maximum</legend><input type="date" min="2009-03-14" max="2010-08-08"></fieldset>
+        <fieldset><legend>with close minimum and maximum</legend><input type="date" min="2009-08-01" max="2009-08-08"></fieldset>
+      </fieldset>
+      <fieldset style="float: left;"><legend>datetime</legend>
+        <fieldset><legend>normal</legend><input type="datetime"></fieldset>
+        <fieldset><legend>squeeze the days section</legend><input type="datetime" class="{ squeeze: true }"></fieldset>
+        <fieldset><legend>with recent minimum</legend><input type="datetime" min="2009-02-03T04:30Z"></fieldset>
+        <fieldset><legend>with maximum</legend><input type="datetime" max="2010-08-08T23:00Z"></fieldset>
+        <fieldset><legend>with minimum and maximum</legend><input type="datetime" min="2009-03-14T16:00Z" max="2010-08-08T11:55Z"></fieldset>
+        <fieldset><legend>with close minimum and maximum</legend><input type="datetime" min="2009-08-01T12:15Z" max="2009-08-08T13:25Z"></fieldset>
+      </fieldset>
+  </body>
+</html>
