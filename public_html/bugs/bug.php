@@ -622,20 +622,7 @@ report_error($errors);
   <tr id="submission">
    <th>Submitted:</th>
 <?php
-if ($bug['modified']) {
-    echo '   <td style="white-space: nowrap;">' . format_date($bug['submitted']) . "</td>\n";
-    echo '   <th class="details">Modified:</th>' . "\n";
-    echo '   <td style="white-space: nowrap;">';
-    if ($edit == 1 && auth_check('pear.dev')) { ?>
-           <input type="datetime" id="ts2" name="in[ts2]" value="<?php print date("c", $bug['modified']); ?>" />
-           <script type="text/javascript">$("ts2").dtpicker();</script>
-    <?php } else {
-        echo format_date($bug['modified']);
-    }
-    echo  '</td>';
-} else {
-    echo '   <td colspan="3">' . format_date($bug['submitted']) . '</td>';
-}
+ echo '   <td colspan="3">' . format_date($bug['submitted']) . '</td>';
 ?>
 
   </tr>
@@ -969,7 +956,18 @@ if ($edit == 1 || $edit == 2) {
         <?php
             $status = isset($_POST['in']) && isset($_POST['in']['status']) ? $_POST['in']['status'] : '';
             show_state_options($status, $edit, $bug['status']) ?>
-       </select>
+       </select><br />
+<?php 
+if ($bug['modified']) {
+    if ($edit == 1 && auth_check('pear.dev')) { ?>
+           <input type="datetime" id="ts2" name="in[ts2]" value="<?php print date("c", $bug['modified']); ?>" />
+           <script type="text/javascript">$("ts2").dtpicker();</script>
+    <?php } else {
+        echo format_date($bug['modified']);
+    }
+}
+?>
+
 <?php
     if ($edit == 1 && auth_check('pear.dev')) {
 ?>
