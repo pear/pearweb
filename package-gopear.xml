@@ -46,8 +46,8 @@ You can download go-pear from http://pear.php.net/go-pear
  <date>2011-03-10</date>
  <time>18:05:42</time>
  <version>
-  <release>1.1.6</release>
-  <api>1.1.0</api>
+  <release>1.1.7</release>
+  <api>1.1.1</api>
  </version>
  <stability>
   <release>stable</release>
@@ -55,7 +55,7 @@ You can download go-pear from http://pear.php.net/go-pear
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-  * Only direct people towards go-pear.phar if they are running PHP 5.1+ on the CLI oppose to in web installer mode.
+Bug #19386	go-pear.php not working since the svn->github migration
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
