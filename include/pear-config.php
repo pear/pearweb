@@ -43,7 +43,7 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PEAR_WIKI_URL',              $_ENV['PEAR_WIKI_URL']);
     define('PEAR_WIKI_DSN',              $_ENV['PEAR_WIKI_DSN']);
     define('PEARWEB_BUGS_ML_EMAIL',      $_ENV['PEARWEB_BUGS_ML_EMAIL']);
-    define('PEAR_DOCUMENTATION_ENGINE',  $_ENV['PEAR_DOCUMENTATION_ENGINE');
+    define('PEAR_DOCUMENTATION_ENGINE',  $_ENV['PEAR_DOCUMENTATION_ENGINE']);
 } else {
     define('SITE', 'pear');
     define('SITE_BIG', strtoupper(SITE));
