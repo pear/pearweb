@@ -6,12 +6,10 @@ session_start();
  */
 define ('NOTE_ADD_ERROR_NO_URI', 'No URI passed to the form');
 
-/**
- * Numeral Captcha Class
- */
-require_once 'Text/CAPTCHA/Numeral.php';
+require_once 'Services/ReCaptcha.php';
 
-$captcha = new Text_CAPTCHA_Numeral();
+$captcha = new Services_ReCaptcha(PEAR_RECAPTCHA_PUBLIC_KEY, PEAR_RECAPTCHA_PRIVATE_KEY);
+
 
 /**
  * This parameter should be passed from the

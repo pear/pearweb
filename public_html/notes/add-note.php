@@ -1,8 +1,12 @@
 <?php
+require_once 'Services/ReCaptcha.php';
+
+$captcha = new Services_ReCaptcha(PEAR_RECAPTCHA_PUBLIC_KEY, PEAR_RECAPTCHA_PRIVATE_KEY);
+
 session_start();
 
 $post = $_POST;
-unset($_POST);
+
 
 $loggedin = isset($auth_user) && $auth_user->registered;
 
@@ -46,18 +50,8 @@ $errors = array();
  * If the captcha is wrong, then regenerate it.
  */
 if (!$loggedin) {
-    if (!isset($_SESSION['answer']) || strlen(trim($_SESSION['answer'])) == 0) {
-        $errors[] = 'Please activate cookies';
-
-    } else if ($post['answer'] != $_SESSION['answer']) {
-
-        $errors[] = 'Incorrect Captcha';
-
-        require_once 'Text/CAPTCHA/Numeral.php';
-
-        $captcha            = new Text_CAPTCHA_Numeral();
-        $spamCheck          = $captcha->getOperation();
-        $_SESSION['answer'] = $captcha->getAnswer();
+    if (!$captcha->validate()) {
+        $errors[] = 'Incorrect Captcha';       
     }
     /**
      * @todo Check akismet here aswell ?

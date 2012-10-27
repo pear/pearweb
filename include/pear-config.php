@@ -44,6 +44,8 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PEAR_WIKI_DSN',              $_ENV['PEAR_WIKI_DSN']);
     define('PEARWEB_BUGS_ML_EMAIL',      $_ENV['PEARWEB_BUGS_ML_EMAIL']);
     define('PEAR_DOCUMENTATION_ENGINE',  $_ENV['PEAR_DOCUMENTATION_ENGINE']);
+    define('PEAR_RECAPTCHA_PUBLIC_KEY',  $_ENV['PEAR_RECAPTCHA_PUBLIC_KEY']);
+    define('PEAR_RECAPTCHA_PRIVATE_KEY', $_ENV['PEAR_RECAPTCHA_PRIVATE_KEY']);
 } else {
     define('SITE', 'pear');
     define('SITE_BIG', strtoupper(SITE));
@@ -106,6 +108,8 @@ if (isset($_ENV['PEAR_CHANNELNAME']) && $_ENV['PEAR_CHANNELNAME'] != 'pear.php.n
     define('PROPOSAL_MAIL_FROM', 'PEPr <bounce-no-user@php.net>');
 
     define('PEAR_DOCUMENTATION_ENGINE', 'phpdocumentor');
+    define('PEAR_RECAPTCHA_PUBLIC_KEY', '6LdpSdgSAAAAAHXwkhHNrWZb2Mc-VAIxX8BI-dK6');
+    define('PEAR_RECAPTCHA_PRIVATE_KEY', '');
 }
 
 if (isset($_ENV['PEARWEB_PROTOCOL'])) {

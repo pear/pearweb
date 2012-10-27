@@ -2,7 +2,7 @@
 <h1>Add a Note to <?php echo htmlspecialchars($noteUrl) ?></h1>
 <?php
 require 'pear-manual.php';
-// {{{ isset($error)
+
 if (isset($errors)) {
 ?>
 
@@ -11,7 +11,6 @@ if (isset($errors)) {
         echo '<div class="errors">', htmlspecialchars($error), '</div>';
     }
 }
-// }}}
 ?>
 
 <p>
@@ -57,8 +56,10 @@ if (isset($errors)) {
  </tr>
  <?php if (!$loggedin) { ?>
  <tr>
-  <th class="form-label_left">Solve this: "<?php echo $spamCheck?> = ?"<br/></th>
-  <td class="form-input"><input name="answer" size="40" maxlength="10" type="text"></td>
+  <th class="form-label_left"><br/></th>
+  <td class="form-input">
+    <?php print $captcha; ?>
+  </td>
  </tr>
  <?php } // if ($loggedin) ?>
  <tr>
