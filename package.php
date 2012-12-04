@@ -24,12 +24,12 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.26.0');
+$a->setReleaseVersion('1.27.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Fix Ohloh CSS annoyance
-Add some X-PHP headers to patch emails.
+* Escape /get/ error messages properly
+* Add ReCaptcha to user notes
 ');
 $a->resetUsesrole();
 $a->clearDeps();
@@ -43,6 +43,7 @@ $a->addPackageDepWithChannel('required', 'XML_Feed_Parser', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'Services_Twitter', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'Cache_Lite', 'pear.php.net');
 $a->addPackageDepWithChannel('required', 'HTTP', 'pear.php.net', '1.4.0');
+$a->addPackageDepWithChannel('required', 'Services_ReCaptcha', 'pear.php.net', '1.0.3');
 $a->addPackageDepWithChannel('required', 'Text_CAPTCHA_Numeral', 'pear.php.net', '1.1.0');
 $a->addPackageDepWithChannel('required', 'Services_ProjectHoneyPot', 'pear.php.net', '0.6.0');
 // used only in cron jobs
