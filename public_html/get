@@ -57,7 +57,7 @@ function error_404($obj)
             echo ' ' . htmlentities($obj->getDebugInfo());
         }
     } else {
-        htmlentities($obj);
+        print htmlentities($obj);
     }
     exit;
 }
