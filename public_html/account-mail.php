@@ -128,6 +128,10 @@ if (isset($_POST['submit'])) {
         $errors[] = 'You have to specify the text of your correspondence.';
     }
 
+    if (!empty($_SESSION['last_email_sent']) && $_SESSION['last_email_sent'] > time() - 5) {
+        $errors[] = 'Wait a few seconds before sending more email.';
+    }
+
     if (!report_error($errors)) {
         $text = "[This message has been brought to you via " . PEAR_CHANNELNAME . ".]\n\n";
         $text .= wordwrap($_POST['text'], 72);
@@ -136,6 +140,8 @@ if (isset($_POST['submit'])) {
             $text .= "\n\nvia PEAR account:";
             $text .= print_r(array('email' => $auth_user->email, 'name' => $auth_user->name), true);
         }
+
+        $_SESSION['last_email_sent'] = time();
 
         if (@mail($row['email'], $_POST['subject'], $text,
                   'From: "' . $_POST['name'] . '" <' . $_POST['email'] . '>',
