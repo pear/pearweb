@@ -132,6 +132,11 @@ if (isset($_POST['submit'])) {
         $text = "[This message has been brought to you via " . PEAR_CHANNELNAME . ".]\n\n";
         $text .= wordwrap($_POST['text'], 72);
 
+        if ($auth_user) {
+            $text .= "\n\nvia PEAR account:";
+            $text .= print_r(array('email' => $auth_user->email, 'name' => $auth_user->name), true);
+        }
+
         if (@mail($row['email'], $_POST['subject'], $text,
                   'From: "' . $_POST['name'] . '" <' . $_POST['email'] . '>',
                   '-f bounce-no-user@php.net'))
