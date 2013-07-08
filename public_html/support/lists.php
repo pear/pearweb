@@ -159,7 +159,7 @@ if (isset($_POST['action'])) {
         report_success('A request has been entered into the mailing list'
                        . ' processing queue. You should receive '
                        . (count($_POST['maillist']) == 1 ? 'an email' : 'emails' )
-                       . ' at ' . $_POST['email'] . ' shortly describing'
+                       . ' at ' . htmlentities($_POST['email'], ENT_QUOTES, 'UTF-8') . ' shortly describing'
                        . ' how to complete your request.');
     }
 }
