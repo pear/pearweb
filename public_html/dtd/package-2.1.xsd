@@ -191,6 +191,7 @@
    <xs:attribute name="role" type="xs:string" use="required"/>
    <xs:attribute name="baseinstalldir" type="xs:string"/>
    <xs:attribute name="md5sum" type="xs:string"/>
+   <xs:attribute name="sha1sum" type="xs:string"/>
   </xs:complexType>
  </xs:element>
  <xs:element name="install">
