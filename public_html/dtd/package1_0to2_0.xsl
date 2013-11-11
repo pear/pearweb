@@ -248,7 +248,7 @@
     <xsl:if test="@install-as">
      <xsl:attribute name="install-as"><xsl:value-of select="@install-as"/></xsl:attribute>
     </xsl:if>
-    <xsl:if test="@imd5sum">
+    <xsl:if test="@md5sum">
      <xsl:attribute name="md5sum"><xsl:value-of select="@md5sum"/></xsl:attribute>
     </xsl:if>
     <xsl:if test="@platform">
