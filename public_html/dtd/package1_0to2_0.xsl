@@ -251,6 +251,9 @@
     <xsl:if test="@md5sum">
      <xsl:attribute name="md5sum"><xsl:value-of select="@md5sum"/></xsl:attribute>
     </xsl:if>
+    <xsl:if test="@sha1sum">
+     <xsl:attribute name="sha1sum"><xsl:value-of select="@sha1sum"/></xsl:attribute>
+    </xsl:if>
     <xsl:if test="@platform">
      <xsl:attribute name="platform"><xsl:value-of select="@platform"/></xsl:attribute>
     </xsl:if>
