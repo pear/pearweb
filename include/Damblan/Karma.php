@@ -125,9 +125,9 @@ class Damblan_Karma
 
         // Abort if the karma level has already been granted to the user
         if ($this->has($user, $level)) {
-            PEAR::raiseError("The karma level $level has already been "
-                             . "granted to the user $user.");
-            return false;
+            throw new InvalidArgumentException(
+                "The karma level $level has already been granted to the user $user."
+            );
         }
 
         $id = $this->_dbh->nextId('karma');
