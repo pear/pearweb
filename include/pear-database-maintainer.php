@@ -26,7 +26,7 @@ class maintainer
 
         include_once 'pear-database-user.php';
         if (!user::exists($user)) {
-            return PEAR::raiseError("User $user does not exist");
+            throw new InvalidArgumentException("User $user does not exist");
         }
 
         include_once 'pear-database-package.php';
