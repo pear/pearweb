@@ -80,17 +80,20 @@ class Damblan_Mailer
      */
     function &create($template, $data)
     {
+        if (!is_array($data)) {
+            throw new InvalidArgumentException('Data not in correct format, has to be array.');
+        }
+
         if (!is_array($template)) {
             require PEARWEB_TEMPLATEDIR  . 'mail/'.$template.'.tpl.php';
             if (!isset($tpl)) {
-                return PEAR::raiseError('Template '.$template.' does not exist.');
+                throw new InvalidArgumentException('Template '.$template.' does not exist.');
             }
         } else {
             $tpl = $template;
         }
-        if (!is_array($data)) {
-            return PEAR::raiseError('Data not in correct format, has to be array.');
-        }
+        
+
         $mailer = new Damblan_Mailer();
         $mailer->_template = $tpl;
         $mailer->_data = $data;
@@ -151,14 +154,7 @@ class Damblan_Mailer
 
         // Attempt to send mail:
         $mail = Mail2::factory('mail', array('-f bounces-ignored@php.net'));
-        if (PEAR::isError($mail)) {
-            return PEAR::raiseError('Could not create Mail2 instance. '.$mail->getMessage());
-        }
-
-        $res = $mail->send($to, $data, $body);
-        if (PEAR::isError($res)) {
-            return PEAR::raiseError('Unable to send mail. '.$res->getMessage());
-        }
+        $mail->send($to, $data, $body);
 
         return true;
     }
