@@ -4,7 +4,7 @@
  * Generic mailer class
  * This class enables you to create, fill and send templates of emails.
  */
-require_once 'Mail.php';
+require_once 'Mail2.php';
 
 class Damblan_Mailer
 {
@@ -106,8 +106,8 @@ class Damblan_Mailer
      * @since
      * @access public
      * @param array $headers Additional headers to use when sending an email. Note, that
-                             none of these headers will overwrite existing headers, set in
-                             the template. If a header already exists in the template
+     *                       none of these headers will overwrite existing headers, set in
+     *                       the template. If a header already exists in the template
      * @return void
      */
     function send($headers = array())
@@ -150,9 +150,9 @@ class Damblan_Mailer
         }
 
         // Attempt to send mail:
-        $mail = Mail::factory('mail', array('-f bounces-ignored@php.net'));
+        $mail = Mail2::factory('mail', array('-f bounces-ignored@php.net'));
         if (PEAR::isError($mail)) {
-            return PEAR::raiseError('Could not create Mail instance. '.$mail->getMessage());
+            return PEAR::raiseError('Could not create Mail2 instance. '.$mail->getMessage());
         }
 
         $res = $mail->send($to, $data, $body);

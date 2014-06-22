@@ -62,7 +62,7 @@ $a->addPackageDepWithChannel('required', 'Horde_Text_Diff', 'pear.horde.org');
 $a->addPackageDepWithChannel('required', 'HTTP_Upload', 'pear.php.net', '0.8.1');
 $a->addPackageDepWithChannel('required', 'MDB2_Schema', 'pear.php.net', '0.6.0');
 $a->addPackageDepWithChannel('required', 'Log', 'pear.php.net', '1.8.4');
-$a->addPackageDepWithChannel('required', 'Mail', 'pear.php.net', '1.1.13');
+$a->addPackageDepWithChannel('required', 'Mail2', 'pear.php.net', '0.1.0');
 $a->addPackageDepWithChannel('required', 'Services_Trackback', 'pear.php.net', '0.4.0');
 $a->addPackageDepWithChannel('required', 'HTML_QuickForm', 'pear.php.net', '3.2.3');
 $a->addPackageDepWithChannel('required', 'HTML_QuickForm2', 'pear.php.net', '0.5.0');

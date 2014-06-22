@@ -21,7 +21,7 @@
 require_once 'Log.php';
 require_once 'Log/observer.php';
 
-require_once 'Mail.php';
+require_once 'Mail2.php';
 
 /**
  * Observer class for logging via email
@@ -42,7 +42,7 @@ class Damblan_Log_Mail extends Log_observer
     {
         parent::__construct();
 
-        $this->_mailer = Mail::factory('mail', '-f ' . PEAR_BOUNCE_EMAIL);
+        $this->_mailer = Mail2::factory('mail', '-f ' . PEAR_BOUNCE_EMAIL);
 
         $this->_headers['From'] = "\"PEAR System Administrators\" <pear-sys@php.net>";
     }

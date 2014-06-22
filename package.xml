@@ -762,9 +762,9 @@ Add some X-PHP headers to patch emails.
     <min>1.8.4</min>
    </package>
    <package>
-    <name>Mail</name>
+    <name>Mail2</name>
     <channel>pear.php.net</channel>
-    <min>1.1.13</min>
+    <min>0.1.0</min>
    </package>
    <package>
     <name>Services_Trackback</name>
