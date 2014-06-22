@@ -366,10 +366,10 @@ class Damblan_Trackback extends Services_Trackback
     function recentTrackbacks(&$dbh, $offset = 0, $number = 10, $approvedOnly = true, $unapprovedOnly = false)
     {
         if ($offset < 0) {
-            return PEAR::raiseError('Offset out of range. Offset must be integer >= 0.');
+            throw new InvalidArgumentException('Offset out of range. Offset must be integer >= 0.');
         }
         if (($number < 1) || ($number > 50)) {
-            return PEAR::raiseError('Number out of range. Number must be integer between 1 and 50.');
+            throw new InvalidArgumentException('Number out of range. Number must be integer between 1 and 50.');
         }
         $sql = 'SELECT id, title, excerpt, blog_name, url, timestamp, approved, ip
                 FROM trackbacks';
@@ -424,5 +424,3 @@ class Damblan_Trackback extends Services_Trackback
         return (strpos(strtolower(html_entity_decode($element)), strtolower($source)));
     }
 }
-
-?>
