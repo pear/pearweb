@@ -52,7 +52,7 @@ class category
     {
         global $dbh;
         if (empty($data['name'])) {
-            return PEAR::raiseError('no name given');
+            throw new InvalidArgumentException('no name given');
         }
         $name   = $data['name'];
         $desc   = empty($data['desc'])   ? 'none' : $data['desc'];
@@ -111,19 +111,6 @@ class category
      */
     static function delete($id)
     {
-
-        // if ($GLOBALS['dbh']->query('SELECT COUNT(*) FROM categories WHERE parent = ' . (int)$id) > 0) {
-        //     return PEAR::raiseError('Cannot delete a category which has subcategories');
-        // }
-        //
-        // // Get parent ID if any
-        // $parentID = $GLOBALS['dbh']->getOne('SELECT parent FROM categories WHERE id = ' . $id);
-        // if (!$parentID) {
-        //     $nextID = $GLOBALS['dbh']->getOne('SELECT id FROM categories WHERE cat_left = ' . $GLOBALS['dbh']->getOne('SELECT cat_right + 1 FROM categories WHERE id = ' . $id));
-        // } else {
-        //     $nextID = $parentID;
-        // }
-
         $name = $GLOBALS['dbh']->getOne('SELECT name FROM categories WHERE id = ?', array($id));
         // Get parent ID if any
         $parentID = $GLOBALS['dbh']->getOne('SELECT parent FROM categories WHERE id = ?', array($id));
