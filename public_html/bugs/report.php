@@ -350,7 +350,7 @@ if (isset($_POST['in'])) {
             $email = $_POST['in']['email'];
             require_once 'bugs/pear-bugs-utils.php';
             $protected_email  = '"' . PEAR_Bugs_Utils::spamProtect($email, 'text') . '"';
-            $protected_email .= '<' . $mailfrom . '>';
+            $protected_email .= ' <' . $mailfrom . '>';
 
             $extra_headers  = 'From: '           . $protected_email . "\n";
             $extra_headers .= 'X-PHP-BugTracker: PEARbug' . "\n";
