@@ -16,10 +16,10 @@ class PEAR_Bugs_Utils
             case 'PEPr':
             case 'Web Site':
                 $arr = $this->getPackageMail('pearweb');
-                $arr[0] .= ',' . PEAR_WEBMASTER_EMAIL;
+                $arr[0] .= ', <' . PEAR_WEBMASTER_EMAIL . '>';
                 return array($arr[0], PEAR_WEBMASTER_EMAIL);
             case 'Documentation':
-                return array(PEAR_DOC_EMAIL, PEAR_DOC_EMAIL);
+                return array('<' . PEAR_DOC_EMAIL . '>', PEAR_DOC_EMAIL);
         }
 
         include_once 'pear-database-package.php';
@@ -30,7 +30,7 @@ class PEAR_Bugs_Utils
             if (!$data['active']) {
                 continue;
             }
-            $to[] = $data['email'];
+            $to[] = '<' . $data['email'] . '>';
         }
 
         /* subscription */
@@ -42,18 +42,19 @@ class PEAR_Bugs_Utils
                 $assigned = $dbh->getOne('SELECT email FROM users WHERE handle = ?', array($assigned));
                 if ($assigned && !in_array($assigned, $to)) {
                     // assigned is not a maintainer
-                    $to[] = $assigned;
+                    $to[] = '<' . $assigned . '>';
                 }
             }
 
             // Add the bug mailing list if any
             if (PEARWEB_BUGS_ML_EMAIL != '') {
-                $to[] = PEARWEB_BUGS_ML_EMAIL;
+                $to[] = '<' . PEARWEB_BUGS_ML_EMAIL . '>';
             }
 
             $bcc = $dbh->getCol('SELECT email FROM bugdb_subscribe WHERE bug_id = ' . $bug_id);
             $bcc = array_diff($bcc, $to);
             $bcc = array_unique($bcc);
+            $bcc = array_map(function($val) { return '<' . $val . '>'; }, $bcc);
             return array(implode(', ', $to), PEAR_QA_EMAIL, implode(', ', $bcc));
         }
 
