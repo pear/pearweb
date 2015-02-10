@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.5" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb_index</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website, informational front pages</summary>
@@ -73,10 +73,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2011-04-26</date>
- <time>15:24:08</time>
+ <date>2015-02-10</date>
+ <time>22:37:20</time>
  <version>
-  <release>1.22.1</release>
+  <release>1.22.2</release>
   <api>1.0.0</api>
  </version>
  <stability>
@@ -85,7 +85,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Link to new qa tools
+Fix #20500: twitter &amp; identi.ca links broken
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -504,6 +504,21 @@ Fix bug #16138: mailing list subscription does not work [cweiske]
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 Link to new qa tools
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.22.2</release>
+    <api>1.0.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-02-10</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Fix #20500: twitter &amp; identi.ca links broken
    </notes>
   </release>
  </changelog>

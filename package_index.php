@@ -1,4 +1,5 @@
 <?php
+error_reporting(error_reporting() & ~E_STRICT & ~E_DEPRECATED);
 require_once 'PEAR/PackageFileManager2.php';
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 $a = PEAR_PackageFileManager2::importOptions(
@@ -6,7 +7,7 @@ $a = PEAR_PackageFileManager2::importOptions(
     array(
         'packagefile' => 'package-index.xml',
         'baseinstalldir' => '/pear.php.net/',
-        'filelistgenerator' => 'svn',
+        'filelistgenerator' => 'file',
         'roles' => array('*' => 'www'),
         'simpleoutput' => true,
         'include' => array(
@@ -24,11 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.22.1');
+$a->setReleaseVersion('1.22.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Link to new qa tools
+Fix #20500: twitter & identi.ca links broken
 ');
 $a->resetUsesrole();
 $a->clearDeps();
