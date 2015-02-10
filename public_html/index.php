@@ -145,11 +145,20 @@ if (!$auth_user) {
 </div>
 <h2>PEAR Community</h2>
 <div style="float: left">
-<script type="text/javascript" src="https://www.ohloh.net/p/3322/widgets/project_basic_stats.js"></script>
+<script type="text/javascript" src="https://www.openhub.net/p/3322/widgets/project_basic_stats.js"></script>
 </div>
 <h3>Need help?</h3>
-<p>You can find help and <a href="/support/">support</a> on our <a href="http://pear.php.net/support/lists.php">mailing lists</a>, and <a href="irc://irc.efnet.org/pear">IRC channel</a></p>
-<p>Our developers are also on <a href="http://www.linkedin.com/groups?gid=36298">LinkedIn</a>, <a href="http://www.ohloh.net/p/pear">Ohloh</a>, <a href="http://search.twitter.com/search?q=%23pear">Twitter</a>, <a href="http://identi.ca/group/pear">Identi.ca</a> or <a href="http://www.facebook.com/group.php?gid=7851891162">Facebook</a>, as well as the <a href="http://wiki.php.net/pear/">wiki</a>.</p>
-
+<p>
+ You can find help and <a href="/support/">support</a> on our
+ <a href="http://pear.php.net/support/lists.php">mailing lists</a>
+ and <a href="irc://irc.efnet.org/pear">IRC channel</a>.
+</p>
+<p>
+ Our developers are also on
+ <a href="http://www.linkedin.com/groups?gid=36298">LinkedIn</a>,
+ <a href="https://www.openhub.net/p/pear">OpenHub</a>,
+ <a href="https://twitter.com/pear">Twitter</a>
+ as well as the <a href="http://wiki.php.net/pear/">wiki</a>.
+</p>
 <?php
 response_footer();
