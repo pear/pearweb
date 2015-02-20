@@ -1,4 +1,5 @@
 <?php
+error_reporting(error_reporting() & ~E_STRICT & ~E_DEPRECATED);
 require_once 'PEAR/PackageFileManager2.php';
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 $a = PEAR_PackageFileManager2::importOptions(
@@ -6,7 +7,7 @@ $a = PEAR_PackageFileManager2::importOptions(
     array(
         'packagefile' => 'package-manual.xml',
         'baseinstalldir' => '/pear.php.net/',
-        'filelistgenerator' => 'svn',
+        'filelistgenerator' => 'file',
         'roles' => array('*' => 'www'),
         'exceptions' => array('pearweb_manual.php' => 'php'),
         'simpleoutput' => true,
@@ -27,13 +28,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.1.3');
+$a->setReleaseVersion('1.2.2');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Bug #16747 Broken licence links
-Bug #17148      Add user note as doc bug syntax errors
-Bug #16913      broken link to PEAR Installer
+- Fix bug #16627: HTTP_Request2 - "latest" docs not linked
 ');
 $a->resetUsesrole();
 $a->clearDeps();
