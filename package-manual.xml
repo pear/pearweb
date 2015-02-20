@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.2" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                      http://pear.php.net/dtd/tasks-1.0.xsd                      http://pear.php.net/dtd/package-2.0                      http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.9.0" version="2.0"
+ xmlns="http://pear.php.net/dtd/package-2.0"
+ xmlns:tasks="http://pear.php.net/dtd/tasks-1.0"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0
+                     http://pear.php.net/dtd/tasks-1.0.xsd
+                     http://pear.php.net/dtd/package-2.0
+                     http://pear.php.net/dtd/package-2.0.xsd"
+>
  <name>pearweb_manual</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website manual bits</summary>
@@ -71,10 +79,11 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2012-03-24</date>
- <time>12:12:23</time>
+
+ <date>2011-02-25</date>
+ <time>22:28:00</time>
  <version>
-  <release>1.1.3</release>
+  <release>1.2.2</release>
   <api>1.2.0</api>
  </version>
  <stability>
@@ -82,14 +91,64 @@
   <api>stable</api>
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
+
  <notes>
-Bug #16747 Broken licence links
-Bug #17148      Add user note as doc bug syntax errors
-Bug #16913      broken link to PEAR Installer
+- Fix bug #16627: HTTP_Request2 - "latest" docs not linked
  </notes>
+
  <contents>
-  <dir baseinstalldir="/pear.php.net/" name="/" /> <!-- / -->
+  <dir baseinstalldir="/pear.php.net/" name="/">
+   <dir name="cron">
+    <file name="apidoc-fix-latest.php" role="www" />
+    <file name="apidoc-queue.php" role="www" />
+    <file name="find-documentation.php" role="www" />
+    <file name="load-chm.sh" role="www" />
+   </dir> <!-- /cron -->
+   <dir name="include">
+    <dir name="notes">
+     <file name="ManualNotes.class.php" role="www" />
+    </dir> <!-- /include/notes -->
+    <file name="pear-manual.php" role="www" />
+   </dir> <!-- /include -->
+   <dir name="public_html">
+    <dir name="admin">
+     <file name="apidoc-log.php" role="www" />
+    </dir> <!-- /public_html/admin -->
+    <dir name="css">
+     <file name="manual.css" role="www" />
+    </dir> <!-- /public_html/css -->
+    <dir name="error">
+     <file name="404-manual.php" role="www" />
+    </dir> <!-- /public_html/error -->
+    <dir name="manual">
+     <file name="index.php" role="www" />
+    </dir> <!-- /public_html/manual -->
+    <dir name="notes">
+     <dir name="admin">
+      <file name="index.php" role="www" />
+      <file name="trans.php" role="www" />
+      <file name="view-note.php" role="www" />
+     </dir> <!-- /public_html/notes/admin -->
+     <file name="add-note-form.php" role="www" />
+     <file name="add-note.php" role="www" />
+    </dir> <!-- /public_html/notes -->
+   </dir> <!-- /public_html -->
+   <dir name="sql">
+    <file name="pearweb_manual.xml" role="www" />
+   </dir> <!-- /sql -->
+   <dir name="templates">
+    <dir name="notes">
+     <file name="add-note-form.tpl.php" role="www" />
+     <file name="add-note.tpl.php" role="www" />
+     <file name="note-manage-admin.tpl.php" role="www" />
+     <file name="note-manage-links.tpl.php" role="www" />
+     <file name="note.tpl.php" role="www" />
+     <file name="view-full-note.tpl.php" role="www" />
+    </dir> <!-- /templates/notes -->
+   </dir> <!-- /templates -->
+  </dir> <!-- / -->
  </contents>
+
  <dependencies>
   <required>
    <php>
@@ -116,10 +175,6 @@ Bug #16913      broken link to PEAR Installer
     <name>HTTP_Request2</name>
     <channel>pear.php.net</channel>
    </package>
-   <package>
-    <name>phpDocumentor</name>
-    <channel>pear.phpdoc.org</channel>
-   </package>
    <extension>
     <name>pcre</name>
    </extension>
@@ -128,8 +183,11 @@ Bug #16913      broken link to PEAR Installer
    </extension>
   </required>
  </dependencies>
+
  <phprelease />
+
  <changelog>
+
   <release>
    <version>
     <release>1.0.0</release>
@@ -145,6 +203,7 @@ Bug #16913      broken link to PEAR Installer
 - split the manual code from pearweb [dufuz]
    </notes>
   </release>
+
   <release>
    <version>
     <release>1.1.0</release>
@@ -172,6 +231,7 @@ Bug #16913      broken link to PEAR Installer
 - fix Bug #16038: Links in manual header/footer are double encoded
    </notes>
   </release>
+
   <release>
    <version>
     <release>1.1.1</release>
@@ -187,6 +247,7 @@ Bug #16913      broken link to PEAR Installer
 User notes administration usability overhall
    </notes>
   </release>
+
   <release>
    <version>
     <release>1.1.2</release>
@@ -202,6 +263,25 @@ User notes administration usability overhall
 - text/javascript for all &lt;script&gt; [clockwerx]
    </notes>
   </release>
+
+  <release>
+   <version>
+    <release>1.1.3</release>
+    <api>0.1.0</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2010-02-23</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Bug #16747 Broken licence links
+Bug #17148      Add user note as doc bug syntax errors
+Bug #16913      broken link to PEAR Installer
+   </notes>
+  </release>
+
   <release>
    <version>
     <release>1.2.0</release>
@@ -218,6 +298,7 @@ User notes administration usability overhall
   anymore
    </notes>
   </release>
+
   <release>
    <version>
     <release>1.2.1</release>
@@ -234,6 +315,7 @@ find-documentation loads XML as XML and uses proper xpaths with namespaces.
 This finally fixes all the issues with automatic doc finding.
    </notes>
   </release>
+
   <release>
    <version>
     <release>1.2.2</release>
@@ -246,24 +328,7 @@ This finally fixes all the issues with automatic doc finding.
    <date>2011-02-25</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-- Fix bug #16627: HTTP_Request2 - &quot;latest&quot; docs not linked
-   </notes>
-  </release>
-  <release>
-   <version>
-    <release>1.1.3</release>
-    <api>1.2.0</api>
-   </version>
-   <stability>
-    <release>stable</release>
-    <api>stable</api>
-   </stability>
-   <date>2012-03-24</date>
-   <license uri="http://www.php.net/license">PHP License</license>
-   <notes>
-Bug #16747 Broken licence links
-Bug #17148      Add user note as doc bug syntax errors
-Bug #16913      broken link to PEAR Installer
+- Fix bug #16627: HTTP_Request2 - "latest" docs not linked
    </notes>
   </release>
  </changelog>
