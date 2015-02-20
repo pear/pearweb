@@ -70,6 +70,7 @@
      <file name="package-1.0.xsd" role="www" />
      <file name="package-2.0.xsd" role="www" />
      <file name="package-2.1.xsd" role="www" />
+     <file name="package-2.2.xsd" role="www" />
      <file name="package1_0to2_0.xsl" role="www" />
      <file name="rest.allcategories.xsd" role="www" />
      <file name="rest.allmaintainers.xsd" role="www" />

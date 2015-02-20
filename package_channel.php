@@ -1,11 +1,12 @@
 <?php
+error_reporting(error_reporting() & ~E_STRICT & ~E_DEPRECATED);
 require_once 'PEAR/PackageFileManager2.php';
 PEAR::setErrorHandling(PEAR_ERROR_DIE);
 $a = PEAR_PackageFileManager2::importOptions(dirname(__FILE__) . '/package-channel.xml',
     array(
         'baseinstalldir' => '/pear.php.net/',
         'packagefile' => 'package-channel.xml',
-        'filelistgenerator' => 'svn',
+        'filelistgenerator' => 'file',
         'roles' => array('*' => 'www'),
         'simpleoutput' => true,
         'include' => array(
