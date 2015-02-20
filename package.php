@@ -1,11 +1,12 @@
 <?php
+error_reporting(error_reporting() & ~E_STRICT & ~E_DEPRECATED);
 require_once 'PEAR/PackageFileManager2.php';
 $dir = dirname(__FILE__);
 $a = PEAR_PackageFileManager2::importOptions(
     $dir . '/package.xml',
     array(
         'baseinstalldir' => '/pear.php.net/',
-        'filelistgenerator' => 'git',
+        'filelistgenerator' => 'file',
         'roles' => array('*' => 'www'),
         'exceptions' => array(
             'pearweb.php' => 'php',
@@ -24,12 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.27.0');
+$a->setReleaseVersion('1.26.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-* Escape /get/ error messages properly
-* Add ReCaptcha to user notes
+Fix #20098: Broken bug notifications catched as spam
 ');
 $a->resetUsesrole();
 $a->clearDeps();
@@ -76,8 +76,8 @@ $a->addPackageDepWithChannel('required', 'Graph', 'components.ez.no');
 
 include_once 'PEAR/Config.php';
 include_once 'PEAR/PackageFile.php';
-$config = &PEAR_Config::singleton();
-$p      = &new PEAR_PackageFile($config);
+$config = PEAR_Config::singleton();
+$p      = new PEAR_PackageFile($config);
 // Specify subpackages
 $e = $p->fromPackageFile($dir . '/package-channel.xml', PEAR_VALIDATE_NORMAL);
 $a->specifySubpackage($e, false);
