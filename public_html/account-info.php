@@ -288,6 +288,33 @@ foreach ($notes as $nid => $data) {
 ?>
 
    </ul>
+<?php
+$proposals = user::getProposals($handle);
+if (count($proposals) > 0) {
+    echo "<h4>Package Proposals</h4>";
+}
+?>
+   <ul>
+<?php
+foreach ($proposals as $nid => $data) {
+    switch($data['status']) {
+        case 'draft':
+        $when = $data['draft_date'];
+        break;
+        case 'finished':
+        $when = $data['vote_date'];
+        default:
+        $when = $data['proposal_date'];
+    }
+    echo ' <li>' . "\n";
+    echo '<a href="/pepr/pepr-proposal-show.php?id='. $data['id'].'">' . $data['pkg_name'] . '</a>';
+    echo ' (' . $data['status'] . ', '. format_date(strtotime($when), 'Y-m-d') . ')';
+    echo "\n </li>\n";
+}
+
+?>
+
+   </ul>
   </td>
  </tr>
 <?php
