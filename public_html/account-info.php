@@ -297,18 +297,24 @@ if (count($proposals) > 0) {
    <ul>
 <?php
 foreach ($proposals as $nid => $data) {
+    $cStatus = $data['status'];
     switch($data['status']) {
         case 'draft':
-        $when = $data['draft_date'];
-        break;
+            $when = $data['draft_date'];
+            break;
+        case 'proposal':
+            $cStatus = 'proposed';
+            $when = $data['proposal_date'];
+            break;
         case 'finished':
-        $when = $data['vote_date'];
+            $when = $data['vote_date'];
+            break;
         default:
-        $when = $data['proposal_date'];
+            $when = $data['proposal_date'];
     }
     echo ' <li>' . "\n";
     echo '<a href="/pepr/pepr-proposal-show.php?id='. $data['id'].'">' . $data['pkg_name'] . '</a>';
-    echo ' (' . $data['status'] . ', '. format_date(strtotime($when), 'Y-m-d') . ')';
+    echo ' (' . $cStatus . ', '. format_date(strtotime($when), 'Y-m-d') . ')';
     echo "\n </li>\n";
 }
 
