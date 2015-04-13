@@ -143,6 +143,18 @@ class user
         return $dbh->getAll($query, array($user, SITE));
     }
 
+    static function getProposals($user)
+    {
+        global $dbh;
+
+        $query = 'SELECT id, pkg_name, status,'
+            . ' draft_date, proposal_date, vote_date'
+            . ' FROM package_proposals'
+            . ' WHERE user_handle = ? ORDER BY draft_date ASC';
+
+        return $dbh->getAll($query, array($user));
+    }
+
     static function info($user, $field = null, $registered = true, $hidePassword = true)
     {
         global $dbh;
