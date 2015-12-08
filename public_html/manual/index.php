@@ -37,34 +37,12 @@ response_header('Documentation');
 
  <ul class="itemizedlist">
 <?php
-$outdated_languages = array_slice($doc_languages, 4);
-
-$i = 0;
-foreach (array_slice($doc_languages, 0, 4) as $domain => $name) {
-    echo "  <li class=\"listitem\">";
-    if ($i++ == 0) {
-        echo '<strong>' . make_link('/manual/' . $domain . '/', $name) . '</strong>';
-    } else {
-        echo make_link('/manual/' . $domain . '/', $name);
-    }
-    echo "</li>\n";
-}
+echo "  <li class=\"listitem\">";
+echo '<strong>' . make_link('/manual/en/', 'English') . '</strong>';
+echo "</li>\n";
 ?>
  </ul>
 
- <p class="para">
-  The translations of the following languages are outdated but still available:
- </p>
-
- <ul class="itemizedlist">
-<?php
-foreach ($outdated_languages as $domain => $name) {
-    echo "  <li class=\"listitem\">";
-    echo make_link('/manual/' . $domain . '/', $name);
-    echo "</li>\n";
-}
-?>
- </ul>
 
  <h2>Download Documentation</h2>
 
@@ -86,7 +64,7 @@ foreach ($outdated_languages as $domain => $name) {
 
 <?php
 $formats = array(
-    "pear_manual_{LANG}.chm"         => array('HTML Help file',      'chm'),
+    // "pear_manual_{LANG}.chm"         => array('HTML Help file',      'chm'),
     "pear_manual_{LANG}.tar.bz2"     => array('Many HTML files',     'tar.bz2'),
     "pear_manual_{LANG}.tar.gz"      => array('Many HTML files',     'tar.gz'),
     "pear_manual_{LANG}.zip"         => array('Many HTML files',     'zip'),
@@ -98,21 +76,18 @@ $formats = array(
 $table = new HTML_Table('class="informaltable"');
 
 $table->addRow(array('Type', 'Format'), '', 'th');
+$doc_languages = array('en' => 'English');
 foreach ($doc_languages as $domain => $name) {
     $language = $name;
-    if (array_key_exists($domain, $outdated_languages)) {
-        $language .= ' <span>(outdated)</span>';
-    }
     $table->addRow(array($language), 'colspan="2"', 'th');
 
     foreach ($formats as $filename => $information) {
-        if ($domain == "ru" && $information[1] == "chm") {
-            continue;
-        }
-
         $filename = str_replace("{LANG}", $domain, $filename);
 
-        $information[0] = make_link('/distributions/manual/' . $filename, $information[0]);
+        $information[0] = make_link(
+            '/distributions/manual/' . $filename,
+            $information[0]
+        );
         $table->addRow($information);
     }
 }
