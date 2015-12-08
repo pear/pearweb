@@ -68,9 +68,9 @@ $formats = array(
     "pear_manual_{LANG}.tar.bz2"     => array('Many HTML files',     'tar.bz2'),
     "pear_manual_{LANG}.tar.gz"      => array('Many HTML files',     'tar.gz'),
     "pear_manual_{LANG}.zip"         => array('Many HTML files',     'zip'),
-    "pear_manual_{LANG}.html.gz"     => array('One big HTML file',   'html.gz'),
+    "pear_manual_{LANG}.html.gz"     => array('One big HTML file',   'html.tar.gz'),
     "pear_manual_{LANG}.html.zip"    => array('One big HTML file',   'html.zip'),
-    "pear_manual_{LANG}.html.bz2"    => array('One big HTML file',   'html.bz2'),
+    "pear_manual_{LANG}.html.bz2"    => array('One big HTML file',   'html.tar.bz2'),
 );
 
 $table = new HTML_Table('class="informaltable"');
