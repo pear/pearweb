@@ -25,11 +25,14 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.26.1');
+$a->setReleaseVersion('1.27.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Fix #20098: Broken bug notifications catched as spam
+- Show all packages ever proposed on user page
+- Load jQuery via HTTPS
+- Fix fatal errors on PHP 5.6
+- Fix HTML in bug report page
 ');
 $a->resetUsesrole();
 $a->clearDeps();
