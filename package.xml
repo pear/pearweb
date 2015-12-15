@@ -551,7 +551,6 @@ Request #20999: Include username/uploader for releases where appropriate.
     </dir> <!-- /templates/users -->
     <file name="category-manager.html" role="www" />
    </dir> <!-- /templates -->
-   <file name="pear-mysql-backup-2015-12-15T15:00:23.sql" role="www" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
@@ -637,7 +636,6 @@ Request #20999: Include username/uploader for releases where appropriate.
     <tasks:replace from="@version@" to="version" type="package-info" />
    </file>
    <file name="pearweb_election.php" role="www" />
-   <file name="pearweb_index-1.23.0.tgz" role="www" />
    <file name="pearweb_pepr.php" role="www" />
    <file name="README" role="www" />
    <file name="rollback.php" role="www" />
