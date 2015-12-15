@@ -25,11 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.26.1');
+$a->setReleaseVersion('1.28.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Fix #20098: Broken bug notifications catched as spam
+Request #20999: Include username/uploader for releases where appropriate.
 ');
 $a->resetUsesrole();
 $a->clearDeps();

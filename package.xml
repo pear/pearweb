@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<package packagerversion="1.9.4" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
+<package packagerversion="1.10.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0                              http://pear.php.net/dtd/tasks-1.0.xsd                              http://pear.php.net/dtd/package-2.0                              http://pear.php.net/dtd/package-2.0.xsd">
  <name>pearweb</name>
  <channel>pear.php.net</channel>
  <summary>The source code for the PEAR website</summary>
@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2015-02-20</date>
- <time>21:31:03</time>
+ <date>2015-12-15</date>
+ <time>22:52:45</time>
  <version>
-  <release>1.26.1</release>
+  <release>1.28.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,7 +101,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-Fix #20098: Broken bug notifications catched as spam
+Request #20999: Include username/uploader for releases where appropriate.
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -551,6 +551,7 @@ Fix #20098: Broken bug notifications catched as spam
     </dir> <!-- /templates/users -->
     <file name="category-manager.html" role="www" />
    </dir> <!-- /templates -->
+   <file name="pear-mysql-backup-2015-12-15T15:00:23.sql" role="www" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
@@ -636,6 +637,7 @@ Fix #20098: Broken bug notifications catched as spam
     <tasks:replace from="@version@" to="version" type="package-info" />
    </file>
    <file name="pearweb_election.php" role="www" />
+   <file name="pearweb_index-1.23.0.tgz" role="www" />
    <file name="pearweb_pepr.php" role="www" />
    <file name="README" role="www" />
    <file name="rollback.php" role="www" />
@@ -830,7 +832,7 @@ Fix #20098: Broken bug notifications catched as spam
    <subpackage>
     <name>pearweb_index</name>
     <channel>pear.php.net</channel>
-    <min>1.22.2</min>
+    <min>1.23.0</min>
    </subpackage>
    <subpackage>
     <name>pearweb_manual</name>
@@ -2806,6 +2808,39 @@ Add some X-PHP headers to patch emails.
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 Fix #20098: Broken bug notifications catched as spam
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.27.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-12-05</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Show all packages ever proposed on user page
+- Load jQuery via HTTPS
+- Fix fatal errors on PHP 5.6
+- Fix HTML in bug report page
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.28.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-12-15</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Request #20999: Include username/uploader for releases where appropriate.
    </notes>
   </release>
  </changelog>
