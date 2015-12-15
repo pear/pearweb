@@ -28,11 +28,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.2.2');
+$a->setReleaseVersion('1.2.3');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Fix bug #16627: HTTP_Request2 - "latest" docs not linked
+- Only list English manual, dropping .chm for downloads.
 ');
 $a->resetUsesrole();
 $a->clearDeps();

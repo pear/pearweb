@@ -28,7 +28,7 @@ class Bugs_DBDataObject_Bugdb extends DB_DataObject
     var $reporter_name;                   // string(80)
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('Bugs_DBDataObject_Bugdb',$k,$v); }
+    static function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('Bugs_DBDataObject_Bugdb',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

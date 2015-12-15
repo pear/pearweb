@@ -551,6 +551,7 @@ Request #20999: Include username/uploader for releases where appropriate.
     </dir> <!-- /templates/users -->
     <file name="category-manager.html" role="www" />
    </dir> <!-- /templates -->
+   <file name="pearweb-1.27.0.tgz" role="www" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>

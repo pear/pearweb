@@ -733,7 +733,7 @@ if (auth_check('pear.dev')) {
    </p>
   </th>
   <td class="form-input">
-   <textarea cols="60" rows="8" name="in[repcode]" id="in[repcode]"wrap="no"><?php echo clean($_POST['in']['repcode']); ?></textarea>
+   <textarea cols="60" rows="8" name="in[repcode]" id="in[repcode]" wrap="no"><?php echo clean($_POST['in']['repcode']); ?></textarea>
   </td>
  </tr>
  <tr>

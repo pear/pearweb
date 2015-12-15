@@ -16,7 +16,7 @@ class Chiara_Bugs_DBDataObject_Categories extends DB_DataObject
     var $alias;                           // string(50)  
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('Chiara_Bugs_DBDataObject_Categories',$k,$v); }
+    static function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('Chiara_Bugs_DBDataObject_Categories',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

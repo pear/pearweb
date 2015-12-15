@@ -23,7 +23,7 @@ class Bugs_DBDataObject_Releases extends DB_DataObject
     var $packagefile;                     // blob(65535)  not_null blob
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('Bugs_DBDataObject_Releases',$k,$v); }
+    static function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('Bugs_DBDataObject_Releases',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE

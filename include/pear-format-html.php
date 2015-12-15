@@ -122,7 +122,7 @@ function response_header(
  <!--[if IE 6]><link rel="stylesheet" type="text/css" href="/css/IE6styles.css" /><![endif]-->
  <link rel="stylesheet" type="text/css" href="/css/print.css" media="print" />
  <link rel="alternate" type="application/rss+xml" title="RSS feed" href="http://<?php echo PEAR_CHANNELNAME; ?>/feeds/latest.rss" />
- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+ <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
  <script type="text/javascript" src="/javascript/jquery-dtpicker/jquery.dtpicker.min.js"></script>
  <link rel="stylesheet" type="text/css" href="/javascript/jquery-dtpicker/jquery.dtpicker.css" />
  <!-- compliance patch for microsoft browsers -->

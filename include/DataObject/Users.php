@@ -27,7 +27,7 @@ class Bugs_DBDataObject_Users extends DB_DataObject
     var $wishlist;                        // string(255)
 
     /* Static get */
-    function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('Bugs_DBDataObject_Handles',$k,$v); }
+    static function staticGet($k,$v=NULL) { return DB_DataObject::staticGet('Bugs_DBDataObject_Handles',$k,$v); }
 
     /* the code above is auto generated do not remove the tag below */
     ###END_AUTOCODE
