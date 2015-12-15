@@ -282,9 +282,12 @@ if (empty($action)) {
     echo '<tr>' . "\n";
     echo '<td>' . "\n";
     if (isset($versions[0])) {
+        $doneby = $pkg['releases'][$versions[0]]['doneby'] ;
+        $linkdoneby = '/user/' . htmlspecialchars($doneby);
         echo ' <a class="download-page" href="/package/' . htmlspecialchars($name) . '/download/">' . $versions[0] . '</a>';
         echo ' (' . $pkg['releases'][$versions[0]]['state'] . ')';
         echo ' was released on ' . format_date(strtotime($pkg['releases'][$versions[0]]['releasedate']), 'Y-m-d');
+        echo ' by ' . make_link($linkdoneby, $doneby);
         echo ' (<a class="download-page" href="/package/' . htmlspecialchars($name) . '/download/">Changelog</a>)';
         ?>
             <div class="package-download-action" style="margin-top: 1.0em">
@@ -616,7 +619,8 @@ if (empty($action)) {
             <?php
             echo '<strong>Release date:</strong> ' . format_date(strtotime($info['releasedate'])) . '<br />';
             echo '<strong>Release state:</strong> ';
-            echo '<span class="' . htmlspecialchars($info['state']) . '">' . htmlspecialchars($info['state']) . '</span><br /><br />';
+            echo '<span class="' . htmlspecialchars($info['state']) . '">' . htmlspecialchars($info['state']) . '</span><br />';
+            echo '<strong>Release uploaded by:</strong> ' . make_link('/user/' . htmlspecialchars($info['doneby']), $info['doneby']). '<br /><br />';
             echo '<strong>Changelog:</strong><br /><br />' . nl2br(make_ticket_links(htmlspecialchars($info['releasenotes']), '/bugs/')) . '<br /><br />';
 
             if (!empty($info['deps']) && count($info['deps']) > 0) {
