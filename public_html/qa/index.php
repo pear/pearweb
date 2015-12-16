@@ -58,7 +58,10 @@ if ($auth_user) {
  <li><a href="/qa/patches_on_open_reports.php">List of packages with patches attached to them</a></li>
  <li><a href="/qa/packages_orphan.php">List of orphan packages</a></li>
  <li><a href="/qa/packages_orphan_patches.php">Orphan packages with patches</a></li>
-
+ <li><a href="/bugs/stats.php">Bug Statistics: All types</a></li>
+ <li><a href="/bugs/stats.php?category=&developer=&bug_type=Bug">Bug Statistics: Bugs</a></li>
+ <li><a href="/bugs/stats.php?category=&developer=&bug_type=Documentation+Problem">Bug Statistics: Documentation Problems</a></li>
+ <li><a href="/bugs/stats.php?category=&developer=&bug_type=Feature%2FChange+Request">Bug Statistics: Feature/Change Requests</a></li>
 </ul>
 EOD;
         echo $str;
