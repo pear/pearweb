@@ -89,8 +89,8 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2015-12-15</date>
- <time>22:52:45</time>
+ <date>2015-12-16</date>
+ <time>14:01:23</time>
  <version>
   <release>1.28.0</release>
   <api>0.1.1</api>
@@ -551,7 +551,6 @@ Request #20999: Include username/uploader for releases where appropriate.
     </dir> <!-- /templates/users -->
     <file name="category-manager.html" role="www" />
    </dir> <!-- /templates -->
-   <file name="pearweb-1.27.0.tgz" role="www" />
    <file name="pearweb.php" role="php">
     <tasks:postinstallscript>
      <tasks:paramgroup>
@@ -831,12 +830,12 @@ Request #20999: Include username/uploader for releases where appropriate.
    <subpackage>
     <name>pearweb_index</name>
     <channel>pear.php.net</channel>
-    <min>1.23.0</min>
+    <min>1.23.1</min>
    </subpackage>
    <subpackage>
     <name>pearweb_manual</name>
     <channel>pear.php.net</channel>
-    <min>1.2.2</min>
+    <min>1.2.3</min>
    </subpackage>
    <subpackage>
     <name>pearweb_pepr</name>
@@ -2836,7 +2835,7 @@ Fix #20098: Broken bug notifications catched as spam
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2015-12-15</date>
+   <date>2015-12-16</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 Request #20999: Include username/uploader for releases where appropriate.
