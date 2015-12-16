@@ -25,12 +25,12 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.23.0');
+$a->setReleaseVersion('1.23.1');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
-$a->setNotes('
-Request #20998: Include associated username/uploader for releases on main page.
-');
+$a->setNotes("
+Bug #21000:	Don't display associated username/uploader for releases on main page.
+");
 $a->resetUsesrole();
 $a->clearDeps();
 $a->setPhpDep('5.2.3');
