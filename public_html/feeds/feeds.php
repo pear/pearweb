@@ -74,6 +74,7 @@ function rss_create($items, $channel_title, $channel_description, $dest_file = f
  <content:encoded>" .  htmlspecialchars(nl2br($item['releasenotes'])) ."
  </content:encoded>
  <dc:date>$date</dc:date>
+ <dc:publisher>" . htmlspecialchars($item['doneby']) . "</dc:publisher>
 </item>\n";
             $item_entries .= "";
         }
