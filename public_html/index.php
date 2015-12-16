@@ -31,8 +31,6 @@ if (!empty($recent) > 0) {
     $today = date("D, jS M y");
     foreach ($recent as $release) {
         $releasedate = format_date(strtotime($release['releasedate']), "D, jS M y");
-        $doneby = $release['doneby'];
-        $linkdoneby = '/user/' . htmlspecialchars($doneby);
         if ($releasedate == $today) {
             $releasedate = "today";
         }
@@ -40,8 +38,7 @@ if (!empty($recent) > 0) {
         $RSIDEBAR_DATA .= "<a href=\"/package/" . $release['name'] . "/\">";
         $RSIDEBAR_DATA .= wordwrap($release['name'],25,"\n",1) . ' ' .
                           $release['version'] . '</a><br /> <small>(' .
-                          "Released $releasedate by " .
-                          make_link($linkdoneby, $doneby) . '.)</small></td></tr>';
+                          "Released $releasedate" . ')</small></td></tr>';
     }
     $feed_link = '<a href="/feeds/" title="Information about XML feeds for the PEAR website"><img src="/gifs/feed.png" width="16" height="16" alt="" /></a>';
     $RSIDEBAR_DATA .= "<tr><td>&nbsp;</td></tr>\n";
