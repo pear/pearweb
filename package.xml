@@ -89,10 +89,10 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2015-12-08</date>
- <time>22:24:38</time>
+ <date>2015-12-15</date>
+ <time>22:52:45</time>
  <version>
-  <release>1.27.0</release>
+  <release>1.28.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,10 +101,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Show all packages ever proposed on user page
-- Load jQuery via HTTPS
-- Fix fatal errors on PHP 5.6
-- Fix HTML in bug report page
+Request #20999: Include username/uploader for releases where appropriate.
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -834,7 +831,7 @@
    <subpackage>
     <name>pearweb_index</name>
     <channel>pear.php.net</channel>
-    <min>1.22.2</min>
+    <min>1.23.0</min>
    </subpackage>
    <subpackage>
     <name>pearweb_manual</name>
@@ -2821,13 +2818,28 @@ Fix #20098: Broken bug notifications catched as spam
     <release>stable</release>
     <api>stable</api>
    </stability>
-   <date>2015-12-08</date>
+   <date>2015-12-05</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - Show all packages ever proposed on user page
 - Load jQuery via HTTPS
 - Fix fatal errors on PHP 5.6
 - Fix HTML in bug report page
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.28.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2015-12-15</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+Request #20999: Include username/uploader for releases where appropriate.
    </notes>
   </release>
  </changelog>

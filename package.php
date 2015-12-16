@@ -25,14 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.27.0');
+$a->setReleaseVersion('1.28.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Show all packages ever proposed on user page
-- Load jQuery via HTTPS
-- Fix fatal errors on PHP 5.6
-- Fix HTML in bug report page
+Request #20999: Include username/uploader for releases where appropriate.
 ');
 $a->resetUsesrole();
 $a->clearDeps();

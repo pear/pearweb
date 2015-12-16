@@ -25,11 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.22.2');
+$a->setReleaseVersion('1.23.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Fix #20500: twitter & identi.ca links broken
+Request #20998: Include associated username/uploader for releases on main page.
 ');
 $a->resetUsesrole();
 $a->clearDeps();

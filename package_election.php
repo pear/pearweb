@@ -6,7 +6,7 @@ $a = PEAR_PackageFileManager2::importOptions(
     array(
         'packagefile' => 'package-election.xml',
         'baseinstalldir' => '/pear.php.net/',
-        'filelistgenerator' => 'svn',
+        'filelistgenerator' => 'git',
         'roles' => array('*' => 'www'),
         'exceptions' => array('pearweb_election.php' => 'php'),
         'simpleoutput' => true,
