@@ -259,8 +259,7 @@ function navigationBar($id, $title, $loc)
         $package_name = getPackageNameForId($id);
         echo " <div class=\"manual-bug\">\n";
         echo '  Do you think that something on this page is wrong?';
-        echo '  Please <a href="' . getBugReportLink($package_name) . '">file a bug report</a> ';
-        echo '  or <a href="/notes/add-note-form.php?redirect=' . htmlentities($_SERVER['REQUEST_URI'], ENT_QUOTES, 'UTF-8') . '&amp;uri=' . htmlspecialchars(urlencode($id)) . '">add a note</a>. ';
+        echo '  Please <a href="' . getBugReportLink($package_name) . '">file a bug report</a>.';
         echo "\n";
         echo " </div>\n";
 
