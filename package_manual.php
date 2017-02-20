@@ -28,11 +28,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.2.3');
+$a->setReleaseVersion('1.3.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-- Only list English manual, dropping .chm for downloads.
+- Remove form to add manual notes
 ');
 $a->resetUsesrole();
 $a->clearDeps();
