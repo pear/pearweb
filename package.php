@@ -17,6 +17,7 @@ $a = PEAR_PackageFileManager2::importOptions(
             'package-*.xml',
             'package.php',
             'package_*.php',
+            'dist/',
             'tests/',
             'weeklynews/',
             'scripts/'
@@ -25,11 +26,11 @@ $a = PEAR_PackageFileManager2::importOptions(
 );
 
 
-$a->setReleaseVersion('1.28.1');
+$a->setReleaseVersion('1.29.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes('
-Request #20999: Include username/uploader for releases where appropriate.
+- Add spam protection to "Comment by" field in bug report update mails
 ');
 $a->resetUsesrole();
 $a->clearDeps();
