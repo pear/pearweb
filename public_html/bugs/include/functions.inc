@@ -591,7 +591,7 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
 
     switch ($edit) {
         case 3:
-            $headers[] = array(' Comment by', $from);
+            $headers[] = array(' Comment by', $pbu->spamProtect($from, 'text'));
             $from = "\"$from\" <$mailfrom>";
             break;
         case 2:
