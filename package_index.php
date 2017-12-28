@@ -25,11 +25,11 @@ $a = PEAR_PackageFileManager2::importOptions(
         ),
     )
 );
-$a->setReleaseVersion('1.23.1');
+$a->setReleaseVersion('1.24.0');
 $a->setReleaseStability('stable');
 $a->setAPIStability('stable');
 $a->setNotes("
-Bug #21000:	Don't display associated username/uploader for releases on main page.
+Remove mailing list subscription form
 ");
 $a->resetUsesrole();
 $a->clearDeps();
