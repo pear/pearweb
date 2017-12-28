@@ -122,50 +122,7 @@ $mailing_lists = array(
         'php.pear.bugs',
     ),
 );
-
-if (isset($_POST['action'])) {
-    # should really grab some email validating routine and use it here.
-    if (empty($_POST['email']) || $_POST['email'] == 'user@example.com') {
-        echo '<div class="errors">';
-        echo 'You forgot to specify an email address to be added to the ';
-        echo 'list. Go back and try again.';
-        echo '</div>';
-        response_footer();
-        exit;
-    } elseif (!isset($_POST['maillist'])) {
-        echo '<div class="errors">';
-        echo 'You forgot to choose an mailing list. Go back and try again.';
-        echo '</div>';
-        response_footer();
-        exit;
-    } else if (!DEVBOX) {
-        $request = strtolower($_POST['action']);
-        if ($request != 'subscribe' && $request != 'unsubscribe') {
-            $request = 'subscribe';
-        }
-        $sub = str_replace('@', '=', $_POST['email']);
-
-        foreach ($_POST['maillist'] as $list => $type) {
-            if ($type == 'digest') {
-                $list = $list . '-digest';
-            }
-            mail("$list-$request-$sub@lists.php.net",
-                 'Website Subscription',
-                 'This was a request generated from the form at'
-                 . 'http://' . PEAR_CHANNELNAME . '/support/lists.php.',
-                 "From: {$_POST['email']}");
-        }
-
-        report_success('A request has been entered into the mailing list'
-                       . ' processing queue. You should receive '
-                       . (count($_POST['maillist']) == 1 ? 'an email' : 'emails' )
-                       . ' at ' . htmlentities($_POST['email'], ENT_QUOTES, 'UTF-8') . ' shortly describing'
-                       . ' how to complete your request.');
-    }
-}
-
 ?>
-
 
 <p>
  There are <?php echo count($mailing_lists)-1; ?> PEAR-related mailing
@@ -176,7 +133,6 @@ if (isset($_POST['action'])) {
  <a href="/manual/en/support.php">manual</a>.
 </p>
 
-<form method="post" action="/support/lists.php">
 <table class="form-holder" cellpadding="5" cellspacing="1">
 
 <?php
@@ -188,8 +144,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
         echo '  <th class="form-label_top_center">Moderated</th>' . "\n";
         echo '  <th class="form-label_top_center">Archive</th>' . "\n";
         echo '  <th class="form-label_top_center">Newsgroup</th>' . "\n";
-        echo '  <th class="form-label_top_center">Normal</th>' . "\n";
-        echo '  <th class="form-label_top_center">Digest</th>' . "\n";
+        echo '  <th class="form-label_top_center">Name</th>' . "\n";
         echo ' </tr>' . "\n";
     } else {
         echo ' <tr>' . "\n";
@@ -197,8 +152,7 @@ while (list(, $listinfo) = each($mailing_lists)) {
         echo '  <td class="form-input_center">' . ($listinfo[3] ? 'yes' : 'no') . "</td>\n";
         echo '  <td class="form-input_center">' . ($listinfo[4] ? make_link("http://news.gmane.org/gmane.comp." . $listinfo[7], 'yes') : 'n/a') . "</td>\n";
         echo '  <td class="form-input_center">' . ($listinfo[6] ? make_link("news://news.php.net/".$listinfo[6], 'yes') . ' ' . make_link("http://news.php.net/group.php?group=".$listinfo[6], 'http') : 'n/a') . "</td>\n";
-        echo '  <td class="form-input_center"><input name="maillist[' . $listinfo[0] . ']" type="radio" value="normal" /></td>';
-        echo '  <td class="form-input_center">' . ($listinfo[5] ? '<input name="maillist[' . $listinfo[0] . ']" type="radio" value="digest" />' : 'n/a' ) . "</td>\n";
+        echo '  <td class="form-input" style="vertical-align: middle"><tt>' . $listinfo[0] . "</tt></td>\n";
         echo ' </tr>' . "\n";
     }
 }
@@ -207,26 +161,8 @@ while (list(, $listinfo) = each($mailing_lists)) {
 
 </table>
 
-<p style="text-align: center;">
- <strong>Email:</strong>
- <input type="text" name="email" size="30" value="user@example.com" />
- <input type="submit" name="action" value="Subscribe" />
- <input type="submit" name="action" value="Unsubscribe" />
-</p>
-
-</form>
-
 <p>
- You will be sent a confirmation mail at the address you wish to
- be subscribed or unsubscribed, and only added to the list after
- following the directions in that mail.
-</p>
-
-<p>
- There are a variety of commands you can use to modify your subscription.
- Either send a message to pear-<tt>whatever</tt>@lists.php.net (as in,
- pear-general@lists.php.net) or you can view the commands for
- ezmlm <a href="http://www.ezmlm.org/ezman-0.32/ezman1.html">here</a>.
+ To subscribe, send a mail to <tt>$name-subscribe@lists.php.net</tt>.
 </p>
 
 <?php
