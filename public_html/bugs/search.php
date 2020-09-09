@@ -494,11 +494,11 @@ report_error($warnings, 'warnings', 'WARNING:');
    <br />
    <small>
 <input type="radio" name="direction" value="ASC" <?php if ($direction != "DESC") {
-        echo('checked="checked"');
+        echo 'checked="checked"';
 }?>/>Ascending
     &nbsp;
 <input type="radio" name="direction" value="DESC" <?php if ($direction == "DESC") {
-    echo('checked="checked"');
+    echo 'checked="checked"';
 }?>/>Descending
    </small>
    <br /><br />
