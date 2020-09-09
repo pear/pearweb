@@ -23,9 +23,9 @@ require_once './include/prepend.inc';
 
 error_reporting(E_ALL ^ E_NOTICE);
 
-if (!empty($_GET['search_for']) &&
-    !preg_match('/\\D/', trim($_GET['search_for'])))
-{
+if (!empty($_GET['search_for'])
+    && !preg_match('/\\D/', trim($_GET['search_for']))
+) {
     if ($auth_user) {
         $x = '&edit=1';
     } else {
@@ -51,7 +51,8 @@ response_header(
     ' <link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://'
     . PEAR_CHANNELNAME . '/bugs/rss/search.php?'
     . htmlspecialchars(http_build_query($_REQUEST)) . '" />
-');
+'
+);
 
 $warnings = $errors = array();
 $order_options = array(
@@ -68,10 +69,10 @@ $order_options = array(
     'assign'       => 'assignment',
 );
 
-$status         = !empty($_GET['status']) ? $_GET['status'] : 'Open';
+$status         = !empty($_GET['status']) ? filter_var($_GET['status'], FILTER_SANITISE_STRING) : 'Open';
 $handle         = !empty($_GET['handle']) ? $_GET['handle'] : '';
 $maintain       = !empty($_GET['maintain']) ? $_GET['maintain'] : '';
-$bug_type       = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? $_GET['bug_type'] : '';
+$bug_type       = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? filter_var($_GET['bug_type'], FILTER_SANITISE_STRING) : '';
 $boolean_search = isset($_GET['boolean']) ? (int)$_GET['boolean'] : 0;
 define('BOOLEAN_SEARCH', $boolean_search);
 $package_name   = (isset($_GET['package_name'])  && is_array($_GET['package_name']))  ? $_GET['package_name']  : array();
@@ -119,73 +120,73 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
      * to treat assigned, analyzed, critical and verified bugs as open
      */
     switch ($status) {
-        case 'All':
-            break;
-        case 'Closed':
-        case 'Duplicate':
-        case 'Critical':
-        case 'Assigned':
-        case 'Analyzed':
-        case 'Verified':
-        case 'Suspended':
-        case 'Wont fix':
-        case 'No Feedback':
-        case 'Feedback':
-        case 'Bogus':
-            $where_clause .= " AND bugdb.status='$status'";
-            break;
-        case 'Old Feedback':
-            $where_clause .= " AND bugdb.status = 'Feedback'" .
-                             ' AND TO_DAYS(NOW()) - TO_DAYS(bugdb.ts2) > 60';
-            break;
-        case 'Fresh':
-            $where_clause .= ' AND bugdb.status NOT IN' .
-                             " ('Closed', 'Duplicate', 'Bogus')" .
-                             ' AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) < 30';
-            break;
-        case 'Stale':
-            $where_clause .= ' AND bugdb.status NOT IN' .
-                             " ('Closed', 'Duplicate', 'Bogus')" .
-                             ' AND TO_DAYS(NOW()) - TO_DAYS(bugdb.ts2) > 30';
-            break;
-        case 'Not Assigned':
-            $where_clause .= ' AND bugdb.status NOT IN' .
-                             " ('Closed', 'Duplicate', 'Bogus', 'Assigned'," .
-                             " 'Wont Fix', 'Suspended')";
-            break;
+    case 'All':
+        break;
+    case 'Closed':
+    case 'Duplicate':
+    case 'Critical':
+    case 'Assigned':
+    case 'Analyzed':
+    case 'Verified':
+    case 'Suspended':
+    case 'Wont fix':
+    case 'No Feedback':
+    case 'Feedback':
+    case 'Bogus':
+        $where_clause .= " AND bugdb.status='$status'";
+        break;
+    case 'Old Feedback':
+        $where_clause .= " AND bugdb.status = 'Feedback'" .
+                     ' AND TO_DAYS(NOW()) - TO_DAYS(bugdb.ts2) > 60';
+        break;
+    case 'Fresh':
+        $where_clause .= ' AND bugdb.status NOT IN' .
+                     " ('Closed', 'Duplicate', 'Bogus')" .
+                     ' AND TO_DAYS(NOW())-TO_DAYS(bugdb.ts2) < 30';
+        break;
+    case 'Stale':
+        $where_clause .= ' AND bugdb.status NOT IN' .
+                     " ('Closed', 'Duplicate', 'Bogus')" .
+                     ' AND TO_DAYS(NOW()) - TO_DAYS(bugdb.ts2) > 30';
+        break;
+    case 'Not Assigned':
+        $where_clause .= ' AND bugdb.status NOT IN' .
+                     " ('Closed', 'Duplicate', 'Bogus', 'Assigned'," .
+                     " 'Wont Fix', 'Suspended')";
+        break;
         // Closed Reports Since Last Release
-        case 'CRSLR':
-            if (empty($package_name) || count($package_name) > 1) {
-                // Act as ALL
-                break;
-            }
+    case 'CRSLR':
+        if (empty($package_name) || count($package_name) > 1) {
+            // Act as ALL
+            break;
+        }
 
-            // Fetch the last release date
-            include_once 'pear-database-package.php';
-            $releaseDate = package::getRecent(1, $package_name[0]);
-            if (PEAR::isError($releaseDate)) {
-                break;
-            }
+        // Fetch the last release date
+        include_once 'pear-database-package.php';
+        $releaseDate = package::getRecent(1, $package_name[0]);
+        if (PEAR::isError($releaseDate)) {
+            break;
+        }
 
-            $where_clause .= ' AND bugdb.status IN' .
-                             " ('Closed', 'Duplicate', 'Bogus', 'Wont Fix', 'Suspended')
+        $where_clause .= ' AND bugdb.status IN' .
+                     " ('Closed', 'Duplicate', 'Bogus', 'Wont Fix', 'Suspended')
                                AND (UNIX_TIMESTAMP('" . $releaseDate[0]['releasedate'] . "') < UNIX_TIMESTAMP(bugdb.ts2))
                              ";
-            break;
-        case 'Open':
-        default:
-            $where_clause .= " AND bugdb.status IN ('Open', 'Assigned'," .
-                             " 'Analyzed', 'Critical', 'Verified')";
-        case 'OpenFeedback':
-        default:
-            $where_clause .= " AND bugdb.status IN ('Open', 'Assigned'," .
-                             " 'Analyzed', 'Critical', 'Verified', 'Feedback')";
+        break;
+    case 'Open':
+        $where_clause .= " AND bugdb.status IN ('Open', 'Assigned'," .
+                     " 'Analyzed', 'Critical', 'Verified')";
+        break;
+    case 'OpenFeedback':
+    default:
+        $where_clause .= " AND bugdb.status IN ('Open', 'Assigned'," .
+                     " 'Analyzed', 'Critical', 'Verified', 'Feedback')";
     }
 
     if (empty($_GET['search_for'])) {
         $search_for = '';
     } else {
-        $search_for = htmlspecialchars($_GET['search_for']);
+        $search_for = htmlspecialchars(filter_var($_GET['search_for'], FILTER_SANITISE_STRING));
         list($sql_search, $ignored) = format_search_string($search_for);
         $where_clause .= $sql_search;
         if (count($ignored) > 0 ) {
@@ -297,16 +298,16 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
     $direction = $_GET['direction'] != 'DESC' ? 'ASC' : 'DESC';
 
-    if (empty($_GET['order_by']) ||
-        !array_key_exists($_GET['order_by'], $order_options))
-    {
+    if (empty($_GET['order_by']) 
+        || !array_key_exists($_GET['order_by'], $order_options)
+    ) {
         $order_by = 'id';
     } else {
         $order_by = $_GET['order_by'];
     }
 
-    if (empty($_GET['reorder_by']) ||
-        !array_key_exists($_GET['reorder_by'], $order_options)
+    if (empty($_GET['reorder_by']) 
+        || !array_key_exists($_GET['reorder_by'], $order_options)
     ) {
         $reorder_by = '';
     } else {
@@ -385,7 +386,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 '&amp;maintain='    . urlencode($maintain);
 
         if (isset($_GET['showmenu'])) {
-           $link .= '&amp;showmenu=1';
+            $link .= '&amp;showmenu=1';
         }
 
         if (!$rows) {
@@ -453,7 +454,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
                 echo '  <td>', htmlspecialchars(@$types[$row['bug_type']]), '</td>' . "\n";
                 echo '  <td>', htmlspecialchars($row['status']);
                 if ($row['status'] == 'Feedback' && $row['unchanged'] > 0) {
-                    printf ("<br />%d day%s", $row['unchanged'], $row['unchanged'] > 1 ? 's' : '');
+                    printf("<br />%d day%s", $row['unchanged'], $row['unchanged'] > 1 ? 's' : '');
                 }
                 echo '</td>' . "\n";
                 echo '  <td>', htmlspecialchars($row['package_version']), '</td>';
@@ -493,9 +494,13 @@ report_error($warnings, 'warnings', 'WARNING:');
    <select name="order_by"><?php show_order_options($limit);?></select>
    <br />
    <small>
-    <input type="radio" name="direction" value="ASC" <?php if($direction != "DESC") { echo('checked="checked"'); }?>/>Ascending
+<input type="radio" name="direction" value="ASC" <?php if ($direction != "DESC") {
+        echo('checked="checked"');
+}?>/>Ascending
     &nbsp;
-    <input type="radio" name="direction" value="DESC" <?php if($direction == "DESC") { echo('checked="checked"'); }?>/>Descending
+<input type="radio" name="direction" value="DESC" <?php if ($direction == "DESC") {
+    echo('checked="checked"');
+}?>/>Descending
    </small>
    <br /><br />
    <input type="hidden" name="cmd" value="display" />
@@ -551,10 +556,10 @@ report_error($warnings, 'warnings', 'WARNING:');
   <td style="white-space: nowrap">Return bugs <b>assigned</b> to</td>
   <td><input type="text" name="assign" value="<?php echo clean($assign);?>" />
 <?php
-    if ($auth_user) {
-        $u = htmlspecialchars($_REQUEST['PEAR_USER']);
-        print "<input type=\"button\" value=\"set to $u\" onclick=\"form.assign.value='$u'\" />";
-    }
+if ($auth_user) {
+    $u = htmlspecialchars($_REQUEST['PEAR_USER']);
+    print "<input type=\"button\" value=\"set to $u\" onclick=\"form.assign.value='$u'\" />";
+}
 ?>
   </td>
 </tr>
@@ -563,10 +568,10 @@ report_error($warnings, 'warnings', 'WARNING:');
   <td nowrap="nowrap">Return only bugs in packages <b>maintained</b> by</td>
   <td><input type="text" name="maintain" value="<?php echo clean($maintain);?>" />
 <?php
-    if ($auth_user) {
-        $u = htmlspecialchars(stripslashes($_REQUEST['PEAR_USER']));
-        print "<input type=\"button\" value=\"set to $u\" onclick=\"form.maintain.value='$u'\" />";
-    }
+if ($auth_user) {
+    $u = htmlspecialchars(stripslashes($_REQUEST['PEAR_USER']));
+    print "<input type=\"button\" value=\"set to $u\" onclick=\"form.maintain.value='$u'\" />";
+}
 ?>
   </td>
  </tr>
@@ -575,10 +580,10 @@ report_error($warnings, 'warnings', 'WARNING:');
   <td style="white-space: nowrap">Return bugs with author email/handle</td>
   <td><input accesskey="m" type="text" name="author_email" value="<?php echo clean($author_email); ?>" />
 <?php
-    if ($auth_user) {
-        $u = htmlspecialchars($_REQUEST['PEAR_USER']);
-        print "<input type=\"button\" value=\"set to $u\" onclick=\"form.author_email.value='$u'\" />";
-    }
+if ($auth_user) {
+    $u = htmlspecialchars($_REQUEST['PEAR_USER']);
+    print "<input type=\"button\" value=\"set to $u\" onclick=\"form.author_email.value='$u'\" />";
+}
 ?>
   </td>
 </tr>
