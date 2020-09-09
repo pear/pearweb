@@ -22,9 +22,9 @@
 
 auth_require('pear.dev');
 
-$action = isset($_GET['action']) && !empty($_GET['action']) ? $_GET['action'] : false;
-$track_id = isset($_GET['id']) && !empty($_GET['id']) ? $_GET['id'] : false;
-$timestamp = isset($_GET['timestamp']) && !empty($_GET['timestamp']) ? $_GET['timestamp'] : false;
+$action = isset($_GET['action']) && !empty($_GET['action']) ? filter_var($_GET['action'], FILTER_SANITISE_STRING) : false;
+$track_id = isset($_GET['id']) && !empty($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITISE_STRING) : false;
+$timestamp = isset($_GET['timestamp']) && !empty($_GET['timestamp']) ? (int) $_GET['timestamp'] : false;
 
 if (!$action || !$track_id || !$timestamp) {
 
@@ -34,8 +34,8 @@ if (!$action || !$track_id || !$timestamp) {
     exit();
 }
 
-include_once 'Damblan/Trackback.php';
-include_once 'Damblan/Mailer.php';
+require_once 'Damblan/Trackback.php';
+require_once 'Damblan/Mailer.php';
 
 $trackback = new Damblan_Trackback(array('id' => $track_id, 'timestamp' => $timestamp));
 $res = $trackback->load($dbh);
