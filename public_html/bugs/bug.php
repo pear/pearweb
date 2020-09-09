@@ -163,7 +163,7 @@ if (!empty($_POST['pw'])) {
     $pw   = $auth_user->password;
 } elseif (isset($_COOKIE['MAGIC_COOKIE'])) {
     @list($user, $pw) = explode(':', base64_decode($_COOKIE['MAGIC_COOKIE']));
-    $user = $user;
+    $user = filter_var($user, FILTER_SANITISE_STRING);
     if ($pw === null) {
         $pw = '';
     }
@@ -663,7 +663,7 @@ if (!$bug['registered']) {
    <th>Assigned:</th>
    <td><?php
     if (!empty($bug['assign'])) {
-        $assigned_user = htmlspecialchars($bug['assign']);
+        $assigned_user = htmlspecialchars(filter_var($bug['assign'], FILTER_SANITISE_STRING));
         echo '<a href="/user/' . $assigned_user . '">' . $assigned_user . '</a>';
     }
     ?></td>
@@ -1147,12 +1147,12 @@ if ($edit == 1 && auth_check('pear.dev')) {
 if ($edit == 1 || $edit == 2) {
 ?>
     <p style="margin-bottom: 0em">
-    <label for="ncomment" accesskey="m"><b>New
+    <label for="ncomment" accesskey="m"><strong>New
 <?php
 if ($edit==1) {
         echo "/Additional";
 }
-?> Co<span class="accesskey">m</span>ment:</b></label>
+?> Co<span class="accesskey">m</span>ment:</strong></label>
     </p>
 
     <?php echo $preview; ?>
@@ -1163,7 +1163,6 @@ if ($edit==1) {
     <p style="margin-top: 0em;">
         <input type="submit" name="preview" value="Preview" />&nbsp;<input type="submit" value="Submit" />
     </p>
-
 
     </form>
 
