@@ -28,103 +28,102 @@ auth_require();
 $pid = isset($_GET['pid']) ? (int)$_GET['pid'] : false;
 
 if ($pid && $pid < 1) {
-   report_error('Invalid package');
+    report_error('Invalid package');
 }
 
-include_once 'pear-database-package.php';
+require_once 'pear-database-package.php';
 $package_name = package::info($pid, 'name');
 
 response_header('Administration - ' . htmlspecialchars($package_name) . ' - Package Maintainers');
 
-include_once 'pear-database-maintainer.php';
+require_once 'pear-database-maintainer.php';
 $maintainers = maintainer::get($pid);
 
 // Maintainer being lead can go further, if not QA and up
 if (!(isset($maintainers[$auth_user->handle]) && $maintainers[$auth_user->handle]['role'] == 'lead')) {
-   auth_require('pear.qa');
+    auth_require('pear.qa');
 }
 
 if (isset($_POST) && isset($_POST['role'])) {
-   if (!validate_csrf_token($csrf_token_name)) {
-      report_error('Invalid token.');
-      response_footer();
-      exit();
-   }
+    if (!validate_csrf_token($csrf_token_name)) {
+        report_error('Invalid token.');
+        response_footer();
+        exit();
+    }
 
-   // Got a new maintainer?
-   if (isset($_POST['handle']['new']) && !empty($_POST['handle']['new'])) {
+    // Got a new maintainer?
+    if (isset($_POST['handle']['new']) && !empty($_POST['handle']['new'])) {
+        $new = strip_tags($_POST['handle']['new']);
+        include_once 'pear-database-user.php';
+        if (!ereg('^[0-9a-z_]{2,20}$', $new)) {
+            report_error('Invalid handle: ' . $new);
+        } elseif (!user::exists($new)) {
+            report_error($new . ' does not exist.');
+        } else {
+            $role = filter_var($_POST['role']['new'], FILTER_SANITISE_STRING);
 
-      $new = strip_tags($_POST['handle']['new']);
-      include_once 'pear-database-user.php';
-      if (!ereg('^[0-9a-z_]{2,20}$', $new)) {
-         report_error('Invalid handle: ' . $new);
-      } elseif (!user::exists($new)) {
-         report_error($new . ' does not exist.');
-      } else {
-         $role = $_POST['role']['new'];
-
-         if (!maintainer::isValidRole($role)) {
-            report_error('Invalid role.');
-         } else {
-            if (maintainer::add($pid, $new, $role)) {
-               $message = 'Maintainer ' .  $new . 'sucessfully added.';
-               $maintainers[$new] = array('role'=>$role, 'active' => 1);
+            if (!maintainer::isValidRole($role)) {
+                report_error('Invalid role.');
+            } else {
+                if (maintainer::add($pid, $new, $role)) {
+                    $message = 'Maintainer ' .  $new . 'sucessfully added.';
+                    $maintainers[$new] = array('role'=>$role, 'active' => 1);
+                }
             }
-         }
-      }
-   } else {
-       $new     = '';
-   }
+        }
+    } else {
+        $new     = '';
+    }
 
-   // Role, active, and marked for removal
-   $roles   = $_POST['role'];
+    // Role, active, and marked for removal
+    $roles = $_POST['role'];
 
-   if (isset($_POST['active'])) {
-      $active  = $_POST['active'];
-   } else {
-      $active = array();
-   }
+    if (isset($_POST['active'])) {
+        $active  = $_POST['active'];
+    } else {
+        $active = array();
+    }
 
-   if (isset($_POST['delete'])) {
-      $delete  = $_POST['delete'];
-   } else {
-      $delete = array();
-   }
+    if (isset($_POST['delete'])) {
+        $delete  = $_POST['delete'];
+    } else {
+        $delete = array();
+    }
 
-   $updates = array();
-   $update  = 0;
+    $updates = array();
+    $update  = 0;
 
-   foreach ($maintainers as $handle => $info) {
-      if (isset($delete[$handle]) && $delete[$handle]) {
-         maintainer::remove($pid, $handle);
-         unset($maintainers[$handle]);
-         continue;
-      }
+    foreach ($maintainers as $handle => $info) {
+        if (isset($delete[$handle]) && $delete[$handle]) {
+            maintainer::remove($pid, $handle);
+            unset($maintainers[$handle]);
+            continue;
+        }
 
-      if (isset($roles[$handle]) && $info['role'] != $roles[$handle]) {
-         $update = 1;
-         $update_role = $roles[$handle];
-      } else {
-         $update_role = $info['role'];
-      }
+        if (isset($roles[$handle]) && $info['role'] != $roles[$handle]) {
+            $update = 1;
+            $update_role = $roles[$handle];
+        } else {
+            $update_role = $info['role'];
+        }
 
-      if (isset($active[$handle])) {
-         $update_active = 1;
-         $update = 1;
-      } elseif ($info['active'] == 1 && $handle != $new) {
-         $update_active = 0;
-         $update = 1;
-      }
+        if (isset($active[$handle])) {
+            $update_active = 1;
+            $update = 1;
+        } elseif ($info['active'] == 1 && $handle != $new) {
+            $update_active = 0;
+            $update = 1;
+        }
 
-      // Do not add again the newly added maintainer to the list
-      if ($update == 1 && $handle != $new) {
-         maintainer::update($pid, $handle, $update_role, $update_active);
-         $maintainers[$handle]['role'] = $update_role;
-         $maintainers[$handle]['active'] = $update_active;
-      }
+        // Do not add again the newly added maintainer to the list
+        if ($update == 1 && $handle != $new) {
+            maintainer::update($pid, $handle, $update_role, $update_active);
+            $maintainers[$handle]['role'] = $update_role;
+            $maintainers[$handle]['active'] = $update_active;
+        }
 
-      $update = 0;
-   }
+        $update = 0;
+    }
 
     /*
     // TODO do the SVN push here
@@ -158,7 +157,7 @@ if (isset($_POST) && isset($_POST['role'])) {
     */
 }
 
-include_once 'PEAR/Common.php';
+require_once 'PEAR/Common.php';
 $roles = PEAR_Common::getUserRoles();
 $csrf_token_value = create_csrf_token($csrf_token_name);
 
@@ -177,12 +176,12 @@ print_package_navigation($pid, $package_name, '/admin/package-maintainers.php?pi
 <?php
 
 foreach ($maintainers as $handle => $infos) {
-   $select = '<select name="role[' . $handle . ']">';
-   foreach($roles as $role) {
-      $select .= '<option value="' . $role. '"' . ($role == $infos['role'] ? 'selected' : '') . '>' . $role . '</option>';
-   }
-   $select .= '</select>';
-   $active_checkbox = '<input type="checkbox" value="1" name="active[' . $handle . ']" '. ($infos['active'] == 1 ? 'checked' : '' ) . '>';
+    $select = '<select name="role[' . $handle . ']">';
+    foreach ($roles as $role) {
+        $select .= '<option value="' . $role. '"' . ($role == $infos['role'] ? 'selected' : '') . '>' . $role . '</option>';
+    }
+    $select .= '</select>';
+    $active_checkbox = '<input type="checkbox" value="1" name="active[' . $handle . ']" '. ($infos['active'] == 1 ? 'checked' : '' ) . '>';
 ?>
    <tr>
       <td><?php echo $handle; ?></td>
@@ -196,10 +195,11 @@ foreach ($maintainers as $handle => $infos) {
    <tr>
       <td><input type="text" name="handle[new]" value="" /></td>
       <td><select name="role[new]">
-      <?php foreach ($roles as $role) {
-         echo '<option value=' . $role . '>' . $role . '</role>';
-      }
-      ?>
+<?php
+foreach ($roles as $role) {
+    echo '<option value=' . $role . '>' . $role . '</role>';
+}
+?>
       </select>
       </td>
       <td>X</td>
