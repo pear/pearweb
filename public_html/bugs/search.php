@@ -48,10 +48,9 @@ if (isset($newrequest['PHPSESSID'])) {
 response_header(
     'Bugs :: Search',
     false,
-    ' <link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://'
+    '<link rel="alternate" type="application/rdf+xml" title="RSS feed" href="http://'
     . PEAR_CHANNELNAME . '/bugs/rss/search.php?'
-    . htmlspecialchars(http_build_query($_REQUEST)) . '" />
-'
+    . htmlspecialchars(http_build_query($_REQUEST)) . '" />'
 );
 
 $warnings = $errors = array();
@@ -69,10 +68,10 @@ $order_options = array(
     'assign'       => 'assignment',
 );
 
-$status         = !empty($_GET['status']) ? filter_var($_GET['status'], FILTER_SANITISE_STRING) : 'Open';
-$handle         = !empty($_GET['handle']) ? $_GET['handle'] : '';
-$maintain       = !empty($_GET['maintain']) ? $_GET['maintain'] : '';
-$bug_type       = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? filter_var($_GET['bug_type'], FILTER_SANITISE_STRING) : '';
+$status   = !empty($_GET['status']) ? filter_var($_GET['status'], FILTER_SANITISE_STRING) : 'Open';
+$handle   = !empty($_GET['handle']) ? $_GET['handle'] : '';
+$maintain = !empty($_GET['maintain']) ? $_GET['maintain'] : '';
+$bug_type = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? filter_var($_GET['bug_type'], FILTER_SANITISE_STRING) : '';
 $boolean_search = isset($_GET['boolean']) ? (int)$_GET['boolean'] : 0;
 define('BOOLEAN_SEARCH', $boolean_search);
 $package_name   = (isset($_GET['package_name'])  && is_array($_GET['package_name']))  ? $_GET['package_name']  : array();
@@ -298,20 +297,20 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
 
     $direction = $_GET['direction'] != 'DESC' ? 'ASC' : 'DESC';
 
-    if (empty($_GET['order_by']) 
+    if (empty($_GET['order_by'])
         || !array_key_exists($_GET['order_by'], $order_options)
     ) {
         $order_by = 'id';
     } else {
-        $order_by = $_GET['order_by'];
+        $order_by = filter_var($_GET['order_by'], FILTER_SANITISE_STRING);
     }
 
-    if (empty($_GET['reorder_by']) 
+    if (empty($_GET['reorder_by'])
         || !array_key_exists($_GET['reorder_by'], $order_options)
     ) {
         $reorder_by = '';
     } else {
-        $reorder_by = $_GET['reorder_by'];
+        $reorder_by = filter_var($_GET['reorder_by'], FILTER_SANITISE_STRING);
         if ($order_by == $reorder_by) {
             $direction = $direction == 'ASC' ? 'DESC' : 'ASC';
         } else {
