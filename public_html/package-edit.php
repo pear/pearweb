@@ -27,7 +27,9 @@ auth_require('pear.dev');
 require_once 'tags/Manager.php';
 require_once 'HTML/QuickForm2.php';
 require_once 'HTML/QuickForm2/Renderer.php';
-/** @todo Remove once part of QF2 */
+/**
+ * @todo Remove once part of QF2
+*/
 require_once 'HTML/QuickForm2/Element/InputUrl.php';
 
 
@@ -54,25 +56,26 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     exit;
 }
 
-include_once 'pear-database-user.php';
-if (!user::maintains($auth_user->handle, $_GET['id'], 'lead') &&
-    !user::isAdmin($auth_user->handle) &&
-    !user::isQA($auth_user->handle))
-{
+require_once 'pear-database-user.php';
+if (!user::maintains($auth_user->handle, $_GET['id'], 'lead')
+    && !user::isAdmin($auth_user->handle)
+    && !user::isQA($auth_user->handle)
+) {
     report_error('Editing only permitted by package leads, PEAR Admins or PEAR QA');
     response_footer();
     exit;
 }
 
 // Update
-include_once 'pear-database-package.php';
+require_once 'pear-database-package.php';
 if (isset($_POST['submit'])) {
     if (!validate_csrf_token($csrf_token_name)) {
         report_error('Invalid token.');
     } elseif (!$_POST['name'] || !$_POST['license'] || !$_POST['summary']) {
         report_error('You have to enter values for name, license and summary!');
-    } elseif (($_POST['new_channel'] && !$_POST['new_package']) ||
-              ($_POST['new_package'] && !$_POST['new_channel'])) {
+    } elseif (($_POST['new_channel'] && !$_POST['new_package'])
+        || ($_POST['new_package'] && !$_POST['new_channel'])
+    ) {
         report_error('You have to enter both channel + package name for packages moved out of PEAR!');
     } else {
         $query = '
@@ -94,15 +97,19 @@ if (isset($_POST['submit'])) {
 
         if (!empty($_POST['newpk_id'])) {
             $_POST['new_channel'] = 'pear.php.net';
-            $_POST['new_package'] = $dbh->getOne('SELECT name from packages WHERE id = ?',
-                array($_POST['newpk_id']));
+            $_POST['new_package'] = $dbh->getOne(
+                'SELECT name from packages WHERE id = ?',
+                array($_POST['newpk_id'])
+            );
             if (!$_POST['new_package']) {
                 $_POST['new_channel'] = $_POST['newpk_id'] = null;
             }
         } else {
             if ($_POST['new_channel'] == 'pear.php.net') {
-                $_POST['newpk_id'] = $dbh->getOne('SELECT id from packages WHERE name = ?',
-                    array($_POST['new_package']));
+                $_POST['newpk_id'] = $dbh->getOne(
+                    'SELECT id from packages WHERE name = ?',
+                    array($_POST['new_package'])
+                );
                 if (!$_POST['newpk_id']) {
                     $_POST['new_channel'] = $_POST['new_package'] = null;
                 }
@@ -152,20 +159,20 @@ if (isset($_POST['submit'])) {
     }
 } else if (isset($_GET['action'])) {
     switch ($_GET['action']) {
-        case 'release_remove':
-            if (!isset($_GET['release'])) {
-                report_error('Missing package ID!');
-                break;
-            }
-
-            include_once 'pear-database-release.php';
-            if (release::remove($_GET['id'], $_GET['release'])) {
-                echo "<b>Release successfully deleted.</b><br /><br />\n";
-            } else {
-                report_error('An error occured while deleting the release!');
-            }
-
+    case 'release_remove':
+        if (!isset($_GET['release'])) {
+            report_error('Missing package ID!');
             break;
+        }
+
+        include_once 'pear-database-release.php';
+        if (release::remove($_GET['id'], $_GET['release'])) {
+            echo "<b>Release successfully deleted.</b><br /><br />\n";
+        } else {
+            report_error('An error occured while deleting the release!');
+        }
+
+        break;
     }
 }
 
@@ -176,8 +183,10 @@ if (empty($row['name'])) {
     exit;
 }
 
-print_package_navigation($row['packageid'], $row['name'],
-                         '/package-edit.php?id=' . $row['packageid']);
+print_package_navigation(
+    $row['packageid'], $row['name'],
+    '/package-edit.php?id=' . $row['packageid']
+);
 
 $sth = $dbh->query('SELECT id, name FROM categories ORDER BY name');
 
@@ -191,62 +200,66 @@ $form->removeAttribute('name');
 $renderer = HTML_QuickForm2_Renderer::factory('default');
 
     // Set defaults for the form elements
-    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-        'name'         => htmlspecialchars($row['name']),
-        'license'      => htmlspecialchars($row['license']),
-        'summary'      => htmlspecialchars($row['summary']),
-        'description'  => htmlspecialchars($row['description']),
-        'category'     => (int)$row['categoryid'],
-        'homepage'     => htmlspecialchars($row['homepage']),
-        'doc_link'     => htmlspecialchars($row['doc_link']),
-        'bug_link'     => htmlspecialchars($row['bug_link']),
-        'cvs_link'     => htmlspecialchars($row['cvs_link']),
-        'unmaintained' => ($row['unmaintained']) ? true : false,
-        'newpk_id'     => (int)$row['newpk_id'],
-        'new_channel'  => htmlspecialchars($row['new_channel']),
-        'new_package'  => htmlspecialchars($row['new_package']),
-    )));
+    $form->addDataSource(
+        new HTML_QuickForm2_DataSource_Array(
+            array(
+            'name'         => htmlspecialchars($row['name']),
+            'license'      => htmlspecialchars($row['license']),
+            'summary'      => htmlspecialchars($row['summary']),
+            'description'  => htmlspecialchars($row['description']),
+            'category'     => (int)$row['categoryid'],
+            'homepage'     => htmlspecialchars($row['homepage']),
+            'doc_link'     => htmlspecialchars($row['doc_link']),
+            'bug_link'     => htmlspecialchars($row['bug_link']),
+            'cvs_link'     => htmlspecialchars($row['cvs_link']),
+            'unmaintained' => ($row['unmaintained']) ? true : false,
+            'newpk_id'     => (int)$row['newpk_id'],
+            'new_channel'  => htmlspecialchars($row['new_channel']),
+            'new_package'  => htmlspecialchars($row['new_package']),
+            )
+        )
+    );
 
-$form->addElement('text', 'name', array('maxlength' => "80",  'accesskey' => "c"))->setLabel('Pa<span class="accesskey">c</span>kage Name');
-$form->addElement('text', 'license', array('maxlength' => "50", 'placeholder' => 'BSD'))->setLabel('License:');
-$form->addElement('textarea', 'summary', array('cols' => "75", 'rows' => "7", 'maxlength' => "255"))->setLabel('Summary');
-$form->addElement('textarea', 'description', array('cols' => "75", 'rows' => "12"))->setLabel('Description');
-$form->addElement('select', 'category')->setLabel('Category:')->loadOptions($rows);
+    $form->addElement('text', 'name', array('maxlength' => "80",  'accesskey' => "c"))->setLabel('Pa<span class="accesskey">c</span>kage Name');
+    $form->addElement('text', 'license', array('maxlength' => "50", 'placeholder' => 'BSD'))->setLabel('License:');
+    $form->addElement('textarea', 'summary', array('cols' => "75", 'rows' => "7", 'maxlength' => "255"))->setLabel('Summary');
+    $form->addElement('textarea', 'description', array('cols' => "75", 'rows' => "12"))->setLabel('Description');
+    $form->addElement('select', 'category')->setLabel('Category:')->loadOptions($rows);
 
-$manager = new Tags_Manager;
+    $manager = new Tags_Manager;
 
-$sl = $form->addElement('select', 'tags', array('multiple' => 'multiple'))->setLabel('Tags:')->loadOptions(array('' => '(none)') + $manager->getTags(false, true));
-$sl->setValue(array_keys($manager->getTags($row['name'], true)));
+    $sl = $form->addElement('select', 'tags', array('multiple' => 'multiple'))->setLabel('Tags:')->loadOptions(array('' => '(none)') + $manager->getTags(false, true));
+    $sl->setValue(array_keys($manager->getTags($row['name'], true)));
 
 
-$form->addElement('text', 'homepage', array('maxlength' => 255, 'accesskey' => "O"))->setLabel('H<span class="accesskey">o</span>mepage:');
-$form->addElement('text', 'doc_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/manual'))->setLabel('Documentation URI:');
-$form->addElement('url', 'bug_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/bugs'))->setLabel('Bug Tracker URI:');
-$form->addElement('url', 'cvs_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/svn/trunk'))->setLabel('Web version control URI');
-$form->addElement('checkbox', 'unmaintained')->setLabel('Is this package unmaintained ?');
+    $form->addElement('text', 'homepage', array('maxlength' => 255, 'accesskey' => "O"))->setLabel('H<span class="accesskey">o</span>mepage:');
+    $form->addElement('text', 'doc_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/manual'))->setLabel('Documentation URI:');
+    $form->addElement('url', 'bug_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/bugs'))->setLabel('Bug Tracker URI:');
+    $form->addElement('url', 'cvs_link', array('maxlength' => 255, 'placeholder' => 'http://example.com/svn/trunk'))->setLabel('Web version control URI');
+    $form->addElement('checkbox', 'unmaintained')->setLabel('Is this package unmaintained ?');
 
-$packages = package::listAllwithReleases();
+    $packages = package::listAllwithReleases();
 
-$rows = array(0 => '');
-foreach ($packages as $id => $info) {
-    if ($id == $_GET['id']) {
-        continue;
+    $rows = array(0 => '');
+    foreach ($packages as $id => $info) {
+        if ($id == $_GET['id']) {
+            continue;
+        }
+        $rows[$id] = $info['name'];
     }
-    $rows[$id] = $info['name'];
-}
 
-$form->addElement('select', 'newpk_id')->setLabel('Superseeded by:')->loadOptions($rows);
+    $form->addElement('select', 'newpk_id')->setLabel('Superseeded by:')->loadOptions($rows);
 
-$form->addElement('text', 'new_channel', array('maxlength' => 255, 'placeholder' => 'pear.phpunit.de'))->setLabel('Moved to channel:');
-$form->addElement('text', 'new_package', array('maxlength' => 255, 'placeholder' => 'PHPUnit'));
+    $form->addElement('text', 'new_channel', array('maxlength' => 255, 'placeholder' => 'pear.phpunit.de'))->setLabel('Moved to channel:');
+    $form->addElement('text', 'new_package', array('maxlength' => 255, 'placeholder' => 'PHPUnit'));
 
 
-$form->addElement('submit', 'submit')->setLabel('Save Changes');
-$csrf_token_value = create_csrf_token($csrf_token_name);
-$form->addElement('hidden', $csrf_token_name)->setValue($csrf_token_value);
+    $form->addElement('submit', 'submit')->setLabel('Save Changes');
+    $csrf_token_value = create_csrf_token($csrf_token_name);
+    $form->addElement('hidden', $csrf_token_name)->setValue($csrf_token_value);
 
 
-print $form->render($renderer);
+    print $form->render($renderer);
 ?>
 
 <table class="form-holder" cellspacing="1">
@@ -269,7 +282,7 @@ foreach ($row['releases'] as $version => $release) {
     echo '  <td class="form-input">' . "\n";
 
     $url = 'package-edit.php?id=' .
-            $_GET['id'] . '&amp;release=' .
+            (int) $_GET['id'] . '&amp;release=' .
             htmlspecialchars($release['id']) . '&amp;action=release_remove';
     $msg = 'Are you sure that you want to delete the release?';
 
