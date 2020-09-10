@@ -310,7 +310,8 @@ if (isset($_POST['addpatch'])) {
                     $buggie->sendEmail();
                 } catch (Exception $e) {
                     $errors[] = 'Critical internal error: could not send' .
-                        ' email to your address ' . $_POST['in']['email'] .
+                        ' email to your address ' .
+                        filter_var($_POST['in']['email'], FILTER_SANITISE_STRING) .
                         ', please write a mail message to the <i>pear-dev</i>' .
                         'mailing list and report this problem with details.' .
                         '  We apologize for the problem, your report will help' .
@@ -1167,7 +1168,7 @@ if ($edit==1) {
     </form>
 
 <?php
-} // if ($edit == 1 || $edit == 2)
+}
 
 if ($edit == 3) {
 ?>
@@ -1177,7 +1178,7 @@ if ($edit == 3) {
      <h1><a href="patch-add.php?bug_id=<?php echo $id ?>">Click Here to Submit a Patch</a></h1>
     </div>
 
-<?php endif; //if ($auth_user) ?>
+<?php endif;?>
 
     <?php
     if (!isset($_POST['in'])) {
@@ -1210,10 +1211,12 @@ if ($edit == 3) {
       <strong>MUST BE VALID</strong></th>
       <td class="form-input">
        <input type="text" size="40" maxlength="40" name="in[commentemail]" id="in-commentemail-"
-        value="<?php echo clean(
+        value="<?php
+        echo clean(
             isset($_POST['in']) && isset($_POST['in']['commentemail']) ?
-            $_POST['in']['commentemail'] : ''
-        ) ?>"
+            filter_var($_POST['in']['commentemail'], FILTER_SANITISE_STRING) : ''
+               );
+        ?>"
         accesskey="o" />
       </td>
      </tr>
@@ -1312,10 +1315,20 @@ $query = 'SELECT c.id,c.email,c.comment,UNIX_TIMESTAMP(c.ts) AS added, c.reporte
     GROUP BY c.id ORDER BY c.ts';
 $res = $dbh->query($query, array($id));
 if ($res) {
-    ?><h2>Comments</h2><?php
+    ?><h2>Comments</h2>
+<?php
 while ($row = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-    output_note($row['id'], $row['added'], $row['email'], $row['comment'], $row['showemail'], $row['bughandle'] ? $row['bughandle'] : $row['handle'], $row['comment_name'], $row['registered']);
-}
+        output_note(
+            $row['id'],
+            $row['added'],
+            $row['email'],
+            $row['comment'],
+            $row['showemail'],
+            $row['bughandle'] ? $row['bughandle'] : $row['handle'],
+            $row['comment_name'],
+            $row['registered']
+        );
+    }
 }
 
 response_footer();
@@ -1383,21 +1396,24 @@ function output_note($com_id, $ts, $email, $comment, $showemail = 1, $handle = n
 function hide_comment($id, $com_id)
 {
     global $dbh;
-    $query ='UPDATE bugdb_comments SET active = 0 WHERE bug = '.(int)$id.' AND id = '.(int)$com_id;
+    $query = 'UPDATE bugdb_comments SET active = 0 WHERE bug = ' . (int)$id .
+        ' AND id = '.(int)$com_id;
     $res = $dbh->query($query);
 }
 
 function show_comment($id, $com_id)
 {
     global $dbh;
-    $query ='UPDATE bugdb_comments SET active = 1 WHERE bug = '.(int)$id.' AND id = '.(int)$com_id;
+    $query = 'UPDATE bugdb_comments SET active = 1 WHERE bug = ' . (int) $id .
+        ' AND id = ' . (int)$com_id;
     $res = $dbh->query($query);
 }
 
 function delete_comment($id, $com_id)
 {
     global $dbh;
-    $query = 'DELETE FROM bugdb_comments WHERE active = 0 bug = '.(int)$id.' AND id = '.(int)$com_id;
+    $query = 'DELETE FROM bugdb_comments WHERE active = 0 bug = ' . (int) $id .
+        ' AND id = '.(int)$com_id;
     $res = $dbh->query($query);
 }
 
@@ -1431,5 +1447,11 @@ function canvote()
 {
     return false;
     global $bug;
-    return ($_GET['thanks'] != 4 && $_GET['thanks'] != 6 && $bug['status'] != 'Closed' && $bug['status'] != 'Bogus' && $bug['status'] != 'Duplicate');
+    return (
+        $_GET['thanks'] != 4
+        && $_GET['thanks'] != 6
+        && $bug['status'] != 'Closed'
+        && $bug['status'] != 'Bogus'
+        && $bug['status'] != 'Duplicate'
+    );
 }

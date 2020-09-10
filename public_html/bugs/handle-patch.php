@@ -97,8 +97,8 @@ if (!$loggedin) {
 
         PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
         $e = $patchinfo->attach(
-            $id, 'patch', $_POST['patchname'],
-            $buggie->handle, $_POST['obsoleted']
+            $id, 'patch', filter_var($_POST['patchname'], FILTER_SANITISE_STRING),
+            $buggie->handle, filter_var($_POST['obsoleted'], FILTER_SANITISE_STRING)
         );
         PEAR::popErrorHandling();
         if (PEAR::isError($e)) {
@@ -121,7 +121,9 @@ if (!$loggedin) {
         try {
             $buggie->sendEmail();
         } catch (Exception $e) {
-            $errors[] = 'Patch was successfully attached, but account confirmation email not sent, please report to ' .  PEAR_DEV_EMAIL;
+            $errors[] = 'Patch was successfully attached, ' .
+                'but account confirmation email not sent, ' .
+                'please report to ' .  PEAR_DEV_EMAIL;
             return;
         }
         localRedirect(
@@ -175,7 +177,8 @@ Added #patch bug:$id;patch:$patchname;revision:$e;.
 TXT;
 
     $query = 'INSERT INTO bugdb_comments' .
-        ' (bug, email, ts, comment, reporter_name, handle) VALUES (?, ?, NOW(), ?, ?, ?)';
+        ' (bug, email, ts, comment, reporter_name, handle) VALUES' .
+        ' (?, ?, NOW(), ?, ?, ?)';
     $dbh->query(
         $query,
         array(
