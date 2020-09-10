@@ -3,8 +3,8 @@
  * Patch display - included by bug.php
  */
 
-$revision = isset($_GET['revision']) ? $_GET['revision'] : null;
-$patch    = isset($_GET['patch'])    ? $_GET['patch'] : null;
+$revision = isset($_GET['revision']) ? filter_var($_GET['revision'], FILTER_SANITISE_STRING) : null;
+$patch    = isset($_GET['patch'])    ? filter_var($_GET['patch'], FILTER_SANITISE_STRING) : null;
 
 //$id is set when being included
 if (!isset($id)) {
@@ -30,7 +30,7 @@ $bug_id = $id;
 
 $patchinfo = new Bugs_Patchtracker();
 $buginfo   = $patchinfo->getBugInfo($bug_id);
-
+https://rebrickable.com/mocs/MOC-12653/DavDupMOCs/battlestar-galactica-ucs-cylon-raider-ucs/#comments
 
 if ($patch === null || $revision === null) {
     /**
@@ -124,10 +124,10 @@ if (isset($_GET['diff']) && $_GET['diff']
         exit();
     }
 
-    require_once 'Horde/Text/Diff.php';
-    require_once 'bugs/Diff/pearweb.php';
+    include_once 'Horde/Text/Diff.php';
+    include_once 'bugs/Diff/pearweb.php';
     assert_options(ASSERT_WARNING, 0);
-    $d    = new Horde_Text_Diff('auto', array($orig = file($old), $now = file($new)));
+    $d = new Horde_Text_Diff('auto', array($orig = file($old), $now = file($new)));
     $diff = new Horde_Text_Diff_Renderer_pearweb();
     include PEARWEB_TEMPLATEDIR . '/bugs/patchinfo.php';
     include PEARWEB_TEMPLATEDIR . '/bugs/patchdiff.php';
@@ -138,8 +138,8 @@ if (isset($_GET['diff']) && $_GET['diff']
 /**
  * Display patch alone
  */
-include PEARWEB_TEMPLATEDIR . '/bugs/patchinfo.php';
-include PEARWEB_TEMPLATEDIR . '/bugs/patchdisplay.php';
+require PEARWEB_TEMPLATEDIR . '/bugs/patchinfo.php';
+require PEARWEB_TEMPLATEDIR . '/bugs/patchdisplay.php';
 response_footer();
 
 ?>

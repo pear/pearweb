@@ -88,7 +88,7 @@ do {
         }
         $display_form = false;
         response_header("Package Registered");
-        echo "The package `" . $_POST['name'] . "' has been registered in PEAR.<br />\n";
+        echo "The package `" . filter_var($_POST['name'], FILTER_SANITISE_STRING) . "' has been registered in PEAR.<br />\n";
         echo "You have been assigned as lead developer.<br />\n";
         echo "The " . make_link("/group/", "PEAR Group") . " has been notified and the package will be approved soon.<br />\n";
     }
@@ -155,13 +155,13 @@ $renderer = HTML_QuickForm2_Renderer::factory('default');
     $form->addDataSource(
         new HTML_QuickForm2_DataSource_Array(
             array(
-            'name'     => isset($_POST['name'])     ? $_POST['name']     : '',
-            'license'  => isset($_POST['license'])  ? $_POST['license']  : '',
-            'category' => isset($_POST['category']) ? $_POST['category'] : '',
-            'summary'  => isset($_POST['summary'])  ? $_POST['summary']  : '',
-            'desc'     => isset($_POST['desc'])     ? $_POST['desc']     : '',
-            'homepage' => isset($_POST['homepage']) ? $_POST['homepage'] : '',
-            'cvs_link' => isset($_POST['cvs_link']) ? $_POST['cvs_link'] : '',
+            'name'     => isset($_POST['name'])     ? filter_var($_POST['name'], FILTER_SANITISE_STRING)     : '',
+            'license'  => isset($_POST['license'])  ? filter_var($_POST['license'], FILTER_SANITISE_STRING)  : '',
+            'category' => isset($_POST['category']) ? filter_var($_POST['category'], FILTER_SANITISE_STRING) : '',
+            'summary'  => isset($_POST['summary'])  ? filter_var($_POST['summary'], FILTER_SANITISE_STRING)  : '',
+            'desc'     => isset($_POST['desc'])     ? filter_var($_POST['desc'], FILTER_SANITISE_STRING)     : '',
+            'homepage' => isset($_POST['homepage']) ? filter_var($_POST['homepage'], FILTER_SANITISE_STRING) : '',
+            'cvs_link' => isset($_POST['cvs_link']) ? filter_var($_POST['cvs_link'], FILTER_SANITISE_STRING) : '',
             )
         )
     );
