@@ -1052,7 +1052,7 @@ if ($edit == 1 && auth_check('pear.dev')) {
       <td colspan="3">
        <input type="text" size="40" maxlength="40" name="in[email]"
         value="<?php echo (isset($_POST['in']) && isset($_POST['in']['email']) ?
-            $_POST['in']['email'] : '') ?>" />
+            filter_var($_POST['in']['email'], FILTER_SANITISE_STRING) : '') ?>" />
       </td>
      </tr>
      <tr>

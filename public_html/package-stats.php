@@ -67,13 +67,13 @@ echo '  <tr>'."\n";
 echo '  <td>'."\n";
 echo '   <select name="cid" onchange="javascript:reloadMe();">'."\n";
 echo '    <option value="">Select category ...</option>'."\n";
-include_once 'pear-database-category.php';
+require_once 'pear-database-category.php';
 foreach (category::listAll() as $value) {
     $selected = '';
     if (isset($_GET['cid']) && $_GET['cid'] == $value['id']) {
         $selected = ' selected="selected"';
     }
-    echo '    <option value="' . $value['id'] . '"' . $selected . '>' . $value['name'] . "</option>\n";
+    echo '<option value="' . $value['id'] . '"' . $selected . '>' . $value['name'] . "</option>\n";
 }
 
 echo "  </select>\n";
@@ -130,7 +130,7 @@ echo "</form>\n";
 if (isset($_GET['pid']) && (int)$_GET['pid']) {
     include_once 'pear-database-statistics.php';
     include_once 'pear-database-package.php';
-    $info = package::info($_GET['pid'],null,false);
+    $info = package::info($_GET['pid'], null, false);
 
     if (isset($info['releases']) && sizeof($info['releases'])>0) {
         echo '<h2>&raquo; Statistics for Package &quot;<a href="/package/' . $info['name'] . '">' . $info['name'] . "</a>&quot;</h2>\n";
@@ -148,7 +148,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     </table>
 
 <?php
-    if (count($info['releases']) > 0) {
+if (count($info['releases']) > 0) {
 ?>
     <br />
     <table cellspacing="0" cellpadding="3" style="border: 0px; width: 90%;">
@@ -160,34 +160,39 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
         <th style="text-align: left;">Last Download</th>
     </tr>
 <?php
-        $rid = isset($_GET['rid']) ? $_GET['rid'] : '';
-        $release_statistics = statistics::release($_GET['pid'], $rid);
+$rid = isset($_GET['rid']) ? $_GET['rid'] : '';
+$release_statistics = statistics::release($_GET['pid'], $rid);
 
-        foreach ($release_statistics as $key => $value) {
-            $version = make_link('/package/' . $info['name'] .
-                '/download/' . $value['release'], $value['release']);
-            echo ' <tr>';
-            echo '  <td>' . $version . "</td>\n";
-            echo '  <td>' . number_format($value['dl_number'], 0, '.', ',');
-            echo "  </td>\n";
-            echo '  <td>';
-            echo format_date(strtotime($value['releasedate']), 'Y-m-d');
-            echo "  </td>\n";
-            echo '  <td>';
-            echo format_date(strtotime($value['last_dl']));
-            echo "  </td>\n";
-            echo " </tr>\n";
-        }
-        echo "</table>\n";
+foreach ($release_statistics as $key => $value) {
+    $version = make_link(
+        '/package/' . $info['name'] .
+        '/download/' . $value['release'], $value['release']
+    );
+    echo ' <tr>';
+    echo '  <td>' . $version . "</td>\n";
+    echo '  <td>' . number_format($value['dl_number'], 0, '.', ',');
+    echo "  </td>\n";
+    echo '  <td>';
+    echo format_date(strtotime($value['releasedate']), 'Y-m-d');
+    echo "  </td>\n";
+    echo '  <td>';
+    echo format_date(strtotime($value['last_dl']));
+    echo "  </td>\n";
+    echo " </tr>\n";
+}
+echo "</table>\n";
 
-        echo '<br />';
-        // Print the graph
-        $type   = isset($_GET['type']) && $_GET['type'] == 'bar' ? '&type=bar' : '';
-        $driver = isset($_GET['driver']) && $_GET['driver'] == 'image' ? '&driver=image' : '';
-        $url    = sprintf('package-stats-graph.php?pid=%s&amp;releases=%s%s%s', (int)$_GET['pid'], isset($_GET['rid']) ? (int)$_GET['rid'] : '', $driver, $type);
-        if (isset($_GET['driver']) && $_GET['driver'] == 'gd') {
-            echo '<img src="' . $url . '" id="stats_graph" width="743" height="250" alt="" />';
-        } else {
+echo '<br />';
+// Print the graph
+$type   = isset($_GET['type']) && $_GET['type'] == 'bar' ? '&type=bar' : '';
+$driver = isset($_GET['driver']) && $_GET['driver'] == 'image' ? '&driver=image' : '';
+$url    = sprintf(
+    'package-stats-graph.php?pid=%s&amp;releases=%s%s%s',
+    (int)$_GET['pid'], isset($_GET['rid']) ? (int)$_GET['rid'] : '', $driver, $type
+);
+if (isset($_GET['driver']) && $_GET['driver'] == 'gd') {
+    echo '<img src="' . $url . '" id="stats_graph" width="743" height="250" alt="" />';
+} else {
 ?>
 <div id="svg-container"> <!-- wrapper for the graph object -->
     <!--[if IE]>
@@ -200,7 +205,7 @@ if (isset($_GET['pid']) && (int)$_GET['pid']) {
     <!--<![endif]-->
 </div>
 <?php
-        }
+}
 // Print the graph control stuff
 $releases = $dbh->getAssoc('SELECT id, version FROM releases WHERE package = ' . (int)$_GET['pid']);
 natsort($releases);
@@ -284,9 +289,21 @@ natsort($releases);
 </script>
 
 <form name="graph_control" action="#" method="get">
- <input type="hidden" name="pid" value="<?php echo @$_GET['pid']; ?>" />
- <input type="hidden" name="rid" value="<?php echo @$_GET['rid']; ?>" />
- <input type="hidden" name="cid" value="<?php echo @$_GET['cid']; ?>" />
+ <input type="hidden" name="pid" value="<?php
+    if (array_key_exists('pid', $_GET)) {
+        echo filter_var($_GET['pid'], FILTER_SANITISE_STRING);
+    }
+?>" />
+ <input type="hidden" name="rid" value="<?php
+    if (array_key_exists('rid', $_GET)) {
+        echo filter_var($_GET['rid'], FILTER_SANITISE_STRING);
+    }
+?>" />
+ <input type="hidden" name="cid" value="<?php
+    if (array_key_exists('cid', $_GET)) {
+        echo filter_var($_GET['cid'], FILTER_SANITISE_STRING);
+    }
+?>" />
  <table border="0">
   <tr>
    <td colspan="2">
@@ -301,9 +318,9 @@ natsort($releases);
     <select name="releases">
      <option value="">Select...</option>
      <option value="0">All</option>
-     <?php foreach($releases as $id => $version):?>
+        <?php foreach($releases as $id => $version):?>
       <option value="<?php echo $id; ?>"><?php echo $version; ?></option>
-     <?php endforeach?>
+        <?php endforeach?>
     </select>
    </td>
    <td style="text-align: right">
@@ -319,8 +336,8 @@ natsort($releases);
  </table>
 </form>
 <br />
-        <?php
-    }
+<?php
+}
 
 /*
  * Category based statistics
@@ -341,27 +358,31 @@ natsort($releases);
     $total_categories  = $dbh->getOne($sql);
 
     // Query to get package list from package_stats_table
-    $query = sprintf("SELECT SUM(ps.dl_number) AS dl_number, ps.package, ps.release, ps.pid, ps.rid, ps.cid
-                    FROM package_stats ps, packages p
-                    WHERE p.package_type = '" . SITE . "' AND p.id = ps.pid AND
-                    p.category = %s GROUP BY ps.pid ORDER BY dl_number DESC",
-                    $_GET['cid']
-                    );
+    $query = sprintf(
+        "SELECT
+            SUM(ps.dl_number) AS dl_number,
+            ps.package,
+            ps.release,
+            ps.pid,
+            ps.rid,
+            ps.cid
+        FROM package_stats ps, packages p
+        WHERE p.package_type = '" . SITE . "' AND p.id = ps.pid AND
+            p.category = %s GROUP BY ps.pid ORDER BY dl_number DESC",
+        filter_var($_GET['cid'], FILTER_SANITISE_STRING)
+    );
 
-/*
- * Global stats
- */
+    /*
+    * Global stats
+    */
 } else {
 
     $total_packages    = number_format($dbh->getOne('SELECT COUNT(id) FROM packages WHERE package_type = "' . SITE . '" and approved=1'), 0, '.', ',');
     $total_maintainers = number_format($dbh->getOne('SELECT COUNT(DISTINCT handle) FROM maintains m, packages p WHERE package_type = "' . SITE . '" AND m.package = p.id'), 0, '.', ',');
-    $total_releases    = number_format($dbh->getOne('SELECT COUNT(*) FROM releases r, packages p
-                        WHERE r.package = p.id AND p.package_type = "' . SITE . '"'), 0, '.', ',');
+    $total_releases    = number_format($dbh->getOne('SELECT COUNT(*) FROM releases r, packages p WHERE r.package = p.id AND p.package_type = "' . SITE . '"'), 0, '.', ',');
     $total_categories  = number_format($dbh->getOne('SELECT COUNT(*) FROM categories'), 0, '.', ',');
-    $total_downloads   = number_format($dbh->getOne('SELECT SUM(dl_number) FROM package_stats, packages p
-                       WHERE package_stats.pid = p.id AND p.package_type = "' . SITE . '"'), 0, '.', ',');
-    $query = "
-        SELECT SUM(ps.dl_number) AS dl_number, ps.package, ps.pid, ps.rid, ps.cid
+    $total_downloads   = number_format($dbh->getOne('SELECT SUM(dl_number) FROM package_stats, packages p WHERE package_stats.pid = p.id AND p.package_type = "' . SITE . '"'), 0, '.', ',');
+    $query = "SELECT SUM(ps.dl_number) AS dl_number, ps.package, ps.pid, ps.rid, ps.cid
         FROM package_stats ps, packages p
         WHERE p.id = ps.pid AND p.package_type = '" . SITE . "'
         GROUP BY ps.pid ORDER BY dl_number DESC";
@@ -398,22 +419,23 @@ if (@!$_GET['pid']) {
   <td style="width: 25%; background-color: #CCCCCC; text-align: center;"><?php echo $total_categories; ?></td>
  </tr>
     <?php
-     if(empty($_GET['cid'])) {
-         echo " <tr>\n  <td width=\"25%\">Total&nbsp;Downloads:</td>\n  <td style=\"width:25%; text-align:center; background-color: #cccccc\">$total_downloads</td>\n </tr>\n";
-     }
-   ?>
+    if (empty($_GET['cid'])) {
+         echo " <tr>\n  <td width=\"25%\">Total&nbsp;Downloads:</td>\n";
+         echo "  <td style=\"width:25%; text-align:center; background-color: #cccccc\">$total_downloads</td>\n </tr>\n";
+    }
+    ?>
 </table>
 <?php
-    echo '<br />';
+echo '<br />';
 
-    $sth  = $dbh->query($query); //$query defined above
-    $rows = $sth->numRows();
+$sth  = $dbh->query($query); //$query defined above
+$rows = $sth->numRows();
 
-    if (PEAR::isError($sth)) {
-        PEAR::raiseError('unable to generate stats');
-    }
+if (PEAR::isError($sth)) {
+    PEAR::raiseError('unable to generate stats');
+}
 
-    ?>
+?>
 <div style="height: 300px; width: 90%; overflow: auto">
     <table style="border: 0; width: 100%" cellpadding="2" cellspacing="2">
         <tr>
@@ -426,27 +448,27 @@ if (@!$_GET['pid']) {
         </tr>
 <?php
 
-    $lastPackage = "";
+$lastPackage = "";
 
-    while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
-        if ($row['package'] == $lastPackage) {
-            $row['package'] = '';
-        } else {
-            $lastPackage = $row['package'];
-            $row['package'] = '<a href="/package/' .
-                                $row['package'] . '">' .
-                                $row['package'] . "</a>";
-        }
-
-        echo "  <tr style=\"background-color: #eeeeee\">\n";
-        echo "   <td>" . $row['package'] .  "</td>\n";
-        echo "   <td>" . number_format($row['dl_number'], 0, '.', ',') . "</td>\n";
-        echo "   <td>[". make_link("/package-stats.php?cid=" . $row['cid'] . "&amp;pid=" . $row['pid'] , 'Details') . "]</td>\n";
-        echo "  </tr>\n";
+while ($row = $sth->fetchRow(DB_FETCHMODE_ASSOC)) {
+    if ($row['package'] == $lastPackage) {
+        $row['package'] = '';
+    } else {
+        $lastPackage = $row['package'];
+        $row['package'] = '<a href="/package/' .
+            $row['package'] . '">' .
+            $row['package'] . "</a>";
     }
-    echo " </table>\n";
 
-    echo '</div>';
+    echo "  <tr style=\"background-color: #eeeeee\">\n";
+    echo "   <td>" . $row['package'] .  "</td>\n";
+    echo "   <td>" . number_format($row['dl_number'], 0, '.', ',') . "</td>\n";
+    echo "   <td>[". make_link("/package-stats.php?cid=" . $row['cid'] . "&amp;pid=" . $row['pid'], 'Details') . "]</td>\n";
+    echo "  </tr>\n";
+}
+echo " </table>\n";
+
+echo '</div>';
 }
 
 response_footer();

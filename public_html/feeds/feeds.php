@@ -20,14 +20,16 @@
 
 require_once 'pepr/pepr.php';
 
-function rss_bailout() {
+function rss_bailout() 
+{
     header('HTTP/1.0 404 Not Found');
-    echo "<h1>The requested URL " . (($_SERVER['REQUEST_URI'])) . " was not found on this server.</h1>";
+    echo "<h1>The requested URL " . ((filter_var($_SERVER['REQUEST_URI'], FILTER_SANITISE_STRING))) . " was not found on this server.</h1>";
     exit();
 }
 
 /* if file is given, the file will be used to store the rss feed */
-function rss_create($items, $channel_title, $channel_description, $dest_file = false) {
+function rss_create($items, $channel_title, $channel_description, $dest_file = false)
+{
     if (is_array($items) && count($items) > 0) {
 
         $rss_top = '<?xml version="1.0" encoding="iso-8859-1"?>
@@ -120,107 +122,107 @@ if (!empty($url_redirect)) {
 }
 
 switch ($type) {
-    case 'latest':
-        include_once 'pear-database-release.php';
-        $items = release::getRecent(10);
-        $channel_title = 'PEAR: Latest releases';
-        $channel_description = 'The latest releases in PEAR.';
-        break;
+case 'latest':
+    include_once 'pear-database-release.php';
+    $items = release::getRecent(10);
+    $channel_title = 'PEAR: Latest releases';
+    $channel_description = 'The latest releases in PEAR.';
+    break;
 
-    case 'popular':
-        include_once 'pear-database-release.php';
-        $items = release::getPopular(10, true);
-        foreach ($items as $i => $item) {
-            $items[$i]['releasenotes'] = 'Downloads per day: ' . number_format($item['releasenotes'], 2);
-        }
-        $channel_title = 'PEAR: Popular releases';
-        $channel_description = 'The most popular releases in PEAR.';
-        break;
+case 'popular':
+    include_once 'pear-database-release.php';
+    $items = release::getPopular(10, true);
+    foreach ($items as $i => $item) {
+        $items[$i]['releasenotes'] = 'Downloads per day: ' . number_format($item['releasenotes'], 2);
+    }
+    $channel_title = 'PEAR: Popular releases';
+    $channel_description = 'The most popular releases in PEAR.';
+    break;
 
-    case 'bug' :
-        $_REQUEST = array('id' => $argument, 'format' => 'rss');
-        include dirname(dirname(__FILE__)) . '/bugs/rss/bug.php';
-        exit;
+case 'bug' :
+    $_REQUEST = array('id' => $argument, 'format' => 'rss');
+    include dirname(dirname(__FILE__)) . '/bugs/rss/bug.php';
+    exit;
 
-    case 'user':
-        $user = $argument;
-        include_once 'pear-database-user.php';
-        if (!user::exists($user)) {
-            rss_bailout();
-        }
-
-        $name = user::info($user, "name");
-        $channel_title = "PEAR: Latest releases for " . $user;
-        $channel_description = "The latest releases for the PEAR developer " . $user . " (" . $name['name'] . ")";
-        $items = user::getRecentReleases($user);
-        break;
-
-    case 'pkg':
-        $package = $argument;
-        include_once 'pear-database-package.php';
-        if (package::isValid($package) == false) {
-            rss_bailout();
-            return PEAR::raiseError("The requested URL " . $_SERVER['REQUEST_URI'] . " was not found on this server.");
-        }
-
-        $channel_title = "Latest releases of " . $package;
-        $channel_description = "The latest releases for the package " . $package;
-
-        $items = package::getRecent(10, $package);
-        break;
-
-    case 'cat':
-        $category = $argument;
-        include_once 'pear-database-category.php';
-        if (category::isValid($category) == false) {
-            rss_bailout();
-        }
-
-        $channel_title = "PEAR: Latest releases in category " . $category;
-        $channel_description = "The latest releases in the category " . $category;
-
-        $items = category::getRecent(10, $category);
-        break;
-
-    case 'pepr':
-        if ($argument=='pepr') {
-            $channel_title = "PEPr: Latest proposals.";
-            $channel_description = "The latest PEPr proposals.";
-            $obj_items = proposal::getAll($dbh, NULL, 10);
-        } elseif (isset($proposalStatiMap[$argument])) {
-            $channel_title = "PEPr: Latest proposals with status " . $proposalStatiMap[$argument];
-            $channel_description = "The latest PEPr proposals with status " . $proposalStatiMap[$argument];
-            $obj_items = proposal::getAll($dbh, $argument, 10);
-        } elseif (substr($argument, 0, 6) == 'search') {
-            $searchString = substr($argument, 7);
-            $channel_title = "PEPr: Latest proposals containing " . $searchString;
-            $channel_description = "The latest PEPr proposals containing " . $searchString;
-            $obj_items = proposal::search($searchString);
-        } else {
-            rss_bailout();
-        }
-
-        $items = array();
-        foreach ($obj_items as $id => $item) {
-            $item = $item->toRSSArray();
-            $items[] = array(
-                    'name'          => $item['title'],
-                    'link'          => $item['link'],
-                    'releasenotes'  => $item['desc'],
-                    'releasedate'   => (int)$item['date'],
-                    'version'       => ''
-                    );
-        }
-        break;
-
-    case 'bugs':
-        /* to be done, new bug system supports it */
+case 'user':
+    $user = $argument;
+    include_once 'pear-database-user.php';
+    if (!user::exists($user)) {
         rss_bailout();
-        break;
+    }
 
-    default:
+    $name = user::info($user, "name");
+    $channel_title = "PEAR: Latest releases for " . $user;
+    $channel_description = "The latest releases for the PEAR developer " . $user . " (" . $name['name'] . ")";
+    $items = user::getRecentReleases($user);
+    break;
+
+case 'pkg':
+    $package = $argument;
+    include_once 'pear-database-package.php';
+    if (package::isValid($package) == false) {
         rss_bailout();
-        break;
+        return PEAR::raiseError("The requested URL " . $_SERVER['REQUEST_URI'] . " was not found on this server.");
+    }
+
+    $channel_title = "Latest releases of " . $package;
+    $channel_description = "The latest releases for the package " . $package;
+
+    $items = package::getRecent(10, $package);
+    break;
+
+case 'cat':
+    $category = $argument;
+    include_once 'pear-database-category.php';
+    if (category::isValid($category) == false) {
+        rss_bailout();
+    }
+
+    $channel_title = "PEAR: Latest releases in category " . $category;
+    $channel_description = "The latest releases in the category " . $category;
+
+    $items = category::getRecent(10, $category);
+    break;
+
+case 'pepr':
+    if ($argument=='pepr') {
+        $channel_title = "PEPr: Latest proposals.";
+        $channel_description = "The latest PEPr proposals.";
+        $obj_items = proposal::getAll($dbh, null, 10);
+    } elseif (isset($proposalStatiMap[$argument])) {
+        $channel_title = "PEPr: Latest proposals with status " . $proposalStatiMap[$argument];
+        $channel_description = "The latest PEPr proposals with status " . $proposalStatiMap[$argument];
+        $obj_items = proposal::getAll($dbh, $argument, 10);
+    } elseif (substr($argument, 0, 6) == 'search') {
+        $searchString = substr($argument, 7);
+        $channel_title = "PEPr: Latest proposals containing " . $searchString;
+        $channel_description = "The latest PEPr proposals containing " . $searchString;
+        $obj_items = proposal::search($searchString);
+    } else {
+        rss_bailout();
+    }
+
+    $items = array();
+    foreach ($obj_items as $id => $item) {
+        $item = $item->toRSSArray();
+        $items[] = array(
+            'name'         => $item['title'],
+            'link'         => $item['link'],
+            'releasenotes' => $item['desc'],
+            'releasedate'  => (int)$item['date'],
+            'version'      => ''
+        );
+    }
+    break;
+
+case 'bugs':
+    /* to be done, new bug system supports it */
+    rss_bailout();
+    break;
+
+default:
+    rss_bailout();
+    break;
 }
 
 // we do not use yet static files. It will be activated with the new backends.
