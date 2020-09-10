@@ -39,15 +39,19 @@ $numeralCaptcha = new Text_CAPTCHA_Numeral();
 
 if (isset($_POST['save']) && isset($_POST['pw'])) {
     // non-developers don't have $user set
-    setcookie('MAGIC_COOKIE', base64_encode(':' . $_POST['pw']),
-              time() + 3600 * 24 * 12, '/', '.php.net');
+    setcookie(
+        'MAGIC_COOKIE', base64_encode(':' . $_POST['pw']),
+        time() + 3600 * 24 * 12, '/', '.php.net'
+    );
 }
 
 // captcha is not necessary if the user is logged in
 if (isset($auth_user) && $auth_user->registered) {
-    if (auth_check('pear.voter') && !auth_check('pear.dev') && !auth_check('pear.bug')) {
+    if (auth_check('pear.voter')
+        && !auth_check('pear.dev') && !auth_check('pear.bug')
+    ) {
         // auto-grant bug tracker karma if it isn't present
-        require_once 'Damblan/Karma.php';
+        include_once 'Damblan/Karma.php';
         $karma = new Damblan_Karma($dbh);
         $karma->grant($auth_user->user, 'pear.bug');
     }
@@ -84,11 +88,12 @@ if (isset($_POST['in'])) {
          * and is a pear developer
          */
         if (isset($auth_user) && auth_check('pear.dev')) {
-            require_once 'pear-database-maintainer.php';
+            include_once 'pear-database-maintainer.php';
             $m = maintainer::get($_POST['in']['package_name'], false, true);
 
-            if (isset($m[$auth_user->handle]) &&
-                in_array($m[$auth_user->handle]['role'], array('lead', 'developer'))) {
+            if (isset($m[$auth_user->handle])
+                && in_array($m[$auth_user->handle]['role'], ['lead', 'developer'])
+            ) {
                 $_POST['in']['did_luser_search'] = 1;
             }
         }
@@ -120,7 +125,9 @@ if (isset($_POST['in'])) {
 
             $where_clause .= $sql_search;
 
-            /** Bug #11423 Make sure that a bug report is registered */
+            /**
+             * Bug #11423 Make sure that a bug report is registered
+             */
             $where_clause .= ' AND p.package_type="pear" and bugdb.registered = 1 ';
 
             $query = "SELECT bugdb.* from bugdb, packages p $where_clause LIMIT 5";
@@ -156,37 +163,43 @@ if (isset($_POST['in'])) {
 
 <?php
 
-                while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
+while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
 
-                    $resolution =& $dbh->getOne('SELECT comment FROM' .
-                            ' bugdb_comments where bug = ' .
-                            $row['id'] . ' ORDER BY id DESC LIMIT 1');
+    $resolution =& $dbh->getOne(
+        'SELECT comment FROM' .
+        ' bugdb_comments where bug = ' .
+        $row['id'] . ' ORDER BY id DESC LIMIT 1'
+    );
 
-                    if ($resolution) {
-                        $resolution = htmlspecialchars($resolution);
-                    }
+    if ($resolution) {
+        $resolution = htmlspecialchars($resolution);
+    }
 
-                    $summary = $row['ldesc'];
-                    if (strlen($summary) > 256) {
-                        $summary = htmlspecialchars(substr(trim($summary),
-                                                    0, 256)) . ' ...';
-                    } else {
-                        $summary = htmlspecialchars($summary);
-                    }
+    $summary = $row['ldesc'];
+    if (strlen($summary) > 256) {
+        $summary = htmlspecialchars(
+            substr(
+                trim($summary),
+                0, 256
+            )
+        ) . ' ...';
+    } else {
+        $summary = htmlspecialchars($summary);
+    }
 
-                    $bug_url = "/bugs/bug.php?id=$row[id]";
+    $bug_url = "/bugs/bug.php?id=$row[id]";
 
-                    echo " <tr>\n";
-                    echo '  <td colspan="2"><strong>' . $row['package_name'] . '</strong> : <a href="' . $bug_url . '">Bug #';
-                    echo $row['id'] . ': ' . htmlspecialchars($row['sdesc']);
-                    echo "</a></td>\n";
-                    echo " </tr>\n";
-                    echo " <tr>\n";
-                    echo '  <td>' . $summary . "</td>\n";
-                    echo '  <td>' . nl2br($resolution) . "</td>\n";
-                    echo " </tr>\n";
+    echo " <tr>\n";
+    echo '  <td colspan="2"><strong>' . $row['package_name'] . '</strong> : <a href="' . $bug_url . '">Bug #';
+    echo $row['id'] . ': ' . htmlspecialchars($row['sdesc']);
+    echo "</a></td>\n";
+    echo " </tr>\n";
+    echo " <tr>\n";
+    echo '  <td>' . $summary . "</td>\n";
+    echo '  <td>' . nl2br($resolution) . "</td>\n";
+    echo " </tr>\n";
 
-                }
+}
 
                 echo "</table>\n";
                 echo "</div>\n";
@@ -207,7 +220,7 @@ if (isset($_POST['in'])) {
             if (!isset($auth_user)) {
                 $registereduser = 0;
                 // user doesn't exist yet
-                require 'bugs/pear-bug-accountrequest.php';
+                include 'bugs/pear-bug-accountrequest.php';
                 $buggie = new PEAR_Bug_Accountrequest;
                 $salt = $buggie->addRequest($_POST['in']['email']);
                 if (is_array($salt)) {
@@ -228,13 +241,14 @@ if (isset($_POST['in'])) {
                     break;
                 }
 
-                $_POST['in']['handle'] =
+                $_POST['in']['handle'] =  $buggie->handle;
                 $_POST['in']['reporter_name'] = $buggie->handle;
                 try {
                     $buggie->sendEmail();
                 } catch (Exception $e) {
                     $errors[] = 'Critical internal error: could not send' .
-                        ' email to your address ' . $_POST['in']['email'] .
+                        ' email to your address ' .
+                        filter_var($_POST['in']['email'], FILTER_SANITISE_STRING) .
                         ', please write a mail message to the <i>pear-dev</i>' .
                         'mailing list and report this problem with details.' .
                         '  We apologize for the problem, your report will help' .
@@ -253,15 +267,15 @@ if (isset($_POST['in'])) {
                 $fdesc .= "Test script:\n---------------\n";
                 $fdesc .= $_POST['in']['repcode'] . "\n\n";
             }
-            if (!empty($_POST['in']['expres']) ||
-                $_POST['in']['expres'] === '0')
-            {
+            if (!empty($_POST['in']['expres'])
+                || $_POST['in']['expres'] === '0'
+            ) {
                 $fdesc .= "Expected result:\n----------------\n";
                 $fdesc .= $_POST['in']['expres'] . "\n\n";
             }
-            if (!empty($_POST['in']['actres']) ||
-                $_POST['in']['actres'] === '0')
-            {
+            if (!empty($_POST['in']['actres'])
+                || $_POST['in']['actres'] === '0'
+            ) {
                 $fdesc .= "Actual result:\n--------------\n";
                 $fdesc .= $_POST['in']['actres'] . "\n";
             }
@@ -348,7 +362,7 @@ if (isset($_POST['in'])) {
             list($mailto, $mailfrom) = $pbu->getPackageMail($_POST['in']['package_name']);
 
             $email = $_POST['in']['email'];
-            require_once 'bugs/pear-bugs-utils.php';
+            include_once 'bugs/pear-bugs-utils.php';
             $protected_email  = '"' . PEAR_Bugs_Utils::spamProtect($email, 'text') . '"';
             $protected_email .= ' <' . $mailfrom . '>';
 
@@ -367,17 +381,21 @@ if (isset($_POST['in'])) {
 
             if (!DEVBOX) {
                 // mail to package developers
-                @mail($mailto, "[" . SITE_BIG . "-BUG] $type #$cid [NEW]: $sdesc",
-                        $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
-                        '-f ' . PEAR_BOUNCE_EMAIL);
+                @mail(
+                    $mailto, "[" . SITE_BIG . "-BUG] $type #$cid [NEW]: $sdesc",
+                    $ascii_report . "1\n-- \n$dev_extra", $extra_headers,
+                    '-f ' . PEAR_BOUNCE_EMAIL
+                );
                 // mail to reporter, only if the reporter is also not the package maintainer
                 if (strpos($mailto, $email) !== false) {
-                    @mail($email, "[" . SITE_BIG . "-BUG] $type #$cid: $sdesc",
+                    @mail(
+                        $email, "[" . SITE_BIG . "-BUG] $type #$cid: $sdesc",
                         $ascii_report . "2\n",
                         "From: " . SITE_BIG . " Bug Database <$mailfrom>\n" .
                         "X-PHP-Bug: $cid\n" .
                         "Message-ID: <bug-$cid@" . PEAR_CHANNELNAME . ">",
-                        '-f ' . PEAR_BOUNCE_EMAIL);
+                        '-f ' . PEAR_BOUNCE_EMAIL
+                    );
                 }
             }
 
@@ -386,9 +404,11 @@ if (isset($_POST['in'])) {
                 localRedirect('bug.php?id=' . $cid . '&email=' . $_POST['in']['email'] . '&edit=13');
             } elseif (!isset($buggie) && !empty($_POST['in']['addpatch'])) {
                 //FIXME This is possible not needed anymore, look into it
-                require_once 'bugs/pear-bugs-utils.php';
-                PEAR_Bugs_Utils::sendPatchEmail($cid, $patchrevision,
-                    $_POST['in']['package_name'], $auth_user->handle);
+                include_once 'bugs/pear-bugs-utils.php';
+                PEAR_Bugs_Utils::sendPatchEmail(
+                    $cid, $patchrevision,
+                    $_POST['in']['package_name'], $auth_user->handle
+                );
             }
             localRedirect('bug.php?id=' . $cid . '&thanks=4');
             exit;
@@ -439,21 +459,20 @@ if (!empty($bug_link)) {
 
 if (!isset($_POST['in'])) {
     $_POST['in'] = array(
-                         'package_name' => '',
-                         'bug_type' => '',
-                         'email' => '',
-                         'handle' => '',
-                         'sdesc' => '',
-                         'ldesc' => '',
-                         'repcode' => '',
-                         'expres' => '',
-                         'actres' => '',
-                         'package_version' => '',
-                         'php_version' => '',
-                         'php_os' => '',
-                         'passwd' => '',
-
-                         );
+        'package_name' => '',
+        'bug_type' => '',
+        'email' => '',
+        'handle' => '',
+        'sdesc' => '',
+        'ldesc' => '',
+        'repcode' => '',
+        'expres' => '',
+        'actres' => '',
+        'package_version' => '',
+        'php_version' => '',
+        'php_os' => '',
+        'passwd' => '',
+    );
     show_bugs_menu($clean_package);
 
     try {
@@ -488,7 +507,7 @@ if (!isset($_POST['in'])) {
  <br />
  <strong>If you feel this bug concerns a security issue, eg a buffer
  overflow, weak encryption, etc, then email
- <?php echo make_mailto_link('pear-group@php.net?subject=%5BSECURITY%5D+possible+new+bug%21', 'pear-group'); ?>
+    <?php echo make_mailto_link('pear-group@php.net?subject=%5BSECURITY%5D+possible+new+bug%21', 'pear-group'); ?>
  who will assess the situation.</strong>
 </p>
 
@@ -511,7 +530,7 @@ if (!isset($_POST['in'])) {
 </p>
 
 <?php
-    }//no post set
+}//no post set
 
     report_error($errors);
 
@@ -521,13 +540,13 @@ $action = 'report.php?package=' . $clean_package;
 <table class="form-holder" cellspacing="1">
  <tr>
   <th class="form-label_left">
-<?php if (isset($auth_user)): ?>
+<?php if (isset($auth_user)) : ?>
    Your handle:
   </th>
   <td class="form-input">
    <input type="hidden" name="in[did_luser_search]"
     value="<?php echo isset($_POST['in']['did_luser_search']) ? 1 : 0; ?>" />
-   <?php echo $auth_user->handle; ?>
+    <?php echo $auth_user->handle; ?>
   </td>
 <?php
 else: // if (isset($auth_user))
@@ -553,20 +572,22 @@ else: // if (isset($auth_user))
    </select>
   </td>
  </tr>
- <?php if (!in_array($clean_package, $pseudo_pkgs, true)): ?>
+    <?php if (!in_array($clean_package, $pseudo_pkgs, true)) : ?>
  <tr>
   <th class="form-label_left">
    Package version:
   </th>
   <td class="form-input">
-   <?php echo show_package_version_options($clean_package,
-        clean($_POST['in']['package_version'])); ?>
+    <?php echo show_package_version_options(
+        $clean_package,
+        clean($_POST['in']['package_version'])
+    ); ?>
    <small>
     <a target="_blank" href="/bugs/packageversion-desc.php">How to retrieve that?</a>
    </small>
   </td>
  </tr>
- <?php endif; ?>
+    <?php endif; ?>
  <tr>
   <th class="form-label_left">
    Package affected:
@@ -603,13 +624,13 @@ else: // if (isset($auth_user))
    Bug Type:
   </th>
   <td class="form-input">
-   <?php
-        if (isset($_REQUEST['bug_type'])) {
-            $selectedBt = $_REQUEST['bug_type'];
-        } else {
-            $selectedBt = $_POST['in']['bug_type'];
-        }
-   ?>
+    <?php
+    if (isset($_REQUEST['bug_type'])) {
+        $selectedBt = $_REQUEST['bug_type'];
+    } else {
+        $selectedBt = $_POST['in']['bug_type'];
+    }
+    ?>
    <select name="in[bug_type]" id="in[bug_type]">
     <?php show_type_options($selectedBt); ?>
    </select>
@@ -623,19 +644,22 @@ if (auth_check('pear.dev')) {
     $db->package = $clean_package;
     $db->orderBy('releasedate ASC');
     $myroadmaps = array();
-    if (isset($_POST['in']) && isset($_POST['in']['roadmap']) &&
-          is_array($_POST['in']['roadmap'])) {
+    if (isset($_POST['in']) && isset($_POST['in']['roadmap'])
+        && is_array($_POST['in']['roadmap'])
+    ) {
         $myroadmaps = array_flip($_POST['in']['roadmap']);
     }
     if ($db->find(false)) {
         while ($db->fetch()) {
-            $released = $dbh->getOne('SELECT releases.id
+            $released = $dbh->getOne(
+                'SELECT releases.id
                 FROM packages, releases, bugdb_roadmap b
                 WHERE
                 b.id = ? AND
                 packages.name = b.package AND releases.package = packages.id AND
                 releases.version = b.roadmap_version',
-                array($db->id));
+                array($db->id)
+            );
             if ($released) {
                 $content .= '<span class="headerbottom">';
             }
@@ -663,14 +687,14 @@ if (auth_check('pear.dev')) {
    Milestone:
   </th>
   <td class="form-input">
-   <?php
-    if (isset($_GET['showold'])) {
-        echo '<a href="report.php?package=' . $clean_package . '">Hide released roadmaps</a>';
-    } else {
-        echo '<a href="report.php?package=' . $clean_package . '&amp;showold=1">Show released roadmaps</a>';
-    }
-    echo '<br />' . $content;
-   ?>
+<?php
+if (isset($_GET['showold'])) {
+    echo '<a href="report.php?package=' . $clean_package . '">Hide released roadmaps</a>';
+} else {
+    echo '<a href="report.php?package=' . $clean_package . '&amp;showold=1">Show released roadmaps</a>';
+}
+echo '<br />' . $content;
+?>
   </td>
  </tr>
 <?php
@@ -685,13 +709,13 @@ if (auth_check('pear.dev')) {
     value="<?php echo clean($_POST['in']['php_os']); ?>" />
   </td>
  </tr>
- <?php if (!isset($auth_user)): ?>
+<?php if (!isset($auth_user)) : ?>
  <tr>
   <th>Solve the problem : <?php print $numeralCaptcha->getOperation(); ?> = ?</th>
   <td class="form-input"><input type="text" name="captcha" id="captcha" /></td>
  </tr>
- <?php $_SESSION['answer'] = $numeralCaptcha->getAnswer(); ?>
- <?php endif; // if (!isset($auth_user)): ?>
+<?php $_SESSION['answer'] = $numeralCaptcha->getAnswer(); ?>
+<?php endif; // if (!isset($auth_user)): ?>
  <tr>
   <th class="form-label_left">
    Summary:
@@ -770,6 +794,4 @@ if (auth_check('pear.dev')) {
 </table>
 </form>
 <?php
-
-
 response_footer();

@@ -23,8 +23,8 @@
  * To figure out cookies are REALLY off, check to see if the person came
  * from within the PEAR website or just submitted the login form.
  */
-// when using cgi, a warning is always sent saying the cookie headers couldn't be sent
-// there is no way around this.
+// when using cgi, a warning is always sent saying the cookie headers
+// couldn't be sent there is no way around this.
 @session_start();
 
 
@@ -46,19 +46,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 $password = !empty($_POST['isMD5']) ? $_POST['PEAR_PW'] : md5($_POST['PEAR_PW']);
 
-if (auth_verify($_POST['PEAR_USER'], $password)) {
+if (auth_verify(
+    filter_var($_POST['PEAR_USER'], FILTER_SANITISE_STRING), $password
+)
+) {
     $expire = !empty($_POST['PEAR_PERSIST']) ? 2147483647 : 0;
     setcookie('PEAR_USER', $_POST['PEAR_USER'], $expire, '/');
     setcookie('PEAR_PW', $password, $expire, '/');
 
     // mark user as active if they were inactive
-    $dbh->query('UPDATE users SET active = 1 WHERE handle = ?', array($_POST['PEAR_USER']));
+    $dbh->query(
+        'UPDATE users SET active = 1 WHERE handle = ?',
+        [filter_var($_POST['PEAR_USER'], FILTER_SANITISE_STRING)]
+    );
 
     // Determine URL
     if (isset($_POST['PEAR_OLDURL'])
         && basename($_POST['PEAR_OLDURL']) != 'login.php'
-        && !preg_match('|://|', $_POST['PEAR_OLDURL']))
-    {
+        && !preg_match('|://|', $_POST['PEAR_OLDURL'])
+    ) {
         localRedirect($_POST['PEAR_OLDURL']);
     } else {
         localRedirect('/index.php');
