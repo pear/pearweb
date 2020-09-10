@@ -58,7 +58,7 @@ if (!$loggedin) {
             $errors[] = 'Email address must be valid!';
         }
         $preg = "/^[.\\w+-]+@[.\\w-]+\\.\\w{2,}\z/i";
-        if (!preg_match($preg,$_POST['email'])) {
+        if (!preg_match($preg, $_POST['email'])) {
             $errors[] = 'Email address must be valid!';
         }
         /**
@@ -77,7 +77,7 @@ if (!$loggedin) {
             throw new Exception('');
         }
         // user doesn't exist yet
-        require_once 'bugs/pear-bug-accountrequest.php';
+        include_once 'bugs/pear-bug-accountrequest.php';
         $buggie = new PEAR_Bug_Accountrequest();
         $salt = $buggie->addRequest($_POST['email']);
         if (is_array($salt)) {
@@ -107,11 +107,10 @@ if (!$loggedin) {
             if (!is_string($_POST['patchname'])) {
                 $_POST['patchname'] = '';
             }
-            $patchname = $_POST['patchname'];
+            $patchname = filter_var($_POST['patchname'], FILTER_SANITISE_STRING);
             $patches = $patchinfo->listPatches($id);
             $errors[] = $e->getMessage();
-            $errors[] =
-                'Could not attach patch "' .
+            $errors[] = 'Could not attach patch "' .
                 htmlspecialchars($patchname) .
                 '" to Bug #' . $id;
             $captcha = $numeralCaptcha->getOperation();
@@ -125,15 +124,16 @@ if (!$loggedin) {
             $errors[] = 'Patch was successfully attached, but account confirmation email not sent, please report to ' .  PEAR_DEV_EMAIL;
             return;
         }
-        localRedirect('/bugs/bug.php?id=' . $id . '&edit=12&patch=' .
-                      urlencode($_POST['patchname']) . '&revision=' . $e);
+        localRedirect(
+            '/bugs/bug.php?id=' . $id . '&edit=12&patch=' . urlencode($patchname) . '&revision=' . $e
+        );
         exit;
     } catch (Exception $e) {
         $package = $buginfo['package_name'];
         if (!is_string($_POST['patchname'])) {
             $_POST['patchname'] = '';
         }
-        $patchname = $_POST['patchname'];
+        $patchname = filter_var($_POST['patchname'], FILTER_SANITISE_STRING);
         $patches   = $patchinfo->listPatches($id);
         $captcha   = $numeralCaptcha->getOperation();
         $_SESSION['answer'] = $numeralCaptcha->getAnswer();
@@ -143,8 +143,8 @@ if (!$loggedin) {
 
 PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
 $e = $patchinfo->attach(
-    $id, 'patch', $_POST['patchname'],
-    $auth_user->handle, $_POST['obsoleted']
+    $id, 'patch', filter_var($_POST['patchname'], FILTER_SANITISE_STRING),
+    $auth_user->handle, filter_var($_POST['obsoleted'], FILTER_SANITISE_STRING)
 );
 PEAR::popErrorHandling();
 if (PEAR::isError($e)) {
@@ -152,7 +152,7 @@ if (PEAR::isError($e)) {
     if (!is_string($_POST['patchname'])) {
         $_POST['patchname'] = '';
     }
-    $patchname = $_POST['patchname'];
+    $patchname = filter_var($_POST['patchname'], FILTER_SANITISE_STRING);
     $patches   = $patchinfo->listPatches($id);
     $errors    = array(
         $e->getMessage(),
@@ -166,7 +166,7 @@ if (PEAR::isError($e)) {
 
 // {{{ Email after the patch is added and add a comment to the bug report.
 if (!isset($buggie)) {
-    $patchname = $_POST['patchname'];
+    $patchname = filter_var($_POST['patchname'], FILTER_SANITISE_STRING);
     $url       = "bug.php?id=$id&edit=12&patch=$patchname&revision=$e";
     $bugurl    ='http://' . PEAR_CHANNELNAME . '/bugs/' . $url;
     // Add a comment about this in the bug report
@@ -188,7 +188,7 @@ TXT;
      * Email the package maintainers/leaders about
      * the new patch added to their bug request.
      */
-    require_once 'bugs/pear-bugs-utils.php';
+    include_once 'bugs/pear-bugs-utils.php';
     $patch = array(
         'patch'        => $patchname,
         'bug_id'       => $id,
@@ -206,7 +206,7 @@ localRedirect(
     '/bugs/bug.php'
     . '?id=' . $id
     . '&edit=12'
-    . '&patch=' . urlencode($_POST['patchname'])
+    . '&patch=' . urlencode(filter_var($_POST['patchname'], FILTER_SANITISE_STRING))
     . '&revision=' . $e
     . '&thanks=13'
 );

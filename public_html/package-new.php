@@ -20,7 +20,6 @@
 
 require_once 'HTML/QuickForm2.php';
 require_once 'HTML/QuickForm2/Renderer.php';
-/** @todo Remove once part of QF2 */
 require_once 'HTML/QuickForm2/Element/InputUrl.php';
 
 
@@ -67,21 +66,24 @@ do {
 
         $dbh->expectError(DB_ERROR_CONSTRAINT);
         include_once 'pear-database-package.php';
-        $pkg = package::add(array(
-                                  'name'        => $_POST['name'],
-                                  'type'        => SITE,
-                                  'category'    => $_POST['category'],
-                                  'license'     => $_POST['license'],
-                                  'summary'     => $_POST['summary'],
-                                  'description' => $_POST['desc'],
-                                  'homepage'    => $_POST['homepage'],
-                                  'cvs_link'    => $_POST['cvs_link'],
-                                  'lead'        => $auth_user->handle
-                                  ));
+        $pkg = package::add(
+            array(
+            'name'        => filter_var($_POST['name'], FILTER_SANITISE_STRING),
+            'type'        => SITE,
+            'category'    => filter_var($_POST['category'], FILTER_SANITISE_STRING),
+            'license'     => filter_var($_POST['license'], FILTER_SANITISE_STRING),
+            'summary'     => filter_var($_POST['summary'], FILTER_SANITISE_STRING),
+            'description' => filter_var($_POST['desc'], FILTER_SANITISE_STRING),
+            'homepage'    => filter_var($_POST['homepage'], FILTER_SANITISE_STRING),
+            'cvs_link'    => filter_var($_POST['cvs_link'], FILTER_SANITISE_STRING),
+            'lead'        => $auth_user->handle
+            )
+        );
         $dbh->popExpect();
         if (DB::isError($pkg) && $pkg->getCode() == DB_ERROR_CONSTRAINT) {
-            error_handler("The `" . $_POST['name'] . "' package already exists!",
-                          "Package already exists");
+            error_handler(
+                "The `" . filter_var($_POST['name'], FILTER_SANITISE_STRING) . "' package already exists!", "Package already exists"
+            );
             exit;
         }
         $display_form = false;
@@ -120,29 +122,29 @@ Generally, a format of <em>Category_SpecificComponent</em> is a good way to go.
     $sql = 'SELECT id, parent, name FROM categories WHERE parent IS NOT NULL ORDER BY parent, name';
     $kids = $dbh->getAssoc($sql);
     $children = array();
-    foreach ($kids as $id => $c) {
-        $children[$c[0]][$id] = $c[1];
-    }
+foreach ($kids as $id => $c) {
+    $children[$c[0]][$id] = $c[1];
+}
 
     $categories = array();
     $categories[''] = '-- Select Category --';
 
-    function recur_categories($children, $parents, $me, &$categories, $indent = '--')
-    {
-        foreach ($children[$me] as $nid => $category) {
-            $categories[$nid] = $indent . ' ' . $category;
-            if (isset($children[$nid])) {
-                recur_categories($children, $parents, $nid, $categories, $indent . '--');
-            }
+function recur_categories($children, $parents, $me, &$categories, $indent = '--')
+{
+    foreach ($children[$me] as $nid => $category) {
+        $categories[$nid] = $indent . ' ' . $category;
+        if (isset($children[$nid])) {
+            recur_categories($children, $parents, $nid, $categories, $indent . '--');
         }
     }
+}
 
-    foreach ($parents as $id => $category) {
-        $categories[$id] = $category;
-        if (isset($children[$id])) {
-            recur_categories($children, $parents, $id, $categories, '--');
-        }
+foreach ($parents as $id => $category) {
+    $categories[$id] = $category;
+    if (isset($children[$id])) {
+        recur_categories($children, $parents, $id, $categories, '--');
     }
+}
 
 $form = new HTML_QuickForm2('package-new', 'post');
 $form->removeAttribute('name');
@@ -150,15 +152,19 @@ $form->removeAttribute('name');
 $renderer = HTML_QuickForm2_Renderer::factory('default');
 
     // Set defaults for the form elements
-    $form->addDataSource(new HTML_QuickForm2_DataSource_Array(array(
-        'name'     => isset($_POST['name'])     ? $_POST['name']     : '',
-        'license'  => isset($_POST['license'])  ? $_POST['license']  : '',
-        'category' => isset($_POST['category']) ? $_POST['category'] : '',
-        'summary'  => isset($_POST['summary'])  ? $_POST['summary']  : '',
-        'desc'     => isset($_POST['desc'])     ? $_POST['desc']     : '',
-        'homepage' => isset($_POST['homepage']) ? $_POST['homepage'] : '',
-        'cvs_link' => isset($_POST['cvs_link']) ? $_POST['cvs_link'] : '',
-    )));
+    $form->addDataSource(
+        new HTML_QuickForm2_DataSource_Array(
+            array(
+            'name'     => isset($_POST['name'])     ? $_POST['name']     : '',
+            'license'  => isset($_POST['license'])  ? $_POST['license']  : '',
+            'category' => isset($_POST['category']) ? $_POST['category'] : '',
+            'summary'  => isset($_POST['summary'])  ? $_POST['summary']  : '',
+            'desc'     => isset($_POST['desc'])     ? $_POST['desc']     : '',
+            'homepage' => isset($_POST['homepage']) ? $_POST['homepage'] : '',
+            'cvs_link' => isset($_POST['cvs_link']) ? $_POST['cvs_link'] : '',
+            )
+        )
+    );
 
     $form->addElement('text', 'name', array('size' => 20, 'required' => 'required', 'placeholder' => 'XML_Parser', 'pattern' => PEAR_COMMON_PACKAGE_NAME_PREG))->setLabel("Package Name");
     $form->addElement('text', 'license', array('size' => 20, 'required' => 'required', 'placeholder' => 'BSD'))->setLabel("License");
@@ -172,11 +178,11 @@ $renderer = HTML_QuickForm2_Renderer::factory('default');
     print '<h2>Register Package</h2>';
     print $form->render($renderer);
 
-    if ($jumpto) {
-        echo "\n<script type=\"text/javascript\">\n<!--\n";
-        echo "document.forms[1].$jumpto.focus();\n";
-        echo "// -->\n</script>\n";
-    }
+if ($jumpto) {
+    echo "\n<script type=\"text/javascript\">\n<!--\n";
+    echo "document.forms[1].$jumpto.focus();\n";
+    echo "// -->\n</script>\n";
+}
 }
 
 response_footer();
