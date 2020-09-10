@@ -190,7 +190,8 @@ if (!empty($_REQUEST['cmd'])) {
         if (is_array($_REQUEST['uid'])) {
             foreach ($_REQUEST['uid'] as $uid) {
                 user::remove((int) $uid);
-                echo 'Account request deleted: ' . $uid . '<br />';
+                echo 'Account request deleted: ';
+                echo filter_var($uid, FILTER_SANITISE_STRING) . '<br />';
             }
 
 
@@ -198,7 +199,8 @@ if (!empty($_REQUEST['cmd'])) {
             print "<p>Deleted account request for \"$uid\"...</p>";
         }
     } elseif ($_REQUEST['cmd'] == 'Move'  && !empty($_REQUEST['acreq'])
-        && isset($_REQUEST['from_site']) && in_array($_REQUEST['from_site'], array('pear', 'pecl'))
+        && isset($_REQUEST['from_site'])
+        && in_array($_REQUEST['from_site'], ['pear', 'pecl'])
     ) {
         include_once 'pear-database-user.php';
         $data = array(
