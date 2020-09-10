@@ -148,9 +148,9 @@ switch ($status) {
                          ";
         break;
     case 'Open':
-    default:
         $where_clause .= " AND bugdb.status IN ('Open', 'Assigned'," .
                          " 'Analyzed', 'Critical', 'Verified')";
+		break;
     case 'OpenFeedback':
     default:
         $where_clause .= " AND bugdb.status IN ('Open', 'Assigned'," .
