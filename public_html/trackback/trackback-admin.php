@@ -22,8 +22,8 @@
 
 auth_require('pear.dev');
 
-$action = isset($_GET['action']) && !empty($_GET['action']) ? filter_var($_GET['action'], FILTER_SANITISE_STRING) : false;
-$track_id = isset($_GET['id']) && !empty($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITISE_STRING) : false;
+$action = isset($_GET['action']) && !empty($_GET['action']) ? filter_var($_GET['action'], FILTER_SANITIZE_STRING) : false;
+$track_id = isset($_GET['id']) && !empty($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_STRING) : false;
 $timestamp = isset($_GET['timestamp']) && !empty($_GET['timestamp']) ? (int) $_GET['timestamp'] : false;
 
 if (!$action || !$track_id || !$timestamp) {

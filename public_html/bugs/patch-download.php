@@ -3,9 +3,9 @@
  * Download a patch
  */
 $revision = isset($_GET['revision']) ?
-    filter_var($_GET['revision'], FILTER_SANITISE_STRING) : null;
+    filter_var($_GET['revision'], FILTER_SANITIZE_STRING) : null;
 $patch    = isset($_GET['patch'])    ?
-    filter_var($_GET['patch'], FILTER_SANITISE_STRING) : null;
+    filter_var($_GET['patch'], FILTER_SANITIZE_STRING) : null;
 $id       = isset($_GET['id'])       ? (int)$_GET['id'] : null;
 
 if (!$revision || !$patch || !$id) {

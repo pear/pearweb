@@ -25,7 +25,7 @@ response_header("API Documentation Queue Log");
 echo "<h1>API Documentation Queue Log</h1>";
 
 if (!empty($_GET['filename'])) {
-    $filename = urldecode(filter_var($_GET['filename'], FILTER_SANITISE_STRING));
+    $filename = urldecode(filter_var($_GET['filename'], FILTER_SANITIZE_STRING));
 
     $query = "SELECT queued, finished, log FROM apidoc_queue WHERE filename = ?";
     $info = $dbh->getRow($query, array($filename), DB_FETCHMODE_ASSOC);

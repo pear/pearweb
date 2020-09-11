@@ -10,7 +10,7 @@ response_header('Account confirmation');
 if (isset($_POST['confirmdetails'])) {
     $request = new PEAR_Bug_Accountrequest;
     if ($request->find($_POST['salt']) && $request->pending()) {
-        $salt = filter_var($_POST['salt'], FILTER_SANITISE_STRING);
+        $salt = filter_var($_POST['salt'], FILTER_SANITIZE_STRING);
         if (empty($_POST['isMD5'])) {
             $_POST['PEAR_PW']  = md5($_POST['PEAR_PW']);
             $_POST['PEAR_PW2'] = md5($_POST['PEAR_PW2']);
@@ -18,24 +18,24 @@ if (isset($_POST['confirmdetails'])) {
 
         if (count(
             $errors = $request->validateRequest(
-                filter_var($_POST['PEAR_USER'], FILTER_SANITISE_STRING),
-                filter_var($_POST['PEAR_PW'], FILTER_SANITISE_STRING),
-                filter_var($_POST['PEAR_PW2'], FILTER_SANITISE_STRING),
-                filter_var($_POST['name'], FILTER_SANITISE_STRING)
+                filter_var($_POST['PEAR_USER'], FILTER_SANITIZE_STRING),
+                filter_var($_POST['PEAR_PW'], FILTER_SANITIZE_STRING),
+                filter_var($_POST['PEAR_PW2'], FILTER_SANITIZE_STRING),
+                filter_var($_POST['name'], FILTER_SANITIZE_STRING)
             )
         )
         ) {
             $email = $request->email;
-            $name = filter_var($_POST['name'], FILTER_SANITISE_STRING);
-            $user = filter_var($_POST['PEAR_USER'], FILTER_SANITISE_STRING);
+            $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+            $user = filter_var($_POST['PEAR_USER'], FILTER_SANITIZE_STRING);
             include PEARWEB_TEMPLATEDIR . '/bugs/registernewaccount.php';
             response_footer();
             exit;
         }
         $errors = $request->confirmRequest(
-            filter_var($_POST['PEAR_USER'], FILTER_SANITISE_STRING),
-            filter_var($_POST['PEAR_PW'], FILTER_SANITISE_STRING),
-            filter_var($_POST['name'], FILTER_SANITISE_STRING)
+            filter_var($_POST['PEAR_USER'], FILTER_SANITIZE_STRING),
+            filter_var($_POST['PEAR_PW'], FILTER_SANITIZE_STRING),
+            filter_var($_POST['name'], FILTER_SANITIZE_STRING)
         );
         if ($errors === true) {
             report_success(
@@ -48,8 +48,8 @@ if (isset($_POST['confirmdetails'])) {
         }
 
         $email = $request->email;
-        $name = filter_var($_POST['name'], FILTER_SANITISE_STRING);
-        $user = filter_var($_POST['PEAR_USER'], FILTER_SANITISE_STRING);
+        $name = filter_var($_POST['name'], FILTER_SANITIZE_STRING);
+        $user = filter_var($_POST['PEAR_USER'], FILTER_SANITIZE_STRING);
         include PEARWEB_TEMPLATEDIR . '/bugs/registernewaccount.php';
         response_footer();
         exit;

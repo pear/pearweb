@@ -6,7 +6,7 @@ if (!isset($_GET['handle'])) {
     exit;
 }
 require 'bugs/pear-bug-accountrequest.php';
-$account = new PEAR_Bug_Accountrequest(filter_var($_GET['handle'], FILTER_SANITISE_STRING));
+$account = new PEAR_Bug_Accountrequest(filter_var($_GET['handle'], FILTER_SANITIZE_STRING));
 if ($account->pending()) {
     try {
         $account->sendEmail();

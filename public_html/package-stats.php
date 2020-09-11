@@ -291,17 +291,17 @@ natsort($releases);
 <form name="graph_control" action="#" method="get">
  <input type="hidden" name="pid" value="<?php
     if (array_key_exists('pid', $_GET)) {
-        echo filter_var($_GET['pid'], FILTER_SANITISE_STRING);
+        echo filter_var($_GET['pid'], FILTER_SANITIZE_STRING);
     }
 ?>" />
  <input type="hidden" name="rid" value="<?php
     if (array_key_exists('rid', $_GET)) {
-        echo filter_var($_GET['rid'], FILTER_SANITISE_STRING);
+        echo filter_var($_GET['rid'], FILTER_SANITIZE_STRING);
     }
 ?>" />
  <input type="hidden" name="cid" value="<?php
     if (array_key_exists('cid', $_GET)) {
-        echo filter_var($_GET['cid'], FILTER_SANITISE_STRING);
+        echo filter_var($_GET['cid'], FILTER_SANITIZE_STRING);
     }
 ?>" />
  <table border="0">
@@ -369,7 +369,7 @@ natsort($releases);
         FROM package_stats ps, packages p
         WHERE p.package_type = '" . SITE . "' AND p.id = ps.pid AND
             p.category = %s GROUP BY ps.pid ORDER BY dl_number DESC",
-        filter_var($_GET['cid'], FILTER_SANITISE_STRING)
+        filter_var($_GET['cid'], FILTER_SANITIZE_STRING)
     );
 
     /*

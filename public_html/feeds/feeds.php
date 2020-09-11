@@ -23,7 +23,7 @@ require_once 'pepr/pepr.php';
 function rss_bailout() 
 {
     header('HTTP/1.0 404 Not Found');
-    echo "<h1>The requested URL " . ((filter_var($_SERVER['REQUEST_URI'], FILTER_SANITISE_STRING))) . " was not found on this server.</h1>";
+    echo "<h1>The requested URL " . ((filter_var($_SERVER['REQUEST_URI'], FILTER_SANITIZE_STRING))) . " was not found on this server.</h1>";
     exit();
 }
 

@@ -31,8 +31,8 @@ if (!empty($_GET['logout']) && $_GET['logout'] === '1') {
 
 if (!empty($_COOKIE['PEAR_USER'])
     && !auth_verify(
-        filter_var($_COOKIE['PEAR_USER'], FILTER_SANITISE_STRING),
-        filter_var($_COOKIE['PEAR_PW'], FILTER_SANITISE_STRING)
+        filter_var($_COOKIE['PEAR_USER'], FILTER_SANITIZE_STRING),
+        filter_var($_COOKIE['PEAR_PW'], FILTER_SANITIZE_STRING)
     )
 ) {
     auth_kill_cookies();

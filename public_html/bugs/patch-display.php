@@ -3,8 +3,8 @@
  * Patch display - included by bug.php
  */
 
-$revision = isset($_GET['revision']) ? filter_var($_GET['revision'], FILTER_SANITISE_STRING) : null;
-$patch    = isset($_GET['patch'])    ? filter_var($_GET['patch'], FILTER_SANITISE_STRING) : null;
+$revision = isset($_GET['revision']) ? filter_var($_GET['revision'], FILTER_SANITIZE_STRING) : null;
+$patch    = isset($_GET['patch'])    ? filter_var($_GET['patch'], FILTER_SANITIZE_STRING) : null;
 
 //$id is set when being included
 if (!isset($id)) {

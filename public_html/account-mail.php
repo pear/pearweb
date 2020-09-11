@@ -29,7 +29,7 @@ if (!isset($_GET['handle']) || !ereg('^[0-9a-z_]{2,20}$', $_GET['handle'])) {
     localRedirect('/accounts.php');
 }
 
-$handle = filter_var($_GET['handle'], FILTER_SANITISE_STRING);
+$handle = filter_var($_GET['handle'], FILTER_SANITIZE_STRING);
 $errors = array();
 
 session_start();

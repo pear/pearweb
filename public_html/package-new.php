@@ -68,27 +68,27 @@ do {
         include_once 'pear-database-package.php';
         $pkg = package::add(
             array(
-            'name'        => filter_var($_POST['name'], FILTER_SANITISE_STRING),
+            'name'        => filter_var($_POST['name'], FILTER_SANITIZE_STRING),
             'type'        => SITE,
-            'category'    => filter_var($_POST['category'], FILTER_SANITISE_STRING),
-            'license'     => filter_var($_POST['license'], FILTER_SANITISE_STRING),
-            'summary'     => filter_var($_POST['summary'], FILTER_SANITISE_STRING),
-            'description' => filter_var($_POST['desc'], FILTER_SANITISE_STRING),
-            'homepage'    => filter_var($_POST['homepage'], FILTER_SANITISE_STRING),
-            'cvs_link'    => filter_var($_POST['cvs_link'], FILTER_SANITISE_STRING),
+            'category'    => filter_var($_POST['category'], FILTER_SANITIZE_STRING),
+            'license'     => filter_var($_POST['license'], FILTER_SANITIZE_STRING),
+            'summary'     => filter_var($_POST['summary'], FILTER_SANITIZE_STRING),
+            'description' => filter_var($_POST['desc'], FILTER_SANITIZE_STRING),
+            'homepage'    => filter_var($_POST['homepage'], FILTER_SANITIZE_STRING),
+            'cvs_link'    => filter_var($_POST['cvs_link'], FILTER_SANITIZE_STRING),
             'lead'        => $auth_user->handle
             )
         );
         $dbh->popExpect();
         if (DB::isError($pkg) && $pkg->getCode() == DB_ERROR_CONSTRAINT) {
             error_handler(
-                "The `" . filter_var($_POST['name'], FILTER_SANITISE_STRING) . "' package already exists!", "Package already exists"
+                "The `" . filter_var($_POST['name'], FILTER_SANITIZE_STRING) . "' package already exists!", "Package already exists"
             );
             exit;
         }
         $display_form = false;
         response_header("Package Registered");
-        echo "The package `" . filter_var($_POST['name'], FILTER_SANITISE_STRING) . "' has been registered in PEAR.<br />\n";
+        echo "The package `" . filter_var($_POST['name'], FILTER_SANITIZE_STRING) . "' has been registered in PEAR.<br />\n";
         echo "You have been assigned as lead developer.<br />\n";
         echo "The " . make_link("/group/", "PEAR Group") . " has been notified and the package will be approved soon.<br />\n";
     }
@@ -155,13 +155,13 @@ $renderer = HTML_QuickForm2_Renderer::factory('default');
     $form->addDataSource(
         new HTML_QuickForm2_DataSource_Array(
             array(
-            'name'     => isset($_POST['name'])     ? filter_var($_POST['name'], FILTER_SANITISE_STRING)     : '',
-            'license'  => isset($_POST['license'])  ? filter_var($_POST['license'], FILTER_SANITISE_STRING)  : '',
-            'category' => isset($_POST['category']) ? filter_var($_POST['category'], FILTER_SANITISE_STRING) : '',
-            'summary'  => isset($_POST['summary'])  ? filter_var($_POST['summary'], FILTER_SANITISE_STRING)  : '',
-            'desc'     => isset($_POST['desc'])     ? filter_var($_POST['desc'], FILTER_SANITISE_STRING)     : '',
-            'homepage' => isset($_POST['homepage']) ? filter_var($_POST['homepage'], FILTER_SANITISE_STRING) : '',
-            'cvs_link' => isset($_POST['cvs_link']) ? filter_var($_POST['cvs_link'], FILTER_SANITISE_STRING) : '',
+            'name'     => isset($_POST['name'])     ? filter_var($_POST['name'], FILTER_SANITIZE_STRING)     : '',
+            'license'  => isset($_POST['license'])  ? filter_var($_POST['license'], FILTER_SANITIZE_STRING)  : '',
+            'category' => isset($_POST['category']) ? filter_var($_POST['category'], FILTER_SANITIZE_STRING) : '',
+            'summary'  => isset($_POST['summary'])  ? filter_var($_POST['summary'], FILTER_SANITIZE_STRING)  : '',
+            'desc'     => isset($_POST['desc'])     ? filter_var($_POST['desc'], FILTER_SANITIZE_STRING)     : '',
+            'homepage' => isset($_POST['homepage']) ? filter_var($_POST['homepage'], FILTER_SANITIZE_STRING) : '',
+            'cvs_link' => isset($_POST['cvs_link']) ? filter_var($_POST['cvs_link'], FILTER_SANITIZE_STRING) : '',
             )
         )
     );

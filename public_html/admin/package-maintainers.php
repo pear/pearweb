@@ -60,7 +60,7 @@ if (isset($_POST) && isset($_POST['role'])) {
         } elseif (!user::exists($new)) {
             report_error($new . ' does not exist.');
         } else {
-            $role = filter_var($_POST['role']['new'], FILTER_SANITISE_STRING);
+            $role = filter_var($_POST['role']['new'], FILTER_SANITIZE_STRING);
 
             if (!maintainer::isValidRole($role)) {
                 report_error('Invalid role.');

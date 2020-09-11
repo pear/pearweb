@@ -163,7 +163,7 @@ if (!empty($_POST['pw'])) {
     $pw   = $auth_user->password;
 } elseif (isset($_COOKIE['MAGIC_COOKIE'])) {
     @list($user, $pw) = explode(':', base64_decode($_COOKIE['MAGIC_COOKIE']));
-    $user = filter_var($user, FILTER_SANITISE_STRING);
+    $user = filter_var($user, FILTER_SANITIZE_STRING);
     if ($pw === null) {
         $pw = '';
     }
@@ -311,7 +311,7 @@ if (isset($_POST['addpatch'])) {
                 } catch (Exception $e) {
                     $errors[] = 'Critical internal error: could not send' .
                         ' email to your address ' .
-                        filter_var($_POST['in']['email'], FILTER_SANITISE_STRING) .
+                        filter_var($_POST['in']['email'], FILTER_SANITIZE_STRING) .
                         ', please write a mail message to the <i>pear-dev</i>' .
                         'mailing list and report this problem with details.' .
                         '  We apologize for the problem, your report will help' .
@@ -664,7 +664,7 @@ if (!$bug['registered']) {
    <th>Assigned:</th>
    <td><?php
     if (!empty($bug['assign'])) {
-        $assigned_user = htmlspecialchars(filter_var($bug['assign'], FILTER_SANITISE_STRING));
+        $assigned_user = htmlspecialchars(filter_var($bug['assign'], FILTER_SANITIZE_STRING));
         echo '<a href="/user/' . $assigned_user . '">' . $assigned_user . '</a>';
     }
     ?></td>
@@ -983,7 +983,7 @@ endif; // if ($edit == 1 && auth_check('pear.dev'))
       <td <?php echo (($edit != 1) ? 'colspan="3"' : '' ) ?>>
        <select name="in[status]">
         <?php
-            $status = isset($_POST['in']) && isset($_POST['in']['status']) ? filter_var($_POST['in']['status'], FILTER_SANITISE_STRING): '';
+            $status = isset($_POST['in']) && isset($_POST['in']['status']) ? filter_var($_POST['in']['status'], FILTER_SANITIZE_STRING): '';
             show_state_options($status, $edit, $bug['status']) ?>
        </select><br />
 <?php
@@ -1052,7 +1052,7 @@ if ($edit == 1 && auth_check('pear.dev')) {
       <td colspan="3">
        <input type="text" size="40" maxlength="40" name="in[email]"
         value="<?php echo (isset($_POST['in']) && isset($_POST['in']['email']) ?
-            filter_var($_POST['in']['email'], FILTER_SANITISE_STRING) : '') ?>" />
+            filter_var($_POST['in']['email'], FILTER_SANITIZE_STRING) : '') ?>" />
       </td>
      </tr>
      <tr>
@@ -1214,7 +1214,7 @@ if ($edit == 3) {
         value="<?php
         echo clean(
             isset($_POST['in']) && isset($_POST['in']['commentemail']) ?
-            filter_var($_POST['in']['commentemail'], FILTER_SANITISE_STRING) : ''
+            filter_var($_POST['in']['commentemail'], FILTER_SANITIZE_STRING) : ''
                );
         ?>"
         accesskey="o" />

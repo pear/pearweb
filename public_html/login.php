@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $password = !empty($_POST['isMD5']) ? $_POST['PEAR_PW'] : md5($_POST['PEAR_PW']);
 
 if (auth_verify(
-    filter_var($_POST['PEAR_USER'], FILTER_SANITISE_STRING), $password
+    filter_var($_POST['PEAR_USER'], FILTER_SANITIZE_STRING), $password
 )
 ) {
     $expire = !empty($_POST['PEAR_PERSIST']) ? 2147483647 : 0;
@@ -57,7 +57,7 @@ if (auth_verify(
     // mark user as active if they were inactive
     $dbh->query(
         'UPDATE users SET active = 1 WHERE handle = ?',
-        [filter_var($_POST['PEAR_USER'], FILTER_SANITISE_STRING)]
+        [filter_var($_POST['PEAR_USER'], FILTER_SANITIZE_STRING)]
     );
 
     // Determine URL

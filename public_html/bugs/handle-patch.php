@@ -97,8 +97,8 @@ if (!$loggedin) {
 
         PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
         $e = $patchinfo->attach(
-            $id, 'patch', filter_var($_POST['patchname'], FILTER_SANITISE_STRING),
-            $buggie->handle, filter_var($_POST['obsoleted'], FILTER_SANITISE_STRING)
+            $id, 'patch', filter_var($_POST['patchname'], FILTER_SANITIZE_STRING),
+            $buggie->handle, filter_var($_POST['obsoleted'], FILTER_SANITIZE_STRING)
         );
         PEAR::popErrorHandling();
         if (PEAR::isError($e)) {
@@ -107,7 +107,7 @@ if (!$loggedin) {
             if (!is_string($_POST['patchname'])) {
                 $_POST['patchname'] = '';
             }
-            $patchname = filter_var($_POST['patchname'], FILTER_SANITISE_STRING);
+            $patchname = filter_var($_POST['patchname'], FILTER_SANITIZE_STRING);
             $patches = $patchinfo->listPatches($id);
             $errors[] = $e->getMessage();
             $errors[] = 'Could not attach patch "' .
@@ -135,7 +135,7 @@ if (!$loggedin) {
         if (!is_string($_POST['patchname'])) {
             $_POST['patchname'] = '';
         }
-        $patchname = filter_var($_POST['patchname'], FILTER_SANITISE_STRING);
+        $patchname = filter_var($_POST['patchname'], FILTER_SANITIZE_STRING);
         $patches   = $patchinfo->listPatches($id);
         $captcha   = $numeralCaptcha->getOperation();
         $_SESSION['answer'] = $numeralCaptcha->getAnswer();
@@ -145,8 +145,8 @@ if (!$loggedin) {
 
 PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
 $e = $patchinfo->attach(
-    $id, 'patch', filter_var($_POST['patchname'], FILTER_SANITISE_STRING),
-    $auth_user->handle, filter_var($_POST['obsoleted'], FILTER_SANITISE_STRING)
+    $id, 'patch', filter_var($_POST['patchname'], FILTER_SANITIZE_STRING),
+    $auth_user->handle, filter_var($_POST['obsoleted'], FILTER_SANITIZE_STRING)
 );
 PEAR::popErrorHandling();
 if (PEAR::isError($e)) {
@@ -154,7 +154,7 @@ if (PEAR::isError($e)) {
     if (!is_string($_POST['patchname'])) {
         $_POST['patchname'] = '';
     }
-    $patchname = filter_var($_POST['patchname'], FILTER_SANITISE_STRING);
+    $patchname = filter_var($_POST['patchname'], FILTER_SANITIZE_STRING);
     $patches   = $patchinfo->listPatches($id);
     $errors    = array(
         $e->getMessage(),
@@ -168,7 +168,7 @@ if (PEAR::isError($e)) {
 
 // {{{ Email after the patch is added and add a comment to the bug report.
 if (!isset($buggie)) {
-    $patchname = filter_var($_POST['patchname'], FILTER_SANITISE_STRING);
+    $patchname = filter_var($_POST['patchname'], FILTER_SANITIZE_STRING);
     $url       = "bug.php?id=$id&edit=12&patch=$patchname&revision=$e";
     $bugurl    ='http://' . PEAR_CHANNELNAME . '/bugs/' . $url;
     // Add a comment about this in the bug report
@@ -209,7 +209,7 @@ localRedirect(
     '/bugs/bug.php'
     . '?id=' . $id
     . '&edit=12'
-    . '&patch=' . urlencode(filter_var($_POST['patchname'], FILTER_SANITISE_STRING))
+    . '&patch=' . urlencode(filter_var($_POST['patchname'], FILTER_SANITIZE_STRING))
     . '&revision=' . $e
     . '&thanks=13'
 );

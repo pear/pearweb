@@ -248,7 +248,7 @@ while ($row =& $res->fetchRow(DB_FETCHMODE_ASSOC)) {
                 } catch (Exception $e) {
                     $errors[] = 'Critical internal error: could not send' .
                         ' email to your address ' .
-                        filter_var($_POST['in']['email'], FILTER_SANITISE_STRING) .
+                        filter_var($_POST['in']['email'], FILTER_SANITIZE_STRING) .
                         ', please write a mail message to the <i>pear-dev</i>' .
                         'mailing list and report this problem with details.' .
                         '  We apologize for the problem, your report will help' .

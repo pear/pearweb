@@ -191,7 +191,7 @@ if (!empty($_REQUEST['cmd'])) {
             foreach ($_REQUEST['uid'] as $uid) {
                 user::remove((int) $uid);
                 echo 'Account request deleted: ';
-                echo filter_var($uid, FILTER_SANITISE_STRING) . '<br />';
+                echo filter_var($uid, FILTER_SANITIZE_STRING) . '<br />';
             }
 
 

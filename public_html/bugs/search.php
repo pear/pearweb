@@ -68,10 +68,10 @@ $order_options = array(
     'assign'       => 'assignment',
 );
 
-$status   = !empty($_GET['status']) ? filter_var($_GET['status'], FILTER_SANITISE_STRING) : 'Open';
+$status   = !empty($_GET['status']) ? filter_var($_GET['status'], FILTER_SANITIZE_STRING) : 'Open';
 $handle   = !empty($_GET['handle']) ? $_GET['handle'] : '';
 $maintain = !empty($_GET['maintain']) ? $_GET['maintain'] : '';
-$bug_type = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? filter_var($_GET['bug_type'], FILTER_SANITISE_STRING) : '';
+$bug_type = (!empty($_GET['bug_type']) && $_GET['bug_type'] != 'All') ? filter_var($_GET['bug_type'], FILTER_SANITIZE_STRING) : '';
 $boolean_search = isset($_GET['boolean']) ? (int)$_GET['boolean'] : 0;
 define('BOOLEAN_SEARCH', $boolean_search);
 $package_name   = (isset($_GET['package_name'])  && is_array($_GET['package_name']))  ? $_GET['package_name']  : array();
@@ -185,7 +185,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     if (empty($_GET['search_for'])) {
         $search_for = '';
     } else {
-        $search_for = htmlspecialchars(filter_var($_GET['search_for'], FILTER_SANITISE_STRING));
+        $search_for = htmlspecialchars(filter_var($_GET['search_for'], FILTER_SANITIZE_STRING));
         list($sql_search, $ignored) = format_search_string($search_for);
         $where_clause .= $sql_search;
         if (count($ignored) > 0 ) {
@@ -302,7 +302,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     ) {
         $order_by = 'id';
     } else {
-        $order_by = filter_var($_GET['order_by'], FILTER_SANITISE_STRING);
+        $order_by = filter_var($_GET['order_by'], FILTER_SANITIZE_STRING);
     }
 
     if (empty($_GET['reorder_by'])
@@ -310,7 +310,7 @@ if (isset($_GET['cmd']) && $_GET['cmd'] == 'display') {
     ) {
         $reorder_by = '';
     } else {
-        $reorder_by = filter_var($_GET['reorder_by'], FILTER_SANITISE_STRING);
+        $reorder_by = filter_var($_GET['reorder_by'], FILTER_SANITIZE_STRING);
         if ($order_by == $reorder_by) {
             $direction = $direction == 'ASC' ? 'DESC' : 'ASC';
         } else {
