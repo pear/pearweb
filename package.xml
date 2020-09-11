@@ -89,10 +89,16 @@
   <email>wiesemann@php.net</email>
   <active>yes</active>
  </developer>
- <date>2017-02-20</date>
- <time>20:05:18</time>
+ <developer>
+  <name>Ken Guest</name>
+  <user>kguest</user>
+  <email>kguest@php.net</email>
+  <active>yes</active>
+ </developer>
+ <date>2020-09-11</date>
+ <time>21:45:18</time>
  <version>
-  <release>1.29.0</release>
+  <release>1.30.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -101,7 +107,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Add spam protection to &quot;Comment by&quot; field in bug report update mails
+- Address some vulnerabilities such as sanitising input.
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -2839,6 +2845,21 @@ Fix #20098: Broken bug notifications catched as spam
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - Add spam protection to &quot;Comment by&quot; field in bug report update mails
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.30.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2020-09-11</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Address some vulnerabilities such as sanitising input.
    </notes>
   </release>
  </changelog>
