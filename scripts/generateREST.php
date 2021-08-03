@@ -79,7 +79,7 @@ foreach (package::listAllNames() as $package) {
         foreach ($releases as $version => $blah) {
             $sql = 'SELECT fullpath FROM files WHERE `release` = ?';
             $fileinfo = $dbh->getOne($sql, array($blah['id']));
-            $tar = &new Archive_Tar($fileinfo);
+            $tar = new Archive_Tar($fileinfo);
             if ($pxml = $tar->extractInString('package2.xml')) {
             } elseif ($pxml = $tar->extractInString('package.xml'));
             PEAR::pushErrorHandling(PEAR_ERROR_RETURN);

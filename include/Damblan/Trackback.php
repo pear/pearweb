@@ -45,7 +45,7 @@ class Damblan_Trackback extends Services_Trackback
      * @param bool  $approved   Wether the trackback is approved, yet. Default is false.
      * @return void
      */
-    function Damblan_Trackback($data)
+    function __construct($data)
     {
         $this->akismetOptions = array(
             'url' =>  'http://'.PEAR_CHANNELNAME.'/',

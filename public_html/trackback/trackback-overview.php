@@ -31,7 +31,7 @@ $unapprovedOnly = isset($_GET['unapprovedOnly']) ? true : false;
 
 if (isset($auth_user)) {
     // Determine administrative user
-    $karma =& new Damblan_Karma($dbh);
+    $karma = new Damblan_Karma($dbh);
     $trackbackIsAdmin = $karma->has($auth_user->handle, 'pear.dev');
 } else {
     $trackbackIsAdmin = false;

@@ -71,7 +71,7 @@ if (!empty($params['action'])) {
 
     case 'trackbacks' :
         if (isset($auth_user)) {
-            $karma =& new Damblan_Karma($dbh);
+            $karma = new Damblan_Karma($dbh);
             $trackbackIsAdmin = (isset($auth_user) && $karma->has($auth_user->handle, 'pear.dev'));
             if ($trackbackIsAdmin) {
                 include_once 'pear-database-package.php';

@@ -91,7 +91,7 @@ function wordWrapTitle($title, $indent = false)
     return $wrapped;
 }
 
-function navigationSidebar($id, $this = '')
+function navigationSidebar($id, $thisTitle = '')
 {
     global $NEXT, $PREV, $UP, $HOME, $TOC, $DOCUMENT_ROOT;
     global $LANG, $CHARSET;

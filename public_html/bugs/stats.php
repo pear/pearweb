@@ -72,7 +72,7 @@ $query  = 'SELECT b.package_name, b.status, COUNT(b.id) AS quant'
     . ' FROM bugdb AS b';
 
 $from = ' LEFT JOIN packages AS p ON p.name = b.package_name';
-if ($category && $category{0} != '*') {
+if ($category && $category[0] != '*') {
     $pseudo = false;
     $from .= ' JOIN categories AS c ON c.id = p.category';
     $from .= ' AND c.name = ' .  $dbh->quoteSmart($category);

@@ -15,7 +15,7 @@ if (!isset($auth_user) || !$auth_user) {
 
 require 'election/pear-voter.php';
 
-$voter = &new PEAR_Voter;
+$voter = new PEAR_Voter;
 
 if (isset($_POST['confirm'])) {
     // display vote confirmation page
@@ -55,7 +55,7 @@ if (isset($_POST['confirm'])) {
             $_POST['vote'] = array($_POST['vote']);
         }
         if (count($_POST['vote']) < $info['minimum_choices'] ||
-              count($_POST['vote']) > $info['maximum_choices']) {
+            count($_POST['vote']) > $info['maximum_choices']) {
             $error = 'You voted for ' . count($_POST['vote']) . ' choices, but must vote ' .
                 'for at least ' . $info['minimum_choices'] . ' choices, and at most ' .
                 $info['maximum_choices'] . ' choices';

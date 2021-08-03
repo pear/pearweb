@@ -34,9 +34,9 @@ class Damblan_Search
     var $_results = null;
     var $_title = '';
 
-    function Damblan_Search(&$dbh)
+    function __construct(&$dbh)
     {
-        $this->_dbh =& $dbh;
+        $this->_dbh = $dbh;
     }
 
     /**

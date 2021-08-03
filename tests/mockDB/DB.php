@@ -193,7 +193,7 @@ class DB_mock extends DB_common
      *
      * @return void
      */
-    function DB_mock()
+    function __construct()
     {
         $this->DB_common();
     }

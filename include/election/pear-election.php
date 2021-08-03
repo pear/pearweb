@@ -4,11 +4,11 @@ class PEAR_Election
     var $dbh;
     var $karma;
     var $user;
-    function PEAR_Election()
+    function __construct()
     {
         $this->dbh = &$GLOBALS['dbh'];
         $this->user = isset($GLOBALS['auth_user']) ? $GLOBALS['auth_user']->handle : false;
-        $this->karma =& new Damblan_Karma($this->dbh);
+        $this->karma = new Damblan_Karma($this->dbh);
     }
 
     function listElections()

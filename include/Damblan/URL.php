@@ -32,14 +32,14 @@ class Damblan_URL
     /**
      * Constructor
      */
-    function Damblan_URL()
+    function __construct()
     {
         if (count($_GET) > 0) {
             $this->_parameters = $_GET;
         }
 
         $path = preg_replace("=^" . preg_quote($_SERVER['SCRIPT_NAME']) . '=', '', $_SERVER['REQUEST_URI']);
-        if (!empty($path) && isset($path{0}) && $path{0} == "/") {
+        if (!empty($path) && isset($path[0]) && $path[0] == "/") {
             $path = substr($path, 1);
 
             $elements = explode('/', $path);

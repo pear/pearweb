@@ -32,7 +32,7 @@ class Damblan_Search_Lists extends Damblan_Search
 {
     var $_list;
 
-    function Damblan_Search_Lists($list)
+    function __construct($list)
     {
         $this->_list = $list;
     }

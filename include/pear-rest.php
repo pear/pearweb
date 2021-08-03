@@ -724,7 +724,7 @@ class pearweb_Channel_REST_Generator
 
         // package information
         require_once 'Damblan/Karma.php';
-        $karma = &new Damblan_Karma($this->db);
+        $karma = new Damblan_Karma($this->db);
 
         include_once 'pear-database-user.php';
         $maintainers = user::listAllHandles();

@@ -84,9 +84,9 @@ do {
         include_once 'PEAR/Config.php';
         include_once 'PEAR/PackageFile.php';
         // Verify Button
-        $config = &PEAR_Config::singleton();
-        $pkg    = &new PEAR_PackageFile($config);
-        $info   = &$pkg->fromTgzFile($distfile, PEAR_VALIDATE_NORMAL);
+        $config = PEAR_Config::singleton();
+        $pkg    = new PEAR_PackageFile($config);
+        $info   = $pkg->fromTgzFile($distfile, PEAR_VALIDATE_NORMAL);
         if (PEAR::isError($info)) {
             if (is_array($info->getUserInfo())) {
                 foreach ($info->getUserInfo() as $err) {
@@ -102,7 +102,7 @@ do {
                 break;
             }
 
-            $tar = &new Archive_Tar($distfile);
+            $tar = new Archive_Tar($distfile);
             if ($packagexml = $tar->extractInString('package2.xml')) {
                 $compatible_pxml = true;
             } else {
@@ -309,9 +309,9 @@ if ($display_verification) {
 
     // XXX this will leave files in PEAR_UPLOAD_TMPDIR if users don't
     // complete the next screen.  Janitor cron job recommended!
-    $config = &PEAR_Config::singleton();
-    $pkg    = &new PEAR_PackageFile($config);
-    $info   = &$pkg->fromTgzFile(PEAR_UPLOAD_TMPDIR . '/' . $tmpfile, PEAR_VALIDATE_NORMAL);
+    $config = PEAR_Config::singleton();
+    $pkg    = new PEAR_PackageFile($config);
+    $info   = $pkg->fromTgzFile(PEAR_UPLOAD_TMPDIR . '/' . $tmpfile, PEAR_VALIDATE_NORMAL);
     $errors = $warnings = array();
     if (PEAR::isError($info)) {
         if (is_array($info->getUserInfo())) {
@@ -366,7 +366,7 @@ if ($display_verification) {
                 $errors[] = "The first release of a package must be 'alpha' or 'beta', not 'stable'." .
                 "  Try releasing version 1.0.0RC1, state 'beta'";
             }
-            if ($version{0} < 1) {
+            if ($version[0] < 1) {
                 $errors[] = "Versions < 1.0.0 may not be 'stable'";
             }
             if (!$stupid && !strpos($version, 'RC') && !preg_match('/^\d+\z/', $verinfo[2])) {

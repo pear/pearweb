@@ -210,7 +210,7 @@ class PEAR_Voter
         SELECT count(*) FROM election_handle_votes where election_id=?
         ', array($id));
         $info['turnout'] = $votedthis / $allvoters;
-        $wiki =& new Text_Wiki();
+        $wiki = new Text_Wiki();
         $wiki->disableRule('wikilink');
         $info['detail'] = $wiki->transform($info['detail']);
         if ($info['maximum_choices'] > 1) {

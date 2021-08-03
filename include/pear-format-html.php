@@ -887,7 +887,7 @@ function print_package_navigation($pacid, $name, $action)
 
     echo '<div id="nav">' . "\n";
     foreach ($items as $title => $item) {
-        if (!empty($item['url']) && $item['url']{0} == '/') {
+        if (!empty($item['url']) && $item['url'][0] == '/') {
             $url = $item['url'];
         } else {
             $url = '/package/' . htmlspecialchars($name) . '/' . $item['url'];

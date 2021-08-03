@@ -36,7 +36,7 @@ if (empty($_redirect_url)) {
     $_redirect_url .= isset($_SERVER['REDIRECT_URI']) ? $_SERVER['REDIRECT_URI'] : '';
 }
 
-if (strlen($_redirect_url) > 0 && $_redirect_url{1} == '~') {
+if (strlen($_redirect_url) > 0 && $_redirect_url[1] == '~') {
     $user = substr($_redirect_url, 2);
     include_once 'pear-database-user.php';
     if (preg_match(PEAR_COMMON_USER_NAME_REGEX, $user) && user::exists($user)) {
@@ -44,7 +44,7 @@ if (strlen($_redirect_url) > 0 && $_redirect_url{1} == '~') {
     }
 }
 
-$pkg = strtr($_redirect_url, '-','_');
+$pkg = strtr($_redirect_url, '-', '_');
 $pkg = htmlentities($pkg);
 $pinfo_url = '/package/';
 

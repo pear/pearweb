@@ -30,7 +30,7 @@ require_once 'Log/observer.php';
  */
 class Damblan_Log_Print extends Log_observer
 {
-    function Damblan_Log_Print()
+    function __construct()
     {
         $this->Log_observer();
     }

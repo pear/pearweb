@@ -219,7 +219,7 @@ if ($changelog = @ppComment::getAll($proposal->id, 'package_proposal_changelog')
         switch ($proposal->markup) {
             case 'wiki':
                 require_once 'Text/Wiki.php';
-                $wiki =& new Text_Wiki();
+                $wiki = new Text_Wiki();
                 $wiki->disableRule('wikilink');
                 echo $wiki->transform($comment->comment);
                 break;
