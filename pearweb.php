@@ -145,8 +145,13 @@ class pearweb_postinstall
             $oldversion = false;
         }
         if ($oldversion) {
-            $curdef = unserialize(file_get_contents($updir .
-              $answers['database'] . '-' . $oldversion . '.ser'));
+            $sFile = $updir . $answers['database'] . '-' . $oldversion . '.ser';
+            try {
+                $curdef = unserialize(file_get_contents($sFile), ['allowed_classes' => false]);
+            } catch (Exception $ex) {
+                $curdef = false;
+            }
+
             if (!is_array($curdef)) {
                 $this->_ui->outputData('invalid data returned from previous version');
             }

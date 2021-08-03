@@ -236,7 +236,11 @@ class PEAR_Bug_Accountrequest
         if (!isset($user['registered'])) {
             return false;
         }
-        @$arr = unserialize($user['userinfo']);
+        try {
+            @$arr = unserialize($user['userinfo'], ['allowed_classes' => false]);
+        } catch (Exception $ex) {
+            $arr = false;
+        }
 
         include_once 'pear-database-note.php';
         note::removeAll($handle);

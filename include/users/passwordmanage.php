@@ -55,7 +55,12 @@ class Users_PasswordManage
     {
         require_once 'Damblan/Mailer.php';
         $errors = array();
-        $salt = md5(mt_rand(4,13) . $user . time() . $pass1);
+        $random_bytes = openssl_random_pseudo_bytes(16, $strong);
+        if ($random_bytes === false || $strong === false) {
+            $errors[] = "Could not generate a safe password token";
+            return $errors;
+        }
+        $salt = md5($rand_bytes);
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $this->_dbh->query('DELETE FROM lostpassword WHERE handle=?', array($user));
         $e = $this->_dbh->query('INSERT INTO lostpassword
