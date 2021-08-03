@@ -57,7 +57,14 @@ class ppVote
             return null;
         }
         $set = $res->fetchRow(DB_FETCHMODE_ASSOC);
-        $set['reviews'] = unserialize($set['reviews']);
+        try {
+            $unserialised = unserialize($set['reviews'], ['allowed_classes' => false]);
+            if ($unserialised !== false) {
+                $set['reviews'] = $unserialised;
+            }
+        } catch (Exception $ex) {
+            $set['reviews'] = array();
+        }
         $vote = new ppVote($set);
         return $vote;
     }
@@ -71,7 +78,10 @@ class ppVote
         }
         $votes = array();
         while ($set = $res->fetchRow(DB_FETCHMODE_ASSOC)) {
-            $set['reviews'] = unserialize($set['reviews']);
+            $uReviews = unserialize($set['reviews'], ['allowed_classes' => false]);
+            if ($uReviews !== false) {
+                $set['reviews'] = $uReviews;
+            }
             $votes[$set['user_handle']] = new ppVote($set);
         }
         return $votes;

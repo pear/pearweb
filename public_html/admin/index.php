@@ -267,7 +267,15 @@ do {
         if (empty($requser['name']) || $requser['from_site'] == 'pecl') {
             break;
         }
-        list($purpose, $moreinfo) = @unserialize($requser['userinfo']);
+        try {
+            $uInfo = @unserialize($requser['userinfo'], ['allowed_classes' => false]);
+            if ($uInfo !== false) {
+                list($purpose, $moreinfo) = $uInfo;
+            }
+        } catch (Exception $ex) {
+            $purpose = 'n/a';
+            $moreinfo = 'n/a';
+        }
 
         $bb = new BorderBox('Account request from ' . $requser['name'] . ' &lt;' . $requser['email'] . '&gt;', "100%", '', 2, true);
         $bb->horizHeadRow("Requested username:", $requser['handle']);
@@ -511,8 +519,8 @@ foreach ($reasons as $reason) {
             list($name, $note, $userinfo) = $data;
 
                 // Grab userinfo/request purpose
-            if (@unserialize($userinfo)) {
-                $userinfo = @unserialize($userinfo);
+            if (@unserialize($userinfo, ['allowed_classes' => false])) {
+                $userinfo = @unserialize($userinfo, ['allowed_classes' => false]);
                 $account_purpose = $userinfo[0];
             } else {
                 $account_purpose = $userinfo;

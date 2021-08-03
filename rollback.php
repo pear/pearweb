@@ -74,7 +74,16 @@ class Pearweb_Rollback
             $comment  = "Original vote: {$row->value}\n";
             $comment .= "Conditional vote: " . ($row->is_conditional != 0)?'yes':'no' . "\n";
             $comment .= "Comment on vote: " . $row->comment . "\n\n";
-            $comment .= "Reviewed: " . implode(", ", unserialize($row->reviews));
+            $reviewed = "Reviewed: n/a";
+            try {
+                $uInfo = unserialize($row->reviews, ['allowed_classes' => false]);
+                if ($uInfo !== false) {
+                    $reviewed = "Reviewed: " . implode(", ", $uInfo);
+                }
+            } catch (Exception $ex) {
+                // do nothing
+            }
+            $comment .= $reviewed;
 
             $sql = sprintf(
                 $insert,

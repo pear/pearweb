@@ -145,8 +145,12 @@ class pearweb_pepr_postinstall
             $oldversion = false;
         }
         if ($oldversion) {
-            $curdef = unserialize(file_get_contents('@www-dir@/sql/.pearweb-upgrade/' .
-              $answers['database'] . '-' . $oldversion . '.ser'));
+            try {
+                $sFile = '@www-dir@/sql/.pearweb-upgrade/' . $answers['database'] . '-' . $oldversion . '.ser';
+                $curdef = unserialize(file_get_contents($sFile), ['allowed_classes' => false]);
+            } catch (Exception $ex) {
+                $curdef = false;
+            }
             if (!is_array($curdef)) {
                 $this->_ui->outputData('invalid data returned from previous version');
             }
