@@ -522,7 +522,7 @@ function bug_diff($bug, $in, $previous, $current)
                 }
             );
         }
-        $changed['roadmap']['from'] = implode($previous, ', ');
+        $changed['roadmap']['from'] = implode(', ', $previous);
         if (count($current)) {
             array_walk(
                 $current,
@@ -531,7 +531,7 @@ function bug_diff($bug, $in, $previous, $current)
                 }
             );
         }
-        $changed['roadmap']['to'] = implode($current, ', ');
+        $changed['roadmap']['to'] = implode(', ', $current);
     }
 
     return $changed;
