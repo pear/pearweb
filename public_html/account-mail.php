@@ -25,7 +25,7 @@
 /*
  * Redirect to the accounts list if no handle was specified
  */
-if (!isset($_GET['handle']) || !ereg('^[0-9a-z_]{2,20}$', $_GET['handle'])) {
+if (!isset($_GET['handle']) || !preg_match('/^[0-9a-z_]{2,20}$/', $_GET['handle'])) {
     localRedirect('/accounts.php');
 }
 

@@ -55,7 +55,7 @@ if (isset($_POST) && isset($_POST['role'])) {
     if (isset($_POST['handle']['new']) && !empty($_POST['handle']['new'])) {
         $new = strip_tags($_POST['handle']['new']);
         include_once 'pear-database-user.php';
-        if (!ereg('^[0-9a-z_]{2,20}$', $new)) {
+        if (!preg_match('/^[0-9a-z_]{2,20}$/', $new)) {
             report_error('Invalid handle: ' . $new);
         } elseif (!user::exists($new)) {
             report_error($new . ' does not exist.');
@@ -182,13 +182,13 @@ foreach ($maintainers as $handle => $infos) {
     }
     $select .= '</select>';
     $active_checkbox = '<input type="checkbox" value="1" name="active[' . $handle . ']" '. ($infos['active'] == 1 ? 'checked' : '' ) . '>';
-?>
+    ?>
    <tr>
       <td><?php echo $handle; ?></td>
       <td><?php echo $select; ?></td><td><?php echo $active_checkbox; ?></td>
       <td><input type="checkbox" name="delete[<?php echo $handle; ?>]" value="1"></td>
    </tr>
-<?php
+    <?php
 }
 ?>
    <tr><td colspan="3"><b>Add a maintainer</b></tr>

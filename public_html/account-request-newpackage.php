@@ -50,7 +50,7 @@ do {
     if (isset($stripped['submit'])) {
 
         if (empty($stripped['handle'])
-            || !ereg('^[0-9a-z_]{2,20}$', $stripped['handle']))
+            || !preg_match('/^[0-9a-z_]{2,20}$/', $stripped['handle']))
         {
             $errors[] = 'Username is invalid.';
             $display_form = true;
