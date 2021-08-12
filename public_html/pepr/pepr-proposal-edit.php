@@ -27,7 +27,7 @@ auth_require('pear.pepr');
 // Obtain the common functions and classes.
 include_once 'pepr/pepr.php';
 
-$karma =& new Damblan_Karma($dbh);
+$karma = new Damblan_Karma($dbh);
 
 ob_start();
 
@@ -80,7 +80,7 @@ if ($proposal = proposal::get($dbh, @$_GET['id'])) {
 <script type="text/javascript" src="/javascript/pear_editor.js"></script>
 <?php
 include_once 'HTML/QuickForm.php';
-$form =& new HTML_QuickForm('proposal_edit', 'post',
+$form = new HTML_QuickForm('proposal_edit', 'post',
                             'pepr-proposal-edit.php?id=' . $id);
 $form->removeAttribute('name');
 
@@ -373,7 +373,7 @@ if (isset($_POST['submit'])) {
 ob_end_flush();
 
 if (!empty($_GET['next_stage'])) {
-    $form =& new HTML_QuickForm('no-form');
+    $form = new HTML_QuickForm('no-form');
     $form->removeAttribute('name');
 
     $bbox = array();
