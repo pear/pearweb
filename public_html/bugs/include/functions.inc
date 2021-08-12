@@ -515,11 +515,21 @@ function bug_diff($bug, $in, $previous, $current)
 
     if ($current != $previous) {
         if (count($previous)) {
-            array_walk($previous, create_function('&$a', '$a=$a[0];'));
+            array_walk(
+                $previous,
+                function (&$a, $b) {
+                    $a = $a[0];
+                }
+            );
         }
         $changed['roadmap']['from'] = implode($previous, ', ');
         if (count($current)) {
-            array_walk($current, create_function('&$a', '$a=$a[0];'));
+            array_walk(
+                $current,
+                function (&$a, $b) {
+                    $a = $a[0];
+                }
+            );
         }
         $changed['roadmap']['to'] = implode($current, ', ');
     }
