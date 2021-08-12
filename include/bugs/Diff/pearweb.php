@@ -32,20 +32,35 @@ class Horde_Text_Diff_Renderer_pearweb extends Horde_Text_Diff_Renderer {
 
     protected function _added($lines)
     {
-        array_walk($lines, create_function('&$a,$b', '$a=htmlspecialchars($a);'));
+        array_walk(
+            $lines,
+            function (&$a, $b) {
+                $a = htmlspecialchars($a);
+            }
+        );
         return '<span class="newdiff"> ' . implode("</span>\n<span class='newdiff'> ", $lines) .
             '</span>';
     }
 
     protected function _context($lines)
     {
-        array_walk($lines, create_function('&$a,$b', '$a=htmlspecialchars($a);'));
+        array_walk(
+            $lines,
+            function (&$a, $b) {
+                $a = htmlspecialchars($a);
+            }
+        );
         return "\n" . parent::_context($lines);
     }
 
     protected function _deleted($lines)
     {
-        array_walk($lines, create_function('&$a,$b', '$a=htmlspecialchars($a);'));
+        array_walk(
+            $lines,
+            function (&$a, $b) {
+                $a = htmlspecialchars($a);
+            }
+        );
         return '<span class="olddiff"> ' . implode("</span>\n<span class='olddiff'> ", $lines) .
             '</span>';
     }
