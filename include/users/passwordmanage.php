@@ -60,7 +60,7 @@ class Users_PasswordManage
             $errors[] = "Could not generate a safe password token";
             return $errors;
         }
-        $salt = md5($rand_bytes);
+        $salt = md5($random_bytes);
         PEAR::staticPushErrorHandling(PEAR_ERROR_RETURN);
         $this->_dbh->query('DELETE FROM lostpassword WHERE handle=?', array($user));
         $e = $this->_dbh->query('INSERT INTO lostpassword
