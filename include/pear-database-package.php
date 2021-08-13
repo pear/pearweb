@@ -313,8 +313,9 @@ class package
                         $packageinfo[$pkg]['stable'] = $stable['stable'];
                     }
                 } else {
-                    if (!isset($packageinfo[$pkg]['unstable']) ||
-                          version_compare($packageinfo[$pkg]['unstable'], $stable['stable'], '<')) {
+                    if (!isset($packageinfo[$pkg]['unstable'])
+                        || version_compare($packageinfo[$pkg]['unstable'], $stable['stable'], '<')
+                    ) {
                         // only change it if the version number is newer
                         $packageinfo[$pkg]['unstable'] = $stable['stable'];
                     }
@@ -325,14 +326,17 @@ class package
                 }
             }
         }
-        $var = !$stable_only ? 'allreleases' : 'stablereleases';
+        $releases = $allreleases;
+        if ($stable_only) {
+            $releases = $stablereleases;
+        }
         foreach (array_keys($packageinfo) as $pkg) {
             $_deps = array();
             foreach ($deps as $dep) {
                 if ($dep['package'] == $packageinfo[$pkg]['packageid']
-                    && isset($$var[$pkg])
-                    && $dep['release'] == $$var[$pkg]['rid'])
-                {
+                    && isset($releases[$pkg])
+                    && $dep['release'] == $releases[$pkg]['rid']
+                ) {
                     unset($dep['rid']);
                     unset($dep['release']);
                     if ($dep['type'] == 'pkg' && isset($packageinfo[$dep['name']])) {
