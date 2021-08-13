@@ -44,10 +44,10 @@ if (!isset($releases) || !is_array($releases)) {
 }
 
 require_once 'ezc/Base/base.php';
-function __autoload($className)
-{
+
+spl_autoload_register(function ($className) {
     ezcBase::autoload($className);
-}
+});
 
 class pearwebPalette extends ezcGraphPaletteTango
 {
