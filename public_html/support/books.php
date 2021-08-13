@@ -93,7 +93,7 @@ foreach ($books as $book) {
 
     $size = count($authors);
     if ($size >= 2) {
-        echo "  <td class=\"form-input\">" . join(array_splice($authors, 0, $size - 1), ", ") . " and " . $authors[0] . "</td>\n";;
+        echo "  <td class=\"form-input\">" . implode(", ", array_splice($authors, 0, $size - 1)) . " and " . $authors[0] . "</td>\n";;
     } else {
         echo "  <td class=\"form-input\">" . $authors[0] . "</td>\n";
     }
