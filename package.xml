@@ -95,9 +95,9 @@
   <email>kguest@php.net</email>
   <active>yes</active>
  </developer>
- <date>2020-09-14</date>
+ <date>2022-03-13</date>
  <version>
-  <release>1.31.0</release>
+  <release>1.32.0</release>
   <api>0.1.1</api>
  </version>
  <stability>
@@ -106,7 +106,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Address some vulnerabilities such as sanitising input.
+- Address some vulnerabilities.
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -2874,6 +2874,21 @@ Fix #20098: Broken bug notifications catched as spam
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
 - Address some vulnerabilities such as sanitising input.
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>1.32.0</release>
+    <api>0.1.1</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2022-03-13</date>
+   <license uri="http://www.php.net/license">PHP License</license>
+   <notes>
+- Address some vulnerabilities.
    </notes>
   </release>
  </changelog>
