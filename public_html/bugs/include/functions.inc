@@ -1073,10 +1073,9 @@ function show_bugs_menu($pkgname, $status = null, $fulllink = false)
         return false;
     }
 
-    $query = 'DELETE FROM bugdb_subscribe WHERE bug_id = ' . $bug_id . '
-                AND unsubscribe_hash = ' . "'" . $hash . "'
-                AND email = '"  . $sub['email'] . "'";
-    $dbh->query($query);
+    $query = 'DELETE FROM bugdb_subscribe '
+           . 'WHERE bug_id = ? AND unsubscribe_hash = ? AND email = ?';
+    $dbh->query($query, array($bug_id, $hash, $sub['email']));
     return true;
  }
 
