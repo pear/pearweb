@@ -436,12 +436,12 @@ class release
         $n = package::info($package, 'name');
         if (!in_array($n, array('pearweb', 'pearweb_phars'), true)) {
             // Add release archive file to API documentation queue
-            $query = "INSERT INTO apidoc_queue (filename, queued) "
-                 . "VALUES ('" . $file. "', NOW())";
+            $query = "INSERT INTO apidoc_queue (filename, queued) VALUES (?, NOW())";
+            $sth = $dbh->prepare($query);
 
             // Don't abort the release if something goes wrong.
             $dbh->pushErrorHandling(PEAR_ERROR_RETURN);
-            $sth = $dbh->query($query);
+            $dbh->execute($sth, array($file));
             $dbh->popErrorHandling();
         }
 
