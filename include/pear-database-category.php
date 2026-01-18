@@ -119,7 +119,7 @@ class category
         $deleted_cat_left  = $GLOBALS['dbh']->getOne('SELECT cat_left FROM categories WHERE id = ?', array($id));
         $deleted_cat_right = $GLOBALS['dbh']->getOne('SELECT cat_right FROM categories WHERE id = ?', array($id));
 
-        $GLOBALS['dbh']->query('DELETE FROM categories WHERE id = ' . $id);
+        $GLOBALS['dbh']->query('DELETE FROM categories WHERE id = ?', array($id));
 
         // Renumber
         $GLOBALS['dbh']->query('UPDATE categories SET cat_left = cat_left - 1, cat_right = cat_right - 1 WHERE cat_left > ? AND cat_right < ?', array($deleted_cat_left, $deleted_cat_right));
