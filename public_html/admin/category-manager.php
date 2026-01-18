@@ -92,7 +92,7 @@ if (!empty($_POST)) {
 
     case 'delete':
         if (!empty($_POST['cat_parent'])) {
-            $result = category::delete($_POST['cat_parent']);
+            $result = category::delete( (int) $_POST['cat_parent']);
             $_SESSION['category_manager']['error_msg'] = PEAR::isError($result) ? 'Failed to delete category: ' . $result->message : 'Category deleted';
         } else {
             $_SESSION['category_manager']['error_msg'] = 'Please select a category';
