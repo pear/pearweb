@@ -566,6 +566,11 @@ function bug_diff_render_html($diff)
     return $changes;
 }
 
+function bugs_strip_changeset_cb($m)
+{
+    return ltrim(strip_tags($m[1]));
+}
+
 /**
  * Send an email notice about bug aditions and edits
  *
@@ -651,14 +656,20 @@ function mail_bug_updates($bug, $in, $from, $ncomment, $edit = 1, $id, $previous
     }
 
     if ($ncomment) {
-        $ncomment = preg_replace('#<div id="changeset">(.*)</div>#sUe',
-                                 "ltrim(strip_tags('\\1'))", $ncomment);
+        $ncomment = preg_replace_callback(
+            '#<div id="changeset">(.*)</div>#sU',
+            'bugs_strip_changeset_cb',
+            $ncomment
+        );
         $text[] = " New Comment:\n\n" . $ncomment;
     }
 
     $old_comments = $pbu->getOldComments($bug['id'], empty($ncomment));
-    $old_comments = preg_replace('#<div id="changeset">(.*)</div>#sUe',
-                                 "ltrim(strip_tags('\\1'))", $old_comments);
+    $old_comments = preg_replace_callback(
+            '#<div id="changeset">(.*)</div>#sU',
+            'bugs_strip_changeset_cb',
+            $old_comments
+    );
     $text[] = $old_comments;
 
     /* format mail so it looks nice, use 72 to make piners happy */
