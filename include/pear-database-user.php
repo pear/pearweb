@@ -126,9 +126,15 @@ class user
         }
 
         if (is_array($role)) {
-            $res = $dbh->getOne('SELECT role FROM maintains WHERE handle = ? AND package = ? '.
-                                'AND role IN ("' . implode('", "', $role) . '")', array($user, $package_id));
-            return $res;
+
+            if (!$role) {
+                return false;
+            }
+            $placeholders = implode(', ', array_fill(0, count($role), '?'));
+            $sql = 'SELECT role FROM maintains WHERE handle = ? AND package = ? ' .
+                   'AND role IN (' . $placeholders . ')';
+            $params = array_merge(array($user, $package_id), array_values($role));
+            return $dbh->getOne($sql, $params);
         }
 
         return $dbh->getOne('SELECT role FROM maintains WHERE handle = ? AND package = ? '.
