@@ -180,7 +180,7 @@ if (isset($_POST['unsubscribe_to_bug']) || isset($_POST['subscribe_to_bug'])) {
         $email = $_POST['subscribe_email'];
     }
 
-    if (!preg_match("/[.\\w+-]+@[.\\w-]+\\.\\w{2,}/i", $email)) {
+    if (!preg_match('/\A[0-9A-Z._%+\-]+@[0-9A-Z.\-]+\.[0-9A-Z]{2,}\z/i', $email)) {
         $errors[] = "You must provide a valid email address.";
     } else {
         if (isset($_POST['subscribe_to_bug'])) {
