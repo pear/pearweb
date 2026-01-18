@@ -17,8 +17,7 @@ class PEAR_Election_Accountrequest
 
     function _makeSalt($handle)
     {
-        list($usec, $sec) = explode(" ", microtime());
-        return md5($handle . ((float)$usec + (float)$sec));
+        return(md5(openssl_random_pseudo_bytes(512)));
     }
 
     function find($salt)
