@@ -106,7 +106,7 @@
  </stability>
  <license uri="http://www.php.net/license">PHP License</license>
  <notes>
-- Address some vulnerabilities.
+- Address some vulnerabilities... thanks to Josh Rogers.
  </notes>
  <contents>
   <dir baseinstalldir="/pear.php.net/" name="/">
@@ -2903,7 +2903,7 @@ Fix #20098: Broken bug notifications catched as spam
    <date>2026-01-18</date>
    <license uri="http://www.php.net/license">PHP License</license>
    <notes>
-- Address some vulnerabilities.
+- Address some vulnerabilities... thanks to Josh Rogers.
    </notes>
   </release>
  </changelog>
