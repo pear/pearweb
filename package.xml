@@ -21,19 +21,19 @@
   <name>Martin Jansen</name>
   <user>mj</user>
   <email>mj@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
  <lead>
   <name>Greg Beaver</name>
   <user>cellog</user>
   <email>cellog@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
  <lead>
   <name>David Coallier</name>
   <user>davidc</user>
   <email>davidc@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
  <lead>
   <name>Pierre-Alain Joye</name>
@@ -45,13 +45,13 @@
   <name>Helgi Thormar</name>
   <user>dufuz</user>
   <email>dufuz@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
  <lead>
   <name>Daniel O&apos;Connor</name>
   <user>doconnor</user>
   <email>doconnor@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
  <developer>
   <name>Stig Bakken</name>
@@ -81,13 +81,13 @@
   <name>Christian Weiske</name>
   <user>cweiske</user>
   <email>cweiske@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </developer>
  <developer>
   <name>Mark Wiesemann</name>
   <user>wiesemann</user>
   <email>wiesemann@php.net</email>
-  <active>yes</active>
+  <active>no</active>
  </developer>
  <developer>
   <name>Ken Guest</name>
