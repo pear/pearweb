@@ -101,9 +101,13 @@ class Damblan_Karma
 
         }
 
-        $query = 'SELECT * FROM karma WHERE user = ? AND level IN (!)';
+        // Bind each level value instead of using PEAR DB literal "!" substitution.
+        $placeholders = implode(',', array_fill(0, count($levels), '?'));
+        $query = "SELECT * FROM karma WHERE user = ? AND level IN ($placeholders)";
+        $params = array_merge(array($user), $levels);
 
-        $sth = $this->_dbh->query($query, array($user, "'" . implode("','", $levels) . "'"));
+        $sth = $this->_dbh->query($query, $params);
+
         return ($sth->numRows() > 0);
     }
 
