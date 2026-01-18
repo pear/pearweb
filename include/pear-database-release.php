@@ -510,8 +510,9 @@ class release
         } elseif ($version === null) {
             // Get the most recent version
             $row = $dbh->getRow("SELECT id FROM releases ".
-                                "WHERE package = $package_id ".
-                                "ORDER BY releasedate DESC", DB_FETCHMODE_ASSOC);
+                                "WHERE package = ? ".
+				"ORDER BY releasedate DESC",
+				array($package_id), DB_FETCHMODE_ASSOC);
             if (PEAR::isError($row)) {
                 return $row;
             }
@@ -520,10 +521,10 @@ class release
             $version = strtolower($version);
             // Get the most recent version with a given state
             $row = $dbh->getRow("SELECT id FROM releases ".
-                                "WHERE package = $package_id ".
-                                "AND state = '$version' ".
+                                "WHERE package = ? ".
+                                "AND state = ? ".
                                 "ORDER BY releasedate DESC",
-                                DB_FETCHMODE_ASSOC);
+                                array($package_id, $version), DB_FETCHMODE_ASSOC);
             if (PEAR::isError($row)) {
                 return $row;
             }
@@ -534,9 +535,9 @@ class release
         } else {
             // Get a specific release
             $row = $dbh->getRow("SELECT id FROM releases ".
-                                "WHERE package = $package_id ".
-                                "AND version = '$version'",
-                                DB_FETCHMODE_ASSOC);
+                                "WHERE package = ? ".
+                                "AND version = ?",
+                                array($package_id, $version), DB_FETCHMODE_ASSOC);
             if (PEAR::isError($row)) {
                 return $row;
             }
