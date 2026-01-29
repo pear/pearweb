@@ -10,7 +10,7 @@ When reporting security vulnerabilities, reporters must adhere to the following 
 
 1. **No Harmful Actions**: Security research and vulnerability reporting must not:
    * Cause damage to running systems or production environments.
-   * Disrupt Node.js development or infrastructure.
+   * Disrupt development or infrastructure.
    * Affect other users' applications or systems.
    * Include actual exploits that could harm users.
    * Involve social engineering or phishing attempts.
@@ -29,3 +29,4 @@ When reporting security vulnerabilities, reporters must adhere to the following 
 Failure to follow these guidelines may result in rejection of the vulnerability report.
 
 <!-- ncu-team-sync end -->
+
