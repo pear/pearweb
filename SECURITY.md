@@ -21,12 +21,9 @@ When reporting security vulnerabilities, reporters must adhere to the following 
    * Do not attempt to access or modify other users' data.
    * Immediately stop testing if unauthorized access is gained accidentally.
 
-4. **Report Quality**
+3. **Report Quality**
    * Provide clear, detailed steps to reproduce the vulnerability.
    * Include only the minimum proof of concept required to demonstrate the issue.
    * Remove any malicious payloads or components that could cause harm.
 
 Failure to follow these guidelines may result in rejection of the vulnerability report.
-
-<!-- ncu-team-sync end -->
-
